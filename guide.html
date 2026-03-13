@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Energy Guide - DAO Essence</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* 博客页面专属样式 */
+        .guide-hero {
+            height: 50vh;
+            background: linear-gradient(135deg, var(--color-dark) 0%, #1a2a1a 50%, #1a1a2a 100%);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .guide-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text x="50" y="55" text-anchor="middle" font-size="30" fill="rgba(212,175,55,0.08)">经</text></svg>');
+            background-size: 120px;
+        }
+
+        .guide-hero-content {
+            text-align: center;
+            z-index: 2;
+            color: var(--color-light);
+        }
+
+        .guide-hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 30px rgba(212, 175, 55, 0.5);
+        }
+
+        .guide-hero p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* 搜索栏 */
+        .search-section {
+            padding: 2rem 5%;
+            background: var(--color-dark-accent);
+        }
+
+        .search-box {
+            max-width: 600px;
+            margin: 0 auto;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            background: var(--color-dark);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 25px;
+            color: var(--color-light);
+            font-size: 1rem;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--color-gold);
+        }
+
+        .search-btn {
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, var(--color-gold), #8b6914);
+            border: none;
+            border-radius: 25px;
+            color: var(--color-dark);
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .search-btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* 分类标签 */
+        .categories-section {
+            padding: 1.5rem 5%;
+            background: var(--color-dark-accent);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+        }
+
+        .categories-list {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .category-tag {
+            padding: 0.6rem 1.2rem;
+            background: transparent;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 20px;
+            color: var(--color-light);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .category-tag:hover,
+        .category-tag.active {
+            background: var(--color-gold);
+            color: var(--color-dark);
+            border-color: var(--color-gold);
+        }
+
+        /* 主内容区 */
+        .guide-main {
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 3rem;
+            padding: 3rem 5%;
+        }
+
+        /* 文章列表 */
+        .articles-list {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .article-card {
+            background: var(--color-dark-accent);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            transition: all 0.3s;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+        }
+
+        .article-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(212, 175, 55, 0.1);
+            border-color: rgba(212, 175, 55, 0.3);
+        }
+
+        .article-image {
+            height: 200px;
+            background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: var(--color-gold);
+        }
+
+        .article-content {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .article-meta {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 0.8rem;
+            font-size: 0.85rem;
+        }
+
+        .article-category {
+            color: var(--color-gold);
+        }
+
+        .article-date {
+            color: var(--color-light-dim);
+        }
+
+        .article-title {
+            font-size: 1.4rem;
+            color: var(--color-light);
+            margin-bottom: 0.8rem;
+            line-height: 1.4;
+        }
+
+        .article-excerpt {
+            color: var(--color-light-dim);
+            line-height: 1.7;
+            margin-bottom: 1rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .article-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .article-author {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .author-avatar {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--color-gold), #8b6914);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+        }
+
+        .author-name {
+            color: var(--color-light-dim);
+            font-size: 0.9rem;
+        }
+
+        .read-more {
+            color: var(--color-gold);
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .read-more:hover {
+            color: #d4af37;
+        }
+
+        /* 侧边栏 */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .sidebar-widget {
+            background: var(--color-dark-accent);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid rgba(212, 175, 55, 0.1);
+        }
+
+        .widget-title {
+            font-size: 1.2rem;
+            color: var(--color-gold);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        /* 热门文章 */
+        .hot-articles {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .hot-article-item {
+            display: flex;
+            gap: 1rem;
+            padding: 0.8rem;
+            background: rgba(212, 175, 55, 0.03);
+            border-radius: 8px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .hot-article-item:hover {
+            background: rgba(212, 175, 55, 0.08);
+        }
+
+        .hot-article-number {
+            width: 28px;
+            height: 28px;
+            background: var(--color-gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-dark);
+            font-weight: bold;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+        }
+
+        .hot-article-title {
+            color: var(--color-light);
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+        /* 标签云 */
+        .tag-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .tag-item {
+            padding: 0.4rem 0.8rem;
+            background: rgba(212, 175, 55, 0.1);
+            border-radius: 4px;
+            color: var(--color-light-dim);
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .tag-item:hover {
+            background: var(--color-gold);
+            color: var(--color-dark);
+        }
+
+        /* 订阅框 */
+        .subscribe-widget {
+            text-align: center;
+        }
+
+        .subscribe-widget p {
+            color: var(--color-light-dim);
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .subscribe-form {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .subscribe-input {
+            padding: 0.8rem;
+            background: var(--color-dark);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 6px;
+            color: var(--color-light);
+        }
+
+        .subscribe-btn {
+            padding: 0.8rem;
+            background: linear-gradient(135deg, var(--color-gold), #8b6914);
+            border: none;
+            border-radius: 6px;
+            color: var(--color-dark);
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .subscribe-btn:hover {
+            transform: scale(1.02);
+        }
+
+        /* 分页 */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 3rem;
+        }
+
+        .page-btn {
+            width: 40px;
+            height: 40px;
+            background: var(--color-dark-accent);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 8px;
+            color: var(--color-light);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .page-btn:hover,
+        .page-btn.active {
+            background: var(--color-gold);
+            color: var(--color-dark);
+            border-color: var(--color-gold);
+        }
+
+        /* 精选文章区 */
+        .featured-section {
+            padding: 3rem 5%;
+            background: var(--color-dark-accent);
+        }
+
+        .featured-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .featured-card {
+            background: var(--color-dark);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            transition: all 0.3s;
+        }
+
+        .featured-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--color-gold);
+        }
+
+        .featured-card:first-child {
+            grid-column: span 2;
+            grid-row: span 2;
+        }
+
+        .featured-image {
+            height: 180px;
+            background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: var(--color-gold);
+        }
+
+        .featured-card:first-child .featured-image {
+            height: 280px;
+            font-size: 5rem;
+        }
+
+        .featured-content {
+            padding: 1.2rem;
+        }
+
+        .featured-card:first-child .featured-content {
+            padding: 1.5rem;
+        }
+
+        .featured-title {
+            font-size: 1.1rem;
+            color: var(--color-light);
+            margin-bottom: 0.5rem;
+        }
+
+        .featured-card:first-child .featured-title {
+            font-size: 1.4rem;
+        }
+
+        .featured-excerpt {
+            color: var(--color-light-dim);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* 响应式 */
+        @media (max-width: 1024px) {
+            .guide-main {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+
+            .sidebar-widget {
+                flex: 1;
+                min-width: 280px;
+            }
+
+            .featured-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .featured-card:first-child {
+                grid-column: span 1;
+                grid-row: span 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .guide-hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .article-card {
+                grid-template-columns: 1fr;
+            }
+
+            .article-image {
+                height: 160px;
+            }
+
+            .search-box {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">☯</span>
+                <span class="logo-text">DAO ESSENCE</span>
+            </a>
+            <button class="mobile-menu-btn">☰</button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="culture.html">Energy Universe</a></li>
+                <li><a href="shop.html">Energy Shop</a></li>
+                <li><a href="guide.html" class="active">Energy Guide</a></li>
+                <li><a href="about.html">About Us</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 英雄区域 -->
+    <section class="guide-hero">
+        <div class="guide-hero-content">
+            <h1>Energy Guide</h1>
+            <p>Explore the mysteries of Eastern wisdom, learn the essence of traditional culture, and embark on a journey of body-mind-spirit growth.</p>
+        </div>
+    </section>
+
+    <!-- 搜索栏 -->
+    <section class="search-section">
+        <div class="search-box">
+            <input type="text" class="search-input" placeholder="Search articles, knowledge, Q&A...">
+            <button class="search-btn">Search</button>
+        </div>
+    </section>
+
+    <!-- 分类标签 -->
+    <section class="categories-section">
+        <div class="categories-list">
+            <button class="category-tag active">All</button>
+            <button class="category-tag">Five Elements</button>
+            <button class="category-tag">Destiny Learning</button>
+            <button class="category-tag">Feng Shui Guide</button>
+            <button class="category-tag">Talisman Culture</button>
+            <button class="category-tag">Wellness Way</button>
+            <button class="category-tag">Cultivation Insights</button>
+        </div>
+    </section>
+
+    <!-- 精选文章 -->
+    <section class="featured-section">
+        <div class="section-title" style="text-align: center; margin-bottom: 2rem;">
+            <h2 style="font-size: 1.8rem; color: var(--color-gold);">Featured Recommendations</h2>
+        </div>
+        <div class="featured-grid">
+            <div class="featured-card">
+                <div class="featured-image">道</div>
+                <div class="featured-content">
+                    <h3 class="featured-title">Taoist Wisdom: How to Use Five Elements Generation and Control Principles to Improve Life Fortune</h3>
+                    <p class="featured-excerpt">Deep interpretation of the mysteries of Five Elements theory, teaching you how to apply Five Elements wisdom in daily life, adjust your energy field, and enhance career, wealth, health and other aspects of fortune...</p>
+                </div>
+            </div>
+            <div class="featured-card">
+                <div class="featured-image">符</div>
+                <div class="featured-content">
+                    <h3 class="featured-title">Origin and Correct Usage of Tai Sui Talisman</h3>
+                    <p class="featured-excerpt">Detailed explanation of Tai Sui Talisman's historical origins and usage taboos.</p>
+                </div>
+            </div>
+            <div class="featured-card">
+                <div class="featured-image">宅</div>
+                <div class="featured-content">
+                    <h3 class="featured-title">Home Feng Shui: Ten Taboos for Living Room Layout</h3>
+                    <p class="featured-excerpt">Avoid common living room Feng Shui problems.</p>
+                </div>
+            </div>
+            <div class="featured-card">
+                <div class="featured-image">卦</div>
+                <div class="featured-content">
+                    <h3 class="featured-title">Bagua and Life: Enlightenment from I Ching Wisdom</h3>
+                    <p class="featured-excerpt">Understanding life philosophy from Bagua.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 主内容区 -->
+    <div class="guide-main">
+        <!-- 文章列表 -->
+        <div class="articles-list">
+            <article class="article-card">
+                <div class="article-image">命</div>
+                <div class="article-content">
+                    <div class="article-meta">
+                        <span class="article-category">Destiny Learning</span>
+                        <span class="article-date">January 15, 2024</span>
+                    </div>
+                    <h2 class="article-title">Must-Read for Beginners: BaZi Destiny Analysis Guide</h2>
+                    <p class="article-excerpt">BaZi destiny analysis is the core of Chinese traditional destiny studies. This article will start from the basics of Heavenly Stems and Earthly Branches, gradually guiding you through core concepts like BaZi chart construction, Ten Gods meanings, and major fortune cycles, suitable for beginners.</p>
+                    <div class="article-footer">
+                        <div class="article-author">
+                            <div class="author-avatar">玄</div>
+                            <span class="author-name">Master Xuanzhen</span>
+                        </div>
+                        <a href="#" class="read-more">Read Full Article →</a>
+                    </div>
+                </div>
+            </article>
+
+            <article class="article-card">
+                <div class="article-image">财</div>
+                <div class="article-content">
+                    <div class="article-meta">
+                        <span class="article-category">Feng Shui Guide</span>
+                        <span class="article-date">January 12, 2024</span>
+                    </div>
+                    <h2 class="article-title">2024 Jiachen Year Wealth Position and Wealth-Attracting Layout Guide</h2>
+                    <p class="article-excerpt">New year, new beginnings. Where is the wealth position in Jiachen year? How should you arrange it to attract wealth? This article details the 2024 wealth positions and corresponding Feng Shui layout points.</p>
+                    <div class="article-footer">
+                        <div class="article-author">
+                            <div class="author-avatar">明</div>
+                            <span class="author-name">Scholar Mingxin</span>
+                        </div>
+                        <a href="#" class="read-more">Read Full Article →</a>
+                    </div>
+                </div>
+            </article>
+
+            <article class="article-card">
+                <div class="article-image">养</div>
+                <div class="article-content">
+                    <div class="article-meta">
+                        <span class="article-category">Wellness Way</span>
+                        <span class="article-date">January 10, 2024</span>
+                    </div>
+                    <h2 class="article-title">Following the Seasons: Taoist Wellness Wisdom and Daily Practice</h2>
+                    <p class="article-excerpt"天人合一"，人的养生应当顺应四季变化。本文介绍道家养生的核心理念，以及春夏秋冬各季节的具体养生方法，助您调养身心。">Traditional Chinese medicine emphasizes 'harmony between heaven and humanity.' Wellness should follow the changes of the four seasons. This article introduces the core concepts of Taoist wellness and specific wellness methods for each season to help you nurture body and mind.</p>
+                    <div class="article-footer">
+                        <div class="article-author">
+                            <div class="author-avatar">静</div>
+                            <span class="author-name">Master Jingyuan</span>
+                        </div>
+                        <a href="#" class="read-more">Read Full Article →</a>
+                    </div>
+                </div>
+            </article>
+
+            <article class="article-card">
+                <div class="article-image">晶</div>
+                <div class="article-content">
+                    <div class="article-meta">
+                        <span class="article-category">Five Elements</span>
+                        <span class="article-date">January 8, 2024</span>
+                    </div>
+                    <h2 class="article-title">Crystals and Five Elements: How to Choose the Right Energy Crystal for You</h2>
+                    <p class="article-excerpt">Different colored crystals correspond to different Five Elements attributes. Choosing crystals that harmonize with your Five Elements can better regulate your energy field. This article teaches you how to select the most suitable crystals based on your Five Elements preferences.</p>
+                    <div class="article-footer">
+                        <div class="article-author">
+                            <div class="author-avatar">道</div>
+                            <span class="author-name">DAO Essence Editor</span>
+                        </div>
+                        <a href="#" class="read-more">Read Full Article →</a>
+                    </div>
+                </div>
+            </article>
+
+            <article class="article-card">
+                <div class="article-image">经</div>
+                <div class="article-content">
+                    <div class="article-meta">
+                        <span class="article-category">Cultivation Insights</span>
+                        <span class="article-date">January 5, 2024</span>
+                    </div>
+                    <h2 class="article-title">Tao Te Ching Wisdom: Modern Enlightenment from 'The Highest Good is Like Water'</h2>
+                    <p class="article-excerpt"上善若水，水善利万物而不争。" 老子的智慧历经千年依然熠熠生辉。本文解读《道德经》第八章，探讨水之德在现代生活中的应用。">'The highest good is like water. Water gives life to the ten thousand things and does not strive.' Laozi's wisdom remains brilliant after thousands of years. This article interprets Chapter 8 of the Tao Te Ching, exploring the application of water's virtue in modern life.</p>
+                    <div class="article-footer">
+                        <div class="article-author">
+                            <div class="author-avatar">玄</div>
+                            <span class="author-name">Master Xuanzhen</span>
+                        </div>
+                        <a href="#" class="read-more">Read Full Article →</a>
+                    </div>
+                </div>
+            </article>
+
+            <article class="article-card">
+                <div class="article-image">箓</div>
+                <div class="article-content">
+                    <div class="article-meta">
+                        <span class="article-category">Talisman Culture</span>
+                        <span class="article-date">January 3, 2024</span>
+                    </div>
+                    <h2 class="article-title">Origin, Types and Usage Taboos of Taoist Talismans</h2>
+                    <p class="article-excerpt">Talismans are important carriers of Taoist magic with a long history and many varieties. This article introduces the origin, main classifications, and effects of talismans in detail, as well as taboos to observe when using them.</p>
+                    <div class="article-footer">
+                        <div class="article-author">
+                            <div class="author-avatar">静</div>
+                            <span class="author-name">Master Jingyuan</span>
+                        </div>
+                        <a href="#" class="read-more">Read Full Article →</a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- 分页 -->
+            <div class="pagination">
+                <button class="page-btn active">1</button>
+                <button class="page-btn">2</button>
+                <button class="page-btn">3</button>
+                <button class="page-btn">4</button>
+                <button class="page-btn">...</button>
+                <button class="page-btn">→</button>
+            </div>
+        </div>
+
+        <!-- 侧边栏 -->
+        <aside class="sidebar">
+            <!-- 热门文章 -->
+            <div class="sidebar-widget">
+                <h3 class="widget-title">🔥 Hot Articles</h3>
+                <div class="hot-articles">
+                    <div class="hot-article-item">
+                        <span class="hot-article-number">1</span>
+                        <span class="hot-article-title">How to Resolve Tai Sui in Your Birth Year?</span>
+                    </div>
+                    <div class="hot-article-item">
+                        <span class="hot-article-number">2</span>
+                        <span class="hot-article-title">Beginner's Guide to Home Feng Shui</span>
+                    </div>
+                    <div class="hot-article-item">
+                        <span class="hot-article-number">3</span>
+                        <span class="hot-article-title">BaZi Analysis for Career and Wealth</span>
+                    </div>
+                    <div class="hot-article-item">
+                        <span class="hot-article-number">4</span>
+                        <span class="hot-article-title">Crystal Energy and Human Magnetic Field</span>
+                    </div>
+                    <div class="hot-article-item">
+                        <span class="hot-article-number">5</span>
+                        <span class="hot-article-title">Taoist Longevity and Wellness Secrets</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 标签云 -->
+            <div class="sidebar-widget">
+                <h3 class="widget-title">🏷️ Tag Cloud</h3>
+                <div class="tag-cloud">
+                    <span class="tag-item">BaZi</span>
+                    <span class="tag-item">Feng Shui</span>
+                    <span class="tag-item">Tai Sui</span>
+                    <span class="tag-item">Talisman</span>
+                    <span class="tag-item">Five Elements</span>
+                    <span class="tag-item">Wellness</span>
+                    <span class="tag-item">Wealth</span>
+                    <span class="tag-item">Career</span>
+                    <span class="tag-item">Marriage</span>
+                    <span class="tag-item">Crystal</span>
+                    <span class="tag-item">Taoism</span>
+                    <span class="tag-item">Cultivation</span>
+                </div>
+            </div>
+
+            <!-- 订阅 -->
+            <div class="sidebar-widget subscribe-widget">
+                <h3 class="widget-title">📬 Subscribe</h3>
+                <p>Get the latest articles and exclusive benefits</p>
+                <form class="subscribe-form">
+                    <input type="email" class="subscribe-input" placeholder="Your email address">
+                    <button type="submit" class="subscribe-btn">Subscribe Now</button>
+                </form>
+            </div>
+        </aside>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>DAO ESSENCE</h4>
+                <p>Inheriting millennia of Taoist wisdom<br>Promoting Eastern mystic culture</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="culture.html">Energy Universe</a></li>
+                    <li><a href="shop.html">Energy Shop</a></li>
+                    <li><a href="index.html#destiny-booking">Destiny Consulting</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contact Us</h4>
+                <p>Email: contact@daoessence.com</p>
+                <p>WeChat: DaoEssence</p>
+            </div>
+            <div class="footer-section">
+                <h4>Follow Us</h4>
+                <div class="social-links">
+                    <a href="#">WeChat</a>
+                    <a href="#">Weibo</a>
+                    <a href="#">Xiaohongshu</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2024 DAO Essence. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
+    <script>
+        // 分类切换
+        document.querySelectorAll('.category-tag').forEach(tag => {
+            tag.addEventListener('click', () => {
+                document.querySelectorAll('.category-tag').forEach(t => t.classList.remove('active'));
+                tag.classList.add('active');
+            });
+        });
+
+        // 搜索功能
+        document.querySelector('.search-btn').addEventListener('click', () => {
+            const query = document.querySelector('.search-input').value;
+            if (query) {
+                alert(`Search function under development. You searched for: ${query}`);
+            }
+        });
+
+        // 订阅功能
+        document.querySelector('.subscribe-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.querySelector('.subscribe-input').value;
+            if (email) {
+                alert(`Thank you for subscribing! We'll send the latest content to: ${email}`);
+            }
+        });
+
+        // 分页
+        document.querySelectorAll('.page-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.page-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            });
+        });
+
+        // 移动端菜单
+        document.querySelector('.mobile-menu-btn').addEventListener('click', () => {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+
+        // 滚动动画
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.article-card, .featured-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>

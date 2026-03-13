@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug - Clear Cache & Storage</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 50px;
+            background: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 { color: #333; }
+        .btn {
+            background: #8B2500;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 5px;
+        }
+        .btn:hover { background: #B33A2A; }
+        .btn-success { background: #2D5A3D; }
+        .btn-success:hover { background: #4A7C5B; }
+        #status {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-left: 4px solid #8B2500;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        .storage-info {
+            margin: 20px 0;
+            padding: 15px;
+            background: #e9ecef;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Debug & Cache Clear Tool</h1>
+        <p>Use this tool to clear all cached data and storage that might be causing language switching issues.</p>
+        
+        <div class="storage-info">
+            <h3>Current Storage:</h3>
+            <div id="storageInfo"></div>
+        </div>
+        
+        <button class="btn" onclick="clearLocalStorage()">Clear LocalStorage</button>
+        <button class="btn" onclick="clearSessionStorage()">Clear SessionStorage</button>
+        <button class="btn btn-success" onclick="clearAll()">Clear All Cache & Storage</button>
+        
+        <div id="status"></div>
+        
+        <div style="margin-top: 30px;">
+            <h3>After clearing, please:</h3>
+            <ol>
+                <li>Close this tab</li>
+                <li>Close all browser tabs for this site</li>
+                <li>Open a new browser window</li>
+                <li>Navigate to <a href="index.html">index.html</a></li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        // 显示当前存储信息
+        function showStorageInfo() {
+            const info = [];
+            info.push('LocalStorage: ' + localStorage.length + ' items');
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                const value = localStorage.getItem(key);
+                info.push(`  ${key}: ${value}`);
+            }
+            info.push('\nSessionStorage: ' + sessionStorage.length + ' items');
+            for (let i = 0; i < sessionStorage.length; i++) {
+                const key = sessionStorage.key(i);
+                const value = sessionStorage.getItem(key);
+                info.push(`  ${key}: ${value}`);
+            }
+            
+            document.getElementById('storageInfo').innerHTML = '<pre>' + info.join('\n') + '</pre>';
+        }
+
+        function clearLocalStorage() {
+            localStorage.clear();
+            updateStatus('✓ LocalStorage cleared successfully!');
+            showStorageInfo();
+        }
+
+        function clearSessionStorage() {
+            sessionStorage.clear();
+            updateStatus('✓ SessionStorage cleared successfully!');
+            showStorageInfo();
+        }
+
+        async function clearAll() {
+            let status = [];
+            
+            // Clear storage
+            localStorage.clear();
+            sessionStorage();
+            status.push('✓ Storage cleared');
+            
+            // Clear caches
+            if ('caches' in window) {
+                const cacheNames = await caches.keys();
+                for (const name of cacheNames) {
+                    await caches.delete(name);
+                    status.push('✓ Cache deleted: ' + name);
+                }
+            }
+            
+            // Unregister service workers
+            if ('serviceWorker' in navigator) {
+                const regs = await navigator.serviceWorker.getRegistrations();
+                for (const reg of regs) {
+                    await reg.unregister();
+                    status.push('✓ Service Worker unregistered');
+                }
+            }
+            
+            updateStatus(status.join('\n'));
+            showStorageInfo();
+            
+            // 提示刷新
+            setTimeout(() => {
+                if (confirm('All cache cleared! Would you like to reload the homepage now?')) {
+                    window.location.href = 'index.html';
+                }
+            }, 1000);
+        }
+
+        function updateStatus(message) {
+            document.getElementById('status').textContent = message;
+        }
+
+        // 页面加载时显示存储信息
+        showStorageInfo();
+    </script>
+</body>
+</html>

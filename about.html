@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - DAO Essence</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* About Us page styles */
+        .about-hero {
+            height: 60vh;
+            background: linear-gradient(135deg, #0a0a1a 0%, #1a2a2a 50%, #0a0a1a 100%);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .about-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><circle cx="100" cy="100" r="80" fill="none" stroke="rgba(212,175,55,0.1)" stroke-width="1"/><path d="M100,20 A40,40 0 0 1 100,100 A40,40 0 0 1 100,180 A80,80 0 0 1 100,20" fill="rgba(212,175,55,0.03)"/></svg>');
+            background-size: 300px;
+            animation: rotate 60s linear infinite;
+        }
+
+        .about-hero-content {
+            text-align: center;
+            z-index: 2;
+            color: var(--color-light);
+        }
+
+        .about-hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 30px rgba(212, 175, 55, 0.5);
+        }
+
+        .about-hero p {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        /* 品牌故事 */
+        .story-section {
+            padding: 5rem 5%;
+        }
+
+        .story-content {
+            max-width: 900px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .story-text h2 {
+            font-size: 2.2rem;
+            color: var(--color-gold);
+            margin-bottom: 1.5rem;
+        }
+
+        .story-text p {
+            color: var(--color-light-dim);
+            line-height: 1.9;
+            margin-bottom: 1rem;
+            font-size: 1.05rem;
+        }
+
+        .story-image {
+            height: 400px;
+            background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 8rem;
+            color: var(--color-gold);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .story-image::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border: 2px solid rgba(212, 175, 55, 0.2);
+            border-radius: 16px;
+        }
+
+        /* 核心价值 */
+        .values-section {
+            padding: 5rem 5%;
+            background: var(--color-dark-accent);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            font-size: 2.2rem;
+            color: var(--color-gold);
+            margin-bottom: 0.5rem;
+        }
+
+        .section-title p {
+            color: var(--color-light-dim);
+            font-size: 1.1rem;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .value-card {
+            background: var(--color-dark);
+            border-radius: 12px;
+            padding: 2.5rem;
+            text-align: center;
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            transition: all 0.3s;
+        }
+
+        .value-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--color-gold);
+            box-shadow: 0 15px 30px rgba(212, 175, 55, 0.1);
+        }
+
+        .value-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            background: linear-gradient(135deg, var(--color-gold), #8b6914);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+        }
+
+        .value-card h3 {
+            font-size: 1.4rem;
+            color: var(--color-light);
+            margin-bottom: 1rem;
+        }
+
+        .value-card p {
+            color: var(--color-light-dim);
+            line-height: 1.7;
+        }
+
+        /* 团队介绍 */
+        .team-section {
+            padding: 5rem 5%;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .team-card {
+            background: var(--color-dark-accent);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            transition: all 0.3s;
+        }
+
+        .team-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--color-gold);
+        }
+
+        .team-avatar {
+            height: 200px;
+            background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            color: var(--color-gold);
+        }
+
+        .team-info {
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .team-name {
+            font-size: 1.4rem;
+            color: var(--color-light);
+            margin-bottom: 0.3rem;
+        }
+
+        .team-title {
+            color: var(--color-gold);
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+
+        .team-desc {
+            color: var(--color-light-dim);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* 数据统计 */
+        .stats-section {
+            padding: 4rem 5%;
+            background: linear-gradient(135deg, var(--color-dark), var(--color-dark-accent));
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .stat-item {
+            padding: 2rem;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            color: var(--color-gold);
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--color-light-dim);
+            font-size: 1rem;
+        }
+
+        /* 合作伙伴 */
+        .partners-section {
+            padding: 4rem 5%;
+        }
+
+        .partners-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .partner-item {
+            height: 100px;
+            background: var(--color-dark-accent);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            color: var(--color-light-dim);
+            font-size: 1.1rem;
+            transition: all 0.3s;
+        }
+
+        .partner-item:hover {
+            border-color: var(--color-gold);
+            color: var(--color-gold);
+        }
+
+        /* 联系我们 */
+        .contact-section {
+            padding: 5rem 5%;
+            background: var(--color-dark-accent);
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .contact-info h2 {
+            font-size: 2rem;
+            color: var(--color-gold);
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--color-gold), #8b6914);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+
+        .contact-detail h4 {
+            color: var(--color-light);
+            margin-bottom: 0.3rem;
+        }
+
+        .contact-detail p {
+            color: var(--color-light-dim);
+            font-size: 0.95rem;
+        }
+
+        /* 联系表单 */
+        .contact-form {
+            background: var(--color-dark);
+            border-radius: 12px;
+            padding: 2rem;
+            border: 1px solid rgba(212, 175, 55, 0.15);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            color: var(--color-light);
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.9rem;
+            background: var(--color-dark-accent);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 6px;
+            color: var(--color-light);
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--color-gold);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--color-gold), #8b6914);
+            border: none;
+            border-radius: 8px;
+            color: var(--color-dark);
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .submit-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 5px 20px rgba(212, 175, 55, 0.3);
+        }
+
+        /* 响应式 */
+        @media (max-width: 1024px) {
+            .story-content {
+                grid-template-columns: 1fr;
+            }
+
+            .values-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .about-hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .values-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .stat-number {
+                font-size: 2.2rem;
+            }
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">☯</span>
+                <span class="logo-text">DAO ESSENCE</span>
+            </a>
+            <button class="mobile-menu-btn">☰</button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="culture.html">Energy Universe</a></li>
+                <li><a href="shop.html">Energy Shop</a></li>
+                <li><a href="guide.html">Energy Guide</a></li>
+                <li><a href="about.html" class="active">About Us</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 英雄区域 -->
+    <section class="about-hero">
+        <div class="about-hero-content">
+            <h1>About Us</h1>
+            <p>Inheriting millenniums of Taoist wisdom, promoting Eastern mystic culture.<br>Bringing traditional wisdom to life in modern times.</p>
+        </div>
+    </section>
+
+    <!-- 品牌故事 -->
+    <section class="story-section">
+        <div class="story-content">
+            <div class="story-text">
+                <h2>Our Story</h2>
+                <p>DAO Essence was founded from a deep love and reverence for traditional culture. We believe that ancient Eastern wisdom holds the key to answering the puzzles of modern life.</p>
+                <p天人合一"，到五行学说的"相生相克"，这些历经千年沉淀的智慧，不仅是文化遗产，更是生活的指南针。我们致力于将这些深奥的知识，以现代、科学的方式传递给每一位有缘人。">From the Taoist philosophy of 'harmony between heaven and humanity' to the Five Elements theory of 'generation and restraint,' these wisdoms are not only cultural heritage but also life's compass. We are committed to conveying this profound knowledge in a modern, scientific way to everyone destined to receive it.</p>
+                <p>We have established partnerships with multiple Taoist temples, where ordained Taoist masters personally consecrate and bless each ritual item, ensuring the authenticity and traceability of energy. At the same time, we interpret traditional wisdom in modern language, allowing more people to understand and benefit from the profound charm of Eastern culture.</p>
+            </div>
+            <div class="story-image">☯</div>
+        </div>
+    </section>
+
+    <!-- 核心价值 -->
+    <section class="values-section">
+        <div class="section-title">
+            <h2>Core Values</h2>
+            <p>Our principles and commitments</p>
+        </div>
+        <div class="values-grid">
+            <div class="value-card">
+                <div class="value-icon">📜</div>
+                <h3>Authentic Lineage</h3>
+                <p>Partnered with official Taoist temples. All ritual items are consecrated by ordained Taoist masters, inheriting authentic Taoist traditions, ensuring pure and traceable energy.</p>
+            </div>
+            <div class="value-card">
+                <div class="value-icon">🔬</div>
+                <h3>Scientific Interpretation</h3>
+                <p>Interpreting traditional wisdom in modern scientific language, revitalizing ancient Taoist culture in contemporary context, making it easier to understand and accept.</p>
+            </div>
+            <div class="value-card">
+                <div class="value-icon">💝</div>
+                <h3>Integrity Service</h3>
+                <p>Upholding true and transparent service philosophy, no exaggeration, no deception, winning every customer's trust with sincerity.</p>
+            </div>
+            <div class="value-card">
+                <div class="value-icon">🌍</div>
+                <h3>Global Culture</h3>
+                <p>Promoting Eastern mystic culture to the world, helping international friends understand Chinese traditional culture, promoting cultural exchange and understanding.</p>
+            </div>
+            <div class="value-card">
+                <div class="value-icon">🌱</div>
+                <h3>Continuous Growth</h3>
+                <p>Constantly learning, exploring, and improving, continuously enhancing service quality and cultural depth, growing together with our customers.</p>
+            </div>
+            <div class="value-card">
+                <div class="value-icon">🤝</div>
+                <h3>Heritage Guardians</h3>
+                <p>Guarding traditional culture with reverence, allowing these precious wisdoms to be passed down from generation to generation, never to be lost.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 数据统计 -->
+    <section class="stats-section">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-number">5+</div>
+                <div class="stat-label">Partner Temples</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">10000+</div>
+                <div class="stat-label">Served Customers</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">50+</div>
+                <div class="stat-label">Countries & Regions</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">98%</div>
+                <div class="stat-label">Positive Reviews</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 团队介绍 -->
+    <section class="team-section">
+        <div class="section-title">
+            <h2>Core Team</h2>
+            <p>Professional, dedicated, preserving traditions</p>
+        </div>
+        <div class="team-grid">
+            <div class="team-card">
+                <div class="team-avatar">☯</div>
+                <div class="team-info">
+                    <h3 class="team-name">Master Xuanzhen</h3>
+                    <p class="team-title">Founder · Chief Destiny Master</p>
+                    <p class="team-desc">Inheritor of Orthodox Taoism, practicing for over 30 years. Expert in BaZi destiny analysis, Feng Shui, and Taoist talismans. Has provided consulting services for numerous renowned enterprises.</p>
+                </div>
+            </div>
+            <div class="team-card">
+                <div class="team-avatar">☯</div>
+                <div class="team-info">
+                    <h3 class="team-name">Mingxin Jushi</h3>
+                    <p class="team-title">Co-founder · Yi Jing Consultant</p>
+                    <p class="team-desc">20 years of Yi Jing research experience, published multiple books on destiny studies. Skilled at combining traditional wisdom with modern life to spread positive energy.</p>
+                </div>
+            </div>
+            <div class="team-card">
+                <div class="team-avatar">☯</div>
+                <div class="team-info">
+                    <h3 class="team-name">Master Jingyuan</h3>
+                    <p class="team-title">Talisman Master · Ritual Director</p>
+                    <p class="team-desc">Inheritor of Quanzhen Longmen Sect, monastic practitioner for 20 years. Specializes in Taoist talismans and ritual ceremonies, conducting various religious services with excellent reputation.</p>
+                </div>
+            </div>
+            <div class="team-card">
+                <div class="team-avatar">☯</div>
+                <div class="team-info">
+                    <h3 class="team-name">Yunshu Jushi</h3>
+                    <p class="team-title">Operations Director · Brand Planner</p>
+                    <p class="team-desc">Senior brand planner with deep affection for traditional culture. Responsible for brand operations and cultural promotion, helping more people understand the beauty of Eastern wisdom.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 合作伙伴 -->
+    <section class="partners-section">
+        <div class="section-title">
+            <h2>Partners</h2>
+            <p>Collaborating with official Taoist temples and cultural institutions</p>
+        </div>
+        <div class="partners-grid">
+            <div class="partner-item">Longhu Mountain Tianshi Mansion</div>
+            <div class="partner-item">Wudang Mountain Taoist Temple</div>
+            <div class="partner-item">Qingcheng Mountain Taoist Temple</div>
+            <div class="partner-item">Maoshan Taoist Temple</div>
+            <div class="partner-item">Chinese Taoist Association</div>
+            <div class="partner-item">Traditional Culture Research Institute</div>
+        </div>
+    </section>
+
+    <!-- 联系我们 -->
+    <section class="contact-section">
+        <div class="contact-grid">
+            <div class="contact-info">
+                <h2>Contact Us</h2>
+                <div class="contact-item">
+                    <div class="contact-icon">📧</div>
+                    <div class="contact-detail">
+                        <h4>Email</h4>
+                        <p>contact@daoessence.com</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">💬</div>
+                    <div class="contact-detail">
+                        <h4>WeChat Service</h4>
+                        <p>DaoEssence</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">📱</div>
+                    <div class="contact-detail">
+                        <h4>Service Hotline</h4>
+                        <p>400-888-8888</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">⏰</div>
+                    <div class="contact-detail">
+                        <h4>Service Hours</h4>
+                        <p>Monday to Sunday 9:00-21:00</p>
+                    </div>
+                </div>
+            </div>
+            <div class="contact-form">
+                <form id="contactForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Your Name</label>
+                            <input type="text" placeholder="Please enter your name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Contact Method</label>
+                            <input type="text" placeholder="Phone or WeChat" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Consultation Type</label>
+                        <select>
+                            <option value="">Please select consultation type</option>
+                            <option value="product">Product Inquiry</option>
+                            <option value="destiny">Destiny Services</option>
+                            <option value="custom">Custom Orders</option>
+                            <option value="cooperation">Business Cooperation</option>
+                            <option value="other">Other Questions</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Message</label>
+                        <textarea placeholder="Please describe your needs or questions in detail..."></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Submit Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>DAO Essence</h4>
+                <p>Inheriting millenniums of Taoist wisdom<br>Promoting Eastern mystic culture</p>
+            </div>
+                <div class="footer-section">
+                    <h4>Quick Navigation</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="culture.html">Energy Universe</a></li>
+                        <li><a href="shop.html">Energy Shop</a></li>
+                        <li><a href="index.html#destiny-booking">Destiny Consulting</a></li>
+                    </ul>
+                </div>
+            <div class="footer-section">
+                <h4>Contact Us</h4>
+                <p>Email: contact@daoessence.com</p>
+                <p>WeChat: DaoEssence</p>
+            </div>
+            <div class="footer-section">
+                <h4>Follow Us</h4>
+                <div class="social-links">
+                    <a href="#">WeChat</a>
+                    <a href="#">Weibo</a>
+                    <a href="#">Xiaohongshu</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2024 DAO Essence. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
+    <script>
+        // 表单提交
+        document.getElementById('contactForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const lang = localStorage.getItem('daoessence_lang') || 'en';
+            const message = lang === 'en' ? 'Thank you for your message! We will contact you soon.' : '感谢您的留言！我们会尽快与您联系。';
+            alert(message);
+        });
+
+        // 数字动画
+        function animateNumber(element, target) {
+            let current = 0;
+            const increment = target / 50;
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    element.textContent = target + (element.dataset.suffix || '');
+                    clearInterval(timer);
+                } else {
+                    element.textContent = Math.floor(current) + (element.dataset.suffix || '');
+                }
+            }, 30);
+        }
+
+        // 观察数字区域
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const numbers = entry.target.querySelectorAll('.stat-number');
+                    numbers.forEach(num => {
+                        const text = num.textContent;
+                        const value = parseInt(text.replace(/\D/g, ''));
+                        num.dataset.suffix = text.replace(/\d/g, '');
+                        animateNumber(num, value);
+                    });
+                    statsObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        statsObserver.observe(document.querySelector('.stats-section'));
+
+        // 移动端菜单
+        document.querySelector('.mobile-menu-btn').addEventListener('click', () => {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+
+        // 滚动动画
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.value-card, .team-card, .contact-item').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>

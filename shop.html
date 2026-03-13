@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Energy Shop - DAO Essence</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* 商店页面专属样式 */
+        .shop-hero {
+            height: 50vh;
+            background: linear-gradient(135deg, var(--color-dark) 0%, #1a2a1a 50%, var(--color-dark) 100%);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .shop-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text x="50" y="55" text-anchor="middle" font-size="40" fill="rgba(212,175,55,0.1)">道</text></svg>');
+            background-size: 150px;
+            opacity: 0.3;
+        }
+
+        .shop-hero-content {
+            text-align: center;
+            z-index: 2;
+            color: var(--color-light);
+        }
+
+        .shop-hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 30px rgba(212, 175, 55, 0.5);
+        }
+
+        .shop-hero p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* 商品筛选 */
+        .shop-filters {
+            background: var(--color-dark-accent);
+            padding: 1.5rem 5%;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            position: sticky;
+            top: 70px;
+            z-index: 100;
+        }
+
+        .filter-btn {
+            padding: 0.8rem 1.5rem;
+            background: transparent;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            color: var(--color-light);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: var(--font-display);
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--color-gold);
+            color: var(--color-dark);
+            border-color: var(--color-gold);
+        }
+
+        /* 商品网格 */
+        .shop-grid {
+            padding: 3rem 5%;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        /* 商品卡片 */
+        .product-card {
+            background: var(--color-dark-accent);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(212, 175, 55, 0.15);
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(212, 175, 55, 0.15);
+            border-color: var(--color-gold);
+        }
+
+        .product-image {
+            height: 220px;
+            background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-image::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center, transparent 30%, rgba(0,0,0,0.3) 100%);
+        }
+
+        .product-symbol {
+            font-size: 6rem;
+            color: var(--color-gold);
+            text-shadow: 0 0 30px rgba(212, 175, 55, 0.5);
+            z-index: 1;
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            z-index: 2;
+        }
+
+        .badge-hot {
+            background: var(--color-fire);
+            color: white;
+        }
+
+        .badge-new {
+            background: var(--color-wood);
+            color: white;
+        }
+
+        .badge-limited {
+            background: var(--color-gold);
+            color: var(--color-dark);
+        }
+
+        .product-element {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            font-weight: bold;
+            z-index: 2;
+        }
+
+        .element-wood { background: var(--color-wood); }
+        .element-fire { background: var(--color-fire); }
+        .element-earth { background: var(--color-earth); }
+        .element-metal { background: var(--color-metal); }
+        .element-water { background: var(--color-water); }
+
+        .product-content {
+            padding: 1.5rem;
+        }
+
+        .product-category {
+            font-size: 0.85rem;
+            color: var(--color-gold);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-title {
+            font-size: 1.3rem;
+            color: var(--color-light);
+            margin-bottom: 0.5rem;
+        }
+
+        .product-desc {
+            font-size: 0.9rem;
+            color: var(--color-light-dim);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .product-price {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .price-current {
+            font-size: 1.5rem;
+            color: var(--color-gold);
+            font-weight: bold;
+        }
+
+        .price-original {
+            font-size: 1rem;
+            color: var(--color-light-dim);
+            text-decoration: line-through;
+        }
+
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            margin-bottom: 1rem;
+        }
+
+        .stars {
+            color: var(--color-gold);
+            font-size: 0.9rem;
+        }
+
+        .rating-count {
+            font-size: 0.85rem;
+            color: var(--color-light-dim);
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-add-cart {
+            flex: 1;
+            padding: 0.8rem;
+            background: linear-gradient(135deg, var(--color-gold), #8b6914);
+            border: none;
+            border-radius: 6px;
+            color: var(--color-dark);
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-add-cart:hover {
+            transform: scale(1.02);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .btn-wishlist {
+            width: 45px;
+            background: transparent;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 6px;
+            color: var(--color-light);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1.2rem;
+        }
+
+        .btn-wishlist:hover,
+        .btn-wishlist.active {
+            background: rgba(198, 40, 40, 0.2);
+            border-color: #c62828;
+            color: #c62828;
+        }
+
+        /* 购物车侧边栏 */
+        .cart-sidebar {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 380px;
+            height: 100vh;
+            background: var(--color-dark);
+            box-shadow: -5px 0 30px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            transition: right 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cart-sidebar.open {
+            right: 0;
+        }
+
+        .cart-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-header h3 {
+            color: var(--color-gold);
+            font-size: 1.3rem;
+        }
+
+        .cart-close {
+            background: none;
+            border: none;
+            color: var(--color-light);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .cart-items {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+        }
+
+        .cart-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--color-dark-accent);
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .cart-item-image {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #2a2a2a, #3a3a3a);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--color-gold);
+        }
+
+        .cart-item-details {
+            flex: 1;
+        }
+
+        .cart-item-title {
+            color: var(--color-light);
+            font-size: 0.95rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .cart-item-price {
+            color: var(--color-gold);
+            font-size: 0.9rem;
+        }
+
+        .cart-item-quantity {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .qty-btn {
+            width: 28px;
+            height: 28px;
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 4px;
+            color: var(--color-light);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .qty-btn:hover {
+            background: var(--color-gold);
+            color: var(--color-dark);
+        }
+
+        .qty-value {
+            color: var(--color-light);
+            min-width: 30px;
+            text-align: center;
+        }
+
+        .cart-footer {
+            padding: 1.5rem;
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .cart-total span:first-child {
+            color: var(--color-light-dim);
+        }
+
+        .cart-total span:last-child {
+            color: var(--color-gold);
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+
+        .btn-checkout {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--color-gold), #8b6914);
+            border: none;
+            border-radius: 8px;
+            color: var(--color-dark);
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-checkout:hover {
+            transform: scale(1.02);
+            box-shadow: 0 5px 20px rgba(212, 175, 55, 0.4);
+        }
+
+        /* 购物车按钮 */
+        .cart-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--color-gold), #8b6914);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--color-dark);
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(212, 175, 55, 0.4);
+            z-index: 999;
+            transition: all 0.3s;
+        }
+
+        .cart-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            width: 24px;
+            height: 24px;
+            background: var(--color-fire);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            color: white;
+        }
+
+        /* 遮罩层 */
+        .cart-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+
+        .cart-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* 特色服务区 */
+        .shop-features {
+            padding: 4rem 5%;
+            background: var(--color-dark-accent);
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-item {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 1rem;
+            background: linear-gradient(135deg, var(--color-gold), #8b6914);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+        }
+
+        .feature-item h4 {
+            color: var(--color-light);
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-item p {
+            color: var(--color-light-dim);
+            font-size: 0.9rem;
+        }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .shop-hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .shop-filters {
+                top: 60px;
+                padding: 1rem;
+            }
+
+            .filter-btn {
+                padding: 0.6rem 1rem;
+                font-size: 0.9rem;
+            }
+
+            .cart-sidebar {
+                width: 100%;
+                right: -100%;
+            }
+
+            .cart-btn {
+                bottom: 20px;
+                right: 20px;
+                width: 50px;
+                height: 50px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">☯</span>
+                <span class="logo-text">DAO ESSENCE</span>
+            </a>
+            <button class="mobile-menu-btn">☰</button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="culture.html">Energy Universe</a></li>
+                <li><a href="shop.html" class="active">Energy Shop</a></li>
+                <li><a href="guide.html">Energy Guide</a></li>
+                <li><a href="about.html">About Us</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 英雄区域 -->
+    <section class="shop-hero">
+        <div class="shop-hero-content">
+            <h1>Energy Shop</h1>
+            <p>Every item is consecrated by Taoist masters, imbued with pure energy to help you attract good fortune and ward off misfortune.</p>
+        </div>
+    </section>
+
+    <!-- 筛选栏 -->
+    <div class="shop-filters">
+        <button class="filter-btn active" data-filter="all">All Products</button>
+        <button class="filter-btn" data-filter="talisman">Talismans</button>
+        <button class="filter-btn" data-filter="crystal">Crystals</button>
+        <button class="filter-btn" data-filter="incense">Incense</button>
+        <button class="filter-btn" data-filter="custom">Custom Items</button>
+    </div>
+
+    <!-- 商品网格 -->
+    <div class="shop-grid">
+        <!-- 太岁符 -->
+        <div class="product-card" data-category="talisman">
+            <div class="product-image">
+                <span class="product-badge badge-hot">Hot</span>
+                <span class="product-element element-fire">Fire</span>
+                <span class="product-symbol">太</span>
+            </div>
+            <div class="product-content">
+                <div class="product-category">Talisman</div>
+                <h3 class="product-title">Jiachen Year Tai Sui Talisman</h3>
+                <p class="product-desc">Essential protection for your birth year, resolves Tai Sui conflicts, ensures smooth fortune throughout the year.</p>
+                <div class="product-rating">
+                    <span class="stars">★★★★★</span>
+                    <span class="rating-count">(128 reviews)</span>
+                </div>
+                <div class="product-price">
+                    <span class="price-current">¥288</span>
+                    <span class="price-original">¥388</span>
+                </div>
+                <div class="product-actions">
+                    <button class="btn-add-cart">Add to Cart</button>
+                    <button class="btn-wishlist">♡</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 财神符 -->
+        <div class="product-card" data-category="talisman">
+            <div class="product-image">
+                <span class="product-badge badge-hot">Hot</span>
+                <span class="product-element element-metal">Metal</span>
+                <span class="product-symbol">财</span>
+            </div>
+            <div class="product-content">
+                <div class="product-category">Talisman</div>
+                <h3 class="product-title">Wealth Attraction Talisman</h3>
+                <p class="product-desc">Invoke the Wealth God's blessing, enhance wealth energy field, ideal for entrepreneurs and business people.</p>
+                <div class="product-rating">
+                    <span class="stars">★★★★★</span>
+                    <span class="rating-count">(96 reviews)</span>
+                </div>
+                <div class="product-price">
+                    <span class="price-current">¥368</span>
+                    <span class="price-original">¥468</span>
+                </div>
+                <div class="product-actions">
+                    <button class="btn-add-cart">Add to Cart</button>
+                    <button class="btn-wishlist">♡</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 黑曜石手串 -->
+        <div class="product-card" data-category="crystal">
+            <div class="product-image">
+                <span class="product-badge badge-new">New</span>
+                <span class="product-element element-water">Water</span>
+                <span class="product-symbol">珠</span>
+            </div>
+            <div class="product-content">
+                <div class="product-category">Crystal</div>
+                <h3 class="product-title">Natural Obsidian Bracelet</h3>
+                <p class="product-desc">Powerful crystal for evil protection and negative energy dispelling, guards your safety and peace.</p>
+                <div class="product-rating">
+                    <span class="stars">★★★★☆</span>
+                    <span class="rating-count">(85 reviews)</span>
+                </div>
+                <div class="product-price">
+                    <span class="price-current">¥588</span>
+                    <span class="price-original">¥788</span>
+                </div>
+                <div class="product-actions">
+                    <button class="btn-add-cart">Add to Cart</button>
+                    <button class="btn-wishlist">♡</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 紫水晶洞 -->
+        <div class="product-card" data-category="crystal">
+            <div class="product-image">
+                <span class="product-element element-fire">Fire</span>
+                <span class="product-symbol">晶</span>
+            </div>
+            <div class="product-content">
+                <div class="product-category">Crystal</div>
+                <h3 class="product-title">Brazilian Amethyst Geode</h3>
+                <p class="product-desc">Treasure for wealth attraction and home protection, place in wealth position to enhance fortune.</p>
+                <div class="product-rating">
+                    <span class="stars">★★★★★</span>
+                    <span class="rating-count">(42 reviews)</span>
+                </div>
+                <div class="product-price">
+                    <span class="price-current">¥2,888</span>
+                </div>
+                <div class="product-actions">
+                    <button class="btn-add-cart">Add to Cart</button>
+                    <button class="btn-wishlist">♡</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 文昌香 -->
+        <div class="product-card" data-category="incense">
+            <div class="product-image">
+                <span class="product-element element-wood">Wood</span>
+                <span class="product-symbol">香</span>
+            </div>
+            <div class="product-content">
+                <div class="product-category">Incense</div>
+                <h3 class="product-title">Natural Agarwood Wenchang Incense</h3>
+                <p class="product-desc">Calms the mind and enhances focus, suitable for students and knowledge workers.</p>
+                <div class="product-rating">
+                    <span class="stars">★★★★★</span>
+                    <span class="rating-count">(73 reviews)</span>
+                </div>
+                <div class="product-price">
+                    <span class="price-current">¥168</span>
+                    <span class="price-original">¥218</span>
+                </div>
+                <div class="product-actions">
+                    <button class="btn-add-cart">Add to Cart</button>
+                    <button class="btn-wishlist">♡</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 太岁香 -->
+        <div class="product-card" data-category="incense">
+            <div class="product-image">
+                <span class="product-element element-earth">Earth</span>
+                <span class="product-symbol">檀</span>
+            </div>
+            <div class="product-content">
+                <div class="product-category">Incense</div>
+                <h3 class="product-title">Old Mountain Sandalwood Tai Sui Incense</h3>
+                <p class="product-desc">Specially made for Tai Sui worship, eliminates disasters and brings blessings, ensures yearly peace.</p>
+                <div class="product-rating">
+                    <span class="stars">★★★★☆</span>
+                    <span class="rating-count">(56 reviews)</span>
+                </div>
+                <div class="product-price">
+                    <span class="price-current">¥268</span>
+                </div>
+                <div class="product-actions">
+                    <button class="btn-add-cart">Add to Cart</button>
+                    <button class="btn-wishlist">♡</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 个人命理定制 -->
+        <div class="product-card" data-category="custom">
+            <div class="product-image">
+                <span class="product-badge badge-limited">Custom</span>
+                <span class="product-symbol">命</span>
+            </div>
+            <div class="product-content">
+                <div class="product-category">Custom Item</div>
+                <h3 class="product-title">Personal Destiny Custom Talisman</h3>
+                <p class="product-desc">Custom talisman based on your BaZi destiny analysis, precisely enhances your fortune.</p>
+                <div class="product-rating">
+                    <span class="stars">★★★★★</span>
+                    <span class="rating-count">(34 reviews)</span>
+                </div>
+                <div class="product-price">
+                    <span class="price-current">¥1,288</span>
+                </div>
+                <div class="product-actions">
+                    <button class="btn-add-cart">Customize Now</button>
+                    <button class="btn-wishlist">♡</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 貔貅摆件 -->
+        <div class="product-card" data-category="custom">
+            <div class="product-image">
+                <span class="product-badge badge-hot">Hot</span>
+                <span class="product-element element-metal">Metal</span>
+                <span class="product-symbol">貔</span>
+            </div>
+            <div class="product-content">
+                <div class="product-category">Custom Item</div>
+                <h3 class="product-title">Consecrated Bronze Pixiu Ornament</h3>
+                <p class="product-desc">Wealth-attracting and evil-protecting divine beast, consecrated with powerful energy.</p>
+                <div class="product-rating">
+                    <span class="stars">★★★★★</span>
+                    <span class="rating-count">(89 reviews)</span>
+                </div>
+                <div class="product-price">
+                    <span class="price-current">¥688</span>
+                    <span class="price-original">¥888</span>
+                </div>
+                <div class="product-actions">
+                    <button class="btn-add-cart">Add to Cart</button>
+                    <button class="btn-wishlist">♡</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 平安符 -->
+        <div class="product-card" data-category="talisman">
+            <div class="product-image">
+                <span class="product-element element-water">Water</span>
+                <span class="product-symbol">安</span>
+            </div>
+            <div class="product-content">
+                <div class="product-category">Talisman</div>
+                <h3 class="product-title">Safety Protection Talisman</h3>
+                <p class="product-desc">Resolves unexpected disasters, suitable for travelers and those in dangerous occupations.</p>
+                <div class="product-rating">
+                    <span class="stars">★★★★★</span>
+                    <span class="rating-count">(156 reviews)</span>
+                </div>
+                <div class="product-price">
+                    <span class="price-current">¥198</span>
+                </div>
+                <div class="product-actions">
+                    <button class="btn-add-cart">Add to Cart</button>
+                    <button class="btn-wishlist">♡</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 黄水晶 -->
+        <div class="product-card" data-category="crystal">
+            <div class="product-image">
+                <span class="product-badge badge-new">New</span>
+                <span class="product-element element-earth">Earth</span>
+                <span class="product-symbol">黄</span>
+            </div>
+            <div class="product-content">
+                <div class="product-category">Crystal</div>
+                <h3 class="product-title">Citrine Wealth Bracelet</h3>
+                <p class="product-desc">Stone of wealth, enhances windfall fortune, ideal for investors.</p>
+                <div class="product-rating">
+                    <span class="stars">★★★★☆</span>
+                    <span class="rating-count">(67 reviews)</span>
+                </div>
+                <div class="product-price">
+                    <span class="price-current">¥788</span>
+                    <span class="price-original">¥988</span>
+                </div>
+                <div class="product-actions">
+                    <button class="btn-add-cart">Add to Cart</button>
+                    <button class="btn-wishlist">♡</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 特色服务 -->
+    <section class="shop-features">
+        <div class="feature-item">
+            <div class="feature-icon">🙏</div>
+            <h4>Master Consecration</h4>
+            <p>All items are consecrated by ordained Taoist masters.</p>
+        </div>
+        <div class="feature-item">
+            <div class="feature-icon">📦</div>
+            <h4>Exquisite Packaging</h4>
+            <p>Traditional red cloth wrapping, delivered with reverence.</p>
+        </div>
+        <div class="feature-item">
+            <div class="feature-icon">📜</div>
+            <h4>Usage Guide</h4>
+            <p>Includes detailed instructions and taboos.</p>
+        </div>
+        <div class="feature-item">
+            <div class="feature-icon">🔒</div>
+            <h4>Authenticity Guaranteed</h4>
+            <p>Temple partnership, traceable energy.</p>
+        </div>
+    </section>
+
+    <!-- 购物车按钮 -->
+    <div class="cart-btn">
+        🛒
+        <span class="cart-count">0</span>
+    </div>
+
+    <!-- 购物车侧边栏 -->
+    <div class="cart-overlay"></div>
+    <div class="cart-sidebar">
+        <div class="cart-header">
+            <h3>🛒 Shopping Cart</h3>
+            <button class="cart-close">×</button>
+        </div>
+        <div class="cart-items">
+            <p style="text-align: center; color: var(--color-light-dim); padding: 2rem;">Your cart is empty</p>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total</span>
+                <span>¥0</span>
+            </div>
+            <button class="btn-checkout">Checkout</button>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>DAO ESSENCE</h4>
+                <p>Inheriting millennia of Taoist wisdom<br>Promoting Eastern mystic culture</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="culture.html">Energy Universe</a></li>
+                    <li><a href="shop.html">Energy Shop</a></li>
+                    <li><a href="index.html#destiny-booking">Destiny Consulting</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contact Us</h4>
+                <p>Email: contact@daoessence.com</p>
+                <p>WeChat: DaoEssence</p>
+            </div>
+            <div class="footer-section">
+                <h4>Follow Us</h4>
+                <div class="social-links">
+                    <a href="#">WeChat</a>
+                    <a href="#">Weibo</a>
+                    <a href="#">Xiaohongshu</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2024 DAO Essence. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
+    <script>
+        // 筛选功能
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const products = document.querySelectorAll('.product-card');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                const filter = btn.dataset.filter;
+                products.forEach(product => {
+                    if (filter === 'all' || product.dataset.category === filter) {
+                        product.style.display = 'block';
+                        product.style.animation = 'fadeIn 0.5s ease';
+                    } else {
+                        product.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // 购物车功能
+        const cartBtn = document.querySelector('.cart-btn');
+        const cartSidebar = document.querySelector('.cart-sidebar');
+        const cartOverlay = document.querySelector('.cart-overlay');
+        const cartClose = document.querySelector('.cart-close');
+        const cartItemsContainer = document.querySelector('.cart-items');
+        const cartCount = document.querySelector('.cart-count');
+        const cartTotal = document.querySelector('.cart-total span:last-child');
+
+        let cart = JSON.parse(localStorage.getItem('daoCart')) || [];
+
+        function updateCart() {
+            cartCount.textContent = cart.length;
+            
+            if (cart.length === 0) {
+                const emptyText = currentLang === 'en' ? 'Your cart is empty' : '购物车是空的';
+                cartItemsContainer.innerHTML = `<p style="text-align: center; color: var(--color-light-dim); padding: 2rem;">${emptyText}</p>`;
+                cartTotal.textContent = '¥0';
+            } else {
+                let total = 0;
+                cartItemsContainer.innerHTML = cart.map((item, index) => {
+                    total += item.price * item.quantity;
+                    const title = currentLang === 'en' ? item.titleEn : item.titleZh;
+                    return `
+                        <div class="cart-item">
+                            <div class="cart-item-image">${item.symbol}</div>
+                            <div class="cart-item-details">
+                                <div class="cart-item-title">${title}</div>
+                                <div class="cart-item-price">¥${item.price}</div>
+                                <div class="cart-item-quantity">
+                                    <button class="qty-btn" onclick="changeQty(${index}, -1)">-</button>
+                                    <span class="qty-value">${item.quantity}</span>
+                                    <button class="qty-btn" onclick="changeQty(${index}, 1)">+</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+                cartTotal.textContent = `¥${total}`;
+            }
+            
+            localStorage.setItem('daoCart', JSON.stringify(cart));
+        }
+
+        window.changeQty = function(index, delta) {
+            cart[index].quantity += delta;
+            if (cart[index].quantity <= 0) {
+                cart.splice(index, 1);
+            }
+            updateCart();
+        };
+
+        // 添加到购物车
+        document.querySelectorAll('.btn-add-cart').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const card = btn.closest('.product-card');
+                const titleEl = card.querySelector('.product-title');
+                const titleEn = titleEl.getAttribute('data-en');
+                const titleZh = titleEl.getAttribute('data-zh');
+                const price = parseInt(card.querySelector('.price-current').textContent.replace(/[^\d]/g, ''));
+                const symbol = card.querySelector('.product-symbol').textContent;
+                
+                const existingItem = cart.find(item => item.titleEn === titleEn);
+                if (existingItem) {
+                    existingItem.quantity++;
+                } else {
+                    cart.push({ titleEn, titleZh, price, symbol, quantity: 1 });
+                }
+                
+                updateCart();
+                
+                // 显示双语提示
+                const originalTextEn = btn.getAttribute('data-en');
+                const originalTextZh = btn.getAttribute('data-zh');
+                const addedText = currentLang === 'en' ? 'Added ✓' : '已添加 ✓';
+                btn.textContent = addedText;
+                setTimeout(() => {
+                    btn.textContent = currentLang === 'en' ? originalTextEn : originalTextZh;
+                }, 1500);
+            });
+        });
+
+        // 收藏功能
+        document.querySelectorAll('.btn-wishlist').forEach(btn => {
+            btn.addEventListener('click', () => {
+                btn.classList.toggle('active');
+                btn.textContent = btn.classList.contains('active') ? '♥' : '♡';
+            });
+        });
+
+        // 打开/关闭购物车
+        cartBtn.addEventListener('click', () => {
+            cartSidebar.classList.add('open');
+            cartOverlay.classList.add('show');
+        });
+
+        cartClose.addEventListener('click', () => {
+            cartSidebar.classList.remove('open');
+            cartOverlay.classList.remove('show');
+        });
+
+        cartOverlay.addEventListener('click', () => {
+            cartSidebar.classList.remove('open');
+            cartOverlay.classList.remove('show');
+        });
+
+        // 初始化购物车
+        updateCart();
+
+        // 语言切换功能 - 与main.js保持同步
+        let currentLang = 'en';
+        
+        function initLang() {
+            const savedLang = localStorage.getItem('daoessence_lang');
+            if (savedLang) {
+                currentLang = savedLang;
+            }
+            applyLang(currentLang);
+        }
+        
+        function applyLang(lang) {
+            currentLang = lang;
+            document.querySelectorAll('[data-en][data-zh]').forEach(el => {
+                el.textContent = el.getAttribute(`data-${lang}`);
+            });
+            document.documentElement.lang = lang === 'en' ? 'en' : 'zh-CN';
+            localStorage.setItem('daoessence_lang', lang);
+        }
+        
+        function toggleLang() {
+            currentLang = currentLang === 'en' ? 'zh' : 'en';
+            applyLang(currentLang);
+            updateCart();
+        }
+        
+        // 页面加载时初始化语言
+        initLang();
+
+        // 为每个filter-btn添加点击事件以切换语言
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // 筛选后刷新显示
+                setTimeout(() => {
+                    document.querySelectorAll('[data-en][data-zh]').forEach(el => {
+                        el.textContent = el.getAttribute(`data-${currentLang}`);
+                    });
+                }, 100);
+            });
+        });
+
+        // 移动端菜单
+        document.querySelector('.mobile-menu-btn').addEventListener('click', () => {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+
+        // 动画
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(20px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

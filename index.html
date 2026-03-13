@@ -1,0 +1,1609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DAO Essence & Five Elements - Ancient Wisdom, Modern Harmony</title>
+    <meta name="description" content="Based on authentic Taoist traditions and the Five Elements theory, we offer traditional cultural products and services with genuine energy properties.">
+    <link rel="stylesheet" href="styles.css?v=202603131700">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&family=Noto+Serif+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <style>
+        /* ============================================
+           首页特定样式
+           ============================================ */
+        
+        /* 英雄区域 */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #1A1612 0%, #1A3A4A 50%, #2D5A3D 100%);
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(ellipse at center, transparent 0%, rgba(26, 22, 18, 0.8) 100%);
+            z-index: 1;
+        }
+        
+        /* 背景装饰 - 太极图 */
+        .hero-taiji {
+            position: absolute;
+            width: 800px;
+            height: 800px;
+            opacity: 0.05;
+            animation: rotate 120s linear infinite;
+        }
+        
+        .hero-taiji svg {
+            width: 100%;
+            height: 100%;
+        }
+        
+        /* 背景云雾 */
+        .hero-mist {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 300px;
+            background: linear-gradient(to top, rgba(245, 240, 230, 0.1), transparent);
+            z-index: 2;
+        }
+        
+        /* 主内容 */
+        .hero-content {
+            position: relative;
+            z-index: 3;
+            text-align: center;
+            padding: 0 var(--spacing-xl);
+            max-width: 900px;
+        }
+        
+        .hero-title-cn {
+            font-family: var(--font-display);
+            font-size: clamp(3rem, 8vw, 6rem);
+            color: var(--bg-primary);
+            margin-bottom: var(--spacing-md);
+            letter-spacing: 0.2em;
+            text-shadow: 0 4px 20px rgba(212, 175, 55, 0.3);
+            animation: fadeInUp 1s ease-out;
+        }
+        
+        .hero-title-en {
+            font-family: var(--font-english);
+            font-size: var(--text-xl);
+            color: var(--accent-color);
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            margin-bottom: var(--spacing-xl);
+            animation: fadeInUp 1s ease-out 0.2s backwards;
+        }
+        
+        .hero-slogan {
+            font-size: var(--text-lg);
+            color: rgba(245, 240, 230, 0.9);
+            margin-bottom: var(--spacing-2xl);
+            line-height: 1.8;
+            animation: fadeInUp 1s ease-out 0.4s backwards;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: var(--spacing-lg);
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 1s ease-out 0.6s backwards;
+        }
+        
+        .hero-btn-primary {
+            padding: var(--spacing-lg) var(--spacing-3xl);
+            background: var(--gradient-gold);
+            color: var(--bg-dark);
+            font-weight: 600;
+            font-size: var(--text-lg);
+            border: none;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all var(--transition-base);
+        }
+        
+        .hero-btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
+        }
+        
+        .hero-btn-secondary {
+            padding: var(--spacing-lg) var(--spacing-3xl);
+            background: transparent;
+            color: var(--bg-primary);
+            border: 1px solid var(--accent-color);
+            font-weight: 500;
+            font-size: var(--text-lg);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all var(--transition-base);
+        }
+        
+        .hero-btn-secondary:hover {
+            background: rgba(212, 175, 55, 0.1);
+            transform: translateY(-3px);
+        }
+        
+        /* 滚动指示 */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3;
+            animation: float 2s ease-in-out infinite;
+        }
+        
+        .scroll-indicator span {
+            display: block;
+            width: 30px;
+            height: 50px;
+            border: 2px solid var(--accent-color);
+            border-radius: 15px;
+            position: relative;
+        }
+        
+        .scroll-indicator span::before {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 6px;
+            height: 10px;
+            background: var(--accent-color);
+            border-radius: 3px;
+            animation: scrollDown 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes scrollDown {
+            0%, 100% { opacity: 1; transform: translateX(-50%) translateY(0); }
+            50% { opacity: 0.5; transform: translateX(-50%) translateY(10px); }
+        }
+        
+        /* 五行展示区 - 极简东方美学 */
+        .five-elements {
+            padding: var(--spacing-4xl) 0;
+            background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 50%, var(--bg-primary) 100%);
+            position: relative;
+        }
+
+        .five-elements::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 2px;
+            background: var(--gradient-gold);
+            opacity: 0.3;
+        }
+
+        .elements-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: var(--spacing-2xl);
+            margin-top: var(--spacing-3xl);
+        }
+
+        .element-card {
+            text-align: center;
+            padding: var(--spacing-2xl) var(--spacing-lg);
+            background: var(--bg-primary);
+            border-radius: var(--radius-lg);
+            transition: all var(--transition-base);
+            border: 1px solid rgba(212, 175, 55, 0.15);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .element-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--accent-color);
+            transform: scaleX(0);
+            transition: transform var(--transition-base);
+        }
+
+        .element-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .element-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px rgba(26, 22, 18, 0.12);
+            border-color: var(--accent-color);
+        }
+
+        .element-card .icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto var(--spacing-xl);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-display);
+            font-size: 2rem;
+            font-weight: 600;
+            transition: all var(--transition-base);
+            position: relative;
+            border: 2px solid;
+        }
+
+        /* 木 - 青翠生机 */
+        .element-card.wood .icon {
+            background: linear-gradient(135deg, rgba(45, 90, 61, 0.1) 0%, rgba(74, 124, 91, 0.15) 100%);
+            color: var(--wood-primary);
+            border-color: var(--wood-primary);
+        }
+
+        .element-card.wood:hover .icon {
+            background: var(--wood-primary);
+            color: white;
+            transform: rotate(360deg);
+            box-shadow: 0 0 30px rgba(45, 90, 61, 0.3);
+        }
+
+        /* 火 - 朱砂热情 */
+        .element-card.fire .icon {
+            background: linear-gradient(135deg, rgba(139, 37, 0, 0.1) 0%, rgba(179, 58, 42, 0.15) 100%);
+            color: var(--fire-primary);
+            border-color: var(--fire-primary);
+        }
+
+        .element-card.fire:hover .icon {
+            background: var(--fire-primary);
+            color: white;
+            transform: rotate(360deg);
+            box-shadow: 0 0 30px rgba(139, 37, 0, 0.3);
+        }
+
+        /* 土 - 厚德载物 */
+        .element-card.earth .icon {
+            background: linear-gradient(135deg, rgba(139, 115, 85, 0.1) 0%, rgba(166, 139, 106, 0.15) 100%);
+            color: var(--earth-primary);
+            border-color: var(--earth-primary);
+        }
+
+        .element-card.earth:hover .icon {
+            background: var(--earth-primary);
+            color: white;
+            transform: rotate(360deg);
+            box-shadow: 0 0 30px rgba(139, 115, 85, 0.3);
+        }
+
+        /* 金 - 刚正不阿 */
+        .element-card.metal .icon {
+            background: linear-gradient(135deg, rgba(192, 192, 192, 0.15) 0%, rgba(232, 232, 232, 0.2) 100%);
+            color: var(--metal-dark);
+            border-color: var(--metal-dark);
+        }
+
+        .element-card.metal:hover .icon {
+            background: linear-gradient(135deg, #C0C0C0 0%, #E8E8E8 100%);
+            color: var(--bg-dark);
+            transform: rotate(360deg);
+            box-shadow: 0 0 30px rgba(192, 192, 192, 0.4);
+        }
+
+        /* 水 - 智慧流动 */
+        .element-card.water .icon {
+            background: linear-gradient(135deg, rgba(26, 58, 74, 0.1) 0%, rgba(45, 90, 107, 0.15) 100%);
+            color: var(--water-primary);
+            border-color: var(--water-primary);
+        }
+
+        .element-card.water:hover .icon {
+            background: var(--water-primary);
+            color: white;
+            transform: rotate(360deg);
+            box-shadow: 0 0 30px rgba(26, 58, 74, 0.3);
+        }
+
+        .element-card h3 {
+            font-family: var(--font-display);
+            font-size: var(--text-xl);
+            margin-bottom: var(--spacing-xs);
+            color: var(--text-primary);
+            letter-spacing: 0.15em;
+            font-weight: 600;
+        }
+
+        .element-card .name-en {
+            font-family: var(--font-english);
+            font-size: var(--text-xs);
+            color: var(--text-light);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: var(--spacing-lg);
+            opacity: 0.8;
+        }
+
+        .element-card .traits {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-xs);
+            justify-content: center;
+        }
+
+        .element-card .trait {
+            font-size: var(--text-xs);
+            padding: 6px 12px;
+            background: rgba(212, 175, 55, 0.08);
+            border-radius: var(--radius-md);
+            color: var(--text-secondary);
+            border: 1px solid rgba(212, 175, 55, 0.15);
+            transition: all var(--transition-fast);
+        }
+
+        .element-card:hover .trait {
+            background: rgba(212, 175, 55, 0.12);
+            border-color: var(--accent-color);
+        }
+        
+        @media (max-width: 1200px) {
+            .elements-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .elements-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .elements-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* 核心价值区 */
+        .values {
+            padding: var(--spacing-4xl) 0;
+            background: var(--bg-secondary);
+        }
+        
+        .value-card {
+            text-align: center;
+            padding: var(--spacing-2xl);
+            background: var(--bg-primary);
+            border-radius: var(--radius-lg);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            transition: all var(--transition-base);
+        }
+        
+        .value-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--accent-color);
+        }
+        
+        .value-icon {
+            width: 90px;
+            height: 90px;
+            margin: 0 auto var(--spacing-xl);
+            border-radius: 50%;
+            background: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            transition: all var(--transition-base);
+        }
+
+        .value-icon::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            border: 2px solid var(--accent-color);
+            opacity: 0.3;
+        }
+
+        .value-icon::after {
+            content: '';
+            position: absolute;
+            inset: -8px;
+            border-radius: 50%;
+            border: 1px dashed var(--accent-color);
+            opacity: 0.2;
+        }
+
+        .value-card:hover .value-icon {
+            transform: scale(1.1) rotate(10deg);
+        }
+
+        .value-icon svg {
+            width: 50px;
+            height: 50px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .value-icon svg path,
+        .value-icon svg polygon,
+        .value-icon svg circle {
+            fill: var(--accent-color);
+            transition: all var(--transition-base);
+        }
+
+        .value-card:hover .value-icon svg path,
+        .value-card:hover .value-icon svg polygon,
+        .value-card:hover .value-icon svg circle {
+            fill: var(--primary-color);
+            transform-origin: center;
+        }
+        
+        .value-card h3 {
+            font-family: var(--font-display);
+            font-size: var(--text-xl);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        /* 热门商品区 */
+        .products {
+            padding: var(--spacing-4xl) 0;
+            background: var(--bg-primary);
+        }
+        
+        .product-card {
+            position: relative;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            background: var(--bg-accent);
+            border: 1px solid rgba(139, 37, 0, 0.1);
+            transition: all var(--transition-base);
+        }
+        
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .product-image {
+            position: relative;
+            height: 300px;
+            overflow: hidden;
+            background: radial-gradient(circle at 50% 50%, rgba(248, 244, 237, 1) 0%, rgba(235, 229, 216, 1) 100%);
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all var(--transition-slow);
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.08);
+        }
+        
+        .product-element {
+            position: absolute;
+            top: var(--spacing-md);
+            left: var(--spacing-md);
+        }
+        
+        .product-content {
+            padding: var(--spacing-lg);
+        }
+        
+        .product-category {
+            font-size: var(--text-sm);
+            color: var(--text-light);
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .product-name {
+            font-family: var(--font-display);
+            font-size: var(--text-xl);
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .product-desc {
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .product-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .product-price {
+            font-size: var(--text-xl);
+            font-weight: 600;
+            color: var(--fire-primary);
+        }
+        
+        .product-btn {
+            padding: var(--spacing-sm) var(--spacing-lg);
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            font-size: var(--text-sm);
+            transition: all var(--transition-fast);
+        }
+        
+        .product-btn:hover {
+            background: var(--fire-light);
+        }
+        
+        /* CTA区域 */
+        .cta {
+            padding: var(--spacing-4xl) 0;
+            background: linear-gradient(135deg, var(--bg-dark) 0%, var(--water-dark) 100%);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cta::before {
+            content: '道';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 400px;
+            font-family: var(--font-display);
+            color: rgba(212, 175, 55, 0.03);
+            pointer-events: none;
+        }
+        
+        .cta h2 {
+            font-family: var(--font-display);
+            font-size: var(--text-4xl);
+            color: var(--bg-primary);
+            margin-bottom: var(--spacing-lg);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .cta p {
+            font-size: var(--text-lg);
+            color: rgba(245, 240, 230, 0.8);
+            margin-bottom: var(--spacing-2xl);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* 客户见证 */
+        .testimonials {
+            padding: var(--spacing-4xl) 0;
+            background: var(--bg-primary);
+        }
+        
+        .testimonial-card {
+            background: var(--bg-accent);
+            padding: var(--spacing-2xl);
+            border-radius: var(--radius-lg);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            position: relative;
+        }
+        
+        .testimonial-card::before {
+            content: '"';
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            font-size: 60px;
+            font-family: var(--font-display);
+            color: var(--accent-color);
+            opacity: 0.3;
+            line-height: 1;
+        }
+        
+        .testimonial-text {
+            font-style: italic;
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-lg);
+            line-height: 1.8;
+            padding-left: var(--spacing-xl);
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+        }
+        
+        .testimonial-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .testimonial-name {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .testimonial-title {
+            font-size: var(--text-sm);
+            color: var(--text-light);
+        }
+        
+        /* 命理服务预约区域 */
+        .destiny-booking {
+            background: var(--bg-secondary);
+        }
+        
+        .destiny-services {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--spacing-xl);
+            margin-top: var(--spacing-3xl);
+        }
+        
+        .destiny-service-card {
+            background: var(--bg-primary);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-2xl);
+            text-align: center;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            transition: all var(--transition-base);
+        }
+        
+        .destiny-service-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent-color);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .destiny-service-card .service-icon {
+            width: 90px;
+            height: 90px;
+            margin: 0 auto var(--spacing-xl);
+            background: transparent;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            transition: all var(--transition-base);
+        }
+
+        .destiny-service-card .service-icon::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            border: 2px solid var(--accent-color);
+            opacity: 0.3;
+        }
+
+        .destiny-service-card .service-icon::after {
+            content: '';
+            position: absolute;
+            inset: -8px;
+            border-radius: 50%;
+            border: 1px dashed var(--accent-color);
+            opacity: 0.2;
+        }
+
+        .destiny-service-card:hover .service-icon {
+            transform: scale(1.1) rotate(10deg);
+        }
+
+        .destiny-service-card .service-icon svg {
+            width: 50px;
+            height: 50px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .destiny-service-card .service-icon svg path,
+        .destiny-service-card .service-icon svg polygon,
+        .destiny-service-card .service-icon svg circle {
+            fill: var(--accent-color);
+            transition: all var(--transition-base);
+        }
+
+        .destiny-service-card:hover .service-icon svg path,
+        .destiny-service-card:hover .service-icon svg polygon,
+        .destiny-service-card:hover .service-icon svg circle {
+            fill: var(--primary-color);
+        }
+        
+        .destiny-service-card h3 {
+            font-family: var(--font-display);
+            font-size: var(--text-xl);
+            margin-bottom: var(--spacing-sm);
+            color: var(--text-primary);
+        }
+        
+        .destiny-service-card p {
+            color: var(--text-secondary);
+            font-size: var(--text-sm);
+            margin-bottom: var(--spacing-md);
+            line-height: 1.6;
+        }
+        
+        .service-price {
+            font-size: var(--text-2xl);
+            font-weight: 600;
+            color: var(--fire-primary);
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .service-book-btn {
+            width: 100%;
+            padding: var(--spacing-md) var(--spacing-lg);
+            background: transparent;
+            border: 2px solid var(--accent-color);
+            color: var(--accent-color);
+            font-weight: 600;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all var(--transition-base);
+        }
+        
+        .service-book-btn:hover {
+            background: var(--accent-color);
+            color: var(--bg-dark);
+        }
+        
+        .destiny-note {
+            text-align: center;
+            margin-top: var(--spacing-3xl);
+            padding: var(--spacing-xl);
+            background: rgba(212, 175, 55, 0.05);
+            border-radius: var(--radius-md);
+        }
+        
+        .destiny-note p {
+            color: var(--text-secondary);
+            font-size: var(--text-sm);
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        /* 命理服务预约区域 */
+        .destiny-booking {
+            background: linear-gradient(135deg, var(--bg-dark) 0%, var(--water-dark) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .destiny-booking::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 50%, rgba(212, 175, 55, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .destiny-booking .section-header h2 {
+            color: var(--bg-primary);
+        }
+
+        .destiny-booking .section-header .subtitle {
+            color: var(--accent-color);
+        }
+
+        .destiny-booking .section-header p {
+            color: rgba(245, 240, 230, 0.8);
+        }
+
+        .destiny-services {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--spacing-xl);
+            margin-top: var(--spacing-3xl);
+        }
+
+        .destiny-service-card {
+            background: rgba(245, 240, 230, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-2xl);
+            text-align: center;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            transition: all var(--transition-base);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .destiny-service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-gold);
+            transform: scaleX(0);
+            transition: transform var(--transition-base);
+        }
+
+        .destiny-service-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .destiny-service-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent-color);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+            background: rgba(245, 240, 230, 0.08);
+        }
+
+        .destiny-service-card h3 {
+            font-family: var(--font-display);
+            font-size: var(--text-xl);
+            margin-bottom: var(--spacing-sm);
+            color: var(--bg-primary);
+        }
+
+        .destiny-service-card p {
+            color: rgba(245, 240, 230, 0.7);
+            font-size: var(--text-sm);
+            margin-bottom: var(--spacing-lg);
+            line-height: 1.6;
+        }
+
+        .service-price {
+            font-size: var(--text-2xl);
+            font-weight: 600;
+            color: var(--accent-color);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .service-book-btn {
+            width: 100%;
+            padding: var(--spacing-md) var(--spacing-lg);
+            background: transparent;
+            border: 2px solid var(--accent-color);
+            color: var(--accent-color);
+            font-weight: 600;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all var(--transition-base);
+        }
+
+        .service-book-btn:hover {
+            background: var(--accent-color);
+            color: var(--bg-dark);
+        }
+
+        .destiny-note {
+            text-align: center;
+            margin-top: var(--spacing-3xl);
+            padding: var(--spacing-xl);
+            background: rgba(212, 175, 55, 0.05);
+            border-radius: var(--radius-md);
+            border: 1px solid rgba(212, 175, 55, 0.1);
+        }
+
+        .destiny-note p {
+            color: rgba(245, 240, 230, 0.7);
+            font-size: var(--text-sm);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        @media (max-width: 1024px) {
+            .destiny-services {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .destiny-services {
+                grid-template-columns: 1fr;
+            }
+
+            .booking-form .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* 预约弹窗 */
+        .booking-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+        
+        .booking-modal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal-content {
+            background: var(--bg-primary);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-2xl);
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            color: var(--text-light);
+            cursor: pointer;
+        }
+        
+        .modal-content h3 {
+            font-family: var(--font-display);
+            font-size: var(--text-2xl);
+            color: var(--accent-color);
+            margin-bottom: var(--spacing-lg);
+            text-align: center;
+        }
+        
+        .modal-service-name,
+        .modal-service-price {
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .modal-service-price {
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .modal-service-price span {
+            color: var(--fire-primary);
+            font-weight: 600;
+        }
+        
+        .booking-form .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-md);
+        }
+        
+        .booking-form .form-group {
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .booking-form label {
+            display: block;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-xs);
+            font-size: var(--text-sm);
+        }
+        
+        .booking-form input,
+        .booking-form select,
+        .booking-form textarea {
+            width: 100%;
+            padding: var(--spacing-sm) var(--spacing-md);
+            background: var(--bg-accent);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            font-size: var(--text-base);
+        }
+        
+        .booking-form input:focus,
+        .booking-form select:focus,
+        .booking-form textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+        
+        .booking-form textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+        
+        .submit-booking-btn {
+            width: 100%;
+            padding: var(--spacing-md);
+            background: var(--gradient-gold);
+            border: none;
+            border-radius: var(--radius-sm);
+            color: var(--bg-dark);
+            font-weight: 600;
+            font-size: var(--text-base);
+            cursor: pointer;
+            margin-top: var(--spacing-md);
+            transition: all var(--transition-base);
+        }
+        
+        .submit-booking-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+        }
+        
+        @media (max-width: 1024px) {
+            .destiny-services {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .destiny-services {
+                grid-template-columns: 1fr;
+            }
+            
+            .booking-form .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 头部导航 -->
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <a href="index.html" class="logo">
+                    <div class="logo-icon"></div>
+                    <div class="logo-text">
+                        <span class="logo-en">DAO ESSENCE</span>
+                    </div>
+                </a>
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="nav-link active">Home</a></li>
+                    <li><a href="culture.html" class="nav-link">Energy Universe</a></li>
+                    <li><a href="shop.html" class="nav-link">Energy Shop</a></li>
+                    <li><a href="guide.html" class="nav-link">Energy Guide</a></li>
+                    <li><a href="about.html" class="nav-link">About Us</a></li>
+                    <li><a href="shop.html" class="nav-cta">Explore Products</a></li>
+                </ul>
+                <button class="mobile-menu-btn">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 英雄区域 -->
+    <section class="hero">
+        <!-- 背景太极图 -->
+        <div class="hero-taiji">
+            <svg viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="48" fill="none" stroke="#D4AF37" stroke-width="0.5"/>
+                <path d="M50 2 A48 48 0 0 1 50 98 A24 24 0 0 1 50 50 A24 24 0 0 0 50 2" fill="#D4AF37"/>
+                <circle cx="50" cy="26" r="6" fill="#1A1612"/>
+                <circle cx="50" cy="74" r="6" fill="#D4AF37"/>
+            </svg>
+        </div>
+        
+        <!-- 云雾效果 -->
+        <div class="hero-mist"></div>
+        
+        <!-- 主内容 -->
+        <div class="hero-content">
+            <h1 class="hero-title-en">DAO Essence & Five Elements</h1>
+            <p class="hero-slogan">
+                Ancient Wisdom, Modern Harmony.<br>
+                Your Personalized Energy Ecosystem.
+            </p>
+            <div class="hero-buttons">
+                <a href="shop.html" class="hero-btn-primary">Explore Products</a>
+                <a href="#destiny-booking" class="hero-btn-secondary">Book Consultation</a>
+            </div>
+        </div>
+        
+        <!-- 滚动指示 -->
+        <div class="scroll-indicator">
+            <span></span>
+        </div>
+    </section>
+
+    <!-- 五行展示 -->
+    <section class="five-elements section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Five Elements Energy</h2>
+                <p class="subtitle">The Five Elements</p>
+                <p>Generation and restraint, all things follow the Dao. Understand the five elements and find the energy that resonates with your destiny.</p>
+            </div>
+            
+            <div class="elements-grid">
+                <div class="element-card wood scroll-animate" data-element="wood">
+                    <div class="icon">木</div>
+                    <h3>Wood</h3>
+                    <p class="name-en">Growth & Creation</p>
+                    <div class="traits">
+                        <span class="trait">Growth</span>
+                        <span class="trait">Creation</span>
+                        <span class="trait">Benevolence</span>
+                    </div>
+                </div>
+                
+                <div class="element-card fire scroll-animate" data-element="fire">
+                    <div class="icon">火</div>
+                    <h3>Fire</h3>
+                    <p class="name-en">Passion & Light</p>
+                    <div class="traits">
+                        <span class="trait">Passion</span>
+                        <span class="trait">Light</span>
+                        <span class="trait">Etiquette</span>
+                    </div>
+                </div>
+                
+                <div class="element-card earth scroll-animate" data-element="earth">
+                    <div class="icon">土</div>
+                    <h3>Earth</h3>
+                    <p class="name-en">Stability & Harmony</p>
+                    <div class="traits">
+                        <span class="trait">Stability</span>
+                        <span class="trait">Inclusiveness</span>
+                        <span class="trait">Integrity</span>
+                    </div>
+                </div>
+                
+                <div class="element-card metal scroll-animate" data-element="metal">
+                    <div class="icon">金</div>
+                    <h3>Metal</h3>
+                    <p class="name-en">Strength & Precision</p>
+                    <div class="traits">
+                        <span class="trait">Restraint</span>
+                        <span class="trait">Justice</span>
+                        <span class="trait">Righteousness</span>
+                    </div>
+                </div>
+                
+                <div class="element-card water scroll-animate" data-element="water">
+                    <div class="icon">水</div>
+                    <h3>Water</h3>
+                    <p class="name-en">Wisdom & Flow</p>
+                    <div class="traits">
+                        <span class="trait">Wisdom</span>
+                        <span class="trait">Flow</span>
+                        <span class="trait">Adaptability</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 核心价值 -->
+    <section class="values section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Core Values</h2>
+                <p class="subtitle">Our Core Values</p>
+            </div>
+            
+            <div class="grid grid-3">
+                <div class="value-card scroll-animate">
+                    <div class="value-icon">
+                        <!-- 山岳图案 - 象征正统源流 -->
+                        <svg viewBox="0 0 50 50">
+                            <polygon points="25,5 42,40 8,40"/>
+                        </svg>
+                    </div>
+                    <h3>Authentic Lineage</h3>
+                    <p>Partnered with famous Taoist temples. All talismans and ritual items are handcrafted by ordained Taoist priests, preserving authentic Taoist traditions.</p>
+                </div>
+                
+                <div class="value-card scroll-animate">
+                    <div class="value-icon">
+                        <!-- 太极图案 - 象征能量流转 -->
+                        <svg viewBox="0 0 50 50">
+                            <circle cx="25" cy="25" r="17" opacity="0.3"/>
+                            <path d="M25 8 A17 17 0 0 1 25 42 A8.5 8.5 0 0 1 25 25 A8.5 8.5 0 0 0 25 8"/>
+                            <circle cx="25" cy="16.5" r="3"/>
+                            <circle cx="25" cy="33.5" r="3"/>
+                        </svg>
+                    </div>
+                    <h3>Energy Preparation</h3>
+                    <p>Every item comes with complete energy preparation records - from material selection to consecration and activation. Fully traceable and verifiable.</p>
+                </div>
+                
+                <div class="value-card scroll-animate">
+                    <div class="value-icon">
+                        <!-- 乾坤图案 - 象征科学智慧 -->
+                        <svg viewBox="0 0 50 50">
+                            <circle cx="25" cy="25" r="17" opacity="0.3"/>
+                            <circle cx="25" cy="25" r="12"/>
+                        </svg>
+                    </div>
+                    <h3>Scientific Narrative</h3>
+                    <p>Interpreting traditional wisdom through modern scientific perspectives like quantum physics and environmental psychology, making Eastern mysticism accessible.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 热门商品 -->
+    <section class="products section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Featured Products</h2>
+                <p class="subtitle">Featured Products</p>
+            </div>
+            
+            <div class="grid grid-4">
+                <div class="product-card scroll-animate">
+                    <div class="product-image">
+                        <img src="images/ee9f06067bcdc66babb7cc1dfbc9d59ecef3fe912a602-hYOU5Z_fw1200webp.webp" alt="Tai Sui Talisman">
+                        <div class="product-element">
+                            <span class="element-badge element-fire">Fire</span>
+                        </div>
+                    </div>
+                    <div class="product-content">
+                        <p class="product-category">Talismans</p>
+                        <h3 class="product-name">Tai Sui Talisman</h3>
+                        <p class="product-desc">Dragon Year protection talisman, hand-painted and consecrated by Taoist master</p>
+                        <div class="product-footer">
+                            <span class="product-price">¥128</span>
+                            <button class="product-btn">View Details</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card scroll-animate">
+                    <div class="product-image">
+                        <img src="images/5c9b913900c6b04c7d5feeeba36403b233e42e895de36-P0zmjC_fw1200webp.webp" alt="Obsidian Bracelet">
+                        <div class="product-element">
+                            <span class="element-badge element-water">Water</span>
+                        </div>
+                    </div>
+                    <div class="product-content">
+                        <p class="product-category">Crystals</p>
+                        <h3 class="product-name">Obsidian Bracelet</h3>
+                        <p class="product-desc">Natural obsidian, water element energy purification</p>
+                        <div class="product-footer">
+                            <span class="product-price">¥88</span>
+                            <button class="product-btn">View Details</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card scroll-animate">
+                    <div class="product-image">
+                        <img src="images/efd651724cd482a4d5c81552b23cb20253ea84311d64e5-9twrMQ_fw1200webp.webp" alt="Wenchang Incense">
+                        <div class="product-element">
+                            <span class="element-badge element-wood">Wood</span>
+                        </div>
+                    </div>
+                    <div class="product-content">
+                        <p class="product-category">Incense</p>
+                        <h3 class="product-name">Natural Agarwood</h3>
+                        <p class="product-desc">Enhance academic and career success, improve concentration</p>
+                        <div class="product-footer">
+                            <span class="product-price">¥68</span>
+                            <button class="product-btn">View Details</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card scroll-animate">
+                    <div class="product-image">
+                        <img src="images/08d5a4d436cd88b784060136ffdf1dde4be269a93235b-haaswB_fw1200webp.webp" alt="Lightning Strike Wood">
+                        <div class="product-element">
+                            <span class="element-badge element-earth">Custom</span>
+                        </div>
+                    </div>
+                    <div class="product-content">
+                        <p class="product-category">Ritual Items</p>
+                        <h3 class="product-name">Lightning Strike Wood</h3>
+                        <p class="product-desc">Divine wood struck by lightning, containing heavenly energy for protection</p>
+                        <div class="product-footer">
+                            <span class="product-price">¥388+</span>
+                            <button class="product-btn">Customize Now</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-3">
+                <a href="shop.html" class="btn btn-primary btn-lg">Browse All Products →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 能量定制服务 -->
+    <section class="destiny-booking section" id="destiny-booking">
+        <div class="container">
+            <div class="section-header">
+                <h2>Personalized Energy Service</h2>
+                <p class="subtitle">Customized Energy Items</p>
+                <p>Professional destiny analysis, recommending the most suitable energy items for you</p>
+            </div>
+
+            <div class="destiny-services">
+                <div class="destiny-service-card scroll-animate">
+                    <h3>Destiny Energy Analysis</h3>
+                    <p>Analyze your five elements energy, recommend items that best suit your destiny</p>
+                    <div class="service-price">¥588</div>
+                    <button class="service-book-btn" onclick="openBookingModal('Destiny Energy Analysis', 588)">Book Now</button>
+                </div>
+
+                <div class="destiny-service-card scroll-animate">
+                    <h3>Fortune Energy Customization</h3>
+                    <p>Customize lucky items based on your annual fortune</p>
+                    <div class="service-price">¥388</div>
+                    <button class="service-book-btn" onclick="openBookingModal('Fortune Energy Customization', 388)">Book Now</button>
+                </div>
+
+                <div class="destiny-service-card scroll-animate">
+                    <h3>Love Energy Matching</h3>
+                    <p>Analyze compatibility, recommend items to enhance relationships</p>
+                    <div class="service-price">¥688</div>
+                    <button class="service-book-btn" onclick="openBookingModal('Love Energy Matching', 688)">Book Now</button>
+                </div>
+
+                <div class="destiny-service-card scroll-animate">
+                    <h3>Wealth Energy Customization</h3>
+                    <p>Analyze your wealth energy, recommend prosperity items</p>
+                    <div class="service-price">¥888</div>
+                    <button class="service-book-btn" onclick="openBookingModal('Wealth Energy Customization', 888)">Book Now</button>
+                </div>
+            </div>
+
+            <div class="destiny-note">
+                <p>📌 Process: Book Consultation → Energy Analysis → Item Recommendation → Consecration → Delivery</p>
+                <p>🔮 Each recommended item undergoes personalized consecration to ensure energy alignment</p>
+                <p>📞 WeChat: DaoEssence | Hotline: 400-888-8888</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 预约弹窗 -->
+    <div class="booking-modal" id="bookingModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeBookingModal()">×</button>
+            <h3>Book Destiny Service</h3>
+            <p class="modal-service-name"><span>Service:</span> <span id="serviceName"></span></p>
+            <p class="modal-service-price"><span>Price:</span> <span id="servicePrice"></span></p>
+            
+            <form id="bookingForm" class="booking-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" name="name" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Gender</label>
+                        <select name="gender" required>
+                            <option value="">Please Select</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Birth Date (Gregorian)</label>
+                        <input type="date" name="birthdate" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Birth Hour</label>
+                        <select name="birthtime" required>
+                            <option value="">Please Select</option>
+                            <option value="zi">Zi Hour (23:00-01:00)</option>
+                            <option value="chou">Chou Hour (01:00-03:00)</option>
+                            <option value="yin">Yin Hour (03:00-05:00)</option>
+                            <option value="mao">Mao Hour (05:00-07:00)</option>
+                            <option value="chen">Chen Hour (07:00-09:00)</option>
+                            <option value="si">Si Hour (09:00-11:00)</option>
+                            <option value="wu">Wu Hour (11:00-13:00)</option>
+                            <option value="wei">Wei Hour (13:00-15:00)</option>
+                            <option value="shen">Shen Hour (15:00-17:00)</option>
+                            <option value="you">You Hour (17:00-19:00)</option>
+                            <option value="xu">Xu Hour (19:00-21:00)</option>
+                            <option value="hai">Hai Hour (21:00-23:00)</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <input type="tel" name="phone" placeholder="Your Phone Number" required>
+                    </div>
+                    <div class="form-group">
+                        <label>WeChat ID</label>
+                        <input type="text" name="wechat" placeholder="Your WeChat ID">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Questions (Optional)</label>
+                    <textarea name="question" placeholder="Please describe your questions..."></textarea>
+                </div>
+                
+                <button type="submit" class="submit-booking-btn">Confirm Booking</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 客户见证 -->
+    <section class="testimonials section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Client Testimonials</h2>
+                <p class="subtitle">Testimonials</p>
+            </div>
+            
+            <div class="grid grid-3">
+                <div class="testimonial-card scroll-animate">
+                    <p class="testimonial-text">
+                        After wearing the obsidian bracelet for three months, I feel much calmer. Amazingly, my long-term insomnia has improved.
+                    </p>
+                    <div class="testimonial-author">
+                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=60&h=60&fit=crop" alt="Sarah" class="testimonial-avatar">
+                        <div>
+                            <p class="testimonial-name">Sarah M.</p>
+                            <p class="testimonial-title">New York · Designer</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card scroll-animate">
+                    <p class="testimonial-text">
+                        The master's BaZi analysis was very professional, giving me a clearer understanding of my personality and career direction. The recommended Wenchang incense has indeed improved my work efficiency.
+                    </p>
+                    <div class="testimonial-author">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=60&h=60&fit=crop" alt="Michael" class="testimonial-avatar">
+                        <div>
+                            <p class="testimonial-name">Michael C.</p>
+                            <p class="testimonial-title">London · Financial Analyst</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card scroll-animate">
+                    <p class="testimonial-text">
+                        The Tai Sui talisman came in beautiful packaging with detailed energy preparation logs and consecration videos, giving me a deeper understanding and trust in traditional Taoist culture.
+                    </p>
+                    <div class="testimonial-author">
+                        <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=60&h=60&fit=crop" alt="Emma" class="testimonial-avatar">
+                        <div>
+                            <p class="testimonial-name">Emma L.</p>
+                            <p class="testimonial-title">Vancouver · Teacher</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <span class="logo-en">DAO ESSENCE</span>
+                    </div>
+                    <p>Ancient Wisdom, Modern Harmony. Based on authentic Taoist traditions, we offer verifiable traditional cultural products and services with genuine energy properties.</p>
+                </div>
+                <div>
+                    <h4 class="footer-title">Navigation</h4>
+                    <ul class="footer-links">
+                        <li><a href="culture.html">Energy Universe</a></li>
+                        <li><a href="shop.html">Energy Shop</a></li>
+                        <li><a href="#destiny-booking">Destiny Consulting</a></li>
+                        <li><a href="guide.html">Energy Guide</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-title">Services</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">BaZi Analysis</a></li>
+                        <li><a href="#">Annual Fortune</a></li>
+                        <li><a href="#">Personal Consultation</a></li>
+                        <li><a href="#">Custom Items</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-title">Contact</h4>
+                    <ul class="footer-links">
+                        <li>📧 hello@daoessence.com</li>
+                        <li>💬 WhatsApp: +1 (555) 123-4567</li>
+                        <li>🕐 Service Hours: Beijing Time 9:00-21:00</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2024 DAO Essence & Five Elements. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 立即清除语言相关的存储，防止语言切换
+            // 清除可能的语言设置
+            localStorage.removeItem('language');
+            localStorage.removeItem('lang');
+            localStorage.removeItem('preferredLanguage');
+            localStorage.removeItem('userLanguage');
+            
+            // 检查并清除所有包含语言设置的key
+            for (let i = localStorage.length - 1; i >= 0; i--) {
+                const key = localStorage.key(i);
+                if (key && (key.toLowerCase().includes('lang') || key.toLowerCase().includes('language'))) {
+                    localStorage.removeItem(key);
+                }
+            }
+            
+            // 同样处理sessionStorage
+            sessionStorage.removeItem('language');
+            sessionStorage.removeItem('lang');
+            sessionStorage.clear();
+        })();
+    </script>
+    <script src="main.js?v=202603131700"></script>
+    <script>
+        // 预约弹窗功能
+        function openBookingModal(serviceName, servicePrice) {
+            document.getElementById('serviceName').textContent = serviceName;
+            document.getElementById('servicePrice').textContent = '¥' + servicePrice;
+            document.getElementById('bookingModal').classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeBookingModal() {
+            document.getElementById('bookingModal').classList.remove('show');
+            document.body.style.overflow = '';
+        }
+        
+        // 点击遮罩关闭
+        document.getElementById('bookingModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeBookingModal();
+            }
+        });
+        
+        // 表单提交
+        document.getElementById('bookingForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const serviceName = document.getElementById('serviceName').textContent;
+            alert('预约成功！\n\n服务项目：' + serviceName + '\n\n客服将在24小时内与您联系，请保持电话畅通。');
+            closeBookingModal();
+            this.reset();
+        });
+    </script>
+</body>
+</html>

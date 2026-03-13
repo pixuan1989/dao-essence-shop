@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Energy Universe - DAO Essence</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Energy Universe page styles */
+        .culture-hero {
+            height: 65vh;
+            min-height: 520px;
+            background:
+                linear-gradient(180deg,
+                    rgba(15, 25, 22, 0.75) 0%,
+                    rgba(18, 30, 26, 0.7) 50%,
+                    rgba(12, 22, 18, 0.85) 100%
+                ),
+                url('images/cdbc3b281648ab285bde9a54954e2eaf6c148a3a1322a9-ReITNc.jfif') center/cover no-repeat;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .culture-hero-content {
+            text-align: center;
+            z-index: 3;
+            padding: 0 2rem;
+        }
+
+        /* 主标题 */
+        .culture-hero h1 {
+            font-family: var(--font-display);
+            font-size: clamp(2.8rem, 7vw, 4.5rem);
+            margin-bottom: 1rem;
+            color: #F5F0E6;
+            letter-spacing: 0.2em;
+            text-shadow: 0 2px 30px rgba(201, 169, 97, 0.3);
+        }
+
+        /* 副标题 */
+        .culture-hero .subtitle {
+            font-family: var(--font-english);
+            font-size: 0.95rem;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: #C9A961;
+            margin-bottom: 1.5rem;
+        }
+
+        /* 描述文字 */
+        .culture-hero p {
+            font-size: 1.1rem;
+            color: rgba(245, 240, 230, 0.85);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 2;
+        }
+
+        /* 五行圆形布局 */
+        .wuxing-circle-container {
+            display: flex;
+            justify-content: center;
+            padding: 2rem 0;
+        }
+
+        .wuxing-circle {
+            width: min(400px, 90vw);
+            height: min(400px, 90vw);
+            position: relative;
+        }
+
+        .wuxing-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .wuxing-center .taiji {
+            font-size: 4rem;
+            color: var(--accent-color);
+            animation: rotate 30s linear infinite;
+            text-shadow: 0 0 30px rgba(212, 175, 55, 0.5);
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .wuxing-node {
+            position: absolute;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .wuxing-node:hover {
+            transform: scale(1.15);
+            box-shadow: 0 0 40px currentColor;
+        }
+
+        .wuxing-node .node-char {
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            color: white;
+            font-weight: 600;
+        }
+
+        .wuxing-node.wood {
+            background: linear-gradient(135deg, var(--wood-primary), var(--wood-light));
+            top: 5%;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 20px rgba(76, 175, 80, 0.4);
+        }
+
+        .wuxing-node.fire {
+            background: linear-gradient(135deg, var(--fire-primary), var(--fire-light));
+            top: 30%;
+            right: 5%;
+            box-shadow: 0 0 20px rgba(244, 67, 54, 0.4);
+        }
+
+        .wuxing-node.earth {
+            background: linear-gradient(135deg, var(--earth-primary), var(--earth-light));
+            bottom: 10%;
+            right: 20%;
+            box-shadow: 0 0 20px rgba(255, 193, 7, 0.4);
+        }
+
+        .wuxing-node.metal {
+            background: linear-gradient(135deg, var(--metal-primary), var(--metal-light));
+            bottom: 10%;
+            left: 20%;
+            box-shadow: 0 0 20px rgba(158, 158, 158, 0.4);
+        }
+
+        .wuxing-node.water {
+            background: linear-gradient(135deg, var(--water-primary), var(--water-light));
+            top: 30%;
+            left: 5%;
+            box-shadow: 0 0 20px rgba(33, 150, 243, 0.4);
+        }
+
+        .wuxing-lines {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+        }
+
+        .sheng-line {
+            fill: none;
+            stroke: rgba(212, 175, 55, 0.3);
+            stroke-width: 1.5;
+            stroke-dasharray: 8, 4;
+        }
+
+        .ke-line {
+            fill: none;
+            stroke: rgba(212, 175, 55, 0.15);
+            stroke-width: 1;
+        }
+
+        .wuxing-motto {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .wuxing-motto p {
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            letter-spacing: 0.15em;
+            margin-bottom: 0.5rem;
+        }
+
+        /* 内容区域 */
+        .culture-section {
+            padding: 5rem 5%;
+            background: var(--bg-primary);
+        }
+
+        .culture-section:nth-child(even) {
+            background: var(--bg-secondary);
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 3rem;
+        }
+
+        .section-header h2 {
+            font-family: var(--font-display);
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.1em;
+        }
+
+        .section-header .subtitle {
+            font-family: var(--font-english);
+            font-size: 0.9rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--text-light);
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        /* 能量产品品类 */
+        .category-showcase {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .category-card {
+            background: var(--bg-primary);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            transition: all 0.3s;
+        }
+
+        .category-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(212, 175, 55, 0.15);
+            border-color: var(--accent-color);
+        }
+
+        .category-header {
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .category-card.fulu .category-header { background: linear-gradient(135deg, #2d2d2d, #1a1a1a); }
+        .category-card.crystal .category-header { background: linear-gradient(135deg, #4a3a6a, #2a1a4a); }
+        .category-card.incense .category-header { background: linear-gradient(135deg, #3a4a3a, #1a2a1a); }
+        .category-card.thunderwood .category-header { background: linear-gradient(135deg, #4a3a2a, #2a1a0a); }
+
+        .category-icon {
+            font-size: 5rem;
+            font-family: var(--font-display);
+            color: var(--accent-color);
+            text-shadow: 0 0 40px rgba(212, 175, 55, 0.5);
+            position: relative;
+            z-index: 2;
+        }
+
+        .category-body {
+            padding: 2rem;
+        }
+
+        .category-body h3 {
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .category-body .en-title {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+        }
+
+        .category-body .desc {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .category-effects {
+            margin-bottom: 1.5rem;
+        }
+
+        .category-effects h4 {
+            font-size: 0.9rem;
+            color: var(--accent-color);
+            margin-bottom: 0.8rem;
+        }
+
+        .effect-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .effect-tag {
+            font-size: 0.8rem;
+            padding: 0.4rem 0.8rem;
+            background: rgba(212, 175, 55, 0.1);
+            border-radius: 20px;
+            color: var(--text-secondary);
+        }
+
+        .category-process {
+            padding: 1.5rem;
+            background: rgba(212, 175, 55, 0.03);
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+        }
+
+        .category-process h4 {
+            font-size: 0.9rem;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .process-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .process-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.8rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .process-step .step-num {
+            width: 20px;
+            height: 20px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            color: var(--bg-dark);
+            flex-shrink: 0;
+        }
+
+        .category-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.5rem;
+            background: transparent;
+            border: 1px solid var(--accent-color);
+            color: var(--accent-color);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .category-link:hover {
+            background: var(--accent-color);
+            color: var(--bg-dark);
+        }
+
+        .category-link::after {
+            content: '→';
+            transition: transform 0.3s;
+        }
+
+        .category-link:hover::after {
+            transform: translateX(5px);
+        }
+
+        /* 风水知识 */
+        .fengshui-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .fengshui-card {
+            padding: 2rem;
+            background: var(--bg-primary);
+            border-radius: 12px;
+            border-left: 4px solid var(--accent-color);
+            transition: all 0.3s;
+        }
+
+        .fengshui-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .fengshui-card h3 {
+            font-size: 1.2rem;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .fengshui-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .fengshui-card li {
+            padding: 0.6rem 0;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .fengshui-card li:last-child {
+            border-bottom: none;
+        }
+
+        .fengshui-card li strong {
+            color: var(--text-primary);
+        }
+
+        /* 响应式 */
+        @media (max-width: 1024px) {
+            .category-showcase {
+                grid-template-columns: 1fr;
+                max-width: 700px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .wuxing-circle {
+                width: min(300px, 85vw);
+                height: min(300px, 85vw);
+            }
+
+            .wuxing-node {
+                width: 55px;
+                height: 55px;
+            }
+
+            .wuxing-node .node-char {
+                font-size: 1.4rem;
+            }
+
+            .wuxing-center .taiji {
+                font-size: 3rem;
+            }
+
+            .wuxing-motto p {
+                font-size: 0.95rem;
+            }
+
+            .fengshui-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .wuxing-circle {
+                width: min(260px, 90vw);
+                height: min(260px, 90vw);
+            }
+
+            .wuxing-node {
+                width: 45px;
+                height: 45px;
+            }
+
+            .wuxing-node .node-char {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">☯</span>
+                <span class="logo-text">DAO ESSENCE</span>
+            </a>
+            <button class="mobile-menu-btn">☰</button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="culture.html" class="active">Energy Universe</a></li>
+                <li><a href="shop.html">Energy Shop</a></li>
+                <li><a href="guide.html">Energy Guide</a></li>
+                <li><a href="about.html">About Us</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 英雄区域 -->
+    <section class="culture-hero">
+        <div class="culture-hero-content">
+            <p class="subtitle">Energy Universe</p>
+            <h1>Energy Universe</h1>
+            <p>Explore the source of Eastern mystical wisdom and reveal the universal laws of heaven and earth.</p>
+        </div>
+    </section>
+
+    <!-- 五行学说 -->
+    <section class="culture-section">
+        <div class="section-header">
+            <p class="subtitle">Five Elements</p>
+            <h2>Five Elements Theory</h2>
+            <p>All things in heaven and earth are composed of five basic elements: Wood, Fire, Earth, Metal, and Water. They generate and control each other in endless cycles.</p>
+        </div>
+
+        <div class="wuxing-circle-container">
+            <div class="wuxing-circle">
+                <div class="wuxing-center">
+                    <span class="taiji">☯</span>
+                </div>
+                <div class="wuxing-node wood">
+                    <span class="node-char">Wood</span>
+                </div>
+                <div class="wuxing-node fire">
+                    <span class="node-char">Fire</span>
+                </div>
+                <div class="wuxing-node earth">
+                    <span class="node-char">Earth</span>
+                </div>
+                <div class="wuxing-node metal">
+                    <span class="node-char">Metal</span>
+                </div>
+                <div class="wuxing-node water">
+                    <span class="node-char">Water</span>
+                </div>
+                <svg class="wuxing-lines" viewBox="0 0 400 400">
+                    <!-- 相生线 -->
+                    <path class="sheng-line" d="M200,60 Q300,120 300,200" />
+                    <path class="sheng-line" d="M300,200 Q280,320 200,340" />
+                    <path class="sheng-line" d="M200,340 Q100,300 100,260" />
+                    <path class="sheng-line" d="M100,260 Q80,160 100,120" />
+                    <path class="sheng-line" d="M100,120 Q140,60 200,60" />
+                    <!-- 相克线 -->
+                    <path class="ke-line" d="M200,60 L100,260" />
+                    <path class="ke-line" d="M300,120 L200,340" />
+                    <path class="ke-line" d="M100,120 L300,200" />
+                    <path class="ke-line" d="M200,60 L300,200" />
+                    <path class="ke-line" d="M100,260 L300,120" />
+                </svg>
+            </div>
+        </div>
+
+        <div class="wuxing-motto">
+            <p>Wood generates Fire, Fire generates Earth, Earth generates Metal, Metal generates Water, Water generates Wood</p>
+            <p>Wood controls Earth, Earth controls Water, Water controls Fire, Fire controls Metal, Metal controls Wood</p>
+        </div>
+    </section>
+
+    <!-- 能量产品 -->
+    <section class="culture-section">
+        <div class="section-header">
+            <p class="subtitle">Energy Products</p>
+            <h2>Energy Products</h2>
+            <p>Each product embodies millennia of Eastern wisdom, consecrated by authentic Taoist masters, carrying the energy of heaven and earth to bless all beings.</p>
+        </div>
+
+        <div class="category-showcase">
+            <!-- 符箓 -->
+            <div class="category-card fulu">
+                <div class="category-header">
+                    <span class="category-icon">符</span>
+                </div>
+                <div class="category-body">
+                    <h3>Taoist Talismans</h3>
+                    <p class="en-title">Taoist Talismans</p>
+                    <p class="desc">Talismans are important carriers of Taoist magic, composed of symbols, incantations, and seals. Each talisman embodies millennia of cultivation wisdom and contains specific energy frequencies to bring protection, wealth, and resolution.</p>
+                    
+                    <div class="category-effects">
+                        <h4>✨ Primary Effects</h4>
+                        <div class="effect-tags">
+                            <span class="effect-tag">Tai Sui Resolution</span>
+                            <span class="effect-tag">Wealth Attraction</span>
+                            <span class="effect-tag">Protection</span>
+                            <span class="effect-tag">Academic Success</span>
+                            <span class="effect-tag">Love & Romance</span>
+                            <span class="effect-tag">Health & Healing</span>
+                        </div>
+                    </div>
+
+                    <div class="category-process">
+                        <h4>⚒ Crafting Process</h4>
+                        <div class="process-steps">
+                            <div class="process-step">
+                                <span class="step-num">1</span>
+                                <span>Date Selection & Purification - Master bathes and purifies, burns incense to calm the mind</span>
+                            </div>
+                            <div class="process-step">
+                                <span class="step-num">2</span>
+                                <span>Material Selection - Natural cinnabar, yellow paper, pine soot ink</span>
+                            </div>
+                            <div class="process-step">
+                                <span class="step-num">3</span>
+                                <span>Altar Setup - Establish altar and invite deities for blessing</span>
+                            </div>
+                            <div class="process-step">
+                                <span class="step-num">4</span>
+                                <span>Symbol Drawing - Completed in one breath, brush dancing like dragons</span>
+                            </div>
+                            <div class="process-step">
+                                <span class="step-num">5</span>
+                                <span>Consecration - Chanting 49 times to infuse energy</span>
+                            </div>
+                            <div class="process-step">
+                                <span class="step-num">6</span>
+                                <span>Sealing & Delivery - Apply seal, wrap in red cloth</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="shop.html?category=fulu" class="category-link">View Talisman Series</a>
+                </div>
+            </div>
+
+            <!-- 水晶手串 -->
+            <div class="category-card crystal">
+                <div class="category-header">
+                    <span class="category-icon">晶</span>
+                </div>
+                <div class="category-body">
+                    <h3>Crystal Bracelets</h3>
+                    <p class="en-title">Crystal Bracelets</p>
+                    <p class="desc">Natural crystals contain energy accumulated over millions of years. Different types correspond to different five-element attributes. Consecrated and purified by Taoist masters, negative energy is cleared and the crystal's original magnetic field is activated.</p>
+                    
+                    <div class="category-effects">
+                        <h4>✨ Primary Effects</h4>
+                        <div class="effect-tags">
+                            <span class="effect-tag">Wealth Gathering</span>
+                            <span class="effect-tag">Evil Protection</span>
+                            <span class="effect-tag">Mind-Body Balance</span>
+                            <span class="effect-tag">Fortune Enhancement</span>
+                            <span class="effect-tag">Calming & Focusing</span>
+                            <span class="effect-tag">Beauty & Wellness</span>
+                        </div>
+                    </div>
+
+                    <div class="category-process">
+                        <h4>⚒ Crafting Process</h4>
+                        <div class="process-steps">
+                            <div class="process-step">
+                                <span class="step-num">1</span>
+                                <span>Stone Selection - Natural crystals from Brazil and Uruguay</span>
+                            </div>
+                            <div class="process-step">
+                                <span class="step-num">2</span>
+                                <span>Hand Polishing - Traditional craftsmanship preserving original energy</span>
+                            </div>
+                            <div class="process-step">
+                                <span class="step-num">3</span>
+                                <span>Bead Stringing - Arranged by five-element attributes</span>
+                            </div>
+                            <div class="process-step">
+                                <span class="step-num">4</span>
+                                <span>Purification - Cleansed under moonlight for three days and nights</span>
+                            </div>
+                            <div class="process-step">
+                                <span class="step-num">5</span>
+                                <span>Consecration - Master infuses positive energy magnetic field</span>
+                            </div>
+                            <div class="process-step">
+                                <span class="step-num">6</span>
+                                <span>Gift Packaging - Silk box with authentication certificate</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="shop.html?category=crystal" class="category-link">View Crystal Series</a>
+                </div>
+            </div>
+
+            <!-- 安神香 -->
+            <div class="category-card incense">
+                <div class="category-header">
+                    <span class="category-icon">香</span>
+                </div>
+                <div class="category-body">
+                    <h3>Sacred Incense</h3>
+                    <p class="en-title">Sacred Incense</p>
+                    <p class="desc">Inheriting ancient incense-making techniques, selecting natural fragrant materials according to Taoist secret formulas. When lit, the fragrance wafts to purify space, calm the mind, and connect with heaven and earth energy.</p>
+                    
+                    <div class="category-effects">
+                        <h4>✨ Primary Effects</h4>
+                        <div class="effect-tags">
+                            <span class="effect-tag">Space Purification</span>
+                            <span class="effect-tag">Sleep Aid</span>
+                            <span class="effect-tag">Meditation</span>
+                            <span class="effect-tag">Evil Dispelling</span>
+                            <span class="effect-tag">Focus Enhancement</span>
+                            <span class="effect-tag">Blessings</span>
+                        </div>
+                    </div>
+
+                    <div class="category-process">
+                        <h4>⚒ Crafting Process</h4>
+                        <div class="process-steps">
+                            <div class="process-step">
+                                <span class="step-num">1</span>
+                                <span>Material Selection - Agarwood, sandalwood, cypress and other natural fragrances</span>
+                            </div>
+                            <div class="process-step">
+                                <span class="step-num">2</span>
+                                <span>Ancient Processing - Nine steamings and nine sun-dryings per secret formula</span>
+                            </div>
+                            <div class="process-step">
+                                <span class="step-num">3</span>
+                                <span>Grinding & Blending - Precise formulation by five-element attributes</span>
+                            </div>
+                            <div class="process-step">
+                                <span class="step-num">4</span>
+                                <span>Hand Rolling - Making stick, coil, and cone incense</span>
+                            </div>
+                            <div class="process-step">
+                                <span class="step-num">5</span>
+                                <span>Drying & Aging - Natural drying, cellar aging for three months</span>
+                            </div>
+                            <div class="process-step">
+                                <span class="step-num">6</span>
+                                <span>Consecration - Master blesses and infuses positive energy</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="shop.html?category=incense" class="category-link">View Incense Series</a>
+                </div>
+            </div>
+
+            <!-- 雷击木 -->
+            <div class="category-card thunderwood">
+                <div class="category-header">
+                    <span class="category-icon">木</span>
+                </div>
+                <div class="category-body">
+                    <h3>Thunderstruck Wood</h3>
+                    <p class="en-title">Thunderstruck Wood</p>
+                    <p class="desc">Thunderstruck wood is struck by heavenly lightning, containing the power of the Thunder God, extremely yang and powerful. Taoism believes thunderstruck wood has powerful effects for protection, home guarding, and evil dispelling, making it extremely precious ritual material.</p>
+                    
+                    <div class="category-effects">
+                        <h4>✨ Primary Effects</h4>
+                        <div class="effect-tags">
+                            <span class="effect-tag">Home Protection</span>
+                            <span class="effect-tag">Disaster Prevention</span>
+                            <span class="effect-tag">Personal Safety</span>
+                            <span class="effect-tag">Yang Energy Boost</span>
+                            <span class="effect-tag">Evil Removal</span>
+                            <span class="effect-tag">Wealth & Blessings</span>
+                        </div>
+                    </div>
+
+                    <div class="category-process">
+                        <h4>⚒ Crafting Process</h4>
+                        <div class="process-steps">
+                            <div class="process-step">
+                                <span class="step-num">1</span>
+                                <span>Source Hunting - Searching famous mountains for authentic thunderstruck wood</span>
+                            </div>
+                            <div class="process-step">
+                                <span class="step-num">2</span>
+                                <span>Authentication - Examining lightning marks, grain patterns, and energy</span>
+                            </div>
+                            <div class="process-step">
+                                <span class="step-num">3</span>
+                                <span>Custom Carving - Sculpting deities and ritual items based on wood form</span>
+                            </div>
+                            <div class="process-step">
+                                <span class="step-num">4</span>
+                                <span>Polishing - Preserving lightning marks while hand polishing</span>
+                            </div>
+                            <div class="process-step">
+                                <span class="step-num">5</span>
+                                <span>Ritual Consecration - Master consecrates for 49 days</span>
+                            </div>
+                            <div class="process-step">
+                                <span class="step-num">6</span>
+                                <span>Certification - Including thunderstruck wood authentication certificate</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="shop.html?category=thunderwood" class="category-link">View Thunderstruck Wood Series</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 风水百科 -->
+    <section class="culture-section">
+        <div class="section-header">
+            <p class="subtitle">Feng Shui</p>
+            <h2>Feng Shui Encyclopedia</h2>
+            <p>Feng Shui is ancient wisdom studying the relationship between environment and people. By adjusting the energy flow of living spaces, it achieves harmony between heaven and humanity, attracting good fortune and avoiding misfortune.</p>
+        </div>
+
+        <div class="fengshui-grid">
+            <div class="fengshui-card">
+                <h3>🏠 Home Feng Shui</h3>
+                <ul>
+                    <li><strong>Entrance:</strong> <span>Should be bright and tidy, place plants to welcome good luck</span></li>
+                    <li><strong>Living Room:</strong> <span>Sofa should back solid wall, round coffee table preferred</span></li>
+                    <li><strong>Bedroom:</strong> <span>Headboard shouldn't face door, mirror shouldn't face bed</span></li>
+                    <li><strong>Kitchen:</strong> <span>Stove shouldn't face door or sink, avoid water-fire conflict</span></li>
+                </ul>
+            </div>
+            <div class="fengshui-card">
+                <h3>💰 Wealth Feng Shui</h3>
+                <ul>
+                    <li><strong>Wealth Position:</strong> <span>Diagonal from entrance, place treasure bowl or Pixiu</span></li>
+                    <li><strong>Water Flow:</strong> <span>Aquarium water flows inward, symbolizing wealth entering</span></li>
+                    <li><strong>Plants:</strong> <span>Money tree and lucky bamboo enhance wealth energy</span></li>
+                    <li><strong>Lighting:</strong> <span>Keep wealth position bright, symbolizing prosperous fortune</span></li>
+                </ul>
+            </div>
+            <div class="fengshui-card">
+                <h3>⚡ Negative Energy Solutions</h3>
+                <ul>
+                    <li><strong>Door Facing Door:</strong> <span>Use screen or curtain to block, or hang five-emperor coins</span></li>
+                    <li><strong>Beam Overhead:</strong> <span>Install false ceiling or place gourd to resolve</span></li>
+                    <li><strong>Sharp Corners:</strong> <span>Use mirror reflection or plant blocking</span></li>
+                    <li><strong>Missing Corner:</strong> <span>Use Mount Tai stone or zodiac ornaments for remedy</span></li>
+                </ul>
+            </div>
+            <div class="fengshui-card">
+                <h3>💑 Love Feng Shui</h3>
+                <ul>
+                    <li><strong>Peach Blossom Position:</strong> <span>Find based on zodiac, place flowers or crystals</span></li>
+                    <li><strong>Bedroom Layout:</strong> <span>Headboard against solid wall, avoid beam overhead</span></li>
+                    <li><strong>Paired Items:</strong> <span>Place paired objects symbolizing harmonious relationships</span></li>
+                    <li><strong>Pink Tones:</strong> <span>Use pink appropriately in bedroom to enhance love luck</span></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>DAO ESSENCE</h4>
+                <p>Inheriting millennia of Taoist wisdom<br>Promoting Eastern mystic culture</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="culture.html">Energy Universe</a></li>
+                    <li><a href="shop.html">Energy Shop</a></li>
+                    <li><a href="index.html#destiny-booking">Destiny Consulting</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contact Us</h4>
+                <p>Email: contact@daoessence.com</p>
+                <p>WeChat: DaoEssence</p>
+            </div>
+            <div class="footer-section">
+                <h4>Follow Us</h4>
+                <div class="social-links">
+                    <a href="#">WeChat</a>
+                    <a href="#">Weibo</a>
+                    <a href="#">Xiaohongshu</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2024 DAO Essence. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
+    <script>
+        // 移动端菜单
+        document.querySelector('.mobile-menu-btn').addEventListener('click', () => {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+
+        // 滚动动画
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.wuxing-node, .category-card, .fengshui-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>

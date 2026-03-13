@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Destiny Consultation - DAO Essence</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* 命理页面专属样式 */
+        .destiny-hero {
+            height: 50vh;
+            background: linear-gradient(135deg, #0a0a1a 0%, #1a1a3a 50%, #0a0a1a 100%);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .destiny-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><circle cx="100" cy="100" r="80" fill="none" stroke="rgba(212,175,55,0.1)" stroke-width="0.5"/><circle cx="100" cy="100" r="60" fill="none" stroke="rgba(212,175,55,0.08)" stroke-width="0.5"/><circle cx="100" cy="100" r="40" fill="none" stroke="rgba(212,175,55,0.06)" stroke-width="0.5"/></svg>');
+            background-size: 300px;
+            animation: rotate 60s linear infinite;
+        }
+
+        .destiny-hero-content {
+            text-align: center;
+            z-index: 2;
+            color: var(--color-light);
+        }
+
+        .destiny-hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 30px rgba(212, 175, 55, 0.5);
+        }
+
+        .destiny-hero p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* 服务介绍 */
+        .services-section {
+            padding: 5rem 5%;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            font-size: 2.2rem;
+            color: var(--color-gold);
+            margin-bottom: 0.5rem;
+        }
+
+        .section-title p {
+            color: var(--color-light-dim);
+            font-size: 1.1rem;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-card {
+            background: var(--color-dark-accent);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(212, 175, 55, 0.15);
+            transition: all 0.3s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(212, 175, 55, 0.15);
+            border-color: var(--color-gold);
+        }
+
+        .service-header {
+            padding: 2rem;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), transparent);
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .service-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--color-gold), #8b6914);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+
+        .service-title h3 {
+            font-size: 1.4rem;
+            color: var(--color-light);
+            margin-bottom: 0.3rem;
+        }
+
+        .service-title span {
+            font-size: 1.5rem;
+            color: var(--color-gold);
+            font-weight: bold;
+        }
+
+        .service-content {
+            padding: 0 2rem 2rem;
+        }
+
+        .service-desc {
+            color: var(--color-light-dim);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .service-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .service-features span {
+            padding: 0.4rem 0.8rem;
+            background: rgba(212, 175, 55, 0.1);
+            border-radius: 4px;
+            font-size: 0.85rem;
+            color: var(--color-light-dim);
+        }
+
+        .service-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--color-gold), #8b6914);
+            border: none;
+            border-radius: 8px;
+            color: var(--color-dark);
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .service-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        /* 八字排盘表单 */
+        .bazi-form-section {
+            padding: 5rem 5%;
+            background: var(--color-dark-accent);
+        }
+
+        .bazi-form {
+            max-width: 700px;
+            margin: 0 auto;
+            background: var(--color-dark);
+            border-radius: 16px;
+            padding: 3rem;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            color: var(--color-light);
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 1rem;
+            background: var(--color-dark-accent);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 8px;
+            color: var(--color-light);
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--color-gold);
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .form-note {
+            text-align: center;
+            color: var(--color-light-dim);
+            font-size: 0.9rem;
+            margin-top: 1rem;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1.2rem;
+            background: linear-gradient(135deg, var(--color-gold), #8b6914);
+            border: none;
+            border-radius: 8px;
+            color: var(--color-dark);
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 1rem;
+        }
+
+        .submit-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 5px 20px rgba(212, 175, 55, 0.4);
+        }
+
+        /* 命理师团队 */
+        .masters-section {
+            padding: 5rem 5%;
+        }
+
+        .masters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .master-card {
+            background: var(--color-dark-accent);
+            border-radius: 12px;
+            text-align: center;
+            padding: 2rem;
+            border: 1px solid rgba(212, 175, 55, 0.15);
+            transition: all 0.3s;
+        }
+
+        .master-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--color-gold);
+        }
+
+        .master-avatar {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 1.5rem;
+            background: linear-gradient(135deg, var(--color-gold), #8b6914);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+
+        .master-name {
+            font-size: 1.3rem;
+            color: var(--color-light);
+            margin-bottom: 0.3rem;
+        }
+
+        .master-title {
+            color: var(--color-gold);
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+
+        .master-desc {
+            color: var(--color-light-dim);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .master-tags {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .master-tags span {
+            padding: 0.3rem 0.8rem;
+            background: rgba(212, 175, 55, 0.1);
+            border-radius: 4px;
+            font-size: 0.8rem;
+            color: var(--color-light-dim);
+        }
+
+        /* 客户评价 */
+        .testimonials-section {
+            padding: 5rem 5%;
+            background: var(--color-dark-accent);
+        }
+
+        .testimonials-slider {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .testimonial-card {
+            background: var(--color-dark);
+            border-radius: 12px;
+            padding: 2rem;
+            border: 1px solid rgba(212, 175, 55, 0.15);
+        }
+
+        .testimonial-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .testimonial-avatar {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--color-gold), #8b6914);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+        }
+
+        .testimonial-info h4 {
+            color: var(--color-light);
+            font-size: 1rem;
+        }
+
+        .testimonial-info span {
+            color: var(--color-light-dim);
+            font-size: 0.85rem;
+        }
+
+        .testimonial-text {
+            color: var(--color-light-dim);
+            line-height: 1.8;
+            font-style: italic;
+        }
+
+        .testimonial-rating {
+            color: var(--color-gold);
+            margin-top: 1rem;
+        }
+
+        /* FAQ */
+        .faq-section {
+            padding: 5rem 5%;
+        }
+
+        .faq-list {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: var(--color-dark-accent);
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            border: 1px solid rgba(212, 175, 55, 0.15);
+        }
+
+        .faq-question {
+            width: 100%;
+            padding: 1.5rem;
+            background: none;
+            border: none;
+            color: var(--color-light);
+            font-size: 1.1rem;
+            text-align: left;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s;
+        }
+
+        .faq-question:hover {
+            background: rgba(212, 175, 55, 0.05);
+        }
+
+        .faq-icon {
+            color: var(--color-gold);
+            font-size: 1.3rem;
+            transition: transform 0.3s;
+        }
+
+        .faq-item.active .faq-icon {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .faq-answer-content {
+            padding: 0 1.5rem 1.5rem;
+            color: var(--color-light-dim);
+            line-height: 1.8;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+        }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .destiny-hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .bazi-form {
+                padding: 1.5rem;
+            }
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">☯</span>
+                <span class="logo-text">DAO ESSENCE</span>
+            </a>
+            <button class="mobile-menu-btn">☰</button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="culture.html">Energy Universe</a></li>
+                <li><a href="shop.html">Energy Shop</a></li>
+                <li><a href="destiny.html" class="active">Destiny</a></li>
+                <li><a href="guide.html">Energy Guide</a></li>
+                <li><a href="about.html">About Us</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 英雄区域 -->
+    <section class="destiny-hero">
+        <div class="destiny-hero-content">
+            <h1>Destiny Consultation</h1>
+            <p>Unlock the mysteries of destiny. Master analysts interpret your BaZi, guide you through life, and help attract good fortune while avoiding misfortune.</p>
+        </div>
+    </section>
+
+    <!-- 服务项目 -->
+    <section class="services-section">
+        <div class="section-title">
+            <h2>Destiny Services</h2>
+            <p>The perfect blend of traditional destiny study and modern life</p>
+        </div>
+        <div class="services-grid">
+            <!-- 八字精批 -->
+            <div class="service-card">
+                <div class="service-header">
+                    <div class="service-icon">命</div>
+                    <div class="service-title">
+                        <h3>BaZi Analysis</h3>
+                        <span>¥588</span>
+                    </div>
+                </div>
+                <div class="service-content">
+                    <p class="service-desc">Based on your birth year, month, day, and hour, we analyze your BaZi chart in detail, including character analysis, Five Elements preferences, major and annual cycles, predicting career, wealth, marriage, and health fortunes.</p>
+                    <div class="service-features">
+                        <span>Character Analysis</span>
+                        <span>Five Elements</span>
+                        <span>Major Cycles</span>
+                        <span>Career & Wealth</span>
+                        <span>Marriage</span>
+                    </div>
+                    <button class="service-btn">Book Now</button>
+                </div>
+            </div>
+
+            <!-- 流年运势 -->
+            <div class="service-card">
+                <div class="service-header">
+                    <div class="service-icon">运</div>
+                    <div class="service-title">
+                        <h3>Annual Fortune</h3>
+                        <span>¥388</span>
+                    </div>
+                </div>
+                <div class="service-content">
+                    <p class="service-desc">Detailed calculation of your current year fortune, analyzing favorable/unfavorable directions, noble person luck, and precautions, providing practical advice for attracting good fortune and avoiding misfortune.</p>
+                    <div class="service-features">
+                        <span>Year Analysis</span>
+                        <span>Lucky Directions</span>
+                        <span>Noble Luck</span>
+                        <span>Precautions</span>
+                    </div>
+                    <button class="service-btn">Book Now</button>
+                </div>
+            </div>
+
+            <!-- 合婚配对 -->
+            <div class="service-card">
+                <div class="service-header">
+                    <div class="service-icon">缘</div>
+                    <div class="service-title">
+                        <h3>Marriage Matching</h3>
+                        <span>¥688</span>
+                    </div>
+                </div>
+                <div class="service-content">
+                    <p class="service-desc">Analyze marriage compatibility through both partners' BaZi, predict post-marriage life, identify potential issues, and provide improvement suggestions.</p>
+                    <div class="service-features">
+                        <span>BaZi Matching</span>
+                        <span>Marriage Prediction</span>
+                        <span>Relationship Trend</span>
+                        <span>Suggestions</span>
+                    </div>
+                    <button class="service-btn">Book Now</button>
+                </div>
+            </div>
+
+            <!-- 起名改名 -->
+            <div class="service-card">
+                <div class="service-header">
+                    <div class="service-icon">名</div>
+                    <div class="service-title">
+                        <h3>Name Selection</h3>
+                        <span>¥888</span>
+                    </div>
+                </div>
+                <div class="service-content">
+                    <p class="service-desc">Combining BaZi, Five Elements preferences, and Three Talents Five Grids, we select an auspicious name for you or your child to support a successful life.</p>
+                    <div class="service-features">
+                        <span>BaZi & Five Elements</span>
+                        <span>Three Talents</span>
+                        <span>Sound Analysis</span>
+                        <span>Meaning</span>
+                    </div>
+                    <button class="service-btn">Book Now</button>
+                </div>
+            </div>
+
+            <!-- 择日服务 -->
+            <div class="service-card">
+                <div class="service-header">
+                    <div class="service-icon">日</div>
+                    <div class="service-title">
+                        <h3>Date Selection</h3>
+                        <span>¥288</span>
+                    </div>
+                </div>
+                <div class="service-content">
+                    <p class="service-desc">Select auspicious dates for weddings, moving, business openings, ground-breaking, and other important events to ensure success.</p>
+                    <div class="service-features">
+                        <span>Wedding</span>
+                        <span>Moving</span>
+                        <span>Business</span>
+                        <span>Construction</span>
+                    </div>
+                    <button class="service-btn">Book Now</button>
+                </div>
+            </div>
+
+            <!-- 事业财运 -->
+            <div class="service-card">
+                <div class="service-header">
+                    <div class="service-icon">财</div>
+                    <div class="service-title">
+                        <h3>Career & Wealth</h3>
+                        <span>¥488</span>
+                    </div>
+                </div>
+                <div class="service-content">
+                    <p class="service-desc">Specialized analysis of career and wealth trends, guiding career development direction, investment timing, and wealth enhancement methods.</p>
+                    <div class="service-features">
+                        <span>Career Direction</span>
+                        <span>Wealth Analysis</span>
+                        <span>Investment Timing</span>
+                        <span>Enhancement</span>
+                    </div>
+                    <button class="service-btn">Book Now</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 八字排盘 -->
+    <section class="bazi-form-section">
+        <div class="section-title">
+            <h2>Online BaZi Chart</h2>
+            <p>Enter your birth information to get your BaZi chart instantly</p>
+        </div>
+        <div class="bazi-form">
+            <form id="baziForm">
+                <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" placeholder="Enter your name" required>
+                </div>
+                <div class="form-group">
+                    <label>Gender</label>
+                    <select required>
+                        <option value="">Select gender</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Birth Date (Solar)</label>
+                    <input type="date" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Birth Hour</label>
+                        <select required>
+                            <option value="">Select</option>
+                            <option value="zi">Zi (23:00-01:00)</option>
+                            <option value="chou">Chou (01:00-03:00)</option>
+                            <option value="yin">Yin (03:00-05:00)</option>
+                            <option value="mao">Mao (05:00-07:00)</option>
+                            <option value="chen">Chen (07:00-09:00)</option>
+                            <option value="si">Si (09:00-11:00)</option>
+                            <option value="wu">Wu (11:00-13:00)</option>
+                            <option value="wei">Wei (13:00-15:00)</option>
+                            <option value="shen">Shen (15:00-17:00)</option>
+                            <option value="you">You (17:00-19:00)</option>
+                            <option value="xu">Xu (19:00-21:00)</option>
+                            <option value="hai">Hai (21:00-23:00)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Birth Place</label>
+                        <input type="text" placeholder="City/Province">
+                    </div>
+                    <div class="form-group">
+                        <label>Contact</label>
+                        <input type="tel" placeholder="Phone number">
+                    </div>
+                </div>
+                <button type="submit" class="submit-btn">Free Chart</button>
+                <p class="form-note">* Free chart shows basic info only. Book a service for detailed analysis.</p>
+            </form>
+        </div>
+    </section>
+
+    <!-- 命理师团队 -->
+    <section class="masters-section">
+        <div class="section-title">
+            <h2>Master Team</h2>
+            <p>Expert destiny analysts carrying millennium wisdom</p>
+        </div>
+        <div class="masters-grid">
+            <div class="master-card">
+                <div class="master-avatar">玄</div>
+                <h3 class="master-name">Master Xuanzhen</h3>
+                <p class="master-title">Chief Analyst · Zhengyi Taoist Lineage</p>
+                <p class="master-desc">Over 30 years of practice, master of BaZi, Feng Shui, and Taoist rituals. Provided consulting services for numerous enterprises.</p>
+                <div class="master-tags">
+                    <span>BaZi</span>
+                    <span>Feng Shui</span>
+                    <span>Rituals</span>
+                </div>
+            </div>
+            <div class="master-card">
+                <div class="master-avatar">明</div>
+                <h3 class="master-name">Master Mingxin</h3>
+                <p class="master-title">Senior Analyst · I Ching Scholar</p>
+                <p class="master-desc">20 years of I Ching research, expert in BaZi, Zifu Dou Shu, and Nameology. Published multiple destiny analysis books.</p>
+                <div class="master-tags">
+                    <span>Zifu Dou Shu</span>
+                    <span>Nameology</span>
+                    <span>BaZi Analysis</span>
+                </div>
+            </div>
+            <div class="master-card">
+                <div class="master-avatar">静</div>
+                <h3 class="master-name">Master Jingyuan</h3>
+                <p class="master-title">Destiny Consultant · Quanzhen Longmen Lineage</p>
+                <p class="master-desc">20 years of monastic practice, specialized in Taoist magic, rituals, and ceremonies. Highly acclaimed for resolving devotees'困惑.</p>
+                <div class="master-tags">
+                    <span>Taoist Magic</span>
+                    <span>Rituals</span>
+                    <span>Consultation</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 客户评价 -->
+    <section class="testimonials-section">
+        <div class="section-title">
+            <h2>Client Reviews</h2>
+            <p>Real feedback, witnessing transformation</p>
+        </div>
+        <div class="testimonials-slider">
+            <div class="testimonial-card">
+                <div class="testimonial-header">
+                    <div class="testimonial-avatar">张</div>
+                    <div class="testimonial-info">
+                        <h4>Mr. Zhang</h4>
+                        <span>Entrepreneur · Shanghai</span>
+                    </div>
+                </div>
+                <p class="testimonial-text">Master Xuanzhen's career analysis was very accurate. After following the suggestions, my company performance significantly improved. Highly recommended!</p>
+                <div class="testimonial-rating">★★★★★</div>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-header">
+                    <div class="testimonial-avatar">李</div>
+                    <div class="testimonial-info">
+                        <h4>Ms. Li</h4>
+                        <span>Office Worker · Beijing</span>
+                    </div>
+                </div>
+                <p class="testimonial-text">The BaZi analysis was very detailed and resolved many of my confusions. Now I have a clearer direction for the future. Thank you very much!</p>
+                <div class="testimonial-rating">★★★★★</div>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-header">
+                    <div class="testimonial-avatar">王</div>
+                    <div class="testimonial-info">
+                        <h4>Mr. Wang</h4>
+                        <span>Investor · Shenzhen</span>
+                    </div>
+                </div>
+                <p class="testimonial-text">The wealth analysis was on point, helping me avoid several bad investment timing. Professional and reliable, highly trustworthy.</p>
+                <div class="testimonial-rating">★★★★☆</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq-section">
+        <div class="section-title">
+            <h2>FAQ</h2>
+        </div>
+        <div class="faq-list">
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>What is BaZi destiny analysis?</span>
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">BaZi is an important part of traditional Chinese destiny study. It uses the year, month, day, and hour of one's birth, corresponding to the Heavenly Stems and Earthly Branches, to form eight characters (the 'Eight Characters' or 'BaZi'). This is used to predict one's life trajectory, personality traits, and fortunes.</div>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>What information is needed for destiny services?</span>
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">Basic information includes: name, gender, birth date (solar or lunar), and birth hour. The more accurate the birth hour, the more precise the analysis. If you're unsure of the exact hour, you can provide an approximate time range, and the analyst will infer based on other information.</div>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>Are consultations online or in-person?</span>
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">We offer both online and in-person services. Online sessions can be conducted via WeChat or video call. In-person consultations can be scheduled at designated temples or studios. Both methods provide equally professional service.</div>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>Is destiny prediction accurate?</span>
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">Destiny study is the ancients' summary of natural laws and has certain scientific value and reference. However, we advocate 'knowing fate but not accepting it.' The purpose of destiny prediction is to understand your traits, seize opportunities, and avoid risks, rather than passively accepting fate. Ultimately, your life is in your own hands.</div>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>How to book a destiny service?</span>
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">You can book online through our website, add our WeChat customer service, or call our service hotline. After successful booking, customer service will confirm the specific time and service method with you, and collect necessary personal information before the consultation.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>DAO ESSENCE</h4>
+                <p>Inheriting millennia of Taoist wisdom<br>Promoting Eastern mystic culture</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="culture.html">Energy Universe</a></li>
+                    <li><a href="shop.html">Energy Shop</a></li>
+                    <li><a href="destiny.html">Destiny</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contact Us</h4>
+                <p>Email: contact@daoessence.com</p>
+                <p>WeChat: DaoEssence</p>
+            </div>
+            <div class="footer-section">
+                <h4>Follow Us</h4>
+                <div class="social-links">
+                    <a href="#">WeChat</a>
+                    <a href="#">Weibo</a>
+                    <a href="#">Xiaohongshu</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2024 DAO Essence. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // 语言切换功能
+        let currentLang = 'en';
+        
+        function initLang() {
+            const savedLang = localStorage.getItem('daoessence_lang');
+            if (savedLang) {
+                currentLang = savedLang;
+            }
+            applyLang(currentLang);
+        }
+        
+        function applyLang(lang) {
+            currentLang = lang;
+            // 更新所有带有data-lang属性的元素
+            document.querySelectorAll('[data-en][data-zh]').forEach(el => {
+                el.textContent = el.getAttribute(`data-${lang}`);
+            });
+            
+            // 更新placeholder
+            document.querySelectorAll('[data-en-placeholder][data-zh-placeholder]').forEach(el => {
+                el.placeholder = el.getAttribute(`data-${lang}-placeholder`);
+            });
+            
+            // 更新select选项
+            document.querySelectorAll('select option').forEach(opt => {
+                if (opt.getAttribute(`data-${lang}`)) {
+                    opt.textContent = opt.getAttribute(`data-${lang}`);
+                }
+            });
+            
+            document.documentElement.lang = lang === 'en' ? 'en' : 'zh-CN';
+            localStorage.setItem('daoessence_lang', lang);
+        }
+        
+        function toggleLang() {
+            currentLang = currentLang === 'en' ? 'zh' : 'en';
+            applyLang(currentLang);
+        }
+        
+        // 页面加载时初始化语言
+        initLang();
+
+        // FAQ 手风琴
+        document.querySelectorAll('.faq-question').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const item = btn.parentElement;
+                const isActive = item.classList.contains('active');
+                
+                // 关闭其他
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+                
+                // 切换当前
+                if (!isActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+
+        // 表单提交
+        document.getElementById('baziForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const msg = currentLang === 'en' 
+                ? 'BaZi chart feature is under development, stay tuned!\nYou can also book a destiny service for professional analysis.'
+                : '八字排盘功能开发中，敬请期待！\n您也可以直接预约命理服务，获取专业解读。';
+            alert(msg);
+        });
+
+        // 服务预约
+        document.querySelectorAll('.service-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const msg = currentLang === 'en'
+                    ? 'Booking feature is under development. Please contact customer service via WeChat: DaoEssence'
+                    : '预约功能开发中，请联系客服微信：DaoEssence';
+                alert(msg);
+            });
+        });
+
+        // 移动端菜单
+        document.querySelector('.mobile-menu-btn').addEventListener('click', () => {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+
+        // 滚动动画
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.service-card, .master-card, .testimonial-card, .faq-item').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
