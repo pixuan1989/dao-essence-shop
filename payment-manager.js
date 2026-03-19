@@ -265,7 +265,7 @@ let paymentManager = null;
 
 document.addEventListener('DOMContentLoaded', () => {
     paymentManager = new StripePaymentManager({
-        apiKey: 'pk_live_YOUR_STRIPE_PUBLIC_KEY', // Replace during deployment
+        apiKey: 'pk_test_51TCXN018te51GWieGBFm9rFjcfiZoLq8HEopzrq9gKHOnCi7afzcdUGuptRdlDrLMs6QiFl7bvHfOmIOPKstjPGk00zANzAQjV',
         merchantEmail: '18115755283@163.com',
         merchantName: 'DAO Essence'
     });

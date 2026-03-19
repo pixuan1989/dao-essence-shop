@@ -1,749 +1,275 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Checkout - DAO Essence</title>
+    <title>结账 - 道本精酿 | DAO Essence</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        .header { background: rgba(245,240,230,0.97) !important; backdrop-filter: blur(10px) !important; box-shadow: var(--shadow-md) !important; }
-        .header .nav-link, .header .logo-cn { color: var(--text-primary) !important; }
-        .header .logo-en { color: var(--text-light) !important; }
-        .header .logo-icon { border-color: var(--accent-color) !important; color: var(--accent-color) !important; }
-        .header .mobile-menu-btn span { background: var(--text-primary) !important; }
-
-        .checkout-page {
-            padding-top: 80px;
-            min-height: 100vh;
-            background: var(--bg-secondary);
-        }
-        .checkout-hero {
-            background: linear-gradient(135deg, var(--bg-dark) 0%, var(--water-dark) 100%);
-            padding: 40px 0 30px;
-            text-align: center;
-        }
-        .checkout-hero h1 {
-            font-family: var(--font-display);
-            color: var(--bg-primary);
-            font-size: var(--text-3xl);
-            letter-spacing: 0.1em;
-        }
-        .checkout-hero p { color: var(--accent-color); font-size: var(--text-sm); margin-top: 8px; }
-
-        /* Steps */
-        .checkout-steps {
-            display: flex;
-            justify-content: center;
-            gap: 0;
-            padding: 24px 0;
-            background: var(--bg-primary);
-            border-bottom: 1px solid rgba(212,175,55,0.15);
-        }
-        .step {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 0 24px;
-            color: var(--text-light);
-            font-size: var(--text-sm);
-        }
-        .step.active { color: var(--accent-color); font-weight: 600; }
-        .step.done { color: var(--wood-primary); }
-        .step-num {
-            width: 28px; height: 28px;
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 12px; font-weight: 700;
-            border: 2px solid currentColor;
-        }
-        .step.active .step-num { background: var(--accent-color); color: var(--bg-dark); border-color: var(--accent-color); }
-        .step-divider { width: 40px; height: 1px; background: rgba(212,175,55,0.3); align-self: center; }
-
-        /* Layout */
-        .checkout-layout {
-            display: grid;
-            grid-template-columns: 1fr 380px;
-            gap: 30px;
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
-        @media (max-width: 900px) {
-            .checkout-layout { grid-template-columns: 1fr; }
-        }
-
-        /* Form sections */
-        .checkout-section {
-            background: var(--bg-primary);
-            border-radius: var(--radius-lg);
-            padding: 28px;
-            margin-bottom: 20px;
-            border: 1px solid rgba(212,175,55,0.15);
-        }
-        .checkout-section h3 {
-            font-family: var(--font-display);
-            font-size: var(--text-xl);
-            color: var(--accent-color);
-            margin-bottom: 20px;
-            padding-bottom: 12px;
-            border-bottom: 1px solid rgba(212,175,55,0.2);
-            display: flex; align-items: center; gap: 10px;
-        }
-        .checkout-section h3 svg { flex-shrink: 0; }
-
-        .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-        .form-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
-        @media (max-width: 600px) {
-            .form-grid-2, .form-grid-3 { grid-template-columns: 1fr; }
-        }
-
-        .form-group { margin-bottom: 16px; }
-        .form-group label {
-            display: block;
-            font-size: var(--text-sm);
-            font-weight: 500;
-            color: var(--text-primary);
-            margin-bottom: 6px;
-        }
-        .form-group label .required { color: var(--fire-primary); margin-left: 3px; }
-        .form-group input, .form-group select, .form-group textarea {
-            width: 100%;
-            padding: 11px 14px;
-            background: var(--bg-accent);
-            border: 1px solid rgba(212,175,55,0.25);
-            border-radius: var(--radius-sm);
-            color: var(--text-primary);
-            font-size: var(--text-base);
-            transition: border-color 0.2s;
-            box-sizing: border-box;
-        }
-        .form-group input:focus, .form-group select:focus {
-            outline: none;
-            border-color: var(--accent-color);
-            box-shadow: 0 0 0 3px rgba(212,175,55,0.1);
-        }
-        .form-group input.error { border-color: var(--fire-primary); }
-
-        /* Shipping options */
-        .shipping-options { display: flex; flex-direction: column; gap: 12px; }
-        .shipping-option {
-            display: flex; align-items: center; gap: 14px;
-            padding: 16px;
-            border: 2px solid rgba(212,175,55,0.2);
-            border-radius: var(--radius-md);
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .shipping-option:hover { border-color: var(--accent-color); background: rgba(212,175,55,0.04); }
-        .shipping-option.selected { border-color: var(--accent-color); background: rgba(212,175,55,0.07); }
-        .shipping-option input[type="radio"] { accent-color: var(--accent-color); width: 18px; height: 18px; flex-shrink: 0; }
-        .shipping-info { flex: 1; }
-        .shipping-name { font-weight: 600; color: var(--text-primary); font-size: var(--text-base); }
-        .shipping-desc { font-size: var(--text-xs); color: var(--text-secondary); margin-top: 3px; }
-        .shipping-carrier { font-size: var(--text-xs); color: var(--text-light); margin-top: 2px; }
-        .shipping-price { font-weight: 700; color: var(--fire-primary); font-size: var(--text-lg); white-space: nowrap; }
-        .shipping-free { color: var(--wood-primary); }
-
-        /* Payment methods */
-        .payment-methods { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; }
-        .payment-method {
-            flex: 1; min-width: 120px;
-            padding: 14px;
-            border: 2px solid rgba(212,175,55,0.2);
-            border-radius: var(--radius-md);
-            cursor: pointer;
-            text-align: center;
-            transition: all 0.2s;
-        }
-        .payment-method:hover { border-color: var(--accent-color); }
-        .payment-method.selected { border-color: var(--accent-color); background: rgba(212,175,55,0.07); }
-        .payment-method input[type="radio"] { display: none; }
-        .payment-logo { font-size: 1.8rem; display: block; margin-bottom: 6px; }
-        .payment-name { font-size: var(--text-sm); font-weight: 600; color: var(--text-primary); }
-        .payment-sub { font-size: var(--text-xs); color: var(--text-light); margin-top: 2px; }
-
-        .payment-notice {
-            display: flex; align-items: flex-start; gap: 10px;
-            padding: 14px;
-            background: rgba(212,175,55,0.06);
-            border-radius: var(--radius-sm);
-            border: 1px solid rgba(212,175,55,0.2);
-            font-size: var(--text-sm);
-            color: var(--text-secondary);
-            margin-top: 16px;
-        }
-        .payment-notice svg { flex-shrink: 0; margin-top: 2px; }
-
-        /* Order summary */
-        .order-summary {
-            background: var(--bg-primary);
-            border-radius: var(--radius-lg);
-            padding: 24px;
-            border: 1px solid rgba(212,175,55,0.15);
-            position: sticky;
-            top: 90px;
-        }
-        .order-summary h3 {
-            font-family: var(--font-display);
-            font-size: var(--text-xl);
-            color: var(--text-primary);
-            margin-bottom: 20px;
-            padding-bottom: 12px;
-            border-bottom: 1px solid rgba(212,175,55,0.2);
-        }
-        .summary-items { max-height: 280px; overflow-y: auto; margin-bottom: 16px; }
-        .summary-item {
-            display: flex; gap: 12px; align-items: center;
-            padding: 10px 0;
-            border-bottom: 1px solid rgba(212,175,55,0.08);
-        }
-        .summary-item:last-child { border-bottom: none; }
-        .summary-item-img {
-            width: 60px; height: 60px;
-            border-radius: var(--radius-sm);
-            object-fit: cover;
-            background: var(--bg-accent);
-            flex-shrink: 0;
-        }
-        .summary-item-info { flex: 1; }
-        .summary-item-name { font-size: var(--text-sm); font-weight: 500; color: var(--text-primary); line-height: 1.4; }
-        .summary-item-qty { font-size: var(--text-xs); color: var(--text-light); margin-top: 3px; }
-        .summary-item-price { font-size: var(--text-sm); font-weight: 600; color: var(--fire-primary); white-space: nowrap; }
-
-        .summary-line {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 8px 0;
-            font-size: var(--text-sm);
-            color: var(--text-secondary);
-            border-bottom: 1px solid rgba(212,175,55,0.08);
-        }
-        .summary-line:last-child { border-bottom: none; }
-        .summary-line.total {
-            font-size: var(--text-xl);
-            font-weight: 700;
-            color: var(--text-primary);
-            padding-top: 14px;
-            border-top: 2px solid rgba(212,175,55,0.3);
-            border-bottom: none;
-        }
-        .summary-line.total span:last-child { color: var(--fire-primary); }
-        .summary-free { color: var(--wood-primary); font-weight: 600; }
-
-        .btn-place-order {
-            width: 100%;
-            padding: 16px;
-            background: var(--gradient-gold);
-            border: none;
-            border-radius: var(--radius-sm);
-            color: var(--bg-dark);
-            font-size: var(--text-base);
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.2s;
-            margin-top: 18px;
-            font-family: var(--font-display);
-            letter-spacing: 0.05em;
-        }
-        .btn-place-order:hover {
-            filter: brightness(1.08);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(212,175,55,0.4);
-        }
-        .btn-place-order:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
-
-        .secure-badges {
-            display: flex; justify-content: center; gap: 16px;
-            margin-top: 14px; flex-wrap: wrap;
-        }
-        .secure-badge {
-            display: flex; align-items: center; gap: 5px;
-            font-size: 11px; color: var(--text-light);
-        }
-
-        /* Coupon */
-        .coupon-row {
-            display: flex; gap: 8px; margin-top: 14px;
-        }
-        .coupon-row input {
-            flex: 1;
-            padding: 10px 12px;
-            border: 1px solid rgba(212,175,55,0.25);
-            border-radius: var(--radius-sm);
-            background: var(--bg-accent);
-            color: var(--text-primary);
-            font-size: var(--text-sm);
-        }
-        .coupon-row input:focus { outline: none; border-color: var(--accent-color); }
-        .btn-coupon {
-            padding: 10px 16px;
-            background: transparent;
-            border: 1px solid var(--accent-color);
-            border-radius: var(--radius-sm);
-            color: var(--accent-color);
-            font-size: var(--text-sm);
-            font-weight: 600;
-            cursor: pointer;
-            white-space: nowrap;
-            transition: all 0.2s;
-        }
-        .btn-coupon:hover { background: var(--accent-color); color: var(--bg-dark); }
-
-        /* Empty cart */
-        .cart-empty-checkout {
-            text-align: center;
-            padding: 60px 20px;
-            background: var(--bg-primary);
-            border-radius: var(--radius-lg);
-        }
-        .cart-empty-checkout p { color: var(--text-secondary); margin: 16px 0 24px; }
-    </style>
+    <script src="https://js.stripe.com/v3/"></script>
 </head>
 <body>
-    <header class="header scrolled">
-        <div class="container">
-            <nav class="nav">
-                <a href="index.html" class="logo">
-                    <div class="logo-icon"></div>
-                    <div class="logo-text"><span class="logo-cn">DAO本质</span></div>
-                </a>
-                <ul class="nav-menu">
-                    <li><a href="index.html" class="nav-link">Home</a></li>
-                    <li><a href="shop.html" class="nav-link">Energy Shop</a></li>
-                    <li><a href="about.html" class="nav-link">About Us</a></li>
-                </ul>
-                <button class="mobile-menu-btn"><span></span><span></span><span></span></button>
-            </nav>
-        </div>
-    </header>
-
-    <div class="checkout-page">
-        <div class="checkout-hero">
-            <h1>Secure Checkout</h1>
-            <p>Your information is protected with 256-bit SSL encryption</p>
-        </div>
-
-        <!-- Steps -->
-        <div class="checkout-steps">
-            <div class="step active">
-                <div class="step-num">1</div>
-                <span>Shipping</span>
-            </div>
-            <div class="step-divider"></div>
-            <div class="step">
-                <div class="step-num">2</div>
-                <span>Payment</span>
-            </div>
-            <div class="step-divider"></div>
-            <div class="step">
-                <div class="step-num">3</div>
-                <span>Confirm</span>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">道本精酿</a>
+            <div class="nav-menu">
+                <a href="index.html">首页</a>
+                <a href="shop.html">商城</a>
+                <a href="about.html">关于</a>
+                <a href="contact.html">联系</a>
+                <div class="cart-icon-wrapper">
+                    <a href="checkout.html" class="cart-icon">
+                        <span>🛒</span>
+                        <span class="cart-badge">0</span>
+                    </a>
+                </div>
             </div>
         </div>
+    </nav>
 
-        <div class="checkout-layout">
-            <!-- Left: Form -->
-            <div class="checkout-form-col">
-
-                <!-- Contact Info -->
-                <div class="checkout-section">
-                    <h3>
-                        <svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 4h14a1 1 0 011 1v10a1 1 0 01-1 1H3a1 1 0 01-1-1V5a1 1 0 011-1z"/><path d="M3 5l7 6 7-6"/></svg>
-                        Contact Information
-                    </h3>
-                    <div class="form-grid-2">
-                        <div class="form-group">
-                            <label>First Name <span class="required">*</span></label>
-                            <input type="text" id="firstName" placeholder="John" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Last Name <span class="required">*</span></label>
-                            <input type="text" id="lastName" placeholder="Smith" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Email Address <span class="required">*</span></label>
-                        <input type="email" id="email" placeholder="john@example.com" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Phone Number</label>
-                        <input type="tel" id="phone" placeholder="+1 (555) 000-0000">
-                    </div>
-                </div>
-
-                <!-- Shipping Address -->
-                <div class="checkout-section">
-                    <h3>
-                        <svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 2C7.24 2 5 4.24 5 7c0 4.25 5 11 5 11s5-6.75 5-11c0-2.76-2.24-5-5-5z"/><circle cx="10" cy="7" r="2"/></svg>
-                        Shipping Address
-                    </h3>
-                    <div class="form-group">
-                        <label>Country / Region <span class="required">*</span></label>
-                        <select id="country" required>
-                            <option value="">Select Country</option>
-                            <option value="US" selected>United States</option>
-                            <option value="CA">Canada</option>
-                            <option value="GB">United Kingdom</option>
-                            <option value="DE">Germany</option>
-                            <option value="FR">France</option>
-                            <option value="AU">Australia</option>
-                            <option value="NL">Netherlands</option>
-                            <option value="ES">Spain</option>
-                            <option value="IT">Italy</option>
-                            <option value="SE">Sweden</option>
-                            <option value="NO">Norway</option>
-                            <option value="DK">Denmark</option>
-                            <option value="CH">Switzerland</option>
-                            <option value="AT">Austria</option>
-                            <option value="BE">Belgium</option>
-                            <option value="OTHER">Other</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Street Address <span class="required">*</span></label>
-                        <input type="text" id="address" placeholder="123 Main Street, Apt 4B" required>
-                    </div>
-                    <div class="form-grid-3">
-                        <div class="form-group">
-                            <label>City <span class="required">*</span></label>
-                            <input type="text" id="city" placeholder="New York" required>
-                        </div>
-                        <div class="form-group">
-                            <label>State / Province</label>
-                            <input type="text" id="state" placeholder="NY">
-                        </div>
-                        <div class="form-group">
-                            <label>ZIP / Postal Code <span class="required">*</span></label>
-                            <input type="text" id="zip" placeholder="10001" required>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Shipping Method -->
-                <div class="checkout-section">
-                    <h3>
-                        <svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="6" width="15" height="10" rx="1"/><path d="M16 9h2a1 1 0 011 1v4a1 1 0 01-1 1h-2"/><path d="M5 16a2 2 0 100-4 2 2 0 000 4z"/><path d="M14 16a2 2 0 100-4 2 2 0 000 4z"/></svg>
-                        Shipping Method
-                    </h3>
-                    <div class="shipping-options" id="shippingOptions">
-                        <label class="shipping-option selected">
-                            <input type="radio" name="shipping" value="standard" checked data-price="9.99" data-days="15-25">
-                            <div class="shipping-info">
-                                <div class="shipping-name">Standard International</div>
-                                <div class="shipping-desc">Estimated: 15–25 business days</div>
-                                <div class="shipping-carrier">via 4PX / YunTu Logistics</div>
-                            </div>
-                            <div class="shipping-price">$9.99</div>
-                        </label>
-                        <label class="shipping-option">
-                            <input type="radio" name="shipping" value="express" data-price="24.99" data-days="7-12">
-                            <div class="shipping-info">
-                                <div class="shipping-name">Express International</div>
-                                <div class="shipping-desc">Estimated: 7–12 business days</div>
-                                <div class="shipping-carrier">via FedEx / DHL Parcel</div>
-                            </div>
-                            <div class="shipping-price">$24.99</div>
-                        </label>
-                        <label class="shipping-option">
-                            <input type="radio" name="shipping" value="dhl" data-price="44.99" data-days="3-5">
-                            <div class="shipping-info">
-                                <div class="shipping-name">DHL Express Priority</div>
-                                <div class="shipping-desc">Estimated: 3–5 business days</div>
-                                <div class="shipping-carrier">via DHL International</div>
-                            </div>
-                            <div class="shipping-price">$44.99</div>
-                        </label>
-                    </div>
-                </div>
-
-                <!-- Payment -->
-                <div class="checkout-section">
-                    <h3>
-                        <svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="4" width="18" height="12" rx="2"/><path d="M1 8h18"/></svg>
-                        Payment Method
-                    </h3>
-                    <div class="payment-methods">
-                        <label class="payment-method selected" id="pm-stripe">
-                            <input type="radio" name="payment" value="stripe" checked>
-                            <span class="payment-logo">💳</span>
-                            <div class="payment-name">Credit Card</div>
-                            <div class="payment-sub">Visa / MC / Amex</div>
-                        </label>
-                        <label class="payment-method" id="pm-paypal">
-                            <input type="radio" name="payment" value="paypal">
-                            <span class="payment-logo">🅿️</span>
-                            <div class="payment-name">PayPal</div>
-                            <div class="payment-sub">Secure checkout</div>
-                        </label>
-                    </div>
-
-                    <!-- Stripe card fields (simulated) -->
-                    <div id="stripe-fields">
-                        <div class="form-group">
-                            <label>Card Number <span class="required">*</span></label>
-                            <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19">
-                        </div>
-                        <div class="form-grid-2">
-                            <div class="form-group">
-                                <label>Expiration Date <span class="required">*</span></label>
-                                <input type="text" id="cardExpiry" placeholder="MM / YY" maxlength="7">
-                            </div>
-                            <div class="form-group">
-                                <label>CVV <span class="required">*</span></label>
-                                <input type="text" id="cardCvv" placeholder="123" maxlength="4">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label>Name on Card <span class="required">*</span></label>
-                            <input type="text" id="cardName" placeholder="JOHN SMITH">
-                        </div>
-                    </div>
-
-                    <div id="paypal-fields" style="display:none;">
-                        <div class="payment-notice">
-                            <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M8 5v3l2 2"/></svg>
-                            You will be redirected to PayPal to complete your payment securely after placing the order.
-                        </div>
-                    </div>
-
-                    <div class="payment-notice" style="margin-top: 16px;">
-                        <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 1l-5 3v4c0 3 2.5 5.5 5 7 2.5-1.5 5-4 5-7V4L8 1z"/></svg>
-                        Your payment is encrypted and processed securely. We never store your card details.
-                    </div>
-                </div>
-
+    <!-- 主要内容 -->
+    <main class="checkout-page">
+        <div class="checkout-container">
+            <!-- 页面标题 -->
+            <div class="page-header">
+                <h1>安全结账</h1>
+                <p>安全支付 · 品质保证 · 全球配送</p>
             </div>
 
-            <!-- Right: Order Summary -->
-            <div>
+            <!-- 支付信息 -->
+            <div class="checkout-content">
+                <!-- 订单摘要 -->
                 <div class="order-summary">
-                    <h3>Order Summary</h3>
+                    <h2>订单摘要</h2>
+                    <div id="cart-items" class="checkout-cart-items">
+                        <div class="loading">加载中...</div>
+                    </div>
 
-                    <div class="summary-items" id="summaryItems">
-                        <div style="text-align:center; color: var(--text-light); padding: 20px;">
-                            Loading cart...
+                    <div class="order-totals">
+                        <div class="total-row">
+                            <span>商品总计</span>
+                            <span id="subtotal">$0.00</span>
+                        </div>
+                        <div class="total-row">
+                            <span>运费</span>
+                            <select id="shipping-select" class="shipping-select">
+                                <option value="standard">标准运输 - $15.00</option>
+                                <option value="express">快速运输 - $35.00</option>
+                                <option value="dhl">DHL 快递 - $55.00</option>
+                            </select>
+                        </div>
+                        <div class="total-row grand-total">
+                            <span>总计</span>
+                            <span id="grand-total">$0.00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 支付方式 -->
+                <div class="payment-method">
+                    <h2>支付方式</h2>
+
+                    <div class="payment-info">
+                        <p>我们使用 <strong>Stripe</strong> 安全支付系统</p>
+                        <div class="secure-badges">
+                            <span>🔒 SSL 加密</span>
+                            <span>🛡️ PCI 合规</span>
+                            <span>💳 多种支付方式</span>
+                        </div>
+
+                        <div class="supported-cards">
+                            <span>VISA</span>
+                            <span>Mastercard</span>
+                            <span>American Express</span>
+                            <span>Discover</span>
                         </div>
                     </div>
 
-                    <!-- Coupon -->
-                    <div class="coupon-row">
-                        <input type="text" id="couponInput" placeholder="Coupon code">
-                        <button class="btn-coupon" onclick="applyCoupon()">Apply</button>
-                    </div>
-
-                    <div style="margin-top: 16px;">
-                        <div class="summary-line">
-                            <span>Subtotal</span>
-                            <span id="summarySubtotal">$0.00</span>
-                        </div>
-                        <div class="summary-line">
-                            <span>Shipping</span>
-                            <span id="summaryShipping">$9.99</span>
-                        </div>
-                        <div class="summary-line" id="discountLine" style="display:none;">
-                            <span>Discount</span>
-                            <span id="summaryDiscount" style="color: var(--wood-primary);">-$0.00</span>
-                        </div>
-                        <div class="summary-line total">
-                            <span>Total</span>
-                            <span id="summaryTotal">$0.00</span>
-                        </div>
-                    </div>
-
-                    <button class="btn-place-order" id="placeOrderBtn" onclick="placeOrder()">
-                        Place Order &amp; Pay
+                    <button id="pay-button" class="btn btn-primary btn-large">
+                        去支付
                     </button>
 
-                    <div class="secure-badges">
-                        <div class="secure-badge">🔒 SSL Secure</div>
-                        <div class="secure-badge">✓ 30-Day Returns</div>
-                        <div class="secure-badge">📦 Track Order</div>
-                    </div>
+                    <p class="disclaimer">
+                        <small>
+                            点击"去支付"后，您将被重定向到 Stripe 的安全支付页面。<br>
+                            您的支付信息不会被存储在我们的服务器上。
+                        </small>
+                    </p>
+                </div>
+            </div>
+
+            <!-- 信任标识 -->
+            <div class="trust-badges">
+                <div class="trust-badge">
+                    <span>🌍</span>
+                    <p>全球配送</p>
+                </div>
+                <div class="trust-badge">
+                    <span>📦</span>
+                    <p>7天内发货</p>
+                </div>
+                <div class="trust-badge">
+                    <span>✅</span>
+                    <p>100%正品保证</p>
+                </div>
+                <div class="trust-badge">
+                    <span>📞</span>
+                    <p>客服支持</p>
                 </div>
             </div>
         </div>
-    </div>
+    </main>
 
-    <script src="main.js"></script>
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>道本精酿</h3>
+                <p>传承千年智慧 · 精选五行能量产品</p>
+            </div>
+            <div class="footer-section">
+                <h3>快速链接</h3>
+                <ul>
+                    <li><a href="shop.html">商城</a></li>
+                    <li><a href="about.html">关于</a></li>
+                    <li><a href="contact.html">联系</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>客户服务</h3>
+                <ul>
+                    <li><a href="policy.html">隐私政策</a></li>
+                    <li><a href="#">配送信息</a></li>
+                    <li><a href="#">退换政策</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>联系我们</h3>
+                <p>邮箱: 18115755283@163.com</p>
+                <p>微信: dao_essence</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 道本精酿 | DAO Essence. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="cart.js"></script>
     <script>
-        // --- Cart data ---
-        let cartItems = JSON.parse(localStorage.getItem('daoCart')) || [];
-        cartItems = cartItems.filter(item => item.image);
+        // Stripe 配置
+        const STRIPE_PUBLIC_KEY = 'pk_test_51TCXN018te51GWieGBFm9rFjcfiZoLq8HEopzrq9gKHOnCi7afzcdUGuptRdlDrLMs6QiFl7bvHfOmIOPKstjPGk00zANzAQjV';
 
-        const USD_RATE = 7.2;
-        let shippingCost = 9.99;
-        let discount = 0;
-        const COUPONS = { 'WELCOME10': 0.10, 'DAO15': 0.15, 'ENERGY20': 0.20 };
+        // 初始化 Stripe
+        const stripe = Stripe(STRIPE_PUBLIC_KEY);
 
-        function cnyToUsd(cny) {
-            return (cny / USD_RATE).toFixed(2);
-        }
+        // 运费配置
+        const shippingRates = {
+            standard: 15,
+            express: 35,
+            dhl: 55
+        };
 
-        function renderSummary() {
-            const container = document.getElementById('summaryItems');
-            if (cartItems.length === 0) {
-                container.innerHTML = '<div style="text-align:center;color:var(--text-light);padding:20px;">Your cart is empty. <a href="shop.html" style="color:var(--accent-color)">Shop now →</a></div>';
-                document.getElementById('placeOrderBtn').disabled = true;
-                updateTotals();
-                return;
-            }
+        // 当前运费
+        let currentShipping = shippingRates.standard;
 
-            container.innerHTML = cartItems.map(item => {
-                const priceUsd = cnyToUsd(item.price);
-                const subtotalUsd = cnyToUsd(item.price * item.quantity);
-                return `
-                    <div class="summary-item">
-                        <img src="${item.image}" alt="${item.titleEn || ''}" class="summary-item-img">
-                        <div class="summary-item-info">
-                            <div class="summary-item-name">${item.titleEn || item.titleZh || 'Product'}</div>
-                            <div class="summary-item-qty">Qty: ${item.quantity} × $${priceUsd}</div>
-                        </div>
-                        <div class="summary-item-price">$${subtotalUsd}</div>
+        // 更新订单摘要
+        function updateOrderSummary() {
+            const cartItemsDiv = document.getElementById('cart-items');
+            const subtotalSpan = document.getElementById('subtotal');
+            const grandTotalSpan = document.getElementById('grand-total');
+
+            // 显示购物车商品
+            if (cart.items.length === 0) {
+                cartItemsDiv.innerHTML = `
+                    <div class="empty-cart">
+                        <p>购物车是空的</p>
+                        <a href="shop.html" class="btn btn-secondary">去购物</a>
                     </div>
                 `;
-            }).join('');
+                subtotalSpan.textContent = '$0.00';
+                grandTotalSpan.textContent = '$' + currentShipping.toFixed(2);
+            } else {
+                cartItemsDiv.innerHTML = cart.items.map(item => `
+                    <div class="checkout-item">
+                        <img src="${item.image}" alt="${item.name}" class="checkout-item-image">
+                        <div class="checkout-item-info">
+                            <h4>${item.nameCn}</h4>
+                            <p class="checkout-item-name-en">${item.name}</p>
+                            <p class="checkout-item-price">$${item.price} × ${item.quantity}</p>
+                        </div>
+                        <div class="checkout-item-total">
+                            $${(item.price * item.quantity).toFixed(2)}
+                        </div>
+                    </div>
+                `).join('');
 
-            updateTotals();
-        }
-
-        function getSubtotal() {
-            return cartItems.reduce((sum, item) => sum + (item.price * item.quantity / USD_RATE), 0);
-        }
-
-        function updateTotals() {
-            const sub = getSubtotal();
-            const disc = sub * discount;
-            const total = sub - disc + shippingCost;
-
-            document.getElementById('summarySubtotal').textContent = '$' + sub.toFixed(2);
-            document.getElementById('summaryShipping').textContent = '$' + shippingCost.toFixed(2);
-            document.getElementById('summaryTotal').textContent = '$' + total.toFixed(2);
-
-            if (discount > 0) {
-                document.getElementById('discountLine').style.display = 'flex';
-                document.getElementById('summaryDiscount').textContent = '-$' + disc.toFixed(2);
+                const subtotal = getCartTotal();
+                const total = subtotal + currentShipping;
+                subtotalSpan.textContent = '$' + subtotal.toFixed(2);
+                grandTotalSpan.textContent = '$' + total.toFixed(2);
             }
         }
 
-        // Shipping selection
-        document.querySelectorAll('.shipping-option input[type="radio"]').forEach(radio => {
-            radio.addEventListener('change', function() {
-                document.querySelectorAll('.shipping-option').forEach(o => o.classList.remove('selected'));
-                this.closest('.shipping-option').classList.add('selected');
-                shippingCost = parseFloat(this.dataset.price);
-                updateTotals();
-            });
+        // 运费选择事件
+        document.getElementById('shipping-select').addEventListener('change', function() {
+            currentShipping = shippingRates[this.value];
+            updateOrderSummary();
         });
 
-        // Payment method
-        document.querySelectorAll('.payment-method input[type="radio"]').forEach(radio => {
-            radio.addEventListener('change', function() {
-                document.querySelectorAll('.payment-method').forEach(m => m.classList.remove('selected'));
-                this.closest('.payment-method').classList.add('selected');
-                document.getElementById('stripe-fields').style.display = this.value === 'stripe' ? 'block' : 'none';
-                document.getElementById('paypal-fields').style.display = this.value === 'paypal' ? 'block' : 'none';
-            });
-        });
-
-        // Card number formatting
-        document.getElementById('cardNumber').addEventListener('input', function() {
-            let v = this.value.replace(/\D/g, '').substring(0, 16);
-            this.value = v.replace(/(.{4})/g, '$1 ').trim();
-        });
-        document.getElementById('cardExpiry').addEventListener('input', function() {
-            let v = this.value.replace(/\D/g, '').substring(0, 4);
-            if (v.length >= 2) v = v.substring(0,2) + ' / ' + v.substring(2);
-            this.value = v;
-        });
-
-        function applyCoupon() {
-            const code = document.getElementById('couponInput').value.trim().toUpperCase();
-            if (COUPONS[code]) {
-                discount = COUPONS[code];
-                updateTotals();
-                alert('Coupon applied! ' + (discount * 100) + '% discount.');
-            } else if (code) {
-                alert('Invalid coupon code. Try: WELCOME10');
+        // 支付按钮点击事件
+        document.getElementById('pay-button').addEventListener('click', async function() {
+            if (cart.items.length === 0) {
+                alert('购物车是空的，请先添加商品');
+                window.location.href = 'shop.html';
+                return;
             }
-        }
 
-        function validateForm() {
-            const required = ['firstName','lastName','email','address','city','zip'];
-            let valid = true;
-            required.forEach(id => {
-                const el = document.getElementById(id);
-                if (!el.value.trim()) {
-                    el.classList.add('error');
-                    valid = false;
-                } else {
-                    el.classList.remove('error');
+            // 禁用按钮
+            this.disabled = true;
+            this.textContent = '处理中...';
+
+            try {
+                // 创建 Checkout Session
+                const response = await fetch('/.netlify/functions/create-checkout-session', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        items: cart.items,
+                        shipping: currentShipping
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to create checkout session');
                 }
-            });
-            return valid;
-        }
 
-        function placeOrder() {
-            if (cartItems.length === 0) {
-                alert('Your cart is empty. Please add items before checkout.');
-                return;
+                const session = await response.json();
+
+                // 重定向到 Stripe Checkout
+                const result = await stripe.redirectToCheckout({
+                    sessionId: session.id
+                });
+
+                if (result.error) {
+                    console.error('Error:', result.error.message);
+                    alert('支付页面加载失败，请稍后重试');
+                    this.disabled = false;
+                    this.textContent = '去支付';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('创建支付会话失败，请稍后重试');
+                this.disabled = false;
+                this.textContent = '去支付';
             }
-            if (!validateForm()) {
-                alert('Please fill in all required fields.');
-                return;
-            }
+        });
 
-            const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
-            const shippingMethod = document.querySelector('input[name="shipping"]:checked').value;
-            const sub = getSubtotal();
-            const disc = sub * discount;
-            const total = (sub - disc + shippingCost).toFixed(2);
-
-            // Save order data
-            const order = {
-                id: 'DAO-' + Date.now(),
-                date: new Date().toISOString(),
-                items: cartItems,
-                shipping: {
-                    firstName: document.getElementById('firstName').value,
-                    lastName: document.getElementById('lastName').value,
-                    email: document.getElementById('email').value,
-                    phone: document.getElementById('phone').value,
-                    address: document.getElementById('address').value,
-                    city: document.getElementById('city').value,
-                    state: document.getElementById('state').value,
-                    zip: document.getElementById('zip').value,
-                    country: document.getElementById('country').value,
-                    method: shippingMethod
-                },
-                payment: paymentMethod,
-                subtotal: sub.toFixed(2),
-                shippingCost: shippingCost.toFixed(2),
-                discount: disc.toFixed(2),
-                total: total,
-                currency: 'USD'
-            };
-
-            localStorage.setItem('daoLastOrder', JSON.stringify(order));
-            // Clear cart
-            localStorage.removeItem('daoCart');
-
-            // Redirect to confirmation
-            window.location.href = 'order-confirm.html';
-        }
-
-        // Init
-        renderSummary();
+        // 页面加载时更新摘要
+        document.addEventListener('DOMContentLoaded', function() {
+            updateOrderSummary();
+        });
     </script>
-
-    <!-- Shopify 对接脚本（启用后替换上面的静态结账逻辑） -->
-    <!--
-    步骤1: 配置 js/shopify-config.js 填入你的 Storefront API Token
-    步骤2: 取消下方注释即可启用 Shopify 结账
-    步骤3: 结账时会跳转到 Shopify 托管的安全支付页面
-    
-    <script src="js/shopify-config.js"></script>
-    <script src="js/shopify-api.js"></script>
-    <script src="js/shop-checkout.js"></script>
-    -->
 </body>
 </html>

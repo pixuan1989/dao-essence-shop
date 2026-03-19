@@ -4,10 +4,12 @@
   # 没有构建过程（纯静态网站）
   command = "echo 'DAO Essence shop ready for deployment'"
   publish = "."
+  functions = "netlify/functions"
 
 # 环境变量
 [env]
-  STRIPE_PUBLIC_KEY = "pk_test_placeholder"
+  STRIPE_PUBLIC_KEY = "pk_test_51TCXN018te51GWieGBFm9rFjcfiZoLq8HEopzrq9gKHOnCi7afzcdUGuptRdlDrLMs6QiFl7bvHfOmIOPKstjPGk00zANzAQjV"
+  # STRIPE_SECRET_KEY 应该在 Netlify Dashboard 中配置，不要写在配置文件中
 
 # 重定向规则
 [[redirects]]

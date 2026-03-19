@@ -48,3 +48,9 @@ temp/
 tmp/
 *.temp
 server.log
+
+# Sensitive files (contains tokens and keys)
+setup-remote.bat
+*.secret
+*.key
+credentials.txt

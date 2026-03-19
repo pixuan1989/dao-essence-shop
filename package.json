@@ -1,0 +1,8 @@
+{
+  "name": "dao-essence-shop",
+  "version": "1.0.0",
+  "description": "DAO Essence - Taoist Energy Shop",
+  "dependencies": {
+    "stripe": "^14.0.0"
+  }
+}
