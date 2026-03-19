@@ -5,6 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>订单确认 - 道本精酿 | DAO Essence</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+        // Stripe 配置 - 由构建时注入
+        window.stripeConfig = {
+            publicKey: 'pk_test_51TCXN018te51GWiewKqP8Rp8reBZP8oL4WCxngJPliUJKjHbRbRIgpqeEnZ67XylRnLfNvC09I0FXSYhDZo5hsDx00ofI4i5z6'
+        };
+    </script>
 </head>
 <body>
     <!-- Navigation Header -->

@@ -6,6 +6,12 @@
     <title>结账 - 道本精酿 | DAO Essence</title>
     <link rel="stylesheet" href="styles.css">
     <script src="https://js.stripe.com/v3/"></script>
+    <script>
+        // Stripe 配置 - 由构建时注入
+        window.stripeConfig = {
+            publicKey: 'pk_test_51TCXN018te51GWiewKqP8Rp8reBZP8oL4WCxngJPliUJKjHbRbRIgpqeEnZ67XylRnLfNvC09I0FXSYhDZo5hsDx00ofI4i5z6'
+        };
+    </script>
     <script src="cart.js"></script>
     <script src="stripe-payment.js"></script>
 </head>
@@ -266,9 +272,9 @@
             }
         };
         
-        // Stripe 配置
-        const STRIPE_PUBLIC_KEY = 'pk_test_51TCXN018te51GWieGBFm9rFjcfiZoLq8HEopzrq9gKHOnCi7afzcdUGuptRdlDrLMs6QiFl7bvHfOmIOPKstjPGk00zANzAQjV';
-        const API_BASE_URL = 'http://localhost:3001/api';
+        // Stripe 配置 - 使用 Netlify Functions
+        const STRIPE_PUBLIC_KEY = 'pk_test_51TCXN018te51GWiewKqP8Rp8reBZP8oL4WCxngJPliUJKjHbRbRIgpqeEnZ67XylRnLfNvC09I0FXSYhDZo5hsDx00ofI4i5z6';
+        const API_BASE_URL = '/.netlify/functions';
 
         // 初始化 Stripe
         let stripe = null;

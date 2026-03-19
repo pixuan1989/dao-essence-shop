@@ -62,7 +62,10 @@ exports.handler = async (event, context) => {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ id: session.id })
+            body: JSON.stringify({ 
+                success: true,
+                sessionId: session.id 
+            })
         };
 
     } catch (error) {
