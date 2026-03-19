@@ -154,8 +154,75 @@
         </div>
     </footer>
 
-    <script src="cart.js"></script>
     <script>
+        // ========================================
+        // 统一购物车系统
+        // ========================================
+        
+        // 从 localStorage 读取购物车数据
+        function getCartFromStorage() {
+            // 尝试新的 cart 键
+            let cartData = localStorage.getItem('cart');
+            if (cartData) {
+                return JSON.parse(cartData);
+            }
+            // 尝试旧的 daoessence_cart 键
+            cartData = localStorage.getItem('daoessence_cart');
+            if (cartData) {
+                return JSON.parse(cartData).items || [];
+            }
+            return [];
+        }
+        
+        // 购物车数据
+        const cart = {
+            items: getCartFromStorage(),
+            
+            add(product) {
+                const existingItem = this.items.find(item => item.id === product.id);
+                if (existingItem) {
+                    existingItem.quantity += 1;
+                } else {
+                    this.items.push({
+                        id: product.id,
+                        name: product.nameCN || product.name,
+                        price: product.price,
+                        quantity: 1,
+                        image: product.image
+                    });
+                }
+                this.save();
+            },
+            
+            remove(productId) {
+                this.items = this.items.filter(item => item.id !== productId);
+                this.save();
+            },
+            
+            updateQty(productId, newQty) {
+                const item = this.items.find(item => item.id === productId);
+                if (item) {
+                    item.quantity = Math.max(1, newQty);
+                    this.save();
+                }
+            },
+            
+            save() {
+                // 保存到两个键，确保兼容性
+                const data = JSON.stringify(this.items);
+                localStorage.setItem('cart', data);
+                localStorage.setItem('daoessence_cart', JSON.stringify({ items: this.items }));
+            },
+            
+            getTotal() {
+                return this.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            },
+            
+            getCount() {
+                return this.items.reduce((sum, item) => sum + item.quantity, 0);
+            }
+        };
+        
         // Stripe 配置
         const STRIPE_PUBLIC_KEY = 'pk_test_51TCXN018te51GWieGBFm9rFjcfiZoLq8HEopzrq9gKHOnCi7afzcdUGuptRdlDrLMs6QiFl7bvHfOmIOPKstjPGk00zANzAQjV';
 
@@ -177,6 +244,14 @@
             const cartItemsDiv = document.getElementById('cart-items');
             const subtotalSpan = document.getElementById('subtotal');
             const grandTotalSpan = document.getElementById('grand-total');
+            const cartBadge = document.querySelector('.cart-badge');
+            
+            // 更新购物车徽章
+            if (cartBadge) {
+                const count = cart.getCount();
+                cartBadge.textContent = count;
+                cartBadge.style.display = count > 0 ? 'flex' : 'none';
+            }
 
             // 显示购物车商品
             if (cart.items.length === 0) {
@@ -191,11 +266,10 @@
             } else {
                 cartItemsDiv.innerHTML = cart.items.map(item => `
                     <div class="checkout-item">
-                        <img src="${item.image}" alt="${item.name}" class="checkout-item-image">
+                        <img src="${item.image}" alt="${item.name}" class="checkout-item-image" onerror="this.src='images/placeholder.png'">
                         <div class="checkout-item-info">
-                            <h4>${item.nameCn}</h4>
-                            <p class="checkout-item-name-en">${item.name}</p>
-                            <p class="checkout-item-price">$${item.price} × ${item.quantity}</p>
+                            <h4>${item.name}</h4>
+                            <p class="checkout-item-price">$${item.price.toFixed(2)} × ${item.quantity}</p>
                         </div>
                         <div class="checkout-item-total">
                             $${(item.price * item.quantity).toFixed(2)}
@@ -203,7 +277,7 @@
                     </div>
                 `).join('');
 
-                const subtotal = getCartTotal();
+                const subtotal = cart.getTotal();
                 const total = subtotal + currentShipping;
                 subtotalSpan.textContent = '$' + subtotal.toFixed(2);
                 grandTotalSpan.textContent = '$' + total.toFixed(2);
@@ -242,7 +316,8 @@
                 });
 
                 if (!response.ok) {
-                    throw new Error('Failed to create checkout session');
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || 'Failed to create checkout session');
                 }
 
                 const session = await response.json();
@@ -260,7 +335,7 @@
                 }
             } catch (error) {
                 console.error('Error:', error);
-                alert('创建支付会话失败，请稍后重试');
+                alert('创建支付会话失败：' + error.message);
                 this.disabled = false;
                 this.textContent = '去支付';
             }
@@ -268,6 +343,8 @@
 
         // 页面加载时更新摘要
         document.addEventListener('DOMContentLoaded', function() {
+            console.log('Checkout page loaded');
+            console.log('Cart items:', cart.items);
             updateOrderSummary();
         });
     </script>
