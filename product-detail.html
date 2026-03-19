@@ -1,0 +1,3681 @@
+<!DOCTYPE html>  
+<html lang="en"> 
+<head> 
+<meta charset="UTF-8"> 
+<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+<title>Pixiu - 貔貅 - DAO Essence</title> 
+<link rel="stylesheet" href="styles.css?v=202603131700"> 
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&family=Noto+Serif+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css">
+<style>
+    /* ============================================
+       商品详情页 - Shopify兼容版本
+       ============================================ */
+    
+    .product-detail {
+        background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 50%, var(--bg-primary) 100%);
+        min-height: 100vh;
+    }
+
+    .product-detail-header {
+        position: relative;
+        padding: 60px 0;
+        background: linear-gradient(135deg, var(--bg-dark) 0%, var(--water-dark) 100%);
+        overflow: hidden;
+    }
+
+    .product-detail-header::before {
+        content: attr(data-product-name);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-family: var(--font-display);
+        font-size: 300px;
+        color: var(--accent-color);
+        opacity: 0.03;
+        pointer-events: none;
+    }
+
+    .product-detail-header::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(circle at 30% 50%, rgba(212, 175, 55, 0.1) 0%, transparent 50%);
+        pointer-events: none;
+    }
+
+    .breadcrumb-custom {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 14px;
+        color: var(--text-light);
+        margin-bottom: 20px;
+        position: relative;
+        z-index: 1;
+    }
+
+    .breadcrumb-custom a {
+        color: var(--accent-color);
+        text-decoration: none;
+        transition: color 0.3s;
+    }
+
+    .breadcrumb-custom a:hover {
+        color: var(--fire-light);
+    }
+
+    .breadcrumb-custom span {
+        color: rgba(245, 240, 230, 0.6);
+    }
+
+    .product-title-large {
+        font-family: var(--font-display);
+        font-size: var(--text-5xl);
+        color: var(--bg-primary);
+        margin-bottom: 10px;
+        position: relative;
+        z-index: 1;
+        letter-spacing: 0.15em;
+    }
+
+    .product-title-en {
+        font-family: var(--font-english);
+        font-size: var(--text-xl);
+        color: var(--accent-color);
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        position: relative;
+        z-index: 1;
+    }
+
+    /* ============================================
+       产品主体区域
+       ============================================ */
+    
+    .product-main {
+        padding: var(--spacing-4xl) 0;
+        position: relative;
+    }
+
+    .product-main::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 200px;
+        height: 2px;
+        background: var(--gradient-gold);
+        opacity: 0.3;
+    }
+
+    .product-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--spacing-3xl);
+    }
+
+    /* ============================================
+       Swiper 图片画廊
+       ============================================ */
+    
+    .product-gallery {
+        position: relative;
+    }
+
+    /* 主图 Swiper */
+    .swiper-main {
+        position: relative;
+        background: var(--bg-accent);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        border: 2px solid rgba(212, 175, 55, 0.2);
+        aspect-ratio: 1;
+    }
+
+    .swiper-main::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+        pointer-events: none;
+        z-index: 10;
+    }
+
+    .swiper-main img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        cursor: zoom-in;
+    }
+
+    .swiper-button-next-main,
+    .swiper-button-prev-main {
+        color: var(--accent-color);
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+
+    .swiper-main:hover .swiper-button-next-main,
+    .swiper-main:hover .swiper-button-prev-main {
+        opacity: 1;
+    }
+
+    .swiper-pagination-main {
+        bottom: 20px;
+    }
+
+    .swiper-pagination-bullet {
+        background: var(--accent-color);
+        opacity: 0.3;
+    }
+
+    .swiper-pagination-bullet-active {
+        opacity: 1;
+    }
+
+    /* 缩略图 Swiper */
+    .swiper-thumbs {
+        margin-top: var(--spacing-lg);
+        padding: 10px 0;
+    }
+
+    .swiper-thumbs .swiper-slide {
+        opacity: 0.5;
+        transition: opacity 0.3s;
+        cursor: pointer;
+    }
+
+    .swiper-thumbs .swiper-slide-thumb-active {
+        opacity: 1;
+        border: 2px solid var(--accent-color);
+        border-radius: var(--radius-md);
+    }
+
+    .swiper-thumbs img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: var(--radius-md);
+        aspect-ratio: 1;
+        transition: transform 0.3s;
+    }
+
+    .swiper-thumbs .swiper-slide:hover img {
+        transform: scale(1.05);
+    }
+
+    .image-zoom-hint {
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+        background: rgba(26, 22, 18, 0.8);
+        color: var(--accent-color);
+        padding: 8px 16px;
+        border-radius: var(--radius-sm);
+        font-size: var(--text-sm);
+        z-index: 20;
+        border: 1px solid rgba(212, 175, 55, 0.3);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    /* ============================================
+       产品信息区
+       ============================================ */
+    
+    .product-info {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-xl);
+    }
+
+    .product-category-tag {
+        display: inline-block;
+        padding: 6px 16px;
+        background: rgba(212, 175, 55, 0.1);
+        border: 1px solid rgba(212, 175, 55, 0.3);
+        border-radius: var(--radius-md);
+        color: var(--accent-color);
+        font-size: var(--text-sm);
+        letter-spacing: 0.15em;
+        width: fit-content;
+    }
+
+    .product-name-cn {
+        font-family: var(--font-display);
+        font-size: var(--text-4xl);
+        color: var(--text-primary);
+        margin-bottom: var(--spacing-sm);
+        letter-spacing: 0.1em;
+    }
+
+    .product-name-en {
+        font-family: var(--font-english);
+        font-size: var(--text-lg);
+        color: var(--accent-color);
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+        margin-bottom: var(--spacing-md);
+    }
+
+    .product-rating {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: var(--spacing-md);
+    }
+
+    .stars {
+        color: var(--accent-color);
+        letter-spacing: 4px;
+        font-size: 18px;
+    }
+
+    .review-count {
+        color: var(--text-secondary);
+        font-size: var(--text-sm);
+    }
+
+    .review-count a {
+        color: var(--accent-color);
+        text-decoration: none;
+    }
+
+    .sku-code {
+        color: var(--text-light);
+        font-size: var(--text-sm);
+        font-family: var(--font-english);
+    }
+
+    /* ============================================
+       规格选择器 - Shopify兼容
+       ============================================ */
+    
+    .variant-selector {
+        background: var(--bg-accent);
+        padding: var(--spacing-xl);
+        border-radius: var(--radius-lg);
+        border: 1px solid rgba(212, 175, 55, 0.2);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .variant-selector::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: var(--gradient-gold);
+    }
+
+    .variant-group {
+        margin-bottom: var(--spacing-lg);
+    }
+
+    .variant-label {
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: var(--spacing-md);
+        font-size: var(--text-sm);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .variant-label::before {
+        content: '';
+        width: 4px;
+        height: 16px;
+        background: var(--accent-color);
+        border-radius: 2px;
+    }
+
+    /* 颜色选择器 */
+    .color-options {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .color-option {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        cursor: pointer;
+        border: 3px solid transparent;
+        transition: all 0.3s;
+        position: relative;
+    }
+
+    .color-option::after {
+        content: '';
+        position: absolute;
+        top: -6px;
+        left: -6px;
+        right: -6px;
+        bottom: -6px;
+        border: 2px solid var(--text-light);
+        border-radius: 50%;
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+
+    .color-option.selected::after {
+        opacity: 1;
+    }
+
+    .color-option.selected {
+        border-color: var(--accent-color);
+    }
+
+    .color-name {
+        margin-top: 4px;
+        font-size: var(--text-xs);
+        color: var(--text-secondary);
+        text-align: center;
+    }
+
+    /* 尺寸选择器 */
+    .size-options {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .size-option {
+        padding: 10px 20px;
+        background: var(--bg-primary);
+        border: 2px solid rgba(212, 175, 55, 0.2);
+        border-radius: var(--radius-md);
+        cursor: pointer;
+        transition: all 0.3s;
+        font-size: var(--text-sm);
+        color: var(--text-primary);
+        min-width: 80px;
+        text-align: center;
+    }
+
+    .size-option:hover {
+        border-color: var(--accent-color);
+        background: rgba(212, 175, 55, 0.05);
+    }
+
+    .size-option.selected {
+        border-color: var(--accent-color);
+        background: var(--accent-color);
+        color: var(--bg-dark);
+    }
+
+    .size-option.disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+        text-decoration: line-through;
+    }
+
+    /* 材质选择器 */
+    .material-options {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .material-option {
+        padding: 12px 24px;
+        background: var(--bg-primary);
+        border: 2px solid rgba(212, 175, 55, 0.2);
+        border-radius: var(--radius-md);
+        cursor: pointer;
+        transition: all 0.3s;
+        font-size: var(--text-sm);
+        color: var(--text-primary);
+    }
+
+    .material-option:hover {
+        border-color: var(--accent-color);
+        background: rgba(212, 175, 55, 0.05);
+    }
+
+    .material-option.selected {
+        border-color: var(--accent-color);
+        background: linear-gradient(135deg, var(--accent-color) 0%, #E8C547 100%);
+        color: var(--bg-dark);
+    }
+
+    /* ============================================
+       价格区域
+       ============================================ */
+    
+    .price-section {
+        background: var(--bg-accent);
+        padding: var(--spacing-xl);
+        border-radius: var(--radius-lg);
+        border: 1px solid rgba(212, 175, 55, 0.2);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .price-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: var(--gradient-gold);
+    }
+
+    .price-row {
+        display: flex;
+        align-items: baseline;
+        gap: var(--spacing-md);
+        margin-bottom: var(--spacing-sm);
+    }
+
+    .current-price {
+        font-size: var(--text-4xl);
+        font-weight: 700;
+        color: var(--fire-primary);
+        font-family: var(--font-english);
+    }
+
+    .current-price span {
+        font-size: var(--text-lg);
+        margin-right: 4px;
+    }
+
+    .original-price {
+        font-size: var(--text-xl);
+        color: var(--text-light);
+        text-decoration: line-through;
+    }
+
+    .discount-badge {
+        background: var(--fire-primary);
+        color: white;
+        padding: 4px 12px;
+        border-radius: var(--radius-sm);
+        font-size: var(--text-sm);
+        font-weight: 600;
+    }
+
+    .savings-text {
+        color: var(--wood-primary);
+        font-size: var(--text-sm);
+        margin-bottom: var(--spacing-sm);
+    }
+
+    .tax-info {
+        color: var(--text-light);
+        font-size: var(--text-xs);
+    }
+
+    /* 总价区域 */
+    .total-price-section {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: var(--spacing-lg);
+        background: linear-gradient(135deg, var(--accent-color) 0%, #E8C547 100%);
+        border-radius: var(--radius-md);
+        margin-bottom: var(--spacing-lg);
+    }
+
+    .total-label {
+        font-size: var(--text-lg);
+        font-weight: 600;
+        color: var(--bg-dark);
+    }
+
+    .total-price {
+        font-size: var(--text-2xl);
+        font-weight: 700;
+        color: var(--bg-dark);
+        font-family: var(--font-english);
+    }
+
+    /* ============================================
+       购买区域
+       ============================================ */
+    
+    .purchase-area {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-lg);
+    }
+
+    .quantity-row {
+        display: flex;
+        gap: var(--spacing-lg);
+        align-items: center;
+    }
+
+    .quantity-wrapper {
+        display: flex;
+        align-items: center;
+        background: var(--bg-accent);
+        border: 1px solid rgba(212, 175, 55, 0.2);
+        border-radius: var(--radius-md);
+        overflow: hidden;
+    }
+
+    .quantity-btn {
+        background: transparent;
+        border: none;
+        color: var(--text-primary);
+        padding: 12px 16px;
+        font-size: 20px;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+
+    .quantity-btn:hover {
+        background: rgba(212, 175, 55, 0.1);
+        color: var(--accent-color);
+    }
+
+    .quantity-input {
+        width: 60px;
+        text-align: center;
+        background: transparent;
+        border: none;
+        color: var(--text-primary);
+        font-size: var(--text-base);
+        font-weight: 600;
+        border-left: 1px solid rgba(212, 175, 55, 0.1);
+        border-right: 1px solid rgba(212, 175, 55, 0.1);
+    }
+
+    .quantity-input:focus {
+        outline: none;
+    }
+
+    .stock-status {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: var(--text-sm);
+    }
+
+    .stock-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--wood-primary);
+        animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.5; }
+    }
+
+    .stock-text {
+        color: var(--wood-primary);
+        font-weight: 500;
+    }
+
+    .stock-count {
+        background: var(--wood-primary);
+        color: white;
+        padding: 4px 10px;
+        border-radius: var(--radius-sm);
+        font-size: var(--text-xs);
+        font-weight: 600;
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: var(--spacing-md);
+    }
+
+    .btn-add-cart {
+        flex: 1;
+        background: var(--gradient-gold);
+        color: var(--bg-dark);
+        border: none;
+        padding: 16px 32px;
+        font-size: var(--text-base);
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+        cursor: pointer;
+        transition: all 0.3s;
+        border-radius: var(--radius-md);
+        font-family: var(--font-english);
+    }
+
+    .btn-add-cart:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-glow);
+    }
+
+    .btn-buy-now {
+        flex: 1;
+        background: transparent;
+        color: var(--accent-color);
+        border: 2px solid var(--accent-color);
+        padding: 14px 32px;
+        font-size: var(--text-base);
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+        cursor: pointer;
+        transition: all 0.3s;
+        border-radius: var(--radius-md);
+        font-family: var(--font-english);
+    }
+
+    .btn-buy-now:hover {
+        background: var(--accent-color);
+        color: var(--bg-dark);
+    }
+
+    .btn-wishlist {
+        background: var(--bg-accent);
+        border: 1px solid rgba(212, 175, 55, 0.2);
+        color: var(--text-primary);
+        padding: 14px 20px;
+        cursor: pointer;
+        transition: all 0.3s;
+        border-radius: var(--radius-md);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .btn-wishlist:hover {
+        border-color: var(--accent-color);
+        color: var(--accent-color);
+    }
+
+    .btn-wishlist svg {
+        width: 24px;
+        height: 24px;
+    }
+
+    /* ============================================
+       产品描述
+       ============================================ */
+    
+    .product-description {
+        background: var(--bg-accent);
+        padding: var(--spacing-2xl);
+        border-radius: var(--radius-lg);
+        border: 1px solid rgba(212, 175, 55, 0.2);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .product-description::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: var(--gradient-gold);
+    }
+
+    .section-title-custom {
+        font-family: var(--font-display);
+        font-size: var(--text-2xl);
+        color: var(--text-primary);
+        margin-bottom: var(--spacing-lg);
+        padding-bottom: var(--spacing-md);
+        border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+        letter-spacing: 0.15em;
+    }
+
+    .description-text {
+        color: var(--text-secondary);
+        line-height: 1.8;
+        font-size: var(--text-base);
+    }
+
+    .description-text p {
+        margin-bottom: var(--spacing-md);
+    }
+
+    /* ============================================
+       规格表格
+       ============================================ */
+    
+    .specifications {
+        background: var(--bg-accent);
+        padding: var(--spacing-2xl);
+        border-radius: var(--radius-lg);
+        border: 1px solid rgba(212, 175, 55, 0.2);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .specifications::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: var(--gradient-gold);
+    }
+
+    .spec-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .spec-table tr {
+        border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+    }
+
+    .spec-table tr:last-child {
+        border-bottom: none;
+    }
+
+    .spec-table td {
+        padding: 16px 0;
+        font-size: var(--text-sm);
+    }
+
+    .spec-label {
+        color: var(--text-light);
+        width: 30%;
+        font-weight: 500;
+    }
+
+    .spec-value {
+        color: var(--text-primary);
+    }
+
+    /* ============================================
+       能量属性
+       ============================================ */
+    
+    .energy-attributes {
+        background: linear-gradient(135deg, var(--bg-accent) 0%, rgba(212, 175, 55, 0.05) 100%);
+        padding: var(--spacing-2xl);
+        border-radius: var(--radius-lg);
+        border: 1px solid rgba(212, 175, 55, 0.2);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .energy-attributes::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: var(--gradient-gold);
+    }
+
+    .attribute-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--spacing-lg);
+        margin-top: var(--spacing-lg);
+    }
+
+    .attribute-item {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-md);
+        padding: var(--spacing-lg);
+        background: var(--bg-primary);
+        border-radius: var(--radius-md);
+        border: 1px solid rgba(212, 175, 55, 0.1);
+        transition: all 0.3s;
+    }
+
+    .attribute-item:hover {
+        border-color: var(--accent-color);
+        transform: translateY(-4px);
+    }
+
+    .attribute-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(212, 175, 55, 0.1);
+        flex-shrink: 0;
+    }
+
+    .attribute-icon svg {
+        width: 28px;
+        height: 28px;
+        fill: var(--accent-color);
+    }
+
+    .attribute-content h4 {
+        font-family: var(--font-display);
+        font-size: var(--text-base);
+        color: var(--text-primary);
+        margin-bottom: var(--spacing-xs);
+    }
+
+    .attribute-content p {
+        font-size: var(--text-sm);
+        color: var(--text-secondary);
+    }
+
+    /* ============================================
+       响应式设计
+       ============================================ */
+    
+    @media (max-width: 1024px) {
+        .product-grid {
+            grid-template-columns: 1fr;
+            gap: var(--spacing-2xl);
+        }
+
+        .attribute-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .product-title-large {
+            font-size: var(--text-3xl);
+        }
+
+        .product-name-cn {
+            font-size: var(--text-2xl);
+        }
+
+        .current-price {
+            font-size: var(--text-2xl);
+        }
+
+        .action-buttons {
+            flex-direction: column;
+        }
+
+        .color-options,
+        .size-options,
+        .material-options {
+            justify-content: center;
+        }
+    }
+
+    /* ============================================
+       图片放大模态框
+       ============================================ */
+    
+    .image-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(26, 22, 18, 0.95);
+        z-index: 2000;
+        justify-content: center;
+        align-items: center;
+        padding: var(--spacing-lg);
+    }
+
+    .image-modal.active {
+        display: flex;
+    }
+
+    .image-modal img {
+        max-width: 95%;
+        max-height: 95%;
+        object-fit: contain;
+        border-radius: var(--radius-lg);
+    }
+
+    .modal-close-btn {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: transparent;
+        border: 1px solid var(--accent-color);
+        color: var(--accent-color);
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        font-size: 24px;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+
+    .modal-close-btn:hover {
+        background: var(--accent-color);
+        color: var(--bg-dark);
+    }
+
+    /* ============================================
+       后台编辑标记（开发环境）
+       ============================================ */
+    
+    .admin-edit-marker {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: var(--accent-color);
+        color: var(--bg-dark);
+        padding: 6px 12px;
+        border-radius: var(--radius-sm);
+        font-size: 11px;
+        font-weight: 600;
+        cursor: pointer;
+        z-index: 100;
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+
+    .admin-mode .admin-edit-marker {
+        opacity: 1;
+    }
+
+    .editable-field {
+        position: relative;
+        border: 2px dashed transparent;
+        transition: border-color 0.3s;
+    }
+
+    .admin-mode .editable-field:hover {
+        border-color: var(--accent-color);
+    }
+
+    /* ============================================
+       购物车通知
+       ============================================ */
+
+    .cart-notification {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: var(--bg-dark);
+        border: 2px solid var(--accent-color);
+        border-radius: var(--radius-md);
+        padding: 16px 24px;
+        z-index: 3000;
+        box-shadow: 0 10px 40px rgba(212, 175, 55, 0.3);
+        opacity: 0;
+        transform: translateX(100px);
+        transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+
+    .cart-notification.show {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    .notification-content {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .notification-icon {
+        width: 24px;
+        height: 24px;
+        color: var(--accent-color);
+        flex-shrink: 0;
+    }
+
+    .notification-text {
+        color: var(--text-primary);
+        font-size: var(--text-sm);
+        font-weight: 500;
+    }
+
+    /* 页脚样式 */
+    footer {
+        background: var(--bg-dark);
+        color: var(--text-light);
+        padding: var(--spacing-4xl) 0 var(--spacing-xl);
+        margin-top: var(--spacing-4xl);
+    }
+
+    .footer-content {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: var(--spacing-xl);
+        margin-bottom: var(--spacing-2xl);
+    }
+
+    .footer-section h4 {
+        font-family: var(--font-display);
+        font-size: var(--text-lg);
+        color: var(--accent-color);
+        margin-bottom: var(--spacing-md);
+    }
+
+    .footer-section p {
+        color: var(--text-secondary);
+        line-height: 1.6;
+    }
+
+    .footer-section ul {
+        list-style: none;
+    }
+
+    .footer-section ul li {
+        margin-bottom: var(--spacing-sm);
+    }
+
+    .footer-section ul a {
+        color: var(--text-secondary);
+        text-decoration: none;
+        transition: color 0.3s;
+    }
+
+    .footer-section ul a:hover {
+        color: var(--accent-color);
+    }
+
+    .footer-bottom {
+        text-align: center;
+        padding-top: var(--spacing-xl);
+        border-top: 1px solid rgba(212, 175, 55, 0.1);
+        color: var(--text-light);
+        font-size: var(--text-sm);
+    }
+
+    @media (max-width: 768px) {
+        .footer-content {
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .footer-content {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    /* ============================================
+       侧边栏购物车样式 - 与shop.html统一
+       ============================================ */
+
+    .cart-btn {
+        position: fixed;
+        top: 85px;
+        right: 30px;
+        background: var(--accent-color);
+        color: var(--bg-dark);
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 4px 16px rgba(212, 175, 55, 0.4);
+        transition: all var(--transition-base);
+        z-index: 1000;
+        border: 3px solid var(--bg-primary);
+        outline: none;
+    }
+
+    .cart-btn:hover {
+        transform: scale(1.1);
+        box-shadow: 0 6px 20px rgba(212, 175, 55, 0.5);
+    }
+
+    .cart-count {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        background: var(--fire-primary);
+        color: #fff;
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 11px;
+        font-weight: 700;
+        border: 3px solid var(--bg-primary);
+    }
+
+    .cart-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.5);
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s;
+        z-index: 9999;
+    }
+
+    .cart-overlay.show {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .cart-sidebar {
+        position: fixed;
+        top: 0;
+        right: -420px;
+        width: 420px;
+        max-width: 100%;
+        height: 100%;
+        background: var(--bg-accent);
+        transition: right var(--transition-base);
+        z-index: 10000;
+        display: flex;
+        flex-direction: column;
+        box-shadow: -8px 0 24px rgba(0,0,0,0.15);
+    }
+
+    .cart-sidebar.open {
+        right: 0;
+    }
+
+    .cart-header {
+        padding: var(--spacing-xl);
+        background: var(--accent-color);
+        color: var(--bg-dark);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .cart-header h3 {
+        font-family: var(--font-display);
+        font-size: var(--text-xl);
+        font-weight: 600;
+        margin: 0;
+    }
+
+    .cart-close {
+        background: rgba(26, 22, 18, 0.1);
+        border: none;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        cursor: pointer;
+        color: var(--bg-dark);
+        font-size: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all var(--transition-fast);
+    }
+
+    .cart-close:hover {
+        background: rgba(26, 22, 18, 0.2);
+        transform: rotate(90deg);
+    }
+
+    .cart-items {
+        flex: 1;
+        overflow-y: auto;
+        padding: var(--spacing-lg);
+    }
+
+    .cart-item {
+        display: flex;
+        gap: var(--spacing-md);
+        padding: var(--spacing-lg);
+        background: var(--bg-primary);
+        border-radius: var(--radius-lg);
+        margin-bottom: var(--spacing-md);
+        border: 1px solid rgba(212, 175, 55, 0.1);
+        transition: all var(--transition-fast);
+    }
+
+    .cart-item:hover {
+        border-color: var(--accent-color);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    .cart-item-image {
+        width: 80px;
+        height: 80px;
+        border-radius: var(--radius-md);
+        overflow: hidden;
+        flex-shrink: 0;
+        background: var(--bg-accent);
+    }
+
+    .cart-item-details {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .cart-item-title {
+        font-weight: 600;
+        margin-bottom: var(--spacing-sm);
+        color: var(--text-primary);
+        font-size: var(--text-sm);
+        line-height: 1.4;
+    }
+
+    .cart-item-price {
+        color: var(--fire-primary);
+        font-weight: 600;
+        margin-bottom: var(--spacing-sm);
+        font-size: var(--text-lg);
+    }
+
+    .cart-item-quantity {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+        margin-top: auto;
+    }
+
+    .qty-btn {
+        width: 32px;
+        height: 32px;
+        border: 1px solid rgba(212, 175, 55, 0.3);
+        background: var(--bg-primary);
+        color: var(--accent-color);
+        border-radius: var(--radius-sm);
+        cursor: pointer;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all var(--transition-fast);
+    }
+
+    .qty-btn:hover {
+        background: var(--accent-color);
+        color: var(--bg-dark);
+        border-color: var(--accent-color);
+    }
+
+    .qty-value {
+        min-width: 30px;
+        text-align: center;
+        font-weight: 600;
+        color: var(--text-primary);
+    }
+
+    .cart-footer {
+        padding: var(--spacing-xl);
+        border-top: 1px solid rgba(212, 175, 55, 0.1);
+        background: var(--bg-primary);
+    }
+
+    .cart-total {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: var(--spacing-lg);
+        font-size: var(--text-xl);
+        font-weight: 600;
+    }
+
+    .cart-total span:last-child {
+        color: var(--accent-color);
+    }
+
+    .btn-checkout {
+        width: 100%;
+        padding: 16px;
+        background: var(--accent-color);
+        color: var(--bg-dark);
+        border: none;
+        border-radius: var(--radius-md);
+        font-size: var(--text-lg);
+        font-weight: 600;
+        cursor: pointer;
+        transition: all var(--transition-base);
+        box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+    }
+
+    .btn-checkout:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(212, 175, 55, 0.4);
+    }
+
+    @media (max-width: 768px) {
+        .cart-sidebar {
+            width: 100%;
+            right: -100%;
+        }
+
+        .cart-btn {
+            top: 70px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+        }
+    }
+
+</style>
+</head> 
+<body>
+    <!-- 头部导航 -->
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <a href="index.html" class="logo">
+                    <div class="logo-icon"></div>
+                    <div class="logo-text">
+                        <span class="logo-cn">DAO本质</span>
+                    </div>
+                </a>
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="nav-link">Home</a></li>
+                    <li><a href="culture.html" class="nav-link">Energy Universe</a></li>
+                    <li><a href="shop.html" class="nav-link">Energy Shop</a></li>
+                    <li><a href="guide.html" class="nav-link">Crafting Process</a></li>
+                    <li><a href="about.html" class="nav-link">About Us</a></li>
+                    <li><a href="shop.html" class="nav-cta">Explore Products</a></li>
+                </ul>
+                <button class="mobile-menu-btn">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="product-detail">
+        <!-- 页面头部 -->
+        <div class="product-detail-header" id="productDetailHeader" data-product-name="">
+            <div class="container">
+                <div class="breadcrumb-custom">
+                    <a href="index.html">Home</a>
+                    <span>›</span>
+                    <a href="shop.html">Energy Shop</a>
+                    <span>›</span>
+                    <a href="#" id="breadcrumbCategory">Ritual Items</a>
+                    <span>›</span>
+                    <span id="breadcrumbProduct">Pixiu</span>
+                </div>
+                <h1 class="product-title-large" id="pageTitleLarge">貔貅</h1>
+                <p class="product-title-en" id="pageTitleEn">Pixiu - The Wealth Guardian</p>
+            </div>
+        </div>
+
+        <!-- 产品主体 -->
+        <div class="product-main">
+            <div class="container">
+                <div class="product-grid">
+                    <!-- 图片展示区 -->
+                    <div class="product-gallery">
+                        <div class="swiper-main">
+                            <div class="swiper-wrapper" id="mainImageWrapper">
+                                <!-- 图片将由 JavaScript 动态加载 -->
+                            </div>
+                            <div class="swiper-pagination swiper-pagination-main"></div>
+                            <div class="swiper-button-next swiper-button-next-main"></div>
+                            <div class="swiper-button-prev swiper-button-prev-main"></div>
+                            <div class="image-zoom-hint">
+                                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="11" cy="11" r="8"></circle>
+                                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                </svg>
+                                Click to zoom
+                            </div>
+                        </div>
+                        <div class="swiper-thumbs">
+                            <div class="swiper-wrapper" id="thumbsWrapper">
+                                <!-- 缩略图将由 JavaScript 动态加载 -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 产品信息区 -->
+                    <div class="product-info">
+                        <span class="product-category-tag">Sacred Ritual Items</span>
+                        
+                        <h2 class="product-name-cn">貔貅摆件</h2>
+                        <p class="product-name-en">Pixiu Statue - The Wealth Guardian</p>
+                        
+                        <div class="product-rating">
+                            <span class="stars">★★★★★</span>
+                            <span class="review-count">(247 reviews) • <a href="#">Read all reviews</a></span>
+                        </div>
+
+                        <div class="sku-code">SKU: DAO-PIXIU-001</div>
+
+                        <!-- 规格选择器 -->
+                        <div class="variant-selector" id="variantSelector">
+                            <!-- 变体将由 JavaScript 动态生成 -->
+                        </div>
+
+                        <!-- 价格 -->
+                        <div class="price-section">
+                            <div class="price-row">
+                                <span class="current-price" id="currentPrice">$299.00</span>
+                                <span class="original-price" id="originalPrice">$399.00</span>
+                                <span class="discount-badge" id="discountBadge">-25%</span>
+                            </div>
+                            <div class="savings-text" id="savingsText">Save $100.00</div>
+                            <div class="tax-info">Tax included. Free shipping on orders over $30</div>
+                        </div>
+
+                        <!-- 总价 -->
+                        <div class="total-price-section">
+                            <span class="total-label">Total Price:</span>
+                            <span class="total-price" id="totalPrice">$299.00</span>
+                        </div>
+
+                        <!-- 购买区域 -->
+                        <div class="purchase-area">
+                            <div class="quantity-row">
+                                <div class="quantity-wrapper">
+                                    <button class="quantity-btn" onclick="updateQuantity(-1)">−</button>
+                                    <input type="number" value="1" min="1" class="quantity-input" id="quantity">
+                                    <button class="quantity-btn" onclick="updateQuantity(1)">+</button>
+                                </div>
+                                <div class="stock-status">
+                                    <span class="stock-dot"></span>
+                                    <span class="stock-text">In Stock</span>
+                                    <span class="stock-count">Only 8 left</span>
+                                </div>
+                            </div>
+
+                            <div class="action-buttons">
+                                <button class="btn-add-cart" onclick="addToCart()">Add to Cart</button>
+                                <button class="btn-buy-now" onclick="buyNow()">Buy Now</button>
+                            </div>
+                        </div>
+
+                        <!-- 产品描述 -->
+                        <div class="product-description">
+                            <h3 class="section-title-custom">Product Description</h3>
+                            <div class="description-text">
+                                <p>
+                                    貔貅（Pixiu）是中国古代神话传说中的瑞兽，传说能吞噬金银财宝，只进不出，象征着招财进宝、镇宅辟邪。此貔貅摆件由匠人手工雕刻，选用上等材质，经过传统开光仪式加持，蕴含纯正能量。
+                                </p>
+                                <p>
+                                    The Pixiu is a legendary Chinese mythical creature believed to bring wealth and good fortune. This exquisitely crafted statue features intricate details and has been consecrated by Taoist masters according to ancient traditions.
+                                </p>
+                                <p>
+                                    每件貔貅都经过开光仪式，配有完整的能量加持记录，可追溯、可验证。适合摆放于家中或办公室，既可装饰，又能镇宅纳福。
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- 规格参数 -->
+                        <div class="specifications">
+                            <h3 class="section-title-custom">Specifications</h3>
+                            <table class="spec-table">
+                                <tr>
+                                    <td class="spec-label">材质 Material</td>
+                                    <td class="spec-value" id="specMaterial">紫檀木 / Sandalwood</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-label">尺寸 Size</td>
+                                    <td class="spec-value" id="specSize">120×80×150mm</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-label">重量 Weight</td>
+                                    <td class="spec-value" id="specWeight">约 350g</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-label">工艺 Craftsmanship</td>
+                                    <td class="spec-value">手工雕刻 Hand-carved</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-label">开光状态 Consecration</td>
+                                    <td class="spec-value">已开光 Consecrated</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-label">包装 Packaging</td>
+                                    <td class="spec-value">礼盒装含证书 Gift box with certificate</td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <!-- 能量属性 -->
+                        <div class="energy-attributes">
+                            <h3 class="section-title-custom">Energy Attributes</h3>
+                            <div class="attribute-grid">
+                                <div class="attribute-item">
+                                    <div class="attribute-icon">
+                                        <svg viewBox="0 0 24 24">
+                                            <circle cx="12" cy="12" r="8" fill="currentColor" opacity="0.3"/>
+                                            <circle cx="12" cy="12" r="4" fill="currentColor"/>
+                                        </svg>
+                                    </div>
+                                    <div class="attribute-content">
+                                        <h4>五行属性 Five Element</h4>
+                                        <p>金元素 - 助财运、聚财气</p>
+                                    </div>
+                                </div>
+                                <div class="attribute-item">
+                                    <div class="attribute-icon">
+                                        <svg viewBox="0 0 24 24">
+                                            <polygon points="12,2 22,22 2,22" fill="currentColor" opacity="0.3"/>
+                                            <polygon points="12,6 18,18 6,18" fill="currentColor"/>
+                                        </svg>
+                                    </div>
+                                    <div class="attribute-content">
+                                        <h4>能量能量 Energy Type</h4>
+                                        <p>招财守财 - 守护财富</p>
+                                    </div>
+                                </div>
+                                <div class="attribute-item">
+                                    <div class="attribute-icon">
+                                        <svg viewBox="0 0 24 24">
+                                            <circle cx="12" cy="6" r="3" fill="currentColor"/>
+                                            <path d="M12 12c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6z" fill="currentColor" opacity="0.5"/>
+                                        </svg>
+                                    </div>
+                                    <div class="attribute-content">
+                                        <h4>适用方位 Auspicious Direction</h4>
+                                        <p>正西、西北 - 财位最佳</p>
+                                    </div>
+                                </div>
+                                <div class="attribute-item">
+                                    <div class="attribute-icon">
+                                        <svg viewBox="0 0 24 24">
+                                            <rect x="3" y="3" width="18" height="18" rx="2" fill="currentColor" opacity="0.3"/>
+                                            <path d="M9 9h6v6H9z" fill="currentColor"/>
+                                        </svg>
+                                    </div>
+                                    <div class="attribute-content">
+                                        <h4>适用人群 Target Audience</h4>
+                                        <p>事业心强、追求财富的人士</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 图片放大模态框 -->
+    <div class="image-modal" id="imageModal">
+        <button class="modal-close-btn" onclick="closeImageModal()">×</button>
+        <img src="" alt="Zoomed image" id="modalImage">
+    </div>
+
+    <!-- 购物车按钮 -->
+    <div class="cart-btn">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="9" cy="21" r="1"/>
+            <circle cx="20" cy="21" r="1"/>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+        </svg>
+        <span class="cart-count">0</span>
+    </div>
+
+    <!-- 购物车侧边栏 -->
+    <div class="cart-overlay"></div>
+    <div class="cart-sidebar">
+        <div class="cart-header">
+            <h3>
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:8px">
+                    <circle cx="9" cy="21" r="1"/>
+                    <circle cx="20" cy="21" r="1"/>
+                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+                </svg>
+                Shopping Cart
+            </h3>
+            <button class="cart-close">×</button>
+        </div>
+        <div class="cart-items">
+            <p style="text-align: center; color: rgba(245, 240, 230, 0.6); padding: 2rem;">Your cart is empty</p>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total</span>
+                <span>$0.00</span>
+            </div>
+            <button class="btn-checkout" onclick="window.location.href='checkout.html'">Checkout →</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+    <script>
+        // ============================================
+        // 所有产品数据 - 与Shopify兼容的数据结构
+        // ============================================
+
+        const PRODUCTS = {
+            'tai-sui': {
+                id: 'tai-sui-001',
+                title: '甲辰年太岁符 Tai Sui Talisman',
+                handle: 'tai-sui',
+                description: '甲辰年太岁符是道教重要的护身符咒，专为本命年或与太岁犯冲的人群设计。由武当山道长亲自开光绘制，蕴含强大的能量，能化解太岁冲撞，保佑全年运势顺畅。',
+                vendor: 'DAO Essence',
+                type: 'Talisman',
+                tags: ['tai-sui', 'protection', 'talisman', 'consecrated'],
+
+                price: 288.00,
+                compareAtPrice: 388.00,
+                currency: 'CNY',
+
+                images: [
+                    {
+                        id: 1,
+                        src: 'images/1.jpg',
+                        alt: '太岁符正面',
+                        width: 1200,
+                        height: 1200,
+                        position: 1
+                    },
+                    {
+                        id: 2,
+                        src: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1200&h=1200&fit=crop',
+                        alt: '太岁符细节',
+                        width: 1200,
+                        height: 1200,
+                        position: 2
+                    },
+                    {
+                        id: 3,
+                        src: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1200&h=1200&fit=crop',
+                        alt: '开光仪式',
+                        width: 1200,
+                        height: 1200,
+                        position: 3
+                    }
+                ],
+
+                variants: [
+                    {
+                        id: 'tai-sui-001-standard',
+                        title: 'Standard',
+                        price: 288.00,
+                        compareAtPrice: 388.00,
+                        available: true,
+                        inventoryQuantity: 50,
+                        options: {
+                            size: 'standard'
+                        },
+                        specs: {
+                            size: '120×180mm',
+                            material: '黄纸朱砂'
+                        }
+                    },
+                    {
+                        id: 'tai-sui-001-deluxe',
+                        title: 'Deluxe',
+                        price: 388.00,
+                        compareAtPrice: 488.00,
+                        available: true,
+                        inventoryQuantity: 30,
+                        options: {
+                            size: 'deluxe'
+                        },
+                        specs: {
+                            size: '180×240mm',
+                            material: '宣纸金粉'
+                        }
+                    }
+                ],
+
+                metafields: {
+                    energy: {
+                        five_element: '火',
+                        type: '护身化解',
+                        intensity: '高',
+                        direction: '正南',
+                        benefits: ['化解太岁', '平安顺遂', '事业顺利'],
+                        suitable_for: ['本命年', '与太岁犯冲', '事业运弱']
+                    },
+                    consecration: {
+                        master: '武当山王道长',
+                        date: '2024-03-15',
+                        location: '武当山紫霄宫',
+                        ceremony_steps: ['净坛', '请神', '开光', '加持', '封印']
+                    },
+                    crafting: {
+                        material: '黄纸/宣纸',
+                        handmade: true,
+                        craftsman: '王道长',
+                        days_required: 1
+                    }
+                }
+            },
+
+            'wealth': {
+                id: 'wealth-001',
+                title: '招财符 Wealth Attraction Talisman',
+                handle: 'wealth',
+                description: '招财符是道教财神符咒之一，专为主财库、增强财运气场而制。由道长亲自开光加持，能够请财神护佑，提升财富运势，为创业者和商务人士量身打造。',
+                vendor: 'DAO Essence',
+                type: 'Talisman',
+                tags: ['wealth', 'prosperity', 'talisman', 'consecrated'],
+
+                price: 368.00,
+                compareAtPrice: 468.00,
+                currency: 'CNY',
+
+                images: [
+                    {
+                        id: 1,
+                        src: 'images/2.jpg',
+                        alt: '招财符正面',
+                        width: 1200,
+                        height: 1200,
+                        position: 1
+                    },
+                    {
+                        id: 2,
+                        src: 'https://images.unsplash.com/photo-1556742049-0cfed4f7a07d?w=1200&h=1200&fit=crop',
+                        alt: '招财符细节',
+                        width: 1200,
+                        height: 1200,
+                        position: 2
+                    },
+                    {
+                        id: 3,
+                        src: 'https://images.unsplash.com/photo-1544531586-fde5298cdd40?w=1200&h=1200&fit=crop',
+                        alt: '开光仪式',
+                        width: 1200,
+                        height: 1200,
+                        position: 3
+                    }
+                ],
+
+                variants: [
+                    {
+                        id: 'wealth-001-standard',
+                        title: 'Standard',
+                        price: 368.00,
+                        compareAtPrice: 468.00,
+                        available: true,
+                        inventoryQuantity: 60,
+                        options: {
+                            size: 'standard'
+                        },
+                        specs: {
+                            size: '120×180mm',
+                            material: '黄纸朱砂'
+                        }
+                    },
+                    {
+                        id: 'wealth-001-deluxe',
+                        title: 'Deluxe',
+                        price: 488.00,
+                        compareAtPrice: 688.00,
+                        available: true,
+                        inventoryQuantity: 40,
+                        options: {
+                            size: 'deluxe'
+                        },
+                        specs: {
+                            size: '180×240mm',
+                            material: '宣纸金粉'
+                        }
+                    }
+                ],
+
+                metafields: {
+                    energy: {
+                        five_element: '金',
+                        type: '招财聚气',
+                        intensity: '高',
+                        direction: '正西',
+                        benefits: ['招财进宝', '事业顺利', '财源广进'],
+                        suitable_for: ['创业者', '商务人士', '投资者']
+                    },
+                    consecration: {
+                        master: '龙虎山李道长',
+                        date: '2024-03-10',
+                        location: '龙虎山天师府',
+                        ceremony_steps: ['请财神', '开光', '加持', '封印']
+                    },
+                    crafting: {
+                        material: '黄纸/宣纸',
+                        handmade: true,
+                        craftsman: '李道长',
+                        days_required: 1
+                    }
+                }
+            },
+
+            'obsidian': {
+                id: 'obsidian-001',
+                title: '天然黑曜石手串 Natural Obsidian Bracelet',
+                handle: 'obsidian',
+                description: '天然黑曜石手串，采用高品质巴西黑曜石精心打磨而成。黑曜石是极阳之石，具有强大的辟邪化煞能量，能有效驱除负能量，守护平安，提升个人气场。',
+                vendor: 'DAO Essence',
+                type: 'Crystal',
+                tags: ['obsidian', 'protection', 'crystal', 'negative-energy'],
+
+                price: 588.00,
+                compareAtPrice: 788.00,
+                currency: 'CNY',
+
+                images: [
+                    {
+                        id: 1,
+                        src: 'images/3.jpg',
+                        alt: '黑曜石手串正面',
+                        width: 1200,
+                        height: 1200,
+                        position: 1
+                    },
+                    {
+                        id: 2,
+                        src: 'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=1200&h=1200&fit=crop',
+                        alt: '黑曜石手串佩戴效果',
+                        width: 1200,
+                        height: 1200,
+                        position: 2
+                    },
+                    {
+                        id: 3,
+                        src: 'https://images.unsplash.com/photo-1599643478518-17488fbbcd75?w=1200&h=1200&fit=crop',
+                        alt: '黑曜石细节',
+                        width: 1200,
+                        height: 1200,
+                        position: 3
+                    }
+                ],
+
+                variants: [
+                    {
+                        id: 'obsidian-001-10mm',
+                        title: '10mm Beads',
+                        price: 588.00,
+                        compareAtPrice: 788.00,
+                        available: true,
+                        inventoryQuantity: 40,
+                        options: {
+                            beadSize: '10mm'
+                        },
+                        specs: {
+                            size: '10mm珠子',
+                            weight: '约80g'
+                        }
+                    },
+                    {
+                        id: 'obsidian-001-12mm',
+                        title: '12mm Beads',
+                        price: 688.00,
+                        compareAtPrice: 888.00,
+                        available: true,
+                        inventoryQuantity: 25,
+                        options: {
+                            beadSize: '12mm'
+                        },
+                        specs: {
+                            size: '12mm珠子',
+                            weight: '约100g'
+                        }
+                    }
+                ],
+
+                metafields: {
+                    energy: {
+                        five_element: '水',
+                        type: '辟邪化煞',
+                        intensity: '高',
+                        direction: '正北',
+                        benefits: ['驱除负能量', '守护平安', '提升气场'],
+                        suitable_for: ['运势不佳', '工作压力大', '夜梦多']
+                    },
+                    consecration: {
+                        master: '昆仑山张道长',
+                        date: '2024-02-20',
+                        location: '昆仑山道观',
+                        ceremony_steps: ['净化', '加持', '封存']
+                    },
+                    crafting: {
+                        material: '巴西黑曜石',
+                        handmade: false,
+                        craftsman: '工艺师小李',
+                        days_required: 2
+                    }
+                }
+            },
+
+            'amethyst': {
+                id: 'amethyst-001',
+                title: '巴西紫水晶洞 Brazilian Amethyst Geode',
+                handle: 'amethyst',
+                description: '来自巴西的天然紫水晶洞，色彩深邃，晶体晶莹剔透。紫水晶被誉为"智慧之石"，具有强大的招财和镇宅能量，是提升家居气场、增强运势的绝佳选择。',
+                vendor: 'DAO Essence',
+                type: 'Crystal',
+                tags: ['amethyst', 'wealth', 'crystal', 'protection'],
+
+                price: 2888.00,
+                compareAtPrice: 3888.00,
+                currency: 'CNY',
+
+                images: [
+                    {
+                        id: 1,
+                        src: 'images/4.jpg',
+                        alt: '紫水晶洞正面',
+                        width: 1200,
+                        height: 1200,
+                        position: 1
+                    },
+                    {
+                        id: 2,
+                        src: 'https://images.unsplash.com/photo-1618331835717-801e976710b2?w=1200&h=1200&fit=crop',
+                        alt: '紫水晶细节',
+                        width: 1200,
+                        height: 1200,
+                        position: 2
+                    },
+                    {
+                        id: 3,
+                        src: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1200&h=1200&fit=crop',
+                        alt: '水晶内部',
+                        width: 1200,
+                        height: 1200,
+                        position: 3
+                    }
+                ],
+
+                variants: [
+                    {
+                        id: 'amethyst-001-small',
+                        title: 'Small Size',
+                        price: 2888.00,
+                        compareAtPrice: 3888.00,
+                        available: true,
+                        inventoryQuantity: 20,
+                        options: {
+                            size: 'small'
+                        },
+                        specs: {
+                            size: '约2-3kg',
+                            origin: '巴西'
+                        }
+                    },
+                    {
+                        id: 'amethyst-001-medium',
+                        title: 'Medium Size',
+                        price: 4888.00,
+                        compareAtPrice: 6888.00,
+                        available: true,
+                        inventoryQuantity: 10,
+                        options: {
+                            size: 'medium'
+                        },
+                        specs: {
+                            size: '约5-8kg',
+                            origin: '巴西'
+                        }
+                    }
+                ],
+
+                metafields: {
+                    energy: {
+                        five_element: '火',
+                        type: '招财镇宅',
+                        intensity: '高',
+                        direction: '西南',
+                        benefits: ['招财进宝', '镇宅护家', '提升气场'],
+                        suitable_for: ['家庭', '办公室', '商铺']
+                    },
+                    consecration: {
+                        master: '武当山王道长',
+                        date: '2024-02-15',
+                        location: '武当山紫霄宫',
+                        ceremony_steps: ['净化', '开光', '加持']
+                    },
+                    crafting: {
+                        material: '天然紫水晶',
+                        handmade: false,
+                        craftsman: '天然形成',
+                        days_required: 3
+                    }
+                }
+            },
+
+            'agarwood': {
+                id: 'agarwood-001',
+                title: '天然沉香文昌香 Natural Agarwood Wenchang Incense',
+                handle: 'agarwood',
+                description: '精选天然沉香，产自越南优质沉香产区。沉香被誉为"香中之王"，具有独特的香气和强大的能量场，能提升专注力，增强智慧和学业运，适合学生和职场人士使用。',
+                vendor: 'DAO Essence',
+                type: 'Incense',
+                tags: ['agarwood', 'wisdom', 'incense', 'focus'],
+
+                price: 168.00,
+                compareAtPrice: 218.00,
+                currency: 'CNY',
+
+                images: [
+                    {
+                        id: 1,
+                        src: 'images/08d5a4d436cd88b784060136ffdf1dde4be269a93235b-haaswB_fw1200webp.webp',
+                        alt: '沉香包装',
+                        width: 1200,
+                        height: 1200,
+                        position: 1
+                    },
+                    {
+                        id: 2,
+                        src: 'https://images.unsplash.com/photo-1604014237800-1c9102c219da?w=1200&h=1200&fit=crop',
+                        alt: '沉香点燃效果',
+                        width: 1200,
+                        height: 1200,
+                        position: 2
+                    },
+                    {
+                        id: 3,
+                        src: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&h=1200&fit=crop',
+                        alt: '香道',
+                        width: 1200,
+                        height: 1200,
+                        position: 3
+                    }
+                ],
+
+                variants: [
+                    {
+                        id: 'agarwood-001-small',
+                        title: 'Small Pack',
+                        price: 168.00,
+                        compareAtPrice: 218.00,
+                        available: true,
+                        inventoryQuantity: 60,
+                        options: {
+                            size: 'small'
+                        },
+                        specs: {
+                            size: '约50g',
+                            origin: '越南'
+                        }
+                    },
+                    {
+                        id: 'agarwood-001-medium',
+                        title: 'Medium Pack',
+                        price: 288.00,
+                        compareAtPrice: 388.00,
+                        available: true,
+                        inventoryQuantity: 35,
+                        options: {
+                            size: 'medium'
+                        },
+                        specs: {
+                            size: '约100g',
+                            origin: '越南'
+                        }
+                    }
+                ],
+
+                metafields: {
+                    energy: {
+                        five_element: '木',
+                        type: '提升智慧',
+                        intensity: '中',
+                        direction: '正东',
+                        benefits: ['提升专注力', '增强智慧', '学业顺利'],
+                        suitable_for: ['学生', '考试人群', '职场人士']
+                    },
+                    consecration: {
+                        master: '青城山李道长',
+                        date: '2024-01-25',
+                        location: '青城山上清宫',
+                        ceremony_steps: ['净化', '加持']
+                    },
+                    crafting: {
+                        material: '天然沉香',
+                        handmade: false,
+                        craftsman: '香道师王师傅',
+                        days_required: 1
+                    }
+                }
+            },
+
+            'sandalwood': {
+                id: 'sandalwood-001',
+                title: '老山檀香太岁香 Old Mountain Sandalwood Tai Sui Incense',
+                handle: 'sandalwood',
+                description: '精选老山檀香，产自印度迈索尔地区。檀香被誉为"香料之王"，香气醇厚持久，能够净化空气、安神定志。此香专为拜太岁制作，具有消灾赐福、保全年平安的能量。',
+                vendor: 'DAO Essence',
+                type: 'Incense',
+                tags: ['sandalwood', 'tai-sui', 'incense', 'protection'],
+
+                price: 268.00,
+                compareAtPrice: 368.00,
+                currency: 'CNY',
+
+                images: [
+                    {
+                        id: 1,
+                        src: 'images/5c9b913900c6b04c7d5feeeba36403b233e42e895de36-P0zmjC_fw1200webp.webp',
+                        alt: '檀香包装',
+                        width: 1200,
+                        height: 1200,
+                        position: 1
+                    },
+                    {
+                        id: 2,
+                        src: 'https://images.unsplash.com/photo-1604014237800-1c9102c219da?w=1200&h=1200&fit=crop',
+                        alt: '檀香点燃效果',
+                        width: 1200,
+                        height: 1200,
+                        position: 2
+                    },
+                    {
+                        id: 3,
+                        src: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&h=1200&fit=crop',
+                        alt: '香道',
+                        width: 1200,
+                        height: 1200,
+                        position: 3
+                    }
+                ],
+
+                variants: [
+                    {
+                        id: 'sandalwood-001-small',
+                        title: 'Small Pack',
+                        price: 268.00,
+                        compareAtPrice: 368.00,
+                        available: true,
+                        inventoryQuantity: 55,
+                        options: {
+                            size: 'small'
+                        },
+                        specs: {
+                            size: '约60g',
+                            origin: '印度'
+                        }
+                    },
+                    {
+                        id: 'sandalwood-001-medium',
+                        title: 'Medium Pack',
+                        price: 388.00,
+                        compareAtPrice: 488.00,
+                        available: true,
+                        inventoryQuantity: 30,
+                        options: {
+                            size: 'medium'
+                        },
+                        specs: {
+                            size: '约120g',
+                            origin: '印度'
+                        }
+                    }
+                ],
+
+                metafields: {
+                    energy: {
+                        five_element: '土',
+                        type: '消灾赐福',
+                        intensity: '中',
+                        direction: '中央',
+                        benefits: ['消灾赐福', '保全年平安', '净化气场'],
+                        suitable_for: ['拜太岁', '祈福', '日常修行']
+                    },
+                    consecration: {
+                        master: '武当山王道长',
+                        date: '2024-03-05',
+                        location: '武当山紫霄宫',
+                        ceremony_steps: ['净化', '加持']
+                    },
+                    crafting: {
+                        material: '老山檀香',
+                        handmade: false,
+                        craftsman: '香道师王师傅',
+                        days_required: 2
+                    }
+                }
+            },
+
+            'custom-talisman': {
+                id: 'custom-talisman-001',
+                title: '个人命理定制符 Personal Destiny Custom Talisman',
+                handle: 'custom-talisman',
+                description: '根据您的八字命理分析量身定制的专属符咒。道长会根据您的出生年月日时、五行缺失、命理特点，绘制最符合您个人运势的符咒，精准提升个人运势，化解命理不利。',
+                vendor: 'DAO Essence',
+                type: 'Custom Item',
+                tags: ['custom', 'talisman', 'personal', 'destiny'],
+
+                price: 1288.00,
+                compareAtPrice: 1688.00,
+                currency: 'CNY',
+
+                images: [
+                    {
+                        id: 1,
+                        src: 'images/cdbc3b281648ab285bde9a54954e2eaf6c148a3a1322a9-ReITNc.jfif',
+                        alt: '定制符样品',
+                        width: 1200,
+                        height: 1200,
+                        position: 1
+                    },
+                    {
+                        id: 2,
+                        src: 'https://images.unsplash.com/photo-1543852786-1cf6624b9987?w=1200&h=1200&fit=crop',
+                        alt: '开光仪式',
+                        width: 1200,
+                        height: 1200,
+                        position: 2
+                    },
+                    {
+                        id: 3,
+                        src: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1200&h=1200&fit=crop',
+                        alt: '包装礼盒',
+                        width: 1200,
+                        height: 1200,
+                        position: 3
+                    }
+                ],
+
+                variants: [
+                    {
+                        id: 'custom-talisman-001-standard',
+                        title: 'Basic Custom',
+                        price: 1288.00,
+                        compareAtPrice: 1688.00,
+                        available: true,
+                        inventoryQuantity: 999,
+                        options: {
+                            size: 'standard'
+                        },
+                        specs: {
+                            size: '根据定制',
+                            material: '宣纸朱砂'
+                        }
+                    },
+                    {
+                        id: 'custom-talisman-001-premium',
+                        title: 'Premium Custom',
+                        price: 1888.00,
+                        compareAtPrice: 2488.00,
+                        available: true,
+                        inventoryQuantity: 999,
+                        options: {
+                            size: 'premium'
+                        },
+                        specs: {
+                            size: '根据定制',
+                            material: '丝绸金粉'
+                        }
+                    }
+                ],
+
+                metafields: {
+                    energy: {
+                        five_element: '根据八字',
+                        type: '量身定制',
+                        intensity: '极高',
+                        direction: '根据八字',
+                        benefits: ['精准提升运势', '化解命理不利', '增强个人能量'],
+                        suitable_for: ['所有人', '需要改善运势', '重大决策前']
+                    },
+                    consecration: {
+                        master: '多位道长',
+                        date: '根据定制',
+                        location: '武当山',
+                        ceremony_steps: ['八字分析', '请神', '开光', '加持', '封印']
+                    },
+                    crafting: {
+                        material: '根据八字',
+                        handmade: true,
+                        craftsman: '多位道长',
+                        days_required: 7
+                    }
+                }
+            },
+
+            'pixiu': {
+                id: 'pixiu-001',
+                title: '开光青铜貔貅摆件 Consecrated Bronze Pixiu Ornament',
+                handle: 'pixiu',
+                description: '貔貅是中国古代神话传说中的瑞兽，传说能吞噬金银财宝，只进不出，象征着招财进宝、镇宅辟邪。此貔貅摆件由匠人手工雕刻，选用上等青铜材质，经过传统开光仪式加持，蕴含纯正能量。',
+                vendor: 'DAO Essence',
+                type: 'Custom Item',
+                tags: ['pixiu', 'wealth', 'protection', 'ornament'],
+
+                price: 688.00,
+                compareAtPrice: 888.00,
+                currency: 'CNY',
+
+                images: [
+                    {
+                        id: 1,
+                        src: 'images/ee9f06067bcdc66babb7cc1dfbc9d59ecef3fe912a602-hYOU5Z_fw1200webp.webp',
+                        alt: '貔貅摆件',
+                        width: 1200,
+                        height: 1200,
+                        position: 1
+                    },
+                    {
+                        id: 2,
+                        src: 'https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=1200&h=1200&fit=crop',
+                        alt: '貔貅侧面',
+                        width: 1200,
+                        height: 1200,
+                        position: 2
+                    },
+                    {
+                        id: 3,
+                        src: 'https://images.unsplash.com/photo-1518640467707-6811f4a6ab73?w=1200&h=1200&fit=crop',
+                        alt: '开光仪式',
+                        width: 1200,
+                        height: 1200,
+                        position: 3
+                    }
+                ],
+
+                variants: [
+                    {
+                        id: 'pixiu-001-small',
+                        title: 'Small Size',
+                        price: 688.00,
+                        compareAtPrice: 888.00,
+                        available: true,
+                        inventoryQuantity: 35,
+                        options: {
+                            size: 'small'
+                        },
+                        specs: {
+                            size: '约120×80×150mm',
+                            material: '青铜'
+                        }
+                    },
+                    {
+                        id: 'pixiu-001-medium',
+                        title: 'Medium Size',
+                        price: 1288.00,
+                        compareAtPrice: 1688.00,
+                        available: true,
+                        inventoryQuantity: 20,
+                        options: {
+                            size: 'medium'
+                        },
+                        specs: {
+                            size: '约180×120×200mm',
+                            material: '青铜'
+                        }
+                    }
+                ],
+
+                metafields: {
+                    energy: {
+                        five_element: '金',
+                        type: '招财守财',
+                        intensity: '高',
+                        direction: '正西、西北',
+                        benefits: ['招财进宝', '镇宅辟邪', '守护财富'],
+                        suitable_for: ['创业者', '商务人士', '家庭']
+                    },
+                    consecration: {
+                        master: '终南山赵道长',
+                        date: '2024-02-28',
+                        location: '终南山楼观台',
+                        ceremony_steps: ['请神', '开光', '加持', '封印']
+                    },
+                    crafting: {
+                        material: '青铜',
+                        handmade: true,
+                        craftsman: '工艺师张师傅',
+                        days_required: 5
+                    }
+                }
+            },
+
+            'safety': {
+                id: 'safety-001',
+                title: '平安护身符 Safety Protection Talisman',
+                handle: 'safety',
+                description: '平安护身符是道教最经典的护身符咒之一，能够化解意外灾难，保佑出行平安。此符由道长亲自开光绘制，能量纯净稳定，适合经常出行或从事危险职业的人士佩戴。',
+                vendor: 'DAO Essence',
+                type: 'Talisman',
+                tags: ['safety', 'protection', 'talisman', 'travel'],
+
+                price: 198.00,
+                compareAtPrice: 298.00,
+                currency: 'CNY',
+
+                images: [
+                    {
+                        id: 1,
+                        src: 'images/efd651724cd482a4d5c81552b23cb20253ea84311d64e5-9twrMQ_fw1200webp.webp',
+                        alt: '平安符正面',
+                        width: 1200,
+                        height: 1200,
+                        position: 1
+                    },
+                    {
+                        id: 2,
+                        src: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1200&h=1200&fit=crop',
+                        alt: '平安符细节',
+                        width: 1200,
+                        height: 1200,
+                        position: 2
+                    },
+                    {
+                        id: 3,
+                        src: 'https://images.unsplash.com/photo-1518640467707-6811f4a6ab73?w=1200&h=1200&fit=crop',
+                        alt: '开光仪式',
+                        width: 1200,
+                        height: 1200,
+                        position: 3
+                    }
+                ],
+
+                variants: [
+                    {
+                        id: 'safety-001-standard',
+                        title: 'Standard',
+                        price: 198.00,
+                        compareAtPrice: 298.00,
+                        available: true,
+                        inventoryQuantity: 80,
+                        options: {
+                            size: 'standard'
+                        },
+                        specs: {
+                            size: '80×120mm',
+                            material: '黄纸朱砂'
+                        }
+                    },
+                    {
+                        id: 'safety-001-deluxe',
+                        title: 'Deluxe',
+                        price: 288.00,
+                        compareAtPrice: 388.00,
+                        available: true,
+                        inventoryQuantity: 50,
+                        options: {
+                            size: 'deluxe'
+                        },
+                        specs: {
+                            size: '100×150mm',
+                            material: '宣纸金粉'
+                        }
+                    }
+                ],
+
+                metafields: {
+                    energy: {
+                        five_element: '水',
+                        type: '护身保平安',
+                        intensity: '中',
+                        direction: '正北',
+                        benefits: ['化解意外', '保出行平安', '守护健康'],
+                        suitable_for: ['经常出行者', '司机', '危险职业']
+                    },
+                    consecration: {
+                        master: '昆仑山张道长',
+                        date: '2024-02-10',
+                        location: '昆仑山道观',
+                        ceremony_steps: ['请神', '开光', '加持', '封印']
+                    },
+                    crafting: {
+                        material: '黄纸/宣纸',
+                        handmade: true,
+                        craftsman: '张道长',
+                        days_required: 1
+                    }
+                }
+            },
+
+            'citrine': {
+                id: 'citrine-001',
+                title: '黄水晶招财手串 Citrine Wealth Bracelet',
+                handle: 'citrine',
+                description: '天然黄水晶手串，色彩金黄温暖，被誉为"财富之石"。黄水晶具有强大的招财能量，能够增强偏财运，提升投资理财能力，是投资者和追求财富人士的必备饰品。',
+                vendor: 'DAO Essence',
+                type: 'Crystal',
+                tags: ['citrine', 'wealth', 'crystal', 'prosperity'],
+
+                price: 788.00,
+                compareAtPrice: 988.00,
+                currency: 'CNY',
+
+                images: [
+                    {
+                        id: 1,
+                        src: 'images/08d5a4d436cd88b784060136ffdf1dde4be269a93235b-haaswB_fw1200webp.webp',
+                        alt: '黄水晶手串',
+                        width: 1200,
+                        height: 1200,
+                        position: 1
+                    },
+                    {
+                        id: 2,
+                        src: 'https://images.unsplash.com/photo-1618331835717-801e976710b2?w=1200&h=1200&fit=crop',
+                        alt: '黄水晶细节',
+                        width: 1200,
+                        height: 1200,
+                        position: 2
+                    },
+                    {
+                        id: 3,
+                        src: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1200&h=1200&fit=crop',
+                        alt: '佩戴效果',
+                        width: 1200,
+                        height: 1200,
+                        position: 3
+                    }
+                ],
+
+                variants: [
+                    {
+                        id: 'citrine-001-10mm',
+                        title: '10mm Beads',
+                        price: 788.00,
+                        compareAtPrice: 988.00,
+                        available: true,
+                        inventoryQuantity: 45,
+                        options: {
+                            beadSize: '10mm'
+                        },
+                        specs: {
+                            size: '10mm珠子',
+                            weight: '约85g'
+                        }
+                    },
+                    {
+                        id: 'citrine-001-12mm',
+                        title: '12mm Beads',
+                        price: 888.00,
+                        compareAtPrice: 1188.00,
+                        available: true,
+                        inventoryQuantity: 25,
+                        options: {
+                            beadSize: '12mm'
+                        },
+                        specs: {
+                            size: '12mm珠子',
+                            weight: '约105g'
+                        }
+                    }
+                ],
+
+                metafields: {
+                    energy: {
+                        five_element: '土',
+                        type: '招财聚财',
+                        intensity: '高',
+                        direction: '中央、西南',
+                        benefits: ['增强财运', '招财进宝', '提升投资运'],
+                        suitable_for: ['投资者', '创业者', '追求财富者']
+                    },
+                    consecration: {
+                        master: '龙虎山李道长',
+                        date: '2024-03-08',
+                        location: '龙虎山天师府',
+                        ceremony_steps: ['净化', '开光', '加持']
+                    },
+                    crafting: {
+                        material: '天然黄水晶',
+                        handmade: false,
+                        craftsman: '工艺师小李',
+                        days_required: 2
+                    }
+                }
+            },
+
+            'thunderwood': {
+                id: 'thunderwood-001',
+                title: '雷击木 Thunderstruck Wood',
+                handle: 'thunderwood',
+                description: '雷击木是道教中最珍贵的法器之一，指被天雷击中的天然木材。雷击木蕴含雷霆神力，至阳至烈，具有强大的辟邪化煞、镇宅护家能量。由道长亲自开光加持，是居家风水和个人护身的顶级法宝。',
+                vendor: 'DAO Essence',
+                type: 'Ritual Item',
+                tags: ['thunderwood', 'protection', 'thunder', 'consecrated'],
+
+                price: 888.00,
+                compareAtPrice: 1288.00,
+                currency: 'CNY',
+
+                images: [
+                    {
+                        id: 1,
+                        src: 'images/08d5a4d436cd88b784060136ffdf1dde4be269a93235b-haaswB_fw1200webp.webp',
+                        alt: '雷击木法器',
+                        width: 1200,
+                        height: 1200,
+                        position: 1
+                    },
+                    {
+                        id: 2,
+                        src: 'https://images.unsplash.com/photo-1557683316-973673baf926?w=1200&h=1200&fit=crop',
+                        alt: '雷击纹理',
+                        width: 1200,
+                        height: 1200,
+                        position: 2
+                    },
+                    {
+                        id: 3,
+                        src: 'https://images.unsplash.com/photo-1516939884455-1445c8a2a8f9?w=1200&h=1200&fit=crop',
+                        alt: '开光仪式',
+                        width: 1200,
+                        height: 1200,
+                        position: 3
+                    }
+                ],
+
+                variants: [
+                    {
+                        id: 'thunderwood-001-small',
+                        title: 'Small Piece',
+                        price: 888.00,
+                        compareAtPrice: 1288.00,
+                        available: true,
+                        inventoryQuantity: 25,
+                        options: {
+                            size: 'small'
+                        },
+                        specs: {
+                            size: '约150×30×30mm',
+                            woodType: '桃木'
+                        }
+                    },
+                    {
+                        id: 'thunderwood-001-medium',
+                        title: 'Medium Piece',
+                        price: 1288.00,
+                        compareAtPrice: 1888.00,
+                        available: true,
+                        inventoryQuantity: 15,
+                        options: {
+                            size: 'medium'
+                        },
+                        specs: {
+                            size: '约250×50×50mm',
+                            woodType: '桃木'
+                        }
+                    },
+                    {
+                        id: 'thunderwood-001-large',
+                        title: 'Large Piece',
+                        price: 1888.00,
+                        compareAtPrice: 2688.00,
+                        available: true,
+                        inventoryQuantity: 8,
+                        options: {
+                            size: 'large'
+                        },
+                        specs: {
+                            size: '约350×80×80mm',
+                            woodType: '桃木'
+                        }
+                    }
+                ],
+
+                metafields: {
+                    energy: {
+                        five_element: '火',
+                        type: '雷霆辟邪',
+                        intensity: '极高',
+                        direction: '正南',
+                        benefits: ['辟邪化煞', '镇宅护家', '提升阳气', '灾难化解'],
+                        suitable_for: ['居家风水', '本命年', '犯太岁', '从事高危职业']
+                    },
+                    consecration: {
+                        master: '终南山王道长',
+                        date: '2024-03-20',
+                        location: '终南山道观',
+                        ceremony_steps: ['请神', '开光', '雷霆咒加持', '封印']
+                    },
+                    crafting: {
+                        material: '天然桃木',
+                        handmade: true,
+                        craftsman: '王道长',
+                        days_required: 7
+                    }
+                }
+            }
+        };
+
+        // ============================================
+        // 根据URL参数加载产品数据
+        // ============================================
+
+        let PRODUCT_DATA = null;
+        let currentVariant = null;
+        let selectedOptions = {};
+        let cart = JSON.parse(localStorage.getItem('daoCart')) || [];
+        let totalCartQuantity = 0;
+
+        function loadProductData() {
+            // 从URL获取产品ID
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = urlParams.get('id');
+
+            // 如果没有指定ID，使用默认产品
+            const defaultProductId = 'tai-sui-talisman';
+            const actualProductId = productId || defaultProductId;
+
+            // 从PRODUCTS中获取产品数据
+            PRODUCT_DATA = PRODUCTS[actualProductId] || PRODUCTS[defaultProductId];
+
+            if (!PRODUCT_DATA) {
+                console.error('Product not found:', actualProductId);
+                return false;
+            }
+
+            console.log('Loaded product:', PRODUCT_DATA.id, PRODUCT_DATA.title);
+            return true;
+        }
+
+        // 页面加载时获取产品数据
+        loadProductData();
+
+        // 初始化购物车显示
+        updateCartDisplay();
+        updateCartSidebar();
+
+        // ============================================
+        // 状态管理
+        // ============================================
+
+        // 初始化第一个变体和选项
+        function initState() {
+            if (PRODUCT_DATA && PRODUCT_DATA.variants && PRODUCT_DATA.variants.length > 0) {
+                currentVariant = PRODUCT_DATA.variants[0];
+
+                // 根据第一个变体初始化选项
+                if (currentVariant.options) {
+                    Object.keys(currentVariant.options).forEach(key => {
+                        selectedOptions[key] = currentVariant.options[key];
+                    });
+                }
+
+                // 初始化总价
+                updateTotalPrice();
+
+                // 初始化库存显示
+                if (currentVariant.inventoryQuantity !== undefined) {
+                    const stockCount = document.querySelector('.stock-count');
+                    if (stockCount) {
+                        if (currentVariant.inventoryQuantity <= 5) {
+                            stockCount.textContent = `Only ${currentVariant.inventoryQuantity} left`;
+                            stockCount.style.background = 'var(--fire-primary)';
+                        } else {
+                            stockCount.textContent = `${currentVariant.inventoryQuantity} in stock`;
+                            stockCount.style.background = 'var(--wood-primary)';
+                        }
+                    }
+                }
+            }
+        }
+
+        // ============================================
+        // 图片渲染函数
+        // ============================================
+
+        function renderImages() {
+            const mainWrapper = document.getElementById('mainImageWrapper');
+            const thumbsWrapper = document.getElementById('thumbsWrapper');
+
+            if (!PRODUCT_DATA || !PRODUCT_DATA.images) {
+                console.warn('No product images found');
+                return;
+            }
+
+            // 渲染主图
+            mainWrapper.innerHTML = PRODUCT_DATA.images.map(img => `
+                <div class="swiper-slide">
+                    <img src="${img.src}" alt="${img.alt}" data-full="${img.src.replace('1200', '2000')}">
+                </div>
+            `).join('');
+
+            // 渲染缩略图
+            thumbsWrapper.innerHTML = PRODUCT_DATA.images.map(img => `
+                <div class="swiper-slide">
+                    <img src="${img.src}" alt="${img.alt}">
+                </div>
+            `).join('');
+        }
+
+        // ============================================
+        // Swiper 初始化
+        // ============================================
+
+        let thumbsSwiper, mainSwiper;
+
+        function initSwiper() {
+            thumbsSwiper = new Swiper('.swiper-thumbs', {
+                spaceBetween: 12,
+                slidesPerView: 4,
+                freeMode: true,
+                watchSlidesProgress: true,
+                breakpoints: {
+                    640: {
+                        slidesPerView: 5
+                    }
+                }
+            });
+
+            mainSwiper = new Swiper('.swiper-main', {
+                spaceBetween: 10,
+                thumbs: {
+                    swiper: thumbsSwiper
+                },
+                pagination: {
+                    el: '.swiper-pagination-main',
+                    clickable: true
+                },
+                navigation: {
+                    nextEl: '.swiper-button-next-main',
+                    prevEl: '.swiper-button-prev-main'
+                },
+                zoom: {
+                    maxRatio: 3,
+                    toggle: true
+                }
+            });
+        }
+
+        // ============================================
+        // 变体渲染逻辑
+        // ============================================
+
+        function renderVariants() {
+            if (!PRODUCT_DATA || !PRODUCT_DATA.variants) {
+                console.warn('No product variants found');
+                return;
+            }
+
+            // 分析变体选项
+            const variantOptions = {};
+            PRODUCT_DATA.variants.forEach(variant => {
+                if (variant.options) {
+                    Object.keys(variant.options).forEach(key => {
+                        if (!variantOptions[key]) {
+                            variantOptions[key] = new Set();
+                        }
+                        variantOptions[key].add(variant.options[key]);
+                    });
+                }
+            });
+
+            // 渲染选项
+            const variantSelector = document.querySelector('.variant-selector');
+            if (!variantSelector) return;
+
+            let html = '';
+
+            Object.keys(variantOptions).forEach((optionKey, index) => {
+                const values = Array.from(variantOptions[optionKey]);
+                const label = optionKey.charAt(0).toUpperCase() + optionKey.slice(1);
+
+                html += `
+                    <div class="variant-group">
+                        <div class="variant-label">${label}</div>
+                        <div class="size-options" data-option="${optionKey}">
+                            ${values.map(value => `
+                                <div class="size-option ${index === 0 && value === values[0] ? 'selected' : ''}" data-variant="${value}">
+                                    ${value.charAt(0).toUpperCase() + value.slice(1)}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            });
+
+            variantSelector.innerHTML = html;
+
+            // 绑定事件
+            document.querySelectorAll('.size-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const optionType = this.parentElement.dataset.option;
+                    const value = this.dataset.variant;
+
+                    // 移除其他选中状态
+                    this.parentElement.querySelectorAll('.size-option').forEach(o => o.classList.remove('selected'));
+
+                    // 添加选中状态
+                    this.classList.add('selected');
+
+                    // 更新选择
+                    updateSelectedOptions(optionType, value);
+                });
+            });
+        }
+
+        // ============================================
+        // 变体选择逻辑
+        // ============================================
+
+        function updateSelectedOptions(type, value) {
+            selectedOptions[type] = value;
+
+            // 查找匹配的变体
+            const matchingVariant = PRODUCT_DATA.variants.find(variant => {
+                return Object.keys(selectedOptions).every(key => {
+                    return variant.options && variant.options[key] === selectedOptions[key];
+                });
+            });
+
+            if (matchingVariant) {
+                currentVariant = matchingVariant;
+                updateUIForVariant(matchingVariant);
+            }
+        }
+
+        function updateUIForVariant(variant) {
+            // 转换价格为美元
+            const priceUSD = convertToUSD(variant.price);
+            const comparePriceUSD = convertToUSD(variant.compareAtPrice);
+
+            // 更新价格显示为美元
+            document.getElementById('currentPrice').textContent = `$${priceUSD}`;
+            document.getElementById('originalPrice').textContent = `$${comparePriceUSD}`;
+
+            // 计算折扣
+            const discount = Math.round((1 - variant.price / variant.compareAtPrice) * 100);
+            document.getElementById('discountBadge').textContent = `-${discount}%`;
+
+            // 计算节省金额（美元）
+            const savingsUSD = (parseFloat(comparePriceUSD) - parseFloat(priceUSD)).toFixed(2);
+            document.getElementById('savingsText').textContent = `Save $${savingsUSD}`;
+
+            // 更新总价
+            updateTotalPrice();
+
+            // 更新规格表（如果 variant.specs 存在）
+            if (variant.specs) {
+                if (variant.specs.size) {
+                    const specSize = document.getElementById('specSize');
+                    if (specSize) specSize.textContent = variant.specs.size;
+                }
+                if (variant.specs.weight) {
+                    const specWeight = document.getElementById('specWeight');
+                    if (specWeight) specWeight.textContent = variant.specs.weight;
+                }
+                if (variant.specs.material) {
+                    const specMaterial = document.getElementById('specMaterial');
+                    if (specMaterial) specMaterial.textContent = variant.specs.material;
+                }
+            }
+
+            // 更新库存
+            const stockCount = document.querySelector('.stock-count');
+            if (stockCount && variant.inventoryQuantity !== undefined) {
+                if (variant.inventoryQuantity <= 5) {
+                    stockCount.textContent = `Only ${variant.inventoryQuantity} left`;
+                    stockCount.style.background = 'var(--fire-primary)';
+                } else {
+                    stockCount.textContent = `${variant.inventoryQuantity} in stock`;
+                    stockCount.style.background = 'var(--wood-primary)';
+                }
+            }
+        }
+
+        // ============================================
+        // 事件绑定
+        // ============================================
+        // 变体选择事件已在 renderVariants() 中处理
+
+        // ============================================
+        // 购物车管理
+        // ============================================
+
+        // 保存购物车到localStorage
+        function saveCart() {
+            localStorage.setItem('daoCart', JSON.stringify(cart));
+            updateCartDisplay();
+            updateCartSidebar();
+        }
+
+        // 计算购物车总数量
+        function calculateTotalQuantity() {
+            totalCartQuantity = cart.reduce((sum, item) => sum + item.quantity, 0);
+            return totalCartQuantity;
+        }
+
+        // 更新购物车显示(购物车按钮计数)
+        function updateCartDisplay() {
+            calculateTotalQuantity();
+            const cartCountElement = document.querySelector('.cart-count');
+            if (cartCountElement) {
+                cartCountElement.textContent = totalCartQuantity;
+                if (totalCartQuantity > 0) {
+                    cartCountElement.style.display = 'flex';
+                } else {
+                    cartCountElement.style.display = 'none';
+                }
+            }
+        }
+
+        // 更新购物车侧边栏内容
+        function updateCartSidebar() {
+            const cartItemsContainer = document.querySelector('.cart-items');
+            const cartTotalElement = document.querySelector('.cart-total span:last-child');
+
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = `<p style="text-align: center; color: rgba(245, 240, 230, 0.6); padding: 2rem;">Your cart is empty</p>`;
+                cartTotalElement.textContent = '$0.00';
+            } else {
+                let total = 0;
+                cartItemsContainer.innerHTML = cart.map((item, index) => {
+                    total += item.price * item.quantity;
+                    // 兼容新旧数据结构
+                    const title = item.titleEn || item.title;
+                    return `
+                        <div class="cart-item">
+                            <div class="cart-item-image">
+                                <img src="${item.image}" alt="${title}" style="width:100%;height:100%;object-fit:cover;border-radius:8px;">
+                            </div>
+                            <div class="cart-item-details">
+                                <div class="cart-item-title">${title}</div>
+                                <div class="cart-item-price">$${item.price.toFixed(2)}</div>
+                                <div class="cart-item-quantity">
+                                    <button class="qty-btn" onclick="changeQty(${index}, -1)">-</button>
+                                    <span class="qty-value">${item.quantity}</span>
+                                    <button class="qty-btn" onclick="changeQty(${index}, 1)">+</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+                cartTotalElement.textContent = `$${total.toFixed(2)}`;
+            }
+        }
+
+        // 修改商品数量
+        window.changeQty = function(index, delta) {
+            cart[index].quantity += delta;
+            if (cart[index].quantity <= 0) {
+                cart.splice(index, 1);
+            }
+            saveCart();
+        };
+
+        // 购物车侧边栏事件
+        const cartBtn = document.querySelector('.cart-btn');
+        const cartSidebar = document.querySelector('.cart-sidebar');
+        const cartOverlay = document.querySelector('.cart-overlay');
+        const cartClose = document.querySelector('.cart-close');
+
+        if (cartBtn && cartSidebar && cartOverlay && cartClose) {
+            cartBtn.addEventListener('click', function() {
+                cartOverlay.classList.add('show');
+                cartSidebar.classList.add('open');
+            });
+
+            cartClose.addEventListener('click', function() {
+                cartOverlay.classList.remove('show');
+                cartSidebar.classList.remove('open');
+            });
+
+            cartOverlay.addEventListener('click', function() {
+                cartOverlay.classList.remove('show');
+                cartSidebar.classList.remove('open');
+            });
+        }
+
+        // 添加到购物车
+        function addToCart() {
+            if (!currentVariant) {
+                alert('Please select a variant');
+                return;
+            }
+
+            const quantity = parseInt(document.getElementById('quantity').value);
+            const priceUSD = parseFloat(convertToUSD(currentVariant.price));
+
+            // 生成统一的商品标识（用于匹配相同商品）
+            // 使用 PRODUCT_DATA.id 或 handle 作为商品的基本标识，而不是变体的完整 id
+            const productKey = PRODUCT_DATA.handle || PRODUCT_DATA.id;
+
+            // 检查购物车中是否已有该商品
+            const existingItem = cart.find(item => {
+                // 兼容旧数据结构和新数据结构
+                const itemId = item.variantId || item.id;
+                return itemId === productKey;
+            });
+
+            if (existingItem) {
+                // 已存在该商品，增加数量
+                existingItem.quantity += quantity;
+                const totalPriceUSD = (existingItem.quantity * priceUSD).toFixed(2);
+                showNotification(`Updated: ${quantity} more added - Total: ${existingItem.quantity} items`);
+            } else {
+                // 新商品，添加到购物车（与shop.html数据结构一致）
+                cart.push({
+                    variantId: productKey,  // 使用商品的基本 id
+                    titleEn: PRODUCT_DATA.title,
+                    titleZh: PRODUCT_DATA.titleZh || PRODUCT_DATA.title.split(' ')[0], // 从title中提取中文标题
+                    price: priceUSD,
+                    quantity: quantity,
+                    image: PRODUCT_DATA.images[0]?.src || ''
+                });
+                const totalPriceUSD = (quantity * priceUSD).toFixed(2);
+                showNotification(`Added ${quantity} item(s) to cart - Total: $${totalPriceUSD}`);
+            }
+
+            // 更新库存显示（模拟库存减少）
+            updateStockDisplay(quantity);
+            saveCart();
+        }
+
+        // 更新库存显示
+        function updateStockDisplay(quantitySold) {
+            if (currentVariant && currentVariant.inventoryQuantity !== undefined) {
+                const newStock = currentVariant.inventoryQuantity - quantitySold;
+                const stockCount = document.querySelector('.stock-count');
+
+                if (stockCount && newStock > 0) {
+                    if (newStock <= 5) {
+                        stockCount.textContent = `Only ${newStock} left`;
+                        stockCount.style.background = 'var(--fire-primary)';
+                    } else {
+                        stockCount.textContent = `${newStock} in stock`;
+                        stockCount.style.background = 'var(--wood-primary)';
+                    }
+                    // 更新库存数据
+                    currentVariant.inventoryQuantity = newStock;
+                } else {
+                    stockCount.textContent = 'Out of Stock';
+                    stockCount.style.background = '#999';
+                    // 禁用添加到购物车按钮
+                    document.querySelector('.btn-add-cart').disabled = true;
+                    document.querySelector('.btn-add-cart').style.opacity = '0.5';
+                    document.querySelector('.btn-add-cart').style.cursor = 'not-allowed';
+                }
+            }
+        }
+
+        // 显示通知 - 已在上面定义，这里删除重复定义
+
+        // ============================================
+        // 购买功能
+        // ============================================
+
+        // 人民币转美元汇率
+        const CNY_TO_USD_RATE = 0.14;
+
+        function convertToUSD(priceCNY) {
+            return (priceCNY * CNY_TO_USD_RATE).toFixed(2);
+        }
+
+        function updateQuantity(change) {
+            const input = document.getElementById('quantity');
+            let value = parseInt(input.value) + change;
+            if (value < 1) value = 1;
+            if (value > 99) value = 99;
+            input.value = value;
+
+            // 更新总价
+            updateTotalPrice();
+        }
+
+        function updateTotalPrice() {
+            const quantity = parseInt(document.getElementById('quantity').value);
+            if (currentVariant) {
+                const priceCNY = currentVariant.price;
+                const priceUSD = parseFloat(convertToUSD(priceCNY));
+                const totalUSD = (priceUSD * quantity).toFixed(2);
+
+                document.getElementById('totalPrice').textContent = `$${totalUSD}`;
+            }
+        }
+
+
+        function buyNow() {
+            // 立即购买：直接打开购物车侧边栏，显示"即将进入结算"提示
+            const quantity = parseInt(document.getElementById('quantity').value);
+
+            if (!currentVariant) {
+                showNotification('Please select a variant');
+                return;
+            }
+
+            const priceUSD = parseFloat(convertToUSD(currentVariant.price));
+
+            // 使用商品的基本 id 作为标识（与 addToCart 保持一致）
+            const productKey = PRODUCT_DATA.handle || PRODUCT_DATA.id;
+
+            // 检查购物车中是否已有该商品
+            const existingItem = cart.find(item => {
+                const itemId = item.variantId || item.id;
+                return itemId === productKey;
+            });
+
+            if (existingItem) {
+                existingItem.quantity += quantity;
+            } else {
+                cart.push({
+                    variantId: productKey,
+                    titleEn: PRODUCT_DATA.title,
+                    titleZh: PRODUCT_DATA.titleZh || PRODUCT_DATA.title.split(' ')[0],
+                    price: priceUSD,
+                    quantity: quantity,
+                    image: PRODUCT_DATA.images[0]?.src || ''
+                });
+            }
+
+            // 更新库存显示
+            updateStockDisplay(quantity);
+            saveCart();
+
+            // 显示准备结算提示
+            showNotification('Cart updated - Ready to checkout');
+
+            // 打开购物车侧边栏
+            const cartSidebar = document.querySelector('.cart-sidebar');
+            const cartOverlay = document.querySelector('.cart-overlay');
+            if (cartSidebar && cartOverlay) {
+                cartOverlay.classList.add('show');
+                cartSidebar.classList.add('open');
+            }
+        }
+
+        function toggleWishlist() {
+            showNotification('已添加到愿望清单');
+        }
+
+        // 更新商品数量
+        function updateQuantity(delta) {
+            const quantityInput = document.getElementById('quantity');
+            let currentQuantity = parseInt(quantityInput.value);
+
+            currentQuantity += delta;
+
+            // 确保数量不小于 1
+            if (currentQuantity < 1) {
+                currentQuantity = 1;
+            }
+
+            // 更新输入框的值
+            quantityInput.value = currentQuantity;
+
+            // 更新总价
+            updateTotalPrice();
+        }
+
+        // 显示通知
+        function showNotification(message, duration = 3000) {
+            // 检查是否已存在通知容器
+            let notification = document.querySelector('.notification-toast');
+            
+            // 如果不存在，创建一个
+            if (!notification) {
+                notification = document.createElement('div');
+                notification.className = 'notification-toast';
+                notification.style.cssText = `
+                    position: fixed;
+                    bottom: 20px;
+                    right: 20px;
+                    background: var(--accent-color);
+                    color: var(--bg-dark);
+                    padding: 16px 24px;
+                    border-radius: var(--radius-md);
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+                    z-index: 9999;
+                    transform: translateY(100px);
+                    opacity: 0;
+                    transition: all 0.3s ease;
+                    font-weight: 600;
+                `;
+                document.body.appendChild(notification);
+            }
+            
+            // 设置消息
+            notification.textContent = message;
+            
+            // 显示通知
+            setTimeout(() => {
+                notification.style.transform = 'translateY(0)';
+                notification.style.opacity = '1';
+            }, 10);
+            
+            // 隐藏并移除通知
+            setTimeout(() => {
+                notification.style.transform = 'translateY(100px)';
+                notification.style.opacity = '0';
+                setTimeout(() => {
+                    notification.remove();
+                }, 300);
+            }, duration);
+        }
+
+        // ============================================
+        // 图片放大功能
+        // ============================================
+
+        function openImageModal() {
+            if (!mainSwiper) {
+                console.warn('Swiper not initialized');
+                return;
+            }
+            const currentSlide = mainSwiper.slides[mainSwiper.activeIndex];
+            const img = currentSlide.querySelector('img');
+            const modal = document.getElementById('imageModal');
+            const modalImage = document.getElementById('modalImage');
+
+            modalImage.src = img.dataset.full || img.src;
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeImageModal() {
+            const modal = document.getElementById('imageModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // 点击主图放大
+        setTimeout(() => {
+            document.querySelector('.swiper-main')?.addEventListener('click', function(e) {
+                if (e.target.tagName === 'IMG') {
+                    openImageModal();
+                }
+            });
+        }, 200);
+
+        // 点击模态框背景关闭
+        document.getElementById('imageModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeImageModal();
+            }
+        });
+
+        // ESC键关闭模态框
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeImageModal();
+            }
+        });
+
+        // ============================================
+        // 后台管理API接口（为Shopify集成准备）
+        // ============================================
+        
+        // 获取产品数据
+        function getProductData() {
+            return PRODUCT_DATA;
+        }
+
+        // 更新变体价格
+        function updateVariantPrice(variantId, newPrice) {
+            const variant = PRODUCT_DATA.variants.find(v => v.id === variantId);
+            if (variant) {
+                variant.price = newPrice;
+                return true;
+            }
+            return false;
+        }
+
+        // 添加产品图片
+        function addProductImage(imageData) {
+            const newImage = {
+                id: Date.now(),
+                src: imageData.src,
+                alt: imageData.alt || '',
+                width: imageData.width || 1200,
+                height: imageData.height || 1200,
+                position: PRODUCT_DATA.images.length + 1
+            };
+            
+            PRODUCT_DATA.images.push(newImage);
+            // 这里会重新渲染图片列表
+            renderImages();
+            return newImage;
+        }
+
+        // 删除产品图片
+        function removeProductImage(imageId) {
+            const index = PRODUCT_DATA.images.findIndex(img => img.id === imageId);
+            if (index > -1) {
+                PRODUCT_DATA.images.splice(index, 1);
+                // 这里会重新渲染图片列表
+                renderImages();
+                return true;
+            }
+            return false;
+        }
+
+        // 渲染图片（为动态更新准备）
+        function renderImages() {
+            const mainWrapper = document.getElementById('mainImageWrapper');
+            const thumbsWrapper = document.getElementById('thumbsWrapper');
+            
+            // 这里会清空并重新创建图片slides
+            // 实际实现会更复杂，需要处理Swiper的更新
+        }
+
+        // ============================================
+        // Shopify API兼容层
+        // ============================================
+        
+        const ShopifyAPI = {
+            // 获取产品
+            getProduct: function(handle) {
+                return Promise.resolve(PRODUCT_DATA);
+            },
+            
+            // 添加到购物车
+            addToCart: function(variantId, quantity) {
+                return Promise.resolve({
+                    success: true,
+                    cart: {
+                        items: [{
+                            variant_id: variantId,
+                            quantity: quantity
+                        }]
+                    }
+                });
+            },
+            
+            // 获取变体
+            getVariant: function(variantId) {
+                return PRODUCT_DATA.variants.find(v => v.id === variantId);
+            },
+            
+            // 获取推荐产品
+            getRecommendations: function(productId) {
+                return Promise.resolve([]);
+            }
+        };
+
+        // ============================================
+        // 初始化
+        // ============================================
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Product detail page initialized');
+            console.log('Product data:', PRODUCT_DATA);
+
+            // 初始化购物车显示
+            updateCartDisplay();
+            updateCartSidebar();
+
+            // 初始化状态
+            initState();
+
+            // 渲染图片
+            renderImages();
+
+            // 渲染变体
+            renderVariants();
+
+            // 初始化 Swiper（在图片渲染后）
+            setTimeout(() => {
+                initSwiper();
+            }, 100);
+
+            // 更新页面标题
+            if (PRODUCT_DATA && PRODUCT_DATA.title) {
+                document.title = PRODUCT_DATA.title + ' - DAO Essence';
+            }
+
+            // 更新头部背景文字
+            const header = document.getElementById('productDetailHeader');
+            if (header && PRODUCT_DATA.title) {
+                const productName = PRODUCT_DATA.title.split(' ')[0] || PRODUCT_DATA.title;
+                header.setAttribute('data-product-name', productName);
+            }
+
+            // 更新面包屑导航
+            const breadcrumbCategory = document.getElementById('breadcrumbCategory');
+            const breadcrumbProduct = document.getElementById('breadcrumbProduct');
+            if (breadcrumbCategory && PRODUCT_DATA.type) {
+                breadcrumbCategory.textContent = PRODUCT_DATA.type;
+            }
+            if (breadcrumbProduct && PRODUCT_DATA.title) {
+                breadcrumbProduct.textContent = PRODUCT_DATA.title.split(' ')[0] || PRODUCT_DATA.title;
+            }
+
+            // 更新页面大标题
+            const titleLarge = document.getElementById('pageTitleLarge');
+            const titleEn = document.getElementById('pageTitleEn');
+            if (titleLarge && PRODUCT_DATA.title) {
+                titleLarge.textContent = PRODUCT_DATA.title.split(' ')[0] || PRODUCT_DATA.title;
+            }
+            if (titleEn && PRODUCT_DATA.handle) {
+                titleEn.textContent = PRODUCT_DATA.handle.replace(/-/g, ' ').toUpperCase();
+            }
+
+            // 更新产品名称
+            const nameCn = document.querySelector('.product-name-cn');
+            const nameEn = document.querySelector('.product-name-en');
+            if (nameCn && PRODUCT_DATA.title) {
+                nameCn.textContent = PRODUCT_DATA.title;
+            }
+            if (nameEn && PRODUCT_DATA.handle) {
+                nameEn.textContent = PRODUCT_DATA.handle.replace(/-/g, ' ').toUpperCase();
+            }
+
+            // 更新产品分类标签
+            const categoryTag = document.querySelector('.product-category-tag');
+            if (categoryTag && PRODUCT_DATA.type) {
+                categoryTag.textContent = PRODUCT_DATA.type;
+            }
+
+            // 更新价格
+            if (PRODUCT_DATA.price) {
+                document.getElementById('currentPrice').innerHTML = `<span>¥</span>${PRODUCT_DATA.price.toFixed(2)}`;
+            }
+            if (PRODUCT_DATA.compareAtPrice) {
+                document.getElementById('originalPrice').textContent = `¥${PRODUCT_DATA.compareAtPrice.toFixed(2)}`;
+                const discount = Math.round((1 - PRODUCT_DATA.price / PRODUCT_DATA.compareAtPrice) * 100);
+                document.getElementById('discountBadge').textContent = `-${discount}%`;
+            }
+
+            // 更新SKU
+            const skuCode = document.querySelector('.sku-code');
+            if (skuCode && PRODUCT_DATA.id) {
+                skuCode.textContent = `SKU: ${PRODUCT_DATA.id.toUpperCase()}`;
+            }
+
+            // 更新描述
+            const descText = document.querySelector('.description-text');
+            if (descText && PRODUCT_DATA.description) {
+                descText.innerHTML = `<p>${PRODUCT_DATA.description}</p>`;
+            }
+
+            // 更新能量属性
+            if (PRODUCT_DATA.metafields && PRODUCT_DATA.metafields.energy) {
+                const energy = PRODUCT_DATA.metafields.energy;
+                const fiveElement = document.querySelector('.attribute-item:nth-child(1) h4 + p');
+                const energyType = document.querySelector('.attribute-item:nth-child(2) h4 + p');
+                const direction = document.querySelector('.attribute-item:nth-child(3) h4 + p');
+                const suitable = document.querySelector('.attribute-item:nth-child(4) h4 + p');
+
+                if (fiveElement && energy.five_element) {
+                    fiveElement.textContent = `${energy.five_element}元素`;
+                }
+                if (energyType && energy.type) {
+                    energyType.textContent = energy.type;
+                }
+                if (direction && energy.direction) {
+                    direction.textContent = energy.direction;
+                }
+                if (suitable && energy.suitable_for && energy.suitable_for.length > 0) {
+                    suitable.textContent = energy.suitable_for.join('、');
+                }
+            }
+
+            console.log('Product ID:', PRODUCT_DATA.id);
+
+            // 初始化库存显示
+            if (currentVariant && currentVariant.inventoryQuantity !== undefined) {
+                const stockCount = document.querySelector('.stock-count');
+                if (stockCount) {
+                    if (currentVariant.inventoryQuantity <= 5) {
+                        stockCount.textContent = `Only ${currentVariant.inventoryQuantity} left`;
+                        stockCount.style.background = 'var(--fire-primary)';
+                    } else {
+                        stockCount.textContent = `${currentVariant.inventoryQuantity} in stock`;
+                        stockCount.style.background = 'var(--wood-primary)';
+                    }
+                }
+            }
+        });
+    </script>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <span class="logo-en">DAO ESSENCE</span>
+                    </div>
+                    <p>Ancient Wisdom, Modern Harmony. Based on authentic Taoist traditions, we offer verifiable traditional cultural products and services with genuine energy properties.</p>
+                </div>
+                <div>
+                    <h4 class="footer-title">Navigation</h4>
+                    <ul class="footer-links">
+                        <li><a href="culture.html">Energy Universe</a></li>
+                        <li><a href="shop.html">Energy Shop</a></li>
+                        <li><a href="index.html#destiny-booking">Destiny Consulting</a></li>
+                        <li><a href="guide.html">Crafting Process</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-title">Services</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">BaZi Analysis</a></li>
+                        <li><a href="#">Annual Fortune</a></li>
+                        <li><a href="#">Personal Consultation</a></li>
+                        <li><a href="#">Custom Items</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-title">Contact</h4>
+                    <ul class="footer-links">
+                        <li>
+                            <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle;margin-right:5px"><path d="M3 4h14a1 1 0 011 1v10a1 1 0 01-1 1H3a1 1 0 01-1-1V5a1 1 0 011-1z"/><path d="M3 5l7 6 7-6"/></svg>
+                            support@daoessence.com
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle;margin-right:5px"><path d="M2 5a2 2 0 012-2h12a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V5z"/><path d="M7 10h6M7 13h4"/></svg>
+                            WhatsApp: +86 181 1575 5283
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle;margin-right:5px"><circle cx="10" cy="10" r="8"/><path d="M10 6v4l2.5 2.5"/></svg>
+                            Mon–Sat: 9AM–9PM (CST / UTC+8)
+                        </li>
+                        <li><a href="policy.html" style="color:rgba(245,240,230,0.6)">Privacy & Return Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2024 DAO Essence & Five Elements. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="main.js?v=202603131700"></script>
+
+    <!-- Shopify 对接脚本（启用后替换上面的静态购物车逻辑） -->
+    <!--
+    步骤1: 配置 js/shopify-config.js 填入你的 Storefront API Token
+    步骤2: 取消下方注释即可启用 Shopify 数据源
+    步骤3: 商品链接格式改为 product-detail.html?product=shopify-handle
+    
+    <script src="js/shopify-config.js"></script>
+    <script src="js/shopify-api.js"></script>
+    <script src="js/shop-product-detail.js"></script>
+    -->
+</body>
+</html>

@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - DAO Essence</title>
+    <meta name="description" content="Contact DAO Essence for product inquiries, order support, and destiny consultations.">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .contact-page {
+            padding-top: 80px;
+            min-height: 100vh;
+            background: var(--bg-secondary);
+        }
+        .contact-wrap {
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 48px 20px 80px;
+        }
+        .contact-page-title {
+            font-family: var(--font-display);
+            font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+            color: var(--accent-color);
+            letter-spacing: 0.08em;
+            margin-bottom: 6px;
+        }
+        .contact-page-sub {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 32px;
+        }
+
+        /* ── Direct contact buttons ── */
+        .contact-btns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 28px;
+        }
+        @media(max-width:500px) { .contact-btns { grid-template-columns: 1fr; } }
+
+        .contact-btn {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            padding: 16px 18px;
+            border-radius: 10px;
+            border: 1px solid rgba(212,175,55,0.2);
+            background: var(--bg-primary);
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .contact-btn:hover {
+            border-color: var(--accent-color);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 22px rgba(0,0,0,0.14);
+        }
+        .cb-icon {
+            width: 42px; height: 42px;
+            border-radius: 9px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+        .cb-wa  .cb-icon { background: rgba(37,211,102,0.12); }
+        .cb-mail .cb-icon { background: rgba(212,175,55,0.1); }
+        .cb-label {
+            font-weight: 700;
+            color: var(--text-primary);
+            font-size: 0.92rem;
+            margin-bottom: 2px;
+        }
+        .cb-value { font-size: 0.8rem; color: var(--text-secondary); }
+        .cb-badge {
+            margin-left: auto;
+            font-size: 0.7rem;
+            padding: 3px 8px;
+            border-radius: 20px;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+        .cb-wa  .cb-badge { background: rgba(37,211,102,0.15); color: #1ebe58; }
+        .cb-mail .cb-badge { background: rgba(212,175,55,0.1);  color: var(--accent-color); }
+
+        /* ── Cards ── */
+        .contact-card {
+            background: var(--bg-primary);
+            border-radius: 12px;
+            padding: 26px;
+            border: 1px solid rgba(212,175,55,0.15);
+            margin-bottom: 16px;
+        }
+        .card-title {
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--accent-color);
+            margin-bottom: 18px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(212,175,55,0.12);
+        }
+
+        /* ── Form ── */
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        @media(max-width:500px) { .form-row { grid-template-columns: 1fr; } }
+        .form-group { margin-bottom: 13px; }
+        .form-group label {
+            display: block; font-size: 0.82rem; font-weight: 500;
+            color: var(--text-primary); margin-bottom: 5px;
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%; padding: 9px 12px;
+            background: var(--bg-accent);
+            border: 1px solid rgba(212,175,55,0.2);
+            border-radius: 7px; color: var(--text-primary);
+            font-size: 0.88rem; transition: border-color 0.2s; box-sizing: border-box;
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none; border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(212,175,55,0.08);
+        }
+        .form-group textarea { min-height: 100px; resize: vertical; }
+        .btn-send {
+            width: 100%; padding: 12px;
+            background: var(--gradient-gold); border: none; border-radius: 7px;
+            color: var(--bg-dark); font-size: 0.9rem; font-weight: 700;
+            cursor: pointer; transition: all 0.2s;
+            font-family: var(--font-display); letter-spacing: 0.05em;
+        }
+        .btn-send:hover { filter: brightness(1.08); transform: translateY(-2px); box-shadow: 0 5px 16px rgba(212,175,55,0.28); }
+        .success-msg {
+            display: none; padding: 12px;
+            background: rgba(45,90,61,0.1); border: 1px solid var(--wood-primary);
+            border-radius: 7px; color: var(--wood-primary); font-size: 0.85rem;
+            text-align: center; margin-top: 10px;
+        }
+
+        /* ── FAQ ── */
+        .faq-item { border-bottom: 1px solid rgba(212,175,55,0.1); }
+        .faq-item:last-child { border-bottom: none; }
+        .faq-question {
+            width: 100%; background: none; border: none; text-align: left;
+            padding: 13px 0; cursor: pointer;
+            display: flex; justify-content: space-between; align-items: center; gap: 10px;
+            font-size: 0.88rem; font-weight: 600; color: var(--text-primary); transition: color 0.2s;
+        }
+        .faq-question:hover { color: var(--accent-color); }
+        .faq-arrow { flex-shrink: 0; transition: transform 0.25s; color: var(--accent-color); }
+        .faq-item.open .faq-arrow { transform: rotate(180deg); }
+        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+        .faq-item.open .faq-answer { max-height: 150px; padding-bottom: 12px; }
+        .faq-answer p { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.8; }
+        .faq-answer a { color: var(--accent-color); }
+    </style>
+</head>
+<body>
+    <header class="header scrolled">
+        <div class="container">
+            <nav class="nav">
+                <a href="index.html" class="logo">
+                    <div class="logo-icon"></div>
+                    <div class="logo-text"><span class="logo-cn">DAO本质</span></div>
+                </a>
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="nav-link">Home</a></li>
+                    <li><a href="culture.html" class="nav-link">Energy Universe</a></li>
+                    <li><a href="shop.html" class="nav-link">Energy Shop</a></li>
+                    <li><a href="guide.html" class="nav-link">Crafting Process</a></li>
+                    <li><a href="about.html" class="nav-link">About Us</a></li>
+                </ul>
+                <button class="mobile-menu-btn"><span></span><span></span><span></span></button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="contact-page">
+        <div class="contact-wrap">
+
+            <h1 class="contact-page-title">Contact & Support</h1>
+            <p class="contact-page-sub">Reach us directly — we reply within 24 hours on business days (Mon–Sat, 9AM–9PM CST).</p>
+
+            <!-- Direct contact -->
+            <div class="contact-btns">
+                <a href="https://wa.me/8618115755283" target="_blank" class="contact-btn cb-wa">
+                    <div class="cb-icon">💬</div>
+                    <div>
+                        <div class="cb-label">WhatsApp</div>
+                        <div class="cb-value">+86 181 1575 5283</div>
+                    </div>
+                    <span class="cb-badge">Fastest</span>
+                </a>
+                <a href="mailto:support@daoessence.com" class="contact-btn cb-mail">
+                    <div class="cb-icon">📧</div>
+                    <div>
+                        <div class="cb-label">Email</div>
+                        <div class="cb-value">support@daoessence.com</div>
+                    </div>
+                    <span class="cb-badge">24h reply</span>
+                </a>
+            </div>
+
+            <!-- Message form -->
+            <div class="contact-card">
+                <div class="card-title">Send a Message</div>
+                <form id="contactForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Name *</label>
+                            <input type="text" placeholder="Your name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Email *</label>
+                            <input type="email" placeholder="you@example.com" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Topic</label>
+                        <select>
+                            <option>Order & Shipping</option>
+                            <option>Product Inquiry</option>
+                            <option>Return & Refund</option>
+                            <option>Destiny Consultation</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Message *</label>
+                        <textarea placeholder="Describe your question..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn-send">Send Message</button>
+                    <div class="success-msg" id="cfSuccess">✓ Message sent! We'll reply within 24 hours.</div>
+                </form>
+            </div>
+
+            <!-- FAQ -->
+            <div class="contact-card">
+                <div class="card-title">Common Questions</div>
+                <div class="faq-item">
+                    <button class="faq-question">How long does international shipping take?
+                        <svg class="faq-arrow" viewBox="0 0 16 16" width="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6l4 4 4-4"/></svg>
+                    </button>
+                    <div class="faq-answer"><p>Standard: 15–25 business days. Express (FedEx/DHL): 7–12 days. DHL Priority: 3–5 days. All orders include tracking.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">What is your return policy?
+                        <svg class="faq-arrow" viewBox="0 0 16 16" width="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6l4 4 4-4"/></svg>
+                    </button>
+                    <div class="faq-answer"><p>30-day returns on unused items in original packaging. Custom and consecrated items are final sale. <a href="policy.html">Full policy →</a></p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">What payment methods do you accept?
+                        <svg class="faq-arrow" viewBox="0 0 16 16" width="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6l4 4 4-4"/></svg>
+                    </button>
+                    <div class="faq-answer"><p>Visa, Mastercard, Amex via Stripe, and PayPal. All transactions are 256-bit SSL encrypted.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">How do I book a destiny consultation?
+                        <svg class="faq-arrow" viewBox="0 0 16 16" width="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6l4 4 4-4"/></svg>
+                    </button>
+                    <div class="faq-answer"><p>Book on our <a href="index.html#destiny-booking">homepage</a> or email <a href="mailto:consultation@daoessence.com">consultation@daoessence.com</a>. Available in English and Chinese.</p></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="logo"><span class="logo-en">DAO ESSENCE</span></div>
+                    <p>Ancient Wisdom, Modern Harmony.</p>
+                </div>
+                <div>
+                    <h4 class="footer-title">Shop</h4>
+                    <ul class="footer-links">
+                        <li><a href="shop.html">Energy Shop</a></li>
+                        <li><a href="index.html#destiny-booking">Consultations</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-title">Support</h4>
+                    <ul class="footer-links">
+                        <li><a href="contact.html">Contact Us</a></li>
+                        <li><a href="policy.html">Policies</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-title">Contact</h4>
+                    <ul class="footer-links">
+                        <li>support@daoessence.com</li>
+                        <li>WhatsApp: +86 181 1575 5283</li>
+                        <li>Mon–Sat 9AM–9PM CST</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom"><p>© 2024 DAO Essence & Five Elements. All rights reserved.</p></div>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
+    <script>
+        document.querySelectorAll('.faq-question').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const item = btn.closest('.faq-item');
+                const isOpen = item.classList.contains('open');
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+                if (!isOpen) item.classList.add('open');
+            });
+        });
+
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const btn = this.querySelector('.btn-send');
+            btn.textContent = 'Sending...';
+            btn.disabled = true;
+            setTimeout(() => {
+                document.getElementById('cfSuccess').style.display = 'block';
+                btn.textContent = '✓ Sent';
+                this.reset();
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

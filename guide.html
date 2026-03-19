@@ -3,503 +3,942 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Energy Guide - DAO Essence</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Crafting Process - DAO Essence</title>
+    <link rel="stylesheet" href="styles.css?v=20260313">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
+    <!-- Vercel Web Analytics -->
+    <script>
+      window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+      var script = document.createElement('script');
+      script.defer = true;
+      script.src = '/_vercel/insights/script.js';
+      document.head.appendChild(script);
+    </script>
     <style>
-        /* 博客页面专属样式 */
-        .guide-hero {
-            height: 50vh;
-            background: linear-gradient(135deg, var(--color-dark) 0%, #1a2a1a 50%, #1a1a2a 100%);
+        /* ══════════════════════════════════════
+           HERO — 视频背景 banner（与 culture 页对齐）
+        ══════════════════════════════════════ */
+        .craft-hero {
+            height: 65vh;
+            min-height: 520px;
             position: relative;
-            overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
+            text-align: center;
+            overflow: hidden;
+            background: #0D1A15;
+        }
+        /* 视频背景 */
+        .craft-hero-video {
+            position: absolute; inset: 0;
+            width: 100%; height: 100%;
+            object-fit: cover;
+            pointer-events: none;
+        }
+        /* 渐变遮罩 */
+        .craft-hero::before {
+            content: '';
+            position: absolute; inset: 0;
+            background:
+                linear-gradient(180deg,
+                    rgba(10,18,12,0.55) 0%,
+                    rgba(10,18,12,0.45) 50%,
+                    rgba(10,18,12,0.70) 100%);
+            z-index: 1;
+        }
+        .craft-hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 780px;
+            padding: 0 2rem;
+        }
+        /* 视频背景 fallback 渐变（当视频未加载时） */
+        .craft-hero-video-fallback {
+            position: absolute; inset: 0;
+            background: linear-gradient(160deg, #0D1A15 0%, #0A1A2E 50%, #1A1208 100%);
+            z-index: 0;
+        }
+        .craft-hero .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.7rem;
+            font-family: var(--font-english);
+            font-size: 0.78rem;
+            letter-spacing: 0.42em;
+            text-transform: uppercase;
+            color: #C9A961;
+            margin-bottom: 1.8rem;
+        }
+        .craft-hero .eyebrow::before,
+        .craft-hero .eyebrow::after {
+            content: '';
+            width: 40px; height: 1px;
+            background: linear-gradient(90deg, transparent, #C9A961);
+        }
+        .craft-hero .eyebrow::after {
+            background: linear-gradient(90deg, #C9A961, transparent);
+        }
+        .craft-hero h1 {
+            font-family: var(--font-display);
+            font-size: clamp(2.8rem, 7vw, 5rem);
+            color: #F5F0E6;
+            margin-bottom: 1.4rem;
+            letter-spacing: 0.14em;
+            line-height: 1.1;
+        }
+        .craft-hero h1 em {
+            font-style: normal;
+            background: linear-gradient(135deg, #D4AF37, #F5D982, #C9A961);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .craft-hero p {
+            font-size: 1.05rem;
+            color: rgba(245,240,230,0.65);
+            line-height: 1.95;
+            max-width: 580px;
+            margin: 0 auto 2.5rem;
         }
 
-        .guide-hero::before {
+        /* Hero 播放按钮 — 纯白透明圆圈 */
+        .hero-play-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: none;
+            background: none;
+            padding: 0;
+            margin-top: 0.8rem;
+        }
+        .hero-play-circle {
+            width: 72px; height: 72px;
+            border-radius: 50%;
+            border: 2px solid rgba(255,255,255,0.75);
+            background: rgba(255,255,255,0.15);
+            display: flex; align-items: center; justify-content: center;
+            color: #fff;
+            transition: all 0.35s;
+            backdrop-filter: blur(6px);
+        }
+        .hero-play-circle svg {
+            margin-left: 4px; /* 视觉居中三角 */
+        }
+        .hero-play-btn:hover .hero-play-circle {
+            background: rgba(255,255,255,0.28);
+            border-color: #fff;
+            transform: scale(1.1);
+            box-shadow: 0 0 36px rgba(255,255,255,0.25);
+        }
+
+        /* 模块分隔 Logo — 道字圆圈 */
+        .section-dao-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.9rem;
+            margin: 0 auto 3rem;
+        }
+        .section-dao-logo::before,
+        .section-dao-logo::after {
+            content: '';
+            flex: 1;
+            max-width: 120px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(212,175,55,0.4));
+        }
+        .section-dao-logo::after {
+            background: linear-gradient(90deg, rgba(212,175,55,0.4), transparent);
+        }
+        .dao-circle {
+            width: 52px; height: 52px;
+            border-radius: 50%;
+            border: 1.5px solid var(--accent-color, #D4AF37);
+            display: flex; align-items: center; justify-content: center;
+            font-family: var(--font-display);
+            font-size: 1.45rem;
+            font-weight: 600;
+            color: var(--accent-color, #D4AF37);
+            flex-shrink: 0;
+        }
+        /* 深色背景版 */
+        .section-dao-logo.light .dao-circle {
+            border-color: rgba(212,175,55,0.7);
+            color: rgba(212,175,55,0.85);
+        }
+        .section-dao-logo.light::before {
+            background: linear-gradient(90deg, transparent, rgba(212,175,55,0.3));
+        }
+        .section-dao-logo.light::after {
+            background: linear-gradient(90deg, rgba(212,175,55,0.3), transparent);
+        }
+        /* ══════════════════════════════════════
+           STATS 数字彰显实力
+        ══════════════════════════════════════ */
+        .craft-stats {
+            background: linear-gradient(135deg, #1A1208, #0D1A15);
+            padding: 3.5rem 5%;
+            border-bottom: 1px solid rgba(212,175,55,0.12);
+        }
+        .craft-stats-inner {
+            max-width: 900px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            text-align: center;
+        }
+        .stat-item {
+            padding: 1.5rem 1rem;
+            border-right: 1px solid rgba(212,175,55,0.12);
+        }
+        .stat-item:last-child { border-right: none; }
+        .stat-num {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 4vw, 3rem);
+            background: linear-gradient(135deg, #D4AF37, #F5D982);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+        .stat-label {
+            color: rgba(245,240,230,0.5);
+            font-size: 0.8rem;
+            letter-spacing: 0.08em;
+            line-height: 1.4;
+        }
+
+        /* ══════════════════════════════════════
+           STICKY PROCESS NAV
+        ══════════════════════════════════════ */
+        .process-nav {
+            background: rgba(245,240,230,0.97);
+            backdrop-filter: blur(12px);
+            padding: 0 5%;
+            border-bottom: 1px solid rgba(212,175,55,0.2);
+            position: sticky;
+            top: 70px;
+            z-index: 100;
+        }
+        .process-steps {
+            display: flex;
+            justify-content: center;
+            align-items: stretch;
+            gap: 0;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .process-step {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 1rem 1.6rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            border-bottom: 3px solid transparent;
+        }
+        .process-step:hover { background: rgba(212,175,55,0.06); }
+        .process-step.active {
+            border-bottom-color: var(--accent-color);
+            background: rgba(212,175,55,0.08);
+        }
+        .step-number {
+            width: 28px; height: 28px;
+            background: rgba(212,175,55,0.15);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.82rem; font-weight: 700;
+            color: var(--accent-color);
+            transition: all 0.3s;
+            flex-shrink: 0;
+        }
+        .process-step.active .step-number {
+            background: var(--accent-color);
+            color: #1A1208;
+        }
+        .step-label {
+            color: var(--text-secondary);
+            font-size: 0.88rem;
+            font-weight: 500;
+            transition: color 0.3s;
+            white-space: nowrap;
+        }
+        .process-step.active .step-label,
+        .process-step:hover .step-label { color: var(--accent-color); }
+        .step-arrow { color: rgba(212,175,55,0.25); font-size: 0.9rem; align-self: center; }
+
+        /* ══════════════════════════════════════
+           SECTION WRAPPER
+        ══════════════════════════════════════ */
+        .craft-section { padding: 6rem 5%; }
+        .craft-section.dark-section {
+            background: linear-gradient(160deg, #0D1A15 0%, #0A1A2E 100%);
+        }
+        .craft-section.light-section {
+            background: var(--bg-secondary);
+        }
+
+        /* ── Section header ── */
+        .section-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.35rem 1rem;
+            background: rgba(212,175,55,0.1);
+            border: 1px solid rgba(212,175,55,0.3);
+            border-radius: 30px;
+            color: var(--accent-color);
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 1.2rem;
+        }
+        .section-badge .badge-dot {
+            width: 6px; height: 6px;
+            background: var(--accent-color);
+            border-radius: 50%;
+        }
+        .section-title-block {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 1.8rem;
+        }
+        .section-title-block h2 {
+            font-family: var(--font-display);
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            color: var(--accent-color);
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+        .section-title-block h2.light { color: #F5F0E6; }
+        .section-title-block p {
+            color: var(--text-secondary);
+            line-height: 1.9;
+            font-size: 0.98rem;
+        }
+        .section-title-block p.light { color: rgba(245,240,230,0.65); }
+
+        /* ══════════════════════════════════════
+           STEP 1 — 交错网格布局
+        ══════════════════════════════════════ */
+        .material-grid {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+        .material-img-col {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+        .material-img-col .img-main {
+            width: 100%; height: 300px;
+            object-fit: cover;
+            border-radius: 16px;
+            border: 1px solid rgba(212,175,55,0.15);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+        }
+        .material-img-col .img-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.2rem;
+        }
+        .material-img-col .img-row img {
+            width: 100%; height: 140px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 1px solid rgba(212,175,55,0.1);
+        }
+        .material-cards-col {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .mat-card {
+            background: #fff;
+            border: 1px solid rgba(212,175,55,0.15);
+            border-radius: 14px;
+            padding: 1.4rem 1.6rem;
+            display: flex;
+            gap: 1.2rem;
+            align-items: flex-start;
+            transition: all 0.35s;
+            position: relative;
+            overflow: hidden;
+        }
+        .mat-card::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 0; bottom: 0;
+            width: 3px;
+            background: linear-gradient(180deg, var(--accent-color), rgba(212,175,55,0.2));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .mat-card:hover {
+            transform: translateX(6px);
+            border-color: rgba(212,175,55,0.35);
+            box-shadow: 0 8px 28px rgba(0,0,0,0.1);
+        }
+        .mat-card:hover::before { opacity: 1; }
+        .mat-icon {
+            width: 44px; height: 44px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, rgba(212,175,55,0.15), rgba(212,175,55,0.05));
+            border: 1px solid rgba(212,175,55,0.2);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+        .mat-text h4 {
+            font-family: var(--font-display);
+            font-size: 1rem;
+            color: var(--accent-color);
+            margin-bottom: 0.3rem;
+        }
+        .mat-text p {
+            color: var(--text-secondary);
+            font-size: 0.86rem;
+            line-height: 1.65;
+        }
+
+        /* ══════════════════════════════════════
+           STEP 2 — 水平时间线 + 大图
+        ══════════════════════════════════════ */
+        .craft-timeline-wrap {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .craft-img-banner {
+            width: 100%;
+            height: 320px;
+            object-fit: cover;
+            border-radius: 20px;
+            border: 1px solid rgba(212,175,55,0.15);
+            box-shadow: 0 24px 60px rgba(0,0,0,0.18);
+            margin-bottom: 3.5rem;
+            display: block;
+        }
+        /* 水平时间线 */
+        .h-timeline {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0;
+            position: relative;
+        }
+        .h-timeline::before {
+            content: '';
+            position: absolute;
+            top: 22px; left: 10%; right: 10%;
+            height: 2px;
+            background: linear-gradient(90deg,
+                transparent, var(--accent-color) 20%,
+                var(--accent-color) 80%, transparent);
+        }
+        .h-tl-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 0 1rem;
+        }
+        .h-tl-dot {
+            width: 44px; height: 44px;
+            background: linear-gradient(135deg, #D4AF37, #F5D982);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.1rem;
+            margin-bottom: 1.4rem;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 4px 16px rgba(212,175,55,0.35);
+            flex-shrink: 0;
+        }
+        .h-tl-content {
+            background: var(--bg-primary);
+            border: 1px solid rgba(212,175,55,0.15);
+            border-radius: 12px;
+            padding: 1.4rem 1.2rem;
+            width: 100%;
+            transition: all 0.3s;
+        }
+        .h-tl-content:hover {
+            transform: translateY(-4px);
+            border-color: rgba(212,175,55,0.4);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+        }
+        .h-tl-time {
+            display: inline-block;
+            font-size: 0.72rem;
+            color: var(--accent-color);
+            background: rgba(212,175,55,0.1);
+            padding: 0.2rem 0.7rem;
+            border-radius: 20px;
+            margin-bottom: 0.7rem;
+            letter-spacing: 0.05em;
+        }
+        .h-tl-content h4 {
+            font-family: var(--font-display);
+            font-size: 0.98rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+        .h-tl-content p {
+            color: var(--text-secondary);
+            font-size: 0.83rem;
+            line-height: 1.65;
+        }
+
+        /* ══════════════════════════════════════
+           STEP 3 — 深色沉浸式
+        ══════════════════════════════════════ */
+        .consecration-wrap {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .consecration-hero-img {
+            width: 100%;
+            height: 420px;
+            object-fit: cover;
+            border-radius: 20px;
+            margin-bottom: 3rem;
+            display: block;
+            position: relative;
+        }
+        .consecration-img-container {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 3rem;
+        }
+        .consecration-img-container img {
+            width: 100%; height: 420px;
+            object-fit: cover;
+            display: block;
+        }
+        .consecration-img-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(10,15,25,0.85) 0%, transparent 55%);
+            display: flex;
+            align-items: flex-end;
+            padding: 2.5rem;
+        }
+        .consecration-overlay-text h3 {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            color: #F5F0E6;
+            margin-bottom: 0.4rem;
+        }
+        .consecration-overlay-text p {
+            color: rgba(245,240,230,0.65);
+            font-size: 0.9rem;
+        }
+        /* 仪式步骤 */
+        .ritual-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        .ritual-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(212,175,55,0.15);
+            border-radius: 16px;
+            padding: 2rem 1.6rem;
+            text-align: center;
+            transition: all 0.35s;
+            position: relative;
+            overflow: hidden;
+        }
+        .ritual-card::after {
             content: '';
             position: absolute;
             inset: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text x="50" y="55" text-anchor="middle" font-size="30" fill="rgba(212,175,55,0.08)">经</text></svg>');
-            background-size: 120px;
+            background: linear-gradient(135deg, rgba(212,175,55,0.05) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.3s;
         }
-
-        .guide-hero-content {
-            text-align: center;
-            z-index: 2;
-            color: var(--color-light);
+        .ritual-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(212,175,55,0.4);
+            box-shadow: 0 16px 40px rgba(0,0,0,0.3);
         }
-
-        .guide-hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-            text-shadow: 0 0 30px rgba(212, 175, 55, 0.5);
-        }
-
-        .guide-hero p {
-            font-size: 1.2rem;
-            opacity: 0.9;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        /* 搜索栏 */
-        .search-section {
-            padding: 2rem 5%;
-            background: var(--color-dark-accent);
-        }
-
-        .search-box {
-            max-width: 600px;
-            margin: 0 auto;
-            display: flex;
-            gap: 1rem;
-        }
-
-        .search-input {
-            flex: 1;
-            padding: 1rem 1.5rem;
-            background: var(--color-dark);
-            border: 1px solid rgba(212, 175, 55, 0.2);
-            border-radius: 25px;
-            color: var(--color-light);
-            font-size: 1rem;
-        }
-
-        .search-input:focus {
-            outline: none;
-            border-color: var(--color-gold);
-        }
-
-        .search-btn {
-            padding: 1rem 2rem;
-            background: linear-gradient(135deg, var(--color-gold), #8b6914);
-            border: none;
-            border-radius: 25px;
-            color: var(--color-dark);
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .search-btn:hover {
-            transform: scale(1.05);
-        }
-
-        /* 分类标签 */
-        .categories-section {
-            padding: 1.5rem 5%;
-            background: var(--color-dark-accent);
-            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
-        }
-
-        .categories-list {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 0.8rem;
-        }
-
-        .category-tag {
-            padding: 0.6rem 1.2rem;
-            background: transparent;
-            border: 1px solid rgba(212, 175, 55, 0.3);
-            border-radius: 20px;
-            color: var(--color-light);
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 0.95rem;
-        }
-
-        .category-tag:hover,
-        .category-tag.active {
-            background: var(--color-gold);
-            color: var(--color-dark);
-            border-color: var(--color-gold);
-        }
-
-        /* 主内容区 */
-        .guide-main {
-            display: grid;
-            grid-template-columns: 1fr 320px;
-            gap: 3rem;
-            padding: 3rem 5%;
-        }
-
-        /* 文章列表 */
-        .articles-list {
-            display: flex;
-            flex-direction: column;
-            gap: 2rem;
-        }
-
-        .article-card {
-            background: var(--color-dark-accent);
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid rgba(212, 175, 55, 0.1);
-            transition: all 0.3s;
-            display: grid;
-            grid-template-columns: 280px 1fr;
-        }
-
-        .article-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(212, 175, 55, 0.1);
-            border-color: rgba(212, 175, 55, 0.3);
-        }
-
-        .article-image {
-            height: 200px;
-            background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+        .ritual-card:hover::after { opacity: 1; }
+        .ritual-icon {
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 4rem;
-            color: var(--color-gold);
+            width: 56px; height: 56px;
+            margin: 0 auto 1.2rem;
+            background: rgba(212,175,55,0.1);
+            border: 1px solid rgba(212,175,55,0.2);
+            border-radius: 14px;
         }
-
-        .article-content {
-            padding: 1.5rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+        .ritual-card h4 {
+            font-family: var(--font-display);
+            font-size: 1.05rem;
+            color: #D4AF37;
+            margin-bottom: 0.6rem;
         }
-
-        .article-meta {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 0.8rem;
-            font-size: 0.85rem;
-        }
-
-        .article-category {
-            color: var(--color-gold);
-        }
-
-        .article-date {
-            color: var(--color-light-dim);
-        }
-
-        .article-title {
-            font-size: 1.4rem;
-            color: var(--color-light);
-            margin-bottom: 0.8rem;
-            line-height: 1.4;
-        }
-
-        .article-excerpt {
-            color: var(--color-light-dim);
+        .ritual-card p {
+            color: rgba(245,240,230,0.6);
+            font-size: 0.87rem;
             line-height: 1.7;
-            margin-bottom: 1rem;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
         }
-
-        .article-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .article-author {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .author-avatar {
-            width: 32px;
-            height: 32px;
-            background: linear-gradient(135deg, var(--color-gold), #8b6914);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.9rem;
-        }
-
-        .author-name {
-            color: var(--color-light-dim);
-            font-size: 0.9rem;
-        }
-
-        .read-more {
-            color: var(--color-gold);
-            font-size: 0.9rem;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .read-more:hover {
-            color: #d4af37;
-        }
-
-        /* 侧边栏 */
-        .sidebar {
-            display: flex;
-            flex-direction: column;
+        /* Master信息 */
+        .master-profile {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(212,175,55,0.2);
+            border-radius: 20px;
+            padding: 2.5rem;
+            display: grid;
+            grid-template-columns: auto 1fr;
             gap: 2rem;
+            align-items: start;
         }
-
-        .sidebar-widget {
-            background: var(--color-dark-accent);
-            border-radius: 12px;
-            padding: 1.5rem;
-            border: 1px solid rgba(212, 175, 55, 0.1);
-        }
-
-        .widget-title {
-            font-size: 1.2rem;
-            color: var(--color-gold);
-            margin-bottom: 1rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
-        }
-
-        /* 热门文章 */
-        .hot-articles {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .hot-article-item {
-            display: flex;
-            gap: 1rem;
-            padding: 0.8rem;
-            background: rgba(212, 175, 55, 0.03);
-            border-radius: 8px;
-            transition: all 0.3s;
-            cursor: pointer;
-        }
-
-        .hot-article-item:hover {
-            background: rgba(212, 175, 55, 0.08);
-        }
-
-        .hot-article-number {
-            width: 28px;
-            height: 28px;
-            background: var(--color-gold);
+        .master-avatar {
+            width: 100px; height: 100px;
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--color-dark);
-            font-weight: bold;
-            font-size: 0.85rem;
+            border: 3px solid rgba(212,175,55,0.4);
+            object-fit: cover;
             flex-shrink: 0;
         }
-
-        .hot-article-title {
-            color: var(--color-light);
-            font-size: 0.95rem;
-            line-height: 1.4;
+        .master-avatar-placeholder {
+            width: 100px; height: 100px;
+            border-radius: 50%;
+            border: 3px solid rgba(212,175,55,0.4);
+            background: linear-gradient(135deg, rgba(212,175,55,0.12), rgba(212,175,55,0.04));
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
         }
-
-        /* 标签云 */
-        .tag-cloud {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
+        .master-info h3 {
+            font-family: var(--font-display);
+            font-size: 1.6rem;
+            color: #D4AF37;
+            margin-bottom: 0.25rem;
         }
-
-        .tag-item {
-            padding: 0.4rem 0.8rem;
-            background: rgba(212, 175, 55, 0.1);
-            border-radius: 4px;
-            color: var(--color-light-dim);
+        .master-subtitle {
+            color: rgba(245,240,230,0.5);
             font-size: 0.85rem;
-            cursor: pointer;
-            transition: all 0.3s;
+            margin-bottom: 1rem;
+            display: block;
+        }
+        .master-info p {
+            color: rgba(245,240,230,0.65);
+            line-height: 1.85;
+            font-size: 0.92rem;
+            margin-bottom: 1.2rem;
+        }
+        .credential-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+        .credential-tag {
+            padding: 0.35rem 0.9rem;
+            background: rgba(212,175,55,0.1);
+            border: 1px solid rgba(212,175,55,0.25);
+            border-radius: 20px;
+            color: rgba(212,175,55,0.85);
+            font-size: 0.8rem;
         }
 
-        .tag-item:hover {
-            background: var(--color-gold);
-            color: var(--color-dark);
+        /* ══════════════════════════════════════
+           STEP 4 — 轻奢浅色卡片
+        ══════════════════════════════════════ */
+        .qa-layout {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: start;
         }
-
-        /* 订阅框 */
-        .subscribe-widget {
+        .qa-img-stack {
+            position: relative;
+        }
+        .qa-img-main {
+            width: 100%;
+            height: 360px;
+            object-fit: cover;
+            border-radius: 18px;
+            border: 1px solid rgba(212,175,55,0.15);
+            box-shadow: 0 24px 60px rgba(0,0,0,0.18);
+            display: block;
+        }
+        .qa-badge-float {
+            position: absolute;
+            bottom: -1.2rem; right: 1.8rem;
+            background: linear-gradient(135deg, #D4AF37, #C9A000);
+            border-radius: 12px;
+            padding: 1rem 1.4rem;
+            box-shadow: 0 8px 24px rgba(212,175,55,0.35);
             text-align: center;
         }
-
-        .subscribe-widget p {
-            color: var(--color-light-dim);
-            margin-bottom: 1rem;
-            font-size: 0.95rem;
+        .qa-badge-float .num {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            color: #1A1208;
+            line-height: 1;
+            font-weight: 700;
         }
-
-        .subscribe-form {
+        .qa-badge-float .lbl {
+            font-size: 0.72rem;
+            color: rgba(26,18,8,0.7);
+            letter-spacing: 0.05em;
+        }
+        .qa-cards {
             display: flex;
             flex-direction: column;
-            gap: 0.8rem;
+            gap: 1rem;
+            padding-top: 1rem;
         }
-
-        .subscribe-input {
-            padding: 0.8rem;
-            background: var(--color-dark);
-            border: 1px solid rgba(212, 175, 55, 0.2);
-            border-radius: 6px;
-            color: var(--color-light);
-        }
-
-        .subscribe-btn {
-            padding: 0.8rem;
-            background: linear-gradient(135deg, var(--color-gold), #8b6914);
-            border: none;
-            border-radius: 6px;
-            color: var(--color-dark);
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .subscribe-btn:hover {
-            transform: scale(1.02);
-        }
-
-        /* 分页 */
-        .pagination {
+        .qa-card {
+            background: #fff;
+            border: 1px solid rgba(212,175,55,0.15);
+            border-radius: 14px;
+            padding: 1.4rem 1.6rem;
             display: flex;
-            justify-content: center;
-            gap: 0.5rem;
-            margin-top: 3rem;
-        }
-
-        .page-btn {
-            width: 40px;
-            height: 40px;
-            background: var(--color-dark-accent);
-            border: 1px solid rgba(212, 175, 55, 0.2);
-            border-radius: 8px;
-            color: var(--color-light);
-            cursor: pointer;
+            align-items: flex-start;
+            gap: 1.2rem;
             transition: all 0.3s;
         }
-
-        .page-btn:hover,
-        .page-btn.active {
-            background: var(--color-gold);
-            color: var(--color-dark);
-            border-color: var(--color-gold);
+        .qa-card:hover {
+            border-color: rgba(212,175,55,0.4);
+            box-shadow: 0 8px 28px rgba(0,0,0,0.1);
+            transform: translateY(-3px);
+        }
+        .qa-num {
+            width: 36px; height: 36px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #D4AF37, #F5D982);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.9rem; font-weight: 700;
+            color: #1A1208;
+            flex-shrink: 0;
+        }
+        .qa-card h4 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.3rem;
+        }
+        .qa-card p {
+            color: var(--text-secondary);
+            font-size: 0.86rem;
+            line-height: 1.65;
         }
 
-        /* 精选文章区 */
-        .featured-section {
-            padding: 3rem 5%;
-            background: var(--color-dark-accent);
+        /* ══════════════════════════════════════
+           FAQ
+        ══════════════════════════════════════ */
+        .faq-wrap {
+            max-width: 800px;
+            margin: 5rem auto 0;
         }
-
-        .featured-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
+        .faq-title {
+            text-align: center;
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            color: var(--accent-color);
+            margin-bottom: 2rem;
         }
-
-        .featured-card {
-            background: var(--color-dark);
+        .faq-item {
+            background: var(--bg-primary);
             border-radius: 12px;
+            margin-bottom: 0.8rem;
+            border: 1px solid rgba(212,175,55,0.13);
             overflow: hidden;
-            border: 1px solid rgba(212, 175, 55, 0.1);
             transition: all 0.3s;
         }
-
-        .featured-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--color-gold);
+        .faq-item:hover { border-color: rgba(212,175,55,0.3); }
+        .faq-item.active {
+            border-color: rgba(212,175,55,0.35);
+            box-shadow: 0 4px 18px rgba(0,0,0,0.08);
+        }
+        .faq-question {
+            padding: 1.3rem 1.8rem;
+            display: flex; justify-content: space-between; align-items: center;
+            cursor: pointer; gap: 1rem;
+        }
+        .faq-question h4 { color: var(--text-primary); font-size: 0.97rem; }
+        .faq-toggle {
+            width: 30px; height: 30px;
+            background: rgba(212,175,55,0.1);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--accent-color); transition: all 0.3s;
+            flex-shrink: 0; font-size: 0.85rem;
+        }
+        .faq-item.active .faq-toggle {
+            transform: rotate(180deg);
+            background: var(--accent-color);
+            color: #1A1208;
+        }
+        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.38s ease; }
+        .faq-item.active .faq-answer { max-height: 260px; }
+        .faq-answer p {
+            padding: 0 1.8rem 1.4rem;
+            color: var(--text-secondary);
+            line-height: 1.8; font-size: 0.92rem;
         }
 
-        .featured-card:first-child {
-            grid-column: span 2;
-            grid-row: span 2;
+        /* ══════════════════════════════════════
+           VIDEO SECTION
+        ══════════════════════════════════════ */
+        .video-section {
+            background: var(--bg-secondary);
+            padding: 5rem 5%;
         }
-
-        .featured-image {
-            height: 180px;
-            background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+        .video-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1.15fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            background: linear-gradient(135deg, #111, #1C1C1C);
+            border-radius: 18px;
+            overflow: hidden;
+            border: 1px solid rgba(212,175,55,0.25);
+            box-shadow: 0 28px 70px rgba(0,0,0,0.35);
+        }
+        .video-placeholder {
+            position: absolute; inset: 0;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            gap: 1.2rem;
+        }
+        .play-btn {
+            width: 80px; height: 80px;
+            background: rgba(212,175,55,0.2);
+            border: 2px solid var(--accent-color);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2rem; color: var(--accent-color);
+            cursor: pointer; transition: all 0.3s;
+        }
+        .play-btn:hover {
+            background: var(--accent-color);
+            color: #1A1208;
+            transform: scale(1.1);
+            box-shadow: 0 0 40px rgba(212,175,55,0.4);
+        }
+        .video-placeholder p {
+            font-size: 0.9rem;
+            color: rgba(245,240,230,0.5);
+        }
+        .video-live-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: var(--font-english);
+            font-size: 0.75rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--accent-color);
+            margin-bottom: 1.2rem;
+        }
+        .live-dot {
+            width: 8px; height: 8px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%,100% { opacity:1; transform:scale(1); }
+            50%      { opacity:.4; transform:scale(1.4); }
+        }
+        .video-desc h2 {
+            font-family: var(--font-display);
+            font-size: clamp(1.5rem, 3vw, 2.1rem);
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+            letter-spacing: 0.08em;
+            line-height: 1.25;
+        }
+        .video-desc p {
+            color: var(--text-secondary);
+            line-height: 1.9;
+            font-size: 0.94rem;
+            margin-bottom: 1.6rem;
+        }
+        .video-features {
+            display: flex;
+            flex-direction: column;
+            gap: 0.9rem;
+        }
+        .video-feat {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1rem 1.2rem;
+            background: var(--bg-primary);
+            border-radius: 10px;
+            border: 1px solid rgba(212,175,55,0.1);
+            transition: all 0.3s;
+        }
+        .video-feat:hover {
+            border-color: rgba(212,175,55,0.3);
+            transform: translateX(4px);
+        }
+        .video-feat .fi {
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 3rem;
-            color: var(--color-gold);
+            width: 36px; height: 36px;
+            background: rgba(212,175,55,0.1);
+            border: 1px solid rgba(212,175,55,0.2);
+            border-radius: 8px;
+            flex-shrink: 0;
         }
-
-        .featured-card:first-child .featured-image {
-            height: 280px;
-            font-size: 5rem;
-        }
-
-        .featured-content {
-            padding: 1.2rem;
-        }
-
-        .featured-card:first-child .featured-content {
-            padding: 1.5rem;
-        }
-
-        .featured-title {
-            font-size: 1.1rem;
-            color: var(--color-light);
-            margin-bottom: 0.5rem;
-        }
-
-        .featured-card:first-child .featured-title {
-            font-size: 1.4rem;
-        }
-
-        .featured-excerpt {
-            color: var(--color-light-dim);
+        .video-feat strong {
+            display: block;
+            color: var(--text-primary);
             font-size: 0.9rem;
-            line-height: 1.6;
+            margin-bottom: 0.2rem;
+        }
+        .video-feat span {
+            color: var(--text-secondary);
+            font-size: 0.83rem;
+            line-height: 1.55;
         }
 
-        /* 响应式 */
-        @media (max-width: 1024px) {
-            .guide-main {
-                grid-template-columns: 1fr;
-            }
-
-            .sidebar {
-                flex-direction: row;
-                flex-wrap: wrap;
-            }
-
-            .sidebar-widget {
-                flex: 1;
-                min-width: 280px;
-            }
-
-            .featured-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .featured-card:first-child {
-                grid-column: span 1;
-                grid-row: span 1;
-            }
+        /* ══════════════════════════════════════
+           RESPONSIVE
+        ══════════════════════════════════════ */
+        @media (max-width: 960px) {
+            .material-grid,
+            .qa-layout,
+            .video-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+            .ritual-grid { grid-template-columns: 1fr 1fr; }
+            .h-timeline { grid-template-columns: 1fr 1fr; }
+            .h-timeline::before { display: none; }
+            .craft-stats-inner { grid-template-columns: repeat(2, 1fr); }
+            .master-profile { grid-template-columns: 1fr; text-align: center; }
+            .master-profile > *:first-child { margin: 0 auto; }
+            .step-arrow { display: none; }
         }
-
-        @media (max-width: 768px) {
-            .guide-hero h1 {
-                font-size: 2.5rem;
-            }
-
-            .article-card {
-                grid-template-columns: 1fr;
-            }
-
-            .article-image {
-                height: 160px;
-            }
-
-            .search-box {
-                flex-direction: column;
-            }
+        @media (max-width: 600px) {
+            .ritual-grid { grid-template-columns: 1fr; }
+            .h-timeline { grid-template-columns: 1fr; }
+            .craft-stats-inner { grid-template-columns: repeat(2, 1fr); }
+            .process-step { padding: 0.8rem 0.9rem; }
+            .step-label { font-size: 0.78rem; }
+            .craft-section { padding: 4rem 5%; }
         }
     </style>
 </head>
@@ -508,365 +947,652 @@
     <nav class="navbar">
         <div class="nav-container">
             <a href="index.html" class="logo">
-                <span class="logo-icon">☯</span>
-                <span class="logo-text">DAO ESSENCE</span>
+                <div class="logo-icon"></div>
+                <div class="logo-text">
+                    <span class="logo-cn">DAO本质</span>
+                </div>
             </a>
-            <button class="mobile-menu-btn">☰</button>
+            <button class="mobile-menu-btn">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="3" y1="6" x2="21" y2="6"/>
+                    <line x1="3" y1="12" x2="21" y2="12"/>
+                    <line x1="3" y1="18" x2="21" y2="18"/>
+                </svg>
+            </button>
             <ul class="nav-links">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="culture.html">Energy Universe</a></li>
                 <li><a href="shop.html">Energy Shop</a></li>
-                <li><a href="guide.html" class="active">Energy Guide</a></li>
+                <li><a href="guide.html" class="active">Crafting Process</a></li>
                 <li><a href="about.html">About Us</a></li>
             </ul>
         </div>
     </nav>
 
-    <!-- 英雄区域 -->
-    <section class="guide-hero">
-        <div class="guide-hero-content">
-            <h1>Energy Guide</h1>
-            <p>Explore the mysteries of Eastern wisdom, learn the essence of traditional culture, and embark on a journey of body-mind-spirit growth.</p>
+    <!-- Hero / Video Banner -->
+    <section class="craft-hero">
+        <!-- 视频背景（未提供视频时显示 fallback 渐变） -->
+        <div class="craft-hero-video-fallback"></div>
+        <!-- 替换 src 为实际视频文件，如 videos/temple.mp4 -->
+        <video class="craft-hero-video" autoplay muted loop playsinline poster="images/3.jpg">
+            <!-- <source src="videos/temple.mp4" type="video/mp4"> -->
+        </video>
+
+        <div class="craft-hero-content">
+            <p class="eyebrow">Crafting Process</p>
+            <h1>Born From<br><em>Sacred Hands</em></h1>
+            <p>Every item carries millennia of Taoist heritage. From material selection to consecration — we document every step with full transparency, so you can witness the birth of a genuine energy item.</p>
+            <button class="hero-play-btn" id="heroPlayBtn" aria-label="Watch consecration ceremony video">
+                <span class="hero-play-circle">
+                    <svg viewBox="0 0 24 24" width="24" height="24" fill="#fff">
+                        <polygon points="6,3 20,12 6,21"/>
+                    </svg>
+                </span>
+            </button>
         </div>
     </section>
 
-    <!-- 搜索栏 -->
-    <section class="search-section">
-        <div class="search-box">
-            <input type="text" class="search-input" placeholder="Search articles, knowledge, Q&A...">
-            <button class="search-btn">Search</button>
+    <!-- 视频全屏弹窗 Modal -->
+    <div id="videoModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:9999;align-items:center;justify-content:center;backdrop-filter:blur(8px);">
+        <button id="closeModal" style="position:absolute;top:1.5rem;right:1.8rem;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:#fff;border-radius:50%;width:44px;height:44px;font-size:1.3rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .3s;">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+        <div style="width:min(900px,90vw);aspect-ratio:16/9;background:#111;border-radius:12px;border:1px solid rgba(212,175,55,0.2);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;overflow:hidden;">
+            <!-- 有视频时替换为 <video> 或 <iframe> -->
+            <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="rgba(212,175,55,0.5)" stroke-width="1.2" stroke-linecap="round"><polygon points="5,3 19,12 5,21"/></svg>
+            <p style="color:rgba(245,240,230,0.5);font-size:0.9rem;letter-spacing:0.08em;">Video player — replace with &lt;video&gt; or &lt;iframe&gt; embed</p>
         </div>
-    </section>
-
-    <!-- 分类标签 -->
-    <section class="categories-section">
-        <div class="categories-list">
-            <button class="category-tag active">All</button>
-            <button class="category-tag">Five Elements</button>
-            <button class="category-tag">Destiny Learning</button>
-            <button class="category-tag">Feng Shui Guide</button>
-            <button class="category-tag">Talisman Culture</button>
-            <button class="category-tag">Wellness Way</button>
-            <button class="category-tag">Cultivation Insights</button>
-        </div>
-    </section>
-
-    <!-- 精选文章 -->
-    <section class="featured-section">
-        <div class="section-title" style="text-align: center; margin-bottom: 2rem;">
-            <h2 style="font-size: 1.8rem; color: var(--color-gold);">Featured Recommendations</h2>
-        </div>
-        <div class="featured-grid">
-            <div class="featured-card">
-                <div class="featured-image">道</div>
-                <div class="featured-content">
-                    <h3 class="featured-title">Taoist Wisdom: How to Use Five Elements Generation and Control Principles to Improve Life Fortune</h3>
-                    <p class="featured-excerpt">Deep interpretation of the mysteries of Five Elements theory, teaching you how to apply Five Elements wisdom in daily life, adjust your energy field, and enhance career, wealth, health and other aspects of fortune...</p>
-                </div>
-            </div>
-            <div class="featured-card">
-                <div class="featured-image">符</div>
-                <div class="featured-content">
-                    <h3 class="featured-title">Origin and Correct Usage of Tai Sui Talisman</h3>
-                    <p class="featured-excerpt">Detailed explanation of Tai Sui Talisman's historical origins and usage taboos.</p>
-                </div>
-            </div>
-            <div class="featured-card">
-                <div class="featured-image">宅</div>
-                <div class="featured-content">
-                    <h3 class="featured-title">Home Feng Shui: Ten Taboos for Living Room Layout</h3>
-                    <p class="featured-excerpt">Avoid common living room Feng Shui problems.</p>
-                </div>
-            </div>
-            <div class="featured-card">
-                <div class="featured-image">卦</div>
-                <div class="featured-content">
-                    <h3 class="featured-title">Bagua and Life: Enlightenment from I Ching Wisdom</h3>
-                    <p class="featured-excerpt">Understanding life philosophy from Bagua.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 主内容区 -->
-    <div class="guide-main">
-        <!-- 文章列表 -->
-        <div class="articles-list">
-            <article class="article-card">
-                <div class="article-image">命</div>
-                <div class="article-content">
-                    <div class="article-meta">
-                        <span class="article-category">Destiny Learning</span>
-                        <span class="article-date">January 15, 2024</span>
-                    </div>
-                    <h2 class="article-title">Must-Read for Beginners: BaZi Destiny Analysis Guide</h2>
-                    <p class="article-excerpt">BaZi destiny analysis is the core of Chinese traditional destiny studies. This article will start from the basics of Heavenly Stems and Earthly Branches, gradually guiding you through core concepts like BaZi chart construction, Ten Gods meanings, and major fortune cycles, suitable for beginners.</p>
-                    <div class="article-footer">
-                        <div class="article-author">
-                            <div class="author-avatar">玄</div>
-                            <span class="author-name">Master Xuanzhen</span>
-                        </div>
-                        <a href="#" class="read-more">Read Full Article →</a>
-                    </div>
-                </div>
-            </article>
-
-            <article class="article-card">
-                <div class="article-image">财</div>
-                <div class="article-content">
-                    <div class="article-meta">
-                        <span class="article-category">Feng Shui Guide</span>
-                        <span class="article-date">January 12, 2024</span>
-                    </div>
-                    <h2 class="article-title">2024 Jiachen Year Wealth Position and Wealth-Attracting Layout Guide</h2>
-                    <p class="article-excerpt">New year, new beginnings. Where is the wealth position in Jiachen year? How should you arrange it to attract wealth? This article details the 2024 wealth positions and corresponding Feng Shui layout points.</p>
-                    <div class="article-footer">
-                        <div class="article-author">
-                            <div class="author-avatar">明</div>
-                            <span class="author-name">Scholar Mingxin</span>
-                        </div>
-                        <a href="#" class="read-more">Read Full Article →</a>
-                    </div>
-                </div>
-            </article>
-
-            <article class="article-card">
-                <div class="article-image">养</div>
-                <div class="article-content">
-                    <div class="article-meta">
-                        <span class="article-category">Wellness Way</span>
-                        <span class="article-date">January 10, 2024</span>
-                    </div>
-                    <h2 class="article-title">Following the Seasons: Taoist Wellness Wisdom and Daily Practice</h2>
-                    <p class="article-excerpt"天人合一"，人的养生应当顺应四季变化。本文介绍道家养生的核心理念，以及春夏秋冬各季节的具体养生方法，助您调养身心。">Traditional Chinese medicine emphasizes 'harmony between heaven and humanity.' Wellness should follow the changes of the four seasons. This article introduces the core concepts of Taoist wellness and specific wellness methods for each season to help you nurture body and mind.</p>
-                    <div class="article-footer">
-                        <div class="article-author">
-                            <div class="author-avatar">静</div>
-                            <span class="author-name">Master Jingyuan</span>
-                        </div>
-                        <a href="#" class="read-more">Read Full Article →</a>
-                    </div>
-                </div>
-            </article>
-
-            <article class="article-card">
-                <div class="article-image">晶</div>
-                <div class="article-content">
-                    <div class="article-meta">
-                        <span class="article-category">Five Elements</span>
-                        <span class="article-date">January 8, 2024</span>
-                    </div>
-                    <h2 class="article-title">Crystals and Five Elements: How to Choose the Right Energy Crystal for You</h2>
-                    <p class="article-excerpt">Different colored crystals correspond to different Five Elements attributes. Choosing crystals that harmonize with your Five Elements can better regulate your energy field. This article teaches you how to select the most suitable crystals based on your Five Elements preferences.</p>
-                    <div class="article-footer">
-                        <div class="article-author">
-                            <div class="author-avatar">道</div>
-                            <span class="author-name">DAO Essence Editor</span>
-                        </div>
-                        <a href="#" class="read-more">Read Full Article →</a>
-                    </div>
-                </div>
-            </article>
-
-            <article class="article-card">
-                <div class="article-image">经</div>
-                <div class="article-content">
-                    <div class="article-meta">
-                        <span class="article-category">Cultivation Insights</span>
-                        <span class="article-date">January 5, 2024</span>
-                    </div>
-                    <h2 class="article-title">Tao Te Ching Wisdom: Modern Enlightenment from 'The Highest Good is Like Water'</h2>
-                    <p class="article-excerpt"上善若水，水善利万物而不争。" 老子的智慧历经千年依然熠熠生辉。本文解读《道德经》第八章，探讨水之德在现代生活中的应用。">'The highest good is like water. Water gives life to the ten thousand things and does not strive.' Laozi's wisdom remains brilliant after thousands of years. This article interprets Chapter 8 of the Tao Te Ching, exploring the application of water's virtue in modern life.</p>
-                    <div class="article-footer">
-                        <div class="article-author">
-                            <div class="author-avatar">玄</div>
-                            <span class="author-name">Master Xuanzhen</span>
-                        </div>
-                        <a href="#" class="read-more">Read Full Article →</a>
-                    </div>
-                </div>
-            </article>
-
-            <article class="article-card">
-                <div class="article-image">箓</div>
-                <div class="article-content">
-                    <div class="article-meta">
-                        <span class="article-category">Talisman Culture</span>
-                        <span class="article-date">January 3, 2024</span>
-                    </div>
-                    <h2 class="article-title">Origin, Types and Usage Taboos of Taoist Talismans</h2>
-                    <p class="article-excerpt">Talismans are important carriers of Taoist magic with a long history and many varieties. This article introduces the origin, main classifications, and effects of talismans in detail, as well as taboos to observe when using them.</p>
-                    <div class="article-footer">
-                        <div class="article-author">
-                            <div class="author-avatar">静</div>
-                            <span class="author-name">Master Jingyuan</span>
-                        </div>
-                        <a href="#" class="read-more">Read Full Article →</a>
-                    </div>
-                </div>
-            </article>
-
-            <!-- 分页 -->
-            <div class="pagination">
-                <button class="page-btn active">1</button>
-                <button class="page-btn">2</button>
-                <button class="page-btn">3</button>
-                <button class="page-btn">4</button>
-                <button class="page-btn">...</button>
-                <button class="page-btn">→</button>
-            </div>
-        </div>
-
-        <!-- 侧边栏 -->
-        <aside class="sidebar">
-            <!-- 热门文章 -->
-            <div class="sidebar-widget">
-                <h3 class="widget-title">🔥 Hot Articles</h3>
-                <div class="hot-articles">
-                    <div class="hot-article-item">
-                        <span class="hot-article-number">1</span>
-                        <span class="hot-article-title">How to Resolve Tai Sui in Your Birth Year?</span>
-                    </div>
-                    <div class="hot-article-item">
-                        <span class="hot-article-number">2</span>
-                        <span class="hot-article-title">Beginner's Guide to Home Feng Shui</span>
-                    </div>
-                    <div class="hot-article-item">
-                        <span class="hot-article-number">3</span>
-                        <span class="hot-article-title">BaZi Analysis for Career and Wealth</span>
-                    </div>
-                    <div class="hot-article-item">
-                        <span class="hot-article-number">4</span>
-                        <span class="hot-article-title">Crystal Energy and Human Magnetic Field</span>
-                    </div>
-                    <div class="hot-article-item">
-                        <span class="hot-article-number">5</span>
-                        <span class="hot-article-title">Taoist Longevity and Wellness Secrets</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 标签云 -->
-            <div class="sidebar-widget">
-                <h3 class="widget-title">🏷️ Tag Cloud</h3>
-                <div class="tag-cloud">
-                    <span class="tag-item">BaZi</span>
-                    <span class="tag-item">Feng Shui</span>
-                    <span class="tag-item">Tai Sui</span>
-                    <span class="tag-item">Talisman</span>
-                    <span class="tag-item">Five Elements</span>
-                    <span class="tag-item">Wellness</span>
-                    <span class="tag-item">Wealth</span>
-                    <span class="tag-item">Career</span>
-                    <span class="tag-item">Marriage</span>
-                    <span class="tag-item">Crystal</span>
-                    <span class="tag-item">Taoism</span>
-                    <span class="tag-item">Cultivation</span>
-                </div>
-            </div>
-
-            <!-- 订阅 -->
-            <div class="sidebar-widget subscribe-widget">
-                <h3 class="widget-title">📬 Subscribe</h3>
-                <p>Get the latest articles and exclusive benefits</p>
-                <form class="subscribe-form">
-                    <input type="email" class="subscribe-input" placeholder="Your email address">
-                    <button type="submit" class="subscribe-btn">Subscribe Now</button>
-                </form>
-            </div>
-        </aside>
     </div>
 
-    <!-- 页脚 -->
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h4>DAO ESSENCE</h4>
-                <p>Inheriting millennia of Taoist wisdom<br>Promoting Eastern mystic culture</p>
+    <!-- Stats Bar -->
+    <div class="craft-stats">
+        <div class="craft-stats-inner">
+            <div class="stat-item">
+                <div class="stat-num">30+</div>
+                <div class="stat-label">Years of Taoist<br>Practice</div>
             </div>
-            <div class="footer-section">
-                <h4>Quick Links</h4>
-                <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="culture.html">Energy Universe</a></li>
-                    <li><a href="shop.html">Energy Shop</a></li>
-                    <li><a href="index.html#destiny-booking">Destiny Consulting</a></li>
-                </ul>
+            <div class="stat-item">
+                <div class="stat-num">2000+</div>
+                <div class="stat-label">Years of<br>Heritage</div>
             </div>
-            <div class="footer-section">
-                <h4>Contact Us</h4>
-                <p>Email: contact@daoessence.com</p>
-                <p>WeChat: DaoEssence</p>
+            <div class="stat-item">
+                <div class="stat-num">100%</div>
+                <div class="stat-label">Documented<br>Consecration</div>
             </div>
-            <div class="footer-section">
-                <h4>Follow Us</h4>
-                <div class="social-links">
-                    <a href="#">WeChat</a>
-                    <a href="#">Weibo</a>
-                    <a href="#">Xiaohongshu</a>
+            <div class="stat-item">
+                <div class="stat-num">4</div>
+                <div class="stat-label">Partner<br>Temples</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sticky step nav -->
+    <div class="process-nav">
+        <div class="process-steps">
+            <div class="process-step active" data-target="selection">
+                <span class="step-number">1</span>
+                <span class="step-label">Material Selection</span>
+            </div>
+            <span class="step-arrow">›</span>
+            <div class="process-step" data-target="crafting">
+                <span class="step-number">2</span>
+                <span class="step-label">Traditional Crafting</span>
+            </div>
+            <span class="step-arrow">›</span>
+            <div class="process-step" data-target="consecration">
+                <span class="step-number">3</span>
+                <span class="step-label">Energy Consecration</span>
+            </div>
+            <span class="step-arrow">›</span>
+            <div class="process-step" data-target="quality">
+                <span class="step-number">4</span>
+                <span class="step-label">Quality Assurance</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════ STEP 1 · Material Selection ═══════ -->
+    <section class="craft-section" id="selection">
+        <div class="section-title-block">
+            <div><span class="section-badge"><span class="badge-dot"></span>STEP 01</span></div>
+            <h2>Material Selection</h2>
+            <p>Natural materials carry the essence of heaven and earth. We source from authenticated origins and inspect every piece for quality, grain, and energy signature before any crafting begins.</p>
+        </div>
+        <div class="section-dao-logo">
+            <span class="dao-circle">道</span>
+        </div>
+
+        <div class="material-grid">
+            <!-- 左：图片组 -->
+            <div class="material-img-col">
+                <img src="images/4.jpg" alt="Raw material selection" class="img-main">
+                <div class="img-row">
+                    <img src="images/3.jpg" alt="Quality inspection">
+                    <img src="images/4.jpg" alt="Crystal grading">
+                </div>
+            </div>
+
+            <!-- 右：卡片列表 -->
+            <div class="material-cards-col">
+                <div class="mat-card">
+                    <div class="mat-icon">
+                        <!-- leaf / origin -->
+                        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#D4AF37" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M17 8C8 10 5.9 16.17 3.82 19.34c-.38.52.07 1.1.64.96C7.43 19.44 16 17 17 8z"/>
+                            <path d="M17 8c0-3-2-5-5-5"/>
+                        </svg>
+                    </div>
+                    <div class="mat-text">
+                        <h4>Origin Verification</h4>
+                        <p>Agarwood sourced from protected reserves in Vietnam &amp; Indonesia. Thunderstruck wood collected from certified lightning-struck trees with documented provenance.</p>
+                    </div>
+                </div>
+                <div class="mat-card">
+                    <div class="mat-icon">
+                        <!-- magnify / inspection -->
+                        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#D4AF37" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="7"/>
+                            <path d="M21 21l-4.35-4.35"/>
+                        </svg>
+                    </div>
+                    <div class="mat-text">
+                        <h4>Quality Inspection</h4>
+                        <p>Master craftsmen examine grain patterns, scent profiles, and energy resonance using traditional identification methods refined over centuries.</p>
+                    </div>
+                </div>
+                <div class="mat-card">
+                    <div class="mat-icon">
+                        <!-- gem / crystal -->
+                        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#D4AF37" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="12 2 19 9 12 22 5 9"/>
+                            <line x1="5" y1="9" x2="19" y2="9"/>
+                        </svg>
+                    </div>
+                    <div class="mat-text">
+                        <h4>Crystal Grading</h4>
+                        <p>Each stone is assessed for clarity and color purity under multiple lighting conditions. Only stones that meet strict energy criteria are selected.</p>
+                    </div>
+                </div>
+                <div class="mat-card">
+                    <div class="mat-icon">
+                        <!-- clipboard / documentation -->
+                        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#D4AF37" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2"/>
+                            <rect x="8" y="2" width="8" height="4" rx="1" ry="1"/>
+                            <line x1="8" y1="12" x2="16" y2="12"/>
+                            <line x1="8" y1="16" x2="12" y2="16"/>
+                        </svg>
+                    </div>
+                    <div class="mat-text">
+                        <h4>Full Documentation</h4>
+                        <p>Every accepted material is photographed, catalogued, and assigned a unique tracking number — ensuring traceability from origin to your hands.</p>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="footer-bottom">
-            <p>© 2024 DAO Essence. All Rights Reserved.</p>
+    </section>
+
+    <!-- ═══════ STEP 2 · Traditional Crafting ═══════ -->
+    <section class="craft-section light-section" id="crafting">
+        <div class="section-title-block">
+            <div><span class="section-badge"><span class="badge-dot"></span>STEP 02</span></div>
+            <h2>Traditional Crafting</h2>
+            <p>Handcrafted using time-honored techniques. Talismans are hand-drawn with sacred ink; incense blends follow ancient formulas unchanged for generations.</p>
+        </div>
+        <div class="section-dao-logo">
+            <span class="dao-circle">道</span>
+        </div>
+
+        <div class="craft-timeline-wrap">
+            <img src="images/4.jpg" alt="Traditional hand-crafting process" class="craft-img-banner">
+
+            <div class="h-timeline">
+                <div class="h-tl-item">
+                    <!-- flame / purification -->
+                    <div class="h-tl-dot">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#1A1208" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2c0 4-4 6-4 10a4 4 0 008 0c0-4-4-6-4-10z"/>
+                            <path d="M12 12c0 2-1.5 3-1.5 4.5a1.5 1.5 0 003 0C13.5 15 12 14 12 12z"/>
+                        </svg>
+                    </div>
+                    <div class="h-tl-content">
+                        <span class="h-tl-time">Before crafting</span>
+                        <h4>Purification Ritual</h4>
+                        <p>The artisan cleanses workspace and tools with sacred incense, establishing a pure environment for channeling spiritual energy.</p>
+                    </div>
+                </div>
+                <div class="h-tl-item">
+                    <!-- flask / material prep -->
+                    <div class="h-tl-dot">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#1A1208" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 3h6M9 3v8l-4 9h14L21 11V3"/>
+                            <line x1="9" y1="3" x2="9" y2="11"/>
+                            <line x1="15" y1="3" x2="15" y2="11"/>
+                        </svg>
+                    </div>
+                    <div class="h-tl-content">
+                        <span class="h-tl-time">2 – 4 hours</span>
+                        <h4>Material Preparation</h4>
+                        <p>Ink ground from century-old pine soot, mixed with dragon's blood and cinnabar to a secret formula. Paper treated with blessed water.</p>
+                    </div>
+                </div>
+                <div class="h-tl-item">
+                    <!-- pen / hand drawing -->
+                    <div class="h-tl-dot">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#1A1208" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M17 3a2.828 2.828 0 114 4L7.5 20.5 2 22l1.5-5.5L17 3z"/>
+                        </svg>
+                    </div>
+                    <div class="h-tl-content">
+                        <span class="h-tl-time">3 – 6 hours</span>
+                        <h4>Hand Drawing</h4>
+                        <p>Sacred symbols drawn in continuous strokes with complete focus. No corrections — each talisman is either perfect or remade from scratch.</p>
+                    </div>
+                </div>
+                <div class="h-tl-item">
+                    <!-- sparkle / initial blessing -->
+                    <div class="h-tl-dot">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#1A1208" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                        </svg>
+                    </div>
+                    <div class="h-tl-content">
+                        <span class="h-tl-time">Upon completion</span>
+                        <h4>Initial Blessing</h4>
+                        <p>Preliminary mantras awaken the talisman's latent energy. The piece is wrapped in red cloth and stored in a sanctified space until consecration.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════ STEP 3 · Energy Consecration ═══════ -->
+    <section class="craft-section dark-section" id="consecration">
+        <div class="section-title-block">
+            <div><span class="section-badge"><span class="badge-dot"></span>STEP 03</span></div>
+            <h2 class="light">Energy Consecration</h2>
+            <p class="light">The most sacred step — performed by ordained Taoist priests inside partner temples. Through ancient ritual, celestial energies are invoked and permanently bound to each item.</p>
+        </div>
+        <div class="section-dao-logo light">
+            <span class="dao-circle">道</span>
+        </div>
+
+        <div class="consecration-wrap">
+            <!-- 大图带overlay -->
+            <div class="consecration-img-container">
+                <img src="images/3.jpg" alt="Consecration ceremony at temple">
+                <div class="consecration-img-overlay">
+                    <div class="consecration-overlay-text">
+                        <h3>Longhu Mountain Temple</h3>
+                        <p>Birthplace of the Tianshi Celestial Masters lineage — China's most prestigious Taoist site</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 仪式步骤卡片 -->
+            <div class="ritual-grid">
+                <div class="ritual-card">
+                    <span class="ritual-icon">
+                        <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="#D4AF37" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="9" width="18" height="12" rx="1"/>
+                            <path d="M8 9V6a4 4 0 018 0v3"/>
+                            <line x1="12" y1="14" x2="12" y2="16"/>
+                        </svg>
+                    </span>
+                    <h4>Temple Setting</h4>
+                    <p>All rituals are performed inside living temples — not studios. The sacred atmosphere is integral to the consecration's efficacy.</p>
+                </div>
+                <div class="ritual-card">
+                    <span class="ritual-icon">
+                        <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="#D4AF37" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                            <polyline points="14 2 14 8 20 8"/>
+                            <line x1="8" y1="13" x2="16" y2="13"/>
+                            <line x1="8" y1="17" x2="12" y2="17"/>
+                        </svg>
+                    </span>
+                    <h4>Ancient Liturgy</h4>
+                    <p>Ordained priests chant classical Taoist texts passed down through 2,000 years of unbroken lineage, invoking celestial forces.</p>
+                </div>
+                <div class="ritual-card">
+                    <span class="ritual-icon">
+                        <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="#D4AF37" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2a5 5 0 015 5c0 3-5 9-5 9S7 10 7 7a5 5 0 015-5z"/>
+                            <circle cx="12" cy="7" r="1.5" fill="#D4AF37" stroke="none"/>
+                        </svg>
+                    </span>
+                    <h4>Five Elements Activation</h4>
+                    <p>Incense, candles, water, earth, and metal are employed to activate and balance all five elemental energies within each item.</p>
+                </div>
+            </div>
+
+            <!-- Master Profile -->
+            <div class="master-profile">
+                <div class="master-avatar-placeholder">
+                    <svg viewBox="0 0 60 60" width="52" height="52" fill="none" stroke="rgba(212,175,55,0.7)" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="30" cy="22" r="10"/>
+                        <path d="M10 52c0-11.05 8.95-20 20-20s20 8.95 20 20"/>
+                    </svg>
+                </div>
+                <div class="master-info">
+                    <h3>Master Xuanzhen</h3>
+                    <span class="master-subtitle">Chief Consecration Master · Quanzhen Longmen Lineage</span>
+                    <p>Ordained at Longhu Mountain Tianshi Mansion, Master Xuanzhen has dedicated over 30 years to Taoist practice — specialising in talisman consecration and Feng Shui ceremonies. Every item from DAO Essence is personally consecrated under his direct supervision.</p>
+                    <div class="credential-tags">
+                        <span class="credential-tag">Longhu Mountain Lineage</span>
+                        <span class="credential-tag">Certified Taoist Priest</span>
+                        <span class="credential-tag">Feng Shui Master</span>
+                        <span class="credential-tag">Talisman Expert</span>
+                        <span class="credential-tag">30+ Years Practice</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════ STEP 4 · Quality Assurance ═══════ -->
+    <section class="craft-section" id="quality">
+        <div class="section-title-block">
+            <div><span class="section-badge"><span class="badge-dot"></span>STEP 04</span></div>
+            <h2>Quality Assurance</h2>
+            <p>Every item undergoes final inspection before packaging and shipping. You receive complete documentation and lifetime consultation support.</p>
+        </div>
+        <div class="section-dao-logo">
+            <span class="dao-circle">道</span>
+        </div>
+
+        <div class="qa-layout">
+            <!-- 左：图片 -->
+            <div class="qa-img-stack">
+                <img src="images/3.jpg" alt="Premium packaging" class="qa-img-main">
+                <div class="qa-badge-float">
+                    <div class="num">100%</div>
+                    <div class="lbl">Documented</div>
+                </div>
+            </div>
+
+            <!-- 右：卡片 -->
+            <div class="qa-cards">
+                <div class="qa-card">
+                    <div class="qa-num">1</div>
+                    <div>
+                        <h4>Elegant Packaging</h4>
+                        <p>Traditional brocade boxes with silk lining. Each package includes the item, certificate, usage guide, and care instructions.</p>
+                    </div>
+                </div>
+                <div class="qa-card">
+                    <div class="qa-num">2</div>
+                    <div>
+                        <h4>Certificate of Origin</h4>
+                        <p>Material origin, crafting date, consecration record, master's signature, and unique tracking number — all in a single document.</p>
+                    </div>
+                </div>
+                <div class="qa-card">
+                    <div class="qa-num">3</div>
+                    <div>
+                        <h4>Usage Guide</h4>
+                        <p>Clear instructions on placement, activation, and maintenance — traditional methods explained in plain English.</p>
+                    </div>
+                </div>
+                <div class="qa-card">
+                    <div class="qa-num">4</div>
+                    <div>
+                        <h4>Lifetime Support</h4>
+                        <p>Questions after purchase? Our team is always available. Annual re-consecration services at a discount for existing customers.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FAQ -->
+        <div class="faq-wrap">
+            <h3 class="faq-title">Frequently Asked Questions</h3>
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h4>How do I know the consecration is authentic?</h4>
+                    <span class="faq-toggle"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+                </div>
+                <div class="faq-answer">
+                    <p>Each item comes with video documentation of your specific ceremony, ritual photos, the master's signature, and an official temple seal. You can verify authenticity through our tracking system.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h4>How long does the energy last?</h4>
+                    <span class="faq-toggle"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+                </div>
+                <div class="faq-answer">
+                    <p>With proper care and respect, the energy remains active indefinitely. We recommend annual re-consecration for optimal potency, available at a discounted rate for existing customers.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h4>Can I request custom items?</h4>
+                    <span class="faq-toggle"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+                </div>
+                <div class="faq-answer">
+                    <p>Yes. We offer fully customised talismans and energy items tailored to your specific BaZi chart. Contact us for a personal consultation.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h4>What makes your products different?</h4>
+                    <span class="faq-toggle"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+                </div>
+                <div class="faq-answer">
+                    <p>Official temple partnerships, documented rituals, ordained priests, and complete transparency. We focus on genuine spiritual quality rather than mass production.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════ Featured Video ═══════ -->
+    <div class="video-section">
+        <div class="section-dao-logo" style="padding-top:1rem;">
+            <span class="dao-circle">道</span>
+        </div>
+        <div class="video-inner">
+            <div>
+                <div class="video-live-badge">
+                    <span class="live-dot"></span>
+                    Exclusive Temple Footage
+                </div>
+                <div class="video-container">
+                    <div class="video-placeholder">
+                        <div class="play-btn">
+                            <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor">
+                                <polygon points="6,4 20,12 6,20"/>
+                            </svg>
+                        </div>
+                        <p>Watch: Temple Consecration Ceremony</p>
+                    </div>
+                </div>
+            </div>
+            <div class="video-desc">
+                <h2>From Sacred Ritual<br>to Your Hands</h2>
+                <p>We invite you to witness what most will never see — the ancient consecration ceremony performed by ordained Taoist masters inside a living temple. Every frame is authentic, unscripted, and deeply rooted in tradition spanning more than 2,000 years.</p>
+                <div class="video-features">
+                    <div class="video-feat">
+                        <span class="fi">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#D4AF37" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="9" width="18" height="12" rx="1"/>
+                                <path d="M8 9V6a4 4 0 018 0v3"/>
+                            </svg>
+                        </span>
+                        <div>
+                            <strong>Filmed at Longhu Mountain Temple</strong>
+                            <span>Birthplace of the Tianshi lineage — China's most prestigious Taoist site.</span>
+                        </div>
+                    </div>
+                    <div class="video-feat">
+                        <span class="fi">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#D4AF37" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                                <polyline points="14 2 14 8 20 8"/>
+                                <line x1="8" y1="13" x2="16" y2="13"/>
+                                <line x1="8" y1="17" x2="12" y2="17"/>
+                            </svg>
+                        </span>
+                        <div>
+                            <strong>Conducted by Ordained Priests</strong>
+                            <span>Master Xuanzhen &amp; senior disciples — over 30 years of combined ritual practice.</span>
+                        </div>
+                    </div>
+                    <div class="video-feat">
+                        <span class="fi">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#D4AF37" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <polygon points="23 7 16 12 23 17 23 7"/>
+                                <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+                            </svg>
+                        </span>
+                        <div>
+                            <strong>Your Item, Your Ceremony</strong>
+                            <span>Each purchase includes a personalised video clip of the specific ritual performed for your item.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <span class="logo-en">DAO ESSENCE</span>
+                    </div>
+                    <p>Ancient Wisdom, Modern Harmony. Authentic Taoist tradition, made verifiable and accessible worldwide.</p>
+                </div>
+                <div>
+                    <h4 class="footer-title">Navigation</h4>
+                    <ul class="footer-links">
+                        <li><a href="culture.html">Energy Universe</a></li>
+                        <li><a href="shop.html">Energy Shop</a></li>
+                        <li><a href="guide.html">Crafting Process</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-title">Services</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">BaZi Analysis</a></li>
+                        <li><a href="#">Annual Fortune</a></li>
+                        <li><a href="#">Personal Consultation</a></li>
+                        <li><a href="#">Custom Items</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-title">Contact</h4>
+                    <ul class="footer-links">
+                        <li>support@daoessence.com</li>
+                        <li>WhatsApp: +86 181 1575 5283</li>
+                        <li>Mon–Sat: 9AM–9PM (CST / UTC+8)</li>
+                        <li><a href="policy.html" style="color:rgba(245,240,230,0.6)">Privacy &amp; Return Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2024 DAO Essence &amp; Five Elements. All rights reserved.</p>
+            </div>
         </div>
     </footer>
 
     <script src="main.js"></script>
     <script>
-        // 分类切换
-        document.querySelectorAll('.category-tag').forEach(tag => {
-            tag.addEventListener('click', () => {
-                document.querySelectorAll('.category-tag').forEach(t => t.classList.remove('active'));
-                tag.classList.add('active');
-            });
-        });
-
-        // 搜索功能
-        document.querySelector('.search-btn').addEventListener('click', () => {
-            const query = document.querySelector('.search-input').value;
-            if (query) {
-                alert(`Search function under development. You searched for: ${query}`);
-            }
-        });
-
-        // 订阅功能
-        document.querySelector('.subscribe-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const email = document.querySelector('.subscribe-input').value;
-            if (email) {
-                alert(`Thank you for subscribing! We'll send the latest content to: ${email}`);
-            }
-        });
-
-        // 分页
-        document.querySelectorAll('.page-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.querySelectorAll('.page-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-            });
-        });
-
-        // 移动端菜单
+        // Mobile menu
         document.querySelector('.mobile-menu-btn').addEventListener('click', () => {
             document.querySelector('.nav-links').classList.toggle('active');
         });
 
-        // 滚动动画
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
+        // Hero play button → open video modal
+        const heroPlayBtn = document.getElementById('heroPlayBtn');
+        const videoModal  = document.getElementById('videoModal');
+        const closeModal  = document.getElementById('closeModal');
+
+        if (heroPlayBtn && videoModal) {
+            heroPlayBtn.addEventListener('click', () => {
+                videoModal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            });
+            closeModal.addEventListener('click', closeVideoModal);
+            videoModal.addEventListener('click', (e) => {
+                if (e.target === videoModal) closeVideoModal();
+            });
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') closeVideoModal();
+            });
+        }
+        function closeVideoModal() {
+            videoModal.style.display = 'none';
+            document.body.style.overflow = '';
+        }
+
+        // Step nav click → smooth scroll
+        document.querySelectorAll('.process-step').forEach(step => {
+            step.addEventListener('click', () => {
+                document.querySelectorAll('.process-step').forEach(s => s.classList.remove('active'));
+                step.classList.add('active');
+                const target = document.getElementById(step.dataset.target);
+                if (target) {
+                    const offset = document.querySelector('.navbar').offsetHeight +
+                                   document.querySelector('.process-nav').offsetHeight + 20;
+                    window.scrollTo({ top: target.offsetTop - offset, behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Video play btn (Featured Video section) → open video modal
+        const playBtn = document.querySelector('.play-btn');
+        if (playBtn && videoModal) {
+            playBtn.addEventListener('click', () => {
+                videoModal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            });
+        }
+
+        // FAQ accordion
+        document.querySelectorAll('.faq-question').forEach(q => {
+            q.addEventListener('click', () => {
+                const item = q.parentElement;
+                const wasActive = item.classList.contains('active');
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+                if (!wasActive) item.classList.add('active');
+            });
+        });
+
+        // Scroll-in animation
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    e.target.style.opacity = '1';
+                    e.target.style.transform = 'translateY(0)';
                 }
             });
         }, { threshold: 0.1 });
 
-        document.querySelectorAll('.article-card, .featured-card').forEach(el => {
+        document.querySelectorAll('.step-card, .timeline-item, .faq-item').forEach(el => {
             el.style.opacity = '0';
-            el.style.transform = 'translateY(30px)';
-            el.style.transition = 'all 0.6s ease';
+            el.style.transform = 'translateY(24px)';
+            el.style.transition = 'opacity 0.55s ease, transform 0.55s ease';
             observer.observe(el);
+        });
+
+        // Sync step nav on scroll
+        window.addEventListener('scroll', () => {
+            const navH = document.querySelector('.navbar').offsetHeight +
+                         document.querySelector('.process-nav').offsetHeight + 80;
+            ['selection','crafting','consecration','quality'].forEach(id => {
+                const sec = document.getElementById(id);
+                if (!sec) return;
+                if (window.scrollY + navH >= sec.offsetTop &&
+                    window.scrollY + navH < sec.offsetTop + sec.offsetHeight) {
+                    document.querySelectorAll('.process-step').forEach(s => s.classList.remove('active'));
+                    document.querySelector(`[data-target="${id}"]`).classList.add('active');
+                }
+            });
         });
     </script>
 </body>

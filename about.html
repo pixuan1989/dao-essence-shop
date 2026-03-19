@@ -5,774 +5,1205 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Us - DAO Essence</title>
     <link rel="stylesheet" href="styles.css">
+    <script>
+      window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+      var script = document.createElement('script');
+      script.defer = true;
+      script.src = '/_vercel/insights/script.js';
+      document.head.appendChild(script);
+    </script>
     <style>
-        /* About Us page styles */
-        .about-hero {
-            height: 60vh;
-            background: linear-gradient(135deg, #0a0a1a 0%, #1a2a2a 50%, #0a0a1a 100%);
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        /* ── Design tokens ── */
+        :root {
+            --gold:       #D4AF37;
+            --gold-dim:   rgba(212,175,55,0.15);
+            --gold-glow:  rgba(212,175,55,0.30);
+            --gold-deep:  #8b6914;
+            /* Dark (hero only) */
+            --ink:        #09090f;
+            --ink2:       #111120;
+            --ink3:       #181828;
+            --light:      #f0ede6;
+            --light-dim:  rgba(240,237,230,0.6);
+            --light-faint:rgba(240,237,230,0.22);
+            /* Light (body) — matches global styles.css */
+            --paper:      #F5F0E6;
+            --paper2:     #EBE5D8;
+            --paper3:     #F8F4ED;
+            --ink-text:   #2C2416;
+            --ink-mid:    #5A5040;
+            --ink-soft:   #8B8070;
+            --border-light: rgba(44,36,22,0.10);
+            --border-gold:  rgba(212,175,55,0.28);
         }
 
-        .about-hero::before {
-            content: '';
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        /* Body follows the global light theme */
+        body {
+            background: var(--paper);
+            color: var(--ink-text);
+            font-family: var(--font-body, 'Segoe UI', 'Helvetica Neue', sans-serif);
+            overflow-x: hidden;
+        }
+
+        /* ════════════════════════════════════
+           HERO — full-viewport diagonal split
+        ════════════════════════════════════ */
+        .hero {
+            position: relative;
+            height: 100vh;
+            min-height: 620px;
+            display: flex;
+            align-items: flex-end;
+            overflow: hidden;
+            background: var(--ink);
+        }
+
+        /* Animated particle canvas background */
+        .hero-bg {
             position: absolute;
             inset: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><circle cx="100" cy="100" r="80" fill="none" stroke="rgba(212,175,55,0.1)" stroke-width="1"/><path d="M100,20 A40,40 0 0 1 100,100 A40,40 0 0 1 100,180 A80,80 0 0 1 100,20" fill="rgba(212,175,55,0.03)"/></svg>');
-            background-size: 300px;
-            animation: rotate 60s linear infinite;
+            background:
+                radial-gradient(ellipse 80% 60% at 70% 40%, rgba(212,175,55,0.07) 0%, transparent 70%),
+                radial-gradient(ellipse 50% 70% at 20% 60%, rgba(26,58,74,0.5) 0%, transparent 80%),
+                linear-gradient(160deg, #09090f 0%, #0f1520 40%, #09090f 100%);
         }
 
-        .about-hero-content {
-            text-align: center;
+        /* Rotating taiji watermark */
+        .hero-taiji {
+            position: absolute;
+            right: 5%;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 520px;
+            height: 520px;
+            opacity: 0.06;
+            animation: slowSpin 90s linear infinite;
+        }
+
+        @keyframes slowSpin {
+            from { transform: translateY(-50%) rotate(0deg); }
+            to   { transform: translateY(-50%) rotate(360deg); }
+        }
+
+        /* Gold accent vertical line */
+        .hero-line {
+            position: absolute;
+            left: 8%;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: linear-gradient(to bottom, transparent 0%, var(--gold) 30%, var(--gold) 70%, transparent 100%);
+            opacity: 0.4;
+        }
+
+        .hero-content {
+            position: relative;
             z-index: 2;
-            color: var(--color-light);
+            padding: 0 8% 8vh;
+            max-width: 820px;
         }
 
-        .about-hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-            text-shadow: 0 0 30px rgba(212, 175, 55, 0.5);
+        .hero-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.78rem;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 1.4rem;
+            opacity: 0;
+            animation: fadeUp 0.8s 0.2s forwards;
+        }
+        .hero-eyebrow::before {
+            content: '';
+            display: inline-block;
+            width: 36px;
+            height: 1px;
+            background: var(--gold);
         }
 
-        .about-hero p {
-            font-size: 1.3rem;
-            opacity: 0.9;
-            max-width: 700px;
-            margin: 0 auto;
-            line-height: 1.8;
+        .hero-title {
+            font-size: clamp(3rem, 7vw, 6rem);
+            font-weight: 700;
+            line-height: 1.05;
+            color: var(--light);
+            margin-bottom: 1.6rem;
+            opacity: 0;
+            animation: fadeUp 0.8s 0.4s forwards;
         }
 
-        /* 品牌故事 */
-        .story-section {
-            padding: 5rem 5%;
+        .hero-title em {
+            font-style: normal;
+            color: var(--gold);
+            display: block;
         }
 
-        .story-content {
-            max-width: 900px;
-            margin: 0 auto;
+        .hero-sub {
+            font-size: 1.1rem;
+            color: var(--light-dim);
+            line-height: 1.85;
+            max-width: 540px;
+            opacity: 0;
+            animation: fadeUp 0.8s 0.6s forwards;
+        }
+
+        /* Diagonal bottom slice */
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0; right: 0;
+            height: 120px;
+            background: var(--ink);
+            clip-path: polygon(0 100%, 100% 0, 100% 100%);
+        }
+
+        /* scroll indicator */
+        .scroll-hint {
+            position: absolute;
+            bottom: 140px;
+            right: 8%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            color: var(--light-faint);
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            opacity: 0;
+            animation: fadeIn 1s 1.2s forwards;
+        }
+        .scroll-hint::after {
+            content: '';
+            width: 1px;
+            height: 50px;
+            background: linear-gradient(to bottom, var(--gold), transparent);
+            animation: scrollPulse 2s ease-in-out infinite;
+        }
+        @keyframes scrollPulse {
+            0%,100% { transform: scaleY(1); opacity:0.4; }
+            50% { transform: scaleY(1.2); opacity:1; }
+        }
+
+        /* ════════════════════════════════════
+           STORY — asymmetric timeline layout
+        ════════════════════════════════════ */
+        .story {
+            padding: 8rem 8% 6rem;
+            position: relative;
+            background: var(--paper);
+        }
+
+        .story-header {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            margin-bottom: 5rem;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .section-label {
+            font-size: 0.75rem;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: var(--gold-deep);
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section-label::before {
+            content: '';
+            width: 28px;
+            height: 1px;
+            background: var(--gold);
+        }
+
+        .story-header h2 {
+            font-size: clamp(2rem, 4vw, 3.2rem);
+            font-weight: 700;
+            color: var(--ink-text);
+            max-width: 460px;
+        }
+
+        .story-header p {
+            max-width: 380px;
+            color: var(--ink-mid);
+            line-height: 1.85;
+            font-size: 0.98rem;
+            padding-bottom: 0.4rem;
+        }
+
+        /* Timeline items */
+        .timeline {
+            position: relative;
+            padding-left: 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0; bottom: 0;
+            width: 1px;
+            background: linear-gradient(to bottom, transparent, var(--border-gold) 20%, var(--border-gold) 80%, transparent);
+        }
+
+        .timeline-item {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
+            grid-template-columns: 1fr 60px 1fr;
+            gap: 0;
+            margin-bottom: 4rem;
             align-items: center;
         }
 
-        .story-text h2 {
-            font-size: 2.2rem;
-            color: var(--color-gold);
-            margin-bottom: 1.5rem;
+        .timeline-item:nth-child(even) .tl-content { order: 3; }
+        .timeline-item:nth-child(even) .tl-empty   { order: 1; }
+        .timeline-item:nth-child(even) .tl-dot     { order: 2; }
+
+        .tl-content {
+            background: var(--paper3);
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            padding: 2rem 2.4rem;
+            position: relative;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .tl-content:hover {
+            border-color: var(--gold);
+            box-shadow: 0 8px 32px rgba(212,175,55,0.12);
         }
 
-        .story-text p {
-            color: var(--color-light-dim);
-            line-height: 1.9;
-            margin-bottom: 1rem;
-            font-size: 1.05rem;
+        .tl-year {
+            font-size: 0.75rem;
+            letter-spacing: 0.3em;
+            color: var(--gold-deep);
+            margin-bottom: 0.6rem;
         }
 
-        .story-image {
-            height: 400px;
-            background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
-            border-radius: 16px;
+        .tl-content h3 {
+            font-size: 1.25rem;
+            color: var(--ink-text);
+            margin-bottom: 0.7rem;
+        }
+
+        .tl-content p {
+            color: var(--ink-mid);
+            font-size: 0.95rem;
+            line-height: 1.8;
+            margin-bottom: 0;
+        }
+
+        .tl-dot {
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 8rem;
-            color: var(--color-gold);
+        }
+
+        .tl-dot-inner {
+            width: 14px;
+            height: 14px;
+            background: var(--gold);
+            border-radius: 50%;
+            box-shadow: 0 0 0 6px var(--gold-dim);
+        }
+
+        .tl-empty { /* placeholder for opposite side */ }
+
+        /* ════════════════════════════════════
+           VALUES — staggered alternating cards
+        ════════════════════════════════════ */
+        .values {
+            padding: 6rem 8%;
+            background: var(--paper2);
             position: relative;
             overflow: hidden;
         }
 
-        .story-image::before {
-            content: '';
+        .values::before {
+            content: 'VALUES';
             position: absolute;
-            inset: 0;
-            border: 2px solid rgba(212, 175, 55, 0.2);
-            border-radius: 16px;
+            top: -0.15em;
+            left: -0.05em;
+            font-size: 18vw;
+            font-weight: 900;
+            color: rgba(44,36,22,0.04);
+            line-height: 1;
+            pointer-events: none;
+            white-space: nowrap;
         }
 
-        /* 核心价值 */
-        .values-section {
-            padding: 5rem 5%;
-            background: var(--color-dark-accent);
-        }
-
-        .section-title {
+        .values-intro {
             text-align: center;
-            margin-bottom: 3rem;
+            margin-bottom: 4rem;
         }
-
-        .section-title h2 {
-            font-size: 2.2rem;
-            color: var(--color-gold);
-            margin-bottom: 0.5rem;
+        .values-intro h2 {
+            font-size: clamp(2rem, 3.5vw, 2.8rem);
+            color: var(--ink-text);
+            margin-bottom: 0.8rem;
         }
-
-        .section-title p {
-            color: var(--color-light-dim);
-            font-size: 1.1rem;
-        }
-
-        .values-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .value-card {
-            background: var(--color-dark);
-            border-radius: 12px;
-            padding: 2.5rem;
-            text-align: center;
-            border: 1px solid rgba(212, 175, 55, 0.1);
-            transition: all 0.3s;
-        }
-
-        .value-card:hover {
-            transform: translateY(-8px);
-            border-color: var(--color-gold);
-            box-shadow: 0 15px 30px rgba(212, 175, 55, 0.1);
-        }
-
-        .value-icon {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 1.5rem;
-            background: linear-gradient(135deg, var(--color-gold), #8b6914);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.2rem;
-        }
-
-        .value-card h3 {
-            font-size: 1.4rem;
-            color: var(--color-light);
-            margin-bottom: 1rem;
-        }
-
-        .value-card p {
-            color: var(--color-light-dim);
-            line-height: 1.7;
-        }
-
-        /* 团队介绍 */
-        .team-section {
-            padding: 5rem 5%;
-        }
-
-        .team-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .team-card {
-            background: var(--color-dark-accent);
-            border-radius: 16px;
-            overflow: hidden;
-            border: 1px solid rgba(212, 175, 55, 0.1);
-            transition: all 0.3s;
-        }
-
-        .team-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--color-gold);
-        }
-
-        .team-avatar {
-            height: 200px;
-            background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 5rem;
-            color: var(--color-gold);
-        }
-
-        .team-info {
-            padding: 1.5rem;
-            text-align: center;
-        }
-
-        .team-name {
-            font-size: 1.4rem;
-            color: var(--color-light);
-            margin-bottom: 0.3rem;
-        }
-
-        .team-title {
-            color: var(--color-gold);
-            font-size: 0.95rem;
-            margin-bottom: 1rem;
-        }
-
-        .team-desc {
-            color: var(--color-light-dim);
-            font-size: 0.95rem;
-            line-height: 1.6;
-        }
-
-        /* 数据统计 */
-        .stats-section {
-            padding: 4rem 5%;
-            background: linear-gradient(135deg, var(--color-dark), var(--color-dark-accent));
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 2rem;
-            max-width: 1000px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .stat-item {
-            padding: 2rem;
-        }
-
-        .stat-number {
-            font-size: 3rem;
-            color: var(--color-gold);
-            font-weight: bold;
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-label {
-            color: var(--color-light-dim);
+        .values-intro p {
+            color: var(--ink-mid);
             font-size: 1rem;
         }
 
-        /* 合作伙伴 */
-        .partners-section {
-            padding: 4rem 5%;
-        }
-
-        .partners-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        .partner-item {
-            height: 100px;
-            background: var(--color-dark-accent);
-            border-radius: 8px;
+        .values-list {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid rgba(212, 175, 55, 0.1);
-            color: var(--color-light-dim);
-            font-size: 1.1rem;
-            transition: all 0.3s;
-        }
-
-        .partner-item:hover {
-            border-color: var(--color-gold);
-            color: var(--color-gold);
-        }
-
-        /* 联系我们 */
-        .contact-section {
-            padding: 5rem 5%;
-            background: var(--color-dark-accent);
-        }
-
-        .contact-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
+            flex-direction: column;
+            gap: 1.5rem;
             max-width: 1100px;
             margin: 0 auto;
         }
 
-        .contact-info h2 {
-            font-size: 2rem;
-            color: var(--color-gold);
-            margin-bottom: 1.5rem;
+        .value-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1.5rem;
+            align-items: stretch;
         }
 
-        .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
+        .vc {
+            background: var(--paper3);
+            border: 1px solid var(--border-light);
+            border-radius: 14px;
+            padding: 2.2rem;
+            transition: all 0.35s;
+            position: relative;
+            overflow: hidden;
         }
 
-        .contact-icon {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, var(--color-gold), #8b6914);
-            border-radius: 50%;
+        .vc::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, var(--gold-dim) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.35s;
+        }
+
+        .vc:hover {
+            border-color: var(--gold);
+            transform: translateY(-6px);
+            box-shadow: 0 20px 50px rgba(44,36,22,0.1), 0 0 0 1px var(--gold-glow);
+        }
+        .vc:hover::after { opacity: 1; }
+
+        .vc.featured {
+            padding: 3rem 2.5rem;
+            background: var(--paper2);
+            border-color: var(--border-gold);
+        }
+
+        .vc-num {
+            font-size: 0.68rem;
+            letter-spacing: 0.3em;
+            color: var(--gold-deep);
+            margin-bottom: 1.4rem;
+            opacity: 0.8;
+        }
+
+        .vc-icon {
+            width: 52px;
+            height: 52px;
+            background: var(--gold-dim);
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.3rem;
-            flex-shrink: 0;
+            margin-bottom: 1.4rem;
+            font-size: 1.5rem;
+            position: relative;
+            z-index: 1;
         }
 
-        .contact-detail h4 {
-            color: var(--color-light);
-            margin-bottom: 0.3rem;
+        .vc h3 {
+            font-size: 1.2rem;
+            color: var(--ink-text);
+            margin-bottom: 0.8rem;
+            position: relative;
+            z-index: 1;
         }
 
-        .contact-detail p {
-            color: var(--color-light-dim);
-            font-size: 0.95rem;
+        .vc p {
+            color: var(--ink-mid);
+            font-size: 0.9rem;
+            line-height: 1.75;
+            position: relative;
+            z-index: 1;
+            margin-bottom: 0;
         }
 
-        /* 联系表单 */
-        .contact-form {
-            background: var(--color-dark);
-            border-radius: 12px;
-            padding: 2rem;
-            border: 1px solid rgba(212, 175, 55, 0.15);
+        /* ════════════════════════════════════
+           STATS — full-width bold numbers
+           Keep a dark accent for visual rhythm
+        ════════════════════════════════════ */
+        .stats {
+            padding: 5rem 8%;
+            background: linear-gradient(135deg, #1A1612 0%, #1A3A4A 50%, #2D3A2A 100%);
+            border-top: 1px solid var(--gold-dim);
+            border-bottom: 1px solid var(--gold-dim);
         }
 
-        .form-row {
+        .stats-inner {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
-        .form-group {
-            margin-bottom: 1rem;
+        .stat {
+            text-align: center;
+            padding: 2.5rem 1rem;
+            position: relative;
         }
 
-        .form-group label {
-            display: block;
-            color: var(--color-light);
+        .stat + .stat::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 20%; bottom: 20%;
+            width: 1px;
+            background: rgba(212,175,55,0.2);
+        }
+
+        .stat-val {
+            font-size: clamp(2.8rem, 5vw, 4.5rem);
+            font-weight: 800;
+            color: var(--gold);
+            line-height: 1;
+            margin-bottom: 0.6rem;
+            letter-spacing: -0.02em;
+        }
+
+        .stat-lbl {
+            font-size: 0.82rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: rgba(240,237,230,0.55);
+        }
+
+        /* ════════════════════════════════════
+           TEAM — staggered offset grid
+        ════════════════════════════════════ */
+        .team {
+            padding: 7rem 8%;
+            background: var(--paper);
+        }
+
+        .team-header {
+            margin-bottom: 4rem;
+        }
+        .team-header h2 {
+            font-size: clamp(2rem, 3.5vw, 2.8rem);
+            color: var(--ink-text);
             margin-bottom: 0.5rem;
-            font-size: 0.95rem;
+        }
+        .team-header p { color: var(--ink-mid); font-size: 0.95rem; }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            align-items: start;
         }
 
-        .form-group input,
-        .form-group textarea,
-        .form-group select {
+        /* Alternate vertical offsets to break rigid row feel */
+        .team-grid .tc:nth-child(2) { margin-top: 3rem; }
+        .team-grid .tc:nth-child(4) { margin-top: 3rem; }
+
+        .tc {
+            background: var(--paper3);
+            border: 1px solid var(--border-light);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.35s;
+        }
+
+        .tc:hover {
+            border-color: var(--gold);
+            transform: translateY(-8px);
+            box-shadow: 0 24px 60px rgba(44,36,22,0.12), 0 0 0 1px var(--gold-glow);
+        }
+
+        .tc-avatar {
+            height: 200px;
+            background: linear-gradient(145deg, #1A1612, #1A3A4A);
+            display: flex;
+            position: relative;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Abstract avatar pattern */
+        .tc-avatar::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 20px,
+                rgba(212,175,55,0.04) 20px,
+                rgba(212,175,55,0.04) 21px
+            );
+        }
+
+        .tc-avatar img {
             width: 100%;
-            padding: 0.9rem;
-            background: var(--color-dark-accent);
-            border: 1px solid rgba(212, 175, 55, 0.2);
-            border-radius: 6px;
-            color: var(--color-light);
-            font-size: 1rem;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+            position: relative;
+            z-index: 1;
+            transition: transform 0.5s ease;
+        }
+        .tc:hover .tc-avatar img {
+            transform: scale(1.05);
+        }
+
+        .tc-avatar svg {
+            position: relative;
+            z-index: 1;
+            filter: drop-shadow(0 0 20px rgba(212,175,55,0.3));
+        }
+
+        .tc-body {
+            padding: 1.6rem;
+        }
+
+        .tc-role {
+            font-size: 0.72rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--gold-deep);
+            margin-bottom: 0.4rem;
+        }
+
+        .tc-name {
+            font-size: 1.2rem;
+            color: var(--ink-text);
+            margin-bottom: 0.8rem;
+        }
+
+        .tc-desc {
+            font-size: 0.87rem;
+            color: var(--ink-mid);
+            line-height: 1.7;
+            margin-bottom: 0;
+        }
+
+        /* ════════════════════════════════════
+           PARTNERS — infinite marquee scroll
+        ════════════════════════════════════ */
+        .partners {
+            padding: 5rem 0;
+            background: var(--ink);
+            overflow: hidden;
+        }
+
+        .partners-label {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+        .partners-label p {
+            font-size: 0.75rem;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: var(--light-faint);
+        }
+
+        .marquee-track {
+            display: flex;
+            width: max-content;
+            animation: marquee 20s linear infinite;
+        }
+
+        .marquee-track:hover { animation-play-state: paused; }
+
+        @keyframes marquee {
+            from { transform: translateX(0); }
+            to   { transform: translateX(-50%); }
+        }
+
+        .marquee-item {
+            white-space: nowrap;
+            padding: 0.9rem 2.4rem;
+            margin: 0 0.6rem;
+            border: 1px solid var(--gold-dim);
+            border-radius: 100px;
+            color: var(--light-dim);
+            font-size: 0.88rem;
+            letter-spacing: 0.08em;
             transition: all 0.3s;
+            cursor: default;
         }
 
-        .form-group textarea {
-            min-height: 120px;
-            resize: vertical;
+        .marquee-item:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+            background: var(--gold-dim);
         }
 
-        .form-group input:focus,
-        .form-group textarea:focus,
-        .form-group select:focus {
-            outline: none;
-            border-color: var(--color-gold);
+        /* ════════════════════════════════════
+           CTA banner
+        ════════════════════════════════════ */
+        .cta-banner {
+            padding: 6rem 8%;
+            background: linear-gradient(135deg, #0d0d20 0%, #111128 50%, #0a0a15 100%);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
         }
 
-        .submit-btn {
-            width: 100%;
-            padding: 1rem;
-            background: linear-gradient(135deg, var(--color-gold), #8b6914);
+        .cta-banner::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse 60% 80% at 50% 0%, rgba(212,175,55,0.07), transparent 70%);
+        }
+
+        .cta-banner h2 {
+            font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+            color: var(--light);
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .cta-banner p {
+            color: var(--light-dim);
+            font-size: 1.05rem;
+            margin-bottom: 2.5rem;
+            position: relative;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            position: relative;
+        }
+
+        .btn-gold {
+            padding: 0.9rem 2.4rem;
+            background: linear-gradient(135deg, var(--gold), #b8922a);
+            color: var(--ink);
             border: none;
             border-radius: 8px;
-            color: var(--color-dark);
-            font-size: 1rem;
-            font-weight: bold;
+            font-size: 0.95rem;
+            font-weight: 700;
             cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s;
+            letter-spacing: 0.04em;
+        }
+        .btn-gold:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(212,175,55,0.35);
+        }
+
+        .btn-outline {
+            padding: 0.9rem 2.4rem;
+            background: transparent;
+            color: var(--light);
+            border: 1px solid var(--light-faint);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
             transition: all 0.3s;
         }
-
-        .submit-btn:hover {
-            transform: scale(1.02);
-            box-shadow: 0 5px 20px rgba(212, 175, 55, 0.3);
+        .btn-outline:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+            transform: translateY(-3px);
         }
 
-        /* 响应式 */
+        /* ════════════════════════════════════
+           Shared animations
+        ════════════════════════════════════ */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(32px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.22s; }
+        .reveal-delay-3 { transition-delay: 0.34s; }
+        .reveal-delay-4 { transition-delay: 0.46s; }
+
+        /* ════════════════════════════════════
+           Responsive
+        ════════════════════════════════════ */
         @media (max-width: 1024px) {
-            .story-content {
+            .timeline::before { display: none; }
+            .timeline-item {
                 grid-template-columns: 1fr;
             }
+            .tl-empty, .tl-dot { display: none; }
 
-            .values-grid {
+            .team-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
-
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .contact-grid {
-                grid-template-columns: 1fr;
-            }
+            .team-grid .tc:nth-child(2),
+            .team-grid .tc:nth-child(4) { margin-top: 0; }
         }
 
         @media (max-width: 768px) {
-            .about-hero h1 {
-                font-size: 2.5rem;
-            }
-
-            .values-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .stats-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-
-            .stat-number {
-                font-size: 2.2rem;
-            }
-        }
-
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+            .story-header { flex-direction: column; gap: 1rem; }
+            .value-row { grid-template-columns: 1fr; }
+            .stats-inner { grid-template-columns: repeat(2, 1fr); }
+            .stat + .stat::before { display: none; }
+            .team-grid { grid-template-columns: 1fr; }
+            .hero-taiji { width: 300px; height: 300px; opacity: 0.04; }
         }
     </style>
 </head>
 <body>
-    <!-- 导航栏 -->
+    <!-- ── NAV ── -->
     <nav class="navbar">
         <div class="nav-container">
             <a href="index.html" class="logo">
-                <span class="logo-icon">☯</span>
-                <span class="logo-text">DAO ESSENCE</span>
+                <div class="logo-icon"></div>
+                <div class="logo-text">
+                    <span class="logo-cn">DAO本质</span>
+                </div>
             </a>
-            <button class="mobile-menu-btn">☰</button>
+            <button class="mobile-menu-btn">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="3" y1="6" x2="21" y2="6"/>
+                    <line x1="3" y1="12" x2="21" y2="12"/>
+                    <line x1="3" y1="18" x2="21" y2="18"/>
+                </svg>
+            </button>
             <ul class="nav-links">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="culture.html">Energy Universe</a></li>
                 <li><a href="shop.html">Energy Shop</a></li>
-                <li><a href="guide.html">Energy Guide</a></li>
+                <li><a href="guide.html">Crafting Process</a></li>
                 <li><a href="about.html" class="active">About Us</a></li>
             </ul>
         </div>
     </nav>
 
-    <!-- 英雄区域 -->
-    <section class="about-hero">
-        <div class="about-hero-content">
-            <h1>About Us</h1>
-            <p>Inheriting millenniums of Taoist wisdom, promoting Eastern mystic culture.<br>Bringing traditional wisdom to life in modern times.</p>
+    <!-- ── HERO ── -->
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-line"></div>
+
+        <!-- Rotating taiji SVG -->
+        <svg class="hero-taiji" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="200" cy="200" r="180" stroke="#D4AF37" stroke-width="1.5"/>
+            <path d="M200 20 A180 180 0 0 1 200 380 A90 90 0 0 1 200 200 A90 90 0 0 0 200 20" fill="#D4AF37"/>
+            <circle cx="200" cy="110" r="40" fill="#D4AF37"/>
+            <circle cx="200" cy="290" r="40" fill="#09090f" stroke="#D4AF37" stroke-width="1.5"/>
+            <circle cx="200" cy="110" r="14" fill="#09090f"/>
+            <circle cx="200" cy="290" r="14" fill="#D4AF37"/>
+            <!-- octagram rings -->
+            <circle cx="200" cy="200" r="120" stroke="#D4AF37" stroke-width="0.5" opacity="0.3"/>
+            <circle cx="200" cy="200" r="60" stroke="#D4AF37" stroke-width="0.5" opacity="0.3"/>
+            <!-- 8 radial lines -->
+            <line x1="200" y1="20" x2="200" y2="80" stroke="#D4AF37" stroke-width="0.5" opacity="0.4"/>
+            <line x1="380" y1="200" x2="320" y2="200" stroke="#D4AF37" stroke-width="0.5" opacity="0.4"/>
+            <line x1="200" y1="380" x2="200" y2="320" stroke="#D4AF37" stroke-width="0.5" opacity="0.4"/>
+            <line x1="20" y1="200" x2="80" y2="200" stroke="#D4AF37" stroke-width="0.5" opacity="0.4"/>
+            <line x1="347" y1="53" x2="305" y2="95" stroke="#D4AF37" stroke-width="0.5" opacity="0.4"/>
+            <line x1="53" y1="53" x2="95" y2="95" stroke="#D4AF37" stroke-width="0.5" opacity="0.4"/>
+            <line x1="347" y1="347" x2="305" y2="305" stroke="#D4AF37" stroke-width="0.5" opacity="0.4"/>
+            <line x1="53" y1="347" x2="95" y2="305" stroke="#D4AF37" stroke-width="0.5" opacity="0.4"/>
+        </svg>
+
+        <div class="hero-content">
+            <div class="hero-eyebrow">About DAO Essence</div>
+            <h1 class="hero-title">
+                Ancient Wisdom,
+                <em>Carried Forward.</em>
+            </h1>
+            <p class="hero-sub">
+                We are custodians of a living tradition — where millennia of Taoist insight meets the quiet search of the modern soul. Every item we offer is consecrated, intentional, and traceable.
+            </p>
+        </div>
+
+        <div class="scroll-hint">Scroll</div>
+    </section>
+
+    <!-- ── STORY / TIMELINE ── -->
+    <section class="story">
+        <div class="story-header reveal">
+            <div>
+                <div class="section-label">Our Story</div>
+                <h2>A path forged<br>over decades</h2>
+            </div>
+            <p>
+                DAO Essence was born from a singular conviction: that the wisdom encoded in Taoist philosophy — its cosmology, its rituals, its living symbols — deserves to travel beyond the temples that guard it.
+            </p>
+        </div>
+
+        <div class="timeline">
+            <div class="timeline-item reveal">
+                <div class="tl-content">
+                    <div class="tl-year">FOUNDING</div>
+                    <h3>The Seed of an Idea</h3>
+                    <p>Two practitioners — one a third-generation Taoist inheritor, the other a researcher of classical texts — meet in a mountain temple and share a vision: making authentic consecration accessible worldwide.</p>
+                </div>
+                <div class="tl-dot"><div class="tl-dot-inner"></div></div>
+                <div class="tl-empty"></div>
+            </div>
+
+            <div class="timeline-item reveal reveal-delay-1">
+                <div class="tl-empty"></div>
+                <div class="tl-dot"><div class="tl-dot-inner"></div></div>
+                <div class="tl-content">
+                    <div class="tl-year">TEMPLE PARTNERSHIPS</div>
+                    <h3>Rooted in Sacred Lineage</h3>
+                    <p>Formal agreements with five of China's most revered Taoist institutions — including Longhu Mountain and Wudang — establish the ritual authenticity that underpins every item we produce.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item reveal reveal-delay-2">
+                <div class="tl-content">
+                    <div class="tl-year">GLOBAL EXPANSION</div>
+                    <h3>Eastern Wisdom, World Stage</h3>
+                    <p>Our reach extends to 50+ countries. Customers across Europe, the Americas, and Southeast Asia discover that Taoist energy principles translate across every cultural context.</p>
+                </div>
+                <div class="tl-dot"><div class="tl-dot-inner"></div></div>
+                <div class="tl-empty"></div>
+            </div>
+
+            <div class="timeline-item reveal reveal-delay-3">
+                <div class="tl-empty"></div>
+                <div class="tl-dot"><div class="tl-dot-inner"></div></div>
+                <div class="tl-content">
+                    <div class="tl-year">TODAY</div>
+                    <h3>10,000+ Lives Touched</h3>
+                    <p>A community of seekers, practitioners, and curious minds who chose to bring a piece of living Taoist tradition into their everyday environment.</p>
+                </div>
+            </div>
         </div>
     </section>
 
-    <!-- 品牌故事 -->
-    <section class="story-section">
-        <div class="story-content">
-            <div class="story-text">
-                <h2>Our Story</h2>
-                <p>DAO Essence was founded from a deep love and reverence for traditional culture. We believe that ancient Eastern wisdom holds the key to answering the puzzles of modern life.</p>
-                <p天人合一"，到五行学说的"相生相克"，这些历经千年沉淀的智慧，不仅是文化遗产，更是生活的指南针。我们致力于将这些深奥的知识，以现代、科学的方式传递给每一位有缘人。">From the Taoist philosophy of 'harmony between heaven and humanity' to the Five Elements theory of 'generation and restraint,' these wisdoms are not only cultural heritage but also life's compass. We are committed to conveying this profound knowledge in a modern, scientific way to everyone destined to receive it.</p>
-                <p>We have established partnerships with multiple Taoist temples, where ordained Taoist masters personally consecrate and bless each ritual item, ensuring the authenticity and traceability of energy. At the same time, we interpret traditional wisdom in modern language, allowing more people to understand and benefit from the profound charm of Eastern culture.</p>
+    <!-- ── STATS ── -->
+    <div class="stats">
+        <div class="stats-inner">
+            <div class="stat reveal">
+                <div class="stat-val" data-target="5">0</div>
+                <div class="stat-lbl">Partner Temples</div>
             </div>
-            <div class="story-image">☯</div>
+            <div class="stat reveal reveal-delay-1">
+                <div class="stat-val" data-target="10000" data-suffix="+">0</div>
+                <div class="stat-lbl">Served Customers</div>
+            </div>
+            <div class="stat reveal reveal-delay-2">
+                <div class="stat-val" data-target="50" data-suffix="+">0</div>
+                <div class="stat-lbl">Countries & Regions</div>
+            </div>
+            <div class="stat reveal reveal-delay-3">
+                <div class="stat-val" data-target="98" data-suffix="%">0</div>
+                <div class="stat-lbl">Positive Reviews</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── VALUES ── -->
+    <section class="values">
+        <div class="values-intro reveal">
+            <div class="section-label" style="justify-content:center;">Core Values</div>
+            <h2>Principles we refuse to compromise</h2>
+            <p>Six commitments that shape every decision we make</p>
+        </div>
+
+        <div class="values-list">
+            <div class="value-row">
+                <div class="vc featured reveal">
+                    <div class="vc-num">01</div>
+                    <div class="vc-icon">
+                        <svg viewBox="0 0 40 40" width="28" height="28" fill="none">
+                            <rect x="8" y="4" width="24" height="32" rx="3" stroke="#D4AF37" stroke-width="1.8"/>
+                            <path d="M13 13h14M13 18h14M13 23h9" stroke="#D4AF37" stroke-width="1.4" stroke-linecap="round"/>
+                            <path d="M13 30l3 3 6-6" stroke="#D4AF37" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3>Authentic Lineage</h3>
+                    <p>Every ritual item is consecrated by ordained Taoist masters at partner temples — no shortcuts, no proxies, no exceptions. Authenticity is non-negotiable.</p>
+                </div>
+                <div class="vc reveal reveal-delay-1">
+                    <div class="vc-num">02</div>
+                    <div class="vc-icon">
+                        <svg viewBox="0 0 40 40" width="28" height="28" fill="none">
+                            <circle cx="20" cy="18" r="10" stroke="#D4AF37" stroke-width="1.8"/>
+                            <circle cx="20" cy="18" r="5" stroke="#D4AF37" stroke-width="1.4"/>
+                            <path d="M20 4v3M20 29v3M4 18H7M29 18h3" stroke="#D4AF37" stroke-width="1.4" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <h3>Scientific Interpretation</h3>
+                    <p>We translate millennia-old philosophy into frameworks contemporary minds can engage with — without diluting the source.</p>
+                </div>
+                <div class="vc reveal reveal-delay-2">
+                    <div class="vc-num">03</div>
+                    <div class="vc-icon">
+                        <svg viewBox="0 0 40 40" width="28" height="28" fill="none">
+                            <path d="M20 5 C20 5 32 11 32 22 C32 30 26.6 35 20 37 C13.4 35 8 30 8 22 C8 11 20 5 20 5Z" stroke="#D4AF37" stroke-width="1.8" stroke-linejoin="round"/>
+                            <path d="M14 22l4 4 8-8" stroke="#D4AF37" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3>Integrity Service</h3>
+                    <p>No exaggeration. No manufactured urgency. We earn trust through honest representation of what our products are and what they can do.</p>
+                </div>
+            </div>
+
+            <div class="value-row">
+                <div class="vc reveal">
+                    <div class="vc-num">04</div>
+                    <div class="vc-icon">
+                        <svg viewBox="0 0 40 40" width="28" height="28" fill="none">
+                            <circle cx="20" cy="20" r="15" stroke="#D4AF37" stroke-width="1.8"/>
+                            <path d="M6 20h28M20 5 Q28 12 28 20 Q28 28 20 35 Q12 28 12 20 Q12 12 20 5Z" stroke="#D4AF37" stroke-width="1.4"/>
+                        </svg>
+                    </div>
+                    <h3>Global Culture</h3>
+                    <p>Eastern philosophy belongs to the world. We are committed to bridging cultural distance with clarity, respect, and depth.</p>
+                </div>
+                <div class="vc reveal reveal-delay-1">
+                    <div class="vc-num">05</div>
+                    <div class="vc-icon">
+                        <svg viewBox="0 0 40 40" width="28" height="28" fill="none">
+                            <path d="M20 5 Q16 15 16 24 Q16 33 20 37 Q24 33 24 24 Q24 15 20 5Z" stroke="#D4AF37" stroke-width="1.5" fill="none"/>
+                            <path d="M10 12 Q18 16 20 24 Q22 16 30 12" stroke="#D4AF37" stroke-width="1.4" stroke-linecap="round"/>
+                            <path d="M7 26 Q13 26 20 30 Q27 26 33 26" stroke="#D4AF37" stroke-width="1.4" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <h3>Continuous Growth</h3>
+                    <p>The Tao itself is a path of perpetual becoming. We build our practice around learning — from tradition, from science, from our customers.</p>
+                </div>
+                <div class="vc featured reveal reveal-delay-2">
+                    <div class="vc-num">06</div>
+                    <div class="vc-icon">
+                        <svg viewBox="0 0 40 40" width="28" height="28" fill="none">
+                            <path d="M12 30 C12 23 18 18 26 18 C34 18 40 23 40 30" stroke="#D4AF37" stroke-width="1.8" stroke-linecap="round"/>
+                            <circle cx="16" cy="14" r="5" stroke="#D4AF37" stroke-width="1.8"/>
+                            <circle cx="28" cy="14" r="5" stroke="#D4AF37" stroke-width="1.8"/>
+                            <path d="M4 30 C4 24 8 20 14 20" stroke="#D4AF37" stroke-width="1.4" stroke-linecap="round" opacity="0.6"/>
+                        </svg>
+                    </div>
+                    <h3>Heritage Guardians</h3>
+                    <p>We hold ourselves accountable as stewards of living tradition — never exploiting, always amplifying the wisdom entrusted to us by lineage holders.</p>
+                </div>
+            </div>
         </div>
     </section>
 
-    <!-- 核心价值 -->
-    <section class="values-section">
-        <div class="section-title">
-            <h2>Core Values</h2>
-            <p>Our principles and commitments</p>
-        </div>
-        <div class="values-grid">
-            <div class="value-card">
-                <div class="value-icon">📜</div>
-                <h3>Authentic Lineage</h3>
-                <p>Partnered with official Taoist temples. All ritual items are consecrated by ordained Taoist masters, inheriting authentic Taoist traditions, ensuring pure and traceable energy.</p>
-            </div>
-            <div class="value-card">
-                <div class="value-icon">🔬</div>
-                <h3>Scientific Interpretation</h3>
-                <p>Interpreting traditional wisdom in modern scientific language, revitalizing ancient Taoist culture in contemporary context, making it easier to understand and accept.</p>
-            </div>
-            <div class="value-card">
-                <div class="value-icon">💝</div>
-                <h3>Integrity Service</h3>
-                <p>Upholding true and transparent service philosophy, no exaggeration, no deception, winning every customer's trust with sincerity.</p>
-            </div>
-            <div class="value-card">
-                <div class="value-icon">🌍</div>
-                <h3>Global Culture</h3>
-                <p>Promoting Eastern mystic culture to the world, helping international friends understand Chinese traditional culture, promoting cultural exchange and understanding.</p>
-            </div>
-            <div class="value-card">
-                <div class="value-icon">🌱</div>
-                <h3>Continuous Growth</h3>
-                <p>Constantly learning, exploring, and improving, continuously enhancing service quality and cultural depth, growing together with our customers.</p>
-            </div>
-            <div class="value-card">
-                <div class="value-icon">🤝</div>
-                <h3>Heritage Guardians</h3>
-                <p>Guarding traditional culture with reverence, allowing these precious wisdoms to be passed down from generation to generation, never to be lost.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- 数据统计 -->
-    <section class="stats-section">
-        <div class="stats-grid">
-            <div class="stat-item">
-                <div class="stat-number">5+</div>
-                <div class="stat-label">Partner Temples</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number">10000+</div>
-                <div class="stat-label">Served Customers</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number">50+</div>
-                <div class="stat-label">Countries & Regions</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number">98%</div>
-                <div class="stat-label">Positive Reviews</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 团队介绍 -->
-    <section class="team-section">
-        <div class="section-title">
+    <!-- ── TEAM ── -->
+    <section class="team">
+        <div class="team-header reveal">
+            <div class="section-label">The People</div>
             <h2>Core Team</h2>
-            <p>Professional, dedicated, preserving traditions</p>
+            <p>Practitioners, scholars, and custodians — united by purpose</p>
         </div>
+
         <div class="team-grid">
-            <div class="team-card">
-                <div class="team-avatar">☯</div>
-                <div class="team-info">
-                    <h3 class="team-name">Master Xuanzhen</h3>
-                    <p class="team-title">Founder · Chief Destiny Master</p>
-                    <p class="team-desc">Inheritor of Orthodox Taoism, practicing for over 30 years. Expert in BaZi destiny analysis, Feng Shui, and Taoist talismans. Has provided consulting services for numerous renowned enterprises.</p>
+            <div class="tc reveal">
+                <div class="tc-avatar">
+                    <img src="images/master_zhang.jpg" alt="Master Xuanzhen" loading="lazy"/>
+                </div>
+                <div class="tc-body">
+                    <div class="tc-role">Founder · Chief Destiny Master</div>
+                    <div class="tc-name">Master Xuanzhen</div>
+                    <p class="tc-desc">Orthodox Taoist inheritor, practicing 30+ years. Expert in BaZi, Feng Shui, and consecration ceremonies.</p>
                 </div>
             </div>
-            <div class="team-card">
-                <div class="team-avatar">☯</div>
-                <div class="team-info">
-                    <h3 class="team-name">Mingxin Jushi</h3>
-                    <p class="team-title">Co-founder · Yi Jing Consultant</p>
-                    <p class="team-desc">20 years of Yi Jing research experience, published multiple books on destiny studies. Skilled at combining traditional wisdom with modern life to spread positive energy.</p>
+
+            <div class="tc reveal reveal-delay-1">
+                <div class="tc-avatar">
+                    <img src="images/master_chen.jpg" alt="Mingxin Jushi" loading="lazy"/>
+                </div>
+                <div class="tc-body">
+                    <div class="tc-role">Co-founder · Yi Jing Consultant</div>
+                    <div class="tc-name">Mingxin Jushi</div>
+                    <p class="tc-desc">20 years of Yi Jing research, published author. Bridges classical wisdom with contemporary application.</p>
                 </div>
             </div>
-            <div class="team-card">
-                <div class="team-avatar">☯</div>
-                <div class="team-info">
-                    <h3 class="team-name">Master Jingyuan</h3>
-                    <p class="team-title">Talisman Master · Ritual Director</p>
-                    <p class="team-desc">Inheritor of Quanzhen Longmen Sect, monastic practitioner for 20 years. Specializes in Taoist talismans and ritual ceremonies, conducting various religious services with excellent reputation.</p>
+
+            <div class="tc reveal reveal-delay-2">
+                <div class="tc-avatar">
+                    <img src="images/master_liu.jpg" alt="Master Jingyuan" loading="lazy"/>
+                </div>
+                <div class="tc-body">
+                    <div class="tc-role">Talisman Master · Ritual Director</div>
+                    <div class="tc-name">Master Jingyuan</div>
+                    <p class="tc-desc">Quanzhen Longmen inheritor, monastic for 20 years. Leads all ritual ceremonies and consecration rites.</p>
                 </div>
             </div>
-            <div class="team-card">
-                <div class="team-avatar">☯</div>
-                <div class="team-info">
-                    <h3 class="team-name">Yunshu Jushi</h3>
-                    <p class="team-title">Operations Director · Brand Planner</p>
-                    <p class="team-desc">Senior brand planner with deep affection for traditional culture. Responsible for brand operations and cultural promotion, helping more people understand the beauty of Eastern wisdom.</p>
+
+            <div class="tc reveal reveal-delay-3">
+                <div class="tc-avatar">
+                    <img src="images/master_wu.jpg" alt="Yunshu Jushi" loading="lazy"/>
+                </div>
+                <div class="tc-body">
+                    <div class="tc-role">Operations Director · Brand Planner</div>
+                    <div class="tc-name">Yunshu Jushi</div>
+                    <p class="tc-desc">Senior brand strategist with a passion for living tradition. Oversees global outreach and cultural communication.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 合作伙伴 -->
-    <section class="partners-section">
-        <div class="section-title">
-            <h2>Partners</h2>
-            <p>Collaborating with official Taoist temples and cultural institutions</p>
+    <!-- ── PARTNERS MARQUEE ── -->
+    <section class="partners">
+        <div class="partners-label">
+            <p>Temple Partners & Cultural Institutions</p>
         </div>
-        <div class="partners-grid">
-            <div class="partner-item">Longhu Mountain Tianshi Mansion</div>
-            <div class="partner-item">Wudang Mountain Taoist Temple</div>
-            <div class="partner-item">Qingcheng Mountain Taoist Temple</div>
-            <div class="partner-item">Maoshan Taoist Temple</div>
-            <div class="partner-item">Chinese Taoist Association</div>
-            <div class="partner-item">Traditional Culture Research Institute</div>
-        </div>
-    </section>
-
-    <!-- 联系我们 -->
-    <section class="contact-section">
-        <div class="contact-grid">
-            <div class="contact-info">
-                <h2>Contact Us</h2>
-                <div class="contact-item">
-                    <div class="contact-icon">📧</div>
-                    <div class="contact-detail">
-                        <h4>Email</h4>
-                        <p>contact@daoessence.com</p>
-                    </div>
-                </div>
-                <div class="contact-item">
-                    <div class="contact-icon">💬</div>
-                    <div class="contact-detail">
-                        <h4>WeChat Service</h4>
-                        <p>DaoEssence</p>
-                    </div>
-                </div>
-                <div class="contact-item">
-                    <div class="contact-icon">📱</div>
-                    <div class="contact-detail">
-                        <h4>Service Hotline</h4>
-                        <p>400-888-8888</p>
-                    </div>
-                </div>
-                <div class="contact-item">
-                    <div class="contact-icon">⏰</div>
-                    <div class="contact-detail">
-                        <h4>Service Hours</h4>
-                        <p>Monday to Sunday 9:00-21:00</p>
-                    </div>
-                </div>
-            </div>
-            <div class="contact-form">
-                <form id="contactForm">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Your Name</label>
-                            <input type="text" placeholder="Please enter your name" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Contact Method</label>
-                            <input type="text" placeholder="Phone or WeChat" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Consultation Type</label>
-                        <select>
-                            <option value="">Please select consultation type</option>
-                            <option value="product">Product Inquiry</option>
-                            <option value="destiny">Destiny Services</option>
-                            <option value="custom">Custom Orders</option>
-                            <option value="cooperation">Business Cooperation</option>
-                            <option value="other">Other Questions</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Message</label>
-                        <textarea placeholder="Please describe your needs or questions in detail..."></textarea>
-                    </div>
-                    <button type="submit" class="submit-btn">Submit Message</button>
-                </form>
-            </div>
+        <div class="marquee-track" id="marquee">
+            <span class="marquee-item">⛩ Longhu Mountain — Tianshi Mansion</span>
+            <span class="marquee-item">⛩ Wudang Mountain Taoist Temple</span>
+            <span class="marquee-item">⛩ Qingcheng Mountain Taoist Temple</span>
+            <span class="marquee-item">⛩ Maoshan Taoist Temple</span>
+            <span class="marquee-item">☯ Chinese Taoist Association</span>
+            <span class="marquee-item">📜 Traditional Culture Research Institute</span>
+            <!-- duplicate for seamless loop -->
+            <span class="marquee-item">⛩ Longhu Mountain — Tianshi Mansion</span>
+            <span class="marquee-item">⛩ Wudang Mountain Taoist Temple</span>
+            <span class="marquee-item">⛩ Qingcheng Mountain Taoist Temple</span>
+            <span class="marquee-item">⛩ Maoshan Taoist Temple</span>
+            <span class="marquee-item">☯ Chinese Taoist Association</span>
+            <span class="marquee-item">📜 Traditional Culture Research Institute</span>
         </div>
     </section>
 
-    <!-- 页脚 -->
+    <!-- ── CTA ── -->
+    <section class="cta-banner">
+        <h2 class="reveal">Ready to explore Eastern wisdom?</h2>
+        <p class="reveal">Browse our collection of consecrated items or connect with our masters directly.</p>
+        <div class="cta-buttons reveal">
+            <a href="shop.html" class="btn-gold">Explore the Shop</a>
+            <a href="contact.html" class="btn-outline">Get in Touch</a>
+        </div>
+    </section>
+
+    <!-- ── FOOTER ── -->
     <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h4>DAO Essence</h4>
-                <p>Inheriting millenniums of Taoist wisdom<br>Promoting Eastern mystic culture</p>
-            </div>
-                <div class="footer-section">
-                    <h4>Quick Navigation</h4>
-                    <ul>
-                        <li><a href="index.html">Home</a></li>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <span class="logo-en">DAO ESSENCE</span>
+                    </div>
+                    <p>Ancient Wisdom, Modern Harmony. Based on authentic Taoist traditions, we offer verifiable traditional cultural products and services with genuine energy properties.</p>
+                </div>
+                <div>
+                    <h4 class="footer-title">Navigation</h4>
+                    <ul class="footer-links">
                         <li><a href="culture.html">Energy Universe</a></li>
                         <li><a href="shop.html">Energy Shop</a></li>
                         <li><a href="index.html#destiny-booking">Destiny Consulting</a></li>
+                        <li><a href="guide.html">Crafting Process</a></li>
                     </ul>
                 </div>
-            <div class="footer-section">
-                <h4>Contact Us</h4>
-                <p>Email: contact@daoessence.com</p>
-                <p>WeChat: DaoEssence</p>
-            </div>
-            <div class="footer-section">
-                <h4>Follow Us</h4>
-                <div class="social-links">
-                    <a href="#">WeChat</a>
-                    <a href="#">Weibo</a>
-                    <a href="#">Xiaohongshu</a>
+                <div>
+                    <h4 class="footer-title">Services</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">BaZi Analysis</a></li>
+                        <li><a href="#">Annual Fortune</a></li>
+                        <li><a href="#">Personal Consultation</a></li>
+                        <li><a href="#">Custom Items</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-title">Contact</h4>
+                    <ul class="footer-links">
+                        <li>
+                            <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle;margin-right:5px"><path d="M3 4h14a1 1 0 011 1v10a1 1 0 01-1 1H3a1 1 0 01-1-1V5a1 1 0 011-1z"/><path d="M3 5l7 6 7-6"/></svg>
+                            517748938@qq.com
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle;margin-right:5px"><path d="M2 5a2 2 0 012-2h12a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V5z"/><path d="M7 10h6M7 13h4"/></svg>
+                            WhatsApp: +86 18115755283
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle;margin-right:5px"><circle cx="10" cy="10" r="8"/><path d="M10 6v4l2.5 2.5"/></svg>
+                            Service Hours: 9:00–21:00 UTC+8
+                        </li>
+                    </ul>
                 </div>
             </div>
-        </div>
-        <div class="footer-bottom">
-            <p>© 2024 DAO Essence. All Rights Reserved.</p>
+            <div class="footer-bottom">
+                <p>© 2024 DAO Essence & Five Elements. All rights reserved.</p>
+            </div>
         </div>
     </footer>
 
     <script src="main.js"></script>
     <script>
-        // 表单提交
-        document.getElementById('contactForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const lang = localStorage.getItem('daoessence_lang') || 'en';
-            const message = lang === 'en' ? 'Thank you for your message! We will contact you soon.' : '感谢您的留言！我们会尽快与您联系。';
-            alert(message);
-        });
-
-        // 数字动画
-        function animateNumber(element, target) {
-            let current = 0;
-            const increment = target / 50;
-            const timer = setInterval(() => {
-                current += increment;
-                if (current >= target) {
-                    element.textContent = target + (element.dataset.suffix || '');
-                    clearInterval(timer);
-                } else {
-                    element.textContent = Math.floor(current) + (element.dataset.suffix || '');
-                }
-            }, 30);
-        }
-
-        // 观察数字区域
-        const statsObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const numbers = entry.target.querySelectorAll('.stat-number');
-                    numbers.forEach(num => {
-                        const text = num.textContent;
-                        const value = parseInt(text.replace(/\D/g, ''));
-                        num.dataset.suffix = text.replace(/\d/g, '');
-                        animateNumber(num, value);
-                    });
-                    statsObserver.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.5 });
-
-        statsObserver.observe(document.querySelector('.stats-section'));
-
-        // 移动端菜单
+        /* ── Mobile nav ── */
         document.querySelector('.mobile-menu-btn').addEventListener('click', () => {
             document.querySelector('.nav-links').classList.toggle('active');
         });
 
-        // 滚动动画
-        const observer = new IntersectionObserver((entries) => {
+        /* ── Scroll reveal ── */
+        const revealObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
+                    entry.target.classList.add('visible');
+                    revealObserver.unobserve(entry.target);
                 }
             });
-        }, { threshold: 0.1 });
+        }, { threshold: 0.12 });
 
-        document.querySelectorAll('.value-card, .team-card, .contact-item').forEach(el => {
-            el.style.opacity = '0';
-            el.style.transform = 'translateY(30px)';
-            el.style.transition = 'all 0.6s ease';
-            observer.observe(el);
-        });
+        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+        /* ── Stats counter animation ── */
+        function countUp(el) {
+            const target = parseInt(el.dataset.target, 10);
+            const suffix = el.dataset.suffix || '';
+            const duration = 1800;
+            const step = duration / 60;
+            let current = 0;
+            const inc = target / (duration / step);
+
+            const timer = setInterval(() => {
+                current += inc;
+                if (current >= target) {
+                    el.textContent = target + suffix;
+                    clearInterval(timer);
+                } else {
+                    el.textContent = Math.floor(current) + suffix;
+                }
+            }, step);
+        }
+
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.querySelectorAll('.stat-val').forEach(countUp);
+                    statsObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.4 });
+
+        const statsSection = document.querySelector('.stats');
+        if (statsSection) statsObserver.observe(statsSection);
     </script>
 </body>
 </html>

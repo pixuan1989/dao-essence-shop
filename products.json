@@ -1,0 +1,119 @@
+{
+  "products": [
+    {
+      "id": "tai-sui-talisman",
+      "name": "Tai Sui Talisman",
+      "nameCN": "太岁符",
+      "category": "talismans",
+      "element": "fire",
+      "price": 17.92,
+      "currency": "USD",
+      "description": "Dragon Year protection talisman, hand-painted and consecrated by Taoist master. Protects against annual misfortune.",
+      "descriptionCN": "龙年保护符咒，由道教大师手绘和祝圣。保护您免受年度厄运。",
+      "image": "images/ee9f06067bcdc66babb7cc1dfbc9d59ecef3fe912a602-hYOU5Z_fw1200webp.webp",
+      "stock": 50,
+      "benefits": ["Protection", "Annual Fortune", "Safety"],
+      "energyLevel": "High"
+    },
+    {
+      "id": "obsidian-bracelet",
+      "name": "Obsidian Bracelet",
+      "nameCN": "黑曜石手链",
+      "category": "crystals",
+      "element": "water",
+      "price": 12.32,
+      "currency": "USD",
+      "description": "Natural obsidian bracelet for energy purification and spiritual protection. Calms the mind and enhances clarity.",
+      "descriptionCN": "天然黑曜石手链，用于能量净化和精神保护。平复心灵，增强清晰度。",
+      "image": "images/5c9b913900c6b04c7d5feeeba36403b233e42e895de36-P0zmjC_fw1200webp.webp",
+      "stock": 80,
+      "benefits": ["Purification", "Protection", "Mental Clarity"],
+      "energyLevel": "Medium"
+    },
+    {
+      "id": "natural-agarwood",
+      "name": "Natural Agarwood",
+      "nameCN": "天然沉香",
+      "category": "incense",
+      "element": "wood",
+      "price": 9.52,
+      "currency": "USD",
+      "description": "Premium natural agarwood for meditation and academic success. Enhances concentration and intellectual clarity.",
+      "descriptionCN": "用于冥想和学业成功的优质天然沉香。增强专注力和智力清晰度。",
+      "image": "images/efd651724cd482a4d5c81552b23cb20253ea84311d64e5-9twrMQ_fw1200webp.webp",
+      "stock": 100,
+      "benefits": ["Meditation", "Academic Success", "Concentration"],
+      "energyLevel": "Medium"
+    },
+    {
+      "id": "custom-talisman",
+      "name": "Custom Talisman",
+      "nameCN": "定制符咒",
+      "category": "ritual",
+      "element": "earth",
+      "price": 54.32,
+      "currency": "USD",
+      "description": "Personalized talisman created based on your individual birth chart and destiny analysis. Each item is uniquely consecrated for you.",
+      "descriptionCN": "根据您的个人出生图表和命运分析创建的个性化符咒。每件都为您独特祝圣。",
+      "image": "images/08d5a4d436cd88b784060136ffdf1dde4be269a93235b-haaswB_fw1200webp.webp",
+      "stock": 30,
+      "benefits": ["Personalization", "Destiny Alignment", "Custom Energy"],
+      "energyLevel": "Very High",
+      "customizable": true
+    }
+  ],
+  "categories": [
+    {
+      "id": "talismans",
+      "name": "Talismans",
+      "nameCN": "符咒"
+    },
+    {
+      "id": "crystals",
+      "name": "Crystals & Stones",
+      "nameCN": "水晶和石头"
+    },
+    {
+      "id": "incense",
+      "name": "Incense & Aromatics",
+      "nameCN": "香和香薰"
+    },
+    {
+      "id": "ritual",
+      "name": "Ritual Items",
+      "nameCN": "仪式物品"
+    }
+  ],
+  "elements": [
+    {
+      "id": "fire",
+      "name": "Fire",
+      "nameCN": "火",
+      "color": "#8B2500"
+    },
+    {
+      "id": "water",
+      "name": "Water",
+      "nameCN": "水",
+      "color": "#1A3A4A"
+    },
+    {
+      "id": "wood",
+      "name": "Wood",
+      "nameCN": "木",
+      "color": "#2D5A3D"
+    },
+    {
+      "id": "metal",
+      "name": "Metal",
+      "nameCN": "金",
+      "color": "#C0C0C0"
+    },
+    {
+      "id": "earth",
+      "name": "Earth",
+      "nameCN": "土",
+      "color": "#8B7355"
+    }
+  ]
+}

@@ -59,11 +59,20 @@ function initHeaderScroll() {
     const header = document.querySelector('.header');
     
     if (header) {
+        // 非首页：header 初始带有 scrolled class，始终保持有背景状态
+        const isHomePage = document.body.classList.contains('home-page') 
+            || window.location.pathname.endsWith('index.html') 
+            || window.location.pathname === '/'
+            || window.location.pathname.endsWith('/');
+        
         window.addEventListener('scroll', function() {
             if (window.scrollY > 50) {
                 header.classList.add('scrolled');
             } else {
-                header.classList.remove('scrolled');
+                // 只有首页才在顶部时移除 scrolled（透明导航效果）
+                if (isHomePage) {
+                    header.classList.remove('scrolled');
+                }
             }
         });
     }

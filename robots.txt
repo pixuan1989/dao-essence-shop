@@ -1,0 +1,44 @@
+# DAO Essence - Robots Configuration
+
+User-agent: *
+Allow: /
+Allow: /shop.html
+Allow: /index.html
+Allow: /images/
+Allow: /styles/
+Allow: *.js
+Allow: *.css
+
+# Disallow admin and private areas
+Disallow: /admin/
+Disallow: /private/
+Disallow: /api/internal/
+Disallow: /*?debug=
+Disallow: /*?session=
+
+# Allow crawl delay for respectful indexing
+Crawl-delay: 0.5
+
+# Sitemap location
+Sitemap: https://daoessence.com/sitemap.xml
+Sitemap: https://daoessence.com/sitemap-images.xml
+
+# Google specific
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+# Bing specific
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+# Bad bots
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /

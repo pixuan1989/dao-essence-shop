@@ -1,0 +1,17 @@
+node_modules
+.git
+.vercel
+cloudbaserc.json
+fix_all.py
+fix_chinese.py
+remove_multilang.py
+debug.html
+test_coordinates.html
+calc_coords.js
+calc-coords.js
+_clean.js
+清除缓存说明.md
+DEPLOY.md
+DEPLOYMENT_GUIDE.md
+ECOMMERCE_DEPLOY_GUIDE.md
+shop_1.0.1.html

@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DAO Essence - Product Admin Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1a1a2e;
+            --secondary: #16213e;
+            --accent: #d4af37;
+            --text-light: #eee;
+            --text-dark: #333;
+            --fire: #e74c3c;
+            --success: #27ae60;
+            --danger: #e74c3c;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--primary);
+            color: var(--text-light);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: var(--secondary);
+            border-left: 4px solid var(--accent);
+            border-radius: 8px;
+        }
+
+        h1 {
+            font-size: 28px;
+            color: var(--accent);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: var(--text-dark);
+        }
+
+        .btn-primary:hover {
+            background: #ffc107;
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c0392b;
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #229954;
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+            color: var(--text-light);
+            border: 1px solid var(--accent);
+        }
+
+        .btn-secondary:hover {
+            background: var(--accent);
+            color: var(--text-dark);
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 200px;
+            padding: 10px 15px;
+            background: var(--secondary);
+            border: 1px solid var(--accent);
+            border-radius: 6px;
+            color: var(--text-light);
+            font-size: 14px;
+        }
+
+        .search-box::placeholder {
+            color: rgba(238, 238, 238, 0.5);
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        select {
+            padding: 10px 15px;
+            background: var(--secondary);
+            border: 1px solid var(--accent);
+            border-radius: 6px;
+            color: var(--text-light);
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .table-container {
+            background: var(--secondary);
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: var(--primary);
+            border-bottom: 2px solid var(--accent);
+        }
+
+        th {
+            padding: 15px;
+            text-align: left;
+            color: var(--accent);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 12px;
+        }
+
+        tbody tr {
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+            transition: background 0.2s ease;
+        }
+
+        tbody tr:hover {
+            background: rgba(212, 175, 55, 0.05);
+        }
+
+        td {
+            padding: 12px 15px;
+            font-size: 14px;
+        }
+
+        .product-name {
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .product-id {
+            color: rgba(238, 238, 238, 0.7);
+            font-size: 12px;
+        }
+
+        .stock-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .stock-low {
+            color: var(--fire);
+            font-weight: 600;
+        }
+
+        .stock-good {
+            color: var(--success);
+        }
+
+        .price {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-small {
+            padding: 6px 12px;
+            font-size: 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .btn-edit {
+            background: var(--accent);
+            color: var(--text-dark);
+        }
+
+        .btn-edit:hover {
+            background: #ffc107;
+        }
+
+        .btn-delete {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-delete:hover {
+            background: #c0392b;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--secondary);
+            border: 2px solid var(--accent);
+            border-radius: 8px;
+            padding: 30px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--accent);
+        }
+
+        .modal-header h2 {
+            color: var(--accent);
+            font-size: 20px;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 24px;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--accent);
+            font-weight: 600;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            background: var(--primary);
+            border: 1px solid var(--accent);
+            border-radius: 4px;
+            color: var(--text-light);
+            font-size: 14px;
+            font-family: inherit;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            justify-content: flex-end;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: var(--secondary);
+            border-left: 4px solid var(--accent);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: rgba(238, 238, 238, 0.7);
+            text-transform: uppercase;
+        }
+
+        .alert {
+            padding: 15px 20px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .alert-success {
+            background: rgba(39, 174, 96, 0.2);
+            border-left: 4px solid var(--success);
+            color: var(--success);
+        }
+
+        .alert-danger {
+            background: rgba(231, 76, 60, 0.2);
+            border-left: 4px solid var(--danger);
+            color: var(--danger);
+        }
+
+        .alert-info {
+            background: rgba(52, 152, 219, 0.2);
+            border-left: 4px solid #3498db;
+            color: #3498db;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: rgba(238, 238, 238, 0.5);
+        }
+
+        .empty-state-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .table-container {
+                overflow-x: auto;
+            }
+
+            th, td {
+                padding: 10px;
+                font-size: 12px;
+            }
+
+            h1 {
+                font-size: 20px;
+            }
+
+            .modal-content {
+                width: 95%;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div>
+                <h1>🏪 DAO Essence 商品管理后台</h1>
+                <p style="font-size: 12px; color: rgba(238, 238, 238, 0.7); margin-top: 5px;">
+                    管理你的所有商品、库存和定价
+                </p>
+            </div>
+            <div class="header-actions">
+                <button class="btn-primary" onclick="openAddModal()">➕ 添加商品</button>
+                <button class="btn-secondary" onclick="exportToCSV()">📊 导出 CSV</button>
+                <button class="btn-secondary" onclick="goToShop()">🛍️ 查看店铺</button>
+            </div>
+        </header>
+
+        <!-- Statistics -->
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-value" id="totalProducts">0</div>
+                <div class="stat-label">总商品数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="totalStock">0</div>
+                <div class="stat-label">总库存</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="totalValue">$0</div>
+                <div class="stat-label">库存价值</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="lowStock">0</div>
+                <div class="stat-label">库存不足</div>
+            </div>
+        </div>
+
+        <!-- Alerts -->
+        <div id="alertContainer"></div>
+
+        <!-- Controls -->
+        <div class="controls">
+            <input type="text" class="search-box" id="searchBox" placeholder="🔍 搜索商品名称..." onkeyup="filterTable()">
+            <select id="categoryFilter" onchange="filterTable()">
+                <option value="">所有分类</option>
+            </select>
+            <select id="stockFilter" onchange="filterTable()">
+                <option value="">所有库存</option>
+                <option value="low">库存不足 (< 20)</option>
+                <option value="critical">严重缺货 (< 5)</option>
+                <option value="good">库存充足 (≥ 20)</option>
+            </select>
+        </div>
+
+        <!-- Products Table -->
+        <div class="table-container">
+            <table id="productsTable">
+                <thead>
+                    <tr>
+                        <th>商品名称</th>
+                        <th>分类</th>
+                        <th>价格</th>
+                        <th>库存</th>
+                        <th>库存价值</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    <!-- 动态填充 -->
+                </tbody>
+            </table>
+            <div id="emptyState" class="empty-state" style="display: none;">
+                <div class="empty-state-icon">📭</div>
+                <p>没有找到商品</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Modal -->
+    <div class="modal" id="productModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">添加新商品</h2>
+                <button class="modal-close" onclick="closeModal()">×</button>
+            </div>
+
+            <form id="productForm" onsubmit="saveProduct(event)">
+                <div class="form-group">
+                    <label>商品英文名称 *</label>
+                    <input type="text" id="name" required placeholder="e.g., Lucky Coin">
+                </div>
+
+                <div class="form-group">
+                    <label>商品中文名称 *</label>
+                    <input type="text" id="nameCN" required placeholder="e.g., 幸运币">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>分类 *</label>
+                        <select id="category" required>
+                            <option value="">选择分类</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>五行属性 *</label>
+                        <select id="element" required>
+                            <option value="">选择属性</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>价格 (USD) *</label>
+                        <input type="number" id="price" required step="0.01" min="0" placeholder="0.00">
+                    </div>
+                    <div class="form-group">
+                        <label>库存数量 *</label>
+                        <input type="number" id="stock" required min="0" placeholder="0">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>英文描述</label>
+                    <textarea id="description" placeholder="输入商品英文描述..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>中文描述</label>
+                    <textarea id="descriptionCN" placeholder="输入商品中文描述..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>图片 URL</label>
+                    <input type="text" id="image" placeholder="images/product.jpg">
+                </div>
+
+                <div class="form-group">
+                    <label>能量等级</label>
+                    <select id="energyLevel">
+                        <option value="">选择能量等级</option>
+                        <option value="Low">低</option>
+                        <option value="Medium">中</option>
+                        <option value="High">高</option>
+                        <option value="Very High">非常高</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>好处 (用逗号分隔)</label>
+                    <input type="text" id="benefits" placeholder="e.g., Protection, Fortune, Peace">
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn-secondary" onclick="closeModal()">取消</button>
+                    <button type="submit" class="btn-success">保存商品</button>
+                    <button type="button" class="btn-danger" id="deleteBtn" style="display: none;" onclick="confirmDelete()">删除商品</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let products = [];
+        let categories = [];
+        let elements = [];
+        let currentEditId = null;
+
+        // 初始化
+        async function init() {
+            await loadProducts();
+            populateCategoryFilter();
+            populateCategorySelect();
+            populateElementSelect();
+            renderTable();
+            updateStats();
+        }
+
+        // 加载商品数据
+        async function loadProducts() {
+            try {
+                const response = await fetch('products.json');
+                const data = await response.json();
+                products = data.products || [];
+                categories = data.categories || [];
+                elements = data.elements || [];
+                showAlert('✅ 商品数据已加载', 'success');
+            } catch (error) {
+                console.error('加载失败:', error);
+                showAlert('❌ 加载商品失败', 'danger');
+            }
+        }
+
+        // 渲染表格
+        function renderTable() {
+            const tbody = document.getElementById('tableBody');
+            const filteredProducts = getFilteredProducts();
+
+            if (filteredProducts.length === 0) {
+                tbody.innerHTML = '';
+                document.getElementById('emptyState').style.display = 'block';
+                return;
+            }
+
+            document.getElementById('emptyState').style.display = 'none';
+            tbody.innerHTML = filteredProducts.map(product => `
+                <tr>
+                    <td>
+                        <div class="product-name">${product.nameCN}</div>
+                        <div class="product-id">${product.name}</div>
+                    </td>
+                    <td>${product.category}</td>
+                    <td class="price">$${product.price.toFixed(2)}</td>
+                    <td>
+                        <div class="stock-info">
+                            <span class="${product.stock < 20 ? 'stock-low' : 'stock-good'}">
+                                ${product.stock}
+                            </span>
+                        </div>
+                    </td>
+                    <td>$${(product.price * product.stock).toFixed(2)}</td>
+                    <td class="actions">
+                        <button class="btn-small btn-edit" onclick="editProduct('${product.id}')">编辑</button>
+                        <button class="btn-small btn-delete" onclick="confirmDeleteProduct('${product.id}')">删除</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // 过滤商品
+        function getFilteredProducts() {
+            let filtered = products;
+
+            // 搜索过滤
+            const searchText = document.getElementById('searchBox').value.toLowerCase();
+            if (searchText) {
+                filtered = filtered.filter(p => 
+                    p.name.toLowerCase().includes(searchText) ||
+                    p.nameCN.toLowerCase().includes(searchText) ||
+                    p.id.toLowerCase().includes(searchText)
+                );
+            }
+
+            // 分类过滤
+            const category = document.getElementById('categoryFilter').value;
+            if (category) {
+                filtered = filtered.filter(p => p.category === category);
+            }
+
+            // 库存过滤
+            const stockFilter = document.getElementById('stockFilter').value;
+            if (stockFilter === 'low') {
+                filtered = filtered.filter(p => p.stock < 20 && p.stock >= 5);
+            } else if (stockFilter === 'critical') {
+                filtered = filtered.filter(p => p.stock < 5);
+            } else if (stockFilter === 'good') {
+                filtered = filtered.filter(p => p.stock >= 20);
+            }
+
+            return filtered;
+        }
+
+        // 过滤表格
+        function filterTable() {
+            renderTable();
+            updateStats();
+        }
+
+        // 更新统计信息
+        function updateStats() {
+            const filtered = getFilteredProducts();
+            document.getElementById('totalProducts').textContent = filtered.length;
+            document.getElementById('totalStock').textContent = filtered.reduce((sum, p) => sum + p.stock, 0);
+            document.getElementById('totalValue').textContent = '$' + filtered.reduce((sum, p) => sum + (p.price * p.stock), 0).toFixed(2);
+            document.getElementById('lowStock').textContent = filtered.filter(p => p.stock < 20).length;
+        }
+
+        // 填充分类选择器
+        function populateCategoryFilter() {
+            const select = document.getElementById('categoryFilter');
+            categories.forEach(cat => {
+                const option = document.createElement('option');
+                option.value = cat.id;
+                option.textContent = cat.nameCN;
+                select.appendChild(option);
+            });
+        }
+
+        // 填充分类下拉菜单
+        function populateCategorySelect() {
+            const select = document.getElementById('category');
+            categories.forEach(cat => {
+                const option = document.createElement('option');
+                option.value = cat.id;
+                option.textContent = cat.nameCN;
+                select.appendChild(option);
+            });
+        }
+
+        // 填充五行属性下拉菜单
+        function populateElementSelect() {
+            const select = document.getElementById('element');
+            elements.forEach(el => {
+                const option = document.createElement('option');
+                option.value = el.id;
+                option.textContent = el.nameCN;
+                select.appendChild(option);
+            });
+        }
+
+        // 打开添加商品模态框
+        function openAddModal() {
+            currentEditId = null;
+            document.getElementById('modalTitle').textContent = '➕ 添加新商品';
+            document.getElementById('deleteBtn').style.display = 'none';
+            document.getElementById('productForm').reset();
+            document.getElementById('productModal').classList.add('active');
+        }
+
+        // 编辑商品
+        function editProduct(id) {
+            const product = products.find(p => p.id === id);
+            if (!product) return;
+
+            currentEditId = id;
+            document.getElementById('modalTitle').textContent = '✏️ 编辑商品';
+            document.getElementById('deleteBtn').style.display = 'block';
+
+            document.getElementById('name').value = product.name;
+            document.getElementById('nameCN').value = product.nameCN;
+            document.getElementById('category').value = product.category;
+            document.getElementById('element').value = product.element;
+            document.getElementById('price').value = product.price;
+            document.getElementById('stock').value = product.stock;
+            document.getElementById('description').value = product.description || '';
+            document.getElementById('descriptionCN').value = product.descriptionCN || '';
+            document.getElementById('image').value = product.image || '';
+            document.getElementById('energyLevel').value = product.energyLevel || '';
+            document.getElementById('benefits').value = (product.benefits || []).join(', ');
+
+            document.getElementById('productModal').classList.add('active');
+        }
+
+        // 保存商品
+        function saveProduct(event) {
+            event.preventDefault();
+
+            const productData = {
+                id: currentEditId || generateId(),
+                name: document.getElementById('name').value,
+                nameCN: document.getElementById('nameCN').value,
+                category: document.getElementById('category').value,
+                element: document.getElementById('element').value,
+                price: parseFloat(document.getElementById('price').value),
+                currency: 'USD',
+                stock: parseInt(document.getElementById('stock').value),
+                description: document.getElementById('description').value,
+                descriptionCN: document.getElementById('descriptionCN').value,
+                image: document.getElementById('image').value,
+                energyLevel: document.getElementById('energyLevel').value,
+                benefits: document.getElementById('benefits').value.split(',').map(b => b.trim()).filter(b => b)
+            };
+
+            if (currentEditId) {
+                const index = products.findIndex(p => p.id === currentEditId);
+                if (index !== -1) {
+                    products[index] = productData;
+                    showAlert('✅ 商品已更新', 'success');
+                }
+            } else {
+                products.push(productData);
+                showAlert('✅ 商品已添加', 'success');
+            }
+
+            saveToLocalStorage();
+            renderTable();
+            updateStats();
+            closeModal();
+        }
+
+        // 删除商品
+        function confirmDelete() {
+            if (confirm('确定要删除这个商品吗？此操作无法撤销。')) {
+                deleteProduct();
+            }
+        }
+
+        function deleteProduct() {
+            products = products.filter(p => p.id !== currentEditId);
+            showAlert('✅ 商品已删除', 'success');
+            saveToLocalStorage();
+            renderTable();
+            updateStats();
+            closeModal();
+        }
+
+        function confirmDeleteProduct(id) {
+            if (confirm('确定要删除这个商品吗？')) {
+                products = products.filter(p => p.id !== id);
+                showAlert('✅ 商品已删除', 'success');
+                saveToLocalStorage();
+                renderTable();
+                updateStats();
+            }
+        }
+
+        // 关闭模态框
+        function closeModal() {
+            document.getElementById('productModal').classList.remove('active');
+            currentEditId = null;
+        }
+
+        // 生成唯一 ID
+        function generateId() {
+            return 'product-' + Date.now();
+        }
+
+        // 保存到本地存储
+        function saveToLocalStorage() {
+            const data = {
+                products,
+                categories,
+                elements: elements
+            };
+            localStorage.setItem('dao-essence-products', JSON.stringify(data));
+            
+            // 也可以这里调用后端 API 保存到服务器
+            console.log('数据已保存到本地存储');
+        }
+
+        // 导出到 CSV
+        function exportToCSV() {
+            let csv = '商品名称,英文名称,分类,价格,库存,库存价值\n';
+            getFilteredProducts().forEach(p => {
+                csv += `"${p.nameCN}","${p.name}","${p.category}","$${p.price}","${p.stock}","$${(p.price * p.stock).toFixed(2)}"\n`;
+            });
+
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `dao-essence-products-${new Date().toISOString().split('T')[0]}.csv`;
+            link.click();
+            
+            showAlert('✅ CSV 已导出', 'success');
+        }
+
+        // 显示提示信息
+        function showAlert(message, type = 'info') {
+            const container = document.getElementById('alertContainer');
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type}`;
+            alert.textContent = message;
+            container.appendChild(alert);
+
+            setTimeout(() => {
+                alert.remove();
+            }, 3000);
+        }
+
+        // 跳转到店铺
+        function goToShop() {
+            window.open('shop.html', '_blank');
+        }
+
+        // 页面卸载时保存数据
+        window.addEventListener('beforeunload', () => {
+            saveToLocalStorage();
+        });
+
+        // 关闭模态框点击背景
+        document.getElementById('productModal').addEventListener('click', (e) => {
+            if (e.target.id === 'productModal') {
+                closeModal();
+            }
+        });
+
+        // 初始化
+        init();
+    </script>
+</body>
+</html>
