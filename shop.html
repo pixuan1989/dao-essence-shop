@@ -704,14 +704,34 @@
     <script>
         // Local Shopping Cart Implementation
         const cart = {
-            items: JSON.parse(localStorage.getItem('daoessence_cart') || '[]'),
+            // 支持两种格式：数组 或 {items: [...]}
+            _loadItems() {
+                const data = localStorage.getItem('daoessence_cart');
+                if (!data) return [];
+                try {
+                    const parsed = JSON.parse(data);
+                    if (Array.isArray(parsed)) {
+                        return parsed; // 旧格式：直接数组
+                    } else if (parsed && Array.isArray(parsed.items)) {
+                        return parsed.items; // 新格式：对象
+                    }
+                    return [];
+                } catch (e) {
+                    return [];
+                }
+            },
+            
+            get items() {
+                return this._loadItems();
+            },
             
             add(product) {
-                const existingItem = this.items.find(item => item.id === product.id);
+                const items = this._loadItems();
+                const existingItem = items.find(item => item.id === product.id);
                 if (existingItem) {
                     existingItem.quantity += 1;
                 } else {
-                    this.items.push({
+                    items.push({
                         id: product.id,
                         name: product.nameCN || product.name,
                         price: product.price,
@@ -719,27 +739,30 @@
                         image: product.image
                     });
                 }
-                this.save();
+                this.save(items);
                 this.updateUI();
             },
             
             remove(productId) {
-                this.items = this.items.filter(item => item.id !== productId);
-                this.save();
+                let items = this._loadItems();
+                items = items.filter(item => item.id !== productId);
+                this.save(items);
                 this.updateUI();
             },
             
             updateQty(productId, newQty) {
-                const item = this.items.find(item => item.id === productId);
+                const items = this._loadItems();
+                const item = items.find(item => item.id === productId);
                 if (item) {
                     item.quantity = Math.max(1, newQty);
-                    this.save();
+                    this.save(items);
                     this.updateUI();
                 }
             },
             
-            save() {
-                localStorage.setItem('daoessence_cart', JSON.stringify(this.items));
+            save(items) {
+                // 始终保存为 {items: [...]} 格式
+                localStorage.setItem('daoessence_cart', JSON.stringify({ items: items }));
             },
             
             getTotal() {

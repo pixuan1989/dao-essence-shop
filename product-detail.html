@@ -2806,7 +2806,23 @@
         let PRODUCT_DATA = null;
         let currentVariant = null;
         let selectedOptions = {};
-        let cart = JSON.parse(localStorage.getItem('daoCart')) || [];
+        // 支持两种格式：数组 或 {items: [...]}
+        function loadCartData() {
+            const data = localStorage.getItem('daoessence_cart');
+            if (!data) return [];
+            try {
+                const parsed = JSON.parse(data);
+                if (Array.isArray(parsed)) {
+                    return parsed;
+                } else if (parsed && Array.isArray(parsed.items)) {
+                    return parsed.items;
+                }
+                return [];
+            } catch (e) {
+                return [];
+            }
+        }
+        let cart = loadCartData();
         let totalCartQuantity = 0;
 
         function loadProductData() {
@@ -3084,9 +3100,9 @@
         // 购物车管理
         // ============================================
 
-        // 保存购物车到localStorage
+        // 保存购物车到localStorage - 始终保存为 {items: [...]} 格式
         function saveCart() {
-            localStorage.setItem('daoCart', JSON.stringify(cart));
+            localStorage.setItem('daoessence_cart', JSON.stringify({ items: cart }));
             updateCartDisplay();
             updateCartSidebar();
         }
