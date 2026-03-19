@@ -205,6 +205,41 @@
             font-size: 11px;
             font-weight: 700;
         }
+        
+        /* shop.html 默认滚动背景 */
+        .header {
+            background: rgba(245, 240, 230, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        /* shop.html 导航栏文字颜色 - 强制深色 */
+        .header .logo-cn,
+        .header .nav-link {
+            color: #2C2416 !important;
+        }
+        
+        .header .logo-en {
+            color: #5C4A3A !important;
+        }
+        
+        .header .logo-icon {
+            border-color: #D4AF37 !important;
+            color: #D4AF37 !important;
+        }
+        
+        .header .nav-link::after {
+            background: #D4AF37 !important;
+        }
+        
+        .header .nav-link:hover,
+        .header .nav-link.active {
+            color: #8B2500 !important;
+        }
+        
+        .header .mobile-menu-btn span {
+            background: #2C2416 !important;
+        }
     </style>
     
     <!-- SEO & Analytics -->
@@ -296,11 +331,24 @@
             border: 1px solid rgba(139, 37, 0, 0.1);
             transition: all var(--transition-base);
             cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: block;
         }
         
         .shop-product-card:hover {
             transform: translateY(-8px);
             box-shadow: var(--shadow-lg);
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        /* Remove default link styles */
+        .shop-product-card a,
+        .shop-product-card a:hover,
+        .shop-product-card a:visited {
+            text-decoration: none;
+            color: inherit;
         }
         
         .product-image-wrapper {
@@ -359,6 +407,10 @@
             min-height: 50px;
             display: flex;
             align-items: center;
+        }
+        
+        .shop-product-card:hover .product-title {
+            color: var(--fire-primary);
         }
         
         .product-desc-short {
@@ -781,10 +833,26 @@
         document.addEventListener('DOMContentLoaded', () => {
             console.log('Cart initialized');
             cart.updateUI();
+            
+            // Listen for storage changes to update cart badge from other tabs/pages
+            window.addEventListener('storage', (e) => {
+                if (e.key === 'cart') {
+                    console.log('Cart storage updated, refreshing UI...');
+                    cart.items = JSON.parse(e.newValue || '[]');
+                    cart.updateUI();
+                }
+            });
         });
     </script>
 
     <!-- Product Management Script -->
+    <script>
+        console.log('Loading shop-manager.js...');
+    </script>
     <script src="shop-manager.js?v=202603191430"></script>
+    <script>
+        console.log('shop-manager.js loaded');
+        console.log('window.allProducts:', window.allProducts);
+    </script>
 </body>
 </html>
