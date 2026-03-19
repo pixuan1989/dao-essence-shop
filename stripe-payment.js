@@ -13,20 +13,19 @@ let stripe;
 
 // 初始化 Stripe
 function initStripe() {
-    // 从 window 对象获取公钥（由 Netlify 在构建时注入）
-    // 格式：window.stripeConfig = { publicKey: 'pk_test_...' }
+    // 优先从 window.stripeConfig 获取，然后尝试 window.STRIPE_PUBLIC_KEY
     const publicKey = window.stripeConfig?.publicKey ||
                      window.STRIPE_PUBLIC_KEY ||
                      '';
 
     if (!publicKey) {
-        console.error('❌ Stripe public key not configured. Please check Netlify environment variables.');
-        alert('支付系统配置错误，请联系客服');
+        console.warn('⚠️ Stripe public key not found in window.stripeConfig or window.STRIPE_PUBLIC_KEY');
+        // 不再弹窗报错，因为 checkout.html 有自己的初始化逻辑
         return;
     }
 
     stripe = Stripe(publicKey);
-    console.log('✅ Stripe initialized');
+    console.log('✅ Stripe initialized with key:', publicKey.substring(0, 20) + '...');
 }
 
 // 创建 Payment Intent
@@ -386,15 +385,15 @@ async function initOrderConfirmation() {
 // 导出
 // ========================================
 
-// 自动初始化
-document.addEventListener('DOMContentLoaded', () => {
-    // 根据页面类型初始化
-    if (document.querySelector('.checkout-page')) {
-        initCheckout();
-    } else if (document.querySelector('.order-confirmation-page')) {
-        initOrderConfirmation();
-    }
-});
+// 注释掉自动初始化，因为 checkout.html 有自己的初始化逻辑
+// document.addEventListener('DOMContentLoaded', () => {
+//     // 根据页面类型初始化
+//     if (document.querySelector('.checkout-page')) {
+//         initCheckout();
+//     } else if (document.querySelector('.order-confirmation-page')) {
+//         initOrderConfirmation();
+//     }
+// });
 
 // 导出函数
 window.stripePayment = {

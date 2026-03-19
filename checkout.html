@@ -316,17 +316,12 @@
             }
         }
 
-        // 检查服务器状态
+        // 检查服务器状态 (Netlify Functions 版本)
         async function checkServerHealth() {
-            try {
-                const response = await fetch(`${API_BASE_URL}/health`);
-                const data = await response.json();
-                console.log('Server status:', data);
-                return data.status === 'ok';
-            } catch (error) {
-                console.error('Server health check failed:', error);
-                return false;
-            }
+            // Netlify Functions 不需要健康检查，直接返回 true
+            // 如果需要，可以检查 create-payment-intent 函数是否可用
+            console.log('Using Netlify Functions - skipping health check');
+            return true;
         }
 
         // 运费配置
