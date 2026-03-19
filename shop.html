@@ -704,34 +704,41 @@
     <script>
         // Local Shopping Cart Implementation
         const cart = {
-            // 支持两种格式：数组 或 {items: [...]}
-            _loadItems() {
+            // 内部存储
+            _items: [],
+            
+            // 初始化：从 localStorage 加载
+            init() {
                 const data = localStorage.getItem('daoessence_cart');
-                if (!data) return [];
+                if (!data) {
+                    this._items = [];
+                    return;
+                }
                 try {
                     const parsed = JSON.parse(data);
                     if (Array.isArray(parsed)) {
-                        return parsed; // 旧格式：直接数组
+                        this._items = parsed;
                     } else if (parsed && Array.isArray(parsed.items)) {
-                        return parsed.items; // 新格式：对象
+                        this._items = parsed.items;
+                    } else {
+                        this._items = [];
                     }
-                    return [];
                 } catch (e) {
-                    return [];
+                    this._items = [];
                 }
             },
             
             get items() {
-                return this._loadItems();
+                return this._items;
             },
             
             add(product) {
-                const items = this._loadItems();
-                const existingItem = items.find(item => item.id === product.id);
+                this.init(); // 确保加载最新数据
+                const existingItem = this._items.find(item => item.id === product.id);
                 if (existingItem) {
                     existingItem.quantity += 1;
                 } else {
-                    items.push({
+                    this._items.push({
                         id: product.id,
                         name: product.nameCN || product.name,
                         price: product.price,
@@ -739,38 +746,38 @@
                         image: product.image
                     });
                 }
-                this.save(items);
+                this.save();
                 this.updateUI();
             },
             
             remove(productId) {
-                let items = this._loadItems();
-                items = items.filter(item => item.id !== productId);
-                this.save(items);
+                this.init();
+                this._items = this._items.filter(item => item.id !== productId);
+                this.save();
                 this.updateUI();
             },
             
             updateQty(productId, newQty) {
-                const items = this._loadItems();
-                const item = items.find(item => item.id === productId);
+                this.init();
+                const item = this._items.find(item => item.id === productId);
                 if (item) {
                     item.quantity = Math.max(1, newQty);
-                    this.save(items);
+                    this.save();
                     this.updateUI();
                 }
             },
             
-            save(items) {
+            save() {
                 // 始终保存为 {items: [...]} 格式
-                localStorage.setItem('daoessence_cart', JSON.stringify({ items: items }));
+                localStorage.setItem('daoessence_cart', JSON.stringify({ items: this._items }));
             },
             
             getTotal() {
-                return this.items.reduce((sum, item) => sum + (item.price * item.quantity), 0).toFixed(2);
+                return this._items.reduce((sum, item) => sum + (item.price * item.quantity), 0).toFixed(2);
             },
             
             getCount() {
-                return this.items.reduce((sum, item) => sum + item.quantity, 0);
+                return this._items.reduce((sum, item) => sum + item.quantity, 0);
             },
             
             updateUI() {
@@ -842,6 +849,10 @@
                 `;
             }
         };
+        
+        // 页面加载时初始化购物车
+        cart.init();
+        cart.updateUI();
         
         // Make addToCart global and available immediately
         window.addToCart = function(productId) {
