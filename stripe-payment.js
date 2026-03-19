@@ -1,205 +1,173 @@
-/* ============================================
-   DAO Essence - Stripe Payment Integration
-   使用 Netlify Functions 处理支付
-   ============================================ */
+/**
+ * ============================================
+ * DAO Essence - Stripe 支付修复版
+ * 使用 Stripe Checkout（更简单可靠）
+ * ============================================
+ */
 
-// API 基础路径（自动检测环境）
-const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-    ? '/.netlify/functions'  // 本地开发使用 Netlify CLI
-    : '/.netlify/functions'; // 生产环境使用 Netlify
+// API 基础路径
+const API_BASE_URL = '/.netlify/functions';
 
-// Stripe 实例
+// Stripe 配置 - 生产环境公钥
+const STRIPE_PUBLIC_KEY = 'pk_test_51TCXN018te51GWiewKqP8Rp8reBZP8oL4WCxngJPliUJKjHbRbRIgpqeEnZ67XylRnLfNvC09I0FXSYhDZo5hsDx00ofI4i5z6';
+
 let stripe;
 
-// 初始化 Stripe
+/**
+ * 初始化 Stripe
+ */
 function initStripe() {
-    // 优先从 window.stripeConfig 获取，然后尝试 window.STRIPE_PUBLIC_KEY
-    const publicKey = window.stripeConfig?.publicKey ||
-                     window.STRIPE_PUBLIC_KEY ||
-                     '';
-
-    if (!publicKey) {
-        console.warn('⚠️ Stripe public key not found in window.stripeConfig or window.STRIPE_PUBLIC_KEY');
-        // 不再弹窗报错，因为 checkout.html 有自己的初始化逻辑
-        return;
+    if (!stripe) {
+        stripe = Stripe(STRIPE_PUBLIC_KEY);
+        console.log('✅ Stripe initialized');
     }
-
-    stripe = Stripe(publicKey);
-    console.log('✅ Stripe initialized with key:', publicKey.substring(0, 20) + '...');
+    return stripe;
 }
 
-// 创建 Payment Intent
-async function createPaymentIntent(amount, currency = 'usd', metadata = {}) {
-    try {
-        const response = await fetch(`${API_BASE}/create-payment-intent`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                amount: amount,
-                currency: currency,
-                metadata: metadata
-            })
-        });
+/**
+ * 创建 Checkout Session 并跳转到 Stripe
+ */
+async function createCheckoutSession(items, shipping) {
+    const response = await fetch(`${API_BASE_URL}/create-checkout-session`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            items: items,
+            shipping: shipping
+        })
+    });
 
-        const data = await response.json();
-
-        if (!data.success) {
-            throw new Error(data.error || 'Failed to create payment intent');
-        }
-
-        return data;
-    } catch (error) {
-        console.error('Error creating payment intent:', error);
-        throw error;
+    const data = await response.json();
+    
+    if (!data.success) {
+        throw new Error(data.error || '创建支付会话失败');
     }
+
+    return data;
 }
 
-// 使用 Stripe Checkout 重定向用户
-async function redirectToCheckout(lineItems, successUrl, cancelUrl) {
+/**
+ * 处理支付 - 使用 Stripe Checkout 重定向
+ */
+async function handleStripePayment() {
+    const payButton = document.getElementById('pay-button');
+    if (!payButton) return;
+
+    // 禁用按钮，显示加载状态
+    payButton.disabled = true;
+    payButton.textContent = '正在处理...';
+
     try {
-        const response = await fetch(`${API_BASE}/create-checkout-session`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                lineItems: lineItems,
-                successUrl: successUrl,
-                cancelUrl: cancelUrl
-            })
-        });
-
-        const data = await response.json();
-
-        if (!data.success) {
-            throw new Error(data.error || 'Failed to create checkout session');
+        // 1. 获取购物车数据
+        const cartData = localStorage.getItem('daoessence_cart');
+        if (!cartData) {
+            throw new Error('购物车是空的');
         }
 
-        // 重定向到 Stripe Checkout
-        const result = await stripe.redirectToCheckout({
-            sessionId: data.sessionId
-        });
-
-        if (result.error) {
-            throw new Error(result.error.message);
+        const cart = JSON.parse(cartData);
+        if (cart.items.length === 0) {
+            throw new Error('购物车是空的');
         }
 
-    } catch (error) {
-        console.error('Error redirecting to checkout:', error);
-        alert('支付初始化失败，请稍后重试');
-        throw error;
-    }
-}
+        // 2. 计算总价
+        const shippingSelect = document.getElementById('shipping-select');
+        const shippingRate = shippingSelect ? parseFloat(shippingSelect.value) || 15 : 15;
+        const subtotal = cart.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        const total = subtotal + shippingRate;
 
-// 使用 Payment Elements（更灵活的支付体验）
-async function processPaymentWithElements(clientSecret, paymentMethodId) {
-    try {
-        const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
-            payment_method: paymentMethodId
+        // 3. 准备商品数据
+        const items = cart.items.map(item => ({
+            id: item.id,
+            name: item.name,
+            nameCn: item.nameCn,
+            price: item.price,
+            quantity: item.quantity,
+            image: item.image
+        }));
+
+        // 4. 创建 Stripe Checkout Session
+        payButton.textContent = '正在跳转支付...';
+        const result = await createCheckoutSession(items, shippingRate);
+
+        // 5. 跳转到 Stripe Checkout
+        const stripeInstance = initStripe();
+        const { error } = await stripeInstance.redirectToCheckout({
+            sessionId: result.sessionId
         });
 
         if (error) {
-            console.error('Payment error:', error);
-            return {
-                success: false,
-                error: error.message
-            };
+            throw new Error(error.message);
         }
 
-        return {
-            success: true,
-            paymentIntent: paymentIntent
-        };
-
     } catch (error) {
-        console.error('Error processing payment:', error);
-        return {
-            success: false,
-            error: error.message
-        };
+        console.error('❌ Payment error:', error);
+        alert('支付失败：' + error.message);
+        
+        // 恢复按钮
+        payButton.disabled = false;
+        payButton.textContent = '去支付';
     }
 }
 
-// 检查支付状态
-async function checkPaymentStatus(paymentIntentId) {
-    try {
-        const response = await fetch(`${API_BASE}/get-payment-intent?id=${paymentIntentId}`);
-        const data = await response.json();
-
-        if (!data.success) {
-            throw new Error(data.error || 'Failed to check payment status');
-        }
-
-        return data;
-    } catch (error) {
-        console.error('Error checking payment status:', error);
-        throw error;
-    }
-}
-
-// 获取订单信息
-async function getOrder(orderId) {
-    try {
-        const response = await fetch(`${API_BASE}/get-order?orderId=${orderId}`);
-        const data = await response.json();
-
-        if (!data.success) {
-            throw new Error(data.error || 'Failed to get order');
-        }
-
-        return data.order;
-    } catch (error) {
-        console.error('Error getting order:', error);
-        throw error;
-    }
-}
-
-// ========================================
-// 结账流程
-// ========================================
-
-// 初始化结账页面
-async function initCheckout() {
+/**
+ * 初始化结账页面
+ */
+function initCheckoutPage() {
     initStripe();
+    loadCartItems();
+    initShippingSelect();
+    
+    // 绑定支付按钮
+    const payButton = document.getElementById('pay-button');
+    if (payButton) {
+        payButton.addEventListener('click', handleStripePayment);
+    }
+}
 
-    // 加载购物车数据
+/**
+ * 加载购物车商品
+ */
+function loadCartItems() {
     const cartData = localStorage.getItem('daoessence_cart');
     if (!cartData) {
-        alert('购物车是空的');
-        window.location.href = 'shop.html';
+        showEmptyCart();
         return;
     }
 
     const cart = JSON.parse(cartData);
     if (cart.items.length === 0) {
-        alert('购物车是空的');
-        window.location.href = 'shop.html';
+        showEmptyCart();
         return;
     }
 
-    // 显示购物车商品
     displayCartItems(cart);
+    updateTotals(cart);
+}
 
-    // 初始化运费选择
-    initShippingSelect(cart);
-
-    // 绑定支付按钮
+/**
+ * 显示空购物车
+ */
+function showEmptyCart() {
+    const container = document.getElementById('cart-items');
+    if (container) {
+        container.innerHTML = '<p class="empty-cart">购物车是空的</p>';
+    }
     const payButton = document.getElementById('pay-button');
     if (payButton) {
-        payButton.addEventListener('click', handlePayment);
+        payButton.disabled = true;
     }
 }
 
-// 显示购物车商品
+/**
+ * 显示购物车商品
+ */
 function displayCartItems(cart) {
-    const cartItemsContainer = document.getElementById('cart-items');
-    if (!cartItemsContainer) return;
+    const container = document.getElementById('cart-items');
+    if (!container) return;
 
-    cartItemsContainer.innerHTML = cart.items.map(item => `
+    container.innerHTML = cart.items.map(item => `
         <div class="checkout-cart-item">
-            <img src="${item.image}" alt="${item.name}">
+            <img src="${item.image}" alt="${item.nameCn}">
             <div class="item-info">
                 <h4>${item.nameCn}</h4>
                 <p class="item-name-en">${item.name}</p>
@@ -208,236 +176,53 @@ function displayCartItems(cart) {
             <p class="item-subtotal">$${(item.price * item.quantity).toFixed(2)}</p>
         </div>
     `).join('');
-
-    updateTotals(cart);
 }
 
-// 初始化运费选择
-function initShippingSelect(cart) {
-    const shippingSelect = document.getElementById('shipping-select');
-    if (!shippingSelect) return;
+/**
+ * 初始化运费选择
+ */
+function initShippingSelect() {
+    const select = document.getElementById('shipping-select');
+    if (!select) return;
 
-    shippingSelect.addEventListener('change', () => {
-        updateTotals(cart);
+    select.addEventListener('change', () => {
+        const cartData = localStorage.getItem('daoessence_cart');
+        if (cartData) {
+            updateTotals(JSON.parse(cartData));
+        }
     });
 }
 
-// 更新总价
+/**
+ * 更新总价显示
+ */
 function updateTotals(cart) {
-    const shippingSelect = document.getElementById('shipping-select');
-    const shippingRate = shippingSelect
-        ? (shippingRates[shippingSelect.value]?.price || 15)
-        : 15;
+    const select = document.getElementById('shipping-select');
+    const shipping = select ? parseFloat(select.value) || 15 : 15;
+    const subtotal = cart.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const total = subtotal + shipping;
 
-    const subtotal = getCartTotal();
-    const grandTotal = subtotal + shippingRate;
-
-    // 更新显示
     const subtotalEl = document.getElementById('subtotal');
-    const grandTotalEl = document.getElementById('grand-total');
+    const totalEl = document.getElementById('grand-total');
 
     if (subtotalEl) subtotalEl.textContent = `$${subtotal.toFixed(2)}`;
-    if (grandTotalEl) grandTotalEl.textContent = `$${grandTotal.toFixed(2)}`;
-
-    return {
-        subtotal,
-        shipping: shippingRate,
-        total: grandTotal
-    };
+    if (totalEl) totalEl.textContent = `$${total.toFixed(2)}`;
 }
 
-// 处理支付
-async function handlePayment() {
-    const payButton = document.getElementById('pay-button');
-    if (!payButton) return;
+// 运费配置
+const shippingRates = {
+    '15': { price: 15, name: '标准运输', days: '15-25' },
+    '35': { price: 35, name: '快速运输', days: '7-10' },
+    '55': { price: 55, name: 'DHL快递', days: '3-5' }
+};
 
-    // 禁用按钮，显示加载状态
-    payButton.disabled = true;
-    payButton.textContent = '处理中...';
-
-    try {
-        // 获取购物车数据
-        const cartData = localStorage.getItem('daoessence_cart');
-        const cart = JSON.parse(cartData);
-
-        // 计算总价
-        const { total } = updateTotals(cart);
-
-        // 生成订单 ID
-        const orderId = `order_${Date.now()}`;
-
-        // 准备元数据
-        const metadata = {
-            orderId: orderId,
-            items: cart.items.map(item =>
-                `${item.id}:${item.name}:${item.quantity}:${item.price}`
-            ).join('|'),
-            itemCount: cart.items.length,
-            createdAt: new Date().toISOString()
-        };
-
-        // 创建 Payment Intent
-        const paymentIntentResult = await createPaymentIntent(
-            total,
-            'usd',
-            metadata
-        );
-
-        // 使用 Stripe Checkout（简化流程）
-        const lineItems = cart.items.map(item => ({
-            price_data: {
-                currency: 'usd',
-                product_data: {
-                    name: item.name,
-                    description: item.nameCn
-                },
-                unit_amount: Math.round(item.price * 100)
-            },
-            quantity: item.quantity
-        }));
-
-        const successUrl = `${window.location.origin}/order-confirm.html?payment_intent=${paymentIntentResult.paymentIntentId}&order_id=${orderId}`;
-        const cancelUrl = `${window.location.origin}/checkout.html?canceled=true`;
-
-        await redirectToCheckout(lineItems, successUrl, cancelUrl);
-
-    } catch (error) {
-        console.error('Payment error:', error);
-        alert('支付失败：' + error.message);
-
-        // 恢复按钮状态
-        payButton.disabled = false;
-        payButton.textContent = '去支付';
-    }
-}
-
-// ========================================
-// 订单确认页面
-// ========================================
-
-// 初始化订单确认页面 - 支持 Stripe Checkout session_id
-async function initOrderConfirmation() {
-    const urlParams = new URLSearchParams(window.location.search);
-    
-    // 优先检查 Stripe Checkout 的 session_id
-    const sessionId = urlParams.get('session_id');
-    const paymentIntentId = urlParams.get('payment_intent');
-    const orderId = urlParams.get('order_id');
-
-    // 如果没有 session_id 也没有 payment_intent，显示错误
-    if (!sessionId && !paymentIntentId) {
-        document.getElementById('order-status').innerHTML = `
-            <div class="error-message">
-                <h2>订单信息无效</h2>
-                <p>请返回<a href="shop.html">商品页面</a>重新下单</p>
-            </div>
-        `;
-        return;
-    }
-
-    // 显示加载状态
-    document.getElementById('order-status').innerHTML = `
-        <div class="loading">
-            <p>正在验证支付状态...</p>
-        </div>
-    `;
-
-    try {
-        let statusResult;
-        
-        if (sessionId) {
-            // 从 Stripe Checkout Session 获取支付状态
-            // Stripe Checkout 成功后会重定向回这里，状态已经是成功的
-            statusResult = {
-                status: 'succeeded',
-                paymentIntent: {
-                    amount: 0, // Stripe Checkout 页面已经处理了金额显示
-                    id: sessionId
-                }
-            };
-            
-            // 显示成功消息
-            document.getElementById('order-status').innerHTML = `
-                <div class="success-message">
-                    <div class="success-icon">✓</div>
-                    <h2>支付成功！</h2>
-                    <p>感谢您的购买，您的订单已确认。</p>
-                    <p>订单号：${orderId || sessionId.substring(0, 20) + '...'}</p>
-                    <p>您将收到一封确认邮件。</p>
-                </div>
-            `;
-
-            // 清空购物车
-            localStorage.removeItem('daoessence_cart');
-            localStorage.removeItem('cart');
-            return;
-        } else if (paymentIntentId) {
-            // 旧的 payment_intent 方式（保留兼容）
-            statusResult = await checkPaymentStatus(paymentIntentId);
-        }
-
-        if (statusResult.status === 'succeeded') {
-            // 支付成功
-            document.getElementById('order-status').innerHTML = `
-                <div class="success-message">
-                    <div class="success-icon">✓</div>
-                    <h2>支付成功！</h2>
-                    <p>感谢您的购买，您的订单已确认。</p>
-                    <p>订单号：${orderId}</p>
-                    <p>支付金额：$${(statusResult.paymentIntent.amount / 100).toFixed(2)}</p>
-                </div>
-            `;
-
-            // 清空购物车
-            localStorage.removeItem('daoessence_cart');
-            localStorage.removeItem('cart');
-
-        } else {
-            // 支付未完成
-            document.getElementById('order-status').innerHTML = `
-                <div class="warning-message">
-                    <h2>支付未完成</h2>
-                    <p>当前状态：${statusResult.status}</p>
-                    <p>请<a href="checkout.html">返回结账页面</a>重新尝试</p>
-                </div>
-            `;
-        }
-
-    } catch (error) {
-        console.error('Error checking payment status:', error);
-        document.getElementById('order-status').innerHTML = `
-            <div class="error-message">
-                <h2>验证失败</h2>
-                <p>无法验证支付状态，请联系客服</p>
-                <p>订单号：${orderId}</p>
-                <p>支付 ID：${paymentIntentId || sessionId}</p>
-            </div>
-        `;
-    }
-}
-
-// ========================================
-// 自动初始化
-// ========================================
-
+// 页面加载完成后初始化
 document.addEventListener('DOMContentLoaded', () => {
-    // 初始化 Stripe
-    initStripe();
-    
-    // 根据页面类型初始化
     if (document.querySelector('.checkout-page')) {
-        // checkout.html 有自己的逻辑，不需要这里初始化
-    } else if (document.querySelector('.order-confirmation-page')) {
-        initOrderConfirmation();
+        initCheckoutPage();
     }
 });
 
-// 导出函数
-window.stripePayment = {
-    initStripe,
-    createPaymentIntent,
-    redirectToCheckout,
-    processPaymentWithElements,
-    checkPaymentStatus,
-    getOrder
-};
+// 导出到全局
+window.handleStripePayment = handleStripePayment;
+window.initCheckoutPage = initCheckoutPage;
