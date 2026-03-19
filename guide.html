@@ -957,6 +957,58 @@
             .step-label { font-size: 0.78rem; }
             .craft-section { padding: 4rem 5%; }
         }
+
+        /* 右下角浮动购物车按钮 */
+        .floating-cart-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #D4AF37 0%, #CD853F 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(212, 175, 55, 0.4);
+            transition: all 0.3s ease;
+            z-index: 9999;
+            font-size: 24px;
+            border: none;
+            animation: float-pulse 2s infinite;
+        }
+        
+        .floating-cart-btn:hover {
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 8px 30px rgba(212, 175, 55, 0.6);
+        }
+        
+        @keyframes float-pulse {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+        
+        .floating-cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #8B2500;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+            box-shadow: 0 2px 8px rgba(139, 37, 0, 0.5);
+        }
     </style>
 </head>
 <body>
@@ -977,10 +1029,6 @@
                     <li><a href="shop.html" class="nav-link">Energy Shop</a></li>
                     <li><a href="guide.html" class="nav-link active">Crafting Process</a></li>
                     <li><a href="about.html" class="nav-link">About Us</a></li>
-                    <li><a href="javascript:void(0)" class="nav-cta" onclick="window.location.href='checkout.html'" style="position: relative;">
-                        🛒 Cart
-                        <span class="cart-badge" id="cartBadge" style="display: none;">0</span>
-                    </a></li>
                 </ul>
                 <button class="mobile-menu-btn">
                     <span></span>
@@ -1521,6 +1569,12 @@
             </div>
         </div>
     </footer>
+
+    <!-- 右下角浮动购物车按钮 -->
+    <button class="floating-cart-btn" onclick="window.location.href='shop.html'">
+        🛒
+        <span class="floating-cart-badge" id="floatingCartBadge">0</span>
+    </button>
 
     <script>
         // ========================================
