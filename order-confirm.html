@@ -116,6 +116,13 @@
             const paymentIntentId = urlParams.get('payment_intent');
             const orderId = urlParams.get('order_id');
             const canceled = urlParams.get('canceled');
+            const testMode = urlParams.get('test_mode');
+
+            // 如果是测试模式
+            if (testMode === 'true') {
+                showTestModeSuccess();
+                return;
+            }
 
             // 如果用户取消支付
             if (canceled === 'true') {
@@ -246,6 +253,24 @@
             `;
             document.getElementById('action-buttons').style.display = 'flex';
         }
+
+        // 测试模式成功提示
+        function showTestModeSuccess() {
+            document.getElementById('order-status').innerHTML = `
+                <div class="test-mode-message">
+                    <div class="success-icon">✓</div>
+                    <h2>订单已确认！</h2>
+                    <p style="color: #f59e0b; font-weight: bold;">🧪 测试模式</p>
+                    <p>这是一次模拟支付，仅用于测试。</p>
+                    <p style="margin-top: 10px; color: #666;">订单号：TEST_${Date.now()}</p>
+                </div>
+            `;
+            document.getElementById('order-info').style.display = 'block';
+            document.getElementById('action-buttons').style.display = 'flex';
+            
+            // 清空购物车
+            localStorage.removeItem('daoessence_cart');
+        }
     </script>
 
     <style>
@@ -270,7 +295,8 @@
 
         .success-message,
         .warning-message,
-        .error-message {
+        .error-message,
+        .test-mode-message {
             margin-bottom: 40px;
         }
 
