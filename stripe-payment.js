@@ -13,7 +13,8 @@ let stripe;
 
 // 初始化 Stripe
 function initStripe() {
-    const publicKey = 'pk_test_51TCXN018te51GWieGBFm9rFjcfiZoLq8HEopzrq9gKHOnCi7afzcdUGuptRdlDrLMs6QiFl7bvHfOmIOPKstjPGk00zANzAQjV';
+    // 优先使用环境变量，否则使用测试密钥
+    const publicKey = process.env.STRIPE_PUBLIC_KEY || 'pk_test_51TCXN018te51GWieGBFm9rFjcfiZoLq8HEopzrq9gKHOnCi7afzcdUGuptRdlDrLMs6QiFl7bvHfOmIOPKstjPGk00zANzAQjV';
     stripe = Stripe(publicKey);
     console.log('✅ Stripe initialized');
 }

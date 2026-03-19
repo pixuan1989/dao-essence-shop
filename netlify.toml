@@ -7,9 +7,8 @@
   functions = "netlify/functions"
 
 # 环境变量
-[env]
-  STRIPE_PUBLIC_KEY = "pk_test_51TCXN018te51GWieGBFm9rFjcfiZoLq8HEopzrq9gKHOnCi7afzcdUGuptRdlDrLMs6QiFl7bvHfOmIOPKstjPGk00zANzAQjV"
-  # STRIPE_SECRET_KEY 应该在 Netlify Dashboard 中配置，不要写在配置文件中
+# 注意：所有密钥都应在 Netlify Dashboard 中配置
+# STRIPE_PUBLIC_KEY 和 STRIPE_SECRET_KEY 需要在 Netlify Dashboard 设置
 
 # 重定向规则
 [[redirects]]
