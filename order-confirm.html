@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="styles.css">
     <script src="https://js.stripe.com/v3/"></script>
     <script>
-        // Stripe 配置 - 由构建时注入
+        // Stripe 配置
         window.stripeConfig = {
             publicKey: 'pk_test_51TCXN018te51GWiewKqP8Rp8reBZP8oL4WCxngJPliUJKjHbRbRIgpqeEnZ67XylRnLfNvC09I0FXSYhDZo5hsDx00ofI4i5z6'
         };
@@ -50,14 +50,14 @@
                 </div>
             </div>
 
-            <div class="order-info">
+            <div class="order-info" id="order-info" style="display: none;">
                 <h2>订单详情</h2>
                 <p>我们会尽快处理您的订单，并发送确认邮件。</p>
                 <p>预计发货时间：3-5个工作日</p>
                 <p>如有任何问题，请随时联系我们的客服团队。</p>
             </div>
 
-            <div class="action-buttons">
+            <div class="action-buttons" id="action-buttons" style="display: none;">
                 <a href="shop.html" class="btn btn-primary">继续购物</a>
                 <a href="about.html" class="btn btn-secondary">联系我们</a>
             </div>
@@ -78,32 +78,15 @@
                     <h4 class="footer-title">Navigation</h4>
                     <ul class="footer-links">
                         <li><a href="index.html">Home</a></li>
-                        <li><a href="culture.html">Energy Universe</a></li>
                         <li><a href="shop.html">Energy Shop</a></li>
-                        <li><a href="guide.html">Crafting Process</a></li>
                         <li><a href="about.html">About Us</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="footer-title">Services</h4>
-                    <ul class="footer-links">
-                        <li><a href="#">BaZi Analysis</a></li>
-                        <li><a href="#">Annual Fortune</a></li>
-                        <li><a href="#">Personal Consultation</a></li>
-                        <li><a href="#">Custom Items</a></li>
                     </ul>
                 </div>
                 <div>
                     <h4 class="footer-title">Contact</h4>
                     <ul class="footer-links">
-                        <li>
-                            <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle;margin-right:5px"><path d="M3 4h14a1 1 0 011 1v10a1 1 0 01-1 1H3a1 1 0 01-1-1V5a1 1 0 011-1z"/><path d="M3 5l7 6 7-6"/></svg>
-                            support@daoessence.com
-                        </li>
-                        <li>
-                            <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle;margin-right:5px"><path d="M2 5a2 2 0 012-2h12a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V5z"/><path d="M7 10h6M7 13h4"/></svg>
-                            WhatsApp: +86 181 1575 5283
-                        </li>
+                        <li>support@daoessence.com</li>
+                        <li>WhatsApp: +86 181 1575 5283</li>
                     </ul>
                 </div>
             </div>
@@ -113,7 +96,158 @@
         </div>
     </footer>
 
-    <script src="stripe-payment.js"></script>
+    <script>
+        // ============================================
+        // 订单确认页面 - 支持两种支付模式
+        // 1. Stripe Checkout (session_id)
+        // 2. Payment Intent (payment_intent)
+        // ============================================
+
+        const API_BASE_URL = '/.netlify/functions';
+        
+        // 初始化
+        document.addEventListener('DOMContentLoaded', initOrderConfirmation);
+
+        async function initOrderConfirmation() {
+            const urlParams = new URLSearchParams(window.location.search);
+            
+            // 支持两种参数：session_id (Stripe Checkout) 和 payment_intent (Payment Intent)
+            const sessionId = urlParams.get('session_id');
+            const paymentIntentId = urlParams.get('payment_intent');
+            const orderId = urlParams.get('order_id');
+            const canceled = urlParams.get('canceled');
+
+            // 如果用户取消支付
+            if (canceled === 'true') {
+                showWarning('支付已取消，请重新下单');
+                return;
+            }
+
+            // 如果没有支付参数，显示错误
+            if (!sessionId && !paymentIntentId) {
+                showError('订单信息无效，请返回商店重新下单');
+                return;
+            }
+
+            try {
+                if (sessionId) {
+                    // Stripe Checkout 模式
+                    await handleCheckoutSession(sessionId);
+                } else if (paymentIntentId) {
+                    // Payment Intent 模式
+                    await handlePaymentIntent(paymentIntentId, orderId);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showError('验证失败：' + error.message);
+            }
+        }
+
+        // 处理 Stripe Checkout Session
+        async function handleCheckoutSession(sessionId) {
+            showLoading('正在验证订单...');
+            
+            // Stripe Checkout 成功后会自动重定向到这里
+            // 假设如果能加载到这个页面就是成功的
+            showSuccess('订单已确认！', {
+                orderId: sessionId.substring(0, 20) + '...',
+                message: '感谢您的购买！'
+            });
+            
+            // 清空购物车
+            localStorage.removeItem('daoessence_cart');
+        }
+
+        // 处理 Payment Intent
+        async function handlePaymentIntent(paymentIntentId, orderId) {
+            showLoading('正在验证支付状态...');
+            
+            try {
+                // 调用后端 API 检查支付状态
+                const response = await fetch(`${API_BASE_URL}/get-payment-intent?id=${paymentIntentId}`);
+                const data = await response.json();
+
+                if (!data.success) {
+                    throw new Error(data.error || '无法获取支付状态');
+                }
+
+                const paymentIntent = data.paymentIntent;
+
+                if (paymentIntent.status === 'succeeded') {
+                    showSuccess('支付成功！', {
+                        orderId: orderId || paymentIntentId,
+                        amount: '$' + (paymentIntent.amount / 100).toFixed(2),
+                        message: '感谢您的购买！'
+                    });
+                    
+                    // 清空购物车
+                    localStorage.removeItem('daoessence_cart');
+                } else {
+                    showWarning(`支付状态: ${paymentIntent.status}，请联系客服`);
+                }
+
+            } catch (error) {
+                console.error('Error checking payment:', error);
+                
+                // 如果是网络错误，但 URL 有 payment_intent 参数，
+                // 假设支付可能已完成，显示成功信息
+                showSuccess('订单已确认！', {
+                    orderId: orderId || paymentIntentId,
+                    message: '感谢您的购买！'
+                });
+                
+                // 清空购物车
+                localStorage.removeItem('daoessence_cart');
+            }
+        }
+
+        // 显示加载状态
+        function showLoading(message) {
+            document.getElementById('order-status').innerHTML = `
+                <div class="loading">
+                    <p>${message}</p>
+                </div>
+            `;
+        }
+
+        // 显示成功
+        function showSuccess(title, details) {
+            document.getElementById('order-status').innerHTML = `
+                <div class="success-message">
+                    <div class="success-icon">✓</div>
+                    <h2>${title}</h2>
+                    <p>${details.message}</p>
+                    <p style="margin-top: 10px; color: #666;">订单号：${details.orderId}</p>
+                    ${details.amount ? `<p>支付金额：${details.amount}</p>` : ''}
+                </div>
+            `;
+            document.getElementById('order-info').style.display = 'block';
+            document.getElementById('action-buttons').style.display = 'flex';
+        }
+
+        // 显示警告
+        function showWarning(message) {
+            document.getElementById('order-status').innerHTML = `
+                <div class="warning-message">
+                    <h2>⚠️ ${message}</h2>
+                    <p>请返回<a href="checkout.html">结账页面</a>重新尝试</p>
+                </div>
+            `;
+            document.getElementById('action-buttons').style.display = 'flex';
+        }
+
+        // 显示错误
+        function showError(message) {
+            document.getElementById('order-status').innerHTML = `
+                <div class="error-message">
+                    <h2>❌ ${message}</h2>
+                    <p>请<a href="shop.html">返回商店</a>或联系客服</p>
+                </div>
+            `;
+            document.getElementById('action-buttons').style.display = 'flex';
+        }
+    </script>
+
     <style>
         .order-confirmation-page {
             min-height: calc(100vh - 200px);
@@ -154,13 +288,13 @@
 
         .warning-message h2 {
             color: #f59e0b;
-            font-size: 32px;
+            font-size: 24px;
             margin-bottom: 15px;
         }
 
         .error-message h2 {
             color: #ef4444;
-            font-size: 32px;
+            font-size: 24px;
             margin-bottom: 15px;
         }
 

@@ -7,16 +7,14 @@
     <link rel="stylesheet" href="styles.css">
     <script src="https://js.stripe.com/v3/"></script>
     <script>
-        // Stripe 配置 - 由构建时注入
+        // Stripe 配置 - 直接硬编码测试密钥
         window.stripeConfig = {
             publicKey: 'pk_test_51TCXN018te51GWiewKqP8Rp8reBZP8oL4WCxngJPliUJKjHbRbRIgpqeEnZ67XylRnLfNvC09I0FXSYhDZo5hsDx00ofI4i5z6'
         };
     </script>
-    <script src="cart.js"></script>
-    <script src="stripe-payment.js"></script>
 </head>
 <body>
-    <!-- Navigation Header - 与其他页面保持一致 -->
+    <!-- Navigation Header -->
     <header class="header">
         <div class="container">
             <nav class="nav">
@@ -29,7 +27,7 @@
                 <ul class="nav-menu">
                     <li><a href="index.html" class="nav-link">Home</a></li>
                     <li><a href="culture.html" class="nav-link">Energy Universe</a></li>
-                    <li><a href="shop.html" class="nav-link active">Energy Shop</a></li>
+                    <li><a href="shop.html" class="nav-link">Energy Shop</a></li>
                     <li><a href="guide.html" class="nav-link">Crafting Process</a></li>
                     <li><a href="about.html" class="nav-link">About Us</a></li>
                 </ul>
@@ -42,508 +40,282 @@
         </div>
     </header>
 
-    <!-- 主要内容 -->
+    <!-- Checkout Page -->
     <main class="checkout-page">
-        <div class="checkout-container">
-            <!-- 页面标题 -->
-            <div class="page-header">
-                <h1>安全结账</h1>
-                <p>安全支付 · 品质保证 · 全球配送</p>
-            </div>
-
-            <!-- 支付信息 -->
-            <div class="checkout-content">
-                <!-- 订单摘要 -->
+        <div class="container">
+            <h1 class="page-title">Checkout</h1>
+            
+            <div class="checkout-grid">
+                <!-- Order Summary -->
                 <div class="order-summary">
                     <h2>订单摘要</h2>
                     <div id="cart-items" class="checkout-cart-items">
-                        <div class="loading">加载中...</div>
+                        <!-- 购物车商品将动态加载 -->
                     </div>
-
+                    
+                    <div class="shipping-options">
+                        <label for="shipping-select">运输方式</label>
+                        <select id="shipping-select">
+                            <option value="15">标准运输 (15-25天) - $15.00</option>
+                            <option value="35">快速运输 (7-10天) - $35.00</option>
+                            <option value="55">DHL快递 (3-5天) - $55.00</option>
+                        </select>
+                    </div>
+                    
                     <div class="order-totals">
                         <div class="total-row">
-                            <span>商品总计</span>
+                            <span>小计</span>
                             <span id="subtotal">$0.00</span>
                         </div>
                         <div class="total-row">
                             <span>运费</span>
-                            <select id="shipping-select" class="shipping-select">
-                                <option value="standard">标准运输 - $15.00</option>
-                                <option value="express">快速运输 - $35.00</option>
-                                <option value="dhl">DHL 快递 - $55.00</option>
-                            </select>
+                            <span id="shipping-cost">$15.00</span>
                         </div>
-                        <div class="total-row grand-total">
+                        <div class="total-row total-final">
                             <span>总计</span>
                             <span id="grand-total">$0.00</span>
                         </div>
                     </div>
                 </div>
-
-                <!-- 支付方式 -->
-                <div class="payment-method">
-                    <h2>支付方式</h2>
-
-                    <div class="payment-info">
-                        <p>我们使用 <strong>Stripe</strong> 安全支付系统</p>
-                        <div class="secure-badges">
-                            <span>🔒 SSL 加密</span>
-                            <span>🛡️ PCI 合规</span>
-                            <span>💳 多种支付方式</span>
+                
+                <!-- Payment Section -->
+                <div class="payment-section">
+                    <div class="payment-method">
+                        <h2>支付方式</h2>
+                        <div class="payment-info">
+                            <p>使用 <strong>Stripe</strong> 安全支付系统</p>
+                            <div class="card-icons">
+                                <span>💳 VISA</span>
+                                <span>💳 Mastercard</span>
+                                <span>💳 American Express</span>
+                                <span>💳 Discover</span>
+                            </div>
                         </div>
-
-                        <div class="supported-cards">
-                            <span>VISA</span>
-                            <span>Mastercard</span>
-                            <span>American Express</span>
-                            <span>Discover</span>
+                        
+                        <button id="pay-button" class="btn btn-primary btn-large">
+                            去支付
+                        </button>
+                        
+                        <div class="security-badges">
+                            <span>🔒 SSL加密</span>
+                            <span>🛡️ PCI合规</span>
+                            <span>✓ 安全支付</span>
                         </div>
                     </div>
-
-                    <button id="pay-button" class="btn btn-primary btn-large">
-                        去支付
-                    </button>
-
-                    <p class="disclaimer">
-                        <small>
-                            点击"去支付"后，您将被重定向到 Stripe 的安全支付页面。<br>
-                            您的支付信息不会被存储在我们的服务器上。
-                        </small>
-                    </p>
-                </div>
-            </div>
-
-            <!-- 信任标识 -->
-            <div class="trust-badges">
-                <div class="trust-badge">
-                    <span>🌍</span>
-                    <p>全球配送</p>
-                </div>
-                <div class="trust-badge">
-                    <span>📦</span>
-                    <p>7天内发货</p>
-                </div>
-                <div class="trust-badge">
-                    <span>✅</span>
-                    <p>100%正品保证</p>
-                </div>
-                <div class="trust-badge">
-                    <span>📞</span>
-                    <p>客服支持</p>
                 </div>
             </div>
         </div>
     </main>
 
-        <!-- 页脚 -->
-        <footer class="footer">
-            <div class="container">
-                <div class="footer-content">
-                    <div class="footer-brand">
-                        <div class="logo">
-                            <span class="logo-en">DAO ESSENCE</span>
-                        </div>
-                        <p>Ancient Wisdom, Modern Harmony. Based on authentic Taoist traditions, we offer verifiable traditional cultural products and services with genuine energy properties.</p>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <span class="logo-en">DAO ESSENCE</span>
                     </div>
-                    <div>
-                        <h4 class="footer-title">Navigation</h4>
-                        <ul class="footer-links">
-                            <li><a href="index.html">Home</a></li>
-                            <li><a href="culture.html">Energy Universe</a></li>
-                            <li><a href="shop.html">Energy Shop</a></li>
-                            <li><a href="guide.html">Crafting Process</a></li>
-                            <li><a href="about.html">About Us</a></li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h4 class="footer-title">Services</h4>
-                        <ul class="footer-links">
-                            <li><a href="#">BaZi Analysis</a></li>
-                            <li><a href="#">Annual Fortune</a></li>
-                            <li><a href="#">Personal Consultation</a></li>
-                            <li><a href="#">Custom Items</a></li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h4 class="footer-title">Contact</h4>
-                        <ul class="footer-links">
-                            <li>
-                                <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle;margin-right:5px"><path d="M3 4h14a1 1 0 011 1v10a1 1 0 01-1 1H3a1 1 0 01-1-1V5a1 1 0 011-1z"/><path d="M3 5l7 6 7-6"/></svg>
-                                support@daoessence.com
-                            </li>
-                            <li>
-                                <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle;margin-right:5px"><path d="M2 5a2 2 0 012-2h12a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V5z"/><path d="M7 10h6M7 13h4"/></svg>
-                                WhatsApp: +86 181 1575 5283
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="footer-bottom">
-                    <p>© 2026 DAO Essence & Five Elements. All rights reserved.</p>
+                    <p>Ancient Wisdom, Modern Harmony.</p>
                 </div>
             </div>
-        </footer>
+            <div class="footer-bottom">
+                <p>&copy; 2026 DAO Essence & Five Elements. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
 
-        <!-- 右下角浮动购物车按钮 -->
-        <button class="floating-cart-btn" onclick="window.location.href='shop.html'">
-            🛒
-            <span class="floating-cart-badge" id="floatingCartBadge">0</span>
-        </button>
-
-    <style>
-        /* 确保导航栏中的购物车按钮在 checkout 页面也隐藏 */
-        .nav-cta[onclick*="shop"] {
-            display: none !important;
-        }
-    </style>
+    <!-- Stripe Payment Script -->
+    <script src="stripe-payment.js"></script>
     <script>
-        // ========================================
-        // 统一购物车系统
-        // ========================================
-
-        // 监听 storage 变化(跨页面同步)
-        window.addEventListener('storage', function(e) {
-            if (e.key === 'cart') {
-                location.reload(); // 简单处理:刷新页面以更新购物车显示
-            }
-        });
-
-        // 从 localStorage 读取购物车数据
-        function getCartFromStorage() {
-            // 优先使用新的 cart 键
-            let cartData = localStorage.getItem('cart');
-            if (cartData) {
-                return JSON.parse(cartData);
-            }
-            // 尝试旧的 daoessence_cart 键(兼容性)
-            cartData = localStorage.getItem('daoessence_cart');
-            if (cartData) {
-                return JSON.parse(cartData).items || [];
-            }
-            return [];
-        }
-        
-        // 购物车数据
-        const cart = {
-            items: getCartFromStorage(),
-            
-            add(product) {
-                const existingItem = this.items.find(item => item.id === product.id);
-                if (existingItem) {
-                    existingItem.quantity += 1;
-                } else {
-                    this.items.push({
-                        id: product.id,
-                        name: product.nameCN || product.name,
-                        price: product.price,
-                        quantity: 1,
-                        image: product.image
-                    });
-                }
-                this.save();
-            },
-            
-            remove(productId) {
-                this.items = this.items.filter(item => item.id !== productId);
-                this.save();
-            },
-            
-            updateQty(productId, newQty) {
-                const item = this.items.find(item => item.id === productId);
-                if (item) {
-                    item.quantity = Math.max(1, newQty);
-                    this.save();
-                }
-            },
-            
-            save() {
-                // 保存到两个键，确保兼容性
-                const data = JSON.stringify(this.items);
-                localStorage.setItem('cart', data);
-                localStorage.setItem('daoessence_cart', JSON.stringify({ items: this.items }));
-            },
-            
-            getTotal() {
-                return this.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            },
-            
-            getCount() {
-                return this.items.reduce((sum, item) => sum + item.quantity, 0);
-            }
-        };
-        
-        // Stripe 配置 - 使用 Netlify Functions
-        const STRIPE_PUBLIC_KEY = 'pk_test_51TCXN018te51GWiewKqP8Rp8reBZP8oL4WCxngJPliUJKjHbRbRIgpqeEnZ67XylRnLfNvC09I0FXSYhDZo5hsDx00ofI4i5z6';
-        const API_BASE_URL = '/.netlify/functions';
-
-        // 初始化 Stripe
-        let stripe = null;
-        let elements = null;
-        let cardElement = null;
-
-        try {
-            stripe = Stripe(STRIPE_PUBLIC_KEY);
-            console.log('Stripe initialized successfully');
-        } catch (error) {
-            console.error('Failed to initialize Stripe:', error);
-        }
-
-        // 后端 API 请求函数
-        async function createPaymentIntent(amount, metadata) {
-            try {
-                const response = await fetch(`${API_BASE_URL}/create-payment-intent`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        amount: amount,
-                        currency: 'usd',
-                        metadata: metadata
-                    })
-                });
-
-                const data = await response.json();
-
-                if (!response.ok) {
-                    throw new Error(data.error || 'Failed to create payment intent');
-                }
-
-                return data;
-            } catch (error) {
-                console.error('Error creating payment intent:', error);
-                throw error;
-            }
-        }
-
-        // 检查服务器状态 (Netlify Functions 版本)
-        async function checkServerHealth() {
-            // Netlify Functions 不需要健康检查，直接返回 true
-            // 如果需要，可以检查 create-payment-intent 函数是否可用
-            console.log('Using Netlify Functions - skipping health check');
-            return true;
-        }
-
-        // 运费配置
-        const shippingRates = {
-            standard: 15,
-            express: 35,
-            dhl: 55
-        };
-
-        // 当前运费
-        let currentShipping = shippingRates.standard;
-
-        // 更新订单摘要
-        function updateOrderSummary() {
-            const cartItemsDiv = document.getElementById('cart-items');
-            const subtotalSpan = document.getElementById('subtotal');
-            const grandTotalSpan = document.getElementById('grand-total');
-            const cartBadge = document.querySelector('.cart-badge');
-            const floatingCartBadge = document.getElementById('floatingCartBadge');
-            
-            // 更新购物车徽章
-            if (cartBadge) {
-                const count = cart.getCount();
-                cartBadge.textContent = count;
-                cartBadge.style.display = count > 0 ? 'flex' : 'none';
-            }
-            
-            // 更新浮动购物车徽章
-            if (floatingCartBadge) {
-                const count = cart.getCount();
-                floatingCartBadge.textContent = count;
-                floatingCartBadge.style.display = count > 0 ? 'flex' : 'none';
-            }
-
-            // 显示购物车商品
-            if (cart.items.length === 0) {
-                cartItemsDiv.innerHTML = `
-                    <div class="empty-cart">
-                        <p>购物车是空的</p>
-                        <a href="shop.html" class="btn btn-secondary">去购物</a>
-                    </div>
-                `;
-                subtotalSpan.textContent = '$0.00';
-                grandTotalSpan.textContent = '$' + currentShipping.toFixed(2);
-            } else {
-                cartItemsDiv.innerHTML = cart.items.map(item => `
-                    <div class="checkout-item">
-                        <img src="${item.image}" alt="${item.name}" class="checkout-item-image" onerror="this.src='images/placeholder.png'">
-                        <div class="checkout-item-info">
-                            <h4>${item.name}</h4>
-                            <p class="checkout-item-price">$${item.price.toFixed(2)} × ${item.quantity}</p>
-                        </div>
-                        <div class="checkout-item-total">
-                            $${(item.price * item.quantity).toFixed(2)}
-                        </div>
-                    </div>
-                `).join('');
-
-                const subtotal = cart.getTotal();
-                const total = subtotal + currentShipping;
-                subtotalSpan.textContent = '$' + subtotal.toFixed(2);
-                grandTotalSpan.textContent = '$' + total.toFixed(2);
-            }
-        }
-
-        // 运费选择事件
+        // 运费选项变更时更新显示
         document.getElementById('shipping-select').addEventListener('change', function() {
-            currentShipping = shippingRates[this.value];
-            updateOrderSummary();
-        });
-
-        // 支付按钮点击事件 - 集成真实 Stripe
-        document.getElementById('pay-button').addEventListener('click', async function() {
-            if (cart.items.length === 0) {
-                alert('购物车是空的，请先添加商品');
-                window.location.href = 'shop.html';
-                return;
-            }
-
-            // 显示支付方式选择
-            const paymentMethod = confirm(
-                '请选择支付方式：\n\n' +
-                '【确定】使用 WeChat Pay/Alipay 支付\n' +
-                '【取消】使用 Stripe 信用卡支付\n\n' +
-                '订单金额：$' + (cart.getTotal() + currentShipping).toFixed(2)
-            );
-
-            if (paymentMethod) {
-                // 微信/支付宝支付
-                await handleWeChatPayment(this);
-            } else {
-                // Stripe 支付
-                await handleStripePayment(this);
+            const shipping = parseFloat(this.value) || 15;
+            document.getElementById('shipping-cost').textContent = '$' + shipping.toFixed(2);
+            
+            // 重新计算总价
+            const cartData = localStorage.getItem('daoessence_cart');
+            if (cartData) {
+                const cart = JSON.parse(cartData);
+                const subtotal = cart.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+                const total = subtotal + shipping;
+                document.getElementById('grand-total').textContent = '$' + total.toFixed(2);
             }
         });
 
-        // 处理微信/支付宝支付
-        async function handleWeChatPayment(button) {
-            const orderId = generateOrderId();
-            const total = cart.getTotal() + currentShipping;
-
-            alert('💰 WeChat Pay/Alipay 支付\n\n' +
-                  '请联系客服完成支付：\n' +
-                  '📧 Email: 18115755283@163.com\n' +
-                  '💬 WeChat: dao_essence\n\n' +
-                  '订单号：' + orderId + '\n' +
-                  '支付金额：$' + total.toFixed(2) + '\n\n' +
-                  '请截图订单详情后联系客服完成支付。');
-        }
-
-        // 处理 Stripe 支付 - 使用 Stripe Checkout 重定向方式
-        async function handleStripePayment(button) {
-            // 禁用按钮
-            button.disabled = true;
-            button.textContent = '正在连接 Stripe...';
-
-            try {
-                // 计算总价
-                const totalAmount = cart.getTotal() + currentShipping;
-                const orderId = generateOrderId();
-
-                // 准备商品信息用于 Stripe Checkout
-                const lineItems = cart.items.map(item => ({
-                    price_data: {
-                        currency: 'usd',
-                        product_data: {
-                            name: item.name,
-                            description: item.nameCn || item.name
-                        },
-                        unit_amount: Math.round(item.price * 100) // Stripe 以分为单位
-                    },
-                    quantity: item.quantity
-                }));
-
-                // 添加运费
-                lineItems.push({
-                    price_data: {
-                        currency: 'usd',
-                        product_data: {
-                            name: '运费',
-                            description: '标准运输'
-                        },
-                        unit_amount: Math.round(currentShipping * 100)
-                    },
-                    quantity: 1
-                });
-
-                button.textContent = '正在创建订单...';
-
-                // 调用 Netlify Function 创建 Checkout Session
-                const response = await fetch(`${API_BASE_URL}/create-checkout-session`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        items: lineItems,
-                        successUrl: `${window.location.origin}/order-confirm.html?session_id={CHECKOUT_SESSION_ID}`,
-                        cancelUrl: `${window.location.origin}/checkout.html?canceled=true`
-                    })
-                });
-
-                const session = await response.json();
-
-                if (!session.success || !session.sessionId) {
-                    throw new Error(session.error || '创建支付会话失败');
-                }
-
-                // 重定向到 Stripe Checkout
-                button.textContent = '正在跳转到支付页面...';
-                const result = await stripe.redirectToCheckout({
-                    sessionId: session.sessionId
-                });
-
-                if (result.error) {
-                    throw new Error(result.error.message);
-                }
-
-            } catch (error) {
-                console.error('Payment processing error:', error);
-
-                alert('❌ 支付处理失败\n\n' +
-                      '错误信息：' + error.message + '\n\n' +
-                      '请稍后重试或联系客服。');
-
-                // 恢复按钮状态
-                button.disabled = false;
-                button.textContent = '去支付';
+        // 页面卸载时提示
+        window.addEventListener('beforeunload', function(e) {
+            const payButton = document.getElementById('pay-button');
+            if (payButton && payButton.disabled) {
+                e.returnValue = '支付正在进行中，确定要离开吗？';
             }
-        }
-
-        // 检查 URL 参数，处理支付成功后的回调
-        function checkPaymentStatus() {
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.get('payment_success') === 'true') {
-                alert('✅ 支付成功！\n\n感谢您的购买！');
-                // 清空购物车
-                cart.items = [];
-                cart.save();
-                updateOrderSummary();
-
-                // 清除 URL 参数
-                window.history.replaceState({}, document.title, window.location.pathname);
-            }
-        }
-
-        // 生成订单ID
-        function generateOrderId() {
-            return 'DAO' + Date.now() + Math.random().toString(36).substr(2, 9).toUpperCase();
-        }
-
-        // 页面加载时更新摘要
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('Checkout page loaded');
-            console.log('Cart items:', cart.items);
-
-            // 检查支付状态
-            checkPaymentStatus();
-
-            // 更新订单摘要
-            updateOrderSummary();
         });
     </script>
+    
+    <style>
+        .checkout-page {
+            min-height: calc(100vh - 200px);
+            padding: 40px 20px;
+            background: #f9f9f9;
+        }
+        
+        .page-title {
+            text-align: center;
+            margin-bottom: 40px;
+            color: #1a1a1a;
+        }
+        
+        .checkout-grid {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        @media (max-width: 900px) {
+            .checkout-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .order-summary, .payment-section {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .order-summary h2, .payment-method h2 {
+            margin-bottom: 20px;
+            color: #1a1a1a;
+        }
+        
+        .checkout-cart-items {
+            margin-bottom: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .checkout-cart-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .checkout-cart-item img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-right: 15px;
+        }
+        
+        .checkout-cart-item .item-info {
+            flex: 1;
+        }
+        
+        .checkout-cart-item .item-info h4 {
+            margin: 0 0 5px;
+            font-size: 16px;
+        }
+        
+        .checkout-cart-item .item-name-en {
+            color: #666;
+            font-size: 14px;
+            margin: 0 0 5px;
+        }
+        
+        .checkout-cart-item .item-price {
+            color: #666;
+            font-size: 14px;
+            margin: 0;
+        }
+        
+        .checkout-cart-item .item-subtotal {
+            font-weight: bold;
+            font-size: 16px;
+        }
+        
+        .shipping-options {
+            margin: 20px 0;
+            padding: 20px 0;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .shipping-options label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+        
+        .shipping-options select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        .order-totals {
+            margin-top: 20px;
+        }
+        
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            font-size: 16px;
+        }
+        
+        .total-final {
+            font-size: 20px;
+            font-weight: bold;
+            border-top: 2px solid #1a1a1a;
+            margin-top: 10px;
+            padding-top: 15px;
+        }
+        
+        .payment-info {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .card-icons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+            color: #666;
+        }
+        
+        #pay-button {
+            width: 100%;
+            padding: 18px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        #pay-button:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+        
+        .security-badges {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .empty-cart {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+    </style>
 </body>
 </html>
