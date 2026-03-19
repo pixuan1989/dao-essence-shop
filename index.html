@@ -23,7 +23,24 @@
         /* ============================================
            首页特定样式
            ============================================ */
-        
+
+        /* 购物车徽章样式 */
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--fire-primary);
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
         /* 英雄区域 */
         .hero {
             min-height: 100vh;
@@ -1108,6 +1125,10 @@
                     <li><a href="guide.html" class="nav-link">Crafting Process</a></li>
                     <li><a href="about.html" class="nav-link">About Us</a></li>
                     <li><a href="shop.html" class="nav-cta">Explore Products</a></li>
+                    <li><a href="javascript:void(0)" class="nav-cta" onclick="window.location.href='checkout.html'" style="position: relative;">
+                        🛒 Cart
+                        <span class="cart-badge" id="cartBadge" style="display: none;">0</span>
+                    </a></li>
                 </ul>
                 <button class="mobile-menu-btn">
                     <span></span>
@@ -1594,6 +1615,35 @@
             </div>
         </div>
     </footer>
+    <script>
+        // ========================================
+        // 统一购物车系统 - 购物车徽章更新
+        // ========================================
+        function updateCartBadge() {
+            const cartData = localStorage.getItem('cart');
+            const badge = document.getElementById('cartBadge');
+            if (badge) {
+                if (cartData) {
+                    const items = JSON.parse(cartData);
+                    const count = items.reduce((sum, item) => sum + item.quantity, 0);
+                    badge.textContent = count;
+                    badge.style.display = count > 0 ? 'flex' : 'none';
+                } else {
+                    badge.style.display = 'none';
+                }
+            }
+        }
+
+        // 页面加载时更新徽章
+        document.addEventListener('DOMContentLoaded', updateCartBadge);
+
+        // 监听 storage 变化(跨页面同步)
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'cart') {
+                updateCartBadge();
+            }
+        });
+    </script>
     <script src="main.js?v=202603131700"></script>
         // 立即清除语言相关的存储，防止语言切换
             // 清除可能的语言设置
