@@ -97,6 +97,17 @@ async function handleStripePayment() {
         payButton.textContent = '正在跳转支付...';
         const result = await createCheckoutSession(items, shippingRate);
 
+        // 5. 检查是否是测试模式
+        if (result.testMode) {
+            // 测试模式：直接跳转到成功页面
+            console.log('🧪 测试模式：直接跳转成功页面');
+            // 清空购物车
+            localStorage.removeItem('daoessence_cart');
+            // 跳转到成功页面
+            window.location.href = '/order-confirm.html?test_mode=true';
+            return;
+        }
+
         // 5. 跳转到 Stripe Checkout
         const stripeInstance = initStripe();
         const { error } = await stripeInstance.redirectToCheckout({

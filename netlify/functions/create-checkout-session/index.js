@@ -1,5 +1,8 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
+// 测试模式配置
+const TEST_MODE = process.env.TEST_MODE === 'true';
+
 exports.handler = async (event, context) => {
     // 只接受 POST 请求
     if (event.httpMethod !== 'POST') {
@@ -8,6 +11,25 @@ exports.handler = async (event, context) => {
             body: JSON.stringify({ error: 'Method not allowed' })
         };
     }
+
+    // ========== 测试模式 ==========
+    if (TEST_MODE) {
+        console.log('🧪 测试模式已开启 - 模拟支付成功');
+        return {
+            statusCode: 200,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ 
+                success: true,
+                testMode: true,
+                // 直接返回成功，跳过 Stripe Checkout
+                message: '测试模式：支付成功',
+                sessionId: 'test_session_' + Date.now()
+            })
+        };
+    }
+    // ========== 测试模式结束 ==========
 
     try {
         const { items, shipping } = JSON.parse(event.body);
