@@ -6,6 +6,7 @@
     <title>结账 - 道本精酿 | DAO Essence</title>
     <link rel="stylesheet" href="styles.css">
     <script src="https://js.stripe.com/v3/"></script>
+    <script src="main.js?v=202603191430"></script>
 </head>
 <body>
     <!-- Navigation Header - 与其他页面保持一致 -->
@@ -183,78 +184,9 @@
         </button>
 
     <style>
-        /* 购物车徽章样式 */
-        .cart-badge {
-            position: absolute;
-            top: -8px;
-            right: -8px;
-            background: var(--fire-primary);
-            color: white;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 11px;
-            font-weight: 700;
-        }
-        
-        /* 右下角浮动购物车按钮 */
-        .floating-cart-btn {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #D4AF37 0%, #CD853F 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 4px 20px rgba(212, 175, 55, 0.4);
-            transition: all 0.3s ease;
-            z-index: 9999;
-            font-size: 24px;
-            border: none;
-            animation: float-pulse 2s infinite;
-        }
-        
-        .floating-cart-btn:hover {
-            transform: translateY(-5px) scale(1.1);
-            box-shadow: 0 8px 30px rgba(212, 175, 55, 0.6);
-        }
-        
-        @keyframes float-pulse {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-5px);
-            }
-        }
-        
-        .floating-cart-badge {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background: #8B2500;
-            color: white;
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            font-weight: 700;
-            box-shadow: 0 2px 8px rgba(139, 37, 0, 0.5);
-        }
-        
         /* 确保导航栏中的购物车按钮在 checkout 页面也隐藏 */
         .nav-cta[onclick*="shop"] {
-            display: none;
+            display: none !important;
         }
     </style>
     <script>

@@ -41,7 +41,7 @@
             font-weight: 700;
         }
 
-        /* 英雄区域 */
+        /* 英雄区域 - 通栏设计 */
         .hero {
             min-height: 100vh;
             display: flex;
@@ -50,8 +50,11 @@
             position: relative;
             overflow: hidden;
             background: linear-gradient(135deg, #1A1612 0%, #1A3A4A 50%, #2D5A3D 100%);
+            width: 100vw;
+            margin-left: calc(50% - 50vw);
+            margin-right: calc(50% - 50vw);
         }
-        
+
         .hero::before {
             content: '';
             position: absolute;
@@ -103,10 +106,10 @@
             color: var(--bg-primary);
             margin-bottom: var(--spacing-md);
             letter-spacing: 0.2em;
-            text-shadow: 0 4px 20px rgba(212, 175, 55, 0.3);
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.6), 0 0 40px rgba(212, 175, 55, 0.3);
             animation: fadeInUp 1s ease-out;
         }
-        
+
         .hero-title-en {
             font-family: var(--font-english);
             font-size: var(--text-xl);
@@ -114,14 +117,16 @@
             letter-spacing: 0.3em;
             text-transform: uppercase;
             margin-bottom: var(--spacing-xl);
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
             animation: fadeInUp 1s ease-out 0.2s backwards;
         }
-        
+
         .hero-slogan {
             font-size: var(--text-lg);
-            color: rgba(245, 240, 230, 0.9);
+            color: rgba(245, 240, 230, 0.95);
             margin-bottom: var(--spacing-2xl);
             line-height: 1.8;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
             animation: fadeInUp 1s ease-out 0.4s backwards;
         }
         
@@ -1668,51 +1673,6 @@
         🛒
         <span class="floating-cart-badge" id="floatingCartBadge">0</span>
     </button>
-
-    <script>
-        // ========================================
-        // 统一购物车系统 - 购物车徽章更新
-        // ========================================
-        function updateCartBadge() {
-            const cartData = localStorage.getItem('cart');
-            const badge = document.getElementById('cartBadge');
-            const floatingBadge = document.getElementById('floatingCartBadge');
-            
-            // Update nav badge
-            if (badge) {
-                if (cartData) {
-                    const items = JSON.parse(cartData);
-                    const count = items.reduce((sum, item) => sum + item.quantity, 0);
-                    badge.textContent = count;
-                    badge.style.display = count > 0 ? 'flex' : 'none';
-                } else {
-                    badge.style.display = 'none';
-                }
-            }
-            
-            // Update floating badge
-            if (floatingBadge) {
-                if (cartData) {
-                    const items = JSON.parse(cartData);
-                    const count = items.reduce((sum, item) => sum + item.quantity, 0);
-                    floatingBadge.textContent = count;
-                    floatingBadge.style.display = count > 0 ? 'flex' : 'none';
-                } else {
-                    floatingBadge.style.display = 'none';
-                }
-            }
-        }
-
-        // 页面加载时更新徽章
-        document.addEventListener('DOMContentLoaded', updateCartBadge);
-
-        // 监听 storage 变化(跨页面同步)
-        window.addEventListener('storage', function(e) {
-            if (e.key === 'cart') {
-                updateCartBadge();
-            }
-        });
-    </script>
     <script src="main.js?v=202603131700"></script>
         // 立即清除语言相关的存储，防止语言切换
             // 清除可能的语言设置

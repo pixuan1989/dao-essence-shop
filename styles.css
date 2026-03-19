@@ -257,7 +257,7 @@ p {
     top: 0;
     left: 0;
     right: 0;
-    z-index: 1000;
+    z-index: 10000;
     padding: var(--spacing-md) 0;
     transition: all var(--transition-base);
 }
@@ -899,6 +899,23 @@ p {
 .hidden { display: none; }
 .visible { display: block; }
 
+/* 购物车徽章样式 - 统一所有页面 */
+.cart-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: var(--fire-primary);
+    color: white;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+}
+
 /* 页面头部 */
 .page-header {
     background: linear-gradient(135deg, var(--bg-dark) 0%, var(--water-primary) 100%);
@@ -1365,6 +1382,87 @@ p {
     font-size: var(--text-base);
     color: var(--text-primary);
     margin: 0;
+}
+
+/* ============================================
+   右下角浮动购物车 - 统一所有页面
+   ============================================ */
+
+.floating-cart-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #D4AF37 0%, #CD853F 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(212, 175, 55, 0.4);
+    transition: all 0.3s ease;
+    z-index: 10001;
+    font-size: 24px;
+    border: none;
+    animation: float-pulse 2s infinite;
+}
+
+.floating-cart-btn:hover {
+    transform: translateY(-5px) scale(1.1);
+    box-shadow: 0 8px 30px rgba(212, 175, 55, 0.6);
+}
+
+@keyframes float-pulse {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+.floating-cart-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #8B2500;
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    box-shadow: 0 2px 8px rgba(139, 37, 0, 0.5);
+}
+
+/* 隐藏导航栏中的购物车按钮，只保留右下角浮动按钮 */
+.nav-cta[onclick*="checkout"],
+.nav-cta[onclick*="shop"] {
+    display: none !important;
+}
+
+/* ============================================
+   响应式设计
+   ============================================ */
+
+@media (max-width: 768px) {
+    .floating-cart-btn {
+        width: 50px;
+        height: 50px;
+        bottom: 20px;
+        right: 20px;
+        font-size: 20px;
+    }
+
+    .floating-cart-badge {
+        width: 20px;
+        height: 20px;
+        font-size: 11px;
+    }
 }
 
 /* 响应式设计 */

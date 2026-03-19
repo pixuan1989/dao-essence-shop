@@ -10,6 +10,47 @@ document.addEventListener('DOMContentLoaded', function() {
     initSmoothScroll();
     initFiveElementsInteraction();
     initMysticEffects();
+    updateCartBadge(); // 更新购物车徽章
+});
+
+/* ============================================
+   统一购物车系统 - 购物车徽章更新
+   ============================================ */
+function updateCartBadge() {
+    const cartData = localStorage.getItem('cart');
+    const badge = document.getElementById('cartBadge');
+    const floatingBadge = document.getElementById('floatingCartBadge');
+
+    // Update nav badge
+    if (badge) {
+        if (cartData) {
+            const items = JSON.parse(cartData);
+            const count = items.reduce((sum, item) => sum + item.quantity, 0);
+            badge.textContent = count;
+            badge.style.display = count > 0 ? 'flex' : 'none';
+        } else {
+            badge.style.display = 'none';
+        }
+    }
+
+    // Update floating badge
+    if (floatingBadge) {
+        if (cartData) {
+            const items = JSON.parse(cartData);
+            const count = items.reduce((sum, item) => sum + item.quantity, 0);
+            floatingBadge.textContent = count;
+            floatingBadge.style.display = count > 0 ? 'flex' : 'none';
+        } else {
+            floatingBadge.style.display = 'none';
+        }
+    }
+}
+
+// 监听 storage 变化(跨页面同步)
+window.addEventListener('storage', function(e) {
+    if (e.key === 'cart') {
+        updateCartBadge();
+    }
 });
 
 /* ============================================
