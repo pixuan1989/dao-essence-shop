@@ -2,17 +2,7 @@
 
 ## ⚡ 5 分钟部署步骤
 
-### 1️⃣ 提交代码
-
-```bash
-git add .
-git commit -m "Add Netlify Functions for Stripe payment"
-git push origin main
-```
-
-Netlify 会自动部署。
-
-### 2️⃣ 配置环境变量
+### 1️⃣ 配置 Netlify 环境变量
 
 进入 [Netlify Dashboard](https://app.netlify.com/)：
 
@@ -23,13 +13,21 @@ Netlify 会自动部署。
 ```bash
 # 从 Stripe Dashboard - API Keys 复制
 STRIPE_SECRET_KEY=sk_test_...
+STRIPE_PUBLIC_KEY=pk_test_...
 
 # 从 Stripe Dashboard - Webhooks 复制（配置 Webhook 后生成）
 STRIPE_WEBHOOK_SECRET=whsec_...
-
-# 从 Stripe Dashboard - API Keys 复制
-STRIPE_PUBLIC_KEY=pk_test_...
 ```
+
+### 2️⃣ 提交代码
+
+```bash
+git add .
+git commit -m "Add Netlify Functions for Stripe payment"
+git push origin main
+```
+
+Netlify 会自动部署，并运行 `inject-env.js` 脚本将环境变量注入到 HTML 文件中。
 
 ### 3️⃣ 配置 Stripe Webhook
 
@@ -51,10 +49,7 @@ STRIPE_PUBLIC_KEY=pk_test_...
    - ✅ `payment_intent.canceled`
 5. **Add endpoint**
 6. 复制 **Webhook Secret**（`whsec_...`）
-7. 回到 Netlify，添加环境变量：
-   ```
-   STRIPE_WEBHOOK_SECRET=whsec_你复制的密钥
-   ```
+7. **注意**：如果你已在步骤 1 中添加了 STRIPE_WEBHOOK_SECRET，则不需要再次添加
 
 ### 4️⃣ 测试
 

@@ -19,8 +19,11 @@
 
 - [x] 没有在 JavaScript 文件中硬编码 Stripe 私钥（sk_test_...）
 - [x] 没有在 JavaScript 文件中硬编码 Webhook Secret（whsec_...）
+- [x] 没有在 JavaScript 文件中硬编码 Stripe 公钥（pk_test_...）
 - [x] 所有文档使用占位符，不包含真实密钥
 - [x] `.env` 和 `.env.local` 在 `.gitignore` 中
+- [x] 创建了 `inject-env.js` 用于构建时注入环境变量
+- [x] 更新了 `netlify.toml` 自动运行注入脚本
 
 ### 环境配置
 

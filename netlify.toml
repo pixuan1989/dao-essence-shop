@@ -1,14 +1,27 @@
 # Netlify 部署配置
 
 [build]
-  # 没有构建过程（纯静态网站）
-  command = "echo 'DAO Essence shop ready for deployment'"
+  # 注入 Stripe 公钥到所有 HTML 文件
+  command = "node inject-env.js && echo 'DAO Essence shop ready for deployment'"
   publish = "."
   functions = "netlify/functions"
 
 # 环境变量
 # 注意：所有密钥都应在 Netlify Dashboard 中配置
 # STRIPE_PUBLIC_KEY 和 STRIPE_SECRET_KEY 需要在 Netlify Dashboard 设置
+
+# 注入环境变量到浏览器
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Content-Security-Policy = "script-src 'self' 'unsafe-inline' https://js.stripe.com https://checkout.stripe.com"
+
+# 自动重定向
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+  force = false
 
 # 重定向规则
 [[redirects]]

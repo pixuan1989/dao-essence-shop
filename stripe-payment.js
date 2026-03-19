@@ -13,8 +13,18 @@ let stripe;
 
 // 初始化 Stripe
 function initStripe() {
-    // 优先使用环境变量，否则使用测试密钥
-    const publicKey = process.env.STRIPE_PUBLIC_KEY || 'pk_test_51TCXN018te51GWieGBFm9rFjcfiZoLq8HEopzrq9gKHOnCi7afzcdUGuptRdlDrLMs6QiFl7bvHfOmIOPKstjPGk00zANzAQjV';
+    // 从 window 对象获取公钥（由 Netlify 在构建时注入）
+    // 格式：window.stripeConfig = { publicKey: 'pk_test_...' }
+    const publicKey = window.stripeConfig?.publicKey ||
+                     window.STRIPE_PUBLIC_KEY ||
+                     '';
+
+    if (!publicKey) {
+        console.error('❌ Stripe public key not configured. Please check Netlify environment variables.');
+        alert('支付系统配置错误，请联系客服');
+        return;
+    }
+
     stripe = Stripe(publicKey);
     console.log('✅ Stripe initialized');
 }

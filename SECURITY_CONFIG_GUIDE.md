@@ -52,9 +52,11 @@ STRIPE_WEBHOOK_SECRET=whsec_...
 
 | 变量名 | 值 | 说明 |
 |--------|-----|------|
-| `STRIPE_PUBLIC_KEY` | `pk_test_51TCXN018te51GWieGBFm9rFjcfiZoLq8HEopzrq9gKHOnCi7afzcdUGuptRdlDrLMs6QiFl7bvHfOmIOPKstjPGk00zANzAQjV` | Stripe 公钥（前端使用） |
-| `STRIPE_SECRET_KEY` | `sk_test_51TCXN018te51GWiewKqP8Rp8reBZP8oL4WCxngJPliUJKjHbRbRIgpqeEnZ67XylRnLfNvC09I0FXSYhDZo5hsDx00ofI4i5z6` | Stripe 私钥（后端使用） |
-| `STRIPE_WEBHOOK_SECRET` | `whsec_...` | Webhook 密钥（从 Stripe Dashboard 获取） |
+| `STRIPE_PUBLIC_KEY` | `pk_test_...` | Stripe 公钥（从 Stripe Dashboard - API Keys 复制） |
+| `STRIPE_SECRET_KEY` | `sk_test_...` | Stripe 私钥（从 Stripe Dashboard - API Keys 复制） |
+| `STRIPE_WEBHOOK_SECRET` | `whsec_...` | Webhook 密钥（从 Stripe Dashboard - Webhooks 复制） |
+
+**注意**：请从你的 Stripe Dashboard 复制实际的密钥，不要使用上面的占位符。
 
 #### 步骤 4：获取 Webhook Secret
 

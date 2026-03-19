@@ -264,8 +264,18 @@ class StripePaymentManager {
 let paymentManager = null;
 
 document.addEventListener('DOMContentLoaded', () => {
+    // 从 window 对象获取公钥（由 Netlify 在构建时注入）
+    const publicKey = window.stripeConfig?.publicKey ||
+                     window.STRIPE_PUBLIC_KEY ||
+                     '';
+
+    if (!publicKey) {
+        console.error('❌ Stripe public key not configured');
+        return;
+    }
+
     paymentManager = new StripePaymentManager({
-        apiKey: 'pk_test_51TCXN018te51GWieGBFm9rFjcfiZoLq8HEopzrq9gKHOnCi7afzcdUGuptRdlDrLMs6QiFl7bvHfOmIOPKstjPGk00zANzAQjV',
+        apiKey: publicKey,
         merchantEmail: '18115755283@163.com',
         merchantName: 'DAO Essence'
     });
