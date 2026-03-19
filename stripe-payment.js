@@ -64,8 +64,16 @@ async function handleStripePayment() {
             throw new Error('购物车是空的');
         }
 
-        const cart = JSON.parse(cartData);
-        if (cart.items.length === 0) {
+        // 支持两种格式：数组 或 { items: [...] }
+        const parsed = JSON.parse(cartData);
+        let cart;
+        if (Array.isArray(parsed)) {
+            cart = { items: parsed };
+        } else {
+            cart = parsed;
+        }
+
+        if (!cart.items || cart.items.length === 0) {
             throw new Error('购物车是空的');
         }
 
@@ -134,8 +142,24 @@ function loadCartItems() {
         return;
     }
 
-    const cart = JSON.parse(cartData);
-    if (cart.items.length === 0) {
+    // 支持两种格式：数组 或 { items: [...] }
+    let cart;
+    try {
+        const parsed = JSON.parse(cartData);
+        if (Array.isArray(parsed)) {
+            // 旧格式：直接是数组
+            cart = { items: parsed };
+        } else {
+            // 新格式：对象
+            cart = parsed;
+        }
+    } catch (e) {
+        console.error('Cart data parse error:', e);
+        showEmptyCart();
+        return;
+    }
+
+    if (!cart.items || cart.items.length === 0) {
         showEmptyCart();
         return;
     }

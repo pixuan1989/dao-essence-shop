@@ -135,7 +135,8 @@
             // 重新计算总价
             const cartData = localStorage.getItem('daoessence_cart');
             if (cartData) {
-                const cart = JSON.parse(cartData);
+                const parsed = JSON.parse(cartData);
+                const cart = Array.isArray(parsed) ? { items: parsed } : parsed;
                 const subtotal = cart.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
                 const total = subtotal + shipping;
                 document.getElementById('grand-total').textContent = '$' + total.toFixed(2);
