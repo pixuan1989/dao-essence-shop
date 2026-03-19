@@ -9,10 +9,10 @@
     "install-deps": "npm install"
   },
   "dependencies": {
-    "stripe": "^14.0.0",
-    "express": "^4.18.2",
-    "cors": "^2.8.5",
-    "dotenv": "^16.3.1"
+    "cors": "^2.8.6",
+    "dotenv": "^16.6.1",
+    "express": "^4.22.1",
+    "stripe": "^14.25.0"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"

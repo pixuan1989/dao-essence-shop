@@ -92,6 +92,57 @@ app.get('/api/payment-intent/:id', async (req, res) => {
     }
 });
 
+// Get Order Status
+app.get('/api/order/:orderId', async (req, res) => {
+    try {
+        const { orderId } = req.params;
+        const { getOrderStatus } = require('./webhook-handler.js');
+
+        const order = await getOrderStatus(orderId);
+
+        if (!order) {
+            return res.status(404).json({
+                success: false,
+                error: 'Order not found'
+            });
+        }
+
+        res.json({
+            success: true,
+            order: order
+        });
+
+    } catch (error) {
+        console.error('Error retrieving order status:', error);
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
+});
+
+// Get Order History
+app.get('/api/orders', async (req, res) => {
+    try {
+        const { getOrderHistory } = require('./webhook-handler.js');
+
+        const orders = await getOrderHistory();
+
+        res.json({
+            success: true,
+            orders: orders,
+            count: orders.length
+        });
+
+    } catch (error) {
+        console.error('Error retrieving order history:', error);
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
+});
+
 // Webhook endpoint for payment status updates
 app.post('/api/webhook', express.raw({ type: 'application/json' }), async (req, res) => {
     const sig = req.headers['stripe-signature'];
@@ -106,26 +157,58 @@ app.post('/api/webhook', express.raw({ type: 'application/json' }), async (req, 
         return res.status(400).send(`Webhook Error: ${err.message}`);
     }
 
+    console.log(`📨 Webhook received: ${event.type}`);
+
     // Handle the event
     switch (event.type) {
         case 'payment_intent.succeeded':
             const paymentIntent = event.data.object;
-            console.log('Payment succeeded:', paymentIntent.id);
-            // Here you can: update database, send email, etc.
+            console.log('✅ Payment succeeded:', paymentIntent.id);
+
+            // 调用 webhook 处理器
+            try {
+                const { handlePaymentSucceeded } = require('./webhook-handler.js');
+                await handlePaymentSucceeded(paymentIntent);
+            } catch (error) {
+                console.error('Error processing payment success:', error);
+            }
             break;
 
         case 'payment_intent.payment_failed':
             const failedPayment = event.data.object;
-            console.log('Payment failed:', failedPayment.id);
-            // Handle failed payment
+            console.log('❌ Payment failed:', failedPayment.id);
+
+            // 调用 webhook 处理器
+            try {
+                const { handlePaymentFailed } = require('./webhook-handler.js');
+                await handlePaymentFailed(failedPayment);
+            } catch (error) {
+                console.error('Error processing payment failure:', error);
+            }
             break;
 
         case 'payment_intent.created':
-            console.log('Payment Intent created:', event.data.object.id);
+            console.log('📝 Payment Intent created:', event.data.object.id);
+            break;
+
+        case 'payment_intent.canceled':
+            console.log('⚠️ Payment Intent canceled:', event.data.object.id);
+            break;
+
+        case 'checkout.session.completed':
+            console.log('🛒 Checkout session completed:', event.data.object.id);
+            break;
+
+        case 'invoice.paid':
+            console.log('📄 Invoice paid:', event.data.object.id);
+            break;
+
+        case 'invoice.payment_failed':
+            console.log('📄 Invoice payment failed:', event.data.object.id);
             break;
 
         default:
-            console.log(`Unhandled event type: ${event.type}`);
+            console.log(`ℹ️ Unhandled event type: ${event.type}`);
     }
 
     res.json({ received: true });
