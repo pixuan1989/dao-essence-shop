@@ -8,7 +8,7 @@
     <script src="https://js.stripe.com/v3/"></script>
 </head>
 <body>
-    <!-- Navigation Header -->
+    <!-- Navigation Header - 与其他页面保持一致 -->
     <header class="header">
         <div class="container">
             <nav class="nav">
@@ -21,13 +21,9 @@
                 <ul class="nav-menu">
                     <li><a href="index.html" class="nav-link">Home</a></li>
                     <li><a href="culture.html" class="nav-link">Energy Universe</a></li>
-                    <li><a href="shop.html" class="nav-link">Energy Shop</a></li>
+                    <li><a href="shop.html" class="nav-link active">Energy Shop</a></li>
                     <li><a href="guide.html" class="nav-link">Crafting Process</a></li>
                     <li><a href="about.html" class="nav-link">About Us</a></li>
-                    <li><a href="javascript:void(0)" class="nav-cta" onclick="window.location.href='shop.html'" style="position: relative;">
-                        🛒 Cart
-                        <span class="cart-badge" id="cartBadge" style="display: none;">0</span>
-                    </a></li>
                 </ul>
                 <button class="mobile-menu-btn">
                     <span></span>
@@ -133,35 +129,50 @@
 
         <!-- 页脚 -->
         <footer class="footer">
-            <div class="footer-container">
-                <div class="footer-section">
-                    <h3>道本精酿</h3>
-                    <p>传承千年智慧 · 精选五行能量产品</p>
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-brand">
+                        <div class="logo">
+                            <span class="logo-en">DAO ESSENCE</span>
+                        </div>
+                        <p>Ancient Wisdom, Modern Harmony. Based on authentic Taoist traditions, we offer verifiable traditional cultural products and services with genuine energy properties.</p>
+                    </div>
+                    <div>
+                        <h4 class="footer-title">Navigation</h4>
+                        <ul class="footer-links">
+                            <li><a href="index.html">Home</a></li>
+                            <li><a href="culture.html">Energy Universe</a></li>
+                            <li><a href="shop.html">Energy Shop</a></li>
+                            <li><a href="guide.html">Crafting Process</a></li>
+                            <li><a href="about.html">About Us</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="footer-title">Services</h4>
+                        <ul class="footer-links">
+                            <li><a href="#">BaZi Analysis</a></li>
+                            <li><a href="#">Annual Fortune</a></li>
+                            <li><a href="#">Personal Consultation</a></li>
+                            <li><a href="#">Custom Items</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="footer-title">Contact</h4>
+                        <ul class="footer-links">
+                            <li>
+                                <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle;margin-right:5px"><path d="M3 4h14a1 1 0 011 1v10a1 1 0 01-1 1H3a1 1 0 01-1-1V5a1 1 0 011-1z"/><path d="M3 5l7 6 7-6"/></svg>
+                                support@daoessence.com
+                            </li>
+                            <li>
+                                <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle;margin-right:5px"><path d="M2 5a2 2 0 012-2h12a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V5z"/><path d="M7 10h6M7 13h4"/></svg>
+                                WhatsApp: +86 181 1575 5283
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="footer-section">
-                    <h3>快速链接</h3>
-                    <ul>
-                        <li><a href="shop.html">商城</a></li>
-                        <li><a href="about.html">关于</a></li>
-                        <li><a href="contact.html">联系</a></li>
-                    </ul>
+                <div class="footer-bottom">
+                    <p>© 2026 DAO Essence & Five Elements. All rights reserved.</p>
                 </div>
-                <div class="footer-section">
-                    <h3>客户服务</h3>
-                    <ul>
-                        <li><a href="policy.html">隐私政策</a></li>
-                        <li><a href="#">配送信息</a></li>
-                        <li><a href="#">退换政策</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h3>联系我们</h3>
-                    <p>邮箱: 18115755283@163.com</p>
-                    <p>微信: dao_essence</p>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2024 道本精酿 | DAO Essence. All rights reserved.</p>
             </div>
         </footer>
 
