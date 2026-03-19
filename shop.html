@@ -740,7 +740,8 @@
                 } else {
                     this._items.push({
                         id: product.id,
-                        name: product.nameCN || product.name,
+                        name: product.name || product.nameCN || '',  // 英文名
+                        nameCn: product.nameCN || product.name || '',  // 中文名
                         price: product.price,
                         quantity: 1,
                         image: product.image

@@ -3228,9 +3228,7 @@
 
             // 检查购物车中是否已有该商品
             const existingItem = cart.find(item => {
-                // 兼容旧数据结构和新数据结构
-                const itemId = item.variantId || item.id;
-                return itemId === productKey;
+                return item.id === productKey;
             });
 
             if (existingItem) {
@@ -3239,11 +3237,11 @@
                 const totalPriceUSD = (existingItem.quantity * priceUSD).toFixed(2);
                 showNotification(`Updated: ${quantity} more added - Total: ${existingItem.quantity} items`);
             } else {
-                // 新商品，添加到购物车（与shop.html数据结构一致）
+                // 新商品，添加到购物车（与shop.html和checkout数据结构一致）
                 cart.push({
-                    variantId: productKey,  // 使用商品的基本 id
-                    titleEn: PRODUCT_DATA.title,
-                    titleZh: PRODUCT_DATA.titleZh || PRODUCT_DATA.title.split(' ')[0], // 从title中提取中文标题
+                    id: productKey,  // 商品ID
+                    name: PRODUCT_DATA.title,  // 英文名
+                    nameCn: PRODUCT_DATA.titleZh || PRODUCT_DATA.title.split(' ')[0], // 中文名
                     price: priceUSD,
                     quantity: quantity,
                     image: PRODUCT_DATA.images[0]?.src || ''
