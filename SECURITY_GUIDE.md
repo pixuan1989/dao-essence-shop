@@ -79,8 +79,8 @@ git push origin main
 
 1. **不要将 API 密钥写在代码中**
    ```javascript
-   // ❌ 错误
-   const apiKey = 'sk_test_51TCXN018te51GWieGBFm9rFjcfiZoLq8HEopzrq9gKHOnCi7afzcdUGuptRdlDrLMs6QiFl7bvHfOmIOPKstjPGk00zANzAQjV';
+   // ❌ 错误示例
+   const apiKey = 'sk_test_...'; // 不要在代码中硬编码真实密钥
    ```
 
 2. **不要将 token 写在配置文件中**
@@ -162,7 +162,7 @@ grep -r "password.*=" . --exclude-dir=.git
 
 ### 1. 立即配置 Netlify 环境变量
 ```
-STRIPE_SECRET_KEY = sk_test_51TCXN018te51GWieGBFm9rFjcfiZoLq8HEopzrq9gKHOnCi7afzcdUGuptRdlDrLMs6QiFl7bvHfOmIOPKstjPGk00zANzAQjV
+STRIPE_SECRET_KEY = sk_test_... (从 Stripe Dashboard 获取)
 ```
 
 ### 2. 删除或修改包含 token 的文件

@@ -3,8 +3,8 @@
 ## ✅ 已完成的配置
 
 ### 1. Stripe API 密钥配置
-- **公钥 (Public Key)**: `pk_test_51TCXN018te51GWieGBFm9rFjcfiZoLq8HEopzrq9gKHOnCi7afzcdUGuptRdlDrLMs6QiFl7bvHfOmIOPKstjPGk00zANzAQjV`
-- **私钥 (Secret Key)**: `sk_test_51TCXN018te51GWieGBFm9rFjcfiZoLq8HEopzrq9gKHOnCi7afzcdUGuptRdlDrLMs6QiFl7bvHfOmIOPKstjPGk00zANzAQjV`（已配置到 netlify.toml）
+- **公钥 (Public Key)**: `pk_test_...` (从 Stripe Dashboard 获取)
+- **私钥 (Secret Key)**: `sk_test_...` (从 Stripe Dashboard 获取，用于 Netlify Functions)
 
 ### 2. 已更新的文件
 - ✅ `payment-manager.js` - 已更新 Stripe 公钥
