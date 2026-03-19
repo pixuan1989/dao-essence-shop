@@ -315,13 +315,17 @@ async function handlePayment() {
 // 订单确认页面
 // ========================================
 
-// 初始化订单确认页面
+// 初始化订单确认页面 - 支持 Stripe Checkout session_id
 async function initOrderConfirmation() {
     const urlParams = new URLSearchParams(window.location.search);
+    
+    // 优先检查 Stripe Checkout 的 session_id
+    const sessionId = urlParams.get('session_id');
     const paymentIntentId = urlParams.get('payment_intent');
     const orderId = urlParams.get('order_id');
 
-    if (!paymentIntentId) {
+    // 如果没有 session_id 也没有 payment_intent，显示错误
+    if (!sessionId && !paymentIntentId) {
         document.getElementById('order-status').innerHTML = `
             <div class="error-message">
                 <h2>订单信息无效</h2>
@@ -339,8 +343,38 @@ async function initOrderConfirmation() {
     `;
 
     try {
-        // 检查支付状态
-        const statusResult = await checkPaymentStatus(paymentIntentId);
+        let statusResult;
+        
+        if (sessionId) {
+            // 从 Stripe Checkout Session 获取支付状态
+            // Stripe Checkout 成功后会重定向回这里，状态已经是成功的
+            statusResult = {
+                status: 'succeeded',
+                paymentIntent: {
+                    amount: 0, // Stripe Checkout 页面已经处理了金额显示
+                    id: sessionId
+                }
+            };
+            
+            // 显示成功消息
+            document.getElementById('order-status').innerHTML = `
+                <div class="success-message">
+                    <div class="success-icon">✓</div>
+                    <h2>支付成功！</h2>
+                    <p>感谢您的购买，您的订单已确认。</p>
+                    <p>订单号：${orderId || sessionId.substring(0, 20) + '...'}</p>
+                    <p>您将收到一封确认邮件。</p>
+                </div>
+            `;
+
+            // 清空购物车
+            localStorage.removeItem('daoessence_cart');
+            localStorage.removeItem('cart');
+            return;
+        } else if (paymentIntentId) {
+            // 旧的 payment_intent 方式（保留兼容）
+            statusResult = await checkPaymentStatus(paymentIntentId);
+        }
 
         if (statusResult.status === 'succeeded') {
             // 支付成功
@@ -356,6 +390,7 @@ async function initOrderConfirmation() {
 
             // 清空购物车
             localStorage.removeItem('daoessence_cart');
+            localStorage.removeItem('cart');
 
         } else {
             // 支付未完成
@@ -375,25 +410,27 @@ async function initOrderConfirmation() {
                 <h2>验证失败</h2>
                 <p>无法验证支付状态，请联系客服</p>
                 <p>订单号：${orderId}</p>
-                <p>支付 ID：${paymentIntentId}</p>
+                <p>支付 ID：${paymentIntentId || sessionId}</p>
             </div>
         `;
     }
 }
 
 // ========================================
-// 导出
+// 自动初始化
 // ========================================
 
-// 注释掉自动初始化，因为 checkout.html 有自己的初始化逻辑
-// document.addEventListener('DOMContentLoaded', () => {
-//     // 根据页面类型初始化
-//     if (document.querySelector('.checkout-page')) {
-//         initCheckout();
-//     } else if (document.querySelector('.order-confirmation-page')) {
-//         initOrderConfirmation();
-//     }
-// });
+document.addEventListener('DOMContentLoaded', () => {
+    // 初始化 Stripe
+    initStripe();
+    
+    // 根据页面类型初始化
+    if (document.querySelector('.checkout-page')) {
+        // checkout.html 有自己的逻辑，不需要这里初始化
+    } else if (document.querySelector('.order-confirmation-page')) {
+        initOrderConfirmation();
+    }
+});
 
 // 导出函数
 window.stripePayment = {

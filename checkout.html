@@ -432,77 +432,72 @@
                   '请截图订单详情后联系客服完成支付。');
         }
 
-        // 处理 Stripe 支付
+        // 处理 Stripe 支付 - 使用 Stripe Checkout 重定向方式
         async function handleStripePayment(button) {
             // 禁用按钮
             button.disabled = true;
             button.textContent = '正在连接 Stripe...';
 
             try {
-                // 检查服务器状态
-                const serverHealthy = await checkServerHealth();
-                if (!serverHealthy) {
-                    throw new Error('支付服务器未启动。请确保后端服务器正在运行（npm start）');
-                }
-
-                // 创建 Payment Intent
+                // 计算总价
                 const totalAmount = cart.getTotal() + currentShipping;
-                const metadata = {
-                    orderId: generateOrderId(),
-                    items: cart.items.map(item => ({
-                        id: item.id,
-                        name: item.name,
-                        quantity: item.quantity
-                    })).join(','),
-                    shipping: currentShipping
-                };
+                const orderId = generateOrderId();
 
-                button.textContent = '正在创建订单...';
-                const paymentData = await createPaymentIntent(totalAmount, metadata);
-
-                if (!paymentData.success || !paymentData.clientSecret) {
-                    throw new Error('创建支付订单失败');
-                }
-
-                // 使用 Stripe.js 处理支付
-                button.textContent = '正在处理支付...';
-
-                const { error, paymentIntent } = await stripe.confirmPayment({
-                    clientSecret: paymentData.clientSecret,
-                    confirmParams: {
-                        return_url: window.location.href + '?payment_success=true',
-                        payment_method_data: {
-                            billing_details: {
-                                name: 'DAO Essence Customer'
-                            }
-                        }
+                // 准备商品信息用于 Stripe Checkout
+                const lineItems = cart.items.map(item => ({
+                    price_data: {
+                        currency: 'usd',
+                        product_data: {
+                            name: item.name,
+                            description: item.nameCn || item.name
+                        },
+                        unit_amount: Math.round(item.price * 100) // Stripe 以分为单位
                     },
-                    confirm: true,
+                    quantity: item.quantity
+                }));
+
+                // 添加运费
+                lineItems.push({
+                    price_data: {
+                        currency: 'usd',
+                        product_data: {
+                            name: '运费',
+                            description: '标准运输'
+                        },
+                        unit_amount: Math.round(currentShipping * 100)
+                    },
+                    quantity: 1
                 });
 
-                if (error) {
-                    // 支付失败
-                    console.error('Payment error:', error);
-                    throw new Error(error.message || '支付失败，请重试');
+                button.textContent = '正在创建订单...';
+
+                // 调用 Netlify Function 创建 Checkout Session
+                const response = await fetch(`${API_BASE_URL}/create-checkout-session`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        items: lineItems,
+                        successUrl: `${window.location.origin}/order-confirm.html?session_id={CHECKOUT_SESSION_ID}`,
+                        cancelUrl: `${window.location.origin}/checkout.html?canceled=true`
+                    })
+                });
+
+                const session = await response.json();
+
+                if (!session.success || !session.sessionId) {
+                    throw new Error(session.error || '创建支付会话失败');
                 }
 
-                if (paymentIntent && paymentIntent.status === 'succeeded') {
-                    // 支付成功
-                    alert('✅ Stripe 支付成功！\n\n' +
-                          '订单号：' + metadata.orderId + '\n' +
-                          '支付金额：$' + totalAmount.toFixed(2) + '\n\n' +
-                          '感谢您的购买！\n' +
-                          '我们将尽快发货。');
+                // 重定向到 Stripe Checkout
+                button.textContent = '正在跳转到支付页面...';
+                const result = await stripe.redirectToCheckout({
+                    sessionId: session.sessionId
+                });
 
-                    // 清空购物车
-                    cart.items = [];
-                    cart.save();
-                    updateOrderSummary();
-
-                    // 跳转到商店页
-                    setTimeout(() => {
-                        window.location.href = 'shop.html';
-                    }, 1000);
+                if (result.error) {
+                    throw new Error(result.error.message);
                 }
 
             } catch (error) {
@@ -510,11 +505,7 @@
 
                 alert('❌ 支付处理失败\n\n' +
                       '错误信息：' + error.message + '\n\n' +
-                      '请检查：\n' +
-                      '1. 后端服务器是否启动（运行 npm start）\n' +
-                      '2. Stripe 密钥是否正确\n' +
-                      '3. 网络连接是否正常\n\n' +
-                      '如需帮助，请联系客服。');
+                      '请稍后重试或联系客服。');
 
                 // 恢复按钮状态
                 button.disabled = false;
@@ -536,11 +527,7 @@
                 window.history.replaceState({}, document.title, window.location.pathname);
             }
         }
-                    }, 1000);
-                }, 500);
-            }
-        });
-        
+
         // 生成订单ID
         function generateOrderId() {
             return 'DAO' + Date.now() + Math.random().toString(36).substr(2, 9).toUpperCase();
