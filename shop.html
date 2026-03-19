@@ -704,7 +704,7 @@
     <script>
         // Local Shopping Cart Implementation
         const cart = {
-            items: JSON.parse(localStorage.getItem('cart') || '[]'),
+            items: JSON.parse(localStorage.getItem('daoessence_cart') || '[]'),
             
             add(product) {
                 const existingItem = this.items.find(item => item.id === product.id);
@@ -739,7 +739,7 @@
             },
             
             save() {
-                localStorage.setItem('cart', JSON.stringify(this.items));
+                localStorage.setItem('daoessence_cart', JSON.stringify(this.items));
             },
             
             getTotal() {
