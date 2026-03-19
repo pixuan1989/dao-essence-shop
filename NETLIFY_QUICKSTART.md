@@ -20,8 +20,15 @@ Netlify 会自动部署。
 2. **Site settings** → **Environment variables**
 3. 添加：
 
-```
-STRIPE_SECRET_KEY=sk_test_51TCXN018te51GWiewKqP8Rp8reBZP8oL4WCxngJPliUJKjHbRbRIgpqeEnZ67XylRnLfNvC09I0FXSYhDZo5hsDx00ofI4i5z6
+```bash
+# 从 Stripe Dashboard - API Keys 复制
+STRIPE_SECRET_KEY=sk_test_...
+
+# 从 Stripe Dashboard - Webhooks 复制（配置 Webhook 后生成）
+STRIPE_WEBHOOK_SECRET=whsec_...
+
+# 从 Stripe Dashboard - API Keys 复制
+STRIPE_PUBLIC_KEY=pk_test_...
 ```
 
 ### 3️⃣ 配置 Stripe Webhook

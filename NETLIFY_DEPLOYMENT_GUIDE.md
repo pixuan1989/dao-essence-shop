@@ -35,10 +35,18 @@
 
 添加以下环境变量：
 
+```bash
+# Stripe Secret Key (从 Stripe Dashboard 获取)
+STRIPE_SECRET_KEY=sk_test_...
+
+# Stripe Webhook Secret (配置 Webhook 后生成)
+STRIPE_WEBHOOK_SECRET=whsec_...
+
+# Stripe Publishable Key (前端使用)
+STRIPE_PUBLIC_KEY=pk_test_...
 ```
-STRIPE_SECRET_KEY=sk_test_51TCXN018te51GWiewKqP8Rp8reBZP8oL4WCxngJPliUJKjHbRbRIgpqeEnZ67XylRnLfNvC09I0FXSYhDZo5hsDx00ofI4i5z6
-STRIPE_WEBHOOK_SECRET=whsec_你的webhook_secret（稍后获取）
-```
+
+**注意**：请从你的 Stripe Dashboard 复制实际的密钥，不要使用上面的占位符。
 
 ### 步骤 2: 更新 netlify.toml
 
