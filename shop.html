@@ -637,10 +637,7 @@
     <!-- Snipcart Configuration (placeholder for future integration) -->
     <div hidden id="snipcart" data-api-key="YOUR_SNIPCART_API_KEY_HERE"></div>
 
-    <!-- Product Management Script -->
-    <script src="shop-manager.js?v=202603191430"></script>
-
-    <!-- Local Cart JavaScript -->
+    <!-- Local Cart JavaScript (Must load before shop-manager.js) -->
     <script>
         // Local Shopping Cart Implementation
         const cart = {
@@ -748,19 +745,26 @@
             }
         };
         
+        // Make addToCart global and available immediately
+        window.addToCart = function(productId) {
+            console.log('addToCart called with productId:', productId);
+            console.log('allProducts:', window.allProducts);
+            
+            const product = window.allProducts.find(p => p.id === productId);
+            if (product) {
+                console.log('Product found:', product);
+                cart.add(product);
+                alert(`✅ "${product.nameCN}" added to cart!`);
+            } else {
+                console.error('Product not found:', productId);
+                alert('Error: Product not found');
+            }
+        };
+        
         function toggleCart() {
             document.getElementById('cartModal').classList.toggle('active');
             if (document.getElementById('cartModal').classList.contains('active')) {
                 cart.renderCart();
-            }
-        }
-        
-        function addToCart(productId) {
-            // This will be called from shop-manager.js
-            const product = window.allProducts.find(p => p.id === productId);
-            if (product) {
-                cart.add(product);
-                alert(`✅ "${product.nameCN}" added to cart!`);
             }
         }
         
@@ -769,14 +773,18 @@
                 alert('Your cart is empty!');
                 return;
             }
-            alert('Checkout functionality coming soon! This is a demo.');
-            // In production, this would redirect to payment system
+            // Redirect to checkout page
+            window.location.href = 'checkout.html';
         }
         
         // Initialize cart UI on page load
         document.addEventListener('DOMContentLoaded', () => {
+            console.log('Cart initialized');
             cart.updateUI();
         });
     </script>
+
+    <!-- Product Management Script -->
+    <script src="shop-manager.js?v=202603191430"></script>
 </body>
 </html>
