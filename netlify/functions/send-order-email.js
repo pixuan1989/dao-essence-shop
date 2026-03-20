@@ -1,34 +1,25 @@
 /**
  * ============================================
- * DAO Essence - 订单邮件发送服务
- * 支付成功后同时发送：
- *   1. 买家：订单确认邮件
- *   2. 商家：新订单通知邮件
- * 
- * 环境变量配置（在 Netlify Dashboard 中设置）：
- *   EMAIL_USER     - Gmail 邮箱地址（发件人）
- *   EMAIL_PASS     - Gmail 应用专用密码（App Password）
- *   MERCHANT_EMAIL - 商家接收订单通知的邮箱
+ * DAO Essence - 订单邮件发送服务（阿里云邮件推送）
  * ============================================
  */
 
-const nodemailer = require('nodemailer');
+const Core = require('@alicloud/pop-core');
 
-// 创建邮件传输器
-function createTransporter() {
-    const emailUser = process.env.EMAIL_USER;
-    const emailPass = process.env.EMAIL_PASS;
+// 创建阿里云客户端
+function createClient() {
+    const accessKeyId = process.env.ALIYUN_ACCESS_KEY;
+    const accessKeySecret = process.env.ALIYUN_ACCESS_SECRET;
 
-    if (!emailUser || !emailPass) {
-        throw new Error('邮件配置缺失：EMAIL_USER 和 EMAIL_PASS 必须在环境变量中设置');
+    if (!accessKeyId || !accessKeySecret) {
+        throw new Error('阿里云配置缺失：ALIYUN_ACCESS_KEY 和 ALIYUN_ACCESS_SECRET 必须在环境变量中设置');
     }
 
-    return nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-            user: emailUser,
-            pass: emailPass  // Gmail 应用专用密码（16位）
-        }
+    return new Core({
+        accessKeyId: accessKeyId,
+        accessKeySecret: accessKeySecret,
+        endpoint: 'https://dm.aliyuncs.com',
+        apiVersion: '2015-11-23'
     });
 }
 
@@ -48,7 +39,7 @@ function formatItemsHtml(items) {
 }
 
 // 发送买家确认邮件
-async function sendBuyerConfirmationEmail(transporter, orderData) {
+async function sendBuyerConfirmationEmail(client, orderData) {
     const {
         customerEmail,
         customerName,
@@ -70,11 +61,16 @@ async function sendBuyerConfirmationEmail(transporter, orderData) {
         ? `<p style="margin:5px 0;color:#555;">${shippingAddress}</p>`
         : '';
 
-    const mailOptions = {
-        from: `"DAO Essence 道本精酿" <${process.env.EMAIL_USER}>`,
-        to: customerEmail,
-        subject: `✅ 订单确认 - DAO Essence | Order #${orderId}`,
-        html: `
+    const params = {
+        Action: 'SingleSendMail',
+        AccountName: process.env.ALIYUN_EMAIL_ACCOUNT,
+        FromAlias: 'DAO Essence',
+        AddressType: 1,
+        TagName: 'order',
+        ReplyToAddress: true,
+        ToAddress: customerEmail,
+        Subject: `✅ 订单确认 - DAO Essence | Order #${orderId}`,
+        HtmlBody: `
 <!DOCTYPE html>
 <html>
 <head>
@@ -183,13 +179,13 @@ async function sendBuyerConfirmationEmail(transporter, orderData) {
         `
     };
 
-    await transporter.sendMail(mailOptions);
+    await client.request('SingleSendMail', params);
     console.log(`✅ 买家确认邮件已发送至: ${customerEmail}`);
 }
 
 // 发送商家新订单通知邮件
-async function sendMerchantNotificationEmail(transporter, orderData) {
-    const merchantEmail = process.env.MERCHANT_EMAIL || process.env.EMAIL_USER;
+async function sendMerchantNotificationEmail(client, orderData) {
+    const merchantEmail = process.env.MERCHANT_EMAIL || process.env.ALIYUN_EMAIL_ACCOUNT;
 
     if (!merchantEmail) {
         console.log('⚠️ 商家邮箱未配置，跳过商家通知邮件');
@@ -210,11 +206,16 @@ async function sendMerchantNotificationEmail(transporter, orderData) {
 
     const itemsHtml = formatItemsHtml(items);
 
-    const mailOptions = {
-        from: `"DAO Essence 订单系统" <${process.env.EMAIL_USER}>`,
-        to: merchantEmail,
-        subject: `🛍️ 新订单到账！$${parseFloat(amount || 0).toFixed(2)} - Order #${orderId}`,
-        html: `
+    const params = {
+        Action: 'SingleSendMail',
+        AccountName: process.env.ALIYUN_EMAIL_ACCOUNT,
+        FromAlias: 'DAO Essence 订单系统',
+        AddressType: 1,
+        TagName: 'merchant',
+        ReplyToAddress: true,
+        ToAddress: merchantEmail,
+        Subject: `🛍️ 新订单到账！$${parseFloat(amount || 0).toFixed(2)} - Order #${orderId}`,
+        HtmlBody: `
 <!DOCTYPE html>
 <html>
 <head><meta charset="UTF-8"></head>
@@ -287,7 +288,7 @@ async function sendMerchantNotificationEmail(transporter, orderData) {
         `
     };
 
-    await transporter.sendMail(mailOptions);
+    await client.request('SingleSendMail', params);
     console.log(`✅ 商家通知邮件已发送至: ${merchantEmail}`);
 }
 
@@ -306,13 +307,13 @@ exports.handler = async (event, context) => {
 
         console.log('📧 开始发送订单邮件，订单号:', orderData.orderId);
 
-        // 创建邮件传输器
-        const transporter = createTransporter();
+        // 创建阿里云客户端
+        const client = createClient();
 
         // 并行发送两封邮件
         const results = await Promise.allSettled([
-            sendBuyerConfirmationEmail(transporter, orderData),
-            sendMerchantNotificationEmail(transporter, orderData)
+            sendBuyerConfirmationEmail(client, orderData),
+            sendMerchantNotificationEmail(client, orderData)
         ]);
 
         const buyerResult = results[0];
