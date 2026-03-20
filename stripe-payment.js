@@ -27,13 +27,17 @@ function initStripe() {
 /**
  * 创建 Checkout Session 并跳转到 Stripe
  */
-async function createCheckoutSession(items, shipping) {
+async function createCheckoutSession(items, shipping, buyerInfo = {}) {
     const response = await fetch(`${API_BASE_URL}/create-checkout-session`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
             items: items,
-            shipping: shipping
+            shipping: shipping,
+            customerName: buyerInfo.customerName || '',
+            customerEmail: buyerInfo.customerEmail || '',
+            shippingAddress: buyerInfo.shippingAddress || '',
+            shippingMethod: buyerInfo.shippingMethod || '标准运输'
         })
     });
 
@@ -52,6 +56,29 @@ async function createCheckoutSession(items, shipping) {
 async function handleStripePayment() {
     const payButton = document.getElementById('pay-button');
     if (!payButton) return;
+
+    // 验证买家信息
+    const buyerName = document.getElementById('buyer-name')?.value?.trim();
+    const buyerEmail = document.getElementById('buyer-email')?.value?.trim();
+    const buyerAddress = document.getElementById('buyer-address')?.value?.trim();
+
+    // 必填项验证
+    if (!buyerName) {
+        document.getElementById('buyer-name')?.classList.add('error');
+        document.getElementById('buyer-name')?.focus();
+        alert('请填写收件人姓名');
+        return;
+    }
+    if (!buyerEmail || !buyerEmail.includes('@')) {
+        document.getElementById('buyer-email')?.classList.add('error');
+        document.getElementById('buyer-email')?.focus();
+        alert('请填写有效的邮箱地址');
+        return;
+    }
+
+    // 清除错误状态
+    document.getElementById('buyer-name')?.classList.remove('error');
+    document.getElementById('buyer-email')?.classList.remove('error');
 
     // 禁用按钮，显示加载状态
     payButton.disabled = true;
@@ -80,10 +107,24 @@ async function handleStripePayment() {
         // 2. 计算总价
         const shippingSelect = document.getElementById('shipping-select');
         const shippingRate = shippingSelect ? parseFloat(shippingSelect.value) || 15 : 15;
+        const shippingOptions = { '15': '标准运输 (15-25天)', '35': '快速运输 (7-10天)', '55': 'DHL快递 (3-5天)' };
+        const shippingMethod = shippingOptions[String(shippingRate)] || '标准运输';
+
         const subtotal = cart.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
         const total = subtotal + shippingRate;
 
-        // 3. 准备商品数据
+        // 3. 保存买家信息到 localStorage（供订单确认页使用）
+        const buyerInfo = {
+            name: buyerName,
+            email: buyerEmail,
+            address: buyerAddress,
+            shippingMethod: shippingMethod,
+            shippingRate: shippingRate,
+            total: total
+        };
+        localStorage.setItem('daoessence_buyer', JSON.stringify(buyerInfo));
+
+        // 4. 准备商品数据
         const items = cart.items.map(item => ({
             id: item.id,
             name: item.name,
@@ -93,11 +134,16 @@ async function handleStripePayment() {
             image: item.image
         }));
 
-        // 4. 创建 Stripe Checkout Session
+        // 5. 创建 Stripe Checkout Session（带买家信息）
         payButton.textContent = '正在跳转支付...';
-        const result = await createCheckoutSession(items, shippingRate);
+        const result = await createCheckoutSession(items, shippingRate, {
+            customerName: buyerName,
+            customerEmail: buyerEmail,
+            shippingAddress: buyerAddress,
+            shippingMethod: shippingMethod
+        });
 
-        // 5. 检查是否是测试模式
+        // 6. 检查是否是测试模式
         if (result.testMode) {
             // 测试模式：直接跳转到成功页面
             console.log('🧪 测试模式：直接跳转成功页面');
@@ -108,7 +154,7 @@ async function handleStripePayment() {
             return;
         }
 
-        // 5. 跳转到 Stripe Checkout
+        // 7. 跳转到 Stripe Checkout
         const stripeInstance = initStripe();
         const { error } = await stripeInstance.redirectToCheckout({
             sessionId: result.sessionId
@@ -124,7 +170,7 @@ async function handleStripePayment() {
         
         // 恢复按钮
         payButton.disabled = false;
-        payButton.textContent = '去支付';
+        payButton.textContent = '去支付 →';
     }
 }
 

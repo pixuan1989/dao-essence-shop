@@ -32,11 +32,12 @@ exports.handler = async (event, context) => {
     // ========== 测试模式结束 ==========
 
     try {
-        const { items, shipping } = JSON.parse(event.body);
+        const { items, shipping, customerName, customerEmail, shippingAddress, shippingMethod } = JSON.parse(event.body);
 
         // 创建 Stripe Checkout Session
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
+            customer_email: customerEmail || undefined,  // 预填邮箱
             line_items: items.map(item => ({
                 price_data: {
                     currency: 'usd',
@@ -60,7 +61,7 @@ exports.handler = async (event, context) => {
                             amount: Math.round(shipping * 100),
                             currency: 'usd',
                         },
-                        display_name: '标准运输',
+                        display_name: shippingMethod || '标准运输',
                         delivery_estimate: {
                             minimum: {
                                 unit: 'business_day',
@@ -75,7 +76,13 @@ exports.handler = async (event, context) => {
                 }
             ],
             metadata: {
-                total_items: items.reduce((sum, item) => sum + item.quantity, 0)
+                customerName: customerName || '',
+                customerEmail: customerEmail || '',
+                shippingAddress: shippingAddress || '',
+                shippingMethod: shippingMethod || '标准运输',
+                total_items: items.reduce((sum, item) => sum + item.quantity, 0),
+                // 存储商品信息（简化版）
+                items_summary: items.map(i => `${i.nameCn || i.name}×${i.quantity}`).join(', ')
             }
         });
 

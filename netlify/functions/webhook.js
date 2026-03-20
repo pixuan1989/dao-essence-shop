@@ -10,6 +10,33 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
+/**
+ * 调用邮件发送 Function（内部 Netlify 函数间调用）
+ */
+async function sendOrderEmails(orderData) {
+    try {
+        // Netlify Functions 内部调用 send-order-email
+        const baseUrl = process.env.URL || process.env.DEPLOY_URL || 'https://amazing-quokka-7e84ea.netlify.app';
+        const emailApiUrl = `${baseUrl}/.netlify/functions/send-order-email`;
+
+        console.log('📧 触发邮件发送，URL:', emailApiUrl);
+
+        const response = await fetch(emailApiUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(orderData)
+        });
+
+        const result = await response.json();
+        console.log('📧 邮件发送结果:', result);
+        return result;
+    } catch (error) {
+        // 邮件失败不影响 Webhook 主流程
+        console.error('⚠️ 邮件发送失败（非致命错误）:', error.message);
+        return { success: false, error: error.message };
+    }
+}
+
 exports.handler = async (event, context) => {
     // 只允许 POST 请求
     if (event.httpMethod !== 'POST') {
@@ -69,10 +96,13 @@ exports.handler = async (event, context) => {
                     orderId: session.metadata?.orderId || session.id,
                     amount: session.amount_total / 100,
                     currency: session.currency,
-                    customerEmail: sessionDetails.customer_details?.email,
+                    customerEmail: session.metadata?.customerEmail || sessionDetails.customer_details?.email,
                     paymentId: session.payment_intent,
                     paymentType: 'checkout_session',
-                    customerName: sessionDetails.customer_details?.name
+                    customerName: session.metadata?.customerName || sessionDetails.customer_details?.name,
+                    shippingAddress: session.metadata?.shippingAddress || '',
+                    shippingMethod: session.metadata?.shippingMethod || '标准运输',
+                    items: session.metadata?.items_summary ? [{ nameCn: session.metadata.items_summary, name: session.metadata.items_summary, quantity: 1, price: session.amount_total / 100 }] : []
                 });
                 break;
 
@@ -105,7 +135,7 @@ exports.handler = async (event, context) => {
 
 /**
  * 处理支付成功的逻辑
- * TODO: 根据实际需求保存到数据库
+ * 支付完成后发送订单确认邮件给买家和商家
  */
 async function handlePaymentSucceeded(orderData) {
     console.log('========== 订单信息 ==========');
@@ -117,10 +147,9 @@ async function handlePaymentSucceeded(orderData) {
     console.log('客户姓名:', orderData.customerName);
     console.log('时间:', new Date().toISOString());
     console.log('================================');
-    
-    // TODO: 在这里添加保存到数据库的逻辑
-    // 示例：
-    // await saveOrderToDatabase(orderData);
-    // await sendConfirmationEmail(orderData);
-    // await updateInventory(orderData);
+
+    // 发送订单确认邮件（买家 + 商家）
+    await sendOrderEmails(orderData);
+
+    console.log('✅ 订单处理完成');
 }

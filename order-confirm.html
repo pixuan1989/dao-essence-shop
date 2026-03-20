@@ -219,13 +219,33 @@
 
         // 显示成功
         function showSuccess(title, details) {
+            // 从 localStorage 读取买家信息
+            const buyerInfoStr = localStorage.getItem('daoessence_buyer');
+            let buyerInfo = null;
+            try { buyerInfo = buyerInfoStr ? JSON.parse(buyerInfoStr) : null; } catch(e) {}
+
+            const emailHint = buyerInfo?.email
+                ? `<div class="email-sent-badge">✉️ 确认邮件已发送至 <strong>${buyerInfo.email}</strong></div>`
+                : '<div class="email-sent-badge">✉️ 订单确认邮件将通过Stripe发送至您的邮箱</div>';
+
+            const buyerDetails = buyerInfo ? `
+                <div class="buyer-summary">
+                    ${buyerInfo.name ? `<p><span class="label">收件人：</span>${buyerInfo.name}</p>` : ''}
+                    ${buyerInfo.shippingMethod ? `<p><span class="label">运输方式：</span>${buyerInfo.shippingMethod}</p>` : ''}
+                    ${buyerInfo.address ? `<p><span class="label">收货地址：</span>${buyerInfo.address}</p>` : ''}
+                    ${buyerInfo.total ? `<p><span class="label">支付总额：</span><strong>$${parseFloat(buyerInfo.total).toFixed(2)} USD</strong></p>` : ''}
+                </div>
+            ` : '';
+
             document.getElementById('order-status').innerHTML = `
                 <div class="success-message">
                     <div class="success-icon">✓</div>
                     <h2>${title}</h2>
                     <p>${details.message}</p>
-                    <p style="margin-top: 10px; color: #666;">订单号：${details.orderId}</p>
+                    <p style="margin-top: 10px; color: #666; font-size:14px;">订单号：<code>${details.orderId}</code></p>
                     ${details.amount ? `<p>支付金额：${details.amount}</p>` : ''}
+                    ${emailHint}
+                    ${buyerDetails}
                 </div>
             `;
             document.getElementById('order-info').style.display = 'block';
@@ -256,13 +276,31 @@
 
         // 测试模式成功提示
         function showTestModeSuccess() {
+            // 从 localStorage 读取买家信息
+            const buyerInfoStr = localStorage.getItem('daoessence_buyer');
+            let buyerInfo = null;
+            try { buyerInfo = buyerInfoStr ? JSON.parse(buyerInfoStr) : null; } catch(e) {}
+
+            const emailHint = buyerInfo?.email
+                ? `<div class="email-sent-badge">✉️ 确认邮件将发送至 <strong>${buyerInfo.email}</strong></div>`
+                : '';
+
+            const buyerDetails = buyerInfo ? `
+                <div class="buyer-summary">
+                    ${buyerInfo.name ? `<p><span class="label">收件人：</span>${buyerInfo.name}</p>` : ''}
+                    ${buyerInfo.shippingMethod ? `<p><span class="label">运输方式：</span>${buyerInfo.shippingMethod}</p>` : ''}
+                </div>
+            ` : '';
+
             document.getElementById('order-status').innerHTML = `
                 <div class="test-mode-message">
                     <div class="success-icon">✓</div>
                     <h2>订单已确认！</h2>
                     <p style="color: #f59e0b; font-weight: bold;">🧪 测试模式</p>
                     <p>这是一次模拟支付，仅用于测试。</p>
-                    <p style="margin-top: 10px; color: #666;">订单号：TEST_${Date.now()}</p>
+                    <p style="margin-top: 10px; color: #666;">订单号：<code>TEST_${Date.now()}</code></p>
+                    ${emailHint}
+                    ${buyerDetails}
                 </div>
             `;
             document.getElementById('order-info').style.display = 'block';
@@ -270,6 +308,7 @@
             
             // 清空购物车
             localStorage.removeItem('daoessence_cart');
+            // 注意：测试模式下不清除 buyer 信息，方便查看
         }
     </script>
 
@@ -354,6 +393,48 @@
         .loading {
             padding: 40px;
             color: #6b7280;
+        }
+
+        /* 邮件发送徽章 */
+        .email-sent-badge {
+            display: inline-block;
+            background: #f0fdf4;
+            border: 1px solid #86efac;
+            border-radius: 20px;
+            padding: 8px 18px;
+            color: #16a34a;
+            font-size: 14px;
+            margin: 15px 0 10px;
+        }
+
+        /* 买家信息摘要 */
+        .buyer-summary {
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 15px 20px;
+            margin: 12px 0;
+            text-align: left;
+            font-size: 14px;
+            color: #555;
+            line-height: 1.8;
+        }
+
+        .buyer-summary .label {
+            color: #888;
+            margin-right: 4px;
+        }
+
+        .buyer-summary p {
+            margin: 4px 0;
+        }
+
+        code {
+            background: #f1f5f9;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 13px;
+            color: #475569;
         }
 
         @media (max-width: 768px) {
