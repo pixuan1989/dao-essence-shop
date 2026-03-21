@@ -26,6 +26,12 @@ export default async function handler(req, res) {
             return res.status(400).json({ error: 'Customer email is required' });
         }
 
+        // 检查环境变量
+        if (!process.env.CREEM_API_KEY || !process.env.CREEM_PRODUCT_ID) {
+            console.error('环境变量缺失:', { CREEM_API_KEY: !!process.env.CREEM_API_KEY, CREEM_PRODUCT_ID: !!process.env.CREEM_PRODUCT_ID });
+            return res.status(500).json({ error: '支付系统配置错误' });
+        }
+
         // 计算总价
         const subtotal = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
         const total = subtotal + (shipping || 0);
@@ -36,7 +42,7 @@ export default async function handler(req, res) {
         // 准备 Creem API 请求数据
         const creemCheckoutData = {
             product_id: process.env.CREEM_PRODUCT_ID,
-            amount: total * 100, // 转换为分
+            amount: Math.round(total * 100), // 转换为分并四舍五入
             currency: 'USD',
             metadata: {
                 order_id: orderId,
@@ -52,6 +58,14 @@ export default async function handler(req, res) {
             cancel_url: `${process.env.VERCEL_URL || 'http://localhost:3000'}/checkout.html?cancel=true`
         };
 
+        console.log('Creem API 请求数据:', {
+            product_id: process.env.CREEM_PRODUCT_ID,
+            amount: creemCheckoutData.amount,
+            currency: creemCheckoutData.currency,
+            success_url: creemCheckoutData.success_url,
+            cancel_url: creemCheckoutData.cancel_url
+        });
+
         // 调用 Creem API 创建 checkout
         const creemApiUrl = 'https://api.creem.io/v1/checkouts';
         const response = await fetch(creemApiUrl, {
@@ -65,9 +79,17 @@ export default async function handler(req, res) {
 
         const result = await response.json();
 
+        console.log('Creem API 响应:', { status: response.status, result: result });
+
         if (!response.ok) {
             console.error('Creem API 错误:', result);
-            return res.status(500).json({ error: result.error || '创建支付会话失败' });
+            return res.status(500).json({ error: result.error || result.message || '创建支付会话失败' });
+        }
+
+        // 验证响应数据
+        if (!result.checkout_url) {
+            console.error('Creem API 响应缺少 checkout_url:', result);
+            return res.status(500).json({ error: '支付系统响应错误' });
         }
 
         // 返回 checkout URL
