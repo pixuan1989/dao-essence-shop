@@ -10,14 +10,14 @@ let currentSort = 'featured';
 const embeddedProducts = {
   "products": [
     {
-      "id": "tai-sui-amulet",
-      "name": "Tai Sui Amulet",
-      "nameCN": "生肖守护符",
-      "category": "amulets",
+      "id": "tai-sui-protection-token",
+      "name": "Tai Sui Protection Token",
+      "nameCN": "生肖守护令牌",
+      "category": "protection-tokens",
       "element": "fire",
       "price": 17.92,
       "currency": "USD",
-      "description": "Dragon Year protection amulet, hand-painted and traditionally prepared. Protects against annual misfortune.",
+      "description": "Dragon Year protection token, hand-painted and traditionally prepared. Protects against annual misfortune.",
       "descriptionCN": "龙年保护吉祥物，由传统工艺师手绘和仪式激活。保护您免受年度不利。",
       "image": "images/ee9f06067bcdc66babb7cc1dfbc9d59ecef3fe912a602-hYOU5Z_fw1200webp.webp",
       "stock": 50,
@@ -55,18 +55,18 @@ const embeddedProducts = {
       "energyLevel": "Medium"
     },
     {
-      "id": "custom-amulet",
-      "name": "Custom Amulet",
-      "nameCN": "定制吉祥物",
-      "category": "ritual",
+      "id": "custom-protection-token",
+      "name": "Custom Protection Token",
+      "nameCN": "定制守护令牌",
+      "category": "protection-tokens",
       "element": "earth",
       "price": 54.32,
       "currency": "USD",
-      "description": "Personalized amulet created based on your individual birth chart and destiny analysis. Each item is uniquely prepared for you.",
-      "descriptionCN": "根据您的个人出生图表和命运分析创建的个性化吉祥物。每件都为您独特仪式激活。",
+      "description": "Personalized protection token created based on your individual birth chart and life path analysis. Each item is uniquely prepared for you.",
+      "descriptionCN": "根据您的个人出生图表和生命路径分析创建的个性化守护令牌。每件都为您独特仪式激活。",
       "image": "images/08d5a4d436cd88b784060136ffdf1dde4be269a93235b-haaswB_fw1200webp.webp",
       "stock": 30,
-      "benefits": ["Personalization", "Destiny Alignment", "Custom Energy"],
+      "benefits": ["Personalization", "Life Path Alignment", "Custom Energy"],
       "energyLevel": "Very High",
       "customizable": true
     }

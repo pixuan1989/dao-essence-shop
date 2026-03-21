@@ -339,7 +339,7 @@ Products（产品）→ 选择"貔貅摆件"产品
     {
       "step": 3,
       "name": "注入能量",
-      "description": "通过道家符咒注入正能量",
+      "description": "通过道家能量符号注入正能量",
       "duration": "45分钟"
     },
     {

@@ -278,11 +278,11 @@ function initMysticEffects() {
         });
     });
     
-    // 符文闪烁效果
-    const runes = document.querySelectorAll('.rune');
-    runes.forEach(rune => {
+    // Energy symbol glow effect
+    const energySymbols = document.querySelectorAll('.energy-symbol');
+    energySymbols.forEach(symbol => {
         setInterval(() => {
-            rune.style.opacity = Math.random() * 0.3 + 0.7;
+            symbol.style.opacity = Math.random() * 0.3 + 0.7;
         }, 2000 + Math.random() * 3000);
     });
 }
