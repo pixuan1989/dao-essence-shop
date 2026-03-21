@@ -65,15 +65,7 @@ window.addEventListener('storage', function(e) {
 
 // 购物车模态框功能
 function toggleCart() {
-    // 如果当前页面是shop.html，直接调用现有的toggleCart
-    if (window.location.pathname.includes('shop.html')) {
-        if (typeof window.toggleCart === 'function') {
-            window.toggleCart();
-        }
-        return;
-    }
-    
-    // 对于其他页面，重定向到shop.html
+    // 对于所有页面，重定向到shop.html
     window.location.href = 'shop.html';
 }
 

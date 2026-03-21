@@ -1179,8 +1179,6 @@
                     <li><a href="index.html" class="nav-link active">Home</a></li>
                     <li><a href="culture.html" class="nav-link">Energy Universe</a></li>
                     <li><a href="shop.html" class="nav-link">Energy Shop</a></li>
-                    <li><a href="guide.html" class="nav-link">Crafting Process</a></li>
-                    <li><a href="about.html" class="nav-link">About Us</a></li>
                 </ul>
                 <button class="mobile-menu-btn">
                     <span></span>
@@ -1622,28 +1620,27 @@
         <span class="floating-cart-badge" id="floatingCartBadge">0</span>
     </button>
     <script src="main.js?v=202603131700"></script>
+    <script>
         // 立即清除语言相关的存储，防止语言切换
-            // 清除可能的语言设置
-            localStorage.removeItem('language');
-            localStorage.removeItem('lang');
-            localStorage.removeItem('preferredLanguage');
-            localStorage.removeItem('userLanguage');
-            
-            // 检查并清除所有包含语言设置的key
-            for (let i = localStorage.length - 1; i >= 0; i--) {
-                const key = localStorage.key(i);
-                if (key && (key.toLowerCase().includes('lang') || key.toLowerCase().includes('language'))) {
-                    localStorage.removeItem(key);
-                }
+        // 清除可能的语言设置
+        localStorage.removeItem('language');
+        localStorage.removeItem('lang');
+        localStorage.removeItem('preferredLanguage');
+        localStorage.removeItem('userLanguage');
+        
+        // 检查并清除所有包含语言设置的key
+        for (let i = localStorage.length - 1; i >= 0; i--) {
+            const key = localStorage.key(i);
+            if (key && (key.toLowerCase().includes('lang') || key.toLowerCase().includes('language'))) {
+                localStorage.removeItem(key);
             }
-            
-            // 同样处理sessionStorage
-            sessionStorage.removeItem('language');
-            sessionStorage.removeItem('lang');
-            sessionStorage.clear();
-        })();
+        }
+        
+        // 同样处理sessionStorage
+        sessionStorage.removeItem('language');
+        sessionStorage.removeItem('lang');
+        sessionStorage.clear();
     </script>
-    <script src="main.js?v=202603131700"></script>
     <script>
         // 预约弹窗功能
         function openBookingModal(serviceName, servicePrice) {

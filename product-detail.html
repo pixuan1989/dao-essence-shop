@@ -3765,35 +3765,7 @@
         <span class="floating-cart-badge" id="floatingCartBadge">0</span>
     </button>
 
-    <script>
-        // ========================================
-        // 统一购物车系统 - 购物车徽章更新
-        // ========================================
-        function updateCartBadge() {
-            const cartData = localStorage.getItem('cart');
-            const badge = document.getElementById('cartBadge');
-            if (badge) {
-                if (cartData) {
-                    const items = JSON.parse(cartData);
-                    const count = items.reduce((sum, item) => sum + item.quantity, 0);
-                    badge.textContent = count;
-                    badge.style.display = count > 0 ? 'flex' : 'none';
-                } else {
-                    badge.style.display = 'none';
-                }
-            }
-        }
 
-        // 页面加载时更新徽章
-        document.addEventListener('DOMContentLoaded', updateCartBadge);
-
-        // 监听 storage 变化(跨页面同步)
-        window.addEventListener('storage', function(e) {
-            if (e.key === 'cart') {
-                updateCartBadge();
-            }
-        });
-    </script>
     <script src="main.js?v=202603131700"></script>
 
     <!-- Shopify 对接脚本（启用后替换上面的静态购物车逻辑） -->
