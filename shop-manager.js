@@ -18,7 +18,7 @@ const embeddedProducts = {
       "price": 17.92,
       "currency": "USD",
       "description": "Dragon Year protection amulet, hand-painted and traditionally prepared. Protects against annual misfortune.",
-      "descriptionCN": "龙年保护吉祥物，由传统工艺师手绘和仪式激活。保护您免受年度厄运。",
+      "descriptionCN": "龙年保护吉祥物，由传统工艺师手绘和仪式激活。保护您免受年度不利。",
       "image": "images/ee9f06067bcdc66babb7cc1dfbc9d59ecef3fe912a602-hYOU5Z_fw1200webp.webp",
       "stock": 50,
       "benefits": ["Protection", "Annual Fortune", "Safety"],
