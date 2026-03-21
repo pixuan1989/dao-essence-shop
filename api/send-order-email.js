@@ -63,15 +63,15 @@ async function sendBuyerConfirmationEmail(client, orderData) {
         : '';
 
     const params = {
-        Action: 'SingleSendMail',
-        AccountName: process.env.ALIYUN_EMAIL_ACCOUNT,
-        FromAlias: 'DAO Essence',
-        AddressType: 1,
-        TagName: 'order',
-        ReplyToAddress: true,
-        ToAddress: customerEmail,
-        Subject: `✅ 订单确认 - DAO Essence | Order #${orderId}`,
-        HtmlBody: `
+            Action: 'SingleSendMail',
+            AccountName: process.env.ALIYUN_EMAIL_ACCOUNT,
+            FromAlias: 'DAO Essence',
+            AddressType: 1,
+            TagName: 'order',
+            ReplyToAddress: true,
+            ToAddress: customerEmail,
+            Subject: `✅ 订单确认 - DAO Essence | Order #${orderId}`,
+            HtmlBody: `
 <!DOCTYPE html>
 <html>
 <head>
@@ -105,7 +105,7 @@ async function sendBuyerConfirmationEmail(client, orderData) {
                     </tr>
                     <tr>
                         <td style="padding:6px 0;color:#888;">支付金额 Amount</td>
-                        <td style="padding:6px 0;color:#d4af37;font-weight:bold;font-size:18px;">$${parseFloat(amount || 0).toFixed(2)} ${(currency || 'USD').toUpperCase()}</td>
+                        <td style="padding:6px 0;color:#d4af37;font-weight:bold;font-size:18px;">$${parseFloat(amount || 0).toFixed(2)} USD</td>
                     </tr>
                     <tr>
                         <td style="padding:6px 0;color:#888;">运输方式 Shipping</td>
@@ -233,7 +233,7 @@ async function sendMerchantNotificationEmail(client, orderData) {
             <!-- 金额高亮 -->
             <div style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:2px solid #86efac;border-radius:10px;padding:20px;margin-bottom:25px;text-align:center;">
                 <p style="margin:0 0 5px;color:#16a34a;font-size:14px;font-weight:600;">💰 到账金额</p>
-                <p style="margin:0;color:#15803d;font-size:36px;font-weight:bold;">$${parseFloat(amount || 0).toFixed(2)} ${(currency || 'USD').toUpperCase()}</p>
+                <p style="margin:0;color:#15803d;font-size:36px;font-weight:bold;">$${parseFloat(amount || 0).toFixed(2)} USD</p>
             </div>
 
             <!-- 客户信息 -->

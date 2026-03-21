@@ -32,18 +32,16 @@ export default async function handler(req, res) {
             return res.status(500).json({ error: '支付系统配置错误' });
         }
 
-        // 计算总价
+        // 计算总价（用于记录和邮件通知）
         const subtotal = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
         const total = subtotal + (shipping || 0);
 
         // 生成订单号
         const orderId = `ORDER_${Date.now()}_${Math.floor(Math.random() * 10000)}`;
 
-        // 准备 Creem API 请求数据
+        // 准备 Creem API 请求数据（注意：Creem 不支持动态 amount，价格在产品创建时固定）
         const creemCheckoutData = {
             product_id: process.env.CREEM_PRODUCT_ID,
-            amount: Math.round(total * 100), // 转换为分并四舍五入
-            currency: 'USD',
             metadata: {
                 order_id: orderId,
                 customer_name: customerName,
@@ -52,7 +50,8 @@ export default async function handler(req, res) {
                 shipping_method: shippingMethod,
                 items: JSON.stringify(items),
                 subtotal: subtotal,
-                shipping: shipping
+                shipping: shipping,
+                total: total
             },
             success_url: `${process.env.VERCEL_URL || 'http://localhost:3000'}/order-confirm.html?order_id=${orderId}`,
             cancel_url: `${process.env.VERCEL_URL || 'http://localhost:3000'}/checkout.html?cancel=true`
@@ -60,8 +59,6 @@ export default async function handler(req, res) {
 
         console.log('Creem API 请求数据:', {
             product_id: process.env.CREEM_PRODUCT_ID,
-            amount: creemCheckoutData.amount,
-            currency: creemCheckoutData.currency,
             success_url: creemCheckoutData.success_url,
             cancel_url: creemCheckoutData.cancel_url
         });

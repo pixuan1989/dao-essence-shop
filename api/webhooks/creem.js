@@ -77,8 +77,8 @@ export default async function handler(req, res) {
                 const shippingAddress = metadata.shipping_address || '';
                 const shippingMethod = metadata.shipping_method || '标准运输';
                 
-                // 计算金额
-                const amount = checkout.amount / 100; // 转换为美元
+                // 从metadata获取金额（Creem不支持动态金额，价格在产品创建时固定）
+                const amount = metadata.total || 0;
                 
                 // 解析商品信息
                 let items = [];
