@@ -5,13 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>结账 - 道本精酿 | DAO Essence</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="https://js.stripe.com/v3/"></script>
-    <script>
-        // Stripe 配置 - 直接硬编码测试密钥
-        window.stripeConfig = {
-            publicKey: 'pk_test_51TCXN018te51GWiewKqP8Rp8reBZP8oL4WCxngJPliUJKjHbRbRIgpqeEnZ67XylRnLfNvC09I0FXSYhDZo5hsDx00ofI4i5z6'
-        };
-    </script>
+
 </head>
 <body>
     <!-- Navigation Header -->
@@ -105,12 +99,12 @@
                     <div class="payment-method">
                         <h2>💳 支付方式</h2>
                         <div class="payment-info">
-                            <p>使用 <strong>Stripe</strong> 安全支付系统</p>
+                            <p>使用 <strong>Creem</strong> 安全支付系统</p>
                             <div class="card-icons">
                                 <span>💳 VISA</span>
-                                <span>💳 Mastercard</span>
-                                <span>💳 American Express</span>
-                                <span>💳 Discover</span>
+                            <span>💳 Mastercard</span>
+                            <span>💳 American Express</span>
+                            <span>💳 Discover</span>
                             </div>
                         </div>
                         
@@ -146,8 +140,8 @@
         </div>
     </footer>
 
-    <!-- Stripe Payment Script -->
-    <script src="stripe-payment.js"></script>
+    <!-- Creem Payment Script -->
+    <script src="creem-payment.js"></script>
     <script>
         // 运费选项变更时更新显示
         document.getElementById('shipping-select').addEventListener('change', function() {
