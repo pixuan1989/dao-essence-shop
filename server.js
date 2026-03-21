@@ -2,67 +2,127 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const url = require('url');
-
-// 加载环境变量
 require('dotenv').config();
 
-// 服务器端口
 const PORT = process.env.PORT || 3001;
+const BASE_URL = process.env.BASE_URL || `http://localhost:${PORT}`;
 
-// 处理API请求的函数
-function handleApiRequest(req, res, parsedUrl) {
+async function handleApiRequest(req, res, parsedUrl) {
     const apiPath = parsedUrl.pathname;
-    
-    // 处理create-checkout请求
+
+    // Creem Checkout 创建
     if (apiPath === '/api/create-checkout') {
         if (req.method === 'POST') {
             let body = '';
-            req.on('data', chunk => {
-                body += chunk.toString();
-            });
-            req.on('end', () => {
+            req.on('data', chunk => { body += chunk.toString(); });
+            req.on('end', async () => {
                 try {
                     const data = JSON.parse(body);
-                    
-                    // 模拟Creem API响应
-                    const response = {
-                        success: true,
-                        checkoutUrl: 'https://test-api.creem.io/test-checkout',
-                        orderId: `ORDER_${Date.now()}_${Math.floor(Math.random() * 10000)}`
+
+                    const CREEM_API_KEY = process.env.CREEM_API_KEY;
+                    const CREEM_PRODUCT_ID = process.env.CREEM_PRODUCT_ID;
+
+                    if (!CREEM_API_KEY || !CREEM_PRODUCT_ID) {
+                        res.writeHead(500, { 'Content-Type': 'application/json' });
+                        res.end(JSON.stringify({ error: 'Creem API 密钥未配置' }));
+                        return;
+                    }
+
+                    // 构建 Creem Checkout
+                    const creemPayload = {
+                        product_id: CREEM_PRODUCT_ID,
+                        success_url: `${BASE_URL}/order-confirm.html?session_id={CHECKOUT_ID}`,
+                        cancel_url: `${BASE_URL}/checkout.html`
                     };
-                    
+
+                    const creemResponse = await fetch('https://api.creem.io/v1/checkouts', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'x-api-key': CREEM_API_KEY
+                        },
+                        body: JSON.stringify(creemPayload)
+                    });
+
+                    const creemResult = await creemResponse.json();
+
+                    if (!creemResponse.ok) {
+                        console.error('Creem API 错误:', creemResult);
+                        res.writeHead(500, { 'Content-Type': 'application/json' });
+                        res.end(JSON.stringify({ error: creemResult.error || '创建支付会话失败' }));
+                        return;
+                    }
+
                     res.writeHead(200, { 'Content-Type': 'application/json' });
-                    res.end(JSON.stringify(response));
+                    res.end(JSON.stringify({
+                        success: true,
+                        checkoutUrl: creemResult.checkout_url,
+                        orderId: `ORDER_${Date.now()}`
+                    }));
+
                 } catch (error) {
-                    console.error('Error parsing request body:', error);
-                    res.writeHead(400, { 'Content-Type': 'application/json' });
-                    res.end(JSON.stringify({ error: 'Invalid request body' }));
+                    console.error('Error:', error);
+                    res.writeHead(500, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({ error: '服务器错误' }));
                 }
             });
         } else {
             res.writeHead(405, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify({ error: 'Method not allowed' }));
         }
-    } 
-    // 健康检查端点
+    }
+
+    // 获取 Checkout 详情
+    else if (apiPath === '/api/get-checkout') {
+        if (req.method === 'GET') {
+            const checkoutId = parsedUrl.query.checkout_id;
+
+            if (!checkoutId) {
+                res.writeHead(400, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: '缺少 checkout_id' }));
+                return;
+            }
+
+            try {
+                const response = await fetch(`https://api.creem.io/v1/checkouts/${checkoutId}`, {
+                    headers: { 'x-api-key': process.env.CREEM_API_KEY }
+                });
+
+                const result = await response.json();
+
+                if (!response.ok) {
+                    res.writeHead(500, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({ error: result.error || '获取订单失败' }));
+                    return;
+                }
+
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ success: true, checkout: result }));
+            } catch (error) {
+                console.error('Get Checkout Error:', error);
+                res.writeHead(500, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: '获取订单信息失败' }));
+            }
+        }
+    }
+
+    // 健康检查
     else if (apiPath === '/api/health') {
         res.writeHead(200, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ status: 'ok', message: 'Server is running' }));
+        res.end(JSON.stringify({ status: 'ok', provider: 'Creem' }));
     }
-    // 未找到的API端点
+
     else {
         res.writeHead(404, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ error: 'API endpoint not found' }));
     }
 }
 
-// 处理静态文件请求
+// 静态文件处理
 function handleStaticFileRequest(req, res, parsedUrl) {
     let filePath = '.' + parsedUrl.pathname;
-    if (filePath === './') {
-        filePath = './index.html';
-    }
-    
+    if (filePath === './') filePath = './index.html';
+
     const extname = String(path.extname(filePath)).toLowerCase();
     const mimeTypes = {
         '.html': 'text/html',
@@ -72,18 +132,11 @@ function handleStaticFileRequest(req, res, parsedUrl) {
         '.png': 'image/png',
         '.jpg': 'image/jpg',
         '.gif': 'image/gif',
-        '.svg': 'image/svg+xml',
-        '.wav': 'audio/wav',
-        '.mp4': 'video/mp4',
-        '.woff': 'application/font-woff',
-        '.ttf': 'application/font-ttf',
-        '.eot': 'application/vnd.ms-fontobject',
-        '.otf': 'application/font-otf',
-        '.wasm': 'application/wasm'
+        '.svg': 'image/svg+xml'
     };
-    
+
     const contentType = mimeTypes[extname] || 'application/octet-stream';
-    
+
     fs.readFile(filePath, (error, content) => {
         if (error) {
             if (error.code == 'ENOENT') {
@@ -91,7 +144,7 @@ function handleStaticFileRequest(req, res, parsedUrl) {
                 res.end('<h1>404 Not Found</h1>', 'utf-8');
             } else {
                 res.writeHead(500);
-                res.end('Sorry, check with the site admin for error: ' + error.code + ' ..\n');
+                res.end('Error: ' + error.code);
             }
         } else {
             res.writeHead(200, { 'Content-Type': contentType });
@@ -103,37 +156,29 @@ function handleStaticFileRequest(req, res, parsedUrl) {
 // 创建服务器
 const server = http.createServer((req, res) => {
     const parsedUrl = url.parse(req.url, true);
-    
-    // 允许跨域请求
+
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-    
-    // 处理OPTIONS请求
+
     if (req.method === 'OPTIONS') {
         res.writeHead(200);
         res.end();
         return;
     }
-    
-    // 处理API请求
+
     if (parsedUrl.pathname.startsWith('/api/')) {
         handleApiRequest(req, res, parsedUrl);
-    }
-    // 处理静态文件请求
-    else {
+    } else {
         handleStaticFileRequest(req, res, parsedUrl);
     }
 });
 
-// 启动服务器
 server.listen(PORT, () => {
     console.log('========================================');
-    console.log('DAO Essence Payment Server Running');
+    console.log('DAO Essence Server Running (Creem)');
     console.log('========================================');
-    console.log(`Server URL: http://localhost:${PORT}`);
-    console.log(`Health Check: http://localhost:${PORT}/api/health`);
-    console.log('========================================');
-    console.log('Press Ctrl+C to stop server');
+    console.log(`Server: http://localhost:${PORT}`);
+    console.log(`Health: http://localhost:${PORT}/api/health`);
     console.log('========================================');
 });

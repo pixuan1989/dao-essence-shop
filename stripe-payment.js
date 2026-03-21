@@ -1,63 +1,64 @@
 /**
  * ============================================
- * DAO Essence - Creem 支付集成
+ * DAO Essence - Stripe 支付集成
+ * 使用 Stripe Checkout 处理支付
  * ============================================
  */
 
+// API 基础路径
 const API_BASE_URL = 'http://localhost:3001/api';
 
 /**
- * 创建 Creem Checkout 并跳转
+ * 创建 Stripe Checkout Session 并跳转
  */
-async function createCreemCheckout(items, shipping, buyerInfo = {}) {
+async function createStripeCheckout(items, shippingCost, buyerInfo) {
     try {
-        const response = await fetch(`${API_BASE_URL}/create-checkout`, {
+        const response = await fetch(`${API_BASE_URL}/create-checkout-session`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 items: items,
-                shipping: shipping,
-                customerName: buyerInfo.customerName || '',
-                customerEmail: buyerInfo.customerEmail || '',
-                shippingAddress: buyerInfo.shippingAddress || '',
-                shippingMethod: buyerInfo.shippingMethod || '标准运输'
+                customerName: buyerInfo.name || '',
+                customerEmail: buyerInfo.email || '',
+                shippingMethod: buyerInfo.shippingMethod || '标准运输',
+                shippingCost: shippingCost
             })
         });
 
         const data = await response.json();
-
+        
         if (!data.success) {
             throw new Error(data.error || '创建支付会话失败');
         }
 
-        // 跳转到 Creem 支付页面
-        window.location.href = data.checkoutUrl;
-
+        // 跳转到 Stripe Checkout 页面
+        window.location.href = data.url;
+        
         return data;
     } catch (error) {
-        console.error('Creem API 错误:', error);
+        console.error('Stripe API 错误:', error);
         throw error;
     }
 }
 
 /**
- * 获取 Checkout 详情
+ * 获取 Stripe Session 信息（验证支付状态）
  */
-async function getCreemCheckout(checkoutId) {
+async function getStripeSession(sessionId) {
     try {
-        const response = await fetch(`${API_BASE_URL}/get-checkout?checkout_id=${checkoutId}`);
+        const response = await fetch(`${API_BASE_URL}/get-session?session_id=${sessionId}`);
         const data = await response.json();
         return data;
     } catch (error) {
-        console.error('获取 Checkout 失败:', error);
+        console.error('获取 Session 失败:', error);
         throw error;
     }
 }
 
 /**
- * 处理支付
+ * 处理支付 - 使用 Stripe Checkout
  */
-async function handleCreemPayment() {
+async function handleStripePayment() {
     const payButton = document.getElementById('pay-button');
     if (!payButton) return;
 
@@ -66,6 +67,7 @@ async function handleCreemPayment() {
     const buyerEmail = document.getElementById('buyer-email')?.value?.trim();
     const buyerAddress = document.getElementById('buyer-address')?.value?.trim();
 
+    // 必填项验证
     if (!buyerName) {
         document.getElementById('buyer-name')?.classList.add('error');
         document.getElementById('buyer-name')?.focus();
@@ -79,31 +81,44 @@ async function handleCreemPayment() {
         return;
     }
 
+    // 清除错误状态
     document.getElementById('buyer-name')?.classList.remove('error');
     document.getElementById('buyer-email')?.classList.remove('error');
 
+    // 禁用按钮，显示加载状态
     payButton.disabled = true;
     payButton.textContent = '正在跳转支付...';
 
     try {
+        // 1. 获取购物车数据
         const cartData = localStorage.getItem('daoessence_cart');
-        if (!cartData) throw new Error('购物车是空的');
+        if (!cartData) {
+            throw new Error('购物车是空的');
+        }
 
         const parsed = JSON.parse(cartData);
-        const cart = Array.isArray(parsed) ? { items: parsed } : parsed;
+        let cart;
+        if (Array.isArray(parsed)) {
+            cart = { items: parsed };
+        } else {
+            cart = parsed;
+        }
 
-        if (!cart.items || cart.items.length === 0) throw new Error('购物车是空的');
+        if (!cart.items || cart.items.length === 0) {
+            throw new Error('购物车是空的');
+        }
 
+        // 2. 获取运费
         const shippingSelect = document.getElementById('shipping-select');
         const shippingRate = shippingSelect ? parseFloat(shippingSelect.value) || 15 : 15;
-        const shippingOptions = {
-            '15': '标准运输 (15-25天)',
-            '35': '快速运输 (7-10天)',
-            '55': 'DHL快递 (3-5天)'
+        const shippingOptions = { 
+            '15': '标准运输 Standard (15-25天)', 
+            '35': '快速运输 Express (7-10天)', 
+            '55': 'DHL快递 DHL (3-5天)' 
         };
-        const shippingMethod = shippingOptions[String(shippingRate)] || '标准运输';
+        const shippingMethod = shippingOptions[String(shippingRate)] || '标准运输 Standard';
 
-        // 保存买家信息
+        // 3. 准备买家信息
         const buyerInfo = {
             name: buyerName,
             email: buyerEmail,
@@ -111,8 +126,11 @@ async function handleCreemPayment() {
             shippingMethod: shippingMethod,
             shippingRate: shippingRate
         };
+
+        // 保存买家信息到 localStorage
         localStorage.setItem('daoessence_buyer', JSON.stringify(buyerInfo));
 
+        // 4. 准备商品数据
         const items = cart.items.map(item => ({
             id: item.id,
             name: item.name,
@@ -122,16 +140,14 @@ async function handleCreemPayment() {
             image: item.image
         }));
 
-        await createCreemCheckout(items, shippingRate, {
-            customerName: buyerName,
-            customerEmail: buyerEmail,
-            shippingAddress: buyerAddress,
-            shippingMethod: shippingMethod
-        });
+        // 5. 创建 Stripe Checkout Session
+        await createStripeCheckout(items, shippingRate, buyerInfo);
 
     } catch (error) {
         console.error('Payment error:', error);
         alert('支付失败：' + error.message);
+        
+        // 恢复按钮
         payButton.disabled = false;
         payButton.textContent = '去支付 →';
     }
@@ -142,10 +158,12 @@ async function handleCreemPayment() {
  */
 function initCheckoutPage() {
     loadCartItems();
-
+    initShippingSelect();
+    
+    // 绑定支付按钮
     const payButton = document.getElementById('pay-button');
     if (payButton) {
-        payButton.addEventListener('click', handleCreemPayment);
+        payButton.addEventListener('click', handleStripePayment);
     }
 }
 
@@ -162,8 +180,13 @@ function loadCartItems() {
     let cart;
     try {
         const parsed = JSON.parse(cartData);
-        cart = Array.isArray(parsed) ? { items: parsed } : parsed;
+        if (Array.isArray(parsed)) {
+            cart = { items: parsed };
+        } else {
+            cart = parsed;
+        }
     } catch (e) {
+        console.error('Cart data parse error:', e);
         showEmptyCart();
         return;
     }
@@ -177,13 +200,23 @@ function loadCartItems() {
     updateTotals(cart);
 }
 
+/**
+ * 显示空购物车
+ */
 function showEmptyCart() {
     const container = document.getElementById('cart-items');
-    if (container) container.innerHTML = '<p class="empty-cart">购物车是空的</p>';
+    if (container) {
+        container.innerHTML = '<p class="empty-cart">购物车是空的</p>';
+    }
     const payButton = document.getElementById('pay-button');
-    if (payButton) payButton.disabled = true;
+    if (payButton) {
+        payButton.disabled = true;
+    }
 }
 
+/**
+ * 显示购物车商品
+ */
 function displayCartItems(cart) {
     const container = document.getElementById('cart-items');
     if (!container) return;
@@ -201,22 +234,45 @@ function displayCartItems(cart) {
     `).join('');
 }
 
+/**
+ * 初始化运费选择
+ */
+function initShippingSelect() {
+    const select = document.getElementById('shipping-select');
+    if (!select) return;
+
+    select.addEventListener('change', () => {
+        const cartData = localStorage.getItem('daoessence_cart');
+        if (cartData) {
+            updateTotals(JSON.parse(cartData));
+        }
+    });
+}
+
+/**
+ * 更新总价显示
+ */
 function updateTotals(cart) {
     const select = document.getElementById('shipping-select');
     const shipping = select ? parseFloat(select.value) || 15 : 15;
     const subtotal = cart.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
     const total = subtotal + shipping;
 
-    document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
-    document.getElementById('grand-total').textContent = `$${total.toFixed(2)}`;
+    const subtotalEl = document.getElementById('subtotal');
+    const totalEl = document.getElementById('grand-total');
+
+    if (subtotalEl) subtotalEl.textContent = `$${subtotal.toFixed(2)}`;
+    if (totalEl) totalEl.textContent = `$${total.toFixed(2)}`;
 }
 
-// 页面加载初始化
+// 页面加载完成后初始化
 document.addEventListener('DOMContentLoaded', () => {
     if (document.querySelector('.checkout-page')) {
         initCheckoutPage();
     }
 });
 
-window.handleCreemPayment = handleCreemPayment;
+// 导出到全局
+window.handleStripePayment = handleStripePayment;
 window.initCheckoutPage = initCheckoutPage;
+window.getStripeSession = getStripeSession;
