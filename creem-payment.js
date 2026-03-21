@@ -9,8 +9,7 @@
 const API_BASE_URL = '/api';
 
 // Creem 配置
-const CREEM_API_KEY = process.env.CREEM_API_KEY;
-const CREEM_PRODUCT_ID = process.env.CREEM_PRODUCT_ID;
+// 注意：API密钥和产品ID在后端API中使用，前端不需要这些配置
 
 /**
  * 创建 Creem Checkout 并跳转到支付页面
