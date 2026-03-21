@@ -802,19 +802,15 @@
             <div class="footer-section">
                 <h4>Contact Us</h4>
                 <p>Email: 517748938@qq.com</p>
-                <p>WeChat: DaoEssence</p>
-            </div>
-            <div class="footer-section">
-                <h4>Follow Us</h4>
-                <div class="social-links">
-                    <a href="#">WeChat</a>
-                    <a href="#">Weibo</a>
-                    <a href="#">Xiaohongshu</a>
-                </div>
             </div>
         </div>
         <div class="footer-bottom">
             <p>© 2024 DAO Essence. All Rights Reserved.</p>
+            <div class="footer-legal-links">
+                <a href="policy.html">Privacy Policy</a>
+                <span>|</span>
+                <a href="policy.html">Terms of Service</a>
+            </div>
         </div>
     </footer>
 
@@ -890,8 +886,8 @@
         document.querySelectorAll('.service-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 const msg = currentLang === 'en'
-                    ? 'Booking feature is under development. Please contact customer service via WeChat: DaoEssence'
-                    : '预约功能开发中，请联系客服微信：DaoEssence';
+                    ? 'Booking feature is under development. Please contact us via email.'
+                    : '预约功能开发中，请通过邮箱联系我们。';
                 alert(msg);
             });
         });
