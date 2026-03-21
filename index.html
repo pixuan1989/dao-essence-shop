@@ -1451,28 +1451,28 @@
                 <div class="life-path-service-card scroll-animate">
                     <h3>Life Path Energy Analysis</h3>
                     <p>Analyze your five elements energy, recommend items that best suit your life path</p>
-                    <div class="service-price">¥588</div>
+                    <div class="service-price">$588</div>
                     <button class="service-book-btn" onclick="openBookingModal('Life Path Energy Analysis', 588)">Book Now</button>
                 </div>
 
                 <div class="life-path-service-card scroll-animate">
                     <h3>Life Path Energy Customization</h3>
                     <p>Customize energy items based on your annual life path</p>
-                    <div class="service-price">¥388</div>
+                    <div class="service-price">$388</div>
                     <button class="service-book-btn" onclick="openBookingModal('Life Path Energy Customization', 388)">Book Now</button>
                 </div>
 
                 <div class="life-path-service-card scroll-animate">
                     <h3>Love Energy Matching</h3>
                     <p>Analyze compatibility, recommend items to support harmonious relationships</p>
-                    <div class="service-price">¥688</div>
+                    <div class="service-price">$688</div>
                     <button class="service-book-btn" onclick="openBookingModal('Love Energy Matching', 688)">Book Now</button>
                 </div>
 
                 <div class="life-path-service-card scroll-animate">
                     <h3>Wealth Energy Customization</h3>
                     <p>Analyze your financial energy patterns, recommend prosperity-focused items</p>
-                    <div class="service-price">¥888</div>
+                    <div class="service-price">$888</div>
                     <button class="service-book-btn" onclick="openBookingModal('Wealth Energy Customization', 888)">Book Now</button>
                 </div>
             </div>
@@ -1606,7 +1606,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>© 2024 DAO Essence & Five Elements. All rights reserved.</p>
+                <p>© 2026 DAO Essence & Five Elements. All rights reserved.</p>
                 <div class="footer-legal-links">
                     <a href="policy.html">Privacy Policy</a>
                     <span>|</span>
@@ -1617,7 +1617,7 @@
     </footer>
 
     <!-- 右下角浮动购物车按钮 -->
-    <button class="floating-cart-btn" onclick="window.location.href='shop.html'">
+    <button class="floating-cart-btn" onclick="toggleCart()">
         <svg viewBox="0 0 20 20" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="19" r="1"/><circle cx="17" cy="19" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L19 6H6"/></svg>
         <span class="floating-cart-badge" id="floatingCartBadge">0</span>
     </button>
@@ -1648,7 +1648,7 @@
         // 预约弹窗功能
         function openBookingModal(serviceName, servicePrice) {
             document.getElementById('serviceName').textContent = serviceName;
-            document.getElementById('servicePrice').textContent = '¥' + servicePrice;
+            document.getElementById('servicePrice').textContent = '$' + servicePrice;
             document.getElementById('bookingModal').classList.add('show');
             document.body.style.overflow = 'hidden';
         }
