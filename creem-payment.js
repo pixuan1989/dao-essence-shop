@@ -4,7 +4,8 @@
  * ============================================
  */
 
-const API_BASE_URL = 'http://localhost:3001/api';
+// API 路径 - 部署时用相对路径
+const API_BASE_URL = '/api';
 
 /**
  * 创建 Creem Checkout 并跳转
