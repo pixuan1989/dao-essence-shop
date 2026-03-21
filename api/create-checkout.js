@@ -39,11 +39,9 @@ export default async function handler(req, res) {
         // 生成订单号
         const orderId = `ORDER_${Date.now()}_${Math.floor(Math.random() * 10000)}`;
 
-        // 准备 Creem API 请求数据（简化版本，只保留必要字段）
+        // 准备 Creem API 请求数据（最简化版本，只传 product_id）
         const creemCheckoutData = {
-            product_id: process.env.CREEM_PRODUCT_ID,
-            success_url: `${process.env.VERCEL_URL || 'http://localhost:3000'}/order-confirm.html?order_id=${orderId}`,
-            cancel_url: `${process.env.VERCEL_URL || 'http://localhost:3000'}/checkout.html?cancel=true`
+            product_id: process.env.CREEM_PRODUCT_ID
         };
 
         console.log('Creem API 请求数据:', {
