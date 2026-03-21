@@ -1405,6 +1405,8 @@ p {
     border: none;
     animation: float-pulse 2s infinite;
     overflow: visible;
+    padding: 0;
+    margin: 0;
 }
 
 .floating-cart-btn:hover {

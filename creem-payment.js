@@ -6,7 +6,7 @@
  */
 
 // API 基础路径
-const API_BASE_URL = '/api';
+const API_BASE_URL = 'http://localhost:3001/api';
 
 // Creem 配置
 // 注意：API密钥和产品ID在后端API中使用，前端不需要这些配置
