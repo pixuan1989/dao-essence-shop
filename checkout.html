@@ -143,6 +143,13 @@
     <!-- Creem Payment Script -->
     <script src="creem-payment.js"></script>
     <script>
+        // 页面加载完成后初始化购物车
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.initCheckoutPage) {
+                window.initCheckoutPage();
+            }
+        });
+
         // 运费选项变更时更新显示
         document.getElementById('shipping-select').addEventListener('change', function() {
             const shipping = parseFloat(this.value) || 15;

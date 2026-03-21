@@ -121,7 +121,7 @@ async function handleCreemPayment() {
         const items = cart.items.map(item => ({
             id: item.id,
             name: item.name,
-            nameCn: item.nameCn,
+            nameCn: item.nameCN || item.nameCn,
             price: item.price,
             quantity: item.quantity,
             image: item.image
@@ -222,9 +222,9 @@ function displayCartItems(cart) {
 
     container.innerHTML = cart.items.map(item => `
         <div class="checkout-cart-item">
-            <img src="${item.image}" alt="${item.nameCn}">
+            <img src="${item.image}" alt="${item.nameCN || item.nameCn}">
             <div class="item-info">
-                <h4>${item.nameCn}</h4>
+                <h4>${item.nameCN || item.nameCn}</h4>
                 <p class="item-name-en">${item.name}</p>
                 <p class="item-price">$${item.price.toFixed(2)} × ${item.quantity}</p>
             </div>
