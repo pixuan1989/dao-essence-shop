@@ -63,8 +63,8 @@ export default async function handler(req, res) {
             cancel_url: creemCheckoutData.cancel_url
         });
 
-        // 调用 Creem API 创建 checkout
-        const creemApiUrl = 'https://api.creem.io/v1/checkouts';
+        // 调用 Creem API 创建 checkout（测试模式使用测试端点）
+        const creemApiUrl = 'https://test-api.creem.io/v1/checkouts';
         const response = await fetch(creemApiUrl, {
             method: 'POST',
             headers: {
