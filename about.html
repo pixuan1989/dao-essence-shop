@@ -576,11 +576,13 @@
         .tc-avatar img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
-            object-position: center top;
+            object-fit: contain;
+            object-position: center center;
             position: relative;
             z-index: 1;
             transition: transform 0.5s ease;
+            padding: 10px;
+            box-sizing: border-box;
         }
         .tc:hover .tc-avatar img {
             transform: scale(1.05);
@@ -913,8 +915,8 @@
                 <em>Carried Forward.</em>
             </h1>
             <p class="hero-sub">
-                    We are custodians of a living tradition — where millennia of Eastern wisdom meets the quiet search of the modern soul. Every item we offer is traditionally prepared, intentional, and traceable.
-                </p>
+                We are custodians of a living tradition — where millennia of Taoist insight meets the quiet search of the modern soul. Every item we offer is consecrated, intentional, and traceable.
+            </p>
         </div>
 
         <div class="scroll-hint">Scroll</div>
@@ -955,9 +957,9 @@
 
             <div class="timeline-item reveal reveal-delay-2">
                 <div class="tl-content">
-                    <div class="tl-year">TODAY</div>
-                    <h3>Dedicated to Authentic Eastern Heritage</h3>
-                    <p>A growing community of seekers who appreciate genuine Eastern energy traditions and cultural practices.</p>
+                    <div class="tl-year">GLOBAL EXPANSION</div>
+                    <h3>Eastern Wisdom, World Stage</h3>
+                    <p>Our reach extends to multiple countries and regions. Customers across various parts of the world discover that Taoist energy principles resonate across cultural boundaries.</p>
                 </div>
                 <div class="tl-dot"><div class="tl-dot-inner"></div></div>
                 <div class="tl-empty"></div>
@@ -968,8 +970,8 @@
                 <div class="tl-dot"><div class="tl-dot-inner"></div></div>
                 <div class="tl-content">
                     <div class="tl-year">TODAY</div>
-                    <h3>Continuing the Journey</h3>
-                    <p>A growing community of seekers who chose to bring authentic Eastern wisdom traditions into their lives.</p>
+                    <h3>A Growing Community</h3>
+                    <p>A community of seekers, practitioners, and curious minds who chose to bring a piece of living Taoist tradition into their everyday environment.</p>
                 </div>
             </div>
         </div>
@@ -980,7 +982,7 @@
         <div class="stats-inner">
             <div class="stat reveal">
                 <div class="stat-val" data-target="5">0</div>
-                <div class="stat-lbl">Cultural Partners</div>
+                <div class="stat-lbl">Partner Temples</div>
             </div>
             <div class="stat reveal reveal-delay-1">
                 <div class="stat-val" data-target="100" data-suffix="+">0</div>
@@ -1099,9 +1101,9 @@
                     <img src="images/master_zhang.jpg" alt="Master Xuanzhen" loading="lazy"/>
                 </div>
                 <div class="tc-body">
-                    <div class="tc-role">Founder · Chief Wisdom Guide</div>
+                    <div class="tc-role">Founder · Chief Destiny Master</div>
                     <div class="tc-name">Master Xuanzhen</div>
-                    <p class="tc-desc">Eastern wisdom inheritor, practicing 30+ years. Expert in BaZi, energy alignment, and traditional preparation practices.</p>
+                    <p class="tc-desc">Orthodox Taoist inheritor, practicing 30+ years. Expert in BaZi, Feng Shui, and consecration ceremonies.</p>
                 </div>
             </div>
 
@@ -1123,7 +1125,7 @@
                 <div class="tc-body">
                     <div class="tc-role">Traditional Artisan · Practice Director</div>
                     <div class="tc-name">Master Jingyuan</div>
-                    <p class="tc-desc">Quanzhen Longhu inheritor, dedicated practitioner for 20 years. Leads all traditional preparation practices and ceremonies.</p>
+                    <p class="tc-desc">Quanzhen Longmen inheritor, dedicated practitioner for 20 years. Leads all traditional preparation practices and ceremonies.</p>
                 </div>
             </div>
 
@@ -1143,21 +1145,21 @@
     <!-- ── PARTNERS MARQUEE ── -->
     <section class="partners">
         <div class="partners-label">
-            <p>Cultural Partners & Institutions</p>
+            <p>Temple Partners & Cultural Institutions</p>
         </div>
         <div class="marquee-track" id="marquee">
-            <span class="marquee-item">⛩ Longhu Mountain — Tianshi Cultural Center</span>
-            <span class="marquee-item">⛩ Wudang Mountain Cultural Center</span>
-            <span class="marquee-item">⛩ Qingcheng Mountain Cultural Center</span>
-            <span class="marquee-item">⛩ Maoshan Cultural Center</span>
-            <span class="marquee-item">☯ Chinese Traditional Culture Association</span>
+            <span class="marquee-item">⛩ Longhu Mountain — Tianshi Mansion</span>
+            <span class="marquee-item">⛩ Wudang Mountain Taoist Temple</span>
+            <span class="marquee-item">⛩ Qingcheng Mountain Taoist Temple</span>
+            <span class="marquee-item">⛩ Maoshan Taoist Temple</span>
+            <span class="marquee-item">☯ Chinese Taoist Association</span>
             <span class="marquee-item">📜 Traditional Culture Research Institute</span>
             <!-- duplicate for seamless loop -->
-            <span class="marquee-item">⛩ Longhu Mountain — Tianshi Cultural Center</span>
-            <span class="marquee-item">⛩ Wudang Mountain Cultural Center</span>
-            <span class="marquee-item">⛩ Qingcheng Mountain Cultural Center</span>
-            <span class="marquee-item">⛩ Maoshan Cultural Center</span>
-            <span class="marquee-item">☯ Chinese Traditional Culture Association</span>
+            <span class="marquee-item">⛩ Longhu Mountain — Tianshi Mansion</span>
+            <span class="marquee-item">⛩ Wudang Mountain Taoist Temple</span>
+            <span class="marquee-item">⛩ Qingcheng Mountain Taoist Temple</span>
+            <span class="marquee-item">⛩ Maoshan Taoist Temple</span>
+            <span class="marquee-item">☯ Chinese Taoist Association</span>
             <span class="marquee-item">📜 Traditional Culture Research Institute</span>
         </div>
     </section>
@@ -1165,7 +1167,7 @@
     <!-- ── CTA ── -->
     <section class="cta-banner">
         <h2 class="reveal">Ready to explore Eastern wisdom?</h2>
-        <p class="reveal">Browse our collection of traditionally prepared items or connect with our masters directly.</p>
+        <p class="reveal">Browse our collection of consecrated items or connect with our masters directly.</p>
         <div class="cta-buttons reveal">
             <a href="shop.html" class="btn-gold">Explore the Shop</a>
             <a href="contact.html" class="btn-outline">Get in Touch</a>
@@ -1180,7 +1182,7 @@
                     <div class="logo">
                         <span class="logo-en">DAO ESSENCE</span>
                     </div>
-                    <p>Ancient Wisdom, Modern Harmony. Based on authentic Eastern wisdom traditions, we offer verifiable traditional cultural products and services with genuine energy properties.</p>
+                    <p>Ancient Wisdom, Modern Harmony. Based on authentic Taoist traditions, we offer verifiable traditional cultural products and services with genuine energy properties.</p>
                 </div>
                 <div>
                     <h4 class="footer-title">Navigation</h4>
@@ -1209,7 +1211,7 @@
                         </li>
                         <li>
                             <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle;margin-right:5px"><path d="M2 5a2 2 0 012-2h12a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V5z"/><path d="M7 10h6M7 13h4"/></svg>
-                            
+                            WhatsApp: +86 18115755283
                         </li>
                         <li>
                             <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle;margin-right:5px"><circle cx="10" cy="10" r="8"/><path d="M10 6v4l2.5 2.5"/></svg>
@@ -1220,11 +1222,6 @@
             </div>
             <div class="footer-bottom">
                 <p>© 2024 DAO Essence & Five Elements. All rights reserved.</p>
-                <div class="footer-legal-links">
-                    <a href="policy.html">Privacy Policy</a>
-                    <span>|</span>
-                    <a href="policy.html">Terms of Service</a>
-                </div>
             </div>
         </div>
     </footer>

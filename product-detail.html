@@ -1712,8 +1712,8 @@
                 handle: 'tai-sui',
                 description: '甲辰年生肖守护符是传统的吉祥保护物，专为本命年或需要特别保护的人群设计。由传统工艺师亲自制作，蕴含美好寓意，能带来平和，保护全年运势顺畅。',
                 vendor: 'DAO Essence',
-                type: 'Amulet',
-                tags: ['tai-sui', 'protection', 'amulet', 'traditionally prepared'],
+                type: 'Protection Token',
+                tags: ['tai-sui', 'protection', 'protection-token', 'traditionally prepared'],
 
                 price: 288.00,
                 compareAtPrice: 388.00,
@@ -1809,8 +1809,8 @@
                 handle: 'wealth',
                 description: '财富符是传统的吉祥物，专为主财库、增强财运气场而制。由传统工艺师亲自制作，能够带来美好寓意，提升财富运势，为创业者和商务人士量身打造。',
                 vendor: 'DAO Essence',
-                type: 'Amulet',
-                tags: ['wealth', 'prosperity', 'amulet', 'traditionally prepared'],
+                type: 'Protection Token',
+                tags: ['wealth', 'prosperity', 'protection-token', 'traditionally prepared'],
 
                 price: 368.00,
                 compareAtPrice: 468.00,
@@ -2288,14 +2288,14 @@
                 }
             },
 
-            'custom-amulet': {
-                id: 'custom-amulet-001',
-                title: '个人个人运势定制符 Personal Destiny Custom Amulet',
-                handle: 'custom-amulet',
-                description: '根据您的个人分析分析量身定制的专属吉祥物。工艺师会根据您的出生年月日时、五元素缺失、个人运势特点，绘制最符合您个人运势的吉祥物，精准提升个人运势，化解个人运势不利。',
+            'custom-protection-token': {
+                id: 'custom-protection-token-001',
+                title: '个人能量定制守护令牌 Personal Energy Custom Protection Token',
+                handle: 'custom-protection-token',
+                description: '根据您的个人能量分析量身定制的专属守护令牌。工艺师会根据您的出生年月日时、五元素缺失、个人能量特点，绘制最符合您个人能量的守护令牌，精准提升个人能量，化解能量失衡。',
                 vendor: 'DAO Essence',
                 type: 'Custom Item',
-                tags: ['custom', 'amulet', 'personal', 'destiny'],
+                tags: ['custom', 'protection-token', 'personal', 'energy'],
 
                 price: 1288.00,
                 compareAtPrice: 1688.00,
@@ -2330,7 +2330,7 @@
 
                 variants: [
                     {
-                        id: 'custom-amulet-001-standard',
+                        id: 'custom-protection-token-001-standard',
                         title: 'Basic Custom',
                         price: 1288.00,
                         compareAtPrice: 1688.00,
@@ -2345,7 +2345,7 @@
                         }
                     },
                     {
-                        id: 'custom-amulet-001-premium',
+                        id: 'custom-protection-token-001-premium',
                         title: 'Premium Custom',
                         price: 1888.00,
                         compareAtPrice: 2488.00,
@@ -2488,8 +2488,8 @@
                 handle: 'safety',
                 description: '平安保护物是传统东方最经典的保护吉祥物之一，能够化解意外灾难，保护出行平安。此符由工艺师亲自传统仪式绘制，能量纯净稳定，适合经常出行或从事危险职业的人士佩戴。',
                 vendor: 'DAO Essence',
-                type: 'Amulet',
-                tags: ['safety', 'protection', 'amulet', 'travel'],
+                type: 'Protection Token',
+                tags: ['safety', 'protection', 'protection-token', 'travel'],
 
                 price: 198.00,
                 compareAtPrice: 298.00,
@@ -2839,7 +2839,7 @@
             const productId = urlParams.get('id');
 
             // 如果没有指定ID，使用默认产品
-            const defaultProductId = 'tai-sui-amulet';
+            const defaultProductId = 'tai-sui-protection-token';
             const actualProductId = productId || defaultProductId;
 
             // 从PRODUCTS中获取产品数据
