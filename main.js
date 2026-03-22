@@ -65,8 +65,17 @@ window.addEventListener('storage', function(e) {
 
 // 购物车模态框功能
 function toggleCart() {
-    // 对于所有页面，重定向到shop.html
-    window.location.href = 'shop.html';
+    // 检查当前页面
+    const currentPath = window.location.pathname;
+
+    // 在商品详情页，跳转到结账页面
+    if (currentPath.includes('product-detail.html')) {
+        window.location.href = 'checkout.html';
+    }
+    // 在其他页面，跳转到结账页面
+    else {
+        window.location.href = 'checkout.html';
+    }
 }
 
 /* ============================================
