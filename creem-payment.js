@@ -206,9 +206,11 @@ function updateTotals(cart) {
     const select = document.getElementById('shipping-select');
     const shipping = select ? parseFloat(select.value) || 15 : 15;
     const subtotal = cart.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    const total = subtotal + shipping;
+    const tax = subtotal * 0.10; // 税费 10%
+    const total = subtotal + shipping + tax;
 
     document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
+    document.getElementById('tax-cost').textContent = `$${tax.toFixed(2)}`;
     document.getElementById('grand-total').textContent = `$${total.toFixed(2)}`;
 }
 
