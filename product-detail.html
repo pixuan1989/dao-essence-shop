@@ -8,6 +8,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&family=Noto+Serif+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css">
 <script src="main.js?v=202603131700"></script>
+<script src="cart.js?v=202603191430"></script>
+<script src="shop-manager.js?v=202603191430"></script>
 <style>
     /* 购物车徽章样式 */
     .cart-badge {
@@ -3146,8 +3148,8 @@
                 let total = 0;
                 cartItemsContainer.innerHTML = cart.map((item, index) => {
                     total += item.price * item.quantity;
-                    // 兼容新旧数据结构
-                    const title = item.titleEn || item.title;
+                    // 兼容新旧数据结构（支持 name/titleEn/title）
+                    const title = item.name || item.titleEn || item.title || 'Unknown Product';
                     return `
                         <div class="cart-item">
                             <div class="cart-item-image">
@@ -3209,10 +3211,10 @@
             }
 
             const quantity = parseInt(document.getElementById('quantity').value);
-            const priceUSD = parseFloat(convertToUSD(currentVariant.price));
+            // 价格已经是美元，不需要转换
+            const priceUSD = currentVariant.price;
 
             // 生成统一的商品标识（用于匹配相同商品）
-            // 使用 PRODUCT_DATA.id 或 handle 作为商品的基本标识，而不是变体的完整 id
             const productKey = PRODUCT_DATA.handle || PRODUCT_DATA.id;
 
             // 检查购物车中是否已有该商品
@@ -3223,15 +3225,16 @@
             if (existingItem) {
                 // 已存在该商品，增加数量
                 existingItem.quantity += quantity;
+                existingItem.price = priceUSD;  // 更新价格
                 const totalPriceUSD = (existingItem.quantity * priceUSD).toFixed(2);
                 showNotification(`Updated: ${quantity} more added - Total: ${existingItem.quantity} items`);
             } else {
-                // 新商品，添加到购物车（与shop.html和checkout数据结构一致）
+                // 新商品，添加到购物车
                 cart.push({
                     id: productKey,  // 商品ID
                     name: PRODUCT_DATA.title,  // 英文名
                     nameCn: PRODUCT_DATA.titleZh || PRODUCT_DATA.title.split(' ')[0], // 中文名
-                    price: priceUSD,
+                    price: priceUSD,  // 美元价格（不转换）
                     quantity: quantity,
                     image: PRODUCT_DATA.images[0]?.src || ''
                 });
@@ -3242,6 +3245,8 @@
             // 更新库存显示（模拟库存减少）
             updateStockDisplay(quantity);
             saveCart();
+            updateCartDisplay();
+            updateCartSidebar();
         }
 
         // 更新库存显示
