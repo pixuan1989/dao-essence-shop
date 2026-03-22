@@ -189,7 +189,7 @@ style.textContent = `
         width: 100%;
         padding: 12px 16px;
         background: var(--primary-color, #D4AF37);
-        color: var(--bg-dark, #1A1612);
+        color: white !important;
         border: none;
         border-radius: var(--radius-sm, 8px);
         cursor: pointer;
@@ -199,10 +199,15 @@ style.textContent = `
         text-transform: uppercase;
         letter-spacing: 0.05em;
     }
-    
+
     .add-to-cart-btn:hover {
         background: var(--fire-light, #CD853F);
         transform: translateY(-2px);
+        color: white !important;
+    }
+
+    .add-to-cart-btn svg {
+        stroke: white !important;
     }
 `;
 document.head.appendChild(style);
