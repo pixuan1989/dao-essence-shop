@@ -2855,15 +2855,8 @@
             return true;
         }
 
-        // 页面加载时获取产品数据
-        loadProductData();
-
-        // 初始化购物车显示
-        updateCartDisplay();
-        updateCartSidebar();
-
         // ============================================
-        // 状态管理
+        // 初始化购物车
         // ============================================
 
         // 初始化第一个变体和选项
@@ -3571,6 +3564,14 @@
         // ============================================
         
         document.addEventListener('DOMContentLoaded', function() {
+            // 1. 首先加载产品数据（必须在其他操作之前）
+            const productLoaded = loadProductData();
+
+            if (!productLoaded) {
+                console.error('Failed to load product data');
+                return;
+            }
+
             console.log('Product detail page initialized');
             console.log('Product data:', PRODUCT_DATA);
 
