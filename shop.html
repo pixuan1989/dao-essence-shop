@@ -450,7 +450,7 @@
             width: 100%;
             padding: 12px 16px;
             background: var(--primary-color);
-            color: white;
+            color: white !important;
             border: none;
             border-radius: var(--radius-sm);
             cursor: pointer;
@@ -460,10 +460,15 @@
             text-transform: uppercase;
             letter-spacing: 0.05em;
         }
-        
+
         .snipcart-add-item:hover {
             background: var(--fire-light);
             transform: translateY(-2px);
+            color: white !important;
+        }
+
+        .snipcart-add-item svg {
+            stroke: white !important;
         }
         
         /* Snipcart Cart Button Override */
