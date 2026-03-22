@@ -3293,8 +3293,8 @@
         function updateTotalPrice() {
             const quantity = parseInt(document.getElementById('quantity').value);
             if (currentVariant) {
-                const priceCNY = currentVariant.price;
-                const priceUSD = parseFloat(convertToUSD(priceCNY));
+                // 价格已经是美元，不需要转换
+                const priceUSD = currentVariant.price;
                 const totalUSD = (priceUSD * quantity).toFixed(2);
 
                 document.getElementById('totalPrice').textContent = `$${totalUSD}`;
@@ -3641,15 +3641,7 @@
                 categoryTag.textContent = PRODUCT_DATA.type;
             }
 
-            // 更新价格
-            if (PRODUCT_DATA.price) {
-                document.getElementById('currentPrice').innerHTML = `<span>¥</span>${PRODUCT_DATA.price.toFixed(2)}`;
-            }
-            if (PRODUCT_DATA.compareAtPrice) {
-                document.getElementById('originalPrice').textContent = `¥${PRODUCT_DATA.compareAtPrice.toFixed(2)}`;
-                const discount = Math.round((1 - PRODUCT_DATA.price / PRODUCT_DATA.compareAtPrice) * 100);
-                document.getElementById('discountBadge').textContent = `-${discount}%`;
-            }
+            // 价格已通过 updatePrice() 函数更新（美元），这里不需要重复更新
 
             // 更新SKU
             const skuCode = document.querySelector('.sku-code');
