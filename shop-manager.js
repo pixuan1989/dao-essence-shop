@@ -216,4 +216,12 @@ document.head.appendChild(style);
 document.addEventListener('DOMContentLoaded', () => {
     console.log('shop-manager.js loaded');
     loadProducts();
+
+    // Update cart prices with latest product prices
+    setTimeout(() => {
+        if (typeof cart !== 'undefined' && typeof cart.updatePrices === 'function') {
+            console.log('Updating cart prices...');
+            cart.updatePrices();
+        }
+    }, 500); // Wait for products to load
 });

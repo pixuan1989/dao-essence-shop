@@ -783,15 +783,35 @@
                 // 始终保存为 {items: [...]} 格式
                 localStorage.setItem('daoessence_cart', JSON.stringify({ items: this._items }));
             },
-            
+
+            updatePrices() {
+                // 从 allProducts 获取最新价格并更新购物车
+                if (typeof window.allProducts === 'undefined') return;
+
+                let updated = false;
+                this._items.forEach(item => {
+                    const latestProduct = window.allProducts.find(p => p.id === item.id);
+                    if (latestProduct && latestProduct.price !== item.price) {
+                        console.log(`Updating price for ${item.id}: ${item.price} -> ${latestProduct.price}`);
+                        item.price = latestProduct.price;
+                        updated = true;
+                    }
+                });
+
+                if (updated) {
+                    this.save();
+                    this.updateUI();
+                }
+            },
+
             getTotal() {
                 return this._items.reduce((sum, item) => sum + (item.price * item.quantity), 0).toFixed(2);
             },
-            
+
             getCount() {
                 return this._items.reduce((sum, item) => sum + item.quantity, 0);
             },
-            
+
             updateUI() {
                 const badge = document.getElementById('cartBadge');
                 const floatingBadge = document.getElementById('floatingCartBadge');
