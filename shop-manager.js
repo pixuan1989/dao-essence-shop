@@ -30,7 +30,8 @@ const embeddedProducts = {
       "image": "images/ee9f06067bcdc66babb7cc1dfbc9d59ecef3fe912a602-hYOU5Z_fw1200webp.webp",
       "stock": 50,
       "benefits": ["Protection", "Annual Fortune", "Safety"],
-      "energyLevel": "High"
+      "energyLevel": "High",
+      "hidden": true  // 临时隐藏，等审核通过后再显示
     },
     {
       "id": "obsidian-bracelet",
@@ -135,6 +136,9 @@ function sortProducts(sortType) {
 // Get filtered and sorted products
 function getFilteredProducts() {
     let filtered = allProducts;
+
+    // Apply hidden filter - hide products marked as hidden
+    filtered = filtered.filter(p => !p.hidden);
 
     // Apply filter
     if (currentFilter !== 'all') {
