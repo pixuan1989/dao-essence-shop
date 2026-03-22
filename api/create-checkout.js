@@ -27,7 +27,17 @@ export default async function handler(req, res) {
         }
 
         // 检查环境变量
-        if (!process.env.CREEM_API_KEY || !process.env.CREEM_PRODUCT_ID) {
+        const apiKey = process.env.CREEM_API_KEY?.trim();
+        const productId = process.env.CREEM_PRODUCT_ID?.trim();
+
+        console.log('环境变量检查:', {
+            CREEM_API_KEY: apiKey ? apiKey.substring(0, 10) + '...' : 'MISSING',
+            CREEM_PRODUCT_ID: productId,
+            apiKeyLength: apiKey?.length,
+            productIdLength: productId?.length
+        });
+
+        if (!apiKey || !productId) {
             console.error('环境变量缺失:', { CREEM_API_KEY: !!process.env.CREEM_API_KEY, CREEM_PRODUCT_ID: !!process.env.CREEM_PRODUCT_ID });
             return res.status(500).json({ error: '支付系统配置错误' });
         }
@@ -41,13 +51,12 @@ export default async function handler(req, res) {
 
         // 准备 Creem API 请求数据（最简化版本，只传 product_id）
         const creemCheckoutData = {
-            product_id: process.env.CREEM_PRODUCT_ID
+            product_id: productId
         };
 
         console.log('Creem API 请求数据:', {
-            product_id: process.env.CREEM_PRODUCT_ID,
-            success_url: creemCheckoutData.success_url,
-            cancel_url: creemCheckoutData.cancel_url
+            url: 'https://api.creem.io/v1/checkouts',
+            product_id: productId
         });
 
         // 调用 Creem API 创建 checkout（生产环境）
@@ -56,14 +65,21 @@ export default async function handler(req, res) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'x-api-key': process.env.CREEM_API_KEY
+                'x-api-key': apiKey
             },
             body: JSON.stringify(creemCheckoutData)
         });
 
         const result = await response.json();
 
-        console.log('Creem API 响应:', { status: response.status, result: result });
+        console.log('Creem API 响应:', {
+            status: response.status,
+            statusText: response.statusText,
+            result: result,
+            headers: {
+                'content-type': response.headers.get('content-type')
+            }
+        });
 
         if (!response.ok) {
             console.error('Creem API 错误:', result);
