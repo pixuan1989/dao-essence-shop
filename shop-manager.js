@@ -6,6 +6,13 @@ let allProducts = [];
 let currentFilter = 'all';
 let currentSort = 'featured';
 
+// ============================================
+// ⚙️ 折扣开关配置
+// ============================================
+// 设置为 true 显示折扣（原价、折扣标签）
+// 设置为 false 隐藏折扣（只显示实际价格）
+const SHOW_DISCOUNT = true;
+
 // Embedded product data to avoid fetch issues with local files
 const embeddedProducts = {
   "products": [
@@ -15,7 +22,8 @@ const embeddedProducts = {
       "nameCN": "生肖守护令牌",
       "category": "protection-tokens",
       "element": "fire",
-      "price": 168.00,
+      "price": 170.00,
+      "originalPrice": 200.00,
       "currency": "USD",
       "description": "Dragon Year protection token, hand-painted and traditionally prepared. Protects against annual misfortune.",
       "descriptionCN": "龙年保护吉祥物，由传统工艺师手绘和仪式激活。保护您免受年度不利。",
@@ -30,9 +38,10 @@ const embeddedProducts = {
       "nameCN": "黑曜石手链",
       "category": "crystals",
       "element": "water",
-      "price": 168.00,
+      "price": 180.00,
+      "originalPrice": 200.00,
       "currency": "USD",
-      "description": "Natural obsidian bracelet for energy purification and spiritual protection. Calms the mind and supports mental clarity.",
+      "description": "Natural obsidian bracelet for energy purification and spiritual protection. Calms mind and supports mental clarity.",
       "descriptionCN": "天然黑曜石手链，用于能量净化和精神保护。平复心灵，支持思维清晰。",
       "image": "images/5c9b913900c6b04c7d5feeeba36403b233e42e895de36-P0zmjC_fw1200webp.webp",
       "stock": 80,
@@ -45,7 +54,8 @@ const embeddedProducts = {
       "nameCN": "天然沉香",
       "category": "incense",
       "element": "wood",
-      "price": 168.00,
+      "price": 170.00,
+      "originalPrice": 200.00,
       "currency": "USD",
       "description": "Premium natural agarwood for meditation and academic focus. Supports concentration and mental clarity.",
       "descriptionCN": "用于冥想和学业的优质天然沉香。支持专注力和思维清晰。",
@@ -60,7 +70,8 @@ const embeddedProducts = {
       "nameCN": "定制守护令牌",
       "category": "protection-tokens",
       "element": "earth",
-      "price": 168.00,
+      "price": 180.00,
+      "originalPrice": 200.00,
       "currency": "USD",
       "description": "Personalized protection token created based on your individual birth chart and life path analysis. Each item is uniquely prepared for you.",
       "descriptionCN": "根据您的个人出生图表和生命路径分析创建的个性化守护令牌。每件都为您独特仪式激活。",
@@ -77,16 +88,16 @@ const embeddedProducts = {
 async function loadProducts() {
     try {
         console.log('📦 Loading embedded products...');
-        
+
         // Use embedded data instead of fetch to avoid local file access issues
         allProducts = embeddedProducts.products;
-        
+
         // Make allProducts available globally for addToCart function
         window.allProducts = allProducts;
-        
+
         console.log('✅ Products loaded successfully:', allProducts.length, 'items');
         console.log('📦 Product data:', allProducts);
-        
+
         renderShop();
     } catch (error) {
         console.error('❌ Error loading products:', error);
@@ -105,13 +116,13 @@ async function loadProducts() {
 // Filter products by category
 function filterProducts(category) {
     currentFilter = category;
-    
+
     // Update button states
     document.querySelectorAll('.filter-btn').forEach(btn => {
         btn.classList.remove('active');
     });
     event.target.classList.add('active');
-    
+
     renderShop();
 }
 
@@ -124,12 +135,12 @@ function sortProducts(sortType) {
 // Get filtered and sorted products
 function getFilteredProducts() {
     let filtered = allProducts;
-    
+
     // Apply filter
     if (currentFilter !== 'all') {
         filtered = filtered.filter(p => p.category === currentFilter);
     }
-    
+
     // Apply sort
     switch (currentSort) {
         case 'price-low':
@@ -146,32 +157,51 @@ function getFilteredProducts() {
             // Keep original order
             break;
     }
-    
+
     return filtered;
+}
+
+// Calculate discount percentage
+function calculateDiscount(original, current) {
+    if (!original || !current || original <= current) return 0;
+    return Math.round(((original - current) / original) * 100);
 }
 
 // Render shop products
 function renderShop() {
     const filtered = getFilteredProducts();
     const grid = document.getElementById('productGrid');
-    
+
     // Update product count
     document.getElementById('productCount').textContent = filtered.length;
-    
-    grid.innerHTML = filtered.map(product => `
+
+    grid.innerHTML = filtered.map(product => {
+        const discount = SHOW_DISCOUNT && product.originalPrice ? calculateDiscount(product.originalPrice, product.price) : 0;
+        const discountBadge = discount > 0 ? `<span class="discount-badge">${discount}% OFF</span>` : '';
+        const priceDisplay = SHOW_DISCOUNT && product.originalPrice
+            ? `
+                <div class="price-container">
+                    <span class="original-price">$${product.originalPrice.toFixed(2)}</span>
+                    <span class="current-price">$${product.price.toFixed(2)}</span>
+                </div>
+              `
+            : `<div class="product-price">$${product.price.toFixed(2)}</div>`;
+
+        return `
         <a href="product-detail.html?id=${product.id}" class="shop-product-card" style="text-decoration: none; color: inherit; display: block;">
             <div class="product-image-wrapper">
                 <img src="${product.image}" alt="${product.nameCN}" onerror="this.src='images/placeholder.png'">
                 <div class="product-element">
                     <span class="element-badge">${product.element.toUpperCase()}</span>
                 </div>
+                ${discountBadge}
             </div>
             <div class="product-info">
                 <div class="product-category">${product.category}</div>
                 <div class="product-title">${product.nameCN}</div>
                 <div class="product-desc-short">${product.descriptionCN}</div>
                 <div class="product-meta">
-                    <div class="product-price">$${product.price.toFixed(2)}</div>
+                    ${priceDisplay}
                     <div class="product-stock">Stock: ${product.stock}</div>
                 </div>
                 <button class="add-to-cart-btn" onclick="event.preventDefault(); event.stopPropagation(); addToCart('${product.id}')">
@@ -179,12 +209,53 @@ function renderShop() {
                 </button>
             </div>
         </a>
-    `).join('');
+    `;
+    }).join('');
 }
 
-// Add style for add-to-cart button
+// Add style for add-to-cart button and discount display
 const style = document.createElement('style');
 style.textContent = `
+    /* 折扣标签样式 */
+    .discount-badge {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: #e74c3c;
+        color: white;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        z-index: 10;
+        box-shadow: 0 2px 8px rgba(231, 76, 60, 0.3);
+    }
+
+    /* 价格容器 */
+    .price-container {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+    }
+
+    /* 原价样式 */
+    .original-price {
+        font-size: 14px;
+        color: #8B8070;
+        text-decoration: line-through;
+        font-weight: 400;
+    }
+
+    /* 现价样式 */
+    .current-price {
+        font-size: 22px;
+        font-weight: 600;
+        color: var(--fire-primary, #8B2500);
+    }
+
     .add-to-cart-btn {
         width: 100%;
         padding: 12px 16px;

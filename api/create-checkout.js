@@ -15,7 +15,7 @@ export default async function handler(req, res) {
     }
 
     try {
-        const { items, shipping, customerName, customerEmail, shippingAddress, shippingMethod } = req.body;
+        const { items, shipping, customerName, customerEmail, shippingAddress, shippingMethod, discountCode } = req.body;
 
         // 验证必要参数
         if (!items || !Array.isArray(items) || items.length === 0) {
@@ -29,10 +29,12 @@ export default async function handler(req, res) {
         // 检查环境变量
         const apiKey = process.env.CREEM_API_KEY?.trim();
         const productId = process.env.CREEM_PRODUCT_ID?.trim();
+        const creemDiscountCode = process.env.CREEM_DISCOUNT_CODE?.trim();
 
         console.log('环境变量检查:', {
             CREEM_API_KEY: apiKey ? apiKey.substring(0, 10) + '...' : 'MISSING',
             CREEM_PRODUCT_ID: productId,
+            CREEM_DISCOUNT_CODE: creemDiscountCode,
             apiKeyLength: apiKey?.length,
             productIdLength: productId?.length
         });
@@ -46,17 +48,27 @@ export default async function handler(req, res) {
         const subtotal = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
         const total = subtotal + (shipping || 0);
 
+        // 判断是否使用折扣码
+        // 优先使用请求中的折扣码，如果没有则检查环境变量，最后检查商品是否有折扣标记
+        const useDiscountCode = discountCode || creemDiscountCode || (items.some(item => item.hasDiscount) ? 'XJCX520' : null);
+
         // 生成订单号
         const orderId = `ORDER_${Date.now()}_${Math.floor(Math.random() * 10000)}`;
 
-        // 准备 Creem API 请求数据（最简化版本，只传 product_id）
+        // 准备 Creem API 请求数据
         const creemCheckoutData = {
             product_id: productId
         };
 
+        // 如果有折扣码，添加到请求中
+        if (useDiscountCode) {
+            creemCheckoutData.discount_code = useDiscountCode;
+        }
+
         console.log('Creem API 请求数据:', {
             url: 'https://api.creem.io/v1/checkouts',
-            product_id: productId
+            product_id: productId,
+            discount_code: useDiscountCode
         });
 
         // 调用 Creem API 创建 checkout（生产环境）
