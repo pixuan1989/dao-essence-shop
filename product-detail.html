@@ -2839,9 +2839,14 @@
             const urlParams = new URLSearchParams(window.location.search);
             const productId = urlParams.get('id');
 
+            console.log('URL Product ID:', productId);
+            console.log('Available products:', Object.keys(PRODUCTS));
+
             // 如果没有指定ID，使用默认产品
             const defaultProductId = 'custom-protection-token';  // 默认显示定制守护令牌
             const actualProductId = productId || defaultProductId;
+
+            console.log('Loading product:', actualProductId);
 
             // 从PRODUCTS中获取产品数据
             PRODUCT_DATA = PRODUCTS[actualProductId] || PRODUCTS[defaultProductId];
