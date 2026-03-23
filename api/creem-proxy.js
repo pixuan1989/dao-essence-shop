@@ -312,7 +312,7 @@ async function handler(req, res) {
 }
 
 // ============================================
-// 导出（Vercel Serverless）
+// 导出（Vercel Serverless - ESM 格式）
 // ============================================
 
-module.exports = handler;
+export default handler;
