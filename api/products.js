@@ -52,12 +52,14 @@ async function fetchWithTimeout(url, options = {}, timeout = API_TIMEOUT) {
 }
 
 /**
- * 从 Creem API 获取单个产品详情
+ * 从 Creem API 获取所有产品列表（使用官方推荐的端点）
+ * API 端点：GET /v1/products/search
+ * 认证方式：x-api-key header
  */
-async function fetchCreemProduct(productId) {
-  const url = `${CREEM_CONFIG.apiBase}/products/${productId}`;
+async function fetchCreemProducts() {
+  const url = `${CREEM_CONFIG.apiBase}/products/search`;
   
-  console.log(`📥 调用 Creem API: ${url}`);
+  console.log(`📥 调用 Creem API 产品列表: ${url}`);
   
   if (!CREEM_CONFIG.apiKey) {
     console.error('❌ CREEM_API_KEY 环境变量未设置！');
@@ -68,7 +70,43 @@ async function fetchCreemProduct(productId) {
     const response = await fetchWithTimeout(url, {
       method: 'GET',
       headers: {
-        'Authorization': `Bearer ${CREEM_CONFIG.apiKey}`,
+        'x-api-key': CREEM_CONFIG.apiKey,  // ✅ 改为官方推荐的认证方式
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error(`Creem API 返回 ${response.status}: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    console.log(`✅ 成功拉取产品列表, 共 ${data.items?.length || 0} 个产品`);
+    return data.items || [];  // 返回产品数组
+  } catch (error) {
+    console.error(`❌ 拉取产品列表失败:`, error.message);
+    return null;
+  }
+}
+
+/**
+ * 从 Creem API 获取单个产品详情（备用方案）
+ */
+async function fetchCreemProduct(productId) {
+  const url = `${CREEM_CONFIG.apiBase}/products/${productId}`;
+  
+  console.log(`📥 调用 Creem API (单个产品): ${url}`);
+  
+  if (!CREEM_CONFIG.apiKey) {
+    console.error('❌ CREEM_API_KEY 环境变量未设置！');
+    return null;
+  }
+
+  try {
+    const response = await fetchWithTimeout(url, {
+      method: 'GET',
+      headers: {
+        'x-api-key': CREEM_CONFIG.apiKey,  // ✅ 改为官方推荐的认证方式
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       }
@@ -89,6 +127,7 @@ async function fetchCreemProduct(productId) {
 
 /**
  * 转换 Creem 数据格式为网站格式
+ * 支持多种字段名（因为不同 API 返回的字段名可能不同）
  */
 function transformCreemProduct(creemProduct) {
   if (!creemProduct) return null;
@@ -108,19 +147,20 @@ function transformCreemProduct(creemProduct) {
     id: creemProduct.id || creemProduct.identifier,
     creemId: creemProduct.id,
     name: creemProduct.name_en || creemProduct.name,
-    nameCN: creemProduct.name_cn || creemProduct.name,
+    nameCN: creemProduct.name_cn || creemProduct.name,  // 🔥 支持中文名字
     category: creemProduct.category || 'other',
     categoryCN: creemProduct.category_cn || creemProduct.category,
     element: creemProduct.element || 'unknown',
     price: price,
     originalPrice: originalPrice,
-    discount: discount, // 🔥 新增
-    discountRate: discountRate, // 🔥 新增
+    discount: discount,        // 🔥 新增：折扣金额
+    discountRate: discountRate, // 🔥 新增：折扣百分比
     currency: creemProduct.currency || 'USD',
     description: creemProduct.description_en || creemProduct.description || '',
     descriptionCN: creemProduct.description_cn || creemProduct.description || '',
-    image: creemProduct.image_url || creemProduct.primary_image || '',
-    images: creemProduct.image_urls || [creemProduct.image_url] || [],
+    image: creemProduct.image || creemProduct.image_url || creemProduct.primary_image || '',
+    image_url: creemProduct.image_url || creemProduct.image || creemProduct.primary_image || '',
+    images: creemProduct.images || creemProduct.image_urls || [creemProduct.image || creemProduct.image_url] || [],
     stock: creemProduct.stock || 999,
     benefits: creemProduct.benefits || [],
     energyLevel: creemProduct.energy_level || 'Medium',
@@ -130,23 +170,40 @@ function transformCreemProduct(creemProduct) {
 
 /**
  * 从 Creem API 拉取所有产品
- * ✅ 注意：后端不再缓存（Serverless 无状态）
- *    缓存由浏览器端 localStorage + HTTP 缓存头完成
+ * 策略：优先使用产品列表 API，如果失败则用备用数据
  */
 async function getAllProducts() {
   console.log('🔄 从 Creem API 拉取新数据...');
   
   const products = [];
 
-  // 并发拉取所有产品（更快）
+  // 🔥 改进：先尝试使用官方产品列表 API
+  const creemProducts = await fetchCreemProducts();
+  
+  if (creemProducts && creemProducts.length > 0) {
+    console.log(`✅ 成功从产品列表 API 拉取 ${creemProducts.length} 个产品`);
+    
+    // 处理产品列表
+    for (const creemProduct of creemProducts) {
+      const transformed = transformCreemProduct(creemProduct);
+      if (transformed) {
+        products.push(transformed);
+      }
+    }
+    
+    return products;
+  }
+
+  // 如果产品列表 API 失败，尝试逐个产品 API（备用方案）
+  console.log('⚠️ 产品列表 API 返回为空，尝试备用方案：逐个拉取产品...');
+  
   const productFetches = Object.entries(CREEM_CONFIG.productIds).map(
     ([key, productId]) => fetchCreemProduct(productId)
   );
 
-  const creemProducts = await Promise.allSettled(productFetches);
+  const results = await Promise.allSettled(productFetches);
 
-  // 处理拉取结果
-  for (const result of creemProducts) {
+  for (const result of results) {
     if (result.status === 'fulfilled' && result.value) {
       const transformed = transformCreemProduct(result.value);
       if (transformed) {
