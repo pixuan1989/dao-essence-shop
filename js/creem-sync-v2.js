@@ -31,21 +31,21 @@ const CACHE_CONFIG = {
 const FALLBACK_PRODUCTS = [
   {
     id: 'prod_7i2asEAuHFHl5hJMeCEsfB',
-    name: '传统沉香',
+    name: '沉香冥想音频指南',
     price: 200,
     currency: 'USD',
-    description: '优质沉香，传统工艺制作',
+    description: '专业沉香冥想音频和详细指南，帮助您达到深度放松状态',
     image: 'images/agarwood.jpg',
-    category: 'agarwood'
+    category: 'digital'
   },
   {
     id: 'prod_1YuuAVysoYK6AOmQVab2uR',
-    name: '五行能量手串',
+    name: '五行能量平衡指南',
     price: 168,
     currency: 'USD',
-    description: '五行能量手串，平衡身心',
+    description: '五行能量平衡数字指南，包含冥想练习和能量调理方法',
     image: 'images/bracelet.jpg',
-    category: 'bracelet'
+    category: 'digital'
   }
 ];
 
