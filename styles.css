@@ -684,7 +684,7 @@ p {
 }
 
 /* ============================================
-   符箓装饰元素 - Taoist Decorative Elements
+   Energy Symbol Decorative Elements - Taoist Decorative Elements
    ============================================ */
 
 .taoist-border {
@@ -983,9 +983,7 @@ p {
     right: 0;
     z-index: 1000;
     padding: var(--spacing-md) 0;
-    background: rgba(245, 240, 230, 0.95);
-    backdrop-filter: blur(10px);
-    box-shadow: var(--shadow-md);
+    background: transparent;
     transition: all var(--transition-base);
 }
 
@@ -1402,10 +1400,14 @@ p {
     cursor: pointer;
     box-shadow: 0 4px 20px rgba(212, 175, 55, 0.4);
     transition: all 0.3s ease;
-    z-index: 10001;
+    z-index: 99999;
     font-size: 24px;
     border: none;
     animation: float-pulse 2s infinite;
+    overflow: visible;
+    padding: 0;
+    margin: 0;
+    color: white;
 }
 
 .floating-cart-btn:hover {
@@ -1437,6 +1439,7 @@ p {
     font-size: 12px;
     font-weight: 700;
     box-shadow: 0 2px 8px rgba(139, 37, 0, 0.5);
+    z-index: 1;
 }
 
 /* 隐藏导航栏中的购物车按钮，只保留右下角浮动按钮 */

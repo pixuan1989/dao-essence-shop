@@ -1,238 +1,184 @@
-/* ============================================
-   Stripe Payment Integration - Backend Server
-   DAO Essence Shop
-   ============================================ */
-
+const http = require('http');
+const fs = require('fs');
+const path = require('path');
+const url = require('url');
 require('dotenv').config();
-const express = require('express');
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-const cors = require('cors');
-
-const app = express();
-
-// Middleware
-app.use(cors({
-    origin: ['http://localhost:3000', 'http://127.0.0.1:3000', 'file://'],
-    methods: ['GET', 'POST'],
-    credentials: true
-}));
-app.use(express.json());
-
-// Health check endpoint
-app.get('/api/health', (req, res) => {
-    res.json({ status: 'ok', message: 'Stripe server is running' });
-});
-
-// Create Payment Intent
-app.post('/api/create-payment-intent', async (req, res) => {
-    try {
-        const { amount, currency = 'usd', metadata = {} } = req.body;
-
-        console.log('Creating Payment Intent:', { amount, currency, metadata });
-
-        // Validate amount
-        if (!amount || amount <= 0) {
-            return res.status(400).json({
-                error: 'Invalid amount. Must be greater than 0.'
-            });
-        }
-
-        // Create Payment Intent
-        const paymentIntent = await stripe.paymentIntents.create({
-            amount: Math.round(amount * 100), // Convert to cents
-            currency: currency.toLowerCase(),
-            metadata: {
-                ...metadata,
-                shop: 'dao-essence',
-                timestamp: new Date().toISOString()
-            },
-            automatic_payment_methods: {
-                enabled: true
-            },
-            description: 'DAO Essence Shop Order'
-        });
-
-        console.log('Payment Intent created:', paymentIntent.id);
-
-        res.json({
-            success: true,
-            clientSecret: paymentIntent.client_secret,
-            paymentIntentId: paymentIntent.id,
-            amount: paymentIntent.amount
-        });
-
-    } catch (error) {
-        console.error('Error creating Payment Intent:', error);
-        res.status(500).json({
-            success: false,
-            error: error.message
-        });
-    }
-});
-
-// Get Payment Intent Status
-app.get('/api/payment-intent/:id', async (req, res) => {
-    try {
-        const { id } = req.params;
-
-        const paymentIntent = await stripe.paymentIntents.retrieve(id);
-
-        res.json({
-            success: true,
-            status: paymentIntent.status,
-            paymentIntent: paymentIntent
-        });
-
-    } catch (error) {
-        console.error('Error retrieving Payment Intent:', error);
-        res.status(500).json({
-            success: false,
-            error: error.message
-        });
-    }
-});
-
-// Get Order Status
-app.get('/api/order/:orderId', async (req, res) => {
-    try {
-        const { orderId } = req.params;
-        const { getOrderStatus } = require('./webhook-handler.js');
-
-        const order = await getOrderStatus(orderId);
-
-        if (!order) {
-            return res.status(404).json({
-                success: false,
-                error: 'Order not found'
-            });
-        }
-
-        res.json({
-            success: true,
-            order: order
-        });
-
-    } catch (error) {
-        console.error('Error retrieving order status:', error);
-        res.status(500).json({
-            success: false,
-            error: error.message
-        });
-    }
-});
-
-// Get Order History
-app.get('/api/orders', async (req, res) => {
-    try {
-        const { getOrderHistory } = require('./webhook-handler.js');
-
-        const orders = await getOrderHistory();
-
-        res.json({
-            success: true,
-            orders: orders,
-            count: orders.length
-        });
-
-    } catch (error) {
-        console.error('Error retrieving order history:', error);
-        res.status(500).json({
-            success: false,
-            error: error.message
-        });
-    }
-});
-
-// Webhook endpoint for payment status updates
-app.post('/api/webhook', express.raw({ type: 'application/json' }), async (req, res) => {
-    const sig = req.headers['stripe-signature'];
-    const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
-
-    let event;
-
-    try {
-        event = stripe.webhooks.constructEvent(req.body, sig, webhookSecret);
-    } catch (err) {
-        console.error('Webhook signature verification failed:', err.message);
-        return res.status(400).send(`Webhook Error: ${err.message}`);
-    }
-
-    console.log(`📨 Webhook received: ${event.type}`);
-
-    // Handle the event
-    switch (event.type) {
-        case 'payment_intent.succeeded':
-            const paymentIntent = event.data.object;
-            console.log('✅ Payment succeeded:', paymentIntent.id);
-
-            // 调用 webhook 处理器
-            try {
-                const { handlePaymentSucceeded } = require('./webhook-handler.js');
-                await handlePaymentSucceeded(paymentIntent);
-            } catch (error) {
-                console.error('Error processing payment success:', error);
-            }
-            break;
-
-        case 'payment_intent.payment_failed':
-            const failedPayment = event.data.object;
-            console.log('❌ Payment failed:', failedPayment.id);
-
-            // 调用 webhook 处理器
-            try {
-                const { handlePaymentFailed } = require('./webhook-handler.js');
-                await handlePaymentFailed(failedPayment);
-            } catch (error) {
-                console.error('Error processing payment failure:', error);
-            }
-            break;
-
-        case 'payment_intent.created':
-            console.log('📝 Payment Intent created:', event.data.object.id);
-            break;
-
-        case 'payment_intent.canceled':
-            console.log('⚠️ Payment Intent canceled:', event.data.object.id);
-            break;
-
-        case 'checkout.session.completed':
-            console.log('🛒 Checkout session completed:', event.data.object.id);
-            break;
-
-        case 'invoice.paid':
-            console.log('📄 Invoice paid:', event.data.object.id);
-            break;
-
-        case 'invoice.payment_failed':
-            console.log('📄 Invoice payment failed:', event.data.object.id);
-            break;
-
-        default:
-            console.log(`ℹ️ Unhandled event type: ${event.type}`);
-    }
-
-    res.json({ received: true });
-});
-
-// Error handling middleware
-app.use((err, req, res, next) => {
-    console.error('Server error:', err);
-    res.status(500).json({
-        success: false,
-        error: 'Internal server error'
-    });
-});
 
 const PORT = process.env.PORT || 3001;
+const BASE_URL = process.env.BASE_URL || `http://localhost:${PORT}`;
 
-app.listen(PORT, () => {
+async function handleApiRequest(req, res, parsedUrl) {
+    const apiPath = parsedUrl.pathname;
+
+    // Creem Checkout 创建
+    if (apiPath === '/api/create-checkout') {
+        if (req.method === 'POST') {
+            let body = '';
+            req.on('data', chunk => { body += chunk.toString(); });
+            req.on('end', async () => {
+                try {
+                    const data = JSON.parse(body);
+
+                    const CREEM_API_KEY = process.env.CREEM_API_KEY;
+                    const CREEM_PRODUCT_ID = process.env.CREEM_PRODUCT_ID;
+
+                    if (!CREEM_API_KEY || !CREEM_PRODUCT_ID) {
+                        res.writeHead(500, { 'Content-Type': 'application/json' });
+                        res.end(JSON.stringify({ error: 'Creem API 密钥未配置' }));
+                        return;
+                    }
+
+                    // 构建 Creem Checkout
+                    const creemPayload = {
+                        product_id: CREEM_PRODUCT_ID,
+                        success_url: `${BASE_URL}/order-confirm.html?session_id={CHECKOUT_ID}`,
+                        cancel_url: `${BASE_URL}/checkout.html`
+                    };
+
+                    const creemResponse = await fetch('https://api.creem.io/v1/checkouts', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'x-api-key': CREEM_API_KEY
+                        },
+                        body: JSON.stringify(creemPayload)
+                    });
+
+                    const creemResult = await creemResponse.json();
+
+                    if (!creemResponse.ok) {
+                        console.error('Creem API 错误:', creemResult);
+                        res.writeHead(500, { 'Content-Type': 'application/json' });
+                        res.end(JSON.stringify({ error: creemResult.error || '创建支付会话失败' }));
+                        return;
+                    }
+
+                    res.writeHead(200, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({
+                        success: true,
+                        checkoutUrl: creemResult.checkout_url,
+                        orderId: `ORDER_${Date.now()}`
+                    }));
+
+                } catch (error) {
+                    console.error('Error:', error);
+                    res.writeHead(500, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({ error: '服务器错误' }));
+                }
+            });
+        } else {
+            res.writeHead(405, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: 'Method not allowed' }));
+        }
+    }
+
+    // 获取 Checkout 详情
+    else if (apiPath === '/api/get-checkout') {
+        if (req.method === 'GET') {
+            const checkoutId = parsedUrl.query.checkout_id;
+
+            if (!checkoutId) {
+                res.writeHead(400, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: '缺少 checkout_id' }));
+                return;
+            }
+
+            try {
+                const response = await fetch(`https://api.creem.io/v1/checkouts/${checkoutId}`, {
+                    headers: { 'x-api-key': process.env.CREEM_API_KEY }
+                });
+
+                const result = await response.json();
+
+                if (!response.ok) {
+                    res.writeHead(500, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({ error: result.error || '获取订单失败' }));
+                    return;
+                }
+
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ success: true, checkout: result }));
+            } catch (error) {
+                console.error('Get Checkout Error:', error);
+                res.writeHead(500, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: '获取订单信息失败' }));
+            }
+        }
+    }
+
+    // 健康检查
+    else if (apiPath === '/api/health') {
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ status: 'ok', provider: 'Creem' }));
+    }
+
+    else {
+        res.writeHead(404, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'API endpoint not found' }));
+    }
+}
+
+// 静态文件处理
+function handleStaticFileRequest(req, res, parsedUrl) {
+    let filePath = '.' + parsedUrl.pathname;
+    if (filePath === './') filePath = './index.html';
+
+    const extname = String(path.extname(filePath)).toLowerCase();
+    const mimeTypes = {
+        '.html': 'text/html',
+        '.js': 'text/javascript',
+        '.css': 'text/css',
+        '.json': 'application/json',
+        '.png': 'image/png',
+        '.jpg': 'image/jpg',
+        '.gif': 'image/gif',
+        '.svg': 'image/svg+xml'
+    };
+
+    const contentType = mimeTypes[extname] || 'application/octet-stream';
+
+    fs.readFile(filePath, (error, content) => {
+        if (error) {
+            if (error.code == 'ENOENT') {
+                res.writeHead(404, { 'Content-Type': 'text/html' });
+                res.end('<h1>404 Not Found</h1>', 'utf-8');
+            } else {
+                res.writeHead(500);
+                res.end('Error: ' + error.code);
+            }
+        } else {
+            res.writeHead(200, { 'Content-Type': contentType });
+            res.end(content, 'utf-8');
+        }
+    });
+}
+
+// 创建服务器
+const server = http.createServer((req, res) => {
+    const parsedUrl = url.parse(req.url, true);
+
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+    if (req.method === 'OPTIONS') {
+        res.writeHead(200);
+        res.end();
+        return;
+    }
+
+    if (parsedUrl.pathname.startsWith('/api/')) {
+        handleApiRequest(req, res, parsedUrl);
+    } else {
+        handleStaticFileRequest(req, res, parsedUrl);
+    }
+});
+
+server.listen(PORT, () => {
     console.log('========================================');
-    console.log('Stripe Payment Server Running');
+    console.log('DAO Essence Server Running (Creem)');
     console.log('========================================');
-    console.log(`Server URL: http://localhost:${PORT}`);
-    console.log(`Health Check: http://localhost:${PORT}/api/health`);
-    console.log(`Payment Intent API: http://localhost:${PORT}/api/create-payment-intent`);
-    console.log('========================================');
-    console.log('Environment:', process.env.NODE_ENV || 'development');
+    console.log(`Server: http://localhost:${PORT}`);
+    console.log(`Health: http://localhost:${PORT}/api/health`);
     console.log('========================================');
 });

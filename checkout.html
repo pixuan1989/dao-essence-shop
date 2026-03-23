@@ -5,17 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>结账 - 道本精酿 | DAO Essence</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="https://js.stripe.com/v3/"></script>
-    <script>
-        // Stripe 配置 - 直接硬编码测试密钥
-        window.stripeConfig = {
-            publicKey: 'pk_test_51TCXN018te51GWiewKqP8Rp8reBZP8oL4WCxngJPliUJKjHbRbRIgpqeEnZ67XylRnLfNvC09I0FXSYhDZo5hsDx00ofI4i5z6'
-        };
-    </script>
+
 </head>
 <body>
-    <!-- Navigation Header -->
-    <header class="header">
+    <!-- 头部导航 -->
+    <header class="header scrolled">
         <div class="container">
             <nav class="nav">
                 <a href="index.html" class="logo">
@@ -71,6 +65,10 @@
                             <span>运费</span>
                             <span id="shipping-cost">$15.00</span>
                         </div>
+                        <div class="total-row">
+                            <span>税费 (10%)</span>
+                            <span id="tax-cost">$0.00</span>
+                        </div>
                         <div class="total-row total-final">
                             <span>总计</span>
                             <span id="grand-total">$0.00</span>
@@ -82,7 +80,7 @@
                 <div class="payment-section">
                     <!-- 买家信息表单 -->
                     <div class="buyer-info-form">
-                        <h2>📋 收件信息</h2>
+                        <h2>收件信息</h2>
                         <p class="form-note">请填写收件信息，订单确认邮件将发送至您的邮箱</p>
                         
                         <div class="form-group">
@@ -103,33 +101,39 @@
                     </div>
 
                     <div class="payment-method">
-                        <h2>💳 支付方式</h2>
-                        <div class="payment-info">
-                            <p>使用 <strong>Stripe</strong> 安全支付系统</p>
-                            <div class="card-icons">
-                                <span>💳 VISA</span>
-                                <span>💳 Mastercard</span>
-                                <span>💳 American Express</span>
-                                <span>💳 Discover</span>
-                            </div>
-                        </div>
-                        
-                        <button id="pay-button" class="btn btn-primary btn-large">
-                            去支付 →
-                        </button>
-                        
-                        <div class="security-badges">
-                            <span>🔒 SSL加密</span>
-                            <span>🛡️ PCI合规</span>
-                            <span>✉️ 邮件确认</span>
-                        </div>
-                    </div>
+            <h2>支付方式</h2>
+            <div class="payment-info">
+                <p>使用 <strong>Creem</strong> 安全支付系统</p>
+                <div class="card-icons">
+                    <span>VISA</span>
+                    <span>MasterCard</span>
+                    <span>American Express</span>
+                    <span>Discover</span>
+                </div>
+            </div>
+            
+            <div class="return-policy">
+                <h3>退换货政策</h3>
+                <p>我们提供30天内无理由退换货服务。如果您对购买的商品不满意，可以在收到商品后30天内申请退换货。</p>
+            </div>
+            
+            <button id="pay-button" class="btn btn-primary btn-large">
+                去支付 →
+            </button>
+            
+            <div class="security-badges">
+                <span>🔒 SSL加密</span>
+                <span>🛡️ PCI合规</span>
+                <span>✉️ 邮件确认</span>
+                <span>📦 30天退换</span>
+            </div>
+        </div>
                 </div>
             </div>
         </div>
     </main>
 
-    <!-- Footer -->
+    <!-- 页脚 -->
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
@@ -137,18 +141,68 @@
                     <div class="logo">
                         <span class="logo-en">DAO ESSENCE</span>
                     </div>
-                    <p>Ancient Wisdom, Modern Harmony.</p>
+                    <p>Ancient Wisdom, Modern Harmony. Based on authentic Eastern wisdom traditions, we offer verifiable traditional cultural products and services with genuine energy properties.</p>
+                </div>
+                <div>
+                    <h4 class="footer-title">Navigation</h4>
+                    <ul class="footer-links">
+                        <li><a href="culture.html">Energy Universe</a></li>
+                        <li><a href="shop.html">Energy Shop</a></li>
+                        <li><a href="index.html#life-path-booking">Life Path Consulting</a></li>
+                        <li><a href="guide.html">Crafting Process</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-title">Services</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Annual Energy Analysis</a></li>
+                        <li><a href="#">Personal Consultation</a></li>
+                        <li><a href="#">Custom Items</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-title">Contact</h4>
+                    <ul class="footer-links">
+                        <li>
+                            <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle;margin-right:5px"><path d="M3 4h14a1 1 0 011 1v10a1 1 0 01-1 1H3a1 1 0 01-1-1V5a1 1 0 011-1z"/><path d="M3 5l7 6 7-6"/></svg>
+                            517748938@qq.com
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle;margin-right:5px"><path d="M2 5a2 2 0 012-2h12a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V5z"/><path d="M7 10h6M7 13h4"/></svg>
+                            
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle;margin-right:5px"><circle cx="10" cy="10" r="8"/><path d="M10 6v4l2.5 2.5"/></svg>
+                            Mon–Sat: 9AM–9PM (CST / UTC+8)
+                        </li>
+                        <li><a href="policy.html" style="color:rgba(245,240,230,0.6)">Privacy & Return Policy</a></li>
+                    </ul>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2026 DAO Essence & Five Elements. All rights reserved.</p>
+                <p>© 2026 DAO Essence & Five Elements. All rights reserved.</p>
+                <div class="footer-legal-links">
+                    <a href="policy.html">Privacy Policy</a>
+                    <span>|</span>
+                    <a href="policy.html">Terms of Service</a>
+                </div>
             </div>
         </div>
     </footer>
 
-    <!-- Stripe Payment Script -->
-    <script src="stripe-payment.js"></script>
+    <!-- Main Script -->
+    <script src="main.js"></script>
+    
+    <!-- Creem Payment Script -->
+    <script src="creem-payment.js"></script>
     <script>
+        // 页面加载完成后初始化购物车
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.initCheckoutPage) {
+                window.initCheckoutPage();
+            }
+        });
+
         // 运费选项变更时更新显示
         document.getElementById('shipping-select').addEventListener('change', function() {
             const shipping = parseFloat(this.value) || 15;
@@ -174,10 +228,12 @@
         });
     </script>
     
+
+    
     <style>
         .checkout-page {
             min-height: calc(100vh - 200px);
-            padding: 40px 20px;
+            padding: 100px 20px 40px;
             background: #f9f9f9;
         }
         
@@ -332,6 +388,27 @@
             margin-top: 20px;
             font-size: 14px;
             color: #666;
+            flex-wrap: wrap;
+        }
+        
+        .return-policy {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        
+        .return-policy h3 {
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: #343a40;
+        }
+        
+        .return-policy p {
+            font-size: 14px;
+            color: #6c757d;
+            margin: 0;
         }
         
         .empty-cart {

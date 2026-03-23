@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DAO Essence - Energy Shop | Authentic Taoist Products</title>
-    <meta name="description" content="Shop authentic Taoist talismans, crystals, and ritual items. Each product is handcrafted by ordained Taoist priests with complete energy preparation records.">
-    <meta name="keywords" content="taoist talismans, energy crystals, ritual items, obsidian bracelet, agarwood incense, custom talismans">
+    <title>DAO Essence - Energy Shop | Authentic Eastern Wisdom Products</title>
+    <meta name="description" content="Shop authentic Eastern wisdom protection tokens, crystals, and cultural items. Each product is handcrafted by skilled practitioners with complete energy preparation records.">
+    <meta name="keywords" content="eastern wisdom protection tokens, energy crystals, cultural items, obsidian bracelet, agarwood incense, custom protection tokens">
     
     <!-- Open Graph for Social Media -->
-    <meta property="og:title" content="DAO Essence Energy Shop - Authentic Taoist Products">
-    <meta property="og:description" content="Explore authentic talismans and energy items crafted by Taoist masters">
+    <meta property="og:title" content="DAO Essence Energy Shop - Authentic Eastern Wisdom Products">
+    <meta property="og:description" content="Explore authentic protection tokens and energy items crafted by Eastern wisdom practitioners">
     <meta property="og:type" content="website">
     <meta property="og:image" content="https://daoessence.com/images/og-image.jpg">
     
@@ -18,6 +18,7 @@
     
     <link rel="stylesheet" href="styles.css?v=202603191430">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&family=Noto+Serif+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="main.js?v=202603191430"></script>
     
     <!-- Local Shopping Cart Styles -->
     <style>
@@ -257,12 +258,12 @@
       "@context": "https://schema.org/",
       "@type": "Organization",
       "name": "DAO Essence",
-      "description": "Authentic Taoist talismans and energy products",
+      "description": "Authentic Eastern wisdom protection tokens and energy products",
       "url": "https://daoessence.com",
       "contactPoint": {
         "@type": "ContactPoint",
         "contactType": "Customer Service",
-        "telephone": "+86-181-1575-5283",
+        "telephone": "",
         "email": "support@daoessence.com"
       }
     }
@@ -449,7 +450,7 @@
             width: 100%;
             padding: 12px 16px;
             background: var(--primary-color);
-            color: white;
+            color: white !important;
             border: none;
             border-radius: var(--radius-sm);
             cursor: pointer;
@@ -459,10 +460,15 @@
             text-transform: uppercase;
             letter-spacing: 0.05em;
         }
-        
+
         .snipcart-add-item:hover {
             background: var(--fire-light);
             transform: translateY(-2px);
+            color: white !important;
+        }
+
+        .snipcart-add-item svg {
+            stroke: white !important;
         }
         
         /* Snipcart Cart Button Override */
@@ -564,7 +570,7 @@
     </style>
 </head>
 <body>
-    <!-- Navigation Header -->
+    <!-- 头部导航 -->
     <header class="header">
         <div class="container">
             <nav class="nav">
@@ -594,7 +600,7 @@
     <section class="shop-hero">
         <div class="shop-hero-content">
             <h1>Energy Shop</h1>
-            <p>Discover authentic talismans and ritual items crafted by ordained Taoist priests</p>
+            <p>Discover authentic protection tokens and cultural items crafted by skilled Eastern wisdom practitioners</p>
         </div>
     </section>
 
@@ -605,10 +611,10 @@
             <div class="shop-controls">
                 <div class="shop-filters">
                     <button class="filter-btn active" onclick="filterProducts('all')">All</button>
-                    <button class="filter-btn" onclick="filterProducts('talismans')">Talismans</button>
+                    <button class="filter-btn" onclick="filterProducts('protection-tokens')">Protection Tokens</button>
                     <button class="filter-btn" onclick="filterProducts('crystals')">Crystals</button>
                     <button class="filter-btn" onclick="filterProducts('incense')">Incense</button>
-                    <button class="filter-btn" onclick="filterProducts('ritual')">Ritual Items</button>
+                    <button class="filter-btn" onclick="filterProducts('traditional-items')">Traditional Items</button>
                 </div>
                 <select class="sort-select" onchange="sortProducts(this.value)">
                     <option value="featured">Featured</option>
@@ -635,7 +641,7 @@
                     <div class="logo">
                         <span class="logo-en">DAO ESSENCE</span>
                     </div>
-                    <p>Ancient Wisdom, Modern Harmony. Based on authentic Taoist traditions, we offer verifiable traditional cultural products and services with genuine energy properties.</p>
+                    <p>Ancient Wisdom, Modern Harmony. Based on authentic Eastern wisdom traditions, we offer verifiable traditional cultural products and services with genuine energy properties.</p>
                 </div>
                 <div>
                     <h4 class="footer-title">Navigation</h4>
@@ -649,7 +655,7 @@
                 <div>
                     <h4 class="footer-title">Services</h4>
                     <ul class="footer-links">
-                        <li><a href="#">BaZi Analysis</a></li>
+                        <li><a href="#">Annual Energy Analysis</a></li>
                         <li><a href="#">Annual Fortune</a></li>
                         <li><a href="#">Personal Consultation</a></li>
                         <li><a href="#">Custom Items</a></li>
@@ -660,24 +666,29 @@
                     <ul class="footer-links">
                         <li>
                             <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle;margin-right:5px"><path d="M3 4h14a1 1 0 011 1v10a1 1 0 01-1 1H3a1 1 0 01-1-1V5a1 1 0 011-1z"/><path d="M3 5l7 6 7-6"/></svg>
-                            support@daoessence.com
+                            517748938@qq.com
                         </li>
                         <li>
                             <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle;margin-right:5px"><path d="M2 5a2 2 0 012-2h12a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V5z"/><path d="M7 10h6M7 13h4"/></svg>
-                            WhatsApp: +86 181 1575 5283
+                            
                         </li>
                     </ul>
                 </div>
             </div>
             <div class="footer-bottom">
                 <p>© 2026 DAO Essence & Five Elements. All rights reserved.</p>
+                <div class="footer-legal-links">
+                    <a href="policy.html">Privacy Policy</a>
+                    <span>|</span>
+                    <a href="policy.html">Terms of Service</a>
+                </div>
             </div>
         </div>
     </footer>
 
     <!-- 右下角浮动购物车按钮 -->
     <button class="floating-cart-btn" onclick="toggleCart()">
-        🛒
+        <svg viewBox="0 0 20 20" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="19" r="1"/><circle cx="17" cy="19" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L19 6H6"/></svg>
         <span class="floating-cart-badge" id="floatingCartBadge">0</span>
     </button>
 
@@ -772,15 +783,35 @@
                 // 始终保存为 {items: [...]} 格式
                 localStorage.setItem('daoessence_cart', JSON.stringify({ items: this._items }));
             },
-            
+
+            updatePrices() {
+                // 从 allProducts 获取最新价格并更新购物车
+                if (typeof window.allProducts === 'undefined') return;
+
+                let updated = false;
+                this._items.forEach(item => {
+                    const latestProduct = window.allProducts.find(p => p.id === item.id);
+                    if (latestProduct && latestProduct.price !== item.price) {
+                        console.log(`Updating price for ${item.id}: ${item.price} -> ${latestProduct.price}`);
+                        item.price = latestProduct.price;
+                        updated = true;
+                    }
+                });
+
+                if (updated) {
+                    this.save();
+                    this.updateUI();
+                }
+            },
+
             getTotal() {
                 return this._items.reduce((sum, item) => sum + (item.price * item.quantity), 0).toFixed(2);
             },
-            
+
             getCount() {
                 return this._items.reduce((sum, item) => sum + item.quantity, 0);
             },
-            
+
             updateUI() {
                 const badge = document.getElementById('cartBadge');
                 const floatingBadge = document.getElementById('floatingCartBadge');
@@ -897,6 +928,5 @@
         console.log('shop-manager.js loaded');
         console.log('window.allProducts:', window.allProducts);
     </script>
-    <script src="main.js?v=202603191430"></script>
 </body>
 </html>

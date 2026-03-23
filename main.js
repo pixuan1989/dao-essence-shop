@@ -17,17 +17,22 @@ document.addEventListener('DOMContentLoaded', function() {
    统一购物车系统 - 购物车徽章更新
    ============================================ */
 function updateCartBadge() {
-    const cartData = localStorage.getItem('cart');
+    const cartData = localStorage.getItem('daoessence_cart');
     const badge = document.getElementById('cartBadge');
     const floatingBadge = document.getElementById('floatingCartBadge');
 
     // Update nav badge
     if (badge) {
         if (cartData) {
-            const items = JSON.parse(cartData);
-            const count = items.reduce((sum, item) => sum + item.quantity, 0);
-            badge.textContent = count;
-            badge.style.display = count > 0 ? 'flex' : 'none';
+            try {
+                const data = JSON.parse(cartData);
+                const items = Array.isArray(data) ? data : (data.items || []);
+                const count = items.reduce((sum, item) => sum + item.quantity, 0);
+                badge.textContent = count;
+                badge.style.display = count > 0 ? 'flex' : 'none';
+            } catch (e) {
+                badge.style.display = 'none';
+            }
         } else {
             badge.style.display = 'none';
         }
@@ -36,10 +41,15 @@ function updateCartBadge() {
     // Update floating badge
     if (floatingBadge) {
         if (cartData) {
-            const items = JSON.parse(cartData);
-            const count = items.reduce((sum, item) => sum + item.quantity, 0);
-            floatingBadge.textContent = count;
-            floatingBadge.style.display = count > 0 ? 'flex' : 'none';
+            try {
+                const data = JSON.parse(cartData);
+                const items = Array.isArray(data) ? data : (data.items || []);
+                const count = items.reduce((sum, item) => sum + item.quantity, 0);
+                floatingBadge.textContent = count;
+                floatingBadge.style.display = count > 0 ? 'flex' : 'none';
+            } catch (e) {
+                floatingBadge.style.display = 'none';
+            }
         } else {
             floatingBadge.style.display = 'none';
         }
@@ -48,10 +58,34 @@ function updateCartBadge() {
 
 // 监听 storage 变化(跨页面同步)
 window.addEventListener('storage', function(e) {
-    if (e.key === 'cart') {
+    if (e.key === 'daoessence_cart') {
         updateCartBadge();
     }
 });
+
+// 购物车模态框功能
+function toggleCart() {
+    // 检查当前页面
+    const currentPath = window.location.pathname;
+
+    // 在商品详情页，打开购物车侧边栏
+    if (currentPath.includes('product-detail.html')) {
+        const cartSidebar = document.querySelector('.cart-sidebar');
+        const cartOverlay = document.querySelector('.cart-overlay');
+
+        if (cartSidebar && cartOverlay) {
+            cartSidebar.classList.add('open');
+            cartOverlay.classList.add('open');
+        } else {
+            // 如果购物车侧边栏不存在，跳转到结账页面
+            window.location.href = 'checkout.html';
+        }
+    }
+    // 在其他页面，跳转到结账页面
+    else {
+        window.location.href = 'checkout.html';
+    }
+}
 
 /* ============================================
    导航功能 - Navigation
@@ -278,11 +312,11 @@ function initMysticEffects() {
         });
     });
     
-    // 符文闪烁效果
-    const runes = document.querySelectorAll('.rune');
-    runes.forEach(rune => {
+    // Energy symbol glow effect
+    const energySymbols = document.querySelectorAll('.energy-symbol');
+    energySymbols.forEach(symbol => {
         setInterval(() => {
-            rune.style.opacity = Math.random() * 0.3 + 0.7;
+            symbol.style.opacity = Math.random() * 0.3 + 0.7;
         }, 2000 + Math.random() * 3000);
     });
 }

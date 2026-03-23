@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DAO Essence & Five Elements - Ancient Wisdom, Modern Harmony</title>
-    <meta name="description" content="Based on authentic Taoist traditions and the Five Elements theory, we offer traditional cultural products and services with genuine energy properties.">
+    <meta name="description" content="Based on authentic Eastern wisdom traditions and the Five Elements theory, we offer traditional cultural products and services with genuine energy properties.">
     <link rel="stylesheet" href="styles.css?v=202603131700">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&family=Noto+Serif+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="main.js?v=202603131700"></script>
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
@@ -209,7 +210,7 @@
             50% { opacity: 0.5; transform: translateX(-50%) translateY(10px); }
         }
         
-        /* 五行展示区 - 极简东方美学 */
+        /* 五元素展示区 - 极简东方美学 */
         .five-elements {
             padding: var(--spacing-4xl) 0;
             background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 50%, var(--bg-primary) 100%);
@@ -695,19 +696,19 @@
             color: var(--text-light);
         }
         
-        /* 命理服务预约区域 */
-        .destiny-booking {
+        /* 个人运势服务预约区域 */
+        .life-path-booking {
             background: var(--bg-secondary);
         }
         
-        .destiny-services {
+        .life-path-services {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: var(--spacing-xl);
             margin-top: var(--spacing-3xl);
         }
         
-        .destiny-service-card {
+        .life-path-service-card {
             background: var(--bg-primary);
             border-radius: var(--radius-lg);
             padding: var(--spacing-2xl);
@@ -716,13 +717,13 @@
             transition: all var(--transition-base);
         }
         
-        .destiny-service-card:hover {
+        .life-path-service-card:hover {
             transform: translateY(-8px);
             border-color: var(--accent-color);
             box-shadow: var(--shadow-lg);
         }
         
-        .destiny-service-card .service-icon {
+        .life-path-service-card .service-icon {
             width: 90px;
             height: 90px;
             margin: 0 auto var(--spacing-xl);
@@ -735,7 +736,7 @@
             transition: all var(--transition-base);
         }
 
-        .destiny-service-card .service-icon::before {
+        .life-path-service-card .service-icon::before {
             content: '';
             position: absolute;
             inset: 0;
@@ -744,7 +745,7 @@
             opacity: 0.3;
         }
 
-        .destiny-service-card .service-icon::after {
+        .life-path-service-card .service-icon::after {
             content: '';
             position: absolute;
             inset: -8px;
@@ -753,38 +754,38 @@
             opacity: 0.2;
         }
 
-        .destiny-service-card:hover .service-icon {
+        .life-path-service-card:hover .service-icon {
             transform: scale(1.1) rotate(10deg);
         }
 
-        .destiny-service-card .service-icon svg {
+        .life-path-service-card .service-icon svg {
             width: 50px;
             height: 50px;
             position: relative;
             z-index: 1;
         }
 
-        .destiny-service-card .service-icon svg path,
-        .destiny-service-card .service-icon svg polygon,
-        .destiny-service-card .service-icon svg circle {
+        .life-path-service-card .service-icon svg path,
+        .life-path-service-card .service-icon svg polygon,
+        .life-path-service-card .service-icon svg circle {
             fill: var(--accent-color);
             transition: all var(--transition-base);
         }
 
-        .destiny-service-card:hover .service-icon svg path,
-        .destiny-service-card:hover .service-icon svg polygon,
-        .destiny-service-card:hover .service-icon svg circle {
+        .life-path-service-card:hover .service-icon svg path,
+        .life-path-service-card:hover .service-icon svg polygon,
+        .life-path-service-card:hover .service-icon svg circle {
             fill: var(--primary-color);
         }
         
-        .destiny-service-card h3 {
+        .life-path-service-card h3 {
             font-family: var(--font-display);
             font-size: var(--text-xl);
             margin-bottom: var(--spacing-sm);
             color: var(--text-primary);
         }
         
-        .destiny-service-card p {
+        .life-path-service-card p {
             color: var(--text-secondary);
             font-size: var(--text-sm);
             margin-bottom: var(--spacing-md);
@@ -815,7 +816,7 @@
             color: var(--bg-dark);
         }
         
-        .destiny-note {
+        .life-path-note {
             text-align: center;
             margin-top: var(--spacing-3xl);
             padding: var(--spacing-xl);
@@ -823,20 +824,20 @@
             border-radius: var(--radius-md);
         }
         
-        .destiny-note p {
+        .life-path-note p {
             color: var(--text-secondary);
             font-size: var(--text-sm);
             margin-bottom: var(--spacing-xs);
         }
         
-        /* 命理服务预约区域 */
-        .destiny-booking {
+        /* 个人运势服务预约区域 */
+        .life-path-booking {
             background: linear-gradient(135deg, var(--bg-dark) 0%, var(--water-dark) 100%);
             position: relative;
             overflow: hidden;
         }
 
-        .destiny-booking::before {
+        .life-path-booking::before {
             content: '';
             position: absolute;
             top: 0;
@@ -847,26 +848,26 @@
             pointer-events: none;
         }
 
-        .destiny-booking .section-header h2 {
+        .life-path-booking .section-header h2 {
             color: var(--bg-primary);
         }
 
-        .destiny-booking .section-header .subtitle {
+        .life-path-booking .section-header .subtitle {
             color: var(--accent-color);
         }
 
-        .destiny-booking .section-header p {
+        .life-path-booking .section-header p {
             color: rgba(245, 240, 230, 0.8);
         }
 
-        .destiny-services {
+        .life-path-services {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: var(--spacing-xl);
             margin-top: var(--spacing-3xl);
         }
 
-        .destiny-service-card {
+        .life-path-service-card {
             background: rgba(245, 240, 230, 0.05);
             backdrop-filter: blur(10px);
             border-radius: var(--radius-lg);
@@ -878,7 +879,7 @@
             overflow: hidden;
         }
 
-        .destiny-service-card::before {
+        .life-path-service-card::before {
             content: '';
             position: absolute;
             top: 0;
@@ -890,25 +891,25 @@
             transition: transform var(--transition-base);
         }
 
-        .destiny-service-card:hover::before {
+        .life-path-service-card:hover::before {
             transform: scaleX(1);
         }
 
-        .destiny-service-card:hover {
+        .life-path-service-card:hover {
             transform: translateY(-8px);
             border-color: var(--accent-color);
             box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
             background: rgba(245, 240, 230, 0.08);
         }
 
-        .destiny-service-card h3 {
+        .life-path-service-card h3 {
             font-family: var(--font-display);
             font-size: var(--text-xl);
             margin-bottom: var(--spacing-sm);
             color: var(--bg-primary);
         }
 
-        .destiny-service-card p {
+        .life-path-service-card p {
             color: rgba(245, 240, 230, 0.7);
             font-size: var(--text-sm);
             margin-bottom: var(--spacing-lg);
@@ -939,7 +940,7 @@
             color: var(--bg-dark);
         }
 
-        .destiny-note {
+        .life-path-note {
             text-align: center;
             margin-top: var(--spacing-3xl);
             padding: var(--spacing-xl);
@@ -948,20 +949,20 @@
             border: 1px solid rgba(212, 175, 55, 0.1);
         }
 
-        .destiny-note p {
+        .life-path-note p {
             color: rgba(245, 240, 230, 0.7);
             font-size: var(--text-sm);
             margin-bottom: var(--spacing-xs);
         }
 
         @media (max-width: 1024px) {
-            .destiny-services {
+            .life-path-services {
                 grid-template-columns: repeat(2, 1fr);
             }
         }
 
         @media (max-width: 768px) {
-            .destiny-services {
+            .life-path-services {
                 grid-template-columns: 1fr;
             }
 
@@ -1096,13 +1097,13 @@
         }
         
         @media (max-width: 1024px) {
-            .destiny-services {
+            .life-path-services {
                 grid-template-columns: repeat(2, 1fr);
             }
         }
         
         @media (max-width: 768px) {
-            .destiny-services {
+            .life-path-services {
                 grid-template-columns: 1fr;
             }
             
@@ -1215,7 +1216,7 @@
             </p>
             <div class="hero-buttons">
                 <a href="shop.html" class="hero-btn-primary">Explore Products</a>
-                <a href="#destiny-booking" class="hero-btn-secondary">Book Consultation</a>
+                <a href="#life-path-booking" class="hero-btn-secondary">Book Life Path Consultation</a>
             </div>
         </div>
         
@@ -1225,13 +1226,13 @@
         </div>
     </section>
 
-    <!-- 五行展示 -->
+    <!-- 五元素展示 -->
     <section class="five-elements section">
         <div class="container">
             <div class="section-header">
                 <h2>Five Elements Energy</h2>
                 <p class="subtitle">The Five Elements</p>
-                <p>Generation and restraint, all things follow the Dao. Understand the five elements and find the energy that resonates with your destiny.</p>
+                <p>Generation and restraint, all things follow the Dao. Understand the five elements and find the energy that resonates with your life path.</p>
             </div>
             
             <div class="elements-grid">
@@ -1310,7 +1311,7 @@
                         </svg>
                     </div>
                     <h3>Authentic Lineage</h3>
-                    <p>Partnered with famous Taoist temples. All talismans and ritual items are handcrafted by ordained Taoist priests, preserving authentic Taoist traditions.</p>
+                    <p>Partnered with renowned Eastern wisdom centers. All cultural items are handcrafted by skilled practitioners, preserving authentic Eastern wisdom traditions.</p>
                 </div>
                 
                 <div class="value-card scroll-animate">
@@ -1324,7 +1325,7 @@
                         </svg>
                     </div>
                     <h3>Energy Preparation</h3>
-                    <p>Every item comes with complete energy preparation records - from material selection to consecration and activation. Fully traceable and verifiable.</p>
+                    <p>Every item comes with complete energy preparation records - from material selection to preparation and activation. Fully traceable and verifiable.</p>
                 </div>
                 
                 <div class="value-card scroll-animate">
@@ -1351,18 +1352,20 @@
             </div>
             
             <div class="grid grid-4">
+                <!-- 太岁护符产品 - 审核期间临时隐藏 -->
+                <!--
                 <div class="product-card scroll-animate">
                     <a href="product-detail.html?id=tai-sui" class="product-link">
                         <div class="product-image">
-                            <img src="images/ee9f06067bcdc66babb7cc1dfbc9d59ecef3fe912a602-hYOU5Z_fw1200webp.webp" alt="Tai Sui Talisman">
+                            <img src="images/ee9f06067bcdc66babb7cc1dfbc9d59ecef3fe912a602-hYOU5Z_fw1200webp.webp" alt="Tai Sui Amulet">
                             <div class="product-element">
                                 <span class="element-badge element-fire">Fire</span>
                             </div>
                         </div>
                         <div class="product-content">
-                            <p class="product-category">Talismans</p>
-                            <h3 class="product-name">Tai Sui Talisman</h3>
-                            <p class="product-desc">Dragon Year protection talisman, hand-painted and consecrated by Taoist master</p>
+                            <p class="product-category">Protection Tokens</p>
+                            <h3 class="product-name">Tai Sui Protection Token</h3>
+                            <p class="product-desc">Dragon Year protection token, hand-painted and traditionally prepared by Eastern wisdom practitioner</p>
                             <div class="product-footer">
                                 <span class="product-price">$17.92</span>
                                 <button class="product-btn">View Details</button>
@@ -1370,6 +1373,7 @@
                         </div>
                     </a>
                 </div>
+                -->
 
                 <div class="product-card scroll-animate">
                     <a href="product-detail.html?id=obsidian" class="product-link">
@@ -1412,17 +1416,17 @@
                 </div>
 
                 <div class="product-card scroll-animate">
-                    <a href="product-detail.html?id=custom-talisman" class="product-link">
+                    <a href="product-detail.html?id=custom-protection-token" class="product-link">
                         <div class="product-image">
-                            <img src="images/08d5a4d436cd88b784060136ffdf1dde4be269a93235b-haaswB_fw1200webp.webp" alt="Custom Talisman">
+                            <img src="images/08d5a4d436cd88b784060136ffdf1dde4be269a93235b-haaswB_fw1200webp.webp" alt="Custom Protection Token">
                             <div class="product-element">
                                 <span class="element-badge element-earth">Custom</span>
                             </div>
                         </div>
                         <div class="product-content">
-                            <p class="product-category">Ritual Items</p>
-                            <h3 class="product-name">Custom Talisman</h3>
-                            <p class="product-desc">Personalized talisman based on your destiny analysis, consecrated for you</p>
+                            <p class="product-category">Traditional Items</p>
+                            <h3 class="product-name">Custom Protection Token</h3>
+                            <p class="product-desc">Personalized protection token based on your energy analysis, traditionally prepared for you</p>
                             <div class="product-footer">
                                 <span class="product-price">$54.32+</span>
                                 <button class="product-btn">Customize Now</button>
@@ -1439,57 +1443,54 @@
     </section>
 
     <!-- 能量定制服务 -->
-    <section class="destiny-booking section" id="destiny-booking">
+    <section class="life-path-booking section" id="life-path-booking">
         <div class="container">
             <div class="section-header">
                 <h2>Personalized Energy Service</h2>
                 <p class="subtitle">Customized Energy Items</p>
-                <p>Professional destiny analysis, recommending the most suitable energy items for you</p>
+                <p>Professional life path analysis, recommending the most suitable energy items for you</p>
             </div>
 
-            <div class="destiny-services">
-                <div class="destiny-service-card scroll-animate">
-                    <h3>Destiny Energy Analysis</h3>
-                    <p>Analyze your five elements energy, recommend items that best suit your destiny</p>
-                    <div class="service-price">¥588</div>
-                    <button class="service-book-btn" onclick="openBookingModal('Destiny Energy Analysis', 588)">Book Now</button>
+            <div class="life-path-services">
+                <div class="life-path-service-card scroll-animate">
+                    <h3>Life Path Energy Analysis</h3>
+                    <p>Analyze your five elements energy, recommend items that best suit your life path</p>
+                    <div class="service-price">$588</div>
+                    <button class="service-book-btn" onclick="openBookingModal('Life Path Energy Analysis', 588)">Book Now</button>
                 </div>
 
-                <div class="destiny-service-card scroll-animate">
-                    <h3>Fortune Energy Customization</h3>
-                    <p>Customize lucky items based on your annual fortune</p>
-                    <div class="service-price">¥388</div>
-                    <button class="service-book-btn" onclick="openBookingModal('Fortune Energy Customization', 388)">Book Now</button>
+                <div class="life-path-service-card scroll-animate">
+                    <h3>Life Path Energy Customization</h3>
+                    <p>Customize energy items based on your annual life path</p>
+                    <div class="service-price">$388</div>
+                    <button class="service-book-btn" onclick="openBookingModal('Life Path Energy Customization', 388)">Book Now</button>
                 </div>
 
-                <div class="destiny-service-card scroll-animate">
+                <div class="life-path-service-card scroll-animate">
                     <h3>Love Energy Matching</h3>
-                    <p>Analyze compatibility, recommend items to enhance relationships</p>
-                    <div class="service-price">¥688</div>
+                    <p>Analyze compatibility, recommend items to support harmonious relationships</p>
+                    <div class="service-price">$688</div>
                     <button class="service-book-btn" onclick="openBookingModal('Love Energy Matching', 688)">Book Now</button>
                 </div>
 
-                <div class="destiny-service-card scroll-animate">
+                <div class="life-path-service-card scroll-animate">
                     <h3>Wealth Energy Customization</h3>
-                    <p>Analyze your wealth energy, recommend prosperity items</p>
-                    <div class="service-price">¥888</div>
+                    <p>Analyze your financial energy patterns, recommend prosperity-focused items</p>
+                    <div class="service-price">$888</div>
                     <button class="service-book-btn" onclick="openBookingModal('Wealth Energy Customization', 888)">Book Now</button>
                 </div>
             </div>
 
-            <div class="destiny-note">
+            <div class="life-path-note">
                 <p>
                     <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle;margin-right:4px"><circle cx="8" cy="8" r="6"/><path d="M8 5v3l2 2"/></svg>
-                    Process: Book Consultation → Energy Analysis → Item Recommendation → Consecration → Delivery
+                    Process: Service Booking → Energy Analysis → Product Selection → Preparation → Delivery
                 </p>
                 <p>
                     <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle;margin-right:4px"><circle cx="8" cy="8" r="5" opacity="0.4"/><path d="M8 3 A5 5 0 0 1 8 13 A2.5 2.5 0 0 1 8 8 A2.5 2.5 0 0 0 8 3" fill="currentColor" opacity="0.6"/><circle cx="8" cy="5.5" r="1" fill="currentColor" opacity="0.5"/><circle cx="8" cy="10.5" r="1" fill="currentColor"/></svg>
-                    Each recommended item undergoes personalized consecration to ensure energy alignment
+                    Each recommended item undergoes personalized preparation to ensure energy alignment
                 </p>
-                <p>
-                    <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle;margin-right:4px"><path d="M13 2l-7 7-3-3"/></svg>
-                    WeChat: DaoEssence | Hotline: 400-888-8888
-                </p>
+
             </div>
         </div>
     </section>
@@ -1548,10 +1549,6 @@
                         <label>Phone Number</label>
                         <input type="tel" name="phone" placeholder="Your Phone Number" required>
                     </div>
-                    <div class="form-group">
-                        <label>WeChat ID</label>
-                        <input type="text" name="wechat" placeholder="Your WeChat ID">
-                    </div>
                 </div>
                 
                 <div class="form-group">
@@ -1564,56 +1561,7 @@
         </div>
     </div>
 
-    <!-- 客户见证 -->
-    <section class="testimonials section">
-        <div class="container">
-            <div class="section-header">
-                <h2>Client Testimonials</h2>
-                <p class="subtitle">Testimonials</p>
-            </div>
-            
-            <div class="grid grid-3">
-                <div class="testimonial-card scroll-animate">
-                    <p class="testimonial-text">
-                        After wearing the obsidian bracelet for three months, I feel much calmer. Amazingly, my long-term insomnia has improved.
-                    </p>
-                    <div class="testimonial-author">
-                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=60&h=60&fit=crop" alt="Sarah" class="testimonial-avatar">
-                        <div>
-                            <p class="testimonial-name">Sarah M.</p>
-                            <p class="testimonial-title">New York · Designer</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="testimonial-card scroll-animate">
-                    <p class="testimonial-text">
-                        The master's BaZi analysis was very professional, giving me a clearer understanding of my personality and career direction. The recommended Wenchang incense has indeed improved my work efficiency.
-                    </p>
-                    <div class="testimonial-author">
-                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=60&h=60&fit=crop" alt="Michael" class="testimonial-avatar">
-                        <div>
-                            <p class="testimonial-name">Michael C.</p>
-                            <p class="testimonial-title">London · Financial Analyst</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="testimonial-card scroll-animate">
-                    <p class="testimonial-text">
-                        The Tai Sui talisman came in beautiful packaging with detailed energy preparation logs and consecration videos, giving me a deeper understanding and trust in traditional Taoist culture.
-                    </p>
-                    <div class="testimonial-author">
-                        <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=60&h=60&fit=crop" alt="Emma" class="testimonial-avatar">
-                        <div>
-                            <p class="testimonial-name">Emma L.</p>
-                            <p class="testimonial-title">Vancouver · Teacher</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+
 
     <!-- 页脚 -->
     <footer class="footer">
@@ -1623,22 +1571,21 @@
                     <div class="logo">
                         <span class="logo-en">DAO ESSENCE</span>
                     </div>
-                    <p>Ancient Wisdom, Modern Harmony. Based on authentic Taoist traditions, we offer verifiable traditional cultural products and services with genuine energy properties.</p>
+                    <p>Ancient Wisdom, Modern Harmony. Based on authentic Eastern wisdom traditions, we offer verifiable traditional cultural products and services with genuine energy properties.</p>
                 </div>
                 <div>
                     <h4 class="footer-title">Navigation</h4>
                     <ul class="footer-links">
                         <li><a href="culture.html">Energy Universe</a></li>
                         <li><a href="shop.html">Energy Shop</a></li>
-                        <li><a href="#destiny-booking">Destiny Consulting</a></li>
+                        <li><a href="#life-path-booking">Life Path Consulting</a></li>
                         <li><a href="guide.html">Crafting Process</a></li>
                     </ul>
                 </div>
                 <div>
                     <h4 class="footer-title">Services</h4>
                     <ul class="footer-links">
-                        <li><a href="#">BaZi Analysis</a></li>
-                        <li><a href="#">Annual Fortune</a></li>
+                        <li><a href="#">Annual Energy Analysis</a></li>
                         <li><a href="#">Personal Consultation</a></li>
                         <li><a href="#">Custom Items</a></li>
                     </ul>
@@ -1648,11 +1595,11 @@
                     <ul class="footer-links">
                         <li>
                             <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle;margin-right:5px"><path d="M3 4h14a1 1 0 011 1v10a1 1 0 01-1 1H3a1 1 0 01-1-1V5a1 1 0 011-1z"/><path d="M3 5l7 6 7-6"/></svg>
-                            support@daoessence.com
+                            517748938@qq.com
                         </li>
                         <li>
                             <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle;margin-right:5px"><path d="M2 5a2 2 0 012-2h12a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V5z"/><path d="M7 10h6M7 13h4"/></svg>
-                            WhatsApp: +86 181 1575 5283
+                            
                         </li>
                         <li>
                             <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle;margin-right:5px"><circle cx="10" cy="10" r="8"/><path d="M10 6v4l2.5 2.5"/></svg>
@@ -1663,44 +1610,42 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>© 2024 DAO Essence & Five Elements. All rights reserved.</p>
+                <p>© 2026 DAO Essence & Five Elements. All rights reserved.</p>
+                <div class="footer-legal-links">
+                    <a href="policy.html">Privacy Policy</a>
+                    <span>|</span>
+                    <a href="policy.html">Terms of Service</a>
+                </div>
             </div>
         </div>
     </footer>
 
-    <!-- 右下角浮动购物车按钮 -->
-    <button class="floating-cart-btn" onclick="window.location.href='shop.html'">
-        🛒
-        <span class="floating-cart-badge" id="floatingCartBadge">0</span>
-    </button>
-    <script src="main.js?v=202603131700"></script>
+    <script>
         // 立即清除语言相关的存储，防止语言切换
-            // 清除可能的语言设置
-            localStorage.removeItem('language');
-            localStorage.removeItem('lang');
-            localStorage.removeItem('preferredLanguage');
-            localStorage.removeItem('userLanguage');
-            
-            // 检查并清除所有包含语言设置的key
-            for (let i = localStorage.length - 1; i >= 0; i--) {
-                const key = localStorage.key(i);
-                if (key && (key.toLowerCase().includes('lang') || key.toLowerCase().includes('language'))) {
-                    localStorage.removeItem(key);
-                }
+        // 清除可能的语言设置
+        localStorage.removeItem('language');
+        localStorage.removeItem('lang');
+        localStorage.removeItem('preferredLanguage');
+        localStorage.removeItem('userLanguage');
+        
+        // 检查并清除所有包含语言设置的key
+        for (let i = localStorage.length - 1; i >= 0; i--) {
+            const key = localStorage.key(i);
+            if (key && (key.toLowerCase().includes('lang') || key.toLowerCase().includes('language'))) {
+                localStorage.removeItem(key);
             }
-            
-            // 同样处理sessionStorage
-            sessionStorage.removeItem('language');
-            sessionStorage.removeItem('lang');
-            sessionStorage.clear();
-        })();
+        }
+        
+        // 同样处理sessionStorage
+        sessionStorage.removeItem('language');
+        sessionStorage.removeItem('lang');
+        sessionStorage.clear();
     </script>
-    <script src="main.js?v=202603131700"></script>
     <script>
         // 预约弹窗功能
         function openBookingModal(serviceName, servicePrice) {
             document.getElementById('serviceName').textContent = serviceName;
-            document.getElementById('servicePrice').textContent = '¥' + servicePrice;
+            document.getElementById('servicePrice').textContent = '$' + servicePrice;
             document.getElementById('bookingModal').classList.add('show');
             document.body.style.overflow = 'hidden';
         }

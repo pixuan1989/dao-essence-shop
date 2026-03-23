@@ -3,10 +3,13 @@
 <head> 
 <meta charset="UTF-8"> 
 <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-<title>Pixiu - 貔貅 - DAO Essence</title> 
-<link rel="stylesheet" href="styles.css?v=202603131700"> 
+<title>DAO Essence - Product Detail</title>
+<link rel="stylesheet" href="styles.css?v=202603231100">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&family=Noto+Serif+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css">
+<script src="main.js?v=202603231100"></script>
+<script src="cart.js?v=202603231100"></script>
+<script src="shop-manager.js?v=202603231100"></script>
 <style>
     /* 购物车徽章样式 */
     .cart-badge {
@@ -1466,12 +1469,12 @@
                     <span>›</span>
                     <a href="shop.html">Energy Shop</a>
                     <span>›</span>
-                    <a href="#" id="breadcrumbCategory">Ritual Items</a>
+                    <a href="#" id="breadcrumbCategory">Category</a>
                     <span>›</span>
-                    <span id="breadcrumbProduct">Pixiu</span>
+                    <span id="breadcrumbProduct">Product</span>
                 </div>
-                <h1 class="product-title-large" id="pageTitleLarge">貔貅</h1>
-                <p class="product-title-en" id="pageTitleEn">Pixiu - The Wealth Guardian</p>
+                <h1 class="product-title-large" id="pageTitleLarge">Product</h1>
+                <p class="product-title-en" id="pageTitleEn">Product Title</p>
             </div>
         </div>
 
@@ -1505,17 +1508,17 @@
 
                     <!-- 产品信息区 -->
                     <div class="product-info">
-                        <span class="product-category-tag">Sacred Ritual Items</span>
+                        <span class="product-category-tag" id="productCategoryTag">Category</span>
                         
-                        <h2 class="product-name-cn">貔貅摆件</h2>
-                        <p class="product-name-en">Pixiu Statue - The Wealth Guardian</p>
+                        <h2 class="product-name-cn" id="productNameCn">Product Name</h2>
+                        <p class="product-name-en" id="productNameEn">Product Name English</p>
                         
                         <div class="product-rating">
                             <span class="stars">★★★★★</span>
                             <span class="review-count">(247 reviews) • <a href="#">Read all reviews</a></span>
                         </div>
 
-                        <div class="sku-code">SKU: DAO-PIXIU-001</div>
+                        <div class="sku-code" id="productSku">SKU: PRODUCT-ID</div>
 
                         <!-- 规格选择器 -->
                         <div class="variant-selector" id="variantSelector">
@@ -1525,18 +1528,18 @@
                         <!-- 价格 -->
                         <div class="price-section">
                             <div class="price-row">
-                                <span class="current-price" id="currentPrice">$299.00</span>
-                                <span class="original-price" id="originalPrice">$399.00</span>
-                                <span class="discount-badge" id="discountBadge">-25%</span>
+                                <span class="current-price" id="currentPrice">$0.00</span>
+                                <span class="original-price" id="originalPrice">$0.00</span>
+                                <span class="discount-badge" id="discountBadge">-0%</span>
                             </div>
-                            <div class="savings-text" id="savingsText">Save $100.00</div>
+                            <div class="savings-text" id="savingsText">Save $0.00</div>
                             <div class="tax-info">Tax included. Free shipping on orders over $30</div>
                         </div>
 
                         <!-- 总价 -->
                         <div class="total-price-section">
                             <span class="total-label">Total Price:</span>
-                            <span class="total-price" id="totalPrice">$299.00</span>
+                            <span class="total-price" id="totalPrice">$0.00</span>
                         </div>
 
                         <!-- 购买区域 -->
@@ -1563,16 +1566,8 @@
                         <!-- 产品描述 -->
                         <div class="product-description">
                             <h3 class="section-title-custom">Product Description</h3>
-                            <div class="description-text">
-                                <p>
-                                    貔貅（Pixiu）是中国古代神话传说中的瑞兽，传说能吞噬金银财宝，只进不出，象征着招财进宝、镇宅辟邪。此貔貅摆件由匠人手工雕刻，选用上等材质，经过传统开光仪式加持，蕴含纯正能量。
-                                </p>
-                                <p>
-                                    The Pixiu is a legendary Chinese mythical creature believed to bring wealth and good fortune. This exquisitely crafted statue features intricate details and has been consecrated by Taoist masters according to ancient traditions.
-                                </p>
-                                <p>
-                                    每件貔貅都经过开光仪式，配有完整的能量加持记录，可追溯、可验证。适合摆放于家中或办公室，既可装饰，又能镇宅纳福。
-                                </p>
+                            <div class="description-text" id="productDescription">
+                                <p>Loading product description...</p>
                             </div>
                         </div>
 
@@ -1597,8 +1592,8 @@
                                     <td class="spec-value">手工雕刻 Hand-carved</td>
                                 </tr>
                                 <tr>
-                                    <td class="spec-label">开光状态 Consecration</td>
-                                    <td class="spec-value">已开光 Consecrated</td>
+                                    <td class="spec-label">处理状态 Preparation</td>
+                                    <td class="spec-value">已完成 Traditionally Prepared</td>
                                 </tr>
                                 <tr>
                                     <td class="spec-label">包装 Packaging</td>
@@ -1619,7 +1614,7 @@
                                         </svg>
                                     </div>
                                     <div class="attribute-content">
-                                        <h4>五行属性 Five Element</h4>
+                                        <h4>五元素属性 Five Element</h4>
                                         <p>金元素 - 助财运、聚财气</p>
                                     </div>
                                 </div>
@@ -1632,7 +1627,7 @@
                                     </div>
                                     <div class="attribute-content">
                                         <h4>能量能量 Energy Type</h4>
-                                        <p>招财守财 - 守护财富</p>
+                                        <p>财富守财 - 守护财富</p>
                                     </div>
                                 </div>
                                 <div class="attribute-item">
@@ -1673,16 +1668,6 @@
         <img src="" alt="Zoomed image" id="modalImage">
     </div>
 
-    <!-- 购物车按钮 -->
-    <div class="cart-btn">
-        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="9" cy="21" r="1"/>
-            <circle cx="20" cy="21" r="1"/>
-            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
-        </svg>
-        <span class="cart-count">0</span>
-    </div>
-
     <!-- 购物车侧边栏 -->
     <div class="cart-overlay"></div>
     <div class="cart-sidebar">
@@ -1716,218 +1701,25 @@
         // ============================================
 
         const PRODUCTS = {
-            'tai-sui': {
-                id: 'tai-sui-001',
-                title: '甲辰年太岁符 Tai Sui Talisman',
-                handle: 'tai-sui',
-                description: '甲辰年太岁符是道教重要的护身符咒，专为本命年或与太岁犯冲的人群设计。由武当山道长亲自开光绘制，蕴含强大的能量，能化解太岁冲撞，保佑全年运势顺畅。',
-                vendor: 'DAO Essence',
-                type: 'Talisman',
-                tags: ['tai-sui', 'protection', 'talisman', 'consecrated'],
-
-                price: 288.00,
-                compareAtPrice: 388.00,
-                currency: 'CNY',
-
-                images: [
-                    {
-                        id: 1,
-                        src: 'images/1.jpg',
-                        alt: '太岁符正面',
-                        width: 1200,
-                        height: 1200,
-                        position: 1
-                    },
-                    {
-                        id: 2,
-                        src: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1200&h=1200&fit=crop',
-                        alt: '太岁符细节',
-                        width: 1200,
-                        height: 1200,
-                        position: 2
-                    },
-                    {
-                        id: 3,
-                        src: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1200&h=1200&fit=crop',
-                        alt: '开光仪式',
-                        width: 1200,
-                        height: 1200,
-                        position: 3
-                    }
-                ],
-
-                variants: [
-                    {
-                        id: 'tai-sui-001-standard',
-                        title: 'Standard',
-                        price: 288.00,
-                        compareAtPrice: 388.00,
-                        available: true,
-                        inventoryQuantity: 50,
-                        options: {
-                            size: 'standard'
-                        },
-                        specs: {
-                            size: '120×180mm',
-                            material: '黄纸朱砂'
-                        }
-                    },
-                    {
-                        id: 'tai-sui-001-deluxe',
-                        title: 'Deluxe',
-                        price: 388.00,
-                        compareAtPrice: 488.00,
-                        available: true,
-                        inventoryQuantity: 30,
-                        options: {
-                            size: 'deluxe'
-                        },
-                        specs: {
-                            size: '180×240mm',
-                            material: '宣纸金粉'
-                        }
-                    }
-                ],
-
-                metafields: {
-                    energy: {
-                        five_element: '火',
-                        type: '护身化解',
-                        intensity: '高',
-                        direction: '正南',
-                        benefits: ['化解太岁', '平安顺遂', '事业顺利'],
-                        suitable_for: ['本命年', '与太岁犯冲', '事业运弱']
-                    },
-                    consecration: {
-                        master: '武当山王道长',
-                        date: '2024-03-15',
-                        location: '武当山紫霄宫',
-                        ceremony_steps: ['净坛', '请神', '开光', '加持', '封印']
-                    },
-                    crafting: {
-                        material: '黄纸/宣纸',
-                        handmade: true,
-                        craftsman: '王道长',
-                        days_required: 1
-                    }
-                }
-            },
-
-            'wealth': {
-                id: 'wealth-001',
-                title: '招财符 Wealth Attraction Talisman',
-                handle: 'wealth',
-                description: '招财符是道教财神符咒之一，专为主财库、增强财运气场而制。由道长亲自开光加持，能够请财神护佑，提升财富运势，为创业者和商务人士量身打造。',
-                vendor: 'DAO Essence',
-                type: 'Talisman',
-                tags: ['wealth', 'prosperity', 'talisman', 'consecrated'],
-
-                price: 368.00,
-                compareAtPrice: 468.00,
-                currency: 'CNY',
-
-                images: [
-                    {
-                        id: 1,
-                        src: 'images/2.jpg',
-                        alt: '招财符正面',
-                        width: 1200,
-                        height: 1200,
-                        position: 1
-                    },
-                    {
-                        id: 2,
-                        src: 'https://images.unsplash.com/photo-1556742049-0cfed4f7a07d?w=1200&h=1200&fit=crop',
-                        alt: '招财符细节',
-                        width: 1200,
-                        height: 1200,
-                        position: 2
-                    },
-                    {
-                        id: 3,
-                        src: 'https://images.unsplash.com/photo-1544531586-fde5298cdd40?w=1200&h=1200&fit=crop',
-                        alt: '开光仪式',
-                        width: 1200,
-                        height: 1200,
-                        position: 3
-                    }
-                ],
-
-                variants: [
-                    {
-                        id: 'wealth-001-standard',
-                        title: 'Standard',
-                        price: 368.00,
-                        compareAtPrice: 468.00,
-                        available: true,
-                        inventoryQuantity: 60,
-                        options: {
-                            size: 'standard'
-                        },
-                        specs: {
-                            size: '120×180mm',
-                            material: '黄纸朱砂'
-                        }
-                    },
-                    {
-                        id: 'wealth-001-deluxe',
-                        title: 'Deluxe',
-                        price: 488.00,
-                        compareAtPrice: 688.00,
-                        available: true,
-                        inventoryQuantity: 40,
-                        options: {
-                            size: 'deluxe'
-                        },
-                        specs: {
-                            size: '180×240mm',
-                            material: '宣纸金粉'
-                        }
-                    }
-                ],
-
-                metafields: {
-                    energy: {
-                        five_element: '金',
-                        type: '招财聚气',
-                        intensity: '高',
-                        direction: '正西',
-                        benefits: ['招财进宝', '事业顺利', '财源广进'],
-                        suitable_for: ['创业者', '商务人士', '投资者']
-                    },
-                    consecration: {
-                        master: '龙虎山李道长',
-                        date: '2024-03-10',
-                        location: '龙虎山天师府',
-                        ceremony_steps: ['请财神', '开光', '加持', '封印']
-                    },
-                    crafting: {
-                        material: '黄纸/宣纸',
-                        handmade: true,
-                        craftsman: '李道长',
-                        days_required: 1
-                    }
-                }
-            },
-
-            'obsidian': {
-                id: 'obsidian-001',
-                title: '天然黑曜石手串 Natural Obsidian Bracelet',
-                handle: 'obsidian',
-                description: '天然黑曜石手串，采用高品质巴西黑曜石精心打磨而成。黑曜石是极阳之石，具有强大的辟邪化煞能量，能有效驱除负能量，守护平安，提升个人气场。',
+            'obsidian-bracelet': {
+                id: 'obsidian-bracelet',
+                title: 'Natural Obsidian Bracelet',
+                titleZh: '天然黑曜石手链',
+                handle: 'obsidian-bracelet',
+                description: '天然黑曜石手链，采用高品质天然黑曜石精心打磨而成。黑曜石具有保护能量，有助于平衡负能量，守护平安，支持个人气场。',
                 vendor: 'DAO Essence',
                 type: 'Crystal',
-                tags: ['obsidian', 'protection', 'crystal', 'negative-energy'],
+                tags: ['obsidian', 'protection', 'crystal'],
 
-                price: 588.00,
-                compareAtPrice: 788.00,
-                currency: 'CNY',
+                price: 180.00,
+                compareAtPrice: 200.00,
+                currency: 'USD',
 
                 images: [
                     {
                         id: 1,
-                        src: 'images/3.jpg',
-                        alt: '黑曜石手串正面',
+                        src: 'images/5c9b913900c6b04c7d5feeeba36403b233e42e895de36-P0zmjC_fw1200webp.webp',
+                        alt: '黑曜石手链',
                         width: 1200,
                         height: 1200,
                         position: 1
@@ -1935,7 +1727,7 @@
                     {
                         id: 2,
                         src: 'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=1200&h=1200&fit=crop',
-                        alt: '黑曜石手串佩戴效果',
+                        alt: '黑曜石手链佩戴',
                         width: 1200,
                         height: 1200,
                         position: 2
@@ -1952,12 +1744,12 @@
 
                 variants: [
                     {
-                        id: 'obsidian-001-10mm',
-                        title: '10mm Beads',
-                        price: 588.00,
-                        compareAtPrice: 788.00,
+                        id: 'obsidian-bracelet-10mm',
+                        title: '10mm珠子',
+                        price: 180.00,
+                        compareAtPrice: 200.00,
                         available: true,
-                        inventoryQuantity: 40,
+                        inventoryQuantity: 80,
                         options: {
                             beadSize: '10mm'
                         },
@@ -1967,12 +1759,12 @@
                         }
                     },
                     {
-                        id: 'obsidian-001-12mm',
-                        title: '12mm Beads',
-                        price: 688.00,
-                        compareAtPrice: 888.00,
+                        id: 'obsidian-bracelet-12mm',
+                        title: '12mm珠子',
+                        price: 200.00,
+                        compareAtPrice: 240.00,
                         available: true,
-                        inventoryQuantity: 25,
+                        inventoryQuantity: 40,
                         options: {
                             beadSize: '12mm'
                         },
@@ -1991,137 +1783,29 @@
                         direction: '正北',
                         benefits: ['驱除负能量', '守护平安', '提升气场'],
                         suitable_for: ['运势不佳', '工作压力大', '夜梦多']
-                    },
-                    consecration: {
-                        master: '昆仑山张道长',
-                        date: '2024-02-20',
-                        location: '昆仑山道观',
-                        ceremony_steps: ['净化', '加持', '封存']
-                    },
-                    crafting: {
-                        material: '巴西黑曜石',
-                        handmade: false,
-                        craftsman: '工艺师小李',
-                        days_required: 2
                     }
                 }
             },
 
-            'amethyst': {
-                id: 'amethyst-001',
-                title: '巴西紫水晶洞 Brazilian Amethyst Geode',
-                handle: 'amethyst',
-                description: '来自巴西的天然紫水晶洞，色彩深邃，晶体晶莹剔透。紫水晶被誉为"智慧之石"，具有强大的招财和镇宅能量，是提升家居气场、增强运势的绝佳选择。',
-                vendor: 'DAO Essence',
-                type: 'Crystal',
-                tags: ['amethyst', 'wealth', 'crystal', 'protection'],
-
-                price: 2888.00,
-                compareAtPrice: 3888.00,
-                currency: 'CNY',
-
-                images: [
-                    {
-                        id: 1,
-                        src: 'images/4.jpg',
-                        alt: '紫水晶洞正面',
-                        width: 1200,
-                        height: 1200,
-                        position: 1
-                    },
-                    {
-                        id: 2,
-                        src: 'https://images.unsplash.com/photo-1618331835717-801e976710b2?w=1200&h=1200&fit=crop',
-                        alt: '紫水晶细节',
-                        width: 1200,
-                        height: 1200,
-                        position: 2
-                    },
-                    {
-                        id: 3,
-                        src: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1200&h=1200&fit=crop',
-                        alt: '水晶内部',
-                        width: 1200,
-                        height: 1200,
-                        position: 3
-                    }
-                ],
-
-                variants: [
-                    {
-                        id: 'amethyst-001-small',
-                        title: 'Small Size',
-                        price: 2888.00,
-                        compareAtPrice: 3888.00,
-                        available: true,
-                        inventoryQuantity: 20,
-                        options: {
-                            size: 'small'
-                        },
-                        specs: {
-                            size: '约2-3kg',
-                            origin: '巴西'
-                        }
-                    },
-                    {
-                        id: 'amethyst-001-medium',
-                        title: 'Medium Size',
-                        price: 4888.00,
-                        compareAtPrice: 6888.00,
-                        available: true,
-                        inventoryQuantity: 10,
-                        options: {
-                            size: 'medium'
-                        },
-                        specs: {
-                            size: '约5-8kg',
-                            origin: '巴西'
-                        }
-                    }
-                ],
-
-                metafields: {
-                    energy: {
-                        five_element: '火',
-                        type: '招财镇宅',
-                        intensity: '高',
-                        direction: '西南',
-                        benefits: ['招财进宝', '镇宅护家', '提升气场'],
-                        suitable_for: ['家庭', '办公室', '商铺']
-                    },
-                    consecration: {
-                        master: '武当山王道长',
-                        date: '2024-02-15',
-                        location: '武当山紫霄宫',
-                        ceremony_steps: ['净化', '开光', '加持']
-                    },
-                    crafting: {
-                        material: '天然紫水晶',
-                        handmade: false,
-                        craftsman: '天然形成',
-                        days_required: 3
-                    }
-                }
-            },
-
-            'agarwood': {
-                id: 'agarwood-001',
-                title: '天然沉香文昌香 Natural Agarwood Wenchang Incense',
-                handle: 'agarwood',
-                description: '精选天然沉香，产自越南优质沉香产区。沉香被誉为"香中之王"，具有独特的香气和强大的能量场，能提升专注力，增强智慧和学业运，适合学生和职场人士使用。',
+            'natural-agarwood': {
+                id: 'natural-agarwood',
+                title: 'Natural Agarwood',
+                titleZh: '天然沉香',
+                handle: 'natural-agarwood',
+                description: '精选天然沉香，产自越南优质沉香产区。沉香被誉为"香中之王"，香气醇厚持久，有助于支持专注力，适合学生和职场人士使用。',
                 vendor: 'DAO Essence',
                 type: 'Incense',
-                tags: ['agarwood', 'wisdom', 'incense', 'focus'],
+                tags: ['agarwood', 'incense', 'focus'],
 
-                price: 168.00,
-                compareAtPrice: 218.00,
-                currency: 'CNY',
+                price: 170.00,
+                compareAtPrice: 200.00,
+                currency: 'USD',
 
                 images: [
                     {
                         id: 1,
-                        src: 'images/08d5a4d436cd88b784060136ffdf1dde4be269a93235b-haaswB_fw1200webp.webp',
-                        alt: '沉香包装',
+                        src: 'images/efd651724cd482a4d5c81552b23cb20253ea84311d64e5-9twrMQ_fw1200webp.webp',
+                        alt: '天然沉香',
                         width: 1200,
                         height: 1200,
                         position: 1
@@ -2146,12 +1830,12 @@
 
                 variants: [
                     {
-                        id: 'agarwood-001-small',
-                        title: 'Small Pack',
-                        price: 168.00,
-                        compareAtPrice: 218.00,
+                        id: 'natural-agarwood-small',
+                        title: 'Small Pack（约50g）',
+                        price: 170.00,
+                        compareAtPrice: 200.00,
                         available: true,
-                        inventoryQuantity: 60,
+                        inventoryQuantity: 100,
                         options: {
                             size: 'small'
                         },
@@ -2161,12 +1845,12 @@
                         }
                     },
                     {
-                        id: 'agarwood-001-medium',
-                        title: 'Medium Pack',
-                        price: 288.00,
-                        compareAtPrice: 388.00,
+                        id: 'natural-agarwood-medium',
+                        title: 'Medium Pack（约100g）',
+                        price: 290.00,
+                        compareAtPrice: 360.00,
                         available: true,
-                        inventoryQuantity: 35,
+                        inventoryQuantity: 50,
                         options: {
                             size: 'medium'
                         },
@@ -2180,142 +1864,34 @@
                 metafields: {
                     energy: {
                         five_element: '木',
-                        type: '提升智慧',
+                        type: '智慧支持',
                         intensity: '中',
                         direction: '正东',
                         benefits: ['提升专注力', '增强智慧', '学业顺利'],
                         suitable_for: ['学生', '考试人群', '职场人士']
-                    },
-                    consecration: {
-                        master: '青城山李道长',
-                        date: '2024-01-25',
-                        location: '青城山上清宫',
-                        ceremony_steps: ['净化', '加持']
-                    },
-                    crafting: {
-                        material: '天然沉香',
-                        handmade: false,
-                        craftsman: '香道师王师傅',
-                        days_required: 1
                     }
                 }
             },
 
-            'sandalwood': {
-                id: 'sandalwood-001',
-                title: '老山檀香太岁香 Old Mountain Sandalwood Tai Sui Incense',
-                handle: 'sandalwood',
-                description: '精选老山檀香，产自印度迈索尔地区。檀香被誉为"香料之王"，香气醇厚持久，能够净化空气、安神定志。此香专为拜太岁制作，具有消灾赐福、保全年平安的能量。',
-                vendor: 'DAO Essence',
-                type: 'Incense',
-                tags: ['sandalwood', 'tai-sui', 'incense', 'protection'],
-
-                price: 268.00,
-                compareAtPrice: 368.00,
-                currency: 'CNY',
-
-                images: [
-                    {
-                        id: 1,
-                        src: 'images/5c9b913900c6b04c7d5feeeba36403b233e42e895de36-P0zmjC_fw1200webp.webp',
-                        alt: '檀香包装',
-                        width: 1200,
-                        height: 1200,
-                        position: 1
-                    },
-                    {
-                        id: 2,
-                        src: 'https://images.unsplash.com/photo-1604014237800-1c9102c219da?w=1200&h=1200&fit=crop',
-                        alt: '檀香点燃效果',
-                        width: 1200,
-                        height: 1200,
-                        position: 2
-                    },
-                    {
-                        id: 3,
-                        src: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&h=1200&fit=crop',
-                        alt: '香道',
-                        width: 1200,
-                        height: 1200,
-                        position: 3
-                    }
-                ],
-
-                variants: [
-                    {
-                        id: 'sandalwood-001-small',
-                        title: 'Small Pack',
-                        price: 268.00,
-                        compareAtPrice: 368.00,
-                        available: true,
-                        inventoryQuantity: 55,
-                        options: {
-                            size: 'small'
-                        },
-                        specs: {
-                            size: '约60g',
-                            origin: '印度'
-                        }
-                    },
-                    {
-                        id: 'sandalwood-001-medium',
-                        title: 'Medium Pack',
-                        price: 388.00,
-                        compareAtPrice: 488.00,
-                        available: true,
-                        inventoryQuantity: 30,
-                        options: {
-                            size: 'medium'
-                        },
-                        specs: {
-                            size: '约120g',
-                            origin: '印度'
-                        }
-                    }
-                ],
-
-                metafields: {
-                    energy: {
-                        five_element: '土',
-                        type: '消灾赐福',
-                        intensity: '中',
-                        direction: '中央',
-                        benefits: ['消灾赐福', '保全年平安', '净化气场'],
-                        suitable_for: ['拜太岁', '祈福', '日常修行']
-                    },
-                    consecration: {
-                        master: '武当山王道长',
-                        date: '2024-03-05',
-                        location: '武当山紫霄宫',
-                        ceremony_steps: ['净化', '加持']
-                    },
-                    crafting: {
-                        material: '老山檀香',
-                        handmade: false,
-                        craftsman: '香道师王师傅',
-                        days_required: 2
-                    }
-                }
-            },
-
-            'custom-talisman': {
-                id: 'custom-talisman-001',
-                title: '个人命理定制符 Personal Destiny Custom Talisman',
-                handle: 'custom-talisman',
-                description: '根据您的八字命理分析量身定制的专属符咒。道长会根据您的出生年月日时、五行缺失、命理特点，绘制最符合您个人运势的符咒，精准提升个人运势，化解命理不利。',
+            'custom-protection-token': {
+                id: 'custom-protection-token-001',
+                title: 'Personal Energy Custom Protection Token',
+                titleZh: '个人能量定制守护令牌',
+                handle: 'custom-protection-token',
+                description: '根据您的个人能量分析量身定制的专属守护令牌。工艺师会根据您的出生年月日时、五元素特点、个人能量特点，绘制符合您个人能量的守护令牌，支持能量平衡。',
                 vendor: 'DAO Essence',
                 type: 'Custom Item',
-                tags: ['custom', 'talisman', 'personal', 'destiny'],
+                tags: ['custom', 'protection-token', 'personal', 'energy'],
 
-                price: 1288.00,
-                compareAtPrice: 1688.00,
-                currency: 'CNY',
+                price: 180.00,
+                compareAtPrice: 200.00,
+                currency: 'USD',
 
                 images: [
                     {
                         id: 1,
-                        src: 'images/cdbc3b281648ab285bde9a54954e2eaf6c148a3a1322a9-ReITNc.jfif',
-                        alt: '定制符样品',
+                        src: 'images/08d5a4d436cd88b784060136ffdf1dde4be269a93235b-haaswB_fw1200webp.webp',
+                        alt: '定制守护令牌样品',
                         width: 1200,
                         height: 1200,
                         position: 1
@@ -2323,7 +1899,7 @@
                     {
                         id: 2,
                         src: 'https://images.unsplash.com/photo-1543852786-1cf6624b9987?w=1200&h=1200&fit=crop',
-                        alt: '开光仪式',
+                        alt: '传统仪式',
                         width: 1200,
                         height: 1200,
                         position: 2
@@ -2340,10 +1916,10 @@
 
                 variants: [
                     {
-                        id: 'custom-talisman-001-standard',
+                        id: 'custom-protection-token-standard',
                         title: 'Basic Custom',
-                        price: 1288.00,
-                        compareAtPrice: 1688.00,
+                        price: 180.00,
+                        compareAtPrice: 200.00,
                         available: true,
                         inventoryQuantity: 999,
                         options: {
@@ -2355,10 +1931,10 @@
                         }
                     },
                     {
-                        id: 'custom-talisman-001-premium',
+                        id: 'custom-protection-token-premium',
                         title: 'Premium Custom',
-                        price: 1888.00,
-                        compareAtPrice: 2488.00,
+                        price: 200.00,
+                        compareAtPrice: 250.00,
                         available: true,
                         inventoryQuantity: 999,
                         options: {
@@ -2373,427 +1949,12 @@
 
                 metafields: {
                     energy: {
-                        five_element: '根据八字',
+                        five_element: '根据个人分析',
                         type: '量身定制',
                         intensity: '极高',
-                        direction: '根据八字',
-                        benefits: ['精准提升运势', '化解命理不利', '增强个人能量'],
+                        direction: '根据个人分析',
+                        benefits: ['支持运势平衡', '化解个人能量失衡', '支持个人能量'],
                         suitable_for: ['所有人', '需要改善运势', '重大决策前']
-                    },
-                    consecration: {
-                        master: '多位道长',
-                        date: '根据定制',
-                        location: '武当山',
-                        ceremony_steps: ['八字分析', '请神', '开光', '加持', '封印']
-                    },
-                    crafting: {
-                        material: '根据八字',
-                        handmade: true,
-                        craftsman: '多位道长',
-                        days_required: 7
-                    }
-                }
-            },
-
-            'pixiu': {
-                id: 'pixiu-001',
-                title: '开光青铜貔貅摆件 Consecrated Bronze Pixiu Ornament',
-                handle: 'pixiu',
-                description: '貔貅是中国古代神话传说中的瑞兽，传说能吞噬金银财宝，只进不出，象征着招财进宝、镇宅辟邪。此貔貅摆件由匠人手工雕刻，选用上等青铜材质，经过传统开光仪式加持，蕴含纯正能量。',
-                vendor: 'DAO Essence',
-                type: 'Custom Item',
-                tags: ['pixiu', 'wealth', 'protection', 'ornament'],
-
-                price: 688.00,
-                compareAtPrice: 888.00,
-                currency: 'CNY',
-
-                images: [
-                    {
-                        id: 1,
-                        src: 'images/ee9f06067bcdc66babb7cc1dfbc9d59ecef3fe912a602-hYOU5Z_fw1200webp.webp',
-                        alt: '貔貅摆件',
-                        width: 1200,
-                        height: 1200,
-                        position: 1
-                    },
-                    {
-                        id: 2,
-                        src: 'https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=1200&h=1200&fit=crop',
-                        alt: '貔貅侧面',
-                        width: 1200,
-                        height: 1200,
-                        position: 2
-                    },
-                    {
-                        id: 3,
-                        src: 'https://images.unsplash.com/photo-1518640467707-6811f4a6ab73?w=1200&h=1200&fit=crop',
-                        alt: '开光仪式',
-                        width: 1200,
-                        height: 1200,
-                        position: 3
-                    }
-                ],
-
-                variants: [
-                    {
-                        id: 'pixiu-001-small',
-                        title: 'Small Size',
-                        price: 688.00,
-                        compareAtPrice: 888.00,
-                        available: true,
-                        inventoryQuantity: 35,
-                        options: {
-                            size: 'small'
-                        },
-                        specs: {
-                            size: '约120×80×150mm',
-                            material: '青铜'
-                        }
-                    },
-                    {
-                        id: 'pixiu-001-medium',
-                        title: 'Medium Size',
-                        price: 1288.00,
-                        compareAtPrice: 1688.00,
-                        available: true,
-                        inventoryQuantity: 20,
-                        options: {
-                            size: 'medium'
-                        },
-                        specs: {
-                            size: '约180×120×200mm',
-                            material: '青铜'
-                        }
-                    }
-                ],
-
-                metafields: {
-                    energy: {
-                        five_element: '金',
-                        type: '招财守财',
-                        intensity: '高',
-                        direction: '正西、西北',
-                        benefits: ['招财进宝', '镇宅辟邪', '守护财富'],
-                        suitable_for: ['创业者', '商务人士', '家庭']
-                    },
-                    consecration: {
-                        master: '终南山赵道长',
-                        date: '2024-02-28',
-                        location: '终南山楼观台',
-                        ceremony_steps: ['请神', '开光', '加持', '封印']
-                    },
-                    crafting: {
-                        material: '青铜',
-                        handmade: true,
-                        craftsman: '工艺师张师傅',
-                        days_required: 5
-                    }
-                }
-            },
-
-            'safety': {
-                id: 'safety-001',
-                title: '平安护身符 Safety Protection Talisman',
-                handle: 'safety',
-                description: '平安护身符是道教最经典的护身符咒之一，能够化解意外灾难，保佑出行平安。此符由道长亲自开光绘制，能量纯净稳定，适合经常出行或从事危险职业的人士佩戴。',
-                vendor: 'DAO Essence',
-                type: 'Talisman',
-                tags: ['safety', 'protection', 'talisman', 'travel'],
-
-                price: 198.00,
-                compareAtPrice: 298.00,
-                currency: 'CNY',
-
-                images: [
-                    {
-                        id: 1,
-                        src: 'images/efd651724cd482a4d5c81552b23cb20253ea84311d64e5-9twrMQ_fw1200webp.webp',
-                        alt: '平安符正面',
-                        width: 1200,
-                        height: 1200,
-                        position: 1
-                    },
-                    {
-                        id: 2,
-                        src: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1200&h=1200&fit=crop',
-                        alt: '平安符细节',
-                        width: 1200,
-                        height: 1200,
-                        position: 2
-                    },
-                    {
-                        id: 3,
-                        src: 'https://images.unsplash.com/photo-1518640467707-6811f4a6ab73?w=1200&h=1200&fit=crop',
-                        alt: '开光仪式',
-                        width: 1200,
-                        height: 1200,
-                        position: 3
-                    }
-                ],
-
-                variants: [
-                    {
-                        id: 'safety-001-standard',
-                        title: 'Standard',
-                        price: 198.00,
-                        compareAtPrice: 298.00,
-                        available: true,
-                        inventoryQuantity: 80,
-                        options: {
-                            size: 'standard'
-                        },
-                        specs: {
-                            size: '80×120mm',
-                            material: '黄纸朱砂'
-                        }
-                    },
-                    {
-                        id: 'safety-001-deluxe',
-                        title: 'Deluxe',
-                        price: 288.00,
-                        compareAtPrice: 388.00,
-                        available: true,
-                        inventoryQuantity: 50,
-                        options: {
-                            size: 'deluxe'
-                        },
-                        specs: {
-                            size: '100×150mm',
-                            material: '宣纸金粉'
-                        }
-                    }
-                ],
-
-                metafields: {
-                    energy: {
-                        five_element: '水',
-                        type: '护身保平安',
-                        intensity: '中',
-                        direction: '正北',
-                        benefits: ['化解意外', '保出行平安', '守护健康'],
-                        suitable_for: ['经常出行者', '司机', '危险职业']
-                    },
-                    consecration: {
-                        master: '昆仑山张道长',
-                        date: '2024-02-10',
-                        location: '昆仑山道观',
-                        ceremony_steps: ['请神', '开光', '加持', '封印']
-                    },
-                    crafting: {
-                        material: '黄纸/宣纸',
-                        handmade: true,
-                        craftsman: '张道长',
-                        days_required: 1
-                    }
-                }
-            },
-
-            'citrine': {
-                id: 'citrine-001',
-                title: '黄水晶招财手串 Citrine Wealth Bracelet',
-                handle: 'citrine',
-                description: '天然黄水晶手串，色彩金黄温暖，被誉为"财富之石"。黄水晶具有强大的招财能量，能够增强偏财运，提升投资理财能力，是投资者和追求财富人士的必备饰品。',
-                vendor: 'DAO Essence',
-                type: 'Crystal',
-                tags: ['citrine', 'wealth', 'crystal', 'prosperity'],
-
-                price: 788.00,
-                compareAtPrice: 988.00,
-                currency: 'CNY',
-
-                images: [
-                    {
-                        id: 1,
-                        src: 'images/08d5a4d436cd88b784060136ffdf1dde4be269a93235b-haaswB_fw1200webp.webp',
-                        alt: '黄水晶手串',
-                        width: 1200,
-                        height: 1200,
-                        position: 1
-                    },
-                    {
-                        id: 2,
-                        src: 'https://images.unsplash.com/photo-1618331835717-801e976710b2?w=1200&h=1200&fit=crop',
-                        alt: '黄水晶细节',
-                        width: 1200,
-                        height: 1200,
-                        position: 2
-                    },
-                    {
-                        id: 3,
-                        src: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1200&h=1200&fit=crop',
-                        alt: '佩戴效果',
-                        width: 1200,
-                        height: 1200,
-                        position: 3
-                    }
-                ],
-
-                variants: [
-                    {
-                        id: 'citrine-001-10mm',
-                        title: '10mm Beads',
-                        price: 788.00,
-                        compareAtPrice: 988.00,
-                        available: true,
-                        inventoryQuantity: 45,
-                        options: {
-                            beadSize: '10mm'
-                        },
-                        specs: {
-                            size: '10mm珠子',
-                            weight: '约85g'
-                        }
-                    },
-                    {
-                        id: 'citrine-001-12mm',
-                        title: '12mm Beads',
-                        price: 888.00,
-                        compareAtPrice: 1188.00,
-                        available: true,
-                        inventoryQuantity: 25,
-                        options: {
-                            beadSize: '12mm'
-                        },
-                        specs: {
-                            size: '12mm珠子',
-                            weight: '约105g'
-                        }
-                    }
-                ],
-
-                metafields: {
-                    energy: {
-                        five_element: '土',
-                        type: '招财聚财',
-                        intensity: '高',
-                        direction: '中央、西南',
-                        benefits: ['增强财运', '招财进宝', '提升投资运'],
-                        suitable_for: ['投资者', '创业者', '追求财富者']
-                    },
-                    consecration: {
-                        master: '龙虎山李道长',
-                        date: '2024-03-08',
-                        location: '龙虎山天师府',
-                        ceremony_steps: ['净化', '开光', '加持']
-                    },
-                    crafting: {
-                        material: '天然黄水晶',
-                        handmade: false,
-                        craftsman: '工艺师小李',
-                        days_required: 2
-                    }
-                }
-            },
-
-            'thunderwood': {
-                id: 'thunderwood-001',
-                title: '雷击木 Thunderstruck Wood',
-                handle: 'thunderwood',
-                description: '雷击木是道教中最珍贵的法器之一，指被天雷击中的天然木材。雷击木蕴含雷霆神力，至阳至烈，具有强大的辟邪化煞、镇宅护家能量。由道长亲自开光加持，是居家风水和个人护身的顶级法宝。',
-                vendor: 'DAO Essence',
-                type: 'Ritual Item',
-                tags: ['thunderwood', 'protection', 'thunder', 'consecrated'],
-
-                price: 888.00,
-                compareAtPrice: 1288.00,
-                currency: 'CNY',
-
-                images: [
-                    {
-                        id: 1,
-                        src: 'images/08d5a4d436cd88b784060136ffdf1dde4be269a93235b-haaswB_fw1200webp.webp',
-                        alt: '雷击木法器',
-                        width: 1200,
-                        height: 1200,
-                        position: 1
-                    },
-                    {
-                        id: 2,
-                        src: 'https://images.unsplash.com/photo-1557683316-973673baf926?w=1200&h=1200&fit=crop',
-                        alt: '雷击纹理',
-                        width: 1200,
-                        height: 1200,
-                        position: 2
-                    },
-                    {
-                        id: 3,
-                        src: 'https://images.unsplash.com/photo-1516939884455-1445c8a2a8f9?w=1200&h=1200&fit=crop',
-                        alt: '开光仪式',
-                        width: 1200,
-                        height: 1200,
-                        position: 3
-                    }
-                ],
-
-                variants: [
-                    {
-                        id: 'thunderwood-001-small',
-                        title: 'Small Piece',
-                        price: 888.00,
-                        compareAtPrice: 1288.00,
-                        available: true,
-                        inventoryQuantity: 25,
-                        options: {
-                            size: 'small'
-                        },
-                        specs: {
-                            size: '约150×30×30mm',
-                            woodType: '桃木'
-                        }
-                    },
-                    {
-                        id: 'thunderwood-001-medium',
-                        title: 'Medium Piece',
-                        price: 1288.00,
-                        compareAtPrice: 1888.00,
-                        available: true,
-                        inventoryQuantity: 15,
-                        options: {
-                            size: 'medium'
-                        },
-                        specs: {
-                            size: '约250×50×50mm',
-                            woodType: '桃木'
-                        }
-                    },
-                    {
-                        id: 'thunderwood-001-large',
-                        title: 'Large Piece',
-                        price: 1888.00,
-                        compareAtPrice: 2688.00,
-                        available: true,
-                        inventoryQuantity: 8,
-                        options: {
-                            size: 'large'
-                        },
-                        specs: {
-                            size: '约350×80×80mm',
-                            woodType: '桃木'
-                        }
-                    }
-                ],
-
-                metafields: {
-                    energy: {
-                        five_element: '火',
-                        type: '雷霆辟邪',
-                        intensity: '极高',
-                        direction: '正南',
-                        benefits: ['辟邪化煞', '镇宅护家', '提升阳气', '灾难化解'],
-                        suitable_for: ['居家风水', '本命年', '犯太岁', '从事高危职业']
-                    },
-                    consecration: {
-                        master: '终南山王道长',
-                        date: '2024-03-20',
-                        location: '终南山道观',
-                        ceremony_steps: ['请神', '开光', '雷霆咒加持', '封印']
-                    },
-                    crafting: {
-                        material: '天然桃木',
-                        handmade: true,
-                        craftsman: '王道长',
-                        days_required: 7
                     }
                 }
             }
@@ -2802,45 +1963,10 @@
         // ============================================
         // 根据URL参数加载产品数据
         // ============================================
-
         let PRODUCT_DATA = null;
         let currentVariant = null;
         let selectedOptions = {};
-        
-        // 购物车管理 - 使用内部变量存储
-        const cartManager = {
-            _items: [],
-            
-            init() {
-                const data = localStorage.getItem('daoessence_cart');
-                if (!data) {
-                    this._items = [];
-                    return;
-                }
-                try {
-                    const parsed = JSON.parse(data);
-                    if (Array.isArray(parsed)) {
-                        this._items = parsed;
-                    } else if (parsed && Array.isArray(parsed.items)) {
-                        this._items = parsed.items;
-                    } else {
-                        this._items = [];
-                    }
-                } catch (e) {
-                    this._items = [];
-                }
-            },
-            
-            get items() {
-                return this._items;
-            }
-        };
-        
-        // 初始化购物车
-        cartManager.init();
-        
-        // 为兼容性保留 cart 变量
-        let cart = cartManager._items;
+        let cart = [];
         let totalCartQuantity = 0;
 
         function loadProductData() {
@@ -2848,9 +1974,14 @@
             const urlParams = new URLSearchParams(window.location.search);
             const productId = urlParams.get('id');
 
+            console.log('URL Product ID:', productId);
+            console.log('Available products:', Object.keys(PRODUCTS));
+
             // 如果没有指定ID，使用默认产品
-            const defaultProductId = 'tai-sui-talisman';
+            const defaultProductId = 'obsidian-bracelet';  // 默认显示黑曜石手链
             const actualProductId = productId || defaultProductId;
+
+            console.log('Loading product:', actualProductId);
 
             // 从PRODUCTS中获取产品数据
             PRODUCT_DATA = PRODUCTS[actualProductId] || PRODUCTS[defaultProductId];
@@ -2864,15 +1995,8 @@
             return true;
         }
 
-        // 页面加载时获取产品数据
-        loadProductData();
-
-        // 初始化购物车显示
-        updateCartDisplay();
-        updateCartSidebar();
-
         // ============================================
-        // 状态管理
+        // 初始化购物车
         // ============================================
 
         // 初始化第一个变体和选项
@@ -2887,22 +2011,11 @@
                     });
                 }
 
+                // 初始化UI
+                updateUIForVariant(currentVariant);
+
                 // 初始化总价
                 updateTotalPrice();
-
-                // 初始化库存显示
-                if (currentVariant.inventoryQuantity !== undefined) {
-                    const stockCount = document.querySelector('.stock-count');
-                    if (stockCount) {
-                        if (currentVariant.inventoryQuantity <= 5) {
-                            stockCount.textContent = `Only ${currentVariant.inventoryQuantity} left`;
-                            stockCount.style.background = 'var(--fire-primary)';
-                        } else {
-                            stockCount.textContent = `${currentVariant.inventoryQuantity} in stock`;
-                            stockCount.style.background = 'var(--wood-primary)';
-                        }
-                    }
-                }
             }
         }
 
@@ -3061,9 +2174,9 @@
         }
 
         function updateUIForVariant(variant) {
-            // 转换价格为美元
-            const priceUSD = convertToUSD(variant.price);
-            const comparePriceUSD = convertToUSD(variant.compareAtPrice);
+            // 价格已经是美元，直接使用
+            const priceUSD = parseFloat(variant.price).toFixed(2);
+            const comparePriceUSD = parseFloat(variant.compareAtPrice || variant.price).toFixed(2);
 
             // 更新价格显示为美元
             document.getElementById('currentPrice').textContent = `$${priceUSD}`;
@@ -3118,9 +2231,9 @@
         // 购物车管理
         // ============================================
 
-        // 保存购物车到localStorage - 使用cartManager确保格式正确
+        // 保存购物车到localStorage
         function saveCart() {
-            localStorage.setItem('daoessence_cart', JSON.stringify({ items: cartManager._items }));
+            localStorage.setItem('daoessence_cart', JSON.stringify({ items: cart }));
             updateCartDisplay();
             updateCartSidebar();
         }
@@ -3157,8 +2270,8 @@
                 let total = 0;
                 cartItemsContainer.innerHTML = cart.map((item, index) => {
                     total += item.price * item.quantity;
-                    // 兼容新旧数据结构
-                    const title = item.titleEn || item.title;
+                    // 兼容新旧数据结构（支持 name/titleEn/title）
+                    const title = item.name || item.titleEn || item.title || 'Unknown Product';
                     return `
                         <div class="cart-item">
                             <div class="cart-item-image">
@@ -3220,10 +2333,10 @@
             }
 
             const quantity = parseInt(document.getElementById('quantity').value);
-            const priceUSD = parseFloat(convertToUSD(currentVariant.price));
+            // 价格已经是美元，不需要转换
+            const priceUSD = currentVariant.price;
 
             // 生成统一的商品标识（用于匹配相同商品）
-            // 使用 PRODUCT_DATA.id 或 handle 作为商品的基本标识，而不是变体的完整 id
             const productKey = PRODUCT_DATA.handle || PRODUCT_DATA.id;
 
             // 检查购物车中是否已有该商品
@@ -3234,15 +2347,16 @@
             if (existingItem) {
                 // 已存在该商品，增加数量
                 existingItem.quantity += quantity;
+                existingItem.price = priceUSD;  // 更新价格
                 const totalPriceUSD = (existingItem.quantity * priceUSD).toFixed(2);
                 showNotification(`Updated: ${quantity} more added - Total: ${existingItem.quantity} items`);
             } else {
-                // 新商品，添加到购物车（与shop.html和checkout数据结构一致）
+                // 新商品，添加到购物车
                 cart.push({
                     id: productKey,  // 商品ID
                     name: PRODUCT_DATA.title,  // 英文名
                     nameCn: PRODUCT_DATA.titleZh || PRODUCT_DATA.title.split(' ')[0], // 中文名
-                    price: priceUSD,
+                    price: priceUSD,  // 美元价格（不转换）
                     quantity: quantity,
                     image: PRODUCT_DATA.images[0]?.src || ''
                 });
@@ -3253,6 +2367,8 @@
             // 更新库存显示（模拟库存减少）
             updateStockDisplay(quantity);
             saveCart();
+            updateCartDisplay();
+            updateCartSidebar();
         }
 
         // 更新库存显示
@@ -3309,8 +2425,8 @@
         function updateTotalPrice() {
             const quantity = parseInt(document.getElementById('quantity').value);
             if (currentVariant) {
-                const priceCNY = currentVariant.price;
-                const priceUSD = parseFloat(convertToUSD(priceCNY));
+                // 价格已经是美元，不需要转换
+                const priceUSD = currentVariant.price;
                 const totalUSD = (priceUSD * quantity).toFixed(2);
 
                 document.getElementById('totalPrice').textContent = `$${totalUSD}`;
@@ -3327,24 +2443,23 @@
                 return;
             }
 
-            const priceUSD = parseFloat(convertToUSD(currentVariant.price));
+            const priceUSD = parseFloat(currentVariant.price);
 
             // 使用商品的基本 id 作为标识（与 addToCart 保持一致）
             const productKey = PRODUCT_DATA.handle || PRODUCT_DATA.id;
 
             // 检查购物车中是否已有该商品
             const existingItem = cart.find(item => {
-                const itemId = item.variantId || item.id;
-                return itemId === productKey;
+                return item.id === productKey;
             });
 
             if (existingItem) {
                 existingItem.quantity += quantity;
             } else {
                 cart.push({
-                    variantId: productKey,
-                    titleEn: PRODUCT_DATA.title,
-                    titleZh: PRODUCT_DATA.titleZh || PRODUCT_DATA.title.split(' ')[0],
+                    id: productKey,
+                    name: PRODUCT_DATA.title,
+                    nameCn: PRODUCT_DATA.titleZh || PRODUCT_DATA.title.split(' ')[0],
                     price: priceUSD,
                     quantity: quantity,
                     image: PRODUCT_DATA.images[0]?.src || ''
@@ -3532,14 +2647,7 @@
             return false;
         }
 
-        // 渲染图片（为动态更新准备）
-        function renderImages() {
-            const mainWrapper = document.getElementById('mainImageWrapper');
-            const thumbsWrapper = document.getElementById('thumbsWrapper');
-            
-            // 这里会清空并重新创建图片slides
-            // 实际实现会更复杂，需要处理Swiper的更新
-        }
+
 
         // ============================================
         // Shopify API兼容层
@@ -3580,6 +2688,26 @@
         // ============================================
         
         document.addEventListener('DOMContentLoaded', function() {
+            // 1. 首先加载产品数据（必须在其他操作之前）
+            const productLoaded = loadProductData();
+
+            if (!productLoaded) {
+                console.error('Failed to load product data');
+                return;
+            }
+
+            // 2. 初始化购物车数据
+            try {
+                const savedCart = localStorage.getItem('daoessence_cart');
+                if (savedCart) {
+                    const parsedCart = JSON.parse(savedCart);
+                    cart = parsedCart.items || [];
+                }
+            } catch (error) {
+                console.error('Error loading cart:', error);
+                cart = [];
+            }
+
             console.log('Product detail page initialized');
             console.log('Product data:', PRODUCT_DATA);
 
@@ -3627,7 +2755,7 @@
             const titleLarge = document.getElementById('pageTitleLarge');
             const titleEn = document.getElementById('pageTitleEn');
             if (titleLarge && PRODUCT_DATA.title) {
-                titleLarge.textContent = PRODUCT_DATA.title.split(' ')[0] || PRODUCT_DATA.title;
+                titleLarge.textContent = PRODUCT_DATA.title;
             }
             if (titleEn && PRODUCT_DATA.handle) {
                 titleEn.textContent = PRODUCT_DATA.handle.replace(/-/g, ' ').toUpperCase();
@@ -3636,11 +2764,11 @@
             // 更新产品名称
             const nameCn = document.querySelector('.product-name-cn');
             const nameEn = document.querySelector('.product-name-en');
-            if (nameCn && PRODUCT_DATA.title) {
-                nameCn.textContent = PRODUCT_DATA.title;
+            if (nameCn && PRODUCT_DATA.titleZh) {
+                nameCn.textContent = PRODUCT_DATA.titleZh;
             }
-            if (nameEn && PRODUCT_DATA.handle) {
-                nameEn.textContent = PRODUCT_DATA.handle.replace(/-/g, ' ').toUpperCase();
+            if (nameEn && PRODUCT_DATA.title) {
+                nameEn.textContent = PRODUCT_DATA.title;
             }
 
             // 更新产品分类标签
@@ -3649,15 +2777,7 @@
                 categoryTag.textContent = PRODUCT_DATA.type;
             }
 
-            // 更新价格
-            if (PRODUCT_DATA.price) {
-                document.getElementById('currentPrice').innerHTML = `<span>¥</span>${PRODUCT_DATA.price.toFixed(2)}`;
-            }
-            if (PRODUCT_DATA.compareAtPrice) {
-                document.getElementById('originalPrice').textContent = `¥${PRODUCT_DATA.compareAtPrice.toFixed(2)}`;
-                const discount = Math.round((1 - PRODUCT_DATA.price / PRODUCT_DATA.compareAtPrice) * 100);
-                document.getElementById('discountBadge').textContent = `-${discount}%`;
-            }
+            // 价格已通过 updatePrice() 函数更新（美元），这里不需要重复更新
 
             // 更新SKU
             const skuCode = document.querySelector('.sku-code');
@@ -3726,14 +2846,14 @@
                     <ul class="footer-links">
                         <li><a href="culture.html">Energy Universe</a></li>
                         <li><a href="shop.html">Energy Shop</a></li>
-                        <li><a href="index.html#destiny-booking">Destiny Consulting</a></li>
+                        <li><a href="index.html#life-path-booking">Life Path Consulting</a></li>
                         <li><a href="guide.html">Crafting Process</a></li>
                     </ul>
                 </div>
                 <div>
                     <h4 class="footer-title">Services</h4>
                     <ul class="footer-links">
-                        <li><a href="#">BaZi Analysis</a></li>
+                        <li><a href="#">Annual Energy Analysis</a></li>
                         <li><a href="#">Annual Fortune</a></li>
                         <li><a href="#">Personal Consultation</a></li>
                         <li><a href="#">Custom Items</a></li>
@@ -3744,11 +2864,11 @@
                     <ul class="footer-links">
                         <li>
                             <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle;margin-right:5px"><path d="M3 4h14a1 1 0 011 1v10a1 1 0 01-1 1H3a1 1 0 01-1-1V5a1 1 0 011-1z"/><path d="M3 5l7 6 7-6"/></svg>
-                            support@daoessence.com
+                            517748938@qq.com
                         </li>
                         <li>
                             <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle;margin-right:5px"><path d="M2 5a2 2 0 012-2h12a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V5z"/><path d="M7 10h6M7 13h4"/></svg>
-                            WhatsApp: +86 181 1575 5283
+                            
                         </li>
                         <li>
                             <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle;margin-right:5px"><circle cx="10" cy="10" r="8"/><path d="M10 6v4l2.5 2.5"/></svg>
@@ -3759,47 +2879,24 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>© 2024 DAO Essence & Five Elements. All rights reserved.</p>
+                <p>© 2026 DAO Essence & Five Elements. All rights reserved.</p>
+                <div class="footer-legal-links">
+                    <a href="policy.html">Privacy Policy</a>
+                    <span>|</span>
+                    <a href="policy.html">Terms of Service</a>
+                </div>
             </div>
         </div>
     </footer>
 
     <!-- 右下角浮动购物车按钮 -->
-    <button class="floating-cart-btn" onclick="window.location.href='shop.html'">
-        🛒
+    <button class="floating-cart-btn" onclick="toggleCart()">
+        <svg viewBox="0 0 20 20" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="19" r="1"/><circle cx="17" cy="19" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L19 6H6"/></svg>
         <span class="floating-cart-badge" id="floatingCartBadge">0</span>
     </button>
 
-    <script>
-        // ========================================
-        // 统一购物车系统 - 购物车徽章更新
-        // ========================================
-        function updateCartBadge() {
-            const cartData = localStorage.getItem('cart');
-            const badge = document.getElementById('cartBadge');
-            if (badge) {
-                if (cartData) {
-                    const items = JSON.parse(cartData);
-                    const count = items.reduce((sum, item) => sum + item.quantity, 0);
-                    badge.textContent = count;
-                    badge.style.display = count > 0 ? 'flex' : 'none';
-                } else {
-                    badge.style.display = 'none';
-                }
-            }
-        }
 
-        // 页面加载时更新徽章
-        document.addEventListener('DOMContentLoaded', updateCartBadge);
 
-        // 监听 storage 变化(跨页面同步)
-        window.addEventListener('storage', function(e) {
-            if (e.key === 'cart') {
-                updateCartBadge();
-            }
-        });
-    </script>
-    <script src="main.js?v=202603131700"></script>
 
     <!-- Shopify 对接脚本（启用后替换上面的静态购物车逻辑） -->
     <!--

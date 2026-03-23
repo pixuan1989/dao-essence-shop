@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Destiny Consultation - DAO Essence</title>
+    <title>Life Path Consultation - DAO Essence</title>
     <link rel="stylesheet" href="styles.css">
     
     <!-- Vercel Web Analytics -->
@@ -15,8 +15,8 @@
       document.head.appendChild(script);
     </script>
     <style>
-        /* 命理页面专属样式 */
-        .destiny-hero {
+        /* 个人运势页面专属样式 */
+        .life-path-hero {
             height: 50vh;
             background: linear-gradient(135deg, #0a0a1a 0%, #1a1a3a 50%, #0a0a1a 100%);
             position: relative;
@@ -26,7 +26,7 @@
             justify-content: center;
         }
 
-        .destiny-hero::before {
+        .life-path-hero::before {
             content: '';
             position: absolute;
             inset: 0;
@@ -35,19 +35,19 @@
             animation: rotate 60s linear infinite;
         }
 
-        .destiny-hero-content {
+        .life-path-hero-content {
             text-align: center;
             z-index: 2;
             color: var(--color-light);
         }
 
-        .destiny-hero h1 {
+        .life-path-hero h1 {
             font-size: 3.5rem;
             margin-bottom: 1rem;
             text-shadow: 0 0 30px rgba(212, 175, 55, 0.5);
         }
 
-        .destiny-hero p {
+        .life-path-hero p {
             font-size: 1.2rem;
             opacity: 0.9;
             max-width: 600px;
@@ -170,7 +170,7 @@
             box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
         }
 
-        /* 八字排盘表单 */
+        /* 个人分析表单 */
         .bazi-form-section {
             padding: 5rem 5%;
             background: var(--color-dark-accent);
@@ -247,7 +247,7 @@
             box-shadow: 0 5px 20px rgba(212, 175, 55, 0.4);
         }
 
-        /* 命理师团队 */
+        /* 个人运势师团队 */
         .masters-section {
             padding: 5rem 5%;
         }
@@ -441,7 +441,7 @@
 
         /* 响应式 */
         @media (max-width: 768px) {
-            .destiny-hero h1 {
+            .life-path-hero h1 {
                 font-size: 2.5rem;
             }
 
@@ -477,7 +477,7 @@
                 <li><a href="index.html">Home</a></li>
                 <li><a href="culture.html">Energy Universe</a></li>
                 <li><a href="shop.html">Energy Shop</a></li>
-                <li><a href="destiny.html" class="active">Destiny</a></li>
+                <li><a href="life-path.html" class="active">Life Path</a></li>
                 <li><a href="guide.html">Energy Guide</a></li>
                 <li><a href="about.html">About Us</a></li>
             </ul>
@@ -485,31 +485,31 @@
     </nav>
 
     <!-- 英雄区域 -->
-    <section class="destiny-hero">
-        <div class="destiny-hero-content">
-            <h1>Destiny Consultation</h1>
-            <p>Unlock the mysteries of destiny. Master analysts interpret your BaZi, guide you through life, and help attract good fortune while avoiding misfortune.</p>
+    <section class="life-path-hero">
+        <div class="life-path-hero-content">
+            <h1>Life Path Consultation</h1>
+            <p>Unlock the mysteries of your life path. Master analysts interpret your life energy patterns, guide you through life, and help attract positive energy while maintaining balance.</p>
         </div>
     </section>
 
     <!-- 服务项目 -->
     <section class="services-section">
         <div class="section-title">
-            <h2>Destiny Services</h2>
-            <p>The perfect blend of traditional destiny study and modern life</p>
+            <h2>Life Path Services</h2>
+            <p>The perfect blend of traditional Eastern wisdom and modern life</p>
         </div>
         <div class="services-grid">
-            <!-- 八字精批 -->
+            <!-- 个人分析精批 -->
             <div class="service-card">
                 <div class="service-header">
                     <div class="service-icon">命</div>
                     <div class="service-title">
-                        <h3>BaZi Analysis</h3>
+                        <h3>Life Energy Analysis</h3>
                         <span>¥588</span>
                     </div>
                 </div>
                 <div class="service-content">
-                    <p class="service-desc">Based on your birth year, month, day, and hour, we analyze your BaZi chart in detail, including character analysis, Five Elements preferences, major and annual cycles, predicting career, wealth, marriage, and health fortunes.</p>
+                    <p class="service-desc">Based on your birth year, month, day, and hour, we analyze your life energy patterns in detail, including character analysis, Five Elements preferences, major and annual cycles, providing insights into career, wealth, relationships, and well-being patterns.</p>
                     <div class="service-features">
                         <span>Character Analysis</span>
                         <span>Five Elements</span>
@@ -531,11 +531,11 @@
                     </div>
                 </div>
                 <div class="service-content">
-                    <p class="service-desc">Detailed calculation of your current year fortune, analyzing favorable/unfavorable directions, noble person luck, and precautions, providing practical advice for attracting good fortune and avoiding misfortune.</p>
+                    <p class="service-desc">Detailed analysis of your current year energy patterns, analyzing favorable/unfavorable directions, supportive influences, and precautions, providing practical advice for enhancing positive energy and maintaining balance.</p>
                     <div class="service-features">
                         <span>Year Analysis</span>
-                        <span>Lucky Directions</span>
-                        <span>Noble Luck</span>
+                        <span>Favorable Directions</span>
+                        <span>Supportive Influences</span>
                         <span>Precautions</span>
                     </div>
                     <button class="service-btn">Book Now</button>
@@ -552,9 +552,9 @@
                     </div>
                 </div>
                 <div class="service-content">
-                    <p class="service-desc">Analyze marriage compatibility through both partners' BaZi, predict post-marriage life, identify potential issues, and provide improvement suggestions.</p>
+                    <p class="service-desc">Analyze marriage compatibility through both partners' life energy patterns, predict post-marriage life, identify potential issues, and provide improvement suggestions.</p>
                     <div class="service-features">
-                        <span>BaZi Matching</span>
+                        <span>Energy Pattern Matching</span>
                         <span>Marriage Prediction</span>
                         <span>Relationship Trend</span>
                         <span>Suggestions</span>
@@ -573,9 +573,9 @@
                     </div>
                 </div>
                 <div class="service-content">
-                    <p class="service-desc">Combining BaZi, Five Elements preferences, and Three Talents Five Grids, we select an auspicious name for you or your child to support a successful life.</p>
+                    <p class="service-desc">Combining life energy patterns, Five Elements preferences, and Three Talents Five Grids, we select an auspicious name for you or your child to support a successful life.</p>
                     <div class="service-features">
-                        <span>BaZi & Five Elements</span>
+                        <span>Energy Patterns & Five Elements</span>
                         <span>Three Talents</span>
                         <span>Sound Analysis</span>
                         <span>Meaning</span>
@@ -615,7 +615,7 @@
                     </div>
                 </div>
                 <div class="service-content">
-                    <p class="service-desc">Specialized analysis of career and wealth trends, guiding career development direction, investment timing, and wealth enhancement methods.</p>
+                    <p class="service-desc">Specialized analysis of career and financial patterns, offering insights on career development direction and financial planning approaches.</p>
                     <div class="service-features">
                         <span>Career Direction</span>
                         <span>Wealth Analysis</span>
@@ -628,11 +628,11 @@
         </div>
     </section>
 
-    <!-- 八字排盘 -->
+    <!-- 个人分析排盘 -->
     <section class="bazi-form-section">
         <div class="section-title">
-            <h2>Online BaZi Chart</h2>
-            <p>Enter your birth information to get your BaZi chart instantly</p>
+            <h2>Online Life Energy Chart</h2>
+            <p>Enter your birth information to get your life energy chart instantly</p>
         </div>
         <div class="bazi-form">
             <form id="baziForm">
@@ -686,88 +686,45 @@
         </div>
     </section>
 
-    <!-- 命理师团队 -->
+    <!-- 个人运势师团队 -->
     <section class="masters-section">
         <div class="section-title">
             <h2>Master Team</h2>
-            <p>Expert destiny analysts carrying millennium wisdom</p>
+            <p>Expert life path analysts carrying millennium wisdom</p>
         </div>
         <div class="masters-grid">
             <div class="master-card">
                 <div class="master-avatar">玄</div>
                 <h3 class="master-name">Master Xuanzhen</h3>
-                <p class="master-title">Chief Analyst · Zhengyi Taoist Lineage</p>
-                <p class="master-desc">Over 30 years of practice, master of BaZi, Feng Shui, and Taoist rituals. Provided consulting services for numerous enterprises.</p>
+                <p class="master-title">Chief Analyst · Zhengyi Eastern Wisdom Lineage</p>
+                <p class="master-desc">Over 30 years of practice, master of life energy patterns, energy alignment, and traditional Eastern practices. Provided consulting services for numerous enterprises.</p>
                 <div class="master-tags">
-                    <span>BaZi</span>
-                    <span>Feng Shui</span>
-                    <span>Rituals</span>
+                    <span>Life Energy Patterns</span>
+                    <span>Energy Alignment</span>
+                    <span>Traditional Practices</span>
                 </div>
             </div>
             <div class="master-card">
                 <div class="master-avatar">明</div>
                 <h3 class="master-name">Master Mingxin</h3>
                 <p class="master-title">Senior Analyst · I Ching Scholar</p>
-                <p class="master-desc">20 years of I Ching research, expert in BaZi, Zifu Dou Shu, and Nameology. Published multiple destiny analysis books.</p>
+                <p class="master-desc">20 years of I Ching research, expert in life energy patterns, Zifu Dou Shu, and Nameology. Published multiple life path analysis books.</p>
                 <div class="master-tags">
                     <span>Zifu Dou Shu</span>
                     <span>Nameology</span>
-                    <span>BaZi Analysis</span>
+                    <span>Life Energy Analysis</span>
                 </div>
             </div>
             <div class="master-card">
                 <div class="master-avatar">静</div>
                 <h3 class="master-name">Master Jingyuan</h3>
-                <p class="master-title">Destiny Consultant · Quanzhen Longmen Lineage</p>
-                <p class="master-desc">20 years of monastic practice, specialized in Taoist magic, rituals, and ceremonies. Highly acclaimed for resolving devotees'困惑.</p>
+                <p class="master-title">Wisdom Consultant · Quanzhen Longmen Lineage</p>
+                <p class="master-desc">20 years of dedicated practice, specialized in Eastern traditions, traditional practices, and ceremonies. Highly acclaimed for resolving clients' questions.</p>
                 <div class="master-tags">
-                    <span>Taoist Magic</span>
-                    <span>Rituals</span>
+                    <span>Eastern Traditions</span>
+                    <span>Traditional Practices</span>
                     <span>Consultation</span>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 客户评价 -->
-    <section class="testimonials-section">
-        <div class="section-title">
-            <h2>Client Reviews</h2>
-            <p>Real feedback, witnessing transformation</p>
-        </div>
-        <div class="testimonials-slider">
-            <div class="testimonial-card">
-                <div class="testimonial-header">
-                    <div class="testimonial-avatar">张</div>
-                    <div class="testimonial-info">
-                        <h4>Mr. Zhang</h4>
-                        <span>Entrepreneur · Shanghai</span>
-                    </div>
-                </div>
-                <p class="testimonial-text">Master Xuanzhen's career analysis was very accurate. After following the suggestions, my company performance significantly improved. Highly recommended!</p>
-                <div class="testimonial-rating">★★★★★</div>
-            </div>
-            <div class="testimonial-card">
-                <div class="testimonial-header">
-                    <div class="testimonial-avatar">李</div>
-                    <div class="testimonial-info">
-                        <h4>Ms. Li</h4>
-                        <span>Office Worker · Beijing</span>
-                    </div>
-                </div>
-                <p class="testimonial-text">The BaZi analysis was very detailed and resolved many of my confusions. Now I have a clearer direction for the future. Thank you very much!</p>
-                <div class="testimonial-rating">★★★★★</div>
-            </div>
-            <div class="testimonial-card">
-                <div class="testimonial-header">
-                    <div class="testimonial-avatar">王</div>
-                    <div class="testimonial-info">
-                        <h4>Mr. Wang</h4>
-                        <span>Investor · Shenzhen</span>
-                    </div>
-                </div>
-                <p class="testimonial-text">The wealth analysis was on point, helping me avoid several bad investment timing. Professional and reliable, highly trustworthy.</p>
-                <div class="testimonial-rating">★★★★☆</div>
             </div>
         </div>
     </section>
@@ -780,16 +737,16 @@
         <div class="faq-list">
             <div class="faq-item">
                 <button class="faq-question">
-                    <span>What is BaZi destiny analysis?</span>
+                    <span>What is life energy pattern analysis?</span>
                     <span class="faq-icon">+</span>
                 </button>
                 <div class="faq-answer">
-                    <div class="faq-answer-content">BaZi is an important part of traditional Chinese destiny study. It uses the year, month, day, and hour of one's birth, corresponding to the Heavenly Stems and Earthly Branches, to form eight characters (the 'Eight Characters' or 'BaZi'). This is used to predict one's life trajectory, personality traits, and fortunes.</div>
+                    <div class="faq-answer-content">Life energy pattern analysis is an important part of traditional Chinese wisdom study. It uses the year, month, day, and hour of one's birth, corresponding to the Heavenly Stems and Earthly Branches, to form energy patterns. This provides insights into one's life trajectory, personality traits, and life patterns.</div>
                 </div>
             </div>
             <div class="faq-item">
                 <button class="faq-question">
-                    <span>What information is needed for destiny services?</span>
+                    <span>What information is needed for life path services?</span>
                     <span class="faq-icon">+</span>
                 </button>
                 <div class="faq-answer">
@@ -802,21 +759,21 @@
                     <span class="faq-icon">+</span>
                 </button>
                 <div class="faq-answer">
-                    <div class="faq-answer-content">We offer both online and in-person services. Online sessions can be conducted via WeChat or video call. In-person consultations can be scheduled at designated temples or studios. Both methods provide equally professional service.</div>
+                    <div class="faq-answer-content">We offer both online and in-person services. Online sessions can be conducted via WeChat or video call. In-person consultations can be scheduled at designated cultural centers or studios. Both methods provide equally professional service.</div>
                 </div>
             </div>
             <div class="faq-item">
                 <button class="faq-question">
-                    <span>Is destiny prediction accurate?</span>
+                    <span>Is life path analysis accurate?</span>
                     <span class="faq-icon">+</span>
                 </button>
                 <div class="faq-answer">
-                    <div class="faq-answer-content">Destiny study is the ancients' summary of natural laws and has certain scientific value and reference. However, we advocate 'knowing fate but not accepting it.' The purpose of destiny prediction is to understand your traits, seize opportunities, and avoid risks, rather than passively accepting fate. Ultimately, your life is in your own hands.</div>
+                    <div class="faq-answer-content">Life path study is the ancients' summary of natural patterns and has certain cultural value and reference. However, we advocate 'understanding patterns but not being limited by them.' The purpose of life path analysis is to understand your traits, seize opportunities, and navigate challenges, rather than passively accepting circumstances. Ultimately, your life is in your own hands.</div>
                 </div>
             </div>
             <div class="faq-item">
                 <button class="faq-question">
-                    <span>How to book a destiny service?</span>
+                    <span>How to book a life path service?</span>
                     <span class="faq-icon">+</span>
                 </button>
                 <div class="faq-answer">
@@ -831,7 +788,7 @@
         <div class="footer-content">
             <div class="footer-section">
                 <h4>DAO ESSENCE</h4>
-                <p>Inheriting millennia of Taoist wisdom<br>Promoting Eastern mystic culture</p>
+                <p>Inheriting millennia of Eastern wisdom<br>Promoting Eastern cultural traditions</p>
             </div>
             <div class="footer-section">
                 <h4>Quick Links</h4>
@@ -839,25 +796,21 @@
                     <li><a href="index.html">Home</a></li>
                     <li><a href="culture.html">Energy Universe</a></li>
                     <li><a href="shop.html">Energy Shop</a></li>
-                    <li><a href="destiny.html">Destiny</a></li>
+                    <li><a href="life-path.html">Life Path</a></li>
                 </ul>
             </div>
             <div class="footer-section">
                 <h4>Contact Us</h4>
-                <p>Email: contact@daoessence.com</p>
-                <p>WeChat: DaoEssence</p>
-            </div>
-            <div class="footer-section">
-                <h4>Follow Us</h4>
-                <div class="social-links">
-                    <a href="#">WeChat</a>
-                    <a href="#">Weibo</a>
-                    <a href="#">Xiaohongshu</a>
-                </div>
+                <p>Email: 517748938@qq.com</p>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>© 2024 DAO Essence. All Rights Reserved.</p>
+            <p>© 2026 DAO Essence. All Rights Reserved.</p>
+            <div class="footer-legal-links">
+                <a href="policy.html">Privacy Policy</a>
+                <span>|</span>
+                <a href="policy.html">Terms of Service</a>
+            </div>
         </div>
     </footer>
 
@@ -924,8 +877,8 @@
         document.getElementById('baziForm').addEventListener('submit', (e) => {
             e.preventDefault();
             const msg = currentLang === 'en' 
-                ? 'BaZi chart feature is under development, stay tuned!\nYou can also book a destiny service for professional analysis.'
-                : '八字排盘功能开发中，敬请期待！\n您也可以直接预约命理服务，获取专业解读。';
+                ? 'Life energy chart feature is under development, stay tuned!\nYou can also book a life path service for professional analysis.'
+                : '个人分析功能开发中，敬请期待！\n您也可以直接预约个人运势服务，获取专业解读。';
             alert(msg);
         });
 
@@ -933,8 +886,8 @@
         document.querySelectorAll('.service-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 const msg = currentLang === 'en'
-                    ? 'Booking feature is under development. Please contact customer service via WeChat: DaoEssence'
-                    : '预约功能开发中，请联系客服微信：DaoEssence';
+                    ? 'Booking feature is under development. Please contact us via email.'
+                    : '预约功能开发中，请通过邮箱联系我们。';
                 alert(msg);
             });
         });
