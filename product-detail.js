@@ -1,6 +1,119 @@
 // ============================================// 从 Creem API 拉取产品数据// ============================================// 从 window.allProducts 中获取产品数据，由 creem-sync-v2.js 填充
 
-// ============================================// 根据URL参数加载产品数据// ============================================let PRODUCT_DATA = null;let currentVariant = null;let selectedOptions = {};let totalCartQuantity = 0;function loadProductData() {    // 从URL获取产品ID    const urlParams = new URLSearchParams(window.location.search);    const productId = urlParams.get('id');    console.log('URL Product ID:', productId);    console.log('Available products from Creem API:', window.allProducts ? window.allProducts.length : 0);    // 如果没有指定ID，使用默认产品 (传统沉香)    const defaultProductId = 'prod_7i2asEAuHFHl5hJMeCEsfB';    const actualProductId = productId || defaultProductId;    console.log('Loading product:', actualProductId);    // 从 window.allProducts 中获取产品数据    if (typeof window.allProducts !== 'undefined' && window.allProducts.length > 0) {        PRODUCT_DATA = window.allProducts.find(p => p.id === actualProductId) || window.allProducts.find(p => p.id === defaultProductId);    }    if (!PRODUCT_DATA) {        console.error('Product not found:', actualProductId);        // 使用默认数据结构作为 fallback        PRODUCT_DATA = {            id: actualProductId,            title: 'Product Not Found',            titleZh: '产品未找到',            handle: 'product-not-found',            description: 'Product not available',            descriptionZh: '产品不可用',            price: 0,            compareAtPrice: null,            currency: 'USD',            images: [                {                    id: 1,                    src: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1200&h=1200&fit=crop',                    alt: 'Product Image',                    width: 1200,                    height: 1200,                    position: 1                }            ],            variants: [                {                    id: `${actualProductId}-1`,                    title: 'Default',                    price: 0,                    compareAtPrice: null,                    available: false,                    inventoryQuantity: 0,                    options: {                        type: 'default'                    }                }            ],            metafields: {                energy: {                    five_element: 'Unknown',                    type: 'Unknown',                    intensity: 'Unknown',                    direction: 'Unknown',                    benefits: [],                    suitable_for: []                }            }        };    } else {        // 转换 Creem API 数据格式为页面所需格式        PRODUCT_DATA = {            ...PRODUCT_DATA,            title: PRODUCT_DATA.name,            titleZh: PRODUCT_DATA.nameCN,            handle: PRODUCT_DATA.name.toLowerCase().replace(/\s+/g, '-'),            type: PRODUCT_DATA.category,            images: (PRODUCT_DATA.images || [PRODUCT_DATA.image]).map((img, index) => ({                id: index + 1,                src: typeof img === 'string' ? img : img,                alt: PRODUCT_DATA.nameCN,                width: 1200,                height: 1200,                position: index + 1            })),            variants: [                {                    id: `${PRODUCT_DATA.id}-1`,                    title: '一次性购买',                    price: PRODUCT_DATA.price,                    compareAtPrice: PRODUCT_DATA.originalPrice || null,                    available: true,                    inventoryQuantity: PRODUCT_DATA.stock || 999,                    options: {                        type: 'single'                    },                    specs: {                        quantity: '单次购买'                    }                }            ],            metafields: {                energy: {                    five_element: PRODUCT_DATA.element || 'Unknown',                    type: '能量产品',                    intensity: PRODUCT_DATA.energyLevel || 'Medium',                    direction: '全方位',                    benefits: PRODUCT_DATA.benefits || [],                    suitable_for: PRODUCT_DATA.suitable_for || []                }            }        };    }    console.log('Loaded product:', PRODUCT_DATA.id, PRODUCT_DATA.title);    return true;}
+// ============================================// 根据URL参数加载产品数据// ============================================let PRODUCT_DATA = null;let currentVariant = null;let selectedOptions = {};let totalCartQuantity = 0;function loadProductData() {
+    // 从URL获取产品ID
+    const urlParams = new URLSearchParams(window.location.search);
+    const productId = urlParams.get('id');
+    console.log('URL Product ID:', productId);
+    console.log('Available products from Creem API:', window.allProducts ? window.allProducts.length : 0);
+    
+    // 如果没有指定ID，使用默认产品 (传统沉香)
+    const defaultProductId = 'prod_7i2asEAuHFHl5hJMeCEsfB';
+    const actualProductId = productId || defaultProductId;
+    console.log('Loading product:', actualProductId);
+    
+    // 从 window.allProducts 中获取产品数据
+    if (typeof window.allProducts !== 'undefined' && window.allProducts.length > 0) {
+        const product = window.allProducts.find(p => p.id === actualProductId) || window.allProducts.find(p => p.id === defaultProductId);
+        if (product) {
+            // 转换 Creem API 数据格式为产品详情页需要的格式
+            PRODUCT_DATA = {
+                id: product.id,
+                title: product.name,
+                titleZh: product.nameCN,
+                handle: product.name.toLowerCase().replace(/\s+/g, '-'),
+                description: product.description,
+                descriptionZh: product.descriptionCN,
+                price: product.price,
+                compareAtPrice: product.originalPrice || product.price,
+                currency: product.currency || 'USD',
+                images: [
+                    {
+                        id: 1,
+                        src: product.image,
+                        alt: product.nameCN,
+                        width: 1200,
+                        height: 1200,
+                        position: 1
+                    }
+                ],
+                variants: [
+                    {
+                        id: `${product.id}-1`,
+                        title: 'Default',
+                        price: product.price,
+                        compareAtPrice: product.originalPrice || product.price,
+                        available: true,
+                        inventoryQuantity: product.stock || 999,
+                        options: {}
+                    }
+                ],
+                type: product.categoryCN || product.category,
+                metafields: {
+                    energy: {
+                        five_element: product.element,
+                        type: product.energyLevel,
+                        direction: '适合所有方位',
+                        suitable_for: product.benefits || []
+                    }
+                }
+            };
+            console.log('✅ Product data loaded and converted:', PRODUCT_DATA);
+        }
+    }
+    
+    if (!PRODUCT_DATA) {
+        console.error('Product not found:', actualProductId);
+        // 使用默认数据结构作为 fallback
+        PRODUCT_DATA = {
+            id: actualProductId,
+            title: 'Product Not Found',
+            titleZh: '产品未找到',
+            handle: 'product-not-found',
+            description: 'Product not available',
+            descriptionZh: '产品不可用',
+            price: 0,
+            compareAtPrice: null,
+            currency: 'USD',
+            images: [
+                {
+                    id: 1,
+                    src: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1200&h=1200&fit=crop',
+                    alt: 'Product Image',
+                    width: 1200,
+                    height: 1200,
+                    position: 1
+                }
+            ],
+            variants: [
+                {
+                    id: `${actualProductId}-1`,
+                    title: 'Default',
+                    price: 0,
+                    compareAtPrice: null,
+                    available: false,
+                    inventoryQuantity: 0,
+                    options: {
+                        type: 'default'
+                    }
+                }
+            ],
+            metafields: {
+                energy: {
+                    five_element: 'Unknown',
+                    type: 'Unknown',
+                    intensity: 'Unknown',
+                    direction: 'Unknown',
+                    benefits: [],
+                    suitable_for: []
+                }
+            }
+        };
+    }
+    
+    console.log('Loaded product:', PRODUCT_DATA.id, PRODUCT_DATA.title);
+    return true;
+}
 
 // ============================================
 // 初始化购物车

@@ -181,10 +181,18 @@ async function syncCreemProducts() {
     
     if (typeof window !== 'undefined') {
       window.allProducts = fallbackProducts;
+      console.log('✅ 已设置备用数据到 window.allProducts:', fallbackProducts.length, 'items');
     }
 
     if (typeof renderShop === 'function') {
       renderShop();
+      console.log('✅ 已调用 renderShop()');
+    }
+
+    // 触发首页产品渲染
+    if (typeof renderFeaturedProducts === 'function') {
+      renderFeaturedProducts();
+      console.log('✅ 已调用 renderFeaturedProducts()');
     }
 
     return {

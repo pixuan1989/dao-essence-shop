@@ -928,10 +928,20 @@
     <script src="js/creem-sync-v2.js"></script>
     
     <!-- Shop Products Manager -->
-    <script src="shop-manager.js?v=202603191430"></script>
     <script>
-        console.log('shop-manager.js loaded');
-        console.log('window.allProducts:', window.allProducts);
+        // 确保 creem-sync 完成后再加载 shop-manager.js
+        function loadShopManager() {
+            const script = document.createElement('script');
+            script.src = 'shop-manager.js?v=202603191430';
+            script.onload = function() {
+                console.log('shop-manager.js loaded');
+                console.log('window.allProducts:', window.allProducts);
+            };
+            document.head.appendChild(script);
+        }
+        
+        // 等待 creem-sync 完成
+        setTimeout(loadShopManager, 1500);
     </script>
     
     <!-- Shop Page Diagnostics -->

@@ -1725,7 +1725,20 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
     <!-- Creem 产品同步脚本（后端 API 版） -->
     <script src="js/creem-sync-v2.js"></script>
-    <script src="product-detail.js"></script>
+    <script>
+        // 确保 creem-sync 完成后再加载 product-detail.js
+        function loadProductDetail() {
+            const script = document.createElement('script');
+            script.src = 'product-detail.js';
+            script.onload = function() {
+                console.log('product-detail.js loaded');
+            };
+            document.head.appendChild(script);
+        }
+        
+        // 等待 creem-sync 完成
+        setTimeout(loadProductDetail, 1500);
+    </script>
     <script src="debug-css.js"></script>
     <script src="cart-debug.js"></script>
     <script src="test-cart-fix.js"></script>
