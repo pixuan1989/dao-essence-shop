@@ -928,24 +928,39 @@
     <script src="js/creem-sync-v2.js"></script>
     
     <!-- Shop Products Manager -->
+    <!-- 加载 shop-manager.js（处理产品显示） -->
+    <script src="shop-manager.js?v=202603231625"></script>
     <script>
-        // 确保 creem-sync 完成后再加载 shop-manager.js
+        // 确保 creem-sync 完成后再加载产品
         function loadShopManager() {
-            const script = document.createElement('script');
-            script.src = 'shop-manager.js?v=202603191430';
-            script.onload = function() {
-                console.log('shop-manager.js loaded');
-                console.log('window.allProducts:', window.allProducts);
-                
-                // 手动触发产品加载
-                setTimeout(() => {
-                    if (typeof loadProducts === 'function') {
-                        loadProducts();
-                        console.log('✅ 已调用 loadProducts()');
+            console.log('loadShopManager called');
+            // 检查 creem-sync-v2.js 是否已完成
+            if (typeof window.allProducts !== 'undefined' && window.allProducts.length > 0) {
+                console.log('✅ window.allProducts 已准备好');
+                if (typeof loadProducts === 'function') {
+                    loadProducts();
+                }
+            } else {
+                console.log('⏳ 等待 creem-sync-v2.js 完成...');
+                // 最多等待 5 秒
+                const maxWait = 5000;
+                const startTime = Date.now();
+                const checkInterval = setInterval(() => {
+                    if (typeof window.allProducts !== 'undefined' && window.allProducts.length > 0) {
+                        clearInterval(checkInterval);
+                        console.log('✅ window.allProducts 已准备好（延迟）');
+                        if (typeof loadProducts === 'function') {
+                            loadProducts();
+                        }
+                    } else if (Date.now() - startTime > maxWait) {
+                        clearInterval(checkInterval);
+                        console.warn('⚠️ 等待超时，使用空产品列表');
+                        if (typeof loadProducts === 'function') {
+                            loadProducts();
+                        }
                     }
-                }, 500);
-            };
-            document.head.appendChild(script);
+                }, 100);
+            }
         }
         
         // 等待 creem-sync 完成

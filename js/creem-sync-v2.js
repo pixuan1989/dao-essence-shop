@@ -10,7 +10,12 @@
  * 6. 页面动态渲染
  */
 
-console.log('✅ Creem 实时同步脚本 v2.0 已加载');
+// ⚠️ 防止重复加载
+if (window.__CREEM_SYNC_V2_LOADED__) {
+  console.warn('⚠️ creem-sync-v2.js 已加载，跳过重复加载');
+} else {
+  window.__CREEM_SYNC_V2_LOADED__ = true;
+  console.log('✅ Creem 实时同步脚本 v2.0 已加载');
 
 /**
  * 缓存配置
@@ -203,3 +208,5 @@ if (document.readyState === 'loading') {
  */
 window.syncCreemProducts = syncCreemProducts;
 console.log('📌 可通过 window.syncCreemProducts() 手动触发同步');
+
+} // 关闭重复加载守卫的 if 块
