@@ -180,6 +180,12 @@ async function syncCreemProducts() {
       detail: { products: products } 
     }));
     
+    // 第5步：注册产品到购物车系统
+    if (typeof window.registerCreemProducts === 'function') {
+      window.registerCreemProducts(products);
+      console.log('🛒 产品已注册到购物车系统');
+    }
+    
     console.log('✨ Creem 产品同步完成！');
     return products;
     
@@ -190,6 +196,13 @@ async function syncCreemProducts() {
     // 使用备用数据
     window.allProducts = FALLBACK_PRODUCTS;
     window.__CREEM_PRODUCTS_READY__ = true; // 标记完成（即使是降级数据）
+    
+    // 注册备用产品到购物车系统
+    if (typeof window.registerCreemProducts === 'function') {
+      window.registerCreemProducts(FALLBACK_PRODUCTS);
+      console.log('🛒 备用产品已注册到购物车系统');
+    }
+    
     window.dispatchEvent(new CustomEvent('creemProductsReady', { 
       detail: { products: FALLBACK_PRODUCTS } 
     }));

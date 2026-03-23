@@ -263,50 +263,68 @@ window.updateTotalPrice = function() {
 
 window.addToCart = function() {
     if (!PRODUCT_DATA || !currentVariant) {
-        console.error('Cannot add to cart: product data not loaded');
+        console.error('❌ Cannot add to cart: product data not loaded');
+        alert('产品数据未加载，请刷新页面重试');
         return;
     }
 
     const quantityInput = document.getElementById('productQuantity');
     const quantity = parseInt(quantityInput?.value) || 1;
 
-    // 创建购物车项
-    const cartItem = {
-        id: currentVariant.id,
-        title: PRODUCT_DATA.title,
-        titleZh: PRODUCT_DATA.titleZh,
-        price: parseFloat(currentVariant.price) || 0,
-        quantity: quantity,
-        image: PRODUCT_DATA.images[0]?.src,
-        variant: currentVariant
-    };
-
-    // 检查购物车是否存在（由 cart.js 初始化）
-    if (typeof window.cart === 'undefined') {
-        window.cart = { items: [] };
-    }
-
-    // 检查产品是否已在购物车中
-    const existingItem = window.cart.items.find(item => item.id === cartItem.id);
-    if (existingItem) {
-        existingItem.quantity += quantity;
+    const productId = currentVariant.id;
+    
+    console.log('🛒 Adding to cart: productId=' + productId + ', quantity=' + quantity);
+    
+    // 使用 cart.js 中提供的全局购物车函数
+    if (typeof window.addToCart_CartJS === 'function') {
+        // 如果有备用名称（为了避免递归）
+        window.addToCart_CartJS(productId, quantity);
+    } else if (window.products && window.products[productId]) {
+        // 方案 B：直接操作全局购物车
+        const product = window.products[productId];
+        
+        if (typeof window.cart === 'undefined') {
+            window.cart = { items: [] };
+        }
+        
+        // 检查产品是否已在购物车中
+        const existingItem = window.cart.items.find(item => item.id === productId);
+        if (existingItem) {
+            existingItem.quantity += quantity;
+            console.log('✅ Updated cart item quantity:', existingItem.quantity);
+        } else {
+            window.cart.items.push({
+                id: productId,
+                name: product.name,
+                nameCn: product.nameCn,
+                price: product.price,
+                image: product.image,
+                quantity: quantity
+            });
+            console.log('✅ Added new item to cart');
+        }
+        
+        // 保存到 localStorage
+        if (typeof window.saveCartToStorage === 'function') {
+            window.saveCartToStorage();
+        }
+        
+        // 更新购物车显示
+        if (typeof window.updateCartUI === 'function') {
+            window.updateCartUI();
+        }
+        if (typeof window.updateCartBadge === 'function') {
+            window.updateCartBadge();
+        }
+        
+        console.log('✅ Added to cart:', product.nameCn, 'x' + quantity);
+        
+        // 显示成功消息
+        alert(`✅ 已添加到购物车！\n${product.nameCn} x${quantity}`);
     } else {
-        window.cart.items.push(cartItem);
+        console.error('❌ Product not found in cart system:', productId);
+        alert('购物车系统还未初始化，请稍后重试');
     }
-
-    console.log('✅ Added to cart:', cartItem);
-    console.log('📦 Cart items:', window.cart.items.length);
-
-    // 触发购物车更新事件
-    if (typeof window.updateCartUI === 'function') {
-        window.updateCartUI();
-    }
-    if (typeof window.updateCartBadge === 'function') {
-        window.updateCartBadge();
-    }
-
-    // 显示成功消息
-    alert(`已添加到购物车！\n${PRODUCT_DATA.titleZh} x${quantity}`);
 };
 
 // ============================================

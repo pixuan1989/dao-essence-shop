@@ -10,8 +10,8 @@ let cart = {
     exchangeRate: 7.2 // USD to CNY
 };
 
-// 产品数据（从 shop.html 获取）
-const products = {
+// 产品数据（可动态扩展）
+let products = {
     'jade-pendant': {
         id: 'jade-pendant',
         name: 'Jade Pendant - Harmony',
@@ -342,6 +342,41 @@ function showNotification(message) {
 }
 
 /* ============================================
+   Creem 产品动态注册（支持 Creem API 产品）
+   ============================================ */
+
+// 注册 Creem 产品到产品库
+window.registerCreemProducts = function(creemProducts) {
+    console.log('📦 Registering Creem products...');
+    
+    if (!Array.isArray(creemProducts)) {
+        console.error('❌ creemProducts must be an array');
+        return;
+    }
+    
+    creemProducts.forEach(p => {
+        const productId = p.id || p.product_id;
+        const productName = p.name || p.product_name || 'Unknown';
+        const productPrice = parseFloat(p.price || 0);
+        const productImage = p.img_url || p.image || '';
+        
+        console.log(`✅ Registering: ${productName} ($${productPrice})`);
+        
+        products[productId] = {
+            id: productId,
+            name: productName,
+            nameCn: productName,
+            price: productPrice,
+            image: productImage,
+            category: 'creem',
+            description: p.description || p.product_description || ''
+        };
+    });
+    
+    console.log(`✅ Total products registered: ${Object.keys(products).length}`);
+};
+
+/* ============================================
    导出功能
    ============================================ */
 
@@ -355,6 +390,8 @@ window.updateQuantity = updateQuantity;
 window.clearCart = clearCart;
 window.getCartTotal = getCartTotal;
 window.getCartCount = getCartCount;
+window.updateCartUI = updateCartUI;
+window.updateCartBadge = updateCartBadge;
 window.cart = cart;
 window.products = products;
 window.shippingRates = shippingRates;
