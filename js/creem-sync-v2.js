@@ -109,9 +109,10 @@ async function fetchFromAPI(retries = 3) {
       }
 
       const data = await response.json();
-      console.log('✅ API 调用成功，返回 ' + (data.products || []).length + ' 个产品');
+      console.log('✅ API 调用成功，返回 ' + (data.data || []).length + ' 个产品');
       
-      return data.products || [];
+      // 注意：API 返回的是 data.data，不是 data.products
+      return data.data || [];
     } catch (error) {
       console.warn(`❌ 第 ${attempt} 次尝试失败:`, error.message);
       
@@ -136,15 +137,19 @@ function transformProducts(products) {
   }
 
   return products.map(product => ({
-    id: product.id || product.productId,
+    id: product.id || product.creemId || product.productId || '未知',
     name: product.name || product.title || '未知产品',
+    nameCN: product.nameCN || product.name || '未知产品',
+    descriptionCN: product.descriptionCN || product.description || '暂无描述',
+    description: product.description || '暂无描述',
     price: product.price || product.priceAmount || 0,
     currency: product.currency || 'USD',
-    description: product.description || '暂无描述',
     image: product.image || product.images?.[0] || 'images/placeholder.jpg',
     category: product.category || 'other',
-    url: product.url,
-    stock: product.stock || 999
+    element: product.element || 'unknown',
+    stock: product.stock || 999,
+    benefits: product.benefits || [],
+    energyLevel: product.energyLevel || 'Medium'
   }));
 }
 
