@@ -21,6 +21,11 @@ const CREEM_CONFIG = {
   productIds: {
     agarwood: 'prod_7i2asEAuHFHl5hJMeCEsfB',      // 传统沉香 - $200
     bracelet: 'prod_1YuuAVysoYK6AOmQVab2uR'      // 五行能量手串 - $168
+  },
+  // 每个产品关联的折扣码（用于查询折扣信息）
+  productDiscountCodes: {
+    'prod_7i2asEAuHFHl5hJMeCEsfB': 'XJCX520',    // 传统沉香有折扣
+    'prod_1YuuAVysoYK6AOmQVab2uR': null           // 五行能量水晶无折扣
   }
 };
 
@@ -126,165 +131,211 @@ async function fetchCreemProduct(productId) {
 }
 
 /**
- * 硬编码的折扣信息映射
- * Creem API 的折扣是通过"折扣码"实现的，不会直接返回在价格字段中
- * 需要手动维护这个映射表，当用户在 Creem 后台修改时，告诉我更新这里
+ * 从 Creem API 查询折扣码信息
+ * API 端点：GET /v1/discounts?discount_code=XJCX520
+ * 返回：{ percentage: 90 } 表示支付原价的 90%（即打九折，优惠 10%）
  */
-const DISCOUNT_MAP = {
-  'prod_7i2asEAuHFHl5hJMeCEsfB': {
-    originalPrice: 200,  // 原价
-    currentPrice: 180,   // 折后价（应用 XJCX520 折扣码）
-    discountRate: 10,    // 折扣 10% (九折)
-    discountCode: 'XJCX520'
-  },
-  'prod_1YuuAVysoYK6AOmQVab2uR': {
-    originalPrice: 168,
-    currentPrice: 168,
-    discountRate: 0,
-    discountCode: null
+async function fetchCreemDiscount(discountCode) {
+  if (!discountCode) return null;
+
+  const url = `${CREEM_CONFIG.apiBase}/discounts?discount_code=${encodeURIComponent(discountCode)}`;
+  
+  console.log(`📥 查询折扣码: ${discountCode}`);
+
+  try {
+    const response = await fetchWithTimeout(url, {
+      method: 'GET',
+      headers: {
+        'x-api-key': CREEM_CONFIG.apiKey,
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      }
+    });
+
+    if (!response.ok) {
+      console.warn(`⚠️ 折扣码 ${discountCode} 查询失败: ${response.status}`);
+      return null;
+    }
+
+    const data = await response.json();
+    console.log(`✅ 折扣码 ${discountCode}: percentage=${data.percentage}, type=${data.type}`);
+    return data;
+  } catch (error) {
+    console.warn(`⚠️ 折扣码 ${discountCode} 查询异常:`, error.message);
+    return null;
   }
-};
+}
+
+/**
+ * 预加载所有折扣信息
+ * 返回 Map：productId -> { originalPrice, currentPrice, discountRate }
+ */
+async function fetchAllDiscounts(products) {
+  const discountMap = {};
+
+  // 并发查询所有有折扣码的产品
+  const discountFetches = products.map(async (product) => {
+    const discountCode = CREEM_CONFIG.productDiscountCodes[product.id];
+    if (!discountCode) return; // 无折扣码，跳过
+
+    const discount = await fetchCreemDiscount(discountCode);
+    if (discount && discount.type === 'percentage' && discount.percentage != null) {
+      // Creem 的 percentage 字段：90 表示客户支付 90%（打九折，优惠 10%）
+      const payPercent = discount.percentage;          // 实际支付百分比，如 90
+      const discountRate = 100 - payPercent;           // 折扣率，如 10
+      const originalPrice = product.price / 100;       // 转换 cents -> dollars
+      const currentPrice = Math.round(originalPrice * payPercent) / 100; // 折后价，保留2位小数
+
+      discountMap[product.id] = {
+        originalPrice,
+        currentPrice,
+        discountRate,
+        discountCode
+      };
+    }
+  });
+
+  await Promise.allSettled(discountFetches);
+  return discountMap;
+}
+
+
 
 /**
  * 转换 Creem 数据格式为网站格式
  * 🔥 关键修复：
  * 1. Creem API 返回的价格单位是"分（cents）"，需要除以 100 转换为美元
- * 2. 折扣信息使用硬编码映射，因为 Creem API 不直接返回折扣
+ * 2. 折扣信息从 Discounts API 动态获取（discountInfo 参数）
  */
-function transformCreemProduct(creemProduct) {
+function transformCreemProduct(creemProduct, discountInfo) {
   if (!creemProduct) return null;
 
   // 🔥 修复单位转换：Creem API 返回的是 cents，需要转换为 dollars
-  const priceInCents = parseFloat(creemProduct.price) || 0;
-  const price = priceInCents / 100;  // 从分转换为美元
-  
-  // 🔥 获取硬编码的折扣信息
-  const productId = creemProduct.id || creemProduct.identifier;
-  const discountInfo = DISCOUNT_MAP[productId] || {};
-  
-  // 使用硬编码的折扣信息（优先级最高）
-  let originalPrice = discountInfo.originalPrice || price;
-  let currentPrice = discountInfo.currentPrice !== undefined ? discountInfo.currentPrice : price;
-  let discountRate = discountInfo.discountRate || 0;
+  const originalPrice = (parseFloat(creemProduct.price) || 0) / 100;
+
+  // 使用从 Discounts API 获取的折扣信息
+  const currentPrice = discountInfo ? discountInfo.currentPrice : originalPrice;
+  const discountRate = discountInfo ? discountInfo.discountRate : 0;
+  const discountCode = discountInfo ? discountInfo.discountCode : null;
 
   return {
-    id: creemProduct.id || creemProduct.identifier,
+    id: creemProduct.id,
     creemId: creemProduct.id,
-    name: creemProduct.name_en || creemProduct.name,
-    nameCN: creemProduct.name_cn || creemProduct.name,  // 🔥 支持中文名字
+    name: creemProduct.name,
+    nameCN: creemProduct.name,              // Creem 后台直接用中文名
     category: creemProduct.category || 'other',
-    categoryCN: creemProduct.category_cn || creemProduct.category,
+    categoryCN: creemProduct.category || 'other',
     element: creemProduct.element || 'unknown',
-    price: currentPrice,         // 🔥 使用折后价格
-    originalPrice: originalPrice,
-    discount: originalPrice - currentPrice,  // 🔥 折扣金额
-    discountRate: discountRate,  // 🔥 折扣百分比
+    price: currentPrice,                    // 🔥 折后价格
+    originalPrice: originalPrice,           // 🔥 原价
+    discount: originalPrice - currentPrice, // 🔥 折扣金额
+    discountRate: discountRate,             // 🔥 折扣率（百分比）
+    discountCode: discountCode,             // 🔥 折扣码（展示用）
     currency: creemProduct.currency || 'USD',
-    description: creemProduct.description_en || creemProduct.description || '',
-    descriptionCN: creemProduct.description_cn || creemProduct.description || '',
-    image: creemProduct.image || creemProduct.image_url || creemProduct.primary_image || '',
-    image_url: creemProduct.image_url || creemProduct.image || creemProduct.primary_image || '',
-    images: creemProduct.images || creemProduct.image_urls || [creemProduct.image || creemProduct.image_url] || [],
-    stock: creemProduct.stock || 999,
-    benefits: creemProduct.benefits || [],
-    energyLevel: creemProduct.energy_level || 'Medium',
+    description: creemProduct.description || '',
+    descriptionCN: creemProduct.description || '',
+    image: creemProduct.image_url || creemProduct.image || '',
+    image_url: creemProduct.image_url || creemProduct.image || '',
+    images: [creemProduct.image_url || creemProduct.image || ''],
+    stock: 999,
+    benefits: [],
+    energyLevel: 'Medium',
     creemUrl: `https://www.creem.io/payment/${creemProduct.id}`
   };
 }
 
 /**
- * 从 Creem API 拉取所有产品
- * 策略：优先使用产品列表 API，如果失败则用备用数据
+ * 从 Creem API 拉取所有产品（含折扣信息）
+ * 流程：拉取产品列表 → 并发查询折扣 → 合并数据
  */
 async function getAllProducts() {
   console.log('🔄 从 Creem API 拉取新数据...');
-  
-  const products = [];
 
-  // 🔥 改进：先尝试使用官方产品列表 API
-  const creemProducts = await fetchCreemProducts();
-  
-  if (creemProducts && creemProducts.length > 0) {
-    console.log(`✅ 成功从产品列表 API 拉取 ${creemProducts.length} 个产品`);
-    
-    // 处理产品列表
-    for (const creemProduct of creemProducts) {
-      const transformed = transformCreemProduct(creemProduct);
-      if (transformed) {
-        products.push(transformed);
-      }
-    }
-    
-    return products;
+  // 第1步：拉取产品列表
+  let creemProducts = await fetchCreemProducts();
+
+  if (!creemProducts || creemProducts.length === 0) {
+    console.warn('⚠️ 产品列表 API 失败，尝试逐个拉取...');
+    const results = await Promise.allSettled(
+      Object.values(CREEM_CONFIG.productIds).map(id => fetchCreemProduct(id))
+    );
+    creemProducts = results
+      .filter(r => r.status === 'fulfilled' && r.value)
+      .map(r => r.value);
   }
 
-  // 如果产品列表 API 失败，尝试逐个产品 API（备用方案）
-  console.log('⚠️ 产品列表 API 返回为空，尝试备用方案：逐个拉取产品...');
-  
-  const productFetches = Object.entries(CREEM_CONFIG.productIds).map(
-    ([key, productId]) => fetchCreemProduct(productId)
-  );
-
-  const results = await Promise.allSettled(productFetches);
-
-  for (const result of results) {
-    if (result.status === 'fulfilled' && result.value) {
-      const transformed = transformCreemProduct(result.value);
-      if (transformed) {
-        products.push(transformed);
-      }
-    }
-  }
-
-  if (products.length === 0) {
-    console.warn('⚠️ 没有拉到任何产品！返回备用数据');
+  if (!creemProducts || creemProducts.length === 0) {
+    console.warn('⚠️ 全部 API 失败，返回备用数据');
     return getFallbackProducts();
   }
 
-  console.log(`✅ 成功拉取 ${products.length} 个产品`);
+  // 第2步：查询折扣信息（并发）
+  console.log('🔍 查询折扣信息...');
+  const discountMap = await fetchAllDiscounts(creemProducts);
+
+  // 第3步：合并产品 + 折扣信息
+  const products = creemProducts.map(p => {
+    const discountInfo = discountMap[p.id] || null;
+    return transformCreemProduct(p, discountInfo);
+  }).filter(Boolean);
+
+  console.log(`✅ 成功处理 ${products.length} 个产品`);
   return products;
 }
 
 /**
  * 备用产品数据（当 API 失败时使用）
+ * 价格已经是美元格式（不是 cents）
  */
 function getFallbackProducts() {
   return [
     {
-      "id": "prod_7i2asEAuHFHl5hJMeCEsfB",
-      "creemId": "prod_7i2asEAuHFHl5hJMeCEsfB",
-      "name": "Traditional Agarwood",
-      "nameCN": "传统沉香",
-      "category": "incense",
-      "categoryCN": "香",
-      "element": "wood",
-      "price": 200.00,
-      "currency": "USD",
-      "description": "Premium natural agarwood for meditation and academic success.",
-      "descriptionCN": "用于冥想和学业的优质天然沉香。支持专注力和思维清晰。",
-      "image": "https://images.unsplash.com/photo-1604014237800-1c9102c219da?w=600&h=600&fit=crop",
-      "stock": 999,
-      "benefits": ["Tranquility", "Sleep", "Positivity"],
-      "energyLevel": "High",
-      "creemUrl": "https://www.creem.io/payment/prod_7i2asEAuHFHl5hJMeCEsfB"
+      id: "prod_7i2asEAuHFHl5hJMeCEsfB",
+      creemId: "prod_7i2asEAuHFHl5hJMeCEsfB",
+      name: "传统沉香能量券",
+      nameCN: "传统沉香能量券",
+      category: "other",
+      categoryCN: "other",
+      element: "wood",
+      price: 180,            // 折后价
+      originalPrice: 200,    // 原价
+      discount: 20,
+      discountRate: 10,
+      discountCode: 'XJCX520',
+      currency: "USD",
+      description: "Fosters tranquility and restful sleep, clears away negativity, and enhances a positive, balanced state of being.",
+      descriptionCN: "传统沉香能量券，促进平静安眠，驱散负能量。",
+      image: "images/agarwood.jpg",
+      image_url: "images/agarwood.jpg",
+      images: ["images/agarwood.jpg"],
+      stock: 999,
+      benefits: ["Tranquility", "Sleep", "Positivity"],
+      energyLevel: "High",
+      creemUrl: "https://www.creem.io/payment/prod_7i2asEAuHFHl5hJMeCEsfB"
     },
     {
-      "id": "prod_1YuuAVysoYK6AOmQVab2uR",
-      "creemId": "prod_1YuuAVysoYK6AOmQVab2uR",
-      "name": "Five Elements Energy Bracelet",
-      "nameCN": "五行能量手串",
-      "category": "crystals",
-      "categoryCN": "晶体",
-      "element": "water",
-      "price": 168.00,
-      "currency": "USD",
-      "description": "Five elements energy bracelet with natural amber beads.",
-      "descriptionCN": "天然琥珀珠五行能量手串。平衡身体能量，促进和谐。",
-      "image": "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=600&h=600&fit=crop",
-      "stock": 999,
-      "benefits": ["Balance", "Harmony", "Energy"],
-      "energyLevel": "Medium",
-      "creemUrl": "https://www.creem.io/payment/prod_1YuuAVysoYK6AOmQVab2uR"
+      id: "prod_1YuuAVysoYK6AOmQVab2uR",
+      creemId: "prod_1YuuAVysoYK6AOmQVab2uR",
+      name: "五行能量水晶券",
+      nameCN: "五行能量水晶券",
+      category: "other",
+      categoryCN: "other",
+      element: "water",
+      price: 168,            // 无折扣
+      originalPrice: 168,
+      discount: 0,
+      discountRate: 0,
+      discountCode: null,
+      currency: "USD",
+      description: "Five elements energy bracelet with natural crystal beads.",
+      descriptionCN: "五行能量水晶券，平衡身体能量，促进和谐。",
+      image: "images/bracelet.jpg",
+      image_url: "images/bracelet.jpg",
+      images: ["images/bracelet.jpg"],
+      stock: 999,
+      benefits: ["Balance", "Harmony", "Energy"],
+      energyLevel: "Medium",
+      creemUrl: "https://www.creem.io/payment/prod_1YuuAVysoYK6AOmQVab2uR"
     }
   ];
 }
