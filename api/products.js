@@ -248,7 +248,9 @@ async function handler(req, res) {
 
   // 路由：获取所有产品
   // ✅ 注意：在 Vercel Serverless 中，req.url 不包含 /api 前缀
-  if (req.url === '/products' || req.url === '/products/' || req.url === '' || req.url === '/') {
+  // 处理各种可能的 URL 形式
+  const pathname = req.url.split('?')[0]; // 移除查询参数
+  if (pathname === '' || pathname === '/' || pathname === '/products' || pathname === '/products/') {
     try {
       const products = await getAllProducts();
       return res.status(200).json({
