@@ -111,11 +111,27 @@ function saveCartToStorage() {
     localStorage.setItem('daoessence_cart', JSON.stringify(cart));
 }
 
-// 添加商品到购物车
+// 🔥 修复：添加商品到购物车 - 支持 Creem API 产品和静态产品
 function addToCart(productId, quantity = 1) {
-    const product = products[productId];
+    let product = null;
+    
+    // 优先级 1：查 Creem 同步的产品
+    if (window.allProducts) {
+        product = window.allProducts.find(p => p.id === productId);
+        if (product) {
+            console.log('✅ Found product from Creem API:', product.nameCn);
+        }
+    }
+    
+    // 优先级 2：查静态产品库
+    if (!product && products[productId]) {
+        product = products[productId];
+        console.log('✅ Found product from static list:', product.nameCn);
+    }
+    
     if (!product) {
-        console.error('Product not found:', productId);
+        console.error('❌ Product not found:', productId);
+        alert('产品未找到，请刷新页面重试');
         return;
     }
 
@@ -123,20 +139,26 @@ function addToCart(productId, quantity = 1) {
     
     if (existingItem) {
         existingItem.quantity += quantity;
+        console.log('✅ Updated quantity for', product.nameCn, '→', existingItem.quantity);
     } else {
         cart.items.push({
             id: product.id,
-            name: product.name,
-            nameCn: product.nameCn,
-            price: product.price,
-            image: product.image,
+            name: product.name || product.title || 'Unknown Product',
+            nameCn: product.nameCn || product.titleCn || 'Unknown Product',
+            price: product.price || 0,
+            image: product.image || product.thumbnail || '',
             quantity: quantity
         });
+        console.log('✅ Added new item to cart:', product.nameCn);
     }
 
+    // 确保 window.cart 和 cart 对象同步
+    window.cart = cart;
+    
     saveCartToStorage();
     updateCartUI();
     showNotification(`${product.nameCn} 已添加到购物车`);
+    console.log('🛒 Cart items count:', cart.items.length, '| Total items:', cart.items.reduce((sum, item) => sum + item.quantity, 0));
 }
 
 // 从购物车移除商品

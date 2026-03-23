@@ -267,9 +267,10 @@ window.updateTotalPrice = function() {
 };
 
 // ============================================
-// Add to Cart
+// Add to Cart - 🔥 FIXED VERSION
 // ============================================
 
+// 🔥 修复第十一轮：直接操作 localStorage + window.cart，避免对象不同步
 window.addToCart = function() {
     if (!PRODUCT_DATA || !currentVariant) {
         console.error('❌ Cannot add to cart: product data not loaded');
@@ -277,7 +278,7 @@ window.addToCart = function() {
         return;
     }
 
-    // 🔥 修复：使用正确的 HTML 元素 ID (quantity 而非 productQuantity)
+    // 读取数量
     const quantityInput = document.getElementById('quantity');
     const quantity = parseInt(quantityInput?.value) || 1;
     
@@ -286,93 +287,78 @@ window.addToCart = function() {
         return;
     }
 
-    const productId = currentVariant.id;
+    const productId = PRODUCT_DATA.id;
     
-    console.log('🛒 Adding to cart: productId=' + productId + ', quantity=' + quantity);
+    console.log('📦 product-detail.addToCart: productId=' + productId + ', quantity=' + quantity);
     
-    // 🔥 修复：支持 Creem 产品和全局产品对象的购物车初始化
-    
-    // 第一步：确保购物车对象存在
-    if (typeof window.cart === 'undefined') {
-        console.log('⚙️ Initializing cart...');
-        window.cart = { items: [] };
-    }
-    
-    // 第二步：查找产品数据（优先查 Creem 产品 allProducts）
+    // 获取产品数据
     let product = null;
     
+    // 优先查 Creem API
     if (window.allProducts) {
-        // 从 Creem 同步的产品
         product = window.allProducts.find(p => p.id === productId);
         if (product) {
-            console.log('✅ Found product from Creem API:', product);
+            console.log('✅ Found from Creem API:', product.nameCN || product.name);
         }
     }
     
+    // 备选查静态产品
     if (!product && window.products && window.products[productId]) {
-        // 从 cart.js 的静态产品
         product = window.products[productId];
-        console.log('✅ Found product from cart.js:', product);
+        console.log('✅ Found from static products:', product.nameCn);
     }
     
     if (!product) {
-        // 最后的备选：从 PRODUCT_DATA 直接使用（从 Creem API 转换的产品）
-        product = {
-            id: PRODUCT_DATA.id,
-            name: PRODUCT_DATA.title || 'Unknown Product',
-            nameCn: PRODUCT_DATA.titleZh || PRODUCT_DATA.title || 'Unknown Product',
-            price: PRODUCT_DATA.price || currentVariant.price || 0,
-            image: PRODUCT_DATA.images[0]?.src || '',
-            category: PRODUCT_DATA.type || 'other'
-        };
-        console.log('✅ Using product from PRODUCT_DATA:', product);
-    }
-    
-    if (!product.price || product.price === 0) {
-        alert('❌ 产品价格无效。请刷新页面重试');
-        console.error('❌ Invalid product price:', product);
+        console.error('❌ Product not found');
+        alert('产品未找到，请刷新页面重试');
         return;
     }
-        
-    // 第三步：检查产品是否已在购物车中
-    const existingItem = window.cart.items.find(item => item.id === productId);
-    if (existingItem) {
-        existingItem.quantity += quantity;
-        console.log('✅ Updated cart item quantity:', existingItem.quantity);
+    
+    // 准备购物车项
+    const cartItem = {
+        id: productId,
+        name: product.name || product.title || 'Unknown',
+        nameCn: product.nameCN || product.nameCn || product.titleZh || 'Unknown',
+        price: parseFloat(product.price || PRODUCT_DATA.price || 0),
+        image: product.image || product.image_url || PRODUCT_DATA.images[0]?.src || '',
+        quantity: quantity
+    };
+    
+    console.log('📋 Item to add:', cartItem);
+    
+    // 读取现有购物车（从 localStorage）
+    let cart = JSON.parse(localStorage.getItem('daoessence_cart') || '{"items":[]}');
+    
+    // 检查是否已存在
+    const existingItemIndex = cart.items.findIndex(item => item.id === productId);
+    if (existingItemIndex >= 0) {
+        cart.items[existingItemIndex].quantity += quantity;
+        console.log('✅ Updated quantity:', cart.items[existingItemIndex].quantity);
     } else {
-        window.cart.items.push({
-            id: productId,
-            name: product.name,
-            nameCn: product.nameCn,
-            price: product.price,
-            image: product.image,
-            quantity: quantity
-        });
-        console.log('✅ Added new item to cart:', product.nameCn);
+        cart.items.push(cartItem);
+        console.log('✅ Added new item to cart');
     }
     
-    // 第四步：保存到 localStorage
-    if (typeof window.saveCartToStorage === 'function') {
-        window.saveCartToStorage();
-    }
+    // 保存到 localStorage
+    localStorage.setItem('daoessence_cart', JSON.stringify(cart));
+    console.log('💾 Cart saved to localStorage:', cart);
     
-    // 第五步：更新购物车显示
+    // 更新 window.cart
+    window.cart = cart;
+    
+    // 调用购物车更新函数
     if (typeof window.updateCartUI === 'function') {
         window.updateCartUI();
+        console.log('🔄 updateCartUI called');
     }
     if (typeof window.updateCartBadge === 'function') {
         window.updateCartBadge();
+        console.log('🔄 updateCartBadge called');
     }
     
-    // 第六步：显示成功消息
-    const message = `✅ 已添加到购物车！\n${product.nameCn} x${quantity}`;
-    if (typeof window.showToast === 'function') {
-        window.showToast(message);
-    } else {
-        alert(message);
-    }
-    
-    console.log('🛒 Cart status after adding:', window.cart);
+    // 显示成功
+    alert(`✅ 已添加到购物车！\n${cartItem.nameCn} x${quantity}`);
+    console.log('✨ Add to cart completed. Final cart:', window.cart);
 };
 
 // ============================================
@@ -391,7 +377,8 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     // 2. 初始化购物车数据
     if (typeof window.cart === 'undefined') {
-        window.cart = { items: [] };
+        const savedCart = JSON.parse(localStorage.getItem('daoessence_cart') || '{"items":[]}');
+        window.cart = savedCart;
     }
 
     console.log('✅ Product detail page initialized');
