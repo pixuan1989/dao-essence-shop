@@ -1,17 +1,14 @@
 {
   "name": "dao-essence-shop",
   "version": "1.0.0",
-  "description": "DAO Essence - Taoist Energy Shop",
+  "description": "DAO Essence & Five Elements Shop",
   "scripts": {
-    "install-deps": "npm install"
+    "vercel-build": "echo 'Build complete'"
   },
   "dependencies": {
-    "@alicloud/pop-core": "^1.8.0",
-    "cors": "^2.8.6",
-    "dotenv": "^16.6.1",
-    "nodemailer": "^6.9.9"
+    "node-fetch": "^2.7.0"
   },
-  "devDependencies": {
-    "nodemon": "^3.0.1"
+  "engines": {
+    "node": "18.x"
   }
 }
