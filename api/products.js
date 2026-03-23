@@ -93,6 +93,17 @@ async function fetchCreemProduct(productId) {
 function transformCreemProduct(creemProduct) {
   if (!creemProduct) return null;
 
+  const price = parseFloat(creemProduct.price) || 0;
+  const originalPrice = parseFloat(creemProduct.original_price || creemProduct.price) || 0;
+  
+  // 🔥 计算折扣
+  let discount = 0;
+  let discountRate = 0;
+  if (originalPrice > 0 && originalPrice > price) {
+    discount = originalPrice - price;
+    discountRate = Math.round(((originalPrice - price) / originalPrice) * 100);
+  }
+
   return {
     id: creemProduct.id || creemProduct.identifier,
     creemId: creemProduct.id,
@@ -101,8 +112,10 @@ function transformCreemProduct(creemProduct) {
     category: creemProduct.category || 'other',
     categoryCN: creemProduct.category_cn || creemProduct.category,
     element: creemProduct.element || 'unknown',
-    price: parseFloat(creemProduct.price) || 0,
-    originalPrice: parseFloat(creemProduct.original_price || creemProduct.price),
+    price: price,
+    originalPrice: originalPrice,
+    discount: discount, // 🔥 新增
+    discountRate: discountRate, // 🔥 新增
     currency: creemProduct.currency || 'USD',
     description: creemProduct.description_en || creemProduct.description || '',
     descriptionCN: creemProduct.description_cn || creemProduct.description || '',
