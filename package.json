@@ -2,6 +2,7 @@
   "name": "dao-essence-shop",
   "version": "1.0.0",
   "description": "DAO Essence & Five Elements Shop",
+  "type": "module",
   "scripts": {
     "vercel-build": "echo 'Build complete'"
   },
