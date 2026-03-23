@@ -277,63 +277,102 @@ window.addToCart = function() {
         return;
     }
 
-    const quantityInput = document.getElementById('productQuantity');
+    // 🔥 修复：使用正确的 HTML 元素 ID (quantity 而非 productQuantity)
+    const quantityInput = document.getElementById('quantity');
     const quantity = parseInt(quantityInput?.value) || 1;
+    
+    if (!quantity || quantity < 1) {
+        alert('请输入有效的数量');
+        return;
+    }
 
     const productId = currentVariant.id;
     
     console.log('🛒 Adding to cart: productId=' + productId + ', quantity=' + quantity);
     
-    // 使用 cart.js 中提供的全局购物车函数
-    if (typeof window.addToCart_CartJS === 'function') {
-        // 如果有备用名称（为了避免递归）
-        window.addToCart_CartJS(productId, quantity);
-    } else if (window.products && window.products[productId]) {
-        // 方案 B：直接操作全局购物车
-        const product = window.products[productId];
-        
-        if (typeof window.cart === 'undefined') {
-            window.cart = { items: [] };
-        }
-        
-        // 检查产品是否已在购物车中
-        const existingItem = window.cart.items.find(item => item.id === productId);
-        if (existingItem) {
-            existingItem.quantity += quantity;
-            console.log('✅ Updated cart item quantity:', existingItem.quantity);
-        } else {
-            window.cart.items.push({
-                id: productId,
-                name: product.name,
-                nameCn: product.nameCn,
-                price: product.price,
-                image: product.image,
-                quantity: quantity
-            });
-            console.log('✅ Added new item to cart');
-        }
-        
-        // 保存到 localStorage
-        if (typeof window.saveCartToStorage === 'function') {
-            window.saveCartToStorage();
-        }
-        
-        // 更新购物车显示
-        if (typeof window.updateCartUI === 'function') {
-            window.updateCartUI();
-        }
-        if (typeof window.updateCartBadge === 'function') {
-            window.updateCartBadge();
-        }
-        
-        console.log('✅ Added to cart:', product.nameCn, 'x' + quantity);
-        
-        // 显示成功消息
-        alert(`✅ 已添加到购物车！\n${product.nameCn} x${quantity}`);
-    } else {
-        console.error('❌ Product not found in cart system:', productId);
-        alert('购物车系统还未初始化，请稍后重试');
+    // 🔥 修复：支持 Creem 产品和全局产品对象的购物车初始化
+    
+    // 第一步：确保购物车对象存在
+    if (typeof window.cart === 'undefined') {
+        console.log('⚙️ Initializing cart...');
+        window.cart = { items: [] };
     }
+    
+    // 第二步：查找产品数据（优先查 Creem 产品 allProducts）
+    let product = null;
+    
+    if (window.allProducts) {
+        // 从 Creem 同步的产品
+        product = window.allProducts.find(p => p.id === productId);
+        if (product) {
+            console.log('✅ Found product from Creem API:', product);
+        }
+    }
+    
+    if (!product && window.products && window.products[productId]) {
+        // 从 cart.js 的静态产品
+        product = window.products[productId];
+        console.log('✅ Found product from cart.js:', product);
+    }
+    
+    if (!product) {
+        // 最后的备选：从 PRODUCT_DATA 直接使用（从 Creem API 转换的产品）
+        product = {
+            id: PRODUCT_DATA.id,
+            name: PRODUCT_DATA.title || 'Unknown Product',
+            nameCn: PRODUCT_DATA.titleZh || PRODUCT_DATA.title || 'Unknown Product',
+            price: PRODUCT_DATA.price || currentVariant.price || 0,
+            image: PRODUCT_DATA.images[0]?.src || '',
+            category: PRODUCT_DATA.type || 'other'
+        };
+        console.log('✅ Using product from PRODUCT_DATA:', product);
+    }
+    
+    if (!product.price || product.price === 0) {
+        alert('❌ 产品价格无效。请刷新页面重试');
+        console.error('❌ Invalid product price:', product);
+        return;
+    }
+        
+    // 第三步：检查产品是否已在购物车中
+    const existingItem = window.cart.items.find(item => item.id === productId);
+    if (existingItem) {
+        existingItem.quantity += quantity;
+        console.log('✅ Updated cart item quantity:', existingItem.quantity);
+    } else {
+        window.cart.items.push({
+            id: productId,
+            name: product.name,
+            nameCn: product.nameCn,
+            price: product.price,
+            image: product.image,
+            quantity: quantity
+        });
+        console.log('✅ Added new item to cart:', product.nameCn);
+    }
+    
+    // 第四步：保存到 localStorage
+    if (typeof window.saveCartToStorage === 'function') {
+        window.saveCartToStorage();
+    }
+    
+    // 第五步：更新购物车显示
+    if (typeof window.updateCartUI === 'function') {
+        window.updateCartUI();
+    }
+    if (typeof window.updateCartBadge === 'function') {
+        window.updateCartBadge();
+    }
+    
+    // 第六步：显示成功消息
+    const message = `✅ 已添加到购物车！\n${product.nameCn} x${quantity}`;
+    if (typeof window.showToast === 'function') {
+        window.showToast(message);
+    } else {
+        alert(message);
+    }
+    
+    console.log('🛒 Cart status after adding:', window.cart);
 };
 
 // ============================================
