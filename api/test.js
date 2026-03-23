@@ -1,12 +1,14 @@
 /**
- * 简单的测试 API
+ * 简单的测试 API - 使用 Vercel 官方推荐的 fetch Web Standard API
  */
-export default function handler(req, res) {
-  res.status(200).json({
-    success: true,
-    message: '✅ Vercel Serverless Functions 工作正常！',
-    timestamp: new Date().toISOString(),
-    method: req.method,
-    url: req.url
-  });
-}
+export default {
+  async fetch(request) {
+    return Response.json({
+      success: true,
+      message: '✅ Vercel Serverless Functions 工作正常！',
+      timestamp: new Date().toISOString(),
+      method: request.method,
+      url: request.url
+    });
+  }
+};

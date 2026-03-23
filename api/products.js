@@ -224,97 +224,123 @@ function generateETag() {
 }
 
 /**
- * 处理 Serverless 请求
+ * 处理 Serverless 请求 - 使用 Vercel 官方推荐的 fetch Web Standard API
  */
-async function handler(req, res) {
+async function handleRequest(request) {
   // 设置 CORS 头
   const headers = getCorsHeaders();
-  Object.entries(headers).forEach(([key, value]) => {
-    res.setHeader(key, value);
-  });
 
   // 处理 CORS 预检请求
-  if (req.method === 'OPTIONS') {
-    return res.status(200).end();
+  if (request.method === 'OPTIONS') {
+    return new Response(null, {
+      status: 200,
+      headers
+    });
   }
 
   // 处理 GET 请求
-  if (req.method !== 'GET') {
-    return res.status(405).json({
+  if (request.method !== 'GET') {
+    return new Response(JSON.stringify({
       success: false,
       error: 'Method Not Allowed'
+    }), {
+      status: 405,
+      headers
     });
   }
 
   // 路由：获取所有产品
-  // ✅ 注意：在 Vercel Serverless 中，req.url 不包含 /api 前缀
-  // 处理各种可能的 URL 形式
-  const pathname = req.url.split('?')[0]; // 移除查询参数
-  if (pathname === '' || pathname === '/' || pathname === '/products' || pathname === '/products/') {
+  const url = new URL(request.url);
+  const pathname = url.pathname;
+  
+  if (pathname === '' || pathname === '/' || pathname === '/products' || pathname === '/products/' || pathname === '/api/products') {
     try {
       const products = await getAllProducts();
-      return res.status(200).json({
+      return new Response(JSON.stringify({
         success: true,
         data: products,
         count: products.length,
         timestamp: new Date().toISOString(),
-        // ✅ 调试信息（生产环境可以关掉）
         cacheStrategy: 'HTTP Cache Headers (5 min browser + CDN)'
+      }), {
+        status: 200,
+        headers
       });
     } catch (error) {
       console.error('❌ 获取产品列表失败:', error);
-      return res.status(500).json({
+      return new Response(JSON.stringify({
         success: false,
         error: error.message || 'Internal Server Error',
-        data: getFallbackProducts() // 自动降级
+        data: getFallbackProducts()
+      }), {
+        status: 500,
+        headers
       });
     }
   }
 
   // 路由：获取单个产品
-  // ✅ 注意：在 Vercel Serverless 中，req.url 不包含 /api 前缀
-  if (req.url.startsWith('/products/') && req.method === 'GET') {
-    const productId = req.url.split('/').pop();
+  if (pathname.startsWith('/products/') || pathname.startsWith('/api/products/')) {
+    const productId = pathname.split('/').pop();
     
     try {
       if (!productId) {
-        return res.status(400).json({
+        return new Response(JSON.stringify({
           success: false,
           error: '缺少产品 ID'
+        }), {
+          status: 400,
+          headers
         });
       }
 
       const creemProduct = await fetchCreemProduct(productId);
       if (!creemProduct) {
-        return res.status(404).json({
+        return new Response(JSON.stringify({
           success: false,
           error: '产品不存在'
+        }), {
+          status: 404,
+          headers
         });
       }
       
       const transformed = transformCreemProduct(creemProduct);
-      return res.status(200).json({
+      return new Response(JSON.stringify({
         success: true,
         data: transformed
+      }), {
+        status: 200,
+        headers
       });
     } catch (error) {
       console.error(`❌ 获取产品 ${productId} 失败:`, error);
-      return res.status(500).json({
+      return new Response(JSON.stringify({
         success: false,
         error: error.message || 'Internal Server Error'
+      }), {
+        status: 500,
+        headers
       });
     }
   }
 
   // 404 处理
-  return res.status(404).json({
+  return new Response(JSON.stringify({
     success: false,
     error: 'Not found'
+  }), {
+    status: 404,
+    headers
   });
 }
 
 // ============================================
-// 导出（Vercel Serverless - ESM 格式）
+// 导出（Vercel Serverless - fetch Web Standard API）
 // ============================================
 
-export default handler;
+export default {
+  async fetch(request) {
+    return await handleRequest(request);
+  }
+};
