@@ -1974,39 +1974,6 @@
         let currentVariant = null;
         let selectedOptions = {};
 
-            _items: [],
-            
-            init() {
-                const data = localStorage.getItem('daoessence_cart');
-                if (!data) {
-                    this._items = [];
-                    return;
-                }
-                try {
-                    const parsed = JSON.parse(data);
-                    if (Array.isArray(parsed)) {
-                        this._items = parsed;
-                    } else if (parsed && Array.isArray(parsed.items)) {
-                        this._items = parsed.items;
-                    } else {
-                        this._items = [];
-                    }
-                } catch (e) {
-                    this._items = [];
-                }
-            },
-            
-            get items() {
-                return this._items;
-            }
-        };
-        
-        // 初始化购物车
-        cartManager.init();
-        
-        // 为兼容性保留 cart 变量
-        let cart = cartManager._items;
-        let totalCartQuantity = 0;
 
         function loadProductData() {
             // 从URL获取产品ID
