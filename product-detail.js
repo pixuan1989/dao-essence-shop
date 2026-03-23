@@ -22,7 +22,7 @@ const PRODUCTS = {
         images: [
             {
                 id: 1,
-                src: 'images/agarwood-creem.jpg',
+                src: 'https://images.unsplash.com/photo-1604014237800-1c9102c219da?w=1200&h=1200&fit=crop',
                 alt: '传统沉香',
                 width: 1200,
                 height: 1200,
@@ -96,7 +96,7 @@ const PRODUCTS = {
         images: [
             {
                 id: 1,
-                src: 'images/bracelet-creem.jpg',
+                src: 'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=1200&h=1200&fit=crop',
                 alt: '五行能量手串',
                 width: 1200,
                 height: 1200,
