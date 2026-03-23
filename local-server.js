@@ -44,6 +44,7 @@ async function fetchCreemProduct(productId) {
   const url = `${CREEM_CONFIG.apiBase}/products/${productId}`;
   
   console.log(`📥 调用 Creem API: ${url}`);
+  console.log(`🔑 API Key: ${CREEM_CONFIG.apiKey.substring(0, 10)}...`);
   
   return new Promise((resolve, reject) => {
     const options = {
@@ -56,23 +57,44 @@ async function fetchCreemProduct(productId) {
       }
     };
 
+    console.log('📋 请求选项:', {
+      hostname: options.hostname,
+      path: options.path,
+      method: options.method,
+      headers: {
+        'Authorization': `Bearer ${CREEM_CONFIG.apiKey.substring(0, 10)}...`,
+        'Content-Type': options.headers['Content-Type']
+      }
+    });
+
     const req = https.request(options, (res) => {
       let data = '';
       res.on('data', chunk => data += chunk);
       res.on('end', () => {
+        console.log(`📡 API 响应状态码: ${res.statusCode}`);
+        console.log(`📡 API 响应头:`, res.headers);
+        console.log(`📡 API 响应体:`, data);
+        
         if (res.statusCode === 200) {
           try {
-            resolve(JSON.parse(data));
+            const parsedData = JSON.parse(data);
+            console.log(`✅ 成功解析响应数据:`, parsedData);
+            resolve(parsedData);
           } catch (e) {
+            console.error(`❌ JSON 解析失败:`, e.message);
             reject(new Error('JSON 解析失败'));
           }
         } else {
-          reject(new Error(`API 返回 ${res.statusCode}`));
+          reject(new Error(`API 返回 ${res.statusCode}: ${data}`));
         }
       });
     });
 
-    req.on('error', reject);
+    req.on('error', (error) => {
+      console.error(`❌ API 请求失败:`, error.message);
+      reject(error);
+    });
+
     req.end();
   });
 }
