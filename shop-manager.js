@@ -176,6 +176,14 @@ function renderShop() {
     const filtered = getFilteredProducts();
     const grid = document.getElementById('productGrid');
 
+    const categoryMap = {
+        'crystals': '晶体',
+        'incense': '香',
+        'protection-tokens': '守护令牌',
+        'talismans': '符咒',
+        'ritual': '仪式用品'
+    };
+
     // Update product count
     document.getElementById('productCount').textContent = filtered.length;
 
@@ -201,7 +209,7 @@ function renderShop() {
                 ${discountBadge}
             </div>
             <div class="product-info">
-                <div class="product-category">${product.category}</div>
+                <div class="product-category">${categoryMap[product.category] || product.category}</div>
                 <div class="product-title">${product.nameCN}</div>
                 <div class="product-desc-short">${product.descriptionCN}</div>
                 <div class="product-meta">
