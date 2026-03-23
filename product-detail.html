@@ -3,7 +3,7 @@
 <head> 
 <meta charset="UTF-8"> 
 <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-<title>DAO Essence Product Detail</title>
+<title>DAO Essence - Product Detail</title>
 <link rel="stylesheet" href="styles.css?v=202603231100">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&family=Noto+Serif+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css">
@@ -1469,12 +1469,12 @@
                     <span>›</span>
                     <a href="shop.html">Energy Shop</a>
                     <span>›</span>
-                    <a href="#" id="breadcrumbCategory">Ritual Items</a>
+                    <a href="#" id="breadcrumbCategory">Category</a>
                     <span>›</span>
-                    <span id="breadcrumbProduct">Pixiu</span>
+                    <span id="breadcrumbProduct">Product</span>
                 </div>
-                <h1 class="product-title-large" id="pageTitleLarge">貔貅</h1>
-                <p class="product-title-en" id="pageTitleEn">Pixiu - The Wealth Guardian</p>
+                <h1 class="product-title-large" id="pageTitleLarge">Product</h1>
+                <p class="product-title-en" id="pageTitleEn">Product Title</p>
             </div>
         </div>
 
@@ -1508,17 +1508,17 @@
 
                     <!-- 产品信息区 -->
                     <div class="product-info">
-                        <span class="product-category-tag">Traditional Cultural Items</span>
+                        <span class="product-category-tag" id="productCategoryTag">Category</span>
                         
-                        <h2 class="product-name-cn">貔貅摆件</h2>
-                        <p class="product-name-en">Pixiu Statue - The Wealth Guardian</p>
+                        <h2 class="product-name-cn" id="productNameCn">Product Name</h2>
+                        <p class="product-name-en" id="productNameEn">Product Name English</p>
                         
                         <div class="product-rating">
                             <span class="stars">★★★★★</span>
                             <span class="review-count">(247 reviews) • <a href="#">Read all reviews</a></span>
                         </div>
 
-                        <div class="sku-code">SKU: DAO-PIXIU-001</div>
+                        <div class="sku-code" id="productSku">SKU: PRODUCT-ID</div>
 
                         <!-- 规格选择器 -->
                         <div class="variant-selector" id="variantSelector">
@@ -1528,18 +1528,18 @@
                         <!-- 价格 -->
                         <div class="price-section">
                             <div class="price-row">
-                                <span class="current-price" id="currentPrice">$299.00</span>
-                                <span class="original-price" id="originalPrice">$399.00</span>
-                                <span class="discount-badge" id="discountBadge">-25%</span>
+                                <span class="current-price" id="currentPrice">$0.00</span>
+                                <span class="original-price" id="originalPrice">$0.00</span>
+                                <span class="discount-badge" id="discountBadge">-0%</span>
                             </div>
-                            <div class="savings-text" id="savingsText">Save $100.00</div>
+                            <div class="savings-text" id="savingsText">Save $0.00</div>
                             <div class="tax-info">Tax included. Free shipping on orders over $30</div>
                         </div>
 
                         <!-- 总价 -->
                         <div class="total-price-section">
                             <span class="total-label">Total Price:</span>
-                            <span class="total-price" id="totalPrice">$299.00</span>
+                            <span class="total-price" id="totalPrice">$0.00</span>
                         </div>
 
                         <!-- 购买区域 -->
@@ -1566,16 +1566,8 @@
                         <!-- 产品描述 -->
                         <div class="product-description">
                             <h3 class="section-title-custom">Product Description</h3>
-                            <div class="description-text">
-                                <p>
-                                    貔貅（Pixiu）是中国古代神话传说中的瑞兽，象征着财富与吉祥。此貔貅摆件由匠人手工雕刻，选用上等材质，经过传统工艺处理，蕴含正能量。
-                                </p>
-                                <p>
-                                    The Pixiu is a legendary Chinese mythical creature believed to bring wealth and good fortune. This exquisitely crafted statue features intricate details and has been traditionally processed by skilled artisans according to ancient traditions.
-                                </p>
-                                <p>
-                                    每件貔貅都经过传统工艺处理，配有完整的能量激活记录，可追溯、可验证。适合摆放于家中或办公室，既可装饰，又能美化家居。
-                                </p>
+                            <div class="description-text" id="productDescription">
+                                <p>Loading product description...</p>
                             </div>
                         </div>
 
@@ -1883,7 +1875,8 @@
 
             'custom-protection-token': {
                 id: 'custom-protection-token-001',
-                title: '个人能量定制守护令牌 Personal Energy Custom Protection Token',
+                title: 'Personal Energy Custom Protection Token',
+                titleZh: '个人能量定制守护令牌',
                 handle: 'custom-protection-token',
                 description: '根据您的个人能量分析量身定制的专属守护令牌。工艺师会根据您的出生年月日时、五元素特点、个人能量特点，绘制符合您个人能量的守护令牌，支持能量平衡。',
                 vendor: 'DAO Essence',
@@ -1973,7 +1966,8 @@
         let PRODUCT_DATA = null;
         let currentVariant = null;
         let selectedOptions = {};
-
+        let cart = [];
+        let totalCartQuantity = 0;
 
         function loadProductData() {
             // 从URL获取产品ID
@@ -1984,7 +1978,7 @@
             console.log('Available products:', Object.keys(PRODUCTS));
 
             // 如果没有指定ID，使用默认产品
-            const defaultProductId = 'custom-protection-token';  // 默认显示定制守护令牌
+            const defaultProductId = 'obsidian-bracelet';  // 默认显示黑曜石手链
             const actualProductId = productId || defaultProductId;
 
             console.log('Loading product:', actualProductId);
@@ -2017,22 +2011,11 @@
                     });
                 }
 
+                // 初始化UI
+                updateUIForVariant(currentVariant);
+
                 // 初始化总价
                 updateTotalPrice();
-
-                // 初始化库存显示
-                if (currentVariant.inventoryQuantity !== undefined) {
-                    const stockCount = document.querySelector('.stock-count');
-                    if (stockCount) {
-                        if (currentVariant.inventoryQuantity <= 5) {
-                            stockCount.textContent = `Only ${currentVariant.inventoryQuantity} left`;
-                            stockCount.style.background = 'var(--fire-primary)';
-                        } else {
-                            stockCount.textContent = `${currentVariant.inventoryQuantity} in stock`;
-                            stockCount.style.background = 'var(--wood-primary)';
-                        }
-                    }
-                }
             }
         }
 
@@ -2248,9 +2231,9 @@
         // 购物车管理
         // ============================================
 
-        // 保存购物车到localStorage - 使用cartManager确保格式正确
+        // 保存购物车到localStorage
         function saveCart() {
-            localStorage.setItem('daoessence_cart', JSON.stringify({ items: cartManager._items }));
+            localStorage.setItem('daoessence_cart', JSON.stringify({ items: cart }));
             updateCartDisplay();
             updateCartSidebar();
         }
@@ -2467,17 +2450,16 @@
 
             // 检查购物车中是否已有该商品
             const existingItem = cart.find(item => {
-                const itemId = item.variantId || item.id;
-                return itemId === productKey;
+                return item.id === productKey;
             });
 
             if (existingItem) {
                 existingItem.quantity += quantity;
             } else {
                 cart.push({
-                    variantId: productKey,
-                    titleEn: PRODUCT_DATA.title,
-                    titleZh: PRODUCT_DATA.titleZh || PRODUCT_DATA.title.split(' ')[0],
+                    id: productKey,
+                    name: PRODUCT_DATA.title,
+                    nameCn: PRODUCT_DATA.titleZh || PRODUCT_DATA.title.split(' ')[0],
                     price: priceUSD,
                     quantity: quantity,
                     image: PRODUCT_DATA.images[0]?.src || ''
@@ -2665,14 +2647,7 @@
             return false;
         }
 
-        // 渲染图片（为动态更新准备）
-        function renderImages() {
-            const mainWrapper = document.getElementById('mainImageWrapper');
-            const thumbsWrapper = document.getElementById('thumbsWrapper');
-            
-            // 这里会清空并重新创建图片slides
-            // 实际实现会更复杂，需要处理Swiper的更新
-        }
+
 
         // ============================================
         // Shopify API兼容层
@@ -2719,6 +2694,18 @@
             if (!productLoaded) {
                 console.error('Failed to load product data');
                 return;
+            }
+
+            // 2. 初始化购物车数据
+            try {
+                const savedCart = localStorage.getItem('daoessence_cart');
+                if (savedCart) {
+                    const parsedCart = JSON.parse(savedCart);
+                    cart = parsedCart.items || [];
+                }
+            } catch (error) {
+                console.error('Error loading cart:', error);
+                cart = [];
             }
 
             console.log('Product detail page initialized');
@@ -2768,7 +2755,7 @@
             const titleLarge = document.getElementById('pageTitleLarge');
             const titleEn = document.getElementById('pageTitleEn');
             if (titleLarge && PRODUCT_DATA.title) {
-                titleLarge.textContent = PRODUCT_DATA.title.split(' ')[0] || PRODUCT_DATA.title;
+                titleLarge.textContent = PRODUCT_DATA.title;
             }
             if (titleEn && PRODUCT_DATA.handle) {
                 titleEn.textContent = PRODUCT_DATA.handle.replace(/-/g, ' ').toUpperCase();
@@ -2777,11 +2764,11 @@
             // 更新产品名称
             const nameCn = document.querySelector('.product-name-cn');
             const nameEn = document.querySelector('.product-name-en');
-            if (nameCn && PRODUCT_DATA.title) {
-                nameCn.textContent = PRODUCT_DATA.title;
+            if (nameCn && PRODUCT_DATA.titleZh) {
+                nameCn.textContent = PRODUCT_DATA.titleZh;
             }
-            if (nameEn && PRODUCT_DATA.handle) {
-                nameEn.textContent = PRODUCT_DATA.handle.replace(/-/g, ' ').toUpperCase();
+            if (nameEn && PRODUCT_DATA.title) {
+                nameEn.textContent = PRODUCT_DATA.title;
             }
 
             // 更新产品分类标签
