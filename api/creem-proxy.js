@@ -1,41 +1,55 @@
 /**
  * ========================================
- * Creem API 代理 - 后端服务
+ * Creem API 代理 - Vercel Serverless 版本
  * ========================================
  * 
- * 用途：解决浏览器 CORS 限制
- * 功能：从 Creem API 拉取商品数据，转发给前端
+ * 安全性：API Key 从环境变量读取
+ * 性能：HTTP 缓存头 + 浏览器端 localStorage
+ * 稳定性：自动降级 + 完善的错误处理 + 超时控制
  * 
- * 部署方式：CloudFlare Workers（无需服务器）
+ * 部署：Vercel Serverless Functions
  * 调用方式：前端 fetch('/api/products')
  */
 
 // ============================================
-// 配置信息
+// 配置信息（从环境变量读取）
 // ============================================
 
 const CREEM_CONFIG = {
   apiBase: 'https://api.creem.io/v1',
-  apiKey: 'creem_1qa0zx2EuHN9gz9DLcGTAG',
+  apiKey: process.env.CREEM_API_KEY || '', // ✅ 从环境变量读取，不硬编码
   productIds: {
     agarwood: 'prod_7i2asEAuHFHl5hJMeCEsfB',      // 传统沉香 - $200
     bracelet: 'prod_1YuuAVysoYK6AOmQVab2uR'      // 五行能量手串 - $168
   }
 };
 
-// ============================================
-// 缓存配置（可选，提升性能）
-// ============================================
-
-const CACHE_DURATION = 5 * 60 * 1000; // 5 分钟缓存
-let productCache = {
-  data: null,
-  timestamp: 0
-};
+// API 请求超时时间（Vercel 默认 10 秒，我们用 8 秒）
+const API_TIMEOUT = 8000; // 毫秒
 
 // ============================================
 // 工具函数
 // ============================================
+
+/**
+ * 设置超时的 fetch（解决无限等待问题）
+ */
+async function fetchWithTimeout(url, options = {}, timeout = API_TIMEOUT) {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), timeout);
+
+  try {
+    const response = await fetch(url, {
+      ...options,
+      signal: controller.signal
+    });
+    clearTimeout(timeoutId);
+    return response;
+  } catch (error) {
+    clearTimeout(timeoutId);
+    throw error;
+  }
+}
 
 /**
  * 从 Creem API 获取单个产品详情
@@ -45,8 +59,13 @@ async function fetchCreemProduct(productId) {
   
   console.log(`📥 调用 Creem API: ${url}`);
   
+  if (!CREEM_CONFIG.apiKey) {
+    console.error('❌ CREEM_API_KEY 环境变量未设置！');
+    return null;
+  }
+
   try {
-    const response = await fetch(url, {
+    const response = await fetchWithTimeout(url, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${CREEM_CONFIG.apiKey}`,
@@ -60,7 +79,7 @@ async function fetchCreemProduct(productId) {
     }
 
     const data = await response.json();
-    console.log(`✅ 成功拉取产品:`, productId);
+    console.log(`✅ 成功拉取产品: ${productId}`);
     return data;
   } catch (error) {
     console.error(`❌ 拉取产品 ${productId} 失败:`, error.message);
@@ -74,9 +93,6 @@ async function fetchCreemProduct(productId) {
 function transformCreemProduct(creemProduct) {
   if (!creemProduct) return null;
 
-  // 从 Creem API 响应中提取字段
-  // Creem API 返回的数据结构因产品而异，这里做通用处理
-  
   return {
     id: creemProduct.id || creemProduct.identifier,
     creemId: creemProduct.id,
@@ -100,26 +116,26 @@ function transformCreemProduct(creemProduct) {
 }
 
 /**
- * 从缓存或 API 拉取所有产品
+ * 从 Creem API 拉取所有产品
+ * ✅ 注意：后端不再缓存（Serverless 无状态）
+ *    缓存由浏览器端 localStorage + HTTP 缓存头完成
  */
 async function getAllProducts() {
-  const now = Date.now();
-  
-  // 检查缓存是否有效
-  if (productCache.data && (now - productCache.timestamp) < CACHE_DURATION) {
-    console.log('📦 使用缓存的产品数据');
-    return productCache.data;
-  }
-
   console.log('🔄 从 Creem API 拉取新数据...');
   
   const products = [];
 
-  // 拉取所有产品
-  for (const [key, productId] of Object.entries(CREEM_CONFIG.productIds)) {
-    const creemProduct = await fetchCreemProduct(productId);
-    if (creemProduct) {
-      const transformed = transformCreemProduct(creemProduct);
+  // 并发拉取所有产品（更快）
+  const productFetches = Object.entries(CREEM_CONFIG.productIds).map(
+    ([key, productId]) => fetchCreemProduct(productId)
+  );
+
+  const creemProducts = await Promise.allSettled(productFetches);
+
+  // 处理拉取结果
+  for (const result of creemProducts) {
+    if (result.status === 'fulfilled' && result.value) {
+      const transformed = transformCreemProduct(result.value);
       if (transformed) {
         products.push(transformed);
       }
@@ -127,14 +143,9 @@ async function getAllProducts() {
   }
 
   if (products.length === 0) {
-    console.warn('⚠️ 没有拉到任何产品！');
-    // 返回备用数据（防止网站崩溃）
+    console.warn('⚠️ 没有拉到任何产品！返回备用数据');
     return getFallbackProducts();
   }
-
-  // 更新缓存
-  productCache.data = products;
-  productCache.timestamp = now;
 
   console.log(`✅ 成功拉取 ${products.length} 个产品`);
   return products;
@@ -185,117 +196,121 @@ function getFallbackProducts() {
 }
 
 /**
- * CORS 响应头
+ * 获取 CORS 和缓存响应头
+ * ✅ 改进：HTTP 缓存头确保浏览器和 CDN 缓存 5 分钟
  */
-function getCorsHeaders() {
+function getCorsHeaders(allowedOrigin = '*') {
   return {
-    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Origin': allowedOrigin,
     'Access-Control-Allow-Methods': 'GET, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type, Authorization',
     'Content-Type': 'application/json',
-    'Cache-Control': 'public, max-age=300' // 浏览器缓存 5 分钟
+    // ✅ HTTP 缓存头：5 分钟浏览器 + CDN 缓存
+    'Cache-Control': 'public, max-age=300, s-maxage=300',
+    // ✅ 防止缓存问题的额外头
+    'ETag': generateETag(),
+    'Vary': 'Accept-Encoding'
   };
 }
 
 /**
- * 处理请求
+ * 生成简单的 ETag（用于缓存验证）
  */
-async function handleRequest(request) {
-  const url = new URL(request.url);
-  
+function generateETag() {
+  // 这里可以用产品数据的 hash，简单起见用时间戳
+  const now = new Date();
+  const minute = Math.floor(now.getTime() / (5 * 60 * 1000)); // 5分钟为单位
+  return `"product-${minute}"`;
+}
+
+/**
+ * 处理 Serverless 请求
+ */
+async function handler(req, res) {
+  // 设置 CORS 头
+  const headers = getCorsHeaders();
+  Object.entries(headers).forEach(([key, value]) => {
+    res.setHeader(key, value);
+  });
+
   // 处理 CORS 预检请求
-  if (request.method === 'OPTIONS') {
-    return new Response(null, {
-      headers: getCorsHeaders()
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+
+  // 处理 GET 请求
+  if (req.method !== 'GET') {
+    return res.status(405).json({
+      success: false,
+      error: 'Method Not Allowed'
     });
   }
 
   // 路由：获取所有产品
-  if (url.pathname === '/api/products' && request.method === 'GET') {
+  if (req.url === '/api/products' || req.url === '/api/products/') {
     try {
       const products = await getAllProducts();
-      return new Response(JSON.stringify({
+      return res.status(200).json({
         success: true,
         data: products,
         count: products.length,
-        timestamp: new Date().toISOString()
-      }), {
-        status: 200,
-        headers: getCorsHeaders()
+        timestamp: new Date().toISOString(),
+        // ✅ 调试信息（生产环境可以关掉）
+        cacheStrategy: 'HTTP Cache Headers (5 min browser + CDN)'
       });
     } catch (error) {
       console.error('❌ 获取产品列表失败:', error);
-      return new Response(JSON.stringify({
+      return res.status(500).json({
         success: false,
-        error: error.message,
-        data: getFallbackProducts() // 返回备用数据
-      }), {
-        status: 500,
-        headers: getCorsHeaders()
+        error: error.message || 'Internal Server Error',
+        data: getFallbackProducts() // 自动降级
       });
     }
   }
 
   // 路由：获取单个产品
-  if (url.pathname.startsWith('/api/products/') && request.method === 'GET') {
-    const productId = url.pathname.split('/').pop();
+  if (req.url.startsWith('/api/products/') && req.method === 'GET') {
+    const productId = req.url.split('/').pop();
+    
     try {
+      if (!productId) {
+        return res.status(400).json({
+          success: false,
+          error: '缺少产品 ID'
+        });
+      }
+
       const creemProduct = await fetchCreemProduct(productId);
       if (!creemProduct) {
-        return new Response(JSON.stringify({
+        return res.status(404).json({
           success: false,
           error: '产品不存在'
-        }), {
-          status: 404,
-          headers: getCorsHeaders()
         });
       }
       
       const transformed = transformCreemProduct(creemProduct);
-      return new Response(JSON.stringify({
+      return res.status(200).json({
         success: true,
         data: transformed
-      }), {
-        status: 200,
-        headers: getCorsHeaders()
       });
     } catch (error) {
       console.error(`❌ 获取产品 ${productId} 失败:`, error);
-      return new Response(JSON.stringify({
+      return res.status(500).json({
         success: false,
-        error: error.message
-      }), {
-        status: 500,
-        headers: getCorsHeaders()
+        error: error.message || 'Internal Server Error'
       });
     }
   }
 
   // 404 处理
-  return new Response(JSON.stringify({
+  return res.status(404).json({
     success: false,
     error: 'Not found'
-  }), {
-    status: 404,
-    headers: getCorsHeaders()
   });
 }
 
 // ============================================
-// 导出（用于 Node.js 或 CloudFlare Workers）
+// 导出（Vercel Serverless）
 // ============================================
 
-module.exports = {
-  handleRequest,
-  getAllProducts,
-  fetchCreemProduct,
-  transformCreemProduct,
-  CREEM_CONFIG
-};
-
-// CloudFlare Workers 入口
-if (typeof addEventListener !== 'undefined') {
-  addEventListener('fetch', event => {
-    event.respondWith(handleRequest(event.request));
-  });
-}
+module.exports = handler;
