@@ -1,0 +1,44 @@
+<!--
+    checkout.html 集成示例
+
+    在 checkout.html 的 <head> 中添加以下脚本引用：
+-->
+
+<!-- 1. 首先引入折扣标记辅助脚本 -->
+<script src="js/creem-discount-helper.js"></script>
+
+<!-- 2. 然后引入 Creem 支付集成脚本 -->
+<script src="js/creem-checkout-integration.js"></script>
+
+
+<!--
+    在 checkout.html 的 <body> 中添加折扣提示元素：
+
+    在订单摘要区域（.order-summary）的开头添加：
+-->
+
+<div id="discount-notice"></div>
+
+
+<!--
+    在结账按钮（#checkout-btn）中，确保按钮 ID 正确：
+
+    <button id="checkout-btn" class="checkout-btn btn-primary">
+        去支付
+    </button>
+-->
+
+
+<!--
+    在 checkout.html 的 </body> 之前，可以添加折扣调试信息（开发时使用）：
+
+    <script>
+    // 开发调试：显示折扣状态
+    document.addEventListener('DOMContentLoaded', function() {
+        if (window.CreemDiscountHelper) {
+            console.log('折扣开关状态:', window.CreemDiscountHelper.SHOW_DISCOUNT);
+            console.log('当前购物车:', window.CreemDiscountHelper.getCartWithDiscountMarks());
+        }
+    });
+    </script>
+-->
