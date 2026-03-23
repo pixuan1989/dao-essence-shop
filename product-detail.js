@@ -225,21 +225,21 @@ window.updateUIForVariant = function(variant) {
     if (!variant) return;
     
     // 更新价格显示
-    const priceElement = document.getElementById('productPrice');
+    const priceElement = document.getElementById('currentPrice');
     if (priceElement && variant.price) {
         priceElement.textContent = `$${parseFloat(variant.price).toFixed(2)}`;
     }
     
     // 如果有比较价格，显示折扣
     if (variant.compareAtPrice && variant.compareAtPrice > variant.price) {
-        const discountElement = document.getElementById('productDiscount');
+        const discountElement = document.getElementById('discountBadge');
         if (discountElement) {
             const discount = Math.round(((variant.compareAtPrice - variant.price) / variant.compareAtPrice) * 100);
             discountElement.textContent = `-${discount}%`;
             discountElement.style.display = 'inline-block';
         }
         
-        const originalPriceElement = document.getElementById('productOriginalPrice');
+        const originalPriceElement = document.getElementById('originalPrice');
         if (originalPriceElement) {
             originalPriceElement.textContent = `$${parseFloat(variant.compareAtPrice).toFixed(2)}`;
             originalPriceElement.style.display = 'inline';
@@ -254,16 +254,16 @@ window.updateUIForVariant = function(variant) {
 window.updateTotalPrice = function() {
     if (!currentVariant) return;
     
-    const quantity = parseInt(document.getElementById('productQuantity')?.value) || 1;
+    // 🔥 修复：使用正确的 HTML 元素 ID
+    const quantity = parseInt(document.getElementById('quantity')?.value) || 1;
     const price = parseFloat(currentVariant.price) || 0;
     const total = (price * quantity).toFixed(2);
     
     const totalElement = document.getElementById('totalPrice');
     if (totalElement) {
         totalElement.textContent = `$${total}`;
+        console.log('✅ Updated total price:', totalElement.textContent);
     }
-    
-    console.log('✅ Updated total price:', total);
 };
 
 // ============================================
@@ -362,6 +362,40 @@ document.addEventListener('DOMContentLoaded', async function() {
     window.initState();
     window.renderImages();
     
+    // 3.5 更新所有产品信息到 HTML
+    if (PRODUCT_DATA) {
+        console.log('Updating all product info to HTML...');
+        const productNameCn = document.getElementById('productNameCn');
+        if (productNameCn) {
+            productNameCn.textContent = PRODUCT_DATA.titleZh || PRODUCT_DATA.title || 'Product Name';
+            console.log('✅ Updated productNameCn to:', productNameCn.textContent);
+        }
+        
+        const productNameEn = document.getElementById('productNameEn');
+        if (productNameEn) {
+            productNameEn.textContent = PRODUCT_DATA.title || 'Product Name';
+            console.log('✅ Updated productNameEn to:', productNameEn.textContent);
+        }
+        
+        const productDescription = document.getElementById('productDescription');
+        if (productDescription) {
+            productDescription.innerHTML = '<p>' + (PRODUCT_DATA.descriptionZh || PRODUCT_DATA.description || 'No description available') + '</p>';
+            console.log('✅ Updated productDescription');
+        }
+        
+        const productCategoryTag = document.getElementById('productCategoryTag');
+        if (productCategoryTag) {
+            productCategoryTag.textContent = PRODUCT_DATA.type || 'Category';
+            console.log('✅ Updated productCategoryTag');
+        }
+        
+        const productSku = document.getElementById('productSku');
+        if (productSku) {
+            productSku.textContent = 'SKU: ' + PRODUCT_DATA.id;
+            console.log('✅ Updated productSku');
+        }
+    }
+    
     // 4. 更新购物车显示
     if (typeof window.updateCartUI === 'function') {
         window.updateCartUI();
@@ -371,16 +405,13 @@ document.addEventListener('DOMContentLoaded', async function() {
     }
 
     // 5. 绑定事件监听器
-    const quantityInput = document.getElementById('productQuantity');
+    const quantityInput = document.getElementById('quantity');
     if (quantityInput) {
         quantityInput.addEventListener('change', window.updateTotalPrice);
         quantityInput.addEventListener('input', window.updateTotalPrice);
     }
 
-    const addToCartBtn = document.getElementById('addToCartBtn');
-    if (addToCartBtn) {
-        addToCartBtn.addEventListener('click', window.addToCart);
-    }
+    // button onclick 属性已在 HTML 中绑定，无需这里再绑定
 
     console.log('✅ Event listeners bound');
 });
