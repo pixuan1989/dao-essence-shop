@@ -1,279 +1,205 @@
 /**
- * ========================================
- * Creem 产品同步脚本 - 前端版本
- * ========================================
+ * ✅ Creem API 实时同步脚本 v2.0
  * 
- * 功能：从后端 API 拉取 Creem 商品数据
- * 用处：取代直接调用 Creem API（解决 CORS 问题）
- * 
- * 如何工作：
- * 1. 页面加载时自动执行
- * 2. 优先使用 localStorage 缓存（5分钟有效）
- * 3. 如果无缓存，从后端 API 拉取
- * 4. 更新全局 window.allProducts
- * 5. 刷新页面显示
+ * 功能：
+ * 1. 从后端 /api/products 拉取 Creem 商品数据
+ * 2. 实现 localStorage 缓存（5分钟有效期）
+ * 3. 自动重试和错误处理
+ * 4. 数据转换为网站标准格式
+ * 5. 更新全局 window.allProducts
+ * 6. 页面动态渲染
  */
 
-// ============================================
-// 配置
-// ============================================
-
-const CREEM_SYNC_CONFIG = {
-  // 后端 API 端点
-  // 本地开发：'http://localhost:8000/api/products'
-  // 生产环境：'https://your-domain.com/api/products'
-  // CloudFlare Workers：'https://your-worker.workers.dev/api/products'
-  apiEndpoint: window.location.origin + '/api/products',
-  
-  // 或者直接用 CloudFlare Workers URL（如果已部署）
-  // apiEndpoint: 'https://dao-essence-sync.workers.dev/api/products',
-  
-  // 缓存配置
-  cacheName: 'creem_products_cache',
-  cacheExpiry: 5 * 60 * 1000, // 5分钟
-  
-  // 重试配置
-  maxRetries: 3,
-  retryDelay: 1000 // 毫秒
-};
-
-// ============================================
-// 缓存管理
-// ============================================
+console.log('✅ Creem 实时同步脚本 v2.0 已加载');
 
 /**
- * 从 localStorage 读取缓存
+ * 缓存配置
  */
-function getProductsFromCache() {
+const CACHE_CONFIG = {
+  key: 'creem_products_cache',
+  ttl: 5 * 60 * 1000 // 5分钟缓存
+};
+
+/**
+ * 备用数据（API 失败时使用）
+ */
+const FALLBACK_PRODUCTS = [
+  {
+    id: 'prod_7i2asEAuHFHl5hJMeCEsfB',
+    name: '传统沉香',
+    price: 200,
+    currency: 'USD',
+    description: '优质沉香，传统工艺制作',
+    image: 'images/agarwood.jpg',
+    category: 'agarwood'
+  },
+  {
+    id: 'prod_1YuuAVysoYK6AOmQVab2uR',
+    name: '五行能量手串',
+    price: 168,
+    currency: 'USD',
+    description: '五行能量手串，平衡身心',
+    image: 'images/bracelet.jpg',
+    category: 'bracelet'
+  }
+];
+
+/**
+ * 检查缓存是否有效
+ */
+function getFromCache() {
   try {
-    const cached = localStorage.getItem(CREEM_SYNC_CONFIG.cacheName);
+    const cached = localStorage.getItem(CACHE_CONFIG.key);
     if (!cached) return null;
 
-    const parsed = JSON.parse(cached);
+    const data = JSON.parse(cached);
     const now = Date.now();
     
-    // 检查缓存是否过期
-    if (now - parsed.timestamp > CREEM_SYNC_CONFIG.cacheExpiry) {
-      console.log('⏰ 缓存已过期，将重新拉取');
-      localStorage.removeItem(CREEM_SYNC_CONFIG.cacheName);
+    if (now - data.timestamp < CACHE_CONFIG.ttl) {
+      console.log('✅ 使用 localStorage 缓存数据（' + Math.round((CACHE_CONFIG.ttl - (now - data.timestamp)) / 1000) + '秒后过期）');
+      return data.products;
+    } else {
+      console.log('⏰ 缓存已过期，即将重新拉取...');
+      localStorage.removeItem(CACHE_CONFIG.key);
       return null;
     }
-
-    console.log('✅ 使用缓存的产品数据（剩余时间: ' + 
-      Math.round((CREEM_SYNC_CONFIG.cacheExpiry - (now - parsed.timestamp)) / 1000) + '秒)');
-    return parsed.data;
-  } catch (error) {
-    console.warn('❌ 读取缓存失败:', error);
+  } catch (e) {
+    console.warn('⚠️ 缓存读取失败:', e.message);
     return null;
   }
 }
 
 /**
- * 保存产品数据到 localStorage
+ * 保存缓存
  */
-function saveProductsToCache(products) {
+function saveToCache(products) {
   try {
-    localStorage.setItem(CREEM_SYNC_CONFIG.cacheName, JSON.stringify({
-      data: products,
-      timestamp: Date.now()
+    localStorage.setItem(CACHE_CONFIG.key, JSON.stringify({
+      timestamp: Date.now(),
+      products: products
     }));
-    console.log('💾 产品数据已缓存');
-  } catch (error) {
-    console.warn('⚠️ 缓存保存失败:', error);
+    console.log('💾 数据已保存到 localStorage 缓存');
+  } catch (e) {
+    console.warn('⚠️ 缓存保存失败:', e.message);
   }
 }
 
-// ============================================
-// API 调用
-// ============================================
-
 /**
- * 从后端 API 拉取产品数据（带重试机制）
+ * 从后端 API 拉取数据
  */
-async function fetchProductsFromAPI(retryCount = 0) {
-  try {
-    console.log(`🔄 从后端 API 拉取产品数据... (尝试 ${retryCount + 1}/${CREEM_SYNC_CONFIG.maxRetries})`);
-    
-    const response = await fetch(CREEM_SYNC_CONFIG.apiEndpoint, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      // 防止浏览器缓存
-      cache: 'no-cache'
-    });
+async function fetchFromAPI(retries = 3) {
+  for (let attempt = 1; attempt <= retries; attempt++) {
+    try {
+      console.log(`🌐 第 ${attempt}/${retries} 次尝试从 API 拉取数据...`);
+      
+      const response = await fetch('/api/products', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
 
-    if (!response.ok) {
-      throw new Error(`API 返回 ${response.status}: ${response.statusText}`);
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      console.log('✅ API 调用成功，返回 ' + (data.products || []).length + ' 个产品');
+      
+      return data.products || [];
+    } catch (error) {
+      console.warn(`❌ 第 ${attempt} 次尝试失败:`, error.message);
+      
+      if (attempt < retries) {
+        const delay = Math.pow(2, attempt - 1) * 1000; // 指数退避
+        console.log(`⏳ ${delay / 1000}秒后重试...`);
+        await new Promise(resolve => setTimeout(resolve, delay));
+      }
     }
-
-    const result = await response.json();
-    
-    if (!result.success || !result.data) {
-      throw new Error('API 返回数据格式错误');
-    }
-
-    console.log(`✅ 成功拉取 ${result.data.length} 个产品`);
-    return result.data;
-
-  } catch (error) {
-    console.error(`❌ 第 ${retryCount + 1} 次尝试失败:`, error.message);
-
-    // 如果还有重试次数，等待后重试
-    if (retryCount < CREEM_SYNC_CONFIG.maxRetries - 1) {
-      console.log(`⏳ ${CREEM_SYNC_CONFIG.retryDelay}ms 后重试...`);
-      await new Promise(resolve => setTimeout(resolve, CREEM_SYNC_CONFIG.retryDelay));
-      return fetchProductsFromAPI(retryCount + 1);
-    }
-
-    throw error;
   }
+  
+  throw new Error('API 调用失败，已达最大重试次数');
 }
 
-// ============================================
-// 主同步函数
-// ============================================
+/**
+ * 转换 Creem API 返回的数据格式
+ */
+function transformProducts(products) {
+  if (!Array.isArray(products)) {
+    console.warn('⚠️ 产品数据不是数组，使用备用数据');
+    return FALLBACK_PRODUCTS;
+  }
+
+  return products.map(product => ({
+    id: product.id || product.productId,
+    name: product.name || product.title || '未知产品',
+    price: product.price || product.priceAmount || 0,
+    currency: product.currency || 'USD',
+    description: product.description || '暂无描述',
+    image: product.image || product.images?.[0] || 'images/placeholder.jpg',
+    category: product.category || 'other',
+    url: product.url,
+    stock: product.stock || 999
+  }));
+}
 
 /**
- * 主函数：同步 Creem 产品
+ * 主同步函数
  */
 async function syncCreemProducts() {
   console.log('🚀 开始 Creem 产品同步...');
   
   try {
-    // 第一步：尝试从缓存获取
-    let products = getProductsFromCache();
+    // 第1步：检查缓存
+    let products = getFromCache();
     
-    // 第二步：如果缓存为空，从 API 拉取
+    // 第2步：如果无缓存，从 API 拉取
     if (!products) {
-      products = await fetchProductsFromAPI();
-      
-      // 第三步：保存到缓存
-      saveProductsToCache(products);
+      console.log('📡 从 API 拉取新数据...');
+      const apiProducts = await fetchFromAPI();
+      products = transformProducts(apiProducts);
+      saveToCache(products);
     }
-
-    // 第四步：更新全局变量
-    if (typeof window !== 'undefined') {
-      window.allProducts = products;
-      console.log('✅ 全局 window.allProducts 已更新');
-    }
-
-    // 第五步：触发页面重新渲染（如果定义了）
-    if (typeof renderShop === 'function') {
-      renderShop();
-      console.log('✅ 页面已重新渲染');
-    }
-
-    return {
-      success: true,
-      products,
-      count: products.length,
-      source: 'cache' // 或 'api'
-    };
-
+    
+    // 第3步：更新全局数据
+    window.allProducts = products;
+    console.log('✅ window.allProducts 已更新，共 ' + products.length + ' 个产品');
+    
+    // 第4步：触发自定义事件，通知页面脚本更新 DOM
+    window.dispatchEvent(new CustomEvent('creemProductsReady', { 
+      detail: { products: products } 
+    }));
+    
+    console.log('✨ Creem 产品同步完成！');
+    return products;
+    
   } catch (error) {
-    console.error('❌ Creem 产品同步失败:', error.message);
+    console.error('❌ 产品同步失败:', error.message);
+    console.log('📋 使用备用数据...');
     
-    // 降级方案：使用本地备用数据
-    console.log('📌 切换到备用数据...');
-    const fallbackProducts = getFallbackProducts();
+    // 使用备用数据
+    window.allProducts = FALLBACK_PRODUCTS;
+    window.dispatchEvent(new CustomEvent('creemProductsReady', { 
+      detail: { products: FALLBACK_PRODUCTS } 
+    }));
     
-    if (typeof window !== 'undefined') {
-      window.allProducts = fallbackProducts;
-      console.log('✅ 已设置备用数据到 window.allProducts:', fallbackProducts.length, 'items');
-    }
-
-    // 延迟触发渲染，确保 DOM 已加载
-    setTimeout(() => {
-      if (typeof renderShop === 'function') {
-        renderShop();
-        console.log('✅ 已调用 renderShop()');
-      }
-
-      // 触发首页产品渲染
-      if (typeof renderFeaturedProducts === 'function') {
-        renderFeaturedProducts();
-        console.log('✅ 已调用 renderFeaturedProducts()');
-      }
-    }, 500);
-
-    return {
-      success: false,
-      error: error.message,
-      products: fallbackProducts,
-      source: 'fallback'
-    };
+    console.log('⚠️ 已使用备用数据（' + FALLBACK_PRODUCTS.length + ' 个产品）');
+    return FALLBACK_PRODUCTS;
   }
 }
 
-// ============================================
-// 备用数据（如果 API 全部失败）
-// ============================================
-
-function getFallbackProducts() {
-  return [
-    {
-      "id": "prod_7i2asEAuHFHl5hJMeCEsfB",
-      "creemId": "prod_7i2asEAuHFHl5hJMeCEsfB",
-      "name": "Traditional Agarwood",
-      "nameCN": "传统沉香",
-      "category": "incense",
-      "categoryCN": "香",
-      "element": "wood",
-      "price": 200.00,
-      "currency": "USD",
-      "description": "Premium natural agarwood for meditation and academic success.",
-      "descriptionCN": "用于冥想和学业的优质天然沉香。支持专注力和思维清晰。",
-      "image": "https://images.unsplash.com/photo-1604014237800-1c9102c219da?w=600&h=600&fit=crop",
-      "stock": 999,
-      "benefits": ["Tranquility", "Sleep", "Positivity"],
-      "energyLevel": "High",
-      "creemUrl": "https://www.creem.io/payment/prod_7i2asEAuHFHl5hJMeCEsfB"
-    },
-    {
-      "id": "prod_1YuuAVysoYK6AOmQVab2uR",
-      "creemId": "prod_1YuuAVysoYK6AOmQVab2uR",
-      "name": "Five Elements Energy Bracelet",
-      "nameCN": "五行能量手串",
-      "category": "crystals",
-      "categoryCN": "晶体",
-      "element": "water",
-      "price": 168.00,
-      "currency": "USD",
-      "description": "Five elements energy bracelet with natural amber beads.",
-      "descriptionCN": "天然琥珀珠五行能量手串。平衡身体能量，促进和谐。",
-      "image": "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=600&h=600&fit=crop",
-      "stock": 999,
-      "benefits": ["Balance", "Harmony", "Energy"],
-      "energyLevel": "Medium",
-      "creemUrl": "https://www.creem.io/payment/prod_1YuuAVysoYK6AOmQVab2uR"
-    }
-  ];
-}
-
-// ============================================
-// 页面加载时自动执行
-// ============================================
-
-// 确保在 DOM 完全加载后执行
+/**
+ * 页面加载完成后执行同步
+ */
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', syncCreemProducts);
 } else {
-  // 如果脚本加载较晚，可能 DOM 已加载
+  // 如果脚本加载时 DOM 已准备就绪
   syncCreemProducts();
 }
 
-// ============================================
-// 导出（用于模块化）
-// ============================================
-
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = {
-    syncCreemProducts,
-    getProductsFromCache,
-    saveProductsToCache,
-    fetchProductsFromAPI,
-    CREEM_SYNC_CONFIG
-  };
-}
+/**
+ * 导出函数供外部调用
+ */
+window.syncCreemProducts = syncCreemProducts;
+console.log('📌 可通过 window.syncCreemProducts() 手动触发同步');
