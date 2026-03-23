@@ -13,74 +13,42 @@ let currentSort = 'featured';
 // 设置为 false 隐藏折扣（只显示实际价格）
 const SHOW_DISCOUNT = true;
 
-// Embedded product data to avoid fetch issues with local files
+// Creem products - from Creem.io backend
 const embeddedProducts = {
   "products": [
     {
-      "id": "tai-sui-protection-token",
-      "name": "Tai Sui Protection Token",
-      "nameCN": "生肖守护令牌",
-      "category": "protection-tokens",
-      "element": "fire",
-      "price": 170.00,
-      "originalPrice": 200.00,
-      "currency": "USD",
-      "description": "Dragon Year protection token, hand-painted and traditionally prepared. Protects against annual misfortune.",
-      "descriptionCN": "龙年保护吉祥物，由传统工艺师手绘和仪式激活。保护您免受年度不利。",
-      "image": "images/ee9f06067bcdc66babb7cc1dfbc9d59ecef3fe912a602-hYOU5Z_fw1200webp.webp",
-      "stock": 50,
-      "benefits": ["Protection", "Annual Fortune", "Safety"],
-      "energyLevel": "High",
-      "hidden": true  // 临时隐藏，等审核通过后再显示
-    },
-    {
-      "id": "obsidian-bracelet",
-      "name": "Obsidian Bracelet",
-      "nameCN": "黑曜石手链",
-      "category": "crystals",
-      "element": "water",
-      "price": 180.00,
-      "originalPrice": 200.00,
-      "currency": "USD",
-      "description": "Natural obsidian bracelet for energy purification and spiritual protection. Calms mind and supports mental clarity.",
-      "descriptionCN": "天然黑曜石手链，用于能量净化和精神保护。平复心灵，支持思维清晰。",
-      "image": "images/5c9b913900c6b04c7d5feeeba36403b233e42e895de36-P0zmjC_fw1200webp.webp",
-      "stock": 80,
-      "benefits": ["Purification", "Protection", "Mental Clarity"],
-      "energyLevel": "Medium"
-    },
-    {
-      "id": "natural-agarwood",
-      "name": "Natural Agarwood",
-      "nameCN": "天然沉香",
+      "id": "prod_7i2asEAuHFHl5hJMeCEsfB",
+      "creemId": "prod_7i2asEAuHFHl5hJMeCEsfB",
+      "name": "Traditional Agarwood",
+      "nameCN": "传统沉香",
       "category": "incense",
       "element": "wood",
-      "price": 170.00,
-      "originalPrice": 200.00,
+      "price": 200.00,
       "currency": "USD",
-      "description": "Premium natural agarwood for meditation and academic focus. Supports concentration and mental clarity.",
-      "descriptionCN": "用于冥想和学业的优质天然沉香。支持专注力和思维清晰。",
-      "image": "images/efd651724cd482a4d5c81552b23cb20253ea84311d64e5-9twrMQ_fw1200webp.webp",
-      "stock": 100,
-      "benefits": ["Meditation", "Academic Success", "Concentration"],
-      "energyLevel": "Medium"
+      "description": "Fosters tranquility and restful sleep, clears away negativity, and enhances a positive, balanced state of being.",
+      "descriptionCN": "促进宁静和安稳睡眠，清除负面情绪，增强积极、平衡的状态。",
+      "image": "images/agarwood-creem.jpg",
+      "stock": 999,
+      "benefits": ["Tranquility", "Sleep", "Positivity"],
+      "energyLevel": "High",
+      "creemUrl": "https://www.creem.io/payment/prod_7i2asEAuHFHl5hJMeCEsfB"
     },
     {
-      "id": "custom-protection-token",
-      "name": "Custom Protection Token",
-      "nameCN": "定制守护令牌",
-      "category": "protection-tokens",
-      "element": "earth",
-      "price": 180.00,
-      "originalPrice": 200.00,
+      "id": "prod_1YuuAVysoYK6AOmQVab2uR",
+      "creemId": "prod_1YuuAVysoYK6AOmQVab2uR",
+      "name": "Five Elements Energy Bracelet",
+      "nameCN": "五行能量手串",
+      "category": "crystals",
+      "element": "water",
+      "price": 168.00,
       "currency": "USD",
-      "description": "Personalized protection token created based on your individual birth chart and life path analysis. Each item is uniquely prepared for you.",
-      "descriptionCN": "根据您的个人出生图表和生命路径分析创建的个性化守护令牌。每件都为您独特仪式激活。",
-      "image": "images/08d5a4d436cd88b784060136ffdf1dde4be269a93235b-haaswB_fw1200webp.webp",
-      "stock": 30,
-      "benefits": ["Personalization", "Life Path Alignment", "Custom Energy"],
-      "energyLevel": "Very High",
-      "customizable": true
+      "description": "Five elements energy bracelet with natural amber beads. Balances body energy and promotes harmony.",
+      "descriptionCN": "天然琥珀珠五行能量手串。平衡身体能量，促进和谐。",
+      "image": "images/bracelet-creem.jpg",
+      "stock": 999,
+      "benefits": ["Balance", "Harmony", "Energy"],
+      "energyLevel": "Medium",
+      "creemUrl": "https://www.creem.io/payment/prod_1YuuAVysoYK6AOmQVab2uR"
     }
   ]
 };

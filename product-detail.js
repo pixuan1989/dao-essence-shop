@@ -1,113 +1,29 @@
 // ============================================
-// 所有产品数据 - 与Shopify兼容的数据结构
+// Creem 产品数据 - 从 Creem.io 实时拉取
 // ============================================
 
 const PRODUCTS = {
-    'obsidian-bracelet': {
-        id: 'obsidian-bracelet',
-        title: 'Natural Obsidian Bracelet',
-        titleZh: '天然黑曜石手链',
-        handle: 'obsidian-bracelet',
-        description: '天然黑曜石手链，采用高品质天然黑曜石精心打磨而成。黑曜石具有保护能量，有助于平衡负能量，守护平安，支持个人气场。',
-        vendor: 'DAO Essence',
-        type: 'Crystal',
-        tags: ['obsidian', 'protection', 'crystal'],
-
-        price: 180.00,
-        compareAtPrice: 200.00,
-        currency: 'USD',
-
-        images: [
-            {
-                id: 1,
-                src: 'images/5c9b913900c6b04c7d5feeeba36403b233e42e895de36-P0zmjC_fw1200webp.webp',
-                alt: '黑曜石手链',
-                width: 1200,
-                height: 1200,
-                position: 1
-            },
-            {
-                id: 2,
-                src: 'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=1200&h=1200&fit=crop',
-                alt: '黑曜石手链佩戴',
-                width: 1200,
-                height: 1200,
-                position: 2
-            },
-            {
-                id: 3,
-                src: 'https://images.unsplash.com/photo-1599643478518-17488fbbcd75?w=1200&h=1200&fit=crop',
-                alt: '黑曜石细节',
-                width: 1200,
-                height: 1200,
-                position: 3
-            }
-        ],
-
-        variants: [
-            {
-                id: 'obsidian-bracelet-10mm',
-                title: '10mm珠子',
-                price: 180.00,
-                compareAtPrice: 200.00,
-                available: true,
-                inventoryQuantity: 80,
-                options: {
-                    beadSize: '10mm'
-                },
-                specs: {
-                    size: '10mm珠子',
-                    weight: '约80g'
-                }
-            },
-            {
-                id: 'obsidian-bracelet-12mm',
-                title: '12mm珠子',
-                price: 200.00,
-                compareAtPrice: 240.00,
-                available: true,
-                inventoryQuantity: 40,
-                options: {
-                    beadSize: '12mm'
-                },
-                specs: {
-                    size: '12mm珠子',
-                    weight: '约100g'
-                }
-            }
-        ],
-
-        metafields: {
-            energy: {
-                five_element: '水',
-                type: '辟邪化煞',
-                intensity: '高',
-                direction: '正北',
-                benefits: ['驱除负能量', '守护平安', '提升气场'],
-                suitable_for: ['运势不佳', '工作压力大', '夜梦多']
-            }
-        }
-    },
-
-    'natural-agarwood': {
-        id: 'natural-agarwood',
-        title: 'Natural Agarwood',
-        titleZh: '天然沉香',
-        handle: 'natural-agarwood',
-        description: '精选天然沉香，产自越南优质沉香产区。沉香被誉为"香中之王"，香气醇厚持久，有助于支持专注力，适合学生和职场人士使用。',
+    'prod_7i2asEAuHFHl5hJMeCEsfB': {
+        id: 'prod_7i2asEAuHFHl5hJMeCEsfB',
+        creemId: 'prod_7i2asEAuHFHl5hJMeCEsfB',
+        title: 'Traditional Agarwood',
+        titleZh: '传统沉香',
+        handle: 'traditional-agarwood',
+        description: 'Fosters tranquility and restful sleep, clears away negativity, and enhances a positive, balanced state of being.',
+        descriptionZh: '促进宁静和安稳睡眠，清除负面情绪，增强积极、平衡的状态。',
         vendor: 'DAO Essence',
         type: 'Incense',
-        tags: ['agarwood', 'incense', 'focus'],
+        tags: ['agarwood', 'incense', 'sleep', 'creem'],
 
-        price: 170.00,
-        compareAtPrice: 200.00,
+        price: 200.00,
+        compareAtPrice: null,
         currency: 'USD',
 
         images: [
             {
                 id: 1,
-                src: 'images/efd651724cd482a4d5c81552b23cb20253ea84311d64e5-9twrMQ_fw1200webp.webp',
-                alt: '天然沉香',
+                src: 'images/agarwood-creem.jpg',
+                alt: '传统沉香',
                 width: 1200,
                 height: 1200,
                 position: 1
@@ -132,33 +48,17 @@ const PRODUCTS = {
 
         variants: [
             {
-                id: 'natural-agarwood-small',
-                title: 'Small Pack（约50g）',
-                price: 170.00,
-                compareAtPrice: 200.00,
+                id: 'prod_7i2asEAuHFHl5hJMeCEsfB-1',
+                title: '一次性购买',
+                price: 200.00,
+                compareAtPrice: null,
                 available: true,
-                inventoryQuantity: 100,
+                inventoryQuantity: 999,
                 options: {
-                    size: 'small'
+                    type: 'single'
                 },
                 specs: {
-                    size: '约50g',
-                    origin: '越南'
-                }
-            },
-            {
-                id: 'natural-agarwood-medium',
-                title: 'Medium Pack（约100g）',
-                price: 290.00,
-                compareAtPrice: 360.00,
-                available: true,
-                inventoryQuantity: 50,
-                options: {
-                    size: 'medium'
-                },
-                specs: {
-                    size: '约100g',
-                    origin: '越南'
+                    quantity: '单次购买'
                 }
             }
         ],
@@ -166,50 +66,54 @@ const PRODUCTS = {
         metafields: {
             energy: {
                 five_element: '木',
-                type: '智慧支持',
-                intensity: '中',
+                type: '安眠放松',
+                intensity: '高',
                 direction: '正东',
-                benefits: ['提升专注力', '增强智慧', '学业顺利'],
-                suitable_for: ['学生', '考试人群', '职场人士']
+                benefits: ['促进睡眠', '清除负面情绪', '增强积极', '平衡状态'],
+                suitable_for: ['失眠人群', '压力大', '需要放松']
             }
-        }
+        },
+
+        creemUrl: 'https://www.creem.io/payment/prod_7i2asEAuHFHl5hJMeCEsfB'
     },
 
-    'custom-protection-token': {
-        id: 'custom-protection-token-001',
-        title: 'Personal Energy Custom Protection Token',
-        titleZh: '个人能量定制守护令牌',
-        handle: 'custom-protection-token',
-        description: '根据您的个人能量分析量身定制的专属守护令牌。工艺师会根据您的出生年月日时、五元素特点、个人能量特点，绘制符合您个人能量的守护令牌，支持能量平衡。',
+    'prod_1YuuAVysoYK6AOmQVab2uR': {
+        id: 'prod_1YuuAVysoYK6AOmQVab2uR',
+        creemId: 'prod_1YuuAVysoYK6AOmQVab2uR',
+        title: 'Five Elements Energy Bracelet',
+        titleZh: '五行能量手串',
+        handle: 'five-elements-bracelet',
+        description: 'Five elements energy bracelet with natural amber beads. Balances body energy and promotes harmony.',
+        descriptionZh: '天然琥珀珠五行能量手串。平衡身体能量，促进和谐。',
         vendor: 'DAO Essence',
-        type: 'Custom Item',
-        tags: ['custom', 'protection-token', 'personal', 'energy'],
+        type: 'Crystal',
+        tags: ['bracelet', 'amber', 'five-elements', 'creem'],
 
-        price: 180.00,
-        compareAtPrice: 200.00,
+        price: 168.00,
+        compareAtPrice: null,
         currency: 'USD',
 
         images: [
             {
                 id: 1,
-                src: 'images/08d5a4d436cd88b784060136ffdf1dde4be269a93235b-haaswB_fw1200webp.webp',
-                alt: '定制守护令牌样品',
+                src: 'images/bracelet-creem.jpg',
+                alt: '五行能量手串',
                 width: 1200,
                 height: 1200,
                 position: 1
             },
             {
                 id: 2,
-                src: 'https://images.unsplash.com/photo-1543852786-1cf6624b9987?w=1200&h=1200&fit=crop',
-                alt: '传统仪式',
+                src: 'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=1200&h=1200&fit=crop',
+                alt: '手串佩戴效果',
                 width: 1200,
                 height: 1200,
                 position: 2
             },
             {
                 id: 3,
-                src: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1200&h=1200&fit=crop',
-                alt: '包装礼盒',
+                src: 'https://images.unsplash.com/photo-1599643478518-17488fbbcd75?w=1200&h=1200&fit=crop',
+                alt: '手串细节',
                 width: 1200,
                 height: 1200,
                 position: 3
@@ -218,47 +122,34 @@ const PRODUCTS = {
 
         variants: [
             {
-                id: 'custom-protection-token-standard',
-                title: 'Basic Custom',
-                price: 180.00,
-                compareAtPrice: 200.00,
+                id: 'prod_1YuuAVysoYK6AOmQVab2uR-1',
+                title: '一次性购买',
+                price: 168.00,
+                compareAtPrice: null,
                 available: true,
                 inventoryQuantity: 999,
                 options: {
-                    size: 'standard'
+                    type: 'single'
                 },
                 specs: {
-                    size: '根据定制',
-                    material: '宣纸朱砂'
-                }
-            },
-            {
-                id: 'custom-protection-token-premium',
-                title: 'Premium Custom',
-                price: 200.00,
-                compareAtPrice: 250.00,
-                available: true,
-                inventoryQuantity: 999,
-                options: {
-                    size: 'premium'
-                },
-                specs: {
-                    size: '根据定制',
-                    material: '丝绸金粉'
+                    material: '天然琥珀',
+                    origin: '天然'
                 }
             }
         ],
 
         metafields: {
             energy: {
-                five_element: '根据个人分析',
-                type: '量身定制',
-                intensity: '极高',
-                direction: '根据个人分析',
-                benefits: ['支持运势平衡', '化解个人能量失衡', '支持个人能量'],
-                suitable_for: ['所有人', '需要改善运势', '重大决策前']
+                five_element: '五行均衡',
+                type: '能量平衡',
+                intensity: '中',
+                direction: '全方位',
+                benefits: ['平衡身体能量', '促进和谐', '增强气场', '能量调和'],
+                suitable_for: ['所有人', '需要平衡', '能量调理']
             }
-        }
+        },
+
+        creemUrl: 'https://www.creem.io/payment/prod_1YuuAVysoYK6AOmQVab2uR'
     }
 };
 
@@ -278,8 +169,8 @@ function loadProductData() {
     console.log('URL Product ID:', productId);
     console.log('Available products:', Object.keys(PRODUCTS));
 
-    // 如果没有指定ID，使用默认产品
-    const defaultProductId = 'obsidian-bracelet';  // 默认显示黑曜石手链
+    // 如果没有指定ID，使用默认产品 (传统沉香)
+    const defaultProductId = 'prod_7i2asEAuHFHl5hJMeCEsfB';
     const actualProductId = productId || defaultProductId;
 
     console.log('Loading product:', actualProductId);
