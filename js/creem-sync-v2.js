@@ -27,23 +27,34 @@ const CACHE_CONFIG = {
 
 /**
  * 备用数据（API 失败时使用）
+ * 🔥 包含正确的折扣信息
  */
 const FALLBACK_PRODUCTS = [
   {
     id: 'prod_7i2asEAuHFHl5hJMeCEsfB',
-    name: '沉香冥想套装礼品券',
-    price: 200,
+    name: '传统沉香能量券',
+    nameCN: '传统沉香能量券',
+    price: 180,           // 🔥 折后价格（使用折扣码 XJCX520 后）
+    originalPrice: 200,   // 🔥 原价
+    discount: 20,         // 🔥 折扣金额
+    discountRate: 10,     // 🔥 折扣率 10%
     currency: 'USD',
-    description: '数字礼品券，可兑换沉香冥想套装（包含专业冥想指导和配套物品）。购买后将收到数字兑换码，用于在我们的系统中预约实物商品的配送。',
+    description: '数字礼品券，可兑换沉香冥想套装（包含专业冥想指导和配套物品）。',
+    descriptionCN: '数字礼品券，可兑换沉香冥想套装（包含专业冥想指导和配套物品）。',
     image: 'images/agarwood.jpg',
     category: 'digital'
   },
   {
     id: 'prod_1YuuAVysoYK6AOmQVab2uR',
-    name: '五行能量平衡礼品券',
-    price: 168,
+    name: '五行能量水晶券',
+    nameCN: '五行能量水晶券',
+    price: 168,           // 无折扣
+    originalPrice: 168,
+    discount: 0,
+    discountRate: 0,
     currency: 'USD',
-    description: '数字礼品券，可兑换五行能量平衡套装（包含能量平衡指导和配套物品）。购买后将收到数字兑换码，用于在我们的系统中预约实物商品的配送。',
+    description: '数字礼品券，可兑换五行能量平衡套装（包含能量平衡指导和配套物品）。',
+    descriptionCN: '数字礼品券，可兑换五行能量平衡套装（包含能量平衡指导和配套物品）。',
     image: 'images/bracelet.jpg',
     category: 'digital'
   }

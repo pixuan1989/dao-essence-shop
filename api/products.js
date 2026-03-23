@@ -126,22 +126,46 @@ async function fetchCreemProduct(productId) {
 }
 
 /**
+ * 硬编码的折扣信息映射
+ * Creem API 的折扣是通过"折扣码"实现的，不会直接返回在价格字段中
+ * 需要手动维护这个映射表，当用户在 Creem 后台修改时，告诉我更新这里
+ */
+const DISCOUNT_MAP = {
+  'prod_7i2asEAuHFHl5hJMeCEsfB': {
+    originalPrice: 200,  // 原价
+    currentPrice: 180,   // 折后价（应用 XJCX520 折扣码）
+    discountRate: 10,    // 折扣 10% (九折)
+    discountCode: 'XJCX520'
+  },
+  'prod_1YuuAVysoYK6AOmQVab2uR': {
+    originalPrice: 168,
+    currentPrice: 168,
+    discountRate: 0,
+    discountCode: null
+  }
+};
+
+/**
  * 转换 Creem 数据格式为网站格式
- * 支持多种字段名（因为不同 API 返回的字段名可能不同）
+ * 🔥 关键修复：
+ * 1. Creem API 返回的价格单位是"分（cents）"，需要除以 100 转换为美元
+ * 2. 折扣信息使用硬编码映射，因为 Creem API 不直接返回折扣
  */
 function transformCreemProduct(creemProduct) {
   if (!creemProduct) return null;
 
-  const price = parseFloat(creemProduct.price) || 0;
-  const originalPrice = parseFloat(creemProduct.original_price || creemProduct.price) || 0;
+  // 🔥 修复单位转换：Creem API 返回的是 cents，需要转换为 dollars
+  const priceInCents = parseFloat(creemProduct.price) || 0;
+  const price = priceInCents / 100;  // 从分转换为美元
   
-  // 🔥 计算折扣
-  let discount = 0;
-  let discountRate = 0;
-  if (originalPrice > 0 && originalPrice > price) {
-    discount = originalPrice - price;
-    discountRate = Math.round(((originalPrice - price) / originalPrice) * 100);
-  }
+  // 🔥 获取硬编码的折扣信息
+  const productId = creemProduct.id || creemProduct.identifier;
+  const discountInfo = DISCOUNT_MAP[productId] || {};
+  
+  // 使用硬编码的折扣信息（优先级最高）
+  let originalPrice = discountInfo.originalPrice || price;
+  let currentPrice = discountInfo.currentPrice !== undefined ? discountInfo.currentPrice : price;
+  let discountRate = discountInfo.discountRate || 0;
 
   return {
     id: creemProduct.id || creemProduct.identifier,
@@ -151,10 +175,10 @@ function transformCreemProduct(creemProduct) {
     category: creemProduct.category || 'other',
     categoryCN: creemProduct.category_cn || creemProduct.category,
     element: creemProduct.element || 'unknown',
-    price: price,
+    price: currentPrice,         // 🔥 使用折后价格
     originalPrice: originalPrice,
-    discount: discount,        // 🔥 新增：折扣金额
-    discountRate: discountRate, // 🔥 新增：折扣百分比
+    discount: originalPrice - currentPrice,  // 🔥 折扣金额
+    discountRate: discountRate,  // 🔥 折扣百分比
     currency: creemProduct.currency || 'USD',
     description: creemProduct.description_en || creemProduct.description || '',
     descriptionCN: creemProduct.description_cn || creemProduct.description || '',
