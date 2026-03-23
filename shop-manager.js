@@ -1,6 +1,76 @@
-// ============================================// Product Management & Display System// ============================================let allProducts = [];let currentFilter = 'all';let currentSort = 'featured';// ============================================// ⚙️ 折扣开关配置// ============================================// 设置为 true 显示折扣（原价、折扣标签）// 设置为 false 隐藏折扣（只显示实际价格）const SHOW_DISCOUNT = true;// Load products from Creem API via creem-sync-v2.jsasync function loadProducts() {    try {        console.log('📦 Loading products from Creem API...');        // Wait for creem-sync-v2.js to populate window.allProducts        if (typeof window.allProducts !== 'undefined' && window.allProducts.length > 0) {            allProducts = window.allProducts;            console.log('✅ Products loaded successfully from Creem API:', allProducts.length, 'items');        } else {            // Fallback: wait a bit and check again            setTimeout(() => {                if (typeof window.allProducts !== 'undefined' && window.allProducts.length > 0) {                    allProducts = window.allProducts;                    console.log('✅ Products loaded successfully from Creem API (delayed):', allProducts.length, 'items');                    renderShop();                } else {                    console.warn('⚠️ No products from Creem API, using empty array');                    allProducts = [];                    renderShop();                }            }, 1000);            return;        }        renderShop();    } catch (error) {        console.error('❌ Error loading products:', error);        const grid = document.getElementById('productGrid');        if (grid) {            grid.innerHTML = `                <div style="color: #e74c3c; padding: 40px; text-align: center; background: var(--bg-accent); border-radius: 8px;">                    <h3 style="color: var(--fire-primary);">Error Loading Products</h3>                    <p>${error.message}</p>                </div>            `;        }    }}// Filter products by categoryfunction filterProducts(category) {    currentFilter = category;    // Update button states    document.querySelectorAll('.filter-btn').forEach(btn => {        btn.classList.remove('active');    });    event.target.classList.add('active');    renderShop();}// Sort productsfunction sortProducts(sortType) {    currentSort = sortType;    renderShop();}// Get filtered and sorted products
-function getFilteredProducts() {
-    let filtered = allProducts;
+// ============================================
+// Product Management & Display System
+// ============================================
+// ⚠️ 注意：必须定义在全局作用域（window），否则外部脚本无法访问
+window.allProducts = [];
+let currentFilter = 'all';
+let currentSort = 'featured';
+
+// ============================================
+// ⚙️ 折扣开关配置
+// ============================================
+// 设置为 true 显示折扣（原价、折扣标签）
+// 设置为 false 隐藏折扣（只显示实际价格）
+const SHOW_DISCOUNT = true;
+
+// Load products from Creem API via creem-sync-v2.js
+window.loadProducts = async function() {
+    try {
+        console.log('📦 Loading products from Creem API...');
+        // Wait for creem-sync-v2.js to populate window.allProducts
+        if (typeof window.allProducts !== 'undefined' && window.allProducts.length > 0) {
+            console.log('✅ Products loaded successfully from Creem API:', window.allProducts.length, 'items');
+        } else {
+            // Fallback: wait a bit and check again
+            setTimeout(() => {
+                if (typeof window.allProducts !== 'undefined' && window.allProducts.length > 0) {
+                    console.log('✅ Products loaded successfully from Creem API (delayed):', window.allProducts.length, 'items');
+                    window.renderShop();
+                } else {
+                    console.warn('⚠️ No products from Creem API, using empty array');
+                    window.allProducts = [];
+                    window.renderShop();
+                }
+            }, 1000);
+            return;
+        }
+        window.renderShop();
+    } catch (error) {
+        console.error('❌ Error loading products:', error);
+        const grid = document.getElementById('productGrid');
+        if (grid) {
+            grid.innerHTML = `
+                <div style="color: #e74c3c; padding: 40px; text-align: center; background: var(--bg-accent); border-radius: 8px;">
+                    <h3 style="color: var(--fire-primary);">Error Loading Products</h3>
+                    <p>${error.message}</p>
+                </div>
+            `;
+        }
+    }
+};
+
+// Filter products by category
+window.filterProducts = function(category) {
+    currentFilter = category;
+    // Update button states
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    if (event && event.target) {
+        event.target.classList.add('active');
+    }
+    window.renderShop();
+};
+
+// Sort products
+window.sortProducts = function(sortType) {
+    currentSort = sortType;
+    window.renderShop();
+};
+
+// Get filtered and sorted products
+window.getFilteredProducts = function() {
+    let filtered = window.allProducts;
     // Apply hidden filter - hide products marked as hidden
     filtered = filtered.filter(p => p.hidden !== true);
     // Apply filter
@@ -24,4 +94,192 @@ function getFilteredProducts() {
             break;
     }
     return filtered;
-}// Calculate discount percentagefunction calculateDiscount(original, current) {    if (!original || !current || original <= current) return 0;    return Math.round(((original - current) / original) * 100);}// Render shop productsfunction renderShop() {    const filtered = getFilteredProducts();    const grid = document.getElementById('productGrid');    const categoryMap = {        'crystals': '晶体',        'incense': '香',        'protection-tokens': '守护令牌',        'talismans': '符咒',        'ritual': '仪式用品'    };    // Update product count (only if element exists - for shop page compatibility)    const productCountEl = document.getElementById('productCount');    if (productCountEl) {        productCountEl.textContent = filtered.length;    }    if (!grid) return;    grid.innerHTML = filtered.map(product => {        const discount = SHOW_DISCOUNT && product.originalPrice ? calculateDiscount(product.originalPrice, product.price) : 0;        const discountBadge = discount > 0 ? `<span class="discount-badge">${discount}% OFF</span>` : '';        const priceDisplay = SHOW_DISCOUNT && product.originalPrice            ? `                <div class="price-container">                    <span class="original-price">$${product.originalPrice.toFixed(2)}</span>                    <span class="current-price">$${product.price.toFixed(2)}</span>                </div>              `            : `<div class="product-price">$${product.price.toFixed(2)}</div>`;        return `        <a href="product-detail.html?id=${product.id}" class="shop-product-card" style="text-decoration: none; color: inherit; display: block;">            <div class="product-image-wrapper">                <img src="${product.image}" alt="${product.nameCN}" onerror="this.src='https://images.unsplash.com/photo-1519681393784-d120267933ba?w=600&h=600&fit=crop'">                <div class="product-element">                    <span class="element-badge">${product.element.toUpperCase()}</span>                </div>                ${discountBadge}            </div>            <div class="product-info">                <div class="product-category">${categoryMap[product.category] || product.category}</div>                <div class="product-title">${product.nameCN}</div>                <div class="product-desc-short">${product.descriptionCN}</div>                <div class="product-meta">                    ${priceDisplay}                    <div class="product-stock">Stock: ${product.stock}</div>                </div>                <button class="add-to-cart-btn" onclick="event.preventDefault(); event.stopPropagation(); addToCart('${product.id}')">                    <svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-right: 8px; vertical-align: middle;"><circle cx="9" cy="19" r="1"/><circle cx="17" cy="19" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L19 6H6"/></svg> Add to Cart                </button>            </div>        </a>    `;    }).join('');}// Add style for add-to-cart button and discount displayconst style = document.createElement('style');style.textContent = `    /* 折扣标签样式 */    .discount-badge {        position: absolute;        top: 15px;        right: 15px;        background: #e74c3c;        color: white;        padding: 6px 12px;        border-radius: 20px;        font-size: 12px;        font-weight: 700;        text-transform: uppercase;        letter-spacing: 0.05em;        z-index: 10;        box-shadow: 0 2px 8px rgba(231, 76, 60, 0.3);    }    /* 价格容器 */    .price-container {        display: flex;        flex-direction: column;        align-items: flex-start;        gap: 4px;    }    /* 原价样式 */    .original-price {        font-size: 14px;        color: #8B8070;        text-decoration: line-through;        font-weight: 400;    }    /* 现价样式 */    .current-price {        font-size: 22px;        font-weight: 600;        color: var(--fire-primary, #8B2500);    }    .add-to-cart-btn {        width: 100%;        padding: 12px 16px;        background: var(--primary-color, #D4AF37);        color: white !important;        border: none;        border-radius: var(--radius-sm, 8px);        cursor: pointer;        font-size: 14px;        font-weight: 600;        transition: all var(--transition-fast, 0.2s);        letter-spacing: 0.05em;        margin-top: 10px;    }    .add-to-cart-btn:hover {        background: var(--fire-dark, #6B0F0F);        transform: translateY(-2px);        color: white !important;    }    .add-to-cart-btn svg {        stroke: white !important;    }    .product-discount-badge {        position: absolute;        top: 10px;        right: 10px;        background: var(--fire-primary, #8B1A1A);        color: white;        padding: 4px 10px;        border-radius: 20px;        font-size: 12px;        font-weight: 700;        z-index: 2;    }    .product-image-wrapper {        position: relative;        overflow: hidden;    }    .product-price-group {        display: flex;        flex-direction: column;    }    .product-price-original {        font-size: 13px;        color: var(--text-muted, #999);        text-decoration: line-through;    }    .product-price {        font-size: 18px;        font-weight: 700;        color: var(--fire-primary, #8B1A1A);    }`;document.head.appendChild(style);// Initialize on page loaddocument.addEventListener('DOMContentLoaded', () => {    console.log('shop-manager.js loaded');    // Wait a bit for creem-sync-v2.js to load    setTimeout(() => {        loadProducts();    }, 500);    // Update cart prices with latest product prices    setTimeout(() => {        if (typeof cart !== 'undefined' && typeof cart.updatePrices === 'function') {            console.log('Updating cart prices...');            cart.updatePrices();        }    }, 1500); // Wait for products to load});
+};
+
+// Calculate discount percentage
+window.calculateDiscount = function(original, current) {
+    if (!original || !current || original <= current) return 0;
+    return Math.round(((original - current) / original) * 100);
+};
+
+// Render shop products
+window.renderShop = function() {
+    const filtered = window.getFilteredProducts();
+    const grid = document.getElementById('productGrid');
+    
+    const categoryMap = {
+        'crystals': '晶体',
+        'incense': '香',
+        'protection-tokens': '守护令牌',
+        'talismans': '符咒',
+        'ritual': '仪式用品'
+    };
+
+    // Update product count (only if element exists - for shop page compatibility)
+    const productCountEl = document.getElementById('productCount');
+    if (productCountEl) {
+        productCountEl.textContent = filtered.length;
+    }
+
+    if (!grid) return;
+
+    grid.innerHTML = filtered.map(product => {
+        const discount = SHOW_DISCOUNT && product.originalPrice ? window.calculateDiscount(product.originalPrice, product.price) : 0;
+        const discountBadge = discount > 0 ? `<span class="discount-badge">${discount}% OFF</span>` : '';
+        
+        const priceDisplay = SHOW_DISCOUNT && product.originalPrice
+            ? `
+                <div class="price-container">
+                    <span class="original-price">$${product.originalPrice.toFixed(2)}</span>
+                    <span class="current-price">$${product.price.toFixed(2)}</span>
+                </div>
+              `
+            : `<div class="product-price">$${product.price.toFixed(2)}</div>`;
+
+        return `
+        <a href="product-detail.html?id=${product.id}" class="shop-product-card" style="text-decoration: none; color: inherit; display: block;">
+            <div class="product-image-wrapper">
+                <img src="${product.image}" alt="${product.nameCN}" onerror="this.src='https://images.unsplash.com/photo-1519681393784-d120267933ba?w=600&h=600&fit=crop'">
+                <div class="product-element">
+                    <span class="element-badge">${product.element.toUpperCase()}</span>
+                </div>
+                ${discountBadge}
+            </div>
+            <div class="product-info">
+                <div class="product-category">${categoryMap[product.category] || product.category}</div>
+                <div class="product-title">${product.nameCN}</div>
+                <div class="product-desc-short">${product.descriptionCN}</div>
+                <div class="product-meta">
+                    ${priceDisplay}
+                    <div class="product-stock">Stock: ${product.stock}</div>
+                </div>
+                <button class="add-to-cart-btn" onclick="event.preventDefault(); event.stopPropagation(); addToCart('${product.id}')">
+                    <svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-right: 8px; vertical-align: middle;"><circle cx="9" cy="19" r="1"/><circle cx="17" cy="19" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L19 6H6"/></svg> Add to Cart
+                </button>
+            </div>
+        </a>
+    `;
+    }).join('');
+};
+
+// Add style for add-to-cart button and discount display
+const style = document.createElement('style');
+style.textContent = `
+    /* 折扣标签样式 */
+    .discount-badge {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: #e74c3c;
+        color: white;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        z-index: 10;
+        box-shadow: 0 2px 8px rgba(231, 76, 60, 0.3);
+    }
+
+    /* 价格容器 */
+    .price-container {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+    }
+
+    /* 原价样式 */
+    .original-price {
+        font-size: 14px;
+        color: #8B8070;
+        text-decoration: line-through;
+        font-weight: 400;
+    }
+
+    /* 现价样式 */
+    .current-price {
+        font-size: 22px;
+        font-weight: 600;
+        color: var(--fire-primary, #8B2500);
+    }
+
+    .add-to-cart-btn {
+        width: 100%;
+        padding: 12px 16px;
+        background: var(--primary-color, #D4AF37);
+        color: white !important;
+        border: none;
+        border-radius: var(--radius-sm, 8px);
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 600;
+        transition: all var(--transition-fast, 0.2s);
+        letter-spacing: 0.05em;
+        margin-top: 10px;
+    }
+
+    .add-to-cart-btn:hover {
+        background: var(--fire-dark, #6B0F0F);
+        transform: translateY(-2px);
+        color: white !important;
+    }
+
+    .add-to-cart-btn svg {
+        stroke: white !important;
+    }
+
+    .product-discount-badge {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: var(--fire-primary, #8B1A1A);
+        color: white;
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 700;
+        z-index: 2;
+    }
+
+    .product-image-wrapper {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .product-price-group {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .product-price-original {
+        font-size: 13px;
+        color: var(--text-muted, #999);
+        text-decoration: line-through;
+    }
+
+    .product-price {
+        font-size: 18px;
+        font-weight: 700;
+        color: var(--fire-primary, #8B1A1A);
+    }
+`;
+document.head.appendChild(style);
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('shop-manager.js loaded');
+    // Wait a bit for creem-sync-v2.js to load
+    setTimeout(() => {
+        window.loadProducts();
+    }, 500);
+    
+    // Update cart prices with latest product prices
+    setTimeout(() => {
+        if (typeof cart !== 'undefined' && typeof cart.updatePrices === 'function') {
+            console.log('Updating cart prices...');
+            cart.updatePrices();
+        }
+    }, 1500); // Wait for products to load
+});
