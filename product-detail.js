@@ -232,18 +232,39 @@ window.updateUIForVariant = function(variant) {
     
     // 如果有比较价格，显示折扣
     if (variant.compareAtPrice && variant.compareAtPrice > variant.price) {
+        const compareAt = parseFloat(variant.compareAtPrice);
+        const current = parseFloat(variant.price);
+        const savings = compareAt - current;
+        const discount = Math.round((savings / compareAt) * 100);
+
         const discountElement = document.getElementById('discountBadge');
         if (discountElement) {
-            const discount = Math.round(((variant.compareAtPrice - variant.price) / variant.compareAtPrice) * 100);
             discountElement.textContent = `-${discount}%`;
             discountElement.style.display = 'inline-block';
         }
         
         const originalPriceElement = document.getElementById('originalPrice');
         if (originalPriceElement) {
-            originalPriceElement.textContent = `$${parseFloat(variant.compareAtPrice).toFixed(2)}`;
+            originalPriceElement.textContent = `$${compareAt.toFixed(2)}`;
             originalPriceElement.style.display = 'inline';
         }
+
+        // 🔥 修复：更新"节省xxx美元"文字
+        const savingsTextElement = document.getElementById('savingsText');
+        if (savingsTextElement) {
+            savingsTextElement.textContent = `节省${savings.toFixed(2)}美元`;
+            savingsTextElement.style.display = 'block';
+        }
+    } else {
+        // 无折扣时隐藏节省文字
+        const savingsTextElement = document.getElementById('savingsText');
+        if (savingsTextElement) {
+            savingsTextElement.style.display = 'none';
+        }
+        const discountElement = document.getElementById('discountBadge');
+        if (discountElement) discountElement.style.display = 'none';
+        const originalPriceElement = document.getElementById('originalPrice');
+        if (originalPriceElement) originalPriceElement.style.display = 'none';
     }
 };
 
