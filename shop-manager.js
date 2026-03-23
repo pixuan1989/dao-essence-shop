@@ -184,8 +184,11 @@ function renderShop() {
         'ritual': '仪式用品'
     };
 
-    // Update product count
-    document.getElementById('productCount').textContent = filtered.length;
+    // Update product count (only if element exists - for shop page compatibility)
+    const productCountEl = document.getElementById('productCount');
+    if (productCountEl) {
+        productCountEl.textContent = filtered.length;
+    }
 
     grid.innerHTML = filtered.map(product => {
         const discount = SHOW_DISCOUNT && product.originalPrice ? calculateDiscount(product.originalPrice, product.price) : 0;
