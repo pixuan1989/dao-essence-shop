@@ -31,19 +31,19 @@ const CACHE_CONFIG = {
 const FALLBACK_PRODUCTS = [
   {
     id: 'prod_7i2asEAuHFHl5hJMeCEsfB',
-    name: '沉香冥想音频指南',
+    name: '沉香冥想套装礼品券',
     price: 200,
     currency: 'USD',
-    description: '专业沉香冥想音频和详细指南，帮助您达到深度放松状态',
+    description: '数字礼品券，可兑换沉香冥想套装（包含专业冥想指导和配套物品）。购买后将收到数字兑换码，用于在我们的系统中预约实物商品的配送。',
     image: 'images/agarwood.jpg',
     category: 'digital'
   },
   {
     id: 'prod_1YuuAVysoYK6AOmQVab2uR',
-    name: '五行能量平衡指南',
+    name: '五行能量平衡礼品券',
     price: 168,
     currency: 'USD',
-    description: '五行能量平衡数字指南，包含冥想练习和能量调理方法',
+    description: '数字礼品券，可兑换五行能量平衡套装（包含能量平衡指导和配套物品）。购买后将收到数字兑换码，用于在我们的系统中预约实物商品的配送。',
     image: 'images/bracelet.jpg',
     category: 'digital'
   }
