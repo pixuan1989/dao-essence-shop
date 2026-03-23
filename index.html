@@ -1351,47 +1351,10 @@
                 <p class="subtitle">Featured Products</p>
             </div>
             
-            <div class="grid grid-2">
-                <!-- 传统沉香 - Creem Product -->
-                <div class="product-card scroll-animate">
-                    <a href="product-detail.html?id=prod_7i2asEAuHFHl5hJMeCEsfB" class="product-link">
-                        <div class="product-image">
-                            <img src="https://images.unsplash.com/photo-1604014237800-1c9102c219da?w=600&h=600&fit=crop" alt="Traditional Agarwood">
-                            <div class="product-element">
-                                <span class="element-badge element-wood">Wood</span>
-                            </div>
-                        </div>
-                        <div class="product-content">
-                            <p class="product-category">Incense</p>
-                            <h3 class="product-name">传统沉香</h3>
-                            <p class="product-desc">Fosters tranquility and restful sleep, clears away negativity</p>
-                            <div class="product-footer">
-                                <span class="product-price">$200.00</span>
-                                <button class="product-btn">View Details</button>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-
-                <!-- 五行能量手串 - Creem Product -->
-                <div class="product-card scroll-animate">
-                    <a href="product-detail.html?id=prod_1YuuAVysoYK6AOmQVab2uR" class="product-link">
-                        <div class="product-image">
-                            <img src="https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=600&h=600&fit=crop" alt="Five Elements Energy Bracelet">
-                            <div class="product-element">
-                                <span class="element-badge element-water">Water</span>
-                            </div>
-                        </div>
-                        <div class="product-content">
-                            <p class="product-category">Crystals</p>
-                            <h3 class="product-name">五行能量手串</h3>
-                            <p class="product-desc">Natural amber beads, balances body energy and promotes harmony</p>
-                            <div class="product-footer">
-                                <span class="product-price">$168.00</span>
-                                <button class="product-btn">View Details</button>
-                            </div>
-                        </div>
-                    </a>
+            <div class="grid grid-2" id="featuredProducts">
+                <!-- Products will be loaded here by JavaScript -->
+                <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--text-secondary);">
+                    <p>Loading products from Creem...</p>
                 </div>
             </div>
             
@@ -1400,6 +1363,63 @@
             </div>
         </div>
     </section>
+    
+    <!-- Load Creem sync script for home page -->
+    <script src="js/creem-sync-v2.js"></script>
+    <script>
+        // Render featured products on home page
+        function renderFeaturedProducts() {
+            const container = document.getElementById('featuredProducts');
+            if (!container) return;
+            
+            if (typeof window.allProducts !== 'undefined' && window.allProducts.length > 0) {
+                // Get first 2 products for featured section
+                const featuredProducts = window.allProducts.slice(0, 2);
+                
+                container.innerHTML = featuredProducts.map(product => {
+                    const elementClass = `element-${product.element}`;
+                    return `
+                    <div class="product-card scroll-animate">
+                        <a href="product-detail.html?id=${product.id}" class="product-link">
+                            <div class="product-image">
+                                <img src="${product.image}" alt="${product.nameCN}" onerror="this.src='https://images.unsplash.com/photo-1519681393784-d120267933ba?w=600&h=600&fit=crop'">
+                                <div class="product-element">
+                                    <span class="element-badge ${elementClass}">${product.element.charAt(0).toUpperCase() + product.element.slice(1)}</span>
+                                </div>
+                            </div>
+                            <div class="product-content">
+                                <p class="product-category">${product.category}</p>
+                                <h3 class="product-name">${product.nameCN}</h3>
+                                <p class="product-desc">${product.descriptionCN}</p>
+                                <div class="product-footer">
+                                    <span class="product-price">$${product.price.toFixed(2)}</span>
+                                    <button class="product-btn">View Details</button>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    `;
+                }).join('');
+            } else {
+                // Fallback if no products loaded
+                container.innerHTML = `
+                <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--text-secondary);">
+                    <p>Products loading...</p>
+                </div>
+                `;
+            }
+        }
+        
+        // Wait for creem-sync to load
+        setTimeout(() => {
+            renderFeaturedProducts();
+        }, 1000);
+        
+        // Also check again after a short delay
+        setTimeout(() => {
+            renderFeaturedProducts();
+        }, 2000);
+    </script>
 
     <!-- 能量定制服务 -->
     <section class="life-path-booking section" id="life-path-booking">

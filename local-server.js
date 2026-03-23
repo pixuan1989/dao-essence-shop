@@ -16,6 +16,8 @@
 
 const http = require('http');
 const url = require('url');
+const fs = require('fs');
+const path = require('path');
 
 // ============================================
 // Creem API 配置
@@ -100,6 +102,41 @@ function transformCreemProduct(creemProduct) {
     energyLevel: creemProduct.energy_level || 'Medium',
     creemUrl: `https://www.creem.io/payment/${creemProduct.id}`
   };
+}
+
+/**
+ * 提供静态文件
+ */
+function serveFile(res, filePath) {
+  const extname = String(path.extname(filePath)).toLowerCase();
+  const mimeTypes = {
+    '.html': 'text/html',
+    '.js': 'text/javascript',
+    '.css': 'text/css',
+    '.json': 'application/json',
+    '.png': 'image/png',
+    '.jpg': 'image/jpg',
+    '.jpeg': 'image/jpeg',
+    '.gif': 'image/gif',
+    '.svg': 'image/svg+xml'
+  };
+
+  const contentType = mimeTypes[extname] || 'application/octet-stream';
+
+  fs.readFile(filePath, (error, content) => {
+    if (error) {
+      if (error.code == 'ENOENT') {
+        res.writeHead(404);
+        res.end(JSON.stringify({ success: false, error: 'File not found' }));
+      } else {
+        res.writeHead(500);
+        res.end('Sorry, check with the site admin for error: ' + error.code + ' ..\n');
+      }
+    } else {
+      res.writeHead(200, { 'Content-Type': contentType });
+      res.end(content, 'utf-8');
+    }
+  });
 }
 
 /**
@@ -261,16 +298,58 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
-  // 404
-  res.writeHead(404);
-  res.end(JSON.stringify({ success: false, error: 'Not found' }));
+  // 静态文件服务
+  // 处理根路径
+  if (pathname === '/' || pathname === '') {
+    serveFile(res, './index.html');
+    return;
+  }
+
+  // 处理其他静态文件
+  const filePath = '.' + pathname;
+  const extname = String(path.extname(filePath)).toLowerCase();
+  const mimeTypes = {
+    '.html': 'text/html',
+    '.js': 'text/javascript',
+    '.css': 'text/css',
+    '.json': 'application/json',
+    '.png': 'image/png',
+    '.jpg': 'image/jpg',
+    '.jpeg': 'image/jpeg',
+    '.gif': 'image/gif',
+    '.svg': 'image/svg+xml',
+    '.wav': 'audio/wav',
+    '.mp4': 'video/mp4',
+    '.woff': 'application/font-woff',
+    '.ttf': 'application/font-ttf',
+    '.eot': 'application/vnd.ms-fontobject',
+    '.otf': 'application/font-otf',
+    '.wasm': 'application/wasm'
+  };
+
+  const contentType = mimeTypes[extname] || 'application/octet-stream';
+
+  fs.readFile(filePath, (error, content) => {
+    if (error) {
+      if (error.code == 'ENOENT') {
+        res.writeHead(404);
+        res.end(JSON.stringify({ success: false, error: 'File not found' }));
+      } else {
+        res.writeHead(500);
+        res.end('Sorry, check with the site admin for error: ' + error.code + ' ..\n');
+      }
+    } else {
+      res.writeHead(200, { 'Content-Type': contentType });
+      res.end(content, 'utf-8');
+    }
+  });
 });
 
 // ============================================
 // 启动服务器
 // ============================================
 
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 3000;
 
 server.listen(PORT, () => {
   console.log('');
