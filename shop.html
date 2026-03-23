@@ -928,56 +928,68 @@
     <script src="js/creem-sync-v2.js"></script>
     
     <!-- Shop Products Manager -->
-    <!-- 注意：shop-manager.js 的加载被延迟，直到 creem-sync-v2.js 完成 -->
+    <!-- 直接加载 shop-manager.js，确保全局变量可用 -->
+    <script src="shop-manager.js?v=202603231700"></script>
+    
+    <!-- 等待 Creem 产品加载，然后显示 -->
     <script>
         /**
-         * 等待 creem-sync-v2.js 完成，然后加载 shop-manager.js
+         * 等待 creem-sync-v2.js 完成，然后显示产品
          */
-        function waitForCreemProductsAndLoadShopManager() {
-            console.log('🔍 等待 Creem 产品同步完成...');
+        function initializeShop() {
+            console.log('🔍 shop.html: 等待 Creem 产品同步完成...');
             
-            // 检查 creem-sync-v2.js 是否标记完成
-            const checkComplete = () => {
-                // 检查标志
+            let attempts = 0;
+            const maxAttempts = 100; // 最多等待 10 秒（100 * 100ms）
+            
+            const checkAndRender = () => {
+                attempts++;
+                
+                // 检查 creem-sync-v2.js 是否标记完成
                 if (window.__CREEM_PRODUCTS_READY__) {
-                    console.log('✅ Creem 产品已准备好，现在加载 shop-manager.js');
-                    loadShopManagerScript();
+                    console.log('✅ shop.html: Creem 产品已准备好，调用 renderShop()');
+                    if (typeof window.renderShop === 'function') {
+                        window.renderShop();
+                    } else {
+                        console.warn('⚠️ window.renderShop 不是函数');
+                    }
                     return;
                 }
                 
                 // 或者检查 window.allProducts 是否有数据
                 if (typeof window.allProducts !== 'undefined' && window.allProducts.length > 0) {
-                    console.log('✅ window.allProducts 已有数据 (' + window.allProducts.length + ' 个产品)');
-                    loadShopManagerScript();
+                    console.log('✅ shop.html: window.allProducts 已有数据 (' + window.allProducts.length + ' 个产品)');
+                    if (typeof window.renderShop === 'function') {
+                        window.renderShop();
+                    } else {
+                        console.warn('⚠️ window.renderShop 不是函数');
+                    }
+                    return;
+                }
+                
+                // 超时检查
+                if (attempts >= maxAttempts) {
+                    console.warn('⚠️ shop.html: 等待超时，仍未收到产品数据');
+                    if (typeof window.renderShop === 'function') {
+                        console.log('仍然调用 renderShop() 以显示空列表');
+                        window.renderShop();
+                    }
                     return;
                 }
                 
                 // 继续等待
-                setTimeout(checkComplete, 100);
+                setTimeout(checkAndRender, 100);
             };
             
-            checkComplete();
-        }
-        
-        function loadShopManagerScript() {
-            // 动态加载 shop-manager.js，确保 window.allProducts 已准备好
-            const script = document.createElement('script');
-            script.src = 'shop-manager.js?v=202603231630';
-            script.onload = () => {
-                console.log('✅ shop-manager.js 加载完成');
-            };
-            script.onerror = () => {
-                console.error('❌ shop-manager.js 加载失败');
-            };
-            document.body.appendChild(script);
+            checkAndRender();
         }
         
         // 页面加载完成后执行
         if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', waitForCreemProductsAndLoadShopManager);
+            document.addEventListener('DOMContentLoaded', initializeShop);
         } else {
             // DOM 已准备好
-            waitForCreemProductsAndLoadShopManager();
+            initializeShop();
         }
     </script>
     

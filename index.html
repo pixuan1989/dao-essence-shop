@@ -1657,19 +1657,59 @@
     
     <!-- 监听 Creem 产品加载完成 -->
     <script>
-        // 监听 creemProductsReady 事件
-        window.addEventListener('creemProductsReady', (event) => {
-            console.log('📢 收到 creemProductsReady 事件');
-            renderFeaturedProducts();
-        });
+        /**
+         * 确保首页显示 Creem 产品
+         */
+        function ensureFeaturedProductsRendered() {
+            console.log('🔍 index.html: 等待 Creem 产品同步完成...');
+            
+            let attempts = 0;
+            const maxAttempts = 100; // 最多等待 10 秒
+            
+            const checkAndRender = () => {
+                attempts++;
+                
+                // 检查产品是否已加载
+                if (typeof window.allProducts !== 'undefined' && window.allProducts.length > 0) {
+                    console.log('✅ index.html: Creem 产品已准备好 (' + window.allProducts.length + ' 个产品)');
+                    if (typeof renderFeaturedProducts === 'function') {
+                        renderFeaturedProducts();
+                    } else {
+                        console.warn('⚠️ renderFeaturedProducts 不是函数');
+                    }
+                    return;
+                }
+                
+                // 超时检查
+                if (attempts >= maxAttempts) {
+                    console.warn('⚠️ index.html: 等待超时，未能加载产品');
+                    if (typeof renderFeaturedProducts === 'function') {
+                        renderFeaturedProducts();
+                    }
+                    return;
+                }
+                
+                // 继续等待
+                setTimeout(checkAndRender, 100);
+            };
+            
+            checkAndRender();
+        }
         
-        // 或者通过轮询检查（备用方案）
-        setTimeout(() => {
-            if (typeof window.allProducts !== 'undefined' && window.allProducts.length > 0) {
-                console.log('✅ window.allProducts 已准备好（轮询方式）');
+        // 监听 creemProductsReady 事件（优先方案）
+        window.addEventListener('creemProductsReady', (event) => {
+            console.log('📢 index.html: 收到 creemProductsReady 事件');
+            if (typeof renderFeaturedProducts === 'function') {
                 renderFeaturedProducts();
             }
-        }, 2000);
+        });
+        
+        // 页面加载完成后执行轮询（备用方案）
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', ensureFeaturedProductsRendered);
+        } else {
+            ensureFeaturedProductsRendered();
+        }
     </script>
 </body>
 </html>
