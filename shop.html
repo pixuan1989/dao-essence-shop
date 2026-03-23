@@ -921,50 +921,64 @@
 
     <!-- Product Management Script -->
     <script>
-        console.log('Loading shop-manager.js...');
+        console.log('Loading Creem products...');
     </script>
     <!-- Creem Products Real-time Sync -->
     <!-- Creem 产品同步脚本（后端 API 版） -->
     <script src="js/creem-sync-v2.js"></script>
     
     <!-- Shop Products Manager -->
-    <!-- 加载 shop-manager.js（处理产品显示） -->
-    <script src="shop-manager.js?v=202603231625"></script>
+    <!-- 注意：shop-manager.js 的加载被延迟，直到 creem-sync-v2.js 完成 -->
     <script>
-        // 确保 creem-sync 完成后再加载产品
-        function loadShopManager() {
-            console.log('loadShopManager called');
-            // 检查 creem-sync-v2.js 是否已完成
-            if (typeof window.allProducts !== 'undefined' && window.allProducts.length > 0) {
-                console.log('✅ window.allProducts 已准备好');
-                if (typeof loadProducts === 'function') {
-                    loadProducts();
+        /**
+         * 等待 creem-sync-v2.js 完成，然后加载 shop-manager.js
+         */
+        function waitForCreemProductsAndLoadShopManager() {
+            console.log('🔍 等待 Creem 产品同步完成...');
+            
+            // 检查 creem-sync-v2.js 是否标记完成
+            const checkComplete = () => {
+                // 检查标志
+                if (window.__CREEM_PRODUCTS_READY__) {
+                    console.log('✅ Creem 产品已准备好，现在加载 shop-manager.js');
+                    loadShopManagerScript();
+                    return;
                 }
-            } else {
-                console.log('⏳ 等待 creem-sync-v2.js 完成...');
-                // 最多等待 5 秒
-                const maxWait = 5000;
-                const startTime = Date.now();
-                const checkInterval = setInterval(() => {
-                    if (typeof window.allProducts !== 'undefined' && window.allProducts.length > 0) {
-                        clearInterval(checkInterval);
-                        console.log('✅ window.allProducts 已准备好（延迟）');
-                        if (typeof loadProducts === 'function') {
-                            loadProducts();
-                        }
-                    } else if (Date.now() - startTime > maxWait) {
-                        clearInterval(checkInterval);
-                        console.warn('⚠️ 等待超时，使用空产品列表');
-                        if (typeof loadProducts === 'function') {
-                            loadProducts();
-                        }
-                    }
-                }, 100);
-            }
+                
+                // 或者检查 window.allProducts 是否有数据
+                if (typeof window.allProducts !== 'undefined' && window.allProducts.length > 0) {
+                    console.log('✅ window.allProducts 已有数据 (' + window.allProducts.length + ' 个产品)');
+                    loadShopManagerScript();
+                    return;
+                }
+                
+                // 继续等待
+                setTimeout(checkComplete, 100);
+            };
+            
+            checkComplete();
         }
         
-        // 等待 creem-sync 完成
-        setTimeout(loadShopManager, 1000);
+        function loadShopManagerScript() {
+            // 动态加载 shop-manager.js，确保 window.allProducts 已准备好
+            const script = document.createElement('script');
+            script.src = 'shop-manager.js?v=202603231630';
+            script.onload = () => {
+                console.log('✅ shop-manager.js 加载完成');
+            };
+            script.onerror = () => {
+                console.error('❌ shop-manager.js 加载失败');
+            };
+            document.body.appendChild(script);
+        }
+        
+        // 页面加载完成后执行
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', waitForCreemProductsAndLoadShopManager);
+        } else {
+            // DOM 已准备好
+            waitForCreemProductsAndLoadShopManager();
+        }
     </script>
     
     <!-- Shop Page Diagnostics -->

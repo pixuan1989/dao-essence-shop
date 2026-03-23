@@ -184,6 +184,7 @@ async function syncCreemProducts() {
     
     // 使用备用数据
     window.allProducts = FALLBACK_PRODUCTS;
+    window.__CREEM_PRODUCTS_READY__ = true; // 标记完成（即使是降级数据）
     window.dispatchEvent(new CustomEvent('creemProductsReady', { 
       detail: { products: FALLBACK_PRODUCTS } 
     }));

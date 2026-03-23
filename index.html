@@ -1654,5 +1654,22 @@
     <!-- Creem Products Real-time Sync -->
     <!-- Creem 产品同步脚本（后端 API 版） -->
     <script src="js/creem-sync-v2.js"></script>
+    
+    <!-- 监听 Creem 产品加载完成 -->
+    <script>
+        // 监听 creemProductsReady 事件
+        window.addEventListener('creemProductsReady', (event) => {
+            console.log('📢 收到 creemProductsReady 事件');
+            renderFeaturedProducts();
+        });
+        
+        // 或者通过轮询检查（备用方案）
+        setTimeout(() => {
+            if (typeof window.allProducts !== 'undefined' && window.allProducts.length > 0) {
+                console.log('✅ window.allProducts 已准备好（轮询方式）');
+                renderFeaturedProducts();
+            }
+        }, 2000);
+    </script>
 </body>
 </html>
