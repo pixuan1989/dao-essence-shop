@@ -19,10 +19,11 @@ const embeddedProducts = {
 // 设置为 false 隐藏折扣（只显示实际价格）
 const SHOW_DISCOUNT = true;
 
-// Embedded product data to avoid fetch issues with local files
+// Creem products - from Creem.io backend
 const embeddedProducts = {
   "products": [
     {
+<<<<<<< HEAD
       "id": "tai-sui-protection-token",
       "name": "Tai Sui Protection Token",
       "nameCN": "生肖守护令牌",
@@ -76,9 +77,16 @@ const embeddedProducts = {
       "id": "natural-agarwood",
       "name": "Natural Agarwood",
       "nameCN": "天然沉香",
+=======
+      "id": "prod_7i2asEAuHFHl5hJMeCEsfB",
+      "creemId": "prod_7i2asEAuHFHl5hJMeCEsfB",
+      "name": "Traditional Agarwood",
+      "nameCN": "传统沉香",
+>>>>>>> efb2b334afab8d19696e26cf436d76e7695c52c5
       "category": "incense",
       "categoryCN": "香",
       "element": "wood",
+<<<<<<< HEAD
 <<<<<<< HEAD
       "price": 170,
       "compareAtPrice": 200,
@@ -142,6 +150,34 @@ const embeddedProducts = {
       "element_cn": "土",
       "suitable_for": ["本命年", "运势调整", "寻求改变"],
       "customizable": true
+=======
+      "price": 200.00,
+      "currency": "USD",
+      "description": "Fosters tranquility and restful sleep, clears away negativity, and enhances a positive, balanced state of being.",
+      "descriptionCN": "促进宁静和安稳睡眠，清除负面情绪，增强积极、平衡的状态。",
+      "image": "images/agarwood-creem.jpg",
+      "stock": 999,
+      "benefits": ["Tranquility", "Sleep", "Positivity"],
+      "energyLevel": "High",
+      "creemUrl": "https://www.creem.io/payment/prod_7i2asEAuHFHl5hJMeCEsfB"
+    },
+    {
+      "id": "prod_1YuuAVysoYK6AOmQVab2uR",
+      "creemId": "prod_1YuuAVysoYK6AOmQVab2uR",
+      "name": "Five Elements Energy Bracelet",
+      "nameCN": "五行能量手串",
+      "category": "crystals",
+      "element": "water",
+      "price": 168.00,
+      "currency": "USD",
+      "description": "Five elements energy bracelet with natural amber beads. Balances body energy and promotes harmony.",
+      "descriptionCN": "天然琥珀珠五行能量手串。平衡身体能量，促进和谐。",
+      "image": "images/bracelet-creem.jpg",
+      "stock": 999,
+      "benefits": ["Balance", "Harmony", "Energy"],
+      "energyLevel": "Medium",
+      "creemUrl": "https://www.creem.io/payment/prod_1YuuAVysoYK6AOmQVab2uR"
+>>>>>>> efb2b334afab8d19696e26cf436d76e7695c52c5
     }
   ]
 };
@@ -258,8 +294,11 @@ function renderShop() {
         'ritual': '仪式用品'
     };
 
-    // Update product count
-    document.getElementById('productCount').textContent = filtered.length;
+    // Update product count (only if element exists - for shop page compatibility)
+    const productCountEl = document.getElementById('productCount');
+    if (productCountEl) {
+        productCountEl.textContent = filtered.length;
+    }
 
     grid.innerHTML = filtered.map(product => {
         const discount = SHOW_DISCOUNT && product.originalPrice ? calculateDiscount(product.originalPrice, product.price) : 0;

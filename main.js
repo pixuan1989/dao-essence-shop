@@ -68,14 +68,20 @@ function toggleCart() {
     // 检查当前页面
     const currentPath = window.location.pathname;
 
-    // 在商品详情页，打开购物车侧边栏
+    // 在商品详情页，打开/关闭购物车侧边栏
     if (currentPath.includes('product-detail.html')) {
         const cartSidebar = document.querySelector('.cart-sidebar');
         const cartOverlay = document.querySelector('.cart-overlay');
 
         if (cartSidebar && cartOverlay) {
-            cartSidebar.classList.add('open');
-            cartOverlay.classList.add('open');
+            // Toggle 购物车状态
+            if (cartSidebar.classList.contains('open')) {
+                cartSidebar.classList.remove('open');
+                cartOverlay.classList.remove('show');
+            } else {
+                cartSidebar.classList.add('open');
+                cartOverlay.classList.add('show');
+            }
         } else {
             // 如果购物车侧边栏不存在，跳转到结账页面
             window.location.href = 'checkout.html';
