@@ -342,6 +342,33 @@ document.addEventListener('DOMContentLoaded', async function() {
             console.log('✅ Updated productNameEn to:', productNameEn.textContent);
         }
         
+        // 更新页面头部标题
+        const pageTitleLarge = document.getElementById('pageTitleLarge');
+        if (pageTitleLarge) {
+            pageTitleLarge.textContent = PRODUCT_DATA.titleZh || PRODUCT_DATA.title || 'Product';
+            console.log('✅ Updated pageTitleLarge to:', pageTitleLarge.textContent);
+        }
+        
+        const pageTitleEn = document.getElementById('pageTitleEn');
+        if (pageTitleEn) {
+            pageTitleEn.textContent = PRODUCT_DATA.title || 'Product Title';
+            console.log('✅ Updated pageTitleEn to:', pageTitleEn.textContent);
+        }
+        
+        // 更新面包屑
+        const breadcrumbProduct = document.getElementById('breadcrumbProduct');
+        if (breadcrumbProduct) {
+            breadcrumbProduct.textContent = PRODUCT_DATA.titleZh || PRODUCT_DATA.title || 'Product';
+            console.log('✅ Updated breadcrumbProduct to:', breadcrumbProduct.textContent);
+        }
+        
+        const breadcrumbCategory = document.getElementById('breadcrumbCategory');
+        if (breadcrumbCategory) {
+            breadcrumbCategory.textContent = PRODUCT_DATA.type || 'Category';
+            console.log('✅ Updated breadcrumbCategory to:', breadcrumbCategory.textContent);
+        }
+        
+        // 更新产品描述
         const productDescription = document.getElementById('productDescription');
         if (productDescription) {
             productDescription.innerHTML = '<p>' + (PRODUCT_DATA.descriptionZh || PRODUCT_DATA.description || 'No description available') + '</p>';

@@ -351,14 +351,39 @@ function showNotification(message) {
         <span class="notification-message">${message}</span>
     `;
 
+    // 设置样式，确保不被遮挡
+    notification.style.cssText = `
+        position: fixed;
+        top: 100px;
+        right: 20px;
+        background: #2D5A3D;
+        color: #F5F0E6;
+        padding: 15px 25px;
+        border-radius: 4px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        z-index: 10000;
+        animation: slideInRight 0.3s ease-out;
+        border-left: 3px solid #D4AF37;
+        opacity: 0;
+        transform: translateX(100px);
+        transition: all 0.3s ease;
+    `;
+
     document.body.appendChild(notification);
 
     // 动画显示
-    setTimeout(() => notification.classList.add('show'), 10);
+    setTimeout(() => {
+        notification.style.opacity = '1';
+        notification.style.transform = 'translateX(0)';
+    }, 10);
 
     // 3秒后自动关闭
     setTimeout(() => {
-        notification.classList.remove('show');
+        notification.style.opacity = '0';
+        notification.style.transform = 'translateX(100px)';
         setTimeout(() => notification.remove(), 300);
     }, 3000);
 }
