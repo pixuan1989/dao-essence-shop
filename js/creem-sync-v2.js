@@ -184,16 +184,19 @@ async function syncCreemProducts() {
       console.log('✅ 已设置备用数据到 window.allProducts:', fallbackProducts.length, 'items');
     }
 
-    if (typeof renderShop === 'function') {
-      renderShop();
-      console.log('✅ 已调用 renderShop()');
-    }
+    // 延迟触发渲染，确保 DOM 已加载
+    setTimeout(() => {
+      if (typeof renderShop === 'function') {
+        renderShop();
+        console.log('✅ 已调用 renderShop()');
+      }
 
-    // 触发首页产品渲染
-    if (typeof renderFeaturedProducts === 'function') {
-      renderFeaturedProducts();
-      console.log('✅ 已调用 renderFeaturedProducts()');
-    }
+      // 触发首页产品渲染
+      if (typeof renderFeaturedProducts === 'function') {
+        renderFeaturedProducts();
+        console.log('✅ 已调用 renderFeaturedProducts()');
+      }
+    }, 500);
 
     return {
       success: false,

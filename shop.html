@@ -936,12 +936,20 @@
             script.onload = function() {
                 console.log('shop-manager.js loaded');
                 console.log('window.allProducts:', window.allProducts);
+                
+                // 手动触发产品加载
+                setTimeout(() => {
+                    if (typeof loadProducts === 'function') {
+                        loadProducts();
+                        console.log('✅ 已调用 loadProducts()');
+                    }
+                }, 500);
             };
             document.head.appendChild(script);
         }
         
         // 等待 creem-sync 完成
-        setTimeout(loadShopManager, 1500);
+        setTimeout(loadShopManager, 1000);
     </script>
     
     <!-- Shop Page Diagnostics -->
