@@ -93,24 +93,29 @@ async function fetchCreemProduct(productId) {
 function transformCreemProduct(creemProduct) {
   if (!creemProduct) return null;
 
+  // 🔥 关键修复：Creem API 返回的价格是以分为单位的，需要除以 100
+  // 例如：20000 = $200.00，16800 = $168.00
+  const priceInCents = parseInt(creemProduct.price || 0);
+  const priceInDollars = priceInCents / 100;
+
   return {
-    id: creemProduct.id || creemProduct.identifier,
+    id: creemProduct.id,
     creemId: creemProduct.id,
-    name: creemProduct.name_en || creemProduct.name,
-    nameCN: creemProduct.name_cn || creemProduct.name,
-    category: creemProduct.category || 'other',
-    categoryCN: creemProduct.category_cn || creemProduct.category,
-    element: creemProduct.element || 'unknown',
-    price: parseFloat(creemProduct.price) || 0,
-    originalPrice: parseFloat(creemProduct.original_price || creemProduct.price),
+    name: creemProduct.name || 'Unknown Product',
+    nameCN: creemProduct.name || 'Unknown Product',
+    category: 'spiritual',
+    categoryCN: '精神修行',
+    element: 'energy',
+    price: priceInDollars, // ✅ 已转换为美元
+    originalPrice: priceInDollars,
     currency: creemProduct.currency || 'USD',
-    description: creemProduct.description_en || creemProduct.description || '',
-    descriptionCN: creemProduct.description_cn || creemProduct.description || '',
-    image: creemProduct.image_url || creemProduct.primary_image || '',
-    images: creemProduct.image_urls || [creemProduct.image_url] || [],
-    stock: creemProduct.stock || 999,
-    benefits: creemProduct.benefits || [],
-    energyLevel: creemProduct.energy_level || 'Medium',
+    description: creemProduct.description || 'Premium spiritual product from Creem',
+    descriptionCN: creemProduct.description || '来自 Creem 的高级精神产品',
+    image_url: creemProduct.image_url || 'images/placeholder.jpg', // ✅ 使用 Creem API 的正确字段名
+    img_url: creemProduct.image_url || 'images/placeholder.jpg', // 备用字段
+    product_id: creemProduct.id,
+    product_name: creemProduct.name,
+    product_description: creemProduct.description,
     creemUrl: `https://www.creem.io/payment/${creemProduct.id}`
   };
 }

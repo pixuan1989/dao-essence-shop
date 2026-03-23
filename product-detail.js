@@ -43,24 +43,33 @@ window.loadProductData = async function() {
     
     // 从 window.allProducts 中获取产品数据
     if (typeof window.allProducts !== 'undefined' && window.allProducts.length > 0) {
+        console.log('Available products:', window.allProducts.map(p => ({ id: p.id, name: p.name, price: p.price })));
+        
         const product = window.allProducts.find(p => p.id === actualProductId) || window.allProducts.find(p => p.id === defaultProductId);
         if (product) {
+            console.log('🔍 Found product:', product);
+            console.log('📊 Product fields:', { name: product.name, nameCN: product.nameCN, price: product.price, image: product.image, image_url: product.image_url, img_url: product.img_url });
+            
+            // 🔥 支持多种图片字段名
+            const productImage = product.image || product.image_url || product.img_url || 'images/placeholder.jpg';
+            console.log('📷 Using image:', productImage);
+            
             // 转换 Creem API 数据格式为产品详情页需要的格式
             PRODUCT_DATA = {
                 id: product.id,
-                title: product.name,
-                titleZh: product.nameCN,
-                handle: product.name.toLowerCase().replace(/\s+/g, '-'),
-                description: product.description,
-                descriptionZh: product.descriptionCN,
+                title: product.name || product.product_name || 'Unknown Product',
+                titleZh: product.nameCN || product.name || 'Unknown Product',
+                handle: (product.name || 'product').toLowerCase().replace(/\s+/g, '-'),
+                description: product.description || product.product_description || 'No description available',
+                descriptionZh: product.descriptionCN || product.description || product.product_description || 'No description available',
                 price: parseFloat(product.price) || 0,
                 compareAtPrice: parseFloat(product.originalPrice || product.price) || 0,
                 currency: product.currency || 'USD',
                 images: [
                     {
                         id: 1,
-                        src: product.image,
-                        alt: product.nameCN,
+                        src: productImage,
+                        alt: product.nameCN || product.name || 'Product',
                         width: 1200,
                         height: 1200,
                         position: 1
@@ -77,7 +86,7 @@ window.loadProductData = async function() {
                         options: {}
                     }
                 ],
-                type: product.categoryCN || product.category,
+                type: product.categoryCN || product.category || 'Spiritual',
                 metafields: {
                     energy: {
                         five_element: product.element,
