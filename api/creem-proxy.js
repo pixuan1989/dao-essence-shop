@@ -247,7 +247,8 @@ async function handler(req, res) {
   }
 
   // 路由：获取所有产品
-  if (req.url === '/api/products' || req.url === '/api/products/') {
+  // ✅ 注意：在 Vercel Serverless 中，req.url 不包含 /api 前缀
+  if (req.url === '/products' || req.url === '/products/' || req.url === '' || req.url === '/') {
     try {
       const products = await getAllProducts();
       return res.status(200).json({
@@ -269,7 +270,8 @@ async function handler(req, res) {
   }
 
   // 路由：获取单个产品
-  if (req.url.startsWith('/api/products/') && req.method === 'GET') {
+  // ✅ 注意：在 Vercel Serverless 中，req.url 不包含 /api 前缀
+  if (req.url.startsWith('/products/') && req.method === 'GET') {
     const productId = req.url.split('/').pop();
     
     try {
