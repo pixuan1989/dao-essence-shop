@@ -1,14 +1,8 @@
 {
-  "buildCommand": "",
-  "framework": "static",
   "routes": [
     {
       "src": "/api/(.*)",
       "dest": "/api/$1.js"
-    },
-    {
-      "src": "/(.*)(?:\\.(?!html?|json$))?$",
-      "dest": "/$1"
     }
   ]
 }
