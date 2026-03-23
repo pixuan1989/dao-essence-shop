@@ -151,6 +151,7 @@ function transformProducts(products) {
       descriptionCN: product.descriptionCN || product.description || product.product_description || '暂无描述',
       description: product.description || product.product_description || '暂无描述',
       price: price, // ✅ 已是美元格式（由后端转换）
+      originalPrice: parseFloat(product.originalPrice || product.original_price || product.price) || 0,
       currency: product.currency || 'USD',
       // 🔥 重要：支持多种图片字段名
       image: product.image || product.image_url || product.img_url || product.images?.[0] || 'images/placeholder.jpg',

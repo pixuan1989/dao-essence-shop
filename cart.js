@@ -222,7 +222,7 @@ function updateCartUI() {
 
 // 更新购物车徽章
 function updateCartBadge() {
-    const badges = document.querySelectorAll('.cart-badge');
+    const badges = document.querySelectorAll('.cart-badge, .floating-cart-badge');
     const count = getCartCount();
     
     badges.forEach(badge => {

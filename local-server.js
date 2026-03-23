@@ -14,10 +14,11 @@
  *   http://localhost:8000/api/products
  */
 
-const http = require('http');
-const url = require('url');
-const fs = require('fs');
-const path = require('path');
+import http from 'http';
+import url from 'url';
+import fs from 'fs';
+import path from 'path';
+import https from 'https';
 
 // ============================================
 // Creem API 配置
@@ -55,7 +56,7 @@ async function fetchCreemProduct(productId) {
       }
     };
 
-    const req = require('https').request(options, (res) => {
+    const req = https.request(options, (res) => {
       let data = '';
       res.on('data', chunk => data += chunk);
       res.on('end', () => {
@@ -91,7 +92,7 @@ function transformCreemProduct(creemProduct) {
     categoryCN: creemProduct.category_cn || creemProduct.category,
     element: creemProduct.element || 'unknown',
     price: parseFloat(creemProduct.price) || 0,
-    originalPrice: parseFloat(creemProduct.original_price || creemProduct.price),
+    originalPrice: parseFloat(creemProduct.original_price || creemProduct.price) || 0,
     currency: creemProduct.currency || 'USD',
     description: creemProduct.description_en || creemProduct.description || '',
     descriptionCN: creemProduct.description_cn || creemProduct.description || '',
@@ -153,6 +154,7 @@ function getFallbackProducts() {
       "categoryCN": "香",
       "element": "wood",
       "price": 200.00,
+      "originalPrice": 250.00,
       "currency": "USD",
       "description": "Premium natural agarwood for meditation and academic success.",
       "descriptionCN": "用于冥想和学业的优质天然沉香。支持专注力和思维清晰。",
@@ -171,6 +173,7 @@ function getFallbackProducts() {
       "categoryCN": "晶体",
       "element": "water",
       "price": 168.00,
+      "originalPrice": 200.00,
       "currency": "USD",
       "description": "Five elements energy bracelet with natural amber beads.",
       "descriptionCN": "天然琥珀珠五行能量手串。平衡身体能量，促进和谐。",
