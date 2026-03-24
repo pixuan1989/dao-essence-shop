@@ -165,6 +165,39 @@ function addToCart(productId, quantity = 1) {
     console.log('🛒 Cart items count:', cart.items.length, '| Total items:', cart.items.reduce((sum, item) => sum + item.quantity, 0));
 }
 
+// 静默版 addToCart —— 不显示通知（用于"立即购买"场景，跳转前不弹 toast）
+function addToCartSilent(productId, quantity = 1) {
+    let product = null;
+    if (window.allProducts) {
+        product = window.allProducts.find(p => p.id === productId);
+    }
+    if (!product && products[productId]) {
+        product = products[productId];
+    }
+    if (!product) {
+        console.error('❌ Product not found (silent):', productId);
+        return;
+    }
+    const displayName = product.nameCN || product.nameCn || product.name || product.title || 'Unknown';
+    const existingItem = cart.items.find(item => item.id === productId);
+    if (existingItem) {
+        existingItem.quantity += quantity;
+    } else {
+        cart.items.push({
+            id: product.id,
+            name: product.name || product.title || 'Unknown Product',
+            nameCn: displayName,
+            price: product.price || 0,
+            image: product.image_url || product.image || product.thumbnail || '',
+            quantity: quantity
+        });
+    }
+    window.cart = cart;
+    saveCartToStorage();
+    updateCartBadge();
+    console.log('⚡ addToCartSilent:', displayName, 'qty:', quantity);
+}
+
 // 从购物车移除卡
 function removeFromCart(productId) {
     const index = cart.items.findIndex(item => item.id === productId);
@@ -436,6 +469,7 @@ document.addEventListener('DOMContentLoaded', initCart);
 
 // 导出函数供全局使用
 window.addToCart = addToCart;
+window.addToCartSilent = addToCartSilent;
 window.removeFromCart = removeFromCart;
 window.updateQuantity = updateQuantity;
 window.clearCart = clearCart;

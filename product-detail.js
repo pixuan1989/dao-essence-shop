@@ -308,10 +308,7 @@ window.addToCartFromDetail = function() {
     // 调用 cart.js 中的 addToCart 函数
     if (typeof window.addToCart === 'function') {
         window.addToCart(cardId, quantity);
-        // 🔥 加购成功后打开侧边栏，给用户明确视觉反馈
-        setTimeout(() => {
-            if (typeof openCart === 'function') openCart();
-        }, 200);
+        // 注意：不自动打开侧边栏，保持"加入购物车"按钮的单一职责
     } else {
         console.error('❌ addToCart function not available');
     }
@@ -331,8 +328,11 @@ window.buyNow = function() {
     const cardId = CARD_DATA.id;
     console.log('⚡ buyNow: cardId=' + cardId + ', quantity=' + quantity);
 
-    // 先加入购物车，然后跳转结算页
-    if (typeof window.addToCart === 'function') {
+    // 先加入购物车（静默，不显示通知），然后跳转结算页
+    if (typeof window.addToCartSilent === 'function') {
+        window.addToCartSilent(cardId, quantity);
+    } else if (typeof window.addToCart === 'function') {
+        // 降级：用普通 addToCart（会显示通知）
         window.addToCart(cardId, quantity);
     } else {
         console.error('❌ addToCart function not available');
