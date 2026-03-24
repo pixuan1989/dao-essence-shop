@@ -145,8 +145,6 @@ async function handlePaymentSucceeded(orderData) {
     console.log('时间:', new Date().toISOString());
     console.log('================================');
 
-    // 发送订单确认邮件（买家 + 商家）
-    await sendOrderEmails(orderData);
-
-    console.log('✅ 订单处理完成');
+    // 不再发送邮件，地址信息在 Creem 后台查看
+    console.log('✅ 订单处理完成，地址信息请在 Creem 后台查看');
 }

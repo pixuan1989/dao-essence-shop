@@ -482,12 +482,11 @@ export default async function handler(req, res) {
             const shippingResult = await sendShippingNotificationEmail(client, orderData);
             results = [shippingResult];
         } else {
-            // 发送订单确认邮件（买家 + 商家）
-            results = await Promise.allSettled([
-                sendBuyerConfirmationEmail(client, orderData),
-                sendMerchantNotificationEmail(client, orderData)
-            ]);
-        }
+                // 发送商家通知邮件（买家邮件由 Creem 自动发送）
+                results = await Promise.allSettled([
+                    sendMerchantNotificationEmail(client, orderData)
+                ]);
+            }
 
         const response = {
             success: true
@@ -497,9 +496,7 @@ export default async function handler(req, res) {
         if (orderData.emailType === 'shipping') {
             response.shipping = 'sent';
         } else {
-            const buyerResult = results[0];
-            const merchantResult = results[1];
-            response.buyer = buyerResult.status === 'fulfilled' ? 'sent' : `failed: ${buyerResult.reason?.message}`;
+            const merchantResult = results[0];
             response.merchant = merchantResult.status === 'fulfilled' ? 'sent' : `failed: ${merchantResult.reason?.message}`;
         }
 
