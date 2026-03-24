@@ -1,18 +1,18 @@
 /**
- * 商品列表页 - Shopify 数据对接
+ * 卡列表页 - Shopify 数据对接
  * 
  * 功能：
- * - 从 Shopify 拉取商品列表
+ * - 从 Shopify 拉取卡列表
  * - 支持分类筛选
- * - 商品卡片渲染
+ * - 卡卡片渲染
  */
 
 // ============================================
 // 全局变量
 // ============================================
 
-let allProducts = [];
-let filteredProducts = [];
+let allCards = [];
+let filteredCards = [];
 let currentFilter = 'all';
 
 // ============================================
@@ -21,33 +21,33 @@ let currentFilter = 'all';
 
 document.addEventListener('DOMContentLoaded', async function() {
     // 加载 Shopify 配置
-    await loadShopifyProducts();
+    await loadShopifyCards();
     
     // 初始化筛选器
     initFilters();
     
-    // 渲染商品列表
-    renderProducts();
+    // 渲染卡列表
+    renderCards();
 });
 
 // ============================================
-// 加载商品数据
+// 加载卡数据
 // ============================================
 
-async function loadShopifyProducts() {
+async function loadShopifyCards() {
     try {
         showLoading();
         
-        // 从 Shopify 拉取所有商品
-        allProducts = await getAllProducts();
-        filteredProducts = [...allProducts];
+        // 从 Shopify 拉取所有卡
+        allCards = await getAllProducts();
+        filteredCards = [...allCards];
         
-        console.log('已加载商品数量:', allProducts.length);
+        console.log('已加载卡数量:', allCards.length);
         
         hideLoading();
     } catch (error) {
-        console.error('加载商品失败:', error);
-        showError('无法加载商品数据，请稍后重试');
+        console.error('加载卡失败:', error);
+        showError('无法加载卡数据，请稍后重试');
         hideLoading();
     }
 }
@@ -75,85 +75,85 @@ function filterProducts(filterValue) {
     currentFilter = filterValue;
     
     if (filterValue === 'all') {
-        filteredProducts = [...allProducts];
+        filteredCards = [...allCards];
     } else {
         // 根据 Shopify tags 或 productType 筛选
-        filteredProducts = allProducts.filter(product => {
-            return product.tags && product.tags.includes(filterValue) ||
-                   product.productType === filterValue;
+        filteredCards = allCards.filter(card => {
+            return card.tags && card.tags.includes(filterValue) ||
+                   card.productType === filterValue;
         });
     }
     
-    renderProducts();
+    renderCards();
 }
 
 // ============================================
-// 渲染商品列表
+// 渲染卡列表
 // ============================================
 
-function renderProducts() {
+function renderCards() {
     const container = document.getElementById('products-grid') || 
                       document.querySelector('.products-grid') ||
                       document.querySelector('.product-list');
     
     if (!container) {
-        console.error('找不到商品容器元素');
+        console.error('找不到卡容器元素');
         return;
     }
     
-    if (filteredProducts.length === 0) {
+    if (filteredCards.length === 0) {
         container.innerHTML = `
             <div class="no-products">
-                <p>暂无商品</p>
+                <p>暂无卡</p>
             </div>
         `;
         return;
     }
     
-    container.innerHTML = filteredProducts.map(product => createProductCard(product)).join('');
+    container.innerHTML = filteredCards.map(card => createCardCard(card)).join('');
     
     // 绑定添加到购物车按钮
     bindAddToCartButtons();
 }
 
-function createProductCard(product) {
-    const mainImage = getMainImage(product);
+function createCardCard(card) {
+    const mainImage = getMainImage(card);
     const imageUrl = mainImage ? mainImage.url : 'images/placeholder.jpg';
-    const imageAlt = mainImage ? mainImage.altText : product.title;
+    const imageAlt = mainImage ? mainImage.altText : card.title;
     
-    const minPrice = product.priceRange.minVariantPrice.amount;
-    const maxPrice = product.priceRange.maxVariantPrice.amount;
-    const currency = product.priceRange.minVariantPrice.currencyCode;
+    const minPrice = card.priceRange.minVariantPrice.amount;
+    const maxPrice = card.priceRange.maxVariantPrice.amount;
+    const currency = card.priceRange.minVariantPrice.currencyCode;
     
     const priceDisplay = minPrice === maxPrice 
         ? formatPrice(minPrice, currency)
         : `${formatPrice(minPrice, currency)} - ${formatPrice(maxPrice, currency)}`;
     
-    const isAvailable = product.availableForSale;
-    const firstVariant = product.variants.edges[0]?.node;
+    const isAvailable = card.availableForSale;
+    const firstVariant = card.variants.edges[0]?.node;
     
     return `
-        <div class="product-card ${!isAvailable ? 'sold-out' : ''}" data-product-handle="${product.handle}">
+        <div class="product-card ${!isAvailable ? 'sold-out' : ''}" data-product-handle="${card.handle}">
             <div class="product-image">
-                <a href="product-detail.html?product=${product.handle}">
+                <a href="product-detail.html?product=${card.handle}">
                     <img src="${imageUrl}" alt="${imageAlt}" loading="lazy">
                 </a>
                 ${!isAvailable ? '<span class="sold-out-badge">已售罄</span>' : ''}
             </div>
             <div class="product-info">
                 <h3 class="product-title">
-                    <a href="product-detail.html?product=${product.handle}">${product.title}</a>
+                    <a href="product-detail.html?product=${card.handle}">${card.title}</a>
                 </h3>
                 <p class="product-price">${priceDisplay}</p>
-                <p class="product-description">${product.description?.substring(0, 100) || ''}...</p>
+                <p class="product-description">${card.description?.substring(0, 100) || ''}...</p>
                 
                 <!-- 显示自定义字段示例 -->
-                ${getMetafieldValue(product, 'material') ? `
-                    <p class="product-meta">材质: ${getMetafieldValue(product, 'material')}</p>
+                ${getMetafieldValue(card, 'material') ? `
+                    <p class="product-meta">材质: ${getMetafieldValue(card, 'material')}</p>
                 ` : ''}
                 
                 ${isAvailable && firstVariant ? `
-                    <button class="add-to-cart-btn" data-variant-id="${firstVariant.id}" data-product-title="${product.title}">
+                    <button class="add-to-cart-btn" data-variant-id="${firstVariant.id}" data-product-title="${card.title}">
                         加入购物车
                     </button>
                 ` : `
@@ -173,7 +173,7 @@ function bindAddToCartButtons() {
     addToCartButtons.forEach(button => {
         button.addEventListener('click', async function() {
             const variantId = this.getAttribute('data-variant-id');
-            const productTitle = this.getAttribute('data-product-title');
+            const cardTitle = this.getAttribute('data-product-title');
             
             try {
                 this.textContent = '添加中...';
@@ -190,7 +190,7 @@ function bindAddToCartButtons() {
                     this.disabled = false;
                 }, 2000);
                 
-                showNotification(`${productTitle} 已添加到购物车`);
+                showNotification(`${cardTitle} 已添加到购物车`);
                 
             } catch (error) {
                 console.error('添加到购物车失败:', error);

@@ -2,9 +2,9 @@
  * 购物车页 - Shopify Cart API 对接
  * 
  * 功能：
- * - 显示购物车商品列表
- * - 修改商品数量
- * - 移除商品
+ * - 显示购物车卡列表
+ * - 修改卡数量
+ * - 移除卡
  * - 计算总价
  * - 跳转结账
  */
@@ -111,7 +111,7 @@ function renderCart() {
                     <p class="total-price">${formatPrice(variant.price.amount * item.quantity, variant.price.currencyCode)}</p>
                 </div>
                 <div class="item-actions">
-                    <button class="remove-btn" onclick="removeItem('${item.id}')" title="移除商品">
+                    <button class="remove-btn" onclick="removeItem('${item.id}')" title="移除卡">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"></path>
                         </svg>
@@ -123,12 +123,12 @@ function renderCart() {
 }
 
 // ============================================
-// 更新商品数量
+// 更新卡数量
 // ============================================
 
 async function updateQuantity(lineId, newQuantity) {
     if (newQuantity < 1) {
-        if (confirm('确定要移除该商品吗？')) {
+        if (confirm('确定要移除该卡吗？')) {
             await removeItem(lineId);
         }
         return;
@@ -155,7 +155,7 @@ async function updateQuantity(lineId, newQuantity) {
 }
 
 // ============================================
-// 移除商品
+// 移除卡
 // ============================================
 
 async function removeItem(lineId) {
@@ -175,10 +175,10 @@ async function removeItem(lineId) {
         }
         
         hideUpdating();
-        showNotification('商品已移除');
+        showNotification('卡已移除');
         
     } catch (error) {
-        console.error('移除商品失败:', error);
+        console.error('移除卡失败:', error);
         showError('移除失败，请重试');
         hideUpdating();
     }
@@ -247,7 +247,7 @@ function updateCartSummary() {
     }
     
     if (itemCountEl) {
-        itemCountEl.textContent = `${itemCount} 件商品`;
+        itemCountEl.textContent = `${itemCount} 件卡`;
     }
 }
 
@@ -360,8 +360,8 @@ function showEmptyCart() {
                 </svg>
             </div>
             <h2>购物车是空的</h2>
-            <p>您还没有添加任何商品</p>
-            <a href="shop.html" class="continue-shopping-btn">去购物</a>
+            <p>您还没有添加任何卡</p>
+            <a href="shop.html" class="continue-shopping-btn">去购卡</a>
         </div>
     `;
     

@@ -10,12 +10,12 @@ let cart = {
     exchangeRate: 7.2 // USD to CNY
 };
 
-// 产品数据（可动态扩展）
-let products = {
+// 卡数据（可动态扩展）
+let cards = {
     'jade-pendant': {
         id: 'jade-pendant',
         name: 'Jade Pendant - Harmony',
-        nameCn: '玉佩 - 和谐',
+        nameCn: '玉佩卡 - 和谐',
         price: 128,
         image: 'images/jade-pendant.jpg',
         category: 'jewelry'
@@ -23,7 +23,7 @@ let products = {
     'incense-burner': {
         id: 'incense-burner',
         name: 'Bronze Incense Burner',
-        nameCn: '青铜香炉',
+        nameCn: '青铜香炉卡',
         price: 89,
         image: 'images/incense-burner.jpg',
         category: 'ritual'
@@ -31,7 +31,7 @@ let products = {
     'calligraphy-set': {
         id: 'calligraphy-set',
         name: 'Calligraphy Set',
-        nameCn: '书法套装',
+        nameCn: '书法套装卡',
         price: 156,
         image: 'images/calligraphy-set.jpg',
         category: 'art'
@@ -39,7 +39,7 @@ let products = {
     'tea-set': {
         id: 'tea-set',
         name: 'Five Elements Tea Set',
-        nameCn: '五行茶具',
+        nameCn: '五行茶具卡',
         price: 198,
         image: 'images/tea-set.jpg',
         category: 'tea'
@@ -47,7 +47,7 @@ let products = {
     'singing-bowl': {
         id: 'singing-bowl',
         name: 'Singing Bowl - Balance',
-        nameCn: '颂钵 - 平衡',
+        nameCn: '颂钵卡 - 平衡',
         price: 168,
         image: 'images/singing-bowl.jpg',
         category: 'meditation'
@@ -55,7 +55,7 @@ let products = {
     'feng-shui-compass': {
         id: 'feng-shui-compass',
         name: 'Feng Shui Compass',
-        nameCn: '风水罗盘',
+        nameCn: '风水罗盘卡',
         price: 238,
         image: 'images/feng-shui-compass.jpg',
         category: 'tools'
@@ -111,33 +111,33 @@ function saveCartToStorage() {
     localStorage.setItem('daoessence_cart', JSON.stringify(cart));
 }
 
-// 🔥 修复：添加商品到购物车 - 支持 Creem API 产品和静态产品
+// 🔥 修复：添加卡到购物车 - 支持 Creem API 卡和静态卡
 function addToCart(productId, quantity = 1) {
-    let product = null;
+    let card = null;
     
-    // 优先级 1：查 Creem 同步的产品
+    // 优先级 1：查 Creem 同步的卡
     if (window.allProducts) {
-        product = window.allProducts.find(p => p.id === productId);
-        if (product) {
-            // 🔥 Creem 产品字段名是 nameCN（大写 N），兼容处理
-            console.log('✅ Found product from Creem API:', product.nameCN || product.nameCn || product.name);
+        card = window.allProducts.find(p => p.id === productId);
+        if (card) {
+            // 🔥 Creem 卡字段名是 nameCN（大写 N），兼容处理
+            console.log('✅ Found card from Creem API:', card.nameCN || card.nameCn || card.name);
         }
     }
     
-    // 优先级 2：查静态产品库
-    if (!product && products[productId]) {
-        product = products[productId];
-        console.log('✅ Found product from static list:', product.nameCn || product.nameCN || product.name);
+    // 优先级 2：查静态卡库
+    if (!card && cards[productId]) {
+        card = cards[productId];
+        console.log('✅ Found card from static list:', card.nameCn || card.nameCN || card.name);
     }
     
-    if (!product) {
-        console.error('❌ Product not found:', productId);
-        alert('产品未找到，请刷新页面重试');
+    if (!card) {
+        console.error('❌ Card not found:', productId);
+        alert('卡未找到，请刷新页面重试');
         return;
     }
 
     // 兼容 nameCN（Creem）和 nameCn（静态）两种字段名
-    const displayName = product.nameCN || product.nameCn || product.name || product.title || 'Unknown Product';
+    const displayName = card.nameCN || card.nameCn || card.name || card.title || 'Unknown Card';
     const existingItem = cart.items.find(item => item.id === productId);
     
     if (existingItem) {
@@ -145,12 +145,12 @@ function addToCart(productId, quantity = 1) {
         console.log('✅ Updated quantity for', displayName, '→', existingItem.quantity);
     } else {
         cart.items.push({
-            id: product.id,
-            name: product.name || product.title || 'Unknown Product',
+            id: card.id,
+            name: card.name || card.title || 'Unknown Card',
             nameCn: displayName,
-            price: product.price || 0,
+            price: card.price || 0,
             // 🔥 兼容 image_url（Creem）和 image（静态）
-            image: product.image_url || product.image || product.thumbnail || '',
+            image: card.image_url || card.image || card.thumbnail || '',
             quantity: quantity
         });
         console.log('✅ Added new item to cart:', displayName);
@@ -165,7 +165,7 @@ function addToCart(productId, quantity = 1) {
     console.log('🛒 Cart items count:', cart.items.length, '| Total items:', cart.items.reduce((sum, item) => sum + item.quantity, 0));
 }
 
-// 从购物车移除商品
+// 从购物车移除卡
 function removeFromCart(productId) {
     const index = cart.items.findIndex(item => item.id === productId);
     if (index > -1) {
@@ -177,7 +177,7 @@ function removeFromCart(productId) {
     }
 }
 
-// 更新商品数量
+// 更新卡数量
 function updateQuantity(productId, newQuantity) {
     const item = cart.items.find(item => item.id === productId);
     if (item) {
@@ -276,8 +276,8 @@ function updateCartPage() {
             <div class="cart-empty-state">
                 <i class="cart-empty-icon">🛒</i>
                 <h3>购物车是空的</h3>
-                <p>探索我们的五行能量产品</p>
-                <a href="shop.html" class="btn btn-primary">浏览商品</a>
+                <p>探索我们的五行能量卡</p>
+                <a href="shop.html" class="btn btn-primary">浏览卡</a>
             </div>
         `;
     } else {
@@ -396,9 +396,9 @@ function showNotification(message) {
    Creem 产品动态注册（支持 Creem API 产品）
    ============================================ */
 
-// 注册 Creem 产品到产品库
+// 注册 Creem 卡到卡库
 window.registerCreemProducts = function(creemProducts) {
-    console.log('📦 Registering Creem products...');
+    console.log('📦 Registering Creem cards...');
     
     if (!Array.isArray(creemProducts)) {
         console.error('❌ creemProducts must be an array');
@@ -406,25 +406,25 @@ window.registerCreemProducts = function(creemProducts) {
     }
     
     creemProducts.forEach(p => {
-        const productId = p.id || p.product_id;
-        const productName = p.name || p.product_name || 'Unknown';
-        const productPrice = parseFloat(p.price || 0);
-        const productImage = p.img_url || p.image || '';
+        const cardId = p.id || p.product_id;
+        const cardName = p.name || p.product_name || 'Unknown';
+        const cardPrice = parseFloat(p.price || 0);
+        const cardImage = p.img_url || p.image || '';
         
-        console.log(`✅ Registering: ${productName} ($${productPrice})`);
+        console.log(`✅ Registering: ${cardName} ($${cardPrice})`);
         
-        products[productId] = {
-            id: productId,
-            name: productName,
-            nameCn: productName,
-            price: productPrice,
-            image: productImage,
+        cards[cardId] = {
+            id: cardId,
+            name: cardName,
+            nameCn: cardName,
+            price: cardPrice,
+            image: cardImage,
             category: 'creem',
             description: p.description || p.product_description || ''
         };
     });
     
-    console.log(`✅ Total products registered: ${Object.keys(products).length}`);
+    console.log(`✅ Total cards registered: ${Object.keys(cards).length}`);
 };
 
 /* ============================================
@@ -444,5 +444,5 @@ window.getCartCount = getCartCount;
 window.updateCartUI = updateCartUI;
 window.updateCartBadge = updateCartBadge;
 window.cart = cart;
-window.products = products;
+window.cards = cards;
 window.shippingRates = shippingRates;

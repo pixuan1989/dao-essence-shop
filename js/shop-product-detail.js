@@ -1,8 +1,8 @@
 /**
- * 商品详情页 - Shopify 数据对接
+ * 卡详情页 - Shopify 数据对接
  * 
  * 功能：
- * - 从 Shopify 拉取商品详情
+ * - 从 Shopify 拉取卡详情
  * - 大图展示（图片放大、多角度）
  * - 规格筛选（颜色、尺寸等）
  * - 添加到购物车
@@ -12,7 +12,7 @@
 // 全局变量
 // ============================================
 
-let currentProduct = null;
+let currentCard = null;
 let selectedVariant = null;
 let selectedOptions = {};
 
@@ -21,38 +21,38 @@ let selectedOptions = {};
 // ============================================
 
 document.addEventListener('DOMContentLoaded', async function() {
-    // 获取 URL 参数中的商品 handle
+    // 获取 URL 参数中的卡 handle
     const urlParams = new URLSearchParams(window.location.search);
     const productHandle = urlParams.get('product') || urlParams.get('handle');
     
     if (!productHandle) {
-        showError('未找到商品');
+        showError('未找到卡');
         return;
     }
     
-    // 加载商品详情
-    await loadProductDetail(productHandle);
+    // 加载卡详情
+    await loadCardDetail(productHandle);
 });
 
 // ============================================
-// 加载商品详情
+// 加载卡详情
 // ============================================
 
-async function loadProductDetail(handle) {
+async function loadCardDetail(handle) {
     try {
         showLoading();
         
-        currentProduct = await getProductByHandle(handle);
+        currentCard = await getProductByHandle(handle);
         
-        if (!currentProduct) {
-            showError('商品不存在');
+        if (!currentCard) {
+            showError('卡不存在');
             return;
         }
         
-        console.log('商品详情:', currentProduct);
+        console.log('卡详情:', currentCard);
         
         // 渲染页面
-        renderProductDetail();
+        renderCardDetail();
         
         // 初始化图片画廊
         initImageGallery();
@@ -64,30 +64,30 @@ async function loadProductDetail(handle) {
         initQuantitySelector();
         
         // 更新页面标题
-        document.title = `${currentProduct.title} - DaoEssence`;
+        document.title = `${currentCard.title} - DaoEssence`;
         
         hideLoading();
         
     } catch (error) {
-        console.error('加载商品详情失败:', error);
-        showError('无法加载商品详情');
+        console.error('加载卡详情失败:', error);
+        showError('无法加载卡详情');
         hideLoading();
     }
 }
 
 // ============================================
-// 渲染商品详情
+// 渲染卡详情
 // ============================================
 
-function renderProductDetail() {
+function renderCardDetail() {
     // 渲染面包屑
     renderBreadcrumbs();
     
     // 渲染图片画廊
     renderImageGallery();
     
-    // 渲染商品信息
-    renderProductInfo();
+    // 渲染卡信息
+    renderCardInfo();
     
     // 渲染规格选择器
     renderVariantSelector();
@@ -98,8 +98,8 @@ function renderProductDetail() {
     // 渲染详细描述
     renderDescription();
     
-    // 渲染相关商品推荐
-    renderRelatedProducts();
+    // 渲染相关卡推荐
+    renderRelatedCards();
 }
 
 function renderBreadcrumbs() {
@@ -110,9 +110,9 @@ function renderBreadcrumbs() {
     breadcrumbContainer.innerHTML = `
         <a href="index.html">首页</a>
         <span>/</span>
-        <a href="shop.html">商品</a>
+        <a href="shop.html">卡</a>
         <span>/</span>
-        <span>${currentProduct.title}</span>
+        <span>${currentCard.title}</span>
     `;
 }
 
@@ -126,7 +126,7 @@ function renderImageGallery() {
                               document.querySelector('.product-images');
     if (!galleryContainer) return;
     
-    const images = getAllImages(currentProduct);
+    const images = getAllImages(currentCard);
     
     if (images.length === 0) {
         galleryContainer.innerHTML = `
@@ -139,7 +139,7 @@ function renderImageGallery() {
     
     galleryContainer.innerHTML = `
         <div class="gallery-main">
-            <img id="main-product-image" src="${images[0].url}" alt="${images[0].altText || currentProduct.title}">
+            <img id="main-product-image" src="${images[0].url}" alt="${images[0].altText || currentCard.title}">
             <button class="zoom-btn" onclick="openImageZoom()">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <circle cx="11" cy="11" r="8"></circle>
@@ -268,21 +268,21 @@ function closeImageZoom() {
 }
 
 // ============================================
-// 商品信息
+// 卡信息
 // ============================================
 
-function renderProductInfo() {
+function renderCardInfo() {
     const infoContainer = document.querySelector('.product-info') ||
                           document.getElementById('product-info') ||
                           document.querySelector('.product-details');
     if (!infoContainer) return;
     
-    const minPrice = currentProduct.priceRange.minVariantPrice.amount;
-    const maxPrice = currentProduct.priceRange.maxVariantPrice.amount;
-    const currency = currentProduct.priceRange.minVariantPrice.currencyCode;
+    const minPrice = currentCard.priceRange.minVariantPrice.amount;
+    const maxPrice = currentCard.priceRange.maxVariantPrice.amount;
+    const currency = currentCard.priceRange.minVariantPrice.currencyCode;
     
     infoContainer.innerHTML = `
-        <h1 class="product-title">${currentProduct.title}</h1>
+        <h1 class="product-title">${currentCard.title}</h1>
         <div class="product-price-container">
             <span class="product-price" id="product-price">
                 ${minPrice === maxPrice 
@@ -293,9 +293,9 @@ function renderProductInfo() {
                 <span class="compare-price">${formatPrice(selectedVariant.compareAtPrice.amount, currency)}</span>
             ` : ''}
         </div>
-        <p class="product-vendor">品牌: ${currentProduct.vendor || 'DaoEssence'}</p>
-        <p class="product-availability ${currentProduct.availableForSale ? 'in-stock' : 'out-of-stock'}">
-            ${currentProduct.availableForSale ? '✓ 现货' : '× 暂时缺货'}
+        <p class="product-vendor">品牌: ${currentCard.vendor || 'DaoEssence'}</p>
+        <p class="product-availability ${currentCard.availableForSale ? 'in-stock' : 'out-of-stock'}">
+            ${currentCard.availableForSale ? '✓ 现货' : '× 暂时缺货'}
         </p>
     `;
 }
@@ -308,14 +308,14 @@ function renderVariantSelector() {
     const selectorContainer = document.querySelector('.variant-selector') ||
                                document.getElementById('variant-selector') ||
                                document.querySelector('.product-options');
-    if (!selectorContainer || !currentProduct.options) return;
+    if (!selectorContainer || !currentCard.options) return;
     
     // 过滤掉只有一个值的选项（如 "Title: Default Title"）
-    const options = currentProduct.options.filter(opt => opt.values.length > 1);
+    const options = currentCard.options.filter(opt => opt.values.length > 1);
     
     if (options.length === 0) {
         // 没有可选规格，直接选中第一个 variant
-        selectedVariant = currentProduct.variants.edges[0]?.node;
+        selectedVariant = currentCard.variants.edges[0]?.node;
         return;
     }
     
@@ -371,7 +371,7 @@ function selectOption(optionName, value) {
 }
 
 function updateSelectedVariant() {
-    selectedVariant = findVariantByOptions(currentProduct, selectedOptions);
+    selectedVariant = findVariantByOptions(currentCard, selectedOptions);
     
     if (!selectedVariant) {
         console.warn('未找到匹配的 variant');
@@ -427,7 +427,7 @@ function updateVariantImage() {
     const mainImage = document.getElementById('main-product-image');
     if (mainImage) {
         mainImage.src = selectedVariant.image.url;
-        mainImage.alt = selectedVariant.image.altText || currentProduct.title;
+        mainImage.alt = selectedVariant.image.altText || currentCard.title;
     }
 }
 
@@ -483,7 +483,7 @@ function renderMetafields() {
     let metafieldsHtml = '<div class="metafields-list">';
     
     for (const [key, config] of Object.entries(metafieldsData)) {
-        const value = getMetafieldValue(currentProduct, key);
+        const value = getMetafieldValue(currentCard, key);
         if (value) {
             metafieldsHtml += `
                 <div class="metafield-item">
@@ -500,7 +500,7 @@ function renderMetafields() {
 }
 
 // ============================================
-// 商品描述
+// 卡描述
 // ============================================
 
 function renderDescription() {
@@ -510,29 +510,29 @@ function renderDescription() {
     if (!descContainer) return;
     
     descContainer.innerHTML = `
-        <h3>商品描述</h3>
+        <h3>卡描述</h3>
         <div class="description-content">
-            ${currentProduct.descriptionHtml || `<p>${currentProduct.description || '暂无描述'}</p>`}
+            ${currentCard.descriptionHtml || `<p>${currentCard.description || '暂无描述'}</p>`}
         </div>
     `;
 }
 
 // ============================================
-// 相关商品推荐
+// 相关卡推荐
 // ============================================
 
-async function renderRelatedProducts() {
+async function renderRelatedCards() {
     const relatedContainer = document.querySelector('.related-products') ||
                               document.getElementById('related-products');
     if (!relatedContainer) return;
     
-    // 基于标签或类型获取相关商品
-    const relatedTags = currentProduct.tags || [];
+    // 基于标签或类型获取相关卡
+    const relatedTags = currentCard.tags || [];
     
     try {
-        const allProducts = await getAllProducts();
-        const related = allProducts
-            .filter(p => p.id !== currentProduct.id)
+        const allCards = await getAllProducts();
+        const related = allCards
+            .filter(p => p.id !== currentCard.id)
             .filter(p => p.tags?.some(tag => relatedTags.includes(tag)))
             .slice(0, 4);
         
@@ -544,20 +544,20 @@ async function renderRelatedProducts() {
         relatedContainer.innerHTML = `
             <h3>相关推荐</h3>
             <div class="related-products-grid">
-                ${related.map(product => {
-                    const img = getMainImage(product);
+                ${related.map(card => {
+                    const img = getMainImage(card);
                     return `
-                        <a href="product-detail.html?product=${product.handle}" class="related-product-card">
-                            <img src="${img?.url || 'images/placeholder.jpg'}" alt="${product.title}">
-                            <h4>${product.title}</h4>
-                            <p>${formatPrice(product.priceRange.minVariantPrice.amount, product.priceRange.minVariantPrice.currencyCode)}</p>
+                        <a href="product-detail.html?product=${card.handle}" class="related-product-card">
+                            <img src="${img?.url || 'images/placeholder.jpg'}" alt="${card.title}">
+                            <h4>${card.title}</h4>
+                            <p>${formatPrice(card.priceRange.minVariantPrice.amount, card.priceRange.minVariantPrice.currencyCode)}</p>
                         </a>
                     `;
                 }).join('')}
             </div>
         `;
     } catch (error) {
-        console.error('加载相关商品失败:', error);
+        console.error('加载相关卡失败:', error);
     }
 }
 
@@ -567,7 +567,7 @@ async function renderRelatedProducts() {
 
 async function addToCartFromDetail() {
     if (!selectedVariant) {
-        alert('请选择商品规格');
+        alert('请选择卡规格');
         return;
     }
     
@@ -587,7 +587,7 @@ async function addToCartFromDetail() {
         addToCartBtn.textContent = '已添加 ✓';
         updateCartBadge();
         
-        showNotification(`${currentProduct.title} x ${quantity} 已添加到购物车`);
+        showNotification(`${currentCard.title} x ${quantity} 已添加到购物车`);
         
         setTimeout(() => {
             addToCartBtn.disabled = false;
@@ -618,7 +618,7 @@ function showLoading() {
     loader.className = 'page-loading';
     loader.innerHTML = `
         <div class="spinner"></div>
-        <p>加载商品详情...</p>
+        <p>加载卡详情...</p>
     `;
     loader.style.cssText = `
         display: flex;
@@ -645,7 +645,7 @@ function showError(message) {
     container.innerHTML = `
         <div class="error-page">
             <p>${message}</p>
-            <a href="shop.html" class="back-link">返回商品列表</a>
+            <a href="shop.html" class="back-link">返回卡列表</a>
         </div>
     `;
 }
