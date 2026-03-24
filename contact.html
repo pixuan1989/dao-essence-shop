@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -243,15 +243,19 @@
         </div>
     </header>
 
+    <!-- 
+    ========================================
+    联系我们页面内容已注释 - 后期有用再拿出来
+    ========================================
+    
     <div class="contact-page">
         <div class="contact-wrap">
 
             <h1 class="contact-page-title">Contact & Support</h1>
             <p class="contact-page-sub">Reach us directly — we reply within 24 hours on business days (Mon–Sat, 9AM–9PM CST).</p>
 
-            <!-- Direct contact -->
             <div class="contact-btns">
-                
+                <a href="https://wa.me/your-number" target="_blank" class="contact-btn cb-wa">
                     <div class="cb-icon">💬</div>
                     <div>
                         <div class="cb-label">WhatsApp</div>
@@ -269,7 +273,6 @@
                 </a>
             </div>
 
-            <!-- Message form -->
             <div class="contact-card">
                 <div class="card-title">Send a Message</div>
                 <form id="contactForm">
@@ -302,7 +305,6 @@
                 </form>
             </div>
 
-            <!-- FAQ -->
             <div class="contact-card">
                 <div class="card-title">Common Questions</div>
                 <div class="faq-item">
@@ -333,8 +335,22 @@
 
         </div>
     </div>
+    -->
 
-        <!-- Footer -->
+    <!-- 临时提示页面 -->
+    <div class="contact-page" style="display: flex; align-items: center; justify-content: center; min-height: calc(100vh - 80px);">
+        <div style="text-align: center; padding: 40px;">
+            <div style="font-size: 4rem; margin-bottom: 20px;">🔧</div>
+            <h1 style="font-family: var(--font-display); color: var(--accent-color); margin-bottom: 16px; letter-spacing: 0.1em;">Page Under Maintenance</h1>
+            <p style="color: var(--text-secondary); max-width: 400px; margin: 0 auto 24px; line-height: 1.8;">
+                Our contact page is currently being updated.<br>
+                Please reach us through the footer links on other pages.
+            </p>
+            <a href="index.html" style="display: inline-block; padding: 12px 32px; background: var(--gradient-gold); color: var(--bg-dark); text-decoration: none; border-radius: 8px; font-weight: 600; transition: all 0.3s;">Back to Home</a>
+        </div>
+    </div>
+
+    <!-- Footer -->
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
@@ -372,7 +388,7 @@
                         <li><a href="#">Annual Energy Analysis</a></li>
                         <li><a href="#">Personal Consultation</a></li>
                         <li><a href="#">Energy Customization</a></li>
-                        <li><a href="contact.html">Contact Us</a></li>
+                        <!-- <li><a href="contact.html">Contact Us</a></li> -->
                     </ul>
                 </div>
                 <div>
@@ -426,11 +442,16 @@
         </div>
     </div>
 
-    <!-- 右下角浮动购物车按钮 -->
+    <!-- 
+    ========================================
+    购物车按钮已注释 - 联系我们页面暂时隐藏
+    ========================================
+    
     <button class="floating-cart-btn" onclick="toggleCart()">
         <svg viewBox="0 0 20 20" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="19" r="1"/><circle cx="17" cy="19" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L19 6H6"/></svg>
         <span class="floating-cart-badge" id="floatingCartBadge">0</span>
     </button>
+    -->
 
     <script>
         // ========================================
@@ -462,6 +483,11 @@
         });
     </script>
     <script src="main.js"></script>
+    <!-- 
+    ========================================
+    FAQ和表单脚本已注释 - 联系我们页面暂时隐藏
+    ========================================
+    
     <script>
         document.querySelectorAll('.faq-question').forEach(btn => {
             btn.addEventListener('click', () => {
@@ -484,5 +510,6 @@
             }, 1000);
         });
     </script>
+    -->
 </body>
 </html>
