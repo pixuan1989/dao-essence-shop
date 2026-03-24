@@ -1,4 +1,4 @@
-# Netlify Functions 部署指南
+﻿# Netlify Functions 部署指南
 
 ## 📋 概述
 
@@ -295,7 +295,7 @@ http://localhost:8888
 如有问题，请联系：
 - Netlify 文档：https://docs.netlify.com/
 - Stripe 文档：https://stripe.com/docs/
-- DAO Essence 支持：support@daoessence.com
+- DAO Essence 支持：support@daoessentia.com
 
 ---
 

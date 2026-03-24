@@ -1,4 +1,4 @@
-# Shopify迁移完成总结
+﻿# Shopify迁移完成总结
 
 ## ✅ 迁移状态：已完成
 
@@ -292,7 +292,7 @@
 ## 📞 支持联系
 
 ### 技术支持
-- Email: support@daoessence.com
+- Email: support@daoessentia.com
 - Shopify社区: [Shopify Community](https://community.shopify.com)
 - 文档: `SHOPIFY_MIGRATION_GUIDE.md`
 

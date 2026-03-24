@@ -1,4 +1,4 @@
-/**
+﻿/**
  * ============================================
  * DAO Essence - 订单邮件发送服务（阿里云邮件推送）
  * Vercel Functions 版本
@@ -171,7 +171,7 @@ async function sendBuyerConfirmationEmail(client, orderData) {
             <div style="background:#eff6ff;border-radius:8px;padding:20px;">
                 <h3 style="margin:0 0 10px;color:#1e40af;font-size:15px;">💬 需要帮助？Need Help?</h3>
                 <p style="margin:0;color:#1e3a8a;font-size:14px;line-height:1.8;">
-                    📧 Email: <a href="mailto:support@daoessence.com" style="color:#2563eb;">support@daoessence.com</a><br>
+                    📧 Email: <a href="mailto:support@daoessentia.com" style="color:#2563eb;">support@daoessentia.com</a><br>
                     📱 WhatsApp: +86 181 1575 5283<br>
                     🌐 Website: <a href="${process.env.VERCEL_URL || 'https://amazing-quokka-7e84ea.netlify.app'}" style="color:#2563eb;">DAO Essence Shop</a>
                 </p>
@@ -422,7 +422,7 @@ async function sendShippingNotificationEmail(client, orderData) {
             <div style="background:#eff6ff;border-radius:8px;padding:20px;">
                 <h3 style="margin:0 0 10px;color:#1e40af;font-size:15px;">💬 需要帮助？Need Help?</h3>
                 <p style="margin:0;color:#1e3a8a;font-size:14px;line-height:1.8;">
-                    📧 Email: <a href="mailto:support@daoessence.com" style="color:#2563eb;">support@daoessence.com</a><br>
+                    📧 Email: <a href="mailto:support@daoessentia.com" style="color:#2563eb;">support@daoessentia.com</a><br>
                     📱 WhatsApp: +86 181 1575 5283<br>
                     🌐 Website: <a href="${process.env.VERCEL_URL || 'https://amazing-quokka-7e84ea.netlify.app'}" style="color:#2563eb;">DAO Essence Shop</a>
                 </p>

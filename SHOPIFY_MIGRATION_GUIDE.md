@@ -1,4 +1,4 @@
-# Shopify主题迁移完成指南
+﻿# Shopify主题迁移完成指南
 
 ## ✅ 已完成的工作
 
@@ -391,7 +391,7 @@ async function addToCart(variantId, quantity = 1) {
 
 ### 联系方式
 
-- Email: support@daoessence.com
+- Email: support@daoessentia.com
 - Shopify社区: [Shopify Theme Support](https://community.shopify.com/c/shopify-design-and-ux)
 - 文档: [Shopify Liquid](https://shopify.dev/docs/api/liquid)
 
