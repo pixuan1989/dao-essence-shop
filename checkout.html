@@ -47,63 +47,24 @@
                         <!-- Cart items will be loaded dynamically -->
                     </div>
                     
-                    <div class="shipping-options">
-                        <label for="shipping-select">Delivery Method</label>
-                        <select id="shipping-select">
-                            <option value="0">Electronic Voucher (Instant Delivery) - $0.00</option>
-                        </select>
-                    </div>
-                    
                     <div class="order-totals">
                         <div class="total-row">
                             <span>Subtotal</span>
                             <span id="subtotal">$0.00</span>
-                        </div>
-                        <div class="total-row">
-                            <span>Shipping</span>
-                            <span id="shipping-cost">$15.00</span>
-                        </div>
-                        <div class="total-row">
-                            <span>Tax (10%)</span>
-                            <span id="tax-cost">$0.00</span>
                         </div>
                         <div class="total-row total-final">
                             <span>Total</span>
                             <span id="grand-total">$0.00</span>
                         </div>
                     </div>
+                    
+                    <div class="delivery-note">
+                        <p>📧 Digital products will be delivered to your email immediately after payment.</p>
+                    </div>
                 </div>
                 
                 <!-- Payment Section -->
                 <div class="payment-section">
-                    <!-- 买家信息表单 -->
-                    <div class="buyer-info-form">
-                        <h2>Recipient Information</h2>
-                        <p class="form-note">Please fill in your details. Order confirmation will be sent to your email.</p>
-                        
-                        <div class="form-group">
-                            <label for="buyer-name">Full Name <span class="required">*</span></label>
-                            <input type="text" id="buyer-name" placeholder="Full Name" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="buyer-email">Email Address <span class="required">*</span></label>
-                            <input type="email" id="buyer-email" placeholder="email@example.com" required>
-                            <small>Order confirmation will be sent to this email</small>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="buyer-phone">Phone Number <span class="optional">(Optional)</span></label>
-                            <input type="tel" id="buyer-phone" placeholder="+1 (555) 123-4567">
-                            <small>For delivery notifications and customer support</small>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="buyer-address">Shipping Address <span class="optional">(Optional)</span></label>
-                            <textarea id="buyer-address" rows="3" placeholder="Street Address, City, State, ZIP, Country"></textarea>
-                        </div>
-                    </div>
-
                     <div class="payment-method">
             <h2>Payment Method</h2>
             <div class="payment-info">
@@ -118,7 +79,7 @@
             
             <div class="return-policy">
                 <h3>Return & Exchange Policy</h3>
-                <p>We offer a 30-day hassle-free return & exchange service. If you are not satisfied with your electronic voucher, you may request a return or exchange within 30 days of purchase.</p>
+                <p>We offer a 15-day hassle-free return & exchange service. If you are not satisfied with your digital service, you may request a return or exchange within 15 days of purchase.</p>
             </div>
             
             <button id="pay-button" class="btn btn-primary btn-large">
@@ -129,7 +90,7 @@
                 <span>🔒 SSL Encrypted</span>
                 <span>🛡️ PCI Compliant</span>
                 <span>✉️ Email Confirmation</span>
-                <span>📦 30-Day Returns</span>
+                <span>📦 15-Day Returns</span>
             </div>
         </div>
                 </div>
@@ -242,21 +203,18 @@
             }
         });
 
-        // 运费选项变更时更新显示
-        document.getElementById('shipping-select').addEventListener('change', function() {
-            const shipping = parseFloat(this.value) || 15;
-            document.getElementById('shipping-cost').textContent = '$' + shipping.toFixed(2);
-            
-            // 重新计算总价
+        // 计算并显示总价
+        function updateTotals() {
             const cartData = localStorage.getItem('daoessence_cart');
             if (cartData) {
                 const parsed = JSON.parse(cartData);
                 const cart = Array.isArray(parsed) ? { items: parsed } : parsed;
                 const subtotal = cart.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-                const total = subtotal + shipping;
-                document.getElementById('grand-total').textContent = '$' + total.toFixed(2);
+                document.getElementById('subtotal').textContent = '$' + subtotal.toFixed(2);
+                document.getElementById('grand-total').textContent = '$' + subtotal.toFixed(2);
             }
-        });
+        }
+        updateTotals();
 
         // 页面卸载时提示
         window.addEventListener('beforeunload', function(e) {
@@ -456,81 +414,20 @@
             color: #666;
         }
 
-        /* 买家信息表单样式 */
-        .buyer-info-form {
-            background: white;
-            padding: 25px 30px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
+        .delivery-note {
+            background: #f0f7ff;
+            border-left: 4px solid #4a90d9;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
         }
 
-        .buyer-info-form h2 {
-            margin: 0 0 6px;
-            color: #1a1a1a;
-        }
-
-        .form-note {
-            color: #888;
-            font-size: 13px;
-            margin: 0 0 20px;
-        }
-
-        .form-group {
-            margin-bottom: 16px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 6px;
-            font-weight: 500;
+        .delivery-note p {
+            margin: 0;
+            color: #2c5282;
             font-size: 14px;
-            color: #333;
         }
 
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 10px 12px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-size: 15px;
-            box-sizing: border-box;
-            transition: border-color 0.2s;
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: #6366f1;
-            box-shadow: 0 0 0 3px rgba(99,102,241,0.15);
-        }
-
-        .form-group input.error {
-            border-color: #ef4444;
-        }
-
-        .form-group small {
-            display: block;
-            margin-top: 4px;
-            color: #888;
-            font-size: 12px;
-        }
-
-        .form-group textarea {
-            resize: vertical;
-            min-height: 70px;
-        }
-
-        .required {
-            color: #ef4444;
-        }
-
-        .optional {
-            color: #aaa;
-            font-size: 12px;
-            font-weight: normal;
-        }
     </style>
 </body>
 </html>

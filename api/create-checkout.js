@@ -15,15 +15,11 @@ export default async function handler(req, res) {
     }
 
     try {
-        const { items, shipping, customerName, customerEmail, customerPhone, shippingAddress, shippingMethod, discountCode } = req.body;
+        const { items, discountCode } = req.body;
 
         // 验证必要参数
         if (!items || !Array.isArray(items) || items.length === 0) {
             return res.status(400).json({ error: 'Invalid items' });
-        }
-
-        if (!customerEmail) {
-            return res.status(400).json({ error: 'Customer email is required' });
         }
 
         // 检查环境变量
@@ -44,9 +40,8 @@ export default async function handler(req, res) {
             return res.status(500).json({ error: '支付系统配置错误' });
         }
 
-        // 计算总价（用于记录和邮件通知）
+        // 计算总价
         const subtotal = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-        const total = subtotal + (shipping || 0);
 
         // 判断是否使用折扣码
         // 优先使用请求中的折扣码，如果没有则检查环境变量，最后检查商品是否有折扣标记
@@ -104,40 +99,13 @@ export default async function handler(req, res) {
             return res.status(500).json({ error: '支付系统响应错误' });
         }
 
-        // 保存订单信息到本地文件（用于记录）
-        const orderData = {
+        // 记录订单创建日志
+        console.log('📦 订单创建:', {
             orderId: orderId,
-            customerName: customerName || '',
-            customerEmail: customerEmail || '',
-            customerPhone: customerPhone || '',
-            shippingAddress: shippingAddress || '',
-            shippingMethod: shippingMethod || '',
-            items: items,
-            subtotal: subtotal,
-            shipping: shipping || 0,
-            total: total,
-            discountCode: useDiscountCode || '',
-            status: 'pending_payment',
-            createdAt: new Date().toISOString(),
-            creemCheckoutUrl: result.checkout_url
-        };
-
-        // 尝试发送订单通知邮件（异步，不阻塞响应）
-        try {
-            await fetch(`${req.headers.origin || 'https://' + req.headers.host}/api/send-order-email`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    ...orderData,
-                    fullName: customerName,
-                    phoneNumber: customerPhone
-                })
-            });
-            console.log('📧 订单通知邮件已发送');
-        } catch (emailError) {
-            console.error('⚠️ 发送订单邮件失败:', emailError);
-            // 邮件发送失败不影响主流程
-        }
+            items: items.map(i => i.name),
+            total: subtotal,
+            discountCode: useDiscountCode || 'none'
+        });
 
         // 返回 checkout URL
         return res.status(200).json({

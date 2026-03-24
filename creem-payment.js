@@ -95,18 +95,13 @@ function showTaijituOverlay(onDone) {
 /**
  * 创建 Creem Checkout 并在新标签页打开（带过渡动画）
  */
-async function createCreemCheckout(items, shipping, buyerInfo = {}) {
+async function createCreemCheckout(items) {
     try {
         const response = await fetch(`${API_BASE_URL}/create-checkout`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                items: items,
-                shipping: shipping,
-                customerName: buyerInfo.customerName || '',
-                customerEmail: buyerInfo.customerEmail || '',
-                shippingAddress: buyerInfo.shippingAddress || '',
-                shippingMethod: buyerInfo.shippingMethod || '标准运输'
+                items: items
             })
         });
 
@@ -143,36 +138,14 @@ async function getCreemCheckout(checkoutId) {
 }
 
 /**
- * 处理支付
+ * 处理支付 - 直接跳转到 Creem
  */
 async function handleCreemPayment() {
     const payButton = document.getElementById('pay-button');
     if (!payButton) return;
 
-    // 验证买家信息
-    const buyerName = document.getElementById('buyer-name')?.value?.trim();
-    const buyerEmail = document.getElementById('buyer-email')?.value?.trim();
-    const buyerPhone = document.getElementById('buyer-phone')?.value?.trim();
-    const buyerAddress = document.getElementById('buyer-address')?.value?.trim();
-
-    if (!buyerName) {
-        document.getElementById('buyer-name')?.classList.add('error');
-        document.getElementById('buyer-name')?.focus();
-        alert('请填写收件人姓名');
-        return;
-    }
-    if (!buyerEmail || !buyerEmail.includes('@')) {
-        document.getElementById('buyer-email')?.classList.add('error');
-        document.getElementById('buyer-email')?.focus();
-        alert('请填写有效的邮箱地址');
-        return;
-    }
-
-    document.getElementById('buyer-name')?.classList.remove('error');
-    document.getElementById('buyer-email')?.classList.remove('error');
-
     payButton.disabled = true;
-    payButton.textContent = '正在跳转支付...';
+    payButton.textContent = 'Redirecting to secure payment...';
 
     try {
         const cartData = localStorage.getItem('daoessence_cart');
@@ -183,26 +156,6 @@ async function handleCreemPayment() {
 
         if (!cart.items || cart.items.length === 0) throw new Error('购物车是空的');
 
-        const shippingSelect = document.getElementById('shipping-select');
-        const shippingRate = shippingSelect ? parseFloat(shippingSelect.value) || 15 : 15;
-        const shippingOptions = {
-            '15': '标准运输 (15-25天)',
-            '35': '快速运输 (7-10天)',
-            '55': 'DHL快递 (3-5天)'
-        };
-        const shippingMethod = shippingOptions[String(shippingRate)] || '标准运输';
-
-        // 保存买家信息
-        const buyerInfo = {
-            name: buyerName,
-            email: buyerEmail,
-            phone: buyerPhone,
-            address: buyerAddress,
-            shippingMethod: shippingMethod,
-            shippingRate: shippingRate
-        };
-        localStorage.setItem('daoessence_buyer', JSON.stringify(buyerInfo));
-
         const items = cart.items.map(item => ({
             id: item.id,
             name: item.name,
@@ -212,19 +165,14 @@ async function handleCreemPayment() {
             image: item.image
         }));
 
-        await createCreemCheckout(items, shippingRate, {
-            customerName: buyerName,
-            customerEmail: buyerEmail,
-            customerPhone: buyerPhone,
-            shippingAddress: buyerAddress,
-            shippingMethod: shippingMethod
-        });
+        // 直接创建 Creem checkout，不收集用户信息
+        await createCreemCheckout(items);
 
     } catch (error) {
         console.error('Payment error:', error);
-        alert('支付失败：' + error.message);
+        alert('Payment failed: ' + error.message);
         payButton.disabled = false;
-        payButton.textContent = '去支付 →';
+        payButton.textContent = 'Proceed to Payment →';
     }
 }
 
