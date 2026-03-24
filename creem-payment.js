@@ -152,6 +152,7 @@ async function handleCreemPayment() {
     // 验证买家信息
     const buyerName = document.getElementById('buyer-name')?.value?.trim();
     const buyerEmail = document.getElementById('buyer-email')?.value?.trim();
+    const buyerPhone = document.getElementById('buyer-phone')?.value?.trim();
     const buyerAddress = document.getElementById('buyer-address')?.value?.trim();
 
     if (!buyerName) {
@@ -195,6 +196,7 @@ async function handleCreemPayment() {
         const buyerInfo = {
             name: buyerName,
             email: buyerEmail,
+            phone: buyerPhone,
             address: buyerAddress,
             shippingMethod: shippingMethod,
             shippingRate: shippingRate
@@ -213,6 +215,7 @@ async function handleCreemPayment() {
         await createCreemCheckout(items, shippingRate, {
             customerName: buyerName,
             customerEmail: buyerEmail,
+            customerPhone: buyerPhone,
             shippingAddress: buyerAddress,
             shippingMethod: shippingMethod
         });

@@ -15,7 +15,7 @@ export default async function handler(req, res) {
     }
 
     try {
-        const { items, shipping, customerName, customerEmail, shippingAddress, shippingMethod, discountCode } = req.body;
+        const { items, shipping, customerName, customerEmail, customerPhone, shippingAddress, shippingMethod, discountCode } = req.body;
 
         // 验证必要参数
         if (!items || !Array.isArray(items) || items.length === 0) {
@@ -102,6 +102,41 @@ export default async function handler(req, res) {
         if (!result.checkout_url) {
             console.error('Creem API 响应缺少 checkout_url:', result);
             return res.status(500).json({ error: '支付系统响应错误' });
+        }
+
+        // 保存订单信息到本地文件（用于记录）
+        const orderData = {
+            orderId: orderId,
+            customerName: customerName || '',
+            customerEmail: customerEmail || '',
+            customerPhone: customerPhone || '',
+            shippingAddress: shippingAddress || '',
+            shippingMethod: shippingMethod || '',
+            items: items,
+            subtotal: subtotal,
+            shipping: shipping || 0,
+            total: total,
+            discountCode: useDiscountCode || '',
+            status: 'pending_payment',
+            createdAt: new Date().toISOString(),
+            creemCheckoutUrl: result.checkout_url
+        };
+
+        // 尝试发送订单通知邮件（异步，不阻塞响应）
+        try {
+            await fetch(`${req.headers.origin || 'https://' + req.headers.host}/api/send-order-email`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    ...orderData,
+                    fullName: customerName,
+                    phoneNumber: customerPhone
+                })
+            });
+            console.log('📧 订单通知邮件已发送');
+        } catch (emailError) {
+            console.error('⚠️ 发送订单邮件失败:', emailError);
+            // 邮件发送失败不影响主流程
         }
 
         // 返回 checkout URL
