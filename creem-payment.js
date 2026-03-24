@@ -8,7 +8,97 @@
 const API_BASE_URL = '/api';
 
 /**
- * 创建 Creem Checkout 并跳转
+ * 太极过渡动画遮罩
+ */
+function showTaijituOverlay(onDone) {
+    // 防止重复创建
+    const existing = document.getElementById('taijitu-overlay');
+    if (existing) existing.remove();
+
+    const overlay = document.createElement('div');
+    overlay.id = 'taijitu-overlay';
+    overlay.style.cssText = `
+        position: fixed; inset: 0;
+        background: rgba(10, 18, 10, 0.92);
+        display: flex; flex-direction: column;
+        align-items: center; justify-content: center;
+        z-index: 99999;
+        opacity: 0;
+        transition: opacity 0.4s ease;
+    `;
+
+    overlay.innerHTML = `
+        <style>
+            @keyframes taiji-spin {
+                from { transform: rotate(0deg); }
+                to   { transform: rotate(360deg); }
+            }
+            @keyframes taiji-fade-in {
+                from { opacity: 0; transform: scale(0.8); }
+                to   { opacity: 1; transform: scale(1); }
+            }
+            #taijitu-svg {
+                animation: taiji-spin 2.4s linear infinite,
+                           taiji-fade-in 0.5s ease forwards;
+                filter: drop-shadow(0 0 18px rgba(212,175,55,0.5));
+            }
+            #taijitu-text {
+                margin-top: 28px;
+                color: #D4AF37;
+                font-size: 15px;
+                letter-spacing: 0.2em;
+                font-family: 'Georgia', serif;
+                opacity: 0;
+                animation: taiji-fade-in 0.6s ease 0.3s forwards;
+            }
+            #taijitu-sub {
+                margin-top: 10px;
+                color: rgba(245,240,230,0.45);
+                font-size: 12px;
+                letter-spacing: 0.15em;
+                opacity: 0;
+                animation: taiji-fade-in 0.6s ease 0.6s forwards;
+            }
+        </style>
+
+        <!-- 太极 SVG（阴阳鱼，纯矢量） -->
+        <svg id="taijitu-svg" width="96" height="96" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <!-- 左半（黑） -->
+            <path d="M50,5 A45,45 0 0,0 50,95 A22.5,22.5 0 0,1 50,50 A22.5,22.5 0 0,0 50,5 Z" fill="#1a1a1a"/>
+            <!-- 右半（白） -->
+            <path d="M50,5 A45,45 0 0,1 50,95 A22.5,22.5 0 0,0 50,50 A22.5,22.5 0 0,1 50,5 Z" fill="#F5F0E6"/>
+            <!-- 上小圆（白点在黑半） -->
+            <circle cx="50" cy="27.5" r="9" fill="#F5F0E6"/>
+            <!-- 下小圆（黑点在白半） -->
+            <circle cx="50" cy="72.5" r="9" fill="#1a1a1a"/>
+            <!-- 外圆边框 -->
+            <circle cx="50" cy="50" r="45" fill="none" stroke="#D4AF37" stroke-width="1.5"/>
+        </svg>
+
+        <div id="taijitu-text">正在跳转支付</div>
+        <div id="taijitu-sub">Redirecting to secure payment...</div>
+    `;
+
+    document.body.appendChild(overlay);
+
+    // 淡入
+    requestAnimationFrame(() => {
+        overlay.style.opacity = '1';
+    });
+
+    // 1.6 秒后执行回调（打开支付），再淡出
+    setTimeout(() => {
+        if (typeof onDone === 'function') onDone();
+        // 淡出并移除
+        setTimeout(() => {
+            overlay.style.opacity = '0';
+            setTimeout(() => overlay.remove(), 400);
+        }, 600);
+    }, 1600);
+}
+
+/**
+ * 创建 Creem Checkout 并在新标签页打开（带过渡动画）
  */
 async function createCreemCheckout(items, shipping, buyerInfo = {}) {
     try {
@@ -31,8 +121,10 @@ async function createCreemCheckout(items, shipping, buyerInfo = {}) {
             throw new Error(data.error || '创建支付会话失败');
         }
 
-        // 跳转到 Creem 支付页面
-        window.location.href = data.checkoutUrl;
+        // 展示太极动画，动画结束后在新标签页打开支付（不离开当前页面）
+        showTaijituOverlay(() => {
+            window.open(data.checkoutUrl, '_blank');
+        });
 
         return data;
     } catch (error) {
