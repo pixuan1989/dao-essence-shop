@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>结账 - 道本精酿 | DAO Essence</title>
+    <title>Checkout - DAO Essence</title>
     <link rel="stylesheet" href="styles.css">
 
 </head>
@@ -42,33 +42,33 @@
             <div class="checkout-grid">
                 <!-- Order Summary -->
                 <div class="order-summary">
-                    <h2>订单摘要</h2>
+                    <h2>Order Summary</h2>
                     <div id="cart-items" class="checkout-cart-items">
-                        <!-- 购物车电子兑换券将动态加载 -->
+                        <!-- Cart items will be loaded dynamically -->
                     </div>
                     
                     <div class="shipping-options">
-                        <label for="shipping-select">配送方式</label>
+                        <label for="shipping-select">Delivery Method</label>
                         <select id="shipping-select">
-                            <option value="0">电子兑换券 (立即发送) - $0.00</option>
+                            <option value="0">Electronic Voucher (Instant Delivery) - $0.00</option>
                         </select>
                     </div>
                     
                     <div class="order-totals">
                         <div class="total-row">
-                            <span>小计</span>
+                            <span>Subtotal</span>
                             <span id="subtotal">$0.00</span>
                         </div>
                         <div class="total-row">
-                            <span>运费</span>
+                            <span>Shipping</span>
                             <span id="shipping-cost">$15.00</span>
                         </div>
                         <div class="total-row">
-                            <span>税费 (10%)</span>
+                            <span>Tax (10%)</span>
                             <span id="tax-cost">$0.00</span>
                         </div>
                         <div class="total-row total-final">
-                            <span>总计</span>
+                            <span>Total</span>
                             <span id="grand-total">$0.00</span>
                         </div>
                     </div>
@@ -78,30 +78,30 @@
                 <div class="payment-section">
                     <!-- 买家信息表单 -->
                     <div class="buyer-info-form">
-                        <h2>收件信息</h2>
-                        <p class="form-note">请填写收件信息，订单确认邮件将发送至您的邮箱</p>
+                        <h2>Recipient Information</h2>
+                        <p class="form-note">Please fill in your details. Order confirmation will be sent to your email.</p>
                         
                         <div class="form-group">
-                            <label for="buyer-name">收件人姓名 <span class="required">*</span></label>
-                            <input type="text" id="buyer-name" placeholder="Full Name / 姓名" required>
+                            <label for="buyer-name">Full Name <span class="required">*</span></label>
+                            <input type="text" id="buyer-name" placeholder="Full Name" required>
                         </div>
                         
                         <div class="form-group">
-                            <label for="buyer-email">邮箱地址 <span class="required">*</span></label>
+                            <label for="buyer-email">Email Address <span class="required">*</span></label>
                             <input type="email" id="buyer-email" placeholder="email@example.com" required>
-                            <small>订单确认邮件将发送到此邮箱</small>
+                            <small>Order confirmation will be sent to this email</small>
                         </div>
                         
                         <div class="form-group">
-                            <label for="buyer-address">收货地址 <span class="optional">(选填)</span></label>
+                            <label for="buyer-address">Shipping Address <span class="optional">(Optional)</span></label>
                             <textarea id="buyer-address" rows="3" placeholder="Street Address, City, State, ZIP, Country"></textarea>
                         </div>
                     </div>
 
                     <div class="payment-method">
-            <h2>支付方式</h2>
+            <h2>Payment Method</h2>
             <div class="payment-info">
-                <p>使用 <strong>Creem</strong> 安全支付系统</p>
+                <p>Secure payment powered by <strong>Creem</strong></p>
                 <div class="card-icons">
                     <span>VISA</span>
                     <span>MasterCard</span>
@@ -111,19 +111,19 @@
             </div>
             
             <div class="return-policy">
-                <h3>退换政策</h3>
-                <p>我们提供30天内无理由退换服务。如果您对购买的电子兑换券不满意，可以在购买后30天内申请退换。</p>
+                <h3>Return & Exchange Policy</h3>
+                <p>We offer a 30-day hassle-free return & exchange service. If you are not satisfied with your electronic voucher, you may request a return or exchange within 30 days of purchase.</p>
             </div>
             
             <button id="pay-button" class="btn btn-primary btn-large">
-                去支付 →
+                Proceed to Payment →
             </button>
             
             <div class="security-badges">
-                <span>🔒 SSL加密</span>
-                <span>🛡️ PCI合规</span>
-                <span>✉️ 邮件确认</span>
-                <span>📦 30天退换</span>
+                <span>🔒 SSL Encrypted</span>
+                <span>🛡️ PCI Compliant</span>
+                <span>✉️ Email Confirmation</span>
+                <span>📦 30-Day Returns</span>
             </div>
         </div>
                 </div>
@@ -221,7 +221,7 @@
         window.addEventListener('beforeunload', function(e) {
             const payButton = document.getElementById('pay-button');
             if (payButton && payButton.disabled) {
-                e.returnValue = '支付正在进行中，确定要离开吗？';
+                e.returnValue = 'Payment is in progress. Are you sure you want to leave?';
             }
         });
     </script>
