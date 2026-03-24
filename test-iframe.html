@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>Creem iframe 可行性测试</title>
+<style>
+  body { font-family: sans-serif; background: #1a1a1a; color: #f0f0f0; padding: 30px; }
+  h2 { color: #D4AF37; }
+  .result { padding: 15px; border-radius: 6px; margin: 15px 0; font-weight: bold; font-size: 16px; }
+  .ok   { background: #2D5A3D; border: 1px solid #4CAF50; }
+  .fail { background: #5A2D2D; border: 1px solid #F44336; }
+  .pending { background: #3D3D2D; border: 1px solid #D4AF37; }
+  iframe { width: 100%; height: 600px; border: 2px solid #555; border-radius: 6px; }
+  .log { background: #111; padding: 12px; border-radius: 4px; font-family: monospace; font-size: 13px; margin-top: 10px; max-height: 200px; overflow-y: auto; }
+</style>
+</head>
+<body>
+<h2>🔬 Creem iframe 嵌入可行性测试</h2>
+<p>测试 <code>checkout.creem.io</code> 是否允许被 iframe 嵌入。</p>
+
+<div id="status" class="result pending">⏳ 正在加载 iframe，请稍候（约 5 秒）...</div>
+
+<div id="log" class="log">日志输出：<br></div>
+
+<!-- 用一个真实的 Creem checkout URL 测试（这里用 demo/sandbox URL） -->
+<iframe 
+  id="testFrame"
+  src="https://checkout.creem.io"
+  sandbox="allow-scripts allow-same-origin allow-forms allow-top-navigation"
+  onload="onFrameLoad()"
+  onerror="onFrameError()"
+></iframe>
+
+<hr style="border-color:#444; margin: 20px 0">
+
+<h3 style="color:#D4AF37">📋 测试说明</h3>
+<ul style="line-height: 1.8; color: #ccc">
+  <li>如果 iframe 上方显示<span style="color:#4CAF50">绿色"✅ 可行"</span>，或者 iframe 内能看到页面内容 → 方案可行</li>
+  <li>如果显示<span style="color:#F44336">红色"❌ 被拒绝"</span>，或 iframe 内容空白/错误 → Creem 禁止了嵌入</li>
+  <li>浏览器控制台（F12）会有更详细的 CSP / X-Frame-Options 错误信息</li>
+</ul>
+
+<script>
+const log = document.getElementById('log');
+const status = document.getElementById('status');
+
+function addLog(msg) {
+  log.innerHTML += `<br>[${new Date().toLocaleTimeString()}] ${msg}`;
+  log.scrollTop = log.scrollHeight;
+}
+
+function onFrameLoad() {
+  addLog('iframe onload 触发');
+  // 注意：即使 X-Frame-Options 阻止，onload 有时也会触发（内容是空白的）
+  // 所以还要检查能否访问 contentDocument
+  const frame = document.getElementById('testFrame');
+  try {
+    const doc = frame.contentDocument || frame.contentWindow.document;
+    if (doc && doc.body && doc.body.innerHTML.length > 0) {
+      addLog('✅ 可以访问 iframe contentDocument，内容非空');
+      markOK();
+    } else {
+      addLog('⚠️ contentDocument 存在但 body 为空，可能被 CSP 阻止');
+      // 等一下再判断
+      setTimeout(checkFrameContent, 2000);
+    }
+  } catch(e) {
+    addLog('跨域访问 contentDocument 被拒（预期行为）：' + e.message);
+    addLog('→ 这不代表 iframe 失败，继续通过视觉判断...');
+    // 跨域无法读 contentDocument 是正常的，但 iframe 本身可能仍然显示内容
+    setTimeout(checkBySize, 2000);
+  }
+}
+
+function onFrameError() {
+  addLog('❌ iframe onerror 触发，明确失败');
+  markFail();
+}
+
+function checkFrameContent() {
+  const frame = document.getElementById('testFrame');
+  try {
+    const doc = frame.contentDocument || frame.contentWindow.document;
+    const content = doc.body.innerHTML;
+    addLog('body 内容长度：' + content.length);
+    if (content.length > 100) {
+      markOK();
+    } else {
+      addLog('内容仍然很短，可能被阻止');
+      markFail();
+    }
+  } catch(e) {
+    addLog('无法读取内容（跨域）：' + e.message);
+    markUnknown();
+  }
+}
+
+function checkBySize() {
+  // 如果跨域，我们只能通过视觉判断
+  // 给用户提示
+  addLog('⚠️ 由于跨域限制，无法自动判断结果');
+  addLog('请观察下方 iframe：有内容 = 可行，空白/报错 = 不可行');
+  status.className = 'result pending';
+  status.textContent = '⚠️ 请手动观察下方 iframe 内是否有内容加载（有内容=✅可行，空白=❌不可行）';
+}
+
+function markOK() {
+  status.className = 'result ok';
+  status.textContent = '✅ 可行！checkout.creem.io 允许被 iframe 嵌入，可以做弹窗支付';
+}
+
+function markFail() {
+  status.className = 'result fail';
+  status.textContent = '❌ 不可行。checkout.creem.io 拒绝 iframe 嵌入（X-Frame-Options 或 CSP 限制）';
+}
+
+function markUnknown() {
+  status.className = 'result pending';
+  status.textContent = '⚠️ 无法自动判断，请观察下方 iframe 框内是否显示了 Creem 的支付界面';
+}
+
+// 5秒超时兜底
+setTimeout(() => {
+  if (status.className === 'result pending') {
+    addLog('5秒超时，请手动判断 iframe 内容');
+    checkBySize();
+  }
+}, 5000);
+
+addLog('开始加载 https://checkout.creem.io ...');
+</script>
+</body>
+</html>
