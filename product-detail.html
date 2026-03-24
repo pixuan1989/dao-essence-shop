@@ -1553,7 +1553,7 @@
                     <li><a href="shop.html" class="nav-link">Shop</a></li>
                     <li><a href="guide.html" class="nav-link">Crafting Process</a></li>
                     <li><a href="about.html" class="nav-link">About Us</a></li>
-                    <li><a href="redeem.html" class="nav-link" style="background: #D4AF37; color: white; padding: 8px 16px; border-radius: 4px;">Redeem Gift Card</a></li>
+                    <li><a href="redeem.html" class="nav-link" style="background: #D4AF37; color: white; padding: 8px 16px; border-radius: 4px;">商品券兑换</a></li>
                 </ul>
                 <div class="nav-actions">
                     <a href="checkout.html" class="cart-icon" onclick="event.preventDefault(); toggleCart();">
@@ -1627,16 +1627,19 @@
                         <h2 class="card-name-cn" id="cardNameCn">Electronic Redemption Voucher Name</h2>
                         <p class="card-name-en" id="cardNameEn">Electronic Redemption Voucher Name English</p>
                         
+                        <!-- 评论区暂时隐藏，审核通过后取消注释
                         <div class="card-rating">
                             <span class="stars">★★★★★</span>
                             <span class="review-count">(247 reviews) • <a href="#">Read all reviews</a></span>
                         </div>
+                        -->
 
-                        <div class="sku-code" id="cardSku">SKU: CARD-ID</div>
+                        <!-- SKU 暂时隐藏，审核通过后可按需开启 -->
+                        <!-- <div class="sku-code" id="cardSku">SKU: CARD-ID</div> -->
 
-                        <!-- 规格选择器 -->
-                        <div class="variant-selector" id="variantSelector">
-                            <!-- 变体将由 JavaScript 动态生成 -->
+                        <!-- 规格选择器：无变体时由 JS 自动隐藏 -->
+                        <div class="variant-selector" id="variantSelector" style="display:none;">
+                            <!-- 变体将由 JavaScript 动态生成，有变体时 JS 负责显示此容器 -->
                         </div>
 
                         <!-- 价格 -->
@@ -1894,7 +1897,7 @@
                         <li><a href="#">Annual Energy Analysis</a></li>
                         <li><a href="#">Personal Consultation</a></li>
                         <li><a href="#">Custom Items</a></li>
-                        <li><a href="redeem.html">Redeem Voucher</a></li>
+                        <li><a href="redeem.html">商品券兑换</a></li>
                         <li><a href="contact.html">Contact Us</a></li>
                     </ul>
                 </div>
