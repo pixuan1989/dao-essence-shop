@@ -7,9 +7,9 @@
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
+            line-height: 1.8;
             color: #333;
-            max-width: 800px;
+            max-width: 860px;
             margin: 0 auto;
             padding: 20px;
             background-color: #f9f9f9;
@@ -17,119 +17,175 @@
         header {
             background: #D4AF37;
             color: white;
-            padding: 20px;
+            padding: 24px 20px;
             border-radius: 8px;
             margin-bottom: 30px;
             text-align: center;
         }
-        h1 {
-            margin: 0;
-            font-size: 24px;
-        }
-        h2 {
-            color: #8B1A1A;
-            margin-top: 30px;
-        }
-        p {
-            margin-bottom: 15px;
-        }
-        ul {
-            margin-bottom: 15px;
-            padding-left: 20px;
+        h1 { margin: 0; font-size: 26px; }
+        h2 { color: #8B1A1A; margin-top: 36px; font-size: 18px; }
+        p  { margin-bottom: 14px; }
+        ul { margin-bottom: 14px; padding-left: 22px; }
+        li { margin-bottom: 6px; }
+        .highlight-box {
+            background: #fff8e1;
+            border-left: 4px solid #D4AF37;
+            padding: 14px 18px;
+            margin: 20px 0;
+            border-radius: 4px;
         }
         .back-link {
             display: inline-block;
-            margin-top: 30px;
-            padding: 10px 20px;
+            margin-top: 36px;
+            padding: 10px 22px;
             background: #D4AF37;
             color: white;
             text-decoration: none;
             border-radius: 4px;
             transition: background 0.3s;
         }
-        .back-link:hover {
-            background: #8B1A1A;
+        .back-link:hover { background: #8B1A1A; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+            font-size: 14px;
         }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px 14px;
+            text-align: left;
+        }
+        th { background: #f5f5f5; }
     </style>
 </head>
 <body>
     <header>
         <h1>Privacy Policy</h1>
-        <p>Last updated: March 23, 2026</p>
+        <p>Last updated: March 24, 2026</p>
     </header>
 
     <main>
         <section>
-            <h2>1. Introduction</h2>
-            <p>Welcome to Dao Essence. We are committed to protecting your privacy and personal information. This privacy policy explains how we collect, use, store, and protect your personal information.</p>
+            <h2>1. Who We Are</h2>
+            <p>Dao Essence ("we", "us", or "our") operates the website <strong>dao-essence-shop.vercel.app</strong>. We sell digital redemption vouchers for handcrafted traditional Chinese cultural items, including energy bracelets and agarwood products.</p>
+            <p>For any privacy-related questions, please contact us at: <strong>support@dao-essence-shop.vercel.app</strong> or <strong>517748938@qq.com</strong></p>
         </section>
 
         <section>
-            <h2>2. Information We Collect</h2>
-            <p>When you visit our website or purchase our electronic redemption vouchers, we may collect the following information:</p>
+            <h2>2. What Information We Collect</h2>
+            <p>When you visit our website or purchase our products, we may collect:</p>
             <ul>
-                <li>Personal identification information (such as name, email address, phone number)</li>
-                <li>Purchase history and transaction information</li>
-                <li>Browsing behavior and website usage</li>
-                <li>Device information (such as IP address, browser type, operating system)</li>
+                <li><strong>Identity data:</strong> name you provide at checkout</li>
+                <li><strong>Contact data:</strong> email address for order confirmation and voucher delivery</li>
+                <li><strong>Transaction data:</strong> purchase details, voucher codes, order history</li>
+                <li><strong>Technical data:</strong> IP address, browser type, operating system, referring URLs</li>
+                <li><strong>Usage data:</strong> pages viewed, time on site, click interactions</li>
+                <li><strong>Communication data:</strong> emails or messages you send to us</li>
             </ul>
+            <p>We do <strong>not</strong> collect payment card details directly. All payment processing is handled by <strong>Creem</strong> (creem.io), our payment processor, subject to their own privacy policy.</p>
         </section>
 
         <section>
             <h2>3. How We Use Your Information</h2>
-            <p>We use the collected information:</p>
+            <table>
+                <tr><th>Purpose</th><th>Legal Basis</th></tr>
+                <tr><td>Process and fulfill your order (send voucher code via email)</td><td>Contract performance</td></tr>
+                <tr><td>Send order confirmation and transactional emails</td><td>Contract performance</td></tr>
+                <tr><td>Respond to your customer support inquiries</td><td>Contract performance / Legitimate interest</td></tr>
+                <tr><td>Prevent fraud and ensure platform security</td><td>Legitimate interest</td></tr>
+                <tr><td>Improve our website and product offerings</td><td>Legitimate interest</td></tr>
+                <tr><td>Comply with legal obligations</td><td>Legal obligation</td></tr>
+            </table>
+        </section>
+
+        <section>
+            <h2>4. How We Share Your Information</h2>
+            <p>We do not sell your personal data. We may share it with:</p>
             <ul>
-                <li>To process and complete your orders</li>
-                <li>To provide customer support</li>
-                <li>To send order confirmations and important notifications</li>
-                <li>To improve our electronic redemption vouchers and services</li>
-                <li>To analyze website usage</li>
+                <li><strong>Creem (payment processor):</strong> to process your payment securely</li>
+                <li><strong>Email service providers:</strong> to deliver order confirmation and voucher emails</li>
+                <li><strong>Hosting providers (Vercel):</strong> for website infrastructure</li>
+                <li><strong>Law enforcement or regulators:</strong> when required by applicable law</li>
+            </ul>
+            <p>All third-party service providers are contractually required to handle your data securely and only for the specified purpose.</p>
+        </section>
+
+        <section>
+            <h2>5. Cookies and Tracking</h2>
+            <p>Our website uses cookies and similar technologies. Here is what we use:</p>
+            <table>
+                <tr><th>Cookie Type</th><th>Purpose</th><th>Can You Opt Out?</th></tr>
+                <tr><td>Essential cookies</td><td>Shopping cart, session management</td><td>No (required for site to function)</td></tr>
+                <tr><td>Analytics cookies</td><td>Understand how visitors use the site (e.g., page views)</td><td>Yes</td></tr>
+                <tr><td>Preference cookies</td><td>Remember your language or display settings</td><td>Yes</td></tr>
+            </table>
+            <p>You can control cookies through your browser settings. Disabling essential cookies may affect the functionality of our website.</p>
+        </section>
+
+        <section>
+            <h2>6. Data Retention</h2>
+            <p>We retain your personal data only as long as necessary:</p>
+            <ul>
+                <li><strong>Order and transaction records:</strong> 7 years (for tax and legal compliance)</li>
+                <li><strong>Customer support communications:</strong> 2 years</li>
+                <li><strong>Analytics data:</strong> 12 months (aggregated, anonymized)</li>
+            </ul>
+            <p>After the retention period, data is securely deleted or anonymized.</p>
+        </section>
+
+        <section>
+            <h2>7. Data Security</h2>
+            <p>We implement appropriate technical and organizational measures to protect your personal data, including:</p>
+            <ul>
+                <li>HTTPS / SSL encryption for all data in transit</li>
+                <li>Access controls limiting who can view personal data</li>
+                <li>Secure third-party payment processing (we never store card data)</li>
+                <li>Regular review of our security practices</li>
             </ul>
         </section>
 
         <section>
-            <h2>4. Information Sharing</h2>
-            <p>We do not sell or share your personal information to third parties except:</p>
+            <h2>8. Your Rights</h2>
+            <p>Depending on your location, you may have the following rights regarding your personal data:</p>
             <ul>
-                <li>With your explicit consent</li>
-                <li>When required by law or regulation</li>
-                <li>With necessary service providers related to order processing (such as payment processors)</li>
+                <li><strong>Access:</strong> request a copy of the data we hold about you</li>
+                <li><strong>Correction:</strong> request correction of inaccurate data</li>
+                <li><strong>Deletion:</strong> request deletion of your data ("right to be forgotten")</li>
+                <li><strong>Portability:</strong> receive your data in a structured, machine-readable format</li>
+                <li><strong>Restriction:</strong> request restriction of processing in certain circumstances</li>
+                <li><strong>Objection:</strong> object to processing based on legitimate interest</li>
+                <li><strong>Withdraw consent:</strong> where processing is based on consent, you may withdraw at any time</li>
             </ul>
+            <p>To exercise any of these rights, please contact us at <strong>517748938@qq.com</strong>. We will respond within 30 days.</p>
         </section>
 
         <section>
-            <h2>5. Data Protection</h2>
-            <p>We take reasonable security measures to protect your personal information, including:</p>
-            <ul>
-                <li>Encrypting sensitive data</li>
-                <li>Restricting access to personal information</li>
-                <li>Conducting regular security assessments</li>
-            </ul>
+            <h2>9. International Data Transfers</h2>
+            <p>Our website is hosted via Vercel (United States). If you are located in the European Economic Area (EEA) or the United Kingdom, your data may be transferred to and processed in countries outside your region. We ensure such transfers comply with applicable data protection laws.</p>
         </section>
 
         <section>
-            <h2>6. Your Rights</h2>
-            <p>You have the right to:</p>
-            <ul>
-                <li>Access and view your personal information</li>
-                <li>Request modification or deletion of your personal information</li>
-                <li>Opt out of marketing communications</li>
-                <li>Withdraw consent for data processing</li>
-            </ul>
+            <h2>10. Children's Privacy</h2>
+            <p>Our website is not directed at children under 13 years of age. We do not knowingly collect personal information from children. If you believe we have inadvertently collected such data, please contact us immediately.</p>
         </section>
 
         <section>
-            <h2>7. Privacy Policy Updates</h2>
-            <p>We may update this privacy policy from time to time. The updated policy will be posted on the website with the updated effective date.</p>
+            <h2>11. Updates to This Policy</h2>
+            <p>We may update this Privacy Policy from time to time. When we do, we will update the "Last updated" date at the top of this page. We encourage you to review this policy periodically. Continued use of our website after changes constitutes acceptance of the updated policy.</p>
         </section>
 
         <section>
-            <h2>8. Contact Us</h2>
-            <p>If you have any questions about this privacy policy, please contact us at:</p>
-            <p>Email: 517748938@qq.com</p>
+            <h2>12. Contact Us</h2>
+            <div class="highlight-box">
+                <p><strong>Dao Essence</strong><br>
+                Email: 517748938@qq.com<br>
+                Website: dao-essence-shop.vercel.app</p>
+                <p>For privacy-related requests or concerns, please include "Privacy Request" in your email subject line.</p>
+            </div>
         </section>
     </main>
 
-    <a href="index.html" class="back-link">Back to Home</a>
+    <a href="index.html" class="back-link">← Back to Home</a>
 </body>
 </html>
