@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DAO Essence - Energy Shop | Authentic Eastern Wisdom Products</title>
-    <meta name="description" content="Shop authentic Eastern wisdom protection tokens, crystals, and cultural items. Each product is handcrafted by skilled practitioners with complete energy preparation records.">
-    <meta name="keywords" content="eastern wisdom protection tokens, energy crystals, cultural items, obsidian bracelet, agarwood incense, custom protection tokens">
+    <title>DAO Essence - Energy Cards | Authentic Eastern Wisdom Cards</title>
+    <meta name="description" content="Shop authentic Eastern wisdom protection tokens, crystals, and cultural cards. Each card is handcrafted by skilled practitioners with complete energy preparation records.">
+    <meta name="keywords" content="eastern wisdom protection tokens, energy crystals, cultural cards, obsidian bracelet, agarwood incense, custom protection tokens">
     
     <!-- Open Graph for Social Media -->
-    <meta property="og:title" content="DAO Essence Energy Shop - Authentic Eastern Wisdom Products">
-    <meta property="og:description" content="Explore authentic protection tokens and energy items crafted by Eastern wisdom practitioners">
+    <meta property="og:title" content="DAO Essence Energy Cards - Authentic Eastern Wisdom Cards">
+    <meta property="og:description" content="Explore authentic protection tokens and energy cards crafted by Eastern wisdom practitioners">
     <meta property="og:type" content="website">
     <meta property="og:image" content="https://daoessence.com/images/og-image.jpg">
     
@@ -258,7 +258,7 @@
       "@context": "https://schema.org/",
       "@type": "Organization",
       "name": "DAO Essence",
-      "description": "Authentic Eastern wisdom protection tokens and energy products",
+      "description": "Authentic Eastern wisdom protection tokens and energy cards",
       "url": "https://daoessence.com",
       "contactPoint": {
         "@type": "ContactPoint",
@@ -583,7 +583,7 @@
                 <ul class="nav-menu">
                     <li><a href="index.html" class="nav-link">Home</a></li>
                     <li><a href="culture.html" class="nav-link">Energy Universe</a></li>
-                    <li><a href="shop.html" class="nav-link active">Energy Shop</a></li>
+                    <li><a href="shop.html" class="nav-link active">Energy Cards</a></li>
                     <li><a href="guide.html" class="nav-link">Crafting Process</a></li>
                     <li><a href="about.html" class="nav-link">About Us</a></li>
                     <li><a href="redeem.html" class="nav-link" style="background: #D4AF37; color: white; padding: 8px 16px; border-radius: 4px;">Redeem Gift Card</a></li>
@@ -600,8 +600,8 @@
     <!-- Shop Hero Section -->
     <section class="shop-hero">
         <div class="shop-hero-content">
-            <h1>Energy Shop</h1>
-            <p>Discover authentic protection tokens and cultural items crafted by skilled Eastern wisdom practitioners</p>
+            <h1>Energy Cards</h1>
+            <p>Discover authentic protection tokens and cultural cards crafted by skilled Eastern wisdom practitioners</p>
         </div>
     </section>
 
@@ -615,7 +615,7 @@
                     <button class="filter-btn" onclick="filterProducts('protection-tokens')">Protection Tokens</button>
                     <button class="filter-btn" onclick="filterProducts('crystals')">Crystals</button>
                     <button class="filter-btn" onclick="filterProducts('incense')">Incense</button>
-                    <button class="filter-btn" onclick="filterProducts('traditional-items')">Traditional Items</button>
+                    <button class="filter-btn" onclick="filterProducts('traditional-items')">Traditional Cards</button>
                 </div>
                 <select class="sort-select" onchange="sortProducts(this.value)">
                     <option value="featured">Featured</option>
@@ -625,7 +625,7 @@
                 </select>
             </div>
             
-            <div class="results-count">Showing <span id="productCount">0</span> products</div>
+            <div class="results-count">Showing <span id="productCount">0</span> cards</div>
 
             <!-- Product Grid -->
             <div class="shop-grid" id="productGrid">
@@ -642,7 +642,7 @@
                     <div class="logo">
                         <span class="logo-en">DAO ESSENCE</span>
                     </div>
-                    <p>Ancient Wisdom, Modern Harmony. Based on authentic Eastern wisdom traditions, we offer verifiable traditional cultural products and services with genuine energy properties.</p>
+                    <p>Ancient Wisdom, Modern Harmony. Based on authentic Eastern wisdom traditions, we offer verifiable traditional cultural cards and services with genuine energy properties.</p>
                 </div>
                 <div>
                     <h4 class="footer-title">Navigation</h4>
@@ -659,7 +659,7 @@
                         <li><a href="#">Annual Energy Analysis</a></li>
                         <li><a href="#">Annual Fortune</a></li>
                         <li><a href="#">Personal Consultation</a></li>
-                        <li><a href="#">Custom Items</a></li>
+                        <li><a href="#">Custom Cards</a></li>
                     </ul>
                 </div>
                 <div>
@@ -887,19 +887,54 @@
         cart.init();
         cart.updateUI();
         
+        // 统一 toast 通知函数（与 cart.js showNotification 一致）
+        function showCartToast(message) {
+            const existing = document.querySelector('.cart-notification');
+            if (existing) existing.remove();
+            const el = document.createElement('div');
+            el.className = 'cart-notification';
+            el.style.cssText = `
+                position: fixed; top: 100px; right: 20px;
+                background: #2D5A3D; color: #F5F0E6;
+                padding: 15px 25px; border-radius: 4px;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+                display: flex; align-items: center; gap: 15px;
+                z-index: 10000; border-left: 3px solid #D4AF37;
+                opacity: 0; transform: translateX(100px);
+                transition: all 0.3s ease;
+            `;
+            el.innerHTML = `<span>✓</span><span>${message}</span>`;
+            document.body.appendChild(el);
+            requestAnimationFrame(() => {
+                el.style.opacity = '1';
+                el.style.transform = 'translateX(0)';
+            });
+            setTimeout(() => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateX(100px)';
+                setTimeout(() => el.remove(), 300);
+            }, 2500);
+        }
+
         // Make addToCart global and available immediately
         window.addToCart = function(productId) {
             console.log('addToCart called with productId:', productId);
-            console.log('allProducts:', window.allProducts);
 
-            const product = window.allProducts.find(p => p.id === productId);
-            if (product) {
-                console.log('Product found:', product);
-                cart.add(product);
-                alert(`✅ "${product.nameCN}" added to cart!`);
+            const card = window.allProducts && window.allProducts.find(p => p.id === productId);
+            if (card) {
+                console.log('Card found:', card);
+                cart.add(card);
+                // 🔥 Toast 通知（替换原来的 alert，与详情页交互一致）
+                const name = card.nameCN || card.name || productId;
+                showCartToast(`✓ "${name}" 已加入购物车`);
+                // 同时打开购物车面板
+                setTimeout(() => {
+                    document.getElementById('cartModal').classList.add('active');
+                    cart.renderCart();
+                }, 300);
             } else {
-                console.error('Product not found:', productId);
-                alert('Error: Product not found');
+                console.error('Card not found:', productId);
+                showCartToast('❌ 商品未找到，请刷新重试');
             }
         };
 

@@ -28,7 +28,7 @@
     }
 
     /* ============================================
-       商品详情页 - Shopify兼容版本
+       卡详情页 - Shopify兼容版本
        ============================================ */
     
     .card-detail {
@@ -743,7 +743,7 @@
     }
 
     /* ============================================
-       产品描述
+       卡描述
        ============================================ */
     
     .product-description {
@@ -1565,7 +1565,7 @@
                                 <span class="discount-badge" id="discountBadge">-0%</span>
                             </div>
                             <div class="savings-text" id="savingsText" style="display:none;"></div>
-                            <div class="tax-info">Tax included. Free shipping on orders over $30</div>
+                            <div class="tax-info">Tax included. Free delivery on orders over $30</div>
                         </div>
 
                         <!-- 总价 -->
@@ -1806,7 +1806,7 @@
     <!--
     步骤1: 配置 js/shopify-config.js 填入你的 Storefront API Token
     步骤2: 取消下方注释即可启用 Shopify 数据源
-    步骤3: 商品链接格式改为 product-detail.html?product=shopify-handle
+    步骤3: 卡链接格式改为 product-detail.html?product=shopify-handle
     
     <script src="js/shopify-config.js"></script>
     <script src="js/shopify-api.js"></script>
@@ -1853,29 +1853,6 @@
             if (floatingBtn) floatingBtn.addEventListener('click', toggleCart);
         });
 
-        // 🔥 重写 addToCartFromDetail：加购后自动打开侧边栏
-        // 注意：此处覆盖 product-detail.js 中的同名函数，确保有视觉反馈
-        window.addToCartFromDetail = function() {
-            const quantityInput = document.getElementById('quantity');
-            const quantity = parseInt(quantityInput?.value) || 1;
-
-            if (!window.CARD_DATA) {
-                console.error('❌ CARD_DATA not loaded');
-                alert('产品数据未加载，请刷新页面重试');
-                return;
-            }
-
-            const cardId = window.CARD_DATA.id;
-            console.log('📦 addToCartFromDetail: cardId=' + cardId + ', qty=' + quantity);
-
-            if (typeof window.addToCart === 'function') {
-                window.addToCart(cardId, quantity);
-                // 加购成功后打开侧边栏，给用户明确视觉反馈
-                setTimeout(openCart, 200);
-            } else {
-                alert('购物车功能未就绪，请刷新页面重试');
-            }
-        };
     </script>
 </body>
 </html>

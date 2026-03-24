@@ -293,59 +293,53 @@ window.updateTotalPrice = function() {
 
 // 卡详情页添加到购物车函数
 window.addToCartFromDetail = function() {
-    if (!CARD_DATA || !currentVariant) {
-        console.error('❌ Cannot add to cart: card data not loaded');
-        alert('卡数据未加载，请刷新页面重试');
+    if (!CARD_DATA) {
+        console.error('❌ Cannot add to cart: CARD_DATA not loaded');
         return;
     }
 
     // 读取数量
     const quantityInput = document.getElementById('quantity');
-    const quantity = parseInt(quantityInput?.value) || 1;
-    
-    if (!quantity || quantity < 1) {
-        alert('请输入有效的数量');
-        return;
-    }
+    const quantity = Math.max(1, parseInt(quantityInput?.value) || 1);
 
     const cardId = CARD_DATA.id;
-    
-    console.log('📦 card-detail.addToCartFromDetail: cardId=' + cardId + ', quantity=' + quantity);
-    
+    console.log('📦 addToCartFromDetail: cardId=' + cardId + ', quantity=' + quantity);
+
     // 调用 cart.js 中的 addToCart 函数
     if (typeof window.addToCart === 'function') {
         window.addToCart(cardId, quantity);
+        // 🔥 加购成功后打开侧边栏，给用户明确视觉反馈
+        setTimeout(() => {
+            if (typeof openCart === 'function') openCart();
+        }, 200);
     } else {
         console.error('❌ addToCart function not available');
-        alert('购物车功能未就绪，请刷新页面重试');
     }
 };
 
-// 🔥 Fix #20: 立即购买函数（之前缺失导致 "buyNow is not defined" 报错）
+// 立即购买函数
 window.buyNow = function() {
-    if (!CARD_DATA || !currentVariant) {
-        console.error('❌ Cannot buy now: card data not loaded');
-        alert('卡数据未加载，请刷新页面重试');
+    if (!CARD_DATA) {
+        console.error('❌ Cannot buy now: CARD_DATA not loaded');
         return;
     }
 
     // 读取数量
     const quantityInput = document.getElementById('quantity');
-    const quantity = parseInt(quantityInput?.value) || 1;
+    const quantity = Math.max(1, parseInt(quantityInput?.value) || 1);
 
     const cardId = CARD_DATA.id;
     console.log('⚡ buyNow: cardId=' + cardId + ', quantity=' + quantity);
 
-    // 先加入购物车
+    // 先加入购物车，然后跳转结算页
     if (typeof window.addToCart === 'function') {
         window.addToCart(cardId, quantity);
     } else {
         console.error('❌ addToCart function not available');
-        alert('购物车功能未就绪，请刷新页面重试');
         return;
     }
 
-    // 然后跳转到结算页面（注意：项目里是 checkout.html，不是 cart.html）
+    // 跳转到结算页（checkout.html）
     setTimeout(() => {
         window.location.href = 'checkout.html';
     }, 300);
