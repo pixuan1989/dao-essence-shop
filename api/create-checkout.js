@@ -50,9 +50,17 @@ export default async function handler(req, res) {
         // 生成订单号
         const orderId = `ORDER_${Date.now()}_${Math.floor(Math.random() * 10000)}`;
 
+        // 构建支付成功后的跳转URL（带订单信息）
+        const baseUrl = process.env.VERCEL_URL 
+            ? `https://${process.env.VERCEL_URL}` 
+            : (req.headers.origin || 'https://daoessentia.com');
+        const successUrl = `${baseUrl}/payment-success.html?order_id=${orderId}&total=${subtotal.toFixed(2)}`;
+
         // 准备 Creem API 请求数据
         const creemCheckoutData = {
-            product_id: productId
+            product_id: productId,
+            success_url: successUrl,
+            request_id: orderId  // 用于跟踪订单
         };
 
         // 如果有折扣码，添加到请求中
