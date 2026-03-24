@@ -19,9 +19,8 @@ function showTaijituOverlay(onDone) {
     overlay.id = 'taijitu-overlay';
     overlay.style.cssText = `
         position: fixed; inset: 0;
-        background: rgba(10, 18, 10, 0.92);
-        display: flex; flex-direction: column;
-        align-items: center; justify-content: center;
+        background: rgba(0, 0, 0, 0.45);
+        display: flex; align-items: center; justify-content: center;
         z-index: 99999;
         opacity: 0;
         transition: opacity 0.4s ease;
@@ -37,46 +36,47 @@ function showTaijituOverlay(onDone) {
                 from { opacity: 0; transform: scale(0.85); }
                 to   { opacity: 1; transform: scale(1); }
             }
+            #taijitu-card {
+                background: #fff;
+                border-radius: 16px;
+                padding: 48px 56px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+                animation: taiji-fade-in 0.4s ease forwards;
+            }
             #taijitu-svg {
-                animation: taiji-spin 6s linear infinite,
-                           taiji-fade-in 0.5s ease forwards;
-                filter: drop-shadow(0 0 12px rgba(255,255,255,0.15));
+                animation: taiji-spin 6s linear infinite;
+                filter: drop-shadow(0 0 8px rgba(0,0,0,0.08));
             }
             #taijitu-text {
-                margin-top: 28px;
-                color: #e8e8e8;
+                margin-top: 24px;
+                color: #222;
                 font-size: 15px;
-                letter-spacing: 0.2em;
+                letter-spacing: 0.15em;
                 font-family: 'Georgia', serif;
-                opacity: 0;
-                animation: taiji-fade-in 0.6s ease 0.3s forwards;
             }
             #taijitu-sub {
-                margin-top: 10px;
-                color: rgba(255,255,255,0.3);
+                margin-top: 8px;
+                color: #999;
                 font-size: 12px;
-                letter-spacing: 0.15em;
-                opacity: 0;
-                animation: taiji-fade-in 0.6s ease 0.6s forwards;
+                letter-spacing: 0.12em;
             }
         </style>
 
-        <!-- 太极 SVG（黑白，纯矢量） -->
-        <svg id="taijitu-svg" width="96" height="96" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-            <!-- 左半（黑） -->
-            <path d="M50,5 A45,45 0 0,0 50,95 A22.5,22.5 0 0,1 50,50 A22.5,22.5 0 0,0 50,5 Z" fill="#111111"/>
-            <!-- 右半（白） -->
-            <path d="M50,5 A45,45 0 0,1 50,95 A22.5,22.5 0 0,0 50,50 A22.5,22.5 0 0,1 50,5 Z" fill="#f0f0f0"/>
-            <!-- 上小圆（白点在黑半） -->
-            <circle cx="50" cy="27.5" r="9" fill="#f0f0f0"/>
-            <!-- 下小圆（黑点在白半） -->
-            <circle cx="50" cy="72.5" r="9" fill="#111111"/>
-            <!-- 外圆边框 -->
-            <circle cx="50" cy="50" r="45" fill="none" stroke="#888888" stroke-width="1"/>
-        </svg>
-
-        <div id="taijitu-text">正在跳转支付</div>
-        <div id="taijitu-sub">Redirecting to secure payment...</div>
+        <div id="taijitu-card">
+            <svg id="taijitu-svg" width="80" height="80" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <path d="M50,5 A45,45 0 0,0 50,95 A22.5,22.5 0 0,1 50,50 A22.5,22.5 0 0,0 50,5 Z" fill="#111"/>
+                <path d="M50,5 A45,45 0 0,1 50,95 A22.5,22.5 0 0,0 50,50 A22.5,22.5 0 0,1 50,5 Z" fill="#f0f0f0"/>
+                <circle cx="50" cy="27.5" r="9" fill="#f0f0f0"/>
+                <circle cx="50" cy="72.5" r="9" fill="#111"/>
+                <circle cx="50" cy="50" r="45" fill="none" stroke="#ccc" stroke-width="1"/>
+            </svg>
+            <div id="taijitu-text">正在跳转支付</div>
+            <div id="taijitu-sub">Redirecting to secure payment...</div>
+        </div>
+    `;
     `;
 
     document.body.appendChild(overlay);
