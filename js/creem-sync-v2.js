@@ -39,8 +39,8 @@ const FALLBACK_PRODUCTS = [
     discount: 20,         // 🔥 折扣金额
     discountRate: 10,     // 🔥 折扣率 10%
     currency: 'USD',
-    description: 'A personalized agarwood energy cleansing ritual service, including one-on-one remote guidance by a certified practitioner and a handcrafted agarwood ritual kit delivered to your door.',
-    descriptionCN: '由认证传承人提供的个人专属沉香能量净化服务，含一对一远程指导及手工沉香套装定制配送。',
+    description: 'A personalized digital energy cleansing ritual service, including one-on-one remote guidance by a certified practitioner, personalized meditation audio, and digital energy alignment materials.',
+    descriptionCN: '由认证传承人提供的个人专属数字能量净化服务，含一对一远程指导、个性化冥想音频及数字能量调和资料。',
     image: 'images/agarwood.jpg',
     category: 'digital'
   },
@@ -53,8 +53,8 @@ const FALLBACK_PRODUCTS = [
     discount: 0,
     discountRate: 0,
     currency: 'USD',
-    description: 'A personalized Five Elements energy balancing consultation service, including a custom energy analysis report and a handcrafted Five Elements harmony kit delivered to your door.',
-    descriptionCN: '由传承人提供的五行能量平衡定制咨询，含专属能量分析报告及手工五行调和套装定制配送。',
+    description: 'A personalized Five Elements energy balancing consultation service, including a custom energy analysis report, personalized guidance session, and digital Five Elements harmony resources.',
+    descriptionCN: '由传承人提供的五行能量平衡定制咨询，含专属能量分析报告、个性化指导课程及数字五行调和资源。',
     image: 'images/bracelet.jpg',
     category: 'digital'
   }
