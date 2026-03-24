@@ -49,7 +49,10 @@ async function sendBuyerConfirmationEmail(client, orderData) {
         currency,
         items,
         shippingMethod,
-        shippingAddress
+        shippingAddress,
+        fullName,
+        phoneNumber,
+        postalCode
     } = orderData;
 
     if (!customerEmail) {
@@ -58,8 +61,16 @@ async function sendBuyerConfirmationEmail(client, orderData) {
     }
 
     const itemsHtml = formatItemsHtml(items);
-    const shippingInfo = shippingAddress
-        ? `<p style="margin:5px 0;color:#555;">${shippingAddress}</p>`
+    
+    // 格式化收货信息
+    const shippingInfo = (fullName || phoneNumber || shippingAddress || postalCode)
+        ? `
+        <table style="width:100%;font-size:14px;margin-top:10px;">
+            ${fullName ? `<tr><td style="padding:4px 0;color:#888;width:35%;">收货人</td><td style="color:#1a1a1a;">${fullName}</td></tr>` : ''}
+            ${phoneNumber ? `<tr><td style="padding:4px 0;color:#888;">联系电话</td><td style="color:#1a1a1a;">${phoneNumber}</td></tr>` : ''}
+            ${shippingAddress ? `<tr><td style="padding:4px 0;color:#888;">详细地址</td><td style="color:#1a1a1a;">${shippingAddress}</td></tr>` : ''}
+            ${postalCode ? `<tr><td style="padding:4px 0;color:#888;">邮编</td><td style="color:#1a1a1a;">${postalCode}</td></tr>` : ''}
+        </table>`
         : '';
 
     const params = {
@@ -139,7 +150,7 @@ async function sendBuyerConfirmationEmail(client, orderData) {
                 </tfoot>
             </table>
 
-            ${shippingAddress ? `
+            ${fullName || phoneNumber || shippingAddress || postalCode ? `
             <!-- 收货地址 -->
             <div style="background:#fafafa;border-radius:8px;padding:20px;margin-bottom:25px;">
                 <h3 style="margin:0 0 10px;color:#1a1a1a;font-size:15px;">📦 收货信息 Shipping Address</h3>
@@ -202,6 +213,9 @@ async function sendMerchantNotificationEmail(client, orderData) {
         items,
         shippingMethod,
         shippingAddress,
+        fullName,
+        phoneNumber,
+        postalCode,
         paymentType
     } = orderData;
 
@@ -246,7 +260,13 @@ async function sendMerchantNotificationEmail(client, orderData) {
                     <tr><td style="padding:5px 0;color:#888;">支付方式</td><td style="color:#1a1a1a;">${paymentType === 'checkout_session' ? 'Stripe Checkout' : 'Payment Intent'}</td></tr>
                     <tr><td style="padding:5px 0;color:#888;">运输方式</td><td style="color:#1a1a1a;">${shippingMethod || '未选择'}</td></tr>
                     <tr><td style="padding:5px 0;color:#888;">下单时间</td><td style="color:#1a1a1a;">${new Date().toLocaleString('zh-CN', {timeZone: 'Asia/Shanghai'})}</td></tr>
-                    ${shippingAddress ? `<tr><td style="padding:5px 0;color:#888;">收货地址</td><td style="color:#1a1a1a;">${shippingAddress}</td></tr>` : ''}
+                    ${fullName || phoneNumber || shippingAddress || postalCode ? `
+                    <tr><td colspan="2" style="padding:8px 0 0;color:#1a1a1a;font-weight:bold;border-top:1px solid #eee;">📦 收货信息</td></tr>
+                    ${fullName ? `<tr><td style="padding:4px 0;color:#888;">收货人</td><td style="color:#1a1a1a;">${fullName}</td></tr>` : ''}
+                    ${phoneNumber ? `<tr><td style="padding:4px 0;color:#888;">联系电话</td><td style="color:#1a1a1a;">${phoneNumber}</td></tr>` : ''}
+                    ${shippingAddress ? `<tr><td style="padding:4px 0;color:#888;">详细地址</td><td style="color:#1a1a1a;">${shippingAddress}</td></tr>` : ''}
+                    ${postalCode ? `<tr><td style="padding:4px 0;color:#888;">邮编</td><td style="color:#1a1a1a;">${postalCode}</td></tr>` : ''}
+                    ` : ''}
                 </table>
             </div>
 

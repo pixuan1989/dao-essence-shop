@@ -77,6 +77,11 @@ export default async function handler(req, res) {
                 const shippingAddress = metadata.shipping_address || '';
                 const shippingMethod = metadata.shipping_method || '标准运输';
                 
+                // 解析自定义字段（Creem Custom Fields）
+                const fullName = metadata.full_name || metadata['Full Name'] || '';
+                const phoneNumber = metadata.phone_number || metadata['Phone Number'] || '';
+                const postalCode = metadata.postal_code || metadata['Postal Code'] || '';
+                
                 // 从metadata获取金额（Creem不支持动态金额，价格在产品创建时固定）
                 const amount = metadata.total || 0;
                 
@@ -101,7 +106,11 @@ export default async function handler(req, res) {
                     customerName: customerName,
                     shippingAddress: shippingAddress,
                     shippingMethod: shippingMethod,
-                    items: items
+                    items: items,
+                    // 自定义字段
+                    fullName: fullName,
+                    phoneNumber: phoneNumber,
+                    postalCode: postalCode
                 });
                 break;
 
