@@ -151,7 +151,6 @@ window.renderShop = function() {
                 <div class="product-desc-short">${product.descriptionCN}</div>
                 <div class="product-meta">
                     ${priceDisplay}
-                    <div class="product-stock">Stock: ${product.stock}</div>
                 </div>
                 <button class="add-to-cart-btn" onclick="event.preventDefault(); event.stopPropagation(); addToCart('${product.id}')">
                     <svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-right: 8px; vertical-align: middle;"><circle cx="9" cy="19" r="1"/><circle cx="17" cy="19" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L19 6H6"/></svg> Add to Cart
