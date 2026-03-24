@@ -1,29 +1,29 @@
 // ============================================
-// Product Detail Page System
+// Card Detail Page System
 // ============================================
 
-let PRODUCT_DATA = null;
+let CARD_DATA = null;
 let currentVariant = null;
 let selectedOptions = {};
 let totalCartQuantity = 0;
 
 /**
- * 从 window.allProducts 中加载产品数据
+ * 从 window.allProducts 中加载卡数据
  * 由 creem-sync-v2.js 填充 window.allProducts
  */
-window.loadProductData = async function() {
-    console.log('📦 Loading product data for detail page...');
+window.loadCardData = async function() {
+    console.log('📦 Loading card data for detail page...');
 
-    // 获取URL中的产品ID
+    // 获取URL中的卡ID
     const urlParams = new URLSearchParams(window.location.search);
-    const productId = urlParams.get('id');
-    console.log('URL Product ID:', productId);
-    console.log('Available products from Creem API:', window.allProducts ? window.allProducts.length : 0);
+    const cardId = urlParams.get('id');
+    console.log('URL Card ID:', cardId);
+    console.log('Available cards from Creem API:', window.allProducts ? window.allProducts.length : 0);
     
-    // 如果没有指定ID，使用默认产品 (传统沉香)
-    const defaultProductId = 'prod_7i2asEAuHFHl5hJMeCEsfB';
-    const actualProductId = productId || defaultProductId;
-    console.log('Loading product:', actualProductId);
+    // 如果没有指定ID，使用默认卡 (传统沉香)
+    const defaultCardId = 'prod_7i2asEAuHFHl5hJMeCEsfB';
+    const actualCardId = cardId || defaultCardId;
+    console.log('Loading card:', actualCardId);
     
     // 等待 window.allProducts 数据就绪
     let attempts = 0;
@@ -38,38 +38,38 @@ window.loadProductData = async function() {
     }
     
     if (attempts >= maxAttempts) {
-        console.warn('⚠️ Creem products still not ready, trying anyway...');
+        console.warn('⚠️ Creem cards still not ready, trying anyway...');
     }
     
-    // 从 window.allProducts 中获取产品数据
+    // 从 window.allProducts 中获取卡数据
     if (typeof window.allProducts !== 'undefined' && window.allProducts.length > 0) {
-        console.log('Available products:', window.allProducts.map(p => ({ id: p.id, name: p.name, price: p.price })));
+        console.log('Available cards:', window.allProducts.map(p => ({ id: p.id, name: p.name, price: p.price })));
         
-        const product = window.allProducts.find(p => p.id === actualProductId) || window.allProducts.find(p => p.id === defaultProductId);
-        if (product) {
-            console.log('🔍 Found product:', product);
-            console.log('📊 Product fields:', { name: product.name, nameCN: product.nameCN, price: product.price, image: product.image, image_url: product.image_url, img_url: product.img_url });
+        const card = window.allProducts.find(p => p.id === actualCardId) || window.allProducts.find(p => p.id === defaultCardId);
+        if (card) {
+            console.log('🔍 Found card:', card);
+            console.log('📊 Card fields:', { name: card.name, nameCN: card.nameCN, price: card.price, image: card.image, image_url: card.image_url, img_url: card.img_url });
             
             // 🔥 支持多种图片字段名
-            const productImage = product.image || product.image_url || product.img_url || 'images/placeholder.jpg';
-            console.log('📷 Using image:', productImage);
+            const cardImage = card.image || card.image_url || card.img_url || 'images/placeholder.jpg';
+            console.log('📷 Using image:', cardImage);
             
-            // 转换 Creem API 数据格式为产品详情页需要的格式
-            PRODUCT_DATA = {
-                id: product.id,
-                title: product.name || product.product_name || 'Unknown Product',
-                titleZh: product.nameCN || product.name || 'Unknown Product',
-                handle: (product.name || 'product').toLowerCase().replace(/\s+/g, '-'),
-                description: product.description || product.product_description || 'No description available',
-                descriptionZh: product.descriptionCN || product.description || product.product_description || 'No description available',
-                price: parseFloat(product.price) || 0,
-                compareAtPrice: parseFloat(product.originalPrice || product.price) || 0,
-                currency: product.currency || 'USD',
+            // 转换 Creem API 数据格式为卡详情页需要的格式
+            CARD_DATA = {
+                id: card.id,
+                title: card.name || card.product_name || 'Unknown Card',
+                titleZh: card.nameCN || card.name || 'Unknown Card',
+                handle: (card.name || 'card').toLowerCase().replace(/\s+/g, '-'),
+                description: card.description || card.product_description || 'No description available',
+                descriptionZh: card.descriptionCN || card.description || card.product_description || 'No description available',
+                price: parseFloat(card.price) || 0,
+                compareAtPrice: parseFloat(card.originalPrice || card.price) || 0,
+                currency: card.currency || 'USD',
                 images: [
                     {
                         id: 1,
-                        src: productImage,
-                        alt: product.nameCN || product.name || 'Product',
+                        src: cardImage,
+                        alt: card.nameCN || card.name || 'Card',
                         width: 1200,
                         height: 1200,
                         position: 1
@@ -77,40 +77,40 @@ window.loadProductData = async function() {
                 ],
                 variants: [
                     {
-                        id: `${product.id}-1`,
+                        id: `${card.id}-1`,
                         title: 'Default',
-                        price: parseFloat(product.price) || 0,
-                        compareAtPrice: parseFloat(product.originalPrice || product.price) || 0,
+                        price: parseFloat(card.price) || 0,
+                        compareAtPrice: parseFloat(card.originalPrice || card.price) || 0,
                         available: true,
-                        inventoryQuantity: product.stock || 999,
+                        inventoryQuantity: card.stock || 999,
                         options: {}
                     }
                 ],
-                type: product.categoryCN || product.category || 'Spiritual',
+                type: card.categoryCN || card.category || 'Spiritual',
                 metafields: {
                     energy: {
-                        five_element: product.element,
-                        type: product.energyLevel,
+                        five_element: card.element,
+                        type: card.energyLevel,
                         direction: '适合所有方位',
-                        suitable_for: product.benefits || []
+                        suitable_for: card.benefits || []
                     }
                 }
             };
-            console.log('✅ Product data loaded and converted:', PRODUCT_DATA);
+            console.log('✅ Card data loaded and converted:', CARD_DATA);
             return true;
         }
     }
     
-    if (!PRODUCT_DATA) {
-        console.error('Product not found:', actualProductId);
+    if (!CARD_DATA) {
+        console.error('Card not found:', actualCardId);
         // 使用默认数据结构作为 fallback
-        PRODUCT_DATA = {
-            id: actualProductId,
-            title: 'Product Not Found',
-            titleZh: '产品未找到',
-            handle: 'product-not-found',
-            description: 'Product not available',
-            descriptionZh: '产品不可用',
+        CARD_DATA = {
+            id: actualCardId,
+            title: 'Card Not Found',
+            titleZh: '卡未找到',
+            handle: 'card-not-found',
+            description: 'Card not available',
+            descriptionZh: '卡不可用',
             price: 0,
             compareAtPrice: null,
             currency: 'USD',
@@ -118,7 +118,7 @@ window.loadProductData = async function() {
                 {
                     id: 1,
                     src: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1200&h=1200&fit=crop',
-                    alt: 'Product Image',
+                    alt: 'Card Image',
                     width: 1200,
                     height: 1200,
                     position: 1
@@ -126,7 +126,7 @@ window.loadProductData = async function() {
             ],
             variants: [
                 {
-                    id: `${actualProductId}-1`,
+                    id: `${actualCardId}-1`,
                     title: 'Default',
                     price: 0,
                     compareAtPrice: null,
@@ -151,7 +151,7 @@ window.loadProductData = async function() {
         return false;
     }
     
-    console.log('Loaded product:', PRODUCT_DATA.id, PRODUCT_DATA.title);
+    console.log('Loaded card:', CARD_DATA.id, CARD_DATA.title);
     return true;
 };
 
@@ -160,8 +160,8 @@ window.loadProductData = async function() {
 // ============================================
 
 window.initState = function() {
-    if (PRODUCT_DATA && PRODUCT_DATA.variants && PRODUCT_DATA.variants.length > 0) {
-        currentVariant = PRODUCT_DATA.variants[0];
+    if (CARD_DATA && CARD_DATA.variants && CARD_DATA.variants.length > 0) {
+        currentVariant = CARD_DATA.variants[0];
 
         // 根据第一个变体初始化选项
         if (currentVariant.options) {
@@ -188,7 +188,7 @@ window.renderImages = function() {
     
     console.log('renderImages called');
     
-    if (!mainWrapper || !PRODUCT_DATA || !PRODUCT_DATA.images) return;
+    if (!mainWrapper || !CARD_DATA || !CARD_DATA.images) return;
 
     // 清空现有内容
     mainWrapper.innerHTML = '';
@@ -196,8 +196,8 @@ window.renderImages = function() {
 
     // 渲染主图像
     const mainImage = document.createElement('img');
-    mainImage.src = PRODUCT_DATA.images[0].src;
-    mainImage.alt = PRODUCT_DATA.images[0].alt;
+    mainImage.src = CARD_DATA.images[0].src;
+    mainImage.alt = CARD_DATA.images[0].alt;
     mainImage.style.width = '100%';
     mainImage.style.height = 'auto';
     mainImage.style.maxHeight = '600px';
@@ -211,9 +211,9 @@ window.renderImages = function() {
 // ============================================
 
 window.selectVariant = function(variantId) {
-    if (!PRODUCT_DATA) return;
+    if (!CARD_DATA) return;
     
-    const variant = PRODUCT_DATA.variants.find(v => v.id === variantId);
+    const variant = CARD_DATA.variants.find(v => v.id === variantId);
     if (variant) {
         currentVariant = variant;
         window.updateUIForVariant(variant);
@@ -291,11 +291,11 @@ window.updateTotalPrice = function() {
 // Add to Cart - 🔥 FIXED VERSION
 // ============================================
 
-// 产品详情页添加到购物车函数
+// 卡详情页添加到购物车函数
 window.addToCartFromDetail = function() {
-    if (!PRODUCT_DATA || !currentVariant) {
-        console.error('❌ Cannot add to cart: product data not loaded');
-        alert('产品数据未加载，请刷新页面重试');
+    if (!CARD_DATA || !currentVariant) {
+        console.error('❌ Cannot add to cart: card data not loaded');
+        alert('卡数据未加载，请刷新页面重试');
         return;
     }
 
@@ -308,17 +308,47 @@ window.addToCartFromDetail = function() {
         return;
     }
 
-    const productId = PRODUCT_DATA.id;
+    const cardId = CARD_DATA.id;
     
-    console.log('📦 product-detail.addToCartFromDetail: productId=' + productId + ', quantity=' + quantity);
+    console.log('📦 card-detail.addToCartFromDetail: cardId=' + cardId + ', quantity=' + quantity);
     
     // 调用 cart.js 中的 addToCart 函数
     if (typeof window.addToCart === 'function') {
-        window.addToCart(productId, quantity);
+        window.addToCart(cardId, quantity);
     } else {
         console.error('❌ addToCart function not available');
         alert('购物车功能未就绪，请刷新页面重试');
     }
+};
+
+// 🔥 Fix #20: 立即购买函数（之前缺失导致 "buyNow is not defined" 报错）
+window.buyNow = function() {
+    if (!CARD_DATA || !currentVariant) {
+        console.error('❌ Cannot buy now: card data not loaded');
+        alert('卡数据未加载，请刷新页面重试');
+        return;
+    }
+
+    // 读取数量
+    const quantityInput = document.getElementById('quantity');
+    const quantity = parseInt(quantityInput?.value) || 1;
+
+    const cardId = CARD_DATA.id;
+    console.log('⚡ buyNow: cardId=' + cardId + ', quantity=' + quantity);
+
+    // 先加入购物车
+    if (typeof window.addToCart === 'function') {
+        window.addToCart(cardId, quantity);
+    } else {
+        console.error('❌ addToCart function not available');
+        alert('购物车功能未就绪，请刷新页面重试');
+        return;
+    }
+
+    // 然后跳转到购物车页面
+    setTimeout(() => {
+        window.location.href = 'cart.html';
+    }, 300);
 };
 
 // ============================================
@@ -328,11 +358,11 @@ window.addToCartFromDetail = function() {
 document.addEventListener('DOMContentLoaded', async function() {
     console.log('🚀 product-detail.js: DOMContentLoaded fired');
     
-    // 1. 加载产品数据（必须在其他操作之前）
-    const productLoaded = await window.loadProductData();
+    // 1. 加载卡数据（必须在其他操作之前）
+    const cardLoaded = await window.loadCardData();
 
-    if (!productLoaded) {
-        console.warn('⚠️ Failed to load product data, but continuing...');
+    if (!cardLoaded) {
+        console.warn('⚠️ Failed to load card data, but continuing...');
     }
 
     // 2. 初始化购物车数据
@@ -341,71 +371,71 @@ document.addEventListener('DOMContentLoaded', async function() {
         window.cart = savedCart;
     }
 
-    console.log('✅ Product detail page initialized');
-    console.log('Product data:', PRODUCT_DATA);
+    console.log('✅ Card detail page initialized');
+    console.log('Card data:', CARD_DATA);
 
     // 3. 初始化页面UI
     window.initState();
     window.renderImages();
     
-    // 3.5 更新所有产品信息到 HTML
-    if (PRODUCT_DATA) {
-        console.log('Updating all product info to HTML...');
-        const productNameCn = document.getElementById('productNameCn');
-        if (productNameCn) {
-            productNameCn.textContent = PRODUCT_DATA.titleZh || PRODUCT_DATA.title || 'Product Name';
-            console.log('✅ Updated productNameCn to:', productNameCn.textContent);
+    // 3.5 更新所有卡信息到 HTML
+    if (CARD_DATA) {
+        console.log('Updating all card info to HTML...');
+        const cardNameCn = document.getElementById('cardNameCn');
+        if (cardNameCn) {
+            cardNameCn.textContent = CARD_DATA.titleZh || CARD_DATA.title || 'Card Name';
+            console.log('✅ Updated cardNameCn to:', cardNameCn.textContent);
         }
         
-        const productNameEn = document.getElementById('productNameEn');
-        if (productNameEn) {
-            productNameEn.textContent = PRODUCT_DATA.title || 'Product Name';
-            console.log('✅ Updated productNameEn to:', productNameEn.textContent);
+        const cardNameEn = document.getElementById('cardNameEn');
+        if (cardNameEn) {
+            cardNameEn.textContent = CARD_DATA.title || 'Card Name';
+            console.log('✅ Updated cardNameEn to:', cardNameEn.textContent);
         }
         
         // 更新页面头部标题
         const pageTitleLarge = document.getElementById('pageTitleLarge');
         if (pageTitleLarge) {
-            pageTitleLarge.textContent = PRODUCT_DATA.titleZh || PRODUCT_DATA.title || 'Product';
+            pageTitleLarge.textContent = CARD_DATA.titleZh || CARD_DATA.title || 'Card';
             console.log('✅ Updated pageTitleLarge to:', pageTitleLarge.textContent);
         }
         
         const pageTitleEn = document.getElementById('pageTitleEn');
         if (pageTitleEn) {
-            pageTitleEn.textContent = PRODUCT_DATA.title || 'Product Title';
+            pageTitleEn.textContent = CARD_DATA.title || 'Card Title';
             console.log('✅ Updated pageTitleEn to:', pageTitleEn.textContent);
         }
         
         // 更新面包屑
-        const breadcrumbProduct = document.getElementById('breadcrumbProduct');
-        if (breadcrumbProduct) {
-            breadcrumbProduct.textContent = PRODUCT_DATA.titleZh || PRODUCT_DATA.title || 'Product';
-            console.log('✅ Updated breadcrumbProduct to:', breadcrumbProduct.textContent);
+        const breadcrumbCard = document.getElementById('breadcrumbCard');
+        if (breadcrumbCard) {
+            breadcrumbCard.textContent = CARD_DATA.titleZh || CARD_DATA.title || 'Card';
+            console.log('✅ Updated breadcrumbCard to:', breadcrumbCard.textContent);
         }
         
         const breadcrumbCategory = document.getElementById('breadcrumbCategory');
         if (breadcrumbCategory) {
-            breadcrumbCategory.textContent = PRODUCT_DATA.type || 'Category';
+            breadcrumbCategory.textContent = CARD_DATA.type || 'Category';
             console.log('✅ Updated breadcrumbCategory to:', breadcrumbCategory.textContent);
         }
         
-        // 更新产品描述
-        const productDescription = document.getElementById('productDescription');
-        if (productDescription) {
-            productDescription.innerHTML = '<p>' + (PRODUCT_DATA.descriptionZh || PRODUCT_DATA.description || 'No description available') + '</p>';
-            console.log('✅ Updated productDescription');
+        // 更新卡描述
+        const cardDescription = document.getElementById('cardDescription');
+        if (cardDescription) {
+            cardDescription.innerHTML = '<p>' + (CARD_DATA.descriptionZh || CARD_DATA.description || 'No description available') + '</p>';
+            console.log('✅ Updated cardDescription');
         }
         
-        const productCategoryTag = document.getElementById('productCategoryTag');
-        if (productCategoryTag) {
-            productCategoryTag.textContent = PRODUCT_DATA.type || 'Category';
-            console.log('✅ Updated productCategoryTag');
+        const cardCategoryTag = document.getElementById('cardCategoryTag');
+        if (cardCategoryTag) {
+            cardCategoryTag.textContent = CARD_DATA.type || 'Category';
+            console.log('✅ Updated cardCategoryTag');
         }
         
-        const productSku = document.getElementById('productSku');
-        if (productSku) {
-            productSku.textContent = 'SKU: ' + PRODUCT_DATA.id;
-            console.log('✅ Updated productSku');
+        const cardSku = document.getElementById('cardSku');
+        if (cardSku) {
+            cardSku.textContent = 'SKU: ' + CARD_DATA.id;
+            console.log('✅ Updated cardSku');
         }
     }
     

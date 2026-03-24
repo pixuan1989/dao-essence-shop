@@ -119,14 +119,15 @@ function addToCart(productId, quantity = 1) {
     if (window.allProducts) {
         product = window.allProducts.find(p => p.id === productId);
         if (product) {
-            console.log('✅ Found product from Creem API:', product.nameCn);
+            // 🔥 Creem 产品字段名是 nameCN（大写 N），兼容处理
+            console.log('✅ Found product from Creem API:', product.nameCN || product.nameCn || product.name);
         }
     }
     
     // 优先级 2：查静态产品库
     if (!product && products[productId]) {
         product = products[productId];
-        console.log('✅ Found product from static list:', product.nameCn);
+        console.log('✅ Found product from static list:', product.nameCn || product.nameCN || product.name);
     }
     
     if (!product) {
@@ -135,21 +136,24 @@ function addToCart(productId, quantity = 1) {
         return;
     }
 
+    // 兼容 nameCN（Creem）和 nameCn（静态）两种字段名
+    const displayName = product.nameCN || product.nameCn || product.name || product.title || 'Unknown Product';
     const existingItem = cart.items.find(item => item.id === productId);
     
     if (existingItem) {
         existingItem.quantity += quantity;
-        console.log('✅ Updated quantity for', product.nameCn, '→', existingItem.quantity);
+        console.log('✅ Updated quantity for', displayName, '→', existingItem.quantity);
     } else {
         cart.items.push({
             id: product.id,
             name: product.name || product.title || 'Unknown Product',
-            nameCn: product.nameCn || product.titleCn || 'Unknown Product',
+            nameCn: displayName,
             price: product.price || 0,
-            image: product.image || product.thumbnail || '',
+            // 🔥 兼容 image_url（Creem）和 image（静态）
+            image: product.image_url || product.image || product.thumbnail || '',
             quantity: quantity
         });
-        console.log('✅ Added new item to cart:', product.nameCn);
+        console.log('✅ Added new item to cart:', displayName);
     }
 
     // 确保 window.cart 和 cart 对象同步
@@ -157,7 +161,7 @@ function addToCart(productId, quantity = 1) {
     
     saveCartToStorage();
     updateCartUI();
-    showNotification(`${product.nameCn} 已添加到购物车`);
+    showNotification(`${displayName} 已添加到购物车`);
     console.log('🛒 Cart items count:', cart.items.length, '| Total items:', cart.items.reduce((sum, item) => sum + item.quantity, 0));
 }
 
