@@ -134,11 +134,18 @@ function transformProducts(products) {
   return products.map(product => ({
     id: product.id || product.productId,
     name: product.name || product.title || '未知产品',
-    price: product.price || product.priceAmount || 0,
+    nameCN: product.name || product.title || '未知产品',
+    price: (product.price || product.priceAmount || 0) / 100,  // 🔥 cents -> dollars
+    originalPrice: (product.price || product.priceAmount || 0) / 100,
     currency: product.currency || 'USD',
     description: product.description || '暂无描述',
-    image: product.image || product.images?.[0] || 'images/placeholder.jpg',
+    descriptionCN: product.description || '暂无描述',
+    // 🔥 修复：Creem API 返回的图片字段名是 image_url，不是 image
+    image: product.image_url || product.image || product.images?.[0] || '',
+    image_url: product.image_url || product.image || '',
     category: product.category || 'other',
+    categoryCN: product.category || 'other',
+    element: product.element || 'unknown',
     url: product.url,
     stock: product.stock || 999
   }));

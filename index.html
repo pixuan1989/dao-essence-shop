@@ -1378,22 +1378,24 @@
                 const featuredProducts = window.allProducts.slice(0, 2);
                 
                 container.innerHTML = featuredProducts.map(product => {
-                    const elementClass = `element-${product.element}`;
+                    const elementClass = `element-${product.element || 'unknown'}`;
+                    // 🔥 修复：Creem API 返回 image_url，兼容多种字段名
+                    const imgSrc = product.image_url || product.image || '';
                     return `
                     <div class="product-card scroll-animate">
                         <a href="product-detail.html?id=${product.id}" class="product-link">
                             <div class="product-image">
-                                <img src="${product.image}" alt="${product.nameCN}" onerror="this.src='https://images.unsplash.com/photo-1519681393784-d120267933ba?w=600&h=600&fit=crop'">
+                                <img src="${imgSrc}" alt="${product.nameCN || product.name}" onerror="this.src='https://images.unsplash.com/photo-1519681393784-d120267933ba?w=600&h=600&fit=crop'">
                                 <div class="product-element">
-                                    <span class="element-badge ${elementClass}">${product.element.charAt(0).toUpperCase() + product.element.slice(1)}</span>
+                                    <span class="element-badge ${elementClass}">${(product.element || 'other').charAt(0).toUpperCase() + (product.element || 'other').slice(1)}</span>
                                 </div>
                             </div>
                             <div class="product-content">
-                                <p class="product-category">${product.category}</p>
-                                <h3 class="product-name">${product.nameCN}</h3>
-                                <p class="product-desc">${product.descriptionCN}</p>
+                                <p class="product-category">${product.categoryCN || product.category || ''}</p>
+                                <h3 class="product-name">${product.nameCN || product.name}</h3>
+                                <p class="product-desc">${product.descriptionCN || product.description}</p>
                                 <div class="product-footer">
-                                    <span class="product-price">$${product.price.toFixed(2)}</span>
+                                    <span class="product-price">$${(product.price || 0).toFixed(2)}</span>
                                     <button class="product-btn">View Details</button>
                                 </div>
                             </div>
