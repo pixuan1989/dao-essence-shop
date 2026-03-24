@@ -345,9 +345,9 @@ window.buyNow = function() {
         return;
     }
 
-    // 然后跳转到购物车页面
+    // 然后跳转到结算页面（注意：项目里是 checkout.html，不是 cart.html）
     setTimeout(() => {
-        window.location.href = 'cart.html';
+        window.location.href = 'checkout.html';
     }, 300);
 };
 

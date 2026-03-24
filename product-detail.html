@@ -3,7 +3,7 @@
 <head> 
 <meta charset="UTF-8"> 
 <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-<title>DAO Essence - Product Detail</title>
+<title>DAO Essence - Card Detail</title>
 <link rel="stylesheet" href="styles.css?v=202603231100">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&family=Noto+Serif+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css">
@@ -31,20 +31,20 @@
        商品详情页 - Shopify兼容版本
        ============================================ */
     
-    .product-detail {
+    .card-detail {
         background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 50%, var(--bg-primary) 100%);
         min-height: 100vh;
     }
 
-    .product-detail-header {
+    .card-detail-header {
         position: relative;
         padding: 60px 0;
         background: linear-gradient(135deg, var(--bg-dark) 0%, var(--water-dark) 100%);
         overflow: hidden;
     }
 
-    .product-detail-header::before {
-        content: attr(data-product-name);
+    .card-detail-header::before {
+        content: attr(data-card-name);
         position: absolute;
         top: 50%;
         left: 50%;
@@ -56,7 +56,7 @@
         pointer-events: none;
     }
 
-    .product-detail-header::after {
+    .card-detail-header::after {
         content: '';
         position: absolute;
         top: 0;
@@ -112,16 +112,13 @@
         z-index: 1;
     }
 
-    /* ============================================
-       产品主体区域
-       ============================================ */
-    
-    .product-main {
+    /* ============================================       卡主体区域       ============================================ */    
+    .card-main {
         padding: var(--spacing-4xl) 0;
         position: relative;
     }
 
-    .product-main::before {
+    .card-main::before {
         content: '';
         position: absolute;
         top: 0;
@@ -133,17 +130,15 @@
         opacity: 0.3;
     }
 
-    .product-grid {
+    .card-grid {
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: var(--spacing-3xl);
     }
 
-    /* ============================================
-       Swiper 图片画廊
-       ============================================ */
-    
-    .product-gallery {
+    /* ============================================       Swiper 图片画廊       ============================================ */    
+
+    .card-gallery {
         position: relative;
     }
 
@@ -273,17 +268,15 @@
         gap: 8px;
     }
 
-    /* ============================================
-       产品信息区
-       ============================================ */
-    
-    .product-info {
+    /* ============================================       卡信息区       ============================================ */    
+
+    .card-info {
         display: flex;
         flex-direction: column;
         gap: var(--spacing-xl);
     }
 
-    .product-category-tag {
+    .card-category-tag {
         display: inline-block;
         padding: 6px 16px;
         background: rgba(212, 175, 55, 0.1);
@@ -295,7 +288,7 @@
         width: fit-content;
     }
 
-    .product-name-cn {
+    .card-name-cn {
         font-family: var(--font-display);
         font-size: var(--text-4xl);
         color: var(--text-primary);
@@ -303,7 +296,7 @@
         letter-spacing: 0.1em;
     }
 
-    .product-name-en {
+    .card-name-en {
         font-family: var(--font-english);
         font-size: var(--text-lg);
         color: var(--accent-color);
@@ -312,7 +305,7 @@
         margin-bottom: var(--spacing-md);
     }
 
-    .product-rating {
+    .card-rating {
         display: flex;
         align-items: center;
         gap: 12px;
@@ -1475,7 +1468,7 @@
                 <ul class="nav-menu">
                     <li><a href="index.html" class="nav-link">Home</a></li>
                     <li><a href="culture.html" class="nav-link">Energy Universe</a></li>
-                    <li><a href="shop.html" class="nav-link">Energy Shop</a></li>
+                    <li><a href="shop.html" class="nav-link">Energy Cards</a></li>
                     <li><a href="guide.html" class="nav-link">Crafting Process</a></li>
                     <li><a href="about.html" class="nav-link">About Us</a></li>
                     <li><a href="redeem.html" class="nav-link" style="background: #D4AF37; color: white; padding: 8px 16px; border-radius: 4px;">Redeem Gift Card</a></li>
@@ -1499,30 +1492,30 @@
         </div>
     </header>
 
-    <div class="product-detail">
+    <div class="card-detail">
         <!-- 页面头部 -->
-        <div class="product-detail-header" id="productDetailHeader" data-product-name="">
+        <div class="card-detail-header" id="cardDetailHeader" data-card-name="">
             <div class="container">
                 <div class="breadcrumb-custom">
                     <a href="index.html">Home</a>
                     <span>›</span>
-                    <a href="shop.html">Energy Shop</a>
+                    <a href="shop.html">Energy Cards</a>
                     <span>›</span>
                     <a href="#" id="breadcrumbCategory">Category</a>
                     <span>›</span>
-                    <span id="breadcrumbProduct">Product</span>
+                    <span id="breadcrumbCard">Card</span>
                 </div>
-                <h1 class="product-title-large" id="pageTitleLarge">Product</h1>
-                <p class="product-title-en" id="pageTitleEn">Product Title</p>
+                <h1 class="product-title-large" id="pageTitleLarge">Card</h1>
+                <p class="product-title-en" id="pageTitleEn">Card Title</p>
             </div>
         </div>
 
-        <!-- 产品主体 -->
-        <div class="product-main">
+        <!-- 卡主体 -->
+        <div class="card-main">
             <div class="container">
-                <div class="product-grid">
+                <div class="card-grid">
                     <!-- 图片展示区 -->
-                    <div class="product-gallery">
+                    <div class="card-gallery">
                         <div class="swiper-main">
                             <div class="swiper-wrapper" id="mainImageWrapper">
                                 <!-- 图片将由 JavaScript 动态加载 -->
@@ -1545,19 +1538,19 @@
                         </div>
                     </div>
 
-                    <!-- 产品信息区 -->
-                    <div class="product-info">
-                        <span class="product-category-tag" id="productCategoryTag">Category</span>
+                    <!-- 卡信息区 -->
+                    <div class="card-info">
+                        <span class="card-category-tag" id="cardCategoryTag">Category</span>
                         
-                        <h2 class="product-name-cn" id="productNameCn">Product Name</h2>
-                        <p class="product-name-en" id="productNameEn">Product Name English</p>
+                        <h2 class="card-name-cn" id="cardNameCn">Card Name</h2>
+                        <p class="card-name-en" id="cardNameEn">Card Name English</p>
                         
-                        <div class="product-rating">
+                        <div class="card-rating">
                             <span class="stars">★★★★★</span>
                             <span class="review-count">(247 reviews) • <a href="#">Read all reviews</a></span>
                         </div>
 
-                        <div class="sku-code" id="productSku">SKU: PRODUCT-ID</div>
+                        <div class="sku-code" id="cardSku">SKU: CARD-ID</div>
 
                         <!-- 规格选择器 -->
                         <div class="variant-selector" id="variantSelector">
@@ -1602,11 +1595,11 @@
                             </div>
                         </div>
 
-                        <!-- 产品描述 -->
-                        <div class="product-description">
-                            <h3 class="section-title-custom">Product Description</h3>
-                            <div class="description-text" id="productDescription">
-                                <p>Loading product description...</p>
+                        <!-- 卡描述 -->
+                        <div class="card-description">
+                            <h3 class="section-title-custom">Card Description</h3>
+                            <div class="description-text" id="cardDescription">
+                                <p>Loading card description...</p>
                             </div>
                         </div>
 
@@ -1727,7 +1720,7 @@
         <div class="cart-footer">
             <div class="cart-total">
                 <span>Total</span>
-                <span>$0.00</span>
+                <span class="cart-total-amount">$0.00</span>
             </div>
             <button class="btn-checkout" onclick="window.location.href='checkout.html'">Checkout →</button>
         </div>
@@ -1750,7 +1743,7 @@
                     <div class="logo">
                         <span class="logo-en">DAO ESSENCE</span>
                     </div>
-                    <p>Ancient Wisdom, Modern Harmony. Based on authentic Taoist traditions, we offer verifiable traditional cultural products and services with genuine energy properties.</p>
+                    <p>Ancient Wisdom, Modern Harmony. Based on authentic Taoist traditions, we offer verifiable traditional cultural cards and services with genuine energy properties.</p>
                 </div>
                 <div>
                     <h4 class="footer-title">Navigation</h4>
@@ -1819,5 +1812,70 @@
     <script src="js/shopify-api.js"></script>
     <script src="js/shop-product-detail.js"></script>
     -->
+
+    <!-- 🔥 Fix #21: 购物车侧边栏控制函数 + 加购后自动打开侧边栏 -->
+    <script>
+        // 打开购物车侧边栏
+        function openCart() {
+            const sidebar = document.querySelector('.cart-sidebar');
+            const overlay = document.querySelector('.cart-overlay');
+            if (sidebar) sidebar.classList.add('open');
+            if (overlay) overlay.classList.add('show');
+        }
+
+        // 关闭购物车侧边栏
+        function closeCart() {
+            const sidebar = document.querySelector('.cart-sidebar');
+            const overlay = document.querySelector('.cart-overlay');
+            if (sidebar) sidebar.classList.remove('open');
+            if (overlay) overlay.classList.remove('show');
+        }
+
+        // 切换购物车侧边栏（顶部购物车图标使用）
+        function toggleCart() {
+            const sidebar = document.querySelector('.cart-sidebar');
+            if (sidebar && sidebar.classList.contains('open')) {
+                closeCart();
+            } else {
+                openCart();
+            }
+        }
+
+        // 绑定关闭按钮 + 遮罩层点击关闭
+        document.addEventListener('DOMContentLoaded', function() {
+            const closeBtn = document.querySelector('.cart-close');
+            const overlay = document.querySelector('.cart-overlay');
+            if (closeBtn) closeBtn.addEventListener('click', closeCart);
+            if (overlay) overlay.addEventListener('click', closeCart);
+
+            // 浮动购物车按钮
+            const floatingBtn = document.getElementById('floatingCartButton');
+            if (floatingBtn) floatingBtn.addEventListener('click', toggleCart);
+        });
+
+        // 🔥 重写 addToCartFromDetail：加购后自动打开侧边栏
+        // 注意：此处覆盖 product-detail.js 中的同名函数，确保有视觉反馈
+        window.addToCartFromDetail = function() {
+            const quantityInput = document.getElementById('quantity');
+            const quantity = parseInt(quantityInput?.value) || 1;
+
+            if (!window.CARD_DATA) {
+                console.error('❌ CARD_DATA not loaded');
+                alert('产品数据未加载，请刷新页面重试');
+                return;
+            }
+
+            const cardId = window.CARD_DATA.id;
+            console.log('📦 addToCartFromDetail: cardId=' + cardId + ', qty=' + quantity);
+
+            if (typeof window.addToCart === 'function') {
+                window.addToCart(cardId, quantity);
+                // 加购成功后打开侧边栏，给用户明确视觉反馈
+                setTimeout(openCart, 200);
+            } else {
+                alert('购物车功能未就绪，请刷新页面重试');
+            }
+        };
+    </script>
 </body>
 </html>
