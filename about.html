@@ -549,40 +549,22 @@
 
         .tc-avatar {
             height: 360px;
-            background: linear-gradient(145deg, #1A1612, #1A3A4A);
             display: flex;
             position: relative;
-            align-items: flex-start;
+            align-items: center;
             justify-content: center;
             position: relative;
             overflow: hidden;
         }
 
-        /* Abstract avatar pattern */
-        .tc-avatar::before {
-            content: '';
-            position: absolute;
-            width: 200%;
-            height: 200%;
-            background: repeating-linear-gradient(
-                45deg,
-                transparent,
-                transparent 20px,
-                rgba(212,175,55,0.04) 20px,
-                rgba(212,175,55,0.04) 21px
-            );
-        }
-
         .tc-avatar img {
             width: 100%;
             height: 100%;
-
-            object-fit: contain;
-            object-position: center center;
+            object-fit: cover;
+            object-position: center;
             position: relative;
             z-index: 1;
             transition: transform 0.5s ease;
-
             box-sizing: border-box;
         }
         .tc:hover .tc-avatar img {
