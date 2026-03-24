@@ -134,12 +134,15 @@
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: var(--spacing-3xl);
+        align-items: start;
     }
 
     /* ============================================       Swiper 图片画廊       ============================================ */    
 
     .card-gallery {
-        position: relative;
+        position: sticky;
+        top: 100px;
+        align-self: flex-start;
     }
 
     /* 主图 Swiper */
@@ -190,10 +193,15 @@
     .swiper-main .swiper-slide {
         width: 100% !important;
         height: 100% !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
+        display: block !important;
         background: var(--bg-accent);
+    }
+
+    .swiper-main .swiper-slide img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        display: block !important;
     }
 
     .swiper-button-next-main,
