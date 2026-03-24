@@ -354,6 +354,12 @@
             margin-bottom: 2.5rem;
             font-size: 1rem;
             max-width: 480px;
+            /* 显示3行后截断 */
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .card-features {
@@ -1050,7 +1056,7 @@
     <script>
         /**
          * 将 Creem 产品数据填入卡片 01 和 02
-         * 使用简短描述（120字截断）保持卡片整洁
+         * 使用简短描述（350字截断，配合CSS显示3行）保持卡片整洁
          */
         function updateCultureProductCards() {
             if (!window.allProducts || window.allProducts.length === 0) return;
@@ -1065,7 +1071,8 @@
                 if (!product) return;
 
                 const desc = product.descriptionCN || product.description || '';
-                const shortDesc = desc.length > 120 ? desc.substring(0, 120) + '...' : desc;
+                // 增加到350字符，CSS会控制显示3行
+                const shortDesc = desc.length > 350 ? desc.substring(0, 350) + '...' : desc;
                 const imgSrc = product.image_url || product.image || '';
 
                 const nameEl   = document.getElementById('culture-product-' + suffix + '-name');
