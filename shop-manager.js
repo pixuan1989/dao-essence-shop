@@ -148,7 +148,7 @@ window.renderShop = function() {
             <div class="product-info">
                 <div class="product-category">${categoryMap[product.category] || product.category}</div>
                 <div class="product-title">${product.nameCN}</div>
-                <div class="product-desc-short">${product.descriptionCN}</div>
+                <div class="product-desc-short" style="display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;text-overflow:ellipsis;">${product.descriptionCN}</div>
                 <div class="product-meta">
                     ${priceDisplay}
                 </div>
