@@ -572,6 +572,10 @@
             font-size: var(--text-sm);
             color: var(--text-secondary);
             margin-bottom: var(--spacing-md);
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
         
         .card-footer {
@@ -1395,7 +1399,7 @@
                             <div class="card-content">
                                 <p class="card-category">${product.categoryCN || product.category || ''}</p>
                                 <h3 class="card-name">${product.nameCN || product.name}</h3>
-                                <p class="card-desc">${product.descriptionCN || product.description}</p>
+                                <p class="card-desc">${((product.descriptionCN || product.description) + '').length > 120 ? (product.descriptionCN || product.description).substring(0, 120) + '...' : (product.descriptionCN || product.description)}</p>
                                 <div class="card-footer">
                                     <span class="card-price">$${(product.price || 0).toFixed(2)}</span>
                                     <button class="card-btn">View Details</button>
