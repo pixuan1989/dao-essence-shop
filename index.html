@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DAO Essence & Five Elements - Ancient Wisdom, Modern Harmony</title>
-    <meta name="description" content="Based on authentic Eastern wisdom traditions and the Five Elements theory, we offer traditional cultural products and services with genuine energy properties.">
+    <meta name="description" content="Based on authentic Eastern wisdom traditions and the Five Elements theory, we offer traditional cultural cards and services with genuine energy properties.">
     <link rel="stylesheet" href="styles.css?v=202603131700">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&family=Noto+Serif+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="main.js?v=202603131700"></script>
@@ -498,13 +498,13 @@
             margin-bottom: var(--spacing-md);
         }
         
-        /* 热门商品区 */
-        .products {
+        /* 热门卡券区 */
+        .cards {
             padding: var(--spacing-4xl) 0;
             background: var(--bg-primary);
         }
         
-        .product-card {
+        .card-card {
             position: relative;
             border-radius: var(--radius-lg);
             overflow: hidden;
@@ -513,77 +513,77 @@
             transition: all var(--transition-base);
         }
 
-        /* 产品链接 - 让整个卡片可点击 */
-        .product-link {
+        /* 卡券链接 - 让整个卡片可点击 */
+        .card-link {
             display: block;
             text-decoration: none;
             color: inherit;
         }
         
-        .product-card:hover {
+        .card-card:hover {
             transform: translateY(-8px);
             box-shadow: var(--shadow-lg);
         }
         
-        .product-image {
+        .card-image {
             position: relative;
             height: 300px;
             overflow: hidden;
             background: radial-gradient(circle at 50% 50%, rgba(248, 244, 237, 1) 0%, rgba(235, 229, 216, 1) 100%);
         }
 
-        .product-image img {
+        .card-image img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             transition: all var(--transition-slow);
         }
 
-        .product-card:hover .product-image img {
+        .card-card:hover .card-image img {
             transform: scale(1.08);
         }
         
-        .product-element {
+        .card-element {
             position: absolute;
             top: var(--spacing-md);
             left: var(--spacing-md);
         }
         
-        .product-content {
+        .card-content {
             padding: var(--spacing-lg);
         }
         
-        .product-category {
+        .card-category {
             font-size: var(--text-sm);
             color: var(--text-light);
             margin-bottom: var(--spacing-sm);
         }
         
-        .product-name {
+        .card-name {
             font-family: var(--font-display);
             font-size: var(--text-xl);
             margin-bottom: var(--spacing-sm);
         }
         
-        .product-desc {
+        .card-desc {
             font-size: var(--text-sm);
             color: var(--text-secondary);
             margin-bottom: var(--spacing-md);
         }
         
-        .product-footer {
+        .card-footer {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
         
-        .product-price {
+        .card-price {
             font-size: var(--text-xl);
             font-weight: 600;
             color: var(--fire-primary);
         }
         
-        .product-btn {
+        .card-btn {
             padding: var(--spacing-sm) var(--spacing-lg);
             background: var(--primary-color);
             color: white;
@@ -594,7 +594,7 @@
             transition: all var(--transition-fast);
         }
         
-        .product-btn:hover {
+        .card-btn:hover {
             background: var(--fire-light);
         }
         
@@ -1344,23 +1344,23 @@
         </div>
     </section>
 
-    <!-- 热门商品 -->
-    <section class="products section">
+    <!-- 热门卡券 -->
+    <section class="cards section">
         <div class="container">
             <div class="section-header">
-                <h2>Featured Products</h2>
-                <p class="subtitle">Featured Products</p>
+                <h2>Featured Cards</h2>
+                <p class="subtitle">Featured Cards</p>
             </div>
             
             <div class="grid grid-2" id="featuredProducts">
-                <!-- Products will be loaded here by JavaScript -->
+                <!-- Cards will be loaded here by JavaScript -->
                 <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--text-secondary);">
-                    <p>Loading products from Creem...</p>
+                    <p>Loading cards from Creem...</p>
                 </div>
             </div>
             
             <div class="text-center mt-3">
-                <a href="shop.html" class="btn btn-primary btn-lg">Browse All Products →</a>
+                <a href="shop.html" class="btn btn-primary btn-lg">Browse All Cards →</a>
             </div>
         </div>
     </section>
@@ -1368,46 +1368,57 @@
     <!-- Load Creem sync script for home page -->
     <!-- 注意：creem-sync-v2.js 在下面已加载，不要重复加载 -->
     <script>
-        // Render featured products on home page
+        // Render featured cards on home page
         function renderFeaturedProducts() {
             const container = document.getElementById('featuredProducts');
             if (!container) return;
             
             if (typeof window.allProducts !== 'undefined' && window.allProducts.length > 0) {
-                // Get first 2 products for featured section
-                const featuredProducts = window.allProducts.slice(0, 2);
+                // Get first 2 cards for featured section
+                const featuredCards = window.allProducts.slice(0, 2);
                 
-                container.innerHTML = featuredProducts.map(product => {
+                container.innerHTML = featuredCards.map(product => {
                     const elementClass = `element-${product.element || 'unknown'}`;
                     // 🔥 修复：Creem API 返回 image_url，兼容多种字段名
                     const imgSrc = product.image_url || product.image || '';
                     return `
-                    <div class="product-card scroll-animate">
-                        <a href="product-detail.html?id=${product.id}" class="product-link">
-                            <div class="product-image">
+                    <div class="card-card scroll-animate">
+                        <a href="product-detail.html?id=${product.id}" class="card-link">
+                            <div class="card-image">
                                 <img src="${imgSrc}" alt="${product.nameCN || product.name}" onerror="this.src='https://images.unsplash.com/photo-1519681393784-d120267933ba?w=600&h=600&fit=crop'">
-                                <div class="product-element">
+                                <div class="card-element">
                                     <span class="element-badge ${elementClass}">${(product.element || 'other').charAt(0).toUpperCase() + (product.element || 'other').slice(1)}</span>
                                 </div>
                             </div>
-                            <div class="product-content">
-                                <p class="product-category">${product.categoryCN || product.category || ''}</p>
-                                <h3 class="product-name">${product.nameCN || product.name}</h3>
-                                <p class="product-desc">${product.descriptionCN || product.description}</p>
-                                <div class="product-footer">
-                                    <span class="product-price">$${(product.price || 0).toFixed(2)}</span>
-                                    <button class="product-btn">View Details</button>
+                            <div class="card-content">
+                                <p class="card-category">${product.categoryCN || product.category || ''}</p>
+                                <h3 class="card-name">${product.nameCN || product.name}</h3>
+                                <p class="card-desc">${product.descriptionCN || product.description}</p>
+                                <div class="card-footer">
+                                    <span class="card-price">$${(product.price || 0).toFixed(2)}</span>
+                                    <button class="card-btn">View Details</button>
                                 </div>
                             </div>
                         </a>
                     </div>
                     `;
                 }).join('');
+
+                // 🔥 修复：产品卡片是异步插入 DOM 的，initScrollAnimations() 执行时它们不存在
+                // IntersectionObserver 无法观察到这些后来插入的元素，导致 visible 类永远加不上
+                // 解决方案：渲染完成后，强制给这些卡片加上 visible 类（带短延迟确保 DOM 已插入）
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => {
+                        container.querySelectorAll('.scroll-animate').forEach(el => {
+                            el.classList.add('visible');
+                        });
+                    });
+                });
             } else {
-                // Fallback if no products loaded
+                // Fallback if no cards loaded
                 container.innerHTML = `
                 <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--text-secondary);">
-                    <p>Products loading...</p>
+                    <p>Cards loading...</p>
                 </div>
                 `;
             }
