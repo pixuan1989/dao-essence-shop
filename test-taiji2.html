@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+body { background:#e0e0e0; display:flex; align-items:center; justify-content:center; min-height:100vh; margin:0; }
+@keyframes spin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+svg { animation: spin 6s linear infinite; }
+</style>
+</head>
+<body>
+<svg width="120" height="120" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <!-- 背景白圆 -->
+    <circle cx="50" cy="50" r="45" fill="#f0f0f0"/>
+    <!-- 左半边黑色（标准太极 S 形） -->
+    <path d="M50,5 A45,45 0 0,0 50,95 A22.5,22.5 0 0,1 50,50 A22.5,22.5 0 0,0 50,5 Z" fill="#111"/>
+    <!-- 上方小白点 -->
+    <circle cx="50" cy="27.5" r="7" fill="#f0f0f0"/>
+    <!-- 下方小黑点 -->
+    <circle cx="50" cy="72.5" r="7" fill="#111"/>
+    <!-- 外圆边框 -->
+    <circle cx="50" cy="50" r="45" fill="none" stroke="#ccc" stroke-width="1"/>
+</svg>
+</body>
+</html>
