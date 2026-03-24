@@ -773,16 +773,16 @@
             <p>From personalized energy rituals to ancient wisdom frameworks — each offering is a doorway into a more balanced, intentional life.</p>
         </div>
 
-        <!-- 沉香能量净化服务 -->
-        <div class="card-item fulu">
+        <!-- 产品卡片 01 - 动态从 Creem 加载 -->
+        <div class="card-item fulu" id="culture-product-01">
             <div class="card-visual">
-                <img src="images/1.jpg" alt="Agarwood Energy Purification Service">
+                <img src="images/agarwood.jpg" alt="Agarwood Energy Purification Service" id="culture-product-01-img">
             </div>
             <div class="card-content">
                 <span class="card-number">01</span>
-                <h3>Agarwood Energy Purification</h3>
-                <p class="card-subtitle">Restore Inner Stillness</p>
-                <p class="card-desc">When the noise of modern life accumulates into invisible weight, agarwood offers a path back to stillness. Its millennia-old resonance with body and space gently dissolves stagnant emotions, steadies a scattered mind, and invites the quiet clarity you've been searching for.</p>
+                <h3 id="culture-product-01-name">Agarwood Energy Purification</h3>
+                <p class="card-subtitle" id="culture-product-01-subtitle">Restore Inner Stillness</p>
+                <p class="card-desc" id="culture-product-01-desc">When the noise of modern life accumulates into invisible weight, agarwood offers a path back to stillness. Its millennia-old resonance with body and space gently dissolves stagnant emotions, steadies a scattered mind, and invites the quiet clarity you've been searching for.</p>
                 <div class="card-features">
                     <span class="card-feature-item">Emotional Reset</span>
                     <span class="card-feature-item">Space Clearing</span>
@@ -790,20 +790,20 @@
                     <span class="card-feature-item">Sleep Quality</span>
                     <span class="card-feature-item">Inner Calm</span>
                 </div>
-                <a href="product-detail.html?id=prod_7i2asEAuHFHl5hJMeCEsfB" class="card-cta">Explore This Service</a>
+                <a href="product-detail.html?id=prod_7i2asEAuHFHl5hJMeCEsfB" class="card-cta" id="culture-product-01-link">Explore This Service</a>
             </div>
         </div>
 
-        <!-- 五行能量手串 -->
-        <div class="card-item thunderwood">
+        <!-- 产品卡片 02 - 动态从 Creem 加载 -->
+        <div class="card-item thunderwood" id="culture-product-02">
             <div class="card-visual">
-                <img src="images/2.jpg" alt="Five Elements Energy Bracelet Service">
+                <img src="images/bracelet.jpg" alt="Five Elements Energy Bracelet Service" id="culture-product-02-img">
             </div>
             <div class="card-content">
                 <span class="card-number">02</span>
-                <h3>Five Elements Energy Harmony</h3>
-                <p class="card-subtitle">Your Personal Energy Map</p>
-                <p class="card-desc">No two people share the same elemental balance. This service begins with your unique Five Elements profile — identifying which forces are in excess, which are depleted — then channels that understanding into a handcrafted energy bracelet tuned specifically to you.</p>
+                <h3 id="culture-product-02-name">Five Elements Energy Harmony</h3>
+                <p class="card-subtitle" id="culture-product-02-subtitle">Your Personal Energy Map</p>
+                <p class="card-desc" id="culture-product-02-desc">No two people share the same elemental balance. This service begins with your unique Five Elements profile — identifying which forces are in excess, which are depleted — then channels that understanding into a handcrafted energy bracelet tuned specifically to you.</p>
                 <div class="card-features">
                     <span class="card-feature-item">Elemental Balance</span>
                     <span class="card-feature-item">Career Clarity</span>
@@ -811,7 +811,7 @@
                     <span class="card-feature-item">Wealth Alignment</span>
                     <span class="card-feature-item">Vitality Support</span>
                 </div>
-                <a href="product-detail.html?id=prod_1YuuAVysoYK6AOmQVab2uR" class="card-cta">Explore This Service</a>
+                <a href="product-detail.html?id=prod_1YuuAVysoYK6AOmQVab2uR" class="card-cta" id="culture-product-02-link">Explore This Service</a>
             </div>
         </div>
 
@@ -1041,6 +1041,61 @@
             el.style.transition = 'all 0.6s ease';
             observer.observe(el);
         });
+    </script>
+
+    <!-- Creem 产品实时同步 -->
+    <script src="js/creem-sync-v2.js"></script>
+
+    <!-- 用 Creem 数据填充 Energy Universe 页的卡片 01 / 02 -->
+    <script>
+        /**
+         * 将 Creem 产品数据填入卡片 01 和 02
+         * 使用简短描述（120字截断）保持卡片整洁
+         */
+        function updateCultureProductCards() {
+            if (!window.allProducts || window.allProducts.length === 0) return;
+
+            const cards = [
+                { index: 0, suffix: '01' },
+                { index: 1, suffix: '02' }
+            ];
+
+            cards.forEach(({ index, suffix }) => {
+                const product = window.allProducts[index];
+                if (!product) return;
+
+                const desc = product.descriptionCN || product.description || '';
+                const shortDesc = desc.length > 120 ? desc.substring(0, 120) + '...' : desc;
+                const imgSrc = product.image_url || product.image || '';
+
+                const nameEl   = document.getElementById('culture-product-' + suffix + '-name');
+                const descEl   = document.getElementById('culture-product-' + suffix + '-desc');
+                const linkEl   = document.getElementById('culture-product-' + suffix + '-link');
+                const imgEl    = document.getElementById('culture-product-' + suffix + '-img');
+
+                if (nameEl) nameEl.textContent = product.name || product.nameCN || nameEl.textContent;
+                if (descEl) descEl.textContent = shortDesc || descEl.textContent;
+                if (linkEl) linkEl.href = 'product-detail.html?id=' + product.id;
+                if (imgEl && imgSrc) {
+                    imgEl.src = imgSrc;
+                    imgEl.alt = product.name || product.nameCN || '';
+                }
+            });
+
+            console.log('✅ Energy Universe 卡片 01/02 已用 Creem 数据更新');
+        }
+
+        // 优先监听 creemProductsReady 事件
+        window.addEventListener('creemProductsReady', updateCultureProductCards);
+
+        // 备用轮询（防止脚本加载顺序问题）
+        (function poll() {
+            if (window.allProducts && window.allProducts.length > 0) {
+                updateCultureProductCards();
+            } else {
+                setTimeout(poll, 200);
+            }
+        })();
     </script>
 </body>
 </html>
