@@ -1,4 +1,4 @@
-// 直接测试 api/products.js 中的 handler
+﻿// 直接测试 api/products.js 中的 handler
 
 // 首先设置环境变量
 process.env.CREEM_API_KEY = 'creem_1qa0zx2EuHN9gz9DLcGTAG';

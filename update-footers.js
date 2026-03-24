@@ -44,7 +44,7 @@ const STANDARD_FOOTER = `    <!-- Footer -->
                     <ul class="footer-links">
                         <li><a href="#">Annual Energy Analysis</a></li>
                         <li><a href="#">Personal Consultation</a></li>
-                        <li><a href="#">Custom Items</a></li>
+                        <li><a href="#">Energy Customization</a></li>
                         <li><a href="guide.html">Service Guide</a></li>
                         <li><a href="contact.html">Contact Us</a></li>
                     </ul>

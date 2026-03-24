@@ -1,4 +1,4 @@
-/**
+﻿/**
  * DAO Essence - Stripe Payment Integration
  * Handles all payment processing through Snipcart + Stripe
  */

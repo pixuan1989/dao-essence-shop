@@ -1,4 +1,4 @@
-// 调试CSS隐藏问题的脚本
+﻿// 调试CSS隐藏问题的脚本
 function debugCSS() {
     console.log('=== Debugging CSS issues ===');
     
