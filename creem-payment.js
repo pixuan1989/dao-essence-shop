@@ -77,7 +77,6 @@ function showTaijituOverlay(onDone) {
             <div id="taijitu-sub">Redirecting to secure payment...</div>
         </div>
     `;
-    `;
 
     document.body.appendChild(overlay);
 
