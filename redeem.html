@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>电子兑换券兑换 | Dao Essence</title>
+    <title>Product Voucher Redemption | Dao Essence</title>
     <link rel="stylesheet" href="styles.css">
     <style>
         body {
@@ -102,53 +102,53 @@
 </head>
 <body>
     <header>
-        <h1>电子兑换券兑换</h1>
-        <p>使用您购买的电子兑换券兑换实物商品</p>
+        <h1>Product Voucher Redemption</h1>
+        <p>Use your purchased electronic redemption voucher to redeem products</p>
     </header>
 
     <div class="redeem-container">
-        <h2>兑换流程</h2>
+        <h2>Redemption Process</h2>
         <ol>
-            <li>输入您收到的数字兑换码</li>
-            <li>验证兑换码的有效性</li>
-            <li>填写配送信息</li>
-            <li>提交兑换请求</li>
-            <li>我们将尽快为您安排配送</li>
+            <li>Enter the digital redemption code you received</li>
+            <li>Verify the validity of the redemption code</li>
+            <li>Fill in delivery information</li>
+            <li>Submit redemption request</li>
+            <li>We will arrange delivery as soon as possible</li>
         </ol>
 
         <div id="message" class="message" style="display: none;"></div>
 
         <form id="redeemForm">
             <div class="form-group">
-                <label for="code">兑换码</label>
-                <input type="text" id="code" name="code" placeholder="请输入您的兑换码" required>
+                <label for="code">Redemption Code</label>
+                <input type="text" id="code" name="code" placeholder="Please enter your redemption code" required>
             </div>
 
             <div class="form-group">
-                <label for="name">姓名</label>
-                <input type="text" id="name" name="name" placeholder="请输入您的姓名" required>
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" placeholder="Please enter your name" required>
             </div>
 
             <div class="form-group">
-                <label for="email">电子邮箱</label>
-                <input type="email" id="email" name="email" placeholder="请输入您的电子邮箱" required>
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Please enter your email address" required>
             </div>
 
             <div class="form-group">
-                <label for="phone">联系电话</label>
-                <input type="tel" id="phone" name="phone" placeholder="请输入您的联系电话" required>
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" name="phone" placeholder="Please enter your phone number" required>
             </div>
 
             <div class="form-group">
-                <label for="address">配送地址</label>
-                <textarea id="address" name="address" rows="4" placeholder="请输入详细的配送地址" required></textarea>
+                <label for="address">Delivery Address</label>
+                <textarea id="address" name="address" rows="4" placeholder="Please enter detailed delivery address" required></textarea>
             </div>
 
-            <button type="submit">提交兑换</button>
+            <button type="submit">Submit Redemption</button>
         </form>
     </div>
 
-    <a href="index.html" class="back-link">返回首页</a>
+    <a href="index.html" class="back-link">Back to Home</a>
 
     <script>
         document.getElementById('redeemForm').addEventListener('submit', function(e) {
@@ -160,23 +160,23 @@
             const phone = document.getElementById('phone').value;
             const address = document.getElementById('address').value;
             
-            // 简单的验证逻辑
+            // Simple validation logic
             if (!code || !name || !email || !phone || !address) {
-                showMessage('请填写所有必填字段', 'error');
+                showMessage('Please fill in all required fields', 'error');
                 return;
             }
             
-            // 模拟兑换码验证
-            // 实际项目中，这里应该调用后端 API 进行验证
+            // Simulate redemption code verification
+            // In a real project, you should call a backend API for verification
             if (code.length < 6) {
-                showMessage('兑换码格式不正确', 'error');
+                showMessage('Invalid redemption code format', 'error');
                 return;
             }
             
-            // 模拟兑换成功
-            showMessage('兑换成功！我们将在 24-48 小时内与您联系，安排实物商品的配送。', 'success');
+            // Simulate successful redemption
+            showMessage('Redemption successful! We will contact you within 24-48 hours to arrange delivery.', 'success');
             
-            // 清空表单
+            // Clear form
             document.getElementById('redeemForm').reset();
         });
         
@@ -186,7 +186,7 @@
             messageElement.className = 'message ' + type;
             messageElement.style.display = 'block';
             
-            // 3秒后自动隐藏消息
+            // Auto hide message after 5 seconds
             setTimeout(function() {
                 messageElement.style.display = 'none';
             }, 5000);
