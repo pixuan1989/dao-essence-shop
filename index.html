@@ -867,14 +867,14 @@
             color: rgba(245, 240, 230, 0.8);
         }
 
-        .life-path-services {
+        .wellness-services {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: var(--spacing-xl);
             margin-top: var(--spacing-3xl);
         }
 
-        .life-path-service-card {
+        .wellness-service-card {
             background: rgba(245, 240, 230, 0.05);
             backdrop-filter: blur(10px);
             border-radius: var(--radius-lg);
@@ -886,7 +886,7 @@
             overflow: hidden;
         }
 
-        .life-path-service-card::before {
+        .wellness-service-card::before {
             content: '';
             position: absolute;
             top: 0;
@@ -898,25 +898,25 @@
             transition: transform var(--transition-base);
         }
 
-        .life-path-service-card:hover::before {
+        .wellness-service-card:hover::before {
             transform: scaleX(1);
         }
 
-        .life-path-service-card:hover {
+        .wellness-service-card:hover {
             transform: translateY(-8px);
             border-color: var(--accent-color);
             box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
             background: rgba(245, 240, 230, 0.08);
         }
 
-        .life-path-service-card h3 {
+        .wellness-service-card h3 {
             font-family: var(--font-display);
             font-size: var(--text-xl);
             margin-bottom: var(--spacing-sm);
             color: var(--bg-primary);
         }
 
-        .life-path-service-card p {
+        .wellness-service-card p {
             color: rgba(245, 240, 230, 0.7);
             font-size: var(--text-sm);
             margin-bottom: var(--spacing-lg);
@@ -947,7 +947,7 @@
             color: var(--bg-dark);
         }
 
-        .life-path-note {
+        .wellness-note {
             text-align: center;
             margin-top: var(--spacing-3xl);
             padding: var(--spacing-xl);
@@ -956,20 +956,20 @@
             border: 1px solid rgba(212, 175, 55, 0.1);
         }
 
-        .life-path-note p {
+        .wellness-note p {
             color: rgba(245, 240, 230, 0.7);
             font-size: var(--text-sm);
             margin-bottom: var(--spacing-xs);
         }
 
         @media (max-width: 1024px) {
-            .life-path-services {
+            .wellness-services {
                 grid-template-columns: repeat(2, 1fr);
             }
         }
 
         @media (max-width: 768px) {
-            .life-path-services {
+            .wellness-services {
                 grid-template-columns: 1fr;
             }
 
@@ -1222,8 +1222,8 @@
                 Your Personalized Energy Ecosystem.
             </p>
             <div class="hero-buttons">
-                <a href="shop.html" class="hero-btn-primary">Explore ritual services</a>
-                <a href="#life-path-booking" class="hero-btn-secondary">Book Life Path Consultation</a>
+                <a href="shop.html" class="hero-btn-primary">Explore Digital Services</a>
+                <a href="#wellness-booking" class="hero-btn-secondary">Book Wellness Guidance</a>
             </div>
         </div>
         
@@ -1441,49 +1441,49 @@
         }, 2000);
     </script>
 
-    <!-- 能量定制服务 -->
-    <section class="life-path-booking section" id="life-path-booking">
+    <!-- 身心健康定制服务 -->
+    <section class="wellness-booking section" id="wellness-booking">
         <div class="container">
             <div class="section-header">
-                <h2>Personalized Energy Service</h2>
-                <p class="subtitle">Customized Energy Vouchers</p>
-                <p>Professional life path analysis, recommending the most suitable ritual services for you</p>
+                <h2>Personalized Wellness Service</h2>
+                <p class="subtitle">Customized Wellness Programs</p>
+                <p>Professional energy pattern guidance, recommending the most suitable wellness services for your personal growth</p>
             </div>
 
-            <div class="life-path-services">
-                <div class="life-path-service-card scroll-animate">
-                    <h3>Life Path Energy Analysis</h3>
-                    <p>Analyze your five elements energy, recommend ritual services that best suit your life path</p>
+            <div class="wellness-services">
+                <div class="wellness-service-card scroll-animate">
+                    <h3>Personal Energy Assessment</h3>
+                    <p>Understand your five elements patterns, receive personalized wellness recommendations for balanced living</p>
                     <div class="service-price">$588</div>
-                    <button class="service-book-btn" onclick="openBookingModal('Life Path Energy Analysis', 588)">Book Now</button>
+                    <button class="service-book-btn" onclick="openBookingModal('Personal Energy Assessment', 588)">Book Now</button>
                 </div>
 
-                <div class="life-path-service-card scroll-animate">
-                    <h3>Life Path Energy Customization</h3>
-                    <p>Customize ritual services based on your annual life path</p>
+                <div class="wellness-service-card scroll-animate">
+                    <h3>Seasonal Wellness Planning</h3>
+                    <p>Customize wellness programs aligned with natural seasonal cycles</p>
                     <div class="service-price">$388</div>
-                    <button class="service-book-btn" onclick="openBookingModal('Life Path Energy Customization', 388)">Book Now</button>
+                    <button class="service-book-btn" onclick="openBookingModal('Seasonal Wellness Planning', 388)">Book Now</button>
                 </div>
 
-                <div class="life-path-service-card scroll-animate">
-                    <h3>Love Energy Matching</h3>
-                    <p>Analyze compatibility, recommend ritual services to support harmonious relationships</p>
+                <div class="wellness-service-card scroll-animate">
+                    <h3>Relationship Harmony Guidance</h3>
+                    <p>Explore energy dynamics in relationships, receive guidance for cultivating harmonious connections</p>
                     <div class="service-price">$688</div>
-                    <button class="service-book-btn" onclick="openBookingModal('Love Energy Matching', 688)">Book Now</button>
+                    <button class="service-book-btn" onclick="openBookingModal('Relationship Harmony Guidance', 688)">Book Now</button>
                 </div>
 
-                <div class="life-path-service-card scroll-animate">
-                    <h3>Wealth Energy Customization</h3>
-                    <p>Analyze your financial energy patterns, recommend prosperity-focused ritual services</p>
+                <div class="wellness-service-card scroll-animate">
+                    <h3>Abundance Mindset Coaching</h3>
+                    <p>Explore your energy patterns around prosperity, receive coaching for cultivating an abundance mindset</p>
                     <div class="service-price">$888</div>
-                    <button class="service-book-btn" onclick="openBookingModal('Wealth Energy Customization', 888)">Book Now</button>
+                    <button class="service-book-btn" onclick="openBookingModal('Abundance Mindset Coaching', 888)">Book Now</button>
                 </div>
             </div>
 
-            <div class="life-path-note">
+            <div class="wellness-note">
                 <p>
                     <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle;margin-right:4px"><circle cx="8" cy="8" r="6"/><path d="M8 5v3l2 2"/></svg>
-                    Process: Service Booking → Energy Analysis → Personalization → Digital Delivery
+                    Process: Service Booking → Energy Assessment → Personalization → Digital Delivery
                 </p>
                 <p>
                     <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle;margin-right:4px"><circle cx="8" cy="8" r="5" opacity="0.4"/><path d="M8 3 A5 5 0 0 1 8 13 A2.5 2.5 0 0 1 8 8 A2.5 2.5 0 0 0 8 3" fill="currentColor" opacity="0.6"/><circle cx="8" cy="5.5" r="1" fill="currentColor" opacity="0.5"/><circle cx="8" cy="10.5" r="1" fill="currentColor"/></svg>
@@ -1498,7 +1498,7 @@
     <div class="booking-modal" id="bookingModal">
         <div class="modal-content">
             <button class="modal-close" onclick="closeBookingModal()">×</button>
-            <h3>Book Destiny Service</h3>
+            <h3>Book Wellness Service</h3>
             <p class="modal-service-name"><span>Service:</span> <span id="serviceName"></span></p>
             <p class="modal-service-price"><span>Price:</span> <span id="servicePrice"></span></p>
             
@@ -1587,8 +1587,8 @@
                     <h4 class="footer-title">Navigation</h4>
                     <ul class="footer-links">
                         <li><a href="culture.html">Energy Universe</a></li>
-                        <li><a href="shop.html">ritual services</a></li>
-                        <li><a href="#life-path-booking">Life Path Consulting</a></li>
+                        <li><a href="shop.html">Digital Services</a></li>
+                        <li><a href="#wellness-booking">Wellness Guidance</a></li>
                         <li><a href="guide.html">Why It Works</a></li>
                         <li><a href="about.html">About Us</a></li>
                     </ul>
