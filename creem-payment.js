@@ -66,18 +66,7 @@ function showTaijituOverlay(onDone) {
         </style>
 
         <div id="taijitu-card">
-            <svg id="taijitu-svg" width="80" height="80" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                <!-- 左半圆（黑色） -->
-                <path d="M50,5 A45,45 0 0,0 50,50 A22.5,22.5 0 0,1 50,95 A45,45 0 0,1 50,5 Z" fill="#111"/>
-                <!-- 右半圆（白色） -->
-                <path d="M50,5 A45,45 0 0,1 50,50 A22.5,22.5 0 0,0 50,95 A45,45 0 0,0 50,5 Z" fill="#f0f0f0"/>
-                <!-- 上方小白点（在黑色区域） -->
-                <circle cx="50" cy="27.5" r="8" fill="#f0f0f0"/>
-                <!-- 下方小黑点（在白色区域） -->
-                <circle cx="50" cy="72.5" r="8" fill="#111"/>
-                <!-- 外圆边框 -->
-                <circle cx="50" cy="50" r="45" fill="none" stroke="#ccc" stroke-width="1"/>
-            </svg>
+            <img id="taijitu-svg" src="images/Icons-yin-yang.svg" width="80" height="80" alt="yin-yang"/>
             <div id="taijitu-text">正在跳转支付</div>
             <div id="taijitu-sub">Redirecting to secure payment...</div>
         </div>
