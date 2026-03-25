@@ -1,4 +1,4 @@
-﻿/**
+/**
  * DAO Essence - Stripe Payment Integration
  * Handles all payment processing through Snipcart + Stripe
  */
@@ -9,7 +9,7 @@ class StripePaymentManager {
             apiKey: config.apiKey || 'pk_live_YOUR_STRIPE_PUBLIC_KEY', // Replace with actual key
             secretKey: config.secretKey || 'sk_live_YOUR_STRIPE_SECRET_KEY', // For server-side only
             webhookSecret: config.webhookSecret || 'whsec_YOUR_WEBHOOK_SECRET',
-            merchantEmail: config.merchantEmail || '18115755283@163.com',
+            merchantEmail: config.merchantEmail || 'support@daoessentia.com',
             merchantName: config.merchantName || 'DAO Essence',
             ...config
         };
@@ -276,7 +276,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     paymentManager = new StripePaymentManager({
         apiKey: publicKey,
-        merchantEmail: '18115755283@163.com',
+        merchantEmail: 'support@daoessentia.com',
         merchantName: 'DAO Essence'
     });
 });
