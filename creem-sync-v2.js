@@ -35,12 +35,12 @@ const FALLBACK_PRODUCTS = [
   },
   {
     id: 'prod_1YuuAVysoYK6AOmQVab2uR',
-    name: '五行能量手串',
+    name: 'Five Elements Digital Energy Guidance',
     price: 168,
     currency: 'USD',
-    description: '五行能量手串，平衡身心',
-    image: 'images/bracelet.jpg',
-    category: 'bracelet'
+    description: 'Five Elements digital energy guidance program with personalized audio guide and daily practice routines.',
+    image: 'images/fiveelements.jpg',
+    category: 'digital-services'
   }
 ];
 
