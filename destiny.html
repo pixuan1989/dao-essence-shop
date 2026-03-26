@@ -54,7 +54,7 @@
             margin: 0 auto;
         }
 
-        /* 服务介绍 */
+        /* 产品介绍 */
         .services-section {
             padding: 5rem 5%;
         }
@@ -170,7 +170,7 @@
             box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
         }
 
-        /* 个人分析表单 */
+        /* 个人音频表单 */
         .bazi-form-section {
             padding: 5rem 5%;
             background: var(--color-dark-accent);
@@ -937,11 +937,11 @@
             e.preventDefault();
             const msg = currentLang === 'en' 
                 ? 'Life energy chart feature is under development, stay tuned!\nYou can also book a life path service for professional analysis.'
-                : '个人分析功能开发中，敬请期待！\n您也可以直接预约个人运势服务，获取专业解读。';
+                : '个人音频功能开发中，敬请期待！\n您也可以购买五行能量音频课程，获取数字内容。';
             alert(msg);
         });
 
-        // 服务预约
+        // 产品购买
         document.querySelectorAll('.service-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 const msg = currentLang === 'en'

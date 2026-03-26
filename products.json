@@ -2,14 +2,14 @@
   "products": [
     {
       "id": "tai-sui-protection-token",
-      "name": "Tai Sui Digital Energy Guidance",
-      "nameCN": "生肖太岁数字能量指引",
+      "name": "Tai Sui Digital Energy Audio",
+      "nameCN": "生肖太岁数字能量音频",
       "category": "protection-tokens",
       "element": "fire",
       "price": 17.92,
       "currency": "USD",
-      "description": "Digital energy guidance service for the Dragon Year, including personalized energy analysis report, meditation audio guide, and annual energy alignment recommendations.",
-      "descriptionCN": "龙年数字能量指引服务，包含个人能量分析报告、冥想音频指导及年度能量调和建议。",
+      "description": "Digital energy audio program for the Dragon Year, including energy analysis audio content, meditation audio guide, and annual energy alignment audio recommendations.",
+      "descriptionCN": "龙年数字能量音频课程，包含能量分析音频内容、冥想音频指导及年度能量调和音频建议。",
       "image": "images/ee9f06067bcdc66babb7cc1dfbc9d59ecef3fe912a602-hYOU5Z_fw1200webp.webp",
       "stock": 999,
       "benefits": ["Protection", "Positive Energy", "Digital Guidance"],
@@ -47,14 +47,14 @@
     },
     {
       "id": "custom-protection-token",
-      "name": "Personalized Energy Analysis Service",
-      "nameCN": "个性化能量分析服务",
+      "name": "Five Elements Energy Audio Collection",
+      "nameCN": "五行能量音频合集",
       "category": "traditional-items",
       "element": "earth",
       "price": 54.32,
       "currency": "USD",
-      "description": "Comprehensive digital energy analysis service based on your birth chart. Includes detailed energy report, personalized recommendations, and one-on-one consultation session.",
-      "descriptionCN": "基于您出生图表的综合数字能量分析服务。包含详细能量报告、个性化建议及一对一咨询课程。",
+      "description": "Comprehensive digital energy audio collection based on Five Elements theory. Includes detailed energy audio content and pre-recorded audio recommendations.",
+      "descriptionCN": "基于五行理论的综合数字能量音频合集。包含详细能量音频内容及预录制音频建议。",
       "image": "images/08d5a4d436cd88b784060136ffdf1dde4be269a93235b-haaswB_fw1200webp.webp",
       "stock": 999,
       "benefits": ["Personalization", "Energy Alignment", "Custom Analysis"],
@@ -65,8 +65,8 @@
   "categories": [
     {
       "id": "protection-tokens",
-      "name": "Energy Guidance Services",
-      "nameCN": "能量指引服务"
+      "name": "Energy Audio Programs",
+      "nameCN": "能量音频课程"
     },
     {
       "id": "crystals",
@@ -80,8 +80,8 @@
     },
     {
       "id": "traditional-items",
-      "name": "Energy Analysis Services",
-      "nameCN": "能量分析服务"
+      "name": "Five Elements Audio Collections",
+      "nameCN": "五行音频合集"
     }
   ],
   "elements": [
