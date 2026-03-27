@@ -53,8 +53,8 @@ const FALLBACK_PRODUCTS = [
     discount: 0,
     discountRate: 0,
     currency: 'USD',
-    description: 'A personalized Five Elements energy balancing consultation service, including a custom energy analysis report, personalized guidance session, and digital Five Elements harmony resources.',
-    descriptionCN: '由传承人提供的五行能量平衡定制咨询，含专属能量分析报告、个性化指导课程及数字五行调和资源。',
+    description: 'A personalized Five Elements energy balancing consultation service, including a custom energy assessment report, personalized guidance session, and digital Five Elements harmony resources.',
+    descriptionCN: '由传承人提供的五行能量平衡定制咨询，含专属能量评估报告、个性化指导课程及数字五行调和资源。',
     image: 'images/bracelet.jpg',
     category: 'digital'
   }

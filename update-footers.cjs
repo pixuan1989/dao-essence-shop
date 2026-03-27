@@ -42,7 +42,7 @@ const STANDARD_FOOTER = `    <!-- Footer -->
                 <div>
                     <h4 class="footer-title">Services</h4>
                     <ul class="footer-links">
-                        <li><a href="#">Annual Energy Analysis</a></li>
+                        <li><a href="#">Annual Energy Guide</a></li>
                         <li><a href="#">Personal Consultation</a></li>
                         <li><a href="#">Custom Items</a></li>
                         <li><a href="redeem.html">Redeem Voucher</a></li>

@@ -1,4 +1,4 @@
-﻿/**
+/**
  * 批量替换所有页面页脚为标准页脚（含 WhatsApp / Telegram / WeChat）
  * run: node update-footers.js
  */
@@ -36,9 +36,9 @@ const STANDARD_FOOTER = `    <!-- Footer -->
                 <div>
                     <h4 class="footer-title">Services</h4>
                     <ul class="footer-links">
-                        <li><a href="#">Annual Energy Analysis</a></li>
+                        <li><a href="#">Annual Energy Guide</a></li>
                         <li><a href="#">Personal Consultation</a></li>
-                        <li><a href="#">Energy Customization</a></li>
+                        <li><a href="#">Energy Tool Customization</a></li>
                         <li><a href="guide.html">Service Guide</a></li>
                         <li><a href="contact.html">Contact Us</a></li>
                     </ul>
