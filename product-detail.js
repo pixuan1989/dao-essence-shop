@@ -87,15 +87,15 @@ function detectProductType(card) {
     
     console.log('Product type detection:', { name, novelScore, meditationScore, explicitCategory });
     
-    // 返回判断结果
+    // 返回判断结果 - 优先使用检测结果，而不是原始分类
     if (novelScore > meditationScore) {
-        return card.categoryCN || card.category || '中国修仙小说';
+        return '中国修仙小说';
     } else if (meditationScore > novelScore) {
-        return card.categoryCN || card.category || '道家冥想';
+        return '道家冥想';
     }
     
-    // 默认返回原始分类或 Spiritual
-    return card.categoryCN || card.category || 'Spiritual';
+    // 默认返回原始分类或其他
+    return card.categoryCN || card.category || '其他';
 }
 
 /**
@@ -514,7 +514,13 @@ document.addEventListener('DOMContentLoaded', async function() {
         const cardCategoryTag = document.getElementById('cardCategoryTag');
         if (cardCategoryTag) {
             cardCategoryTag.textContent = CARD_DATA.type || 'Category';
-            console.log('✅ Updated cardCategoryTag');
+            console.log('✅ Updated cardCategoryTag to:', cardCategoryTag.textContent);
+            
+            // 🔥 主动触发区块切换
+            if (typeof toggleAttributeBlocks === 'function') {
+                console.log('🔄 Triggering toggleAttributeBlocks with:', CARD_DATA.type);
+                toggleAttributeBlocks(CARD_DATA.type);
+            }
         }
         
         const cardSku = document.getElementById('cardSku');
