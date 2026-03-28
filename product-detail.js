@@ -8,6 +8,97 @@ let selectedOptions = {};
 let totalCartQuantity = 0;
 
 /**
+ * 智能检测产品类型
+ * 根据产品名称、描述、分类等信息判断是小说类还是冥想类
+ */
+function detectProductType(card) {
+    // 优先使用明确的分类字段
+    const explicitCategory = card.categoryCN || card.category || '';
+    
+    // 小说类关键词（中英文）
+    const novelKeywords = [
+        'novel', 'book', 'fiction', 'story', 'cultivation', 'wuxia', 'xianxia',
+        '小说', '书籍', '故事', '读物', '修仙', '武侠', '玄幻', '神话',
+        'mysteries', 'lord', '卷', '章', 'author', 'writer'
+    ];
+    
+    // 冥想/音频类关键词
+    const meditationKeywords = [
+        'meditation', 'audio', 'music', 'sound', 'therapy', 'healing',
+        '冥想', '音频', '音乐', '疗愈', '能量', '五行'
+    ];
+    
+    // 检查产品名称
+    const name = (card.name || card.product_name || '').toLowerCase();
+    const nameCN = (card.nameCN || '').toLowerCase();
+    const description = (card.description || '').toLowerCase();
+    
+    // 计算匹配度
+    let novelScore = 0;
+    let meditationScore = 0;
+    
+    // 检查显式分类
+    if (explicitCategory) {
+        const cat = explicitCategory.toLowerCase();
+        if (cat.includes('小说') || cat.includes('novel') || cat.includes('book') || cat.includes('读物')) {
+            novelScore += 10;
+        }
+        if (cat.includes('冥想') || cat.includes('meditation') || cat.includes('音频')) {
+            meditationScore += 10;
+        }
+    }
+    
+    // 检查名称关键词
+    novelKeywords.forEach(keyword => {
+        if (name.includes(keyword) || nameCN.includes(keyword)) {
+            novelScore += 2;
+        }
+    });
+    
+    meditationKeywords.forEach(keyword => {
+        if (name.includes(keyword) || nameCN.includes(keyword)) {
+            meditationScore += 2;
+        }
+    });
+    
+    // 检查描述关键词
+    novelKeywords.forEach(keyword => {
+        if (description.includes(keyword)) {
+            novelScore += 1;
+        }
+    });
+    
+    meditationKeywords.forEach(keyword => {
+        if (description.includes(keyword)) {
+            meditationScore += 1;
+        }
+    });
+    
+    // 特殊规则：知名小说作品
+    const knownNovels = [
+        'mysteries', 'cuttlefish', '诡秘', '之主', 'lord',
+        'perfect world', '遮天', '斗破', '苍穹', '凡人', '修仙'
+    ];
+    knownNovels.forEach(keyword => {
+        if (name.includes(keyword) || nameCN.includes(keyword) || description.includes(keyword)) {
+            novelScore += 5;
+        }
+    });
+    
+    console.log('Product type detection:', { name, novelScore, meditationScore, explicitCategory });
+    
+    // 返回判断结果
+    if (novelScore > meditationScore) {
+        return card.categoryCN || card.category || '中国修仙小说';
+    } else if (meditationScore > novelScore) {
+        return card.categoryCN || card.category || '道家冥想';
+    }
+    
+    // 默认返回原始分类或 Spiritual
+    return card.categoryCN || card.category || 'Spiritual';
+}
+
+/**
  * 从 window.allProducts 中加载卡数据
  * 由 creem-sync-v2.js 填充 window.allProducts
  */
@@ -86,7 +177,7 @@ window.loadCardData = async function() {
                         options: {}
                     }
                 ],
-                type: card.categoryCN || card.category || 'Spiritual',
+                type: detectProductType(card),
                 metafields: {
                     energy: {
                         five_element: card.element,
