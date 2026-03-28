@@ -2027,14 +2027,25 @@
             
             if (!energyBlock || !membershipBlock) return;
             
-            // 小说/读物类产品显示会员优势
-            const isNovelProduct = category && (
-                category.includes('cultivation-novels') || 
-                category.includes('novel') || 
-                category.includes('book') ||
-                category.includes('readings') ||
-                category.includes('mythology')
-            );
+            if (!category) return;
+            
+            const cat = category.toLowerCase();
+            
+            // 小说/读物类产品显示会员优势（支持中英文）
+            const isNovelProduct = 
+                cat.includes('cultivation-novels') || 
+                cat.includes('novel') || 
+                cat.includes('book') ||
+                cat.includes('readings') ||
+                cat.includes('mythology') ||
+                cat.includes('小说') ||           // 中文：小说
+                cat.includes('读物') ||           // 中文：读物
+                cat.includes('故事') ||           // 中文：故事
+                cat.includes('书籍') ||           // 中文：书籍
+                cat.includes('修仙') ||           // 中文：修仙
+                cat.includes('神话');             // 中文：神话
+            
+            console.log('Category:', category, 'Is Novel:', isNovelProduct);
             
             if (isNovelProduct) {
                 energyBlock.style.display = 'none';
@@ -2047,20 +2058,31 @@
         
         // 页面加载完成后检查产品类型
         document.addEventListener('DOMContentLoaded', function() {
+            console.log('Initializing attribute block toggle...');
+            
             // 等待产品数据加载完成
+            let attempts = 0;
+            const maxAttempts = 30; // 最多等待15秒
+            
             const checkProductData = setInterval(function() {
+                attempts++;
                 const categoryTag = document.getElementById('cardCategoryTag');
-                if (categoryTag && categoryTag.textContent !== 'Category') {
-                    const category = categoryTag.textContent.toLowerCase();
-                    toggleAttributeBlocks(category);
+                const categoryText = categoryTag ? categoryTag.textContent.trim() : '';
+                
+                console.log('Check attempt', attempts, 'Category:', categoryText);
+                
+                // 检查是否已加载（不是默认值）
+                if (categoryTag && categoryText && categoryText !== 'Category' && categoryText !== '分类') {
+                    toggleAttributeBlocks(categoryText);
+                    clearInterval(checkProductData);
+                }
+                
+                // 超过最大尝试次数停止
+                if (attempts >= maxAttempts) {
+                    console.log('Max attempts reached, stopping check');
                     clearInterval(checkProductData);
                 }
             }, 500);
-            
-            // 10秒后停止检查
-            setTimeout(function() {
-                clearInterval(checkProductData);
-            }, 10000);
         });
     </script>
 
