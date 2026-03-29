@@ -857,6 +857,25 @@
         color: var(--text-primary);
     }
 
+    /* EPUB 设备兼容标签样式 */
+    .epub-device-tag {
+        display: inline-flex;
+        align-items: center;
+        background: rgba(201, 168, 76, 0.12);
+        border: 1px solid rgba(201, 168, 76, 0.35);
+        color: var(--gold-primary, #c9a84c);
+        font-size: 0.78em;
+        font-weight: 500;
+        padding: 3px 9px;
+        border-radius: 20px;
+        white-space: nowrap;
+        cursor: default;
+        transition: background 0.2s;
+    }
+    .epub-device-tag:hover {
+        background: rgba(201, 168, 76, 0.22);
+    }
+
     /* ============================================
        能量属性
        ============================================ */
@@ -1752,7 +1771,56 @@
                                 </tr>
                                 <tr>
                                     <td class="spec-label">Format</td>
-                                    <td class="spec-value" id="specMaterial">Digital files (MP3, MP4, PDF, or EPUB)</td>
+                                    <td class="spec-value" id="specMaterial">
+                                        <!-- 默认（音频/通用）格式说明 -->
+                                        <span id="formatDefault">Digital files (MP3, MP4, PDF, or EPUB)</span>
+
+                                        <!-- 小说专属 EPUB 说明（默认隐藏，由 JS 切换） -->
+                                        <span id="formatEpub" style="display:none;">
+                                            <strong style="color:var(--gold-primary,#c9a84c);font-size:1.05em;">EPUB</strong>
+                                            &nbsp;— the universal e-book format<br>
+                                            <span style="font-size:0.88em;opacity:0.8;line-height:1.7;display:block;margin-top:4px;">
+                                                Works on <b>every</b> device you already own:
+                                            </span>
+                                            <!-- 设备兼容图标行 -->
+                                            <span class="epub-compat-row" style="display:flex;flex-wrap:wrap;gap:6px 10px;margin-top:8px;align-items:center;">
+
+                                                <!-- Kindle -->
+                                                <span class="epub-device-tag" title="Amazon Kindle">
+                                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle;margin-right:3px;"><path d="M6 2h12a2 2 0 012 2v16a2 2 0 01-2 2H6a2 2 0 01-2-2V4a2 2 0 012-2zm6 15a1 1 0 100-2 1 1 0 000 2zm0-11a1 1 0 00-1 1v6a1 1 0 002 0V7a1 1 0 00-1-1z"/></svg>
+                                                    Kindle
+                                                </span>
+
+                                                <!-- Kobo -->
+                                                <span class="epub-device-tag" title="Kobo e-reader">
+                                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle;margin-right:3px;"><path d="M17 2H7a2 2 0 00-2 2v16a2 2 0 002 2h10a2 2 0 002-2V4a2 2 0 00-2-2zm-5 16a1.5 1.5 0 110-3 1.5 1.5 0 010 3z"/></svg>
+                                                    Kobo
+                                                </span>
+
+                                                <!-- Apple Books -->
+                                                <span class="epub-device-tag" title="Apple Books — iPhone, iPad, Mac">
+                                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle;margin-right:3px;"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+                                                    Apple Books
+                                                </span>
+
+                                                <!-- Android / Moon Reader -->
+                                                <span class="epub-device-tag" title="Android — Moon+ Reader, ReadEra, etc.">
+                                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle;margin-right:3px;"><path d="M17.6 9.48l1.84-3.18c.16-.31.04-.69-.26-.85a.637.637 0 00-.83.22l-1.88 3.24a11.463 11.463 0 00-8.94 0L5.65 5.67a.643.643 0 00-.87-.2c-.28.18-.37.54-.22.83L6.4 9.48A10.78 10.78 0 001 18h22a10.78 10.78 0 00-5.4-8.52zM7 15.25a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5zm10 0a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5z"/></svg>
+                                                    Android
+                                                </span>
+
+                                                <!-- PC / Calibre -->
+                                                <span class="epub-device-tag" title="PC / Mac — Calibre, Adobe Digital Editions">
+                                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle;margin-right:3px;"><path d="M20 18c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"/></svg>
+                                                    PC / Mac
+                                                </span>
+
+                                            </span>
+                                            <span style="font-size:0.82em;opacity:0.65;display:block;margin-top:8px;">
+                                                💡 Also works on Kindle via "Send to Kindle" — no app needed.
+                                            </span>
+                                        </span>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td class="spec-label">Access Method</td>

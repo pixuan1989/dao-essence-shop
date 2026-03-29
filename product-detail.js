@@ -521,6 +521,23 @@ document.addEventListener('DOMContentLoaded', async function() {
                 console.log('🔄 Triggering toggleAttributeBlocks with:', CARD_DATA.type);
                 toggleAttributeBlocks(CARD_DATA.type);
             }
+
+            // 🔥 Format 行：小说类产品显示 EPUB 专属说明
+            const cat = (CARD_DATA.type || '').toLowerCase();
+            const isNovel = cat.includes('小说') || cat.includes('novel') || cat.includes('xianxia') || cat.includes('cultivation');
+            const formatDefault = document.getElementById('formatDefault');
+            const formatEpub   = document.getElementById('formatEpub');
+            if (formatDefault && formatEpub) {
+                if (isNovel) {
+                    formatDefault.style.display = 'none';
+                    formatEpub.style.display     = 'inline';
+                    console.log('✅ Format: EPUB mode');
+                } else {
+                    formatDefault.style.display = 'inline';
+                    formatEpub.style.display     = 'none';
+                    console.log('✅ Format: default mode');
+                }
+            }
         }
         
         // 🔥 动态更新 SEO 标签
