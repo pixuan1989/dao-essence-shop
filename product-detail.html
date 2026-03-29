@@ -1893,12 +1893,17 @@
                         <div class="energy-attributes" id="membershipBenefitsBlock" style="display:none;">
                             <h3 class="section-title-custom">Membership Benefits</h3>
                             <div class="attribute-grid">
+
+                                <!-- 1. 一次性付款，终身访问权 — 层叠书册 -->
                                 <div class="attribute-item">
                                     <div class="attribute-icon">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-                                            <path d="M2 17l10 5 10-5"/>
-                                            <path d="M2 12l10 5 10-5"/>
+                                        <svg viewBox="0 0 24 24">
+                                            <!-- 底层书页（半透明） -->
+                                            <rect x="3" y="7" width="18" height="13" rx="1" fill="currentColor" opacity="0.25"/>
+                                            <!-- 中层书页 -->
+                                            <rect x="5" y="4" width="14" height="13" rx="1" fill="currentColor" opacity="0.5"/>
+                                            <!-- 顶层书页（实心） -->
+                                            <rect x="7" y="2" width="10" height="13" rx="1" fill="currentColor"/>
                                         </svg>
                                     </div>
                                     <div class="attribute-content">
@@ -1906,13 +1911,21 @@
                                         <p>Pay once and enjoy permanent membership. No recurring fees, no hidden charges.</p>
                                     </div>
                                 </div>
+
+                                <!-- 2. 持续更新，始终免费 — 刷新/循环箭头 -->
                                 <div class="attribute-item">
                                     <div class="attribute-icon">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-                                            <path d="M8 10h.01"/>
-                                            <path d="M12 10h.01"/>
-                                            <path d="M16 10h.01"/>
+                                        <svg viewBox="0 0 24 24">
+                                            <!-- 外圆弧背景（半透明） -->
+                                            <circle cx="12" cy="12" r="10" fill="currentColor" opacity="0.2"/>
+                                            <!-- 左侧箭头弧 -->
+                                            <path d="M4 12 A8 8 0 0 1 18 6.5" fill="currentColor" opacity="0.6"/>
+                                            <!-- 右侧箭头弧（实心） -->
+                                            <path d="M20 12 A8 8 0 0 1 6 17.5" fill="currentColor"/>
+                                            <!-- 左箭头头 -->
+                                            <polygon points="4,8 4,14 8,11" fill="currentColor" opacity="0.7"/>
+                                            <!-- 右箭头头 -->
+                                            <polygon points="20,10 20,16 16,13" fill="currentColor"/>
                                         </svg>
                                     </div>
                                     <div class="attribute-content">
@@ -1920,12 +1933,19 @@
                                         <p>New cultivation novels and adventure stories added regularly. Existing members get all updates at no extra cost.</p>
                                     </div>
                                 </div>
+
+                                <!-- 3. 扩展图书馆 — 书库/网格 -->
                                 <div class="attribute-item">
                                     <div class="attribute-icon">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <rect x="3" y="3" width="18" height="18" rx="2"/>
-                                            <path d="M8 12h8"/>
-                                            <path d="M12 8v8"/>
+                                        <svg viewBox="0 0 24 24">
+                                            <!-- 书架背景 -->
+                                            <rect x="2" y="3" width="20" height="18" rx="2" fill="currentColor" opacity="0.2"/>
+                                            <!-- 书脊 1 -->
+                                            <rect x="5"  y="6" width="4" height="12" rx="1" fill="currentColor" opacity="0.5"/>
+                                            <!-- 书脊 2 -->
+                                            <rect x="11" y="6" width="4" height="12" rx="1" fill="currentColor" opacity="0.7"/>
+                                            <!-- 书脊 3（实心，最前） -->
+                                            <rect x="17" y="8" width="3" height="10" rx="1" fill="currentColor"/>
                                         </svg>
                                     </div>
                                     <div class="attribute-content">
@@ -1933,11 +1953,17 @@
                                         <p>Access to our growing collection of Chinese fantasy, xianxia, and wuxia novels. More genres coming soon.</p>
                                     </div>
                                 </div>
+
+                                <!-- 4. 安全可靠 — 盾牌+勾 -->
                                 <div class="attribute-item">
                                     <div class="attribute-icon">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                                            <path d="M9 12l2 2 4-4"/>
+                                        <svg viewBox="0 0 24 24">
+                                            <!-- 盾牌外轮廓（半透明） -->
+                                            <path d="M12 2 L21 6 L21 12 C21 17 12 22 12 22 C12 22 3 17 3 12 L3 6 Z" fill="currentColor" opacity="0.25"/>
+                                            <!-- 盾牌内层（中透明度） -->
+                                            <path d="M12 5 L19 8.5 L19 12.5 C19 16 12 20 12 20 C12 20 5 16 5 12.5 L5 8.5 Z" fill="currentColor" opacity="0.55"/>
+                                            <!-- 勾（实心白，用 opacity trick） -->
+                                            <path d="M8.5 12 L11 14.5 L15.5 9.5" fill="none" stroke="var(--bg-primary,#f5f0e8)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
                                         </svg>
                                     </div>
                                     <div class="attribute-content">
@@ -1945,6 +1971,7 @@
                                         <p>Professional English translations with quality assurance. Download anytime, read anywhere.</p>
                                     </div>
                                 </div>
+
                             </div>
                         </div>
                     </div>
