@@ -523,6 +523,65 @@ document.addEventListener('DOMContentLoaded', async function() {
             }
         }
         
+        // 🔥 动态更新 SEO 标签
+        const productTitle = CARD_DATA.title || 'Taoist Digital Resource';
+        const productDesc = (CARD_DATA.description || '').substring(0, 120) + '...';
+        const productImage = CARD_DATA.images?.[0]?.src || 'https://daoessence.com/images/og-default.jpg';
+        const productUrl = window.location.href;
+        
+        // 更新 <title>
+        document.title = `${productTitle} | DAO Essence`;
+        const pageTitle = document.getElementById('pageTitle');
+        if (pageTitle) pageTitle.textContent = `${productTitle} | DAO Essence`;
+        
+        // 更新 meta description
+        const metaDesc = document.getElementById('metaDescription') || document.querySelector('meta[name="description"]');
+        if (metaDesc) metaDesc.setAttribute('content', `${productTitle} — ${productDesc} Instant digital download. | DAO Essence`);
+        
+        // 更新 OG 标签
+        const ogTitle = document.getElementById('ogTitle');
+        if (ogTitle) ogTitle.setAttribute('content', `${productTitle} | DAO Essence`);
+        const ogDesc = document.getElementById('ogDescription');
+        if (ogDesc) ogDesc.setAttribute('content', productDesc);
+        const ogImg = document.getElementById('ogImage');
+        if (ogImg) ogImg.setAttribute('content', productImage);
+        const ogUrl = document.getElementById('ogUrl');
+        if (ogUrl) ogUrl.setAttribute('content', productUrl);
+        
+        // 更新 Twitter Card 标签
+        const twTitle = document.getElementById('twitterTitle');
+        if (twTitle) twTitle.setAttribute('content', `${productTitle} | DAO Essence`);
+        const twDesc = document.getElementById('twitterDescription');
+        if (twDesc) twDesc.setAttribute('content', productDesc);
+        const twImg = document.getElementById('twitterImage');
+        if (twImg) twImg.setAttribute('content', productImage);
+        
+        // 🔥 注入 Product Schema (JSON-LD)
+        const existingSchema = document.getElementById('productSchema');
+        if (existingSchema) existingSchema.remove();
+        const schemaScript = document.createElement('script');
+        schemaScript.type = 'application/ld+json';
+        schemaScript.id = 'productSchema';
+        schemaScript.textContent = JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Product",
+            "name": productTitle,
+            "description": CARD_DATA.description || '',
+            "image": productImage,
+            "brand": { "@type": "Brand", "name": "DAO Essence" },
+            "offers": {
+                "@type": "Offer",
+                "price": (CARD_DATA.price || 0).toFixed(2),
+                "priceCurrency": "USD",
+                "availability": "https://schema.org/InStock",
+                "url": productUrl,
+                "seller": { "@type": "Organization", "name": "DAO Essence" }
+            },
+            "category": CARD_DATA.type || "Digital Resource"
+        });
+        document.head.appendChild(schemaScript);
+        console.log('✅ Product Schema injected');
+        
         const cardSku = document.getElementById('cardSku');
         if (cardSku) {
             cardSku.textContent = 'SKU: ' + CARD_DATA.id;

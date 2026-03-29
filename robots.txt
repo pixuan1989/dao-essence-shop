@@ -1,13 +1,8 @@
 # DAO Essence - Robots Configuration
+# Updated: 2026-03-29
 
 User-agent: *
 Allow: /
-Allow: /shop.html
-Allow: /index.html
-Allow: /images/
-Allow: /styles/
-Allow: *.js
-Allow: *.css
 
 # Disallow admin and private areas
 Disallow: /admin/
@@ -21,7 +16,6 @@ Crawl-delay: 0.5
 
 # Sitemap location
 Sitemap: https://daoessence.com/sitemap.xml
-Sitemap: https://daoessence.com/sitemap-images.xml
 
 # Google specific
 User-agent: Googlebot
@@ -33,12 +27,19 @@ User-agent: Bingbot
 Allow: /
 Crawl-delay: 1
 
-# Bad bots
-User-agent: AhrefsBot
-Disallow: /
+# GPTBot (ChatGPT/OpenAI) — allow for GEO visibility
+User-agent: GPTBot
+Allow: /
 
-User-agent: SemrushBot
-Disallow: /
+# Claude/Anthropic — allow for GEO visibility
+User-agent: ClaudeBot
+Allow: /
 
+# PerplexityBot — allow for GEO visibility
+User-agent: PerplexityBot
+Allow: /
+
+# Malicious scrapers only
 User-agent: DotBot
 Disallow: /
+
