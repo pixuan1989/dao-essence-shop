@@ -36,7 +36,7 @@
       "id": "natural-agarwood",
       "name": "Agarwood Meditation Audio Collection",
       "nameCN": "沉香冥想音频合集",
-      "category": "meditation",
+      "category": "dao-meditation",
       "element": "wood",
       "price": 9.52,
       "currency": "USD",
@@ -52,7 +52,7 @@
       "id": "custom-protection-token",
       "name": "Five Elements Energy Audio Collection",
       "nameCN": "五行能量音频合集",
-      "category": "meditation",
+      "category": "dao-meditation",
       "element": "earth",
       "price": 54.32,
       "currency": "USD",
@@ -69,7 +69,7 @@
       "id": "lord-of-mysteries",
       "name": "Lord of Mysteries",
       "nameCN": "诡秘之主",
-      "category": "novels",
+      "category": "cultivation-novels",
       "element": "metal",
       "price": 10.00,
       "currency": "USD",
@@ -85,22 +85,22 @@
   ],
   "categories": [
     {
-      "id": "meditation",
+      "id": "dao-meditation",
       "name": "Taoist Meditation",
       "nameCN": "道家冥想"
     },
     {
-      "id": "readings",
+      "id": "dao-readings",
       "name": "Taoist Readings",
       "nameCN": "道家读物"
     },
     {
-      "id": "mythology",
+      "id": "mythology-stories",
       "name": "Taoist Mythology",
       "nameCN": "道教神话故事"
     },
     {
-      "id": "novels",
+      "id": "cultivation-novels",
       "name": "Chinese Xianxia Novels",
       "nameCN": "中国修仙小说"
     }
