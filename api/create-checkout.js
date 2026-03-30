@@ -8,15 +8,19 @@
 
 /**
  * 产品 ID 到 Creem Product ID 的映射
- * 从 products.json 同步，用于根据购物车产品动态选择 Creem 支付产品
+ * 注意：key 是购物车中使用的 ID（即 Creem Product ID），value 也是 Creem Product ID
+ * 这样设计是因为前端直接使用 Creem ID 作为产品标识
  */
 const CREEM_PRODUCT_MAP = {
-    'natural-agarwood': 'prod_7i2asEAuHFHl5hJMeCEsfB',
-    'custom-protection-token': 'prod_1YuuAVysoYK6AOmQVab2uR',
-    'lord-of-mysteries': 'prod_3btZfL4MwsO2xSr7AB3J8S',
+    // 沉香冥想音频
+    'prod_7i2asEAuHFHl5hJMeCEsfB': 'prod_7i2asEAuHFHl5hJMeCEsfB',
+    // 五行能量音频合集
+    'prod_1YuuAVysoYK6AOmQVab2uR': 'prod_1YuuAVysoYK6AOmQVab2uR',
+    // Lord of Mysteries 小说
+    'prod_3btZfL4MwsO2xSr7AB3J8S': 'prod_3btZfL4MwsO2xSr7AB3J8S',
     // 待配置的产品（请在 Creem 后台创建后填入）
-    'tai-sui-protection-token': 'prod_xxx_taisui',
-    'obsidian-bracelet': 'prod_xxx_obsidian'
+    'prod_xxx_taisui': 'prod_xxx_taisui',
+    'prod_xxx_obsidian': 'prod_xxx_obsidian'
 };
 
 /**
@@ -34,10 +38,11 @@ function getCreemProductId(items) {
     
     const creemId = CREEM_PRODUCT_MAP[localProductId];
     
-    if (!creemId || creemId.startsWith('prod_xxx_')) {
-        console.warn(`⚠️ 产品 "${localProductId}" 未配置 Creem Product ID，请检查 CREEM_PRODUCT_MAP`);
-        return null;
-    }
+        if (!creemId || creemId.startsWith('prod_xxx_')) {
+            console.warn(`⚠️ 产品 "${localProductId}" 未配置 Creem Product ID，请检查 CREEM_PRODUCT_MAP`);
+            // 返回原始 ID，让 Creem API 自己报错（更清晰的错误信息）
+            return localProductId;
+        }
     
     console.log(`✅ 产品映射: ${localProductId} → ${creemId}`);
     return creemId;
