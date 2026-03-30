@@ -110,7 +110,16 @@ export default async function handler(req, res) {
         const creemCheckoutData = {
             product_id: productId,
             success_url: successUrl,
-            request_id: orderId  // 用于跟踪订单
+            request_id: orderId,  // 用于跟踪订单
+            metadata: {
+                order_items: JSON.stringify(items.map(i => ({ 
+                    id: i.id, 
+                    name: i.name, 
+                    quantity: i.quantity,
+                    price: i.price
+                }))),
+                item_count: items.length.toString()
+            }
         };
 
         // 如果有折扣码，添加到请求中

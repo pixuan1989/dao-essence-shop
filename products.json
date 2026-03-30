@@ -36,7 +36,7 @@
       "id": "natural-agarwood",
       "name": "Agarwood Meditation Audio Collection",
       "nameCN": "沉香冥想音频合集",
-      "category": "incense",
+      "category": "meditation",
       "element": "wood",
       "price": 9.52,
       "currency": "USD",
@@ -52,7 +52,7 @@
       "id": "custom-protection-token",
       "name": "Five Elements Energy Audio Collection",
       "nameCN": "五行能量音频合集",
-      "category": "traditional-items",
+      "category": "meditation",
       "element": "earth",
       "price": 54.32,
       "currency": "USD",
@@ -85,24 +85,24 @@
   ],
   "categories": [
     {
-      "id": "protection-tokens",
-      "name": "Energy Audio Programs",
-      "nameCN": "能量音频课程"
+      "id": "meditation",
+      "name": "Taoist Meditation",
+      "nameCN": "道家冥想"
     },
     {
-      "id": "crystals",
-      "name": "Meditation Courses",
-      "nameCN": "冥想课程"
+      "id": "readings",
+      "name": "Taoist Readings",
+      "nameCN": "道家读物"
     },
     {
-      "id": "incense",
-      "name": "Digital Audio Collections",
-      "nameCN": "数字音频合集"
+      "id": "mythology",
+      "name": "Taoist Mythology",
+      "nameCN": "道教神话故事"
     },
     {
-      "id": "traditional-items",
-      "name": "Five Elements Audio Collections",
-      "nameCN": "五行音频合集"
+      "id": "novels",
+      "name": "Chinese Xianxia Novels",
+      "nameCN": "中国修仙小说"
     }
   ],
   "elements": [
