@@ -17,8 +17,12 @@ console.log('✅ Creem 实时同步脚本 v2.0 已加载');
  */
 const CACHE_CONFIG = {
   key: 'creem_products_cache',
-  ttl: 1 // 1毫秒缓存，几乎立即过期，用于调试
+  ttl: 5 * 60 * 1000 // 5分钟缓存
 };
+
+// 🔥 调试模式：强制清除缓存以获取最新数据
+localStorage.removeItem(CACHE_CONFIG.key);
+console.log('🧹 调试模式：已清除产品缓存，将从API重新加载');
 
 /**
  * 备用数据（API 失败时使用）
