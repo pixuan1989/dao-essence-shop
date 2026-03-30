@@ -108,11 +108,10 @@ window.renderShop = function() {
     const grid = document.getElementById('productGrid');
     
     const categoryMap = {
-        'crystals': '晶体',
-        'incense': '香',
-        'protection-tokens': '守护令牌',
-        'talismans': '符咒',
-        'ritual': '仪式用品'
+        'dao-meditation': '道家冥想',
+        'dao-readings': '道家读物',
+        'mythology-stories': '道教神话故事',
+        'cultivation-novels': '中国修仙小说'
     };
 
     // Update product count (only if element exists - for shop page compatibility)
@@ -140,9 +139,11 @@ window.renderShop = function() {
         <a href="product-detail.html?id=${product.id}" class="shop-product-card" style="text-decoration: none; color: inherit; display: block;">
             <div class="product-image-wrapper">
                 <img src="${product.image}" alt="${product.nameCN}" onerror="this.src='https://images.unsplash.com/photo-1519681393784-d120267933ba?w=600&h=600&fit=crop'">
+                <!-- 五行标签已注释掉
                 <div class="product-element">
                     <span class="element-badge">${product.element.toUpperCase()}</span>
                 </div>
+                -->
                 ${discountBadge}
             </div>
             <div class="product-info">
