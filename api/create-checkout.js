@@ -2,8 +2,46 @@
  * ============================================
  * Creem Checkout 创建 API (Vercel Functions)
  * 处理 Creem 支付会话创建
+ * 支持多产品动态选择 Creem Product ID
  * ============================================
  */
+
+/**
+ * 产品 ID 到 Creem Product ID 的映射
+ * 从 products.json 同步，用于根据购物车产品动态选择 Creem 支付产品
+ */
+const CREEM_PRODUCT_MAP = {
+    'natural-agarwood': 'prod_7i2asEAuHFHl5hJMeCEsfB',
+    'custom-protection-token': 'prod_1YuuAVysoYK6AOmQVab2uR',
+    'lord-of-mysteries': 'prod_3btZfL4MwsO2xSr7AB3J8S',
+    // 待配置的产品（请在 Creem 后台创建后填入）
+    'tai-sui-protection-token': 'prod_xxx_taisui',
+    'obsidian-bracelet': 'prod_xxx_obsidian'
+};
+
+/**
+ * 根据购物车 items 获取对应的 Creem Product ID
+ * 规则：单产品订单直接用对应 ID，多产品订单使用第一个产品的 ID
+ * @param {Array} items - 购物车商品列表
+ * @returns {string|null} Creem Product ID
+ */
+function getCreemProductId(items) {
+    if (!items || items.length === 0) return null;
+    
+    // 取第一个产品的 ID（目前 Creem 不支持购物车多产品，每个订单一个产品）
+    const firstItem = items[0];
+    const localProductId = firstItem.id;
+    
+    const creemId = CREEM_PRODUCT_MAP[localProductId];
+    
+    if (!creemId || creemId.startsWith('prod_xxx_')) {
+        console.warn(`⚠️ 产品 "${localProductId}" 未配置 Creem Product ID，请检查 CREEM_PRODUCT_MAP`);
+        return null;
+    }
+    
+    console.log(`✅ 产品映射: ${localProductId} → ${creemId}`);
+    return creemId;
+}
 
 /**
  * Vercel Function 主处理函数
@@ -24,20 +62,27 @@ export default async function handler(req, res) {
 
         // 检查环境变量
         const apiKey = process.env.CREEM_API_KEY?.trim();
-        const productId = process.env.CREEM_PRODUCT_ID?.trim();
         const creemDiscountCode = process.env.CREEM_DISCOUNT_CODE?.trim();
 
         console.log('环境变量检查:', {
             CREEM_API_KEY: apiKey ? apiKey.substring(0, 10) + '...' : 'MISSING',
-            CREEM_PRODUCT_ID: productId,
             CREEM_DISCOUNT_CODE: creemDiscountCode,
-            apiKeyLength: apiKey?.length,
-            productIdLength: productId?.length
+            apiKeyLength: apiKey?.length
         });
 
-        if (!apiKey || !productId) {
-            console.error('环境变量缺失:', { CREEM_API_KEY: !!process.env.CREEM_API_KEY, CREEM_PRODUCT_ID: !!process.env.CREEM_PRODUCT_ID });
-            return res.status(500).json({ error: '支付系统配置错误' });
+        if (!apiKey) {
+            console.error('环境变量缺失: CREEM_API_KEY');
+            return res.status(500).json({ error: '支付系统配置错误：缺少 API Key' });
+        }
+
+        // 根据购物车产品动态获取 Creem Product ID
+        const productId = getCreemProductId(items);
+        
+        if (!productId) {
+            return res.status(400).json({ 
+                error: '该产品尚未配置支付信息，请联系客服',
+                product: items[0]?.name || items[0]?.id
+            });
         }
 
         // 计算总价
@@ -71,7 +116,8 @@ export default async function handler(req, res) {
         console.log('Creem API 请求数据:', {
             url: 'https://api.creem.io/v1/checkouts',
             product_id: productId,
-            discount_code: useDiscountCode
+            discount_code: useDiscountCode,
+            items: items.map(i => ({ id: i.id, name: i.name, quantity: i.quantity }))
         });
 
         // 调用 Creem API 创建 checkout（生产环境）

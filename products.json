@@ -13,7 +13,8 @@
       "image": "images/ee9f06067bcdc66babb7cc1dfbc9d59ecef3fe912a602-hYOU5Z_fw1200webp.webp",
       "stock": 999,
       "benefits": ["Protection", "Positive Energy", "Digital Guidance"],
-      "energyLevel": "High"
+      "energyLevel": "High",
+      "creemProductId": "prod_xxx_taisui"
     },
     {
       "id": "obsidian-bracelet",
@@ -28,7 +29,8 @@
       "image": "images/5c9b913900c6b04c7d5feeeba36403b233e42e895de36-P0zmjC_fw1200webp.webp",
       "stock": 999,
       "benefits": ["Purification", "Protection", "Mental Clarity"],
-      "energyLevel": "Medium"
+      "energyLevel": "Medium",
+      "creemProductId": "prod_xxx_obsidian"
     },
     {
       "id": "natural-agarwood",
@@ -43,7 +45,8 @@
       "image": "images/efd651724cd482a4d5c81552b23cb20253ea84311d64e5-9twrMQ_fw1200webp.webp",
       "stock": 999,
       "benefits": ["Meditation", "Academic Success", "Concentration"],
-      "energyLevel": "Medium"
+      "energyLevel": "Medium",
+      "creemProductId": "prod_7i2asEAuHFHl5hJMeCEsfB"
     },
     {
       "id": "custom-protection-token",
@@ -59,7 +62,25 @@
       "stock": 999,
       "benefits": ["Personalization", "Energy Alignment", "Custom Analysis"],
       "energyLevel": "Very High",
-      "customizable": true
+      "customizable": true,
+      "creemProductId": "prod_1YuuAVysoYK6AOmQVab2uR"
+    },
+    {
+      "id": "lord-of-mysteries",
+      "name": "Lord of Mysteries",
+      "nameCN": "诡秘之主",
+      "category": "novels",
+      "element": "metal",
+      "price": 10.00,
+      "currency": "USD",
+      "description": "The first volume of the legendary xianxia novel Lord of Mysteries by Cuttlefish That Loves Diving. EPUB format, compatible with all major e-readers.",
+      "descriptionCN": "爱潜水的乌贼所著传奇修仙小说《诡秘之主》第一卷。EPUB格式，兼容所有主流电子阅读器。",
+      "image": "images/lord-of-mysteries-cover.webp",
+      "stock": 999,
+      "benefits": ["Xianxia Classic", "EPUB Format", "Digital Download"],
+      "energyLevel": "High",
+      "format": "EPUB",
+      "creemProductId": "prod_3btZfL4MwsO2xSr7AB3J8S"
     }
   ],
   "categories": [
