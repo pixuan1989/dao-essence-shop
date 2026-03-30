@@ -458,6 +458,7 @@ p {
         gap: var(--spacing-xl);
         transform: translateX(100%);
         transition: transform var(--transition-base);
+        z-index: 10001;
     }
 
     .nav-menu.active {
