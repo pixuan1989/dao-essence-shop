@@ -17,7 +17,7 @@ console.log('✅ Creem 实时同步脚本 v2.0 已加载');
  */
 const CACHE_CONFIG = {
   key: 'creem_products_cache',
-  ttl: 5 * 60 * 1000 // 5分钟缓存
+  ttl: 1 // 1毫秒缓存，几乎立即过期，用于调试
 };
 
 /**
@@ -151,6 +151,9 @@ function transformProducts(products) {
     const productId = product.id || product.productId;
     // 使用映射表覆盖分类，如果没有映射则使用API返回的分类或默认'other'
     const mappedCategory = PRODUCT_CATEGORY_MAP[productId] || product.category || 'other';
+    
+    // 调试日志：显示产品ID和映射的分类
+    console.log(`🔄 产品映射: ${productId} -> ${mappedCategory} (原始分类: ${product.category || 'none'})`);
     
     return {
       id: productId,
