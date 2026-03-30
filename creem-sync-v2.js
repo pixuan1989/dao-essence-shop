@@ -31,7 +31,7 @@ const FALLBACK_PRODUCTS = [
     currency: 'USD',
     description: '优质沉香，传统工艺制作',
     image: 'images/agarwood.jpg',
-    category: 'agarwood'
+    category: 'dao-meditation'
   },
   {
     id: 'prod_1YuuAVysoYK6AOmQVab2uR',
@@ -40,9 +40,25 @@ const FALLBACK_PRODUCTS = [
     currency: 'USD',
     description: 'Five Elements digital energy guidance program with personalized audio guide and daily practice routines.',
     image: 'images/fiveelements.jpg',
-    category: 'digital-services'
+    category: 'dao-meditation'
   }
 ];
+
+/**
+ * 产品ID到分类的映射表
+ * 用于覆盖Creem API返回的分类
+ */
+const PRODUCT_CATEGORY_MAP = {
+  // 道家冥想类
+  'prod_7i2asEAuHFHl5hJMeCEsfB': 'dao-meditation',      // 沉香冥想音频
+  'prod_1YuuAVysoYK6AOmQVab2uR': 'dao-meditation',      // 五行能量音频
+  'prod_xxx_taisui': 'dao-meditation',                  // 生肖太岁音频
+  'prod_xxx_obsidian': 'dao-meditation',                // 黑曜石冥想
+  // 中国修仙小说类
+  'prod_3btZfL4MwsO2xSr7AB3J8S': 'cultivation-novels',  // 诡秘之主
+  // 道家读物类（道德经等）
+  'prod_26987QrSoIC3ui76ill96H': 'dao-readings'         // 道德经（新增）
+};
 
 /**
  * 检查缓存是否有效
@@ -131,24 +147,30 @@ function transformProducts(products) {
     return FALLBACK_PRODUCTS;
   }
 
-  return products.map(product => ({
-    id: product.id || product.productId,
-    name: product.name || product.title || '未知产品',
-    nameCN: product.name || product.title || '未知产品',
-    price: (product.price || product.priceAmount || 0) / 100,  // 🔥 cents -> dollars
-    originalPrice: (product.price || product.priceAmount || 0) / 100,
-    currency: product.currency || 'USD',
-    description: product.description || '暂无描述',
-    descriptionCN: product.description || '暂无描述',
-    // 🔥 修复：Creem API 返回的图片字段名是 image_url，不是 image
-    image: product.image_url || product.image || product.images?.[0] || '',
-    image_url: product.image_url || product.image || '',
-    category: product.category || 'other',
-    categoryCN: product.category || 'other',
-    element: product.element || 'unknown',
-    url: product.url,
-    stock: product.stock || 999
-  }));
+  return products.map(product => {
+    const productId = product.id || product.productId;
+    // 使用映射表覆盖分类，如果没有映射则使用API返回的分类或默认'other'
+    const mappedCategory = PRODUCT_CATEGORY_MAP[productId] || product.category || 'other';
+    
+    return {
+      id: productId,
+      name: product.name || product.title || '未知产品',
+      nameCN: product.name || product.title || '未知产品',
+      price: (product.price || product.priceAmount || 0) / 100,  // 🔥 cents -> dollars
+      originalPrice: (product.price || product.priceAmount || 0) / 100,
+      currency: product.currency || 'USD',
+      description: product.description || '暂无描述',
+      descriptionCN: product.description || '暂无描述',
+      // 🔥 修复：Creem API 返回的图片字段名是 image_url，不是 image
+      image: product.image_url || product.image || product.images?.[0] || '',
+      image_url: product.image_url || product.image || '',
+      category: mappedCategory,
+      categoryCN: mappedCategory,
+      element: product.element || 'unknown',
+      url: product.url,
+      stock: product.stock || 999
+    };
+  });
 }
 
 /**
