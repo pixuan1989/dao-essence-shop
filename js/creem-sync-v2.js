@@ -25,6 +25,26 @@ const CACHE_CONFIG = {
   ttl: 5 * 60 * 1000 // 5分钟缓存
 };
 
+// 🔥 调试模式：强制清除缓存以获取最新数据
+localStorage.removeItem(CACHE_CONFIG.key);
+console.log('🧹 调试模式：已清除产品缓存，将从API重新加载');
+
+/**
+ * 产品ID到分类的映射表
+ * 用于覆盖Creem API返回的分类
+ */
+const PRODUCT_CATEGORY_MAP = {
+  // 道家冥想类
+  'prod_7i2asEAuHFHl5hJMeCEsfB': 'dao-meditation',      // 沉香冥想音频
+  'prod_1YuuAVysoYK6AOmQVab2uR': 'dao-meditation',      // 五行能量音频
+  'prod_xxx_taisui': 'dao-meditation',                  // 生肖太岁音频
+  'prod_xxx_obsidian': 'dao-meditation',                // 黑曜石冥想
+  // 中国修仙小说类
+  'prod_3btZfL4MwsO2xSr7AB3J8S': 'cultivation-novels',  // 诡秘之主
+  // 道家读物类（道德经等）
+  'prod_26987QrSoIC3ui76ill96H': 'dao-readings'         // 道德经（新增）
+};
+
 /**
  * 备用数据（API 失败时使用）
  * 🔥 包含正确的折扣信息
@@ -149,11 +169,18 @@ function transformProducts(products) {
   }
 
   return products.map(product => {
+    const productId = product.id || product.creemId || product.productId || product.product_id || '未知';
+    // 🔥 使用映射表覆盖分类，如果没有映射则使用API返回的分类
+    const mappedCategory = PRODUCT_CATEGORY_MAP[productId] || product.category || 'spiritual';
+    
+    // 调试日志：显示产品ID和映射的分类
+    console.log(`🔄 产品映射: ${productId} -> ${mappedCategory} (原始分类: ${product.category || 'none'})`);
+    
     // 🔥 Creem API 返回的价格已经由后端转换为美元（已除以100）
     const price = parseFloat(product.price) || 0;
     
     return {
-      id: product.id || product.creemId || product.productId || product.product_id || '未知',
+      id: productId,
       creemId: product.id || product.creemId,
       product_id: product.id || product.creemId,
       name: product.name || product.product_name || '未知产品',
@@ -174,7 +201,7 @@ function transformProducts(products) {
       image: product.image || product.image_url || product.img_url || product.images?.[0] || 'images/placeholder.jpg',
       image_url: product.image_url || product.image || product.img_url || 'images/placeholder.jpg',
       img_url: product.image_url || product.image || product.img_url || 'images/placeholder.jpg',
-      category: product.category || 'spiritual',
+      category: mappedCategory,
       element: product.element || 'energy',
       stock: product.stock || 999,
       benefits: product.benefits || [],
