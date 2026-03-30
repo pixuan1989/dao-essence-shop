@@ -464,6 +464,17 @@ p {
     .nav-menu.active {
         transform: translateX(0);
     }
+
+    /* 移动端菜单激活时，强制菜单项文字为深色 */
+    .nav-menu.active .nav-link {
+        color: var(--text-primary) !important;
+        font-size: var(--text-xl);
+        padding: var(--spacing-md) 0;
+    }
+
+    .nav-menu.active .nav-link.active {
+        color: var(--accent-color) !important;
+    }
 }
 
 /* ============================================
