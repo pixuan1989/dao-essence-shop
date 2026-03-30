@@ -187,10 +187,13 @@ async function syncCreemProducts() {
   console.log('🚀 开始 Creem 产品同步...');
   
   try {
-    // 第1步：检查缓存
-    let products = getFromCache();
+    // 🔥 调试模式：强制重新获取数据（不走缓存）
+    const forceRefresh = true; // 设为true强制刷新
     
-    // 第2步：如果无缓存，从 API 拉取
+    // 第1步：检查缓存
+    let products = forceRefresh ? null : getFromCache();
+    
+    // 第2步：如果无缓存或强制刷新，从 API 拉取
     if (!products) {
       console.log('📡 从 API 拉取新数据...');
       const apiProducts = await fetchFromAPI();
