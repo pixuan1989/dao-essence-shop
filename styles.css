@@ -452,7 +452,8 @@ p {
         left: 0;
         right: 0;
         bottom: 0;
-        background: var(--bg-primary);
+        background: var(--bg-primary) !important;
+        backdrop-filter: none !important;
         flex-direction: column;
         justify-content: center;
         gap: var(--spacing-xl);
