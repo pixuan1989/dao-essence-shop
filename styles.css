@@ -455,11 +455,14 @@ p {
         background: var(--bg-primary) !important;
         backdrop-filter: none !important;
         flex-direction: column;
-        justify-content: center;
-        gap: var(--spacing-xl);
+        justify-content: flex-start;
+        align-items: center;
+        gap: var(--spacing-lg);
+        padding: 100px var(--spacing-xl) var(--spacing-xl);
         transform: translateX(100%);
         transition: transform var(--transition-base);
         z-index: 10001;
+        overflow-y: auto;
     }
 
     .nav-menu.active {
