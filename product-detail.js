@@ -89,9 +89,9 @@ function detectProductType(card) {
     
     // 返回判断结果 - 优先使用检测结果，而不是原始分类
     if (novelScore > meditationScore) {
-        return '中国修仙小说';
+        return 'Xianxia Novels';
     } else if (meditationScore > novelScore) {
-        return '道家冥想';
+        return 'Taoist Meditation';
     }
     
     // 默认返回原始分类或其他

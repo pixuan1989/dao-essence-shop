@@ -108,10 +108,10 @@ window.renderShop = function() {
     const grid = document.getElementById('productGrid');
     
     const categoryMap = {
-        'dao-meditation': '道家冥想',
-        'dao-readings': '道家读物',
-        'mythology-stories': '道教神话故事',
-        'cultivation-novels': '中国修仙小说'
+        'dao-meditation': 'Taoist Meditation',
+        'dao-readings': 'Taoist Readings',
+        'mythology-stories': 'Taoist Mythology',
+        'cultivation-novels': 'Xianxia Novels'
     };
 
     // Update product count (only if element exists - for shop page compatibility)
