@@ -115,6 +115,7 @@ export default async function handler(req, res) {
             product_id: productId,
             success_url: successUrl,
             request_id: orderId,  // 用于跟踪订单
+            locale: 'en',  // 强制使用英文界面，避免中文翻译缺失导致崩溃
             metadata: {
                 order_items: JSON.stringify(items.map(i => ({ 
                     id: i.id, 
