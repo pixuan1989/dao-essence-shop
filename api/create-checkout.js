@@ -18,6 +18,10 @@ const CREEM_PRODUCT_MAP = {
     'prod_1YuuAVysoYK6AOmQVab2uR': 'prod_1YuuAVysoYK6AOmQVab2uR',
     // Lord of Mysteries 小说
     'prod_3btZfL4MwsO2xSr7AB3J8S': 'prod_3btZfL4MwsO2xSr7AB3J8S',
+    // 道德经
+    'prod_26987QrSoIC3ui76ill96H': 'prod_26987QrSoIC3ui76ill96H',
+    // 新增道家冥想产品
+    'prod_45v7a05ZjqA9a1LVq0o0g3': 'prod_45v7a05ZjqA9a1LVq0o0g3',
     // 待配置的产品（请在 Creem 后台创建后填入）
     'prod_xxx_taisui': 'prod_xxx_taisui',
     'prod_xxx_obsidian': 'prod_xxx_obsidian'

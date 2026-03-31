@@ -37,12 +37,13 @@ const PRODUCT_CATEGORY_MAP = {
   // 道家冥想类
   'prod_7i2asEAuHFHl5hJMeCEsfB': 'dao-meditation',      // 沉香冥想音频
   'prod_1YuuAVysoYK6AOmQVab2uR': 'dao-meditation',      // 五行能量音频
+  'prod_45v7a05ZjqA9a1LVq0o0g3': 'dao-meditation',      // 新增道家冥想产品
   'prod_xxx_taisui': 'dao-meditation',                  // 生肖太岁音频
   'prod_xxx_obsidian': 'dao-meditation',                // 黑曜石冥想
   // 中国修仙小说类
   'prod_3btZfL4MwsO2xSr7AB3J8S': 'cultivation-novels',  // 诡秘之主
   // 道家读物类（道德经等）
-  'prod_26987QrSoIC3ui76ill96H': 'dao-readings'         // 道德经（新增）
+  'prod_26987QrSoIC3ui76ill96H': 'dao-readings'         // 道德经
 };
 
 /**
