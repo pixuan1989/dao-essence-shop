@@ -1993,7 +1993,7 @@
         <img src="" alt="Zoomed image" id="modalImage">
     </div>
 
-    <!-- 购物车侧边栏 -->
+    <!-- 购物车侧边栏 - 已隐藏（直接购买模式）
     <div class="cart-overlay"></div>
     <div class="cart-sidebar">
         <div class="cart-header">
@@ -2015,12 +2015,10 @@
                 <span>Total</span>
                 <span class="cart-total-amount">$0.00</span>
             </div>
-            <!-- 购物车功能已隐藏 - 直接购买模式
             <button class="btn-checkout" onclick="window.location.href='checkout.html'">Checkout →</button>
-            -->
-            <button class="btn-checkout" onclick="alert('Please use Buy Now button on product page')">Direct Purchase Mode</button>
         </div>
     </div>
+    -->
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
     <!-- Creem 产品同步脚本（后端 API 版） -->
@@ -2116,10 +2114,12 @@
     </div>
 
     <!-- 右下角浮动购物车按钮 -->
+    <!-- 浮动购物车按钮 - 已隐藏（直接购买模式）
     <button class="floating-cart-btn" id="floatingCartButton">
         <svg viewBox="0 0 20 20" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="19" r="1"/><circle cx="17" cy="19" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L19 6H6"/></svg>
         <span class="floating-cart-badge" id="floatingCartBadge">0</span>
     </button>
+    -->
 
 
 
@@ -2203,7 +2203,7 @@
         });
     </script>
 
-    <!-- 🔥 Fix #21: 购物车侧边栏控制函数 + 加购后自动打开侧边栏 -->
+    <!-- 🔥 购物车功能已隐藏 - 直接购买模式
     <script>
         // 打开购物车侧边栏
         function openCart() {
@@ -2242,7 +2242,15 @@
             const floatingBtn = document.getElementById('floatingCartButton');
             if (floatingBtn) floatingBtn.addEventListener('click', toggleCart);
         });
-
+    </script>
+    -->
+    <!-- 直接购买模式 - 购物车功能占位 -->
+    <script>
+        function openCart() { console.log('Cart disabled - direct purchase mode'); }
+        function closeCart() { console.log('Cart disabled - direct purchase mode'); }
+        function toggleCart() { 
+            alert('Please use "Buy Now" button on product page');
+        }
     </script>
 </body>
 </html>
