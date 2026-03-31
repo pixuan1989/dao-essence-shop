@@ -387,73 +387,15 @@ window.addToCartFromDetail = function() {
 // 目标：用户点击 Buy Now 时 0 等待，瞬间跳转
 // ============================================
 
-let _cachedCheckoutUrl = null;
-let _checkoutPromise = null;
-let _prefetchRetries = 0;
-const MAX_PREFETCH_RETRIES = 2;
-let _prefetchDone = false; // 追踪 prefetch 是否成功完成
-
 // 🔥 页面加载时立即预热 Vercel Function（消除冷启动）
-console.time('🔥 warmup ping');
 fetch('/api/create-checkout', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ __warmup: true })
-}).then(() => {
-    console.timeEnd('🔥 warmup ping');
 }).catch(() => {}); // 静默失败，不影响任何东西
 
-function prefetchCheckout() {
-    if (!CARD_DATA || _cachedCheckoutUrl) return;
 
-    const price = currentVariant?.price || CARD_DATA.variants?.[0]?.price || 0;
-    const image = (CARD_DATA.images?.length > 0) ? CARD_DATA.images[0] : (CARD_DATA.image || '');
-    const quantity = Math.max(1, parseInt(document.getElementById('quantity')?.value) || 1);
-
-    const orderData = {
-        items: [{ id: CARD_DATA.id, name: CARD_DATA.title || CARD_DATA.titleZh || 'Product', price, quantity, image }],
-        total: price * quantity
-    };
-
-    console.log('⚡ prefetchCheckout START');
-    console.time('⚡ prefetchCheckout');
-    const startTime = Date.now();
-    _checkoutPromise = fetch('/api/create-checkout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(orderData)
-    })
-    .then(r => r.json())
-    .then(data => {
-        const elapsed = Date.now() - startTime;
-        console.log('⚡ prefetchCheckout response:', { elapsed: elapsed + 'ms', data });
-        const url = data.checkoutUrl || data.checkout_url || data.url;
-        if (url) {
-            _cachedCheckoutUrl = url;
-            _prefetchDone = true;
-            _prefetchRetries = 0;
-            console.timeEnd('⚡ prefetchCheckout');
-            console.log('⚡ prefetchCheckout SUCCESS - URL cached, elapsed:', elapsed + 'ms');
-            // ⚠️ 不再用 iframe 预加载（可能导致 Creem session 失效）
-        } else {
-            console.warn('⚡ prefetchCheckout - no URL in response:', data);
-            throw new Error('No checkout URL in response');
-        }
-        _checkoutPromise = null;
-    })
-    .catch(err => {
-        console.warn('⚡ prefetchCheckout FAILED after', Date.now() - startTime, 'ms:', err.message);
-        _checkoutPromise = null;
-        // 自动重试
-        _prefetchRetries++;
-        if (_prefetchRetries < MAX_PREFETCH_RETRIES) {
-            setTimeout(prefetchCheckout, 1000);
-        }
-    });
-}
-
-
-// 立即购买函数 - 点击后立即显示 loading，确保每次点击都有反馈
+// 立即购买函数 - 每次实时创建 checkout（保证 URL 新鲜不过期）
 window.buyNow = async function() {
     if (!CARD_DATA) {
         alert('Product data not loaded. Please refresh the page.');
@@ -464,38 +406,13 @@ window.buyNow = async function() {
     if (window._buying) return;
     window._buying = true;
 
-    const buyStartTime = Date.now();
-
-    // ✅ 立即显示 loading 动画（无论有没有缓存，给用户即时反馈）
+    // 立即显示 loading
     const buyBtn = document.querySelector('.btn-buy-now');
     const btnText = buyBtn?.querySelector('.btn-text');
     if (buyBtn) buyBtn.classList.add('loading');
     if (btnText) btnText.textContent = 'Redirecting...';
 
-    console.log('🛒 buyNow clicked - prefetchDone:', _prefetchDone, 'hasCache:', !!_cachedCheckoutUrl, 'hasPromise:', !!_checkoutPromise);
-
     try {
-        // 有缓存 → 直接跳转
-        if (_cachedCheckoutUrl) {
-            console.log('⚡ buyNow INSTANT redirect (cached), elapsed:', Date.now() - buyStartTime + 'ms');
-            window.location.replace(_cachedCheckoutUrl);
-            return;
-        }
-
-        // 无缓存 → 等待正在进行的预创建
-        if (_checkoutPromise) {
-            console.log('⚡ buyNow waiting for pending prefetch...');
-            await _checkoutPromise;
-            if (_cachedCheckoutUrl) {
-                console.log('⚡ buyNow prefetch completed, redirecting, elapsed:', Date.now() - buyStartTime + 'ms');
-                window.location.replace(_cachedCheckoutUrl);
-                return;
-            }
-        }
-
-        // 预创建也失败 → 实时创建（最慢路径）
-        console.log('⚡ buyNow creating checkout in real-time (SLOW PATH)');
-        if (btnText) btnText.textContent = 'Preparing...';
         const quantity = Math.max(1, parseInt(document.getElementById('quantity')?.value) || 1);
         const price = currentVariant?.price || CARD_DATA.variants?.[0]?.price || 0;
         const image = (CARD_DATA.images?.length > 0) ? CARD_DATA.images[0] : (CARD_DATA.image || '');
@@ -512,7 +429,6 @@ window.buyNow = async function() {
         });
 
         const data = await response.json();
-        console.log('⚡ buyNow realtime checkout response:', data, 'elapsed:', Date.now() - buyStartTime + 'ms');
         const checkoutUrl = data.checkoutUrl || data.checkout_url || data.url;
 
         if (checkoutUrl) {
@@ -542,9 +458,6 @@ document.addEventListener('DOMContentLoaded', async function() {
     if (!cardLoaded) {
         console.warn('⚠️ Failed to load card data, but continuing...');
     }
-
-    // 🔥 CARD_DATA 就绪后立即预创建 checkout（不等 UI 渲染）
-    prefetchCheckout();
 
     // 2. 初始化购物车数据
     if (typeof window.cart === 'undefined') {
