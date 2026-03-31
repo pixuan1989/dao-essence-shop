@@ -385,7 +385,6 @@ window.addToCartFromDetail = function() {
 // 立即购买函数 - 直接调 Creem API 后跳转，无需中间页
 window.buyNow = async function() {
     if (!CARD_DATA) {
-        console.error('❌ Cannot buy now: CARD_DATA not loaded');
         alert('Product data not loaded. Please refresh the page.');
         return;
     }
@@ -394,34 +393,18 @@ window.buyNow = async function() {
     if (window._buying) return;
     window._buying = true;
 
-    const buyBtn = document.querySelector('.btn-buy-now');
-    if (buyBtn) {
-        buyBtn.disabled = true;
-        buyBtn.textContent = 'Processing...';
-    }
-
     try {
-        // 读取数量
-        const quantityInput = document.getElementById('quantity');
-        const quantity = Math.max(1, parseInt(quantityInput?.value) || 1);
+        const quantity = Math.max(1, parseInt(document.getElementById('quantity')?.value) || 1);
+        const price = currentVariant?.price || CARD_DATA.variants?.[0]?.price || 0;
+        const image = (CARD_DATA.images?.length > 0) ? CARD_DATA.images[0] : (CARD_DATA.image || '');
 
-        // 构建订单数据
         const orderData = {
-            items: [{
-                id: CARD_DATA.id,
-                name: CARD_DATA.title || CARD_DATA.titleZh || 'Product',
-                price: currentVariant?.price || CARD_DATA.variants?.[0]?.price || 0,
-                quantity: quantity,
-                image: (CARD_DATA.images && CARD_DATA.images.length > 0)
-                    ? CARD_DATA.images[0]
-                    : (CARD_DATA.image || '')
-            }],
-            total: (currentVariant?.price || CARD_DATA.variants?.[0]?.price || 0) * quantity
+            items: [{ id: CARD_DATA.id, name: CARD_DATA.title || CARD_DATA.titleZh || 'Product', price, quantity, image }],
+            total: price * quantity
         };
 
         console.log('⚡ buyNow - calling Creem API:', orderData);
 
-        // 直接调 Creem API
         const response = await fetch('/api/create-checkout', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -439,10 +422,6 @@ window.buyNow = async function() {
     } catch (error) {
         console.error('❌ Buy now error:', error);
         alert('Unable to connect to payment service. Please try again.');
-        if (buyBtn) {
-            buyBtn.disabled = false;
-            buyBtn.textContent = 'Buy Now';
-        }
         window._buying = false;
     }
 };
