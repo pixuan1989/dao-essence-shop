@@ -382,54 +382,69 @@ window.addToCartFromDetail = function() {
     }
 };
 
-// 立即购买函数
-window.buyNow = function() {
+// 立即购买函数 - 直接调 Creem API 后跳转，无需中间页
+window.buyNow = async function() {
     if (!CARD_DATA) {
         console.error('❌ Cannot buy now: CARD_DATA not loaded');
         alert('Product data not loaded. Please refresh the page.');
         return;
     }
 
-    // 读取数量
-    const quantityInput = document.getElementById('quantity');
-    const quantity = Math.max(1, parseInt(quantityInput?.value) || 1);
+    // 防止重复点击
+    if (window._buying) return;
+    window._buying = true;
 
-    // 获取产品数据 - CARD_DATA 结构适配
-    const productId = CARD_DATA.id;
-    const productName = CARD_DATA.title || CARD_DATA.titleZh || 'Product';
-    
-    // 从 variants 中获取价格，如果没有则使用默认值
-    let productPrice = 0;
-    if (CARD_DATA.variants && CARD_DATA.variants.length > 0) {
-        // 使用当前选中的 variant 或第一个 variant
-        const variant = currentVariant || CARD_DATA.variants[0];
-        productPrice = variant.price || 0;
+    const buyBtn = document.querySelector('.btn-buy-now');
+    if (buyBtn) {
+        buyBtn.disabled = true;
+        buyBtn.textContent = 'Processing...';
     }
-    
-    // 获取产品图片
-    const productImage = CARD_DATA.images && CARD_DATA.images.length > 0 
-        ? CARD_DATA.images[0] 
-        : (CARD_DATA.image || '');
 
-    // 构建订单数据
-    const orderData = {
-        items: [{
-            id: productId,
-            name: productName,
-            price: productPrice,
-            quantity: quantity,
-            image: productImage
-        }],
-        total: productPrice * quantity
-    };
+    try {
+        // 读取数量
+        const quantityInput = document.getElementById('quantity');
+        const quantity = Math.max(1, parseInt(quantityInput?.value) || 1);
 
-    console.log('⚡ buyNow - redirecting to checkout:', orderData);
+        // 构建订单数据
+        const orderData = {
+            items: [{
+                id: CARD_DATA.id,
+                name: CARD_DATA.title || CARD_DATA.titleZh || 'Product',
+                price: currentVariant?.price || CARD_DATA.variants?.[0]?.price || 0,
+                quantity: quantity,
+                image: (CARD_DATA.images && CARD_DATA.images.length > 0)
+                    ? CARD_DATA.images[0]
+                    : (CARD_DATA.image || '')
+            }],
+            total: (currentVariant?.price || CARD_DATA.variants?.[0]?.price || 0) * quantity
+        };
 
-    // 保存订单数据到 sessionStorage，供 checkout 页面使用
-    sessionStorage.setItem('directOrder', JSON.stringify(orderData));
-    
-    // 跳转到 checkout.html（太极动画过渡页）
-    window.location.href = 'checkout.html?mode=direct';
+        console.log('⚡ buyNow - calling Creem API:', orderData);
+
+        // 直接调 Creem API
+        const response = await fetch('/api/create-checkout', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(orderData)
+        });
+
+        const data = await response.json();
+        const checkoutUrl = data.checkoutUrl || data.checkout_url || data.url;
+
+        if (checkoutUrl) {
+            window.location.replace(checkoutUrl);
+        } else {
+            throw new Error(data.error || 'Failed to create checkout');
+        }
+    } catch (error) {
+        console.error('❌ Buy now error:', error);
+        alert('Unable to connect to payment service. Please try again.');
+        if (buyBtn) {
+            buyBtn.disabled = false;
+            buyBtn.textContent = 'Buy Now';
+        }
+        window._buying = false;
+    }
 };
 
 // ============================================
