@@ -674,8 +674,8 @@
 
     .btn-buy-now {
         flex: 1;
-        background: transparent;
-        color: var(--accent-color);
+        background: var(--accent-color);
+        color: var(--bg-dark);
         border: 2px solid var(--accent-color);
         padding: 14px 32px;
         font-size: var(--text-base);
@@ -689,16 +689,16 @@
     }
 
     .btn-buy-now:hover {
-        background: var(--accent-color);
+        background: var(--fire-light);
+        border-color: var(--fire-light);
         color: var(--bg-dark);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-glow);
     }
 
     .btn-buy-now.loading {
         pointer-events: none;
         opacity: 0.8;
-        background: var(--accent-color);
-        color: white;
-        border-color: var(--accent-color);
     }
 
     .btn-buy-now .spinner {
