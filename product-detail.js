@@ -391,12 +391,16 @@ let _cachedCheckoutUrl = null;
 let _checkoutPromise = null;
 let _prefetchRetries = 0;
 const MAX_PREFETCH_RETRIES = 2;
+let _prefetchDone = false; // 追踪 prefetch 是否成功完成
 
 // 🔥 页面加载时立即预热 Vercel Function（消除冷启动）
+console.time('🔥 warmup ping');
 fetch('/api/create-checkout', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ __warmup: true })
+}).then(() => {
+    console.timeEnd('🔥 warmup ping');
 }).catch(() => {}); // 静默失败，不影响任何东西
 
 function prefetchCheckout() {
@@ -411,7 +415,9 @@ function prefetchCheckout() {
         total: price * quantity
     };
 
+    console.log('⚡ prefetchCheckout START');
     console.time('⚡ prefetchCheckout');
+    const startTime = Date.now();
     _checkoutPromise = fetch('/api/create-checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -419,20 +425,24 @@ function prefetchCheckout() {
     })
     .then(r => r.json())
     .then(data => {
+        const elapsed = Date.now() - startTime;
+        console.log('⚡ prefetchCheckout response:', { elapsed: elapsed + 'ms', data });
         const url = data.checkoutUrl || data.checkout_url || data.url;
         if (url) {
             _cachedCheckoutUrl = url;
+            _prefetchDone = true;
             _prefetchRetries = 0;
             console.timeEnd('⚡ prefetchCheckout');
-            // ✅ 立即用隐藏 iframe 预加载 Creem 支付页
-            prewarmCreemPage(url);
+            console.log('⚡ prefetchCheckout SUCCESS - URL cached, elapsed:', elapsed + 'ms');
+            // ⚠️ 不再用 iframe 预加载（可能导致 Creem session 失效）
         } else {
+            console.warn('⚡ prefetchCheckout - no URL in response:', data);
             throw new Error('No checkout URL in response');
         }
         _checkoutPromise = null;
     })
     .catch(err => {
-        console.warn('⚡ prefetchCheckout failed:', err.message);
+        console.warn('⚡ prefetchCheckout FAILED after', Date.now() - startTime, 'ms:', err.message);
         _checkoutPromise = null;
         // 自动重试
         _prefetchRetries++;
@@ -442,27 +452,6 @@ function prefetchCheckout() {
     });
 }
 
-/**
- * 用隐藏 iframe 预热 Creem 支付页
- * 让浏览器缓存 Creem 域名的资源（JS/CSS/字体等）
- * 这样用户真正跳转时页面加载会快很多
- */
-function prewarmCreemPage(url) {
-    // 清理旧的 iframe
-    document.querySelectorAll('iframe[data-prefetch]').forEach(el => el.remove());
-
-    const iframe = document.createElement('iframe');
-    iframe.setAttribute('data-prefetch', 'true');
-    iframe.style.cssText = 'width:0;height:0;border:none;position:absolute;left:-9999px;';
-    iframe.src = url;
-    iframe.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-forms');
-    document.body.appendChild(iframe);
-    // 保留 iframe 更长时间（15秒），确保 Creem 资源都加载完
-    setTimeout(() => {
-        if (iframe.parentNode) iframe.remove();
-    }, 15000);
-    console.log('🔥 Prewarming Creem page via iframe');
-}
 
 // 立即购买函数 - 点击后立即显示 loading，确保每次点击都有反馈
 window.buyNow = async function() {
@@ -475,33 +464,37 @@ window.buyNow = async function() {
     if (window._buying) return;
     window._buying = true;
 
+    const buyStartTime = Date.now();
+
     // ✅ 立即显示 loading 动画（无论有没有缓存，给用户即时反馈）
     const buyBtn = document.querySelector('.btn-buy-now');
     const btnText = buyBtn?.querySelector('.btn-text');
     if (buyBtn) buyBtn.classList.add('loading');
     if (btnText) btnText.textContent = 'Redirecting...';
 
+    console.log('🛒 buyNow clicked - prefetchDone:', _prefetchDone, 'hasCache:', !!_cachedCheckoutUrl, 'hasPromise:', !!_checkoutPromise);
+
     try {
         // 有缓存 → 直接跳转
         if (_cachedCheckoutUrl) {
-            console.log('⚡ buyNow - INSTANT redirect (cached)');
+            console.log('⚡ buyNow INSTANT redirect (cached), elapsed:', Date.now() - buyStartTime + 'ms');
             window.location.replace(_cachedCheckoutUrl);
             return;
         }
 
         // 无缓存 → 等待正在进行的预创建
         if (_checkoutPromise) {
-            console.log('⚡ buyNow - waiting for pending prefetch...');
+            console.log('⚡ buyNow waiting for pending prefetch...');
             await _checkoutPromise;
             if (_cachedCheckoutUrl) {
-                console.log('⚡ buyNow - prefetch completed, redirecting');
+                console.log('⚡ buyNow prefetch completed, redirecting, elapsed:', Date.now() - buyStartTime + 'ms');
                 window.location.replace(_cachedCheckoutUrl);
                 return;
             }
         }
 
         // 预创建也失败 → 实时创建（最慢路径）
-        console.log('⚡ buyNow - creating checkout in real-time...');
+        console.log('⚡ buyNow creating checkout in real-time (SLOW PATH)');
         if (btnText) btnText.textContent = 'Preparing...';
         const quantity = Math.max(1, parseInt(document.getElementById('quantity')?.value) || 1);
         const price = currentVariant?.price || CARD_DATA.variants?.[0]?.price || 0;
@@ -519,6 +512,7 @@ window.buyNow = async function() {
         });
 
         const data = await response.json();
+        console.log('⚡ buyNow realtime checkout response:', data, 'elapsed:', Date.now() - buyStartTime + 'ms');
         const checkoutUrl = data.checkoutUrl || data.checkout_url || data.url;
 
         if (checkoutUrl) {
