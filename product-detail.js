@@ -406,9 +406,10 @@ window.addToCartFromDetail = function() {
 };
 
 // 立即购买函数
-window.buyNow = function() {
+window.buyNow = async function() {
     if (!CARD_DATA) {
         console.error('❌ Cannot buy now: CARD_DATA not loaded');
+        alert('Product data not loaded. Please refresh the page.');
         return;
     }
 
@@ -416,24 +417,49 @@ window.buyNow = function() {
     const quantityInput = document.getElementById('quantity');
     const quantity = Math.max(1, parseInt(quantityInput?.value) || 1);
 
-    const cardId = CARD_DATA.id;
-    console.log('⚡ buyNow: cardId=' + cardId + ', quantity=' + quantity);
+    const product = CARD_DATA;
+    console.log('⚡ buyNow: product=' + product.name + ', quantity=' + quantity);
 
-    // 先加入购物车（静默，不显示通知），然后跳转结算页
-    if (typeof window.addToCartSilent === 'function') {
-        window.addToCartSilent(cardId, quantity);
-    } else if (typeof window.addToCart === 'function') {
-        // 降级：用普通 addToCart（会显示通知）
-        window.addToCart(cardId, quantity);
-    } else {
-        console.error('❌ addToCart function not available');
-        return;
+    // 显示加载状态
+    const btn = document.querySelector('.btn-buy-now');
+    const originalText = btn ? btn.textContent : 'Buy Now';
+    if (btn) {
+        btn.textContent = 'Processing...';
+        btn.disabled = true;
     }
 
-    // 跳转到结算页（checkout.html）
-    setTimeout(() => {
-        window.location.href = 'checkout.html';
-    }, 300);
+    try {
+        // 直接调用 Creem checkout API
+        const response = await fetch('/api/create-checkout', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                productId: product.id,
+                quantity: quantity,
+                productName: product.name,
+                productPrice: product.price,
+                productImage: product.image
+            })
+        });
+
+        const data = await response.json();
+
+        if (data.checkoutUrl) {
+            // 直接跳转到 Creem 支付页
+            window.location.href = data.checkoutUrl;
+        } else {
+            throw new Error(data.error || 'Failed to create checkout');
+        }
+    } catch (error) {
+        console.error('❌ Checkout error:', error);
+        alert('Payment initialization failed. Please try again.');
+        if (btn) {
+            btn.textContent = originalText;
+            btn.disabled = false;
+        }
+    }
 };
 
 // ============================================

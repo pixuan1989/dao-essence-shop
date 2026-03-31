@@ -83,13 +83,15 @@ function toggleCart() {
                 cartOverlay.classList.add('show');
             }
         } else {
-            // 如果购物车侧边栏不存在，跳转到结账页面
-            window.location.href = 'checkout.html';
+            // 购物车功能已隐藏 - 直接购买模式
+            // window.location.href = 'checkout.html';
+            console.log('Cart feature disabled - direct purchase mode');
         }
     }
-    // 在其他页面，跳转到结账页面
+    // 在其他页面 - 直接购买模式，不跳转结账页
     else {
-        window.location.href = 'checkout.html';
+        // window.location.href = 'checkout.html';
+        console.log('Cart feature disabled - direct purchase mode');
     }
 }
 

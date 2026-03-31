@@ -1594,6 +1594,7 @@
                     <li><a href="about.html" class="nav-link">About Us</a></li>
                 </ul>
                 <div class="nav-actions">
+                    <!-- 购物车功能已隐藏 - 直接购买模式
                     <a href="checkout.html" class="cart-icon" onclick="event.preventDefault(); toggleCart();">
                         <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <circle cx="9" cy="21" r="1"></circle>
@@ -1602,6 +1603,7 @@
                         </svg>
                         <span class="cart-badge" id="cartBadge">0</span>
                     </a>
+                    -->
                 </div>
                 <button class="mobile-menu-btn">
                     <span></span>
@@ -1697,11 +1699,11 @@
                             <span class="total-price" id="totalPrice">$0.00</span>
                         </div>
 
-                        <!-- 购买区域 -->
+                        <!-- 购买区域 - 直接购买模式（购物车功能已隐藏） -->
                         <div class="purchase-area">
                             <div class="action-buttons">
-                                <button class="btn-add-cart" onclick="addToCartFromDetail()">Add to Cart</button>
-                                <button class="btn-buy-now" onclick="buyNow()">Buy Now</button>
+                                <!-- <button class="btn-add-cart" onclick="addToCartFromDetail()">Add to Cart</button> -->
+                                <button class="btn-buy-now" onclick="buyNow()" style="width: 100%;">Buy Now</button>
                             </div>
                         </div>
 
@@ -2013,7 +2015,10 @@
                 <span>Total</span>
                 <span class="cart-total-amount">$0.00</span>
             </div>
+            <!-- 购物车功能已隐藏 - 直接购买模式
             <button class="btn-checkout" onclick="window.location.href='checkout.html'">Checkout →</button>
+            -->
+            <button class="btn-checkout" onclick="alert('Please use Buy Now button on product page')">Direct Purchase Mode</button>
         </div>
     </div>
 
