@@ -20,70 +20,18 @@
             justify-content: center;
             z-index: 9999;
         }
-        
-        .taiji-container {
-            position: relative;
-            width: 120px;
-            height: 120px;
-            margin-bottom: 40px;
-        }
-        
-        .taiji {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background: linear-gradient(to bottom, #D4AF37 50%, #1a1a1a 50%);
-            position: relative;
-            animation: rotate 3s linear infinite;
-            box-shadow: 0 0 60px rgba(212, 175, 55, 0.3);
-        }
-        
-        .taiji::before,
-        .taiji::after {
-            content: '';
-            position: absolute;
-            width: 50%;
-            height: 50%;
-            border-radius: 50%;
-        }
-        
-        .taiji::before {
-            top: 0;
-            left: 25%;
-            background: #D4AF37;
-        }
-        
-        .taiji::after {
-            bottom: 0;
-            left: 25%;
-            background: #1a1a1a;
-        }
-        
-        .taiji-dot {
-            position: absolute;
-            width: 15%;
-            height: 15%;
-            border-radius: 50%;
-            z-index: 2;
-        }
-        
-        .taiji-dot.yin {
-            top: 18%;
-            left: 42.5%;
-            background: #1a1a1a;
-        }
-        
-        .taiji-dot.yang {
-            bottom: 18%;
-            left: 42.5%;
-            background: #D4AF37;
-        }
-        
-        @keyframes rotate {
+
+        @keyframes taiji-spin {
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
         }
-        
+
+        .taiji-svg {
+            animation: taiji-spin 6s linear infinite;
+            margin-bottom: 40px;
+            filter: drop-shadow(0 0 30px rgba(212, 175, 55, 0.3));
+        }
+
         .checkout-loading-text {
             color: #D4AF37;
             font-size: 1.5rem;
@@ -91,13 +39,13 @@
             margin-bottom: 16px;
             letter-spacing: 2px;
         }
-        
+
         .checkout-loading-subtext {
             color: rgba(245, 240, 230, 0.6);
             font-size: 0.95rem;
             margin-bottom: 32px;
         }
-        
+
         .checkout-progress {
             width: 200px;
             height: 2px;
@@ -106,35 +54,35 @@
             overflow: hidden;
             position: relative;
         }
-        
+
         .checkout-progress-bar {
             height: 100%;
             background: linear-gradient(90deg, #D4AF37, #F5E6C8);
             animation: progress 2s ease-in-out infinite;
         }
-        
+
         @keyframes progress {
             0% { width: 0%; left: 0; }
             50% { width: 100%; left: 0; }
             100% { width: 0%; left: 100%; }
         }
-        
+
         .checkout-error {
             display: none;
             text-align: center;
             padding: 40px;
         }
-        
+
         .checkout-error h3 {
             color: #e74c3c;
             margin-bottom: 16px;
         }
-        
+
         .checkout-error p {
             color: rgba(245, 240, 230, 0.7);
             margin-bottom: 24px;
         }
-        
+
         .checkout-error button {
             background: #D4AF37;
             color: #1a1a1a;
@@ -150,12 +98,13 @@
 <body>
     <!-- 直接购买模式 - 太极动画过渡页 -->
     <div id="directCheckoutMode" class="direct-checkout-mode" style="display: none;">
-        <div class="taiji-container">
-            <div class="taiji">
-                <div class="taiji-dot yin"></div>
-                <div class="taiji-dot yang"></div>
-            </div>
-        </div>
+        <svg class="taiji-svg" width="120" height="120" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="45" fill="#f0f0f0"/>
+            <path d="M50,5 A45,45 0 0,0 50,95 A22.5,22.5 0 0,1 50,50 A22.5,22.5 0 0,0 50,5 Z" fill="#111"/>
+            <circle cx="50" cy="27.5" r="7" fill="#f0f0f0"/>
+            <circle cx="50" cy="72.5" r="7" fill="#111"/>
+            <circle cx="50" cy="50" r="45" fill="none" stroke="#ccc" stroke-width="1"/>
+        </svg>
         <h2 class="checkout-loading-text">Redirecting to Secure Payment...</h2>
         <p class="checkout-loading-subtext">Please wait while we prepare your order</p>
         <div class="checkout-progress">
