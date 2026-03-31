@@ -263,9 +263,6 @@ window.initState = function() {
 
         // 初始化UI
         window.updateUIForVariant(currentVariant);
-
-        // 初始化总价
-        window.updateTotalPrice();
     }
 };
 
@@ -308,7 +305,6 @@ window.selectVariant = function(variantId) {
     if (variant) {
         currentVariant = variant;
         window.updateUIForVariant(variant);
-        window.updateTotalPrice();
     }
 };
 
@@ -356,25 +352,6 @@ window.updateUIForVariant = function(variant) {
         if (discountElement) discountElement.style.display = 'none';
         const originalPriceElement = document.getElementById('originalPrice');
         if (originalPriceElement) originalPriceElement.style.display = 'none';
-    }
-};
-
-// ============================================
-// Price Calculation
-// ============================================
-
-window.updateTotalPrice = function() {
-    if (!currentVariant) return;
-    
-    // 🔥 修复：使用正确的 HTML 元素 ID
-    const quantity = parseInt(document.getElementById('quantity')?.value) || 1;
-    const price = parseFloat(currentVariant.price) || 0;
-    const total = (price * quantity).toFixed(2);
-    
-    const totalElement = document.getElementById('totalPrice');
-    if (totalElement) {
-        totalElement.textContent = `$${total}`;
-        console.log('✅ Updated total price:', totalElement.textContent);
     }
 };
 
@@ -634,12 +611,6 @@ document.addEventListener('DOMContentLoaded', async function() {
     }
 
     // 5. 绑定事件监听器
-    const quantityInput = document.getElementById('quantity');
-    if (quantityInput) {
-        quantityInput.addEventListener('change', window.updateTotalPrice);
-        quantityInput.addEventListener('input', window.updateTotalPrice);
-    }
-
     // button onclick 属性已在 HTML 中绑定，无需这里再绑定
 
     console.log('✅ Event listeners bound');
