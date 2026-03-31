@@ -429,11 +429,6 @@ window.buyNow = async function() {
         productPrice = variant.price || 0;
     }
     
-    // 获取产品图片
-    const productImage = CARD_DATA.images && CARD_DATA.images.length > 0 
-        ? CARD_DATA.images[0] 
-        : (CARD_DATA.image || '');
-    
     console.log('⚡ buyNow:', { productId, productName, productPrice, quantity });
 
     // 显示加载状态
@@ -445,19 +440,21 @@ window.buyNow = async function() {
     }
 
     try {
+        // 构建 items 数组（API 期望的格式）
+        const items = [{
+            id: productId,
+            name: productName,
+            price: productPrice,
+            quantity: quantity
+        }];
+
         // 直接调用 Creem checkout API
         const response = await fetch('/api/create-checkout', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({
-                productId: productId,
-                quantity: quantity,
-                productName: productName,
-                productPrice: productPrice,
-                productImage: productImage
-            })
+            body: JSON.stringify({ items })
         });
 
         const data = await response.json();
