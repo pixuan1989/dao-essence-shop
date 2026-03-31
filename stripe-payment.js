@@ -87,7 +87,7 @@ async function handleStripePayment() {
 
     // 禁用按钮，显示加载状态
     payButton.disabled = true;
-    payButton.textContent = '正在跳转支付...';
+    payButton.textContent = 'Redirecting to Payment...';
 
     try {
         // 1. 获取购物车数据
