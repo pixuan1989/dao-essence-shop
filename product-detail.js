@@ -382,15 +382,24 @@ window.addToCartFromDetail = function() {
     }
 };
 
-// 预加载 Creem 支付域名（DNS 预解析），加速支付页打开
+// 预加载 + 预热：加速购买跳转
 (function() {
-    const links = ['https://checkout.creem.io', 'https://api.creem.io'];
-    links.forEach(url => {
+    // DNS 预解析 Creem 域名
+    ['https://checkout.creem.io', 'https://api.creem.io'].forEach(url => {
         const link = document.createElement('link');
         link.rel = 'prefetch';
         link.href = url;
         document.head.appendChild(link);
     });
+
+    // 预热 Vercel Serverless 函数，避免冷启动延迟（页面加载2秒后触发）
+    setTimeout(() => {
+        fetch('/api/create-checkout', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ __warmup: true })
+        }).catch(() => {}); // 静默失败，不影响用户体验
+    }, 2000);
 })();
 
 // 立即购买函数 - 直接调 Creem API 后跳转，无需中间页
