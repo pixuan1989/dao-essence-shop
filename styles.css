@@ -47,10 +47,10 @@
     --gradient-mystic: linear-gradient(135deg, #1A3A4A 0%, #2D5A3D 50%, #8B2500 100%);
     --gradient-gold: linear-gradient(135deg, #D4AF37 0%, #F4D03F 50%, #D4AF37 100%);
     
-    /* 字体 - Typography */
-    --font-display: 'Noto Serif SC', 'SimSun', 'STSong', serif;
-    --font-body: 'Noto Sans SC', 'Microsoft YaHei', sans-serif;
-    --font-english: 'Cinzel', 'Times New Roman', serif;
+    /* 字体 - Typography (系统字体栈，无需外部请求) */
+    --font-display: 'Georgia', 'Times New Roman', 'SimSun', 'STSong', serif;
+    --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft YaHei', 'PingFang SC', sans-serif;
+    --font-english: 'Georgia', 'Times New Roman', serif;
     
     /* 字号 */
     --text-xs: 0.75rem;
