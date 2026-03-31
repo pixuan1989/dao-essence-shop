@@ -457,7 +457,7 @@ function prewarmCreemPage(url) {
     console.log('🔥 Prewarming Creem page via iframe');
 }
 
-// 立即购买函数 - 优先使用缓存链接，0 等待跳转
+// 立即购买函数 - 点击后立即显示 loading，确保每次点击都有反馈
 window.buyNow = async function() {
     if (!CARD_DATA) {
         alert('Product data not loaded. Please refresh the page.');
@@ -468,22 +468,21 @@ window.buyNow = async function() {
     if (window._buying) return;
     window._buying = true;
 
+    // ✅ 立即显示 loading 动画（无论有没有缓存，给用户即时反馈）
     const buyBtn = document.querySelector('.btn-buy-now');
     const btnText = buyBtn?.querySelector('.btn-text');
-
-    // 有缓存 → 瞬间跳转，不需要 loading 动画
-    if (_cachedCheckoutUrl) {
-        console.log('⚡ buyNow - INSTANT redirect (cached)');
-        window.location.replace(_cachedCheckoutUrl);
-        return;
-    }
-
-    // 无缓存 → 显示 loading，等待正在进行的预创建
     if (buyBtn) buyBtn.classList.add('loading');
-    if (btnText) btnText.textContent = 'Preparing...';
+    if (btnText) btnText.textContent = 'Redirecting...';
 
     try {
-        // 如果预创建正在进行，等待它完成
+        // 有缓存 → 直接跳转
+        if (_cachedCheckoutUrl) {
+            console.log('⚡ buyNow - INSTANT redirect (cached)');
+            window.location.replace(_cachedCheckoutUrl);
+            return;
+        }
+
+        // 无缓存 → 等待正在进行的预创建
         if (_checkoutPromise) {
             console.log('⚡ buyNow - waiting for pending prefetch...');
             await _checkoutPromise;
@@ -496,6 +495,7 @@ window.buyNow = async function() {
 
         // 预创建也失败 → 实时创建（最慢路径）
         console.log('⚡ buyNow - creating checkout in real-time...');
+        if (btnText) btnText.textContent = 'Preparing...';
         const quantity = Math.max(1, parseInt(document.getElementById('quantity')?.value) || 1);
         const price = currentVariant?.price || CARD_DATA.variants?.[0]?.price || 0;
         const image = (CARD_DATA.images?.length > 0) ? CARD_DATA.images[0] : (CARD_DATA.image || '');
