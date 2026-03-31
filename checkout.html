@@ -369,11 +369,16 @@
                 
                 console.log('✅ Creem response:', data);
 
-                if (data.checkoutUrl) {
-                    // 立即跳转到 Creem 支付页
-                    console.log('🔗 Redirecting to:', data.checkoutUrl);
-                    window.location.href = data.checkoutUrl;
+                // 检查 API 是否返回了有效的 checkout URL
+                const checkoutUrl = data.checkoutUrl || data.checkout_url || data.url;
+                if (checkoutUrl) {
+                    // 强制跳转到 Creem 支付页（使用 replace 避免浏览器拦截）
+                    console.log('🔗 Redirecting to:', checkoutUrl);
+                    // 先移除 beforeunload 拦截器，防止阻止跳转
+                    window.onbeforeunload = null;
+                    window.location.replace(checkoutUrl);
                 } else {
+                    console.error('❌ No checkout URL in response:', data);
                     throw new Error(data.error || 'Failed to create checkout');
                 }
             } catch (error) {
@@ -419,8 +424,12 @@
         }
         updateTotals();
 
-        // 页面卸载时提示
+        // 页面卸载时提示（仅在正常结账模式下，直接购买模式不需要）
         window.addEventListener('beforeunload', function(e) {
+            // 直接购买模式下不拦截跳转
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('mode') === 'direct') return;
+            
             const payButton = document.getElementById('pay-button');
             if (payButton && payButton.disabled) {
                 e.returnValue = 'Payment is in progress. Are you sure you want to leave?';
