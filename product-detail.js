@@ -406,7 +406,7 @@ window.addToCartFromDetail = function() {
 };
 
 // 立即购买函数
-window.buyNow = async function() {
+window.buyNow = function() {
     if (!CARD_DATA) {
         console.error('❌ Cannot buy now: CARD_DATA not loaded');
         alert('Product data not loaded. Please refresh the page.');
@@ -429,50 +429,30 @@ window.buyNow = async function() {
         productPrice = variant.price || 0;
     }
     
-    console.log('⚡ buyNow:', { productId, productName, productPrice, quantity });
+    // 获取产品图片
+    const productImage = CARD_DATA.images && CARD_DATA.images.length > 0 
+        ? CARD_DATA.images[0] 
+        : (CARD_DATA.image || '');
 
-    // 显示加载状态
-    const btn = document.querySelector('.btn-buy-now');
-    const originalText = btn ? btn.textContent : 'Buy Now';
-    if (btn) {
-        btn.textContent = 'Processing...';
-        btn.disabled = true;
-    }
-
-    try {
-        // 构建 items 数组（API 期望的格式）
-        const items = [{
+    // 构建订单数据
+    const orderData = {
+        items: [{
             id: productId,
             name: productName,
             price: productPrice,
-            quantity: quantity
-        }];
+            quantity: quantity,
+            image: productImage
+        }],
+        total: productPrice * quantity
+    };
 
-        // 直接调用 Creem checkout API
-        const response = await fetch('/api/create-checkout', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ items })
-        });
+    console.log('⚡ buyNow - redirecting to checkout:', orderData);
 
-        const data = await response.json();
-
-        if (data.checkoutUrl) {
-            // 直接跳转到 Creem 支付页
-            window.location.href = data.checkoutUrl;
-        } else {
-            throw new Error(data.error || 'Failed to create checkout');
-        }
-    } catch (error) {
-        console.error('❌ Checkout error:', error);
-        alert('Payment initialization failed. Please try again.');
-        if (btn) {
-            btn.textContent = originalText;
-            btn.disabled = false;
-        }
-    }
+    // 保存订单数据到 sessionStorage，供 checkout 页面使用
+    sessionStorage.setItem('directOrder', JSON.stringify(orderData));
+    
+    // 跳转到 checkout.html（太极动画过渡页）
+    window.location.href = 'checkout.html?mode=direct';
 };
 
 // ============================================
