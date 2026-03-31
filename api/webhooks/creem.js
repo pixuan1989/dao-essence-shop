@@ -131,6 +131,53 @@ export default async function handler(req, res) {
 }
 
 /**
+ * 发送企业微信机器人通知
+ */
+async function sendWechatNotification(orderData) {
+    const webhookUrl = process.env.WECHAT_WEBHOOK_URL;
+    
+    if (!webhookUrl) {
+        console.log('⚠️ 未配置 WECHAT_WEBHOOK_URL，跳过微信通知');
+        return;
+    }
+
+    try {
+        const itemsText = orderData.items?.map(item => 
+            `• ${item.nameCn || item.name} x${item.quantity} ($${item.price})`
+        ).join('\n') || '未知商品';
+
+        const message = {
+            msgtype: 'markdown',
+            markdown: {
+                content: `🎉 **新订单到账！**\n\n` +
+                    `**订单号：** ${orderData.orderId}\n` +
+                    `**金额：** $${parseFloat(orderData.amount || 0).toFixed(2)} USD\n` +
+                    `**客户邮箱：** ${orderData.customerEmail || '未提供'}\n` +
+                    `**客户姓名：** ${orderData.customerName || '未提供'}\n` +
+                    `**下单时间：** ${new Date().toLocaleString('zh-CN')}\n\n` +
+                    `**购买商品：**\n${itemsText}\n\n` +
+                    `---\n` +
+                    `💡 客户将收到 Creem 的下载邮件，无需手动处理`
+            }
+        };
+
+        const response = await fetch(webhookUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(message)
+        });
+
+        if (response.ok) {
+            console.log('✅ 企业微信通知已发送');
+        } else {
+            console.error('⚠️ 微信通知发送失败:', await response.text());
+        }
+    } catch (error) {
+        console.error('⚠️ 微信通知发送失败:', error.message);
+    }
+}
+
+/**
  * 处理支付成功的逻辑
  * 支付完成后发送订单确认邮件给买家和商家
  */
@@ -145,6 +192,6 @@ async function handlePaymentSucceeded(orderData) {
     console.log('时间:', new Date().toISOString());
     console.log('================================');
 
-    // 不再发送邮件，地址信息在 Creem 后台查看
-    console.log('✅ 订单处理完成，地址信息请在 Creem 后台查看');
+    // 发送企业微信通知
+    await sendWechatNotification(orderData);
 }
