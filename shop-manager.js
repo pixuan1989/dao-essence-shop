@@ -220,7 +220,7 @@ style.textContent = `
 
     .shop-product-card:hover .product-action-hint {
         background: var(--primary-color, #D4AF37);
-        color: var(--bg-dark, #1a1a1a);
+        color: white;
         border-color: var(--primary-color, #D4AF37);
     }
 

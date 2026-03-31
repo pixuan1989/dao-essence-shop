@@ -339,7 +339,7 @@ window.updateUIForVariant = function(variant) {
         // 🔥 修复：更新"节省xxx美元"文字
         const savingsTextElement = document.getElementById('savingsText');
         if (savingsTextElement) {
-            savingsTextElement.textContent = `节省${savings.toFixed(2)}美元`;
+            savingsTextElement.textContent = `Save $${savings.toFixed(2)}`;
             savingsTextElement.style.display = 'block';
         }
     } else {
