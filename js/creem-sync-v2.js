@@ -25,10 +25,6 @@ const CACHE_CONFIG = {
   ttl: 5 * 60 * 1000 // 5分钟缓存
 };
 
-// 🔥 调试模式：强制清除缓存以获取最新数据
-localStorage.removeItem(CACHE_CONFIG.key);
-console.log('🧹 调试模式：已清除产品缓存，将从API重新加载');
-
 /**
  * 产品ID到分类的映射表
  * 用于覆盖Creem API返回的分类
@@ -124,7 +120,7 @@ function saveToCache(products) {
 /**
  * 从后端 API 拉取数据
  */
-async function fetchFromAPI(retries = 3) {
+async function fetchFromAPI(retries = 1) {
   for (let attempt = 1; attempt <= retries; attempt++) {
     try {
       console.log(`🌐 第 ${attempt}/${retries} 次尝试从 API 拉取数据...`);
@@ -149,9 +145,8 @@ async function fetchFromAPI(retries = 3) {
       console.warn(`❌ 第 ${attempt} 次尝试失败:`, error.message);
       
       if (attempt < retries) {
-        const delay = Math.pow(2, attempt - 1) * 1000; // 指数退避
-        console.log(`⏳ ${delay / 1000}秒后重试...`);
-        await new Promise(resolve => setTimeout(resolve, delay));
+        console.log(`⏳ 1秒后重试...`);
+        await new Promise(resolve => setTimeout(resolve, 1000));
       }
     }
   }

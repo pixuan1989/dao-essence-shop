@@ -1,3 +1,4 @@
 {
-  "buildCommand": "echo 'Build complete'"
+  "buildCommand": "echo 'Build complete'",
+  "regions": ["hkg1"]
 }
