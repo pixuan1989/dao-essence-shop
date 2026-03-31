@@ -131,36 +131,6 @@
             margin: 0 auto 2.5rem;
         }
 
-        /* Hero 播放按钮 — 纯白透明圆圈 */
-        .hero-play-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            border: none;
-            background: none;
-            padding: 0;
-            margin-top: 0.8rem;
-        }
-        .hero-play-circle {
-            width: 72px; height: 72px;
-            border-radius: 50%;
-            border: 2px solid rgba(255,255,255,0.75);
-            background: rgba(255,255,255,0.15);
-            display: flex; align-items: center; justify-content: center;
-            color: #fff;
-            transition: all 0.35s;
-            backdrop-filter: blur(6px);
-        }
-        .hero-play-circle svg {
-            margin-left: 4px; /* 视觉居中三角 */
-        }
-        .hero-play-btn:hover .hero-play-circle {
-            background: rgba(255,255,255,0.28);
-            border-color: #fff;
-            transform: scale(1.1);
-            box-shadow: 0 0 36px rgba(255,255,255,0.25);
-        }
 
         /* 模块分隔 Logo — 道字圆圈 */
         .section-dao-logo {
@@ -1067,15 +1037,8 @@
             <p class="eyebrow">The Science of Ancient Energy</p>
             <h1>Energy Principles<br><em>Ancient Wisdom</em></h1>
             <p>Five thousand years of Eastern wisdom distilled into one question: how do certain objects carry energy that enhances well-being? The answer lies in philosophy, lineage, and practice — not faith alone.</p>
-            <!-- 播放按钮已隐藏（暂无视频内容）
-            <button class="hero-play-btn" id="heroPlayBtn" aria-label="Watch preparation ceremony video">
-                <span class="hero-play-circle">
-                    <svg viewBox="0 0 24 24" width="24" height="24" fill="#fff">
-                        <polygon points="6,3 20,12 6,21"/>
-                    </svg>
-                </span>
-            </button>
-            -->
+
+
         </div>
     </section>
 
@@ -1666,11 +1629,6 @@
         }
 
         // Hero play button → 显示功能开发中提示
-        const heroPlayBtn = document.getElementById('heroPlayBtn');
-        if (heroPlayBtn) {
-            heroPlayBtn.addEventListener('click', showDevelopingHint);
-        }
-
         // Video play btn (Featured Video section) → 显示功能开发中提示
         const playBtn = document.querySelector('.play-btn');
         if (playBtn) {
