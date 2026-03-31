@@ -398,6 +398,7 @@ function prefetchCheckout() {
         total: price * quantity
     };
 
+    console.time('⚡ prefetchCheckout');
     _checkoutPromise = fetch('/api/create-checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -406,7 +407,18 @@ function prefetchCheckout() {
     .then(r => r.json())
     .then(data => {
         const url = data.checkoutUrl || data.checkout_url || data.url;
-        if (url) _cachedCheckoutUrl = url;
+        if (url) {
+            _cachedCheckoutUrl = url;
+            console.timeEnd('⚡ prefetchCheckout');
+            // 预加载 Creem 支付页到隐藏 iframe，让跳转时瞬间显示
+            const iframe = document.createElement('iframe');
+            iframe.style.cssText = 'width:0;height:0;border:none;position:absolute;';
+            iframe.src = url;
+            iframe.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-forms');
+            document.body.appendChild(iframe);
+            // 5秒后移除 iframe，释放内存
+            setTimeout(() => iframe.remove(), 5000);
+        }
         _checkoutPromise = null;
     })
     .catch(() => { _checkoutPromise = null; });
@@ -428,7 +440,9 @@ window.buyNow = async function() {
     if (buyBtn) buyBtn.classList.add('loading');
 
     try {
+        const t0 = performance.now();
         let checkoutUrl = _cachedCheckoutUrl;
+        console.log('⚡ buyNow - cached:', !!checkoutUrl);
 
         // 如果没有缓存链接，检查预创建是否正在进行中
         if (!checkoutUrl && _checkoutPromise) {
@@ -438,6 +452,7 @@ window.buyNow = async function() {
 
         // 如果还是没有（预创建失败或还没完成），实时创建
         if (!checkoutUrl) {
+            console.log('⚡ buyNow - no cache, creating realtime...');
             const quantity = Math.max(1, parseInt(document.getElementById('quantity')?.value) || 1);
             const price = currentVariant?.price || CARD_DATA.variants?.[0]?.price || 0;
             const image = (CARD_DATA.images?.length > 0) ? CARD_DATA.images[0] : (CARD_DATA.image || '');
@@ -446,8 +461,6 @@ window.buyNow = async function() {
                 items: [{ id: CARD_DATA.id, name: CARD_DATA.title || CARD_DATA.titleZh || 'Product', price, quantity, image }],
                 total: price * quantity
             };
-
-            console.log('⚡ buyNow - fallback to realtime checkout');
 
             const response = await fetch('/api/create-checkout', {
                 method: 'POST',
@@ -458,6 +471,8 @@ window.buyNow = async function() {
             const data = await response.json();
             checkoutUrl = data.checkoutUrl || data.checkout_url || data.url;
         }
+
+        console.log('⚡ buyNow - redirect took', Math.round(performance.now() - t0), 'ms');
 
         if (checkoutUrl) {
             window.location.replace(checkoutUrl);
