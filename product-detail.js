@@ -382,27 +382,37 @@ window.addToCartFromDetail = function() {
     }
 };
 
-// 预加载 + 预热：加速购买跳转
-(function() {
-    // DNS 预解析 Creem 域名
-    ['https://checkout.creem.io', 'https://api.creem.io'].forEach(url => {
-        const link = document.createElement('link');
-        link.rel = 'prefetch';
-        link.href = url;
-        document.head.appendChild(link);
-    });
+// 预创建 checkout 链接并缓存，让用户点击时 0 等待
+let _cachedCheckoutUrl = null;
+let _checkoutPromise = null;
 
-    // 预热 Vercel Serverless 函数，避免冷启动延迟（页面加载2秒后触发）
-    setTimeout(() => {
-        fetch('/api/create-checkout', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ __warmup: true })
-        }).catch(() => {}); // 静默失败，不影响用户体验
-    }, 2000);
-})();
+function prefetchCheckout() {
+    if (!CARD_DATA || _checkoutPromise) return;
 
-// 立即购买函数 - 直接调 Creem API 后跳转，无需中间页
+    const price = currentVariant?.price || CARD_DATA.variants?.[0]?.price || 0;
+    const image = (CARD_DATA.images?.length > 0) ? CARD_DATA.images[0] : (CARD_DATA.image || '');
+    const quantity = Math.max(1, parseInt(document.getElementById('quantity')?.value) || 1);
+
+    const orderData = {
+        items: [{ id: CARD_DATA.id, name: CARD_DATA.title || CARD_DATA.titleZh || 'Product', price, quantity, image }],
+        total: price * quantity
+    };
+
+    _checkoutPromise = fetch('/api/create-checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(orderData)
+    })
+    .then(r => r.json())
+    .then(data => {
+        const url = data.checkoutUrl || data.checkout_url || data.url;
+        if (url) _cachedCheckoutUrl = url;
+        _checkoutPromise = null;
+    })
+    .catch(() => { _checkoutPromise = null; });
+}
+
+// 立即购买函数 - 优先使用缓存链接，否则实时创建
 window.buyNow = async function() {
     if (!CARD_DATA) {
         alert('Product data not loaded. Please refresh the page.');
@@ -418,30 +428,41 @@ window.buyNow = async function() {
     if (buyBtn) buyBtn.classList.add('loading');
 
     try {
-        const quantity = Math.max(1, parseInt(document.getElementById('quantity')?.value) || 1);
-        const price = currentVariant?.price || CARD_DATA.variants?.[0]?.price || 0;
-        const image = (CARD_DATA.images?.length > 0) ? CARD_DATA.images[0] : (CARD_DATA.image || '');
+        let checkoutUrl = _cachedCheckoutUrl;
 
-        const orderData = {
-            items: [{ id: CARD_DATA.id, name: CARD_DATA.title || CARD_DATA.titleZh || 'Product', price, quantity, image }],
-            total: price * quantity
-        };
+        // 如果没有缓存链接，检查预创建是否正在进行中
+        if (!checkoutUrl && _checkoutPromise) {
+            await _checkoutPromise;
+            checkoutUrl = _cachedCheckoutUrl;
+        }
 
-        console.log('⚡ buyNow - calling Creem API:', orderData);
+        // 如果还是没有（预创建失败或还没完成），实时创建
+        if (!checkoutUrl) {
+            const quantity = Math.max(1, parseInt(document.getElementById('quantity')?.value) || 1);
+            const price = currentVariant?.price || CARD_DATA.variants?.[0]?.price || 0;
+            const image = (CARD_DATA.images?.length > 0) ? CARD_DATA.images[0] : (CARD_DATA.image || '');
 
-        const response = await fetch('/api/create-checkout', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(orderData)
-        });
+            const orderData = {
+                items: [{ id: CARD_DATA.id, name: CARD_DATA.title || CARD_DATA.titleZh || 'Product', price, quantity, image }],
+                total: price * quantity
+            };
 
-        const data = await response.json();
-        const checkoutUrl = data.checkoutUrl || data.checkout_url || data.url;
+            console.log('⚡ buyNow - fallback to realtime checkout');
+
+            const response = await fetch('/api/create-checkout', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(orderData)
+            });
+
+            const data = await response.json();
+            checkoutUrl = data.checkoutUrl || data.checkout_url || data.url;
+        }
 
         if (checkoutUrl) {
             window.location.replace(checkoutUrl);
         } else {
-            throw new Error(data.error || 'Failed to create checkout');
+            throw new Error('Failed to create checkout');
         }
     } catch (error) {
         console.error('❌ Buy now error:', error);
@@ -633,4 +654,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     // button onclick 属性已在 HTML 中绑定，无需这里再绑定
 
     console.log('✅ Event listeners bound');
+
+    // 6. 预创建 checkout 链接（用户看到产品页面时后台已完成支付准备）
+    setTimeout(prefetchCheckout, 1500);
 });
