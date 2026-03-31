@@ -382,6 +382,17 @@ window.addToCartFromDetail = function() {
     }
 };
 
+// 预加载 Creem 支付域名（DNS 预解析），加速支付页打开
+(function() {
+    const links = ['https://checkout.creem.io', 'https://api.creem.io'];
+    links.forEach(url => {
+        const link = document.createElement('link');
+        link.rel = 'prefetch';
+        link.href = url;
+        document.head.appendChild(link);
+    });
+})();
+
 // 立即购买函数 - 直接调 Creem API 后跳转，无需中间页
 window.buyNow = async function() {
     if (!CARD_DATA) {
@@ -392,6 +403,10 @@ window.buyNow = async function() {
     // 防止重复点击
     if (window._buying) return;
     window._buying = true;
+
+    // 显示 loading 状态
+    const buyBtn = document.querySelector('.btn-buy-now');
+    if (buyBtn) buyBtn.classList.add('loading');
 
     try {
         const quantity = Math.max(1, parseInt(document.getElementById('quantity')?.value) || 1);
@@ -423,6 +438,7 @@ window.buyNow = async function() {
         console.error('❌ Buy now error:', error);
         alert('Unable to connect to payment service. Please try again.');
         window._buying = false;
+        if (buyBtn) buyBtn.classList.remove('loading');
     }
 };
 

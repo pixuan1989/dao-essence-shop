@@ -718,6 +718,35 @@
         color: var(--bg-dark);
     }
 
+    .btn-buy-now.loading {
+        pointer-events: none;
+        opacity: 0.8;
+    }
+
+    .btn-buy-now .spinner {
+        display: none;
+        width: 18px;
+        height: 18px;
+        border: 2.5px solid rgba(232, 197, 71, 0.3);
+        border-top-color: var(--accent-color);
+        border-radius: 50%;
+        animation: btn-spin 0.6s linear infinite;
+        margin-right: 10px;
+        vertical-align: middle;
+    }
+
+    .btn-buy-now.loading .spinner {
+        display: inline-block;
+    }
+
+    .btn-buy-now.loading .btn-text {
+        opacity: 0.6;
+    }
+
+    @keyframes btn-spin {
+        to { transform: rotate(360deg); }
+    }
+
     .btn-wishlist {
         background: var(--bg-accent);
         border: 1px solid rgba(212, 175, 55, 0.2);
@@ -1676,7 +1705,7 @@
                         <div class="purchase-area">
                             <div class="action-buttons">
                                 <!-- <button class="btn-add-cart" onclick="addToCartFromDetail()">Add to Cart</button> -->
-                                <button class="btn-buy-now" onclick="buyNow()" style="width: 100%;">Buy Now</button>
+                                <button class="btn-buy-now" onclick="buyNow()" style="width: 100%;"><span class="spinner"></span><span class="btn-text">Buy Now</span></button>
                             </div>
                         </div>
 
