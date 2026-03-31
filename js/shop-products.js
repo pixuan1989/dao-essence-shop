@@ -152,12 +152,12 @@ function createCardCard(card) {
                     <p class="product-meta">材质: ${getMetafieldValue(card, 'material')}</p>
                 ` : ''}
                 
-                ${isAvailable && firstVariant ? `
-                    <button class="add-to-cart-btn" data-variant-id="${firstVariant.id}" data-product-title="${card.title}">
-                        加入购物车
-                    </button>
+                ${isAvailable ? `
+                    <a href="product-detail.html?product=${card.handle}" class="add-to-cart-btn">
+                        Buy Now
+                    </a>
                 ` : `
-                    <button class="add-to-cart-btn disabled" disabled>已售罄</button>
+                    <button class="add-to-cart-btn disabled" disabled>Sold Out</button>
                 `}
             </div>
         </div>
