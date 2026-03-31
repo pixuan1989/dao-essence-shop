@@ -417,8 +417,24 @@ window.buyNow = async function() {
     const quantityInput = document.getElementById('quantity');
     const quantity = Math.max(1, parseInt(quantityInput?.value) || 1);
 
-    const product = CARD_DATA;
-    console.log('⚡ buyNow: product=' + product.name + ', quantity=' + quantity);
+    // 获取产品数据 - CARD_DATA 结构适配
+    const productId = CARD_DATA.id;
+    const productName = CARD_DATA.title || CARD_DATA.titleZh || 'Product';
+    
+    // 从 variants 中获取价格，如果没有则使用默认值
+    let productPrice = 0;
+    if (CARD_DATA.variants && CARD_DATA.variants.length > 0) {
+        // 使用当前选中的 variant 或第一个 variant
+        const variant = currentVariant || CARD_DATA.variants[0];
+        productPrice = variant.price || 0;
+    }
+    
+    // 获取产品图片
+    const productImage = CARD_DATA.images && CARD_DATA.images.length > 0 
+        ? CARD_DATA.images[0] 
+        : (CARD_DATA.image || '');
+    
+    console.log('⚡ buyNow:', { productId, productName, productPrice, quantity });
 
     // 显示加载状态
     const btn = document.querySelector('.btn-buy-now');
@@ -436,11 +452,11 @@ window.buyNow = async function() {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                productId: product.id,
+                productId: productId,
                 quantity: quantity,
-                productName: product.name,
-                productPrice: product.price,
-                productImage: product.image
+                productName: productName,
+                productPrice: productPrice,
+                productImage: productImage
             })
         });
 
