@@ -392,6 +392,13 @@ let _checkoutPromise = null;
 let _prefetchRetries = 0;
 const MAX_PREFETCH_RETRIES = 2;
 
+// 🔥 页面加载时立即预热 Vercel Function（消除冷启动）
+fetch('/api/create-checkout', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ __warmup: true })
+}).catch(() => {}); // 静默失败，不影响任何东西
+
 function prefetchCheckout() {
     if (!CARD_DATA || _cachedCheckoutUrl) return;
 
@@ -541,6 +548,9 @@ document.addEventListener('DOMContentLoaded', async function() {
     if (!cardLoaded) {
         console.warn('⚠️ Failed to load card data, but continuing...');
     }
+
+    // 🔥 CARD_DATA 就绪后立即预创建 checkout（不等 UI 渲染）
+    prefetchCheckout();
 
     // 2. 初始化购物车数据
     if (typeof window.cart === 'undefined') {
@@ -710,7 +720,4 @@ document.addEventListener('DOMContentLoaded', async function() {
     // button onclick 属性已在 HTML 中绑定，无需这里再绑定
 
     console.log('✅ Event listeners bound');
-
-    // 6. 立即预创建 checkout 链接（不等延迟，确保用户点击前缓存已就绪）
-    prefetchCheckout();
 });
