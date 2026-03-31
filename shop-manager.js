@@ -153,9 +153,7 @@ window.renderShop = function() {
                 <div class="product-meta">
                     ${priceDisplay}
                 </div>
-                <button class="add-to-cart-btn" onclick="event.preventDefault(); event.stopPropagation(); addToCart('${product.id}')">
-                    <svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-right: 8px; vertical-align: middle;"><circle cx="9" cy="19" r="1"/><circle cx="17" cy="19" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L19 6H6"/></svg> Add to Cart
-                </button>
+                <div class="product-action-hint">Click to view details →</div>
             </div>
         </a>
     `;
@@ -203,6 +201,27 @@ style.textContent = `
         font-size: 22px;
         font-weight: 600;
         color: var(--fire-primary, #8B2500);
+    }
+
+    /* 点击查看详情提示 */
+    .product-action-hint {
+        width: 100%;
+        padding: 10px 16px;
+        text-align: center;
+        background: rgba(212, 175, 55, 0.08);
+        border: 1px solid rgba(212, 175, 55, 0.15);
+        border-radius: var(--radius-sm, 8px);
+        font-size: 13px;
+        color: var(--primary-color, #D4AF37);
+        letter-spacing: 0.05em;
+        margin-top: 12px;
+        transition: all var(--transition-fast, 0.2s);
+    }
+
+    .shop-product-card:hover .product-action-hint {
+        background: var(--primary-color, #D4AF37);
+        color: var(--bg-dark, #1a1a1a);
+        border-color: var(--primary-color, #D4AF37);
     }
 
     .add-to-cart-btn {
