@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BaZi Analysis Form | DAO Essence</title>
+    <meta name="description" content="Enter your birth information for personalized BaZi analysis and life guidance."/>
+    <link rel="canonical" href="https://www.daoessentia.com/bazi-form.html"/>
+    <meta name="robots" content="index, follow"/>
+    <link rel="stylesheet" href="styles.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <style>
+        /* 头部导航 */
+        .header {
+            background: rgba(245, 240, 230, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* 导航栏文字颜色 - 强制深色 */
+        .header .logo-cn,
+        .header .nav-link {
+            color: #2C2416 !important;
+        }
+
+        .header .logo-en {
+            color: #5C4A3A !important;
+        }
+
+        .header .logo-icon {
+            border-color: #D4AF37 !important;
+            color: #D4AF37 !important;
+        }
+
+        .header .nav-link::after {
+            background: #D4AF37 !important;
+        }
+
+        .header .nav-link:hover,
+        .header .nav-link.active {
+            color: #8B2500 !important;
+        }
+
+        .header .mobile-menu-btn span {
+            background: #2C2416 !important;
+        }
+
+        /* 表单样式 */
+        .bazi-form-section {
+            padding: 60px 0;
+            background: linear-gradient(135deg, #f8f4ed 0%, #ebe5d8 100%);
+        }
+
+        .form-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px;
+            background: white;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+        }
+
+        .form-title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-title h1 {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+        }
+
+        .form-title p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .bazi-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: var(--radius-sm);
+            font-size: 14px;
+            transition: all var(--transition-fast);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+        }
+
+        .form-note {
+            grid-column: 1 / -1;
+            padding: 15px;
+            background: #f8f9fa;
+            border-left: 4px solid var(--accent-color);
+            border-radius: var(--radius-sm);
+            margin-bottom: 20px;
+        }
+
+        .form-note p {
+            margin: 0;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .submit-btn {
+            grid-column: 1 / -1;
+            padding: 15px;
+            background: var(--accent-color);
+            color: var(--bg-dark);
+            border: none;
+            border-radius: var(--radius-sm);
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .submit-btn:hover {
+            background: #E8C547;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .form-container {
+                padding: 20px;
+            }
+
+            .bazi-form {
+                grid-template-columns: 1fr;
+            }
+
+            .form-title h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 头部导航 -->
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <a href="index.html" class="logo">
+                    <div class="logo-icon"></div>
+                    <div class="logo-text">
+                        <span class="logo-cn">DAO本质</span>
+                    </div>
+                </a>
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="nav-link">Home</a></li>
+                    <li><a href="culture.html" class="nav-link">Energy Universe</a></li>
+                    <li><a href="shop.html" class="nav-link active">Shop</a></li>
+                    <li><a href="guide.html" class="nav-link">Energy Principles</a></li>
+                    <li><a href="about.html" class="nav-link">About Us</a></li>
+                </ul>
+                <button class="mobile-menu-btn">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 八字信息表单 -->
+    <section class="bazi-form-section">
+        <div class="container">
+            <div class="form-container">
+                <div class="form-title">
+                    <h1>BaZi Analysis</h1>
+                    <p>Enter your birth information for personalized analysis and life guidance</p>
+                </div>
+                
+                <form class="bazi-form" id="baziForm">
+                    <div class="form-note">
+                        <p><strong>Important:</strong> Please provide accurate birth information for a precise analysis. Your information will be used only for generating your BaZi report.</p>
+                    </div>
+
+                    <!-- 出生日期 -->
+                    <div class="form-group">
+                        <label for="birthYear">Birth Year</label>
+                        <input type="number" id="birthYear" name="birthYear" min="1900" max="2026" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="birthMonth">Birth Month</label>
+                        <select id="birthMonth" name="birthMonth" required>
+                            <option value="">Select Month</option>
+                            <option value="1">January</option>
+                            <option value="2">February</option>
+                            <option value="3">March</option>
+                            <option value="4">April</option>
+                            <option value="5">May</option>
+                            <option value="6">June</option>
+                            <option value="7">July</option>
+                            <option value="8">August</option>
+                            <option value="9">September</option>
+                            <option value="10">October</option>
+                            <option value="11">November</option>
+                            <option value="12">December</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="birthDay">Birth Day</label>
+                        <input type="number" id="birthDay" name="birthDay" min="1" max="31" required>
+                    </div>
+
+                    <!-- 出生时间 -->
+                    <div class="form-group">
+                        <label for="birthHour">Birth Hour</label>
+                        <select id="birthHour" name="birthHour" required>
+                            <option value="">Select Hour</option>
+                            <option value="0">00:00</option>
+                            <option value="1">01:00</option>
+                            <option value="2">02:00</option>
+                            <option value="3">03:00</option>
+                            <option value="4">04:00</option>
+                            <option value="5">05:00</option>
+                            <option value="6">06:00</option>
+                            <option value="7">07:00</option>
+                            <option value="8">08:00</option>
+                            <option value="9">09:00</option>
+                            <option value="10">10:00</option>
+                            <option value="11">11:00</option>
+                            <option value="12">12:00</option>
+                            <option value="13">13:00</option>
+                            <option value="14">14:00</option>
+                            <option value="15">15:00</option>
+                            <option value="16">16:00</option>
+                            <option value="17">17:00</option>
+                            <option value="18">18:00</option>
+                            <option value="19">19:00</option>
+                            <option value="20">20:00</option>
+                            <option value="21">21:00</option>
+                            <option value="22">22:00</option>
+                            <option value="23">23:00</option>
+                        </select>
+                    </div>
+
+                    <!-- 出生地点 -->
+                    <div class="form-group full-width">
+                        <label for="birthPlace">Birth Place (City, Country)</label>
+                        <input type="text" id="birthPlace" name="birthPlace" required placeholder="e.g., New York, USA">
+                    </div>
+
+                    <!-- 性别 -->
+                    <div class="form-group">
+                        <label>Gender</label>
+                        <div style="display: flex; gap: 20px;">
+                            <label style="display: flex; align-items: center; font-weight: normal;">
+                                <input type="radio" name="gender" value="male" required style="margin-right: 5px;">
+                                Male
+                            </label>
+                            <label style="display: flex; align-items: center; font-weight: normal;">
+                                <input type="radio" name="gender" value="female" style="margin-right: 5px;">
+                                Female
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- 邮箱 -->
+                    <div class="form-group full-width">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" required placeholder="Your email address">
+                    </div>
+
+                    <!-- 其他信息 -->
+                    <div class="form-group full-width">
+                        <label for="notes">Additional Notes (Optional)</label>
+                        <input type="text" id="notes" name="notes" placeholder="Any specific areas you'd like us to focus on">
+                    </div>
+
+                    <!-- 提交按钮 -->
+                    <button type="submit" class="submit-btn">Continue to Payment</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <span class="logo-en">DAO ESSENCE</span>
+                    </div>
+                    <p>Ancient Wisdom, Modern Harmony. Based on authentic Eastern wisdom traditions, we offer digital wellness resources and energy tools with genuine cultural heritage.</p>
+                </div>
+                <div>
+                    <h4 class="footer-title">Navigation</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="culture.html">Energy Universe</a></li>
+                        <li><a href="shop.html">Digital Resources</a></li>
+                        <li><a href="shop.html">Digital Wellness Tools</a></li>
+                        <li><a href="guide.html">Energy Principles</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-title">Links</h4>
+                    <ul class="footer-links">
+                        <li style="margin-bottom:8px;display:block !important;">
+                            <div><a href="https://fatenet.cn/" target="_blank" rel="noopener">FateNet</a></div>
+                            <div style="font-size:12px;color:var(--text-secondary);margin-top:4px;line-height:1.4;">Chinese Fortune Telling<br>Find Your Soulmate Direction</div>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-title">Contact</h4>
+                    <ul class="footer-links">
+                        <li>
+                            <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle;margin-right:6px"><path d="M3 4h14a1 1 0 011 1v10a1 1 0 01-1 1H3a1 1 0 01-1-1V5a1 1 0 011-1z"/><path d="M3 5l7 6 7-6"/></svg>
+                            <a href="mailto:support@daoessentia.com">support@daoessentia.com</a>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style="vertical-align:middle;margin-right:6px;color:#D4AF37"><path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 0 0 .167-.054l1.903-1.114a.864.864 0 0 1 .717-.098 10.16 10.16 0 0 0 2.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348zM5.785 5.991c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178A1.17 1.17 0 0 1 4.623 7.17c0-.651.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178 1.17 1.17 0 0 1-1.162-1.178c0-.651.52-1.18 1.162-1.18zm5.34 2.867c-1.797-.052-3.746.512-5.28 1.786-1.72 1.428-2.687 3.72-1.78 6.22.942 2.453 3.666 4.229 6.884 4.229.826 0 1.622-.12 2.361-.336a.722.722 0 0 1 .598.082l1.584.926a.272.272 0 0 0 .14.047c.134 0 .24-.111.24-.247 0-.06-.023-.12-.038-.177l-.327-1.233a.582.582 0 0 1-.023-.156.49.49 0 0 1 .201-.398C23.024 18.48 24 16.82 24 14.98c0-3.21-2.931-5.837-7.062-6.122zm-3.957 3.467c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.969-.982zm4.844 0c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.969-.982z"/></svg>
+                            <a href="#" onclick="document.getElementById('wechat-modal').style.display='flex';return false;">WeChat</a>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle;margin-right:6px"><circle cx="10" cy="10" r="8"/><path d="M10 6v4l2.5 2.5"/></svg>
+                            Mon&ndash;Sat: 9AM&ndash;9PM (CST / UTC+8)
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 DAO Essence. All rights reserved. <a href="terms.html" style="color: var(--accent-color);">Terms & Conditions</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
+    <script>
+        // 表单提交处理
+        document.getElementById('baziForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // 收集表单数据
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+            
+            // 构建Creem支付链接
+            const creemProductId = 'prod_28PqAKMEom5WGRH1w9O35n';
+            const creemPaymentUrl = `https://www.creem.io/payment/${creemProductId}`;
+            
+            // 构建查询参数
+            const params = new URLSearchParams();
+            for (const [key, value] of Object.entries(data)) {
+                params.append(key, value);
+            }
+            
+            // 重定向到Creem支付页面
+            window.location.href = `${creemPaymentUrl}?${params.toString()}`;
+        });
+    </script>
+</body>
+</html>

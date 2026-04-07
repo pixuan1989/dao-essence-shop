@@ -1,6 +1,22 @@
 {
   "products": [
     {
+      "id": "bazi-analysis",
+      "name": "BaZi Analysis Report",
+      "nameCN": "八字分析报告",
+      "category": "bazi-analysis",
+      "element": "earth",
+      "price": 39.99,
+      "currency": "USD",
+      "description": "Personalized BaZi analysis report based on your birth information. Includes life path analysis, career guidance, relationship insights, and health recommendations. Delivered as a PDF via email within 48 hours.",
+      "descriptionCN": "基于您的出生信息的个性化八字分析报告。包含人生路径分析、职业指导、人际关系洞察和健康建议。48小时内通过电子邮件以PDF形式交付。",
+      "image": "images/08d5a4d436cd88b784060136ffdf1dde4be269a93235b-haaswB_fw1200webp.webp",
+      "stock": 999,
+      "benefits": ["Life Guidance", "Career Insights", "Relationship Analysis", "Health Recommendations"],
+      "energyLevel": "Very High",
+      "creemProductId": "prod_28PqAKMEom5WGRH1w9O35n"
+    },
+    {
       "id": "tai-sui-protection-token",
       "name": "Tai Sui Digital Energy Audio",
       "nameCN": "生肖太岁数字能量音频",
@@ -84,6 +100,11 @@
     }
   ],
   "categories": [
+    {
+      "id": "bazi-analysis",
+      "name": "BaZi Analysis",
+      "nameCN": "八字分析"
+    },
     {
       "id": "dao-meditation",
       "name": "Taoist Meditation",

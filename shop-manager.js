@@ -1,4 +1,4 @@
-﻿﻿// ============================================
+﻿// ============================================
 // Product Management & Display System
 // ============================================
 // ⚠️ 注意：必须定义在全局作用域（window），否则外部脚本无法访问
@@ -108,6 +108,7 @@ window.renderShop = function() {
     const grid = document.getElementById('productGrid');
     
     const categoryMap = {
+        'bazi-analysis': 'BaZi Analysis',
         'dao-meditation': 'Taoist Meditation',
         'dao-readings': 'Taoist Readings',
         'mythology-stories': 'Taoist Mythology',
@@ -135,8 +136,12 @@ window.renderShop = function() {
               `
             : `<div class="product-price">$${product.price.toFixed(2)}</div>`;
 
+        // 为八字分析产品添加特殊处理
+        const isBaziProduct = product.category === 'bazi-analysis';
+        const productLink = isBaziProduct ? 'bazi-form.html' : `product-detail.html?id=${product.id}`;
+
         return `
-        <a href="product-detail.html?id=${product.id}" class="shop-product-card" style="text-decoration: none; color: inherit; display: block;">
+        <a href="${productLink}" class="shop-product-card" style="text-decoration: none; color: inherit; display: block;">
             <div class="product-image-wrapper">
                 <img src="${product.image}" alt="${product.nameCN}" onerror="this.src='https://images.unsplash.com/photo-1519681393784-d120267933ba?w=600&h=600&fit=crop'">
                 <!-- 五行标签已注释掉
@@ -153,7 +158,7 @@ window.renderShop = function() {
                 <div class="product-meta">
                     ${priceDisplay}
                 </div>
-                <div class="product-action-hint">Click to view details →</div>
+                <div class="product-action-hint">${isBaziProduct ? 'Get Analysis →' : 'Click to view details →'}</div>
             </div>
         </a>
     `;
