@@ -5,7 +5,14 @@
     {
       "source": "/(.*)",
       "destination": "https://www.daoessentia.com/$1",
-      "permanent": true
+      "permanent": true,
+      "statusCode": 301,
+      "has": [
+        {
+          "type": "host",
+          "value": "dao-essence-shop.vercel.app"
+        }
+      ]
     }
   ]
 }
