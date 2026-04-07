@@ -530,66 +530,27 @@
         </div>
     </footer>
 
-    <script src="main.js"></script>
     <script>
-        // 表单提交处理
-        document.getElementById('baziForm').addEventListener('submit', async function(e) {
+        // 简化版本 - 直接使用测试模式的支付链接
+        document.getElementById('baziForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            // 显示加载状态
-            const submitBtn = this.querySelector('.submit-btn');
-            const originalText = submitBtn.textContent;
-            submitBtn.textContent = 'Processing...';
-            submitBtn.disabled = true;
+            // 收集表单数据
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
             
-            try {
-                // 收集表单数据
-                const formData = new FormData(this);
-                const data = Object.fromEntries(formData);
-                
-                // Creem API配置
-                const apiKey = 'creem_test_2niz3TDaFS828vk5XfPB1G';
-                const productId = 'prod_28PqAKMEom5WGRH1w9O35n';
-                const apiUrl = 'https://test-api.creem.io/v1/checkouts';
-                
-                // 构建请求数据
-                const requestData = {
-                    product_id: productId,
-                    success_url: 'https://www.daoessentia.com/success.html',
-                    cancel_url: 'https://www.daoessentia.com/shop.html',
-                    metadata: data // 将表单数据作为元数据传递
-                };
-                
-                // 发送请求创建结账会话
-                const response = await fetch(apiUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'x-api-key': apiKey
-                    },
-                    body: JSON.stringify(requestData)
-                });
-                
-                if (!response.ok) {
-                    throw new Error(`API request failed: ${response.status}`);
-                }
-                
-                // 解析响应
-                const result = await response.json();
-                
-                if (result.checkout_url) {
-                    // 重定向到Creem结账页面
-                    window.location.href = result.checkout_url;
-                } else {
-                    throw new Error('No checkout URL returned from API');
-                }
-            } catch (error) {
-                console.error('Error creating checkout session:', error);
-                alert('Error creating payment session. Please try again later.');
-                // 恢复按钮状态
-                submitBtn.textContent = originalText;
-                submitBtn.disabled = false;
+            // 构建查询参数
+            const params = new URLSearchParams();
+            // 添加测试模式参数
+            params.append('test_mode', 'true');
+            // 添加表单数据
+            for (const [key, value] of Object.entries(data)) {
+                params.append(key, value);
             }
+            
+            // 直接使用测试模式的支付链接
+            const creemPaymentUrl = 'https://www.creem.io/payment/prod_28PqAKMEom5WGRH1w9O35n';
+            window.location.href = `${creemPaymentUrl}?${params.toString()}`;
         });
     </script>
 </body>
