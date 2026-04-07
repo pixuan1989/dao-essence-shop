@@ -1,4 +1,4 @@
-﻿﻿﻿<!DOCTYPE html>  
+﻿﻿<!DOCTYPE html>  
 <html lang="en"> 
 <head> 
 <meta charset="UTF-8"> 
@@ -23,6 +23,18 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css">
 <script src="main.min.js?v=202604031200" defer></script>
 <script src="cart.min.js?v=202604031200"></script>
+<script>
+    // 检查是否是八字分析产品，如果是则重定向到八字表单页面
+    window.addEventListener('DOMContentLoaded', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const productId = urlParams.get('id');
+        
+        // 检查是否是八字分析产品
+        if (productId === 'prod_28PqAKMEom5WGRH1w9O35n') {
+            window.location.href = 'bazi-form.html';
+        }
+    });
+</script>
 <style>
     /* 购物车徽章样式 */
     .cart-badge {
