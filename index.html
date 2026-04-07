@@ -23,6 +23,13 @@
     <link rel="preload" href="styles.min.css?v=202604031200" as="style">
     <link rel="preload" href="main.min.js?v=202604031200" as="script">
     
+    <!-- 重定向Vercel默认域名到主域名 -->
+    <script>
+        if (window.location.hostname === 'dao-essence-shop.vercel.app') {
+            window.location.href = window.location.href.replace('dao-essence-shop.vercel.app', 'www.daoessentia.com');
+        }
+    </script>
+    
     <!-- 使用系统字体，避免外部字体加载阻塞 -->
     <style>
         /* 系统字体栈，无需外部请求 */
