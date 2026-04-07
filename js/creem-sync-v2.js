@@ -127,7 +127,15 @@ async function fetchFromAPI(retries = 1) {
     try {
       console.log(`🌐 第 ${attempt}/${retries} 次尝试从 API 拉取数据...`);
       
-      const response = await fetch('/api/products', {
+      // 检查是否在测试模式
+      const isTestMode = window.location.hostname === 'localhost' || window.location.hostname.includes('test');
+      console.log(`🔧 测试模式: ${isTestMode}`);
+      
+      // 根据测试模式选择API端点
+      const apiUrl = isTestMode ? '/api/test-products' : '/api/products';
+      console.log(`🔗 使用 API 端点: ${apiUrl}`);
+      
+      const response = await fetch(apiUrl, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'
