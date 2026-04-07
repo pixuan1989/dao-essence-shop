@@ -137,7 +137,7 @@ window.renderShop = function() {
             : `<div class="product-price">$${product.price.toFixed(2)}</div>`;
 
         // 为八字分析产品添加特殊处理
-        const isBaziProduct = product.category === 'bazi-analysis';
+        const isBaziProduct = product.category === 'bazi-analysis' || product.id === 'bazi-analysis' || product.name.includes('BaZi') || product.nameCN.includes('八字');
         const productLink = isBaziProduct ? 'bazi-form.html' : `product-detail.html?id=${product.id}`;
 
         return `
