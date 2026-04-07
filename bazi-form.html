@@ -542,16 +542,18 @@
             
             // 构建Creem支付链接
             const creemProductId = 'prod_28PqAKMEom5WGRH1w9O35n';
-            // 使用测试模式的支付链接
-            const creemPaymentUrl = `https://www.creem.io/payment/${creemProductId}?test_mode=true`;
             
             // 构建查询参数
             const params = new URLSearchParams();
+            // 添加测试模式参数
+            params.append('test_mode', 'true');
+            // 添加表单数据
             for (const [key, value] of Object.entries(data)) {
                 params.append(key, value);
             }
             
             // 重定向到Creem支付页面
+            const creemPaymentUrl = `https://www.creem.io/payment/${creemProductId}`;
             window.location.href = `${creemPaymentUrl}?${params.toString()}`;
         });
     </script>
