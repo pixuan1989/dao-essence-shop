@@ -542,7 +542,8 @@
             
             // 构建Creem支付链接
             const creemProductId = 'prod_28PqAKMEom5WGRH1w9O35n';
-            const creemPaymentUrl = `https://www.creem.io/payment/${creemProductId}`;
+            // 使用测试模式的支付链接
+            const creemPaymentUrl = `https://www.creem.io/payment/${creemProductId}?test_mode=true`;
             
             // 构建查询参数
             const params = new URLSearchParams();
