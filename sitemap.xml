@@ -4,7 +4,7 @@
     
     <!-- Home Page -->
     <url>
-        <loc>https://daoessence.com/</loc>
+        <loc>https://www.daoessentia.com/</loc>
         <lastmod>2026-04-01</lastmod>
         <changefreq>weekly</changefreq>
         <priority>1.0</priority>
@@ -12,7 +12,7 @@
     
     <!-- Shop Page -->
     <url>
-        <loc>https://daoessence.com/shop.html</loc>
+        <loc>https://www.daoessentia.com/shop.html</loc>
         <lastmod>2026-03-29</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.9</priority>
@@ -20,7 +20,7 @@
 
     <!-- Blog Index -->
     <url>
-        <loc>https://daoessence.com/blog/</loc>
+        <loc>https://www.daoessentia.com/blog/</loc>
         <lastmod>2026-03-29</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
@@ -28,7 +28,7 @@
     
     <!-- Culture / Five Elements Page -->
     <url>
-        <loc>https://daoessence.com/culture.html</loc>
+        <loc>https://www.daoessentia.com/culture.html</loc>
         <lastmod>2026-03-29</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
@@ -36,7 +36,7 @@
     
     <!-- Guide Page -->
     <url>
-        <loc>https://daoessence.com/guide.html</loc>
+        <loc>https://www.daoessentia.com/guide.html</loc>
         <lastmod>2026-03-29</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
@@ -44,7 +44,7 @@
 
     <!-- About Page -->
     <url>
-        <loc>https://daoessence.com/about.html</loc>
+        <loc>https://www.daoessentia.com/about.html</loc>
         <lastmod>2026-03-29</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.6</priority>
@@ -52,7 +52,7 @@
 
     <!-- Contact Page -->
     <url>
-        <loc>https://daoessence.com/contact.html</loc>
+        <loc>https://www.daoessentia.com/contact.html</loc>
         <lastmod>2026-03-29</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.5</priority>
@@ -60,7 +60,7 @@
 
     <!-- Product Detail Pages (via Creem IDs) -->
     <url>
-        <loc>https://daoessence.com/product-detail.html?id=prod_3btZfL4MwsO2xSr7AB3J8S</loc>
+        <loc>https://www.daoessentia.com/product-detail.html?id=prod_3btZfL4MwsO2xSr7AB3J8S</loc>
         <lastmod>2026-03-29</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
@@ -72,24 +72,24 @@
 
     <!-- Agarwood Meditation Audio -->
     <url>
-        <loc>https://daoessence.com/product-detail.html?id=natural-agarwood</loc>
+        <loc>https://www.daoessentia.com/product-detail.html?id=natural-agarwood</loc>
         <lastmod>2026-03-29</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
         <image:image>
-            <image:loc>https://daoessence.com/images/efd651724cd482a4d5c81552b23cb20253ea84311d64e5-9twrMQ_fw1200webp.webp</image:loc>
+            <image:loc>https://www.daoessentia.com/images/efd651724cd482a4d5c81552b23cb20253ea84311d64e5-9twrMQ_fw1200webp.webp</image:loc>
             <image:title>Agarwood Meditation Audio Collection - Five Elements Wood Energy</image:title>
         </image:image>
     </url>
 
     <!-- Five Elements Energy Audio -->
     <url>
-        <loc>https://daoessence.com/product-detail.html?id=custom-protection-token</loc>
+        <loc>https://www.daoessentia.com/product-detail.html?id=custom-protection-token</loc>
         <lastmod>2026-04-01</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
         <image:image>
-            <image:loc>https://daoessence.com/images/08d5a4d436cd88b784060136ffdf1dde4be269a93235b-haaswB_fw1200webp.webp</image:loc>
+            <image:loc>https://www.daoessentia.com/images/08d5a4d436cd88b784060136ffdf1dde4be269a93235b-haaswB_fw1200webp.webp</image:loc>
             <image:title>Five Elements Energy Audio Collection - Complete Taoist Meditation Set</image:title>
         </image:image>
     </url>
