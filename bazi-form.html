@@ -531,7 +531,7 @@
     </footer>
 
     <script>
-        // 使用标准Creem支付链接，添加测试模式参数
+        // 使用测试模式的Creem支付链接
         document.getElementById('baziForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
@@ -541,16 +541,13 @@
             
             // 构建查询参数
             const params = new URLSearchParams();
-            // 添加测试模式参数
-            params.append('test', '1');
-            params.append('test_mode', 'true');
             // 添加表单数据
             for (const [key, value] of Object.entries(data)) {
                 params.append(key, value);
             }
             
-            // 使用标准Creem支付链接
-            const creemPaymentUrl = 'https://www.creem.io/payment/prod_28PqAKMEom5WGRH1w9O35n';
+            // 使用测试模式的Creem支付链接
+            const creemPaymentUrl = 'https://www.creem.io/test/payment/prod_28PqAKMEom5WGRH1w9O35n';
             const fullUrl = `${creemPaymentUrl}?${params.toString()}`;
             console.log('Payment URL:', fullUrl);
             window.location.href = fullUrl;
