@@ -1,4 +1,4 @@
-﻿/**
+/**
  * ✅ Creem API 实时同步脚本 v2.0
  * 
  * 功能：
@@ -53,6 +53,8 @@ const FALLBACK_PRODUCTS = [
  * 用于覆盖Creem API返回的分类
  */
 const PRODUCT_CATEGORY_MAP = {
+  // 八字分析类
+  'prod_28PqAKMEom5WGRH1w9O35n': 'bazi-analysis',       // 八字分析报告
   // 道家冥想类
   'prod_7i2asEAuHFHl5hJMeCEsfB': 'dao-meditation',      // 沉香冥想音频
   'prod_1YuuAVysoYK6AOmQVab2uR': 'dao-meditation',      // 五行能量音频
