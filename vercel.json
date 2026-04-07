@@ -6,7 +6,6 @@
       "source": "/(.*)",
       "destination": "https://www.daoessentia.com/$1",
       "permanent": true,
-      "statusCode": 301,
       "has": [
         {
           "type": "host",
