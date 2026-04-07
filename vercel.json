@@ -1,17 +1,4 @@
 {
   "buildCommand": "echo 'Build complete'",
-  "outputDirectory": ".",
-  "redirects": [
-    {
-      "source": "/(.*)",
-      "destination": "https://www.daoessentia.com/$1",
-      "permanent": true,
-      "has": [
-        {
-          "type": "host",
-          "value": "dao-essence-shop.vercel.app"
-        }
-      ]
-    }
-  ]
+  "outputDirectory": "."
 }
