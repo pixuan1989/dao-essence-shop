@@ -76,8 +76,8 @@ export default async function handler(req, res) {
             return res.status(400).json({ error: 'Missing birth info' });
         }
 
-        // 测试模式判断
-        const isTestMode = process.env.CREEM_TEST_MODE === 'true' || req.body?.test_mode === true;
+        // 测试模式判断（支持多种格式：'true'、true、'1'、1）
+        const isTestMode = ['true', '1'].includes(String(process.env.CREEM_TEST_MODE).toLowerCase()) || req.body?.test_mode === true;
 
         // 🔥 获取正确的产品 ID（考虑测试模式映射）
         const mappedProductId = getBaziProductId(product_id, isTestMode);
