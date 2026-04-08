@@ -101,8 +101,8 @@ export default async function handler(req, res) {
             return res.status(400).json({ error: 'Invalid items' });
         }
 
-        // 测试模式：优先使用 CREEM_TEST_MODE 环境变量，也可由请求传入 test_mode 参数
-        const isTestMode = process.env.CREEM_TEST_MODE === 'true' || req.body?.test_mode === true;
+        // 🔥 测试模式判断（支持多种格式：'true'、true、'1'、1）
+        const isTestMode = ['true', '1'].includes(String(process.env.CREEM_TEST_MODE).toLowerCase()) || req.body?.test_mode === true;
         
         const apiKey = isTestMode
             ? (process.env.CREEM_TEST_API_KEY?.trim() || process.env.CREEM_API_KEY?.trim())
@@ -118,7 +118,15 @@ export default async function handler(req, res) {
             console.error('环境变量缺失: CREEM_API_KEY');
             return res.status(500).json({ error: '支付系统配置错误' });
         }
-        
+
+        // 🔥 调试：打印环境变量值
+        console.log('========== 环境变量调试 ==========');
+        console.log('CREEM_TEST_MODE:', process.env.CREEM_TEST_MODE);
+        console.log('CREEM_TEST_MODE (类型):', typeof process.env.CREEM_TEST_MODE);
+        console.log('CREEM_TEST_MODE (String):', String(process.env.CREEM_TEST_MODE));
+        console.log('isTestMode (判断结果):', isTestMode);
+        console.log('======================================');
+
         console.log(`💳 支付模式: ${isTestMode ? '🧪 测试模式' : '🚀 生产模式'} | API: ${creemApiBase}`);
 
         // 根据购物车产品动态获取 Creem Product ID
@@ -155,6 +163,15 @@ export default async function handler(req, res) {
             creemCheckoutData.discount_code = useDiscountCode;
         }
 
+        // 🔥 调试：打印请求详情
+        console.log('========== Creem API 请求详情 ==========');
+        console.log(`📤 URL: ${creemApiBase}/checkouts`);
+        console.log(`📤 Method: POST`);
+        console.log(`📤 API Key (前15位): ${apiKey.substring(0, 15)}...`);
+        console.log(`📤 请求体 (JSON):`);
+        console.log(JSON.stringify(creemCheckoutData, null, 2));
+        console.log('======================================');
+
         // 调用 Creem API（根据模式使用不同端点）
         const response = await fetch(`${creemApiBase}/checkouts`, {
             method: 'POST',
@@ -166,6 +183,13 @@ export default async function handler(req, res) {
         });
 
         const result = await response.json();
+
+        // 🔥 调试：打印响应详情
+        console.log('========== Creem API 响应详情 ==========');
+        console.log(`📥 Status: ${response.status}`);
+        console.log(`📥 响应 (JSON):`);
+        console.log(JSON.stringify(result, null, 2));
+        console.log('======================================');
 
         if (!response.ok) {
             console.error('Creem API 错误:', result.error || result.message);
