@@ -100,32 +100,64 @@ export default async function handler(req, res) {
             request_id: orderId
         };
 
-        if (useDiscountCode) {
-            creemCheckoutData.discount_code = useDiscountCode;
+        // 🔥 折扣码策略：先不带折扣码创建 checkout，如果 Creem 返回折扣相关错误再重试
+        // 这样避免无效折扣码导致整个支付失败
+        const shouldTryDiscount = !!useDiscountCode;
+        console.log(`🏷️ 折扣码状态: ${shouldTryDiscount ? '有折扣码 ' + useDiscountCode + '（将先不带折扣码尝试）' : '无折扣码'}`);
+
+        // 第一阶段：不带折扣码创建 checkout
+        let response, result;
+        try {
+            response = await fetch(`${creemApiBase}/checkouts`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-api-key': apiKey
+                },
+                body: JSON.stringify(creemCheckoutData)
+            });
+            result = await response.json();
+        } catch (fetchError) {
+            console.error('❌ Creem API 网络错误:', fetchError.message);
+            return res.status(500).json({ error: '支付服务网络错误，请稍后再试' });
         }
 
-        // 🔥 调试：打印请求详情
-        console.log('========== Creem API 请求详情 ==========');
-        console.log(`📤 URL: ${creemApiBase}/checkouts`);
-        console.log(`📤 Method: POST`);
-        console.log(`📤 API Key (前15位): ${apiKey.substring(0, 15)}...`);
-        console.log(`📤 请求体 (JSON):`);
-        console.log(JSON.stringify(creemCheckoutData, null, 2));
-        console.log('======================================');
+        // 🔥 如果第一阶段成功，尝试带折扣码（如果有折扣码的话）
+        if (response.ok && shouldTryDiscount) {
+            console.log('✅ 不带折扣码创建成功，尝试带折扣码:', useDiscountCode);
+            const discountCheckoutData = { ...creemCheckoutData, discount_code: useDiscountCode };
+            try {
+                const discountResponse = await fetch(`${creemApiBase}/checkouts`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-api-key': apiKey
+                    },
+                    body: JSON.stringify(discountCheckoutData)
+                });
+                const discountResult = await discountResponse.json();
 
-        // 调用 Creem API（根据模式使用不同端点）
-        const response = await fetch(`${creemApiBase}/checkouts`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'x-api-key': apiKey
-            },
-            body: JSON.stringify(creemCheckoutData)
-        });
+                if (discountResponse.ok && discountResult.checkout_url) {
+                    console.log('✅ 带折扣码创建成功，使用折扣价');
+                    console.log('========== Creem API 响应详情（含折扣）==========');
+                    console.log(`📥 Status: ${discountResponse.status}`);
+                    console.log(`📥 响应 (JSON):`);
+                    console.log(JSON.stringify(discountResult, null, 2));
+                    console.log('======================================');
+                    return res.status(200).json({
+                        success: true,
+                        checkoutUrl: discountResult.checkout_url,
+                        orderId: orderId
+                    });
+                } else {
+                    console.warn('⚠️ 折扣码无效，使用原价:', discountResult.error || discountResult.message);
+                }
+            } catch (discountFetchError) {
+                console.warn('⚠️ 折扣码请求失败，使用原价:', discountFetchError.message);
+            }
+        }
 
-        const result = await response.json();
-
-        // 🔥 调试：打印响应详情
+        // 使用第一阶段（不带折扣码）的结果
         console.log('========== Creem API 响应详情 ==========');
         console.log(`📥 Status: ${response.status}`);
         console.log(`📥 响应 (JSON):`);
