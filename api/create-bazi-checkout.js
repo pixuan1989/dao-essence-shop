@@ -75,13 +75,8 @@ export default async function handler(req, res) {
             success_url: successUrl,
             request_id: orderId,
 
-            // 【官方推荐】客户信息用 customer 对象包起来
-            customer: {
-                ...(email && { email: email }),
-                ...(name && { name: name })
-            },
-
             // 【关键】八字数据写入 metadata —— webhook 会收到
+            // 注意：先测试不加 customer 对象，避免字段冲突
             metadata: {
                 order_id: orderId,
                 product_type: 'bazi_analysis',
