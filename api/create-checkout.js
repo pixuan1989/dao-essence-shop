@@ -10,11 +10,22 @@
  * 测试模式产品 ID 映射（测试环境）
  * 填入你在 Creem 测试后台创建的测试产品 ID
  * 访问：https://creem.io/dashboard (切换到 Test Mode) → Products
- * 如果没有测试产品，任意产品 ID 均会映射到 CREEM_TEST_PRODUCT_ID 环境变量（如有设置）
+ * Key: 生产环境的产品 ID
+ * Value: 测试环境的产品 ID
  */
 const CREEM_TEST_PRODUCT_MAP = {
-    // 用环境变量 CREEM_TEST_PRODUCT_ID 覆盖，或在此处填入测试产品 ID
-    // 示例：'prod_7i2asEAuHFHl5hJMeCEsfB': 'test_prod_xxxxxxxx'
+    // Bazi Life Guidance (八字商品)
+    'prod_1Qp72f3fXnLkKoLvdyMaLw': 'prod_1Qp72f3fXnLkKoLvdyMaLw',
+    // Taoist Music (道家冥想音频)
+    'prod_45v7a05ZjqA9a1LVq0o0g3': 'prod_5UZbtblZ9pRGRl0J2oOHPF',
+    // Tao Te Ching (道德经)
+    'prod_26987QrSoIC3ui76ill96H': 'prod_26987QrSoIC3ui76ill96H', // 待更新
+    // Lord of Mysteries (诡秘之主)
+    'prod_3btZfL4MwsO2xSr7AB3J8S': 'prod_3btZfL4MwsO2xSr7AB3J8S', // 待更新
+    // Agarwood Energy Cleansing (沉香冥想音频)
+    'prod_7i2asEAuHFHl5hJMeCEsfB': 'prod_7i2asEAuHFHl5hJMeCEsfB', // 待更新
+    // Five Elements Energy (五行能量音频合集)
+    'prod_1YuuAVysoYK6AOmQVab2uR': 'prod_1YuuAVysoYK6AOmQVab2uR', // 待更新
 };
 
 
@@ -24,8 +35,9 @@ const CREEM_TEST_PRODUCT_MAP = {
  * @param {boolean} isTestMode - 是否为测试模式
  * @returns {string|null} Creem Product ID
  *
- * 注意：前端传来的 items[0].id 本身就是 Creem Product ID（从 Creem API 直接获取）
- * 因此无需映射，直接返回即可
+ * 逻辑：
+ * - 生产模式：直接使用前端传来的 Creem Product ID
+ * - 测试模式：使用 CREEM_TEST_PRODUCT_MAP 映射，映射到测试环境的产品 ID
  */
 function getCreemProductId(items, isTestMode = false) {
     if (!items || items.length === 0) return null;
@@ -33,9 +45,25 @@ function getCreemProductId(items, isTestMode = false) {
     const firstItem = items[0];
     const creemProductId = firstItem.id;
 
-    // 🔥 修复：无论测试模式还是生产模式，都直接使用前端传来的 Creem Product ID
-    // 这样可以避免测试模式下所有商品都映射到同一个产品 ID 的问题
-    console.log(`${isTestMode ? '🧪 测试模式' : '🚀 生产模式'}: 使用 Creem Product ID: ${creemProductId} (${firstItem.name})`);
+    // 测试模式：使用测试产品映射
+    if (isTestMode) {
+        const testProductId = CREEM_TEST_PRODUCT_MAP[creemProductId];
+        if (testProductId) {
+            console.log(`🧪 测试模式: ${creemProductId} (${firstItem.name}) → ${testProductId}`);
+            return testProductId;
+        }
+        // 如果映射表没有，回退到默认的 CREEM_TEST_PRODUCT_ID
+        const fallbackTestId = process.env.CREEM_TEST_PRODUCT_ID;
+        if (fallbackTestId) {
+            console.warn(`⚠️ 测试模式未找到映射，使用默认: ${creemProductId} → ${fallbackTestId}`);
+            return fallbackTestId;
+        }
+        console.warn(`⚠️ 测试模式未配置该产品: ${creemProductId}`);
+        return creemProductId;
+    }
+
+    // 生产模式：直接使用前端传来的 Creem Product ID
+    console.log(`🚀 生产模式: 使用 Creem Product ID: ${creemProductId} (${firstItem.name})`);
     return creemProductId;
 }
 
