@@ -7,27 +7,6 @@
  */
 
 /**
- * 产品 ID 到 Creem Product ID 的映射（生产环境）
- * 注意：key 是购物车中使用的 ID（即 Creem Product ID），value 也是 Creem Product ID
- * 这样设计是因为前端直接使用 Creem ID 作为产品标识
- */
-const CREEM_PRODUCT_MAP = {
-    // 沉香冥想音频
-    'prod_7i2asEAuHFHl5hJMeCEsfB': 'prod_7i2asEAuHFHl5hJMeCEsfB',
-    // 五行能量音频合集
-    'prod_1YuuAVysoYK6AOmQVab2uR': 'prod_1YuuAVysoYK6AOmQVab2uR',
-    // Lord of Mysteries 小说
-    'prod_3btZfL4MwsO2xSr7AB3J8S': 'prod_3btZfL4MwsO2xSr7AB3J8S',
-    // 道德经
-    'prod_26987QrSoIC3ui76ill96H': 'prod_26987QrSoIC3ui76ill96H',
-    // 新增道家冥想产品
-    'prod_45v7a05ZjqA9a1LVq0o0g3': 'prod_45v7a05ZjqA9a1LVq0o0g3',
-    // 待配置的产品（请在 Creem 后台创建后填入）
-    'prod_xxx_taisui': 'prod_xxx_taisui',
-    'prod_xxx_obsidian': 'prod_xxx_obsidian'
-};
-
-/**
  * 测试模式产品 ID 映射（测试环境）
  * 填入你在 Creem 测试后台创建的测试产品 ID
  * 访问：https://creem.io/dashboard (切换到 Test Mode) → Products
@@ -44,35 +23,30 @@ const CREEM_TEST_PRODUCT_MAP = {
  * @param {Array} items - 购物车商品列表
  * @param {boolean} isTestMode - 是否为测试模式
  * @returns {string|null} Creem Product ID
+ *
+ * 注意：前端传来的 items[0].id 本身就是 Creem Product ID（从 Creem API 直接获取）
+ * 因此无需映射，直接返回即可
  */
 function getCreemProductId(items, isTestMode = false) {
     if (!items || items.length === 0) return null;
-    
+
     const firstItem = items[0];
-    const localProductId = firstItem.id;
-    
+    const creemProductId = firstItem.id;
+
     if (isTestMode) {
-        // 测试模式：先查测试映射表，没有则用 CREEM_TEST_PRODUCT_ID 环境变量兜底
-        const testId = CREEM_TEST_PRODUCT_MAP[localProductId] || process.env.CREEM_TEST_PRODUCT_ID;
+        // 测试模式：优先使用 CREEM_TEST_PRODUCT_ID 环境变量
+        const testId = process.env.CREEM_TEST_PRODUCT_ID;
         if (testId) {
-            console.log(`🧪 测试产品映射: ${localProductId} → ${testId}`);
+            console.log(`🧪 测试产品映射: ${creemProductId} → ${testId}`);
             return testId;
         }
-        // 没有测试产品 ID 配置时，直接用原始 ID（让 Creem 测试 API 返回具体错误）
-        console.warn(`⚠️ 测试模式下未配置测试产品 ID，使用原始 ID: ${localProductId}`);
-        console.warn(`   请在 Vercel 控制台添加 CREEM_TEST_PRODUCT_ID 环境变量（测试模式产品 ID）`);
-        return localProductId;
+        console.warn(`⚠️ 测试模式下未配置 CREEM_TEST_PRODUCT_ID，使用原始 ID: ${creemProductId}`);
+        return creemProductId;
     }
 
-    // 生产模式
-    const creemId = CREEM_PRODUCT_MAP[localProductId];
-    if (!creemId || creemId.startsWith('prod_xxx_')) {
-        console.warn(`⚠️ 产品 "${localProductId}" 未配置 Creem Product ID，请检查 CREEM_PRODUCT_MAP`);
-        return localProductId;
-    }
-    
-    console.log(`✅ 产品映射: ${localProductId} → ${creemId}`);
-    return creemId;
+    // 生产模式：直接使用前端传来的 Creem Product ID
+    console.log(`✅ 使用 Creem Product ID: ${creemProductId}`);
+    return creemProductId;
 }
 
 /**
