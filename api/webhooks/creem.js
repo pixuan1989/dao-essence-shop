@@ -68,23 +68,41 @@ export default async function handler(req, res) {
             case 'checkout.completed':
                 const checkout = event.data;
                 console.log('✅ Checkout completed:', checkout.id);
-                
+                console.log('📦 Webhook 原始数据:', JSON.stringify(event.data, null, 2));
+                console.log('📋 Metadata 完整内容:', JSON.stringify(checkout.metadata, null, 2));
+
                 // 解析订单信息
                 const metadata = checkout.metadata || {};
                 const orderId = metadata.order_id || checkout.id;
                 const customerEmail = metadata.customer_email || checkout.customer?.email;
                 const customerName = metadata.customer_name || checkout.customer?.name;
+
+                // 【核心】提取八字数据
+                const baziData = {
+                    birthYear: metadata.birth_year || null,
+                    birthMonth: metadata.birth_month || null,
+                    birthDay: metadata.birth_day || null,
+                    birthHour: metadata.birth_hour || null,
+                    gender: metadata.gender || null,
+                    language: metadata.language || 'zh',
+                    productType: metadata.product_type || null
+                };
+
+                console.log('🎯 八字数据提取结果:', baziData);
+                console.log('   年:', baziData.birthYear, '月:', baziData.birthMonth,
+                    '日:', baziData.birthDay, '时:', baziData.birthHour,
+                    '性:', baziData.gender);
                 const shippingAddress = metadata.shipping_address || '';
                 const shippingMethod = metadata.shipping_method || '标准运输';
-                
+
                 // 解析自定义字段（Creem Custom Fields）
                 const fullName = metadata.full_name || metadata['Full Name'] || '';
                 const phoneNumber = metadata.phone_number || metadata['Phone Number'] || '';
                 const postalCode = metadata.postal_code || metadata['Postal Code'] || '';
-                
+
                 // 从metadata获取金额（Creem不支持动态金额，价格在产品创建时固定）
                 const amount = metadata.total || 0;
-                
+
                 // 解析商品信息
                 let items = [];
                 if (metadata.items) {
@@ -110,7 +128,9 @@ export default async function handler(req, res) {
                     // 自定义字段
                     fullName: fullName,
                     phoneNumber: phoneNumber,
-                    postalCode: postalCode
+                    postalCode: postalCode,
+                    // 八字数据（从 bazi checkout 传入）
+                    baziData: baziData
                 });
                 break;
 
@@ -190,6 +210,19 @@ async function handlePaymentSucceeded(orderData) {
     console.log('支付类型:', orderData.paymentType);
     console.log('客户姓名:', orderData.customerName);
     console.log('时间:', new Date().toISOString());
+
+    // 八字分析订单专属信息
+    if (orderData.baziData && orderData.baziData.birthYear) {
+        console.log('-------- 八字信息 --------');
+        console.log('出生年:', orderData.baziData.birthYear);
+        console.log('出生月:', orderData.baziData.birthMonth);
+        console.log('出生日:', orderData.baziData.birthDay);
+        console.log('出生时:', orderData.baziData.birthHour);
+        console.log('性别:', orderData.baziData.gender);
+        console.log('语言:', orderData.baziData.language);
+        console.log('--------------------------');
+    }
+
     console.log('================================');
 
     // 发送企业微信通知

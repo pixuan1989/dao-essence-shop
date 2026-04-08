@@ -531,26 +531,58 @@
     </footer>
 
     <script>
-        // 使用标准Creem支付链接
-        document.getElementById('baziForm').addEventListener('submit', function(e) {
+        // 走后端创建 Checkout Session，将八字数据写入 metadata
+        document.getElementById('baziForm').addEventListener('submit', async function(e) {
             e.preventDefault();
-            
+
+            const btn = this.querySelector('.submit-btn');
+            btn.textContent = 'Processing...';
+            btn.disabled = true;
+
             // 收集表单数据
             const formData = new FormData(this);
             const data = Object.fromEntries(formData);
-            
-            // 构建查询参数
-            const params = new URLSearchParams();
-            // 添加表单数据
-            for (const [key, value] of Object.entries(data)) {
-                params.append(key, value);
+
+            try {
+                const payload = {
+                    product_id: 'prod_28PqAKMEom5WGRH1w9O35n', // 八字分析产品 ID
+                    name: data.name || '',
+                    email: data.email || '',
+                    birth_year: data.birthYear || data.birth_year || '',
+                    birth_month: data.birthMonth || data.birth_month || '',
+                    birth_day: data.birthDay || data.birth_day || '',
+                    birth_hour: data.birthHour || data.birth_hour || '-1',
+                    gender: data.gender || '',
+                    birth_place: data.birthPlace || '',
+                    notes: data.notes || '',
+                    language: data.language || 'en'
+                };
+
+                console.log('📤 提交八字数据到后端:', payload);
+
+                const response = await fetch('/api/create-bazi-checkout', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+
+                if (result.success && result.checkoutUrl) {
+                    console.log('✅ Checkout 创建成功，跳转支付页面');
+                    window.location.href = result.checkoutUrl;
+                } else {
+                    console.error('❌ 创建支付失败:', result.error);
+                    alert('Payment setup failed: ' + (result.error || 'Unknown error'));
+                    btn.textContent = 'Continue to Payment';
+                    btn.disabled = false;
+                }
+            } catch (err) {
+                console.error('❌ 网络错误:', err);
+                alert('Network error. Please try again.');
+                btn.textContent = 'Continue to Payment';
+                btn.disabled = false;
             }
-            
-            // 使用标准Creem支付链接
-            const creemPaymentUrl = 'https://www.creem.io/payment/prod_28PqAKMEom5WGRH1w9O35n';
-            const fullUrl = `${creemPaymentUrl}?${params.toString()}`;
-            console.log('Payment URL:', fullUrl);
-            window.location.href = fullUrl;
         });
     </script>
 </body>
