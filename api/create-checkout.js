@@ -33,19 +33,9 @@ function getCreemProductId(items, isTestMode = false) {
     const firstItem = items[0];
     const creemProductId = firstItem.id;
 
-    if (isTestMode) {
-        // 测试模式：优先使用 CREEM_TEST_PRODUCT_ID 环境变量
-        const testId = process.env.CREEM_TEST_PRODUCT_ID;
-        if (testId) {
-            console.log(`🧪 测试产品映射: ${creemProductId} → ${testId}`);
-            return testId;
-        }
-        console.warn(`⚠️ 测试模式下未配置 CREEM_TEST_PRODUCT_ID，使用原始 ID: ${creemProductId}`);
-        return creemProductId;
-    }
-
-    // 生产模式：直接使用前端传来的 Creem Product ID
-    console.log(`✅ 使用 Creem Product ID: ${creemProductId}`);
+    // 🔥 修复：无论测试模式还是生产模式，都直接使用前端传来的 Creem Product ID
+    // 这样可以避免测试模式下所有商品都映射到同一个产品 ID 的问题
+    console.log(`${isTestMode ? '🧪 测试模式' : '🚀 生产模式'}: 使用 Creem Product ID: ${creemProductId} (${firstItem.name})`);
     return creemProductId;
 }
 
