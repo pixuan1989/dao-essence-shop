@@ -7,62 +7,14 @@
  */
 
 /**
- * 测试模式产品 ID 映射（测试环境）
- * 填入你在 Creem 测试后台创建的测试产品 ID
- * 访问：https://creem.io/dashboard (切换到 Test Mode) → Products
- * Key: 生产环境的产品 ID
- * Value: 测试环境的产品 ID
- */
-const CREEM_TEST_PRODUCT_MAP = {
-    // Bazi Life Guidance (八字商品)
-    'prod_1Qp72f3fXnLkKoLvdyMaLw': 'prod_1Qp72f3fXnLkKoLvdyMaLw',
-    // Taoist Music (道家冥想音频)
-    'prod_45v7a05ZjqA9a1LVq0o0g3': 'prod_5UZbtblZ9pRGRl0J2oOHPF',
-    // Tao Te Ching (道德经)
-    'prod_26987QrSoIC3ui76ill96H': 'prod_26987QrSoIC3ui76ill96H', // 待更新
-    // Lord of Mysteries (诡秘之主)
-    'prod_3btZfL4MwsO2xSr7AB3J8S': 'prod_3btZfL4MwsO2xSr7AB3J8S', // 待更新
-    // Agarwood Energy Cleansing (沉香冥想音频)
-    'prod_7i2asEAuHFHl5hJMeCEsfB': 'prod_7i2asEAuHFHl5hJMeCEsfB', // 待更新
-    // Five Elements Energy (五行能量音频合集)
-    'prod_1YuuAVysoYK6AOmQVab2uR': 'prod_1YuuAVysoYK6AOmQVab2uR', // 待更新
-};
-
-
-/**
  * 根据购物车 items 获取对应的 Creem Product ID
  * @param {Array} items - 购物车商品列表
- * @param {boolean} isTestMode - 是否为测试模式
  * @returns {string|null} Creem Product ID
- *
- * 逻辑：
- * - 生产模式：直接使用前端传来的 Creem Product ID
- * - 测试模式：使用 CREEM_TEST_PRODUCT_MAP 映射，映射到测试环境的产品 ID
  */
-function getCreemProductId(items, isTestMode = false) {
+function getCreemProductId(items) {
     if (!items || items.length === 0) return null;
-
     const firstItem = items[0];
     const creemProductId = firstItem.id;
-
-    // 测试模式：使用测试产品映射
-    if (isTestMode) {
-        const testProductId = CREEM_TEST_PRODUCT_MAP[creemProductId];
-        if (testProductId) {
-            console.log(`🧪 测试模式: ${creemProductId} (${firstItem.name}) → ${testProductId}`);
-            return testProductId;
-        }
-        // 如果映射表没有，回退到默认的 CREEM_TEST_PRODUCT_ID
-        const fallbackTestId = process.env.CREEM_TEST_PRODUCT_ID;
-        if (fallbackTestId) {
-            console.warn(`⚠️ 测试模式未找到映射，使用默认: ${creemProductId} → ${fallbackTestId}`);
-            return fallbackTestId;
-        }
-        console.warn(`⚠️ 测试模式未配置该产品: ${creemProductId}`);
-        return creemProductId;
-    }
-
-    // 生产模式：直接使用前端传来的 Creem Product ID
     console.log(`🚀 生产模式: 使用 Creem Product ID: ${creemProductId} (${firstItem.name})`);
     return creemProductId;
 }
@@ -101,16 +53,9 @@ export default async function handler(req, res) {
             return res.status(400).json({ error: 'Invalid items' });
         }
 
-        // 🔥 测试模式判断（支持多种格式：'true'、true、'1'、1）
-        const isTestMode = ['true', '1'].includes(String(process.env.CREEM_TEST_MODE).toLowerCase()) || req.body?.test_mode === true;
-        
-        const apiKey = isTestMode
-            ? (process.env.CREEM_TEST_API_KEY?.trim() || process.env.CREEM_API_KEY?.trim())
-            : process.env.CREEM_API_KEY?.trim();
-        
-        const creemApiBase = isTestMode
-            ? 'https://test-api.creem.io/v1'
-            : 'https://api.creem.io/v1';
+        // 🚀 强制生产模式（测试模式已彻底移除）
+        const apiKey = process.env.CREEM_API_KEY?.trim();
+        const creemApiBase = 'https://api.creem.io/v1';
 
         const creemDiscountCode = process.env.CREEM_DISCOUNT_CODE?.trim();
 
@@ -119,18 +64,14 @@ export default async function handler(req, res) {
             return res.status(500).json({ error: '支付系统配置错误' });
         }
 
-        // 🔥 调试：打印环境变量值
-        console.log('========== 环境变量调试 ==========');
-        console.log('CREEM_TEST_MODE:', process.env.CREEM_TEST_MODE);
-        console.log('CREEM_TEST_MODE (类型):', typeof process.env.CREEM_TEST_MODE);
-        console.log('CREEM_TEST_MODE (String):', String(process.env.CREEM_TEST_MODE));
-        console.log('isTestMode (判断结果):', isTestMode);
+        console.log('========== 支付配置 ==========');
+        console.log('API 端点:', creemApiBase);
+        console.log('API Key (前15位):', apiKey.substring(0, 15) + '...');
+        console.log('模式: 🚀 生产模式');
         console.log('======================================');
 
-        console.log(`💳 支付模式: ${isTestMode ? '🧪 测试模式' : '🚀 生产模式'} | API: ${creemApiBase}`);
-
-        // 根据购物车产品动态获取 Creem Product ID
-        const productId = getCreemProductId(items, isTestMode);
+        // 根据购物车产品获取 Creem Product ID
+        const productId = getCreemProductId(items);
 
         // 🔥 调试日志：确认将要使用的 Creem Product ID
         console.log(`🎯 将使用 Creem Product ID: ${productId}`);

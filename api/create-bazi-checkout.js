@@ -8,40 +8,11 @@
  */
 
 /**
- * 测试模式产品 ID 映射（八字产品）
- */
-const BAZI_TEST_PRODUCT_MAP = {
-    // Bazi Life Guidance (八字分析)
-    'prod_1Qp72f3fXnLkKoLvdyMaLw': 'prod_1Qp72f3fXnLkKoLvdyMaLw',
-    // 旧版本产品 ID（前端可能还在使用）
-    'prod_28PqAKMEom5WGRH1w9O35n': 'prod_1Qp72f3fXnLkKoLvdyMaLw',
-};
-
-/**
- * 根据产品 ID 和测试模式获取正确的 Creem Product ID
+ * 根据产品 ID 获取 Creem Product ID（生产模式，直接返回）
  * @param {string} productId - 产品 ID
- * @param {boolean} isTestMode - 是否测试模式
- * @returns {string} 正确的产品 ID
+ * @returns {string} 产品 ID
  */
-function getBaziProductId(productId, isTestMode = false) {
-    if (isTestMode) {
-        // 测试模式：使用映射表
-        const testProductId = BAZI_TEST_PRODUCT_MAP[productId];
-        if (testProductId) {
-            console.log(`🧪 测试模式八字产品映射: ${productId} → ${testProductId}`);
-            return testProductId;
-        }
-        // 如果映射表没有，尝试使用环境变量
-        const fallbackTestId = process.env.CREEM_TEST_PRODUCT_ID;
-        if (fallbackTestId) {
-            console.warn(`⚠️ 测试模式未找到映射，使用默认: ${productId} → ${fallbackTestId}`);
-            return fallbackTestId;
-        }
-        console.warn(`⚠️ 测试模式未配置该产品: ${productId}`);
-        return productId;
-    }
-
-    // 生产模式：直接使用产品 ID
+function getBaziProductId(productId) {
     console.log(`🚀 生产模式八字产品: ${productId}`);
     return productId;
 }
@@ -76,37 +47,20 @@ export default async function handler(req, res) {
             return res.status(400).json({ error: 'Missing birth info' });
         }
 
-        // 测试模式判断（支持多种格式：'true'、true、'1'、1）
-        const isTestMode = ['true', '1'].includes(String(process.env.CREEM_TEST_MODE).toLowerCase()) || req.body?.test_mode === true;
-
-        // 🔥 调试：打印环境变量值
-        console.log('========== 环境变量调试 ==========');
-        console.log('CREEM_TEST_MODE:', process.env.CREEM_TEST_MODE);
-        console.log('CREEM_TEST_MODE (类型):', typeof process.env.CREEM_TEST_MODE);
-        console.log('CREEM_TEST_MODE (String):', String(process.env.CREEM_TEST_MODE));
-        console.log('isTestMode (判断结果):', isTestMode);
-        console.log('======================================');
-
-        // 🔥 获取正确的产品 ID（考虑测试模式映射）
-        const mappedProductId = getBaziProductId(product_id, isTestMode);
-        console.log(`🎯 八字产品 ID (映射后): ${mappedProductId}`);
-
-        // API Key 优先使用环境变量，否则回退到 creem-api-client.js 的 key（本地开发兼容）
-        const apiKey = isTestMode
-            ? (process.env.CREEM_TEST_API_KEY?.trim() || process.env.CREEM_API_KEY?.trim() || 'creem_1qa0zx2EuHN9gz9DLcGTAG')
-            : (process.env.CREEM_API_KEY?.trim() || 'creem_1qa0zx2EuHN9gz9DLcGTAG');
-
-        const creemApiBase = isTestMode
-            ? 'https://test-api.creem.io/v1'
-            : 'https://api.creem.io/v1';
+        // 🚀 强制生产模式（测试模式已彻底移除）
+        const apiKey = process.env.CREEM_API_KEY?.trim();
+        const creemApiBase = 'https://api.creem.io/v1';
 
         if (!apiKey) {
             console.error('环境变量缺失: CREEM_API_KEY');
             return res.status(500).json({ error: '支付系统配置错误' });
         }
 
-        console.log(`💳 八字Checkout | 模式: ${isTestMode ? '🧪 测试' : '🚀 生产'} | 产品: ${product_id}`);
+        console.log(`💳 八字Checkout | 模式: 🚀 生产 | 产品: ${product_id}`);
         console.log(`📋 八字数据: ${birth_year}/${birth_month}/${birth_day} ${birth_hour}时 | ${gender} | ${name} <${email}>`);
+
+        // 获取产品 ID（生产模式直接使用）
+        const mappedProductId = getBaziProductId(product_id);
 
         const orderId = `BAZI_${Date.now()}_${Math.floor(Math.random() * 10000)}`;
 
