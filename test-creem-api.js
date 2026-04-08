@@ -1,73 +1,62 @@
 ﻿/**
- * 诊断脚本：检查 Creem API 返回的真实数据结构
+ * Creem API 测试脚本
+ * 直接调用 Creem API，测试八字产品创建 checkout
  */
 
-const CREEM_CONFIG = {
-  apiBase: 'https://api.creem.io/v1',
-  apiKey: 'creem_1qa0zx2EuHN9gz9DLcGTAG',
-  productIds: {
-    agarwood: 'prod_7i2asEAuHFHl5hJMeCEsfB',      // 传统沉香 - $200
-    bracelet: 'prod_1YuuAVysoYK6AOmQVab2uR'      // 五行能量手串 - $168
-  }
-};
+const API_KEY = 'creem_test_2niz3TDaFS828vk5XfPB1G';
+const API_BASE = 'https://test-api.creem.io/v1';
+const PRODUCT_ID = 'prod_1Qp72f3fXnLkKoLvdyMaLw';
 
-async function fetchCreemProduct(productId) {
-  const url = `${CREEM_CONFIG.apiBase}/products/${productId}`;
-  
-  console.log(`📥 调用 Creem API: ${url}`);
-  
-  try {
-    const response = await fetch(url, {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${CREEM_CONFIG.apiKey}`,
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      }
-    });
+async function testCreemAPI() {
+    const payload = {
+        product_id: PRODUCT_ID,
+        success_url: 'https://daoessentia.com/payment-success.html?test=true',
+        request_id: 'TEST_' + Date.now(),
+        metadata: {
+            order_id: 'TEST_ORDER',
+            product_type: 'bazi_analysis',
+            birth_year: '1990',
+            birth_month: '12',
+            birth_day: '25',
+            birth_hour: '10',
+            gender: 'male',
+            birth_place: '北京',
+            notes: '测试购买',
+            name: '测试用户',
+            email: 'test@example.com'
+        }
+    };
 
-    if (!response.ok) {
-      throw new Error(`Creem API 返回 ${response.status}: ${response.statusText}`);
+    console.log('========== Creem API 测试 ==========');
+    console.log('URL:', `${API_BASE}/checkouts`);
+    console.log('API Key (前15位):', API_KEY.substring(0, 15) + '...');
+    console.log('请求体:', JSON.stringify(payload, null, 2));
+    console.log('======================================');
+
+    try {
+        const response = await fetch(`${API_BASE}/checkouts`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'x-api-key': API_KEY
+            },
+            body: JSON.stringify(payload)
+        });
+
+        const resultText = await response.text();
+
+        console.log('========== 响应详情 ==========');
+        console.log('状态码:', response.status, response.statusText);
+        console.log('响应内容:', resultText);
+        console.log('======================================');
+
+        if (!response.ok) {
+            console.error('❌ 错误!');
+            console.error('完整响应:', resultText);
+        }
+    } catch (error) {
+        console.error('❌ 网络错误:', error);
     }
-
-    const data = await response.json();
-    console.log(`✅ 成功拉取产品: ${productId}`);
-    
-    // 打印完整的 API 响应
-    console.log('\n========== 完整 API 响应 ==========');
-    console.log(JSON.stringify(data, null, 2));
-    
-    // 打印关键字段
-    console.log('\n========== 关键字段 ==========');
-    console.log('id:', data.id);
-    console.log('name:', data.name);
-    console.log('name_en:', data.name_en);
-    console.log('name_cn:', data.name_cn);
-    console.log('price:', data.price);
-    console.log('original_price:', data.original_price);
-    console.log('currency:', data.currency);
-    console.log('image_url:', data.image_url);
-    console.log('primary_image:', data.primary_image);
-    console.log('image_urls:', data.image_urls);
-    
-    return data;
-  } catch (error) {
-    console.error(`❌ 拉取产品 ${productId} 失败:`, error.message);
-    return null;
-  }
 }
 
-// 主测试
-(async () => {
-  console.log('🚀 开始诊断 Creem API 数据...\n');
-  
-  // 测试传统沉香
-  console.log('\n==== 测试产品 1: 传统沉香 ====');
-  await fetchCreemProduct(CREEM_CONFIG.productIds.agarwood);
-  
-  // 测试五行能量手串
-  console.log('\n\n==== 测试产品 2: 五行能量手串 ====');
-  await fetchCreemProduct(CREEM_CONFIG.productIds.bracelet);
-  
-  console.log('\n✅ 诊断完成！');
-})();
+testCreemAPI();

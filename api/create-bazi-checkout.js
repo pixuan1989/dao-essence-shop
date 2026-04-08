@@ -79,6 +79,14 @@ export default async function handler(req, res) {
         // 测试模式判断（支持多种格式：'true'、true、'1'、1）
         const isTestMode = ['true', '1'].includes(String(process.env.CREEM_TEST_MODE).toLowerCase()) || req.body?.test_mode === true;
 
+        // 🔥 调试：打印环境变量值
+        console.log('========== 环境变量调试 ==========');
+        console.log('CREEM_TEST_MODE:', process.env.CREEM_TEST_MODE);
+        console.log('CREEM_TEST_MODE (类型):', typeof process.env.CREEM_TEST_MODE);
+        console.log('CREEM_TEST_MODE (String):', String(process.env.CREEM_TEST_MODE));
+        console.log('isTestMode (判断结果):', isTestMode);
+        console.log('======================================');
+
         // 🔥 获取正确的产品 ID（考虑测试模式映射）
         const mappedProductId = getBaziProductId(product_id, isTestMode);
         console.log(`🎯 八字产品 ID (映射后): ${mappedProductId}`);
