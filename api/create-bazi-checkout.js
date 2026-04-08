@@ -143,11 +143,11 @@ export default async function handler(req, res) {
             creemCheckoutData.discount_code = discount_code;
         }
 
-        console.log('📤 请求 Creem API:', JSON.stringify({
-            url: `${creemApiBase}/checkouts`,
-            method: 'POST',
-            body: creemCheckoutData
-        }, null, 2));
+        console.log('📤 请求 Creem API:');
+        console.log(`  URL: ${creemApiBase}/checkouts`);
+        console.log(`  Method: POST`);
+        console.log(`  Headers: { "Content-Type": "application/json", "x-api-key": "${apiKey.substring(0, 15)}..." }`);
+        console.log(`  Body: ${JSON.stringify(creemCheckoutData, null, 2)}`);
 
         // 调用 Creem API
         const response = await fetch(`${creemApiBase}/checkouts`, {
@@ -171,10 +171,14 @@ export default async function handler(req, res) {
         }
 
         if (!response.ok) {
-            console.error('❌ Creem API 错误:', JSON.stringify(result, null, 2));
+            console.error('❌ Creem API 错误:');
+            console.error(`  Status: ${response.status} ${response.statusText}`);
+            console.error(`  Error: ${result.error || result.message || 'Unknown error'}`);
+            console.error(`  Details: ${JSON.stringify(result, null, 2)}`);
             return res.status(500).json({
                 error: result.error || result.message || result.raw_response || '创建支付会话失败',
-                details: result
+                details: result,
+                full_response: result
             });
         }
 
