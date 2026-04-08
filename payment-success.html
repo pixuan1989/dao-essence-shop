@@ -288,6 +288,11 @@
                     <span>Creem Secure Payment</span>
                 </div>
             </div>
+
+            <!-- 金额提示信息 -->
+            <div id="amount-notice" style="display:none;background:rgba(212,175,55,0.1);border:1px solid rgba(212,175,55,0.3);border-radius:8px;padding:16px;margin-top:16px;text-align:center;">
+                <p style="margin:0;color:#D4AF37;font-size:14px;">💰 The exact payment amount can be verified in your Creem account or email receipt.</p>
+            </div>
             
             <div class="shipping-notice">
                 <h3>📦 Complete Digital Service Package</h3>
@@ -351,11 +356,11 @@
         // Parse URL parameters to display order info
         document.addEventListener('DOMContentLoaded', function() {
             const urlParams = new URLSearchParams(window.location.search);
-            
+
             // Get order details from URL
             const orderId = urlParams.get('order_id') || 'ORD-' + Date.now();
-            const total = urlParams.get('total') || 'N/A';
-            
+            const total = urlParams.get('total');
+
             // Display order info
             document.getElementById('order-id').textContent = orderId;
             document.getElementById('order-date').textContent = new Date().toLocaleDateString('en-US', {
@@ -363,8 +368,15 @@
                 month: 'long',
                 day: 'numeric'
             });
-            document.getElementById('order-total').textContent = total !== 'N/A' ? '$' + parseFloat(total).toFixed(2) : 'N/A';
-            
+
+            // 如果有 total 参数，显示具体金额；否则显示提示
+            if (total && total !== 'N/A') {
+                document.getElementById('order-total').textContent = '$' + parseFloat(total).toFixed(2);
+            } else {
+                document.getElementById('order-total').textContent = 'Paid';
+                document.getElementById('amount-notice').style.display = 'block';
+            }
+
             // Clear cart after successful payment
             localStorage.removeItem('daoessence_cart');
         });
