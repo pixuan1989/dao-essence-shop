@@ -7,6 +7,45 @@
  * ============================================
  */
 
+/**
+ * 测试模式产品 ID 映射（八字产品）
+ */
+const BAZI_TEST_PRODUCT_MAP = {
+    // Bazi Life Guidance (八字分析)
+    'prod_1Qp72f3fXnLkKoLvdyMaLw': 'prod_1Qp72f3fXnLkKoLvdyMaLw',
+    // 旧版本产品 ID（前端可能还在使用）
+    'prod_28PqAKMEom5WGRH1w9O35n': 'prod_1Qp72f3fXnLkKoLvdyMaLw',
+};
+
+/**
+ * 根据产品 ID 和测试模式获取正确的 Creem Product ID
+ * @param {string} productId - 产品 ID
+ * @param {boolean} isTestMode - 是否测试模式
+ * @returns {string} 正确的产品 ID
+ */
+function getBaziProductId(productId, isTestMode = false) {
+    if (isTestMode) {
+        // 测试模式：使用映射表
+        const testProductId = BAZI_TEST_PRODUCT_MAP[productId];
+        if (testProductId) {
+            console.log(`🧪 测试模式八字产品映射: ${productId} → ${testProductId}`);
+            return testProductId;
+        }
+        // 如果映射表没有，尝试使用环境变量
+        const fallbackTestId = process.env.CREEM_TEST_PRODUCT_ID;
+        if (fallbackTestId) {
+            console.warn(`⚠️ 测试模式未找到映射，使用默认: ${productId} → ${fallbackTestId}`);
+            return fallbackTestId;
+        }
+        console.warn(`⚠️ 测试模式未配置该产品: ${productId}`);
+        return productId;
+    }
+
+    // 生产模式：直接使用产品 ID
+    console.log(`🚀 生产模式八字产品: ${productId}`);
+    return productId;
+}
+
 export default async function handler(req, res) {
     // 只允许 POST 请求
     if (req.method !== 'POST') {
@@ -40,6 +79,10 @@ export default async function handler(req, res) {
         // 测试模式判断
         const isTestMode = process.env.CREEM_TEST_MODE === 'true' || req.body?.test_mode === true;
 
+        // 🔥 获取正确的产品 ID（考虑测试模式映射）
+        const mappedProductId = getBaziProductId(product_id, isTestMode);
+        console.log(`🎯 八字产品 ID (映射后): ${mappedProductId}`);
+
         // API Key 优先使用环境变量，否则回退到 creem-api-client.js 的 key（本地开发兼容）
         const apiKey = isTestMode
             ? (process.env.CREEM_TEST_API_KEY?.trim() || process.env.CREEM_API_KEY?.trim() || 'creem_1qa0zx2EuHN9gz9DLcGTAG')
@@ -71,7 +114,7 @@ export default async function handler(req, res) {
         // Creem webhook 会原封不动地返回这些字段
         // ============================================
         const creemCheckoutData = {
-            product_id: product_id,
+            product_id: mappedProductId,
             success_url: successUrl,
             request_id: orderId,
 
