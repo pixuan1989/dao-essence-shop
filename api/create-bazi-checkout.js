@@ -75,9 +75,11 @@ export default async function handler(req, res) {
             success_url: successUrl,
             request_id: orderId,
 
-            // 客户信息（Creem 标准字段）
-            ...(email && { email: email }),
-            ...(name && { name: name }),
+            // 【官方推荐】客户信息用 customer 对象包起来
+            customer: {
+                ...(email && { email: email }),
+                ...(name && { name: name })
+            },
 
             // 【关键】八字数据写入 metadata —— webhook 会收到
             metadata: {
@@ -110,6 +112,12 @@ export default async function handler(req, res) {
             creemCheckoutData.discount_code = discount_code;
         }
 
+        console.log('📤 请求 Creem API:', JSON.stringify({
+            url: `${creemApiBase}/checkouts`,
+            method: 'POST',
+            body: creemCheckoutData
+        }, null, 2));
+
         // 调用 Creem API
         const response = await fetch(`${creemApiBase}/checkouts`, {
             method: 'POST',
@@ -120,12 +128,22 @@ export default async function handler(req, res) {
             body: JSON.stringify(creemCheckoutData)
         });
 
-        const result = await response.json();
+        const resultText = await response.text();
+        console.log('📥 Creem API 响应状态:', response.status, response.statusText);
+        console.log('📥 Creem API 响应原始内容:', resultText);
+
+        let result;
+        try {
+            result = JSON.parse(resultText);
+        } catch (e) {
+            result = { raw_response: resultText };
+        }
 
         if (!response.ok) {
-            console.error('Creem API 错误:', result.error || result.message);
+            console.error('❌ Creem API 错误:', JSON.stringify(result, null, 2));
             return res.status(500).json({
-                error: result.error || result.message || '创建支付会话失败'
+                error: result.error || result.message || result.raw_response || '创建支付会话失败',
+                details: result
             });
         }
 
