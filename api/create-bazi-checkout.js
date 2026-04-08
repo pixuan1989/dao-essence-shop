@@ -119,29 +119,22 @@ export default async function handler(req, res) {
             request_id: orderId,
 
             // 【关键】八字数据写入 metadata —— webhook 会收到
-            // 注意：先测试不加 customer 对象，避免字段冲突
             metadata: {
                 order_id: orderId,
                 product_type: 'bazi_analysis',
-                language: language || 'en',
 
-                // 八字核心数据
+                // 八字核心数据（必须字段）
                 birth_year: String(birth_year),
                 birth_month: String(birth_month),
                 birth_day: String(birth_day),
                 birth_hour: String(birth_hour),
                 gender: gender,
 
-                // 出生地和备注
+                // 可选字段
                 birth_place: birth_place || '',
                 notes: notes || '',
-
-                // 客户姓名和邮箱（双重保险）
-                customer_name: name || '',
-                customer_email: email || '',
-
-                // 时间戳
-                created_at: new Date().toISOString()
+                name: name || '',
+                email: email || ''
             }
         };
 
