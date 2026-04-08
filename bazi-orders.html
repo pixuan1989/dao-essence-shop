@@ -620,10 +620,10 @@
             try {
                 const response = await fetch('/api/get-bazi-orders', {
                     method: 'GET',
-                    headers: { 'x-admin-key': key }
+                    headers: { 'Authorization': `Bearer ${key}` }
                 });
 
-                if (response.status === 403) {
+                if (response.status === 401) {
                     loginError.textContent = '密钥错误，请重新输入';
                     loginBtn.disabled = false;
                     loginBtn.textContent = '🔓 进入管理后台';
@@ -676,10 +676,10 @@
             try {
                 const response = await fetch('/api/get-bazi-orders', {
                     method: 'GET',
-                    headers: { 'x-admin-key': adminKey }
+                    headers: { 'Authorization': `Bearer ${adminKey}` }
                 });
 
-                if (response.status === 403) {
+                if (response.status === 401) {
                     handleLogout();
                     return;
                 }
@@ -710,7 +710,7 @@
                 try {
                     const response = await fetch('/api/get-bazi-orders', {
                         method: 'GET',
-                        headers: { 'x-admin-key': savedKey }
+                        headers: { 'Authorization': `Bearer ${savedKey}` }
                     });
 
                     if (response.status === 200) {
