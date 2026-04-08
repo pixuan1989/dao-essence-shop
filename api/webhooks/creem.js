@@ -6,7 +6,7 @@
  * ============================================
  */
 
-import { getRedis, redisSet } from './redis.js';
+import { getRedis, redisGet, redisSet } from '../redis.js';
 
 /**
  * Vercel Function 主处理函数
@@ -65,8 +65,6 @@ export default async function handler(req, res) {
                     console.log('💾 保存八字订单到 Redis:', JSON.stringify(orderData, null, 2));
 
                     try {
-                        const { redisGet, redisSet } = await import('./redis.js');
-
                         // 用 checkout ID 作为 key，防止重复
                         await redisSet(`bazi_order:${checkout.id}`, orderData);
 
