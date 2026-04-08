@@ -2,145 +2,110 @@
  * ============================================
  * Creem Webhook 处理器 (Vercel Functions)
  * 处理 Creem 支付事件通知
+ * 八字订单自动保存到 Vercel KV
  * ============================================
  */
 
-/**
- * 调用邮件发送 Function（Vercel Functions 调用）
- */
-async function sendOrderEmails(orderData) {
-    try {
-        // Vercel Functions 调用 send-order-email
-        const baseUrl = process.env.VERCEL_URL || 'https://your-vercel-app.vercel.app';
-        const emailApiUrl = `${baseUrl}/api/send-order-email`;
-
-        console.log('📧 触发邮件发送，URL:', emailApiUrl);
-
-        const response = await fetch(emailApiUrl, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(orderData)
-        });
-
-        const result = await response.json();
-        console.log('📧 邮件发送结果:', result);
-        return result;
-    } catch (error) {
-        // 邮件失败不影响 Webhook 主流程
-        console.error('⚠️ 邮件发送失败（非致命错误）:', error.message);
-        return { success: false, error: error.message };
-    }
-}
-
-/**
- * 验证 Creem Webhook 签名
- */
-function verifyCreemWebhookSignature(req, secret) {
-    // Creem Webhook 签名验证逻辑
-    // 这里需要根据 Creem 文档实现签名验证
-    // 暂时返回 true，生产环境需要实现完整验证
-    return true;
-}
+import { kv } from '@vercel/kv';
 
 /**
  * Vercel Function 主处理函数
  */
 export default async function handler(req, res) {
-    // 只允许 POST 请求
     if (req.method !== 'POST') {
         return res.status(405).json({ error: 'Method not allowed' });
     }
 
     try {
-        // 验证签名
-        const signature = req.headers['x-creem-signature'];
-        const webhookSecret = process.env.CREEM_WEBHOOK_SECRET;
-        
-        if (!verifyCreemWebhookSignature(req, webhookSecret)) {
-            console.error('❌ Webhook signature verification failed');
-            return res.status(400).send('Webhook Error: Invalid signature');
-        }
-
         const event = req.body;
         console.log(`📨 Creem Webhook received: ${event.type}`);
 
         switch (event.type) {
-            case 'checkout.completed':
+            case 'checkout.completed': {
                 const checkout = event.data;
                 console.log('✅ Checkout completed:', checkout.id);
                 console.log('📦 Webhook 原始数据:', JSON.stringify(event.data, null, 2));
                 console.log('📋 Metadata 完整内容:', JSON.stringify(checkout.metadata, null, 2));
-                console.log('💰 Checkout 价格信息:', JSON.stringify({
-                    amount: checkout.amount,
-                    currency: checkout.currency,
-                    price: checkout.price,
-                    total: checkout.total
-                }, null, 2));
 
-                // 解析订单信息
                 const metadata = checkout.metadata || {};
                 const orderId = metadata.order_id || checkout.id;
-                const customerEmail = metadata.customer_email || checkout.customer?.email;
-                const customerName = metadata.customer_name || checkout.customer?.name;
 
-                // 【核心】提取八字数据
-                const baziData = {
-                    birthYear: metadata.birth_year || null,
-                    birthMonth: metadata.birth_month || null,
-                    birthDay: metadata.birth_day || null,
-                    birthHour: metadata.birth_hour || null,
-                    gender: metadata.gender || null,
-                    language: metadata.language || 'zh',
-                    productType: metadata.product_type || null
-                };
+                // 计算金额（Creem 以分为单位）
+                const amountInCents = checkout.amount || checkout.total || checkout.price || 0;
+                const amount = amountInCents / 100;
 
-                console.log('🎯 八字数据提取结果:', baziData);
-                console.log('   年:', baziData.birthYear, '月:', baziData.birthMonth,
-                    '日:', baziData.birthDay, '时:', baziData.birthHour,
-                    '性:', baziData.gender);
-                const shippingAddress = metadata.shipping_address || '';
-                const shippingMethod = metadata.shipping_method || '标准运输';
+                // 判断是否为八字订单
+                const isBaziOrder = metadata.product_type === 'bazi_analysis';
+                console.log(`🎯 订单类型: ${metadata.product_type} | 是否八字: ${isBaziOrder}`);
 
-                // 解析自定义字段（Creem Custom Fields）
-                const fullName = metadata.full_name || metadata['Full Name'] || '';
-                const phoneNumber = metadata.phone_number || metadata['Phone Number'] || '';
-                const postalCode = metadata.postal_code || metadata['Postal Code'] || '';
+                if (isBaziOrder) {
+                    // 保存八字订单到 Vercel KV
+                    const orderData = {
+                        id: checkout.id,
+                        orderId: orderId,
+                        checkoutId: checkout.id,
+                        name: metadata.name || checkout.customer?.name || '',
+                        email: metadata.email || checkout.customer?.email || '',
+                        birthYear: metadata.birth_year || '',
+                        birthMonth: metadata.birth_month || '',
+                        birthDay: metadata.birth_day || '',
+                        birthHour: metadata.birth_hour || '',
+                        gender: metadata.gender || '',
+                        birthPlace: metadata.birth_place || '',
+                        notes: metadata.notes || '',
+                        language: metadata.language || 'zh',
+                        amount: amount,
+                        currency: checkout.currency || 'USD',
+                        status: 'paid',
+                        createdAt: checkout.created_at || new Date().toISOString(),
+                        paidAt: new Date().toISOString(),
+                        mode: checkout.mode || 'live'
+                    };
 
-                // 【修复】优先从 Creem checkout 对象获取金额，其次从 metadata
-                // Creem 价格以分为单位，需要除以 100
-                const creemAmountInCents = checkout.amount || checkout.total || checkout.price || 0;
-                const amount = metadata.total ? parseFloat(metadata.total) : (creemAmountInCents / 100);
+                    console.log('💾 保存八字订单到 KV:', JSON.stringify(orderData, null, 2));
 
-                // 解析商品信息
-                let items = [];
-                if (metadata.items) {
                     try {
-                        items = JSON.parse(metadata.items);
-                    } catch (e) {
-                        console.error('解析商品信息失败:', e);
+                        // 用 checkout ID 作为 key，防止重复
+                        await kv.set(`bazi_order:${checkout.id}`, JSON.stringify(orderData));
+
+                        // 同时维护一个订单 ID 列表（用于快速获取所有订单）
+                        const existingIds = await kv.get('bazi_order_ids') || [];
+                        if (!existingIds.includes(checkout.id)) {
+                            existingIds.unshift(checkout.id);
+                            await kv.set('bazi_order_ids', existingIds);
+                            console.log(`💾 订单列表已更新，共 ${existingIds.length} 笔`);
+                        }
+
+                        console.log('✅ 八字订单保存成功!');
+                    } catch (kvError) {
+                        console.error('❌ KV 保存失败（非致命）:', kvError.message);
+                        // KV 保存失败不影响其他流程
                     }
+
+                    // 发送企业微信通知
+                    await sendWechatNotification({
+                        ...orderData,
+                        baziData: {
+                            birthYear: orderData.birthYear,
+                            birthMonth: orderData.birthMonth,
+                            birthDay: orderData.birthDay,
+                            birthHour: orderData.birthHour,
+                            gender: orderData.gender
+                        }
+                    });
+                } else {
+                    // 非八字订单，也发微信通知
+                    await sendWechatNotification({
+                        orderId: orderId,
+                        amount: amount,
+                        currency: checkout.currency || 'USD',
+                        customerEmail: metadata.email || checkout.customer?.email || '',
+                        customerName: metadata.name || checkout.customer?.name || ''
+                    });
                 }
 
-                // 处理支付成功
-                await handlePaymentSucceeded({
-                    orderId: orderId,
-                    amount: amount,
-                    currency: 'USD',
-                    customerEmail: customerEmail,
-                    paymentId: checkout.id,
-                    paymentType: 'creem_checkout',
-                    customerName: customerName,
-                    shippingAddress: shippingAddress,
-                    shippingMethod: shippingMethod,
-                    items: items,
-                    // 自定义字段
-                    fullName: fullName,
-                    phoneNumber: phoneNumber,
-                    postalCode: postalCode,
-                    // 八字数据（从 bazi checkout 传入）
-                    baziData: baziData
-                });
                 break;
+            }
 
             case 'checkout.failed':
                 console.log('❌ Checkout failed:', event.data.id);
@@ -163,30 +128,31 @@ export default async function handler(req, res) {
  */
 async function sendWechatNotification(orderData) {
     const webhookUrl = process.env.WECHAT_WEBHOOK_URL;
-    
+
     if (!webhookUrl) {
         console.log('⚠️ 未配置 WECHAT_WEBHOOK_URL，跳过微信通知');
         return;
     }
 
     try {
-        const itemsText = orderData.items?.map(item => 
-            `• ${item.nameCn || item.name} x${item.quantity} ($${item.price})`
-        ).join('\n') || '未知商品';
+        let content = `🎉 **新订单到账！**\n\n` +
+            `**订单号：** ${orderData.orderId}\n` +
+            `**金额：** $${parseFloat(orderData.amount || 0).toFixed(2)} USD\n` +
+            `**客户邮箱：** ${orderData.customerEmail || '未提供'}\n` +
+            `**客户姓名：** ${orderData.customerName || '未提供'}\n` +
+            `**下单时间：** ${new Date().toLocaleString('zh-CN')}`;
+
+        // 八字订单额外信息
+        if (orderData.baziData && orderData.baziData.birthYear) {
+            content += `\n\n**生辰八字：**\n` +
+                `📅 ${orderData.baziData.birthYear}年${orderData.baziData.birthMonth}月${orderData.baziData.birthDay}日` +
+                `${orderData.baziData.birthHour !== '-1' ? ' ' + orderData.baziData.birthHour + '时' : '（未知时辰）'}\n` +
+                `👤 ${orderData.baziData.gender === 'male' ? '男' : '女'}`;
+        }
 
         const message = {
             msgtype: 'markdown',
-            markdown: {
-                content: `🎉 **新订单到账！**\n\n` +
-                    `**订单号：** ${orderData.orderId}\n` +
-                    `**金额：** $${parseFloat(orderData.amount || 0).toFixed(2)} USD\n` +
-                    `**客户邮箱：** ${orderData.customerEmail || '未提供'}\n` +
-                    `**客户姓名：** ${orderData.customerName || '未提供'}\n` +
-                    `**下单时间：** ${new Date().toLocaleString('zh-CN')}\n\n` +
-                    `**购买商品：**\n${itemsText}\n\n` +
-                    `---\n` +
-                    `💡 客户将收到 Creem 的下载邮件，无需手动处理`
-            }
+            markdown: { content }
         };
 
         const response = await fetch(webhookUrl, {
@@ -203,36 +169,4 @@ async function sendWechatNotification(orderData) {
     } catch (error) {
         console.error('⚠️ 微信通知发送失败:', error.message);
     }
-}
-
-/**
- * 处理支付成功的逻辑
- * 支付完成后发送订单确认邮件给买家和商家
- */
-async function handlePaymentSucceeded(orderData) {
-    console.log('========== 订单信息 ==========');
-    console.log('订单号:', orderData.orderId);
-    console.log('金额:', orderData.amount, orderData.currency?.toUpperCase());
-    console.log('客户邮箱:', orderData.customerEmail);
-    console.log('支付ID:', orderData.paymentId);
-    console.log('支付类型:', orderData.paymentType);
-    console.log('客户姓名:', orderData.customerName);
-    console.log('时间:', new Date().toISOString());
-
-    // 八字分析订单专属信息
-    if (orderData.baziData && orderData.baziData.birthYear) {
-        console.log('-------- 八字信息 --------');
-        console.log('出生年:', orderData.baziData.birthYear);
-        console.log('出生月:', orderData.baziData.birthMonth);
-        console.log('出生日:', orderData.baziData.birthDay);
-        console.log('出生时:', orderData.baziData.birthHour);
-        console.log('性别:', orderData.baziData.gender);
-        console.log('语言:', orderData.baziData.language);
-        console.log('--------------------------');
-    }
-
-    console.log('================================');
-
-    // 发送企业微信通知
-    await sendWechatNotification(orderData);
 }
