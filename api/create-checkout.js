@@ -7,7 +7,7 @@
  */
 
 /**
- * 产品 ID 到 Creem Product ID 的映射
+ * 产品 ID 到 Creem Product ID 的映射（生产环境）
  * 注意：key 是购物车中使用的 ID（即 Creem Product ID），value 也是 Creem Product ID
  * 这样设计是因为前端直接使用 Creem ID 作为产品标识
  */
@@ -28,25 +28,48 @@ const CREEM_PRODUCT_MAP = {
 };
 
 /**
+ * 测试模式产品 ID 映射（测试环境）
+ * 填入你在 Creem 测试后台创建的测试产品 ID
+ * 访问：https://creem.io/dashboard (切换到 Test Mode) → Products
+ * 如果没有测试产品，任意产品 ID 均会映射到 CREEM_TEST_PRODUCT_ID 环境变量（如有设置）
+ */
+const CREEM_TEST_PRODUCT_MAP = {
+    // 用环境变量 CREEM_TEST_PRODUCT_ID 覆盖，或在此处填入测试产品 ID
+    // 示例：'prod_7i2asEAuHFHl5hJMeCEsfB': 'test_prod_xxxxxxxx'
+};
+
+
+/**
  * 根据购物车 items 获取对应的 Creem Product ID
- * 规则：单产品订单直接用对应 ID，多产品订单使用第一个产品的 ID
  * @param {Array} items - 购物车商品列表
+ * @param {boolean} isTestMode - 是否为测试模式
  * @returns {string|null} Creem Product ID
  */
-function getCreemProductId(items) {
+function getCreemProductId(items, isTestMode = false) {
     if (!items || items.length === 0) return null;
     
-    // 取第一个产品的 ID（目前 Creem 不支持购物车多产品，每个订单一个产品）
     const firstItem = items[0];
     const localProductId = firstItem.id;
     
-    const creemId = CREEM_PRODUCT_MAP[localProductId];
-    
-        if (!creemId || creemId.startsWith('prod_xxx_')) {
-            console.warn(`⚠️ 产品 "${localProductId}" 未配置 Creem Product ID，请检查 CREEM_PRODUCT_MAP`);
-            // 返回原始 ID，让 Creem API 自己报错（更清晰的错误信息）
-            return localProductId;
+    if (isTestMode) {
+        // 测试模式：先查测试映射表，没有则用 CREEM_TEST_PRODUCT_ID 环境变量兜底
+        const testId = CREEM_TEST_PRODUCT_MAP[localProductId] || process.env.CREEM_TEST_PRODUCT_ID;
+        if (testId) {
+            console.log(`🧪 测试产品映射: ${localProductId} → ${testId}`);
+            return testId;
         }
+        // 没有测试产品 ID 配置时，直接用原始 ID（让 Creem 测试 API 返回具体错误）
+        console.warn(`⚠️ 测试模式下未配置测试产品 ID，使用原始 ID: ${localProductId}`);
+        console.warn(`   请在 Vercel 控制台添加 CREEM_TEST_PRODUCT_ID 环境变量（测试模式产品 ID）`);
+        return localProductId;
+    }
+
+    // 生产模式
+    const creemId = CREEM_PRODUCT_MAP[localProductId];
+    if (!creemId || creemId.startsWith('prod_xxx_')) {
+        console.warn(`⚠️ 产品 "${localProductId}" 未配置 Creem Product ID，请检查 CREEM_PRODUCT_MAP`);
+        return localProductId;
+    }
     
     console.log(`✅ 产品映射: ${localProductId} → ${creemId}`);
     return creemId;
@@ -74,16 +97,28 @@ export default async function handler(req, res) {
             return res.status(400).json({ error: 'Invalid items' });
         }
 
-        const apiKey = process.env.CREEM_API_KEY?.trim();
+        // 测试模式：优先使用 CREEM_TEST_MODE 环境变量，也可由请求传入 test_mode 参数
+        const isTestMode = process.env.CREEM_TEST_MODE === 'true' || req.body?.test_mode === true;
+        
+        const apiKey = isTestMode
+            ? (process.env.CREEM_TEST_API_KEY?.trim() || process.env.CREEM_API_KEY?.trim())
+            : process.env.CREEM_API_KEY?.trim();
+        
+        const creemApiBase = isTestMode
+            ? 'https://test-api.creem.io/v1'
+            : 'https://api.creem.io/v1';
+
         const creemDiscountCode = process.env.CREEM_DISCOUNT_CODE?.trim();
 
         if (!apiKey) {
             console.error('环境变量缺失: CREEM_API_KEY');
             return res.status(500).json({ error: '支付系统配置错误' });
         }
+        
+        console.log(`💳 支付模式: ${isTestMode ? '🧪 测试模式' : '🚀 生产模式'} | API: ${creemApiBase}`);
 
         // 根据购物车产品动态获取 Creem Product ID
-        const productId = getCreemProductId(items);
+        const productId = getCreemProductId(items, isTestMode);
         
         if (!productId) {
             return res.status(400).json({ 
@@ -112,8 +147,8 @@ export default async function handler(req, res) {
             creemCheckoutData.discount_code = useDiscountCode;
         }
 
-        // 调用 Creem API
-        const response = await fetch('https://api.creem.io/v1/checkouts', {
+        // 调用 Creem API（根据模式使用不同端点）
+        const response = await fetch(`${creemApiBase}/checkouts`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
