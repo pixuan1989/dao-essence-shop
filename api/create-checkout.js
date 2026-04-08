@@ -66,6 +66,18 @@ export default async function handler(req, res) {
     try {
         const { items, discountCode } = req.body;
 
+        // 🔥 调试日志：打印接收到的完整请求数据
+        console.log('📥 收到创建支付请求:', {
+            itemCount: items?.length,
+            firstItem: items?.[0] ? {
+                id: items[0].id,
+                name: items[0].name,
+                price: items[0].price,
+                quantity: items[0].quantity
+            } : null,
+            discountCode
+        });
+
         // 验证必要参数
         if (!items || !Array.isArray(items) || items.length === 0) {
             return res.status(400).json({ error: 'Invalid items' });
@@ -93,6 +105,9 @@ export default async function handler(req, res) {
 
         // 根据购物车产品动态获取 Creem Product ID
         const productId = getCreemProductId(items, isTestMode);
+
+        // 🔥 调试日志：确认将要使用的 Creem Product ID
+        console.log(`🎯 将使用 Creem Product ID: ${productId}`);
         
         if (!productId) {
             return res.status(400).json({ 
