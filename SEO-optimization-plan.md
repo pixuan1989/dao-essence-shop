@@ -328,7 +328,80 @@ Blog 是 SEO 的核心引擎。建议创建 `/blog/` 目录，写以下文章：
 
 ---
 
-## 七、 🎯 预期效果
+---
+
+## 七、 🚀 速度优化审计报告 (2026-04-08)
+
+### 静态资源现状
+| 资源 | 文件数 | 总大小 | 状态 |
+|------|--------|--------|------|
+| CSS | styles.min.css | 31.58 KB | ✅ 已压缩 |
+| JS | main.min.js (14.88 KB) + cart.min.js (5.75 KB) + product-detail.min.js (9.64 KB) | 30.27 KB | ✅ 已压缩 + defer |
+| Images | 22 files in images/ | ~3-5 MB (估) | ⚠️ 未压缩优化 |
+
+### 速度优化已修复 (commit: 1e95b35)
+
+| 修复项 | 影响页面 | 改动 |
+|--------|---------|------|
+| 🔴 **图片 lazy loading** | guide.html (6张) | 新增 loading="lazy" |
+| 🔴 **图片 lazy loading** | culture.html (4张) | 新增 loading="lazy" |
+| 🔴 **图片 lazy loading** | 9个页面的微信二维码 | 新增 loading="lazy" |
+| 🔴 **修复 404 图片** | culture.html | agarwood.jpg → 3_compressed.jpg |
+| 🟡 **统一 min.css** | contact/destiny/privacy/terms/redeem/payment-success/order-confirm (7个页面) | styles.css(35KB) → styles.min.css(31KB) |
+| 🟡 **shop.html 域名修复** | shop.html | og:url/og:image/twitter:image 改为 www |
+| 🟡 **Google Fonts 非阻塞** | bazi-orders.html | 改为 preload + onload 模式 |
+
+### 仍存在的优化空间（可后续处理）
+
+| 项目 | 说明 | 优先级 |
+|------|------|--------|
+| 图片压缩 | 22张图片可 WebP 格式化，减少 50-70% 体积 | 中 |
+| shop.html 底部 3 个 JS | creem-sync-v2.js / shop-manager.js / shop-diagnostics.js 无 defer | 低 |
+| product-detail.html Swiper CDN | 每次加载额外 CSS + JS ~200KB | 低（功能需要） |
+| product-detail.html 底部 JS | shopify-config.js / shopify-api.js / shop-product-detail.js 无 defer | 低 |
+
+---
+
+## 八、 🔍 关键词研究更新 (2026-04-08)
+
+### 竞争分析
+通过实际搜索验证，各关键词的竞争格局如下：
+
+#### BaZi Reading — 竞争激烈（10+ 专业工具网站）
+- bazilabs.com、astrologybazi.com、destiny-insights.com、bazi-lab.com、bazi-web.com、freebazi.org、readbazi.com 等
+- **策略**：竞争大但搜索量大。靠 blog 文章 + FAQ Schema 获取长尾排名
+
+#### Five Elements Theory — 中等竞争（8+ 内容网站）
+- chinese5elements.com、cantian.ai、realitypathing.com、guidedbyelements.com、chinahighlights.com 等
+- **策略**：已有 culture.html + blog 文章覆盖，持续更新内容即可
+
+#### 五行性格测试 — 新兴市场
+- fiveelementstest.com、5elements.app（20 题 quiz）、dantianhealth.com.au
+- **机会**：可以做一个交互式五行性格测试工具，SEO 价值极高
+
+#### Xianxia Novel — 分散竞争
+- Amazon/Audible 主流、WuxiaWorld/Asianovel/PandaNovel 免费阅读
+- **策略**：主打 "buy xianxia audiobook" 差异化， blog 文章引流
+
+#### Agarwood Meditation — 低竞争蓝海
+- 仅 incensewaterfallburner.com 等少数站点覆盖
+- **机会**： agarwood + meditation 的组合几乎没有竞品
+
+### 推荐第二批 Blog 文章（按 SEO 价值排序）
+
+| 优先级 | 文章标题 | 目标关键词 | 预估月流量 | 竞争难度 |
+|--------|---------|-----------|-----------|---------|
+| 🔥 1 | "Five Elements Personality Test: Which Element Are You?" | five elements personality test, what element am i | 5,000+ | 低 |
+| 🔥 2 | "Fire Element Personality: Traits, Strengths & Challenges" | fire element personality, fire element traits | 1,200+ | 低 |
+| 🔥 3 | "Water Element in Chinese Philosophy: Wisdom & Adaptability" | water element chinese, water element personality | 800+ | 低 |
+| 🔥 4 | "Metal Element Meaning: Precision, Justice & Strength" | metal element chinese, metal element personality | 600+ | 极低 |
+| 🔥 5 | "Earth Element Personality: Grounding, Nurturing & Stability" | earth element personality, earth element traits | 800+ | 低 |
+| 🔥 6 | "Agarwood (Chen Xiang): The Sacred Wood of Taoist Meditation" | agarwood meditation, chen xiang meditation | 500+ | 极低 |
+| 🔥 7 | "Taoist Music for Meditation: Ancient Sounds for Modern Healing" | taoist music, daoist meditation music | 700+ | 低 |
+
+---
+
+## 九、 🎯 预期效果
 
 | 时间 | 预期结果 |
 |------|---------|
