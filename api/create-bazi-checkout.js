@@ -40,9 +40,10 @@ export default async function handler(req, res) {
         // 测试模式判断
         const isTestMode = process.env.CREEM_TEST_MODE === 'true' || req.body?.test_mode === true;
 
+        // API Key 优先使用环境变量，否则回退到 creem-api-client.js 的 key（本地开发兼容）
         const apiKey = isTestMode
-            ? (process.env.CREEM_TEST_API_KEY?.trim() || process.env.CREEM_API_KEY?.trim())
-            : process.env.CREEM_API_KEY?.trim();
+            ? (process.env.CREEM_TEST_API_KEY?.trim() || process.env.CREEM_API_KEY?.trim() || 'creem_1qa0zx2EuHN9gz9DLcGTAG')
+            : (process.env.CREEM_API_KEY?.trim() || 'creem_1qa0zx2EuHN9gz9DLcGTAG');
 
         const creemApiBase = isTestMode
             ? 'https://test-api.creem.io/v1'
