@@ -40,51 +40,35 @@ export default async function handler(req, res) {
         }
 
         // 第一步：获取所有 checkouts 列表
-        let allCheckouts = [];
-        let page = 1;
-        let hasMore = true;
+        // 🔥 Creem List Checkouts API 不支持 limit/page 参数
+        const url = `${creemApiBase}/checkouts`;
+        console.log(`📤 请求 checkout 列表: ${url}`);
 
-        while (hasMore) {
-            const url = `${creemApiBase}/checkouts?limit=100&page=${page}`;
-            console.log(`📤 请求 checkout 列表: ${url}`);
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: { 'x-api-key': apiKey }
+        });
 
-            const response = await fetch(url, {
-                method: 'GET',
-                headers: { 'x-api-key': apiKey }
-            });
+        if (!response.ok) {
+            const errText = await response.text();
+            console.error(`❌ 获取 checkouts 失败: ${response.status} - ${errText}`);
+            return res.status(500).json({ error: '获取订单列表失败' });
+        }
 
-            if (!response.ok) {
-                const errText = await response.text();
-                console.error(`❌ 获取 checkouts 失败: ${response.status} - ${errText}`);
-                break;
-            }
+        const result = await response.json();
 
-            const result = await response.json();
+        // 🔥 调试：打印响应结构
+        console.log('📥 响应 keys:', Object.keys(result));
 
-            // 🔥 调试：打印第一页的完整响应结构
-            if (page === 1) {
-                console.log('📥 第一页响应 keys:', Object.keys(result));
-                if (result.data && Array.isArray(result.data) && result.data.length > 0) {
-                    console.log('📥 第一条 checkout keys:', Object.keys(result.data[0]));
-                    console.log('📥 第一条 checkout (完整):', JSON.stringify(result.data[0], null, 2));
-                } else if (result.checkouts && Array.isArray(result.checkouts) && result.checkouts.length > 0) {
-                    console.log('📥 第一条 checkout keys:', Object.keys(result.checkouts[0]));
-                    console.log('📥 第一条 checkout (完整):', JSON.stringify(result.checkouts[0], null, 2));
-                } else {
-                    console.log('📥 完整响应:', JSON.stringify(result, null, 2));
-                }
-            }
+        let allCheckouts = result.data || result.checkouts || result.items || result || [];
 
-            const checkouts = result.data || result.checkouts || result.items || [];
-
-            if (checkouts.length === 0) {
-                hasMore = false;
-            } else {
-                allCheckouts = allCheckouts.concat(checkouts);
-                page++;
-
-                if (page > 50) hasMore = false;
-            }
+        // 确保是数组
+        if (!Array.isArray(allCheckouts)) {
+            console.log('📥 完整响应:', JSON.stringify(result, null, 2));
+            allCheckouts = [];
+        } else if (allCheckouts.length > 0) {
+            console.log('📥 第一条 checkout keys:', Object.keys(allCheckouts[0]));
+            console.log('📥 第一条 checkout (完整):', JSON.stringify(allCheckouts[0], null, 2));
         }
 
         console.log(`📊 共获取 ${allCheckouts.length} 笔 checkout`);
