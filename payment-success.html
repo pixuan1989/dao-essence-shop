@@ -272,6 +272,10 @@
             <div class="order-info">
                 <h3>🧾 Order Details</h3>
                 <div class="order-detail">
+                    <span>Product:</span>
+                    <span id="order-product">Loading...</span>
+                </div>
+                <div class="order-detail">
                     <span>Order ID:</span>
                     <span id="order-id">Loading...</span>
                 </div>
@@ -360,8 +364,10 @@
             // Get order details from URL
             const orderId = urlParams.get('order_id') || 'ORD-' + Date.now();
             const total = urlParams.get('total');
+            const product = urlParams.get('product') || 'Digital Service';
 
             // Display order info
+            document.getElementById('order-product').textContent = product;
             document.getElementById('order-id').textContent = orderId;
             document.getElementById('order-date').textContent = new Date().toLocaleDateString('en-US', {
                 year: 'numeric',

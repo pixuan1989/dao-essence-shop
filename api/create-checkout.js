@@ -100,11 +100,15 @@ export default async function handler(req, res) {
         const useDiscountCode = discountCode || creemDiscountCode || (items.some(item => item.hasDiscount) ? 'XJCX520' : null);
         const orderId = `ORDER_${Date.now()}_${Math.floor(Math.random() * 10000)}`;
 
+        // 提取产品名称用于支付成功页面展示
+        const productName = items[0]?.name || 'Digital Service';
+        const encodedName = encodeURIComponent(productName);
+
         const baseUrl = process.env.VERCEL_URL
             ? `https://${process.env.VERCEL_URL}`
             : (req.headers.origin || 'https://daoessentia.com');
         // 不传 total 参数，避免前端价格和 Creem 价格不一致
-        const successUrl = `${baseUrl}/payment-success.html?order_id=${orderId}`;
+        const successUrl = `${baseUrl}/payment-success.html?order_id=${orderId}&product=${encodedName}`;
 
         // 准备 Creem API 请求数据（精简，去掉不必要的 metadata）
         const creemCheckoutData = {

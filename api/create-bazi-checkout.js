@@ -69,7 +69,8 @@ export default async function handler(req, res) {
             : (req.headers.origin || 'https://daoessentia.com');
 
         // 支付成功回调页面（不传 total，避免价格不一致）
-        const successUrl = `${baseUrl}/payment-success.html?order_id=${orderId}&type=bazi&lang=${language || 'zh'}`;
+        const baziProductName = encodeURIComponent('Bazi Life Guidance');
+        const successUrl = `${baseUrl}/payment-success.html?order_id=${orderId}&type=bazi&lang=${language || 'zh'}&product=${baziProductName}`;
 
         // ============================================
         // 核心：将八字数据写入 metadata

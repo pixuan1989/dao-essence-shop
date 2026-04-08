@@ -168,11 +168,11 @@
                     <i class="fas fa-check"></i>
                 </div>
                 <h1 class="success-title">Payment Successful!</h1>
-                <p class="success-message">Thank you for your purchase. Your BaZi analysis report will be delivered to your email within 48 hours.</p>
+                <p class="success-message" id="success-message">Thank you for your purchase. Your order has been confirmed and will be processed shortly.</p>
                 <div class="success-details">
                     <p><strong>Order Status:</strong> Completed</p>
-                    <p><strong>Service:</strong> BaZi Analysis Report</p>
-                    <p><strong>Next Steps:</strong> We will process your analysis and send the report to your email address.</p>
+                    <p><strong>Service:</strong> <span id="service-name">Digital Service</span></p>
+                    <p id="bazi-message" style="display:none;"><strong>Next Steps:</strong> We will process your analysis and send the report to your email address.</p>
                 </div>
                 <a href="shop.html" class="success-btn">Continue Shopping</a>
             </div>
@@ -234,5 +234,19 @@
     </footer>
 
     <script src="main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const product = urlParams.get('product') || urlParams.get('service') || 'Digital Service';
+            document.getElementById('service-name').textContent = product;
+
+            // 八字产品的特殊提示
+            if (product.toLowerCase().includes('bazi') || product.toLowerCase().includes('八字')) {
+                document.getElementById('success-message').textContent = 
+                    'Thank you for your purchase. Your BaZi analysis report will be delivered to your email within 48 hours.';
+                document.getElementById('bazi-message').style.display = 'block';
+            }
+        });
+    </script>
 </body>
 </html>
