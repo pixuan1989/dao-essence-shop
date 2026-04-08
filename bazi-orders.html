@@ -17,7 +17,146 @@
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
             min-height: 100vh;
             color: #e8e8e8;
+        }
+
+        /* ========== 登录页面 ========== */
+        .login-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0d0d1a 0%, #1a1a2e 50%, #16213e 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .login-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .login-box {
+            background: rgba(26, 26, 46, 0.95);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 20px;
+            padding: 50px 40px;
+            width: 420px;
+            max-width: 90%;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 80px rgba(212, 175, 55, 0.05);
+        }
+
+        .login-logo {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+        }
+
+        .login-title {
+            font-size: 1.6rem;
+            color: #d4af37;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .login-subtitle {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 35px;
+        }
+
+        .login-input-group {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .login-input-group label {
+            display: block;
+            text-align: left;
+            color: #888;
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+        }
+
+        .login-input {
+            width: 100%;
+            padding: 14px 18px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #e8e8e8;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .login-input:focus {
+            border-color: #d4af37;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.15);
+        }
+
+        .login-input::placeholder {
+            color: #555;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #d4af37, #b8941f);
+            color: #1a1a2e;
+            font-family: inherit;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
+        }
+
+        .login-btn:active {
+            transform: translateY(0);
+        }
+
+        .login-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .login-error {
+            color: #ef5350;
+            font-size: 0.85rem;
+            margin-top: 15px;
+            min-height: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .login-footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            color: #555;
+            font-size: 0.8rem;
+        }
+
+        /* ========== 管理面板 ========== */
+        .admin-panel {
             padding: 20px;
+            display: none;
+        }
+
+        .admin-panel.visible {
+            display: block;
         }
 
         .container {
@@ -41,6 +180,28 @@
         header p {
             color: #888;
             font-size: 0.9rem;
+        }
+
+        .header-actions {
+            text-align: right;
+            margin-bottom: 20px;
+        }
+
+        .btn-logout {
+            padding: 8px 18px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 8px;
+            background: transparent;
+            color: #888;
+            font-family: inherit;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-logout:hover {
+            border-color: #ef5350;
+            color: #ef5350;
         }
 
         .stats-bar {
@@ -269,6 +430,37 @@
             min-height: 100px;
         }
 
+        /* Loading 状态 */
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .loading-overlay.active {
+            display: flex;
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(212, 175, 55, 0.2);
+            border-top-color: #d4af37;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
         @media (max-width: 768px) {
             .orders-table {
                 overflow-x: auto;
@@ -281,69 +473,116 @@
             .bazi-info {
                 grid-template-columns: 1fr;
             }
+
+            .login-box {
+                padding: 35px 25px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>☯️ 八字命理订单管理</h1>
-            <p>查看和管理所有八字命理分析订单</p>
-        </header>
 
-        <div class="stats-bar">
-            <div class="stat-card">
-                <h3 id="totalOrders">0</h3>
-                <p>总订单数</p>
-            </div>
-            <div class="stat-card">
-                <h3 id="todayOrders">0</h3>
-                <p>今日订单</p>
-            </div>
-            <div class="stat-card">
-                <h3 id="pendingOrders">0</h3>
-                <p>待处理</p>
-            </div>
-            <div class="stat-card">
-                <h3 id="totalRevenue">$0</h3>
-                <p>总收入</p>
+    <!-- ========== 登录页面 ========== -->
+    <div class="login-screen" id="loginScreen">
+        <div class="login-box">
+            <div class="login-logo">☯️</div>
+            <div class="login-title">Dao Essence</div>
+            <div class="login-subtitle">八字命理订单管理系统</div>
+
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="login-input-group">
+                    <label>管理密钥</label>
+                    <input 
+                        type="password" 
+                        id="loginKey" 
+                        class="login-input" 
+                        placeholder="请输入管理员密钥"
+                        autocomplete="current-password"
+                        autofocus
+                    >
+                </div>
+                <button type="submit" class="login-btn" id="loginBtn">
+                    🔓 进入管理后台
+                </button>
+                <div class="login-error" id="loginError"></div>
+            </form>
+
+            <div class="login-footer">
+                仅限授权管理人员访问
             </div>
         </div>
+    </div>
 
-        <div class="filters">
-            <input type="text" id="searchInput" placeholder="搜索姓名、邮箱或订单号...">
-            <select id="statusFilter">
-                <option value="">全部状态</option>
-                <option value="paid">已支付</option>
-                <option value="pending">待处理</option>
-            </select>
-            <input type="date" id="dateFilter">
-            <button class="btn btn-primary" onclick="refreshOrders()">🔄 刷新</button>
-            <button class="btn btn-primary" onclick="exportOrders()">📥 导出</button>
-        </div>
+    <!-- ========== Loading ========== -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+    </div>
 
-        <div class="orders-table">
-            <table>
-                <thead>
-                    <tr>
-                        <th>订单号</th>
-                        <th>客户信息</th>
-                        <th>八字信息</th>
-                        <th>金额</th>
-                        <th>状态</th>
-                        <th>时间</th>
-                        <th>操作</th>
-                    </tr>
-                </thead>
-                <tbody id="ordersTableBody">
-                    <!-- 订单数据将通过 JavaScript 动态加载 -->
-                </tbody>
-            </table>
-        </div>
+    <!-- ========== 管理面板 ========== -->
+    <div class="admin-panel" id="adminPanel">
+        <div class="container">
+            <div class="header-actions">
+                <button class="btn-logout" onclick="handleLogout()">🚪 退出登录</button>
+            </div>
 
-        <div class="empty-state" id="emptyState" style="display: none;">
-            <h3>暂无订单数据</h3>
-            <p>当用户完成八字命理分析支付后，订单将显示在这里</p>
+            <header>
+                <h1>☯️ 八字命理订单管理</h1>
+                <p>查看和管理所有八字命理分析订单</p>
+            </header>
+
+            <div class="stats-bar">
+                <div class="stat-card">
+                    <h3 id="totalOrders">0</h3>
+                    <p>总订单数</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="todayOrders">0</h3>
+                    <p>今日订单</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="pendingOrders">0</h3>
+                    <p>待处理</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="totalRevenue">$0</h3>
+                    <p>总收入</p>
+                </div>
+            </div>
+
+            <div class="filters">
+                <input type="text" id="searchInput" placeholder="搜索姓名、邮箱或订单号...">
+                <select id="statusFilter">
+                    <option value="">全部状态</option>
+                    <option value="paid">已支付</option>
+                    <option value="pending">待处理</option>
+                </select>
+                <input type="date" id="dateFilter">
+                <button class="btn btn-primary" onclick="refreshOrders()">🔄 刷新</button>
+                <button class="btn btn-primary" onclick="exportOrders()">📥 导出</button>
+            </div>
+
+            <div class="orders-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>订单号</th>
+                            <th>客户信息</th>
+                            <th>八字信息</th>
+                            <th>金额</th>
+                            <th>状态</th>
+                            <th>时间</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ordersTableBody">
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="empty-state" id="emptyState" style="display: none;">
+                <h3>暂无订单数据</h3>
+                <p>当用户完成八字命理分析支付后，订单将显示在这里</p>
+            </div>
         </div>
     </div>
 
@@ -354,37 +593,94 @@
                 <h2>订单详情</h2>
                 <button class="modal-close" onclick="closeModal()">&times;</button>
             </div>
-            <div id="modalBody">
-                <!-- 详情内容 -->
-            </div>
+            <div id="modalBody"></div>
         </div>
     </div>
 
     <script>
-        // 模拟订单数据（实际项目中应从后端 API 获取）
         let orders = [];
+        let adminKey = null;
 
-        // 从 Creem API 加载订单
-        async function loadOrders() {
+        // ========== 登录逻辑 ==========
+        async function handleLogin(e) {
+            e.preventDefault();
+            const key = document.getElementById('loginKey').value.trim();
+            const loginBtn = document.getElementById('loginBtn');
+            const loginError = document.getElementById('loginError');
+
+            if (!key) {
+                loginError.textContent = '请输入管理密钥';
+                return;
+            }
+
+            loginBtn.disabled = true;
+            loginBtn.textContent = '验证中...';
+            loginError.textContent = '';
+
             try {
-                const adminKey = localStorage.getItem('baziAdminKey') || prompt('请输入管理密钥（ADMIN_KEY）:');
-                if (!adminKey) {
-                    alert('需要管理密钥才能访问');
-                    return;
-                }
-                localStorage.setItem('baziAdminKey', adminKey);
-
                 const response = await fetch('/api/get-bazi-orders', {
                     method: 'GET',
-                    headers: {
-                        'x-admin-key': adminKey
-                    }
+                    headers: { 'x-admin-key': key }
                 });
 
                 if (response.status === 403) {
-                    localStorage.removeItem('baziAdminKey');
-                    alert('管理密钥错误，请重试');
-                    loadOrders();
+                    loginError.textContent = '密钥错误，请重新输入';
+                    loginBtn.disabled = false;
+                    loginBtn.textContent = '🔓 进入管理后台';
+                    return;
+                }
+
+                const result = await response.json();
+
+                if (result.success) {
+                    adminKey = key;
+                    localStorage.setItem('baziAdminKey', key);
+                    orders = result.orders;
+                    showAdminPanel();
+                } else {
+                    loginError.textContent = '加载失败: ' + (result.error || '未知错误');
+                }
+            } catch (error) {
+                loginError.textContent = '连接失败: ' + error.message;
+            }
+
+            loginBtn.disabled = false;
+            loginBtn.textContent = '🔓 进入管理后台';
+        }
+
+        // 显示管理面板
+        function showAdminPanel() {
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('adminPanel').classList.add('visible');
+            renderOrders();
+            updateStats();
+        }
+
+        // 退出登录
+        function handleLogout() {
+            adminKey = null;
+            localStorage.removeItem('baziAdminKey');
+            orders = [];
+            document.getElementById('loginScreen').classList.remove('hidden');
+            document.getElementById('adminPanel').classList.remove('visible');
+            document.getElementById('loginKey').value = '';
+            document.getElementById('loginError').textContent = '';
+        }
+
+        // 加载订单
+        async function loadOrders() {
+            if (!adminKey) return;
+
+            showLoading(true);
+
+            try {
+                const response = await fetch('/api/get-bazi-orders', {
+                    method: 'GET',
+                    headers: { 'x-admin-key': adminKey }
+                });
+
+                if (response.status === 403) {
+                    handleLogout();
                     return;
                 }
 
@@ -393,21 +689,55 @@
                     orders = result.orders;
                     renderOrders();
                     updateStats();
-                } else {
-                    alert('加载失败: ' + (result.error || '未知错误'));
                 }
             } catch (error) {
                 console.error('加载订单错误:', error);
-                alert('加载订单失败: ' + error.message);
+            } finally {
+                showLoading(false);
             }
         }
 
-        // 渲染订单列表
+        function showLoading(show) {
+            document.getElementById('loadingOverlay').classList.toggle('active', show);
+        }
+
+        // ========== 初始化：检查是否有保存的密钥 ==========
+        document.addEventListener('DOMContentLoaded', async function() {
+            const savedKey = localStorage.getItem('baziAdminKey');
+
+            if (savedKey) {
+                // 尝试用保存的密钥自动登录
+                try {
+                    const response = await fetch('/api/get-bazi-orders', {
+                        method: 'GET',
+                        headers: { 'x-admin-key': savedKey }
+                    });
+
+                    if (response.status === 200) {
+                        const result = await response.json();
+                        if (result.success) {
+                            adminKey = savedKey;
+                            orders = result.orders;
+                            showAdminPanel();
+                            return;
+                        }
+                    }
+                } catch (e) {
+                    // 网络错误，不自动登录
+                }
+
+                localStorage.removeItem('baziAdminKey');
+            }
+
+            // 没有有效密钥，显示登录页（让用户手动输入）
+            document.getElementById('loginKey').focus();
+        });
+
+        // ========== 订单管理逻辑 ==========
+
         function renderOrders() {
             const tbody = document.getElementById('ordersTableBody');
             const emptyState = document.getElementById('emptyState');
-            
-            // 应用筛选
             let filteredOrders = filterOrders();
 
             if (filteredOrders.length === 0) {
@@ -417,7 +747,7 @@
             }
 
             emptyState.style.display = 'none';
-            
+
             tbody.innerHTML = filteredOrders.map(order => `
                 <tr>
                     <td>
@@ -457,34 +787,29 @@
             `).join('');
         }
 
-        // 筛选订单
         function filterOrders() {
             const searchTerm = document.getElementById('searchInput').value.toLowerCase();
             const statusFilter = document.getElementById('statusFilter').value;
             const dateFilter = document.getElementById('dateFilter').value;
 
             return orders.filter(order => {
-                // 搜索筛选
-                const matchesSearch = !searchTerm || 
+                const matchesSearch = !searchTerm ||
                     (order.name && order.name.toLowerCase().includes(searchTerm)) ||
                     (order.email && order.email.toLowerCase().includes(searchTerm)) ||
                     (order.orderId && order.orderId.toLowerCase().includes(searchTerm));
 
-                // 状态筛选
                 const matchesStatus = !statusFilter || order.status === statusFilter;
 
-                // 日期筛选
-                const matchesDate = !dateFilter || 
+                const matchesDate = !dateFilter ||
                     (order.createdAt && order.createdAt.startsWith(dateFilter));
 
                 return matchesSearch && matchesStatus && matchesDate;
             });
         }
 
-        // 更新统计
         function updateStats() {
             document.getElementById('totalOrders').textContent = orders.length;
-            
+
             const today = new Date().toISOString().split('T')[0];
             const todayCount = orders.filter(o => o.createdAt && o.createdAt.startsWith(today)).length;
             document.getElementById('todayOrders').textContent = todayCount;
@@ -498,7 +823,6 @@
             document.getElementById('totalRevenue').textContent = `$${totalRevenue.toFixed(2)}`;
         }
 
-        // 查看订单详情
         function viewOrder(orderId) {
             const order = orders.find(o => o.orderId === orderId);
             if (!order) return;
@@ -568,35 +892,21 @@
             document.getElementById('orderModal').classList.add('active');
         }
 
-        // 关闭弹窗
         function closeModal() {
             document.getElementById('orderModal').classList.remove('active');
         }
 
-        // 刷新订单
         function refreshOrders() {
             loadOrders();
         }
 
-        // 导出订单
         function exportOrders() {
             const csvContent = [
                 ['订单号', 'Checkout ID', '姓名', '邮箱', '金额', '状态', '出生年', '出生月', '出生日', '出生时辰', '性别', '出生地点', '备注', '下单时间'],
                 ...orders.map(o => [
-                    o.orderId,
-                    o.checkoutId,
-                    o.name,
-                    o.email,
-                    o.amount,
-                    o.status,
-                    o.birthYear,
-                    o.birthMonth,
-                    o.birthDay,
-                    o.birthHour,
-                    o.gender,
-                    o.birthPlace,
-                    o.notes,
-                    o.createdAt
+                    o.orderId, o.checkoutId, o.name, o.email, o.amount, o.status,
+                    o.birthYear, o.birthMonth, o.birthDay, o.birthHour, o.gender,
+                    o.birthPlace, o.notes, o.createdAt
                 ])
             ].map(row => row.join(',')).join('\n');
 
@@ -607,45 +917,27 @@
             link.click();
         }
 
-        // 格式化日期
         function formatDate(dateStr) {
             if (!dateStr) return 'N/A';
             const date = new Date(dateStr);
             return date.toLocaleDateString('zh-CN');
         }
 
-        // 格式化日期时间
         function formatDateTime(dateStr) {
             if (!dateStr) return 'N/A';
             const date = new Date(dateStr);
             return date.toLocaleString('zh-CN');
         }
 
-        // 监听筛选变化
+        // 监听筛选
         document.getElementById('searchInput').addEventListener('input', renderOrders);
         document.getElementById('statusFilter').addEventListener('change', renderOrders);
         document.getElementById('dateFilter').addEventListener('change', renderOrders);
 
         // 点击弹窗外部关闭
         document.getElementById('orderModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeModal();
-            }
+            if (e.target === this) closeModal();
         });
-
-        // 页面加载时初始化
-        document.addEventListener('DOMContentLoaded', loadOrders);
-
-        // 提供全局函数供 webhook 调用
-        window.addBaziOrder = function(orderData) {
-            orders.unshift({
-                ...orderData,
-                createdAt: new Date().toISOString()
-            });
-            localStorage.setItem('baziOrders', JSON.stringify(orders));
-            renderOrders();
-            updateStats();
-        };
     </script>
 </body>
 </html>
