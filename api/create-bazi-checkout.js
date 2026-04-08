@@ -143,11 +143,13 @@ export default async function handler(req, res) {
             creemCheckoutData.discount_code = discount_code;
         }
 
-        console.log('📤 请求 Creem API:');
-        console.log(`  URL: ${creemApiBase}/checkouts`);
-        console.log(`  Method: POST`);
-        console.log(`  Headers: { "Content-Type": "application/json", "x-api-key": "${apiKey.substring(0, 15)}..." }`);
-        console.log(`  Body: ${JSON.stringify(creemCheckoutData, null, 2)}`);
+        console.log('========== Creem API 请求详情 ==========');
+        console.log(`📤 URL: ${creemApiBase}/checkouts`);
+        console.log(`📤 Method: POST`);
+        console.log(`📤 API Key (前15位): ${apiKey.substring(0, 15)}...`);
+        console.log(`📤 请求体 (JSON):`);
+        console.log(JSON.stringify(creemCheckoutData, null, 2));
+        console.log('======================================');
 
         // 调用 Creem API
         const response = await fetch(`${creemApiBase}/checkouts`, {
@@ -160,8 +162,12 @@ export default async function handler(req, res) {
         });
 
         const resultText = await response.text();
-        console.log('📥 Creem API 响应状态:', response.status, response.statusText);
-        console.log('📥 Creem API 响应原始内容:', resultText);
+        console.log('========== Creem API 响应详情 ==========');
+        console.log(`📥 状态码: ${response.status} ${response.statusText}`);
+        console.log(`📥 响应头: ${JSON.stringify(Object.fromEntries(response.headers.entries()))}`);
+        console.log(`📥 响应内容 (原始):`);
+        console.log(resultText);
+        console.log('======================================');
 
         let result;
         try {
@@ -171,10 +177,14 @@ export default async function handler(req, res) {
         }
 
         if (!response.ok) {
-            console.error('❌ Creem API 错误:');
-            console.error(`  Status: ${response.status} ${response.statusText}`);
-            console.error(`  Error: ${result.error || result.message || 'Unknown error'}`);
-            console.error(`  Details: ${JSON.stringify(result, null, 2)}`);
+            console.error('========== Creem API 错误分析 ==========');
+            console.error(`❌ 错误状态: ${response.status} ${response.statusText}`);
+            console.error(`❌ 错误信息: ${result.error || result.message || 'Unknown error'}`);
+            if (result.details) {
+                console.error(`❌ 错误详情:`);
+                console.error(JSON.stringify(result.details, null, 2));
+            }
+            console.error('======================================');
             return res.status(500).json({
                 error: result.error || result.message || result.raw_response || '创建支付会话失败',
                 details: result,
