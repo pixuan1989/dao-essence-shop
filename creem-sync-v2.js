@@ -26,23 +26,72 @@ console.log('🧹 调试模式：已清除产品缓存，将从API重新加载')
 
 /**
  * 备用数据（API 失败时使用）
+ * 注意：这里的价格是美元单位，与 Creem 后台设置保持一致
  */
 const FALLBACK_PRODUCTS = [
   {
-    id: 'prod_7i2asEAuHFHl5hJMeCEsfB',
-    name: '传统沉香',
-    price: 200,
+    id: 'prod_28PqAKMEom5WGRH1w9O35n',
+    name: 'Bazi Life Guidance',
+    nameCN: '八字人生指南',
+    price: 69.00,
     currency: 'USD',
-    description: '优质沉香，传统工艺制作',
+    description: 'Comprehensive BaZi (八字) life analysis based on your birth date and time.',
+    descriptionCN: '根据您的出生日期和时间进行全面的八字（四柱命理）人生分析。',
+    image: 'images/bazi-guide.jpg',
+    category: 'bazi-analysis'
+  },
+  {
+    id: 'prod_45v7a05ZjqA9a1LVq0o0g3',
+    name: 'Taoist Music',
+    nameCN: '道家音乐',
+    price: 1.00,
+    currency: 'USD',
+    description: 'Traditional Taoist meditation music for spiritual healing and inner peace.',
+    descriptionCN: '传统道家冥想音乐，用于精神疗愈和内心平静。',
+    image: 'images/taoist-music.jpg',
+    category: 'dao-meditation'
+  },
+  {
+    id: 'prod_26987QrSoIC3ui76ill96H',
+    name: 'Tao Te Ching',
+    nameCN: '道德经',
+    price: 1.99,
+    currency: 'USD',
+    description: 'Ancient Chinese philosophical text by Lao Tzu. Digital edition with annotations.',
+    descriptionCN: '老子创作的中国古代哲学经典。带注释的数字版。',
+    image: 'images/tao-te-ching.jpg',
+    category: 'dao-readings'
+  },
+  {
+    id: 'prod_3btZfL4MwsO2xSr7AB3J8S',
+    name: 'Lord of Mysteries',
+    nameCN: '诡秘之主',
+    price: 1.99,
+    currency: 'USD',
+    description: 'Best-selling Chinese cultivation novel. EPUB format with high-quality translation.',
+    descriptionCN: '畅销中国修仙小说。高质量翻译的 EPUB 格式。',
+    image: 'images/lord-of-mysteries.jpg',
+    category: 'cultivation-novels'
+  },
+  {
+    id: 'prod_7i2asEAuHFHl5hJMeCEsfB',
+    name: 'Agarwood Energy Cleansing Audio Set',
+    nameCN: '沉香能量净化音频套装',
+    price: 99.99,
+    currency: 'USD',
+    description: 'Premium agarwood-based meditation audio for energy cleansing and spiritual healing.',
+    descriptionCN: '优质沉香冥想音频，用于能量净化和精神疗愈。',
     image: 'images/agarwood.jpg',
     category: 'dao-meditation'
   },
   {
     id: 'prod_1YuuAVysoYK6AOmQVab2uR',
-    name: 'Five Elements Digital Energy Guidance',
-    price: 168,
+    name: 'Five Elements Energy Digital Set',
+    nameCN: '五行能量数字套装',
+    price: 68.00,
     currency: 'USD',
     description: 'Five Elements digital energy guidance program with personalized audio guide and daily practice routines.',
+    descriptionCN: '五行能量数字指导计划，包含个性化音频指导和日常练习。',
     image: 'images/fiveelements.jpg',
     category: 'dao-meditation'
   }
@@ -54,13 +103,13 @@ const FALLBACK_PRODUCTS = [
  */
 const PRODUCT_CATEGORY_MAP = {
   // 八字分析类
-  'prod_28PqAKMEom5WGRH1w9O35n': 'bazi-analysis',       // 八字分析报告
+  'prod_28PqAKMEom5WGRH1w9O35n': 'bazi-analysis',       // 八字人生指南
   // 道家冥想类
-  'prod_7i2asEAuHFHl5hJMeCEsfB': 'dao-meditation',      // 沉香冥想音频
-  'prod_1YuuAVysoYK6AOmQVab2uR': 'dao-meditation',      // 五行能量音频
-  'prod_45v7a05ZjqA9a1LVq0o0g3': 'dao-meditation',      // 新增道家冥想产品
-  'prod_xxx_taisui': 'dao-meditation',                  // 生肖太岁音频
-  'prod_xxx_obsidian': 'dao-meditation',                // 黑曜石冥想
+  'prod_45v7a05ZjqA9a1LVq0o0g3': 'dao-meditation',      // 道家音乐
+  'prod_7i2asEAuHFHl5hJMeCEsfB': 'dao-meditation',      // 沉香能量净化音频套装
+  'prod_1YuuAVysoYK6AOmQVab2uR': 'dao-meditation',      // 五行能量数字套装
+  'prod_xxx_taisui': 'dao-meditation',                  // 生肖太岁音频（待配置）
+  'prod_xxx_obsidian': 'dao-meditation',                // 黑曜石冥想（待配置）
   // 中国修仙小说类
   'prod_3btZfL4MwsO2xSr7AB3J8S': 'cultivation-novels',  // 诡秘之主
   // 道家读物类（道德经等）
@@ -158,16 +207,24 @@ function transformProducts(products) {
     const productId = product.id || product.productId;
     // 使用映射表覆盖分类，如果没有映射则使用API返回的分类或默认'other'
     const mappedCategory = PRODUCT_CATEGORY_MAP[productId] || product.category || 'other';
-    
+
     // 调试日志：显示产品ID和映射的分类
     console.log(`🔄 产品映射: ${productId} -> ${mappedCategory} (原始分类: ${product.category || 'none'})`);
-    
+
+    // 价格转换逻辑：如果价格大于 100，说明 API 返回的是分，需要除以 100
+    // 如果价格在合理美元范围内（如 0.99 - 999），则不需要除以 100
+    const rawPrice = product.price || product.priceAmount || 0;
+    const isCents = rawPrice > 100; // 判断是否为分
+    const price = isCents ? rawPrice / 100 : rawPrice;
+
+    console.log(`💰 价格转换: ${productId} - 原始值: ${rawPrice} -> 最终价格: $${price.toFixed(2)} (${isCents ? '分转美元' : '已经是美元'})`);
+
     return {
       id: productId,
       name: product.name || product.title || '未知产品',
       nameCN: product.name || product.title || '未知产品',
-      price: (product.price || product.priceAmount || 0) / 100,  // 🔥 cents -> dollars
-      originalPrice: (product.price || product.priceAmount || 0) / 100,
+      price: price,
+      originalPrice: price,
       currency: product.currency || 'USD',
       description: product.description || '暂无描述',
       descriptionCN: product.description || '暂无描述',
