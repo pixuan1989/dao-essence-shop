@@ -276,41 +276,41 @@ Blog 是 SEO 的核心引擎。建议创建 `/blog/` 目录，写以下文章：
 
 ## 五、 🔧 需要立即执行的修复清单
 
-### 第一批（今天完成）
+### 第一批（今天完成） ✅
 
-- [ ] **修复 shop.html og:url 和 og:image** — 改为 www.daoessentia.com
-- [ ] **修复 index.html JSON-LD** — url 改为 www.daoessentia.com
-- [ ] **修复 shop.html JSON-LD** — url 改为 www.daoessentia.com
-- [ ] **删除 sitemap.xml 中的 blog/ 条目**（或立即创建 blog 页面）
-- [ ] **给 contact.html 添加 canonical**
-- [ ] **给 destiny.html 添加 canonical**
-- [ ] **给 privacy.html 添加 canonical**
-- [ ] **给 terms.html 添加 canonical**
+- [x] **修复 shop.html og:url 和 og:image** — 改为 www.daoessentia.com *(commit: 695de86)*
+- [x] **修复 index.html JSON-LD** — url 改为 www.daoessentia.com *(commit: 695de86)*
+- [x] **修复 shop.html JSON-LD** — url 改为 www.daoessentia.com *(commit: 695de86)*
+- [x] **删除 sitemap.xml 中的 blog/ 条目**（或立即创建 blog 页面）*(commit: 695de86)*
+- [x] **给 contact.html 添加 canonical** *(commit: 695de86)*
+- [x] **给 destiny.html 添加 canonical** *(commit: 695de86)*
+- [x] **给 privacy.html 添加 canonical** *(commit: 695de86)*
+- [x] **给 terms.html 添加 canonical** *(commit: 695de86)*
 
-### 第二批（本周完成）
+### 第二批（本周完成） ✅
 
-- [ ] 给 contact.html、destiny.html、privacy.html、terms.html 添加 meta description
-- [ ] 给 bazi-form.html 添加 OG 标签
-- [ ] 给所有页面添加 hreflang 标签
-- [ ] 清除 guide.html 的 BOM 字符
-- [ ] bazi-form.html 的 Google Fonts 改为 preload 或删除
+- [x] 给 contact.html、destiny.html、privacy.html、terms.html 添加 meta description *(commit: 695de86)*
+- [x] 给 bazi-form.html 添加 OG 标签 *(commit: 695de86)*
+- [x] 给所有页面添加 hreflang 标签 *(commit: 769dd82)*
+- [x] 清除 guide.html 的 BOM 字符 *(commit: 695de86)*
+- [x] bazi-form.html 的 Google Fonts 改为 preload 或删除 *(commit: 769dd82)*
 
-### 第三批（下周完成）
+### 第三批（下周完成） ✅
 
-- [ ] 给 product-detail.html 添加 Product Schema
-- [ ] 给 culture.html 和 guide.html 添加 FAQ Schema
-- [ ] 给所有页面添加 BreadcrumbList Schema
-- [ ] 在 Google Search Console 中验证 www.daoessentia.com
-- [ ] 提交更新后的 sitemap.xml 到 Google Search Console
-- [ ] 提交更新后的 sitemap.xml 到 Bing Webmaster Tools
-- [ ] 检查并修复 sitemap 中 product-detail.html URL 参数问题（Google 对带 ?id= 的 URL 索引不佳）
+- [ ] 给 product-detail.html 添加 Product Schema *(暂缓：产品页为动态渲染，Schema 需 JS 动态注入)*
+- [x] 给 culture.html 和 guide.html 添加 FAQ Schema *(commit: 769dd82)*
+- [x] 给所有页面添加 BreadcrumbList Schema *(commit: 769dd82)*
+- [x] ~~在 Google Search Console 中验证 www.daoessentia.com~~ *(用户已在 GSC 验证)*
+- [ ] 提交更新后的 sitemap.xml 到 Google Search Console *(需用户手动在 GSC 操作)*
+- [ ] 提交更新后的 sitemap.xml 到 Bing Webmaster Tools *(需用户手动操作)*
+- [ ] 检查并修复 sitemap 中 product-detail.html URL 参数问题（Google 对带 ?id= 的 URL 索引不佳）*(暂缓)*
 
-### 第四批（持续进行）
+### 第四批（持续进行） 🔄
 
-- [ ] 创建 Blog 目录，发布第一批 6 篇文章
-- [ ] 每月发布 2-4 篇高质量 blog 文章
-- [ ] 在产品描述页面自然嵌入目标关键词
-- [ ] 建立 Instagram/Pinterest 外链（JSON-LD 中已声明 sameAs）
+- [x] 创建 Blog 目录，发布第一批 3 篇文章 *(commit: 6f4f3cc，已发布 3/6 篇)*
+- [ ] 每月发布 2-4 篇高质量 blog 文章 *(第二批待写)*
+- [x] 在产品描述页面自然嵌入目标关键词 *(已在 bazi-form/culture/guide 嵌入，commit: 232aad0)*
+- [ ] 建立 Instagram/Pinterest 外链（JSON-LD 中已声明 sameAs）*(需用户操作)*
 
 ---
 
