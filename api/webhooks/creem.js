@@ -4,6 +4,23 @@
  * 处理 Creem 支付事件通知
  * 八字订单自动保存到 Redis
  * ============================================
+ * 
+ * Creem Webhook 数据结构：
+ * {
+ *   "id": "evt_xxx",
+ *   "eventType": "checkout.completed",
+ *   "created_at": 1728734325927,
+ *   "object": {
+ *     "id": "ch_xxx",
+ *     "order": { "id": "ord_xxx", "amount": 1000, ... },
+ *     "customer": { "id": "cust_xxx", "email": "...", "name": "..." },
+ *     "product": { "id": "prod_xxx", "name": "..." },
+ *     "metadata": { ... },
+ *     "custom_fields": [ ... ],
+ *     "status": "completed",
+ *     "mode": "local"
+ *   }
+ * }
  */
 
 import { getRedis, redisGet, redisSet } from '../redis.js';
@@ -18,25 +35,53 @@ export default async function handler(req, res) {
 
     try {
         const event = req.body;
-        console.log(`📨 Creem Webhook received: ${event.type}`);
+        const eventType = event.eventType || event.type; // 兼容两种格式
+        console.log(`📨 Creem Webhook received: ${eventType}`);
+        console.log('📦 Raw event keys:', JSON.stringify(Object.keys(event)));
 
-        switch (event.type) {
+        switch (eventType) {
             case 'checkout.completed': {
-                const checkout = event.data;
-                console.log('✅ Checkout completed:', checkout.id);
-                console.log('📦 Webhook 原始数据:', JSON.stringify(event.data, null, 2));
-                console.log('📋 Metadata 完整内容:', JSON.stringify(checkout.metadata, null, 2));
+                // Creem 的数据在 object 字段里
+                const checkout = event.object || event.data;
+                console.log('✅ Checkout completed:', checkout?.id);
+                console.log('📦 Checkout data:', JSON.stringify(checkout, null, 2));
 
+                if (!checkout) {
+                    console.error('❌ No checkout data in webhook');
+                    break;
+                }
+
+                const order = checkout.order || {};
+                const customer = checkout.customer || {};
+                const product = checkout.product || {};
                 const metadata = checkout.metadata || {};
-                const orderId = metadata.order_id || checkout.id;
+
+                console.log('📋 Metadata:', JSON.stringify(metadata));
+                console.log('📋 Custom fields:', JSON.stringify(checkout.custom_fields));
+                console.log('💰 Order amount:', order.amount, order.currency);
+
+                const orderId = metadata.order_id || order.id || checkout.id;
 
                 // 计算金额（Creem 以分为单位）
-                const amountInCents = checkout.amount || checkout.total || checkout.price || 0;
+                const amountInCents = order.amount || checkout.amount || 0;
                 const amount = amountInCents / 100;
 
+                // metadata 和 custom_fields 都检查
+                const allData = { ...metadata };
+                if (checkout.custom_fields && Array.isArray(checkout.custom_fields)) {
+                    checkout.custom_fields.forEach(field => {
+                        if (field.name && field.value) {
+                            allData[field.name] = field.value;
+                        }
+                    });
+                }
+
                 // 判断是否为八字订单
-                const isBaziOrder = metadata.product_type === 'bazi_analysis';
-                console.log(`🎯 订单类型: ${metadata.product_type} | 是否八字: ${isBaziOrder}`);
+                const isBaziOrder = allData.product_type === 'bazi_analysis' ||
+                                    product.name?.toLowerCase().includes('bazi') ||
+                                    product.name?.includes('八字') ||
+                                    product.name?.toLowerCase().includes('destiny');
+                console.log(`🎯 订单类型: ${allData.product_type} | 产品名: ${product.name} | 是否八字: ${isBaziOrder}`);
 
                 if (isBaziOrder) {
                     // 保存八字订单到 Redis
@@ -44,22 +89,26 @@ export default async function handler(req, res) {
                         id: checkout.id,
                         orderId: orderId,
                         checkoutId: checkout.id,
-                        name: metadata.name || checkout.customer?.name || '',
-                        email: metadata.email || checkout.customer?.email || '',
-                        birthYear: metadata.birth_year || '',
-                        birthMonth: metadata.birth_month || '',
-                        birthDay: metadata.birth_day || '',
-                        birthHour: metadata.birth_hour || '',
-                        gender: metadata.gender || '',
-                        birthPlace: metadata.birth_place || '',
-                        notes: metadata.notes || '',
-                        language: metadata.language || 'zh',
+                        name: allData.name || customer.name || '',
+                        email: allData.email || customer.email || '',
+                        birthYear: allData.birth_year || '',
+                        birthMonth: allData.birth_month || '',
+                        birthDay: allData.birth_day || '',
+                        birthHour: allData.birth_hour || '',
+                        gender: allData.gender || '',
+                        birthPlace: allData.birth_place || '',
+                        notes: allData.notes || '',
+                        language: allData.language || 'zh',
                         amount: amount,
-                        currency: checkout.currency || 'USD',
-                        status: 'paid',
-                        createdAt: checkout.created_at || new Date().toISOString(),
+                        currency: order.currency || checkout.currency || 'USD',
+                        status: order.status || 'paid',
+                        createdAt: order.created_at || checkout.created_at || new Date().toISOString(),
                         paidAt: new Date().toISOString(),
-                        mode: checkout.mode || 'live'
+                        mode: checkout.mode || 'live',
+                        productName: product.name || '',
+                        customerName: customer.name || '',
+                        customerEmail: customer.email || '',
+                        customerCountry: customer.country || ''
                     };
 
                     console.log('💾 保存八字订单到 Redis:', JSON.stringify(orderData, null, 2));
@@ -97,9 +146,10 @@ export default async function handler(req, res) {
                     await sendWechatNotification({
                         orderId: orderId,
                         amount: amount,
-                        currency: checkout.currency || 'USD',
-                        customerEmail: metadata.email || checkout.customer?.email || '',
-                        customerName: metadata.name || checkout.customer?.name || ''
+                        currency: order.currency || checkout.currency || 'USD',
+                        customerEmail: customer.email || '',
+                        customerName: customer.name || '',
+                        productName: product.name || ''
                     });
                 }
 
@@ -107,14 +157,14 @@ export default async function handler(req, res) {
             }
 
             case 'checkout.failed':
-                console.log('❌ Checkout failed:', event.data.id);
+                console.log('❌ Checkout failed');
                 break;
 
             default:
-                console.log(`ℹ️ Unhandled event type: ${event.type}`);
+                console.log(`ℹ️ Unhandled event type: ${eventType}`);
         }
 
-        return res.status(200).json({ received: true });
+        return res.status(200).json({ received: true, eventType: eventType });
 
     } catch (error) {
         console.error('❌ Error processing Creem webhook:', error);
@@ -136,9 +186,10 @@ async function sendWechatNotification(orderData) {
     try {
         let content = `🎉 **新订单到账！**\n\n` +
             `**订单号：** ${orderData.orderId}\n` +
-            `**金额：** $${parseFloat(orderData.amount || 0).toFixed(2)} USD\n` +
-            `**客户邮箱：** ${orderData.customerEmail || '未提供'}\n` +
-            `**客户姓名：** ${orderData.customerName || '未提供'}\n` +
+            `**金额：** $${parseFloat(orderData.amount || 0).toFixed(2)} ${orderData.currency || 'USD'}\n` +
+            `**产品：** ${orderData.productName || '未指定'}\n` +
+            `**客户邮箱：** ${orderData.customerEmail || orderData.email || '未提供'}\n` +
+            `**客户姓名：** ${orderData.customerName || orderData.name || '未提供'}\n` +
             `**下单时间：** ${new Date().toLocaleString('zh-CN')}`;
 
         // 八字订单额外信息
