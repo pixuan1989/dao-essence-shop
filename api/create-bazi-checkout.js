@@ -64,7 +64,8 @@ export default async function handler(req, res) {
             : (req.headers.origin || 'https://daoessentia.com');
 
         // 支付成功回调页面
-        const successUrl = `${baseUrl}/payment-success.html?order_id=${orderId}&type=bazi&lang=${language || 'zh'}`;
+        // 八字商品固定价格 $10.00（与 Creem 后台配置一致）
+        const successUrl = `${baseUrl}/payment-success.html?order_id=${orderId}&type=bazi&lang=${language || 'zh'}&total=10.00`;
 
         // ============================================
         // 核心：将八字数据写入 metadata

@@ -70,6 +70,12 @@ export default async function handler(req, res) {
                 console.log('✅ Checkout completed:', checkout.id);
                 console.log('📦 Webhook 原始数据:', JSON.stringify(event.data, null, 2));
                 console.log('📋 Metadata 完整内容:', JSON.stringify(checkout.metadata, null, 2));
+                console.log('💰 Checkout 价格信息:', JSON.stringify({
+                    amount: checkout.amount,
+                    currency: checkout.currency,
+                    price: checkout.price,
+                    total: checkout.total
+                }, null, 2));
 
                 // 解析订单信息
                 const metadata = checkout.metadata || {};
@@ -100,8 +106,10 @@ export default async function handler(req, res) {
                 const phoneNumber = metadata.phone_number || metadata['Phone Number'] || '';
                 const postalCode = metadata.postal_code || metadata['Postal Code'] || '';
 
-                // 从metadata获取金额（Creem不支持动态金额，价格在产品创建时固定）
-                const amount = metadata.total || 0;
+                // 【修复】优先从 Creem checkout 对象获取金额，其次从 metadata
+                // Creem 价格以分为单位，需要除以 100
+                const creemAmountInCents = checkout.amount || checkout.total || checkout.price || 0;
+                const amount = metadata.total ? parseFloat(metadata.total) : (creemAmountInCents / 100);
 
                 // 解析商品信息
                 let items = [];
