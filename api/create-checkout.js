@@ -23,6 +23,19 @@ function getCreemProductId(items) {
  * Vercel Function 主处理函数
  */
 export default async function handler(req, res) {
+    // 🔥 GET 请求：返回当前配置状态（用于调试）
+    if (req.method === 'GET') {
+        const apiKey = process.env.CREEM_API_KEY?.trim() || '';
+        return res.status(200).json({
+            codeVersion: 'v3-production-only',
+            creemApiBase: 'https://api.creem.io/v1',
+            apiKeyPrefix: apiKey.substring(0, 15) + '...',
+            hasApiKey: !!apiKey,
+            discountCode: process.env.CREEM_DISCOUNT_CODE?.trim() || null,
+            timestamp: new Date().toISOString()
+        });
+    }
+
     // 只允许 POST 请求
     if (req.method !== 'POST') {
         return res.status(405).json({ error: 'Method not allowed' });
