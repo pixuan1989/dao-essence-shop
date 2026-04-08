@@ -1,151 +1,179 @@
 /**
  * ============================================
  * 八字订单查询 API (Vercel Functions)
- * 从 Creem Transactions API 获取所有支付记录
+ * 从 Creem Transactions + Checkout 详情获取八字订单
  * ============================================
  */
 
 export default async function handler(req, res) {
+    // 只允许 GET 请求
     if (req.method !== 'GET') {
         return res.status(405).json({ error: 'Method not allowed' });
     }
 
     try {
-        // 验证管理员访问
-        const adminKey = req.headers['x-admin-key'];
-        if (adminKey !== process.env.ADMIN_KEY) {
-            return res.status(403).json({ error: 'Unauthorized' });
+        // 验证管理密钥
+        const authHeader = req.headers['authorization'];
+        const adminKey = process.env.ADMIN_KEY;
+
+        if (!adminKey) {
+            console.error('❌ 未配置 ADMIN_KEY 环境变量');
+            return res.status(500).json({ error: '服务器配置错误' });
         }
 
-        // 测试模式判断
-        const isTestMode = ['true', '1'].includes(String(process.env.CREEM_TEST_MODE).toLowerCase());
+        if (!authHeader || authHeader !== `Bearer ${adminKey}`) {
+            return res.status(401).json({ error: '未授权' });
+        }
 
-        const apiKey = isTestMode
-            ? process.env.CREEM_TEST_API_KEY?.trim()
-            : process.env.CREEM_API_KEY?.trim();
-
-        const creemApiBase = isTestMode
-            ? 'https://test-api.creem.io/v1'
-            : 'https://api.creem.io/v1';
-
-        console.log('========== 八字订单查询调试 ==========');
-        console.log('isTestMode:', isTestMode);
-        console.log('API Base:', creemApiBase);
-
+        const apiKey = process.env.CREEM_API_KEY?.trim();
         if (!apiKey) {
+            console.error('❌ 未配置 CREEM_API_KEY 环境变量');
             return res.status(500).json({ error: '支付系统配置错误' });
         }
 
-        // 使用 GET /v1/transactions 获取所有交易记录
-        const url = `${creemApiBase}/transactions`;
-        console.log(`📤 请求交易列表: ${url}`);
+        // 判断测试/生产模式
+        const isTestMode = ['true', '1'].includes(String(process.env.CREEM_TEST_MODE).toLowerCase());
+        const creemApiBase = isTestMode ? 'https://test-api.creem.io/v1' : 'https://api.creem.io/v1';
 
-        const response = await fetch(url, {
-            method: 'GET',
-            headers: { 'x-api-key': apiKey }
-        });
+        console.log(`========== 八字订单查询 (${isTestMode ? '测试' : '生产'}模式) ==========`);
 
-        if (!response.ok) {
-            const errText = await response.text();
-            console.error(`❌ 获取交易列表失败: ${response.status} - ${errText}`);
-            return res.status(500).json({ error: '获取交易列表失败' });
+        // 第一步：获取所有交易记录
+        let allTransactions = [];
+        let page = 1;
+        let hasMore = true;
+
+        while (hasMore) {
+            const url = `${creemApiBase}/transactions/search?page_number=${page}&page_size=50`;
+            console.log(`📤 请求交易列表: ${url}`);
+
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: { 'x-api-key': apiKey }
+            });
+
+            if (!response.ok) {
+                const errText = await response.text();
+                console.error(`❌ 获取交易列表失败: ${response.status} - ${errText}`);
+                return res.status(500).json({ error: '获取订单列表失败', detail: errText });
+            }
+
+            const result = await response.json();
+
+            // 第一页打印响应结构
+            if (page === 1) {
+                console.log('📥 响应 keys:', Object.keys(result));
+                if (result.items && result.items.length > 0) {
+                    console.log('📥 第一条交易 keys:', Object.keys(result.items[0]));
+                    console.log('📥 第一条交易:', JSON.stringify(result.items[0], null, 2));
+                }
+                if (result.pagination) {
+                    console.log('📊 分页信息:', JSON.stringify(result.pagination));
+                }
+            }
+
+            const items = result.items || [];
+            allTransactions = allTransactions.concat(items);
+
+            // 检查分页
+            if (result.pagination && result.pagination.next_page) {
+                page = result.pagination.next_page;
+            } else {
+                hasMore = false;
+            }
+
+            // 安全限制
+            if (page > 100) hasMore = false;
         }
 
-        const result = await response.json();
-        console.log('📥 响应 keys:', Object.keys(result));
+        console.log(`📊 共获取 ${allTransactions.length} 笔交易`);
 
-        // 解析交易列表
-        let transactions = result.data || result.transactions || result.items || result || [];
-        if (!Array.isArray(transactions)) {
-            console.log('📥 完整响应:', JSON.stringify(result, null, 2));
-            transactions = [];
-        }
+        // 第二步：过滤已支付成功的交易
+        const paidTransactions = allTransactions.filter(t =>
+            t.status === 'succeeded' || t.status === 'completed'
+        );
+        console.log(`✅ 其中已支付: ${paidTransactions.length} 笔`);
 
-        console.log(`📊 共获取 ${transactions.length} 笔交易`);
-
-        if (transactions.length > 0) {
-            console.log('📥 第一条交易 keys:', Object.keys(transactions[0]));
-            console.log('📥 第一条交易 (完整):', JSON.stringify(transactions[0], null, 2));
-        }
-
-        // 从交易记录中提取 checkout_id，然后用 GET /v1/checkouts/:id 获取 metadata
+        // 第三步：逐个获取 checkout 详情（包含 metadata）
         const baziOrders = [];
 
-        for (const tx of transactions) {
-            const checkoutId = tx.checkout_id || tx.checkout?.id || tx.metadata?.checkout_id || tx.id;
-            console.log(`🔍 处理交易: ${tx.id}, checkout_id: ${checkoutId}`);
-
-            // 先检查交易记录本身有没有 metadata
-            const txMeta = tx.metadata || {};
-
-            if (txMeta.birth_year || txMeta.birth_month || txMeta.product_type === 'bazi_analysis') {
-                baziOrders.push(parseBaziOrder(tx, txMeta));
+        for (const tx of paidTransactions) {
+            // 交易里可能有 order 字段就是 checkout_id
+            const checkoutId = tx.order || tx.checkout_id || tx.checkout;
+            if (!checkoutId) {
+                console.log(`⚠️ 交易 ${tx.id} 没有 checkout_id，跳过`);
                 continue;
             }
 
-            // 如果没有 metadata，尝试从 checkout 详情获取
-            if (checkoutId) {
-                try {
-                    const detailUrl = `${creemApiBase}/checkouts/${checkoutId}`;
-                    const detailRes = await fetch(detailUrl, {
-                        headers: { 'x-api-key': apiKey }
-                    });
+            try {
+                const detailUrl = `${creemApiBase}/checkouts/${checkoutId}`;
+                const detailRes = await fetch(detailUrl, {
+                    method: 'GET',
+                    headers: { 'x-api-key': apiKey }
+                });
 
-                    if (detailRes.ok) {
-                        const detail = await detailRes.json();
-                        const detailData = detail.data || detail.checkout || detail;
-                        const detailMeta = detailData.metadata || {};
-
-                        console.log(`📥 Checkout ${checkoutId} metadata:`, JSON.stringify(detailMeta));
-
-                        if (detailMeta.birth_year || detailMeta.birth_month || detailMeta.product_type === 'bazi_analysis') {
-                            baziOrders.push(parseBaziOrder(detailData, detailMeta));
-                        }
-                    } else {
-                        console.log(`⚠️ 获取 checkout ${checkoutId} 详情失败: ${detailRes.status}`);
-                    }
-                } catch (e) {
-                    console.error(`获取 checkout ${checkoutId} 详情异常:`, e.message);
+                if (!detailRes.ok) {
+                    console.error(`❌ 获取 checkout ${checkoutId} 详情失败: ${detailRes.status}`);
+                    continue;
                 }
+
+                const checkout = await detailRes.json();
+                const metadata = checkout.metadata || {};
+
+                // 只保留八字订单（metadata 中有 product_type: bazi_analysis）
+                if (metadata.product_type !== 'bazi_analysis') {
+                    continue;
+                }
+
+                // 构建订单数据
+                const amount = checkout.amount ? (checkout.amount / 100) : (tx.amount ? (tx.amount / 100) : 0);
+
+                baziOrders.push({
+                    id: checkout.id,
+                    orderId: metadata.order_id || checkout.id,
+                    // 客户信息
+                    name: metadata.name || checkout.customer?.name || '',
+                    email: metadata.email || checkout.customer?.email || '',
+                    // 八字数据
+                    birthYear: metadata.birth_year || '',
+                    birthMonth: metadata.birth_month || '',
+                    birthDay: metadata.birth_day || '',
+                    birthHour: metadata.birth_hour || '',
+                    gender: metadata.gender || '',
+                    birthPlace: metadata.birth_place || '',
+                    notes: metadata.notes || '',
+                    language: metadata.language || 'zh',
+                    // 支付信息
+                    amount: amount,
+                    currency: checkout.currency || tx.currency || 'USD',
+                    status: tx.status || checkout.status || 'succeeded',
+                    createdAt: checkout.created_at || tx.created_at || '',
+                    paidAt: tx.created_at || '',
+                    // 原始数据
+                    mode: tx.mode || checkout.mode || 'live'
+                });
+
+                console.log(`✅ 八字订单: ${metadata.name} | ${metadata.birth_year}/${metadata.birth_month}/${metadata.birth_day} | $${amount}`);
+
+            } catch (err) {
+                console.error(`❌ 处理 checkout ${checkoutId} 出错:`, err.message);
             }
         }
 
-        console.log(`📊 最终结果: ${baziOrders.length} 笔八字订单`);
-        console.log('======================================');
+        // 按时间倒序排列
+        baziOrders.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+        console.log(`🎯 最终结果: ${baziOrders.length} 笔八字订单`);
 
         return res.status(200).json({
             success: true,
-            total: baziOrders.length,
-            totalTransactions: transactions.length,
             orders: baziOrders,
-            isTestMode: isTestMode
+            total: baziOrders.length,
+            totalTransactions: allTransactions.length,
+            paidTransactions: paidTransactions.length
         });
 
     } catch (error) {
-        console.error('查询八字订单错误:', error);
-        return res.status(500).json({ error: '查询失败: ' + error.message });
+        console.error('❌ 获取八字订单错误:', error);
+        return res.status(500).json({ error: '获取订单失败', detail: error.message });
     }
-}
-
-function parseBaziOrder(data, metadata) {
-    let amount = data.amount || data.total || data.total_amount || 0;
-    if (amount > 10000) amount = amount / 100;
-
-    return {
-        orderId: metadata.order_id || data.order_id || data.id,
-        checkoutId: data.id || data.checkout_id,
-        name: metadata.name || data.customer?.name || data.customer_name || '匿名用户',
-        email: metadata.email || data.customer?.email || data.customer_email || '',
-        birthYear: metadata.birth_year || '',
-        birthMonth: metadata.birth_month || '',
-        birthDay: metadata.birth_day || '',
-        birthHour: metadata.birth_hour || '',
-        gender: metadata.gender || '',
-        birthPlace: metadata.birth_place || '',
-        notes: metadata.notes || '',
-        language: metadata.language || 'zh',
-        amount: typeof amount === 'number' ? amount.toFixed(2) : amount,
-        status: data.status === 'completed' || data.payment_status === 'paid' ? 'paid' : (data.status || 'pending'),
-        createdAt: data.created_at || data.created || data.paid_at
-    };
 }
