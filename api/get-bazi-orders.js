@@ -1,11 +1,11 @@
 /**
  * ============================================
  * 八字订单查询 API (Vercel Functions)
- * 从 Vercel KV 读取订单数据
+ * 从 Redis 读取订单数据
  * ============================================
  */
 
-import { kv } from '@vercel/kv';
+import { redisGet, redisSet } from './redis.js';
 
 export default async function handler(req, res) {
     if (req.method !== 'GET') {
@@ -26,14 +26,14 @@ export default async function handler(req, res) {
             return res.status(401).json({ error: '未授权' });
         }
 
-        console.log('========== 八字订单查询（从 KV 读取） ==========');
+        console.log('========== 八字订单查询（从 Redis 读取） ==========');
 
-        // 从 KV 获取订单 ID 列表
-        const orderIds = await kv.get('bazi_order_ids') || [];
+        // 从 Redis 获取订单 ID 列表
+        const orderIds = await redisGet('bazi_order_ids') || [];
         console.log(`📊 订单 ID 列表: ${JSON.stringify(orderIds)}`);
 
         if (orderIds.length === 0) {
-            console.log('📭 KV 中暂无订单数据');
+            console.log('📭 Redis 中暂无订单数据');
             // 尝试从 Creem API 回填
             const backfilled = await backfillFromCreem();
             return res.status(200).json({
@@ -48,9 +48,8 @@ export default async function handler(req, res) {
         const orders = [];
         for (const id of orderIds) {
             try {
-                const orderJson = await kv.get(`bazi_order:${id}`);
-                if (orderJson) {
-                    const order = typeof orderJson === 'string' ? JSON.parse(orderJson) : orderJson;
+                const order = await redisGet(`bazi_order:${id}`);
+                if (order) {
                     orders.push(order);
                 }
             } catch (err) {
@@ -58,20 +57,20 @@ export default async function handler(req, res) {
             }
         }
 
-        console.log(`✅ 从 KV 读取 ${orders.length} 笔订单`);
+        console.log(`✅ 从 Redis 读取 ${orders.length} 笔订单`);
 
         return res.status(200).json({
             success: true,
             orders: orders,
             total: orders.length,
-            source: 'vercel_kv'
+            source: 'redis'
         });
 
     } catch (error) {
         console.error('❌ 获取八字订单错误:', error);
 
-        // KV 不可用时，回退到 Creem API
-        console.log('⚠️ KV 不可用，尝试从 Creem API 回填...');
+        // Redis 不可用时，回退到 Creem API
+        console.log('⚠️ Redis 不可用，尝试从 Creem API 回填...');
         try {
             const backfilled = await backfillFromCreem();
             return res.status(200).json({
@@ -91,7 +90,7 @@ export default async function handler(req, res) {
 }
 
 /**
- * 从 Creem API 回填订单（首次使用或 KV 不可用时的备选方案）
+ * 从 Creem API 回填订单（首次使用或 Redis 不可用时的备选方案）
  */
 async function backfillFromCreem() {
     const prodApiKey = process.env.CREEM_API_KEY?.trim();
@@ -110,7 +109,6 @@ async function backfillFromCreem() {
 
     for (const env of envs) {
         try {
-            // 获取交易列表
             let page = 1;
             let hasMore = true;
 
@@ -135,7 +133,7 @@ async function backfillFromCreem() {
                 const paid = items.filter(t => t.status === 'succeeded' || t.status === 'completed');
 
                 for (const tx of paid) {
-                    // 打印第一笔交易的所有字段，帮助调试
+                    // 打印第一笔交易的所有字段
                     if (page === 1 && allOrders.length === 0 && items.length > 0) {
                         console.log('📥 第一笔交易完整数据:', JSON.stringify(items[0], null, 2));
                     }
@@ -167,7 +165,7 @@ async function backfillFromCreem() {
                             ? (checkout.amount / 100)
                             : (tx.amount ? (tx.amount / 100) : 0);
 
-                        allOrders.push({
+                        const orderData = {
                             id: checkout.id,
                             orderId: metadata.order_id || checkout.id,
                             checkoutId: checkout.id,
@@ -187,19 +185,20 @@ async function backfillFromCreem() {
                             createdAt: checkout.created_at || tx.created_at || '',
                             paidAt: tx.created_at || '',
                             mode: tx.mode || checkout.mode || 'live'
-                        });
+                        };
 
-                        // 尝试保存到 KV（为下次使用缓存）
+                        allOrders.push(orderData);
+
+                        // 尝试缓存到 Redis
                         try {
-                            const { kv } = await import('@vercel/kv');
-                            await kv.set(`bazi_order:${checkout.id}`, JSON.stringify(allOrders[allOrders.length - 1]));
-                            const existingIds = await kv.get('bazi_order_ids') || [];
+                            await redisSet(`bazi_order:${checkout.id}`, orderData);
+                            let existingIds = await redisGet('bazi_order_ids') || [];
                             if (!existingIds.includes(checkout.id)) {
                                 existingIds.unshift(checkout.id);
-                                await kv.set('bazi_order_ids', existingIds);
+                                await redisSet('bazi_order_ids', existingIds);
                             }
-                        } catch (kvErr) {
-                            // KV 保存失败不影响
+                        } catch (redisErr) {
+                            // Redis 保存失败不影响
                         }
 
                     } catch (err) {

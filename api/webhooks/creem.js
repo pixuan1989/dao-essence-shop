@@ -2,11 +2,11 @@
  * ============================================
  * Creem Webhook 处理器 (Vercel Functions)
  * 处理 Creem 支付事件通知
- * 八字订单自动保存到 Vercel KV
+ * 八字订单自动保存到 Redis
  * ============================================
  */
 
-import { kv } from '@vercel/kv';
+import { getRedis, redisSet } from './redis.js';
 
 /**
  * Vercel Function 主处理函数
@@ -39,7 +39,7 @@ export default async function handler(req, res) {
                 console.log(`🎯 订单类型: ${metadata.product_type} | 是否八字: ${isBaziOrder}`);
 
                 if (isBaziOrder) {
-                    // 保存八字订单到 Vercel KV
+                    // 保存八字订单到 Redis
                     const orderData = {
                         id: checkout.id,
                         orderId: orderId,
@@ -62,24 +62,25 @@ export default async function handler(req, res) {
                         mode: checkout.mode || 'live'
                     };
 
-                    console.log('💾 保存八字订单到 KV:', JSON.stringify(orderData, null, 2));
+                    console.log('💾 保存八字订单到 Redis:', JSON.stringify(orderData, null, 2));
 
                     try {
-                        // 用 checkout ID 作为 key，防止重复
-                        await kv.set(`bazi_order:${checkout.id}`, JSON.stringify(orderData));
+                        const { redisGet, redisSet } = await import('./redis.js');
 
-                        // 同时维护一个订单 ID 列表（用于快速获取所有订单）
-                        const existingIds = await kv.get('bazi_order_ids') || [];
+                        // 用 checkout ID 作为 key，防止重复
+                        await redisSet(`bazi_order:${checkout.id}`, orderData);
+
+                        // 同时维护一个订单 ID 列表
+                        let existingIds = await redisGet('bazi_order_ids') || [];
                         if (!existingIds.includes(checkout.id)) {
                             existingIds.unshift(checkout.id);
-                            await kv.set('bazi_order_ids', existingIds);
+                            await redisSet('bazi_order_ids', existingIds);
                             console.log(`💾 订单列表已更新，共 ${existingIds.length} 笔`);
                         }
 
                         console.log('✅ 八字订单保存成功!');
-                    } catch (kvError) {
-                        console.error('❌ KV 保存失败（非致命）:', kvError.message);
-                        // KV 保存失败不影响其他流程
+                    } catch (redisError) {
+                        console.error('❌ Redis 保存失败（非致命）:', redisError.message);
                     }
 
                     // 发送企业微信通知
