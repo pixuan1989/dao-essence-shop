@@ -163,12 +163,31 @@ window.loadCardData = async function() {
         const card = window.allProducts.find(p => p.id === actualCardId) || window.allProducts.find(p => p.id === defaultCardId);
         if (card) {
             console.log('🔍 Found card:', card);
-            console.log('📊 Card fields:', { name: card.name, nameCN: card.nameCN, price: card.price, image: card.image, image_url: card.image_url, img_url: card.img_url });
-            
-            // 🔥 支持多种图片字段名
-            const cardImage = card.image || card.image_url || card.img_url || 'images/placeholder.jpg';
-            console.log('📷 Using image:', cardImage);
-            
+            console.log('📊 Card fields:', { name: card.name, nameCN: card.nameCN, price: card.price, image: card.image, image_url: card.image_url, img_url: card.img_url, imagesCount: (card.images || []).length });
+
+            // 🔥 支持多图：优先用 creem-sync-v2 的 images 数组，否则用单图兜底
+            const cardImages = (Array.isArray(card.images) && card.images.length > 0)
+                ? card.images.map(function(img, idx) {
+                    return {
+                        id: img.id || (idx + 1),
+                        src: img.src || img.url || img.image || (typeof img === 'string' ? img : ''),
+                        alt: img.alt || card.nameCN || card.name || 'Product image',
+                        width: img.width || 1200,
+                        height: img.height || 1200,
+                        position: img.position || (idx + 1)
+                    };
+                })
+                : [{
+                    id: 1,
+                    src: card.image || card.image_url || card.img_url || 'images/placeholder.jpg',
+                    alt: card.nameCN || card.name || 'Card',
+                    width: 1200,
+                    height: 1200,
+                    position: 1
+                }];
+
+            console.log('📷 Total images:', cardImages.length, cardImages.map(function(i) { return i.src; }));
+
             // 转换 Creem API 数据格式为卡详情页需要的格式
             CARD_DATA = {
                 id: card.id,
@@ -180,16 +199,7 @@ window.loadCardData = async function() {
                 price: parseFloat(card.price) || 0,
                 compareAtPrice: parseFloat(card.originalPrice || card.price) || 0,
                 currency: card.currency || 'USD',
-                images: [
-                    {
-                        id: 1,
-                        src: cardImage,
-                        alt: card.nameCN || card.name || 'Card',
-                        width: 1200,
-                        height: 1200,
-                        position: 1
-                    }
-                ],
+                images: cardImages,
                 variants: [
                     {
                         id: `${card.id}-1`,
@@ -291,32 +301,177 @@ window.initState = function() {
 };
 
 // ============================================
-// Render Images
+// Render Images — Swiper Gallery + Lightbox
 // ============================================
+
+let mainSwiper = null;
+let thumbsSwiper = null;
 
 window.renderImages = function() {
     const mainWrapper = document.getElementById('mainImageWrapper');
     const thumbsWrapper = document.getElementById('thumbsWrapper');
-    
+
     console.log('renderImages called');
-    
-    if (!mainWrapper || !CARD_DATA || !CARD_DATA.images) return;
+    if (!mainWrapper || !CARD_DATA || !CARD_DATA.images || CARD_DATA.images.length === 0) return;
 
     // 清空现有内容
     mainWrapper.innerHTML = '';
     if (thumbsWrapper) thumbsWrapper.innerHTML = '';
 
-    // 渲染主图像
-    const mainImage = document.createElement('img');
-    mainImage.src = CARD_DATA.images[0].src;
-    mainImage.alt = CARD_DATA.images[0].alt;
-    mainImage.style.width = '100%';
-    mainImage.style.height = 'auto';
-    mainImage.style.maxHeight = '600px';
-    mainImage.style.objectFit = 'contain';
-    mainImage.style.borderRadius = '8px';
-    mainWrapper.appendChild(mainImage);
+    // 销毁旧 Swiper 实例
+    if (mainSwiper) { mainSwiper.destroy(true, true); mainSwiper = null; }
+    if (thumbsSwiper) { thumbsSwiper.destroy(true, true); thumbsSwiper = null; }
+
+    const images = CARD_DATA.images;
+
+    // --- 渲染主图 slides ---
+    images.forEach(function(img, idx) {
+        const slide = document.createElement('div');
+        slide.className = 'swiper-slide';
+        slide.setAttribute('data-index', idx);
+
+        const imgEl = document.createElement('img');
+        imgEl.src = img.src;
+        imgEl.alt = img.alt || ('Product image ' + (idx + 1));
+        imgEl.loading = (idx === 0) ? 'eager' : 'lazy';
+        imgEl.addEventListener('click', function() { openImageModal(idx); });
+
+        slide.appendChild(imgEl);
+        mainWrapper.appendChild(slide);
+    });
+
+    // --- 渲染缩略图 slides（仅多图时显示） ---
+    if (thumbsWrapper && images.length > 1) {
+        images.forEach(function(img, idx) {
+            const slide = document.createElement('div');
+            slide.className = 'swiper-slide';
+
+            const imgEl = document.createElement('img');
+            imgEl.src = img.src;
+            imgEl.alt = img.alt || ('Thumb ' + (idx + 1));
+            imgEl.loading = 'lazy';
+
+            slide.appendChild(imgEl);
+            thumbsWrapper.appendChild(slide);
+        });
+    }
+
+    // --- 初始化主图 Swiper ---
+    const swiperConfig = {
+        spaceBetween: 0,
+        slidesPerView: 1,
+        speed: 400,
+        loop: images.length > 1,
+        pagination: {
+            el: '.swiper-pagination-main',
+            clickable: true
+        },
+        navigation: {
+            nextEl: '.swiper-button-next-main',
+            prevEl: '.swiper-button-prev-main'
+        },
+        on: {
+            slideChangeTransitionEnd: function() {
+                if (thumbsSwiper && images.length > 1) {
+                    thumbsSwiper.slideTo(this.realIndex);
+                }
+            }
+        }
+    };
+
+    mainSwiper = new Swiper('.swiper-main', swiperConfig);
+
+    // --- 初始化缩略图 Swiper ---
+    if (thumbsWrapper && images.length > 1) {
+        // 显示缩略图区域
+        thumbsWrapper.closest('.swiper-thumbs').style.display = 'block';
+
+        thumbsSwiper = new Swiper('.swiper-thumbs', {
+            spaceBetween: 10,
+            slidesPerView: Math.min(images.length, 4),
+            watchSlidesProgress: true,
+            slideToClickedSlide: true,
+            on: {
+                click: function(swiper) {
+                    if (mainSwiper) {
+                        mainSwiper.slideTo(swiper.clickedIndex);
+                    }
+                }
+            }
+        });
+
+        // 双向联动
+        if (mainSwiper && thumbsSwiper) {
+            mainSwiper.controller = { control: thumbsSwiper };
+        }
+    } else if (thumbsWrapper) {
+        // 单图时隐藏缩略图区域
+        const thumbsContainer = thumbsWrapper.closest('.swiper-thumbs');
+        if (thumbsContainer) thumbsContainer.style.display = 'none';
+    }
+
+    // 显示/隐藏导航箭头和分页器
+    const navNext = document.querySelector('.swiper-button-next-main');
+    const navPrev = document.querySelector('.swiper-button-prev-main');
+    const pagination = document.querySelector('.swiper-pagination-main');
+    if (images.length <= 1) {
+        if (navNext) navNext.style.display = 'none';
+        if (navPrev) navPrev.style.display = 'none';
+        if (pagination) pagination.style.display = 'none';
+    } else {
+        if (navNext) navNext.style.display = '';
+        if (navPrev) navPrev.style.display = '';
+        if (pagination) pagination.style.display = '';
+    }
 };
+
+// ============================================
+// Image Lightbox Modal
+// ============================================
+
+window.openImageModal = function(index) {
+    if (!CARD_DATA || !CARD_DATA.images || CARD_DATA.images.length === 0) return;
+
+    const modal = document.getElementById('imageModal');
+    const modalImg = document.getElementById('modalImage');
+    if (!modal || !modalImg) return;
+
+    const imgIndex = index || 0;
+    modalImg.src = CARD_DATA.images[imgIndex].src;
+    modalImg.alt = CARD_DATA.images[imgIndex].alt || 'Zoomed image';
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+
+    // ESC 关闭
+    document.addEventListener('keydown', handleModalEsc);
+};
+
+window.closeImageModal = function() {
+    const modal = document.getElementById('imageModal');
+    if (modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+    document.removeEventListener('keydown', handleModalEsc);
+};
+
+function handleModalEsc(e) {
+    if (e.key === 'Escape') {
+        closeImageModal();
+    }
+}
+
+// 点击模态框背景（非图片区域）关闭
+document.addEventListener('DOMContentLoaded', function() {
+    const modal = document.getElementById('imageModal');
+    if (modal) {
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closeImageModal();
+            }
+        });
+    }
+});
 
 // ============================================
 // Variant Management
