@@ -97,6 +97,22 @@
       "energyLevel": "High",
       "format": "EPUB",
       "creemProductId": "prod_3btZfL4MwsO2xSr7AB3J8S"
+    },
+    {
+      "id": "wood-fire-wallpaper",
+      "name": "Wood + Fire Combo Wallpaper",
+      "nameCN": "木火组合壁纸",
+      "category": "five-elements-wallpaper",
+      "element": "wood",
+      "price": 3.99,
+      "currency": "USD",
+      "description": "Wood & Fire elemental combo wallpaper. In Wu Xing, Wood generates Fire (木生火) — fueling ambition with creativity. HD for all devices — phone, tablet & desktop. Instant digital download.",
+      "descriptionCN": "木火元素组合壁纸。五行中木生火——用创造力驱动野心。高清全设备通用——手机/平板/电脑。即时数字下载。",
+      "image": "",
+      "stock": 999,
+      "benefits": ["All Devices", "3 Sizes", "Instant Download", "Creative Energy"],
+      "energyLevel": "High",
+      "creemProductId": "prod_2WpWgRkGnuKU9obIP5t0P1"
     }
   ],
   "categories": [
@@ -124,6 +140,11 @@
       "id": "cultivation-novels",
       "name": "Chinese Xianxia Novels",
       "nameCN": "中国修仙小说"
+    },
+    {
+      "id": "five-elements-wallpaper",
+      "name": "Five Elements Wallpaper",
+      "nameCN": "五行壁纸"
     }
   ],
   "elements": [
