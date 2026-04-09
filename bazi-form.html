@@ -67,14 +67,14 @@
 
         /* 表单样式 */
         .bazi-form-section {
-            padding: 60px 0;
+            padding: 80px 0 40px 0;
             background: linear-gradient(135deg, #f8f4ed 0%, #ebe5d8 100%);
         }
 
         .form-container {
             max-width: 800px;
             margin: 0 auto;
-            padding: 40px;
+            padding: 28px 32px;
             background: white;
             border-radius: var(--radius-lg);
             box-shadow: var(--shadow-md);
@@ -82,29 +82,29 @@
 
         .form-title {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 12px;
         }
 
         .form-title h1 {
             font-family: var(--font-display);
-            font-size: 2.5rem;
+            font-size: 2rem;
             color: var(--text-primary);
-            margin-bottom: 10px;
+            margin-bottom: 4px;
         }
 
         .form-title p {
             color: var(--text-secondary);
-            font-size: 1.1rem;
+            font-size: 0.95rem;
         }
 
         .bazi-form {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
+            gap: 12px 16px;
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
 
         .form-group.full-width {
@@ -113,18 +113,19 @@
 
         .form-group label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 4px;
             font-weight: 600;
             color: var(--text-primary);
+            font-size: 0.85rem;
         }
 
         .form-group input,
         .form-group select {
             width: 100%;
-            padding: 12px 15px;
+            padding: 9px 12px;
             border: 1px solid #ddd;
             border-radius: var(--radius-sm);
-            font-size: 14px;
+            font-size: 13px;
             transition: all var(--transition-fast);
         }
 
@@ -137,27 +138,27 @@
 
         .form-note {
             grid-column: 1 / -1;
-            padding: 15px;
+            padding: 10px 14px;
             background: #f8f9fa;
             border-left: 4px solid var(--accent-color);
             border-radius: var(--radius-sm);
-            margin-bottom: 20px;
+            margin-bottom: 8px;
         }
 
         .form-note p {
             margin: 0;
             color: var(--text-secondary);
-            font-size: 14px;
+            font-size: 0.8rem;
         }
 
         .submit-btn {
             grid-column: 1 / -1;
-            padding: 15px;
+            padding: 12px;
             background: var(--accent-color);
             color: var(--bg-dark);
             border: none;
             border-radius: var(--radius-sm);
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 600;
             cursor: pointer;
             transition: all var(--transition-fast);
@@ -171,10 +172,116 @@
             box-shadow: var(--shadow-md);
         }
 
+        .bazi-service-info {
+            background: rgba(212, 175, 55, 0.08);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 10px;
+            padding: 0.7rem 1rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.6rem;
+        }
+        .bazi-service-info .service-icon {
+            font-size: 1.1rem;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        .bazi-service-info .service-text {
+            color: var(--text-secondary);
+            font-size: 0.82rem;
+            line-height: 1.6;
+        }
+        .bazi-service-info .service-text strong {
+            color: var(--accent-color);
+        }
+
+        /* 流程步骤 */
+        .bazi-process-steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0;
+            margin: 0.8rem 0 0.4rem;
+            padding: 0;
+            background: transparent;
+        }
+        .bazi-step {
+            text-align: center;
+            padding: 0.6rem 0.3rem;
+        }
+        .bazi-step .step-icon {
+            font-size: 1.2rem;
+            margin-bottom: 0.25rem;
+            display: block;
+        }
+        .bazi-step .step-title {
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.15rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .bazi-step .step-desc {
+            font-size: 0.72rem;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+        .bazi-step:not(:last-child)::after {
+            content: '→';
+            position: absolute;
+            right: -0.4rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(212, 175, 55, 0.4);
+            font-size: 1rem;
+        }
+        .bazi-step { position: relative; }
+
+        /* 报告内容预览 */
+        .bazi-report-preview {
+            margin: 0 0 1rem;
+            padding: 0.9rem 1.2rem;
+            background: rgba(255,255,255,0.03);
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+        .bazi-report-preview h3 {
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--accent-color);
+            margin-bottom: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+        .bazi-report-preview ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.35rem 1.2rem;
+        }
+        .bazi-report-preview li {
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            padding-left: 0.9rem;
+            position: relative;
+        }
+        .bazi-report-preview li::before {
+            content: '☯';
+            position: absolute;
+            left: 0;
+            color: rgba(212, 175, 55, 0.6);
+            font-size: 0.65rem;
+            top: 2px;
+        }
+
         /* 响应式设计 */
         @media (max-width: 768px) {
             .form-container {
-                padding: 20px;
+                padding: 16px;
             }
 
             .bazi-form {
@@ -182,7 +289,26 @@
             }
 
             .form-title h1 {
-                font-size: 2rem;
+                font-size: 1.6rem;
+            }
+            .form-title {
+                margin-bottom: 12px;
+            }
+
+            .bazi-process-steps {
+                grid-template-columns: 1fr;
+                display: flex;
+                justify-content: center;
+                gap: 0.5rem;
+            }
+            .bazi-step {
+                padding: 0.4rem;
+            }
+            .bazi-step:not(:last-child)::after {
+                display: none;
+            }
+            .bazi-report-preview ul {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -279,6 +405,27 @@
                 <div class="form-title">
                     <h1>BaZi Analysis</h1>
                     <p>Enter your birth information for personalized analysis and life guidance</p>
+                </div>
+
+                <!-- 报告内容预览（放在最顶部，一眼可见） -->
+                <div class="bazi-report-preview">
+                    <h3>Your Report Includes</h3>
+                    <ul>
+                        <li><strong>Five Elements Profile</strong> — Elemental strengths & weaknesses</li>
+                        <li><strong>Personality Analysis</strong> — Core traits from your Day Master</li>
+                        <li><strong>Career & Wealth</strong> — Favorable directions & timing</li>
+                        <li><strong>Relationship Insights</strong> — Compatibility & harmony</li>
+                        <li><strong>Health Recommendations</strong> — Element-based wellness advice</li>
+                        <li><strong>Annual Forecast</strong> — Key themes for the coming year</li>
+                    </ul>
+                </div>
+
+                <!-- 服务说明 -->
+                <div class="bazi-service-info">
+                    <span class="service-icon">☯</span>
+                    <div class="service-text">
+                        Your personalized BaZi Life Guidance Report will be crafted by <strong>Master Xuanzhen</strong> and delivered to your email within <strong>48 hours</strong> as a <strong>PDF document (bilingual: Chinese & English)</strong>.
+                    </div>
                 </div>
                 
                 <form class="bazi-form" id="baziForm">
@@ -482,31 +629,19 @@
                     <div class="form-group">
                         <label for="birthHour">Birth Hour</label>
                         <select id="birthHour" name="birthHour" required>
-                            <option value="">Select Hour</option>
-                            <option value="0">00:00</option>
-                            <option value="1">01:00</option>
-                            <option value="2">02:00</option>
-                            <option value="3">03:00</option>
-                            <option value="4">04:00</option>
-                            <option value="5">05:00</option>
-                            <option value="6">06:00</option>
-                            <option value="7">07:00</option>
-                            <option value="8">08:00</option>
-                            <option value="9">09:00</option>
-                            <option value="10">10:00</option>
-                            <option value="11">11:00</option>
-                            <option value="12">12:00</option>
-                            <option value="13">13:00</option>
-                            <option value="14">14:00</option>
-                            <option value="15">15:00</option>
-                            <option value="16">16:00</option>
-                            <option value="17">17:00</option>
-                            <option value="18">18:00</option>
-                            <option value="19">19:00</option>
-                            <option value="20">20:00</option>
-                            <option value="21">21:00</option>
-                            <option value="22">22:00</option>
-                            <option value="23">23:00</option>
+                            <option value="">Select Shichen (时辰)</option>
+                            <option value="0">子时 (23:00–01:00)</option>
+                            <option value="1">丑时 (01:00–03:00)</option>
+                            <option value="2">寅时 (03:00–05:00)</option>
+                            <option value="3">卯时 (05:00–07:00)</option>
+                            <option value="4">辰时 (07:00–09:00)</option>
+                            <option value="5">巳时 (09:00–11:00)</option>
+                            <option value="6">午时 (11:00–13:00)</option>
+                            <option value="7">未时 (13:00–15:00)</option>
+                            <option value="8">申时 (15:00–17:00)</option>
+                            <option value="9">酉时 (17:00–19:00)</option>
+                            <option value="10">戌时 (19:00–21:00)</option>
+                            <option value="11">亥时 (21:00–23:00)</option>
                         </select>
                     </div>
 
@@ -519,12 +654,12 @@
                     <!-- 性别 -->
                     <div class="form-group">
                         <label>Gender</label>
-                        <div style="display: flex; gap: 20px;">
-                            <label style="display: flex; align-items: center; font-weight: normal;">
+                        <div style="display: flex; gap: 20px; padding-top: 2px;">
+                            <label style="display: flex; align-items: center; font-weight: normal; font-size: 0.85rem;">
                                 <input type="radio" name="gender" value="male" required style="margin-right: 5px;">
                                 Male
                             </label>
-                            <label style="display: flex; align-items: center; font-weight: normal;">
+                            <label style="display: flex; align-items: center; font-weight: normal; font-size: 0.85rem;">
                                 <input type="radio" name="gender" value="female" style="margin-right: 5px;">
                                 Female
                             </label>
@@ -532,19 +667,38 @@
                     </div>
 
                     <!-- 邮箱 -->
-                    <div class="form-group full-width">
+                    <div class="form-group">
                         <label for="email">Email Address</label>
                         <input type="email" id="email" name="email" required placeholder="Your email address">
                     </div>
 
                     <!-- 其他信息 -->
-                    <div class="form-group full-width">
-                        <label for="notes">Additional Notes (Optional)</label>
-                        <input type="text" id="notes" name="notes" placeholder="Any specific areas you'd like us to focus on">
+                    <div class="form-group">
+                        <label for="notes">Notes (Optional)</label>
+                        <input type="text" id="notes" name="notes" placeholder="Focus areas...">
                     </div>
 
                     <!-- 提交按钮 -->
                     <button type="submit" class="submit-btn">Continue to Payment</button>
+
+                    <!-- 流程步骤（放在提交按钮后面，紧凑展示） -->
+                    <div class="bazi-process-steps" style="grid-column: 1 / -1;">
+                        <div class="bazi-step">
+                            <span class="step-icon">📋</span>
+                            <div class="step-title">Step 1</div>
+                            <div class="step-desc">Submit & pay</div>
+                        </div>
+                        <div class="bazi-step">
+                            <span class="step-icon">☯</span>
+                            <div class="step-title">Step 2</div>
+                            <div class="step-desc">Master Xuanzhen analyzes</div>
+                        </div>
+                        <div class="bazi-step">
+                            <span class="step-icon">📧</span>
+                            <div class="step-title">Step 3</div>
+                            <div class="step-desc">PDF in 48h</div>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>
