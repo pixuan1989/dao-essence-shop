@@ -1220,8 +1220,11 @@
                 if (nameEl && name) nameEl.textContent = name;
                 // 更新描述（使用中文）
                 if (descEl && desc) descEl.textContent = shortDesc;
-                // 更新链接
-                if (linkEl && product.id) linkEl.href = 'product-detail.html?id=' + product.id;
+                // 更新链接（八字产品直接跳转表单页，避免闪跳）
+                if (linkEl && product.id) {
+                    const isBazi = product.category === 'bazi-analysis' || product.id === 'prod_28PqAKMEom5WGRH1w9O35n' || (product.nameCN && product.nameCN.includes('八字'));
+                    linkEl.href = isBazi ? 'bazi-form.html' : 'product-detail.html?id=' + product.id;
+                }
                 // 更新图片
                 if (imgEl && imgSrc) {
                     imgEl.src = imgSrc;
