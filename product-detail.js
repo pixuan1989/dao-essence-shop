@@ -28,6 +28,12 @@ function detectProductType(card) {
         '冥想', '音频', '音乐', '疗愈', '能量', '五行'
     ];
     
+    // 壁纸类关键词
+    const wallpaperKeywords = [
+        'wallpaper', 'background', 'desktop', 'lock screen', 'homescreen',
+        '壁纸', '桌面', '锁屏', '手机壁纸', '电脑壁纸'
+    ];
+    
     // 检查产品名称
     const name = (card.name || card.product_name || '').toLowerCase();
     const nameCN = (card.nameCN || '').toLowerCase();
@@ -36,6 +42,7 @@ function detectProductType(card) {
     // 计算匹配度
     let novelScore = 0;
     let meditationScore = 0;
+    let wallpaperScore = 0;
     
     // 检查显式分类
     if (explicitCategory) {
@@ -45,6 +52,9 @@ function detectProductType(card) {
         }
         if (cat.includes('冥想') || cat.includes('meditation') || cat.includes('音频')) {
             meditationScore += 10;
+        }
+        if (cat.includes('壁纸') || cat.includes('wallpaper') || cat.includes('background')) {
+            wallpaperScore += 10;
         }
     }
     
@@ -61,6 +71,12 @@ function detectProductType(card) {
         }
     });
     
+    wallpaperKeywords.forEach(keyword => {
+        if (name.includes(keyword) || nameCN.includes(keyword)) {
+            wallpaperScore += 2;
+        }
+    });
+    
     // 检查描述关键词
     novelKeywords.forEach(keyword => {
         if (description.includes(keyword)) {
@@ -71,6 +87,12 @@ function detectProductType(card) {
     meditationKeywords.forEach(keyword => {
         if (description.includes(keyword)) {
             meditationScore += 1;
+        }
+    });
+    
+    wallpaperKeywords.forEach(keyword => {
+        if (description.includes(keyword)) {
+            wallpaperScore += 1;
         }
     });
     
@@ -85,10 +107,12 @@ function detectProductType(card) {
         }
     });
     
-    console.log('Product type detection:', { name, novelScore, meditationScore, explicitCategory });
+    console.log('Product type detection:', { name, novelScore, meditationScore, wallpaperScore, explicitCategory });
     
     // 返回判断结果 - 优先使用检测结果，而不是原始分类
-    if (novelScore > meditationScore) {
+    if (wallpaperScore > novelScore && wallpaperScore > meditationScore) {
+        return 'Five Elements Wallpaper';
+    } else if (novelScore > meditationScore) {
         return 'Xianxia Novels';
     } else if (meditationScore > novelScore) {
         return 'Taoist Meditation';
@@ -531,21 +555,37 @@ document.addEventListener('DOMContentLoaded', async function() {
                 toggleAttributeBlocks(CARD_DATA.type);
             }
 
-            // 🔥 Format 行：小说类产品显示 EPUB 专属说明
+            // 🔥 Format 行：根据产品类型切换格式说明
             const cat = (CARD_DATA.type || '').toLowerCase();
             const isNovel = cat.includes('小说') || cat.includes('novel') || cat.includes('xianxia') || cat.includes('cultivation');
+            const isWallpaper = cat.includes('壁纸') || cat.includes('wallpaper') || cat.includes('background');
             const formatDefault = document.getElementById('formatDefault');
             const formatEpub   = document.getElementById('formatEpub');
-            if (formatDefault && formatEpub) {
+            const formatWallpaper = document.getElementById('formatWallpaper');
+            if (formatDefault && formatEpub && formatWallpaper) {
                 if (isNovel) {
                     formatDefault.style.display = 'none';
                     formatEpub.style.display     = 'inline';
+                    formatWallpaper.style.display = 'none';
                     console.log('✅ Format: EPUB mode');
+                } else if (isWallpaper) {
+                    formatDefault.style.display = 'none';
+                    formatEpub.style.display     = 'none';
+                    formatWallpaper.style.display = 'inline';
+                    console.log('✅ Format: Wallpaper mode');
                 } else {
                     formatDefault.style.display = 'inline';
                     formatEpub.style.display     = 'none';
+                    formatWallpaper.style.display = 'none';
                     console.log('✅ Format: default mode');
                 }
+            }
+            
+            // 🔥 Type 行：壁纸产品显示更精确的类型
+            const specType = document.getElementById('specType');
+            if (specType && isWallpaper) {
+                specType.textContent = 'Digital wallpaper (HD image set — phone, tablet, desktop)';
+                console.log('✅ Type: Wallpaper mode');
             }
         }
         

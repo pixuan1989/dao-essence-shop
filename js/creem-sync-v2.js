@@ -41,7 +41,9 @@ const PRODUCT_CATEGORY_MAP = {
   // 中国修仙小说类
   'prod_3btZfL4MwsO2xSr7AB3J8S': 'cultivation-novels',  // 诡秘之主
   // 道家读物类（道德经等）
-  'prod_26987QrSoIC3ui76ill96H': 'dao-readings'         // 道德经
+  'prod_26987QrSoIC3ui76ill96H': 'dao-readings',         // 道德经
+  // 五行壁纸类
+  'prod_2WpWgRkGnuKU9obIP5t0P1': 'five-elements-wallpaper' // 木火壁纸
 };
 
 /**
