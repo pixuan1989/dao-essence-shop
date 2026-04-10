@@ -287,6 +287,90 @@ window.initState = function() {
 };
 
 // ============================================
+// Canvas 水印渲染 + 图片防护系统
+// ============================================
+
+/**
+ * 用 Canvas 渲染图片并叠加平铺水印
+ * 返回 canvas 元素（替代原始 img，防止右键另存为获取原图）
+ */
+function renderImageWithWatermark(src, alt, isThumb) {
+    var canvas = document.createElement('canvas');
+    var ctx = canvas.getContext('2d');
+
+    var img = new Image();
+    img.crossOrigin = 'anonymous';
+
+    img.onload = function() {
+        var w = img.naturalWidth;
+        var h = img.naturalHeight;
+        canvas.width = w;
+        canvas.height = h;
+
+        // 绘制原图
+        ctx.drawImage(img, 0, 0, w, h);
+
+        // 叠加水印
+        var watermarkText = 'DaoEssence';
+        var fontSize = isThumb ? Math.max(12, Math.round(w * 0.06)) : Math.max(16, Math.round(w * 0.04));
+        ctx.save();
+        ctx.globalAlpha = 0.12;
+        ctx.fillStyle = '#ffffff';
+        ctx.font = 'bold ' + fontSize + 'px Arial, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+
+        // 平铺水印（旋转 -25 度）
+        var stepX = isThumb ? w * 0.5 : w * 0.35;
+        var stepY = isThumb ? h * 0.5 : h * 0.3;
+        var offsetX = w * 0.1;
+        var offsetY = h * 0.1;
+
+        for (var y = offsetY; y < h + stepY; y += stepY) {
+            for (var x = offsetX; x < w + stepX; x += stepX) {
+                ctx.save();
+                ctx.translate(x, y);
+                ctx.rotate(-25 * Math.PI / 180);
+                ctx.fillText(watermarkText, 0, 0);
+                ctx.restore();
+            }
+        }
+        ctx.restore();
+
+        // 对预览图（非缩略图）额外降低画质提示
+        if (!isThumb) {
+            ctx.save();
+            ctx.globalAlpha = 0.06;
+            ctx.fillStyle = '#ffffff';
+            var previewFontSize = Math.max(20, Math.round(w * 0.025));
+            ctx.font = 'bold ' + previewFontSize + 'px Arial, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('Preview', w / 2, h - fontSize * 2);
+            ctx.restore();
+        }
+    };
+
+    img.onerror = function() {
+        // 加载失败时显示占位图
+        canvas.width = 400;
+        canvas.height = 400;
+        ctx.fillStyle = '#1a1612';
+        ctx.fillRect(0, 0, 400, 400);
+        ctx.fillStyle = '#d4af37';
+        ctx.font = '16px Arial';
+        ctx.textAlign = 'center';
+        ctx.fillText('Image unavailable', 200, 200);
+    };
+
+    img.src = src;
+    canvas.alt = alt || 'Product image';
+    canvas.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block;cursor:zoom-in;';
+
+    return canvas;
+}
+
+// ============================================
 // Render Images — Swiper Gallery + Lightbox
 // ============================================
 
@@ -310,34 +394,34 @@ window.renderImages = function() {
 
     const images = CARD_DATA.images;
 
-    // --- 渲染主图 slides ---
+    // --- 渲染主图 slides（Canvas + 水印） ---
     images.forEach(function(img, idx) {
         const slide = document.createElement('div');
         slide.className = 'swiper-slide';
         slide.setAttribute('data-index', idx);
 
-        const imgEl = document.createElement('img');
-        imgEl.src = img.src;
-        imgEl.alt = img.alt || ('Product image ' + (idx + 1));
-        imgEl.loading = (idx === 0) ? 'eager' : 'lazy';
-        imgEl.addEventListener('click', function() { openImageModal(idx); });
+        // 使用 Canvas 替代 img 元素，防止右键获取原图
+        const canvasEl = renderImageWithWatermark(img.src, img.alt, false);
+        canvasEl.addEventListener('click', function() { openImageModal(idx); });
 
-        slide.appendChild(imgEl);
+        // 透明遮罩层（防截图工具直接抓 DOM）
+        const overlay = document.createElement('div');
+        overlay.className = 'image-protection-overlay';
+
+        slide.appendChild(canvasEl);
+        slide.appendChild(overlay);
         mainWrapper.appendChild(slide);
     });
 
-    // --- 渲染缩略图 slides（仅多图时显示） ---
+    // --- 渲染缩略图 slides（仅多图时显示，Canvas + 水印） ---
     if (thumbsWrapper && images.length > 1) {
         images.forEach(function(img, idx) {
             const slide = document.createElement('div');
             slide.className = 'swiper-slide';
 
-            const imgEl = document.createElement('img');
-            imgEl.src = img.src;
-            imgEl.alt = img.alt || ('Thumb ' + (idx + 1));
-            imgEl.loading = 'lazy';
-
-            slide.appendChild(imgEl);
+            // 缩略图也用水印 Canvas
+            const canvasEl = renderImageWithWatermark(img.src, img.alt || ('Thumb ' + (idx + 1)), true);
+            slide.appendChild(canvasEl);
             thumbsWrapper.appendChild(slide);
         });
     }
@@ -419,12 +503,30 @@ window.openImageModal = function(index) {
     if (!CARD_DATA || !CARD_DATA.images || CARD_DATA.images.length === 0) return;
 
     const modal = document.getElementById('imageModal');
-    const modalImg = document.getElementById('modalImage');
-    if (!modal || !modalImg) return;
+    if (!modal) return;
 
     const imgIndex = index || 0;
-    modalImg.src = CARD_DATA.images[imgIndex].src;
-    modalImg.alt = CARD_DATA.images[imgIndex].alt || 'Zoomed image';
+    const imgData = CARD_DATA.images[imgIndex];
+
+    // 移除旧的 modal 内容
+    var oldCanvas = modal.querySelector('canvas');
+    var oldOverlay = modal.querySelector('.image-protection-overlay');
+    var oldImg = modal.querySelector('img');
+    if (oldCanvas) oldCanvas.remove();
+    if (oldOverlay) oldOverlay.remove();
+    if (oldImg) oldImg.remove();
+
+    // 用 Canvas + 水印渲染放大图
+    const canvasEl = renderImageWithWatermark(imgData.src, imgData.alt || 'Zoomed image', false);
+    canvasEl.style.cssText = 'max-width:95%;max-height:95%;object-fit:contain;border-radius:var(--radius-lg);cursor:default;';
+    canvasEl.id = 'modalImage';
+
+    // 遮罩层
+    const overlay = document.createElement('div');
+    overlay.className = 'image-protection-overlay';
+
+    modal.appendChild(canvasEl);
+    modal.appendChild(overlay);
     modal.classList.add('active');
     document.body.style.overflow = 'hidden';
 
@@ -447,7 +549,7 @@ function handleModalEsc(e) {
     }
 }
 
-// 点击模态框背景（非图片区域）关闭
+// 点击模态框背景（非图片区域）关闭 + 图片防护
 document.addEventListener('DOMContentLoaded', function() {
     const modal = document.getElementById('imageModal');
     if (modal) {
@@ -457,6 +559,54 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+
+    // ===== 图片防护系统 =====
+
+    // 1. 禁用右键菜单（图片区域）
+    document.addEventListener('contextmenu', function(e) {
+        var target = e.target;
+        if (target.tagName === 'IMG' || target.tagName === 'CANVAS' ||
+            target.closest('.swiper-main') || target.closest('.image-modal') ||
+            target.closest('.card-gallery')) {
+            e.preventDefault();
+            return false;
+        }
+    });
+
+    // 2. 禁用拖拽保存
+    document.addEventListener('dragstart', function(e) {
+        var target = e.target;
+        if (target.tagName === 'IMG' || target.tagName === 'CANVAS' ||
+            target.closest('.swiper-main') || target.closest('.image-modal') ||
+            target.closest('.card-gallery')) {
+            e.preventDefault();
+            return false;
+        }
+    });
+
+    // 3. 禁用图片区域文字选中（防止拖选后复制）
+    document.addEventListener('selectstart', function(e) {
+        var target = e.target;
+        if (target.closest('.swiper-main') || target.closest('.image-modal') ||
+            target.closest('.card-gallery')) {
+            e.preventDefault();
+            return false;
+        }
+    });
+
+    // 4. 禁用 Ctrl+S / Cmd+S 保存页面（全页面）
+    document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+            e.preventDefault();
+            return false;
+        }
+        // 禁用 PrintScreen（仅能降低成功率，无法完全阻止）
+        if (e.key === 'PrintScreen') {
+            // 用空白图片覆盖剪贴板（只能部分生效）
+            document.body.style.display = 'none';
+            setTimeout(function() { document.body.style.display = ''; }, 100);
+        }
+    });
 });
 
 // ============================================

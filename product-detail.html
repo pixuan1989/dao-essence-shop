@@ -206,6 +206,46 @@
         display: block !important;
     }
 
+    /* Canvas 渲染的产品图 */
+    .swiper-main .swiper-slide canvas {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        display: block !important;
+        cursor: zoom-in;
+    }
+
+    /* 透明遮罩层 - 防止截图工具直接抓取 canvas 内容 */
+    .image-protection-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 15;
+        pointer-events: none;
+        background: transparent;
+    }
+
+    /* lightbox 中的 Canvas */
+    .image-modal canvas {
+        max-width: 95%;
+        max-height: 95%;
+        object-fit: contain;
+        border-radius: var(--radius-lg);
+        cursor: default;
+    }
+
+    /* lightbox 中的遮罩层 */
+    .image-modal .image-protection-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: 2001;
+    }
+
     .swiper-button-next-main,
     .swiper-button-prev-main {
         color: var(--accent-color);
