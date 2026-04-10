@@ -167,52 +167,6 @@ async function fetchFromAPI(retries = 1) {
 }
 
 /**
- * 构建图片数组（支持 Creem 多种图片格式）
- * 优先级：images 数组 > 多个 image/image_url 字段 > 单图兜底
- */
-function buildImageArray(product) {
-  var images = [];
-
-  // 1. 如果 Creem 返回了 images 数组（数组 of string 或 array of object）
-  if (Array.isArray(product.images)) {
-    product.images.forEach(function(img, idx) {
-      if (typeof img === 'string' && img) {
-        images.push({ id: idx + 1, src: img, alt: product.name || 'Product image' });
-      } else if (img && (img.src || img.url || img.image)) {
-        images.push({
-          id: idx + 1,
-          src: img.src || img.url || img.image,
-          alt: img.alt || product.name || 'Product image'
-        });
-      }
-    });
-  }
-
-  // 2. 如果 images 为空，尝试从其他字段收集
-  if (images.length === 0) {
-    // 主图
-    var mainImg = product.image || product.image_url || product.img_url || 'images/placeholder.jpg';
-    images.push({ id: 1, src: mainImg, alt: product.nameCN || product.name || 'Product image' });
-
-    // 副图字段（Creem 可能用 image2, image_2, thumbnail 等）
-    var extraFields = [
-      'image2', 'image_2', 'image3', 'image_3', 'image4', 'image_4',
-      'secondary_image', 'secondaryImage', 'thumbnail', 'thumb',
-      'cover_image', 'coverImage', 'banner', 'banner_image'
-    ];
-    var idx = 2;
-    extraFields.forEach(function(field) {
-      var url = product[field];
-      if (url && typeof url === 'string' && !images.some(function(i) { return i.src === url; })) {
-        images.push({ id: idx++, src: url, alt: product.nameCN || product.name || 'Product image' });
-      }
-    });
-  }
-
-  return images.length > 0 ? images : [{ id: 1, src: 'images/placeholder.jpg', alt: 'Product image' }];
-}
-
-/**
  * 转换 Creem API 返回的数据格式
  * 🔥 关键：正确映射 Creem API 返回的字段
  */
@@ -251,12 +205,10 @@ function transformProducts(products) {
         return (orig > 0 && orig > curr) ? Math.round(((orig - curr) / orig) * 100) : 0;
       })(),
       currency: product.currency || 'USD',
-      // 🔥 重要：支持多种图片字段名
-      image: product.image || product.image_url || product.img_url || product.images?.[0] || 'images/placeholder.jpg',
-      image_url: product.image_url || product.image || product.img_url || 'images/placeholder.jpg',
-      img_url: product.image_url || product.image || product.img_url || 'images/placeholder.jpg',
-      // 🔥 支持多图数组（Creem 可能返回 images 数组或多个图片字段）
-      images: buildImageArray(product),
+      // Creem API 只支持单图字段 image_url（官方文档确认）
+      image: product.image_url || product.image || 'images/placeholder.jpg',
+      image_url: product.image_url || product.image || 'images/placeholder.jpg',
+      img_url: product.image_url || product.image || 'images/placeholder.jpg',
       category: mappedCategory,
       element: product.element || 'energy',
       stock: product.stock || 999,

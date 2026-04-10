@@ -163,30 +163,16 @@ window.loadCardData = async function() {
         const card = window.allProducts.find(p => p.id === actualCardId) || window.allProducts.find(p => p.id === defaultCardId);
         if (card) {
             console.log('🔍 Found card:', card);
-            console.log('📊 Card fields:', { name: card.name, nameCN: card.nameCN, price: card.price, image: card.image, image_url: card.image_url, img_url: card.img_url, imagesCount: (card.images || []).length });
+            console.log('📊 Card fields:', { name: card.name, nameCN: card.nameCN, price: card.price, image_url: card.image_url });
 
-            // 🔥 支持多图：优先用 creem-sync-v2 的 images 数组，否则用单图兜底
-            const cardImages = (Array.isArray(card.images) && card.images.length > 0)
-                ? card.images.map(function(img, idx) {
-                    return {
-                        id: img.id || (idx + 1),
-                        src: img.src || img.url || img.image || (typeof img === 'string' ? img : ''),
-                        alt: img.alt || card.nameCN || card.name || 'Product image',
-                        width: img.width || 1200,
-                        height: img.height || 1200,
-                        position: img.position || (idx + 1)
-                    };
-                })
-                : [{
-                    id: 1,
-                    src: card.image || card.image_url || card.img_url || 'images/placeholder.jpg',
-                    alt: card.nameCN || card.name || 'Card',
-                    width: 1200,
-                    height: 1200,
-                    position: 1
-                }];
+            // Creem API 只支持单图（image_url 字段），构建单元素数组供 renderImages 使用
+            const cardImages = [{
+                id: 1,
+                src: card.image_url || card.image || 'images/placeholder.jpg',
+                alt: card.nameCN || card.name || 'Card'
+            }];
 
-            console.log('📷 Total images:', cardImages.length, cardImages.map(function(i) { return i.src; }));
+            console.log('📷 Image:', cardImages[0].src);
 
             // 转换 Creem API 数据格式为卡详情页需要的格式
             CARD_DATA = {
