@@ -23,17 +23,6 @@
           "value": "daoessentia.com"
         }
       ]
-    },
-    {
-      "source": "/(.*)",
-      "destination": "https://www.daoessentia.com/$1",
-      "permanent": true,
-      "has": [
-        {
-          "type": "host",
-          "value": "www.daoessentia.com"
-        }
-      ]
     }
   ]
 }
