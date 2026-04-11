@@ -2,16 +2,36 @@ node_modules
 .git
 .vercel
 cloudbaserc.json
+
+# Python 脚本（开发工具）
 fix_all.py
 fix_chinese.py
 remove_multilang.py
+
+# 测试/调试 HTML（不部署）
 debug.html
 test_coordinates.html
+test-creem-locally.html
+test-iframe.html
+test-taiji2.html
+deployment-flow.html
+CREEM_CHECKOUT_INTEGRATION_EXAMPLE.html
+
+# 开发辅助脚本
 calc_coords.js
 calc-coords.js
 _clean.js
+update-footers.js
+update-footers.cjs
+inject-env.js
+check-config.js
+server.js
+
+# 文档（不部署）
 清除缓存说明.md
 DEPLOY.md
 DEPLOYMENT_GUIDE.md
 ECOMMERCE_DEPLOY_GUIDE.md
+
+# 历史版本
 shop_1.0.1.html
