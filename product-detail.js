@@ -883,7 +883,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         // 🔥 动态更新 SEO 标签
         const productTitle = CARD_DATA.title || 'Taoist Digital Resource';
         const productDesc = (CARD_DATA.description || '').substring(0, 120) + '...';
-        const productImage = CARD_DATA.images?.[0]?.src || 'https://daoessence.com/images/og-default.jpg';
+        const productImage = CARD_DATA.images?.[0]?.src || 'https://www.daoessentia.com/images/og-default.jpg';
         const productUrl = window.location.href;
         
         // 更新 <title>
