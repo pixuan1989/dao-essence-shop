@@ -28,10 +28,7 @@ check-config.js
 server.js
 
 # 文档（不部署）
-清除缓存说明.md
-DEPLOY.md
-DEPLOYMENT_GUIDE.md
-ECOMMERCE_DEPLOY_GUIDE.md
+*.md
 
 # 历史版本
 shop_1.0.1.html
