@@ -107,7 +107,6 @@ function detectProductType(card) {
         }
     });
     
-    console.log('Product type detection:', { name, novelScore, meditationScore, wallpaperScore, explicitCategory });
     
     // 返回判断结果 - 优先使用检测结果，而不是原始分类
     if (wallpaperScore > novelScore && wallpaperScore > meditationScore) {
@@ -127,18 +126,14 @@ function detectProductType(card) {
  * 由 creem-sync-v2.js 填充 window.allProducts
  */
 window.loadCardData = async function() {
-    console.log('📦 Loading card data for detail page...');
 
     // 获取URL中的卡ID
     const urlParams = new URLSearchParams(window.location.search);
     const cardId = urlParams.get('id');
-    console.log('URL Card ID:', cardId);
-    console.log('Available cards from Creem API:', window.allProducts ? window.allProducts.length : 0);
     
     // 如果没有指定ID，使用默认卡 (传统沉香)
     const defaultCardId = 'prod_7i2asEAuHFHl5hJMeCEsfB';
     const actualCardId = cardId || defaultCardId;
-    console.log('Loading card:', actualCardId);
     
     // 等待 window.allProducts 数据就绪
     let attempts = 0;
@@ -158,12 +153,9 @@ window.loadCardData = async function() {
     
     // 从 window.allProducts 中获取卡数据
     if (typeof window.allProducts !== 'undefined' && window.allProducts.length > 0) {
-        console.log('Available cards:', window.allProducts.map(p => ({ id: p.id, name: p.name, price: p.price })));
         
         const card = window.allProducts.find(p => p.id === actualCardId) || window.allProducts.find(p => p.id === defaultCardId);
         if (card) {
-            console.log('🔍 Found card:', card);
-            console.log('📊 Card fields:', { name: card.name, nameCN: card.nameCN, price: card.price, image_url: card.image_url });
 
             // Creem API 只支持单图（image_url 字段），构建单元素数组供 renderImages 使用
             const cardImages = [{
@@ -172,7 +164,6 @@ window.loadCardData = async function() {
                 alt: card.nameCN || card.name || 'Card'
             }];
 
-            console.log('📷 Image:', cardImages[0].src);
 
             // 转换 Creem API 数据格式为卡详情页需要的格式
             CARD_DATA = {
@@ -207,7 +198,6 @@ window.loadCardData = async function() {
                     }
                 }
             };
-            console.log('✅ Card data loaded and converted:', CARD_DATA);
             return true;
         }
     }
@@ -262,7 +252,6 @@ window.loadCardData = async function() {
         return false;
     }
     
-    console.log('Loaded card:', CARD_DATA.id, CARD_DATA.title);
     return true;
 };
 
@@ -381,7 +370,6 @@ window.renderImages = function() {
     const mainWrapper = document.getElementById('mainImageWrapper');
     const thumbsWrapper = document.getElementById('thumbsWrapper');
 
-    console.log('renderImages called');
     if (!mainWrapper || !CARD_DATA || !CARD_DATA.images || CARD_DATA.images.length === 0) return;
 
     // 清空现有内容
@@ -686,7 +674,6 @@ window.addToCartFromDetail = function() {
     const quantity = Math.max(1, parseInt(quantityInput?.value) || 1);
 
     const cardId = CARD_DATA.id;
-    console.log('📦 addToCartFromDetail: cardId=' + cardId + ', quantity=' + quantity);
 
     // 调用 cart.js 中的 addToCart 函数
     if (typeof window.addToCart === 'function') {
@@ -765,7 +752,6 @@ window.buyNow = async function() {
 // ============================================
 
 document.addEventListener('DOMContentLoaded', async function() {
-    console.log('🚀 product-detail.js: DOMContentLoaded fired');
     
     // 1. 加载卡数据（必须在其他操作之前）
     const cardLoaded = await window.loadCardData();
@@ -780,8 +766,6 @@ document.addEventListener('DOMContentLoaded', async function() {
         window.cart = savedCart;
     }
 
-    console.log('✅ Card detail page initialized');
-    console.log('Card data:', CARD_DATA);
 
     // 3. 初始化页面UI
     window.initState();
@@ -789,60 +773,50 @@ document.addEventListener('DOMContentLoaded', async function() {
     
     // 3.5 更新所有卡信息到 HTML
     if (CARD_DATA) {
-        console.log('Updating all card info to HTML...');
         const cardNameCn = document.getElementById('cardNameCn');
         if (cardNameCn) {
             cardNameCn.textContent = CARD_DATA.titleZh || CARD_DATA.title || 'Card Name';
-            console.log('✅ Updated cardNameCn to:', cardNameCn.textContent);
         }
         
         const cardNameEn = document.getElementById('cardNameEn');
         if (cardNameEn) {
             cardNameEn.textContent = CARD_DATA.title || 'Card Name';
-            console.log('✅ Updated cardNameEn to:', cardNameEn.textContent);
         }
         
         // 更新页面头部标题
         const pageTitleLarge = document.getElementById('pageTitleLarge');
         if (pageTitleLarge) {
             pageTitleLarge.textContent = CARD_DATA.titleZh || CARD_DATA.title || 'Card';
-            console.log('✅ Updated pageTitleLarge to:', pageTitleLarge.textContent);
         }
         
         const pageTitleEn = document.getElementById('pageTitleEn');
         if (pageTitleEn) {
             pageTitleEn.textContent = CARD_DATA.title || 'Card Title';
-            console.log('✅ Updated pageTitleEn to:', pageTitleEn.textContent);
         }
         
         // 更新面包屑
         const breadcrumbCard = document.getElementById('breadcrumbCard');
         if (breadcrumbCard) {
             breadcrumbCard.textContent = CARD_DATA.titleZh || CARD_DATA.title || 'Card';
-            console.log('✅ Updated breadcrumbCard to:', breadcrumbCard.textContent);
         }
         
         const breadcrumbCategory = document.getElementById('breadcrumbCategory');
         if (breadcrumbCategory) {
             breadcrumbCategory.textContent = CARD_DATA.type || 'Category';
-            console.log('✅ Updated breadcrumbCategory to:', breadcrumbCategory.textContent);
         }
         
         // 更新卡描述
         const cardDescription = document.getElementById('cardDescription');
         if (cardDescription) {
             cardDescription.innerHTML = '<p>' + (CARD_DATA.descriptionZh || CARD_DATA.description || 'No description available') + '</p>';
-            console.log('✅ Updated cardDescription');
         }
         
         const cardCategoryTag = document.getElementById('cardCategoryTag');
         if (cardCategoryTag) {
             cardCategoryTag.textContent = CARD_DATA.type || 'Category';
-            console.log('✅ Updated cardCategoryTag to:', cardCategoryTag.textContent);
             
             // 🔥 主动触发区块切换
             if (typeof toggleAttributeBlocks === 'function') {
-                console.log('🔄 Triggering toggleAttributeBlocks with:', CARD_DATA.type);
                 toggleAttributeBlocks(CARD_DATA.type);
             }
 
@@ -858,17 +832,14 @@ document.addEventListener('DOMContentLoaded', async function() {
                     formatDefault.style.display = 'none';
                     formatEpub.style.display     = 'inline';
                     formatWallpaper.style.display = 'none';
-                    console.log('✅ Format: EPUB mode');
                 } else if (isWallpaper) {
                     formatDefault.style.display = 'none';
                     formatEpub.style.display     = 'none';
                     formatWallpaper.style.display = 'inline';
-                    console.log('✅ Format: Wallpaper mode');
                 } else {
                     formatDefault.style.display = 'inline';
                     formatEpub.style.display     = 'none';
                     formatWallpaper.style.display = 'none';
-                    console.log('✅ Format: default mode');
                 }
             }
             
@@ -876,7 +847,6 @@ document.addEventListener('DOMContentLoaded', async function() {
             const specType = document.getElementById('specType');
             if (specType && isWallpaper) {
                 specType.textContent = 'Digital wallpaper (HD image set — phone, tablet, desktop)';
-                console.log('✅ Type: Wallpaper mode');
             }
         }
         
@@ -937,12 +907,10 @@ document.addEventListener('DOMContentLoaded', async function() {
             "category": CARD_DATA.type || "Digital Resource"
         });
         document.head.appendChild(schemaScript);
-        console.log('✅ Product Schema injected');
         
         const cardSku = document.getElementById('cardSku');
         if (cardSku) {
             cardSku.textContent = 'SKU: ' + CARD_DATA.id;
-            console.log('✅ Updated cardSku');
         }
     }
     
@@ -957,5 +925,4 @@ document.addEventListener('DOMContentLoaded', async function() {
     // 5. 绑定事件监听器
     // button onclick 属性已在 HTML 中绑定，无需这里再绑定
 
-    console.log('✅ Event listeners bound');
 });
