@@ -437,12 +437,33 @@
         @media (max-width: 768px) {
             .elements-grid {
                 grid-template-columns: repeat(2, 1fr);
+                gap: var(--spacing-lg);
+            }
+
+            .element-card {
+                padding: var(--spacing-lg) var(--spacing-md);
+            }
+
+            .element-card .icon {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
             }
         }
         
         @media (max-width: 480px) {
             .elements-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .element-card {
+                padding: var(--spacing-xl) var(--spacing-lg);
+            }
+
+            .element-card .icon {
+                width: 70px;
+                height: 70px;
+                font-size: 1.75rem;
             }
         }
         
