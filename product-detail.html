@@ -1034,6 +1034,34 @@
         .material-options {
             justify-content: center;
         }
+
+        /* 移动端：商品详情改为单列布局，图片在上信息在下 */
+        .card-grid {
+            grid-template-columns: 1fr;
+            gap: var(--spacing-xl);
+        }
+
+        .card-gallery {
+            position: static;
+        }
+
+        .swiper-main {
+            height: 350px;
+        }
+
+        .swiper-main.swiper-initialized {
+            height: 350px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .swiper-main {
+            height: 280px;
+        }
+
+        .swiper-main.swiper-initialized {
+            height: 280px;
+        }
     }
 
     /* ============================================
