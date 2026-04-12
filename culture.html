@@ -117,8 +117,8 @@
 
         .wuxing-node {
             position: absolute;
-            width: 80px;
-            height: 80px;
+            width: 16%;
+            height: 16%;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -126,8 +126,7 @@
             transition: all 0.3s;
             cursor: pointer;
             z-index: 2;
-            margin-left: -40px;
-            margin-top: -40px;
+            transform: translate(-50%, -50%);
         }
 
         .wuxing-node:hover {
@@ -143,41 +142,34 @@
             text-shadow: 0 1px 3px rgba(0,0,0,0.3);
         }
 
-        /* 五元素节点均匀分布在圆周上 */
-        /* 木(正上): (250, 75)
-           火(右上): (416, 196)
-           土(右下): (353, 392)
-           金(左下): (147, 392)
-           水(左上): (84, 196)
-        */
-
+        /* 五元素节点均匀分布在圆周上（百分比定位，响应式自适应） */
         .wuxing-node.wood {
-            top: 75px;
-            left: 250px;
+            top: 15%;
+            left: 50%;
             background: #3D5A47;
         }
 
         .wuxing-node.fire {
-            top: 196px;
-            left: 416px;
+            top: 39.2%;
+            left: 83.2%;
             background: #8B4D4D;
         }
 
         .wuxing-node.earth {
-            top: 392px;
-            left: 353px;
+            top: 78.4%;
+            left: 70.6%;
             background: #8B7355;
         }
 
         .wuxing-node.metal {
-            top: 392px;
-            left: 147px;
+            top: 78.4%;
+            left: 29.4%;
             background: #6B6B6B;
         }
 
         .wuxing-node.water {
-            top: 196px;
-            left: 84px;
+            top: 39.2%;
+            left: 16.8%;
             background: #4A5D6B;
         }
 
@@ -572,15 +564,6 @@
                 height: min(300px, 85vw);
             }
 
-            .wuxing-node {
-                width: 55px;
-                height: 55px;
-            }
-
-            .wuxing-node .node-char {
-                font-size: 1.4rem;
-            }
-
             .wuxing-motto p {
                 font-size: 0.95rem;
             }
@@ -603,15 +586,6 @@
             .wuxing-circle {
                 width: min(260px, 90vw);
                 height: min(260px, 90vw);
-            }
-
-            .wuxing-node {
-                width: 45px;
-                height: 45px;
-            }
-
-            .wuxing-node .node-char {
-                font-size: 1.2rem;
             }
 
             .product-visual {
