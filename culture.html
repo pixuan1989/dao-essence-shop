@@ -126,7 +126,9 @@
             transition: all 0.3s;
             cursor: pointer;
             z-index: 2;
-            transform: translate(-50%, -50%);
+            /* 用 calc 居中，避免 JS 动画覆盖 transform */
+            top: calc(var(--top) - 8%);
+            left: calc(var(--left) - 8%);
         }
 
         .wuxing-node:hover {
@@ -144,32 +146,32 @@
 
         /* 五元素节点均匀分布在圆周上（百分比定位，响应式自适应） */
         .wuxing-node.wood {
-            top: 15%;
-            left: 50%;
+            --top: 15%;
+            --left: 50%;
             background: #3D5A47;
         }
 
         .wuxing-node.fire {
-            top: 39.2%;
-            left: 83.2%;
+            --top: 39.2%;
+            --left: 83.2%;
             background: #8B4D4D;
         }
 
         .wuxing-node.earth {
-            top: 78.4%;
-            left: 70.6%;
+            --top: 78.4%;
+            --left: 70.6%;
             background: #8B7355;
         }
 
         .wuxing-node.metal {
-            top: 78.4%;
-            left: 29.4%;
+            --top: 78.4%;
+            --left: 29.4%;
             background: #6B6B6B;
         }
 
         .wuxing-node.water {
-            top: 39.2%;
-            left: 16.8%;
+            --top: 39.2%;
+            --left: 16.8%;
             background: #4A5D6B;
         }
 
