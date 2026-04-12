@@ -28,6 +28,30 @@
       document.head.appendChild(script);
     </script>
     <style>
+        /* guide.html — 深色背景页面，导航栏始终深色文字+浅色背景 */
+        .header {
+            background: rgba(245, 240, 230, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-md, 0 2px 10px rgba(0,0,0,0.08));
+        }
+        .header .logo-en {
+            color: var(--text-primary, #2C2416) !important;
+        }
+        .header .nav-link {
+            color: var(--text-primary, #2C2416) !important;
+        }
+        .header .logo-icon {
+            border-color: var(--accent-color, #D4AF37) !important;
+            color: var(--accent-color, #D4AF37) !important;
+        }
+        .header .nav-link:hover,
+        .header .nav-link.active {
+            color: var(--primary-color, #8B2500) !important;
+        }
+        .header .mobile-menu-btn span {
+            background: var(--text-primary, #2C2416) !important;
+        }
+
         /* 购物车徽章样式 */
         .cart-badge {
             position: absolute;
