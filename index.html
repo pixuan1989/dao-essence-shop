@@ -85,7 +85,7 @@
             justify-content: center;
             position: relative;
             overflow: hidden;
-            background: linear-gradient(135deg, #1A1612 0%, #1A3A4A 50%, #2D5A3D 100%);
+            background: linear-gradient(135deg, #1A1612 0%, #1A3A4A 30%, #2D5A3D 60%, #3A6B4A 80%, #F5F0E6 100%);
             width: 100vw;
             margin-left: calc(50% - 50vw);
             margin-right: calc(50% - 50vw);
@@ -118,15 +118,9 @@
             height: 100%;
         }
         
-        /* 背景云雾 - 底部平滑过渡到页面背景色 */
+        /* 背景云雾 */
         .hero-mist {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 250px;
-            background: linear-gradient(to top, #F5F0E6, rgba(245, 240, 230, 0.6), transparent);
-            z-index: 2;
+            display: none;
         }
         
         /* 主内容 */
