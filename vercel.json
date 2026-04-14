@@ -8,6 +8,7 @@
     { "source": "/culture", "destination": "/culture.html" },
     { "source": "/guide", "destination": "/guide.html" },
     { "source": "/bazi-form", "destination": "/bazi-form.html" },
+    { "source": "/about", "destination": "/about.html" },
     { "source": "/privacy", "destination": "/privacy.html" },
     { "source": "/terms", "destination": "/terms.html" }
   ],
