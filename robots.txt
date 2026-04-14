@@ -18,6 +18,10 @@ Disallow: /checkout.html
 Disallow: /order-confirm.html
 Disallow: /success.html
 Disallow: /payment-success.html
+Disallow: /destiny.html
+Disallow: /destiny
+Disallow: /contact.html
+Disallow: /contact
 Disallow: /*?debug=
 Disallow: /*?session=
 
