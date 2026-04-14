@@ -1,46 +1,74 @@
 # DAO Essence - Robots Configuration
-# Updated: 2026-03-29
+# Updated: 2026-04-14
 
 User-agent: *
 Allow: /
-
-# Disallow admin and private areas
 Disallow: /admin.html
 Disallow: /admin/
+Disallow: /api/
 Disallow: /private/
-Disallow: /api/internal/
+Disallow: /config/
+Disallow: /docs/
+Disallow: /orders/
+Disallow: /redeem.html
+Disallow: /checkout.html
+Disallow: /order-confirm.html
+Disallow: /success.html
+Disallow: /payment-success.html
 Disallow: /*?debug=
 Disallow: /*?session=
-
-# Allow crawl delay for respectful indexing
-Crawl-delay: 0.5
 
 # Sitemap location
 Sitemap: https://www.daoessentia.com/sitemap.xml
 
-# Google specific
+# IndexNow key location (for Bing/Yandex)
+User-agent: *
+Allow: /daoessence-indexnow-key-2026.txt
+
+# Google specific - no crawl delay
 User-agent: Googlebot
 Allow: /
-Crawl-delay: 0
+Disallow: /admin.html
+Disallow: /admin/
+Disallow: /api/
+Disallow: /private/
+Disallow: /config/
+Disallow: /docs/
+Disallow: /orders/
+Disallow: /redeem.html
+Disallow: /checkout.html
+Disallow: /order-confirm.html
 
 # Bing specific
 User-agent: Bingbot
 Allow: /
-Crawl-delay: 1
+Disallow: /admin.html
+Disallow: /admin/
+Disallow: /api/
+Disallow: /private/
+Disallow: /config/
+Disallow: /docs/
+Disallow: /orders/
+Disallow: /redeem.html
+Disallow: /checkout.html
+Disallow: /order-confirm.html
 
-# GPTBot (ChatGPT/OpenAI) — allow for GEO visibility
+# AI bots - allow for visibility
 User-agent: GPTBot
 Allow: /
 
-# Claude/Anthropic — allow for GEO visibility
 User-agent: ClaudeBot
 Allow: /
 
-# PerplexityBot — allow for GEO visibility
 User-agent: PerplexityBot
 Allow: /
 
-# Malicious scrapers only
+# Block malicious scrapers
 User-agent: DotBot
 Disallow: /
 
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
