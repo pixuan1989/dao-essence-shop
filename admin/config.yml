@@ -12,7 +12,7 @@ media_folder: "images/blog"
 public_folder: "/images/blog"
 
 # Locale
-locale: "en"
+locale: "zh"
 
 # Collections define the content types
 collections:
