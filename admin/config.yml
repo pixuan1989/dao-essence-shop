@@ -8,7 +8,7 @@ backend:
   base_url: https://daoessence-shop-git-feature-blog-cms-daodao-74dfe427.vercel.app
 
 media_folder: "images/blog"
-public_folder: "/images/blog"
+public_folder: "https://raw.githubusercontent.com/pixuan1989/dao-essence-shop/feature/blog-cms/images/blog"
 
 locale: "zh"
 
