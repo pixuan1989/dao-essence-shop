@@ -7,6 +7,8 @@ backend:
   branch: feature/blog-cms
   auth_type: pkce
   app_id: Ov23liYyB9QUtE64RMDH
+  base_url: https://www.daoessentia.com
+  auth_endpoint: auth/provider/callback
 
 # This allows media files to be uploaded in the CMS
 media_folder: "images/blog"
