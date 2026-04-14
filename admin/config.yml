@@ -5,10 +5,7 @@ backend:
   name: github
   repo: pixuan1989/dao-essence-shop
   branch: feature/blog-cms
-  auth_type: pkce
   app_id: Ov23liYyB9QUtE64RMDH
-  base_url: https://daoessence-shop-git-feature-blog-cms-daodao-74dfe427.vercel.app
-  auth_endpoint: auth/provider/callback
 
 # This allows media files to be uploaded in the CMS
 media_folder: "images/blog"
