@@ -1,0 +1,303 @@
+# DecapCMS Configuration for DAO Essence Blog
+# Docs: https://decapcms.org/docs/configuration-options/
+
+backend:
+  name: github
+  repo: pixuan1989/dao-essence-shop
+  branch: feature/blog-cms
+  auth_type: pkce
+  app_id: Ov23liYyB9QUtE64RMDH
+
+# This allows media files to be uploaded in the CMS
+media_folder: "images/blog"
+public_folder: "/images/blog"
+
+# Locale
+locale: "en"
+
+# Collections define the content types
+collections:
+
+  # ============================
+  # Blog Posts
+  # ============================
+  - name: "blog"
+    label: "Blog Posts"
+    folder: "blog/posts"
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    preview_path: "blog/{{slug}}.html"
+    summary: "{{title}} — {{date}}"
+    format: "frontmatter"
+    editor:
+      preview: true
+    fields:
+      - label: "Title"
+        name: "title"
+        widget: "string"
+        hint: "Article title (keep under 60 chars for SEO)"
+      - label: "Category"
+        name: "category"
+        widget: "select"
+        options:
+          - { label: "八字命理学 Bazi", value: "bazi-astrology" }
+          - { label: "十二生肖运势 Zodiac", value: "zodiac-horoscope" }
+          - { label: "风水知识 Feng Shui", value: "feng-shui" }
+          - { label: "每日运势 Daily", value: "daily-horoscope" }
+          - { label: "旺运术 Lucky Tips", value: "lucky-tips" }
+        default: "bazi-astrology"
+      - label: "Tags"
+        name: "tags"
+        widget: "list"
+        allow_add: true
+        hint: "Add relevant tags (press Enter to add)"
+        default:
+          - "bazi"
+          - "chinese-astrology"
+      - label: "Description"
+        name: "description"
+        widget: "text"
+        hint: "Meta description for SEO (150-160 characters)"
+      - label: "Publish Date"
+        name: "date"
+        widget: "datetime"
+        format: "YYYY-MM-DD"
+        default: "{{now}}"
+      - label: "Author"
+        name: "author"
+        widget: "string"
+        default: "DAO Essence"
+      - label: "Read Time (minutes)"
+        name: "readTime"
+        widget: "number"
+        default: 5
+        min: 1
+        max: 60
+      - label: "Featured Image"
+        name: "image"
+        widget: "image"
+        required: false
+        hint: "Upload a featured image (recommended: 1200x630 for OG)"
+      - label: "Body"
+        name: "body"
+        widget: "markdown"
+        hint: "Write your article content in Markdown. Use ## for headings, > for quotes, etc."
+      - label: "FAQ Section"
+        name: "faq"
+        widget: "list"
+        required: false
+        hint: "Add FAQ questions for SEO (FAQPage structured data)"
+        field:
+          label: "Question"
+          name: "question"
+          widget: "string"
+          fields:
+            - label: "Answer"
+              name: "answer"
+              widget: "text"
+
+  # ============================
+  # Bazi Astrology Category
+  # ============================
+  - name: "bazi-astrology"
+    label: "八字命理学 Bazi"
+    folder: "blog/bazi-astrology"
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    format: "frontmatter"
+    editor:
+      preview: true
+    fields:
+      - label: "Title"
+        name: "title"
+        widget: "string"
+      - label: "Tags"
+        name: "tags"
+        widget: "list"
+        allow_add: true
+        default: ["bazi", "four-pillars"]
+      - label: "Description"
+        name: "description"
+        widget: "text"
+      - label: "Publish Date"
+        name: "date"
+        widget: "datetime"
+        format: "YYYY-MM-DD"
+        default: "{{now}}"
+      - label: "Read Time"
+        name: "readTime"
+        widget: "number"
+        default: 5
+      - label: "Featured Image"
+        name: "image"
+        widget: "image"
+        required: false
+      - label: "Body"
+        name: "body"
+        widget: "markdown"
+
+  # ============================
+  # Zodiac Horoscope Category
+  # ============================
+  - name: "zodiac-horoscope"
+    label: "十二生肖运势 Zodiac"
+    folder: "blog/zodiac-horoscope"
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    format: "frontmatter"
+    editor:
+      preview: true
+    fields:
+      - label: "Title"
+        name: "title"
+        widget: "string"
+      - label: "Tags"
+        name: "tags"
+        widget: "list"
+        allow_add: true
+        default: ["zodiac", "horoscope"]
+      - label: "Description"
+        name: "description"
+        widget: "text"
+      - label: "Publish Date"
+        name: "date"
+        widget: "datetime"
+        format: "YYYY-MM-DD"
+        default: "{{now}}"
+      - label: "Read Time"
+        name: "readTime"
+        widget: "number"
+        default: 5
+      - label: "Featured Image"
+        name: "image"
+        widget: "image"
+        required: false
+      - label: "Body"
+        name: "body"
+        widget: "markdown"
+
+  # ============================
+  # Feng Shui Category
+  # ============================
+  - name: "feng-shui"
+    label: "风水知识 Feng Shui"
+    folder: "blog/feng-shui"
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    format: "frontmatter"
+    editor:
+      preview: true
+    fields:
+      - label: "Title"
+        name: "title"
+        widget: "string"
+      - label: "Tags"
+        name: "tags"
+        widget: "list"
+        allow_add: true
+        default: ["feng-shui", "风水"]
+      - label: "Description"
+        name: "description"
+        widget: "text"
+      - label: "Publish Date"
+        name: "date"
+        widget: "datetime"
+        format: "YYYY-MM-DD"
+        default: "{{now}}"
+      - label: "Read Time"
+        name: "readTime"
+        widget: "number"
+        default: 5
+      - label: "Featured Image"
+        name: "image"
+        widget: "image"
+        required: false
+      - label: "Body"
+        name: "body"
+        widget: "markdown"
+
+  # ============================
+  # Daily Horoscope Category
+  # ============================
+  - name: "daily-horoscope"
+    label: "每日运势 Daily"
+    folder: "blog/daily-horoscope"
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    format: "frontmatter"
+    editor:
+      preview: true
+    fields:
+      - label: "Title"
+        name: "title"
+        widget: "string"
+      - label: "Tags"
+        name: "tags"
+        widget: "list"
+        allow_add: true
+        default: ["daily-horoscope", "daily"]
+      - label: "Description"
+        name: "description"
+        widget: "text"
+      - label: "Publish Date"
+        name: "date"
+        widget: "datetime"
+        format: "YYYY-MM-DD"
+        default: "{{now}}"
+      - label: "Read Time"
+        name: "readTime"
+        widget: "number"
+        default: 3
+      - label: "Featured Image"
+        name: "image"
+        widget: "image"
+        required: false
+      - label: "Body"
+        name: "body"
+        widget: "markdown"
+
+  # ============================
+  # Lucky Tips Category
+  # ============================
+  - name: "lucky-tips"
+    label: "旺运术 Lucky Tips"
+    folder: "blog/lucky-tips"
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    format: "frontmatter"
+    editor:
+      preview: true
+    fields:
+      - label: "Title"
+        name: "title"
+        widget: "string"
+      - label: "Tags"
+        name: "tags"
+        widget: "list"
+        allow_add: true
+        default: ["lucky-tips", "旺运"]
+      - label: "Description"
+        name: "description"
+        widget: "text"
+      - label: "Publish Date"
+        name: "date"
+        widget: "datetime"
+        format: "YYYY-MM-DD"
+        default: "{{now}}"
+      - label: "Read Time"
+        name: "readTime"
+        widget: "number"
+        default: 4
+      - label: "Featured Image"
+        name: "image"
+        widget: "image"
+        required: false
+      - label: "Body"
+        name: "body"
+        widget: "markdown"
