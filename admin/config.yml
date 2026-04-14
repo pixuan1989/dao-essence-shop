@@ -7,21 +7,18 @@ backend:
   branch: feature/blog-cms
   base_url: https://daoessence-shop-git-feature-blog-cms-daodao-74dfe427.vercel.app
 
-# This allows media files to be uploaded in the CMS
 media_folder: "images/blog"
 public_folder: "/images/blog"
 
-# Locale
 locale: "zh"
 
-# Collections define the content types
 collections:
 
   # ============================
-  # Blog Posts
+  # 博客文章
   # ============================
   - name: "blog"
-    label: "Blog Posts"
+    label: "博客文章"
     folder: "blog/posts"
     create: true
     delete: true
@@ -32,75 +29,75 @@ collections:
     editor:
       preview: true
     fields:
-      - label: "Title"
+      - label: "标题"
         name: "title"
         widget: "string"
-        hint: "Article title (keep under 60 chars for SEO)"
-      - label: "Category"
+        hint: "文章标题（建议60字以内，利于SEO）"
+      - label: "分类"
         name: "category"
         widget: "select"
         options:
-          - { label: "八字命理学 Bazi", value: "bazi-astrology" }
-          - { label: "十二生肖运势 Zodiac", value: "zodiac-horoscope" }
-          - { label: "风水知识 Feng Shui", value: "feng-shui" }
-          - { label: "每日运势 Daily", value: "daily-horoscope" }
-          - { label: "旺运术 Lucky Tips", value: "lucky-tips" }
+          - { label: "八字命理学", value: "bazi-astrology" }
+          - { label: "十二生肖运势", value: "zodiac-horoscope" }
+          - { label: "风水知识", value: "feng-shui" }
+          - { label: "每日运势", value: "daily-horoscope" }
+          - { label: "旺运术", value: "lucky-tips" }
         default: "bazi-astrology"
-      - label: "Tags"
+      - label: "标签"
         name: "tags"
         widget: "list"
         allow_add: true
-        hint: "Add relevant tags (press Enter to add)"
+        hint: "添加相关标签（按回车添加）"
         default:
-          - "bazi"
-          - "chinese-astrology"
-      - label: "Description"
+          - "八字"
+          - "命理"
+      - label: "描述"
         name: "description"
         widget: "text"
-        hint: "Meta description for SEO (150-160 characters)"
-      - label: "Publish Date"
+        hint: "文章摘要（150-160字，用于SEO）"
+      - label: "发布日期"
         name: "date"
         widget: "datetime"
         format: "YYYY-MM-DD"
         default: "{{now}}"
-      - label: "Author"
+      - label: "作者"
         name: "author"
         widget: "string"
         default: "DAO Essence"
-      - label: "Read Time (minutes)"
+      - label: "阅读时长（分钟）"
         name: "readTime"
         widget: "number"
         default: 5
         min: 1
         max: 60
-      - label: "Featured Image"
+      - label: "封面图片"
         name: "image"
         widget: "image"
         required: false
-        hint: "Upload a featured image (recommended: 1200x630 for OG)"
-      - label: "Body"
+        hint: "上传封面图（建议尺寸：1200x630）"
+      - label: "正文"
         name: "body"
         widget: "markdown"
-        hint: "Write your article content in Markdown. Use ## for headings, > for quotes, etc."
-      - label: "FAQ Section"
+        hint: "使用Markdown编写文章内容。## 标题，> 引用，**加粗**等"
+      - label: "常见问题"
         name: "faq"
         widget: "list"
         required: false
-        hint: "Add FAQ questions for SEO (FAQPage structured data)"
+        hint: "添加FAQ问答（用于SEO结构化数据）"
         field:
-          label: "Question"
+          label: "问题"
           name: "question"
           widget: "string"
           fields:
-            - label: "Answer"
+            - label: "回答"
               name: "answer"
               widget: "text"
 
   # ============================
-  # Bazi Astrology Category
+  # 八字命理学
   # ============================
   - name: "bazi-astrology"
-    label: "八字命理学 Bazi"
+    label: "八字命理学"
     folder: "blog/bazi-astrology"
     create: true
     delete: true
@@ -109,39 +106,39 @@ collections:
     editor:
       preview: true
     fields:
-      - label: "Title"
+      - label: "标题"
         name: "title"
         widget: "string"
-      - label: "Tags"
+      - label: "标签"
         name: "tags"
         widget: "list"
         allow_add: true
-        default: ["bazi", "four-pillars"]
-      - label: "Description"
+        default: ["八字", "四柱"]
+      - label: "描述"
         name: "description"
         widget: "text"
-      - label: "Publish Date"
+      - label: "发布日期"
         name: "date"
         widget: "datetime"
         format: "YYYY-MM-DD"
         default: "{{now}}"
-      - label: "Read Time"
+      - label: "阅读时长"
         name: "readTime"
         widget: "number"
         default: 5
-      - label: "Featured Image"
+      - label: "封面图片"
         name: "image"
         widget: "image"
         required: false
-      - label: "Body"
+      - label: "正文"
         name: "body"
         widget: "markdown"
 
   # ============================
-  # Zodiac Horoscope Category
+  # 十二生肖运势
   # ============================
   - name: "zodiac-horoscope"
-    label: "十二生肖运势 Zodiac"
+    label: "十二生肖运势"
     folder: "blog/zodiac-horoscope"
     create: true
     delete: true
@@ -150,39 +147,39 @@ collections:
     editor:
       preview: true
     fields:
-      - label: "Title"
+      - label: "标题"
         name: "title"
         widget: "string"
-      - label: "Tags"
+      - label: "标签"
         name: "tags"
         widget: "list"
         allow_add: true
-        default: ["zodiac", "horoscope"]
-      - label: "Description"
+        default: ["生肖", "运势"]
+      - label: "描述"
         name: "description"
         widget: "text"
-      - label: "Publish Date"
+      - label: "发布日期"
         name: "date"
         widget: "datetime"
         format: "YYYY-MM-DD"
         default: "{{now}}"
-      - label: "Read Time"
+      - label: "阅读时长"
         name: "readTime"
         widget: "number"
         default: 5
-      - label: "Featured Image"
+      - label: "封面图片"
         name: "image"
         widget: "image"
         required: false
-      - label: "Body"
+      - label: "正文"
         name: "body"
         widget: "markdown"
 
   # ============================
-  # Feng Shui Category
+  # 风水知识
   # ============================
   - name: "feng-shui"
-    label: "风水知识 Feng Shui"
+    label: "风水知识"
     folder: "blog/feng-shui"
     create: true
     delete: true
@@ -191,39 +188,39 @@ collections:
     editor:
       preview: true
     fields:
-      - label: "Title"
+      - label: "标题"
         name: "title"
         widget: "string"
-      - label: "Tags"
+      - label: "标签"
         name: "tags"
         widget: "list"
         allow_add: true
-        default: ["feng-shui", "风水"]
-      - label: "Description"
+        default: ["风水", "环境"]
+      - label: "描述"
         name: "description"
         widget: "text"
-      - label: "Publish Date"
+      - label: "发布日期"
         name: "date"
         widget: "datetime"
         format: "YYYY-MM-DD"
         default: "{{now}}"
-      - label: "Read Time"
+      - label: "阅读时长"
         name: "readTime"
         widget: "number"
         default: 5
-      - label: "Featured Image"
+      - label: "封面图片"
         name: "image"
         widget: "image"
         required: false
-      - label: "Body"
+      - label: "正文"
         name: "body"
         widget: "markdown"
 
   # ============================
-  # Daily Horoscope Category
+  # 每日运势
   # ============================
   - name: "daily-horoscope"
-    label: "每日运势 Daily"
+    label: "每日运势"
     folder: "blog/daily-horoscope"
     create: true
     delete: true
@@ -232,39 +229,39 @@ collections:
     editor:
       preview: true
     fields:
-      - label: "Title"
+      - label: "标题"
         name: "title"
         widget: "string"
-      - label: "Tags"
+      - label: "标签"
         name: "tags"
         widget: "list"
         allow_add: true
-        default: ["daily-horoscope", "daily"]
-      - label: "Description"
+        default: ["每日运势", "今日"]
+      - label: "描述"
         name: "description"
         widget: "text"
-      - label: "Publish Date"
+      - label: "发布日期"
         name: "date"
         widget: "datetime"
         format: "YYYY-MM-DD"
         default: "{{now}}"
-      - label: "Read Time"
+      - label: "阅读时长"
         name: "readTime"
         widget: "number"
         default: 3
-      - label: "Featured Image"
+      - label: "封面图片"
         name: "image"
         widget: "image"
         required: false
-      - label: "Body"
+      - label: "正文"
         name: "body"
         widget: "markdown"
 
   # ============================
-  # Lucky Tips Category
+  # 旺运术
   # ============================
   - name: "lucky-tips"
-    label: "旺运术 Lucky Tips"
+    label: "旺运术"
     folder: "blog/lucky-tips"
     create: true
     delete: true
@@ -273,30 +270,30 @@ collections:
     editor:
       preview: true
     fields:
-      - label: "Title"
+      - label: "标题"
         name: "title"
         widget: "string"
-      - label: "Tags"
+      - label: "标签"
         name: "tags"
         widget: "list"
         allow_add: true
-        default: ["lucky-tips", "旺运"]
-      - label: "Description"
+        default: ["旺运", "开运"]
+      - label: "描述"
         name: "description"
         widget: "text"
-      - label: "Publish Date"
+      - label: "发布日期"
         name: "date"
         widget: "datetime"
         format: "YYYY-MM-DD"
         default: "{{now}}"
-      - label: "Read Time"
+      - label: "阅读时长"
         name: "readTime"
         widget: "number"
         default: 4
-      - label: "Featured Image"
+      - label: "封面图片"
         name: "image"
         widget: "image"
         required: false
-      - label: "Body"
+      - label: "正文"
         name: "body"
         widget: "markdown"
