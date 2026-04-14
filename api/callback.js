@@ -1,23 +1,27 @@
-// DecapCMS OAuth - Step 2: Handle GitHub callback, exchange code for token, pass to CMS
+// DecapCMS OAuth - Handle token exchange
+// DecapCMS calls this endpoint internally (not browser redirect)
+// It expects JSON response: {"token": "ghp_xxx"}
 const GITHUB_CLIENT_ID = process.env.GITHUB_OAUTH_CLIENT_ID;
 const GITHUB_CLIENT_SECRET = process.env.GITHUB_OAUTH_CLIENT_SECRET;
 
 export default async function handler(req, res) {
-  const { searchParams } = new URL(req.url || '', 'http://localhost');
-  const code = searchParams.get('code');
-  const error = searchParams.get('error');
-
-  if (error) {
-    res.status(400).send(`GitHub authorization failed: ${error}`);
-    return;
-  }
-
-  if (!code) {
-    res.status(400).send('Missing authorization code');
+  // Only accept POST requests from DecapCMS
+  if (req.method !== 'POST') {
+    res.status(405).send('Method not allowed');
     return;
   }
 
   try {
+    // DecapCMS sends the authorization code in the request body
+    const body = await req.json();
+    const code = body.code;
+
+    if (!code) {
+      res.status(400).json({ error: 'Missing authorization code' });
+      return;
+    }
+
+    // Exchange code for access token
     const origin = req.headers.origin || req.headers.referer
       ? new URL(req.headers.referer || '').origin
       : process.env.VERCEL_URL
@@ -44,35 +48,17 @@ export default async function handler(req, res) {
 
     if (!data.access_token) {
       console.error('Token exchange failed:', data);
-      res.status(401).send(`GitHub authorization failed: ${data.error_description || data.error}`);
+      res.status(401).json({ error: data.error_description || data.error || 'Token exchange failed' });
       return;
     }
 
-    // Return HTML that passes token to DecapCMS via postMessage
-    const html = `<!DOCTYPE html>
-<html>
-<head><title>Authorizing...</title></head>
-<body>
-<script>
-(function() {
-  function receiveMessage(e) {
-    window.opener.postMessage(
-      'authorization:github:success:{"token":"${data.access_token}","provider":"github"}',
-      e.origin
-    );
-  }
-  window.addEventListener("message", receiveMessage, false);
-  window.opener.postMessage("authorizing:github", "*");
-})();
-</script>
-<p>Authorization complete. You can close this window.</p>
-</body>
-</html>`;
-
-    res.setHeader('Content-Type', 'text/html');
-    res.status(200).send(html);
+    // DecapCMS expects: {"token": "ghp_xxx", "provider": "github"}
+    res.status(200).json({
+      token: data.access_token,
+      provider: 'github',
+    });
   } catch (error) {
-    console.error('OAuth error:', error);
-    res.status(500).send('OAuth proxy error');
+    console.error('OAuth token error:', error);
+    res.status(500).json({ error: 'OAuth proxy error' });
   }
 }
