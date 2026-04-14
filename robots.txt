@@ -3,12 +3,15 @@
 
 User-agent: *
 Allow: /
+
+# Disallow admin and private areas
 Disallow: /admin.html
 Disallow: /admin/
-Disallow: /api/
 Disallow: /private/
-Disallow: /config/
+Disallow: /api/internal/
+Disallow: /api/
 Disallow: /docs/
+Disallow: /config/
 Disallow: /orders/
 Disallow: /redeem.html
 Disallow: /checkout.html
@@ -21,49 +24,27 @@ Disallow: /*?session=
 # Sitemap location
 Sitemap: https://www.daoessentia.com/sitemap.xml
 
-# IndexNow key location (for Bing/Yandex)
-User-agent: *
-Allow: /daoessence-indexnow-key-2026.txt
-
-# Google specific - no crawl delay
+# Google specific
 User-agent: Googlebot
 Allow: /
-Disallow: /admin.html
-Disallow: /admin/
-Disallow: /api/
-Disallow: /private/
-Disallow: /config/
-Disallow: /docs/
-Disallow: /orders/
-Disallow: /redeem.html
-Disallow: /checkout.html
-Disallow: /order-confirm.html
 
 # Bing specific
 User-agent: Bingbot
 Allow: /
-Disallow: /admin.html
-Disallow: /admin/
-Disallow: /api/
-Disallow: /private/
-Disallow: /config/
-Disallow: /docs/
-Disallow: /orders/
-Disallow: /redeem.html
-Disallow: /checkout.html
-Disallow: /order-confirm.html
 
-# AI bots - allow for visibility
+# GPTBot (ChatGPT/OpenAI) — allow for GEO visibility
 User-agent: GPTBot
 Allow: /
 
+# Claude/Anthropic — allow for GEO visibility
 User-agent: ClaudeBot
 Allow: /
 
+# PerplexityBot — allow for GEO visibility
 User-agent: PerplexityBot
 Allow: /
 
-# Block malicious scrapers
+# Malicious scrapers only
 User-agent: DotBot
 Disallow: /
 
