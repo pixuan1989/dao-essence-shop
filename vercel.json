@@ -1,6 +1,10 @@
 {
   "buildCommand": "echo 'Build complete'",
   "outputDirectory": ".",
+  "rewrites": [
+    { "source": "/auth", "destination": "/api/auth" },
+    { "source": "/callback", "destination": "/api/callback" }
+  ],
   "redirects": [
     {
       "source": "/(.*)",
