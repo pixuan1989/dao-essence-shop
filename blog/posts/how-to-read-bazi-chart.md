@@ -10,7 +10,7 @@ description: "Learn how to read and interpret your BaZi (Four Pillars of Destiny
 date: "2026-04-13"
 author: "DAO Essence"
 readTime: 8
-image: ""
+image: "/images/Icons-yin-yang.svg"
 faq:
   - question: "What is a BaZi chart?"
     answer: "A BaZi chart is a Chinese astrological birth chart based on your birth year, month, day, and hour. It consists of four pillars, each with a Heavenly Stem and Earthly Branch, revealing your elemental composition and life patterns."
