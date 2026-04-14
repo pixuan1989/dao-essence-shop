@@ -6,7 +6,6 @@ backend:
   repo: pixuan1989/dao-essence-shop
   branch: feature/blog-cms
   base_url: https://daoessence-shop-git-feature-blog-cms-daodao-74dfe427.vercel.app
-  auth_endpoint: api/auth
 
 # This allows media files to be uploaded in the CMS
 media_folder: "images/blog"
