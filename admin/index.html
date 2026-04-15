@@ -50,7 +50,9 @@
         <p class="sub">DAO Essence 博客管理</p>
     </div>
 
-    <!-- DecapCMS loaded from CDN (no local file dependency) -->
+    <!-- MUST be set BEFORE loading CMS script to prevent auto-loading config.yml -->
+    <script>window.CMS_MANUAL_INIT = true;</script>
+    <!-- DecapCMS loaded from CDN -->
     <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
 
     <!-- CMS config embedded directly — no external config.yml needed -->
