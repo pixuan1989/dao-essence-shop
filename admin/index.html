@@ -49,6 +49,45 @@
         <p>正在加载管理系统...</p>
         <p class="sub">DAO Essence 博客管理</p>
     </div>
+    <script>
+        // Fix: Ensure localStorage is accessible before CMS loads
+        // Edge Tracking Prevention may have corrupted CMS data
+        try {
+            // Check for stale/corrupted CMS auth data and clean it
+            const cmsKeyPrefix = 'decap-cms';
+            const legacyPrefix = 'netlify-cms';
+            let cleaned = false;
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key && (key.startsWith(cmsKeyPrefix) || key.startsWith(legacyPrefix))) {
+                    console.log('[CMS Init] Found stored key:', key, '- value length:', localStorage.getItem(key)?.length || 0);
+                }
+            }
+            // Check if ncp-github token exists
+            const tokenKey = Object.keys(localStorage).find(k => k.includes('github') && k.includes('token'));
+            if (tokenKey) {
+                const token = localStorage.getItem(tokenKey);
+                if (token) {
+                    console.log('[CMS Init] GitHub token found, length:', token.length, ', prefix:', token.substring(0, 8) + '...');
+                    // Test token validity
+                    fetch('https://api.github.com/user', {
+                        headers: { 'Authorization': 'token ' + token }
+                    }).then(r => {
+                        if (r.ok) {
+                            return r.json().then(u => console.log('[CMS Init] Token valid for user:', u.login));
+                        } else {
+                            console.error('[CMS Init] Token INVALID! Status:', r.status);
+                            r.text().then(t => console.error('[CMS Init] Response:', t));
+                        }
+                    });
+                }
+            } else {
+                console.warn('[CMS Init] No GitHub token found in localStorage. User needs to login.');
+            }
+        } catch (e) {
+            console.error('[CMS Init] localStorage access failed:', e);
+        }
+    </script>
     <script src="decap-cms.js"></script>
     <script>
         // Remove loading styles and loader once CMS is ready
