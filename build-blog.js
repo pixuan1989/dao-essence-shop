@@ -334,7 +334,7 @@ ${FOOTER_HTML}
 function generateCategoryHtml(category, articles) {
   const label = CATEGORY_LABELS[category] || category;
   const cardHtml = articles.map(a => `
-            <a href="${a.slug}.html" class="blog-card">
+            <a href="../${a.slug}.html" class="blog-card">
                 ${a.data.image ? `<img src="${a.data.image}" alt="${escapeHtml(a.data.title)}" style="width:100%;border-radius:8px 8px 0 0;margin-bottom:1rem;">` : ''}
                 <h2>${escapeHtml(a.data.title)}</h2>
                 <p>${escapeHtml(a.data.description || '')}</p>
@@ -443,12 +443,6 @@ function generateBlogIndex(allArticles) {
         .blog-home-header { text-align: center; margin-bottom: 3.5rem; }
         .blog-home-header h1 { font-family: var(--font-display); font-size: clamp(2rem, 5vw, 2.8rem); color: var(--accent-color); letter-spacing: 0.1em; margin-bottom: 0.8rem; }
         .blog-home-header p { color: var(--text-secondary); font-size: 1.05rem; line-height: 1.7; max-width: 600px; margin: 0 auto; }
-        .blog-categories { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 1rem; margin-bottom: 4rem; }
-        .blog-cat-link { display: flex; flex-direction: column; align-items: center; padding: 1.5rem 1rem; background: rgba(212,175,55,0.03); border: 1px solid rgba(212,175,55,0.1); border-radius: 12px; text-decoration: none; transition: all 0.3s ease; }
-        .blog-cat-link:hover { background: rgba(212,175,55,0.06); border-color: rgba(212,175,55,0.25); transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.12); }
-        .blog-cat-icon { font-size: 2rem; margin-bottom: 0.6rem; }
-        .blog-cat-name { color: var(--accent-color); font-family: var(--font-display); font-size: 0.9rem; letter-spacing: 0.05em; text-align: center; }
-        .blog-cat-sub { color: var(--text-secondary); font-size: 0.75rem; opacity: 0.6; margin-top: 0.3rem; text-align: center; }
         .blog-section-title { font-family: var(--font-display); font-size: 1.4rem; color: var(--accent-color); letter-spacing: 0.08em; margin-bottom: 1.5rem; padding-bottom: 0.8rem; border-bottom: 1px solid rgba(212,175,55,0.15); }
         .blog-latest { margin-bottom: 4rem; }
         .blog-card-list { display: flex; flex-direction: column; gap: 1.2rem; }
@@ -473,34 +467,6 @@ ${NAV_HTML}
         <div class="blog-home-header">
             <h1>Blog</h1>
             <p>Ancient wisdom meets modern insight. Explore articles on BaZi astrology, Feng Shui, meditation, and the Five Elements.</p>
-        </div>
-
-        <div class="blog-categories">
-            <a href="bazi-astrology.html" class="blog-cat-link">
-                <span class="blog-cat-icon">🐉</span>
-                <span class="blog-cat-name">BaZi Astrology</span>
-                <span class="blog-cat-sub">八字命理学</span>
-            </a>
-            <a href="zodiac-horoscope.html" class="blog-cat-link">
-                <span class="blog-cat-icon">🐀</span>
-                <span class="blog-cat-name">Zodiac Horoscope</span>
-                <span class="blog-cat-sub">十二生肖运势</span>
-            </a>
-            <a href="feng-shui.html" class="blog-cat-link">
-                <span class="blog-cat-icon">🏡</span>
-                <span class="blog-cat-name">Feng Shui</span>
-                <span class="blog-cat-sub">风水知识</span>
-            </a>
-            <a href="daily-horoscope.html" class="blog-cat-link">
-                <span class="blog-cat-icon">📅</span>
-                <span class="blog-cat-name">Daily Horoscope</span>
-                <span class="blog-cat-sub">每日运势</span>
-            </a>
-            <a href="lucky-tips.html" class="blog-cat-link">
-                <span class="blog-cat-icon">✨</span>
-                <span class="blog-cat-name">Lucky Tips</span>
-                <span class="blog-cat-sub">旺运术</span>
-            </a>
         </div>
 
         <section class="blog-latest">
