@@ -20,19 +20,9 @@ export default async function handler(req, res) {
   }
 
   try {
-    // Determine origin safely
-    let origin = 'https://www.daoessentia.com';
-    if (req.headers.referer) {
-      try {
-        origin = new URL(req.headers.referer).origin;
-      } catch (e) {
-        console.error('Failed to parse referer:', req.headers.referer);
-      }
-    } else if (process.env.VERCEL_URL) {
-      origin = `https://${process.env.VERCEL_URL}`;
-    }
-
-    const callbackUrl = `${origin}/api/callback`;
+    // Always use the production domain for OAuth callback
+    const origin = 'https://www.daoessentia.com';
+    const callbackUrl = `${origin}/callback`;
 
     if (!GITHUB_CLIENT_ID || !GITHUB_CLIENT_SECRET) {
       res.status(500).send(`<h2>Configuration Error</h2>
