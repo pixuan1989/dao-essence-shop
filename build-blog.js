@@ -608,7 +608,88 @@ function main() {
   fs.writeFileSync(indexPath, indexHtml);
   console.log(`  Updated: dist/blog/index.html`);
 
-  // Step 7: Generate clean URLs (create /about/index.html from /about.html)
+  // Step 7: Inject latest articles into homepage
+  console.log('Injecting latest articles into homepage...');
+  const homeIndexPath = path.join(DIST_DIR, 'index.html');
+  if (fs.existsSync(homeIndexPath)) {
+    let homeHtml = fs.readFileSync(homeIndexPath, 'utf-8');
+    const latest4 = allArticles
+      .sort((a, b) => new Date(b.data.date) - new Date(a.data.date))
+      .slice(0, 4);
+    const cardsHtml = latest4.map(post => {
+      const catLabel = CATEGORY_LABELS[post.category] || post.category || 'Blog';
+      const imgSrc = post.data.image || SITE_URL + '/images/og-default.jpg';
+      const dateStr = formatDate(post.data.date);
+      return `                <a href="/blog/${post.slug}" class="article-card scroll-animate">
+                    <div class="article-card-image">
+                        <img src="${imgSrc}" alt="${escapeHtml(post.data.title)}" loading="lazy">
+                    </div>
+                    <div class="article-card-body">
+                        <span class="article-card-category">${escapeHtml(catLabel)}</span>
+                        <h3>${escapeHtml(post.data.title)}</h3>
+                        <p>${escapeHtml(post.data.description || '')}</p>
+                        <div class="article-card-meta">
+                            <span>${escapeHtml(post.data.author || 'DAO Essence')}</span>
+                            ${dateStr ? `<span>${dateStr}</span>` : ''}
+                            ${post.data.readTime ? `<span>${post.data.readTime} min read</span>` : ''}
+                        </div>
+                    </div>
+                </a>`;
+    }).join('\n');
+    homeHtml = homeHtml.replace(
+      /<div class="articles-list">([\s\S]*?)<\/div>\s*<\/div>\s*<div class="articles-more">/,
+      `<div class="articles-list">\n${cardsHtml}\n            </div>\n            <div class="articles-more">`
+    );
+    fs.writeFileSync(homeIndexPath, homeHtml);
+    console.log(`  Updated: index.html (${latest4.length} latest articles)`);
+  }
+
+  // Step 8: Generate dynamic sitemap.xml
+  console.log('Generating sitemap.xml...');
+  const today = new Date().toISOString().split('T')[0];
+  const staticUrls = [
+    { loc: '/', changefreq: 'weekly', priority: '1.0' },
+    { loc: '/shop', changefreq: 'daily', priority: '0.9' },
+    { loc: '/culture', changefreq: 'monthly', priority: '0.7' },
+    { loc: '/about', changefreq: 'monthly', priority: '0.6' },
+    { loc: '/contact', changefreq: 'monthly', priority: '0.5' },
+    { loc: '/bazi-form', changefreq: 'monthly', priority: '0.8' },
+    { loc: '/guide', changefreq: 'monthly', priority: '0.7' },
+    { loc: '/destiny', changefreq: 'monthly', priority: '0.7' },
+    { loc: '/privacy', changefreq: 'yearly', priority: '0.3' },
+    { loc: '/terms', changefreq: 'yearly', priority: '0.3' },
+    { loc: '/blog/', changefreq: 'weekly', priority: '0.9' },
+  ];
+  // Add category pages
+  for (const cat of CATEGORY_FOLDERS) {
+    staticUrls.push({ loc: `/blog/${cat}`, changefreq: 'weekly', priority: '0.7' });
+  }
+  let sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+`;
+  for (const u of staticUrls) {
+    sitemapXml += `    <url>
+        <loc>${SITE_URL}${u.loc}</loc>
+        <lastmod>${today}</lastmod>
+        <changefreq>${u.changefreq}</changefreq>
+        <priority>${u.priority}</priority>
+    </url>\n`;
+  }
+  // Add blog articles from CMS
+  for (const post of allArticles) {
+    const d = post.data.date instanceof Date ? post.data.date.toISOString().split('T')[0] : String(post.data.date || today);
+    sitemapXml += `    <url>
+        <loc>${SITE_URL}/blog/${post.slug}</loc>
+        <lastmod>${d}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>\n`;
+  }
+  sitemapXml += `</urlset>`;
+  fs.writeFileSync(path.join(DIST_DIR, 'sitemap.xml'), sitemapXml);
+  console.log(`  Generated: sitemap.xml (${staticUrls.length + allArticles.length} URLs)`);
+
+  // Step 9: Generate clean URLs (create /about/index.html from /about.html)
   console.log('Generating clean URLs...');
   const htmlFiles = [];
   function collectHtmlFiles(dir) {
