@@ -5,47 +5,47 @@
     <!-- Home Page -->
     <url>
         <loc>https://www.daoessentia.com/</loc>
-        <lastmod>2026-04-13</lastmod>
+        <lastmod>2026-04-15</lastmod>
         <changefreq>weekly</changefreq>
         <priority>1.0</priority>
     </url>
     
     <!-- Shop Page -->
     <url>
-        <loc>https://www.daoessentia.com/shop.html</loc>
-        <lastmod>2026-04-13</lastmod>
+        <loc>https://www.daoessentia.com/shop</loc>
+        <lastmod>2026-04-15</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.9</priority>
     </url>
 
     <!-- Culture / Five Elements Page -->
     <url>
-        <loc>https://www.daoessentia.com/culture.html</loc>
-        <lastmod>2026-04-13</lastmod>
+        <loc>https://www.daoessentia.com/culture</loc>
+        <lastmod>2026-04-15</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
 
     <!-- About Page -->
     <url>
-        <loc>https://www.daoessentia.com/about.html</loc>
-        <lastmod>2026-04-13</lastmod>
+        <loc>https://www.daoessentia.com/about</loc>
+        <lastmod>2026-04-15</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.6</priority>
     </url>
 
     <!-- Contact Page -->
     <url>
-        <loc>https://www.daoessentia.com/contact.html</loc>
-        <lastmod>2026-04-13</lastmod>
+        <loc>https://www.daoessentia.com/contact</loc>
+        <lastmod>2026-04-15</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.5</priority>
     </url>
 
     <!-- Product Detail Pages (via Creem IDs) -->
     <url>
-        <loc>https://www.daoessentia.com/product-detail.html?id=prod_3btZfL4MwsO2xSr7AB3J8S</loc>
-        <lastmod>2026-04-13</lastmod>
+        <loc>https://www.daoessentia.com/product-detail?id=prod_3btZfL4MwsO2xSr7AB3J8S</loc>
+        <lastmod>2026-04-15</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
         <image:image>
@@ -56,8 +56,8 @@
 
     <!-- Agarwood Meditation Audio -->
     <url>
-        <loc>https://www.daoessentia.com/product-detail.html?id=natural-agarwood</loc>
-        <lastmod>2026-04-13</lastmod>
+        <loc>https://www.daoessentia.com/product-detail?id=natural-agarwood</loc>
+        <lastmod>2026-04-15</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
         <image:image>
@@ -68,8 +68,8 @@
 
     <!-- Five Elements Energy Audio -->
     <url>
-        <loc>https://www.daoessentia.com/product-detail.html?id=custom-protection-token</loc>
-        <lastmod>2026-04-13</lastmod>
+        <loc>https://www.daoessentia.com/product-detail?id=custom-protection-token</loc>
+        <lastmod>2026-04-15</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
         <image:image>
@@ -80,57 +80,92 @@
 
     <!-- BaZi Form -->
     <url>
-        <loc>https://www.daoessentia.com/bazi-form.html</loc>
-        <lastmod>2026-04-13</lastmod>
+        <loc>https://www.daoessentia.com/bazi-form</loc>
+        <lastmod>2026-04-15</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
 
     <!-- Privacy Policy -->
     <url>
-        <loc>https://www.daoessentia.com/privacy.html</loc>
-        <lastmod>2026-04-13</lastmod>
+        <loc>https://www.daoessentia.com/privacy</loc>
+        <lastmod>2026-04-15</lastmod>
         <changefreq>yearly</changefreq>
         <priority>0.3</priority>
     </url>
 
     <!-- Terms of Service -->
     <url>
-        <loc>https://www.daoessentia.com/terms.html</loc>
-        <lastmod>2026-04-13</lastmod>
+        <loc>https://www.daoessentia.com/terms</loc>
+        <lastmod>2026-04-15</lastmod>
         <changefreq>yearly</changefreq>
         <priority>0.3</priority>
     </url>
 
-    <!-- Checkout -->
+    <!-- Blog Index -->
     <url>
-        <loc>https://www.daoessentia.com/checkout.html</loc>
-        <lastmod>2026-04-13</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.4</priority>
+        <loc>https://www.daoessentia.com/blog/</loc>
+        <lastmod>2026-04-15</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+
+    <!-- Blog Categories -->
+    <url>
+        <loc>https://www.daoessentia.com/blog/bazi-astrology</loc>
+        <lastmod>2026-04-15</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <url>
+        <loc>https://www.daoessentia.com/blog/zodiac-horoscope</loc>
+        <lastmod>2026-04-15</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <url>
+        <loc>https://www.daoessentia.com/blog/feng-shui</loc>
+        <lastmod>2026-04-15</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <url>
+        <loc>https://www.daoessentia.com/blog/daily-horoscope</loc>
+        <lastmod>2026-04-15</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <url>
+        <loc>https://www.daoessentia.com/blog/lucky-tips</loc>
+        <lastmod>2026-04-15</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
     </url>
 
     <!-- Blog Articles -->
     <url>
-        <loc>https://www.daoessentia.com/blog/five-elements-theory-wu-xing-guide.html</loc>
-        <lastmod>2026-04-13</lastmod>
+        <loc>https://www.daoessentia.com/blog/five-elements-theory-wu-xing-guide</loc>
+        <lastmod>2026-04-15</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
 
     <url>
-        <loc>https://www.daoessentia.com/blog/taoist-meditation-guide.html</loc>
-        <lastmod>2026-04-13</lastmod>
+        <loc>https://www.daoessentia.com/blog/taoist-meditation-guide</loc>
+        <lastmod>2026-04-15</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
 
     <url>
-        <loc>https://www.daoessentia.com/blog/what-is-bazi-beginners-guide.html</loc>
-        <lastmod>2026-04-13</lastmod>
+        <loc>https://www.daoessentia.com/blog/what-is-bazi-beginners-guide</loc>
+        <lastmod>2026-04-15</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
 
 </urlset>
-
