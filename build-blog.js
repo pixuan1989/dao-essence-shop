@@ -1,7 +1,14 @@
 /**
  * build-blog.js
  * Vercel build script: converts CMS .md files to .html and updates article listings.
- * Runs automatically during `npm run vercel-build`.
+ * 
+ * Build flow:
+ *   1. Copy project files to dist/ (excluding .git, node_modules, .md sources)
+ *   2. Read .md files from blog/posts/ and blog/<category>/
+ *   3. Generate article HTML → dist/blog/*.html
+ *   4. Generate category pages → dist/blog/*.html
+ *   5. Generate blog index → dist/blog/index.html
+ *   6. Vercel deploys from dist/ (outputDirectory)
  */
 import fs from 'fs';
 import path from 'path';
@@ -10,8 +17,11 @@ import matter from 'gray-matter';
 import { marked } from 'marked';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const BLOG_DIR = path.join(__dirname, 'blog');
+const SRC_DIR = __dirname;
+const DIST_DIR = path.join(__dirname, 'dist');
+const BLOG_DIR = path.join(SRC_DIR, 'blog');
 const POSTS_DIR = path.join(BLOG_DIR, 'posts');
+const DIST_BLOG_DIR = path.join(DIST_DIR, 'blog');
 
 // Category subfolder collections from CMS config
 const CATEGORY_FOLDERS = [
@@ -135,6 +145,25 @@ const ARTICLE_STYLES = `
         .blog-cta a:hover { background: #E8C547; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(212,175,55,0.3); }`;
 
 // ─── Helpers ────────────────────────────────────────────────
+
+function copyDirSync(src, dest, excludeDirs = []) {
+  // Create destination if it doesn't exist
+  fs.mkdirSync(dest, { recursive: true });
+  const entries = fs.readdirSync(src, { withFileTypes: true });
+
+  for (const entry of entries) {
+    const srcPath = path.join(src, entry.name);
+    const destPath = path.join(dest, entry.name);
+
+    if (excludeDirs.includes(entry.name)) continue;
+
+    if (entry.isDirectory()) {
+      copyDirSync(srcPath, destPath, excludeDirs);
+    } else {
+      fs.copyFileSync(srcPath, destPath);
+    }
+  }
+}
 
 function generateSlug(filename, data, existingSlugs) {
   // Remove .md extension and surrounding quotes
@@ -498,8 +527,8 @@ ${FOOTER_HTML}
 
 function main() {
   console.log('=== Blog Build Started ===');
-  console.log('__dirname:', __dirname);
-  console.log('BLOG_DIR:', BLOG_DIR);
+  console.log('SRC_DIR:', SRC_DIR);
+  console.log('DIST_DIR:', DIST_DIR);
   console.log('POSTS_DIR:', POSTS_DIR);
   console.log('POSTS_DIR exists:', fs.existsSync(POSTS_DIR));
 
@@ -507,16 +536,30 @@ function main() {
     console.log('Files in POSTS_DIR:', fs.readdirSync(POSTS_DIR));
   }
 
-  // Collect all articles from CMS
+  // Step 1: Clean and create dist/
+  if (fs.existsSync(DIST_DIR)) {
+    fs.rmSync(DIST_DIR, { recursive: true, force: true });
+  }
+  fs.mkdirSync(DIST_DIR, { recursive: true });
+  fs.mkdirSync(DIST_BLOG_DIR, { recursive: true });
+
+  // Step 2: Copy entire project to dist/ (excluding build artifacts)
+  console.log('Copying project to dist/...');
+  copyDirSync(SRC_DIR, DIST_DIR, [
+    '.git', 'node_modules', 'dist', '.vercel',
+    'build-blog.js', 'build-blog.cjs', 'package.json', 'package-lock.json'
+  ]);
+
+  // Step 3: Collect all articles from CMS
   let allArticles = [];
 
-  // 1. Read from blog/posts/ (main blog collection)
+  // Read from blog/posts/ (main blog collection)
   const mainPosts = readAllMdFiles(POSTS_DIR);
   mainPosts.forEach(post => {
     allArticles.push({ ...post, category: post.data.category || 'bazi-astrology' });
   });
 
-  // 2. Read from category subfolders
+  // Read from category subfolders
   for (const cat of CATEGORY_FOLDERS) {
     const catDir = path.join(BLOG_DIR, cat);
     const catPosts = readAllMdFiles(catDir);
@@ -528,25 +571,24 @@ function main() {
   console.log(`Found ${allArticles.length} articles total`);
 
   if (allArticles.length === 0) {
-    console.log('No articles found. Skipping blog build.');
+    console.log('WARNING: No articles found. Deploying static files only.');
+    console.log('=== Blog Build Complete (no articles) ===');
     return;
   }
 
-  // Track which slugs are used (to detect conflicts)
+  // Step 4: Generate article HTML files in dist/blog/
   const usedSlugs = new Set();
-
-  // Generate article HTML files
   for (const post of allArticles) {
     const slug = generateSlug(post.filename, post.data, usedSlugs);
-    post.slug = slug;  // Override slug with URL-safe version
+    post.slug = slug;
 
     const html = generateArticleHtml(post, post.category);
-    const outPath = path.join(BLOG_DIR, `${slug}.html`);
+    const outPath = path.join(DIST_BLOG_DIR, `${slug}.html`);
     fs.writeFileSync(outPath, html);
-    console.log(`  Generated: blog/${slug}.html`);
+    console.log(`  Generated: dist/blog/${slug}.html`);
   }
 
-  // Group articles by category
+  // Step 5: Group articles by category and generate category pages
   const byCategory = {};
   for (const post of allArticles) {
     const cat = post.category || 'bazi-astrology';
@@ -554,19 +596,18 @@ function main() {
     byCategory[cat].push(post);
   }
 
-  // Generate category pages
   for (const [cat, articles] of Object.entries(byCategory)) {
     const html = generateCategoryHtml(cat, articles);
-    const outPath = path.join(BLOG_DIR, `${cat}.html`);
+    const outPath = path.join(DIST_BLOG_DIR, `${cat}.html`);
     fs.writeFileSync(outPath, html);
-    console.log(`  Updated: blog/${cat}.html (${articles.length} articles)`);
+    console.log(`  Updated: dist/blog/${cat}.html (${articles.length} articles)`);
   }
 
-  // Generate blog index
+  // Step 6: Generate blog index
   const indexHtml = generateBlogIndex(allArticles);
-  const indexPath = path.join(BLOG_DIR, 'index.html');
+  const indexPath = path.join(DIST_BLOG_DIR, 'index.html');
   fs.writeFileSync(indexPath, indexHtml);
-  console.log(`  Updated: blog/index.html`);
+  console.log(`  Updated: dist/blog/index.html`);
 
   console.log('=== Blog Build Complete ===');
 }
