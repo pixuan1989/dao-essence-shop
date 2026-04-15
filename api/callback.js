@@ -52,8 +52,21 @@ export default async function handler(req, res) {
     const data = await tokenResponse.json();
 
     if (!data.access_token) {
-      console.error('Token exchange failed:', data);
-      res.status(401).send(`GitHub authorization failed: ${data.error_description || data.error}`);
+      console.error('Token exchange failed:', JSON.stringify(data));
+      const details = JSON.stringify(data, null, 2);
+      res.status(401).send(`<h2>GitHub authorization failed</h2>
+        <pre>${details}</pre>
+        <p><b>Client ID prefix:</b> ${GITHUB_CLIENT_ID ? GITHUB_CLIENT_ID.substring(0, 6) + '...' : 'NOT SET (undefined)'}</p>
+        <p><b>Client Secret:</b> ${GITHUB_CLIENT_SECRET ? 'SET (' + GITHUB_CLIENT_SECRET.length + ' chars)' : 'NOT SET (undefined)'}</p>
+        <p><b>Code:</b> ${code ? code.substring(0, 10) + '...' : 'MISSING'}</p>
+        <p><b>Callback URL:</b> ${callbackUrl}</p>
+        <hr>
+        <p>Please check your Vercel Environment Variables:</p>
+        <ul>
+          <li>GITHUB_OAUTH_CLIENT_ID = your OAuth App Client ID from GitHub</li>
+          <li>GITHUB_OAUTH_CLIENT_SECRET = your OAuth App Client Secret from GitHub</li>
+        </ul>
+        <p>Go to: GitHub → Settings → Developer settings → OAuth Apps → your app</p>`);
       return;
     }
 
