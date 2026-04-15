@@ -27,8 +27,9 @@ inject-env.js
 check-config.js
 server.js
 
-# 文档（不部署）
-*.md
+# 文档（不部署）— 但保留博客文章源文件
+/*.md
+README.md
 
 # 历史版本
 shop_1.0.1.html
