@@ -1,9 +1,4 @@
 {
-  "framework": null,
-  "installCommand": "npm install",
-  "buildCommand": "node build-blog.js",
-  "outputDirectory": ".",
-  "cleanUrls": true,
   "rewrites": [
     { "source": "/auth", "destination": "/api/auth" },
     { "source": "/callback", "destination": "/api/callback" }
