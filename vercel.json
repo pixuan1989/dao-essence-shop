@@ -1,5 +1,6 @@
 {
   "framework": null,
+  "installCommand": "npm install",
   "buildCommand": "node build-blog.js",
   "outputDirectory": ".",
   "rewrites": [
