@@ -1,13 +1,14 @@
 {
   "framework": null,
-  "cleanUrls": true,
   "trailingSlash": false,
   "installCommand": "npm install",
   "buildCommand": "node build-blog.js",
   "outputDirectory": "dist",
   "rewrites": [
     { "source": "/auth", "destination": "/api/auth" },
-    { "source": "/callback", "destination": "/api/callback" }
+    { "source": "/callback", "destination": "/api/callback" },
+    { "source": "/blog/:path", "destination": "/blog/:path.html" },
+    { "source": "/:path", "destination": "/:path.html" }
   ],
   "redirects": [
     {
