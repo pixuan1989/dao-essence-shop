@@ -20,12 +20,17 @@ export default async function handler(req, res) {
   }
 
   try {
-    // Get the origin for callback URL
-    const origin = req.headers.origin || req.headers.referer
-      ? new URL(req.headers.referer || '').origin
-      : process.env.VERCEL_URL
-        ? `https://${process.env.VERCEL_URL}`
-        : 'https://www.daoessentia.com';
+    // Determine origin from referer
+    let origin = 'https://www.daoessentia.com';
+    if (req.headers.referer) {
+      try {
+        origin = new URL(req.headers.referer).origin;
+      } catch (e) {
+        console.error('Failed to parse referer:', req.headers.referer);
+      }
+    } else if (process.env.VERCEL_URL) {
+      origin = `https://${process.env.VERCEL_URL}`;
+    }
 
     const callbackUrl = `${origin}/api/callback`;
 
@@ -52,6 +57,16 @@ export default async function handler(req, res) {
       return;
     }
 
+    // Log token scopes for debugging
+    console.log('Token scopes:', data.scope);
+
+    // Verify token has write access
+    const userResp = await fetch('https://api.github.com/user', {
+      headers: { 'Authorization': `Bearer ${data.access_token}`, 'User-Agent': 'DecapCMS-OAuth' }
+    });
+    const user = await userResp.json();
+    console.log('Authenticated as:', user.login, '- scopes:', data.scope);
+
     // Return HTML page that passes token to DecapCMS via postMessage
     const html = `<!DOCTYPE html>
 <html>
@@ -60,7 +75,8 @@ export default async function handler(req, res) {
   <meta charset="utf-8">
 </head>
 <body>
-  <p>Authorization complete. Closing window...</p>
+  <p style="font-family:sans-serif;text-align:center;margin-top:40px;">授权成功！正在返回管理系统...</p>
+  <p style="font-family:sans-serif;text-align:center;color:#666;">用户: ${user.login} | 权限: ${data.scope || 'unknown'}</p>
   <script>
     (function() {
       function receiveMessage(e) {
