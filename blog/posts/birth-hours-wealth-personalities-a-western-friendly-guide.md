@@ -10,7 +10,7 @@ description: This guide uses the ancient "12 Earthly Branches" to reveal your
 date: 2026-04-15
 author: DAO Essence
 readTime: 5
-image: https://raw.githubusercontent.com/pixuan1989/dao-essence-shop/feature/blog-cms/images/blog/cover-default.svg
+image: https://raw.githubusercontent.com/pixuan1989/dao-essence-shop/main/images/blog/cover-default.svg
 ---
 
 

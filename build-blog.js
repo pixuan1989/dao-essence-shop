@@ -584,11 +584,15 @@ function main() {
       .slice(0, 4);
     const cardsHtml = latest4.map(post => {
       const catLabel = CATEGORY_LABELS[post.category] || post.category || 'Blog';
-      const imgSrc = post.data.image || SITE_URL + '/images/og-default.jpg';
+      let imgSrc = post.data.image || SITE_URL + '/images/og-default.jpg';
+      // Fix broken image paths (e.g. feature/blog-cms branch references)
+      imgSrc = imgSrc.replace(/\/feature\/blog-cms\//g, '/main/');
+      // Fallback for empty image
+      if (!imgSrc || imgSrc === '""') imgSrc = SITE_URL + '/images/og-default.jpg';
       const dateStr = formatDate(post.data.date);
-      return `                <a href="/blog/${post.slug}" class="article-card scroll-animate">
+      return `                <a href="/blog/${post.slug}.html" class="article-card scroll-animate">
                     <div class="article-card-image">
-                        <img src="${imgSrc}" alt="${escapeHtml(post.data.title)}" loading="lazy">
+                        <img src="${imgSrc}" alt="${escapeHtml(post.data.title)}" loading="lazy" onerror="this.src='${SITE_URL}/images/og-default.jpg'">
                     </div>
                     <div class="article-card-body">
                         <span class="article-card-category">${escapeHtml(catLabel)}</span>
