@@ -498,6 +498,14 @@ ${FOOTER_HTML}
 
 function main() {
   console.log('=== Blog Build Started ===');
+  console.log('__dirname:', __dirname);
+  console.log('BLOG_DIR:', BLOG_DIR);
+  console.log('POSTS_DIR:', POSTS_DIR);
+  console.log('POSTS_DIR exists:', fs.existsSync(POSTS_DIR));
+
+  if (fs.existsSync(POSTS_DIR)) {
+    console.log('Files in POSTS_DIR:', fs.readdirSync(POSTS_DIR));
+  }
 
   // Collect all articles from CMS
   let allArticles = [];
