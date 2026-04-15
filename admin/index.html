@@ -214,23 +214,21 @@
 
     <!-- Remove loading overlay once CMS renders -->
     <script>
-    const checkLoaded = setInterval(() => {
-        const cmsRoot = document.querySelector('[class*="nc-app-"]') || document.querySelector('[id*="nc-"]');
-        if (cmsRoot) {
-            clearInterval(checkLoaded);
-            const style = document.getElementById('cms-loading-style');
-            if (style) style.remove();
+    // Use CMS event to safely remove loader
+    CMS.registerEventListener({
+        name: 'preInit',
+        handler: function() {
             const loader = document.getElementById('cms-loader');
-            if (loader) loader.remove();
+            const style = document.getElementById('cms-loading-style');
+            if (loader) loader.style.display = 'none';
+            if (style) style.remove();
         }
-    }, 200);
-    setTimeout(() => {
-        clearInterval(checkLoaded);
-        const style = document.getElementById('cms-loading-style');
-        if (style) style.remove();
+    });
+    // Fallback: hide after 3 seconds if event doesn't fire
+    setTimeout(function() {
         const loader = document.getElementById('cms-loader');
-        if (loader) loader.remove();
-    }, 10000);
+        if (loader) loader.style.display = 'none';
+    }, 3000);
     </script>
 </body>
 </html>
