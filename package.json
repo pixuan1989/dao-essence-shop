@@ -4,7 +4,6 @@
   "description": "DAO Essence & Five Elements Shop",
   "type": "module",
   "scripts": {
-    "build": "node build-blog.js",
     "vercel-build": "node build-blog.js && echo 'Build complete'"
   },
   "dependencies": {

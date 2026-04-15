@@ -1,5 +1,6 @@
 {
-  "buildCommand": "npm run build",
+  "framework": "other",
+  "buildCommand": "node build-blog.js",
   "outputDirectory": ".",
   "rewrites": [
     { "source": "/auth", "destination": "/api/auth" },
