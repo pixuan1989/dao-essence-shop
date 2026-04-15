@@ -68,7 +68,6 @@ const NAV_HTML = `
                     </li>
                     <li><a href="../culture.html" class="nav-link">Energy Universe</a></li>
                     <li><a href="../shop.html" class="nav-link">Shop</a></li>
-                    <li><a href="../guide.html" class="nav-link">Energy Principles</a></li>
                     <li><a href="../about.html" class="nav-link">About Us</a></li>
                 </ul>
                 <button class="mobile-menu-btn"><span></span><span></span><span></span></button>
@@ -85,14 +84,13 @@ const FOOTER_HTML = `
                         <div class="logo-icon"></div>
                         <span class="logo-en">DAO ESSENCE</span>
                     </div>
-                    <p class="footer-desc">Ancient wisdom meets modern insight. Discover the power of Chinese metaphysics, BaZi readings, Feng Shui, and energy healing practices.</p>
+                    <p class="footer-desc">Practical Chinese metaphysics for modern life. Free BaZi analysis, Feng Shui guidance, and Five Elements wisdom — no mystification, no fortune-cookie readings.</p>
                 </div>
                 <div class="footer-links">
                     <h4>Explore</h4>
                     <a href="../culture.html">Energy Universe</a>
                     <a href="../shop.html">Shop</a>
                     <a href="bazi-astrology.html">BaZi Blog</a>
-                    <a href="../guide.html">Energy Principles</a>
                 </div>
                 <div class="footer-links">
                     <h4>Blog Categories</h4>
@@ -122,11 +120,12 @@ const FOOTER_HTML = `
     </footer>`;
 
 const ARTICLE_STYLES = `
+        body { background-color: #FFFFFF !important; }
         .blog-article { max-width: 800px; margin: 0 auto; padding: 4rem 5%; }
-        .blog-article h1 { font-family: var(--font-display); font-size: clamp(2rem, 5vw, 2.8rem); color: var(--accent-color); margin-bottom: 0.5rem; letter-spacing: 0.08em; line-height: 1.2; }
+        .blog-article h1 { font-family: var(--font-display); font-size: clamp(2rem, 5vw, 2.8rem); color: #1A1A1A; margin-bottom: 0.5rem; letter-spacing: 0.08em; line-height: 1.2; }
         .blog-meta { color: var(--text-secondary); font-size: 0.88rem; margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid rgba(212,175,55,0.15); }
-        .blog-article h2 { font-family: var(--font-display); font-size: 1.6rem; color: var(--accent-color); margin: 2.5rem 0 1rem; letter-spacing: 0.05em; }
-        .blog-article h3 { font-family: var(--font-display); font-size: 1.2rem; color: var(--text-primary); margin: 2rem 0 0.8rem; }
+        .blog-article h2 { font-family: var(--font-display); font-size: 1.6rem; color: #1A1A1A; margin: 2.5rem 0 1rem; letter-spacing: 0.05em; }
+        .blog-article h3 { font-family: var(--font-display); font-size: 1.2rem; color: #1A1A1A; margin: 2rem 0 0.8rem; }
         .blog-article p { color: var(--text-secondary); line-height: 1.9; font-size: 1rem; margin-bottom: 1.2rem; }
         .blog-article strong { color: var(--text-primary); }
         .blog-article ul, .blog-article ol { color: var(--text-secondary); line-height: 2; margin-bottom: 1.2rem; padding-left: 1.5rem; }
@@ -266,14 +265,14 @@ function generateArticleHtml(post, category) {
     <meta property="og:title" content="${escapeHtml(data.title)} | DAO Essence">
     <meta property="og:description" content="${escapeHtml(data.description || '')}">
     <meta property="og:image" content="${data.image || SITE_URL + '/images/og-default.jpg'}">
-    <meta property="og:url" content="${SITE_URL}/blog/${slug}.html">
+    <meta property="og:url" content="${SITE_URL}/blog/${slug}">
     <meta property="og:type" content="article">
     <meta property="og:site_name" content="DAO Essence">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="${escapeHtml(data.title)}">
     <meta name="twitter:description" content="${escapeHtml(data.description || '')}">
     <meta name="twitter:image" content="${data.image || SITE_URL + '/images/og-default.jpg'}">
-    <link rel="canonical" href="${SITE_URL}/blog/${slug}.html">
+    <link rel="canonical" href="${SITE_URL}/blog/${slug}">
     <link rel="stylesheet" href="../styles.min.css?v=${CSS_VERSION}">
     <script src="../main.min.js?v=${CSS_VERSION}" defer></script>
     <script type="application/ld+json">
@@ -283,7 +282,7 @@ function generateArticleHtml(post, category) {
         "itemListElement": [
             {"@type": "ListItem", "position": 1, "name": "Home", "item": "${SITE_URL}/"},
             {"@type": "ListItem", "position": 2, "name": "Blog", "item": "${SITE_URL}/blog/"},
-            {"@type": "ListItem", "position": 3, "name": "${escapeHtml(data.title)}", "item": "${SITE_URL}/blog/${slug}.html"}
+            {"@type": "ListItem", "position": 3, "name": "${escapeHtml(data.title)}", "item": "${SITE_URL}/blog/${slug}"}
         ]
     }
     </script>
@@ -298,7 +297,7 @@ function generateArticleHtml(post, category) {
         "publisher": {"@type": "Organization", "name": "DAO Essence", "logo": {"@type": "ImageObject", "url": "${SITE_URL}/images/og-default.jpg"}},
         "datePublished": "${data.date || ''}",
         "dateModified": "${data.date || ''}",
-        "mainEntityOfPage": "${SITE_URL}/blog/${slug}.html"
+        "mainEntityOfPage": "${SITE_URL}/blog/${slug}"
     }
     </script>${faqJsonLd}
     <style>${ARTICLE_STYLES}</style>
@@ -354,10 +353,10 @@ function generateCategoryHtml(category, articles) {
     <meta name="description" content="Explore our ${label} articles — Chinese metaphysics, BaZi, Feng Shui, and more.">
     <meta name="robots" content="index, follow">
     <meta property="og:title" content="${label} Blog | DAO Essence">
-    <meta property="og:url" content="${SITE_URL}/blog/${category}.html">
+    <meta property="og:url" content="${SITE_URL}/blog/${category}">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="DAO Essence">
-    <link rel="canonical" href="${SITE_URL}/blog/${category}.html">
+    <link rel="canonical" href="${SITE_URL}/blog/${category}">
     <link rel="stylesheet" href="../styles.min.css?v=${CSS_VERSION}">
     <script src="../main.min.js?v=${CSS_VERSION}" defer></script>
     <style>
@@ -436,7 +435,7 @@ function generateBlogIndex(allArticles) {
     <meta property="og:url" content="${SITE_URL}/blog/">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="DAO Essence">
-    <link rel="canonical" href="${SITE_URL}/blog/index.html">
+    <link rel="canonical" href="${SITE_URL}/blog/">
     <link rel="stylesheet" href="../styles.min.css?v=${CSS_VERSION}">
     <script src="../main.min.js?v=${CSS_VERSION}" defer></script>
     <style>
