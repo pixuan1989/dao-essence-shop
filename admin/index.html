@@ -63,26 +63,23 @@
                     console.log('[CMS Init] Found stored key:', key, '- value length:', localStorage.getItem(key)?.length || 0);
                 }
             }
-            // Check if ncp-github token exists
-            const tokenKey = Object.keys(localStorage).find(k => k.includes('github') && k.includes('token'));
-            if (tokenKey) {
-                const token = localStorage.getItem(tokenKey);
-                if (token) {
-                    console.log('[CMS Init] GitHub token found, length:', token.length, ', prefix:', token.substring(0, 8) + '...');
-                    // Test token validity
-                    fetch('https://api.github.com/user', {
-                        headers: { 'Authorization': 'token ' + token }
-                    }).then(r => {
-                        if (r.ok) {
-                            return r.json().then(u => console.log('[CMS Init] Token valid for user:', u.login));
-                        } else {
-                            console.error('[CMS Init] Token INVALID! Status:', r.status);
-                            r.text().then(t => console.error('[CMS Init] Response:', t));
-                        }
-                    });
+            // List ALL localStorage keys for debugging
+            console.log('[CMS Init] All localStorage keys:', Object.keys(localStorage));
+            // Check for any token-like values
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                const val = localStorage.getItem(key);
+                if (val && (val.includes('token') || val.includes('ghp_') || key.includes('oauth'))) {
+                    console.log('[CMS Init] Possible auth key:', key, '- preview:', val.substring(0, 50));
                 }
+            }
+            // Also check for ncp-github specifically
+            const ncpKey = 'ncp-github';
+            const ncpVal = localStorage.getItem(ncpKey);
+            if (ncpVal) {
+                console.log('[CMS Init] ncp-github found:', ncpVal.substring(0, 50));
             } else {
-                console.warn('[CMS Init] No GitHub token found in localStorage. User needs to login.');
+                console.log('[CMS Init] ncp-github NOT found in localStorage');
             }
         } catch (e) {
             console.error('[CMS Init] localStorage access failed:', e);
