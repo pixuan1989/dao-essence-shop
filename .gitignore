@@ -43,6 +43,9 @@ build/
 # Test
 *.test.js
 
+# Docs & Plans (local only, don't push)
+docs/
+
 # Temporary files
 temp/
 tmp/
