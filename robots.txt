@@ -1,5 +1,5 @@
 # DAO Essence - Robots Configuration
-# Updated: 2026-04-14
+# Updated: 2026-04-15
 
 User-agent: *
 Allow: /
@@ -14,14 +14,15 @@ Disallow: /docs/
 Disallow: /config/
 Disallow: /orders/
 Disallow: /redeem.html
+Disallow: /redeem
 Disallow: /checkout.html
+Disallow: /checkout
 Disallow: /order-confirm.html
+Disallow: /order-confirm
 Disallow: /success.html
+Disallow: /success
 Disallow: /payment-success.html
-Disallow: /destiny.html
-Disallow: /destiny
-Disallow: /contact.html
-Disallow: /contact
+Disallow: /payment-success
 Disallow: /*?debug=
 Disallow: /*?session=
 
