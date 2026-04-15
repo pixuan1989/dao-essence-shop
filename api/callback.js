@@ -2,7 +2,7 @@
 // GitHub redirects here with ?code=xxx (GET request)
 // We exchange code for token and return HTML that passes it to CMS via postMessage
 const GITHUB_CLIENT_ID = process.env.GITHUB_OAUTH_CLIENT_ID;
-const GITHUB_CLIENT_SECRET = process.env.GITHUB_OAUTH_CLIENT_SECRET;
+const GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET;
 
 export default async function handler(req, res) {
   const { searchParams } = new URL(req.url || '', 'http://localhost');
@@ -20,7 +20,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    // Determine origin from referer
+    // Determine origin safely
     let origin = 'https://www.daoessentia.com';
     if (req.headers.referer) {
       try {
@@ -57,10 +57,7 @@ export default async function handler(req, res) {
       return;
     }
 
-    // Log token scopes for debugging
-    console.log('Token scopes:', data.scope);
-
-    // Verify token has write access
+    // Verify token
     const userResp = await fetch('https://api.github.com/user', {
       headers: { 'Authorization': `Bearer ${data.access_token}`, 'User-Agent': 'DecapCMS-OAuth' }
     });
@@ -68,6 +65,7 @@ export default async function handler(req, res) {
     console.log('Authenticated as:', user.login, '- scopes:', data.scope);
 
     // Return HTML page that passes token to DecapCMS via postMessage
+    // With fallback: if window.opener is null (due to redirects), use localStorage
     const html = `<!DOCTYPE html>
 <html>
 <head>
@@ -77,21 +75,40 @@ export default async function handler(req, res) {
 <body>
   <p style="font-family:sans-serif;text-align:center;margin-top:40px;">授权成功！正在返回管理系统...</p>
   <p style="font-family:sans-serif;text-align:center;color:#666;">用户: ${user.login} | 权限: ${data.scope || 'unknown'}</p>
+  <p id="fallback-msg" style="font-family:sans-serif;text-align:center;color:red;display:none;">
+    无法自动返回，请 <a id="fallback-link" href="#" onclick="fallback()">点击这里</a> 手动完成授权
+  </p>
   <script>
     (function() {
+      var tokenData = '{"token":"${data.access_token}","provider":"github"}';
+      var tokenPayload = 'authorization:github:success:' + tokenData;
+
+      // Method 1: postMessage (standard DecapCMS flow)
       function receiveMessage(e) {
         if (e.data === 'authorizing:github') {
-          window.opener.postMessage(
-            'authorization:github:success:{"token":"${data.access_token}","provider":"github"}',
-            e.origin
-          );
-          window.close();
+          console.log('[OAuth] CMS ping received, sending token');
+          window.opener.postMessage(tokenPayload, e.origin);
+          // Keep window open briefly to ensure message is delivered
+          setTimeout(function() { window.close(); }, 500);
         }
       }
       window.addEventListener('message', receiveMessage, false);
-      // Notify opener that we're ready
+
+      // Try to send immediately if opener is ready
       if (window.opener) {
+        console.log('[OAuth] window.opener exists, notifying CMS');
         window.opener.postMessage('authorizing:github', '*');
+      } else {
+        console.warn('[OAuth] window.opener is null! Trying fallback...');
+        // Fallback: store token in localStorage for the parent window to pick up
+        try {
+          localStorage.setItem('ncp-github', tokenData);
+          console.log('[OAuth] Token saved to localStorage as fallback');
+          document.getElementById('fallback-msg').style.display = 'block';
+          document.getElementById('fallback-link').href = window.location.origin + '/admin/';
+        } catch(e) {
+          console.error('[OAuth] localStorage fallback failed:', e);
+        }
       }
     })();
   </script>
