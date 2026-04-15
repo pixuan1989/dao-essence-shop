@@ -14,7 +14,7 @@ export default async function handler(req, res) {
     origin = `https://${process.env.VERCEL_URL}`;
   }
 
-  const callbackUrl = `${origin}/api/callback`;
+  const callbackUrl = `${origin}/callback`;
   const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}&redirect_uri=${encodeURIComponent(callbackUrl)}&scope=repo&state=${Math.random().toString(36).substring(7)}`;
 
   res.redirect(302, githubAuthUrl);
