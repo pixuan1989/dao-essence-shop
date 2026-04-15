@@ -328,84 +328,17 @@
             color: rgba(245, 240, 230, 0.7);
         }
 
-        .bazi-form-wrapper {
-            max-width: 800px;
-            margin: var(--spacing-3xl) auto 0;
+        .bazi-maintenance-banner {
+            text-align: center;
+            padding: 3rem 2rem;
+            margin-top: 2rem;
             background: rgba(245, 240, 230, 0.05);
             backdrop-filter: blur(10px);
+            border: 1px solid rgba(212, 175, 55, 0.2);
             border-radius: var(--radius-lg);
-            padding: var(--spacing-2xl) var(--spacing-3xl);
-            border: 1px solid rgba(212, 175, 55, 0.2);
-            position: relative;
         }
-
-        .bazi-form-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: var(--spacing-lg);
-            margin-bottom: var(--spacing-xl);
-        }
-
-        .bazi-form-group label {
-            display: block;
-            font-family: var(--font-display);
-            font-size: var(--text-sm);
-            color: rgba(245, 240, 230, 0.7);
-            margin-bottom: var(--spacing-xs);
-            letter-spacing: 0.05em;
-        }
-
-        .bazi-form-group select,
-        .bazi-form-group input {
-            width: 100%;
-            padding: var(--spacing-sm) var(--spacing-md);
-            background: rgba(245, 240, 230, 0.08);
-            border: 1px solid rgba(212, 175, 55, 0.2);
-            border-radius: var(--radius-sm);
-            color: var(--bg-primary);
-            font-size: var(--text-base);
-            font-family: var(--font-body);
-            transition: border-color var(--transition-fast);
-            appearance: none;
-            -webkit-appearance: none;
-        }
-
-        .bazi-form-group select:focus,
-        .bazi-form-group input:focus {
-            outline: none;
-            border-color: var(--accent-color);
-        }
-
-        .bazi-form-submit {
-            text-align: center;
-        }
-
-        .bazi-form-submit a {
-            display: inline-block;
-            padding: var(--spacing-md) var(--spacing-3xl);
-            background: var(--gradient-gold);
-            color: var(--bg-dark);
-            font-weight: 600;
-            font-size: var(--text-base);
-            border-radius: var(--radius-sm);
-            transition: all var(--transition-base);
-            text-decoration: none;
-        }
-
-        .bazi-form-submit a:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.35);
-        }
-
-        .bazi-form-note {
-            text-align: center;
-            margin-top: var(--spacing-lg);
-            font-size: var(--text-sm);
-            color: rgba(245, 240, 230, 0.4);
-        }
-
-        .bazi-form-note span {
-            margin: 0 var(--spacing-sm);
+        .bazi-maintenance-icon {
+            margin-bottom: 1rem;
         }
 
         /* --- BLOG ARTICLES --- */
@@ -681,9 +614,6 @@
                 grid-template-columns: 1fr;
                 gap: var(--spacing-lg);
             }
-            .bazi-form-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
             .contact-grid {
                 grid-template-columns: 1fr;
                 gap: var(--spacing-2xl);
@@ -695,12 +625,6 @@
         }
 
         @media (max-width: 480px) {
-            .bazi-form-grid {
-                grid-template-columns: 1fr;
-            }
-            .bazi-form-wrapper {
-                padding: var(--spacing-xl) var(--spacing-lg);
-            }
             .hero-actions {
                 flex-direction: column;
                 align-items: center;
@@ -757,7 +681,7 @@
             <p class="hero-question">Are You Feeling Stuck in Life?</p>
             <p class="hero-desc">From destiny to decisions, energy to timing -- discover how Chinese metaphysics helps you navigate life with clarity and balance. Get your free BaZi reading today.</p>
             <div class="hero-actions">
-                <a href="#free-bazi" class="btn-gold">Free BaZi Reading</a>
+                <a href="#" class="btn-gold" onclick="showBaziMaintenance(event); return false;">Free BaZi Reading</a>
             </div>
             <p class="hero-note">Free report. No registration required.</p>
         </div>
@@ -805,49 +729,13 @@
                 <p class="subtitle">Discover Your Birth Chart</p>
                 <p>Enter your birth details to generate your personal BaZi chart. Your free report reveals your Five Elements profile and life path patterns.</p>
             </div>
-            <div class="bazi-form-wrapper">
-                <div class="bazi-form-grid">
-                    <div class="bazi-form-group">
-                        <label>Year</label>
-                        <select id="bz-year"></select>
-                    </div>
-                    <div class="bazi-form-group">
-                        <label>Month</label>
-                        <select id="bz-month">
-                            <option value="">Select</option>
-                        </select>
-                    </div>
-                    <div class="bazi-form-group">
-                        <label>Day</label>
-                        <select id="bz-day">
-                            <option value="">Select</option>
-                        </select>
-                    </div>
-                    <div class="bazi-form-group">
-                        <label>Birth Hour</label>
-                        <select id="bz-hour">
-                            <option value="">Select</option>
-                            <option value="zi">Zi (23:00-01:00)</option>
-                            <option value="chou">Chou (01:00-03:00)</option>
-                            <option value="yin">Yin (03:00-05:00)</option>
-                            <option value="mao">Mao (05:00-07:00)</option>
-                            <option value="chen">Chen (07:00-09:00)</option>
-                            <option value="si">Si (09:00-11:00)</option>
-                            <option value="wu">Wu (11:00-13:00)</option>
-                            <option value="wei">Wei (13:00-15:00)</option>
-                            <option value="shen">Shen (15:00-17:00)</option>
-                            <option value="you">You (17:00-19:00)</option>
-                            <option value="xu">Xu (19:00-21:00)</option>
-                            <option value="hai">Hai (21:00-23:00)</option>
-                        </select>
-                    </div>
+            <div class="bazi-maintenance-banner">
+                <div class="bazi-maintenance-icon">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="rgba(212,175,55,0.7)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
                 </div>
-                <div class="bazi-form-submit">
-                    <a href="bazi-form.html" id="bazi-submit-link">Generate Your Free BaZi Chart</a>
-                </div>
-                <div class="bazi-form-note">
-                    <span>Free</span><span>No registration</span><span>Instant results</span>
-                </div>
+                <h3 style="font-family:var(--font-display);color:var(--accent-color);font-size:1.4rem;letter-spacing:0.06em;margin:0 0 0.6rem;">Under Maintenance</h3>
+                <p style="color:var(--text-secondary);font-size:0.95rem;line-height:1.7;margin:0 0 1.2rem;max-width:420px;">We're upgrading our BaZi calculator to provide a better free experience. The tool will be back soon.</p>
+                <a href="blog/bazi-astrology.html" style="display:inline-block;padding:0.7rem 1.8rem;background:rgba(212,175,55,0.1);color:var(--accent-color);text-decoration:none;border:1px solid rgba(212,175,55,0.25);border-radius:6px;font-size:0.9rem;letter-spacing:0.03em;transition:all 0.3s;">Read BaZi Articles</a>
             </div>
         </div>
     </section>
@@ -1089,54 +977,11 @@
     </div>
 
     <script>
-        // Free BaZi form - populate selects
-        (function() {
-            var yearSel = document.getElementById('bz-year');
-            var monthSel = document.getElementById('bz-month');
-            var daySel = document.getElementById('bz-day');
-            if (!yearSel || !monthSel || !daySel) return;
-
-            var currentYear = new Date().getFullYear();
-            for (var y = currentYear - 10; y >= 1940; y--) {
-                var opt = document.createElement('option');
-                opt.value = y; opt.textContent = y;
-                yearSel.appendChild(opt);
-            }
-
-            for (var m = 1; m <= 12; m++) {
-                var opt2 = document.createElement('option');
-                opt2.value = m; opt2.textContent = m;
-                monthSel.appendChild(opt2);
-            }
-
-            function updateDays() {
-                var yv = parseInt(yearSel.value) || 2000;
-                var mv = parseInt(monthSel.value) || 1;
-                var daysInMonth = new Date(yv, mv, 0).getDate();
-                var curDay = parseInt(daySel.value) || 0;
-                daySel.innerHTML = '';
-                for (var d = 1; d <= daysInMonth; d++) {
-                    var opt3 = document.createElement('option');
-                    opt3.value = d; opt3.textContent = d;
-                    if (d === curDay) opt3.selected = true;
-                    daySel.appendChild(opt3);
-                }
-            }
-            yearSel.addEventListener('change', updateDays);
-            monthSel.addEventListener('change', updateDays);
-            updateDays();
-
-            var submitLink = document.getElementById('bazi-submit-link');
-            if (submitLink) {
-                submitLink.addEventListener('click', function(e) {
-                    var yv = yearSel.value, mv = monthSel.value, dv = daySel.value, hv = document.getElementById('bz-hour').value;
-                    if (yv && mv && dv && hv) {
-                        e.preventDefault();
-                        window.location.href = 'bazi-form.html?y=' + yv + '&m=' + mv + '&d=' + dv + '&h=' + hv;
-                    }
-                });
-            }
-        })();
+        function showBaziMaintenance(e) {
+            e && e.preventDefault();
+            var el = document.getElementById('free-bazi');
+            if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
     </script>
 
     <script>
