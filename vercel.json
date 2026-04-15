@@ -1,5 +1,5 @@
 {
-  "buildCommand": "echo 'Build complete'",
+  "buildCommand": "node build-blog.js",
   "outputDirectory": ".",
   "rewrites": [
     { "source": "/auth", "destination": "/api/auth" },
