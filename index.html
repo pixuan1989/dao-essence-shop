@@ -497,16 +497,15 @@
             margin-top: var(--spacing-3xl);
         }
 
-        /* --- CTA SECTION --- */
-        .cta-section {
+        /* --- CONTACT SECTION --- */
+        .contact {
             padding: var(--spacing-4xl) 0;
             background: linear-gradient(135deg, var(--bg-dark) 0%, #1A2A3A 100%);
-            text-align: center;
             position: relative;
             overflow: hidden;
         }
 
-        .cta-section::before {
+        .contact::before {
             content: '';
             position: absolute;
             inset: 0;
@@ -514,80 +513,68 @@
             pointer-events: none;
         }
 
-        .cta-section h2 {
-            font-family: var(--font-display);
-            font-size: clamp(1.5rem, 3vw, 2.2rem);
-            color: var(--bg-primary);
-            margin-bottom: var(--spacing-lg);
-            position: relative;
-            z-index: 1;
-            letter-spacing: 0.06em;
-        }
-
-        .cta-section p {
-            font-size: var(--text-lg);
-            color: rgba(245, 240, 230, 0.65);
-            margin-bottom: var(--spacing-2xl);
-            max-width: 560px;
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-3xl);
+            margin-top: var(--spacing-3xl);
+            max-width: 960px;
             margin-left: auto;
             margin-right: auto;
             position: relative;
             z-index: 1;
-            line-height: 1.7;
         }
 
-        .cta-section .btn-gold {
-            position: relative;
-            z-index: 1;
+        .contact-info h3 {
+            font-family: var(--font-display);
+            font-size: var(--text-xl);
+            color: var(--bg-primary);
+            margin-bottom: var(--spacing-md);
+            letter-spacing: 0.06em;
         }
 
-        /* --- CONTACT SECTION --- */
-        .contact {
-            padding: var(--spacing-4xl) 0;
-            background: var(--bg-primary);
+        .contact-info > p {
+            color: rgba(245, 240, 230, 0.6);
+            font-size: var(--text-base);
+            line-height: 1.8;
+            margin-bottom: var(--spacing-2xl);
         }
 
-        .contact-inner {
-            max-width: 700px;
-            margin: var(--spacing-3xl) auto 0;
-            text-align: center;
-        }
-
-        .contact-item {
+        .contact-detail {
             margin-bottom: var(--spacing-lg);
         }
 
-        .contact-item a {
-            color: var(--text-secondary);
+        .contact-detail-label {
+            font-family: var(--font-display);
+            font-size: var(--text-sm);
+            color: var(--accent-color);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .contact-detail a,
+        .contact-detail p {
+            color: rgba(245, 240, 230, 0.8);
             text-decoration: none;
             font-size: var(--text-base);
             transition: color var(--transition-fast);
         }
 
-        .contact-item a:hover {
+        .contact-detail a:hover {
             color: var(--accent-color);
-        }
-
-        .contact-item-label {
-            font-family: var(--font-display);
-            font-size: var(--text-sm);
-            color: var(--text-light);
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            margin-bottom: var(--spacing-xs);
         }
 
         .contact-social {
             display: flex;
-            justify-content: center;
-            gap: var(--spacing-xl);
+            gap: var(--spacing-lg);
             margin-top: var(--spacing-2xl);
-            padding-top: var(--spacing-2xl);
-            border-top: 1px solid rgba(212, 175, 55, 0.1);
+            padding-top: var(--spacing-xl);
+            border-top: 1px solid rgba(212, 175, 55, 0.15);
         }
 
         .contact-social a {
-            color: var(--text-secondary);
+            color: rgba(245, 240, 230, 0.5);
             text-decoration: none;
             font-size: var(--text-sm);
             letter-spacing: 0.05em;
@@ -598,6 +585,82 @@
             color: var(--accent-color);
         }
 
+        /* --- CONTACT FORM --- */
+        .contact-form {
+            background: rgba(245, 240, 230, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-2xl) var(--spacing-2xl);
+            border: 1px solid rgba(212, 175, 55, 0.15);
+        }
+
+        .contact-form .form-group {
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .contact-form .form-group label {
+            display: block;
+            font-family: var(--font-display);
+            font-size: var(--text-sm);
+            color: rgba(245, 240, 230, 0.7);
+            margin-bottom: var(--spacing-xs);
+            letter-spacing: 0.05em;
+        }
+
+        .contact-form .form-group input,
+        .contact-form .form-group textarea,
+        .contact-form .form-group select {
+            width: 100%;
+            padding: var(--spacing-sm) var(--spacing-md);
+            background: rgba(245, 240, 230, 0.08);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: var(--radius-sm);
+            color: var(--bg-primary);
+            font-size: var(--text-base);
+            font-family: var(--font-body);
+            transition: border-color var(--transition-fast);
+        }
+
+        .contact-form .form-group input:focus,
+        .contact-form .form-group textarea:focus,
+        .contact-form .form-group select:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+
+        .contact-form .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .contact-form .form-group select {
+            appearance: none;
+            -webkit-appearance: none;
+        }
+
+        .contact-form .form-submit {
+            text-align: center;
+        }
+
+        .contact-form .form-submit button {
+            display: inline-block;
+            padding: var(--spacing-md) var(--spacing-3xl);
+            background: var(--gradient-gold);
+            color: var(--bg-dark);
+            font-weight: 600;
+            font-size: var(--text-base);
+            border: none;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all var(--transition-base);
+            font-family: var(--font-body);
+        }
+
+        .contact-form .form-submit button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.35);
+        }
+
         /* --- RESPONSIVE --- */
         @media (max-width: 900px) {
             .services-grid {
@@ -606,6 +669,10 @@
             }
             .bazi-form-grid {
                 grid-template-columns: repeat(2, 1fr);
+            }
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: var(--spacing-2xl);
             }
         }
 
@@ -831,40 +898,64 @@
         </div>
     </section>
 
-    <!-- CTA -->
-    <section class="cta-section section">
-        <div class="container">
-            <h2>The Power of Understanding Your BaZi</h2>
-            <p>Every step into Chinese metaphysics is a step toward greater clarity. Your birth chart holds the answers -- they are already within reach.</p>
-            <a href="#free-bazi" class="btn-gold">Get Your Free Reading</a>
-        </div>
-    </section>
-
     <!-- Contact -->
     <section class="contact section">
         <div class="container">
             <div class="section-header">
                 <h2>Contact Us</h2>
                 <p class="subtitle">Get in Touch</p>
+                <p style="color: rgba(245, 240, 230, 0.6);">Have questions about your BaZi chart or want a personalized consultation? Reach out and we will get back to you within 24 hours.</p>
             </div>
-            <div class="contact-inner">
-                <div class="contact-item">
-                    <div class="contact-item-label">Email</div>
-                    <a href="mailto:support@daoessentia.com">support@daoessentia.com</a>
+            <div class="contact-grid">
+                <div class="contact-info scroll-animate">
+                    <h3>DAO Essence</h3>
+                    <p>Chinese Metaphysics &amp; Eastern Wisdom. We help you navigate life with clarity through BaZi analysis, Feng Shui consultation, and Five Elements guidance.</p>
+                    <div class="contact-detail">
+                        <div class="contact-detail-label">Email</div>
+                        <a href="mailto:support@daoessentia.com">support@daoessentia.com</a>
+                    </div>
+                    <div class="contact-detail">
+                        <div class="contact-detail-label">Telegram</div>
+                        <a href="https://t.me/dingwei_123" target="_blank" rel="noopener">@dingwei_123</a>
+                    </div>
+                    <div class="contact-detail">
+                        <div class="contact-detail-label">Hours</div>
+                        <p>Mon -- Sat: 9AM -- 9PM (CST / UTC+8)</p>
+                    </div>
+                    <div class="contact-social">
+                        <a href="https://www.instagram.com/daoessence" target="_blank" rel="noopener">Instagram</a>
+                        <a href="https://www.pinterest.com/daoessence" target="_blank" rel="noopener">Pinterest</a>
+                        <a href="https://www.reddit.com/r/daoessence" target="_blank" rel="noopener">Reddit</a>
+                        <a href="https://t.me/Dingwei_pi" target="_blank" rel="noopener">Telegram</a>
+                    </div>
                 </div>
-                <div class="contact-item">
-                    <div class="contact-item-label">Telegram</div>
-                    <a href="https://t.me/dingwei_123" target="_blank" rel="noopener">@dingwei_123</a>
-                </div>
-                <div class="contact-item">
-                    <div class="contact-item-label">Hours</div>
-                    <p style="color: var(--text-secondary); font-size: var(--text-base); margin: 0;">Mon -- Sat: 9AM -- 9PM (CST / UTC+8)</p>
-                </div>
-                <div class="contact-social">
-                    <a href="https://www.instagram.com/daoessence" target="_blank" rel="noopener">Instagram</a>
-                    <a href="https://www.pinterest.com/daoessence" target="_blank" rel="noopener">Pinterest</a>
-                    <a href="https://www.reddit.com/r/daoessence" target="_blank" rel="noopener">Reddit</a>
-                    <a href="https://t.me/Dingwei_pi" target="_blank" rel="noopener">Telegram</a>
+                <div class="contact-form scroll-animate">
+                    <form id="contact-form" onsubmit="return false;">
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input type="text" name="name" placeholder="Your name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" name="email" placeholder="Your email" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Subject</label>
+                            <select name="subject">
+                                <option value="bazi-consultation">BaZi Consultation</option>
+                                <option value="feng-shui">Feng Shui</option>
+                                <option value="five-elements">Five Elements</option>
+                                <option value="general">General Inquiry</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Message</label>
+                            <textarea name="message" placeholder="Tell us about your inquiry..." rows="4" required></textarea>
+                        </div>
+                        <div class="form-submit">
+                            <button type="submit">Send Message</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
