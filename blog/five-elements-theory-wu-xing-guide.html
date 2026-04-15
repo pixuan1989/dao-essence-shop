@@ -97,10 +97,11 @@
     }
     </script>
     <style>
+        body { background-color: #FFFFFF !important; }
         .blog-article { max-width: 800px; margin: 0 auto; padding: 4rem 5%; }
-        .blog-article h1 { font-family: var(--font-display); font-size: clamp(2rem, 5vw, 2.8rem); color: var(--accent-color); margin-bottom: 0.5rem; letter-spacing: 0.08em; line-height: 1.2; }
+        .blog-article h1 { font-family: var(--font-display); font-size: clamp(2rem, 5vw, 2.8rem); color: #1A1A1A; margin-bottom: 0.5rem; letter-spacing: 0.08em; line-height: 1.2; }
         .blog-meta { color: var(--text-secondary); font-size: 0.88rem; margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid rgba(212,175,55,0.15); }
-        .blog-article h2 { font-family: var(--font-display); font-size: 1.6rem; color: var(--accent-color); margin: 2.5rem 0 1rem; letter-spacing: 0.05em; }
+        .blog-article h2 { font-family: var(--font-display); font-size: 1.6rem; color: #1A1A1A; margin: 2.5rem 0 1rem; letter-spacing: 0.05em; }
         .blog-article h3 { font-family: var(--font-display); font-size: 1.2rem; color: var(--text-primary); margin: 2rem 0 0.8rem; }
         .blog-article p { color: var(--text-secondary); line-height: 1.9; font-size: 1rem; margin-bottom: 1.2rem; }
         .blog-article strong { color: var(--text-primary); }
@@ -113,7 +114,7 @@
         .element-box h4 { font-family: var(--font-display); margin-bottom: 0.5rem; font-size: 1.1rem; }
         .element-box p { font-size: 0.92rem; margin-bottom: 0; }
         .cycle-diagram { text-align: center; padding: 2rem; margin: 2rem 0; background: rgba(212,175,55,0.03); border-radius: 12px; border: 1px solid rgba(212,175,55,0.1); }
-        .cycle-diagram p { font-family: var(--font-display); color: var(--accent-color); letter-spacing: 0.1em; font-size: 0.95rem; }
+        .cycle-diagram p { font-family: var(--font-display); color: #1A1A1A; letter-spacing: 0.1em; font-size: 0.95rem; }
         .blog-cta { text-align: center; padding: 3rem; margin: 3rem 0; background: linear-gradient(135deg, rgba(212,175,55,0.06), rgba(212,175,55,0.02)); border: 1px solid rgba(212,175,55,0.2); border-radius: 16px; }
         .blog-cta a { display: inline-block; padding: 1rem 2.5rem; background: var(--accent-color); color: #1A1208; text-decoration: none; font-weight: 600; letter-spacing: 0.05em; border-radius: 6px; transition: all 0.3s; }
         .blog-cta a:hover { background: #E8C547; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(212,175,55,0.3); }
@@ -130,9 +131,19 @@
                 </a>
                 <ul class="nav-menu">
                     <li><a href="../index.html" class="nav-link">Home</a></li>
+\n                    <li class="nav-dropdown">
+                        <span class="nav-dropdown-trigger">Blog <i class="nav-dropdown-arrow"></i></span>
+                        <div class="nav-dropdown-menu">
+                            <a href="../blog/bazi-astrology.html">八字命理学 Bazi</a>
+                            <a href="../blog/zodiac-horoscope.html">十二生肖运势 Zodiac</a>
+                            <a href="../blog/feng-shui.html">风水知识 Feng Shui</a>
+                            <a href="../blog/daily-horoscope.html">每日运势 Daily</a>
+                            <a href="../blog/lucky-tips.html">旺运术 Lucky Tips</a>
+                        </div>
+                    </li>
                     <li><a href="../culture.html" class="nav-link">Energy Universe</a></li>
                     <li><a href="../shop.html" class="nav-link">Shop</a></li>
-                    <li><a href="../guide.html" class="nav-link">Energy Principles</a></li>
+
                     <li><a href="../about.html" class="nav-link">About Us</a></li>
                 </ul>
                 <button class="mobile-menu-btn"><span></span><span></span><span></span></button>
@@ -287,7 +298,7 @@
         </ul>
 
         <div class="blog-cta">
-            <h3 style="font-family: var(--font-display); color: var(--accent-color); margin-bottom: 0.8rem;">Discover Your Personal Five Elements Profile</h3>
+            <h3 style="font-family: var(--font-display); color: #1A1A1A; margin-bottom: 0.8rem;">Discover Your Personal Five Elements Profile</h3>
             <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Get a personalized BaZi reading with detailed Five Elements analysis, life path guidance, and balance recommendations.</p>
             <a href="../bazi-form.html">Get Your BaZi Reading →</a>
         </div>
@@ -296,12 +307,12 @@
 
         <p>The <strong>Five Elements theory</strong> is not just ancient philosophy — it is a practical, living system for understanding yourself and the world around you. Whether applied to health through Traditional Chinese Medicine, to your environment through feng shui, or to self-understanding through BaZi analysis, the Five Elements provide a timeless framework for achieving harmony and balance in all aspects of life.</p>
 
-        <p>At <strong>DAO Essence</strong>, we integrate the Five Elements into our <a href="../shop.html">digital wellness programs</a>, <a href="../guide.html">guided meditation audio</a>, and <a href="../bazi-form.html">personalized BaZi readings</a>. Explore our offerings to begin your journey toward elemental balance.</p>
+        <p>At <strong>DAO Essence</strong>, we integrate the Five Elements into our <a href="../shop.html">shop</a> and <a href="../index.html#free-bazi">personalized BaZi readings</a>. Explore our offerings to begin your journey toward elemental balance.</p>
 
         <div style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid rgba(212,175,55,0.15);">
             <p style="font-size: 0.9rem; color: var(--text-secondary);"><strong>Related Articles:</strong></p>
             <ul style="font-size: 0.9rem;">
-                <li><a href="../guide.html" style="color: var(--accent-color);">Taoist Meditation Techniques — A Beginner's Guide</a></li>
+
                 <li><a href="../culture.html" style="color: var(--accent-color);">Energy Universe — Explore Five Elements & Taoist Culture</a></li>
                 <li><a href="../bazi-form.html" style="color: var(--accent-color);">BaZi Reading Online — Discover Your Four Pillars of Destiny</a></li>
             </ul>
@@ -322,7 +333,7 @@
                         <li><a href="../index.html">Home</a></li>
                         <li><a href="../culture.html">Energy Universe</a></li>
                         <li><a href="../shop.html">Shop</a></li>
-                        <li><a href="../guide.html">Energy Principles</a></li>
+
                         <li><a href="../about.html">About Us</a></li>
                     </ul>
                 </div>

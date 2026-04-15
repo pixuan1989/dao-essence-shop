@@ -4,10 +4,12 @@
   "description": "DAO Essence & Five Elements Shop",
   "type": "module",
   "scripts": {
-    "vercel-build": "echo 'Build complete'"
+    "build": "node build-blog.js"
   },
   "dependencies": {
+    "gray-matter": "^4.0.3",
     "ioredis": "^5.4.1",
+    "marked": "^18.0.0",
     "node-fetch": "^2.7.0"
   },
   "engines": {
