@@ -608,6 +608,27 @@ function main() {
   fs.writeFileSync(indexPath, indexHtml);
   console.log(`  Updated: dist/blog/index.html`);
 
+  // Step 7: Generate clean URLs (create /about/index.html from /about.html)
+  console.log('Generating clean URLs...');
+  const htmlFiles = [];
+  function collectHtmlFiles(dir) {
+    for (const file of fs.readdirSync(dir)) {
+      const fullPath = path.join(dir, file);
+      if (fs.statSync(fullPath).isDirectory()) {
+        collectHtmlFiles(fullPath);
+      } else if (file.endsWith('.html') && file !== 'index.html') {
+        htmlFiles.push(fullPath);
+      }
+    }
+  }
+  collectHtmlFiles(DIST_DIR);
+  for (const htmlPath of htmlFiles) {
+    const dirName = htmlPath.replace(/\.html$/, '');
+    fs.mkdirSync(dirName, { recursive: true });
+    fs.copyFileSync(htmlPath, path.join(dirName, 'index.html'));
+    console.log(`  ${path.relative(DIST_DIR, htmlPath)} -> ${path.relative(DIST_DIR, dirName)}/index.html`);
+  }
+
   console.log('=== Blog Build Complete ===');
 }
 
