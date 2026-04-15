@@ -24,19 +24,10 @@ const urls = [
   'https://www.daoessentia.com/blog/lucky-tips',
 ];
 
-// IndexNow XML
-function buildIndexNowXML() {
-  let xml = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
-  urls.forEach(u => { xml += `  <url><loc>${u}</loc></url>\n`; });
-  xml += '</urlset>';
-  return xml;
-}
-
 function postIndexNow() {
   const host = 'api.indexnow.org';
-  const path = '/IndexNow';
-  const key = 'daoessence2026seokey'; // site verification key
-  const body = buildIndexNowXML();
+  const path = '/indexnow'; // must be lowercase
+  const key = 'a1b2c3d4e5f6a7b8'; // valid hex key, 16 chars
 
   const postData = JSON.stringify({
     host: 'www.daoessentia.com',
@@ -70,28 +61,10 @@ function postIndexNow() {
   });
 }
 
-function pingGoogle() {
-  return new Promise((resolve, reject) => {
-    const url = `https://www.google.com/ping?sitemap=https://www.daoessentia.com/sitemap.xml`;
-    https.get(url, (res) => {
-      let data = '';
-      res.on('data', chunk => data += chunk);
-      res.on('end', () => {
-        console.log(`\n[Google Sitemap Ping] Status: ${res.statusCode}`);
-        resolve();
-      });
-    }).on('error', (e) => { console.error(`[Google Ping] Error: ${e.message}`); reject(e); });
-  });
-}
-
 async function main() {
   console.log(`Submitting ${urls.length} URLs to IndexNow (Bing/Yahoo)...`);
   await postIndexNow();
-
-  console.log(`\nPinging Google with sitemap...`);
-  await pingGoogle();
-
-  console.log('\nDone! Both submissions completed.');
+  console.log('\nDone!');
 }
 
 main().catch(console.error);
