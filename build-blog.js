@@ -334,7 +334,7 @@ ${FOOTER_HTML}
 function generateCategoryHtml(category, articles) {
   const label = CATEGORY_LABELS[category] || category;
   const cardHtml = articles.map(a => `
-            <a href="../${a.slug}.html" class="blog-card">
+            <a href="${a.slug}.html" class="blog-card">
                 ${a.data.image ? `<img src="${a.data.image}" alt="${escapeHtml(a.data.title)}" style="width:100%;border-radius:8px 8px 0 0;margin-bottom:1rem;">` : ''}
                 <h2>${escapeHtml(a.data.title)}</h2>
                 <p>${escapeHtml(a.data.description || '')}</p>
