@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DAO Essence | Five Elements & Taoist Wisdom</title>
-    <meta name="description" content="Explore authentic Taoist digital resources — meditation audio, xianxia novels, Five Elements wisdom, Bazi numerology, and Qigong guides. Instant download.">
+    <title>DAO Essence | Free BaZi Calculator - Chinese Astrology & Five Elements</title>
+    <meta name="description" content="Free BaZi birth chart calculator. Learn Chinese astrology, Five Elements theory, Feng Shui, and Zodiac horoscopes. Understand your destiny through ancient Eastern wisdom.">
     <meta name="keywords" content="Taoist meditation, Five elements theory, Bazi numerology, Chinese metaphysics, Taoist philosophy, Energy healing, Qigong meditation, Feng shui, Traditional Chinese medicine, Eastern philosophy, Taoist meditation audio, English xianxia novels, Five elements personality test, Bazi reading online, Taoist energy healing techniques, Qigong meditation for beginners, Five elements health tips, Taoist wisdom for modern life, Chinese metaphysics for self-improvement, Energy balance techniques">
     <!-- Open Graph -->
-    <meta property="og:title" content="DAO Essence | Taoist Meditation Audio & Xianxia Novels">
-    <meta property="og:description" content="Authentic Taoist digital resources — meditation audio, xianxia novels in English, and Five Elements wisdom. Instant digital delivery.">
+    <meta property="og:title" content="DAO Essence | Free BaZi Calculator & Chinese Astrology">
+    <meta property="og:description" content="Calculate your BaZi birth chart for free. Discover Chinese astrology, Five Elements, Feng Shui, and Zodiac wisdom.">
     <meta property="og:image" content="https://www.daoessentia.com/images/og-default.jpg">
     <meta property="og:url" content="https://www.daoessentia.com/">
     <meta property="og:type" content="website">
@@ -77,15 +77,14 @@
             font-weight: 700;
         }
 
-        /* 英雄区域 - 通栏设计 */
+        /* 英雄区域 - 左文右图布局 */
         .hero {
             min-height: 100vh;
             display: flex;
             align-items: center;
-            justify-content: center;
             position: relative;
             overflow: hidden;
-            background: linear-gradient(135deg, #1A1612 0%, #1A3A4A 30%, #2D5A3D 60%, #3A6B4A 80%, #F5F0E6 100%);
+            background: linear-gradient(160deg, #1A1612 0%, #1A2A3A 40%, #1A1612 100%);
             width: 100vw;
             margin-left: calc(50% - 50vw);
             margin-right: calc(50% - 50vw);
@@ -100,110 +99,220 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: radial-gradient(ellipse at center, transparent 0%, rgba(26, 22, 18, 0.8) 100%);
+            background: radial-gradient(ellipse at 70% 50%, rgba(26, 58, 74, 0.15) 0%, transparent 60%);
             z-index: 1;
         }
-        
-        /* 背景装饰 - 太极图 */
+
+        .hero-inner {
+            position: relative;
+            z-index: 3;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            gap: var(--spacing-3xl);
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-xl);
+            width: 100%;
+        }
+
+        /* 左侧文字 */
+        .hero-text {
+            max-width: 560px;
+        }
+
+        .hero-eyebrow {
+            font-family: var(--font-english);
+            font-size: var(--text-sm);
+            color: var(--accent-color);
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            margin-bottom: var(--spacing-lg);
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out 0.2s forwards;
+        }
+
+        .hero-heading {
+            font-family: var(--font-display);
+            font-size: clamp(2.5rem, 5.5vw, 4.5rem);
+            color: var(--bg-primary);
+            line-height: 1.2;
+            margin-bottom: var(--spacing-xl);
+            letter-spacing: 0.08em;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out 0.4s forwards;
+        }
+
+        .hero-heading .highlight {
+            color: var(--accent-color);
+        }
+
+        .hero-desc {
+            font-size: var(--text-lg);
+            color: rgba(245, 240, 230, 0.75);
+            line-height: 1.8;
+            margin-bottom: var(--spacing-2xl);
+            max-width: 480px;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out 0.6s forwards;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: var(--spacing-lg);
+            flex-wrap: wrap;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out 0.8s forwards;
+        }
+
+        .btn-gold {
+            display: inline-block;
+            padding: var(--spacing-md) var(--spacing-2xl);
+            background: var(--gradient-gold);
+            color: var(--bg-dark);
+            font-weight: 600;
+            font-size: var(--text-base);
+            border-radius: var(--radius-sm);
+            transition: all var(--transition-base);
+        }
+
+        .btn-gold:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.35);
+        }
+
+        .btn-outline-light {
+            display: inline-block;
+            padding: var(--spacing-md) var(--spacing-2xl);
+            background: transparent;
+            color: var(--bg-primary);
+            border: 1px solid rgba(245, 240, 230, 0.3);
+            font-weight: 500;
+            font-size: var(--text-base);
+            border-radius: var(--radius-sm);
+            transition: all var(--transition-base);
+        }
+
+        .btn-outline-light:hover {
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+            transform: translateY(-2px);
+        }
+
+        /* 右侧五行环装饰 */
+        .hero-visual {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            animation: fadeIn 1.2s ease-out 0.5s forwards;
+        }
+
+        .hero-ring-container {
+            width: 380px;
+            height: 380px;
+            position: relative;
+        }
+
         .hero-taiji {
             position: absolute;
-            width: 800px;
-            height: 800px;
-            opacity: 0.05;
-            animation: rotate 120s linear infinite;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 160px;
+            height: 160px;
+            opacity: 0.2;
+            animation: rotate 60s linear infinite;
         }
-        
+
         .hero-taiji svg {
             width: 100%;
             height: 100%;
         }
-        
-        /* 背景云雾 */
-        .hero-mist {
-            display: none;
-        }
-        
-        /* 主内容 */
-        .hero-content {
-            position: relative;
-            z-index: 3;
-            text-align: center;
-            padding: 0 var(--spacing-xl);
-            max-width: 900px;
-        }
-        
-        .hero-title-cn {
-            font-family: var(--font-display);
-            font-size: clamp(3rem, 8vw, 6rem);
-            color: var(--bg-primary);
-            margin-bottom: var(--spacing-md);
-            letter-spacing: 0.2em;
-            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.6), 0 0 40px rgba(212, 175, 55, 0.3);
-            animation: fadeInUp 1s ease-out;
+
+        /* 五行环绕 */
+        .hero-element-ring {
+            position: absolute;
+            inset: 0;
+            animation: rotate 120s linear infinite;
         }
 
-        .hero-title-en {
-            font-family: var(--font-english);
-            font-size: var(--text-xl);
-            color: var(--accent-color);
-            letter-spacing: 0.3em;
-            text-transform: uppercase;
-            margin-bottom: var(--spacing-xl);
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-            animation: fadeInUp 1s ease-out 0.2s backwards;
-        }
-
-        .hero-slogan {
-            font-size: var(--text-lg);
-            color: rgba(245, 240, 230, 0.95);
-            margin-bottom: var(--spacing-2xl);
-            line-height: 1.8;
-            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
-            animation: fadeInUp 1s ease-out 0.4s backwards;
-        }
-        
-        .hero-buttons {
+        .hero-element-node {
+            position: absolute;
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
             display: flex;
-            gap: var(--spacing-lg);
+            align-items: center;
             justify-content: center;
-            flex-wrap: wrap;
-            animation: fadeInUp 1s ease-out 0.6s backwards;
-        }
-        
-        .hero-btn-primary {
-            padding: var(--spacing-lg) var(--spacing-3xl);
-            background: var(--gradient-gold);
-            color: var(--bg-dark);
+            font-family: var(--font-display);
+            font-size: 1.5rem;
             font-weight: 600;
-            font-size: var(--text-lg);
-            border: none;
-            border-radius: var(--radius-sm);
-            cursor: pointer;
-            transition: all var(--transition-base);
+            animation: rotate 120s linear infinite reverse;
+            border: 2px solid;
         }
-        
-        .hero-btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
+
+        .hero-element-node.wood {
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--wood-light);
+            border-color: var(--wood-primary);
+            background: rgba(45, 90, 61, 0.15);
+            box-shadow: 0 0 20px rgba(45, 90, 61, 0.2);
         }
-        
-        .hero-btn-secondary {
-            padding: var(--spacing-lg) var(--spacing-3xl);
-            background: transparent;
-            color: var(--bg-primary);
-            border: 1px solid var(--accent-color);
-            font-weight: 500;
-            font-size: var(--text-lg);
-            border-radius: var(--radius-sm);
-            cursor: pointer;
-            transition: all var(--transition-base);
+
+        .hero-element-node.fire {
+            top: 22%;
+            right: -10px;
+            color: var(--fire-light);
+            border-color: var(--fire-primary);
+            background: rgba(139, 37, 0, 0.15);
+            box-shadow: 0 0 20px rgba(139, 37, 0, 0.2);
         }
-        
-        .hero-btn-secondary:hover {
-            background: rgba(212, 175, 55, 0.1);
-            transform: translateY(-3px);
+
+        .hero-element-node.earth {
+            bottom: 22%;
+            right: -10px;
+            color: var(--earth-light);
+            border-color: var(--earth-primary);
+            background: rgba(139, 115, 85, 0.15);
+            box-shadow: 0 0 20px rgba(139, 115, 85, 0.2);
         }
-        
+
+        .hero-element-node.metal {
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--metal-light);
+            border-color: var(--metal-dark);
+            background: rgba(192, 192, 192, 0.15);
+            box-shadow: 0 0 20px rgba(192, 192, 192, 0.2);
+        }
+
+        .hero-element-node.water {
+            top: 22%;
+            left: -10px;
+            color: var(--water-light);
+            border-color: var(--water-primary);
+            background: rgba(26, 58, 74, 0.15);
+            box-shadow: 0 0 20px rgba(26, 58, 74, 0.2);
+        }
+
+        /* 五行连接线（装饰圆环） */
+        .hero-ring-line {
+            position: absolute;
+            inset: 30px;
+            border-radius: 50%;
+            border: 1px solid rgba(212, 175, 55, 0.12);
+        }
+
+        .hero-ring-line:nth-child(2) {
+            inset: 15px;
+            border-style: dashed;
+            opacity: 0.5;
+        }
+
         /* 滚动指示 */
         .scroll-indicator {
             position: absolute;
@@ -213,16 +322,16 @@
             z-index: 3;
             animation: float 2s ease-in-out infinite;
         }
-        
+
         .scroll-indicator span {
             display: block;
             width: 30px;
             height: 50px;
-            border: 2px solid var(--accent-color);
+            border: 2px solid rgba(212, 175, 55, 0.3);
             border-radius: 15px;
             position: relative;
         }
-        
+
         .scroll-indicator span::before {
             content: '';
             position: absolute;
@@ -235,12 +344,174 @@
             border-radius: 3px;
             animation: scrollDown 1.5s ease-in-out infinite;
         }
-        
+
         @keyframes scrollDown {
             0%, 100% { opacity: 1; transform: translateX(-50%) translateY(0); }
             50% { opacity: 0.5; transform: translateX(-50%) translateY(10px); }
         }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes rotate {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        /* Hero 响应式 */
+        @media (max-width: 900px) {
+            .hero-inner {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .hero-text {
+                max-width: 100%;
+                order: 1;
+            }
+            .hero-desc {
+                max-width: 100%;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .hero-actions {
+                justify-content: center;
+            }
+            .hero-visual {
+                order: 0;
+            }
+            .hero-ring-container {
+                width: 280px;
+                height: 280px;
+            }
+            .hero-element-node {
+                width: 56px;
+                height: 56px;
+                font-size: 1.2rem;
+            }
+            .hero-taiji {
+                width: 120px;
+                height: 120px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-ring-container {
+                width: 240px;
+                height: 240px;
+            }
+            .hero-element-node {
+                width: 48px;
+                height: 48px;
+                font-size: 1rem;
+            }
+        }
         
+        /* 免费排盘工具区 */
+        .free-bazi {
+            padding: var(--spacing-4xl) 0;
+            background: var(--bg-secondary);
+        }
+
+        .free-bazi .section-header p {
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .bazi-form-wrapper {
+            max-width: 800px;
+            margin: var(--spacing-3xl) auto 0;
+            background: var(--bg-primary);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-2xl) var(--spacing-3xl);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .bazi-form-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .bazi-form-group label {
+            display: block;
+            font-family: var(--font-display);
+            font-size: var(--text-sm);
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-xs);
+            letter-spacing: 0.05em;
+        }
+
+        .bazi-form-group select,
+        .bazi-form-group input {
+            width: 100%;
+            padding: var(--spacing-sm) var(--spacing-md);
+            background: var(--bg-accent);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            font-size: var(--text-base);
+            font-family: var(--font-body);
+            transition: border-color var(--transition-fast);
+            appearance: none;
+            -webkit-appearance: none;
+        }
+
+        .bazi-form-group select:focus,
+        .bazi-form-group input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+
+        .bazi-form-submit {
+            text-align: center;
+        }
+
+        .bazi-form-submit a {
+            display: inline-block;
+            padding: var(--spacing-md) var(--spacing-3xl);
+            background: var(--gradient-gold);
+            color: var(--bg-dark);
+            font-weight: 600;
+            font-size: var(--text-base);
+            border-radius: var(--radius-sm);
+            transition: all var(--transition-base);
+        }
+
+        .bazi-form-submit a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.35);
+        }
+
+        .bazi-form-note {
+            text-align: center;
+            margin-top: var(--spacing-lg);
+            font-size: var(--text-sm);
+            color: var(--text-light);
+        }
+
+        .bazi-form-note span {
+            margin: 0 var(--spacing-sm);
+        }
+
+        @media (max-width: 768px) {
+            .bazi-form-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .bazi-form-wrapper {
+                padding: var(--spacing-xl) var(--spacing-lg);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .bazi-form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
         /* 五元素展示区 - 极简东方美学 */
         .five-elements {
             padding: var(--spacing-4xl) 0;
@@ -467,6 +738,67 @@
             }
         }
         
+        /* 博客知识入口区 */
+        .knowledge-hub {
+            padding: var(--spacing-4xl) 0;
+            background: var(--bg-secondary);
+        }
+
+        .knowledge-topics {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--spacing-xl);
+            margin-top: var(--spacing-3xl);
+        }
+
+        .knowledge-topic-card {
+            background: var(--bg-primary);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-2xl);
+            border: 1px solid rgba(212, 175, 55, 0.15);
+            transition: all var(--transition-base);
+            display: block;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .knowledge-topic-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--accent-color);
+        }
+
+        .knowledge-topic-card h3 {
+            font-family: var(--font-display);
+            font-size: var(--text-xl);
+            margin-bottom: var(--spacing-sm);
+            color: var(--text-primary);
+        }
+
+        .knowledge-topic-card p {
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .knowledge-topic-card .read-more {
+            font-size: var(--text-sm);
+            color: var(--accent-color);
+            font-weight: 500;
+            letter-spacing: 0.05em;
+        }
+
+        .knowledge-topic-card:hover .read-more {
+            letter-spacing: 0.1em;
+        }
+
+        @media (max-width: 900px) {
+            .knowledge-topics {
+                grid-template-columns: 1fr;
+            }
+        }
+
         /* 核心价值区 */
         .values {
             padding: var(--spacing-4xl) 0;
@@ -1283,47 +1615,107 @@
         </div>
     </header>
 
-    <!-- 英雄区域 -->
+    <!-- Hero -->
     <section class="hero">
-        <!-- 背景太极图 -->
-        <div class="hero-taiji">
-            <svg viewBox="0 0 100 100">
-                <circle cx="50" cy="50" r="48" fill="none" stroke="#D4AF37" stroke-width="0.5"/>
-                <path d="M50 2 A48 48 0 0 1 50 98 A24 24 0 0 1 50 50 A24 24 0 0 0 50 2" fill="#D4AF37"/>
-                <circle cx="50" cy="26" r="6" fill="#1A1612"/>
-                <circle cx="50" cy="74" r="6" fill="#D4AF37"/>
-            </svg>
-        </div>
-        
-        <!-- 云雾效果 -->
-        <div class="hero-mist"></div>
-        
-        <!-- 主内容 -->
-        <div class="hero-content">
-            <h1 class="hero-title-en">DAO Essence & Five Elements</h1>
-            <p class="hero-slogan">
-                Ancient Wisdom, Modern Harmony.<br>
-                Your Personalized Energy Ecosystem.
-            </p>
-            <div class="hero-buttons">
-                <a href="bazi-form.html" class="hero-btn-primary">Get BaZi Reading</a>
-                <a href="shop.html" class="hero-btn-secondary">Start Your Journey</a>
+        <div class="hero-inner">
+            <div class="hero-text">
+                <p class="hero-eyebrow">Chinese Metaphysics &amp; Eastern Wisdom</p>
+                <h1 class="hero-heading">Understand Your <span class="highlight">BaZi</span>,<br>Navigate Your Life</h1>
+                <p class="hero-desc">Discover the ancient art of Chinese astrology. Read your birth chart, understand the Five Elements, and unlock the wisdom that has guided millions for millennia.</p>
+                <div class="hero-actions">
+                    <a href="#free-bazi" class="btn-gold">Free BaZi Reading</a>
+                    <a href="culture.html" class="btn-outline-light">Explore Five Elements</a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="hero-ring-container">
+                    <div class="hero-ring-line"></div>
+                    <div class="hero-ring-line"></div>
+                    <div class="hero-element-ring">
+                        <div class="hero-element-node wood">木</div>
+                        <div class="hero-element-node fire">火</div>
+                        <div class="hero-element-node earth">土</div>
+                        <div class="hero-element-node metal">金</div>
+                        <div class="hero-element-node water">水</div>
+                    </div>
+                    <div class="hero-taiji">
+                        <svg viewBox="0 0 100 100">
+                            <circle cx="50" cy="50" r="48" fill="none" stroke="#D4AF37" stroke-width="0.5"/>
+                            <path d="M50 2 A48 48 0 0 1 50 98 A24 24 0 0 1 50 50 A24 24 0 0 0 50 2" fill="#D4AF37"/>
+                            <circle cx="50" cy="26" r="6" fill="#1A1612"/>
+                            <circle cx="50" cy="74" r="6" fill="#D4AF37"/>
+                        </svg>
+                    </div>
+                </div>
             </div>
         </div>
-        
-        <!-- 滚动指示 -->
         <div class="scroll-indicator">
             <span></span>
         </div>
     </section>
 
-    <!-- 五元素展示 -->
+    <!-- Free BaZi Tool -->
+    <section class="free-bazi section" id="free-bazi">
+        <div class="container">
+            <div class="section-header">
+                <h2>Free BaZi Reading</h2>
+                <p class="subtitle">Discover Your Birth Chart</p>
+                <p>Enter your birth details to generate your personal BaZi chart. Understand your Five Elements profile, life path, and destiny patterns.</p>
+            </div>
+            <div class="bazi-form-wrapper">
+                <div class="bazi-form-grid">
+                    <div class="bazi-form-group">
+                        <label>Year</label>
+                        <select id="bz-year"></select>
+                    </div>
+                    <div class="bazi-form-group">
+                        <label>Month</label>
+                        <select id="bz-month">
+                            <option value="">Select</option>
+                        </select>
+                    </div>
+                    <div class="bazi-form-group">
+                        <label>Day</label>
+                        <select id="bz-day">
+                            <option value="">Select</option>
+                        </select>
+                    </div>
+                    <div class="bazi-form-group">
+                        <label>Birth Hour</label>
+                        <select id="bz-hour">
+                            <option value="">Select</option>
+                            <option value="zi">Zi (23:00-01:00)</option>
+                            <option value="chou">Chou (01:00-03:00)</option>
+                            <option value="yin">Yin (03:00-05:00)</option>
+                            <option value="mao">Mao (05:00-07:00)</option>
+                            <option value="chen">Chen (07:00-09:00)</option>
+                            <option value="si">Si (09:00-11:00)</option>
+                            <option value="wu">Wu (11:00-13:00)</option>
+                            <option value="wei">Wei (13:00-15:00)</option>
+                            <option value="shen">Shen (15:00-17:00)</option>
+                            <option value="you">You (17:00-19:00)</option>
+                            <option value="xu">Xu (19:00-21:00)</option>
+                            <option value="hai">Hai (21:00-23:00)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="bazi-form-submit">
+                    <a href="bazi-form.html" id="bazi-submit-link">Generate Your BaZi Chart</a>
+                </div>
+                <div class="bazi-form-note">
+                    <span>Free</span><span>No registration</span><span>Instant results</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Five Elements Intro -->
     <section class="five-elements section">
         <div class="container">
             <div class="section-header">
-                <h2>Five Elements Energy</h2>
-                <p class="subtitle">The Five Elements</p>
-                <p>Generation and restraint, all things follow the Dao. Understand the five elements and find the energy that resonates with your life path.</p>
+                <h2>The Five Elements</h2>
+                <p class="subtitle">Wood, Fire, Earth, Metal, Water</p>
+                <p>Five fundamental forces that shape all of existence. Understand the cycle of generation and restraint, and discover the element that resonates with your life path.</p>
             </div>
             
             <div class="elements-grid">
@@ -1382,219 +1774,45 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <!-- 核心价值 -->
-    <section class="values section">
-        <div class="container">
-            <div class="section-header">
-                <h2>Core Values</h2>
-                <p class="subtitle">Our Core Values</p>
-            </div>
-            
-            <div class="grid grid-3">
-                <div class="value-card scroll-animate">
-                    <div class="value-icon">
-                        <!-- 山岳图案 - 象征正统源流 -->
-                        <svg viewBox="0 0 50 50">
-                            <polygon points="25,5 42,40 8,40"/>
-                        </svg>
-                    </div>
-                    <h3>Authentic Lineage</h3>
-                    <p>Partnered with renowned Eastern wisdom centers. All digital wellness services are crafted by certified practitioners, preserving authentic Eastern wisdom traditions.</p>
-                </div>
-                
-                <div class="value-card scroll-animate">
-                    <div class="value-icon">
-                        <!-- 太极图案 - 象征能量流转 -->
-                        <svg viewBox="0 0 50 50">
-                            <circle cx="25" cy="25" r="17" opacity="0.3"/>
-                            <path d="M25 8 A17 17 0 0 1 25 42 A8.5 8.5 0 0 1 25 25 A8.5 8.5 0 0 0 25 8"/>
-                            <circle cx="25" cy="16.5" r="3"/>
-                            <circle cx="25" cy="33.5" r="3"/>
-                        </svg>
-                    </div>
-                    <h3>Digital Delivery</h3>
-                    <p>All resources are delivered digitally - personalized energy reports, guided meditation audio, and self-study materials. Access your energy insights anywhere, anytime.</p>
-                </div>
-                
-                <div class="value-card scroll-animate">
-                    <div class="value-icon">
-                        <!-- 乾坤图案 - 象征科学智慧 -->
-                        <svg viewBox="0 0 50 50">
-                            <circle cx="25" cy="25" r="17" opacity="0.3"/>
-                            <circle cx="25" cy="25" r="12"/>
-                        </svg>
-                    </div>
-                    <h3>Scientific Narrative</h3>
-                    <p>Interpreting traditional wisdom through modern scientific perspectives like quantum physics and environmental psychology, making Eastern mysticism accessible.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 热门卡券 -->
-    <section class="cards section">
-        <div class="container">
-            <div class="section-header">
-                <h2>Featured Digital Services</h2>
-                <p class="subtitle">Featured Vouchers</p>
-            </div>
-            
-            <div class="grid grid-2" id="featuredProducts">
-                <!-- Cards will be loaded here by JavaScript -->
-                <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--text-secondary);">
-                    <p>Loading cards from Creem...</p>
-                </div>
-            </div>
-            
             <div class="text-center mt-3">
-                <a href="shop.html" class="btn btn-primary btn-lg">Browse All Digital Services →</a>
+                <a href="culture.html" class="btn btn-primary btn-lg">Learn How the Five Elements Shape Your Life</a>
             </div>
         </div>
     </section>
-    
-    <!-- Load Creem sync script for home page -->
-    <!-- 注意：creem-sync-v2.js 在下面已加载，不要重复加载 -->
-    <script>
-        // Render featured cards on home page
-        function renderFeaturedProducts() {
-            const container = document.getElementById('featuredProducts');
-            if (!container) return;
-            
-            if (typeof window.allProducts !== 'undefined' && window.allProducts.length > 0) {
-                // Get first 2 cards for featured section
-                const featuredCards = window.allProducts.slice(0, 2);
-                
-                container.innerHTML = featuredCards.map(product => {
-                    const elementClass = `element-${product.element || 'unknown'}`;
-                    // 🔥 修复：Creem API 返回 image_url，兼容多种字段名
-                    const imgSrc = product.image_url || product.image || '';
-                    return `
-                    <div class="card-card scroll-animate">
-                        <a href="product-detail.html?id=${product.id}" class="card-link">
-                            <div class="card-image">
-                                <img src="${imgSrc}" alt="${product.nameCN || product.name}" loading="lazy" decoding="async" onerror="this.src='https://images.unsplash.com/photo-1519681393784-d120267933ba?w=600&h=600&fit=crop'">
-                                <div class="card-element">
-                                    <span class="element-badge ${elementClass}">${(product.element || 'other').charAt(0).toUpperCase() + (product.element || 'other').slice(1)}</span>
-                                </div>
-                            </div>
-                            <div class="card-content">
-                                <p class="card-category">${product.categoryCN || product.category || ''}</p>
-                                <h3 class="card-name">${product.nameCN || product.name}</h3>
-                                <p class="card-desc">${((product.descriptionCN || product.description) + '').length > 120 ? (product.descriptionCN || product.description).substring(0, 120) + '...' : (product.descriptionCN || product.description)}</p>
-                                <div class="card-footer">
-                                    <span class="card-price">$${(product.price || 0).toFixed(2)}</span>
-                                    <button class="card-btn">View Details</button>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    `;
-                }).join('');
-
-                // 🔥 修复：产品卡片是异步插入 DOM 的，initScrollAnimations() 执行时它们不存在
-                // IntersectionObserver 无法观察到这些后来插入的元素，导致 visible 类永远加不上
-                // 解决方案：渲染完成后，强制给这些卡片加上 visible 类（带短延迟确保 DOM 已插入）
-                requestAnimationFrame(() => {
-                    requestAnimationFrame(() => {
-                        container.querySelectorAll('.scroll-animate').forEach(el => {
-                            el.classList.add('visible');
-                        });
-                    });
-                });
-            } else {
-                // Fallback if no cards loaded
-                container.innerHTML = `
-                <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--text-secondary);">
-                    <p>Cards loading...</p>
-                </div>
-                `;
-            }
-        }
-        
-        // Wait for creem-sync to load
-        setTimeout(() => {
-            renderFeaturedProducts();
-        }, 1000);
-        
-        // Also check again after a short delay
-        setTimeout(() => {
-            renderFeaturedProducts();
-        }, 2000);
-    </script>
-
-    
-    <!-- 订单弹窗 -->
-    <div class="booking-modal" id="bookingModal">
-        <div class="modal-content">
-            <button class="modal-close" onclick="closeBookingModal()">×</button>
-            <h3>Order Your Energy Resource</h3>
-            <p class="modal-service-name"><span>Resource:</span> <span id="serviceName"></span></p>
-            <p class="modal-service-price"><span>Price:</span> <span id="servicePrice"></span></p>
-            
-            <form id="bookingForm" class="booking-form">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Name</label>
-                        <input type="text" name="name" placeholder="Your Name" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Gender</label>
-                        <select name="gender" required>
-                            <option value="">Please Select</option>
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Birth Date (Gregorian)</label>
-                        <input type="date" name="birthdate" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Birth Hour</label>
-                        <select name="birthtime" required>
-                            <option value="">Please Select</option>
-                            <option value="zi">Zi Hour (23:00-01:00)</option>
-                            <option value="chou">Chou Hour (01:00-03:00)</option>
-                            <option value="yin">Yin Hour (03:00-05:00)</option>
-                            <option value="mao">Mao Hour (05:00-07:00)</option>
-                            <option value="chen">Chen Hour (07:00-09:00)</option>
-                            <option value="si">Si Hour (09:00-11:00)</option>
-                            <option value="wu">Wu Hour (11:00-13:00)</option>
-                            <option value="wei">Wei Hour (13:00-15:00)</option>
-                            <option value="shen">Shen Hour (15:00-17:00)</option>
-                            <option value="you">You Hour (17:00-19:00)</option>
-                            <option value="xu">Xu Hour (19:00-21:00)</option>
-                            <option value="hai">Hai Hour (21:00-23:00)</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Email</label>
-                        <input type="email" name="email" placeholder="Your Email" required>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label>Notes (Optional)</label>
-                    <textarea name="question" placeholder="Any specific areas you'd like us to focus on..."></textarea>
-                </div>
-                
-                <button type="submit" class="submit-booking-btn">Confirm Order</button>
-            </form>
+    <!-- Knowledge Hub -->
+    <section class="knowledge-hub section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Wisdom Library</h2>
+                <p class="subtitle">Articles &amp; Guides</p>
+                <p>Deep-dive into the world of Chinese metaphysics. From BaZi fundamentals to Feng Shui techniques, build your understanding from the ground up.</p>
+            </div>
+            <div class="knowledge-topics">
+                <a href="blog/bazi-astrology.html" class="knowledge-topic-card scroll-animate">
+                    <h3>BaZi Astrology</h3>
+                    <p>Learn how your birth date and time reveal your personality, strengths, challenges, and life destiny through the Four Pillars of Destiny.</p>
+                    <span class="read-more">Start learning</span>
+                </a>
+                <a href="blog/feng-shui.html" class="knowledge-topic-card scroll-animate">
+                    <h3>Feng Shui</h3>
+                    <p>Discover how spatial arrangement, directions, and environmental energy affect your health, wealth, and relationships.</p>
+                    <span class="read-more">Start learning</span>
+                </a>
+                <a href="blog/zodiac-horoscope.html" class="knowledge-topic-card scroll-animate">
+                    <h3>Zodiac &amp; Horoscope</h3>
+                    <p>Explore the twelve Chinese zodiac animals, their traits, compatibility, and annual fortune predictions for each sign.</p>
+                    <span class="read-more">Start learning</span>
+                </a>
+            </div>
+            <div class="text-center mt-3">
+                <a href="blog/index.html" class="btn btn-primary btn-lg">Browse All Articles</a>
+            </div>
         </div>
-    </div>
+    </section>
 
 
 
-    <!-- 页脚 -->
+    <!-- Footer -->
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
@@ -1684,6 +1902,61 @@
     </div>
 
     <script>
+        // Free BaZi form - populate selects
+        (function() {
+            var yearSel = document.getElementById('bz-year');
+            var monthSel = document.getElementById('bz-month');
+            var daySel = document.getElementById('bz-day');
+            if (!yearSel || !monthSel || !daySel) return;
+
+            // Year
+            var currentYear = new Date().getFullYear();
+            for (var y = currentYear - 10; y >= 1940; y--) {
+                var opt = document.createElement('option');
+                opt.value = y; opt.textContent = y;
+                yearSel.appendChild(opt);
+            }
+
+            // Month
+            for (var m = 1; m <= 12; m++) {
+                var opt2 = document.createElement('option');
+                opt2.value = m; opt2.textContent = m;
+                monthSel.appendChild(opt2);
+            }
+
+            // Day - update based on month/year
+            function updateDays() {
+                var yv = parseInt(yearSel.value) || 2000;
+                var mv = parseInt(monthSel.value) || 1;
+                var daysInMonth = new Date(yv, mv, 0).getDate();
+                var curDay = parseInt(daySel.value) || 0;
+                daySel.innerHTML = '';
+                for (var d = 1; d <= daysInMonth; d++) {
+                    var opt3 = document.createElement('option');
+                    opt3.value = d; opt3.textContent = d;
+                    if (d === curDay) opt3.selected = true;
+                    daySel.appendChild(opt3);
+                }
+            }
+            yearSel.addEventListener('change', updateDays);
+            monthSel.addEventListener('change', updateDays);
+            updateDays();
+
+            // Submit link passes params to bazi-form.html
+            var submitLink = document.getElementById('bazi-submit-link');
+            if (submitLink) {
+                submitLink.addEventListener('click', function(e) {
+                    var yv = yearSel.value, mv = monthSel.value, dv = daySel.value, hv = document.getElementById('bz-hour').value;
+                    if (yv && mv && dv && hv) {
+                        e.preventDefault();
+                        window.location.href = 'bazi-form.html?y=' + yv + '&m=' + mv + '&d=' + dv + '&h=' + hv;
+                    }
+                });
+            }
+        })();
+    </script>
+
+    <script>
         // 立即清除语言相关的存储，防止语言切换
         // 清除可能的语言设置
         localStorage.removeItem('language');
@@ -1704,97 +1977,6 @@
         sessionStorage.removeItem('lang');
         sessionStorage.clear();
     </script>
-    <script>
-        // 预约弹窗功能
-        function openBookingModal(serviceName, servicePrice) {
-            document.getElementById('serviceName').textContent = serviceName;
-            document.getElementById('servicePrice').textContent = '$' + servicePrice;
-            document.getElementById('bookingModal').classList.add('show');
-            document.body.style.overflow = 'hidden';
-        }
-        
-        function closeBookingModal() {
-            document.getElementById('bookingModal').classList.remove('show');
-            document.body.style.overflow = '';
-        }
-        
-        // 点击遮罩关闭
-        document.getElementById('bookingModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeBookingModal();
-            }
-        });
-        
-        // 表单提交
-        document.getElementById('bookingForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const serviceName = document.getElementById('serviceName').textContent;
-            alert('预约成功！\n\n音频课程：' + serviceName + '\n\n客服将在24小时内与您联系，请保持电话畅通。');
-            closeBookingModal();
-            this.reset();
-        });
-    </script>
-    
-    <!-- Creem Products Real-time Sync -->
-    <!-- Creem 产品同步脚本（后端 API 版） -->
-    <script src="js/creem-sync-v2.js"></script>
-    
-    <!-- 监听 Creem 产品加载完成 -->
-    <script>
-        /**
-         * 确保首页显示 Creem 产品
-         */
-        function ensureFeaturedProductsRendered() {
-            console.log('🔍 index.html: 等待 Creem 产品同步完成...');
-            
-            let attempts = 0;
-            const maxAttempts = 100; // 最多等待 10 秒
-            
-            const checkAndRender = () => {
-                attempts++;
-                
-                // 检查产品是否已加载
-                if (typeof window.allProducts !== 'undefined' && window.allProducts.length > 0) {
-                    console.log('✅ index.html: Creem 产品已准备好 (' + window.allProducts.length + ' 个产品)');
-                    if (typeof renderFeaturedProducts === 'function') {
-                        renderFeaturedProducts();
-                    } else {
-                        console.warn('⚠️ renderFeaturedProducts 不是函数');
-                    }
-                    return;
-                }
-                
-                // 超时检查
-                if (attempts >= maxAttempts) {
-                    console.warn('⚠️ index.html: 等待超时，未能加载产品');
-                    if (typeof renderFeaturedProducts === 'function') {
-                        renderFeaturedProducts();
-                    }
-                    return;
-                }
-                
-                // 继续等待
-                setTimeout(checkAndRender, 100);
-            };
-            
-            checkAndRender();
-        }
-        
-        // 监听 creemProductsReady 事件（优先方案）
-        window.addEventListener('creemProductsReady', (event) => {
-            console.log('📢 index.html: 收到 creemProductsReady 事件');
-            if (typeof renderFeaturedProducts === 'function') {
-                renderFeaturedProducts();
-            }
-        });
-        
-        // 页面加载完成后执行轮询（备用方案）
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', ensureFeaturedProductsRendered);
-        } else {
-            ensureFeaturedProductsRendered();
-        }
-    </script>
 
     <!-- Organization Schema (GEO + SEO) -->
     <script type="application/ld+json">
@@ -1803,7 +1985,7 @@
         "@type": "Organization",
         "name": "DAO Essence",
         "url": "https://www.daoessentia.com",
-        "description": "Authentic Taoist digital resources — meditation audio, xianxia novels in English, and Five Elements wisdom tools. Founded by Eastern philosophy practitioners.",
+        "description": "Free BaZi birth chart calculator and Chinese metaphysics education platform. BaZi astrology, Five Elements theory, Feng Shui, and Zodiac horoscopes.",
         "sameAs": [
             "https://instagram.com/daoessence",
             "https://pinterest.com/daoessence",
@@ -1818,7 +2000,7 @@
         "@type": "WebSite",
         "name": "DAO Essence",
         "url": "https://www.daoessentia.com",
-        "description": "Authentic Taoist digital resources — meditation audio, xianxia novels, and Five Elements wisdom",
+        "description": "Free BaZi calculator, Chinese astrology, Five Elements wisdom, Feng Shui guides, and Zodiac horoscopes",
         "potentialAction": {
             "@type": "SearchAction",
             "target": "https://www.daoessentia.com/shop.html?search={search_term_string}",
