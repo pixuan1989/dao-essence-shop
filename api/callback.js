@@ -2,7 +2,7 @@
 // GitHub redirects here with ?code=xxx (GET request)
 // We exchange code for token and return HTML that passes it to CMS via postMessage
 const GITHUB_CLIENT_ID = process.env.GITHUB_OAUTH_CLIENT_ID;
-const GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET;
+const GITHUB_CLIENT_SECRET = process.env.GITHUB_OAUTH_CLIENT_SECRET;
 
 export default async function handler(req, res) {
   const { searchParams } = new URL(req.url || '', 'http://localhost');
@@ -33,6 +33,27 @@ export default async function handler(req, res) {
     }
 
     const callbackUrl = `${origin}/api/callback`;
+
+    if (!GITHUB_CLIENT_ID || !GITHUB_CLIENT_SECRET) {
+      res.status(500).send(`<h2>Configuration Error</h2>
+        <p><b>GITHUB_OAUTH_CLIENT_ID:</b> ${GITHUB_CLIENT_ID || 'NOT SET'}</p>
+        <p><b>GITHUB_OAUTH_CLIENT_SECRET:</b> ${GITHUB_CLIENT_SECRET ? '***SET***' : 'NOT SET'}</p>
+        <p><b>VERCEL_URL:</b> ${process.env.VERCEL_URL || 'NOT SET'}</p>
+        <hr>
+        <p>Vercel environment variables are not being read. Possible causes:</p>
+        <ol>
+          <li>Environment variables were added AFTER the last deployment</li>
+          <li>Variables are scoped to Production only (not Preview)</li>
+          <li>Variable names don't match exactly</li>
+        </ol>
+        <p><b>Fix:</b> In Vercel Dashboard → Settings → Environment Variables:</p>
+        <ul>
+          <li>Make sure <code>GITHUB_OAUTH_CLIENT_ID</code> and <code>GITHUB_OAUTH_CLIENT_SECRET</code> exist</li>
+          <li>Set scope to <b>All environments</b> (Production + Preview + Development)</li>
+          <li>Then Redeploy this branch</li>
+        </ul>`);
+      return;
+    }
 
     // Exchange code for access token
     const tokenResponse = await fetch('https://github.com/login/oauth/access_token', {
