@@ -6,6 +6,7 @@ backend:
   repo: pixuan1989/dao-essence-shop
   branch: feature/blog-cms
   base_url: https://www.daoessentia.com
+  auth_endpoint: /api/auth
 
 media_folder: "images/blog"
 public_folder: "https://raw.githubusercontent.com/pixuan1989/dao-essence-shop/feature/blog-cms/images/blog"
