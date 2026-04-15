@@ -143,7 +143,7 @@ function generateHtml(frontmatter, markdownContent, category, categoryLabel) {
 
   // Build breadcrumb path
   const breadcrumbCategory = category ? 
-    `{"@type": "ListItem", "position": 2, "name": "${categoryLabel}", "item": "${SITE_URL}/blog/${category}.html"},` : '';
+    `{"@type": "ListItem", "position": 2, "name": "${categoryLabel}", "item": "${SITE_URL}/blog/${category}"},` : '';
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -153,23 +153,23 @@ function generateHtml(frontmatter, markdownContent, category, categoryLabel) {
     <title>${escapeHtml(title)} | ${SITE_NAME}</title>
     <meta name="description" content="${escapeHtml(description)}">
     <meta name="keywords" content="${escapeHtml(tagKeywords)}">
-    <link rel="canonical" href="${SITE_URL}/blog/${slug}.html">
-    <link rel="alternate" hreflang="en" href="${SITE_URL}/blog/${slug}.html">
-    <link rel="alternate" hreflang="x-default" href="${SITE_URL}/blog/${slug}.html">
+    <link rel="canonical" href="${SITE_URL}/blog/${slug}">
+    <link rel="alternate" hreflang="en" href="${SITE_URL}/blog/${slug}">
+    <link rel="alternate" hreflang="x-default" href="${SITE_URL}/blog/${slug}">
     <meta name="robots" content="index, follow">
     <!-- Open Graph -->
     <meta property="og:title" content="${escapeHtml(title)} | ${SITE_NAME}">
     <meta property="og:description" content="${escapeHtml(description)}">
     <meta property="og:image" content="${ogImage}">
-    <meta property="og:url" content="${SITE_URL}/blog/${slug}.html">
+    <meta property="og:url" content="${SITE_URL}/blog/${slug}">
     <meta property="og:type" content="article">
     <meta property="og:site_name" content="${SITE_NAME}">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="${escapeHtml(title)}">
     <meta name="twitter:description" content="${escapeHtml(description)}">
     <meta name="twitter:image" content="${ogImage}">
-    <link rel="stylesheet" href="../styles.min.css?v=${CSS_VERSION}">
-    <script src="../main.min.js?v=${CSS_VERSION}" defer></script>
+    <link rel="stylesheet" href="/styles.min.css?v=${CSS_VERSION}">
+    <script src="/main.min.js?v=${CSS_VERSION}" defer></script>
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -177,7 +177,7 @@ function generateHtml(frontmatter, markdownContent, category, categoryLabel) {
         "itemListElement": [
             {"@type": "ListItem", "position": 1, "name": "Home", "item": "${SITE_URL}/"},
             ${breadcrumbCategory}
-            {"@type": "ListItem", "position": ${category ? 3 : 2}, "name": "${escapeHtml(title)}", "item": "${SITE_URL}/blog/${slug}.html"}
+            {"@type": "ListItem", "position": ${category ? 3 : 2}, "name": "${escapeHtml(title)}", "item": "${SITE_URL}/blog/${slug}"}
         ]
     }
     </script>
@@ -192,7 +192,7 @@ function generateHtml(frontmatter, markdownContent, category, categoryLabel) {
         "publisher": {"@type": "Organization", "name": "${SITE_NAME}", "logo": {"@type": "ImageObject", "url": "${SITE_URL}/images/og-default.jpg"}},
         "datePublished": "${date}",
         "dateModified": "${date}",
-        "mainEntityOfPage": "${SITE_URL}/blog/${slug}.html"
+        "mainEntityOfPage": "${SITE_URL}/blog/${slug}"
     }
     </script>${faqJsonLd}
     <style>
@@ -232,26 +232,26 @@ function generateHtml(frontmatter, markdownContent, category, categoryLabel) {
     <header class="header">
         <div class="container">
             <nav class="nav">
-                <a href="../index.html" class="logo">
+                <a href="/" class="logo">
                     <div class="logo-icon"></div>
                     <div class="logo-text"><span class="logo-en">DAO ESSENCE</span></div>
                 </a>
                 <ul class="nav-menu">
-                    <li><a href="../index.html" class="nav-link">Home</a></li>
+                    <li><a href="/" class="nav-link">Home</a></li>
                     <li class="nav-dropdown">
                         <span class="nav-dropdown-trigger">Blog <i class="nav-dropdown-arrow"></i></span>
                         <div class="nav-dropdown-menu">
-                            <a href="../blog/bazi-astrology.html">八字命理学 Bazi</a>
-                            <a href="../blog/zodiac-horoscope.html">十二生肖运势 Zodiac</a>
-                            <a href="../blog/feng-shui.html">风水知识 Feng Shui</a>
-                            <a href="../blog/daily-horoscope.html">每日运势 Daily</a>
-                            <a href="../blog/lucky-tips.html">旺运术 Lucky Tips</a>
+                            <a href="/blog/bazi-astrology">八字命理学 Bazi</a>
+                            <a href="/blog/zodiac-horoscope">十二生肖运势 Zodiac</a>
+                            <a href="/blog/feng-shui">风水知识 Feng Shui</a>
+                            <a href="/blog/daily-horoscope">每日运势 Daily</a>
+                            <a href="/blog/lucky-tips">旺运术 Lucky Tips</a>
                         </div>
                     </li>
-                    <li><a href="../culture.html" class="nav-link">Energy Universe</a></li>
-                    <li><a href="../shop.html" class="nav-link">Shop</a></li>
-                    <li><a href="../guide.html" class="nav-link">Energy Principles</a></li>
-                    <li><a href="../about.html" class="nav-link">About Us</a></li>
+                    <li><a href="/culture" class="nav-link">Energy Universe</a></li>
+                    <li><a href="/shop" class="nav-link">Shop</a></li>
+                    <li><a href="/guide" class="nav-link">Energy Principles</a></li>
+                    <li><a href="/about" class="nav-link">About Us</a></li>
                 </ul>
                 <button class="mobile-menu-btn"><span></span><span></span><span></span></button>
             </nav>
@@ -259,7 +259,7 @@ function generateHtml(frontmatter, markdownContent, category, categoryLabel) {
     </header>
 
     <article class="blog-article">
-        ${category ? `<p style="font-size: 0.8rem; color: var(--accent-color); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 0.5rem;"><a href="${category}.html" style="color: var(--accent-color); text-decoration: none;">${categoryLabel}</a></p>` : ''}
+        ${category ? `<p style="font-size: 0.8rem; color: var(--accent-color); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 0.5rem;"><a href="/blog/${category}" style="color: var(--accent-color); text-decoration: none;">${categoryLabel}</a></p>` : ''}
         <h1>${escapeHtml(title)}</h1>
         <div class="blog-meta">
             <span>By ${escapeHtml(author)}</span> · <span>${formatDate(date)}</span> · <span>${readTimeCalc} min read</span>
@@ -273,7 +273,7 @@ function generateHtml(frontmatter, markdownContent, category, categoryLabel) {
 
         <div class="blog-cta">
             <p style="color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 1.05rem;">Discover your energy path with personalized guidance.</p>
-            <a href="../bazi-form.html">Get Your BaZi Reading</a>
+            <a href="/bazi-form">Get Your BaZi Reading</a>
         </div>
     </article>
 
@@ -290,25 +290,25 @@ function generateHtml(frontmatter, markdownContent, category, categoryLabel) {
                 </div>
                 <div class="footer-links">
                     <h4>Explore</h4>
-                    <a href="../culture.html">Energy Universe</a>
-                    <a href="../shop.html">Shop</a>
-                    <a href="../blog/bazi-astrology.html">BaZi Blog</a>
-                    <a href="../guide.html">Energy Principles</a>
+                    <a href="/culture">Energy Universe</a>
+                    <a href="/shop">Shop</a>
+                    <a href="/blog/bazi-astrology">BaZi Blog</a>
+                    <a href="/guide">Energy Principles</a>
                 </div>
                 <div class="footer-links">
                     <h4>Blog Categories</h4>
-                    <a href="bazi-astrology.html">BaZi Astrology</a>
-                    <a href="zodiac-horoscope.html">Zodiac Horoscope</a>
-                    <a href="feng-shui.html">Feng Shui</a>
-                    <a href="daily-horoscope.html">Daily Horoscope</a>
-                    <a href="lucky-tips.html">Lucky Tips</a>
+                    <a href="/blog/bazi-astrology">BaZi Astrology</a>
+                    <a href="/blog/zodiac-horoscope">Zodiac Horoscope</a>
+                    <a href="/blog/feng-shui">Feng Shui</a>
+                    <a href="/blog/daily-horoscope">Daily Horoscope</a>
+                    <a href="/blog/lucky-tips">Lucky Tips</a>
                 </div>
                 <div class="footer-links">
                     <h4>Support</h4>
-                    <a href="../about.html">About Us</a>
-                    <a href="../contact.html">Contact</a>
-                    <a href="../privacy.html">Privacy Policy</a>
-                    <a href="../terms.html">Terms of Service</a>
+                    <a href="/about">About Us</a>
+                    <a href="/contact">Contact</a>
+                    <a href="/privacy">Privacy Policy</a>
+                    <a href="/terms">Terms of Service</a>
                 </div>
             </div>
             <div class="footer-bottom">

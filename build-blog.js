@@ -50,25 +50,25 @@ const NAV_HTML = `
     <header class="header">
         <div class="container">
             <nav class="nav">
-                <a href="../index.html" class="logo">
+                <a href="/" class="logo">
                     <div class="logo-icon"></div>
                     <div class="logo-text"><span class="logo-en">DAO ESSENCE</span></div>
                 </a>
                 <ul class="nav-menu">
-                    <li><a href="../index.html" class="nav-link">Home</a></li>
+                    <li><a href="/" class="nav-link">Home</a></li>
                     <li class="nav-dropdown">
                         <span class="nav-dropdown-trigger">Blog <i class="nav-dropdown-arrow"></i></span>
                         <div class="nav-dropdown-menu">
-                            <a href="../blog/bazi-astrology.html">八字命理学 Bazi</a>
-                            <a href="../blog/zodiac-horoscope.html">十二生肖运势 Zodiac</a>
-                            <a href="../blog/feng-shui.html">风水知识 Feng Shui</a>
-                            <a href="../blog/daily-horoscope.html">每日运势 Daily</a>
-                            <a href="../blog/lucky-tips.html">旺运术 Lucky Tips</a>
+                            <a href="/blog/bazi-astrology">八字命理学 Bazi</a>
+                            <a href="/blog/zodiac-horoscope">十二生肖运势 Zodiac</a>
+                            <a href="/blog/feng-shui">风水知识 Feng Shui</a>
+                            <a href="/blog/daily-horoscope">每日运势 Daily</a>
+                            <a href="/blog/lucky-tips">旺运术 Lucky Tips</a>
                         </div>
                     </li>
-                    <li><a href="../culture.html" class="nav-link">Energy Universe</a></li>
-                    <li><a href="../shop.html" class="nav-link">Shop</a></li>
-                    <li><a href="../about.html" class="nav-link">About Us</a></li>
+                    <li><a href="/culture" class="nav-link">Energy Universe</a></li>
+                    <li><a href="/shop" class="nav-link">Shop</a></li>
+                    <li><a href="/about" class="nav-link">About Us</a></li>
                 </ul>
                 <button class="mobile-menu-btn"><span></span><span></span><span></span></button>
             </nav>
@@ -88,24 +88,24 @@ const FOOTER_HTML = `
                 </div>
                 <div class="footer-links">
                     <h4>Explore</h4>
-                    <a href="../culture.html">Energy Universe</a>
-                    <a href="../shop.html">Shop</a>
-                    <a href="bazi-astrology.html">BaZi Blog</a>
+                    <a href="/culture">Energy Universe</a>
+                    <a href="/shop">Shop</a>
+                    <a href="/blog/bazi-astrology">BaZi Blog</a>
                 </div>
                 <div class="footer-links">
                     <h4>Blog Categories</h4>
-                    <a href="bazi-astrology.html">BaZi Astrology</a>
-                    <a href="zodiac-horoscope.html">Zodiac Horoscope</a>
-                    <a href="feng-shui.html">Feng Shui</a>
-                    <a href="daily-horoscope.html">Daily Horoscope</a>
-                    <a href="lucky-tips.html">Lucky Tips</a>
+                    <a href="/blog/bazi-astrology">BaZi Astrology</a>
+                    <a href="/blog/zodiac-horoscope">Zodiac Horoscope</a>
+                    <a href="/blog/feng-shui">Feng Shui</a>
+                    <a href="/blog/daily-horoscope">Daily Horoscope</a>
+                    <a href="/blog/lucky-tips">Lucky Tips</a>
                 </div>
                 <div class="footer-links">
                     <h4>Support</h4>
-                    <a href="../about.html">About Us</a>
-                    <a href="../contact.html">Contact</a>
-                    <a href="../privacy.html">Privacy Policy</a>
-                    <a href="../terms.html">Terms of Service</a>
+                    <a href="/about">About Us</a>
+                    <a href="/contact">Contact</a>
+                    <a href="/privacy">Privacy Policy</a>
+                    <a href="/terms">Terms of Service</a>
                 </div>
             </div>
             <div class="footer-bottom">
@@ -234,7 +234,7 @@ function generateArticleHtml(post, category) {
   const htmlBody = marked.parse(content);
   const dateFormatted = formatDate(data.date);
   const categoryLabel = CATEGORY_LABELS[category] || category;
-  const categoryHref = `${category}.html`;
+  const categoryHref = `/blog/${category}`;
 
   // FAQ structured data
   let faqJsonLd = '';
@@ -273,8 +273,8 @@ function generateArticleHtml(post, category) {
     <meta name="twitter:description" content="${escapeHtml(data.description || '')}">
     <meta name="twitter:image" content="${data.image || SITE_URL + '/images/og-default.jpg'}">
     <link rel="canonical" href="${SITE_URL}/blog/${slug}">
-    <link rel="stylesheet" href="../styles.min.css?v=${CSS_VERSION}">
-    <script src="../main.min.js?v=${CSS_VERSION}" defer></script>
+    <link rel="stylesheet" href="/styles.min.css?v=${CSS_VERSION}">
+    <script src="/main.min.js?v=${CSS_VERSION}" defer></script>
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -320,7 +320,7 @@ ${NAV_HTML}
         <div class="blog-cta">
             <h3 style="font-family: var(--font-display); color: var(--accent-color); margin-bottom: 0.8rem;">Discover Your Energy Path</h3>
             <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Get a personalized BaZi reading and unlock the secrets of your birth chart.</p>
-            <a href="../bazi-form.html">Get Your BaZi Reading →</a>
+            <a href="/bazi-form">Get Your BaZi Reading →</a>
         </div>
     </article>
 
@@ -334,7 +334,7 @@ ${FOOTER_HTML}
 function generateCategoryHtml(category, articles) {
   const label = CATEGORY_LABELS[category] || category;
   const cardHtml = articles.map(a => `
-            <a href="${a.slug}.html" class="blog-card">
+            <a href="/blog/${a.slug}" class="blog-card">
                 ${a.data.image ? `<img src="${a.data.image}" alt="${escapeHtml(a.data.title)}" style="width:100%;border-radius:8px 8px 0 0;margin-bottom:1rem;">` : ''}
                 <h2>${escapeHtml(a.data.title)}</h2>
                 <p>${escapeHtml(a.data.description || '')}</p>
@@ -357,8 +357,8 @@ function generateCategoryHtml(category, articles) {
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="DAO Essence">
     <link rel="canonical" href="${SITE_URL}/blog/${category}">
-    <link rel="stylesheet" href="../styles.min.css?v=${CSS_VERSION}">
-    <script src="../main.min.js?v=${CSS_VERSION}" defer></script>
+    <link rel="stylesheet" href="/styles.min.css?v=${CSS_VERSION}">
+    <script src="/main.min.js?v=${CSS_VERSION}" defer></script>
     <style>
         .blog-category { max-width: 900px; margin: 0 auto; padding: 5rem 5% 4rem; }
         .blog-category-header { margin-bottom: 3rem; }
@@ -384,9 +384,9 @@ function generateCategoryHtml(category, articles) {
 ${NAV_HTML}
 
     <main class="blog-category">
-        <a href="index.html" class="blog-back-link">← Back to Blog</a>
+        <a href="/blog/" class="blog-back-link">← Back to Blog</a>
         <div class="blog-category-header">
-            <p class="blog-category-breadcrumb"><a href="../index.html">Home</a> / <a href="index.html">Blog</a> / ${label}</p>
+            <p class="blog-category-breadcrumb"><a href="/">Home</a> / <a href="/blog/">Blog</a> / ${label}</p>
             <h1>${label}</h1>
             <p>Articles and guides on ${label} by DAO Essence.</p>
         </div>
@@ -412,7 +412,7 @@ function generateBlogIndex(allArticles) {
       const cat = a.data.category || 'bazi-astrology';
       const catLabel = CATEGORY_LABELS[cat] || cat;
       return `
-                <a href="${a.slug}.html" class="blog-card">
+                <a href="/blog/${a.slug}" class="blog-card">
                     <span class="blog-card-category">${catLabel}</span>
                     <h2>${escapeHtml(a.data.title)}</h2>
                     <p>${escapeHtml(a.data.description || '')}</p>
@@ -436,8 +436,8 @@ function generateBlogIndex(allArticles) {
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="DAO Essence">
     <link rel="canonical" href="${SITE_URL}/blog/">
-    <link rel="stylesheet" href="../styles.min.css?v=${CSS_VERSION}">
-    <script src="../main.min.js?v=${CSS_VERSION}" defer></script>
+    <link rel="stylesheet" href="/styles.min.css?v=${CSS_VERSION}">
+    <script src="/main.min.js?v=${CSS_VERSION}" defer></script>
     <style>
         .blog-home { max-width: 960px; margin: 0 auto; padding: 5rem 5% 4rem; }
         .blog-home-header { text-align: center; margin-bottom: 3.5rem; }
@@ -479,7 +479,7 @@ ${latestCards}
         <div class="blog-home-cta">
             <h3>Discover Your Energy Path</h3>
             <p>Get a personalized BaZi reading and unlock the secrets of your birth chart.</p>
-            <a href="../bazi-form.html">Get Your BaZi Reading</a>
+            <a href="/bazi-form">Get Your BaZi Reading</a>
         </div>
     </main>
 
@@ -590,7 +590,7 @@ function main() {
       // Fallback for empty image
       if (!imgSrc || imgSrc === '""') imgSrc = SITE_URL + '/images/og-default.jpg';
       const dateStr = formatDate(post.data.date);
-      return `                <a href="/blog/${post.slug}.html" class="article-card scroll-animate">
+      return `                <a href="/blog/${post.slug}" class="article-card scroll-animate">
                     <div class="article-card-image">
                         <img src="${imgSrc}" alt="${escapeHtml(post.data.title)}" loading="lazy" onerror="this.src='${SITE_URL}/images/og-default.jpg'">
                     </div>
