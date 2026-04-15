@@ -607,8 +607,8 @@ function main() {
                 </a>`;
     }).join('\n');
     homeHtml = homeHtml.replace(
-      /<div class="articles-list">([\s\S]*?)<\/div>\s*<\/div>\s*<div class="articles-more">/,
-      `<div class="articles-list">\n${cardsHtml}\n            </div>\n            <div class="articles-more">`
+      /<div class="articles-list">[\s\S]*?<\/div>\s*(<div class="articles-more">)/,
+      `<div class="articles-list">\n${cardsHtml}\n            </div>\n            $1`
     );
     fs.writeFileSync(homeIndexPath, homeHtml);
     console.log(`  Updated: index.html (${latest4.length} latest articles)`);
