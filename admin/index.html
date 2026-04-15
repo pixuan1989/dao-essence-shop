@@ -50,42 +50,41 @@
         <p class="sub">DAO Essence 博客管理</p>
     </div>
     <script>
-        // Fix: Ensure localStorage is accessible before CMS loads
-        // Edge Tracking Prevention may have corrupted CMS data
-        try {
-            // Check for stale/corrupted CMS auth data and clean it
-            const cmsKeyPrefix = 'decap-cms';
-            const legacyPrefix = 'netlify-cms';
-            let cleaned = false;
-            for (let i = 0; i < localStorage.length; i++) {
+        // Clear ALL stale CMS auth data before loading DecapCMS
+        // This prevents stuck loading from corrupted/incompatible tokens
+        (function() {
+            const prefixes = ['decap-cms', 'netlify-cms', 'ncp-github', 'netylify-cms-user'];
+            let cleared = 0;
+            for (let i = localStorage.length - 1; i >= 0; i--) {
                 const key = localStorage.key(i);
-                if (key && (key.startsWith(cmsKeyPrefix) || key.startsWith(legacyPrefix))) {
-                    console.log('[CMS Init] Found stored key:', key, '- value length:', localStorage.getItem(key)?.length || 0);
+                if (key && prefixes.some(p => key.startsWith(p) || key.includes(p))) {
+                    console.log('[CMS Cleanup] Removing:', key);
+                    localStorage.removeItem(key);
+                    cleared++;
                 }
             }
-            // List ALL localStorage keys for debugging
-            console.log('[CMS Init] All localStorage keys:', Object.keys(localStorage));
-            // Check for any token-like values
-            for (let i = 0; i < localStorage.length; i++) {
-                const key = localStorage.key(i);
-                const val = localStorage.getItem(key);
-                if (val && (val.includes('token') || val.includes('ghp_') || key.includes('oauth'))) {
-                    console.log('[CMS Init] Possible auth key:', key, '- preview:', val.substring(0, 50));
-                }
-            }
-            // Also check for ncp-github specifically
-            const ncpKey = 'ncp-github';
-            const ncpVal = localStorage.getItem(ncpKey);
-            if (ncpVal) {
-                console.log('[CMS Init] ncp-github found:', ncpVal.substring(0, 50));
-            } else {
-                console.log('[CMS Init] ncp-github NOT found in localStorage');
-            }
-        } catch (e) {
-            console.error('[CMS Init] localStorage access failed:', e);
-        }
+            if (cleared > 0) console.log('[CMS Cleanup] Cleared', cleared, 'stale keys');
+        })();
     </script>
     <script src="decap-cms.js"></script>
+    <script>
+        // Show reset button if CMS fails to load after 5s
+        setTimeout(function() {
+            var cmsRoot = document.querySelector('[class*="nc-app-"]') || document.querySelector('[id*="nc-"]');
+            if (!cmsRoot) {
+                var btn = document.createElement('button');
+                btn.textContent = 'CMS 加载失败 — 点击清除缓存并重试';
+                btn.style.cssText = 'position:fixed;top:20px;right:20px;z-index:99999;padding:12px 24px;background:#d4af37;color:#0d0b08;border:none;border-radius:8px;cursor:pointer;font-size:14px;font-weight:600;';
+                btn.onclick = function() {
+                    // Clear everything and reload
+                    localStorage.clear();
+                    sessionStorage.clear();
+                    location.reload();
+                };
+                document.body.appendChild(btn);
+            }
+        }, 5000);
+    </script>
     <script>
         // Remove loading styles and loader once CMS is ready
         const checkLoaded = setInterval(() => {
