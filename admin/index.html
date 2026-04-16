@@ -31,7 +31,7 @@
 
         collections: [
 
-          // ── 博客文章 ─────────────────────────
+          // ── 博客文章（统一入口，所有文章都通过分类字段归类） ─────────────────
           {
             name: 'blog',
             label: '博客文章',
@@ -39,7 +39,7 @@
             create: true,
             delete: true,
             slug: '{{slug}}',
-            preview_path: 'blog/{{slug}}.html',
+            preview_path: 'blog/{{slug}}',
             summary: '{{title}} — {{date}}',
             format: 'frontmatter',
             editor: { preview: true },
@@ -68,111 +68,6 @@
                 hint: '添加FAQ问答（用于SEO结构化数据）',
                 field: { label: '问题', name: 'question', widget: 'string', fields: [{ label: '回答', name: 'answer', widget: 'text' }] }
               }
-            ]
-          },
-
-          // ── 八字命理学 ───────────────────────
-          {
-            name: 'bazi-astrology',
-            label: '八字命理学',
-            folder: 'blog/bazi-astrology',
-            create: true, delete: true,
-            slug: '{{slug}}',
-            format: 'frontmatter',
-            editor: { preview: true },
-            fields: [
-              { label: '标题', name: 'title', widget: 'string' },
-              { label: '首页置顶', name: 'pinned', widget: 'boolean', default: false, required: false, hint: '开启后文章将固定显示在首页文章区域最前面' },
-              { label: '标签', name: 'tags', widget: 'list', allow_add: true, default: ['八字', '四柱'] },
-              { label: '描述', name: 'description', widget: 'text' },
-              { label: '发布日期', name: 'date', widget: 'datetime', format: 'YYYY-MM-DD', default: '{{now}}' },
-              { label: '阅读时长', name: 'readTime', widget: 'number', default: 5 },
-              { label: '封面图片', name: 'image', widget: 'image', required: false },
-              { label: '正文', name: 'body', widget: 'markdown' }
-            ]
-          },
-
-          // ── 十二生肖运势 ─────────────────────
-          {
-            name: 'zodiac-horoscope',
-            label: '十二生肖运势',
-            folder: 'blog/zodiac-horoscope',
-            create: true, delete: true,
-            slug: '{{slug}}',
-            format: 'frontmatter',
-            editor: { preview: true },
-            fields: [
-              { label: '标题', name: 'title', widget: 'string' },
-              { label: '首页置顶', name: 'pinned', widget: 'boolean', default: false, required: false, hint: '开启后文章将固定显示在首页文章区域最前面' },
-              { label: '标签', name: 'tags', widget: 'list', allow_add: true, default: ['生肖', '运势'] },
-              { label: '描述', name: 'description', widget: 'text' },
-              { label: '发布日期', name: 'date', widget: 'datetime', format: 'YYYY-MM-DD', default: '{{now}}' },
-              { label: '阅读时长', name: 'readTime', widget: 'number', default: 5 },
-              { label: '封面图片', name: 'image', widget: 'image', required: false },
-              { label: '正文', name: 'body', widget: 'markdown' }
-            ]
-          },
-
-          // ── 风水知识 ─────────────────────────
-          {
-            name: 'feng-shui',
-            label: '风水知识',
-            folder: 'blog/feng-shui',
-            create: true, delete: true,
-            slug: '{{slug}}',
-            format: 'frontmatter',
-            editor: { preview: true },
-            fields: [
-              { label: '标题', name: 'title', widget: 'string' },
-              { label: '首页置顶', name: 'pinned', widget: 'boolean', default: false, required: false, hint: '开启后文章将固定显示在首页文章区域最前面' },
-              { label: '标签', name: 'tags', widget: 'list', allow_add: true, default: ['风水', '环境'] },
-              { label: '描述', name: 'description', widget: 'text' },
-              { label: '发布日期', name: 'date', widget: 'datetime', format: 'YYYY-MM-DD', default: '{{now}}' },
-              { label: '阅读时长', name: 'readTime', widget: 'number', default: 5 },
-              { label: '封面图片', name: 'image', widget: 'image', required: false },
-              { label: '正文', name: 'body', widget: 'markdown' }
-            ]
-          },
-
-          // ── 每日运势 ─────────────────────────
-          {
-            name: 'daily-horoscope',
-            label: '每日运势',
-            folder: 'blog/daily-horoscope',
-            create: true, delete: true,
-            slug: '{{slug}}',
-            format: 'frontmatter',
-            editor: { preview: true },
-            fields: [
-              { label: '标题', name: 'title', widget: 'string' },
-              { label: '首页置顶', name: 'pinned', widget: 'boolean', default: false, required: false, hint: '开启后文章将固定显示在首页文章区域最前面' },
-              { label: '标签', name: 'tags', widget: 'list', allow_add: true, default: ['每日运势', '今日'] },
-              { label: '描述', name: 'description', widget: 'text' },
-              { label: '发布日期', name: 'date', widget: 'datetime', format: 'YYYY-MM-DD', default: '{{now}}' },
-              { label: '阅读时长', name: 'readTime', widget: 'number', default: 3 },
-              { label: '封面图片', name: 'image', widget: 'image', required: false },
-              { label: '正文', name: 'body', widget: 'markdown' }
-            ]
-          },
-
-          // ── 旺运术 ───────────────────────────
-          {
-            name: 'lucky-tips',
-            label: '旺运术',
-            folder: 'blog/lucky-tips',
-            create: true, delete: true,
-            slug: '{{slug}}',
-            format: 'frontmatter',
-            editor: { preview: true },
-            fields: [
-              { label: '标题', name: 'title', widget: 'string' },
-              { label: '首页置顶', name: 'pinned', widget: 'boolean', default: false, required: false, hint: '开启后文章将固定显示在首页文章区域最前面' },
-              { label: '标签', name: 'tags', widget: 'list', allow_add: true, default: ['旺运', '开运'] },
-              { label: '描述', name: 'description', widget: 'text' },
-              { label: '发布日期', name: 'date', widget: 'datetime', format: 'YYYY-MM-DD', default: '{{now}}' },
-              { label: '阅读时长', name: 'readTime', widget: 'number', default: 4 },
-              { label: '封面图片', name: 'image', widget: 'image', required: false },
-              { label: '正文', name: 'body', widget: 'markdown' }
             ]
           }
         ]

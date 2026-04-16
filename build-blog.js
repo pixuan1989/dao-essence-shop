@@ -555,13 +555,6 @@ function main() {
     fs.rmSync(distPostsDir, { recursive: true, force: true });
     console.log('  Cleaned: dist/blog/posts/ (Markdown sources)');
   }
-  // Remove .gitkeep from category dirs in dist
-  for (const cat of CATEGORY_FOLDERS) {
-    const gitkeep = path.join(DIST_DIR, 'blog', cat, '.gitkeep');
-    if (fs.existsSync(gitkeep)) {
-      fs.unlinkSync(gitkeep);
-    }
-  }
 
   // Step 3: Collect all articles from CMS
   let allArticles = [];
@@ -569,17 +562,15 @@ function main() {
   // Read from blog/posts/ (main blog collection)
   const mainPosts = readAllMdFiles(POSTS_DIR);
   mainPosts.forEach(post => {
+    // Fallback: some CMS-generated files put content in data.body instead of content area
+    if (!post.content.trim() && post.data.body) {
+      post.content = post.data.body;
+    }
     allArticles.push({ ...post, category: post.data.category || 'bazi-astrology' });
   });
 
-  // Read from category subfolders
-  for (const cat of CATEGORY_FOLDERS) {
-    const catDir = path.join(BLOG_DIR, cat);
-    const catPosts = readAllMdFiles(catDir);
-    catPosts.forEach(post => {
-      allArticles.push({ ...post, category: cat });
-    });
-  }
+  // Note: All articles are now in blog/posts/ with a category field.
+  // Category subfolders (blog/bazi-astrology/, etc.) are no longer used.
 
   console.log(`Found ${allArticles.length} articles total`);
 
