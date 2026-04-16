@@ -37,7 +37,3 @@ image: https://raw.githubusercontent.com/pixuan1989/dao-essence-shop/main/images
 **🐖 Pig**​ – **Low Key.**​ Energy is a bit low. It's okay to take a break instead of forcing action. Postpone any major negotiations or deals.
 
 **🐅 Tiger**​ – **Caution Needed.**​ The day feels conflicting. Avoid arguments and risky moves. Take deep breaths—patience is your best tool today.
-
-<!--zodiac-lookup-->
-
-*Note: This is a cultural forecast for entertainment and self-reflection only.*
