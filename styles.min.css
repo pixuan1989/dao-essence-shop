@@ -57,7 +57,7 @@ p{color:var(--text-secondary);margin-bottom:var(--spacing-md)}
 
 .header{position:fixed;top:0;left:0;right:0;z-index:10000;padding:var(--spacing-md) 0;transition:all var(--transition-base)}
 
-.header:not(.scrolled) .logo-cn,.header:not(.scrolled) .nav-link{color:var(--bg-primary)}
+.header:not(.scrolled) .logo-cn,.header:not(.scrolled) .nav-link,.header:not(.scrolled) .nav-dropdown-trigger{color:var(--bg-primary)}
 
 .header:not(.scrolled) .logo-en{color:rgba(245,240,230,0.7)}
 
@@ -65,11 +65,12 @@ p{color:var(--text-secondary);margin-bottom:var(--spacing-md)}
 
 .header:not(.scrolled) .nav-link::after{background:var(--bg-primary)}
 
-.header:not(.scrolled) .nav-link:hover,.header:not(.scrolled) .nav-link.active{color:var(--accent-color)}
+.header:not(.scrolled) .nav-link:hover,.header:not(.scrolled) .nav-link.active,.header:not(.scrolled) .nav-dropdown:hover>.nav-dropdown-trigger{color:var(--accent-color)}
 
-.header:not(.scrolled) .nav-link:hover::after,.header:not(.scrolled) .nav-link.active::after{background:var(--accent-color)}
+.header:not(.scrolled) .nav-link:hover::after,.header:not(.scrolled) .nav-link.active::after,.header:not(.scrolled) .nav-dropdown:hover>.nav-dropdown-trigger::after{background:var(--accent-color)}
 
 .header:not(.scrolled) .mobile-menu-btn span{background:var(--bg-primary)}
+.header:not(.scrolled) .nav-dropdown-arrow{border-top-color:var(--bg-primary)}
 
 .header.scrolled{background:rgba(245,240,230,0.95);backdrop-filter:blur(10px);box-shadow:var(--shadow-md)}
 
