@@ -4,10 +4,12 @@ category: zodiac-horoscope
 tags:
   - 生肖
   - 运势
-description: "Top Luck: Snake, Rat, Dragon. Handle with Care: Tiger, Rabbit, Pig. Daily zodiac forecast for all 12 Chinese zodiac signs."
+description: "Top Luck: Snake, Rat, Dragon. Handle with Care: Tiger, Rabbit,
+  Pig. Daily zodiac forecast for all 12 Chinese zodiac signs."
 date: 2026-04-16
 author: DAO Essence
 readTime: 5
+pinned: true
 image: https://raw.githubusercontent.com/pixuan1989/dao-essence-shop/main/images/blog/640-1-.jpg
 ---
 
