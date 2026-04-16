@@ -606,15 +606,34 @@ function main() {
   fs.writeFileSync(indexPath, indexHtml);
   console.log(`  Updated: dist/blog/index.html`);
 
-  // Step 7: Inject latest articles into homepage
-  console.log('Injecting latest articles into homepage...');
+  // Step 7: Inject articles into homepage (pinned first, then latest)
+  console.log('Injecting articles into homepage...');
   const homeIndexPath = path.join(DIST_DIR, 'index.html');
   if (fs.existsSync(homeIndexPath)) {
     let homeHtml = fs.readFileSync(homeIndexPath, 'utf-8');
-    const latest4 = allArticles
-      .sort((a, b) => new Date(b.data.date) - new Date(a.data.date))
-      .slice(0, 4);
-    const cardsHtml = latest4.map(post => {
+
+    // Separate pinned and regular articles
+    const pinnedArticles = allArticles.filter(a => a.data.pinned === true);
+    const regularArticles = allArticles.filter(a => a.data.pinned !== true);
+
+    // Deduplicate: remove pinned articles from regular list
+    const pinnedSlugs = new Set(pinnedArticles.map(a => a.slug));
+    const filteredRegular = regularArticles.filter(a => !pinnedSlugs.has(a.slug));
+
+    // Sort regular articles by date (newest first)
+    filteredRegular.sort((a, b) => new Date(b.data.date) - new Date(a.data.date));
+
+    // Homepage shows up to 4 articles: pinned first, then fill with latest
+    const homepageCount = 4;
+    const regularCount = Math.max(0, homepageCount - pinnedArticles.length);
+    const displayArticles = [
+      ...pinnedArticles,
+      ...filteredRegular.slice(0, regularCount)
+    ];
+
+    console.log(`  Pinned: ${pinnedArticles.length}, Regular: ${displayArticles.length - pinnedArticles.length}, Total: ${displayArticles.length}`);
+
+    const cardsHtml = displayArticles.map(post => {
       const catLabel = CATEGORY_LABELS[post.category] || post.category || 'Blog';
       let imgSrc = post.data.image || SITE_URL + '/images/og-default.jpg';
       // Fix broken image paths (e.g. feature/blog-cms branch references)
@@ -643,7 +662,7 @@ function main() {
       `<div class="articles-list">\n${cardsHtml}\n            </div>\n            $1`
     );
     fs.writeFileSync(homeIndexPath, homeHtml);
-    console.log(`  Updated: index.html (${latest4.length} latest articles)`);
+    console.log(`  Updated: index.html (${displayArticles.length} articles: ${pinnedArticles.length} pinned + ${displayArticles.length - pinnedArticles.length} latest)`);
   }
 
   // Step 8: Generate dynamic sitemap.xml
