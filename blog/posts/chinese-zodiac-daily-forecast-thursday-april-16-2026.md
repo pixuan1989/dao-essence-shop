@@ -12,7 +12,7 @@ readTime: 5
 pinned: false
 image: https://raw.githubusercontent.com/pixuan1989/dao-essence-shop/main/images/blog/蒙版组-71.webp
 ---
-![](https://raw.githubusercontent.com/pixuan1989/dao-essence-shop/main/images/blog/蒙版组-71.webp)
+![]()
 
 **🐍 Snake**​ – **Lucky Star!**​ Everything flows smoothly. A great day for networking and seizing opportunities. Unexpected financial gains are possible. Enjoy the good vibes.
 
