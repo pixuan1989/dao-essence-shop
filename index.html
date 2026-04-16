@@ -328,19 +328,6 @@
             color: rgba(245, 240, 230, 0.7);
         }
 
-        .bazi-maintenance-banner {
-            text-align: center;
-            padding: 3rem 2rem;
-            margin-top: 2rem;
-            background: rgba(245, 240, 230, 0.05);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(212, 175, 55, 0.2);
-            border-radius: var(--radius-lg);
-        }
-        .bazi-maintenance-icon {
-            margin-bottom: 1rem;
-        }
-
         /* --- BLOG ARTICLES --- */
         .recent-articles {
             padding: var(--spacing-4xl) 0;
@@ -681,7 +668,7 @@
             <p class="hero-question">Are You Feeling Stuck in Life?</p>
             <p class="hero-desc">From destiny to decisions, energy to timing -- discover how Chinese metaphysics helps you navigate life with clarity and balance. Get your free BaZi reading today.</p>
             <div class="hero-actions">
-                <a href="#" class="btn-gold" onclick="showBaziMaintenance(event); return false;">Free BaZi Reading</a>
+                <a href="#free-bazi" class="btn-gold" onclick="showBaziCalculator(event); return false;">Free BaZi Reading</a>
             </div>
             <p class="hero-note">Free report. No registration required.</p>
         </div>
@@ -729,14 +716,35 @@
                 <p class="subtitle">Discover Your Birth Chart</p>
                 <p>Enter your birth details to generate your personal BaZi chart. Your free report reveals your Five Elements profile and life path patterns.</p>
             </div>
-            <div class="bazi-maintenance-banner">
-                <div class="bazi-maintenance-icon">
-                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="rgba(212,175,55,0.7)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            <!-- BaZi Calculator (powered by paipan.js) -->
+            <div class="bazi-form" id="bazi-form">
+                <div class="bazi-form-group">
+                    <label for="bazi-year">Year</label>
+                    <select id="bazi-year"></select>
                 </div>
-                <h3 style="font-family:var(--font-display);color:var(--accent-color);font-size:1.4rem;letter-spacing:0.06em;margin:0 0 0.6rem;">Under Maintenance</h3>
-                <p style="color:var(--text-secondary);font-size:0.95rem;line-height:1.7;margin:0 0 1.2rem;max-width:420px;">We're upgrading our BaZi calculator to provide a better free experience. The tool will be back soon.</p>
-                <a href="/blog/bazi-astrology" style="display:inline-block;padding:0.7rem 1.8rem;background:rgba(212,175,55,0.1);color:var(--accent-color);text-decoration:none;border:1px solid rgba(212,175,55,0.25);border-radius:6px;font-size:0.9rem;letter-spacing:0.03em;transition:all 0.3s;">Read BaZi Articles</a>
+                <div class="bazi-form-group">
+                    <label for="bazi-month">Month</label>
+                    <select id="bazi-month"></select>
+                </div>
+                <div class="bazi-form-group">
+                    <label for="bazi-day">Day</label>
+                    <select id="bazi-day"></select>
+                </div>
+                <div class="bazi-form-group">
+                    <label for="bazi-shichen">Shi Chen (时辰)</label>
+                    <select id="bazi-shichen"></select>
+                </div>
+                <div class="bazi-form-group">
+                    <label for="bazi-gender">Gender</label>
+                    <select id="bazi-gender"></select>
+                </div>
+                <div class="bazi-form-actions">
+                    <button type="button" class="bazi-btn bazi-btn-primary" id="bazi-calculate-btn">Calculate My BaZi</button>
+                    <button type="button" class="bazi-btn bazi-btn-secondary" id="bazi-reset-btn">Reset</button>
+                </div>
             </div>
+            <!-- Calculation Result -->
+            <div id="bazi-result"></div>
         </div>
     </section>
 
@@ -961,8 +969,13 @@
         </div>
     </div>
 
+    <!-- BaZi Calculator: paipan engine + DaoEssence calculator (isolated module) -->
+    <script src="bazi-calculator/paipan.min.js"></script>
+    <link rel="stylesheet" href="bazi-calculator/bazi-calculator.css">
+    <script src="bazi-calculator/bazi-calculator.js"></script>
+
     <script>
-        function showBaziMaintenance(e) {
+        function showBaziCalculator(e) {
             e && e.preventDefault();
             var el = document.getElementById('free-bazi');
             if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });

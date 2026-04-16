@@ -1,0 +1,374 @@
+/* ============================================
+   DaoEssence BaZi Calculator - Isolated Styles
+   Only applies within .free-bazi section
+   ============================================ */
+
+/* --- FORM --- */
+.bazi-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1rem;
+    margin-top: 2rem;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 2rem;
+    background: rgba(245, 240, 230, 0.03);
+    border: 1px solid rgba(212, 175, 55, 0.15);
+    border-radius: 12px;
+}
+
+.bazi-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.bazi-form-group label {
+    font-size: 0.78rem;
+    color: var(--accent-color, #D4AF37);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-family: var(--font-display, Georgia, serif);
+}
+
+.bazi-form-group select {
+    padding: 0.65rem 0.8rem;
+    background: rgba(245, 240, 230, 0.06);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    border-radius: 8px;
+    color: #F5F0E6;
+    font-size: 0.95rem;
+    font-family: var(--font-body, sans-serif);
+    cursor: pointer;
+    transition: border-color 0.3s;
+    appearance: auto;
+}
+
+.bazi-form-group select:focus {
+    outline: none;
+    border-color: var(--accent-color, #D4AF37);
+}
+
+.bazi-form-group select option {
+    background: #1A1612;
+    color: #F5F0E6;
+}
+
+.bazi-form-actions {
+    grid-column: 1 / -1;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 0.5rem;
+}
+
+.bazi-btn {
+    padding: 0.7rem 2rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-family: var(--font-body, sans-serif);
+    letter-spacing: 0.04em;
+}
+
+.bazi-btn-primary {
+    background: linear-gradient(135deg, #D4AF37 0%, #C49B2F 100%);
+    color: #1A1612;
+}
+
+.bazi-btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.35);
+}
+
+.bazi-btn-secondary {
+    background: rgba(212, 175, 55, 0.1);
+    color: var(--accent-color, #D4AF37);
+    border: 1px solid rgba(212, 175, 55, 0.25);
+}
+
+.bazi-btn-secondary:hover {
+    background: rgba(212, 175, 55, 0.18);
+}
+
+/* --- RESULT CONTAINER --- */
+#bazi-result {
+    display: none;
+    margin-top: 2.5rem;
+    padding: 2rem;
+    background: rgba(245, 240, 230, 0.03);
+    border: 1px solid rgba(212, 175, 55, 0.15);
+    border-radius: 12px;
+    animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.bazi-error {
+    text-align: center;
+    color: #C25B56;
+    font-size: 0.95rem;
+    padding: 1rem;
+}
+
+/* --- RESULT HEADER --- */
+.bazi-result-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.12);
+}
+
+.bazi-result-basic {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+.bazi-result-basic span {
+    display: inline-block;
+    padding: 0.3rem 0.9rem;
+    background: rgba(212, 175, 55, 0.08);
+    border: 1px solid rgba(212, 175, 55, 0.15);
+    border-radius: 20px;
+    font-size: 0.85rem;
+    color: rgba(245, 240, 230, 0.8);
+    letter-spacing: 0.04em;
+}
+
+.bazi-result-daymaster {
+    font-size: 1.15rem;
+    color: rgba(245, 240, 230, 0.85);
+    margin-bottom: 0.8rem;
+    font-family: var(--font-display, Georgia, serif);
+}
+
+.bazi-result-eight {
+    font-family: var(--font-display, 'SimSun', serif);
+    font-size: clamp(1.3rem, 3vw, 1.8rem);
+    color: var(--accent-color, #D4AF37);
+    letter-spacing: 0.2em;
+    margin-top: 0.5rem;
+}
+
+/* --- FOUR PILLARS GRID --- */
+.bazi-pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+}
+
+.bazi-pillar {
+    text-align: center;
+    background: rgba(245, 240, 230, 0.04);
+    border: 1px solid rgba(212, 175, 55, 0.12);
+    border-radius: 10px;
+    padding: 1rem 0.5rem;
+}
+
+.bazi-pillar-label {
+    font-size: 0.7rem;
+    color: rgba(245, 240, 230, 0.5);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 0.6rem;
+    font-family: var(--font-english, Georgia, serif);
+}
+
+.bazi-pillar-gan,
+.bazi-pillar-zhi {
+    padding: 0.5rem 0;
+    border-bottom: 2px solid rgba(212, 175, 55, 0.2);
+}
+
+.bazi-pillar-zhi {
+    border-bottom: none;
+}
+
+.bazi-gan-char,
+.bazi-zhi-char {
+    display: block;
+    font-family: var(--font-display, 'SimSun', serif);
+    font-size: 1.6rem;
+    color: #F5F0E6;
+    line-height: 1.3;
+}
+
+.bazi-gan-wx,
+.bazi-zhi-wx {
+    display: block;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    margin-top: 0.2rem;
+}
+
+.bazi-pillar-hidden {
+    padding-top: 0.5rem;
+    border-top: 1px dashed rgba(212, 175, 55, 0.1);
+    font-size: 0.78rem;
+    color: rgba(245, 240, 230, 0.5);
+    font-family: var(--font-display, 'SimSun', serif);
+    letter-spacing: 0.15em;
+}
+
+/* --- FIVE ELEMENTS --- */
+.bazi-wuxing-section {
+    margin-bottom: 2rem;
+}
+
+.bazi-section-title {
+    font-family: var(--font-display, Georgia, serif);
+    font-size: 1.15rem;
+    color: #F5F0E6;
+    letter-spacing: 0.08em;
+    margin-bottom: 1.2rem;
+    text-align: center;
+}
+
+.bazi-wuxing-bars {
+    max-width: 500px;
+    margin: 0 auto 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+}
+
+.bazi-wx-row {
+    display: grid;
+    grid-template-columns: 28px 32px 1fr 28px;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.bazi-wx-icon {
+    font-size: 1rem;
+    text-align: center;
+}
+
+.bazi-wx-name {
+    font-family: var(--font-display, 'SimSun', serif);
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+.bazi-wx-bar-bg {
+    height: 14px;
+    background: rgba(245, 240, 230, 0.06);
+    border-radius: 7px;
+    overflow: hidden;
+}
+
+.bazi-wx-bar-fill {
+    height: 100%;
+    border-radius: 7px;
+    transition: width 0.8s ease-out;
+    min-width: 8px;
+}
+
+.bazi-wx-count {
+    font-size: 0.85rem;
+    color: rgba(245, 240, 230, 0.6);
+    text-align: center;
+}
+
+.bazi-wx-note {
+    text-align: center;
+    font-size: 0.82rem;
+    color: rgba(245, 240, 230, 0.45);
+    line-height: 1.6;
+    margin-top: 0.8rem;
+}
+
+/* --- DA YUN (大运) --- */
+.bazi-dayun-section {
+    margin-bottom: 2rem;
+}
+
+.bazi-qyy {
+    text-align: center;
+    color: var(--accent-color, #D4AF37);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    letter-spacing: 0.04em;
+}
+
+.bazi-dayun-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 0.6rem;
+}
+
+.bazi-dayun-item {
+    text-align: center;
+    padding: 0.8rem 0.4rem;
+    background: rgba(245, 240, 230, 0.04);
+    border: 1px solid rgba(212, 175, 55, 0.1);
+    border-radius: 8px;
+}
+
+.bazi-dayun-ganzhi {
+    font-family: var(--font-display, 'SimSun', serif);
+    font-size: 1.15rem;
+    color: var(--accent-color, #D4AF37);
+    letter-spacing: 0.1em;
+    margin-bottom: 0.3rem;
+}
+
+.bazi-dayun-age {
+    font-size: 0.72rem;
+    color: rgba(245, 240, 230, 0.6);
+    letter-spacing: 0.04em;
+}
+
+.bazi-dayun-years {
+    font-size: 0.68rem;
+    color: rgba(245, 240, 230, 0.4);
+    margin-top: 0.15rem;
+}
+
+.bazi-dayun-status {
+    font-size: 0.68rem;
+    margin-top: 0.3rem;
+    color: rgba(245, 240, 230, 0.5);
+    letter-spacing: 0.02em;
+}
+
+/* --- DISCLAIMER --- */
+.bazi-disclaimer {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(212, 175, 55, 0.1);
+    text-align: center;
+}
+
+.bazi-disclaimer p {
+    font-size: 0.8rem;
+    color: rgba(245, 240, 230, 0.4);
+    line-height: 1.6;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 640px) {
+    .bazi-pillars-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .bazi-dayun-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    .bazi-form {
+        grid-template-columns: repeat(2, 1fr);
+        padding: 1.2rem;
+    }
+}
