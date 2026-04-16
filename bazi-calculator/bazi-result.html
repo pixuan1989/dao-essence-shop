@@ -53,9 +53,26 @@
             padding: 0.6rem 1.5rem; display: flex; justify-content: space-between; align-items: center;
             border-bottom: 1px solid var(--line); background: var(--bg); position: sticky; top: 0; z-index: 100;
         }
-        .bazi-nav-brand { font-family: var(--serif); font-size: 1.1rem; color: var(--accent); text-decoration: none; letter-spacing: 0.08em; }
-        .bazi-nav-actions a { color: var(--ink-2); text-decoration: none; font-size: 0.8rem; }
-        .bazi-nav-actions a:hover { color: var(--accent); }
+        .bazi-nav-brand { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; }
+        .bazi-nav-brand-icon { width: 28px; height: 28px; }
+        .bazi-nav-brand-text { font-family: var(--serif); font-size: 1.05rem; color: var(--accent); letter-spacing: 0.08em; }
+        .bazi-nav-links { display: flex; align-items: center; gap: 1.5rem; }
+        .bazi-nav-links a { color: var(--ink-2); text-decoration: none; font-size: 0.82rem; font-weight: 400; transition: color 0.15s; }
+        .bazi-nav-links a:hover { color: var(--accent); }
+        .bazi-nav-right { display: flex; align-items: center; gap: 1rem; }
+        .btn-save {
+            display: inline-flex; align-items: center; gap: 0.35rem;
+            padding: 0.35rem 0.85rem; border: 1px solid var(--line); border-radius: var(--radius-sm);
+            background: var(--bg); color: var(--ink-2); font-size: 0.78rem; cursor: pointer;
+            transition: all 0.15s; font-family: var(--sans);
+        }
+        .btn-save:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-bg); }
+        .btn-save svg { width: 14px; height: 14px; }
+        @media (max-width: 600px) {
+            .bazi-nav { padding: 0.5rem 1rem; }
+            .bazi-nav-links { gap: 1rem; }
+            .bazi-nav-links a { font-size: 0.78rem; }
+        }
 
         /* ============================
            LOADING / ERROR
@@ -348,8 +365,26 @@
 </head>
 <body>
     <nav class="bazi-nav">
-        <a href="/" class="bazi-nav-brand">DAO ESSENCE</a>
-        <div class="bazi-nav-actions"><a href="/#free-bazi">New Reading</a></div>
+        <a href="/" class="bazi-nav-brand">
+            <svg class="bazi-nav-brand-icon" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="50" cy="50" r="48" stroke="currentColor" stroke-width="2" opacity="0.3"/>
+                <path d="M50 2a48 48 0 0 1 0 96" fill="none" stroke="currentColor" stroke-width="2.5" opacity="0.6"/>
+                <path d="M50 2a48 48 0 0 0 0 96" fill="none" stroke="currentColor" stroke-width="2.5" opacity="0.25"/>
+                <circle cx="62" cy="38" r="5" fill="currentColor" opacity="0.8"/>
+                <circle cx="38" cy="62" r="5" fill="currentColor" opacity="0.35"/>
+            </svg>
+            <span class="bazi-nav-brand-text">DAO ESSENCE</span>
+        </a>
+        <div class="bazi-nav-links">
+            <a href="/">Home</a>
+            <a href="/blog/bazi-astrology">Blog</a>
+        </div>
+        <div class="bazi-nav-right">
+            <button class="btn-save" onclick="saveAsHTML()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Save
+            </button>
+        </div>
     </nav>
     <div id="bazi-loading" class="bazi-loading">
         <div class="bazi-loading-spinner"></div>

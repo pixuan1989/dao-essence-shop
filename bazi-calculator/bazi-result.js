@@ -541,6 +541,36 @@
             });
     }
 
+    // ==================== SAVE AS HTML ====================
+    function saveAsHTML() {
+        var el = document.documentElement.cloneNode(true);
+        // Remove the Save button from saved copy
+        var saveBtn = el.querySelector('.btn-save');
+        if (saveBtn && saveBtn.parentNode) saveBtn.parentNode.removeChild(saveBtn);
+        // Remove sidebar fetch (avoid broken network call)
+        var scriptTags = el.querySelectorAll('script');
+        for (var s = 0; s < scriptTags.length; s++) {
+            scriptTags[s].remove();
+        }
+        var html = '<!DOCTYPE html>\n' + el.outerHTML;
+        var blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url;
+        // Generate filename with date
+        var now = new Date();
+        var dateStr = now.getFullYear() + '-' +
+            String(now.getMonth() + 1).padStart(2, '0') + '-' +
+            String(now.getDate()).padStart(2, '0');
+        a.download = 'BaZi-Reading-' + dateStr + '.html';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }
+    // Expose globally
+    window.saveAsHTML = saveAsHTML;
+
     // ==================== MAIN RENDER ====================
     function renderResult(rt) {
         document.getElementById('bazi-loading').style.display = 'none';
