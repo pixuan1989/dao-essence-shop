@@ -615,6 +615,33 @@ async function main() {
   fs.writeFileSync(indexPath, indexHtml);
   console.log(`  Updated: dist/blog/index.html`);
 
+  // Step 6b: Generate bazi-recommendations.json for bazi result page sidebar
+  console.log('Generating bazi-recommendations.json...');
+  const recCount = Math.min(5, allArticles.length);
+  // Shuffle and pick recCount articles
+  const shuffled = [...allArticles].sort(() => Math.random() - 0.5);
+  const recArticles = shuffled.slice(0, recCount).map(post => {
+    const cat = post.category || post.data.category || 'bazi-astrology';
+    const catLabel = CATEGORY_LABELS[cat] || cat;
+    let imgSrc = post.data.image || SITE_URL + '/images/og-default.jpg';
+    imgSrc = imgSrc.replace(/\/feature\/blog-cms\//g, '/main/');
+    if (!imgSrc || imgSrc === '""') imgSrc = SITE_URL + '/images/og-default.jpg';
+    const dateFormatted = formatDate(post.data.date);
+    return {
+      title: post.data.title || '',
+      category: catLabel,
+      description: post.data.description || '',
+      image: imgSrc,
+      readTime: post.data.readTime || 0,
+      date: dateFormatted,
+      slug: post.slug,
+      url: SITE_URL + '/blog/' + post.slug
+    };
+  });
+  const recJson = JSON.stringify(recArticles, null, 2);
+  fs.writeFileSync(path.join(DIST_DIR, 'bazi-calculator', 'bazi-recommendations.json'), recJson);
+  console.log(`  Generated: bazi-calculator/bazi-recommendations.json (${recCount} articles)`);
+
   // Step 7: Inject articles into homepage (pinned first, then latest)
   console.log('Injecting articles into homepage...');
   const homeIndexPath = path.join(DIST_DIR, 'index.html');

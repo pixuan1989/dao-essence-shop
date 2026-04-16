@@ -512,11 +512,47 @@
         return html;
     }
 
+    // ==================== RENDER SIDEBAR RECOMMENDATIONS ====================
+    function renderSidebarRecommendations(sidebar) {
+        var html = '<h3 class="sidebar-title">Recommended Reading</h3>';
+        html += '<div id="sidebar-cards"><p style="font-size:0.78rem;color:var(--ink-3);text-align:center;padding:2rem 0">Loading articles...</p></div>';
+        html += '<div class="sidebar-cta"><a href="/blog/">View All Articles →</a></div>';
+        sidebar.innerHTML = html;
+
+        fetch('bazi-recommendations.json')
+            .then(function(res) { return res.json(); })
+            .then(function(articles) {
+                var cardsHtml = '';
+                for (var i = 0; i < articles.length; i++) {
+                    var a = articles[i];
+                    cardsHtml += '<a href="/blog/' + a.slug + '" class="sidebar-card">';
+                    if (a.image) {
+                        cardsHtml += '<div class="sidebar-card-image"><img src="' + a.image + '" alt="' + (a.title || '') + '" loading="lazy" onerror="this.parentElement.style.display=\'none\'"></div>';
+                    }
+                    cardsHtml += '<div class="sidebar-card-cat">' + (a.category || '') + '</div>';
+                    cardsHtml += '<h3>' + (a.title || '') + '</h3>';
+                    if (a.description) cardsHtml += '<p class="sidebar-card-desc">' + a.description + '</p>';
+                    cardsHtml += '<div class="sidebar-card-meta">';
+                    if (a.readTime) cardsHtml += a.readTime + ' min read';
+                    if (a.date) cardsHtml += (cardsHtml ? ' · ' : '') + a.date;
+                    cardsHtml += '</div></a>';
+                }
+                var container = document.getElementById('sidebar-cards');
+                if (container) container.innerHTML = cardsHtml;
+            })
+            .catch(function() {
+                var container = document.getElementById('sidebar-cards');
+                if (container) container.innerHTML = '<p style="font-size:0.78rem;color:var(--ink-3);text-align:center;padding:1rem 0">Unable to load articles.</p>';
+            });
+    }
+
     // ==================== MAIN RENDER ====================
     function renderResult(rt) {
         document.getElementById('bazi-loading').style.display = 'none';
-        var container = document.getElementById('bazi-result');
-        container.style.display = 'block';
+        var pageContainer = document.getElementById('bazi-result');
+        pageContainer.style.display = 'grid';
+        var container = document.getElementById('bazi-main');
+        var sidebar = document.getElementById('bazi-sidebar');
 
         var gender = rt['xb'];
         var zodiac = rt['sx'];
@@ -818,6 +854,9 @@
                 }
             }
         }
+
+        // Render sidebar recommendations
+        renderSidebarRecommendations(sidebar);
     }
 
     // ==================== INIT ====================
