@@ -4,6 +4,10 @@
   "installCommand": "npm install",
   "buildCommand": "node build-blog.js",
   "outputDirectory": "dist",
+  "github": {
+    "enabled": true,
+    "autoJobCancelation": true
+  },
   "cleanUrls": true,
   "rewrites": [
     { "source": "/auth", "destination": "/api/auth" },
