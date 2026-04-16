@@ -104,7 +104,6 @@ const FOOTER_HTML = `
                 <div class="footer-links">
                     <h4>Support</h4>
                     <a href="/about">About Us</a>
-                    <a href="/contact">Contact</a>
                     <a href="/privacy">Privacy Policy</a>
                     <a href="/terms">Terms of Service</a>
                 </div>
@@ -922,7 +921,7 @@ async function main() {
     { loc: '/shop', changefreq: 'daily', priority: '0.9' },
     { loc: '/culture', changefreq: 'monthly', priority: '0.7' },
     { loc: '/about', changefreq: 'monthly', priority: '0.6' },
-    { loc: '/contact', changefreq: 'monthly', priority: '0.5' },
+
     { loc: '/bazi-form', changefreq: 'monthly', priority: '0.8' },
     { loc: '/guide', changefreq: 'monthly', priority: '0.7' },
     { loc: '/destiny', changefreq: 'monthly', priority: '0.7' },

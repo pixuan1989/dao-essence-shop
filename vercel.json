@@ -10,7 +10,20 @@
     { "source": "/auth", "destination": "/api/auth" },
     { "source": "/callback", "destination": "/api/callback" }
   ],
+  "headers": [
+    {
+      "source": "/contact(.*)",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex" }
+      ]
+    }
+  ],
   "redirects": [
+    {
+      "source": "/contact",
+      "destination": "/",
+      "permanent": true
+    },
     {
       "source": "/(.*)",
       "destination": "https://www.daoessentia.com/$1",
