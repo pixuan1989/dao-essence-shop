@@ -545,8 +545,11 @@
     function saveAsHTML() {
         var el = document.documentElement.cloneNode(true);
         // Remove the Save button from saved copy
-        var saveBtn = el.querySelector('.btn-save');
+        var saveBtn = el.querySelector('.bazi-nav-save');
         if (saveBtn && saveBtn.parentNode) saveBtn.parentNode.removeChild(saveBtn);
+        // Remove main site CSS link (offline save won't work)
+        var mainCSS = el.querySelector('link[href="/styles.min.css"]');
+        if (mainCSS) mainCSS.parentNode.removeChild(mainCSS);
         // Remove sidebar fetch (avoid broken network call)
         var scriptTags = el.querySelectorAll('script');
         for (var s = 0; s < scriptTags.length; s++) {

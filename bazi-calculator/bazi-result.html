@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.min.css">
     <style>
         /* ============================
            DESIGN TOKENS
@@ -47,31 +48,38 @@
         body { font-family: var(--sans); background: var(--bg); color: var(--ink); line-height: 1.6; -webkit-font-smoothing: antialiased; }
 
         /* ============================
-           NAV
+           NAV — matches main site
            ============================ */
-        .bazi-nav {
-            padding: 0.6rem 1.5rem; display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 1px solid var(--line); background: var(--bg); position: sticky; top: 0; z-index: 100;
+        /* Override main site styles that would conflict with bazi page */
+        body { background-color: var(--bg, #fff) !important; }
+        body::before { display: none !important; }
+
+        .header {
+            position: sticky !important; top: 0; z-index: 10000;
+            padding: 0.8rem 0 !important;
+            background: rgba(245,240,230,0.95) !important;
+            backdrop-filter: blur(10px) !important;
+            box-shadow: 0 1px 8px rgba(26,22,18,0.06) !important;
+            border-bottom: 1px solid #E5E4DF;
         }
-        .bazi-nav-brand { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; }
-        .bazi-nav-brand-icon { width: 28px; height: 28px; }
-        .bazi-nav-brand-text { font-family: var(--serif); font-size: 1.05rem; color: var(--accent); letter-spacing: 0.08em; }
-        .bazi-nav-links { display: flex; align-items: center; gap: 1.5rem; }
-        .bazi-nav-links a { color: var(--ink-2); text-decoration: none; font-size: 0.82rem; font-weight: 400; transition: color 0.15s; }
-        .bazi-nav-links a:hover { color: var(--accent); }
-        .bazi-nav-right { display: flex; align-items: center; gap: 1rem; }
-        .btn-save {
-            display: inline-flex; align-items: center; gap: 0.35rem;
-            padding: 0.35rem 0.85rem; border: 1px solid var(--line); border-radius: var(--radius-sm);
-            background: var(--bg); color: var(--ink-2); font-size: 0.78rem; cursor: pointer;
-            transition: all 0.15s; font-family: var(--sans);
+        .header .logo-cn { color: var(--text-primary) !important; }
+        .header .logo-en { color: var(--text-secondary) !important; }
+        .header .logo-icon { border-color: var(--accent-color) !important; color: var(--accent-color) !important; }
+        .header .nav-link { color: var(--text-primary) !important; }
+        .header .nav-link::after { background: var(--accent-color) !important; }
+
+        .bazi-nav-save {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 6px 16px; border: 1px solid var(--accent-color); border-radius: 3px;
+            background: transparent; color: var(--text-primary); font-size: 0.875rem;
+            cursor: pointer; font-family: var(--font-body); font-weight: 500;
+            transition: all 200ms ease; position: relative;
         }
-        .btn-save:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-bg); }
-        .btn-save svg { width: 14px; height: 14px; }
+        .bazi-nav-save:hover { background: var(--accent-color); color: #fff; }
+        .bazi-nav-save svg { width: 15px; height: 15px; }
+
         @media (max-width: 600px) {
-            .bazi-nav { padding: 0.5rem 1rem; }
-            .bazi-nav-links { gap: 1rem; }
-            .bazi-nav-links a { font-size: 0.78rem; }
+            .header { padding: 0.6rem 0 !important; }
         }
 
         /* ============================
@@ -364,28 +372,28 @@
     </style>
 </head>
 <body>
-    <nav class="bazi-nav">
-        <a href="/" class="bazi-nav-brand">
-            <svg class="bazi-nav-brand-icon" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="50" cy="50" r="48" stroke="currentColor" stroke-width="2" opacity="0.3"/>
-                <path d="M50 2a48 48 0 0 1 0 96" fill="none" stroke="currentColor" stroke-width="2.5" opacity="0.6"/>
-                <path d="M50 2a48 48 0 0 0 0 96" fill="none" stroke="currentColor" stroke-width="2.5" opacity="0.25"/>
-                <circle cx="62" cy="38" r="5" fill="currentColor" opacity="0.8"/>
-                <circle cx="38" cy="62" r="5" fill="currentColor" opacity="0.35"/>
-            </svg>
-            <span class="bazi-nav-brand-text">DAO ESSENCE</span>
-        </a>
-        <div class="bazi-nav-links">
-            <a href="/">Home</a>
-            <a href="/blog/bazi-astrology">Blog</a>
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <a href="/" class="logo">
+                    <div class="logo-icon"></div>
+                    <div class="logo-text">
+                        <span class="logo-en">DAO ESSENCE</span>
+                    </div>
+                </a>
+                <ul class="nav-menu">
+                    <li><a href="/" class="nav-link active">Home</a></li>
+                    <li><a href="/blog/bazi-astrology" class="nav-link">Blog</a></li>
+                    <li>
+                        <button class="bazi-nav-save" onclick="saveAsHTML()" title="Save to view later">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                            Save
+                        </button>
+                    </li>
+                </ul>
+            </nav>
         </div>
-        <div class="bazi-nav-right">
-            <button class="btn-save" onclick="saveAsHTML()">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                Save
-            </button>
-        </div>
-    </nav>
+    </header>
     <div id="bazi-loading" class="bazi-loading">
         <div class="bazi-loading-spinner"></div>
         <p>Calculating your BaZi chart…</p>
