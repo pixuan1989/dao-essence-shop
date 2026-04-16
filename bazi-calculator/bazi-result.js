@@ -10,7 +10,7 @@
     var BRANCHES = ['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];
     var STEMS = ['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'];
     var WX_NAMES = ['金','水','木','火','土'];
-    var WX_COLORS = { '金': '#C9B37A', '水': '#5B8FB9', '木': '#6B8E6B', '火': '#C25B56', '土': '#B8860B' };
+    var WX_COLORS = { '金': '#9E8E6E', '水': '#5B8299', '木': '#5E825E', '火': '#B8665E', '土': '#9E8B5E' };
     var WX_SYMBOLS = { '金': 'Metal', '水': 'Water', '木': 'Wood', '火': 'Fire', '土': 'Earth' };
     var STEM_WX = [2, 2, 3, 3, 4, 4, 0, 0, 1, 1]; // stem index → wuxing code
     var BRANCH_WX = [1, 4, 2, 2, 4, 3, 3, 4, 0, 0, 4, 1]; // branch index → wuxing code
