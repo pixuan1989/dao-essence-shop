@@ -10,7 +10,7 @@ date: 2026-04-16
 author: DAO Essence
 readTime: 5
 pinned: false
-image: ""
+image: https://raw.githubusercontent.com/pixuan1989/dao-essence-shop/main/images/blog/蒙版组-71.webp
 ---
 ![](https://raw.githubusercontent.com/pixuan1989/dao-essence-shop/main/images/blog/蒙版组-71.webp)
 
