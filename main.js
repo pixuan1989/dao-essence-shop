@@ -148,6 +148,11 @@ function initHeaderScroll() {
             || window.location.pathname === '/'
             || window.location.pathname.endsWith('/');
         
+        // 非首页页面加载时立即加上 scrolled，避免浅色背景上文字不可见
+        if (!isHomePage) {
+            header.classList.add('scrolled');
+        }
+        
         window.addEventListener('scroll', function() {
             if (window.scrollY > 50) {
                 header.classList.add('scrolled');
