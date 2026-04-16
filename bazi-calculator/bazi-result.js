@@ -11,7 +11,7 @@
     var STEMS = ['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'];
     var WX_NAMES = ['金','水','木','火','土'];
     var WX_COLORS = { '金': '#C9B37A', '水': '#5B8FB9', '木': '#6B8E6B', '火': '#C25B56', '土': '#B8860B' };
-    var WX_ICONS = { '金': '⚔️', '水': '💧', '木': '🌿', '火': '🔥', '土': '⛰️' };
+    var WX_SYMBOLS = { '金': 'Metal', '水': 'Water', '木': 'Wood', '火': 'Fire', '土': 'Earth' };
     var STEM_WX = [2, 2, 3, 3, 4, 4, 0, 0, 1, 1]; // stem index → wuxing code
     var BRANCH_WX = [1, 4, 2, 2, 4, 3, 3, 4, 0, 0, 4, 1]; // branch index → wuxing code
 
@@ -241,7 +241,7 @@
             html += 'These areas may need conscious cultivation. ';
             for (var j = 0; j < weak.length; j++) {
                 var wx = weak[j];
-                html += '<br>' + WX_ICONS[wx] + ' <strong>' + wx + ' (' + WX_BODY_MAP[wx] + '):</strong> ' + WX_ADVICE[wx];
+                html += '<br><strong>' + wx + ' (' + WX_BODY_MAP[wx] + '):</strong> ' + WX_ADVICE[wx];
             }
             html += '</p>';
         }
@@ -304,9 +304,9 @@
             html += '<strong>Life Stage: ' + stageInfo.en + ' (' + nzsc + ')</strong>';
             html += '<p>' + stageInfo.desc + '</p>';
             if (isAuspicious) {
-                html += '<p class="dy-auspicious">&#10022; Auspicious — favorable conditions for growth.</p>';
+                html += '<p class="dy-auspicious">[+] Auspicious — favorable conditions for growth.</p>';
             } else if (isInauspicious) {
-                html += '<p class="dy-inauspicious">&#9888; Challenging — focus on caution and preparation.</p>';
+                html += '<p class="dy-inauspicious">[!] Challenging — focus on caution and preparation.</p>';
             }
             html += '</div>';
         }
@@ -361,10 +361,10 @@
         if (isInauspicious) unfavorable.push(nzsc.replace(/\(.*\)/, ''));
 
         if (favorable.length > 0) {
-            html += '<p class="dy-fav">&#10022; <strong>Favorable:</strong> ' + favorable.join(', ') + '</p>';
+            html += '<p class="dy-fav">[+] <strong>Favorable:</strong> ' + favorable.join(', ') + '</p>';
         }
         if (unfavorable.length > 0) {
-            html += '<p class="dy-unfav">&#9888; <strong>Challenging:</strong> ' + unfavorable.join(', ') + '</p>';
+            html += '<p class="dy-unfav">[!] <strong>Challenging:</strong> ' + unfavorable.join(', ') + '</p>';
         }
         if (favorable.length === 0 && unfavorable.length === 0) {
             html += '<p>A mixed period with both opportunities and challenges. Balance and adaptability are key.</p>';
@@ -541,9 +541,9 @@
         if (rt['dy'] && rt['dy'].length > 0) {
             dyHTML = '<div class="bazi-dayun-section">';
             dyHTML += '<h3 class="bazi-section-title">Life Cycles (Da Yun)</h3>';
-            dyHTML += '<p class="bazi-qyy">&#9203; ' + qyyDesc + '</p>';
+            dyHTML += '<p class="bazi-qyy">' + qyyDesc + '</p>';
             if (currentDayunIdx >= 0) {
-                dyHTML += '<p class="bazi-current-dayun-hint">&#127919; You are currently in: <strong>' + rt['dy'][currentDayunIdx]['zfma'] + rt['dy'][currentDayunIdx]['zfmb'] + '</strong> (' + rt['dy'][currentDayunIdx]['syear'] + '–' + rt['dy'][currentDayunIdx]['eyear'] + ')</p>';
+                dyHTML += '<p class="bazi-current-dayun-hint">You are currently in: <strong>' + rt['dy'][currentDayunIdx]['zfma'] + rt['dy'][currentDayunIdx]['zfmb'] + '</strong> (' + rt['dy'][currentDayunIdx]['syear'] + '-' + rt['dy'][currentDayunIdx]['eyear'] + ')</p>';
             }
             dyHTML += '<p style="text-align:center;font-size:0.78rem;color:var(--text-muted);margin-bottom:1rem;">Click on any Life Cycle to see Ten Gods analysis, flow years, and detailed interpretation.</p>';
             dyHTML += '<div class="bazi-dayun-grid">';
@@ -603,7 +603,7 @@
             '<div class="bazi-dm-section">' +
                 '<h3 class="bazi-section-title">Your Day Master Profile</h3>' +
                 '<div class="bazi-dm-interpretation">' +
-                    '<h4>' + WX_ICONS[dmElement] + ' ' + dayMaster + ' — ' + dmProfile.en + '</h4>' +
+                    '<h4>' + dayMaster + ' — ' + dmProfile.en + '</h4>' +
                     '<p>' + dmProfile.desc + '</p>' +
                     '<div class="bazi-dm-traits">' +
                         dmProfile.traits.map(function(t) { return '<span class="bazi-dm-trait">' + t + '</span>'; }).join('') +
@@ -623,7 +623,7 @@
                     wxData.map(function(w) {
                         var pct = Math.round((w.count / 8) * 100);
                         return '<div class="bazi-wx-row">' +
-                            '<span class="bazi-wx-icon">' + WX_ICONS[w.name] + '</span>' +
+                            '<span class="bazi-wx-label">' + WX_SYMBOLS[w.name] + '</span>' +
                             '<span class="bazi-wx-name" style="color:' + w.color + '">' + w.name + '</span>' +
                             '<div class="bazi-wx-bar-bg">' +
                                 '<div class="bazi-wx-bar-fill" style="width:' + Math.max(pct, 8) + '%;background:' + w.color + '"></div>' +
@@ -644,19 +644,18 @@
             // Paid CTA
             '<div class="bazi-cta-section">' +
                 '<div class="bazi-cta-inner">' +
-                    '<div class="bazi-cta-icon">✦</div>' +
                     '<h3 class="bazi-cta-title">Unlock Your Full Life Blueprint</h3>' +
                     '<p class="bazi-cta-desc">This free chart reveals your core personality and elemental balance. For deeper insights into your unique path, a professional reading can illuminate:</p>' +
                     '<div class="bazi-cta-grid">' +
-                        '<div class="bazi-cta-item"><span class="bazi-cta-emoji">💼</span>Career direction & breakthrough timing</div>' +
-                        '<div class="bazi-cta-item"><span class="bazi-cta-emoji">❤️</span>Relationship compatibility & timing</div>' +
-                        '<div class="bazi-cta-item"><span class="bazi-cta-emoji">💰</span>Wealth accumulation & financial cycles</div>' +
-                        '<div class="bazi-cta-item"><span class="bazi-cta-emoji">🏥</span>Health vulnerabilities & preventive care</div>' +
-                        '<div class="bazi-cta-item"><span class="bazi-cta-emoji">👶</span>Children prospects & family harmony</div>' +
-                        '<div class="bazi-cta-item"><span class="bazi-cta-emoji">🔀</span>Life decisions & optimal timing</div>' +
+                        '<div class="bazi-cta-item">Career direction &amp; breakthrough timing</div>' +
+                        '<div class="bazi-cta-item">Relationship compatibility &amp; timing</div>' +
+                        '<div class="bazi-cta-item">Wealth accumulation &amp; financial cycles</div>' +
+                        '<div class="bazi-cta-item">Health vulnerabilities &amp; preventive care</div>' +
+                        '<div class="bazi-cta-item">Children prospects &amp; family harmony</div>' +
+                        '<div class="bazi-cta-item">Life decisions &amp; optimal timing</div>' +
                     '</div>' +
                     '<a href="https://www.creem.io/checkout/prod_28PqAKMEom5WGRH1w9O35n/ch_1ueb7qKPFnQOzLK8lNPfIN" class="bazi-cta-btn" target="_blank" rel="noopener">' +
-                        'Get Your Personalized Reading →' +
+                        'Get Your Personalized Reading' +
                     '</a>' +
                     '<p class="bazi-cta-note">Based on your exact birth chart · Delivered by certified practitioner</p>' +
                 '</div>' +
