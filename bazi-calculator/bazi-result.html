@@ -599,6 +599,37 @@
             border: 1px solid rgba(212,175,55,0.06);
             border-radius: 6px;
             font-size: 0.72rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+        .bazi-liunian-item:hover {
+            border-color: rgba(212,175,55,0.25);
+            transform: translateY(-1px);
+        }
+        .bazi-liunian-item.ly-active {
+            border-color: var(--accent-color);
+            background: rgba(212,175,55,0.06);
+        }
+        .bazi-liunian-item.current-year {
+            border-color: rgba(107, 142, 107, 0.5);
+            background: rgba(107, 142, 107, 0.08);
+        }
+        .bazi-liunian-item.current-year.ly-active {
+            border-color: #6B8E6B;
+            background: rgba(107, 142, 107, 0.12);
+        }
+        .ly-current-badge {
+            position: absolute;
+            top: -1px;
+            right: -1px;
+            background: #6B8E6B;
+            color: #fff;
+            font-size: 0.45rem;
+            padding: 0 0.25rem;
+            border-radius: 0 5px 0 4px;
+            letter-spacing: 0.04em;
+            font-family: var(--font-body);
         }
         .bazi-liunian-item .ly-year {
             color: var(--text-muted);
@@ -618,6 +649,180 @@
             padding: 0.02rem 0.3rem;
             display: inline-block;
             margin-top: 0.1rem;
+        }
+
+        /* === CURRENT DAYUN HIGHLIGHT === */
+        .bazi-dayun-item.current-dayun {
+            border-color: rgba(107, 142, 107, 0.5);
+            background: rgba(107, 142, 107, 0.06);
+        }
+        .bazi-dayun-item.current-dayun:hover {
+            border-color: rgba(107, 142, 107, 0.7);
+        }
+        .bazi-dayun-item.current-dayun.active {
+            border-color: var(--accent-color);
+            background: rgba(212,175,55,0.06);
+        }
+        .bazi-dayun-current-badge {
+            position: absolute;
+            top: -1px;
+            right: -1px;
+            background: #6B8E6B;
+            color: #fff;
+            font-size: 0.45rem;
+            padding: 0 0.35rem;
+            border-radius: 0 9px 0 6px;
+            letter-spacing: 0.04em;
+            font-family: var(--font-body);
+        }
+        .bazi-dayun-item {
+            position: relative;
+        }
+        .bazi-current-dayun-hint {
+            text-align: center;
+            color: #6B8E6B;
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+            letter-spacing: 0.04em;
+        }
+        .bazi-current-dayun-hint strong {
+            color: var(--text-primary);
+        }
+
+        /* === LIU NIAN DETAIL PANEL === */
+        .bazi-liunian-detail {
+            display: none;
+            margin-top: 1rem;
+            padding: 1.2rem;
+            background: rgba(245,240,230,0.02);
+            border: 1px solid rgba(212,175,55,0.1);
+            border-radius: 10px;
+            animation: fadeIn 0.3s ease-out;
+        }
+        .bazi-liunian-detail.show { display: block; }
+        .bazi-liunian-detail-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.8rem;
+            padding-bottom: 0.6rem;
+            border-bottom: 1px solid rgba(212,175,55,0.06);
+        }
+        .bazi-liunian-detail-title {
+            font-family: var(--font-display);
+            font-size: 1rem;
+            color: var(--accent-color);
+            letter-spacing: 0.06em;
+        }
+        .bazi-liunian-detail-close {
+            background: none;
+            border: 1px solid rgba(212,175,55,0.15);
+            color: var(--text-muted);
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        .bazi-liunian-detail-close:hover {
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+        }
+        .bazi-liunian-interpretation {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+        .bazi-liunian-interpretation strong { color: var(--text-primary); }
+
+        .ly-tengod-section {
+            margin-bottom: 1rem;
+            padding: 0.8rem 1rem;
+            background: rgba(212,175,55,0.04);
+            border: 1px solid rgba(212,175,55,0.08);
+            border-radius: 8px;
+        }
+        .ly-tengod-label {
+            font-size: 0.8rem;
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.03em;
+        }
+        .ly-tengod-label strong { color: var(--text-primary); }
+        .ly-tengod-section > p {
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 0.6rem;
+        }
+        .ly-tengod-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        .ly-tengod-item {
+            padding: 0.5rem 0.7rem;
+            background: rgba(245,240,230,0.02);
+            border-radius: 6px;
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+        .ly-tengod-item strong {
+            color: var(--accent-color);
+            font-size: 0.72rem;
+            display: block;
+            margin-bottom: 0.15rem;
+        }
+
+        .ly-interaction {
+            padding: 0.6rem 0.8rem;
+            background: rgba(107,142,107,0.06);
+            border-left: 3px solid #6B8E6B;
+            border-radius: 0 6px 6px 0;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        .ly-interaction strong { color: var(--text-primary); }
+
+        .ly-branch-section {
+            margin: 0.8rem 0;
+        }
+        .ly-branch-section > strong {
+            font-size: 0.8rem;
+            color: var(--text-primary);
+            display: block;
+            margin-bottom: 0.4rem;
+        }
+        .ly-canggan-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+        .ly-canggan-item {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-size: 0.78rem;
+            padding: 0.25rem 0.5rem;
+            background: rgba(245,240,230,0.02);
+            border-radius: 4px;
+        }
+        .ly-canggan-item .cg-stem {
+            font-family: var(--font-display), 'SimSun', serif;
+            font-size: 0.85rem;
+            min-width: 38px;
+        }
+        .ly-canggan-item .cg-tg {
+            color: var(--accent-color);
+            font-size: 0.72rem;
         }
 
         /* === DISCLAIMER === */

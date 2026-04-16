@@ -374,6 +374,80 @@
         return html;
     }
 
+    // ==================== LIU NIAN INTERPRETATION ====================
+    function getLiunianInterpretation(ly, dmIdx, dayunZfma, dayunZfmb) {
+        var lyGanZhi = ly['lye'] || '';
+        var lyGan = lyGanZhi.substring(0, 1);
+        var lyZhi = lyGanZhi.substring(1, 2);
+        var lyGanIdx = STEMS.indexOf(lyGan);
+        var lyZhiIdx = BRANCHES.indexOf(lyZhi);
+        var stemTg = lyGanIdx >= 0 ? getStemShiShen(lyGanIdx, dmIdx) : null;
+        var branchTgList = lyZhiIdx >= 0 ? getBranchShiShen(lyZhiIdx, dmIdx) : [];
+
+        var ganWx = lyGanIdx >= 0 ? WX_NAMES[STEM_WX[lyGanIdx]] : '';
+        var zhiWx = lyZhiIdx >= 0 ? WX_NAMES[BRANCH_WX[lyZhiIdx]] : '';
+
+        // Check interaction with dayun stem
+        var dyGanIdx = STEMS.indexOf(dayunZfma);
+        var interactionTg = null;
+        if (dyGanIdx >= 0 && lyGanIdx >= 0) {
+            interactionTg = getStemShiShen(lyGanIdx, dyGanIdx);
+        }
+
+        var html = '';
+
+        // Ten Gods for Liu Nian stem
+        if (stemTg) {
+            var tgInterp = TG_INTERPRETATIONS[TG_INDEX[stemTg.index]];
+            if (tgInterp) {
+                html += '<div class="ly-tengod-section">';
+                html += '<div class="ly-tengod-label">Flow Year Stem <strong>' + lyGan + ' (' + ganWx + ')</strong> → ' + stemTg.cn + ' (' + stemTg.en + ')</div>';
+                html += '<p>' + tgInterp.dayun + '</p>';
+                html += '<div class="ly-tengod-details">';
+                html += '<div class="ly-tengod-item"><strong>Career</strong> ' + tgInterp.career + '</div>';
+                html += '<div class="ly-tengod-item"><strong>Life</strong> ' + tgInterp.life + '</div>';
+                html += '</div>';
+                html += '</div>';
+            }
+        }
+
+        // Dayun vs Liu Nian interaction
+        if (interactionTg) {
+            var interName = TG_INDEX[interactionTg.index];
+            html += '<div class="ly-interaction">';
+            html += '<strong>Interaction with Dayun (' + dayunZfma + '):</strong> ';
+            html += 'The flow year stem <strong>' + lyGan + '</strong> is <strong>' + interactionTg.cn + '</strong> (' + interactionTg.en + ') relative to the dayun stem <strong>' + dayunZfma + '</strong>. ';
+            if (['食神','正财','正官','正印'].indexOf(interName) >= 0) {
+                html += 'This is a favorable alignment — the dayun and flow year energies reinforce each other positively.';
+            } else if (['七杀','伤官','劫财'].indexOf(interName) >= 0) {
+                html += 'This creates tension — the flow year challenges the dayun theme. Stay adaptable and avoid impulsive actions.';
+            } else {
+                html += 'A neutral to moderate influence. The year proceeds with a mix of stability and mild changes.';
+            }
+            html += '</div>';
+        }
+
+        // Branch hidden stems
+        if (branchTgList.length > 0) {
+            html += '<div class="ly-branch-section">';
+            html += '<strong>Flow Year Branch ' + lyZhi + ' (' + zhiWx + ') Hidden Stems:</strong>';
+            html += '<div class="ly-canggan-list">';
+            for (var i = 0; i < branchTgList.length; i++) {
+                var cg = branchTgList[i];
+                var cgWx = WX_NAMES[STEM_WX[cg.stemIdx]];
+                var cgColor = WX_COLORS[cgWx];
+                var label = cg.primary ? ' (Primary)' : '';
+                html += '<div class="ly-canggan-item">';
+                html += '<span class="cg-stem" style="color:' + cgColor + '">' + cg.stem + ' ' + cgWx + '</span>';
+                html += '<span class="cg-tg">' + cg.tg.cn + ' (' + cg.tg.en + ')' + label + '</span>';
+                html += '</div>';
+            }
+            html += '</div></div>';
+        }
+
+        return html;
+    }
+
     // ==================== MAIN RENDER ====================
     function renderResult(rt) {
         document.getElementById('bazi-loading').style.display = 'none';
@@ -451,11 +525,26 @@
 
         // Da Yun
         var qyyDesc = rt['qyy_desc'] || '';
+        var currentYear = new Date().getFullYear();
+        var currentDayunIdx = -1;
+        // Pre-calculate current dayun index
+        if (rt['dy'] && rt['dy'].length > 0) {
+            for (var ck = 0; ck < rt['dy'].length; ck++) {
+                if (currentYear >= rt['dy'][ck]['syear'] && currentYear <= rt['dy'][ck]['eyear']) {
+                    currentDayunIdx = ck;
+                    break;
+                }
+            }
+        }
+
         var dyHTML = '';
         if (rt['dy'] && rt['dy'].length > 0) {
             dyHTML = '<div class="bazi-dayun-section">';
             dyHTML += '<h3 class="bazi-section-title">Life Cycles (Da Yun)</h3>';
             dyHTML += '<p class="bazi-qyy">&#9203; ' + qyyDesc + '</p>';
+            if (currentDayunIdx >= 0) {
+                dyHTML += '<p class="bazi-current-dayun-hint">&#127919; You are currently in: <strong>' + rt['dy'][currentDayunIdx]['zfma'] + rt['dy'][currentDayunIdx]['zfmb'] + '</strong> (' + rt['dy'][currentDayunIdx]['syear'] + '–' + rt['dy'][currentDayunIdx]['eyear'] + ')</p>';
+            }
             dyHTML += '<p style="text-align:center;font-size:0.78rem;color:var(--text-muted);margin-bottom:1rem;">Click on any Life Cycle to see Ten Gods analysis, flow years, and detailed interpretation.</p>';
             dyHTML += '<div class="bazi-dayun-grid">';
             for (var k = 0; k < Math.min(rt['dy'].length, 8); k++) {
@@ -465,8 +554,12 @@
                 var dyGanZhi = (dy['zfma'] || '') + (dy['zfmb'] || '');
                 var dyNzsc = dy['nzsc'] || '';
                 var nzscClass = getNZSCClass(dyNzsc);
+                var isCurrent = k === currentDayunIdx;
 
-                dyHTML += '<div class="bazi-dayun-item" data-dy-index="' + k + '">';
+                dyHTML += '<div class="bazi-dayun-item' + (isCurrent ? ' current-dayun' : '') + '" data-dy-index="' + k + '">';
+                if (isCurrent) {
+                    dyHTML += '<div class="bazi-dayun-current-badge">Current</div>';
+                }
                 dyHTML += '<div class="bazi-dayun-ganzhi">' + dyGanZhi + '</div>';
                 if (dyStemTg) {
                     dyHTML += '<div class="bazi-dayun-tg">' + dyStemTg.cn + '</div>';
@@ -563,52 +656,118 @@
             var closeBtn = document.getElementById('bazi-dayun-detail-close');
             var activeItem = null;
 
+            function openDayun(item) {
+                var idx = parseInt(item.getAttribute('data-dy-index'));
+                var dy = rt['dy'][idx];
+
+                if (activeItem === item) {
+                    detailPanel.classList.remove('show');
+                    item.classList.remove('active');
+                    activeItem = null;
+                    return;
+                }
+
+                if (activeItem) activeItem.classList.remove('active');
+                item.classList.add('active');
+                activeItem = item;
+
+                detailTitle.textContent = 'Dayun ' + (dy['zfma'] || '') + (dy['zfmb'] || '') + ' — Age ' + dy['zqage'] + ' to ' + dy['zboz'];
+                detailInterp.innerHTML = getDayunInterpretation(dy, dmIdx, rt);
+
+                // Liu Nian (Flow Years) with Ten Gods — clickable for interpretation
+                if (dy['ly'] && dy['ly'].length > 0) {
+                    var lyHTML = '<p class="bazi-liunian-title">Flow Years (Liu Nian)</p>';
+                    lyHTML += '<div class="bazi-liunian-grid">';
+                    dy['ly'].forEach(function(ly, lyIdx) {
+                        var lyGanZhi = ly['lye'] || '';
+                        var lyGan = lyGanZhi.substring(0, 1);
+                        var lyZhi = lyGanZhi.substring(1, 2);
+                        var lyGanIdx = STEMS.indexOf(lyGan);
+                        var lyTg = lyGanIdx >= 0 ? getStemShiShen(lyGanIdx, dmIdx) : null;
+                        var lyYear = ly['year'] || 0;
+                        var isCurrentYear = (lyYear === currentYear);
+
+                        lyHTML += '<div class="bazi-liunian-item' + (isCurrentYear ? ' current-year' : '') + '" data-ly-index="' + lyIdx + '" data-ly-year="' + lyYear + '">';
+                        if (isCurrentYear) {
+                            lyHTML += '<div class="ly-current-badge">Now</div>';
+                        }
+                        lyHTML += '<div class="ly-ganzhi">' + lyGanZhi + '</div>';
+                        if (lyTg) {
+                            lyHTML += '<div class="ly-tg">' + lyTg.cn + '</div>';
+                        }
+                        lyHTML += '<div class="ly-year">' + lyYear + '</div>';
+                        lyHTML += '</div>';
+                    });
+                    lyHTML += '</div>';
+
+                    // Flow year detail panel (expandable)
+                    lyHTML += '<div id="bazi-liunian-detail" class="bazi-liunian-detail">';
+                    lyHTML += '<div class="bazi-liunian-detail-header">';
+                    lyHTML += '<span class="bazi-liunian-detail-title" id="bazi-liunian-detail-title"></span>';
+                    lyHTML += '<button class="bazi-liunian-detail-close" id="bazi-liunian-detail-close">&times;</button>';
+                    lyHTML += '</div>';
+                    lyHTML += '<div id="bazi-liunian-interpretation" class="bazi-liunian-interpretation"></div>';
+                    lyHTML += '</div>';
+
+                    liunianSection.innerHTML = lyHTML;
+
+                    // Bind liunian click events
+                    var lyItems = liunianSection.querySelectorAll('.bazi-liunian-item');
+                    var lyDetailPanel = document.getElementById('bazi-liunian-detail');
+                    var lyDetailTitle = document.getElementById('bazi-liunian-detail-title');
+                    var lyDetailInterp = document.getElementById('bazi-liunian-interpretation');
+                    var lyCloseBtn = document.getElementById('bazi-liunian-detail-close');
+                    var activeLyItem = null;
+
+                    function openLiunian(lyItem) {
+                        var lyIdx = parseInt(lyItem.getAttribute('data-ly-index'));
+                        var lyData = dy['ly'][lyIdx];
+                        var lyYear = lyItem.getAttribute('data-ly-year');
+
+                        if (activeLyItem === lyItem) {
+                            lyDetailPanel.classList.remove('show');
+                            lyItem.classList.remove('ly-active');
+                            activeLyItem = null;
+                            return;
+                        }
+
+                        if (activeLyItem) activeLyItem.classList.remove('ly-active');
+                        lyItem.classList.add('ly-active');
+                        activeLyItem = lyItem;
+
+                        lyDetailTitle.textContent = 'Flow Year ' + (lyData['lye'] || '') + ' — ' + lyYear;
+                        lyDetailInterp.innerHTML = getLiunianInterpretation(lyData, dmIdx, dy['zfma'] || '', dy['zfmb'] || '');
+                        lyDetailPanel.classList.add('show');
+                        lyDetailPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    }
+
+                    lyItems.forEach(function(lyItem) {
+                        lyItem.addEventListener('click', function() {
+                            openLiunian(this);
+                        });
+                    });
+
+                    lyCloseBtn.addEventListener('click', function() {
+                        lyDetailPanel.classList.remove('show');
+                        if (activeLyItem) { activeLyItem.classList.remove('ly-active'); activeLyItem = null; }
+                    });
+
+                    // Auto-open current year flow year
+                    var currentYearLyItem = liunianSection.querySelector('.bazi-liunian-item.current-year');
+                    if (currentYearLyItem) {
+                        setTimeout(function() { openLiunian(currentYearLyItem); }, 100);
+                    }
+                } else {
+                    liunianSection.innerHTML = '';
+                }
+
+                detailPanel.classList.add('show');
+                detailPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+
             items.forEach(function(item) {
                 item.addEventListener('click', function() {
-                    var idx = parseInt(this.getAttribute('data-dy-index'));
-                    var dy = rt['dy'][idx];
-
-                    if (activeItem === this) {
-                        detailPanel.classList.remove('show');
-                        this.classList.remove('active');
-                        activeItem = null;
-                        return;
-                    }
-
-                    if (activeItem) activeItem.classList.remove('active');
-                    this.classList.add('active');
-                    activeItem = this;
-
-                    detailTitle.textContent = 'Dayun ' + (dy['zfma'] || '') + (dy['zfmb'] || '') + ' — Age ' + dy['zqage'] + ' to ' + dy['zboz'];
-                    detailInterp.innerHTML = getDayunInterpretation(dy, dmIdx, rt);
-
-                    // Liu Nian (Flow Years) with Ten Gods
-                    if (dy['ly'] && dy['ly'].length > 0) {
-                        var lyHTML = '<p class="bazi-liunian-title">Flow Years (Liu Nian)</p>';
-                        lyHTML += '<div class="bazi-liunian-grid">';
-                        dy['ly'].forEach(function(ly) {
-                            var lyGanZhi = ly['lye'] || '';
-                            var lyGan = lyGanZhi.substring(0, 1);
-                            var lyZhi = lyGanZhi.substring(1, 2);
-                            var lyGanIdx = STEMS.indexOf(lyGan);
-                            var lyTg = lyGanIdx >= 0 ? getStemShiShen(lyGanIdx, dmIdx) : null;
-
-                            lyHTML += '<div class="bazi-liunian-item">';
-                            lyHTML += '<div class="ly-ganzhi">' + lyGanZhi + '</div>';
-                            if (lyTg) {
-                                lyHTML += '<div class="ly-tg">' + lyTg.cn + '</div>';
-                            }
-                            lyHTML += '<div class="ly-year">' + (ly['year'] || '') + '</div>';
-                            lyHTML += '</div>';
-                        });
-                        lyHTML += '</div>';
-                        liunianSection.innerHTML = lyHTML;
-                    } else {
-                        liunianSection.innerHTML = '';
-                    }
-
-                    detailPanel.classList.add('show');
-                    detailPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    openDayun(this);
                 });
             });
 
@@ -616,6 +775,14 @@
                 detailPanel.classList.remove('show');
                 if (activeItem) { activeItem.classList.remove('active'); activeItem = null; }
             });
+
+            // Auto-open current dayun
+            if (currentDayunIdx >= 0) {
+                var currentDayunItem = container.querySelector('.bazi-dayun-item[data-dy-index="' + currentDayunIdx + '"]');
+                if (currentDayunItem) {
+                    setTimeout(function() { openDayun(currentDayunItem); }, 50);
+                }
+            }
         }
     }
 
