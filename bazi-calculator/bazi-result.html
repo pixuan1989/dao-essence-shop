@@ -240,8 +240,19 @@
             border-bottom: 1px solid var(--border-color);
         }
 
+        /* === MAIN TWO-COLUMN ROW === */
+        .bazi-main-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .bazi-main-col .bazi-section-title { margin-bottom: 0.8rem; }
+        @media (max-width: 700px) {
+            .bazi-main-row { grid-template-columns: 1fr; }
+        }
+
         /* === FIVE ELEMENTS === */
-        .bazi-wuxing-section { margin-bottom: 2rem; }
         .bazi-wuxing-bars {
             max-width: 480px;
             margin: 0 auto 0.8rem;
@@ -284,60 +295,14 @@
             margin-top: 0.6rem;
         }
 
-        /* === FIVE ELEMENTS INTERPRETATION === */
-        .bazi-wx-interpretation {
-            max-width: 560px;
-            margin: 1rem auto 0;
-            padding: 1rem 1.2rem;
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            font-size: 0.85rem;
+        /* === FIVE ELEMENTS SUMMARY === */
+        .bazi-wx-summary {
+            margin-top: 0.8rem;
+            font-size: 0.8rem;
             color: var(--text-secondary);
-            line-height: 1.65;
+            line-height: 1.5;
         }
-        .bazi-wx-interpretation h4 {
-            font-family: var(--font-display);
-            font-size: 0.95rem;
-            color: var(--text-primary);
-            margin-bottom: 0.5rem;
-        }
-        .bazi-wx-interpretation strong { color: var(--text-primary); }
-
-        /* === DAY MASTER INTERPRETATION === */
-        .bazi-dm-section { margin-bottom: 2rem; }
-        .bazi-dm-interpretation {
-            max-width: 560px;
-            margin: 0 auto;
-            padding: 1rem 1.2rem;
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-        }
-        .bazi-dm-interpretation h4 {
-            font-family: var(--font-display);
-            font-size: 0.95rem;
-            color: var(--text-primary);
-            margin-bottom: 0.4rem;
-        }
-        .bazi-dm-interpretation p {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            line-height: 1.65;
-        }
-        .bazi-dm-traits {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.35rem;
-            margin-top: 0.6rem;
-        }
-        .bazi-dm-trait {
-            font-size: 0.75rem;
-            color: var(--accent-color);
-            padding: 0.15rem 0.6rem;
-            background: var(--accent-bg);
-            border-radius: 4px;
-        }
+        .bazi-wx-summary strong { color: var(--text-primary); }
 
         /* === DA YUN (LIFE CYCLES) === */
         .bazi-dayun-section { margin-bottom: 2rem; }
@@ -453,84 +418,68 @@
         }
         .bazi-dayun-interpretation strong { color: var(--text-primary); }
 
-        /* === DAYUN TEN GODS === */
-        .dy-life-stage {
-            margin-bottom: 0.8rem;
-            padding: 0.6rem 0.8rem;
-            background: #fff;
-            border-radius: 6px;
-            border-left: 3px solid var(--accent-color);
-            font-size: 0.82rem;
-        }
-        .dy-life-stage strong { color: var(--text-primary); }
-        .dy-life-stage p { color: var(--text-secondary); margin-top: 0.2rem; font-size: 0.8rem; }
-        .dy-auspicious { color: var(--green) !important; }
-        .dy-inauspicious { color: var(--red) !important; }
-
-        .dy-tengod-section {
-            margin: 0.8rem 0;
-            padding: 0.8rem;
-            background: #fff;
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-        }
-        .dy-tengod-label {
-            font-size: 0.8rem;
-            color: var(--accent-color);
-            margin-bottom: 0.4rem;
-        }
-        .dy-tengod-label strong { color: var(--text-primary); }
-        .dy-tengod-section > p {
-            font-size: 0.82rem;
-            color: var(--text-secondary);
-            line-height: 1.6;
-            margin-bottom: 0.6rem;
-        }
-        .dy-tengod-details {
+        /* === DAYUN DETAIL DATA === */
+        .dy-data-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 0.4rem;
-            margin-top: 0.4rem;
+            gap: 0.8rem;
+            margin-bottom: 0.6rem;
         }
-        .dy-tengod-item {
-            padding: 0.4rem 0.6rem;
-            background: var(--bg-card);
+        .dy-data-col {
+            padding: 0.5rem 0.7rem;
+            background: #fff;
+            border: 1px solid var(--border-light);
             border-radius: 4px;
+        }
+        .dy-data-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.15rem;
+        }
+        .dy-label { font-size: 0.72rem; color: var(--text-muted); }
+        .dy-value { font-size: 0.82rem; color: var(--text-primary); font-weight: 500; }
+        .dy-value.auspicious { color: var(--green); }
+        .dy-value.inauspicious { color: var(--red); }
+        .dy-value.neutral { color: var(--accent-color); }
+        .dy-canggan-row {
             font-size: 0.78rem;
             color: var(--text-secondary);
-            line-height: 1.5;
-        }
-        .dy-tengod-item strong { color: var(--accent-color); font-size: 0.72rem; display: block; margin-bottom: 0.1rem; }
-
-        .dy-branch-section { margin: 0.6rem 0; }
-        .dy-branch-section > strong { font-size: 0.8rem; color: var(--text-primary); display: block; margin-bottom: 0.3rem; }
-        .dy-canggan-list { display: flex; flex-direction: column; gap: 0.2rem; }
-        .dy-canggan-item {
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-            font-size: 0.78rem;
-            padding: 0.2rem 0.5rem;
+            padding: 0.4rem 0.7rem;
             background: #fff;
+            border: 1px solid var(--border-light);
+            border-radius: 4px;
+            line-height: 1.6;
+        }
+
+        /* === LIU NIAN DETAIL DATA === */
+        .ly-data-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.6rem;
+            margin-bottom: 0.5rem;
+        }
+        .ly-data-col {
+            padding: 0.4rem 0.6rem;
+            background: #fff;
+            border: 1px solid var(--border-light);
             border-radius: 4px;
         }
-        .dy-canggan-item .cg-stem {
-            font-family: var(--font-display), 'SimSun', serif;
-            font-size: 0.85rem;
-            min-width: 36px;
+        .ly-data-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.1rem;
         }
-        .dy-canggan-item .cg-tg { color: var(--accent-color); font-size: 0.72rem; }
-
-        .dy-summary {
-            margin-top: 0.8rem;
-            padding-top: 0.6rem;
-            border-top: 1px solid var(--border-light);
-            font-size: 0.8rem;
+        .ly-label { font-size: 0.7rem; color: var(--text-muted); }
+        .ly-value { font-size: 0.8rem; color: var(--text-primary); font-weight: 500; }
+        .ly-canggan-row {
+            font-size: 0.76rem;
+            color: var(--text-secondary);
+            padding: 0.3rem 0.6rem;
+            background: #fff;
+            border: 1px solid var(--border-light);
+            border-radius: 4px;
+            line-height: 1.6;
         }
-        .dy-fav { color: var(--green) !important; }
-        .dy-fav strong { color: var(--green) !important; }
-        .dy-unfav { color: var(--red) !important; }
-        .dy-unfav strong { color: var(--red) !important; }
 
         /* === LIU NIAN (FLOW YEARS) === */
         .bazi-liunian-title {
@@ -622,11 +571,11 @@
         }
         .bazi-current-dayun-hint strong { color: var(--text-primary); }
 
-        /* === LIU NIAN DETAIL === */
+        /* === LIU NIAN DETAIL PANEL === */
         .bazi-liunian-detail {
             display: none;
             margin-top: 0.8rem;
-            padding: 1rem;
+            padding: 0.8rem;
             background: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: 6px;
@@ -637,13 +586,13 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 0.6rem;
-            padding-bottom: 0.4rem;
+            margin-bottom: 0.5rem;
+            padding-bottom: 0.3rem;
             border-bottom: 1px solid var(--border-light);
         }
         .bazi-liunian-detail-title {
             font-family: var(--font-display);
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             color: var(--text-primary);
         }
         .bazi-liunian-detail-close {
@@ -659,68 +608,8 @@
             justify-content: center;
         }
         .bazi-liunian-detail-close:hover { border-color: var(--accent-color); color: var(--accent-color); }
-        .bazi-liunian-interpretation {
-            font-size: 0.82rem;
-            color: var(--text-secondary);
-            line-height: 1.65;
-        }
-        .bazi-liunian-interpretation strong { color: var(--text-primary); }
-
-        .ly-tengod-section {
-            margin-bottom: 0.8rem;
-            padding: 0.6rem 0.8rem;
-            background: #fff;
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-        }
-        .ly-tengod-label { font-size: 0.78rem; color: var(--accent-color); margin-bottom: 0.3rem; }
-        .ly-tengod-label strong { color: var(--text-primary); }
-        .ly-tengod-section > p { font-size: 0.8rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 0.5rem; }
-        .ly-tengod-details {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 0.4rem;
-            margin-top: 0.4rem;
-        }
-        .ly-tengod-item {
-            padding: 0.4rem 0.6rem;
-            background: var(--bg-card);
-            border-radius: 4px;
-            font-size: 0.76rem;
-            color: var(--text-secondary);
-            line-height: 1.5;
-        }
-        .ly-tengod-item strong { color: var(--accent-color); font-size: 0.7rem; display: block; margin-bottom: 0.1rem; }
-
-        .ly-interaction {
-            padding: 0.5rem 0.7rem;
-            background: var(--green-bg);
-            border-left: 3px solid var(--green);
-            border-radius: 0 4px 4px 0;
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-            line-height: 1.55;
-            margin-bottom: 0.8rem;
-        }
-        .ly-interaction strong { color: var(--text-primary); }
-
-        .ly-branch-section { margin: 0.6rem 0; }
-        .ly-branch-section > strong { font-size: 0.78rem; color: var(--text-primary); display: block; margin-bottom: 0.3rem; }
-        .ly-canggan-list { display: flex; flex-direction: column; gap: 0.15rem; }
-        .ly-canggan-item {
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-            font-size: 0.76rem;
-            padding: 0.15rem 0.4rem;
-            background: #fff;
-            border-radius: 3px;
-        }
-        .ly-canggan-item .cg-stem { font-family: var(--font-display), 'SimSun', serif; font-size: 0.82rem; min-width: 34px; }
-        .ly-canggan-item .cg-tg { color: var(--accent-color); font-size: 0.7rem; }
 
         /* === CTA SECTION === */
-        .bazi-cta-section {
             margin-top: 2.5rem;
             padding: 1.8rem 1.5rem;
             background: var(--accent-bg);
@@ -787,9 +676,8 @@
             .bazi-pillars-grid { grid-template-columns: repeat(2, 1fr); }
             .bazi-dayun-grid { grid-template-columns: repeat(4, 1fr); }
             .bazi-liunian-grid { grid-template-columns: repeat(5, 1fr); }
-            .dy-tengod-details { grid-template-columns: 1fr; }
-            .ly-tengod-details { grid-template-columns: 1fr; }
             .bazi-cta-grid { grid-template-columns: 1fr; }
+            .dy-data-row, .ly-data-row { grid-template-columns: 1fr; }
         }
     </style>
 </head>
