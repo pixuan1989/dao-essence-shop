@@ -544,8 +544,24 @@ function main() {
   console.log('Copying project to dist/...');
   copyDirSync(SRC_DIR, DIST_DIR, [
     '.git', 'node_modules', 'dist', '.vercel',
-    'build-blog.js', 'build-blog.cjs', 'package.json', 'package-lock.json'
+    'build-blog.js', 'build-blog.cjs', 'package.json', 'package-lock.json',
+    '.env', '.env.local', '.env.example', '.env.*.local',
+    'docs', 'scripts'
   ]);
+
+  // Step 2b: Clean up source files that shouldn't be in dist/
+  const distPostsDir = path.join(DIST_DIR, 'blog', 'posts');
+  if (fs.existsSync(distPostsDir)) {
+    fs.rmSync(distPostsDir, { recursive: true, force: true });
+    console.log('  Cleaned: dist/blog/posts/ (Markdown sources)');
+  }
+  // Remove .gitkeep from category dirs in dist
+  for (const cat of CATEGORY_FOLDERS) {
+    const gitkeep = path.join(DIST_DIR, 'blog', cat, '.gitkeep');
+    if (fs.existsSync(gitkeep)) {
+      fs.unlinkSync(gitkeep);
+    }
+  }
 
   // Step 3: Collect all articles from CMS
   let allArticles = [];

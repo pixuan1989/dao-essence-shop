@@ -3,33 +3,16 @@ node_modules
 .vercel
 cloudbaserc.json
 
-# Python 脚本（开发工具）
-fix_all.py
-fix_chinese.py
-remove_multilang.py
+# Environment files (sensitive)
+.env
+.env.local
+.env.*.local
+.env.example
 
-# 测试/调试 HTML（不部署）
-debug.html
-test_coordinates.html
-test-creem-locally.html
-test-iframe.html
-test-taiji2.html
-deployment-flow.html
-CREEM_CHECKOUT_INTEGRATION_EXAMPLE.html
+# Docs & Scripts (dev-only)
+docs/
+scripts/
 
-# 开发辅助脚本
-calc_coords.js
-calc-coords.js
-_clean.js
-update-footers.js
-update-footers.cjs
-inject-env.js
-check-config.js
-server.js
-
-# 文档（不部署）— 但保留博客文章源文件
-/*.md
-README.md
-
-# 历史版本
-shop_1.0.1.html
+# Markdown source files (already built to HTML)
+blog/posts/
+blog/*/.gitkeep
