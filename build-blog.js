@@ -599,7 +599,10 @@ async function main() {
     byCategory[cat].push(post);
   }
 
-  for (const [cat, articles] of Object.entries(byCategory)) {
+  // Generate category pages for ALL defined categories (even if empty)
+  // This prevents nav links and sitemap entries from 404ing
+  for (const cat of CATEGORY_FOLDERS) {
+    const articles = byCategory[cat] || [];
     const html = generateCategoryHtml(cat, articles);
     const outPath = path.join(DIST_BLOG_DIR, `${cat}.html`);
     fs.writeFileSync(outPath, html);
@@ -687,8 +690,8 @@ async function main() {
     { loc: '/terms', changefreq: 'yearly', priority: '0.3' },
     { loc: '/blog/', changefreq: 'weekly', priority: '0.9' },
   ];
-  // Add category pages
-  for (const cat of CATEGORY_FOLDERS) {
+  // Add category pages (only those that actually have articles)
+  for (const cat of Object.keys(byCategory)) {
     staticUrls.push({ loc: `/blog/${cat}`, changefreq: 'weekly', priority: '0.7' });
   }
   let sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>
