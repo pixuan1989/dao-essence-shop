@@ -10,7 +10,7 @@ description: This guide uses the ancient "12 Earthly Branches" to reveal your
 date: 2026-04-15
 author: DAO Essence
 readTime: 5
-image: https://raw.githubusercontent.com/pixuan1989/dao-essence-shop/main/images/blog/cover-default.svg
+image: ""
 ---
 ![](https://raw.githubusercontent.com/pixuan1989/dao-essence-shop/main/images/blog/jimeng-2026-04-15-1377-a-clear-and-neatly-formatted-table-image....png)
 
@@ -159,5 +159,4 @@ image: https://raw.githubusercontent.com/pixuan1989/dao-essence-shop/main/images
 
   ​ child is naturally steady, so they excel at “static” saving.
 
-The hour of birth doesn’t magically create money. It indicates a **default personality setting**.
 Your character traits lead you to specific life choices, and those choices result in your financial pattern. Understand your archetype to play to your strengths.
