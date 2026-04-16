@@ -594,9 +594,17 @@ async function main() {
   console.log(`Found ${allArticles.length} articles total`);
 
   if (allArticles.length === 0) {
-    console.log('WARNING: No articles found. Deploying static files only.');
-    console.log('=== Blog Build Complete (no articles) ===');
-    return;
+    console.error('ERROR: No articles found! Build will FAIL to prevent empty deploy.');
+    console.error('  POSTS_DIR:', POSTS_DIR);
+    console.error('  POSTS_DIR exists:', fs.existsSync(POSTS_DIR));
+    if (fs.existsSync(POSTS_DIR)) {
+      console.error('  Files in POSTS_DIR:', fs.readdirSync(POSTS_DIR));
+    }
+    console.error('  BLOG_DIR exists:', fs.existsSync(BLOG_DIR));
+    if (fs.existsSync(BLOG_DIR)) {
+      console.error('  Files in BLOG_DIR:', fs.readdirSync(BLOG_DIR));
+    }
+    process.exit(1); // FAIL the build so Vercel shows it as failed
   }
 
   // Step 4: Generate article HTML files in dist/blog/
