@@ -433,13 +433,15 @@ function generateArticleHtml(post, category) {
   const categoryLabel = CATEGORY_LABELS[category] || category;
   const categoryHref = `/blog/${category}`;
 
-  // Replace zodiac-lookup marker BEFORE marked.parse so it stays block-level
+  // Replace zodiac-lookup marker AFTER marked.parse to avoid marked escaping <script> tags
   const hasZodiacLookup = content.includes('<!--zodiac-lookup-->');
   const processedContent = hasZodiacLookup
-    ? content.replace('<!--zodiac-lookup-->', ZODIAC_LOOKUP_HTML)
+    ? content.replace('<!--zodiac-lookup-->', '<!--ZODIAC_LOOKUP_PLACEHOLDER-->')
     : content;
   const htmlBody = marked.parse(processedContent);
-  const finalBody = htmlBody;
+  const finalBody = hasZodiacLookup
+    ? htmlBody.replace('<!--ZODIAC_LOOKUP_PLACEHOLDER-->', ZODIAC_LOOKUP_HTML)
+    : htmlBody;
 
   // FAQ structured data
   let faqJsonLd = '';
