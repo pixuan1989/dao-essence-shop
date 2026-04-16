@@ -333,16 +333,25 @@ ${FOOTER_HTML}
 
 function generateCategoryHtml(category, articles) {
   const label = CATEGORY_LABELS[category] || category;
-  const cardHtml = articles.map(a => `
+  const cardHtml = articles.map(a => {
+      let imgSrc = a.data.image || SITE_URL + '/images/og-default.jpg';
+      imgSrc = imgSrc.replace(/\/feature\/blog-cms\//g, '/main/');
+      if (!imgSrc || imgSrc === '""') imgSrc = SITE_URL + '/images/og-default.jpg';
+      return `
             <a href="/blog/${a.slug}" class="blog-card">
-                ${a.data.image ? `<img src="${a.data.image}" alt="${escapeHtml(a.data.title)}" style="width:100%;border-radius:8px 8px 0 0;margin-bottom:1rem;">` : ''}
-                <h2>${escapeHtml(a.data.title)}</h2>
-                <p>${escapeHtml(a.data.description || '')}</p>
-                <div class="blog-card-meta">
-                    <span>${escapeHtml(a.data.author || 'DAO Essence')}</span>
-                    ${a.data.readTime ? `<span>·</span><span>${a.data.readTime} min read</span>` : ''}
+                <div class="blog-card-image">
+                    <img src="${imgSrc}" alt="${escapeHtml(a.data.title)}" loading="lazy" onerror="this.src='${SITE_URL}/images/og-default.jpg'">
                 </div>
-            </a>`).join('\n');
+                <div class="blog-card-body">
+                    <h2>${escapeHtml(a.data.title)}</h2>
+                    <p>${escapeHtml(a.data.description || '')}</p>
+                    <div class="blog-card-meta">
+                        <span>${escapeHtml(a.data.author || 'DAO Essence')}</span>
+                        ${a.data.readTime ? `<span>·</span><span>${a.data.readTime} min read</span>` : ''}
+                    </div>
+                </div>
+            </a>`;
+    }).join('\n');
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -368,14 +377,21 @@ function generateCategoryHtml(category, articles) {
         .blog-category-breadcrumb a { color: var(--accent-color); text-decoration: none; }
         .blog-category-breadcrumb a:hover { text-decoration: underline; }
         .blog-card-list { display: flex; flex-direction: column; gap: 1.5rem; }
-        .blog-card { display: block; padding: 2rem; background: rgba(212,175,55,0.03); border: 1px solid rgba(212,175,55,0.1); border-radius: 12px; text-decoration: none; transition: all 0.3s ease; }
+        .blog-card { display: flex; flex-direction: row; background: rgba(212,175,55,0.03); border: 1px solid rgba(212,175,55,0.1); border-radius: 12px; text-decoration: none; transition: all 0.3s ease; overflow: hidden; }
         .blog-card:hover { background: rgba(212,175,55,0.06); border-color: rgba(212,175,55,0.25); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,0,0,0.15); }
-        .blog-card img { max-width: 100%; }
+        .blog-card-image { width: 240px; min-width: 240px; aspect-ratio: 1.9 / 1; overflow: hidden; background: var(--bg-dark); }
+        .blog-card-image img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s; }
+        .blog-card:hover .blog-card-image img { transform: scale(1.05); }
+        .blog-card-body { flex: 1; padding: 1.5rem 2rem; display: flex; flex-direction: column; justify-content: center; }
         .blog-card h2 { font-family: var(--font-display); font-size: 1.3rem; color: var(--accent-color); letter-spacing: 0.05em; margin-bottom: 0.6rem; transition: color 0.3s; }
         .blog-card:hover h2 { color: #E8C547; }
         .blog-card p { color: var(--text-secondary); font-size: 0.95rem; line-height: 1.7; margin-bottom: 1rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
         .blog-card-meta { display: flex; gap: 1rem; font-size: 0.82rem; color: var(--text-secondary); opacity: 0.7; }
         .blog-card-meta span { display: flex; align-items: center; gap: 0.3rem; }
+        @media (max-width: 640px) {
+            .blog-card { flex-direction: column; }
+            .blog-card-image { width: 100%; min-width: unset; }
+        }
         .blog-back-link { display: inline-flex; align-items: center; gap: 0.5rem; color: var(--accent-color); text-decoration: none; font-size: 0.9rem; margin-bottom: 2rem; opacity: 0.8; transition: opacity 0.3s; }
         .blog-back-link:hover { opacity: 1; text-decoration: underline; }
     </style>
@@ -411,14 +427,22 @@ function generateBlogIndex(allArticles) {
     .map(a => {
       const cat = a.data.category || 'bazi-astrology';
       const catLabel = CATEGORY_LABELS[cat] || cat;
+      let imgSrc = a.data.image || SITE_URL + '/images/og-default.jpg';
+      imgSrc = imgSrc.replace(/\/feature\/blog-cms\//g, '/main/');
+      if (!imgSrc || imgSrc === '""') imgSrc = SITE_URL + '/images/og-default.jpg';
       return `
                 <a href="/blog/${a.slug}" class="blog-card">
-                    <span class="blog-card-category">${catLabel}</span>
-                    <h2>${escapeHtml(a.data.title)}</h2>
-                    <p>${escapeHtml(a.data.description || '')}</p>
-                    <div class="blog-card-meta">
-                        <span>${escapeHtml(a.data.author || 'DAO Essence')}</span>
-                        ${a.data.readTime ? `<span>·</span><span>${a.data.readTime} min read</span>` : ''}
+                    <div class="blog-card-image">
+                        <img src="${imgSrc}" alt="${escapeHtml(a.data.title)}" loading="lazy" onerror="this.src='${SITE_URL}/images/og-default.jpg'">
+                    </div>
+                    <div class="blog-card-body">
+                        <span class="blog-card-category">${catLabel}</span>
+                        <h2>${escapeHtml(a.data.title)}</h2>
+                        <p>${escapeHtml(a.data.description || '')}</p>
+                        <div class="blog-card-meta">
+                            <span>${escapeHtml(a.data.author || 'DAO Essence')}</span>
+                            ${a.data.readTime ? `<span>·</span><span>${a.data.readTime} min read</span>` : ''}
+                        </div>
                     </div>
                 </a>`;
     }).join('\n');
@@ -445,14 +469,22 @@ function generateBlogIndex(allArticles) {
         .blog-home-header p { color: var(--text-secondary); font-size: 1.05rem; line-height: 1.7; max-width: 600px; margin: 0 auto; }
         .blog-section-title { font-family: var(--font-display); font-size: 1.4rem; color: var(--accent-color); letter-spacing: 0.08em; margin-bottom: 1.5rem; padding-bottom: 0.8rem; border-bottom: 1px solid rgba(212,175,55,0.15); }
         .blog-latest { margin-bottom: 4rem; }
-        .blog-card-list { display: flex; flex-direction: column; gap: 1.2rem; }
-        .blog-card { display: block; padding: 1.8rem 2rem; background: rgba(212,175,55,0.03); border: 1px solid rgba(212,175,55,0.1); border-radius: 12px; text-decoration: none; transition: all 0.3s ease; }
+        .blog-card-list { display: flex; flex-direction: column; gap: 1.5rem; }
+        .blog-card { display: flex; flex-direction: row; background: rgba(212,175,55,0.03); border: 1px solid rgba(212,175,55,0.1); border-radius: 12px; text-decoration: none; transition: all 0.3s ease; overflow: hidden; }
         .blog-card:hover { background: rgba(212,175,55,0.06); border-color: rgba(212,175,55,0.25); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,0,0,0.15); }
+        .blog-card-image { width: 240px; min-width: 240px; aspect-ratio: 1.9 / 1; overflow: hidden; background: var(--bg-dark); }
+        .blog-card-image img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s; }
+        .blog-card:hover .blog-card-image img { transform: scale(1.05); }
+        .blog-card-body { flex: 1; padding: 1.5rem 2rem; display: flex; flex-direction: column; justify-content: center; }
         .blog-card-category { display: inline-block; font-size: 0.72rem; color: var(--accent-color); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 0.5rem; padding: 0.2rem 0.6rem; background: rgba(212,175,55,0.08); border-radius: 4px; }
         .blog-card h2 { font-family: var(--font-display); font-size: 1.25rem; color: var(--accent-color); letter-spacing: 0.05em; margin-bottom: 0.5rem; transition: color 0.3s; }
         .blog-card:hover h2 { color: #E8C547; }
         .blog-card p { color: var(--text-secondary); font-size: 0.92rem; line-height: 1.7; margin-bottom: 0.8rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
         .blog-card-meta { display: flex; gap: 1rem; font-size: 0.8rem; color: var(--text-secondary); opacity: 0.7; }
+        @media (max-width: 640px) {
+            .blog-card { flex-direction: column; }
+            .blog-card-image { width: 100%; min-width: unset; }
+        }
         .blog-home-cta { text-align: center; padding: 3rem 2rem; margin-top: 3rem; background: linear-gradient(135deg, rgba(212,175,55,0.06), rgba(212,175,55,0.02)); border: 1px solid rgba(212,175,55,0.15); border-radius: 16px; }
         .blog-home-cta h3 { font-family: var(--font-display); color: var(--accent-color); font-size: 1.3rem; letter-spacing: 0.06em; margin-bottom: 0.8rem; }
         .blog-home-cta p { color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 1rem; }
