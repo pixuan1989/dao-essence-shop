@@ -825,21 +825,76 @@
             font-size: 0.72rem;
         }
 
-        /* === DISCLAIMER === */
-        .bazi-disclaimer {
+        /* === CTA SECTION === */
+        .bazi-cta-section {
             margin-top: 3rem;
-            padding: 1.5rem;
-            background: rgba(245,240,230,0.02);
-            border: 1px solid rgba(212,175,55,0.06);
-            border-radius: 10px;
+            padding: 2.5rem 2rem;
+            background: linear-gradient(135deg, rgba(212,175,55,0.08) 0%, rgba(212,175,55,0.03) 100%);
+            border: 1px solid rgba(212,175,55,0.15);
+            border-radius: 16px;
             text-align: center;
         }
-        .bazi-disclaimer p {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            line-height: 1.6;
-            max-width: 550px;
+        .bazi-cta-inner {
+            max-width: 600px;
             margin: 0 auto;
+        }
+        .bazi-cta-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        .bazi-cta-title {
+            font-size: 1.3rem;
+            color: var(--accent-color);
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+        .bazi-cta-desc {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+        .bazi-cta-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.6rem 1.5rem;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+        .bazi-cta-item {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .bazi-cta-emoji {
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+        .bazi-cta-btn {
+            display: inline-block;
+            padding: 0.85rem 2.5rem;
+            background: linear-gradient(135deg, #D4AF37, #B8962E);
+            color: #0a0a0a;
+            font-weight: 700;
+            font-size: 0.95rem;
+            border-radius: 50px;
+            text-decoration: none;
+            letter-spacing: 0.02em;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(212,175,55,0.3);
+        }
+        .bazi-cta-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 30px rgba(212,175,55,0.45);
+            background: linear-gradient(135deg, #E0C04F, #D4AF37);
+        }
+        .bazi-cta-note {
+            font-size: 0.72rem;
+            color: rgba(245,240,230,0.35);
+            margin-top: 1rem;
         }
 
         /* === FOOTER === */

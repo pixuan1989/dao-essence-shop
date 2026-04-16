@@ -343,20 +343,73 @@
     letter-spacing: 0.02em;
 }
 
-/* --- DISCLAIMER --- */
-.bazi-disclaimer {
+/* --- CTA SECTION --- */
+.bazi-cta-section {
     margin-top: 2rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid rgba(212, 175, 55, 0.1);
+    padding: 2rem 1.5rem;
+    background: linear-gradient(135deg, rgba(212,175,55,0.08) 0%, rgba(212,175,55,0.03) 100%);
+    border: 1px solid rgba(212,175,55,0.15);
+    border-radius: 12px;
     text-align: center;
 }
-
-.bazi-disclaimer p {
-    font-size: 0.8rem;
-    color: rgba(245, 240, 230, 0.4);
-    line-height: 1.6;
+.bazi-cta-inner {
     max-width: 500px;
     margin: 0 auto;
+}
+.bazi-cta-icon {
+    font-size: 1.6rem;
+    margin-bottom: 0.4rem;
+}
+.bazi-cta-title {
+    font-size: 1.1rem;
+    color: var(--accent-color);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+.bazi-cta-desc {
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 1.2rem;
+}
+.bazi-cta-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem 1rem;
+    margin-bottom: 1.5rem;
+    text-align: left;
+}
+.bazi-cta-item {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+.bazi-cta-emoji {
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+.bazi-cta-btn {
+    display: inline-block;
+    padding: 0.75rem 2rem;
+    background: linear-gradient(135deg, #D4AF37, #B8962E);
+    color: #0a0a0a;
+    font-weight: 700;
+    font-size: 0.85rem;
+    border-radius: 50px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 20px rgba(212,175,55,0.3);
+}
+.bazi-cta-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 30px rgba(212,175,55,0.45);
+}
+.bazi-cta-note {
+    font-size: 0.68rem;
+    color: rgba(245, 240, 230, 0.35);
+    margin-top: 0.8rem;
 }
 
 /* --- RESPONSIVE --- */

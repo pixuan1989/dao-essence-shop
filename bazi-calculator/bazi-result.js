@@ -641,9 +641,25 @@
             // Da Yun
             dyHTML +
 
-            // Disclaimer
-            '<div class="bazi-disclaimer">' +
-                '<p>This free BaZi chart is generated using traditional Chinese metaphysics calculations powered by paipan.js engine. Ten Gods (Shi Shen) interpretations are based on classical BaZi theory. For comprehensive life path guidance, career advice, relationship insights, and personalized recommendations, consult a professional BaZi practitioner.</p>' +
+            // Paid CTA
+            '<div class="bazi-cta-section">' +
+                '<div class="bazi-cta-inner">' +
+                    '<div class="bazi-cta-icon">✦</div>' +
+                    '<h3 class="bazi-cta-title">Unlock Your Full Life Blueprint</h3>' +
+                    '<p class="bazi-cta-desc">This free chart reveals your core personality and elemental balance. For deeper insights into your unique path, a professional reading can illuminate:</p>' +
+                    '<div class="bazi-cta-grid">' +
+                        '<div class="bazi-cta-item"><span class="bazi-cta-emoji">💼</span>Career direction & breakthrough timing</div>' +
+                        '<div class="bazi-cta-item"><span class="bazi-cta-emoji">❤️</span>Relationship compatibility & timing</div>' +
+                        '<div class="bazi-cta-item"><span class="bazi-cta-emoji">💰</span>Wealth accumulation & financial cycles</div>' +
+                        '<div class="bazi-cta-item"><span class="bazi-cta-emoji">🏥</span>Health vulnerabilities & preventive care</div>' +
+                        '<div class="bazi-cta-item"><span class="bazi-cta-emoji">👶</span>Children prospects & family harmony</div>' +
+                        '<div class="bazi-cta-item"><span class="bazi-cta-emoji">🔀</span>Life decisions & optimal timing</div>' +
+                    '</div>' +
+                    '<a href="https://www.creem.io/checkout/prod_28PqAKMEom5WGRH1w9O35n/ch_1ueb7qKPFnQOzLK8lNPfIN" class="bazi-cta-btn" target="_blank" rel="noopener">' +
+                        'Get Your Personalized Reading →' +
+                    '</a>' +
+                    '<p class="bazi-cta-note">Based on your exact birth chart · Delivered by certified practitioner</p>' +
+                '</div>' +
             '</div>';
 
         // Bind dayun click events
