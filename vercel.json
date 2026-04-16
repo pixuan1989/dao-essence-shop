@@ -2,9 +2,8 @@
   "framework": null,
   "trailingSlash": false,
   "installCommand": "npm install",
-  "buildCommand": "npm run build",
+  "buildCommand": "node build-blog.js",
   "outputDirectory": "dist",
-  "cleanUrls": true,
   "cleanUrls": true,
   "rewrites": [
     { "source": "/auth", "destination": "/api/auth" },
@@ -18,7 +17,7 @@
       "has": [
         {
           "type": "host",
-          "value": "dao-essence-shop.vercel.app"
+          "value": "daoessence-shop.vercel.app"
         }
       ]
     },
