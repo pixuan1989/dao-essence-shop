@@ -514,35 +514,30 @@
 
     // ==================== RENDER SIDEBAR RECOMMENDATIONS ====================
     function renderSidebarRecommendations(sidebar) {
-        var html = '<h3 class="sidebar-title">Recommended Reading</h3>';
-        html += '<div id="sidebar-cards"><p style="font-size:0.78rem;color:var(--ink-3);text-align:center;padding:2rem 0">Loading articles...</p></div>';
-        html += '<div class="sidebar-cta"><a href="/blog/">View All Articles →</a></div>';
+        var html = '<h3 class="sidebar-title">推荐阅读</h3>';
+        html += '<div id="sidebar-cards"><p style="font-size:0.78rem;color:var(--ink-3);text-align:center;padding:2rem 0">加载中...</p></div>';
         sidebar.innerHTML = html;
 
         fetch('bazi-recommendations.json')
             .then(function(res) { return res.json(); })
             .then(function(articles) {
+                // Only take 3 articles
+                var list = articles.slice(0, 3);
                 var cardsHtml = '';
-                for (var i = 0; i < articles.length; i++) {
-                    var a = articles[i];
+                for (var i = 0; i < list.length; i++) {
+                    var a = list[i];
                     cardsHtml += '<a href="/blog/' + a.slug + '" class="sidebar-card">';
-                    if (a.image) {
-                        cardsHtml += '<div class="sidebar-card-image"><img src="' + a.image + '" alt="' + (a.title || '') + '" loading="lazy" onerror="this.parentElement.style.display=\'none\'"></div>';
-                    }
                     cardsHtml += '<div class="sidebar-card-cat">' + (a.category || '') + '</div>';
                     cardsHtml += '<h3>' + (a.title || '') + '</h3>';
-                    if (a.description) cardsHtml += '<p class="sidebar-card-desc">' + a.description + '</p>';
-                    cardsHtml += '<div class="sidebar-card-meta">';
-                    if (a.readTime) cardsHtml += a.readTime + ' min read';
-                    if (a.date) cardsHtml += (cardsHtml ? ' · ' : '') + a.date;
-                    cardsHtml += '</div></a>';
+                    if (a.readTime) cardsHtml += '<div class="sidebar-card-meta">' + a.readTime + ' min read</div>';
+                    cardsHtml += '</a>';
                 }
                 var container = document.getElementById('sidebar-cards');
                 if (container) container.innerHTML = cardsHtml;
             })
             .catch(function() {
                 var container = document.getElementById('sidebar-cards');
-                if (container) container.innerHTML = '<p style="font-size:0.78rem;color:var(--ink-3);text-align:center;padding:1rem 0">Unable to load articles.</p>';
+                if (container) container.innerHTML = '<p style="font-size:0.78rem;color:var(--ink-3);text-align:center;padding:1rem 0">暂无推荐文章</p>';
             });
     }
 
