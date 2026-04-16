@@ -4,552 +4,325 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BaZi Reading | DAO Essence</title>
-    <meta name="description" content="Your personalized BaZi chart analysis - Five Elements, Life Cycles, and destiny insights.">
+    <meta name="description" content="Your personalized BaZi chart analysis">
     <link rel="icon" href="/favicon.ico">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
-        /* ============================================
-           DESIGN SYSTEM
-           ============================================ */
+        /* ============================
+           DESIGN TOKENS
+           ============================ */
         :root {
-            /* Base */
-            --bg:          #FFFFFF;
-            --bg-card:     #F7F7F5;
-            --bg-subtle:   #EFEFEC;
-            --bg-hover:    #F0EFE8;
-            --border:      #E0DFD8;
-            --border-light:#EDECE6;
-
-            /* Text hierarchy */
-            --text-1:      #1A1A18;
-            --text-2:      #4A4A44;
-            --text-3:      #8A8A82;
-
-            /* Accent — warm brown-gold */
-            --accent:      #8B7355;
-            --accent-light:#D4C4A8;
-            --accent-bg:   #F5F0E8;
-
-            /* Semantic */
-            --good:        #2D7D46;
-            --good-bg:     #F0F8F2;
-            --good-border: #C5E0CC;
-            --bad:         #C25B56;
-            --bad-bg:      #FDF5F5;
-            --bad-border:  #F0C8C6;
-
-            /* Five Elements — muted, cohesive palette */
-            --wx-metal:    #9E8E6E;
-            --wx-water:    #5B8299;
-            --wx-wood:     #5E825E;
-            --wx-fire:     #B8665E;
-            --wx-earth:    #9E8B5E;
-
-            /* Typography */
-            --font-display: 'Cormorant Garamond', 'SimSun', serif;
-            --font-body:    'Inter', -apple-system, sans-serif;
+            --bg:           #fff;
+            --card:         #F8F7F5;
+            --card-hover:   #F2F1ED;
+            --sunken:       #FFFFFF;
+            --line:         #E5E4DF;
+            --line-light:   #EFEEEA;
+            --ink:          #1C1C1A;
+            --ink-2:        #50504A;
+            --ink-3:        #8C8C85;
+            --accent:       #8B7355;
+            --accent-soft:  #D4C4A8;
+            --accent-bg:    #F5F0E8;
+            --good:         #2D7D46;
+            --good-bg:      #EFF8F2;
+            --good-line:    #C2DFCA;
+            --bad:          #C25B56;
+            --bad-bg:       #FDF5F5;
+            --bad-line:     #F0C8C6;
+            --wx-metal:     #9E8E6E;
+            --wx-water:     #5B8299;
+            --wx-wood:      #5E825E;
+            --wx-fire:      #B8665E;
+            --wx-earth:     #9E8B5E;
+            --serif:        'Cormorant Garamond', 'SimSun', serif;
+            --sans:         'Inter', -apple-system, sans-serif;
+            --radius:       6px;
+            --radius-sm:    4px;
         }
-
-        /* ============================================
-           RESET & BASE
-           ============================================ */
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         html { scroll-behavior: smooth; }
-        body {
-            font-family: var(--font-body);
-            background: var(--bg);
-            color: var(--text-1);
-            line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
-        }
+        body { font-family: var(--sans); background: var(--bg); color: var(--ink); line-height: 1.6; -webkit-font-smoothing: antialiased; }
 
-        /* ============================================
-           LOADING / ERROR
-           ============================================ */
-        .bazi-loading {
-            display: flex; flex-direction: column;
-            align-items: center; justify-content: center;
-            min-height: 40vh; gap: 1rem;
-        }
-        .bazi-loading-spinner {
-            width: 32px; height: 32px;
-            border: 2px solid var(--border);
-            border-top-color: var(--accent);
-            border-radius: 50%;
-            animation: spin 0.7s linear infinite;
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
-        .bazi-loading p { color: var(--text-3); font-size: 0.85rem; }
-        .bazi-error-page {
-            display: flex; flex-direction: column;
-            align-items: center; justify-content: center;
-            min-height: 40vh; gap: 0.6rem;
-            text-align: center; padding: 2rem;
-        }
-        .bazi-error-page p { color: var(--bad); font-size: 0.9rem; }
-        .bazi-error-page a {
-            display: inline-block; margin-top: 0.6rem;
-            padding: 0.5rem 1.2rem;
-            background: var(--accent); color: #fff;
-            border-radius: 6px; text-decoration: none;
-            font-size: 0.85rem; font-weight: 500;
-        }
-
-        /* ============================================
+        /* ============================
            NAV
-           ============================================ */
+           ============================ */
         .bazi-nav {
-            padding: 0.7rem 1.5rem;
-            display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 1px solid var(--border);
-            background: var(--bg); position: sticky; top: 0; z-index: 100;
+            padding: 0.6rem 1.5rem; display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid var(--line); background: var(--bg); position: sticky; top: 0; z-index: 100;
         }
-        .bazi-nav-brand {
-            font-family: var(--font-display);
-            font-size: 1.1rem; color: var(--accent);
-            text-decoration: none; letter-spacing: 0.08em;
-        }
-        .bazi-nav-actions a {
-            color: var(--text-2); text-decoration: none; font-size: 0.8rem;
-        }
+        .bazi-nav-brand { font-family: var(--serif); font-size: 1.1rem; color: var(--accent); text-decoration: none; letter-spacing: 0.08em; }
+        .bazi-nav-actions a { color: var(--ink-2); text-decoration: none; font-size: 0.8rem; }
         .bazi-nav-actions a:hover { color: var(--accent); }
 
-        /* ============================================
-           PAGE LAYOUT
-           ============================================ */
-        .bazi-page {
-            max-width: 760px;
-            margin: 0 auto;
-            padding: 1.5rem 1.5rem 3rem;
-        }
+        /* ============================
+           LOADING / ERROR
+           ============================ */
+        .bazi-loading { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 40vh; gap: 1rem; }
+        .bazi-loading-spinner { width: 28px; height: 28px; border: 2px solid var(--line); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.7s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .bazi-loading p { color: var(--ink-3); font-size: 0.85rem; }
+        .bazi-error-page { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 40vh; gap: 0.6rem; text-align: center; padding: 2rem; }
+        .bazi-error-page p { color: var(--bad); }
+        .bazi-error-page a { display: inline-block; margin-top: 0.6rem; padding: 0.5rem 1.2rem; background: var(--accent); color: #fff; border-radius: var(--radius-sm); text-decoration: none; font-size: 0.85rem; }
 
-        /* ============================================
-           HEADER
-           ============================================ */
-        .bazi-result-header {
-            text-align: center;
-            margin-bottom: 1.5rem;
-            padding-bottom: 1.2rem;
-            border-bottom: 1px solid var(--border);
-        }
-        .bazi-result-basic {
-            display: flex; gap: 0.4rem;
-            justify-content: center; margin-bottom: 0.6rem;
-            flex-wrap: wrap;
-        }
-        .bazi-result-basic span {
-            font-size: 0.78rem; color: var(--text-2);
-            padding: 0.15rem 0.6rem;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 4px;
-        }
-        .bazi-result-eight {
-            font-family: var(--font-display), 'SimSun', serif;
-            font-size: clamp(1.3rem, 4vw, 1.9rem);
-            color: var(--text-1);
-            letter-spacing: 0.18em;
-        }
+        /* ============================
+           PAGE
+           ============================ */
+        .bazi-page { max-width: 780px; margin: 0 auto; padding: 1.5rem 1.5rem 3rem; }
 
-        /* ============================================
-           DM PROFILE
-           ============================================ */
-        .dm-profile-row {
-            display: flex; gap: 1.5rem;
-            margin-bottom: 0.6rem;
-            flex-wrap: wrap;
-        }
-        .dm-profile-col {
-            font-size: 0.82rem; color: var(--text-2);
-        }
-        .dm-profile-col strong { color: var(--text-1); }
+        /* ============================
+           RESULT HEADER
+           ============================ */
+        .result-header { text-align: center; margin-bottom: 1.5rem; padding-bottom: 1.2rem; border-bottom: 1px solid var(--line); }
+        .header-tags { display: flex; gap: 0.4rem; justify-content: center; flex-wrap: wrap; margin-bottom: 0.6rem; }
+        .tag { font-size: 0.78rem; color: var(--ink-2); padding: 0.15rem 0.6rem; background: var(--card); border: 1px solid var(--line); border-radius: var(--radius-sm); }
+        .tag-dm strong { font-weight: 600; }
+        .eight-char { font-family: var(--serif), 'SimSun', serif; font-size: clamp(1.2rem, 4vw, 1.8rem); color: var(--ink); letter-spacing: 0.15em; }
 
-        /* ============================================
-           SECTION TITLES
-           ============================================ */
-        .bazi-section-title {
-            font-family: var(--font-display);
-            font-size: 1.05rem; color: var(--text-1);
-            letter-spacing: 0.04em;
-            margin-bottom: 0.8rem;
-            text-align: center;
-            padding-bottom: 0.4rem;
-            border-bottom: 1px solid var(--border);
+        /* ============================
+           INFO CARD (Day Master Profile)
+           ============================ */
+        .info-card {
+            background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+            padding: 0.8rem 1rem; margin-bottom: 1.2rem;
         }
+        .info-card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+        .info-item { display: flex; flex-direction: column; gap: 0.1rem; }
+        .info-label { font-size: 0.68rem; color: var(--ink-3); text-transform: uppercase; letter-spacing: 0.06em; }
+        .info-value { font-size: 0.8rem; color: var(--ink); line-height: 1.5; }
+        .info-value strong { color: var(--accent); }
 
-        /* ============================================
-           TWO-COLUMN: PILLARS + ELEMENTS
-           ============================================ */
-        .bazi-main-row {
-            display: grid;
-            grid-template-columns: 3fr 2fr;
-            gap: 1.2rem;
-            margin-bottom: 1.5rem;
+        /* ============================
+           SECTION
+           ============================ */
+        .section { margin-bottom: 1.5rem; }
+        .section-title {
+            font-family: var(--serif); font-size: 1rem; color: var(--ink);
+            letter-spacing: 0.03em; margin-bottom: 0.6rem;
+            padding-bottom: 0.35rem; border-bottom: 1px solid var(--line);
         }
-        @media (max-width: 680px) {
-            .bazi-main-row { grid-template-columns: 1fr; }
-        }
+        .section-desc { font-size: 0.78rem; color: var(--ink-3); margin-bottom: 0.5rem; text-align: center; }
 
-        /* ============================================
+        /* ============================
+           MAIN GRID (Pillars + Elements)
+           ============================ */
+        .main-grid { display: grid; grid-template-columns: 3fr 2fr; gap: 1.2rem; margin-bottom: 1.5rem; }
+
+        /* ============================
            FOUR PILLARS
-           ============================================ */
-        .bazi-pillars-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 0.5rem;
+           ============================ */
+        .pillars-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem; }
+        .pillar {
+            text-align: center; background: var(--card); border: 1px solid var(--line);
+            border-radius: var(--radius); padding: 0.5rem 0.3rem;
         }
-        .bazi-pillar {
-            text-align: center;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            padding: 0.6rem 0.3rem;
+        .pillar-label { font-size: 0.58rem; color: var(--ink-3); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.25rem; }
+        .pillar-stem { padding-bottom: 0.3rem; margin-bottom: 0.2rem; border-bottom: 1px solid var(--line-light); }
+        .pillar-branch { padding-top: 0.15rem; }
+        .pillar-char { display: block; font-family: var(--serif), 'SimSun', serif; font-size: 1.3rem; line-height: 1.2; color: var(--ink); }
+        .pillar-wx { display: block; font-size: 0.58rem; letter-spacing: 0.04em; }
+        .pillar-tg {
+            display: inline-block; font-size: 0.56rem; color: var(--accent);
+            background: var(--accent-bg); border-radius: 3px; padding: 0.02rem 0.35rem; margin-top: 0.12rem;
         }
-        .bazi-pillar-label {
-            font-size: 0.6rem; color: var(--text-3);
-            text-transform: uppercase; letter-spacing: 0.08em;
-            margin-bottom: 0.3rem;
-        }
-        .bazi-pillar-gan { padding-bottom: 0.3rem; border-bottom: 1px solid var(--border-light); }
-        .bazi-pillar-zhi { padding-top: 0.3rem; }
-        .bazi-gan-char, .bazi-zhi-char {
-            display: block;
-            font-family: var(--font-display), 'SimSun', serif;
-            font-size: 1.4rem; color: var(--text-1); line-height: 1.2;
-        }
-        .bazi-gan-wx, .bazi-zhi-wx {
-            display: block; font-size: 0.6rem;
-            letter-spacing: 0.05em; margin-top: 0.05rem;
-        }
-        .bazi-gan-tg {
-            display: block; font-size: 0.58rem;
-            color: var(--accent); background: var(--accent-bg);
-            border-radius: 3px; padding: 0.04rem 0.35rem;
-            margin-top: 0.15rem; letter-spacing: 0.02em;
-        }
-        .bazi-gan-tg.dm-self {
-            color: var(--text-3); background: var(--bg-subtle);
-        }
-        .bazi-pillar-hidden {
-            padding-top: 0.3rem; margin-top: 0.2rem;
-            border-top: 1px solid var(--border-light);
-            display: flex; flex-direction: column; gap: 0.1rem;
-        }
-        .bazi-canggan {
-            display: flex; justify-content: center;
-            align-items: center; gap: 0.25rem;
-            font-family: var(--font-display), 'SimSun', serif;
-            font-size: 0.72rem;
-        }
-        .bazi-canggan.cg-primary { font-weight: 600; }
-        .bazi-canggan .cg-tg-label {
-            font-size: 0.52rem; color: var(--accent);
-            background: var(--accent-bg);
-            border-radius: 2px; padding: 0.01rem 0.25rem;
-            font-family: var(--font-body);
-        }
+        .pillar-tg-self { color: var(--ink-3); background: var(--line-light); }
+        .pillar-hidden { margin-top: 0.25rem; padding-top: 0.25rem; border-top: 1px solid var(--line-light); display: flex; flex-direction: column; gap: 0.08rem; }
+        .pillar-cg { font-size: 0.62rem; color: var(--ink-2); }
+        .pillar-cg.cg-main { font-weight: 600; }
 
-        /* ============================================
+        /* ============================
            FIVE ELEMENTS
-           ============================================ */
-        .bazi-wuxing-bars {
-            display: flex; flex-direction: column; gap: 0.4rem;
-        }
-        .bazi-wx-row {
-            display: grid;
-            grid-template-columns: 48px 1fr 20px;
-            align-items: center; gap: 0.4rem;
-        }
-        .bazi-wx-label { font-size: 0.78rem; color: var(--text-2); }
-        .bazi-wx-bar-bg {
-            height: 10px; background: var(--bg-subtle);
-            border-radius: 5px; overflow: hidden;
-        }
-        .bazi-wx-bar-fill {
-            height: 100%; border-radius: 5px;
-            transition: width 1s ease-out; min-width: 4px;
-        }
-        .bazi-wx-count {
-            font-size: 0.78rem; color: var(--text-3); text-align: center;
-        }
-        .bazi-wx-summary {
-            margin-top: 0.6rem; font-size: 0.78rem;
-            color: var(--text-2); line-height: 1.5;
-        }
-        .bazi-wx-summary strong { color: var(--text-1); }
+           ============================ */
+        .wx-bars { display: flex; flex-direction: column; gap: 0.4rem; }
+        .wx-row { display: grid; grid-template-columns: 50px 1fr 18px; align-items: center; gap: 0.4rem; }
+        .wx-label { font-size: 0.76rem; font-weight: 500; }
+        .wx-bar-track { height: 8px; background: var(--line-light); border-radius: 4px; overflow: hidden; }
+        .wx-bar-fill { height: 100%; border-radius: 4px; transition: width 0.8s ease-out; min-width: 4px; }
+        .wx-count { font-size: 0.76rem; color: var(--ink-3); text-align: right; }
 
-        /* ============================================
-           LIFE CYCLES (DA YUN)
-           ============================================ */
-        .bazi-dayun-section { margin-bottom: 1.5rem; }
-        .bazi-qyy {
-            text-align: center; color: var(--text-2);
-            font-size: 0.78rem; margin-bottom: 0.6rem;
-        }
-        .bazi-current-dayun-hint {
-            text-align: center; color: var(--good);
-            font-size: 0.8rem; margin-bottom: 0.6rem;
-        }
-        .bazi-current-dayun-hint strong { color: var(--text-1); }
-        .bazi-dayun-section > p {
-            text-align: center; font-size: 0.72rem;
-            color: var(--text-3); margin-bottom: 0.6rem;
-        }
-        .bazi-dayun-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-            gap: 0.4rem;
-        }
-        .bazi-dayun-item {
-            text-align: center; padding: 0.5rem 0.3rem;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 5px; cursor: pointer;
-            transition: all 0.15s; position: relative;
-        }
-        .bazi-dayun-item:hover {
-            border-color: var(--accent-light); background: var(--bg-hover);
-        }
-        .bazi-dayun-item.active {
-            border-color: var(--accent); background: var(--accent-bg);
-        }
-        .bazi-dayun-ganzhi {
-            font-family: var(--font-display), 'SimSun', serif;
-            font-size: 0.95rem; color: var(--text-1);
-            letter-spacing: 0.06em;
-        }
-        .bazi-dayun-tg {
-            font-size: 0.55rem; color: var(--accent);
-            background: var(--accent-bg); border-radius: 3px;
-            padding: 0.01rem 0.3rem; display: inline-block;
-            margin-top: 0.1rem;
-        }
-        .bazi-dayun-age { font-size: 0.65rem; color: var(--text-2); }
-        .bazi-dayun-years { font-size: 0.6rem; color: var(--text-3); margin-top: 0.05rem; }
-        .bazi-dayun-status { font-size: 0.6rem; margin-top: 0.2rem; }
-        .bazi-dayun-status.auspicious { color: var(--good); }
-        .bazi-dayun-status.neutral { color: var(--accent); }
-        .bazi-dayun-status.inauspicious { color: var(--bad); }
+        .wx-summary { margin-top: 0.6rem; }
+        .wx-summary-item { font-size: 0.76rem; color: var(--ink-2); line-height: 1.5; margin-bottom: 0.3rem; }
+        .wx-summary-label { font-weight: 600; color: var(--ink); margin-right: 0.3rem; }
+        .wx-summary-item em { font-style: normal; color: var(--ink-3); }
 
-        /* Current dayun highlight */
-        .bazi-dayun-item.current-dayun {
-            border-color: var(--good-border); background: var(--good-bg);
+        /* ============================
+           DAYUN CARDS
+           ============================ */
+        #section-dayun .section-title { margin-bottom: 0.8rem; }
+        .current-hint {
+            text-align: center; font-size: 0.8rem; color: var(--good);
+            margin-bottom: 0.6rem; padding: 0.3rem 0.8rem;
+            background: var(--good-bg); border: 1px solid var(--good-line); border-radius: var(--radius-sm);
         }
-        .bazi-dayun-item.current-dayun.active {
-            border-color: var(--accent); background: var(--accent-bg);
+        .current-hint strong { color: var(--ink); }
+        .dayun-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); gap: 0.4rem;
         }
-        .bazi-dayun-current-badge,
-        .ly-current-badge {
-            position: absolute; top: -1px; right: -1px;
-            background: var(--good); color: #fff;
-            font-size: 0.38rem; padding: 0 0.2rem;
-            border-radius: 0 5px 0 4px;
-            font-family: var(--font-body); letter-spacing: 0.02em;
-        }
-
-        /* ============================================
-           DETAIL PANELS (shared style)
-           ============================================ */
-        .bazi-dayun-detail,
-        .bazi-liunian-detail {
-            display: none;
-            margin-top: 0.8rem;
-            padding: 1rem;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            animation: fadeIn 0.15s ease-out;
-        }
-        .bazi-dayun-detail.show,
-        .bazi-liunian-detail.show { display: block; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        .bazi-dayun-detail-header,
-        .bazi-liunian-detail-header {
-            display: flex; justify-content: space-between; align-items: center;
-            margin-bottom: 0.6rem; padding-bottom: 0.4rem;
-            border-bottom: 1px solid var(--border-light);
-        }
-        .bazi-dayun-detail-title,
-        .bazi-liunian-detail-title {
-            font-family: var(--font-display);
-            font-size: 0.95rem; color: var(--text-1);
-        }
-        .bazi-dayun-detail-close,
-        .bazi-liunian-detail-close {
-            background: none; border: 1px solid var(--border);
-            color: var(--text-3); width: 22px; height: 22px;
-            border-radius: 50%; cursor: pointer; font-size: 0.8rem;
-            display: flex; align-items: center; justify-content: center;
-        }
-        .bazi-dayun-detail-close:hover,
-        .bazi-liunian-detail-close:hover {
-            border-color: var(--accent); color: var(--accent);
-        }
-
-        /* Dayun detail data rows */
-        .dy-data-row,
-        .ly-data-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 0.5rem; margin-bottom: 0.5rem;
-        }
-        .dy-data-col,
-        .ly-data-col {
-            padding: 0.4rem 0.6rem;
-            background: var(--bg);
-            border: 1px solid var(--border-light);
-            border-radius: 4px;
-        }
-        .dy-data-item,
-        .ly-data-item {
-            display: flex; flex-direction: column; gap: 0.1rem;
-        }
-        .dy-label, .ly-label { font-size: 0.68rem; color: var(--text-3); }
-        .dy-value, .ly-value { font-size: 0.78rem; color: var(--text-1); font-weight: 500; }
-        .dy-value.auspicious, .ly-value.auspicious { color: var(--good); }
-        .dy-value.inauspicious, .ly-value.inauspicious { color: var(--bad); }
-        .dy-value.neutral, .ly-value.neutral { color: var(--accent); }
-
-        .dy-canggan-row,
-        .ly-canggan-row {
-            font-size: 0.74rem; color: var(--text-2);
-            padding: 0.3rem 0.6rem;
-            background: var(--bg);
-            border: 1px solid var(--border-light);
-            border-radius: 4px; line-height: 1.5;
-        }
-
-        /* ============================================
-           FLOW YEARS (LIU NIAN)
-           ============================================ */
-        .bazi-liunian-title {
-            font-size: 0.78rem; color: var(--text-2);
-            margin: 0.6rem 0 0.3rem;
-        }
-        .bazi-liunian-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(56px, 1fr));
-            gap: 0.25rem;
-        }
-        .bazi-liunian-item {
-            text-align: center; padding: 0.25rem 0.1rem;
-            background: var(--bg);
-            border: 1px solid var(--border-light);
-            border-radius: 3px; font-size: 0.62rem;
+        .dayun-card {
+            text-align: center; padding: 0.5rem 0.3rem; background: var(--card);
+            border: 1px solid var(--line); border-radius: var(--radius-sm);
             cursor: pointer; transition: all 0.15s; position: relative;
         }
-        .bazi-liunian-item:hover { border-color: var(--accent-light); }
-        .bazi-liunian-item.ly-active {
-            border-color: var(--accent); background: var(--accent-bg);
+        .dayun-card:hover { border-color: var(--accent-soft); background: var(--card-hover); }
+        .dayun-card.active { border-color: var(--accent); background: var(--accent-bg); }
+        .dayun-card.dayun-current { border-color: var(--good-line); background: var(--good-bg); }
+        .dayun-card.dayun-current.active { border-color: var(--accent); background: var(--accent-bg); }
+        .dayun-ganzhi { font-family: var(--serif), 'SimSun', serif; font-size: 0.95rem; color: var(--ink); letter-spacing: 0.04em; }
+        .dayun-tg { font-size: 0.55rem; color: var(--accent); margin-top: 0.05rem; }
+        .dayun-age { font-size: 0.65rem; color: var(--ink-2); margin-top: 0.1rem; }
+        .dayun-years { font-size: 0.58rem; color: var(--ink-3); }
+        .nzsc-dot { font-size: 0.58rem; margin-top: 0.15rem; }
+        .nzsc-dot.auspicious { color: var(--good); }
+        .nzsc-dot.neutral { color: var(--accent); }
+        .nzsc-dot.inauspicious { color: var(--bad); }
+
+        /* ============================
+           DETAIL PANELS
+           ============================ */
+        .detail-panel {
+            display: none; margin-top: 0.8rem; padding: 0.8rem;
+            background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+            animation: fadeIn 0.15s ease-out;
         }
-        .bazi-liunian-item.current-year {
-            border-color: var(--good-border); background: var(--good-bg);
+        .detail-panel.show { display: block; }
+        .detail-panel-sm { padding: 0.6rem; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .detail-panel-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem; padding-bottom: 0.4rem; border-bottom: 1px solid var(--line); }
+        .detail-panel-head h3 { font-family: var(--serif); font-size: 0.95rem; color: var(--ink); }
+        .detail-panel-head h4 { font-family: var(--serif); font-size: 0.88rem; color: var(--ink); }
+        .btn-close {
+            background: none; border: 1px solid var(--line); color: var(--ink-3);
+            width: 22px; height: 22px; border-radius: 50%; cursor: pointer; font-size: 0.8rem;
+            display: flex; align-items: center; justify-content: center;
         }
-        .bazi-liunian-item.current-year.ly-active {
-            border-color: var(--good); background: var(--good-bg);
+        .btn-close-sm { width: 20px; height: 20px; font-size: 0.75rem; }
+        .btn-close:hover { border-color: var(--accent); color: var(--accent); }
+
+        /* Detail Grid (2 cols for Ten God cards) */
+        .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+
+        .detail-card {
+            background: var(--sunken); border: 1px solid var(--line-light);
+            border-radius: var(--radius-sm); padding: 0.5rem 0.6rem;
         }
-        .bazi-liunian-item .ly-year { color: var(--text-3); font-size: 0.55rem; }
-        .bazi-liunian-item .ly-ganzhi {
-            font-family: var(--font-display), 'SimSun', serif;
-            color: var(--text-1); font-size: 0.7rem;
+        .detail-card-header { font-size: 0.75rem; color: var(--ink-2); margin-bottom: 0.3rem; line-height: 1.4; }
+        .detail-card-header strong { color: var(--ink); }
+        .detail-card-body { font-size: 0.72rem; color: var(--ink-2); line-height: 1.5; }
+        .detail-row { margin-bottom: 0.15rem; }
+        .detail-key { color: var(--ink-3); font-size: 0.68rem; }
+
+        /* NZSC badge */
+        .nzsc-badge {
+            display: inline-block; padding: 0.15rem 0.5rem; border-radius: 3px;
+            font-size: 0.75rem; font-weight: 500;
         }
-        .bazi-liunian-item .ly-tg {
-            font-size: 0.48rem; color: var(--accent);
-            background: var(--accent-bg); border-radius: 2px;
-            padding: 0.01rem 0.2rem; display: inline-block;
-            margin-top: 0.03rem;
+        .nzsc-badge.auspicious { background: var(--good-bg); color: var(--good); border: 1px solid var(--good-line); }
+        .nzsc-badge.neutral { background: var(--accent-bg); color: var(--accent); border: 1px solid var(--accent-soft); }
+        .nzsc-badge.inauspicious { background: var(--bad-bg); color: var(--bad); border: 1px solid var(--bad-line); }
+
+        /* Cang Gan list */
+        .canggan-list { display: flex; flex-direction: column; gap: 0.3rem; }
+        .canggan-entry {
+            display: grid; grid-template-columns: auto auto 1fr; gap: 0.4rem;
+            align-items: baseline; font-size: 0.72rem;
+        }
+        .canggan-stem { font-weight: 600; font-size: 0.78rem; font-family: var(--serif), 'SimSun', serif; }
+        .canggan-tg { color: var(--accent); font-size: 0.68rem; }
+        .cg-primary-tag { font-size: 0.58rem; color: var(--ink-3); background: var(--line-light); padding: 0 0.25rem; border-radius: 2px; }
+        .canggan-desc { color: var(--ink-3); font-size: 0.68rem; }
+
+        /* ============================
+           LIU NIAN
+           ============================ */
+        .liunian-title { font-size: 0.82rem; color: var(--ink-2); margin: 0.6rem 0 0.3rem; font-weight: 500; }
+        .liunian-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(54px, 1fr)); gap: 0.25rem; }
+        .ly-card {
+            text-align: center; padding: 0.2rem 0.1rem; background: var(--sunken);
+            border: 1px solid var(--line-light); border-radius: 3px;
+            cursor: pointer; transition: all 0.15s; position: relative; font-size: 0.62rem;
+        }
+        .ly-card:hover { border-color: var(--accent-soft); }
+        .ly-card.ly-active { border-color: var(--accent); background: var(--accent-bg); }
+        .ly-card.ly-current { border-color: var(--good-line); background: var(--good-bg); }
+        .ly-card.ly-current.ly-active { border-color: var(--good); }
+        .ly-ganzhi { font-family: var(--serif), 'SimSun', serif; color: var(--ink); font-size: 0.7rem; }
+        .ly-tg { font-size: 0.48rem; color: var(--accent); margin-top: 0.02rem; }
+        .ly-year { color: var(--ink-3); font-size: 0.52rem; margin-top: 0.02rem; }
+
+        /* ============================
+           BADGES
+           ============================ */
+        .badge-current {
+            position: absolute; top: -1px; right: -1px;
+            background: var(--good); color: #fff;
+            font-size: 0.36rem; padding: 0 0.2rem; border-radius: 0 4px 0 3px;
+            font-family: var(--sans); letter-spacing: 0.05em; font-weight: 600;
+        }
+        .badge-now {
+            position: absolute; top: -1px; right: -1px;
+            background: var(--good); color: #fff;
+            font-size: 0.34rem; padding: 0 0.2rem; border-radius: 0 3px 0 3px;
+            font-family: var(--sans); letter-spacing: 0.04em; font-weight: 600;
         }
 
-        /* ============================================
-           CTA SECTION
-           ============================================ */
-        .bazi-cta-section {
-            margin-top: 2rem;
-            padding: 1.5rem 1.2rem;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            text-align: center;
+        /* ============================
+           CTA
+           ============================ */
+        .cta-box {
+            margin-top: 2rem; padding: 1.2rem; background: var(--card);
+            border: 1px solid var(--line); border-radius: var(--radius); text-align: center;
         }
-        .bazi-cta-inner { max-width: 500px; margin: 0 auto; }
-        .bazi-cta-title {
-            font-size: 1.05rem; color: var(--text-1);
-            font-weight: 600; margin-bottom: 0.4rem;
-            font-family: var(--font-display);
+        .cta-title { font-family: var(--serif); font-size: 1rem; color: var(--ink); margin-bottom: 0.3rem; }
+        .cta-desc { font-size: 0.78rem; color: var(--ink-2); line-height: 1.5; margin-bottom: 0.6rem; }
+        .cta-list {
+            display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.3rem;
+            margin-bottom: 1rem; font-size: 0.75rem; color: var(--ink-2);
         }
-        .bazi-cta-desc {
-            font-size: 0.78rem; color: var(--text-2);
-            line-height: 1.5; margin-bottom: 0.8rem;
+        .cta-btn {
+            display: inline-block; padding: 0.55rem 1.6rem; background: var(--accent); color: #fff;
+            font-weight: 600; font-size: 0.85rem; border-radius: var(--radius-sm); text-decoration: none; transition: all 0.15s;
         }
-        .bazi-cta-grid {
-            display: grid; grid-template-columns: 1fr 1fr;
-            gap: 0.3rem 1rem; margin-bottom: 1.2rem; text-align: left;
-        }
-        .bazi-cta-item {
-            font-size: 0.75rem; color: var(--text-2); line-height: 1.4;
-            padding: 0.15rem 0;
-        }
-        .bazi-cta-btn {
-            display: inline-block; padding: 0.6rem 1.8rem;
-            background: var(--accent); color: #fff;
-            font-weight: 600; font-size: 0.85rem;
-            border-radius: 5px; text-decoration: none; transition: all 0.15s;
-        }
-        .bazi-cta-btn:hover { background: #7A6348; }
-        .bazi-cta-note {
-            font-size: 0.65rem; color: var(--text-3); margin-top: 0.6rem;
-        }
+        .cta-btn:hover { background: #7A6348; }
+        .cta-note { font-size: 0.65rem; color: var(--ink-3); margin-top: 0.6rem; }
 
-        /* ============================================
+        /* ============================
            FOOTER
-           ============================================ */
-        .bazi-footer {
-            text-align: center; padding: 1.2rem;
-            border-top: 1px solid var(--border);
-        }
-        .bazi-footer a {
-            color: var(--accent); text-decoration: none; font-size: 0.78rem;
-        }
+           ============================ */
+        .bazi-footer { text-align: center; padding: 1rem; border-top: 1px solid var(--line); }
+        .bazi-footer a { color: var(--accent); text-decoration: none; font-size: 0.78rem; }
 
-        /* ============================================
+        /* ============================
            RESPONSIVE
-           ============================================ */
+           ============================ */
         @media (max-width: 640px) {
             .bazi-page { padding: 1.2rem 1rem 2rem; }
-            .bazi-pillars-grid { grid-template-columns: repeat(2, 1fr); }
-            .bazi-dayun-grid { grid-template-columns: repeat(4, 1fr); }
-            .bazi-liunian-grid { grid-template-columns: repeat(5, 1fr); }
-            .bazi-cta-grid { grid-template-columns: 1fr; }
-            .dy-data-row, .ly-data-row { grid-template-columns: 1fr; }
-            .dm-profile-row { flex-direction: column; gap: 0.3rem; }
+            .main-grid { grid-template-columns: 1fr; }
+            .pillars-grid { grid-template-columns: repeat(2, 1fr); }
+            .dayun-grid { grid-template-columns: repeat(4, 1fr); }
+            .liunian-grid { grid-template-columns: repeat(5, 1fr); }
+            .detail-grid { grid-template-columns: 1fr; }
+            .cta-list { grid-template-columns: 1fr 1fr; }
+            .info-card-grid { grid-template-columns: 1fr; }
+            .canggan-entry { grid-template-columns: auto 1fr; }
+            .canggan-desc { grid-column: 1 / -1; }
         }
     </style>
 </head>
 <body>
-    <!-- NAV -->
     <nav class="bazi-nav">
         <a href="/" class="bazi-nav-brand">DAO ESSENCE</a>
-        <div class="bazi-nav-actions">
-            <a href="/#free-bazi">New Reading</a>
-        </div>
+        <div class="bazi-nav-actions"><a href="/#free-bazi">New Reading</a></div>
     </nav>
-
-    <!-- LOADING STATE -->
     <div id="bazi-loading" class="bazi-loading">
         <div class="bazi-loading-spinner"></div>
         <p>Calculating your BaZi chart...</p>
     </div>
-
-    <!-- ERROR STATE -->
     <div id="bazi-error" class="bazi-error-page" style="display:none;"></div>
-
-    <!-- RESULT CONTAINER -->
     <div id="bazi-result" class="bazi-page" style="display:none;"></div>
-
-    <!-- SCRIPTS -->
     <script src="paipan.min.js"></script>
     <script src="bazi-result.js"></script>
 </body>
