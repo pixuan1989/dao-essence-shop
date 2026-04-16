@@ -524,34 +524,6 @@ ${FOOTER_HTML}
 
 async function main() {
   console.log('=== Blog Build Started ===');
-  console.log('SRC_DIR:', SRC_DIR);
-  console.log('DIST_DIR:', DIST_DIR);
-  console.log('POSTS_DIR:', POSTS_DIR);
-  console.log('POSTS_DIR exists:', fs.existsSync(POSTS_DIR));
-  console.log('CWD:', process.cwd());
-
-  // Debug: list blog/ directory structure
-  if (fs.existsSync(BLOG_DIR)) {
-    console.log('Files in BLOG_DIR:', fs.readdirSync(BLOG_DIR));
-  } else {
-    console.log('BLOG_DIR does NOT exist!');
-  }
-
-  if (fs.existsSync(POSTS_DIR)) {
-    console.log('Files in POSTS_DIR:', fs.readdirSync(POSTS_DIR));
-  } else {
-    console.log('POSTS_DIR does NOT exist!');
-  }
-
-  // Debug: check if files exist via git
-  try {
-    const { execSync } = await import('child_process');
-    const gitFiles = execSync('git ls-files blog/posts/', { encoding: 'utf-8' }).trim();
-    console.log('Git tracked files in blog/posts/:', gitFiles || '(none)');
-  } catch(e) {
-    console.log('Git check failed:', e.message);
-  }
-
   // Step 1: Clean and create dist/
   if (fs.existsSync(DIST_DIR)) {
     fs.rmSync(DIST_DIR, { recursive: true, force: true });
