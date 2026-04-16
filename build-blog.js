@@ -47,7 +47,7 @@ const SITE_URL = 'https://www.daoessentia.com';
 
 // Shared nav HTML
 const NAV_HTML = `
-    <header class="header">
+    <header class="header scrolled">
         <div class="container">
             <nav class="nav">
                 <a href="/" class="logo">
@@ -59,11 +59,11 @@ const NAV_HTML = `
                     <li class="nav-dropdown">
                         <span class="nav-dropdown-trigger">Blog <i class="nav-dropdown-arrow"></i></span>
                         <div class="nav-dropdown-menu">
-                            <a href="/blog/bazi-astrology">八字命理学 Bazi</a>
-                            <a href="/blog/zodiac-horoscope">十二生肖运势 Zodiac</a>
-                            <a href="/blog/feng-shui">风水知识 Feng Shui</a>
-                            <a href="/blog/daily-horoscope">每日运势 Daily</a>
-                            <a href="/blog/lucky-tips">旺运术 Lucky Tips</a>
+                            <a href="/blog/bazi-astrology">BaZi Astrology</a>
+                            <a href="/blog/zodiac-horoscope">Zodiac Horoscope</a>
+                            <a href="/blog/feng-shui">Feng Shui</a>
+                            <a href="/blog/daily-horoscope">Daily Horoscope</a>
+                            <a href="/blog/lucky-tips">Lucky Tips</a>
                         </div>
                     </li>
                     <li><a href="/culture" class="nav-link">Energy Universe</a></li>
