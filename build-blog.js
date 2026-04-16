@@ -658,7 +658,7 @@ async function main() {
     filteredRegular.sort((a, b) => new Date(b.data.date) - new Date(a.data.date));
 
     // Homepage shows up to 4 articles: pinned first, then fill with latest
-    const homepageCount = 4;
+    const homepageCount = 6;
     const regularCount = Math.max(0, homepageCount - pinnedArticles.length);
     const displayArticles = [
       ...pinnedArticles,
