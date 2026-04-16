@@ -1,5 +1,6 @@
 {
   "framework": null,
+  "buildCommand": "node build-blog.js",
   "outputDirectory": "dist",
   "installCommand": "npm install",
   "devCommand": null,
