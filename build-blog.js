@@ -140,9 +140,18 @@ const ARTICLE_STYLES = `
         .blog-article img { max-width: 100%; border-radius: 8px; margin: 1.5rem 0; }
         .blog-article a { color: var(--accent-color); text-decoration: underline; }
         .blog-article a:hover { color: #E8C547; }
-        .blog-cta { text-align: center; padding: 3rem; margin: 3rem 0; background: linear-gradient(135deg, rgba(212,175,55,0.06), rgba(212,175,55,0.02)); border: 1px solid rgba(212,175,55,0.2); border-radius: 16px; }
-        .blog-cta a { display: inline-block; padding: 1rem 2.5rem; background: var(--accent-color); color: #1A1208; text-decoration: none; font-weight: 600; letter-spacing: 0.05em; border-radius: 6px; transition: all 0.3s; }
-        .blog-cta a:hover { background: #E8C547; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(212,175,55,0.3); }`;
+        .blog-cta { position: relative; overflow: hidden; text-align: center; padding: 3.5rem 3rem; margin: 4rem 0 2rem; background: linear-gradient(160deg, #1A1208 0%, #2C2416 60%, #3D3422 100%); border: 1px solid rgba(212,175,55,0.25); border-radius: 20px; box-shadow: 0 12px 40px rgba(0,0,0,0.15); }
+        .blog-cta::before { content: '☯'; position: absolute; top: -30px; right: -20px; font-size: 8rem; opacity: 0.04; color: #D4AF37; pointer-events: none; }
+        .blog-cta::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, rgba(212,175,55,0.5), transparent); }
+        .blog-cta h3 { font-family: var(--font-display); color: #D4AF37; font-size: 1.6rem; letter-spacing: 0.08em; margin-bottom: 0.6rem; position: relative; }
+        .blog-cta .cta-sub { color: rgba(255,255,255,0.7); margin-bottom: 1.8rem; font-size: 1rem; line-height: 1.6; position: relative; }
+        .blog-cta .cta-features { display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; margin-bottom: 2rem; position: relative; }
+        .blog-cta .cta-feat { color: rgba(255,255,255,0.6); font-size: 0.88rem; display: flex; align-items: center; gap: 0.4rem; }
+        .blog-cta .cta-feat span { color: #D4AF37; font-size: 1.1rem; }
+        .blog-cta a { display: inline-flex; align-items: center; gap: 0.5rem; padding: 1rem 2.8rem; background: linear-gradient(135deg, #D4AF37, #E8C547); color: #1A1208; text-decoration: none; font-weight: 700; font-size: 1.05rem; letter-spacing: 0.05em; border-radius: 10px; transition: all 0.3s; position: relative; box-shadow: 0 4px 20px rgba(212,175,55,0.3); }
+        .blog-cta a:hover { transform: translateY(-3px); box-shadow: 0 8px 32px rgba(212,175,55,0.5); background: linear-gradient(135deg, #E8C547, #F0D76A); }
+        .blog-cta a::after { content: '→'; font-size: 1.2rem; transition: transform 0.3s; }
+        .blog-cta a:hover::after { transform: translateX(4px); }`;
 
 // ─── Zodiac Lookup Widget ──────────────────────────────────
 const ZODIAC_LOOKUP_HTML = `
@@ -514,9 +523,14 @@ ${NAV_HTML}
         ${finalBody}
 
         <div class="blog-cta">
-            <h3 style="font-family: var(--font-display); color: var(--accent-color); margin-bottom: 0.8rem;">Discover Your Energy Path</h3>
-            <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Get a personalized BaZi reading and unlock the secrets of your birth chart.</p>
-            <a href="/bazi-form">Get Your BaZi Reading →</a>
+            <h3>Unlock Your Birth Chart Secrets</h3>
+            <p class="cta-sub">Your BaZi chart reveals your personality, career path,<br>relationships, and life's hidden opportunities.</p>
+            <div class="cta-features">
+                <div class="cta-feat"><span>命</span> Four Pillars Analysis</div>
+                <div class="cta-feat"><span>运</span> Da Yun Forecast</div>
+                <div class="cta-feat"><span>势</span> 2026 Outlook</div>
+            </div>
+            <a href="/bazi-form">Get Your Free BaZi Reading</a>
         </div>
     </article>
 
