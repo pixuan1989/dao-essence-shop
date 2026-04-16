@@ -429,16 +429,17 @@ function readAllMdFiles(dir) {
 
 function generateArticleHtml(post, category) {
   const { data, content, slug } = post;
-  const htmlBody = marked.parse(content);
   const dateFormatted = formatDate(data.date);
   const categoryLabel = CATEGORY_LABELS[category] || category;
   const categoryHref = `/blog/${category}`;
 
-  // Check if article contains zodiac lookup widget
-  const hasZodiacLookup = htmlBody.includes('<!--zodiac-lookup-->');
-  const finalBody = hasZodiacLookup
-    ? htmlBody.replace('<!--zodiac-lookup-->', ZODIAC_LOOKUP_HTML)
-    : htmlBody;
+  // Replace zodiac-lookup marker BEFORE marked.parse so it stays block-level
+  const hasZodiacLookup = content.includes('<!--zodiac-lookup-->');
+  const processedContent = hasZodiacLookup
+    ? content.replace('<!--zodiac-lookup-->', ZODIAC_LOOKUP_HTML)
+    : content;
+  const htmlBody = marked.parse(processedContent);
+  const finalBody = htmlBody;
 
   // FAQ structured data
   let faqJsonLd = '';
