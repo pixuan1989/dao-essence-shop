@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Successful | DAO Essence</title>
+    <meta name="description" content="Payment successful! Your DAO Essence digital resources are ready for instant download.">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="stylesheet" href="styles.min.css?v=202604031200">
+    <style>
+        .success-page {
+            min-height: 100vh;
+            padding: 120px 20px 60px;
+            background: linear-gradient(135deg, #f5f0e6 0%, #e8e0d0 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .success-container {
+            max-width: 700px;
+            width: 100%;
+            background: white;
+            border-radius: 16px;
+            padding: 50px 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            animation: scaleIn 0.5s ease;
+        }
+        
+        .success-icon svg {
+            width: 40px;
+            height: 40px;
+            fill: white;
+        }
+        
+        @keyframes scaleIn {
+            from { transform: scale(0); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        
+        .success-title {
+            font-size: 32px;
+            color: #1a1a1a;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .success-subtitle {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 40px;
+        }
+        
+        .order-info {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+        
+        .order-info h3 {
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .order-detail {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+            font-size: 14px;
+        }
+        
+        .order-detail span:first-child {
+            color: #666;
+        }
+        
+        .order-detail span:last-child {
+            color: #333;
+            font-weight: 500;
+        }
+        
+        .shipping-notice {
+            background: linear-gradient(135deg, #fff8e1, #ffecb3);
+            border-left: 4px solid #ffc107;
+            border-radius: 0 12px 12px 0;
+            padding: 25px;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+        
+        .shipping-notice h3 {
+            color: #f57c00;
+            font-size: 18px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .shipping-notice p {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.7;
+            margin: 0;
+        }
+        
+        .contact-section {
+            background: #1a1a1a;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .contact-section h3 {
+            color: #D4AF37;
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        
+        .contact-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .contact-item:hover {
+            background: rgba(212,175,55,0.1);
+            transform: translateY(-2px);
+        }
+        
+        .contact-item svg {
+            width: 24px;
+            height: 24px;
+            fill: #D4AF37;
+            flex-shrink: 0;
+        }
+        
+        .contact-info {
+            text-align: left;
+        }
+        
+        .contact-label {
+            font-size: 12px;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 2px;
+        }
+        
+        .contact-value {
+            font-size: 14px;
+            color: white;
+            font-weight: 500;
+        }
+        
+        .next-steps {
+            background: #f0f7ff;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+        
+        .next-steps h3 {
+            color: #1976d2;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+        
+        .next-steps ol {
+            margin: 0;
+            padding-left: 20px;
+            color: #555;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+        
+        .next-steps li {
+            margin-bottom: 8px;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid #1a1a1a;
+            color: #1a1a1a;
+            padding: 14px 30px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-secondary:hover {
+            background: #1a1a1a;
+            color: white;
+        }
+        
+        @media (max-width: 600px) {
+            .success-container {
+                padding: 30px 20px;
+            }
+            
+            .success-title {
+                font-size: 24px;
+            }
+            
+            .contact-methods {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 头部导航 -->
+    <header class="header scrolled">
+        <div class="container">
+            <nav class="nav">
+                <a href="/" class="logo">
+                    <div class="logo-icon"></div>
+                    <div class="logo-text">
+                        <span class="logo-en">DAO ESSENCE</span>
+                    </div>
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="success-page">
+        <div class="success-container">
+            <div class="success-icon">
+                <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+            </div>
+            
+            <h1 class="success-title">Payment Successful!</h1>
+            <p class="success-subtitle">Thank you for your purchase. Your order has been confirmed.</p>
+            
+            <div class="order-info">
+                <h3>🧾 Order Details</h3>
+                <div class="order-detail">
+                    <span>Product:</span>
+                    <span id="order-product">Loading...</span>
+                </div>
+                <div class="order-detail">
+                    <span>Order ID:</span>
+                    <span id="order-id">Loading...</span>
+                </div>
+                <div class="order-detail">
+                    <span>Order Date:</span>
+                    <span id="order-date">Loading...</span>
+                </div>
+                <div class="order-detail">
+                    <span>Total Amount:</span>
+                    <span id="order-total">Loading...</span>
+                </div>
+                <div class="order-detail">
+                    <span>Payment Method:</span>
+                    <span>Creem Secure Payment</span>
+                </div>
+            </div>
+
+            <!-- 金额提示信息 -->
+            <div id="amount-notice" style="display:none;background:rgba(212,175,55,0.1);border:1px solid rgba(212,175,55,0.3);border-radius:8px;padding:16px;margin-top:16px;text-align:center;">
+                <p style="margin:0;color:#D4AF37;font-size:14px;">💰 The exact payment amount can be verified in your Creem account or email receipt.</p>
+            </div>
+            
+            <div class="shipping-notice">
+                <h3>📦 Complete Digital Service Package</h3>
+                <p>Your purchase includes comprehensive digital resources: personalized energy reports, guided meditation audio, and self-guided online consultation. <strong>For optional physical reference materials, please contact our customer service.</strong> These supplementary items are arranged separately and are not part of the core digital service.</p>
+            </div>
+            
+            <div class="contact-section">
+                <h3>📞 Contact Customer Service</h3>
+                <div class="contact-methods">
+                    
+                    <a href="mailto:support@daoessentia.com" class="contact-item">
+                        <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                        <div class="contact-info">
+                            <div class="contact-label">Email</div>
+                            <div class="contact-value">support@daoessentia.com</div>
+                        </div>
+                    </a>
+                    
+                    <div class="contact-item" onclick="document.getElementById('wechat-modal').style.display='flex';" style="cursor: pointer;">
+                        <svg viewBox="0 0 24 24"><path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 0 0 .167-.054l1.903-1.114a.864.864 0 0 1 .717-.098 10.16 10.16 0 0 0 2.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348zM5.785 5.991c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178A1.17 1.17 0 0 1 4.623 7.17c0-.651.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178 1.17 1.17 0 0 1-1.162-1.178c0-.651.52-1.18 1.162-1.18zm5.34 2.867c-1.797-.052-3.746.512-5.28 1.786-1.72 1.428-2.687 3.72-1.78 6.22.942 2.453 3.666 4.229 6.884 4.229.826 0 1.622-.12 2.361-.336a.722.722 0 0 1 .598.082l1.584.926a.272.272 0 0 0 .14.047c.134 0 .24-.111.24-.247 0-.06-.023-.12-.038-.177l-.327-1.233a.582.582 0 0 1-.023-.156.49.49 0 0 1 .201-.398C23.024 18.48 24 16.82 24 14.98c0-3.21-2.931-5.837-7.062-6.122zm-3.957 3.467c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.969-.982zm4.844 0c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.969-.982z"/></svg>
+                        <div class="contact-info">
+                            <div class="contact-label">WeChat</div>
+                            <div class="contact-value">Click for QR Code</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="next-steps">
+                <h3>✅ Next Steps</h3>
+                <ol>
+                    <li><strong>Access your digital service:</strong> Check your email for login credentials and access instructions</li>
+                    <li><strong>Schedule consultation:</strong> Unlock your self-guided digital program with your activation code</li>
+                    <li><strong>Download resources:</strong> Access your personalized energy report and guided meditation audio</li>
+                    <li><strong>Optional:</strong> Contact us if you're interested in supplementary physical reference materials</li>
+                </ol>
+            </div>
+            
+            <div class="action-buttons">
+                <a href="/" class="btn btn-primary">Return to Home</a>
+                <a href="shop" class="btn btn-secondary">Continue Shopping</a>
+            </div>
+        </div>
+    </main>
+    
+    <!-- WeChat QR Modal -->
+    <div id="wechat-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:9999;align-items:center;justify-content:center;" onclick="if(event.target===this)this.style.display='none'">
+        <div style="background:#1a1a1a;border:1px solid rgba(212,175,55,0.4);border-radius:16px;padding:40px;text-align:center;max-width:320px;width:90%;position:relative;">
+            <button onclick="document.getElementById('wechat-modal').style.display='none'" style="position:absolute;top:12px;right:16px;background:none;border:none;color:rgba(245,240,230,0.6);font-size:22px;cursor:pointer;line-height:1;">&times;</button>
+            <svg viewBox="0 0 24 24" width="40" height="40" fill="#D4AF37" style="margin-bottom:12px"><path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 0 0 .167-.054l1.903-1.114a.864.864 0 0 1 .717-.098 10.16 10.16 0 0 0 2.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348zM5.785 5.991c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178A1.17 1.17 0 0 1 4.623 7.17c0-.651.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178 1.17 1.17 0 0 1-1.162-1.178c0-.651.52-1.18 1.162-1.18zm5.34 2.867c-1.797-.052-3.746.512-5.28 1.786-1.72 1.428-2.687 3.72-1.78 6.22.942 2.453 3.666 4.229 6.884 4.229.826 0 1.622-.12 2.361-.336a.722.722 0 0 1 .598.082l1.584.926a.272.272 0 0 0 .14.047c.134 0 .24-.111.24-.247 0-.06-.023-.12-.038-.177l-.327-1.233a.582.582 0 0 1-.023-.156.49.49 0 0 1 .201-.398C23.024 18.48 24 16.82 24 14.98c0-3.21-2.931-5.837-7.062-6.122zm-3.957 3.467c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.969-.982zm4.844 0c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.969-.982z"/></svg>
+            <h3 style="color:#D4AF37;margin:0 0 8px;font-size:18px;">WeChat</h3>
+            <p style="color:rgba(245,240,230,0.7);font-size:13px;margin:0 0 20px;">Scan the QR code to connect with us on WeChat</p>
+            <div style="width:160px;height:160px;margin:0 auto;">
+                <img src="images/微信图片_20260324143206_59_9.jpg" alt="WeChat QR Code" style="width:100%;height:100%;border-radius:8px;object-fit:cover;" loading="lazy">
+            </div>
+            <p style="color:rgba(245,240,230,0.5);font-size:12px;margin:16px 0 0;">WeChat ID: your-wechat-id</p>
+        </div>
+    </div>
+
+    <script>
+        // Parse URL parameters to display order info
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+
+            // Get order details from URL
+            const orderId = urlParams.get('order_id') || 'ORD-' + Date.now();
+            const total = urlParams.get('total');
+            const product = urlParams.get('product') || 'Digital Service';
+
+            // Display order info
+            document.getElementById('order-product').textContent = product;
+            document.getElementById('order-id').textContent = orderId;
+            document.getElementById('order-date').textContent = new Date().toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+
+            // 如果有 total 参数，显示具体金额；否则显示提示
+            if (total && total !== 'N/A') {
+                document.getElementById('order-total').textContent = '$' + parseFloat(total).toFixed(2);
+            } else {
+                document.getElementById('order-total').textContent = 'Paid';
+                document.getElementById('amount-notice').style.display = 'block';
+            }
+
+            // Clear cart after successful payment
+            localStorage.removeItem('daoessence_cart');
+        });
+    </script>
+</body>
+</html>

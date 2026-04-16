@@ -1,0 +1,1785 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taoist Guide | Qigong & Five Elements | DAO Essence</title>
+    <meta name="description" content="Learn Taoist meditation, Qigong exercises, Five Elements healing, and ancient Chinese wisdom. Free beginner guides from DAO Essence.">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+    <meta name="keywords" content="Taoist wisdom, Five elements theory, Taoist meditation techniques, Bazi numerology, Qigong practice, Chinese metaphysics, Energy healing, Feng shui, Traditional Chinese medicine, Eastern philosophy, Five elements personality test, Bazi reading, Taoist energy healing, Qigong meditation for beginners, Five elements health tips, Taoist philosophy, Chinese metaphysics for self-improvement, Energy balance techniques">
+    <!-- Open Graph -->
+    <meta property="og:title" content="Taoist Meditation & Qigong Guide | DAO Essence">
+    <meta property="og:description" content="Learn Taoist meditation, Qigong exercises, Five Elements energy healing, and Daoist cultivation practices. Free beginner guides.">
+    <meta property="og:image" content="https://www.daoessentia.com/images/og-default.jpg">
+    <meta property="og:url" content="https://www.daoessentia.com/guide">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="DAO Essence">
+    <link rel="canonical" href="https://www.daoessentia.com/guide">
+    <link rel="alternate" hreflang="en" href="https://www.daoessentia.com/guide">
+    <link rel="alternate" hreflang="x-default" href="https://www.daoessentia.com/guide">
+    <link rel="stylesheet" href="styles.min.css?v=202604031200">
+    <script src="main.min.js?v=202604031200" defer></script>
+
+    <!-- Vercel Web Analytics -->
+    <script>
+      window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+      var script = document.createElement('script');
+      script.defer = true;
+      script.src = '/_vercel/insights/script.js';
+      document.head.appendChild(script);
+    </script>
+    <style>
+        /* guide.html — 深色背景页面，导航栏始终深色文字+浅色背景 */
+        .header {
+            background: rgba(245, 240, 230, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-md, 0 2px 10px rgba(0,0,0,0.08));
+        }
+        .header .logo-en {
+            color: var(--text-primary, #2C2416) !important;
+        }
+        .header .nav-link {
+            color: var(--text-primary, #2C2416) !important;
+        }
+        .header .logo-icon {
+            border-color: var(--accent-color, #D4AF37) !important;
+            color: var(--accent-color, #D4AF37) !important;
+        }
+        .header .nav-link:hover,
+        .header .nav-link.active {
+            color: var(--primary-color, #8B2500) !important;
+        }
+        .header .mobile-menu-btn span {
+            background: var(--text-primary, #2C2416) !important;
+        }
+
+        /* 购物车徽章样式 */
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--fire-primary, #8B2500);
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        /* ══════════════════════════════════════
+           HERO — 视频背景 banner（与 culture 页对齐）
+        ══════════════════════════════════════ */
+        .craft-hero {
+            height: 65vh;
+            min-height: 520px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+            background: #0D1A15;
+            padding-top: 60px;
+        }
+        /* 视频背景 */
+        .craft-hero-video {
+            position: absolute; inset: 0;
+            width: 100%; height: 100%;
+            object-fit: cover;
+            pointer-events: none;
+        }
+        /* 渐变遮罩 */
+        .craft-hero::before {
+            content: '';
+            position: absolute; inset: 0;
+            background:
+                linear-gradient(180deg,
+                    rgba(10,18,12,0.55) 0%,
+                    rgba(10,18,12,0.45) 50%,
+                    rgba(10,18,12,0.70) 100%);
+            z-index: 1;
+        }
+        .craft-hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 780px;
+            padding: 0 2rem;
+        }
+        /* 视频背景 fallback 渐变（当视频未加载时） */
+        .craft-hero-video-fallback {
+            position: absolute; inset: 0;
+            background: linear-gradient(160deg, #0D1A15 0%, #0A1A2E 50%, #1A1208 100%);
+            z-index: 0;
+        }
+        .craft-hero .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.7rem;
+            font-family: var(--font-english);
+            font-size: 0.78rem;
+            letter-spacing: 0.42em;
+            text-transform: uppercase;
+            color: #C9A961;
+            margin-bottom: 1.8rem;
+        }
+        .craft-hero .eyebrow::before,
+        .craft-hero .eyebrow::after {
+            content: '';
+            width: 40px; height: 1px;
+            background: linear-gradient(90deg, transparent, #C9A961);
+        }
+        .craft-hero .eyebrow::after {
+            background: linear-gradient(90deg, #C9A961, transparent);
+        }
+        .craft-hero h1 {
+            font-family: var(--font-display);
+            font-size: clamp(2.8rem, 7vw, 5rem);
+            color: #F5F0E6;
+            margin-bottom: 1.4rem;
+            letter-spacing: 0.14em;
+            line-height: 1.1;
+        }
+        .craft-hero h1 em {
+            font-style: normal;
+            background: linear-gradient(135deg, #D4AF37, #F5D982, #C9A961);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .craft-hero p {
+            font-size: 1.05rem;
+            color: rgba(245,240,230,0.65);
+            line-height: 1.95;
+            max-width: 580px;
+            margin: 0 auto 2.5rem;
+        }
+
+
+        /* 模块分隔 Logo — 道字圆圈 */
+        .section-dao-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.9rem;
+            margin: 0 auto 3rem;
+        }
+        .section-dao-logo::before,
+        .section-dao-logo::after {
+            content: '';
+            flex: 1;
+            max-width: 120px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(212,175,55,0.4));
+        }
+        .section-dao-logo::after {
+            background: linear-gradient(90deg, rgba(212,175,55,0.4), transparent);
+        }
+        .dao-circle {
+            width: 52px; height: 52px;
+            border-radius: 50%;
+            border: 1.5px solid var(--accent-color, #D4AF37);
+            display: flex; align-items: center; justify-content: center;
+            font-family: var(--font-display);
+            font-size: 1.45rem;
+            font-weight: 600;
+            color: var(--accent-color, #D4AF37);
+            flex-shrink: 0;
+        }
+        /* 深色背景版 */
+        .section-dao-logo.light .dao-circle {
+            border-color: rgba(212,175,55,0.7);
+            color: rgba(212,175,55,0.85);
+        }
+        .section-dao-logo.light::before {
+            background: linear-gradient(90deg, transparent, rgba(212,175,55,0.3));
+        }
+        .section-dao-logo.light::after {
+            background: linear-gradient(90deg, rgba(212,175,55,0.3), transparent);
+        }
+        /* ══════════════════════════════════════
+           STATS 数字彰显实力
+        ══════════════════════════════════════ */
+        .craft-stats {
+            background: linear-gradient(135deg, #1A1208, #0D1A15);
+            padding: 3.5rem 5%;
+            border-bottom: 1px solid rgba(212,175,55,0.12);
+        }
+        .craft-stats-inner {
+            max-width: 900px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            text-align: center;
+        }
+        .stat-item {
+            padding: 1.5rem 1rem;
+            border-right: 1px solid rgba(212,175,55,0.12);
+        }
+        .stat-item:last-child { border-right: none; }
+        .stat-num {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 4vw, 3rem);
+            background: linear-gradient(135deg, #D4AF37, #F5D982);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+        .stat-label {
+            color: rgba(245,240,230,0.5);
+            font-size: 0.8rem;
+            letter-spacing: 0.08em;
+            line-height: 1.4;
+        }
+
+        /* ══════════════════════════════════════
+           STICKY PROCESS NAV
+        ══════════════════════════════════════ */
+        .process-nav {
+            background: rgba(245,240,230,0.97);
+            backdrop-filter: blur(12px);
+            padding: 0 5%;
+            border-bottom: 1px solid rgba(212,175,55,0.2);
+            position: sticky;
+            top: 70px;
+            z-index: 100;
+        }
+        .process-steps {
+            display: flex;
+            justify-content: center;
+            align-items: stretch;
+            gap: 0;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .process-step {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 1rem 1.6rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            border-bottom: 3px solid transparent;
+        }
+        .process-step:hover { background: rgba(212,175,55,0.06); }
+        .process-step.active {
+            border-bottom-color: var(--accent-color);
+            background: rgba(212,175,55,0.08);
+        }
+        .step-number {
+            width: 28px; height: 28px;
+            background: rgba(212,175,55,0.15);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.82rem; font-weight: 700;
+            color: var(--accent-color);
+            transition: all 0.3s;
+            flex-shrink: 0;
+        }
+        .process-step.active .step-number {
+            background: var(--accent-color);
+            color: #1A1208;
+        }
+        .step-label {
+            color: var(--text-secondary);
+            font-size: 0.88rem;
+            font-weight: 500;
+            transition: color 0.3s;
+            white-space: nowrap;
+        }
+        .process-step.active .step-label,
+        .process-step:hover .step-label { color: var(--accent-color); }
+        .step-arrow { color: rgba(212,175,55,0.25); font-size: 0.9rem; align-self: center; }
+
+        /* ══════════════════════════════════════
+           SECTION WRAPPER
+        ══════════════════════════════════════ */
+        .craft-section { padding: 6rem 5%; }
+        .craft-section.dark-section {
+            background: linear-gradient(160deg, #0D1A15 0%, #0A1A2E 100%);
+        }
+        .craft-section.light-section {
+            background: var(--bg-secondary);
+        }
+
+        /* ── Section header ── */
+        .section-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.35rem 1rem;
+            background: rgba(212,175,55,0.1);
+            border: 1px solid rgba(212,175,55,0.3);
+            border-radius: 30px;
+            color: var(--accent-color);
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 1.2rem;
+        }
+        .section-badge .badge-dot {
+            width: 6px; height: 6px;
+            background: var(--accent-color);
+            border-radius: 50%;
+        }
+        .section-title-block {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 1.8rem;
+        }
+        .section-title-block h2 {
+            font-family: var(--font-display);
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            color: var(--accent-color);
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+        .section-title-block h2.light { color: #F5F0E6; }
+        .section-title-block p {
+            color: var(--text-secondary);
+            line-height: 1.9;
+            font-size: 0.98rem;
+        }
+        .section-title-block p.light { color: rgba(245,240,230,0.65); }
+
+        /* ══════════════════════════════════════
+           STEP 1 — 交错网格布局
+        ══════════════════════════════════════ */
+        .material-grid {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+        .material-img-col {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+        .material-img-col .img-main {
+            width: 100%; height: 300px;
+            object-fit: cover;
+            border-radius: 16px;
+            border: 1px solid rgba(212,175,55,0.15);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+        }
+        .material-img-col .img-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.2rem;
+        }
+        .material-img-col .img-row img {
+            width: 100%; height: 140px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 1px solid rgba(212,175,55,0.1);
+        }
+        .material-cards-col {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .mat-card {
+            background: #fff;
+            border: 1px solid rgba(212,175,55,0.15);
+            border-radius: 14px;
+            padding: 1.4rem 1.6rem;
+            display: flex;
+            gap: 1.2rem;
+            align-items: flex-start;
+            transition: all 0.35s;
+            position: relative;
+            overflow: hidden;
+        }
+        .mat-card::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 0; bottom: 0;
+            width: 3px;
+            background: linear-gradient(180deg, var(--accent-color), rgba(212,175,55,0.2));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .mat-card:hover {
+            transform: translateX(6px);
+            border-color: rgba(212,175,55,0.35);
+            box-shadow: 0 8px 28px rgba(0,0,0,0.1);
+        }
+        .mat-card:hover::before { opacity: 1; }
+        .mat-icon {
+            width: 44px; height: 44px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, rgba(212,175,55,0.15), rgba(212,175,55,0.05));
+            border: 1px solid rgba(212,175,55,0.2);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+        .mat-text h4 {
+            font-family: var(--font-display);
+            font-size: 1rem;
+            color: var(--accent-color);
+            margin-bottom: 0.3rem;
+        }
+        .mat-text p {
+            color: var(--text-secondary);
+            font-size: 0.86rem;
+            line-height: 1.65;
+        }
+
+        /* ══════════════════════════════════════
+           STEP 2 — 水平时间线 + 大图
+        ══════════════════════════════════════ */
+        .craft-timeline-wrap {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .craft-img-banner {
+            width: 100%;
+            height: 320px;
+            object-fit: cover;
+            border-radius: 20px;
+            border: 1px solid rgba(212,175,55,0.15);
+            box-shadow: 0 24px 60px rgba(0,0,0,0.18);
+            margin-bottom: 3.5rem;
+            display: block;
+        }
+        /* 水平时间线 */
+        .h-timeline {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0;
+            position: relative;
+        }
+        .h-timeline::before {
+            content: '';
+            position: absolute;
+            top: 22px; left: 10%; right: 10%;
+            height: 2px;
+            background: linear-gradient(90deg,
+                transparent, var(--accent-color) 20%,
+                var(--accent-color) 80%, transparent);
+        }
+        .h-tl-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 0 1rem;
+        }
+        .h-tl-dot {
+            width: 44px; height: 44px;
+            background: linear-gradient(135deg, #D4AF37, #F5D982);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.1rem;
+            margin-bottom: 1.4rem;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 4px 16px rgba(212,175,55,0.35);
+            flex-shrink: 0;
+        }
+        .h-tl-content {
+            background: var(--bg-primary);
+            border: 1px solid rgba(212,175,55,0.15);
+            border-radius: 12px;
+            padding: 1.4rem 1.2rem;
+            width: 100%;
+            transition: all 0.3s;
+        }
+        .h-tl-content:hover {
+            transform: translateY(-4px);
+            border-color: rgba(212,175,55,0.4);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+        }
+        .h-tl-time {
+            display: inline-block;
+            font-size: 0.72rem;
+            color: var(--accent-color);
+            background: rgba(212,175,55,0.1);
+            padding: 0.2rem 0.7rem;
+            border-radius: 20px;
+            margin-bottom: 0.7rem;
+            letter-spacing: 0.05em;
+        }
+        .h-tl-content h4 {
+            font-family: var(--font-display);
+            font-size: 0.98rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+        .h-tl-content p {
+            color: var(--text-secondary);
+            font-size: 0.83rem;
+            line-height: 1.65;
+        }
+
+        /* ══════════════════════════════════════
+           STEP 3 — 深色沉浸式
+        ══════════════════════════════════════ */
+        .preparation-wrap {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .preparation-hero-img {
+            width: 100%;
+            height: 420px;
+            object-fit: cover;
+            border-radius: 20px;
+            margin-bottom: 3rem;
+            display: block;
+            position: relative;
+        }
+        .preparation-img-container {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 3rem;
+        }
+        .preparation-img-container img {
+            width: 100%; height: 420px;
+            object-fit: cover;
+            display: block;
+        }
+        .preparation-img-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(10,15,25,0.85) 0%, transparent 55%);
+            display: flex;
+            align-items: flex-end;
+            padding: 2.5rem;
+        }
+        .preparation-overlay-text h3 {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            color: #F5F0E6;
+            margin-bottom: 0.4rem;
+        }
+        .preparation-overlay-text p {
+            color: rgba(245,240,230,0.65);
+            font-size: 0.9rem;
+        }
+        /* 传统步骤 */
+        .practice-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        .practice-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(212,175,55,0.15);
+            border-radius: 16px;
+            padding: 2rem 1.6rem;
+            text-align: center;
+            transition: all 0.35s;
+            position: relative;
+            overflow: hidden;
+        }
+        .practice-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(212,175,55,0.05) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .practice-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(212,175,55,0.4);
+            box-shadow: 0 16px 40px rgba(0,0,0,0.3);
+        }
+        .practice-card:hover::after { opacity: 1; }
+        .practice-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 56px; height: 56px;
+            margin: 0 auto 1.2rem;
+            background: rgba(212,175,55,0.1);
+            border: 1px solid rgba(212,175,55,0.2);
+            border-radius: 14px;
+        }
+        .practice-card h4 {
+            font-family: var(--font-display);
+            font-size: 1.05rem;
+            color: #D4AF37;
+            margin-bottom: 0.6rem;
+        }
+        .practice-card p {
+            color: rgba(245,240,230,0.6);
+            font-size: 0.87rem;
+            line-height: 1.7;
+        }
+        /* Master信息 */
+        .master-profile {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(212,175,55,0.2);
+            border-radius: 20px;
+            padding: 2.5rem;
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+        .master-avatar {
+            width: 100px; height: 100px;
+            border-radius: 50%;
+            border: 3px solid rgba(212,175,55,0.4);
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+        .master-avatar-placeholder {
+            width: 100px; height: 100px;
+            border-radius: 50%;
+            border: 3px solid rgba(212,175,55,0.4);
+            background: linear-gradient(135deg, rgba(212,175,55,0.12), rgba(212,175,55,0.04));
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+        .master-info h3 {
+            font-family: var(--font-display);
+            font-size: 1.6rem;
+            color: #D4AF37;
+            margin-bottom: 0.25rem;
+        }
+        .master-subtitle {
+            color: rgba(245,240,230,0.5);
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+        .master-info p {
+            color: rgba(245,240,230,0.65);
+            line-height: 1.85;
+            font-size: 0.92rem;
+            margin-bottom: 1.2rem;
+        }
+        .credential-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+        .credential-tag {
+            padding: 0.35rem 0.9rem;
+            background: rgba(212,175,55,0.1);
+            border: 1px solid rgba(212,175,55,0.25);
+            border-radius: 20px;
+            color: rgba(212,175,55,0.85);
+            font-size: 0.8rem;
+        }
+
+        /* ══════════════════════════════════════
+           STEP 4 — 轻奢浅色卡片
+        ══════════════════════════════════════ */
+        .qa-layout {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: start;
+        }
+        .qa-img-stack {
+            position: relative;
+        }
+        .qa-img-main {
+            width: 100%;
+            height: 360px;
+            object-fit: cover;
+            border-radius: 18px;
+            border: 1px solid rgba(212,175,55,0.15);
+            box-shadow: 0 24px 60px rgba(0,0,0,0.18);
+            display: block;
+        }
+        .qa-badge-float {
+            position: absolute;
+            bottom: -1.2rem; right: 1.8rem;
+            background: linear-gradient(135deg, #D4AF37, #C9A000);
+            border-radius: 12px;
+            padding: 1rem 1.4rem;
+            box-shadow: 0 8px 24px rgba(212,175,55,0.35);
+            text-align: center;
+        }
+        .qa-badge-float .num {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            color: #1A1208;
+            line-height: 1;
+            font-weight: 700;
+        }
+        .qa-badge-float .lbl {
+            font-size: 0.72rem;
+            color: rgba(26,18,8,0.7);
+            letter-spacing: 0.05em;
+        }
+        .qa-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            padding-top: 1rem;
+        }
+        .qa-card {
+            background: #fff;
+            border: 1px solid rgba(212,175,55,0.15);
+            border-radius: 14px;
+            padding: 1.4rem 1.6rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 1.2rem;
+            transition: all 0.3s;
+        }
+        .qa-card:hover {
+            border-color: rgba(212,175,55,0.4);
+            box-shadow: 0 8px 28px rgba(0,0,0,0.1);
+            transform: translateY(-3px);
+        }
+        .qa-num {
+            width: 36px; height: 36px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #D4AF37, #F5D982);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.9rem; font-weight: 700;
+            color: #1A1208;
+            flex-shrink: 0;
+        }
+        .qa-card h4 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.3rem;
+        }
+        .qa-card p {
+            color: var(--text-secondary);
+            font-size: 0.86rem;
+            line-height: 1.65;
+        }
+
+        /* ══════════════════════════════════════
+           FAQ
+        ══════════════════════════════════════ */
+        .faq-wrap {
+            max-width: 800px;
+            margin: 5rem auto 0;
+        }
+        .faq-title {
+            text-align: center;
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            color: var(--accent-color);
+            margin-bottom: 2rem;
+        }
+        .faq-item {
+            background: var(--bg-primary);
+            border-radius: 12px;
+            margin-bottom: 0.8rem;
+            border: 1px solid rgba(212,175,55,0.13);
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+        .faq-item:hover { border-color: rgba(212,175,55,0.3); }
+        .faq-item.active {
+            border-color: rgba(212,175,55,0.35);
+            box-shadow: 0 4px 18px rgba(0,0,0,0.08);
+        }
+        .faq-question {
+            padding: 1.3rem 1.8rem;
+            display: flex; justify-content: space-between; align-items: center;
+            cursor: pointer; gap: 1rem;
+        }
+        .faq-question h4 { color: var(--text-primary); font-size: 0.97rem; }
+        .faq-toggle {
+            width: 30px; height: 30px;
+            background: rgba(212,175,55,0.1);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--accent-color); transition: all 0.3s;
+            flex-shrink: 0; font-size: 0.85rem;
+        }
+        .faq-item.active .faq-toggle {
+            transform: rotate(180deg);
+            background: var(--accent-color);
+            color: #1A1208;
+        }
+        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.38s ease; }
+        .faq-item.active .faq-answer { max-height: 260px; }
+        .faq-answer p {
+            padding: 0 1.8rem 1.4rem;
+            color: var(--text-secondary);
+            line-height: 1.8; font-size: 0.92rem;
+        }
+
+        /* ══════════════════════════════════════
+           VIDEO SECTION
+        ══════════════════════════════════════ */
+        .video-section {
+            background: var(--bg-secondary);
+            padding: 5rem 5%;
+        }
+        .video-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1.15fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            background: linear-gradient(135deg, #111, #1C1C1C);
+            border-radius: 18px;
+            overflow: hidden;
+            border: 1px solid rgba(212,175,55,0.25);
+            box-shadow: 0 28px 70px rgba(0,0,0,0.35);
+        }
+        .video-placeholder {
+            position: absolute; inset: 0;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            gap: 1.2rem;
+        }
+        .play-btn {
+            width: 80px; height: 80px;
+            background: rgba(212,175,55,0.2);
+            border: 2px solid var(--accent-color);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2rem; color: var(--accent-color);
+            cursor: pointer; transition: all 0.3s;
+        }
+        .play-btn:hover {
+            background: var(--accent-color);
+            color: #1A1208;
+            transform: scale(1.1);
+            box-shadow: 0 0 40px rgba(212,175,55,0.4);
+        }
+        .video-placeholder p {
+            font-size: 0.9rem;
+            color: rgba(245,240,230,0.5);
+        }
+        .video-live-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: var(--font-english);
+            font-size: 0.75rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--accent-color);
+            margin-bottom: 1.2rem;
+        }
+        .live-dot {
+            width: 8px; height: 8px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%,100% { opacity:1; transform:scale(1); }
+            50%      { opacity:.4; transform:scale(1.4); }
+        }
+        .video-desc h2 {
+            font-family: var(--font-display);
+            font-size: clamp(1.5rem, 3vw, 2.1rem);
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+            letter-spacing: 0.08em;
+            line-height: 1.25;
+        }
+        .video-desc p {
+            color: var(--text-secondary);
+            line-height: 1.9;
+            font-size: 0.94rem;
+            margin-bottom: 1.6rem;
+        }
+        .video-features {
+            display: flex;
+            flex-direction: column;
+            gap: 0.9rem;
+        }
+        .video-feat {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1rem 1.2rem;
+            background: var(--bg-primary);
+            border-radius: 10px;
+            border: 1px solid rgba(212,175,55,0.1);
+            transition: all 0.3s;
+        }
+        .video-feat:hover {
+            border-color: rgba(212,175,55,0.3);
+            transform: translateX(4px);
+        }
+        .video-feat .fi {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px; height: 36px;
+            background: rgba(212,175,55,0.1);
+            border: 1px solid rgba(212,175,55,0.2);
+            border-radius: 8px;
+            flex-shrink: 0;
+        }
+        .video-feat strong {
+            display: block;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            margin-bottom: 0.2rem;
+        }
+        .video-feat span {
+            color: var(--text-secondary);
+            font-size: 0.83rem;
+            line-height: 1.55;
+        }
+
+        /* ══════════════════════════════════════
+           RESPONSIVE
+        ══════════════════════════════════════ */
+        @media (max-width: 960px) {
+            .material-grid,
+            .qa-layout,
+            .video-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+            .practice-grid { grid-template-columns: 1fr 1fr; }
+            .h-timeline { grid-template-columns: 1fr 1fr; }
+            .h-timeline::before { display: none; }
+            .craft-stats-inner { grid-template-columns: repeat(2, 1fr); }
+            .master-profile { grid-template-columns: 1fr; text-align: center; }
+            .master-profile > *:first-child { margin: 0 auto; }
+            .step-arrow { display: none; }
+        }
+        @media (max-width: 600px) {
+            .practice-grid { grid-template-columns: 1fr; }
+            .h-timeline { grid-template-columns: 1fr; }
+            .craft-stats-inner { grid-template-columns: repeat(2, 1fr); }
+            .process-step { padding: 0.8rem 0.9rem; }
+            .step-label { font-size: 0.78rem; }
+            .craft-section { padding: 4rem 5%; }
+        }
+
+
+
+        /* 功能开发中提示 Toast */
+        .toast-hint {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #1A1208 0%, #2D2315 100%);
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            border-radius: 16px;
+            padding: 2.5rem 3rem;
+            text-align: center;
+            z-index: 10000;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            animation: toastIn 0.3s ease;
+        }
+        @keyframes toastIn {
+            from { opacity: 0; transform: translate(-50%, -50%) scale(0.9); }
+            to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        }
+        .toast-hint .icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        .toast-hint h3 {
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            color: #D4AF37;
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.08em;
+        }
+        .toast-hint p {
+            color: rgba(245, 240, 230, 0.6);
+            font-size: 0.9rem;
+            margin-bottom: 1.2rem;
+        }
+        .toast-hint button {
+            padding: 0.7rem 2rem;
+            background: rgba(212, 175, 55, 0.15);
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            border-radius: 8px;
+            color: #D4AF37;
+            font-size: 0.88rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .toast-hint button:hover {
+            background: rgba(212, 175, 55, 0.25);
+        }
+        .toast-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 9999;
+            backdrop-filter: blur(4px);
+        }
+    </style>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What is Taoist meditation and how is it different from other forms of meditation?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Taoist meditation focuses on cultivating internal energy (Qi), aligning with natural rhythms, and achieving harmony between body, mind, and nature. Unlike some mindfulness practices that emphasize emptying the mind, Taoist meditation often involves visualization, breathing techniques, and energy circulation through meridians."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How can beginners practice Taoist meditation?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Beginners can start with simple breathing exercises: sit comfortably, close your eyes, breathe naturally while focusing on your lower abdomen (Dantian). Start with 5-10 minutes daily. Guided meditation audio from DAO Essence can help you establish a consistent practice."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What is Qigong and what are its benefits?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Qigong is a practice combining gentle movements, breathing techniques, and meditation to cultivate and balance Qi (life energy). Benefits include reduced stress, improved flexibility, better circulation, enhanced immune function, and greater mental clarity."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How do the Five Elements relate to daily health and wellness?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Each person has a unique Five Elements profile that influences their constitution and tendencies. Understanding your dominant elements helps you make dietary, lifestyle, and exercise choices that support balance. For example, a person with excess Fire element may benefit from cooling activities and foods."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What role does sound and frequency play in Taoist energy healing?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "In Taoist practice, specific sounds and frequencies are used to resonate with different organs and energy centers. Each of the Five Elements has corresponding healing sounds. Listening to specially crafted audio that incorporates these frequencies can promote relaxation, energy flow, and inner balance."
+                }
+            }
+        ]
+    }
+    </script>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <!-- 头部导航 -->
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <a href="/" class="logo">
+                    <div class="logo-icon"></div>
+                    <div class="logo-text">
+                        <span class="logo-en">DAO ESSENCE</span>
+                    </div>
+                </a>
+                <ul class="nav-menu">
+                    <li><a href="/" class="nav-link">Home</a></li>
+                    <li class="nav-dropdown">
+                        <span class="nav-dropdown-trigger">Blog <i class="nav-dropdown-arrow"></i></span>
+                        <div class="nav-dropdown-menu">
+                            <a href="blog/">All Articles</a>
+                            <a href="blog/bazi-astrology">BaZi Astrology</a>
+                            <a href="blog/zodiac-horoscope">Zodiac Horoscope</a>
+                            <a href="blog/feng-shui">Feng Shui</a>
+                            <a href="blog/daily-horoscope">Daily Horoscope</a>
+                            <a href="blog/lucky-tips">Lucky Tips</a>
+                        </div>
+                    </li>
+                    <li><a href="culture" class="nav-link">Energy Universe</a></li>
+                    <li><a href="shop" class="nav-link">Shop</a></li>
+                    <li><a href="guide" class="nav-link active">Energy Principles</a></li>
+                    <li><a href="about" class="nav-link">About Us</a></li>
+                </ul>
+                <button class="mobile-menu-btn">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero / Video Banner -->
+    <section class="craft-hero">
+        <!-- 视频背景（未提供视频时显示 fallback 渐变） -->
+        <div class="craft-hero-video-fallback"></div>
+        <!-- 替换 src 为实际视频文件，如 videos/temple.mp4 -->
+        <video class="craft-hero-video" autoplay muted loop playsinline poster="images/3_compressed.jpg">
+            <!-- <source src="videos/temple.mp4" type="video/mp4"> -->
+        </video>
+
+        <div class="craft-hero-content">
+            <p class="eyebrow">The Science of Ancient Energy</p>
+            <h1>Energy Principles<br><em>Ancient Wisdom</em></h1>
+            <p>Five thousand years of Eastern wisdom distilled into one question: how do certain objects carry energy that enhances well-being? The answer lies in philosophy, lineage, and practice — not faith alone.</p>
+
+
+        </div>
+    </section>
+
+
+
+    <!-- Sticky step nav -->
+    <div class="process-nav">
+        <div class="process-steps">
+            <div class="process-step active" data-target="selection">
+                <span class="step-number">气</span>
+                <span class="step-label">What Is Qi</span>
+            </div>
+            <span class="step-arrow">›</span>
+            <div class="process-step" data-target="crafting">
+                <span class="step-number">行</span>
+                <span class="step-label">Five Elements</span>
+            </div>
+            <span class="step-arrow">›</span>
+            <div class="process-step" data-target="preparation">
+                <span class="step-number">传</span>
+                <span class="step-label">Living Lineage</span>
+            </div>
+            <span class="step-arrow">›</span>
+            <div class="process-step" data-target="quality">
+                <span class="step-number">证</span>
+                <span class="step-label">Real Evidence</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════ SECTION 1 · What Is Qi ═══════ -->
+    <section class="craft-section" id="selection">
+        <div class="section-title-block">
+            <div><span class="section-badge"><span class="badge-dot"></span>气 · QI</span></div>
+            <h2>What Is Energy — And Why Does It Matter?</h2>
+            <p>In Eastern philosophy, Qi (气) is the fundamental life force that flows through all living things, spaces, and objects. It is not mysticism — it is the organizing principle behind traditional Chinese medicine, feng shui, and five-thousand years of wisdom that shaped one of the world's oldest continuous civilizations.</p>
+        </div>
+        <div class="section-dao-logo">
+            <span class="dao-circle">道</span>
+        </div>
+
+        <div class="material-grid">
+            <!-- 左：图片组 -->
+            <div class="material-img-col">
+                <img src="images/3_compressed.jpg" alt="Eastern wisdom tradition" class="img-main" loading="lazy">
+                <div class="img-row">
+                    <img src="images/3_compressed.jpg" alt="Ancient texts" loading="lazy">
+                    <img src="images/3_compressed.jpg" alt="Energy flow concept" loading="lazy">
+                </div>
+            </div>
+
+            <!-- 右：卡片列表 -->
+            <div class="material-cards-col">
+                <div class="mat-card">
+                    <div class="mat-icon">
+                        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#D4AF37" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M12 2a7 7 0 010 14 7 7 0 010-14"/>
+                        </svg>
+                    </div>
+                    <div class="mat-text">
+                        <h4>Everything Carries Energy</h4>
+                        <p>Ancient Eastern thought holds that every object — stone, wood, metal — resonates at its own energetic frequency. The right object, properly prepared, amplifies the energy your body needs.</p>
+                    </div>
+                </div>
+                <div class="mat-card">
+                    <div class="mat-icon">
+                        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#D4AF37" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/>
+                            <path d="M12 6v6l4 2"/>
+                        </svg>
+                    </div>
+                    <div class="mat-text">
+                        <h4>5,000 Years of Refinement</h4>
+                        <p>This is not a modern wellness trend. The principles underlying our energy work are the same ones documented in the I Ching, the Yellow Emperor's Classic, and classical Daoist texts — refined across generations of practitioners.</p>
+                    </div>
+                </div>
+                <div class="mat-card">
+                    <div class="mat-icon">
+                        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#D4AF37" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
+                        </svg>
+                    </div>
+                    <div class="mat-text">
+                        <h4>Personal Energy Is Unique</h4>
+                        <p>Your birth date, time, and place determine your Five Elements composition — the energetic blueprint you were born with. Understanding your blueprint is the first step to knowing which energies you need more of.</p>
+                    </div>
+                </div>
+                <div class="mat-card">
+                    <div class="mat-icon">
+                        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#D4AF37" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                        </svg>
+                    </div>
+                    <div class="mat-text">
+                        <h4>Objects As Energy Bridges</h4>
+                        <p>When a natural object is ritually prepared and attuned to your personal energy signature, it becomes a bridge — continuously channeling the specific Qi your system needs into your daily life.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════ SECTION 2 · Five Elements ═══════ -->
+    <section class="craft-section light-section" id="crafting">
+        <div class="section-title-block">
+            <div><span class="section-badge"><span class="badge-dot"></span>行 · FIVE ELEMENTS</span></div>
+            <h2>The Five Elements Framework</h2>
+            <p>Wood, Fire, Earth, Metal, Water — not poetic metaphors, but a precise diagnostic system used for millennia to map the energetic relationships between human beings and the world around them. When one element is deficient, life feels off-balance. When all five are in harmony, clarity and vitality follow naturally.</p>
+        </div>
+        <div class="section-dao-logo">
+            <span class="dao-circle">道</span>
+        </div>
+
+        <div class="craft-timeline-wrap">
+            <img src="images/3_compressed.jpg" alt="Five Elements cosmology" class="craft-img-banner" loading="lazy">
+
+            <div class="h-timeline">
+                <div class="h-tl-item">
+                    <div class="h-tl-dot">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#1A1208" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M17 8C8 10 5.9 16.17 3.82 19.34c-.38.52.07 1.1.64.96C7.43 19.44 16 17 17 8z"/>
+                        </svg>
+                    </div>
+                    <div class="h-tl-content">
+                        <span class="h-tl-time">木 · Wood</span>
+                        <h4>Growth &amp; Vision</h4>
+                        <p>Governs liver, eyes, tendons, and the capacity for planning and forward momentum. Deficiency manifests as frustration, stagnation, or difficulty making decisions.</p>
+                    </div>
+                </div>
+                <div class="h-tl-item">
+                    <div class="h-tl-dot">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#1A1208" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2c0 4-4 6-4 10a4 4 0 008 0c0-4-4-6-4-10z"/>
+                        </svg>
+                    </div>
+                    <div class="h-tl-content">
+                        <span class="h-tl-time">火 · Fire</span>
+                        <h4>Joy &amp; Connection</h4>
+                        <p>Governs the heart, circulation, and the warmth in relationships. Imbalance appears as anxiety, emotional volatility, or an inability to connect deeply with others.</p>
+                    </div>
+                </div>
+                <div class="h-tl-item">
+                    <div class="h-tl-dot">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#1A1208" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="8"/>
+                            <circle cx="12" cy="12" r="3" fill="#1A1208"/>
+                        </svg>
+                    </div>
+                    <div class="h-tl-content">
+                        <span class="h-tl-time">土 · Earth</span>
+                        <h4>Stability &amp; Nourishment</h4>
+                        <p>The center element — governs digestion, grounding, and the sense of being supported. Weakness shows up as overthinking, worry, and feeling unmoored.</p>
+                    </div>
+                </div>
+                <div class="h-tl-item">
+                    <div class="h-tl-dot">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#1A1208" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="12 2 19 9 12 22 5 9"/>
+                            <line x1="5" y1="9" x2="19" y2="9"/>
+                        </svg>
+                    </div>
+                    <div class="h-tl-content">
+                        <span class="h-tl-time">金 · Metal</span>
+                        <h4>Clarity &amp; Precision</h4>
+                        <p>Governs lungs, boundaries, and the ability to let go. Imbalance shows as grief that won't lift, rigid thinking, or difficulty releasing the past.</p>
+                    </div>
+                </div>
+                <div class="h-tl-item">
+                    <div class="h-tl-dot">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#1A1208" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M2 12c2-4 6-6 10-6s8 2 10 6c-2 4-6 6-10 6s-8-2-10-6z"/>
+                        </svg>
+                    </div>
+                    <div class="h-tl-content">
+                        <span class="h-tl-time">水 · Water</span>
+                        <h4>Wisdom &amp; Flow</h4>
+                        <p>Governs kidneys, bones, and deep reserves of will. Depletion manifests as chronic fear, exhaustion, and a sense that nothing is ever enough.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════ SECTION 3 · Living Lineage ═══════ -->
+    <section class="craft-section dark-section" id="preparation">
+        <div class="section-title-block">
+            <div><span class="section-badge"><span class="badge-dot"></span>传 · LINEAGE</span></div>
+            <h2 class="light">A Living Tradition, Not a Performance</h2>
+            <p class="light">Anyone can offer an "energy program." What makes ours different is not the format — it is the unbroken chain of transmission. The practices we use were passed practitioner to practitioner across more than 2,000 years, inside cultural spaces that never closed, never commercialized, never lost the thread.</p>
+        </div>
+        <div class="section-dao-logo light">
+            <span class="dao-circle">道</span>
+        </div>
+
+        <div class="preparation-wrap">
+            <!-- 大图带overlay -->
+            <div class="preparation-img-container">
+                <img src="images/3_compressed.jpg" alt="Ancient wisdom cultural center" loading="lazy">
+                <div class="preparation-img-overlay">
+                    <div class="preparation-overlay-text">
+                        <h3>Ancient Wisdom Sanctuary</h3>
+                        <p>A traditional site with centuries of unbroken Eastern wisdom tradition — where every practice is conducted with full ritual integrity</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 三大支柱 -->
+            <div class="practice-grid">
+                <div class="practice-card">
+                    <span class="practice-icon">
+                        <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="#D4AF37" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                            <polyline points="14 2 14 8 20 8"/>
+                            <line x1="8" y1="13" x2="16" y2="13"/>
+                            <line x1="8" y1="17" x2="12" y2="17"/>
+                        </svg>
+                    </span>
+                    <h4>Textual Roots</h4>
+                    <p>Our practitioners draw from classical Daoist and Five Elements texts including the Yi Jing, Huang Di Nei Jing, and lineage-specific transmission scrolls passed down within closed traditions.</p>
+                </div>
+                <div class="practice-card">
+                    <span class="practice-icon">
+                        <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="#D4AF37" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+                            <circle cx="9" cy="7" r="4"/>
+                            <path d="M23 21v-2a4 4 0 00-3-3.87"/>
+                            <path d="M16 3.13a4 4 0 010 7.75"/>
+                        </svg>
+                    </span>
+                    <h4>Master-to-Student Transmission</h4>
+                    <p>Energy work cannot be learned from a book. The subtle calibration required — knowing how to sense, channel, and bind Qi — is transmitted only through years of supervised practice under a recognized master.</p>
+                </div>
+                <div class="practice-card">
+                    <span class="practice-icon">
+                        <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="#D4AF37" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="9" width="18" height="12" rx="1"/>
+                            <path d="M8 9V6a4 4 0 018 0v3"/>
+                            <line x1="12" y1="14" x2="12" y2="16"/>
+                        </svg>
+                    </span>
+                    <h4>Conducted Inside Cultural Centers</h4>
+                    <p>All energy work is performed inside partner cultural centers — not studios, not offices. The accumulated resonance of a sacred space is part of the practice. Location is not cosmetic; it is functional.</p>
+                </div>
+            </div>
+
+            <!-- Master Profile -->
+            <div class="master-profile">
+                <div class="master-avatar-placeholder">
+                    <svg viewBox="0 0 60 60" width="52" height="52" fill="none" stroke="rgba(212,175,55,0.7)" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="30" cy="22" r="10"/>
+                        <path d="M10 52c0-11.05 8.95-20 20-20s20 8.95 20 20"/>
+                    </svg>
+                </div>
+                <div class="master-info">
+                    <h3>玄真大师</h3>
+                    <span class="master-subtitle">Lead Practitioner · Cultural Transmission</span>
+                    <p>Senior Eastern wisdom practitioner with over 30 years of lineage-based training. Dedicated to bridging authentic traditional practice with modern global audiences — without diluting what makes it real.</p>
+                    <div class="credential-tags">
+                        <span class="credential-tag">Five Elements Specialist</span>
+                        <span class="credential-tag">Daoist Lineage Holder</span>
+                        <span class="credential-tag">Cultural Center Partner</span>
+                        <span class="credential-tag">30+ Years Practice</span>
+                        <span class="credential-tag">East–West Cultural Bridge</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════ SECTION 4 · Real Evidence ═══════ -->
+    <section class="craft-section" id="quality">
+        <div class="section-title-block">
+            <div><span class="section-badge"><span class="badge-dot"></span>证 · EVIDENCE</span></div>
+            <h2>How Does It Work?</h2>
+            <p>People from dozens of countries, across different belief systems, have reported shifts in clarity, calm, and flow — after consistent engagement with energy practices. Draw your own conclusions.</p>
+        </div>
+        <div class="section-dao-logo">
+            <span class="dao-circle">道</span>
+        </div>
+
+        <div class="qa-layout">
+            <!-- 左：图片 -->
+            <div class="qa-img-stack">
+                <img src="images/3_compressed.jpg" alt="Energy ritual practice" class="qa-img-main" loading="lazy">
+                <div class="qa-badge-float">
+                    <div class="num">2,000+</div>
+                    <div class="lbl">Years of Heritage</div>
+                </div>
+            </div>
+
+            <!-- 右：卡片 -->
+            <div class="qa-cards">
+                <div class="qa-card">
+                    <div class="qa-num">1</div>
+                    <div>
+                        <h4>Traditional Chinese Medicine Agrees</h4>
+                        <p>TCM — practiced by over 1.4 billion people and formally recognized by the WHO — is built on the same Qi and Five Elements framework. The principles are not fringe; they are foundational to one of humanity's longest-running medical traditions.</p>
+                    </div>
+                </div>
+                <div class="qa-card">
+                    <div class="qa-num">2</div>
+                    <div>
+                        <h4>Placebo Has Power Too</h4>
+                        <p>Even Western science acknowledges that intention, belief, and ritual alter measurable outcomes. Whether you call it Qi, focused attention, or the placebo effect — the experience of carrying something meaningful with you every day changes how you move through the world.</p>
+                    </div>
+                </div>
+                <div class="qa-card">
+                    <div class="qa-num">3</div>
+                    <div>
+                        <h4>Your Energy Blueprint Is Real</h4>
+                        <p>Your birth chart — based on the precise moment you entered the world — reveals elemental imbalances that often map directly to recurring life patterns. This isn't fortune-telling; it's a system for self-understanding refined over thousands of years.</p>
+                    </div>
+                </div>
+                <div class="qa-card">
+                    <div class="qa-num">4</div>
+                    <div>
+                        <h4>We Don't Ask You to Believe Blindly</h4>
+                        <p>Try it. Notice what shifts. If you feel no difference after 30 days of keeping your energy-attuned object close, we want to hear about it — and we'll work with you to find what actually resonates.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FAQ -->
+        <div class="faq-wrap">
+            <h3 class="faq-title">Common Questions</h3>
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h4>Is this a religion or spiritual belief system?</h4>
+                    <span class="faq-toggle"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+                </div>
+                <div class="faq-answer">
+                    <p>No. Five Elements theory and Qi are frameworks for understanding energy dynamics — they predate and sit outside of any specific religion. People from all faith backgrounds, including those with none, engage with this work on purely philosophical or experiential grounds.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h4>How long does the energy last?</h4>
+                    <span class="faq-toggle"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+                </div>
+                <div class="faq-answer">
+                    <p>With regular engagement and respectful care, the energetic attunement remains active. We recommend an annual re-activation session to refresh and re-align the energy to any shifts in your life circumstances — available at a discounted rate for existing clients.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h4>Can I request Energy Tool Customization for a specific intention?</h4>
+                    <span class="faq-toggle"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+                </div>
+                <div class="faq-answer">
+                    <p>Yes. We offer fully bespoke energy sessions calibrated to your personal Five Elements profile, specific life goals, or current imbalances. Contact us for a personal consultation before ordering.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h4>What makes your energy work different from others selling similar items?</h4>
+                    <span class="faq-toggle"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+                </div>
+                <div class="faq-answer">
+                    <p>Lineage and setting. Anyone can buy an agarwood bracelet and say it has been "energized." What we offer is documented practice conducted by lineage-trained practitioners inside accredited cultural centers — not a studio, not a ceremony performed for cameras. The authenticity of the practice is our only real differentiator.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════ Featured Video ═══════ -->
+    <div class="video-section">
+        <div class="section-dao-logo" style="padding-top:1rem;">
+            <span class="dao-circle">道</span>
+        </div>
+        <div class="video-inner">
+            <div>
+                <div class="video-live-badge">
+                    <span class="live-dot"></span>
+                    Exclusive Sacred Footage
+                </div>
+                <div class="video-container">
+                    <div class="video-placeholder">
+                        <div class="play-btn">
+                            <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor">
+                                <polygon points="6,4 20,12 6,20"/>
+                            </svg>
+                        </div>
+                        <p>Watch: Sacred Preparation Ceremony</p>
+                    </div>
+                </div>
+            </div>
+            <div class="video-desc">
+                <h2>From Sacred Ritual<br>to Your Hands</h2>
+                <p>We invite you to witness what most will never see — the ancient preparation practice performed by skilled Eastern wisdom practitioners inside a cultural center. Every frame is authentic, unscripted, and deeply rooted in tradition spanning more than 2,000 years.</p>
+                <div class="video-features">
+                    <div class="video-feat">
+                        <span class="fi">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#D4AF37" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="9" width="18" height="12" rx="1"/>
+                                <path d="M8 9V6a4 4 0 018 0v3"/>
+                            </svg>
+                        </span>
+                        <div>
+                            <strong>Filmed at Ancient Wisdom Sanctuary</strong>
+                            <span>A traditional site with centuries of unbroken Eastern wisdom tradition.</span>
+                        </div>
+                    </div>
+                    <div class="video-feat">
+                        <span class="fi">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#D4AF37" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                                <polyline points="14 2 14 8 20 8"/>
+                                <line x1="8" y1="13" x2="16" y2="13"/>
+                                <line x1="8" y1="17" x2="12" y2="17"/>
+                            </svg>
+                        </span>
+                        <div>
+                            <strong>Conducted by Senior Practitioners</strong>
+                            <span>Elder Xuanzhen &amp; experienced practitioners — over 30 years of combined practice.</span>
+                        </div>
+                    </div>
+                    <div class="video-feat">
+                        <span class="fi">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#D4AF37" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <polygon points="23 7 16 12 23 17 23 7"/>
+                                <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+                            </svg>
+                        </span>
+                        <div>
+                            <strong>Your Ritual Service, Your Ceremony</strong>
+                            <span>Each purchase includes a personalised video clip of the specific preparation performed for your Ritual Service.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <span class="logo-en">DAO ESSENCE</span>
+                    </div>
+                    <p>Ancient Wisdom, Modern Harmony. Based on authentic Eastern wisdom traditions, we offer digital wellness services and online energy guidance programs.</p>
+
+                                        </div>
+                <div>
+                    <h4 class="footer-title">Navigation</h4>
+                    <ul class="footer-links">
+                        <li><a href="/">Home</a></li>
+                        <li><a href="culture">Energy Universe</a></li>
+                        <li><a href="shop">Digital Services</a></li>
+                        <li><a href="shop">Digital Wellness Programs</a></li>
+                        <li><a href="guide">Energy Principles</a></li>
+                        <li><a href="about">About Us</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-title">Links</h4>
+                    <ul class="footer-links">
+                        <li style="margin-bottom:8px;display:block !important;">
+                            <div><a href="https://fatenet.cn/" target="_blank" rel="noopener">FateNet</a></div>
+                            <div style="font-size:12px;color:var(--text-secondary);margin-top:4px;line-height:1.4;">Chinese Fortune Telling<br>Find Your Soulmate Direction</div>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-title">Contact</h4>
+                    <ul class="footer-links">
+                        <li>
+                            <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle;margin-right:6px"><path d="M3 4h14a1 1 0 011 1v10a1 1 0 01-1 1H3a1 1 0 01-1-1V5a1 1 0 011-1z"/><path d="M3 5l7 6 7-6"/></svg>
+                            <a href="mailto:support@daoessentia.com">support@daoessentia.com</a>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style="vertical-align:middle;margin-right:6px;color:#D4AF37"><path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 0 0 .167-.054l1.903-1.114a.864.864 0 0 1 .717-.098 10.16 10.16 0 0 0 2.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348zM5.785 5.991c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178A1.17 1.17 0 0 1 4.623 7.17c0-.651.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178 1.17 1.17 0 0 1-1.162-1.178c0-.651.52-1.18 1.162-1.18zm5.34 2.867c-1.797-.052-3.746.512-5.28 1.786-1.72 1.428-2.687 3.72-1.78 6.22.942 2.453 3.666 4.229 6.884 4.229.826 0 1.622-.12 2.361-.336a.722.722 0 0 1 .598.082l1.584.926a.272.272 0 0 0 .14.047c.134 0 .24-.111.24-.247 0-.06-.023-.12-.038-.177l-.327-1.233a.582.582 0 0 1-.023-.156.49.49 0 0 1 .201-.398C23.024 18.48 24 16.82 24 14.98c0-3.21-2.931-5.837-7.062-6.122zm-3.957 3.467c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.969-.982zm4.844 0c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.969-.982z"/></svg>
+                            <a href="#" onclick="document.getElementById('wechat-modal').style.display='flex';return false;">WeChat</a>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle;margin-right:6px"><circle cx="10" cy="10" r="8"/><path d="M10 6v4l2.5 2.5"/></svg>
+                        <li>
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style="vertical-align:middle;margin-right:6px;color:#229ED9"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+                            <a href="https://t.me/dingwei_123" target="_blank" rel="noopener">Telegram Channel</a>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style="vertical-align:middle;margin-right:6px;color:#229ED9"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+                            <a href="https://t.me/Dingwei_pi" target="_blank" rel="noopener">Telegram @Dingwei_pi</a>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style="vertical-align:middle;margin-right:6px;color:#E60023"><path d="M12 0C5.373 0 0 5.372 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 0 1 .083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.631-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12 0-6.628-5.373-12-12-12z"/></svg>
+                            <a href="https://www.pinterest.com/pixuan/wallpapers/" target="_blank" rel="noopener">Pinterest</a>
+                        </li>                        <li>
+                            <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle;margin-right:6px"><circle cx="10" cy="10" r="8"/><path d="M10 6v4l2.5 2.5"/></svg>
+                            Mon&ndash;Sat: 9AM&ndash;9PM (CST / UTC+8)
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 DAO Essence &amp; Five Elements. All rights reserved.</p>
+                <div class="footer-legal-links">
+                    <a href="privacy">Privacy Policy</a>
+                    <span>|</span>
+                    <a href="terms">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- WeChat QR Modal -->
+    <div id="wechat-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:9999;align-items:center;justify-content:center;" onclick="if(event.target===this)this.style.display='none'">
+        <div style="background:#1a1a1a;border:1px solid rgba(212,175,55,0.4);border-radius:16px;padding:40px;text-align:center;max-width:320px;width:90%;position:relative;">
+            <button onclick="document.getElementById('wechat-modal').style.display='none'" style="position:absolute;top:12px;right:16px;background:none;border:none;color:rgba(245,240,230,0.6);font-size:22px;cursor:pointer;line-height:1;">&times;</button>
+            <svg viewBox="0 0 24 24" width="40" height="40" fill="#D4AF37" style="margin-bottom:12px"><path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 0 0 .167-.054l1.903-1.114a.864.864 0 0 1 .717-.098 10.16 10.16 0 0 0 2.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348zM5.785 5.991c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178A1.17 1.17 0 0 1 4.623 7.17c0-.651.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178 1.17 1.17 0 0 1-1.162-1.178c0-.651.52-1.18 1.162-1.18zm5.34 2.867c-1.797-.052-3.746.512-5.28 1.786-1.72 1.428-2.687 3.72-1.78 6.22.942 2.453 3.666 4.229 6.884 4.229.826 0 1.622-.12 2.361-.336a.722.722 0 0 1 .598.082l1.584.926a.272.272 0 0 0 .14.047c.134 0 .24-.111.24-.247 0-.06-.023-.12-.038-.177l-.327-1.233a.582.582 0 0 1-.023-.156.49.49 0 0 1 .201-.398C23.024 18.48 24 16.82 24 14.98c0-3.21-2.931-5.837-7.062-6.122zm-3.957 3.467c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.969-.982zm4.844 0c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.969-.982z"/></svg>
+            <h3 style="color:#D4AF37;margin:0 0 8px;font-size:18px;">WeChat</h3>
+            <p style="color:rgba(245,240,230,0.7);font-size:13px;margin:0 0 20px;">Scan the QR code to connect with us on WeChat</p>
+            <div style="width:160px;height:160px;margin:0 auto;">
+                <img src="images/微信图片_20260324143206_59_9.jpg" alt="WeChat QR Code" style="width:100%;height:100%;border-radius:8px;object-fit:cover;" loading="lazy">
+            </div>
+            <p style="color:rgba(245,240,230,0.5);font-size:12px;margin:16px 0 0;">WeChat ID: your-wechat-id</p>
+        </div>
+    </div>
+
+
+
+    <script>
+        // ========================================
+        // 统一购物车系统 - 购物车徽章更新
+        // ========================================
+        function updateCartBadge() {
+            const cartData = localStorage.getItem('cart');
+            const badge = document.getElementById('cartBadge');
+            if (badge) {
+                if (cartData) {
+                    const items = JSON.parse(cartData);
+                    const count = items.reduce((sum, item) => sum + item.quantity, 0);
+                    badge.textContent = count;
+                    badge.style.display = count > 0 ? 'flex' : 'none';
+                } else {
+                    badge.style.display = 'none';
+                }
+            }
+        }
+
+        // 页面加载时更新徽章
+        document.addEventListener('DOMContentLoaded', updateCartBadge);
+
+        // 监听 storage 变化(跨页面同步)
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'cart') {
+                updateCartBadge();
+            }
+        });
+    </script>
+    <script>
+        // Mobile menu
+        document.querySelector('.mobile-menu-btn').addEventListener('click', () => {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+
+        // 显示"功能开发中"提示
+        function showDevelopingHint() {
+            // 创建遮罩
+            const overlay = document.createElement('div');
+            overlay.className = 'toast-overlay';
+            overlay.id = 'hintOverlay';
+            overlay.onclick = hideDevelopingHint;
+
+            // 创建提示框
+            const toast = document.createElement('div');
+            toast.className = 'toast-hint';
+            toast.id = 'hintToast';
+            toast.innerHTML = `
+                <div class="icon">🔔</div>
+                <h3>功能开发中</h3>
+                <p>视频功能正在紧张制作中<br>敬请期待</p>
+                <button onclick="hideDevelopingHint()">知道了</button>
+            `;
+
+            document.body.appendChild(overlay);
+            document.body.appendChild(toast);
+            document.body.style.overflow = 'hidden';
+        }
+
+        function hideDevelopingHint() {
+            const overlay = document.getElementById('hintOverlay');
+            const toast = document.getElementById('hintToast');
+            if (overlay) overlay.remove();
+            if (toast) toast.remove();
+            document.body.style.overflow = '';
+        }
+
+        // Hero play button → 显示功能开发中提示
+        // Video play btn (Featured Video section) → 显示功能开发中提示
+        const playBtn = document.querySelector('.play-btn');
+        if (playBtn) {
+            playBtn.addEventListener('click', showDevelopingHint);
+        }
+
+        // Step nav click → smooth scroll
+        document.querySelectorAll('.process-step').forEach(step => {
+            step.addEventListener('click', () => {
+                document.querySelectorAll('.process-step').forEach(s => s.classList.remove('active'));
+                step.classList.add('active');
+                const target = document.getElementById(step.dataset.target);
+                if (target) {
+                    const offset = document.querySelector('.navbar').offsetHeight +
+                                   document.querySelector('.process-nav').offsetHeight + 20;
+                    window.scrollTo({ top: target.offsetTop - offset, behavior: 'smooth' });
+                }
+            });
+        });
+
+        // FAQ accordion
+        document.querySelectorAll('.faq-question').forEach(q => {
+            q.addEventListener('click', () => {
+                const item = q.parentElement;
+                const wasActive = item.classList.contains('active');
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+                if (!wasActive) item.classList.add('active');
+            });
+        });
+
+        // Scroll-in animation
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    e.target.style.opacity = '1';
+                    e.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.step-card, .timeline-item, .faq-item').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(24px)';
+            el.style.transition = 'opacity 0.55s ease, transform 0.55s ease';
+            observer.observe(el);
+        });
+
+        // Sync step nav on scroll
+        window.addEventListener('scroll', () => {
+            const navH = document.querySelector('.navbar').offsetHeight +
+                         document.querySelector('.process-nav').offsetHeight + 80;
+            ['selection','crafting','preparation','quality'].forEach(id => {
+                const sec = document.getElementById(id);
+                if (!sec) return;
+                if (window.scrollY + navH >= sec.offsetTop &&
+                    window.scrollY + navH < sec.offsetTop + sec.offsetHeight) {
+                    document.querySelectorAll('.process-step').forEach(s => s.classList.remove('active'));
+                    document.querySelector(`[data-target="${id}"]`).classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
+

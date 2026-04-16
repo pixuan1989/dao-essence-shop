@@ -1,0 +1,37 @@
+{
+  "framework": null,
+  "buildCommand": "node build-blog.js",
+  "outputDirectory": "dist",
+  "installCommand": "npm install",
+  "devCommand": null,
+  "trailingSlash": false,
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/auth", "destination": "/api/auth" },
+    { "source": "/callback", "destination": "/api/callback" }
+  ],
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "destination": "https://www.daoessentia.com/$1",
+      "permanent": true,
+      "has": [
+        {
+          "type": "host",
+          "value": "daoessence-shop.vercel.app"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)",
+      "destination": "https://www.daoessentia.com/$1",
+      "permanent": true,
+      "has": [
+        {
+          "type": "host",
+          "value": "daoessentia.com"
+        }
+      ]
+    }
+  ]
+}

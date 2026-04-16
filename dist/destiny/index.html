@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Self-Discovery Audio - DAO Essence</title>
+    <meta name="description" content="Explore DAO Essence self-discovery audio guided by the Five Elements and Taoist wisdom. Find your energy path and inner balance.">
+    <link rel="canonical" href="https://www.daoessentia.com/destiny">
+    <link rel="alternate" hreflang="en" href="https://www.daoessentia.com/destiny">
+    <link rel="alternate" hreflang="x-default" href="https://www.daoessentia.com/destiny">
+    <!-- Open Graph -->
+    <meta property="og:title" content="Self-Discovery Audio | DAO Essence">
+    <meta property="og:description" content="Explore DAO Essence self-discovery audio guided by the Five Elements and Taoist wisdom. Find your energy path.">
+    <meta property="og:image" content="https://www.daoessentia.com/images/og-default.jpg">
+    <meta property="og:url" content="https://www.daoessentia.com/destiny">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="DAO Essence">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Self-Discovery Audio | DAO Essence">
+    <meta name="twitter:description" content="Explore self-discovery audio guided by Five Elements and Taoist wisdom.">
+    <meta name="twitter:image" content="https://www.daoessentia.com/images/og-default.jpg">
+    <link rel="stylesheet" href="styles.min.css?v=202604031200">
+    
+    <!-- Vercel Web Analytics -->
+    <script>
+      window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+      var script = document.createElement('script');
+      script.defer = true;
+      script.src = '/_vercel/insights/script.js';
+      document.head.appendChild(script);
+    </script>
+    <style>
+        /* 个人运势页面专属样式 */
+        .life-path-hero {
+            height: 50vh;
+            background: linear-gradient(135deg, #0a0a1a 0%, #1a1a3a 50%, #0a0a1a 100%);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .life-path-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><circle cx="100" cy="100" r="80" fill="none" stroke="rgba(212,175,55,0.1)" stroke-width="0.5"/><circle cx="100" cy="100" r="60" fill="none" stroke="rgba(212,175,55,0.08)" stroke-width="0.5"/><circle cx="100" cy="100" r="40" fill="none" stroke="rgba(212,175,55,0.06)" stroke-width="0.5"/></svg>');
+            background-size: 300px;
+            animation: rotate 60s linear infinite;
+        }
+
+        .life-path-hero-content {
+            text-align: center;
+            z-index: 2;
+            color: var(--color-light);
+        }
+
+        .life-path-hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 30px rgba(212, 175, 55, 0.5);
+        }
+
+        .life-path-hero p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* 产品介绍 */
+        .services-section {
+            padding: 5rem 5%;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            font-size: 2.2rem;
+            color: var(--color-gold);
+            margin-bottom: 0.5rem;
+        }
+
+        .section-title p {
+            color: var(--color-light-dim);
+            font-size: 1.1rem;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-card {
+            background: var(--color-dark-accent);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(212, 175, 55, 0.15);
+            transition: all 0.3s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(212, 175, 55, 0.15);
+            border-color: var(--color-gold);
+        }
+
+        .service-header {
+            padding: 2rem;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), transparent);
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .service-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--color-gold), #8b6914);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+
+        .service-title h3 {
+            font-size: 1.4rem;
+            color: var(--color-light);
+            margin-bottom: 0.3rem;
+        }
+
+        .service-title span {
+            font-size: 1.5rem;
+            color: var(--color-gold);
+            font-weight: bold;
+        }
+
+        .service-content {
+            padding: 0 2rem 2rem;
+        }
+
+        .service-desc {
+            color: var(--color-light-dim);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .service-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .service-features span {
+            padding: 0.4rem 0.8rem;
+            background: rgba(212, 175, 55, 0.1);
+            border-radius: 4px;
+            font-size: 0.85rem;
+            color: var(--color-light-dim);
+        }
+
+        .service-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--color-gold), #8b6914);
+            border: none;
+            border-radius: 8px;
+            color: var(--color-dark);
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .service-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        /* 个人音频表单 */
+        .bazi-form-section {
+            padding: 5rem 5%;
+            background: var(--color-dark-accent);
+        }
+
+        .bazi-form {
+            max-width: 700px;
+            margin: 0 auto;
+            background: var(--color-dark);
+            border-radius: 16px;
+            padding: 3rem;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            color: var(--color-light);
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 1rem;
+            background: var(--color-dark-accent);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 8px;
+            color: var(--color-light);
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--color-gold);
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .form-note {
+            text-align: center;
+            color: var(--color-light-dim);
+            font-size: 0.9rem;
+            margin-top: 1rem;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1.2rem;
+            background: linear-gradient(135deg, var(--color-gold), #8b6914);
+            border: none;
+            border-radius: 8px;
+            color: var(--color-dark);
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 1rem;
+        }
+
+        .submit-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 5px 20px rgba(212, 175, 55, 0.4);
+        }
+
+        /* 个人运势师团队 */
+        .masters-section {
+            padding: 5rem 5%;
+        }
+
+        .masters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .master-card {
+            background: var(--color-dark-accent);
+            border-radius: 12px;
+            text-align: center;
+            padding: 2rem;
+            border: 1px solid rgba(212, 175, 55, 0.15);
+            transition: all 0.3s;
+        }
+
+        .master-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--color-gold);
+        }
+
+        .master-avatar {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 1.5rem;
+            background: linear-gradient(135deg, var(--color-gold), #8b6914);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+
+        .master-name {
+            font-size: 1.3rem;
+            color: var(--color-light);
+            margin-bottom: 0.3rem;
+        }
+
+        .master-title {
+            color: var(--color-gold);
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+
+        .master-desc {
+            color: var(--color-light-dim);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .master-tags {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .master-tags span {
+            padding: 0.3rem 0.8rem;
+            background: rgba(212, 175, 55, 0.1);
+            border-radius: 4px;
+            font-size: 0.8rem;
+            color: var(--color-light-dim);
+        }
+
+        /* 客户评价 */
+        .testimonials-section {
+            padding: 5rem 5%;
+            background: var(--color-dark-accent);
+        }
+
+        .testimonials-slider {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .testimonial-card {
+            background: var(--color-dark);
+            border-radius: 12px;
+            padding: 2rem;
+            border: 1px solid rgba(212, 175, 55, 0.15);
+        }
+
+        .testimonial-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .testimonial-avatar {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--color-gold), #8b6914);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+        }
+
+        .testimonial-info h4 {
+            color: var(--color-light);
+            font-size: 1rem;
+        }
+
+        .testimonial-info span {
+            color: var(--color-light-dim);
+            font-size: 0.85rem;
+        }
+
+        .testimonial-text {
+            color: var(--color-light-dim);
+            line-height: 1.8;
+            font-style: italic;
+        }
+
+        .testimonial-rating {
+            color: var(--color-gold);
+            margin-top: 1rem;
+        }
+
+        /* FAQ */
+        .faq-section {
+            padding: 5rem 5%;
+        }
+
+        .faq-list {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: var(--color-dark-accent);
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            border: 1px solid rgba(212, 175, 55, 0.15);
+        }
+
+        .faq-question {
+            width: 100%;
+            padding: 1.5rem;
+            background: none;
+            border: none;
+            color: var(--color-light);
+            font-size: 1.1rem;
+            text-align: left;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s;
+        }
+
+        .faq-question:hover {
+            background: rgba(212, 175, 55, 0.05);
+        }
+
+        .faq-icon {
+            color: var(--color-gold);
+            font-size: 1.3rem;
+            transition: transform 0.3s;
+        }
+
+        .faq-item.active .faq-icon {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .faq-answer-content {
+            padding: 0 1.5rem 1.5rem;
+            color: var(--color-light-dim);
+            line-height: 1.8;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+        }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .life-path-hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .bazi-form {
+                padding: 1.5rem;
+            }
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    </style>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.daoessentia.com/"},
+            {"@type": "ListItem", "position": 2, "name": "Self-Discovery", "item": "https://www.daoessentia.com/destiny.html"}
+        ]
+    }
+    </script>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <div class="logo-icon"></div>
+                <div class="logo-text"><span class="logo-en">DAO ESSENCE</span></div>
+            </a>
+            <button class="mobile-menu-btn">☰</button>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li class="nav-dropdown">
+    <span class="nav-dropdown-trigger">Blog <i class="nav-dropdown-arrow"></i></span>
+    <div class="nav-dropdown-menu">
+        <a href="blog/">All Articles</a>
+        <a href="blog/bazi-astrology">BaZi Astrology</a>
+        <a href="blog/zodiac-horoscope">Zodiac Horoscope</a>
+        <a href="blog/feng-shui">Feng Shui</a>
+        <a href="blog/daily-horoscope">Daily Horoscope</a>
+        <a href="blog/lucky-tips">Lucky Tips</a>
+    </div>
+</li>
+                <li><a href="culture">Energy Universe</a></li>
+                <li><a href="shop">Energy Shop</a></li>
+                <li><a href="life-path" class="active">Life Path</a></li>
+
+                <li><a href="about">About Us</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 英雄区域 -->
+    <section class="life-path-hero">
+        <div class="life-path-hero-content">
+            <h1>Life Path Guidance</h1>
+            <p>Unlock the mysteries of your life path. Master analysts interpret your life energy patterns, guide you through life, and help attract positive energy while maintaining balance.</p>
+        </div>
+    </section>
+
+    <!-- 服务项目 -->
+    <section class="services-section">
+        <div class="section-title">
+            <h2>Life Path Services</h2>
+            <p>The perfect blend of traditional Eastern wisdom and modern life</p>
+        </div>
+        <div class="services-grid">
+            <!-- 个人分析精批 -->
+            <div class="service-card">
+                <div class="service-header">
+                    <div class="service-icon">命</div>
+                    <div class="service-title">
+                        <h3>Life Energy Analysis</h3>
+                        <span>¥58</span>
+                    </div>
+                </div>
+                <div class="service-content">
+                    <p class="service-desc">Based on your birth year, month, day, and hour, we analyze your life energy patterns in detail, including character analysis, Five Elements preferences, major and annual cycles, providing insights into career, wealth, relationships, and well-being patterns.</p>
+                    <div class="service-features">
+                        <span>Character Analysis</span>
+                        <span>Five Elements</span>
+                        <span>Major Cycles</span>
+                        <span>Career & Wealth</span>
+                        <span>Marriage</span>
+                    </div>
+                    <button class="service-btn">Book Now</button>
+                </div>
+            </div>
+
+            <!-- 流年运势 -->
+            <div class="service-card">
+                <div class="service-header">
+                    <div class="service-icon">运</div>
+                    <div class="service-title">
+                        <h3>Annual Fortune</h3>
+                        <span>¥38</span>
+                    </div>
+                </div>
+                <div class="service-content">
+                    <p class="service-desc">Detailed analysis of your current year energy patterns, analyzing favorable/unfavorable directions, supportive influences, and precautions, providing practical advice for enhancing positive energy and maintaining balance.</p>
+                    <div class="service-features">
+                        <span>Year Analysis</span>
+                        <span>Favorable Directions</span>
+                        <span>Supportive Influences</span>
+                        <span>Precautions</span>
+                    </div>
+                    <button class="service-btn">Book Now</button>
+                </div>
+            </div>
+
+            <!-- 合婚配对 -->
+            <div class="service-card">
+                <div class="service-header">
+                    <div class="service-icon">缘</div>
+                    <div class="service-title">
+                        <h3>Marriage Matching</h3>
+                        <span>¥68</span>
+                    </div>
+                </div>
+                <div class="service-content">
+                    <p class="service-desc">Analyze marriage compatibility through both partners' life energy patterns, predict post-marriage life, identify potential issues, and provide improvement suggestions.</p>
+                    <div class="service-features">
+                        <span>Energy Pattern Matching</span>
+                        <span>Marriage Prediction</span>
+                        <span>Relationship Trend</span>
+                        <span>Suggestions</span>
+                    </div>
+                    <button class="service-btn">Book Now</button>
+                </div>
+            </div>
+
+            <!-- 起名改名 -->
+            <div class="service-card">
+                <div class="service-header">
+                    <div class="service-icon">名</div>
+                    <div class="service-title">
+                        <h3>Name Selection</h3>
+                        <span>¥88</span>
+                    </div>
+                </div>
+                <div class="service-content">
+                    <p class="service-desc">Combining life energy patterns, Five Elements preferences, and Three Talents Five Grids, we select an auspicious name for you or your child to support a successful life.</p>
+                    <div class="service-features">
+                        <span>Energy Patterns & Five Elements</span>
+                        <span>Three Talents</span>
+                        <span>Sound Analysis</span>
+                        <span>Meaning</span>
+                    </div>
+                    <button class="service-btn">Book Now</button>
+                </div>
+            </div>
+
+            <!-- 择日服务 -->
+            <div class="service-card">
+                <div class="service-header">
+                    <div class="service-icon">日</div>
+                    <div class="service-title">
+                        <h3>Date Selection</h3>
+                        <span>¥288</span>
+                    </div>
+                </div>
+                <div class="service-content">
+                    <p class="service-desc">Select auspicious dates for weddings, moving, business openings, ground-breaking, and other important events to support harmonious timing.</p>
+                    <div class="service-features">
+                        <span>Wedding</span>
+                        <span>Moving</span>
+                        <span>Business</span>
+                        <span>Construction</span>
+                    </div>
+                    <button class="service-btn">Book Now</button>
+                </div>
+            </div>
+
+            <!-- 事业财运 -->
+            <div class="service-card">
+                <div class="service-header">
+                    <div class="service-icon">财</div>
+                    <div class="service-title">
+                        <h3>Career & Wealth</h3>
+                        <span>¥488</span>
+                    </div>
+                </div>
+                <div class="service-content">
+                    <p class="service-desc">Specialized analysis of career and financial patterns, offering insights on career development direction and financial planning approaches.</p>
+                    <div class="service-features">
+                        <span>Career Direction</span>
+                        <span>Wealth Analysis</span>
+                        <span>Investment Timing</span>
+                        <span>Enhancement</span>
+                    </div>
+                    <button class="service-btn">Book Now</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 个人分析排盘 -->
+    <section class="bazi-form-section">
+        <div class="section-title">
+            <h2>Online Life Energy Chart</h2>
+            <p>Enter your birth information to get your life energy chart instantly</p>
+        </div>
+        <div class="bazi-form">
+            <form id="baziForm">
+                <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" placeholder="Enter your name" required>
+                </div>
+                <div class="form-group">
+                    <label>Gender</label>
+                    <select required>
+                        <option value="">Select gender</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Birth Date (Solar)</label>
+                    <input type="date" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Birth Hour</label>
+                        <select required>
+                            <option value="">Select</option>
+                            <option value="zi">Zi (23:00-01:00)</option>
+                            <option value="chou">Chou (01:00-03:00)</option>
+                            <option value="yin">Yin (03:00-05:00)</option>
+                            <option value="mao">Mao (05:00-07:00)</option>
+                            <option value="chen">Chen (07:00-09:00)</option>
+                            <option value="si">Si (09:00-11:00)</option>
+                            <option value="wu">Wu (11:00-13:00)</option>
+                            <option value="wei">Wei (13:00-15:00)</option>
+                            <option value="shen">Shen (15:00-17:00)</option>
+                            <option value="you">You (17:00-19:00)</option>
+                            <option value="xu">Xu (19:00-21:00)</option>
+                            <option value="hai">Hai (21:00-23:00)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Birth Place</label>
+                        <input type="text" placeholder="City/Province">
+                    </div>
+                    <div class="form-group">
+                        <label>Contact</label>
+                        <input type="tel" placeholder="Phone number">
+                    </div>
+                </div>
+                <button type="submit" class="submit-btn">Free Chart</button>
+                <p class="form-note">* Free chart shows basic info only. Book a service for detailed analysis.</p>
+            </form>
+        </div>
+    </section>
+
+    <!-- 个人运势师团队 -->
+    <section class="masters-section">
+        <div class="section-title">
+            <h2>Master Team</h2>
+            <p>Expert life path analysts carrying millennium wisdom</p>
+        </div>
+        <div class="masters-grid">
+            <div class="master-card">
+                <div class="master-avatar">玄</div>
+                <h3 class="master-name">Master Xuanzhen</h3>
+                <p class="master-title">Chief Analyst · Zhengyi Eastern Wisdom Lineage</p>
+                <p class="master-desc">Over 30 years of practice, master of life energy patterns, energy alignment, and traditional Eastern practices. Provided consulting services for numerous enterprises.</p>
+                <div class="master-tags">
+                    <span>Life Energy Patterns</span>
+                    <span>Energy Alignment</span>
+                    <span>Traditional Practices</span>
+                </div>
+            </div>
+            <div class="master-card">
+                <div class="master-avatar">明</div>
+                <h3 class="master-name">Master Mingxin</h3>
+                <p class="master-title">Senior Analyst · I Ching Scholar</p>
+                <p class="master-desc">20 years of I Ching research, expert in life energy patterns, Zifu Dou Shu, and Nameology. Published multiple life path analysis books.</p>
+                <div class="master-tags">
+                    <span>Zifu Dou Shu</span>
+                    <span>Nameology</span>
+                    <span>Life Energy Analysis</span>
+                </div>
+            </div>
+            <div class="master-card">
+                <div class="master-avatar">静</div>
+                <h3 class="master-name">Master Jingyuan</h3>
+                <p class="master-title">Wisdom Consultant · Quanzhen Longmen Lineage</p>
+                <p class="master-desc">20 years of dedicated practice, specialized in Eastern traditions, traditional practices, and ceremonies. Highly acclaimed for resolving clients' questions.</p>
+                <div class="master-tags">
+                    <span>Eastern Traditions</span>
+                    <span>Traditional Practices</span>
+                    <span>Consultation</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq-section">
+        <div class="section-title">
+            <h2>FAQ</h2>
+        </div>
+        <div class="faq-list">
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>What is life energy pattern analysis?</span>
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">Life energy pattern analysis is an important part of traditional Chinese wisdom study. It uses the year, month, day, and hour of one's birth, corresponding to the Heavenly Stems and Earthly Branches, to form energy patterns. This provides insights into one's life trajectory, personality traits, and life patterns.</div>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>What information is needed for life path services?</span>
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">Basic information includes: name, gender, birth date (solar or lunar), and birth hour. The more accurate the birth hour, the more precise the analysis. If you're unsure of the exact hour, you can provide an approximate time range, and the analyst will infer based on other information.</div>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>Are consultations online or in-person?</span>
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">All programs are fully digital and self-guided. Sessions are delivered via WeChat or video call. In-person consultations can be scheduled at designated cultural centers or studios. Both methods provide equally professional service.</div>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>Is life path analysis accurate?</span>
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">Life path study is the ancients' summary of natural patterns and has certain cultural value and reference. However, we advocate 'understanding patterns but not being limited by them.' The purpose of life path analysis is to understand your traits, seize opportunities, and navigate challenges, rather than passively accepting circumstances. Ultimately, your life is in your own hands.</div>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>How to book a life path service?</span>
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">You can book online through our website, add our WeChat customer service, or call our service hotline. After successful booking, customer service will confirm the specific time and service method with you, and collect necessary personal information before the consultation.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+        <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <span class="logo-en">DAO ESSENCE</span>
+                    </div>
+                    <p>Ancient Wisdom, Modern Harmony. Based on authentic Eastern wisdom traditions, we offer digital wellness services and online energy guidance programs.</p>
+
+                                        </div>
+                <div>
+                    <h4 class="footer-title">Navigation</h4>
+                    <ul class="footer-links">
+                        <li><a href="/">Home</a></li>
+                        <li><a href="culture">Energy Universe</a></li>
+                        <li><a href="shop">Shop</a></li>
+                        <li><a href="about">About Us</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-title">Links</h4>
+                    <ul class="footer-links">
+                        <li style="margin-bottom:8px;display:block !important;">
+                            <div><a href="https://fatenet.cn/" target="_blank" rel="noopener">FateNet</a></div>
+                            <div style="font-size:12px;color:var(--text-secondary);margin-top:4px;line-height:1.4;">Chinese Fortune Telling<br>Find Your Soulmate Direction</div>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-title">Contact</h4>
+                    <ul class="footer-links">
+                        <li>
+                            <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle;margin-right:6px"><path d="M3 4h14a1 1 0 011 1v10a1 1 0 01-1 1H3a1 1 0 01-1-1V5a1 1 0 011-1z"/><path d="M3 5l7 6 7-6"/></svg>
+                            <a href="mailto:support@daoessentia.com">support@daoessentia.com</a>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style="vertical-align:middle;margin-right:6px;color:#D4AF37"><path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 0 0 .167-.054l1.903-1.114a.864.864 0 0 1 .717-.098 10.16 10.16 0 0 0 2.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348zM5.785 5.991c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178A1.17 1.17 0 0 1 4.623 7.17c0-.651.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178 1.17 1.17 0 0 1-1.162-1.178c0-.651.52-1.18 1.162-1.18zm5.34 2.867c-1.797-.052-3.746.512-5.28 1.786-1.72 1.428-2.687 3.72-1.78 6.22.942 2.453 3.666 4.229 6.884 4.229.826 0 1.622-.12 2.361-.336a.722.722 0 0 1 .598.082l1.584.926a.272.272 0 0 0 .14.047c.134 0 .24-.111.24-.247 0-.06-.023-.12-.038-.177l-.327-1.233a.582.582 0 0 1-.023-.156.49.49 0 0 1 .201-.398C23.024 18.48 24 16.82 24 14.98c0-3.21-2.931-5.837-7.062-6.122zm-3.957 3.467c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.969-.982zm4.844 0c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.969-.982z"/></svg>
+                            <a href="#" onclick="document.getElementById('wechat-modal').style.display='flex';return false;">WeChat</a>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle;margin-right:6px"><circle cx="10" cy="10" r="8"/><path d="M10 6v4l2.5 2.5"/></svg>
+                        <li>
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style="vertical-align:middle;margin-right:6px;color:#229ED9"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+                            <a href="https://t.me/dingwei_123" target="_blank" rel="noopener">Telegram Channel</a>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style="vertical-align:middle;margin-right:6px;color:#229ED9"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+                            <a href="https://t.me/Dingwei_pi" target="_blank" rel="noopener">Telegram @Dingwei_pi</a>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style="vertical-align:middle;margin-right:6px;color:#E60023"><path d="M12 0C5.373 0 0 5.372 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 0 1 .083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.631-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12 0-6.628-5.373-12-12-12z"/></svg>
+                            <a href="https://www.pinterest.com/pixuan/wallpapers/" target="_blank" rel="noopener">Pinterest</a>
+                        </li>                        <li>
+                            <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle;margin-right:6px"><circle cx="10" cy="10" r="8"/><path d="M10 6v4l2.5 2.5"/></svg>
+                            Mon&ndash;Sat: 9AM&ndash;9PM (CST / UTC+8)
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 DAO Essence &amp; Five Elements. All rights reserved.</p>
+                <div class="footer-legal-links">
+                    <a href="privacy">Privacy Policy</a>
+                    <span>|</span>
+                    <a href="terms">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- WeChat QR Modal -->
+    <div id="wechat-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:9999;align-items:center;justify-content:center;" onclick="if(event.target===this)this.style.display='none'">
+        <div style="background:#1a1a1a;border:1px solid rgba(212,175,55,0.4);border-radius:16px;padding:40px;text-align:center;max-width:320px;width:90%;position:relative;">
+            <button onclick="document.getElementById('wechat-modal').style.display='none'" style="position:absolute;top:12px;right:16px;background:none;border:none;color:rgba(245,240,230,0.6);font-size:22px;cursor:pointer;line-height:1;">&times;</button>
+            <svg viewBox="0 0 24 24" width="40" height="40" fill="#D4AF37" style="margin-bottom:12px"><path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 0 0 .167-.054l1.903-1.114a.864.864 0 0 1 .717-.098 10.16 10.16 0 0 0 2.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348zM5.785 5.991c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178A1.17 1.17 0 0 1 4.623 7.17c0-.651.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178 1.17 1.17 0 0 1-1.162-1.178c0-.651.52-1.18 1.162-1.18zm5.34 2.867c-1.797-.052-3.746.512-5.28 1.786-1.72 1.428-2.687 3.72-1.78 6.22.942 2.453 3.666 4.229 6.884 4.229.826 0 1.622-.12 2.361-.336a.722.722 0 0 1 .598.082l1.584.926a.272.272 0 0 0 .14.047c.134 0 .24-.111.24-.247 0-.06-.023-.12-.038-.177l-.327-1.233a.582.582 0 0 1-.023-.156.49.49 0 0 1 .201-.398C23.024 18.48 24 16.82 24 14.98c0-3.21-2.931-5.837-7.062-6.122zm-3.957 3.467c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.969-.982zm4.844 0c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.969-.982z"/></svg>
+            <h3 style="color:#D4AF37;margin:0 0 8px;font-size:18px;">WeChat</h3>
+            <p style="color:rgba(245,240,230,0.7);font-size:13px;margin:0 0 20px;">Scan the QR code to connect with us on WeChat</p>
+            <div style="width:160px;height:160px;margin:0 auto;display:flex;align-items:center;justify-content:center;">
+                <img src="images/微信图片_20260324143206_59_9.jpg" alt="WeChat QR Code" style="width:100%;height:100%;border-radius:8px;object-fit:cover;" loading="lazy">
+            </div>
+            <p style="color:rgba(245,240,230,0.5);font-size:12px;margin:16px 0 0;">WeChat ID: your-wechat-id</p>
+        </div>
+    </div>
+
+    <script>
+        // 语言切换功能
+        let currentLang = 'en';
+        
+        function initLang() {
+            const savedLang = localStorage.getItem('daoessence_lang');
+            if (savedLang) {
+                currentLang = savedLang;
+            }
+            applyLang(currentLang);
+        }
+        
+        function applyLang(lang) {
+            currentLang = lang;
+            // 更新所有带有data-lang属性的元素
+            document.querySelectorAll('[data-en][data-zh]').forEach(el => {
+                el.textContent = el.getAttribute(`data-${lang}`);
+            });
+            
+            // 更新placeholder
+            document.querySelectorAll('[data-en-placeholder][data-zh-placeholder]').forEach(el => {
+                el.placeholder = el.getAttribute(`data-${lang}-placeholder`);
+            });
+            
+            // 更新select选项
+            document.querySelectorAll('select option').forEach(opt => {
+                if (opt.getAttribute(`data-${lang}`)) {
+                    opt.textContent = opt.getAttribute(`data-${lang}`);
+                }
+            });
+            
+            document.documentElement.lang = lang === 'en' ? 'en' : 'zh-CN';
+            localStorage.setItem('daoessence_lang', lang);
+        }
+        
+        function toggleLang() {
+            currentLang = currentLang === 'en' ? 'zh' : 'en';
+            applyLang(currentLang);
+        }
+        
+        // 页面加载时初始化语言
+        initLang();
+
+        // FAQ 手风琴
+        document.querySelectorAll('.faq-question').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const item = btn.parentElement;
+                const isActive = item.classList.contains('active');
+                
+                // 关闭其他
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+                
+                // 切换当前
+                if (!isActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+
+        // 表单提交
+        document.getElementById('baziForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const msg = currentLang === 'en' 
+                ? 'Life energy chart feature is under development, stay tuned!\nYou can also book a life path service for professional analysis.'
+                : '个人音频功能开发中，敬请期待！\n您也可以购买五行能量音频课程，获取数字内容。';
+            alert(msg);
+        });
+
+        // 产品购买
+        document.querySelectorAll('.service-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const msg = currentLang === 'en'
+                    ? 'Booking feature is under development. Please contact us via email.'
+                    : '预约功能开发中，请通过邮箱联系我们。';
+                alert(msg);
+            });
+        });
+
+        // 移动端菜单
+        document.querySelector('.mobile-menu-btn').addEventListener('click', () => {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+
+        // 滚动动画
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.service-card, .master-card, .testimonial-card, .faq-item').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
+

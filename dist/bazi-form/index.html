@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BaZi Reading Online | DAO Essence</title>
+    <meta name="description" content="Get a personalized BaZi reading — discover your Four Pillars of Destiny, Five Elements profile, and life path analysis. Ancient Chinese numerology.">
+    <link rel="canonical" href="https://www.daoessentia.com/bazi-form"/>
+    <link rel="alternate" hreflang="en" href="https://www.daoessentia.com/bazi-form"/>
+    <link rel="alternate" hreflang="x-default" href="https://www.daoessentia.com/bazi-form"/>
+    <meta name="robots" content="index, follow"/>
+    <meta name="keywords" content="BaZi reading online, Four Pillars of Destiny, Chinese astrology reading, Chinese numerology, birth chart analysis, Five Elements profile, life path analysis, BaZi calculator, Chinese fortune telling, destiny analysis, BaZi life guidance, personal energy blueprint"/>
+    <!-- Open Graph -->
+    <meta property="og:title" content="BaZi Reading Online | Four Pillars | DAO Essence"/>
+    <meta property="og:description" content="Get a personalized BaZi reading and discover your Four Pillars of Destiny, Chinese astrology birth chart, and Five Elements life path guidance."/>
+    <meta property="og:image" content="https://www.daoessentia.com/images/og-default.jpg"/>
+    <meta property="og:url" content="https://www.daoessentia.com/bazi-form"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:site_name" content="DAO Essence"/>
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image"/>
+    <meta name="twitter:title" content="BaZi Analysis | DAO Essence"/>
+    <meta name="twitter:description" content="Get your personalized BaZi reading and Five Elements life guidance."/>
+    <meta name="twitter:image" content="https://www.daoessentia.com/images/og-default.jpg"/>
+    <link rel="stylesheet" href="styles.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Poppins:wght@300;400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"></noscript>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <style>
+        /* 头部导航 */
+        .header {
+            background: rgba(245, 240, 230, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* 导航栏文字颜色 - 强制深色 */
+        .header .logo-cn,
+        .header .nav-link {
+            color: #2C2416 !important;
+        }
+
+        .header .logo-en {
+            color: #5C4A3A !important;
+        }
+
+        .header .logo-icon {
+            border-color: #D4AF37 !important;
+            color: #D4AF37 !important;
+        }
+
+        .header .nav-link::after {
+            background: #D4AF37 !important;
+        }
+
+        .header .nav-link:hover,
+        .header .nav-link.active {
+            color: #8B2500 !important;
+        }
+
+        .header .mobile-menu-btn span {
+            background: #2C2416 !important;
+        }
+
+        /* 表单样式 */
+        .bazi-form-section {
+            padding: 80px 0 40px 0;
+            background: linear-gradient(135deg, #f8f4ed 0%, #ebe5d8 100%);
+        }
+
+        .form-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 28px 32px;
+            background: white;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+        }
+
+        .form-title {
+            text-align: center;
+            margin-bottom: 12px;
+        }
+
+        .form-title h1 {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .form-title p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .bazi-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px 16px;
+        }
+
+        .form-group {
+            margin-bottom: 10px;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 4px;
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 0.85rem;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 9px 12px;
+            border: 1px solid #ddd;
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+            transition: all var(--transition-fast);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+        }
+
+        .form-note {
+            grid-column: 1 / -1;
+            padding: 10px 14px;
+            background: #f8f9fa;
+            border-left: 4px solid var(--accent-color);
+            border-radius: var(--radius-sm);
+            margin-bottom: 8px;
+        }
+
+        .form-note p {
+            margin: 0;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+        }
+
+        .submit-btn {
+            grid-column: 1 / -1;
+            padding: 12px;
+            background: var(--accent-color);
+            color: var(--bg-dark);
+            border: none;
+            border-radius: var(--radius-sm);
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .submit-btn:hover {
+            background: #E8C547;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .bazi-service-info {
+            background: rgba(212, 175, 55, 0.08);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 10px;
+            padding: 0.7rem 1rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.6rem;
+        }
+        .bazi-service-info .service-icon {
+            font-size: 1.1rem;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        .bazi-service-info .service-text {
+            color: var(--text-secondary);
+            font-size: 0.82rem;
+            line-height: 1.6;
+        }
+        .bazi-service-info .service-text strong {
+            color: var(--accent-color);
+        }
+
+        /* 流程步骤 */
+        .bazi-process-steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0;
+            margin: 0.8rem 0 0.4rem;
+            padding: 0;
+            background: transparent;
+        }
+        .bazi-step {
+            text-align: center;
+            padding: 0.6rem 0.3rem;
+        }
+        .bazi-step .step-icon {
+            font-size: 1.2rem;
+            margin-bottom: 0.25rem;
+            display: block;
+        }
+        .bazi-step .step-title {
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.15rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .bazi-step .step-desc {
+            font-size: 0.72rem;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+        .bazi-step:not(:last-child)::after {
+            content: '→';
+            position: absolute;
+            right: -0.4rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(212, 175, 55, 0.4);
+            font-size: 1rem;
+        }
+        .bazi-step { position: relative; }
+
+        /* 报告内容预览 */
+        .bazi-report-preview {
+            margin: 0 0 1rem;
+            padding: 0.9rem 1.2rem;
+            background: rgba(255,255,255,0.03);
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+        .bazi-report-preview h3 {
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--accent-color);
+            margin-bottom: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+        .bazi-report-preview ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.35rem 1.2rem;
+        }
+        .bazi-report-preview li {
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            padding-left: 0.9rem;
+            position: relative;
+        }
+        .bazi-report-preview li::before {
+            content: '☯';
+            position: absolute;
+            left: 0;
+            color: rgba(212, 175, 55, 0.6);
+            font-size: 0.65rem;
+            top: 2px;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .form-container {
+                padding: 16px;
+            }
+
+            .bazi-form {
+                grid-template-columns: 1fr;
+            }
+
+            .form-title h1 {
+                font-size: 1.6rem;
+            }
+            .form-title {
+                margin-bottom: 12px;
+            }
+
+            .bazi-process-steps {
+                grid-template-columns: 1fr;
+                display: flex;
+                justify-content: center;
+                gap: 0.5rem;
+            }
+            .bazi-step {
+                padding: 0.4rem;
+            }
+            .bazi-step:not(:last-child)::after {
+                display: none;
+            }
+            .bazi-report-preview ul {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.daoessentia.com/"},
+            {"@type": "ListItem", "position": 2, "name": "BaZi Analysis", "item": "https://www.daoessentia.com/bazi-form.html"}
+        ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What is BaZi (Four Pillars of Destiny)?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "BaZi, also known as the Four Pillars of Destiny, is an ancient Chinese astrological system that uses your birth year, month, day, and hour to construct a personal destiny chart. Each 'pillar' contains a Heavenly Stem and an Earthly Branch, representing different aspects of your Five Elements composition — Wood, Fire, Earth, Metal, and Water. This system has been refined over 3,000 years and is one of the foundational pillars of Chinese metaphysics and fortune telling."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How accurate is a BaZi reading online?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "A BaZi reading is as accurate as the birth information provided. The system itself is mathematically precise — the challenge lies in interpretation. At DAO Essence, our practitioners combine traditional BaZi analysis methods with Five Elements theory to provide comprehensive, personalized life path guidance. Your birth chart reveals elemental strengths, weaknesses, and life patterns that have been validated across millennia of practice."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What information do I need for a BaZi reading?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "For an accurate BaZi reading, you need four pieces of information: your birth year, birth month, birth day, and birth hour. Additionally, your birth place (city and country) helps with time zone correction for precise calculations. The birth hour is particularly important as it determines your Day Master — the core element that defines your personal energy signature in Chinese astrology."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How does BaZi differ from Western astrology?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "While Western astrology is based on planetary positions at the time of birth, BaZi (Chinese astrology) is based on the Chinese calendar and the Five Elements framework. BaZi uses a system of 10 Heavenly Stems and 12 Earthly Branches mapped to Wood, Fire, Earth, Metal, and Water elements. Rather than focusing on zodiac signs, BaZi analyzes the balance and interaction of these five elements in your birth chart to reveal personality traits, life cycles, and energetic tendencies."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Can BaZi predict my future?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "BaZi is better understood as a system for self-awareness rather than fortune-telling. Your birth chart reveals your inherent elemental composition, strengths, and potential challenges. Combined with the analysis of luck cycles (Da Yun), BaZi identifies favorable periods for career, relationships, health, and financial decisions. Think of it as a personal energy roadmap — not a fixed prediction, but a tool for making better-informed life choices."
+                }
+            }
+        ]
+    }
+    </script>
+</head>
+<body>
+    <!-- 头部导航 -->
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <a href="/" class="logo">
+                    <div class="logo-icon"></div>
+                    <div class="logo-text">
+                        <span class="logo-en">DAO ESSENCE</span>
+                    </div>
+                </a>
+                <ul class="nav-menu">
+                    <li><a href="/" class="nav-link">Home</a></li>
+                    <li class="nav-dropdown">
+                        <span class="nav-dropdown-trigger">Blog <i class="nav-dropdown-arrow"></i></span>
+                        <div class="nav-dropdown-menu">
+                            <a href="blog/">All Articles</a>
+                            <a href="blog/bazi-astrology">BaZi Astrology</a>
+                            <a href="blog/zodiac-horoscope">Zodiac Horoscope</a>
+                            <a href="blog/feng-shui">Feng Shui</a>
+                            <a href="blog/daily-horoscope">Daily Horoscope</a>
+                            <a href="blog/lucky-tips">Lucky Tips</a>
+                        </div>
+                    </li>
+                    <li><a href="culture" class="nav-link">Energy Universe</a></li>
+                    <li><a href="shop" class="nav-link active">Shop</a></li>
+
+                    <li><a href="about" class="nav-link">About Us</a></li>
+                </ul>
+                <button class="mobile-menu-btn">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 八字信息表单 -->
+    <section class="bazi-form-section">
+        <div class="container">
+            <div class="form-container">
+                <div class="form-title">
+                    <h1>BaZi Analysis</h1>
+                    <p>Enter your birth information for personalized analysis and life guidance</p>
+                </div>
+
+                <!-- 报告内容预览（放在最顶部，一眼可见） -->
+                <div class="bazi-report-preview">
+                    <h3>Your Report Includes</h3>
+                    <ul>
+                        <li><strong>Five Elements Profile</strong> — Elemental strengths & weaknesses</li>
+                        <li><strong>Personality Analysis</strong> — Core traits from your Day Master</li>
+                        <li><strong>Career & Wealth</strong> — Favorable directions & timing</li>
+                        <li><strong>Relationship Insights</strong> — Compatibility & harmony</li>
+                        <li><strong>Health Recommendations</strong> — Element-based wellness advice</li>
+                        <li><strong>Annual Forecast</strong> — Key themes for the coming year</li>
+                    </ul>
+                </div>
+
+                <!-- 服务说明 -->
+                <div class="bazi-service-info">
+                    <span class="service-icon">☯</span>
+                    <div class="service-text">
+                        Your personalized BaZi Life Guidance Report will be crafted by <strong>Master Xuanzhen</strong> and delivered to your email within <strong>48 hours</strong> as a <strong>PDF document (bilingual: Chinese & English)</strong>.
+                    </div>
+                </div>
+                
+                <form class="bazi-form" id="baziForm">
+                    <div class="form-note">
+                        <p><strong>Important:</strong> Please provide accurate birth information for a precise analysis. Your information will be used only for generating your BaZi report.</p>
+                    </div>
+
+                    <!-- 出生日期 -->
+                    <div class="form-group">
+                        <label for="birthYear">Birth Year</label>
+                        <select id="birthYear" name="birthYear" required>
+                            <option value="">Select Year</option>
+                            <option value="2026">2026</option>
+                            <option value="2025">2025</option>
+                            <option value="2024">2024</option>
+                            <option value="2023">2023</option>
+                            <option value="2022">2022</option>
+                            <option value="2021">2021</option>
+                            <option value="2020">2020</option>
+                            <option value="2019">2019</option>
+                            <option value="2018">2018</option>
+                            <option value="2017">2017</option>
+                            <option value="2016">2016</option>
+                            <option value="2015">2015</option>
+                            <option value="2014">2014</option>
+                            <option value="2013">2013</option>
+                            <option value="2012">2012</option>
+                            <option value="2011">2011</option>
+                            <option value="2010">2010</option>
+                            <option value="2009">2009</option>
+                            <option value="2008">2008</option>
+                            <option value="2007">2007</option>
+                            <option value="2006">2006</option>
+                            <option value="2005">2005</option>
+                            <option value="2004">2004</option>
+                            <option value="2003">2003</option>
+                            <option value="2002">2002</option>
+                            <option value="2001">2001</option>
+                            <option value="2000">2000</option>
+                            <option value="1999">1999</option>
+                            <option value="1998">1998</option>
+                            <option value="1997">1997</option>
+                            <option value="1996">1996</option>
+                            <option value="1995">1995</option>
+                            <option value="1994">1994</option>
+                            <option value="1993">1993</option>
+                            <option value="1992">1992</option>
+                            <option value="1991">1991</option>
+                            <option value="1990">1990</option>
+                            <option value="1989">1989</option>
+                            <option value="1988">1988</option>
+                            <option value="1987">1987</option>
+                            <option value="1986">1986</option>
+                            <option value="1985">1985</option>
+                            <option value="1984">1984</option>
+                            <option value="1983">1983</option>
+                            <option value="1982">1982</option>
+                            <option value="1981">1981</option>
+                            <option value="1980">1980</option>
+                            <option value="1979">1979</option>
+                            <option value="1978">1978</option>
+                            <option value="1977">1977</option>
+                            <option value="1976">1976</option>
+                            <option value="1975">1975</option>
+                            <option value="1974">1974</option>
+                            <option value="1973">1973</option>
+                            <option value="1972">1972</option>
+                            <option value="1971">1971</option>
+                            <option value="1970">1970</option>
+                            <option value="1969">1969</option>
+                            <option value="1968">1968</option>
+                            <option value="1967">1967</option>
+                            <option value="1966">1966</option>
+                            <option value="1965">1965</option>
+                            <option value="1964">1964</option>
+                            <option value="1963">1963</option>
+                            <option value="1962">1962</option>
+                            <option value="1961">1961</option>
+                            <option value="1960">1960</option>
+                            <option value="1959">1959</option>
+                            <option value="1958">1958</option>
+                            <option value="1957">1957</option>
+                            <option value="1956">1956</option>
+                            <option value="1955">1955</option>
+                            <option value="1954">1954</option>
+                            <option value="1953">1953</option>
+                            <option value="1952">1952</option>
+                            <option value="1951">1951</option>
+                            <option value="1950">1950</option>
+                            <option value="1949">1949</option>
+                            <option value="1948">1948</option>
+                            <option value="1947">1947</option>
+                            <option value="1946">1946</option>
+                            <option value="1945">1945</option>
+                            <option value="1944">1944</option>
+                            <option value="1943">1943</option>
+                            <option value="1942">1942</option>
+                            <option value="1941">1941</option>
+                            <option value="1940">1940</option>
+                            <option value="1939">1939</option>
+                            <option value="1938">1938</option>
+                            <option value="1937">1937</option>
+                            <option value="1936">1936</option>
+                            <option value="1935">1935</option>
+                            <option value="1934">1934</option>
+                            <option value="1933">1933</option>
+                            <option value="1932">1932</option>
+                            <option value="1931">1931</option>
+                            <option value="1930">1930</option>
+                            <option value="1929">1929</option>
+                            <option value="1928">1928</option>
+                            <option value="1927">1927</option>
+                            <option value="1926">1926</option>
+                            <option value="1925">1925</option>
+                            <option value="1924">1924</option>
+                            <option value="1923">1923</option>
+                            <option value="1922">1922</option>
+                            <option value="1921">1921</option>
+                            <option value="1920">1920</option>
+                            <option value="1919">1919</option>
+                            <option value="1918">1918</option>
+                            <option value="1917">1917</option>
+                            <option value="1916">1916</option>
+                            <option value="1915">1915</option>
+                            <option value="1914">1914</option>
+                            <option value="1913">1913</option>
+                            <option value="1912">1912</option>
+                            <option value="1911">1911</option>
+                            <option value="1910">1910</option>
+                            <option value="1909">1909</option>
+                            <option value="1908">1908</option>
+                            <option value="1907">1907</option>
+                            <option value="1906">1906</option>
+                            <option value="1905">1905</option>
+                            <option value="1904">1904</option>
+                            <option value="1903">1903</option>
+                            <option value="1902">1902</option>
+                            <option value="1901">1901</option>
+                            <option value="1900">1900</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="birthMonth">Birth Month</label>
+                        <select id="birthMonth" name="birthMonth" required>
+                            <option value="">Select Month</option>
+                            <option value="1">January</option>
+                            <option value="2">February</option>
+                            <option value="3">March</option>
+                            <option value="4">April</option>
+                            <option value="5">May</option>
+                            <option value="6">June</option>
+                            <option value="7">July</option>
+                            <option value="8">August</option>
+                            <option value="9">September</option>
+                            <option value="10">October</option>
+                            <option value="11">November</option>
+                            <option value="12">December</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="birthDay">Birth Day</label>
+                        <select id="birthDay" name="birthDay" required>
+                            <option value="">Select Day</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                            <option value="13">13</option>
+                            <option value="14">14</option>
+                            <option value="15">15</option>
+                            <option value="16">16</option>
+                            <option value="17">17</option>
+                            <option value="18">18</option>
+                            <option value="19">19</option>
+                            <option value="20">20</option>
+                            <option value="21">21</option>
+                            <option value="22">22</option>
+                            <option value="23">23</option>
+                            <option value="24">24</option>
+                            <option value="25">25</option>
+                            <option value="26">26</option>
+                            <option value="27">27</option>
+                            <option value="28">28</option>
+                            <option value="29">29</option>
+                            <option value="30">30</option>
+                            <option value="31">31</option>
+                        </select>
+                    </div>
+
+                    <!-- 出生时间 -->
+                    <div class="form-group">
+                        <label for="birthHour">Birth Hour</label>
+                        <select id="birthHour" name="birthHour" required>
+                            <option value="">Select Shichen (时辰)</option>
+                            <option value="0">子时 (23:00–01:00)</option>
+                            <option value="1">丑时 (01:00–03:00)</option>
+                            <option value="2">寅时 (03:00–05:00)</option>
+                            <option value="3">卯时 (05:00–07:00)</option>
+                            <option value="4">辰时 (07:00–09:00)</option>
+                            <option value="5">巳时 (09:00–11:00)</option>
+                            <option value="6">午时 (11:00–13:00)</option>
+                            <option value="7">未时 (13:00–15:00)</option>
+                            <option value="8">申时 (15:00–17:00)</option>
+                            <option value="9">酉时 (17:00–19:00)</option>
+                            <option value="10">戌时 (19:00–21:00)</option>
+                            <option value="11">亥时 (21:00–23:00)</option>
+                        </select>
+                    </div>
+
+                    <!-- 出生地点 -->
+                    <div class="form-group full-width">
+                        <label for="birthPlace">Birth Place (City, Country)</label>
+                        <input type="text" id="birthPlace" name="birthPlace" required placeholder="e.g., New York, USA">
+                    </div>
+
+                    <!-- 性别 -->
+                    <div class="form-group">
+                        <label>Gender</label>
+                        <div style="display: flex; gap: 20px; padding-top: 2px;">
+                            <label style="display: flex; align-items: center; font-weight: normal; font-size: 0.85rem;">
+                                <input type="radio" name="gender" value="male" required style="margin-right: 5px;">
+                                Male
+                            </label>
+                            <label style="display: flex; align-items: center; font-weight: normal; font-size: 0.85rem;">
+                                <input type="radio" name="gender" value="female" style="margin-right: 5px;">
+                                Female
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- 邮箱 -->
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" required placeholder="Your email address">
+                    </div>
+
+                    <!-- 其他信息 -->
+                    <div class="form-group">
+                        <label for="notes">Notes (Optional)</label>
+                        <input type="text" id="notes" name="notes" placeholder="Focus areas...">
+                    </div>
+
+                    <!-- 提交按钮 -->
+                    <button type="submit" class="submit-btn">Continue to Payment</button>
+
+                    <!-- 流程步骤（放在提交按钮后面，紧凑展示） -->
+                    <div class="bazi-process-steps" style="grid-column: 1 / -1;">
+                        <div class="bazi-step">
+                            <span class="step-icon">📋</span>
+                            <div class="step-title">Step 1</div>
+                            <div class="step-desc">Submit & pay</div>
+                        </div>
+                        <div class="bazi-step">
+                            <span class="step-icon">☯</span>
+                            <div class="step-title">Step 2</div>
+                            <div class="step-desc">Master Xuanzhen analyzes</div>
+                        </div>
+                        <div class="bazi-step">
+                            <span class="step-icon">📧</span>
+                            <div class="step-title">Step 3</div>
+                            <div class="step-desc">PDF in 48h</div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- BaZi Knowledge Section -->
+    <section style="padding: 5rem 5%; background: var(--bg-primary);">
+        <div style="max-width: 900px; margin: 0 auto;">
+            <h2 style="font-family: var(--font-display); font-size: clamp(1.8rem, 4vw, 2.5rem); color: var(--accent-color); text-align: center; margin-bottom: 1rem; letter-spacing: 0.1em;">What Is BaZi?</h2>
+            <p style="text-align: center; color: var(--text-secondary); font-size: 1.05rem; line-height: 1.9; margin-bottom: 3rem; max-width: 700px; margin-left: auto; margin-right: auto;">BaZi (八字), also known as the <strong>Four Pillars of Destiny</strong>, is one of the most sophisticated systems in <strong>Chinese astrology</strong>. Developed over 3,000 years ago, it maps the <strong>Five Elements</strong> — Wood, Fire, Earth, Metal, and Water — present at the exact moment of your birth to reveal your unique energetic blueprint.</p>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-bottom: 3rem;">
+                <div style="padding: 2rem; background: var(--bg-secondary); border-radius: 12px; border: 1px solid rgba(212,175,55,0.1);">
+                    <h3 style="font-family: var(--font-display); color: var(--accent-color); font-size: 1.2rem; margin-bottom: 0.8rem;">Birth Year Pillar</h3>
+                    <p style="color: var(--text-secondary); line-height: 1.8; font-size: 0.95rem;">Reveals your ancestral influences, family karma, and social environment. Governs your early life experiences and relationship with elders.</p>
+                </div>
+                <div style="padding: 2rem; background: var(--bg-secondary); border-radius: 12px; border: 1px solid rgba(212,175,55,0.1);">
+                    <h3 style="font-family: var(--font-display); color: var(--accent-color); font-size: 1.2rem; margin-bottom: 0.8rem;">Birth Month Pillar</h3>
+                    <p style="color: var(--text-secondary); line-height: 1.8; font-size: 0.95rem;">Represents your career path, parental influence, and the dominant Five Element energy of your birth season. Key for understanding professional strengths.</p>
+                </div>
+                <div style="padding: 2rem; background: var(--bg-secondary); border-radius: 12px; border: 1px solid rgba(212,175,55,0.1);">
+                    <h3 style="font-family: var(--font-display); color: var(--accent-color); font-size: 1.2rem; margin-bottom: 0.8rem;">Birth Day Pillar</h3>
+                    <p style="color: var(--text-secondary); line-height: 1.8; font-size: 0.95rem;">The most important pillar — your Day Master defines your core self, personality, and the primary element you embody. Central to all BaZi analysis.</p>
+                </div>
+                <div style="padding: 2rem; background: var(--bg-secondary); border-radius: 12px; border: 1px solid rgba(212,175,55,0.1);">
+                    <h3 style="font-family: var(--font-display); color: var(--accent-color); font-size: 1.2rem; margin-bottom: 0.8rem;">Birth Hour Pillar</h3>
+                    <p style="color: var(--text-secondary); line-height: 1.8; font-size: 0.95rem;">Reveals your inner self, children, aspirations, and later life. Together with the Day Pillar, it forms your complete personal energy profile.</p>
+                </div>
+            </div>
+
+            <p style="color: var(--text-secondary); line-height: 1.9; font-size: 1rem; margin-bottom: 2rem;">Your <strong>BaZi birth chart</strong> is not just a <strong>Chinese fortune telling</strong> tool — it is a comprehensive system for understanding your <strong>Five Elements profile</strong>, identifying elemental imbalances, and making informed decisions about career, relationships, health, and personal growth. Combined with <strong>Da Yun</strong> (luck cycles) analysis, BaZi provides a dynamic roadmap for navigating life's opportunities and challenges.</p>
+
+            <div style="text-align: center; margin-top: 2rem;">
+                <a href="culture" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 1rem 2rem; background: transparent; border: 1px solid var(--accent-color); color: var(--accent-color); text-decoration: none; font-size: 0.9rem; letter-spacing: 0.1em; transition: all 0.3s;">Learn About Five Elements Theory →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section style="padding: 5rem 5%; background: var(--bg-secondary);">
+        <div style="max-width: 800px; margin: 0 auto;">
+            <h2 style="font-family: var(--font-display); font-size: 1.8rem; color: var(--accent-color); text-align: center; margin-bottom: 2.5rem; letter-spacing: 0.1em;">Frequently Asked Questions</h2>
+            
+            <div style="margin-bottom: 0.8rem; background: var(--bg-primary); border-radius: 12px; border: 1px solid rgba(212,175,55,0.13); overflow: hidden;">
+                <div style="padding: 1.3rem 1.8rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center;" onclick="this.parentElement.classList.toggle('open')" role="button" aria-expanded="false">
+                    <h4 style="color: var(--text-primary); font-size: 0.97rem; margin: 0;">What is BaZi (Four Pillars of Destiny)?</h4>
+                    <span style="color: var(--accent-color); font-size: 0.85rem; transition: transform 0.3s;">▼</span>
+                </div>
+                <div style="max-height: 0; overflow: hidden; transition: max-height 0.4s ease;">
+                    <p style="padding: 0 1.8rem 1.4rem; color: var(--text-secondary); line-height: 1.8; font-size: 0.92rem; margin: 0;">BaZi, also known as the Four Pillars of Destiny, is an ancient Chinese astrological system that uses your birth year, month, day, and hour to construct a personal destiny chart. Each "pillar" contains a Heavenly Stem and an Earthly Branch, representing different aspects of your Five Elements composition. This system has been refined over 3,000 years and is one of the foundational pillars of Chinese metaphysics.</p>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 0.8rem; background: var(--bg-primary); border-radius: 12px; border: 1px solid rgba(212,175,55,0.13); overflow: hidden;">
+                <div style="padding: 1.3rem 1.8rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center;" onclick="this.parentElement.classList.toggle('open')" role="button" aria-expanded="false">
+                    <h4 style="color: var(--text-primary); font-size: 0.97rem; margin: 0;">How accurate is a BaZi reading online?</h4>
+                    <span style="color: var(--accent-color); font-size: 0.85rem; transition: transform 0.3s;">▼</span>
+                </div>
+                <div style="max-height: 0; overflow: hidden; transition: max-height 0.4s ease;">
+                    <p style="padding: 0 1.8rem 1.4rem; color: var(--text-secondary); line-height: 1.8; font-size: 0.92rem; margin: 0;">A BaZi reading is as accurate as the birth information provided. The system itself is mathematically precise — the challenge lies in interpretation. At DAO Essence, our practitioners combine traditional BaZi analysis with Five Elements theory to provide comprehensive, personalized life path guidance.</p>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 0.8rem; background: var(--bg-primary); border-radius: 12px; border: 1px solid rgba(212,175,55,0.13); overflow: hidden;">
+                <div style="padding: 1.3rem 1.8rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center;" onclick="this.parentElement.classList.toggle('open')" role="button" aria-expanded="false">
+                    <h4 style="color: var(--text-primary); font-size: 0.97rem; margin: 0;">What information do I need for a BaZi reading?</h4>
+                    <span style="color: var(--accent-color); font-size: 0.85rem; transition: transform 0.3s;">▼</span>
+                </div>
+                <div style="max-height: 0; overflow: hidden; transition: max-height 0.4s ease;">
+                    <p style="padding: 0 1.8rem 1.4rem; color: var(--text-secondary); line-height: 1.8; font-size: 0.92rem; margin: 0;">For an accurate BaZi reading, you need four pieces of information: your birth year, birth month, birth day, and birth hour. Additionally, your birth place (city and country) helps with time zone correction. The birth hour is particularly important as it determines your Day Master — the core element that defines your personal energy signature.</p>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 0.8rem; background: var(--bg-primary); border-radius: 12px; border: 1px solid rgba(212,175,55,0.13); overflow: hidden;">
+                <div style="padding: 1.3rem 1.8rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center;" onclick="this.parentElement.classList.toggle('open')" role="button" aria-expanded="false">
+                    <h4 style="color: var(--text-primary); font-size: 0.97rem; margin: 0;">How does BaZi differ from Western astrology?</h4>
+                    <span style="color: var(--accent-color); font-size: 0.85rem; transition: transform 0.3s;">▼</span>
+                </div>
+                <div style="max-height: 0; overflow: hidden; transition: max-height 0.4s ease;">
+                    <p style="padding: 0 1.8rem 1.4rem; color: var(--text-secondary); line-height: 1.8; font-size: 0.92rem; margin: 0;">While Western astrology is based on planetary positions, BaZi uses the Chinese calendar and the Five Elements framework. BaZi analyzes the balance and interaction of Wood, Fire, Earth, Metal, and Water in your birth chart to reveal personality traits, life cycles, and energetic tendencies — rather than focusing on zodiac signs.</p>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 0.8rem; background: var(--bg-primary); border-radius: 12px; border: 1px solid rgba(212,175,55,0.13); overflow: hidden;">
+                <div style="padding: 1.3rem 1.8rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center;" onclick="this.parentElement.classList.toggle('open')" role="button" aria-expanded="false">
+                    <h4 style="color: var(--text-primary); font-size: 0.97rem; margin: 0;">Can BaZi predict my future?</h4>
+                    <span style="color: var(--accent-color); font-size: 0.85rem; transition: transform 0.3s;">▼</span>
+                </div>
+                <div style="max-height: 0; overflow: hidden; transition: max-height 0.4s ease;">
+                    <p style="padding: 0 1.8rem 1.4rem; color: var(--text-secondary); line-height: 1.8; font-size: 0.92rem; margin: 0;">BaZi is better understood as a system for self-awareness rather than fortune-telling. Your birth chart reveals your inherent elemental composition, strengths, and potential challenges. Combined with luck cycles (Da Yun) analysis, BaZi identifies favorable periods for career, relationships, and financial decisions — a personal energy roadmap for making better-informed choices.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <style>
+        .open > div:last-child { max-height: 300px !important; }
+        .open > div:first-child span { transform: rotate(180deg); }
+    </style>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <span class="logo-en">DAO ESSENCE</span>
+                    </div>
+                    <p>Ancient Wisdom, Modern Harmony. Based on authentic Eastern wisdom traditions, we offer digital wellness resources and energy tools with genuine cultural heritage.</p>
+                </div>
+                <div>
+                    <h4 class="footer-title">Navigation</h4>
+                    <ul class="footer-links">
+                        <li><a href="/">Home</a></li>
+                        <li><a href="culture">Energy Universe</a></li>
+                        <li><a href="shop">Digital Resources</a></li>
+                        <li><a href="shop">Digital Wellness Tools</a></li>
+
+                        <li><a href="about">About Us</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-title">Links</h4>
+                    <ul class="footer-links">
+                        <li style="margin-bottom:8px;display:block !important;">
+                            <div><a href="https://fatenet.cn/" target="_blank" rel="noopener">FateNet</a></div>
+                            <div style="font-size:12px;color:var(--text-secondary);margin-top:4px;line-height:1.4;">Chinese Fortune Telling<br>Find Your Soulmate Direction</div>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-title">Contact</h4>
+                    <ul class="footer-links">
+                        <li>
+                            <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle;margin-right:6px"><path d="M3 4h14a1 1 0 011 1v10a1 1 0 01-1 1H3a1 1 0 01-1-1V5a1 1 0 011-1z"/><path d="M3 5l7 6 7-6"/></svg>
+                            <a href="mailto:support@daoessentia.com">support@daoessentia.com</a>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style="vertical-align:middle;margin-right:6px;color:#D4AF37"><path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 0 0 .167-.054l1.903-1.114a.864.864 0 0 1 .717-.098 10.16 10.16 0 0 0 2.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348zM5.785 5.991c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178A1.17 1.17 0 0 1 4.623 7.17c0-.651.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178 1.17 1.17 0 0 1-1.162-1.178c0-.651.52-1.18 1.162-1.18zm5.34 2.867c-1.797-.052-3.746.512-5.28 1.786-1.72 1.428-2.687 3.72-1.78 6.22.942 2.453 3.666 4.229 6.884 4.229.826 0 1.622-.12 2.361-.336a.722.722 0 0 1 .598.082l1.584.926a.272.272 0 0 0 .14.047c.134 0 .24-.111.24-.247 0-.06-.023-.12-.038-.177l-.327-1.233a.582.582 0 0 1-.023-.156.49.49 0 0 1 .201-.398C23.024 18.48 24 16.82 24 14.98c0-3.21-2.931-5.837-7.062-6.122zm-3.957 3.467c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.969-.982zm4.844 0c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.969-.982z"/></svg>
+                            <a href="#" onclick="document.getElementById('wechat-modal').style.display='flex';return false;">WeChat</a>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle;margin-right:6px"><circle cx="10" cy="10" r="8"/><path d="M10 6v4l2.5 2.5"/></svg>
+                        <li>
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style="vertical-align:middle;margin-right:6px;color:#229ED9"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+                            <a href="https://t.me/dingwei_123" target="_blank" rel="noopener">Telegram Channel</a>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style="vertical-align:middle;margin-right:6px;color:#229ED9"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+                            <a href="https://t.me/Dingwei_pi" target="_blank" rel="noopener">Telegram @Dingwei_pi</a>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style="vertical-align:middle;margin-right:6px;color:#E60023"><path d="M12 0C5.373 0 0 5.372 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 0 1 .083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.631-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12 0-6.628-5.373-12-12-12z"/></svg>
+                            <a href="https://www.pinterest.com/pixuan/wallpapers/" target="_blank" rel="noopener">Pinterest</a>
+                        </li>                        <li>
+                            <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle;margin-right:6px"><circle cx="10" cy="10" r="8"/><path d="M10 6v4l2.5 2.5"/></svg>
+                            Mon&ndash;Sat: 9AM&ndash;9PM (CST / UTC+8)
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 DAO Essence. All rights reserved. <a href="terms" style="color: var(--accent-color);">Terms & Conditions</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 走后端创建 Checkout Session，将八字数据写入 metadata
+        document.getElementById('baziForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const btn = this.querySelector('.submit-btn');
+            btn.textContent = 'Processing...';
+            btn.disabled = true;
+
+            // 收集表单数据
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+
+            try {
+                const payload = {
+                    product_id: 'prod_28PqAKMEom5WGRH1w9O35n', // 八字分析产品 ID
+                    name: data.name || '',
+                    email: data.email || '',
+                    birth_year: data.birthYear || data.birth_year || '',
+                    birth_month: data.birthMonth || data.birth_month || '',
+                    birth_day: data.birthDay || data.birth_day || '',
+                    birth_hour: data.birthHour || data.birth_hour || '-1',
+                    gender: data.gender || '',
+                    birth_place: data.birthPlace || '',
+                    notes: data.notes || '',
+                    language: data.language || 'en'
+                };
+
+                console.log('📤 提交八字数据到后端:', payload);
+
+                const response = await fetch('/api/create-bazi-checkout', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+
+                if (result.success && result.checkoutUrl) {
+                    console.log('✅ Checkout 创建成功，跳转支付页面');
+                    window.location.href = result.checkoutUrl;
+                } else {
+                    console.error('❌ 创建支付失败:', result.error);
+                    alert('Payment setup failed: ' + (result.error || 'Unknown error'));
+                    btn.textContent = 'Continue to Payment';
+                    btn.disabled = false;
+                }
+            } catch (err) {
+                console.error('❌ 网络错误:', err);
+                alert('Network error. Please try again.');
+                btn.textContent = 'Continue to Payment';
+                btn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>

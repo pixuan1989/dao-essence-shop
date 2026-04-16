@@ -1,0 +1,528 @@
+﻿﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation | DAO Essence</title>
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="description" content="Your DAO Essence order is confirmed. Access your Taoist digital resources instantly.">
+    <link rel="canonical" href="https://www.daoessentia.com/order-confirm">
+
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+        // Stripe 配置
+        window.stripeConfig = {
+            publicKey: 'pk_test_51TCXN018te51GWiewKqP8Rp8reBZP8oL4WCxngJPliUJKjHbRbRIgpqeEnZ67XylRnLfNvC09I0FXSYhDZo5hsDx00ofI4i5z6'
+        };
+    </script>
+</head>
+<body>
+    <!-- Navigation Header -->
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <a href="/" class="logo">
+                    <div class="logo-icon"></div>
+                    <div class="logo-text">
+                        <span class="logo-en">DAO ESSENCE</span>
+                    </div>
+                </a>
+                <ul class="nav-menu">
+                    <li><a href="/" class="nav-link">Home</a></li>
+                    <li class="nav-dropdown">
+                        <span class="nav-dropdown-trigger">Blog <i class="nav-dropdown-arrow"></i></span>
+                        <div class="nav-dropdown-menu">
+                            <a href="blog/">All Articles</a>
+                            <a href="blog/bazi-astrology">BaZi Astrology</a>
+                            <a href="blog/zodiac-horoscope">Zodiac Horoscope</a>
+                            <a href="blog/feng-shui">Feng Shui</a>
+                            <a href="blog/daily-horoscope">Daily Horoscope</a>
+                            <a href="blog/lucky-tips">Lucky Tips</a>
+                        </div>
+                    </li>
+                    <li><a href="culture" class="nav-link">Energy Universe</a></li>
+                    <li><a href="shop" class="nav-link">Shop</a></li>
+
+                    <li><a href="about" class="nav-link">About Us</a></li>
+                </ul>
+                <button class="mobile-menu-btn">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="order-confirmation-page">
+        <div class="confirmation-container">
+            <div id="order-status">
+                <!-- 支付状态将在这里显示 -->
+                <div class="loading">
+                    <p>正在验证支付状态...</p>
+                </div>
+            </div>
+
+            <div class="order-info" id="order-info" style="display: none;">
+                <h2>订单详情</h2>
+                <p>我们会尽快处理您的订单，并发送确认邮件。</p>
+                <p>预计交付时间：立即</p>
+                <p>如有任何问题，请随时联系我们的客服团队。</p>
+            </div>
+
+            <div class="action-buttons" id="action-buttons" style="display: none;">
+                <a href="shop" class="btn btn-primary">Explore More Services</a>
+                <a href="about" class="btn btn-secondary">联系我们</a>
+            </div>
+        </div>
+    </main>
+
+        <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <span class="logo-en">DAO ESSENCE</span>
+                    </div>
+                    <p>Ancient Wisdom, Modern Harmony. Based on authentic Eastern wisdom traditions, we offer digital wellness services and online energy guidance programs.</p>
+
+                                        </div>
+                <div>
+                    <h4 class="footer-title">Navigation</h4>
+                    <ul class="footer-links">
+                        <li><a href="/">Home</a></li>
+                        <li><a href="culture">Energy Universe</a></li>
+                        <li><a href="shop">Shop</a></li>
+                        <li><a href="about">About Us</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-title">Links</h4>
+                    <ul class="footer-links">
+                        <li style="margin-bottom:8px;display:block !important;">
+                            <div><a href="https://fatenet.cn/" target="_blank" rel="noopener">FateNet</a></div>
+                            <div style="font-size:12px;color:var(--text-secondary);margin-top:4px;line-height:1.4;">Chinese Fortune Telling<br>Find Your Soulmate Direction</div>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-title">Contact</h4>
+                    <ul class="footer-links">
+                        <li>
+                            <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle;margin-right:6px"><path d="M3 4h14a1 1 0 011 1v10a1 1 0 01-1 1H3a1 1 0 01-1-1V5a1 1 0 011-1z"/><path d="M3 5l7 6 7-6"/></svg>
+                            <a href="mailto:support@daoessentia.com">support@daoessentia.com</a>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style="vertical-align:middle;margin-right:6px;color:#D4AF37"><path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 0 0 .167-.054l1.903-1.114a.864.864 0 0 1 .717-.098 10.16 10.16 0 0 0 2.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348zM5.785 5.991c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178A1.17 1.17 0 0 1 4.623 7.17c0-.651.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178 1.17 1.17 0 0 1-1.162-1.178c0-.651.52-1.18 1.162-1.18zm5.34 2.867c-1.797-.052-3.746.512-5.28 1.786-1.72 1.428-2.687 3.72-1.78 6.22.942 2.453 3.666 4.229 6.884 4.229.826 0 1.622-.12 2.361-.336a.722.722 0 0 1 .598.082l1.584.926a.272.272 0 0 0 .14.047c.134 0 .24-.111.24-.247 0-.06-.023-.12-.038-.177l-.327-1.233a.582.582 0 0 1-.023-.156.49.49 0 0 1 .201-.398C23.024 18.48 24 16.82 24 14.98c0-3.21-2.931-5.837-7.062-6.122zm-3.957 3.467c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.969-.982zm4.844 0c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.969-.982z"/></svg>
+                            <a href="#" onclick="document.getElementById('wechat-modal').style.display='flex';return false;">WeChat</a>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle;margin-right:6px"><circle cx="10" cy="10" r="8"/><path d="M10 6v4l2.5 2.5"/></svg>
+                        <li>
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style="vertical-align:middle;margin-right:6px;color:#229ED9"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+                            <a href="https://t.me/dingwei_123" target="_blank" rel="noopener">Telegram Channel</a>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style="vertical-align:middle;margin-right:6px;color:#229ED9"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+                            <a href="https://t.me/Dingwei_pi" target="_blank" rel="noopener">Telegram @Dingwei_pi</a>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style="vertical-align:middle;margin-right:6px;color:#E60023"><path d="M12 0C5.373 0 0 5.372 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 0 1 .083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.631-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12 0-6.628-5.373-12-12-12z"/></svg>
+                            <a href="https://www.pinterest.com/pixuan/wallpapers/" target="_blank" rel="noopener">Pinterest</a>
+                        </li>                        <li>
+                            <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle;margin-right:6px"><circle cx="10" cy="10" r="8"/><path d="M10 6v4l2.5 2.5"/></svg>
+                            Mon&ndash;Sat: 9AM&ndash;9PM (CST / UTC+8)
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 DAO Essence &amp; Five Elements. All rights reserved.</p>
+                <div class="footer-legal-links">
+                    <a href="privacy">Privacy Policy</a>
+                    <span>|</span>
+                    <a href="terms">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- WeChat QR Modal -->
+    <div id="wechat-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:9999;align-items:center;justify-content:center;" onclick="if(event.target===this)this.style.display='none'">
+        <div style="background:#1a1a1a;border:1px solid rgba(212,175,55,0.4);border-radius:16px;padding:40px;text-align:center;max-width:320px;width:90%;position:relative;">
+            <button onclick="document.getElementById('wechat-modal').style.display='none'" style="position:absolute;top:12px;right:16px;background:none;border:none;color:rgba(245,240,230,0.6);font-size:22px;cursor:pointer;line-height:1;">&times;</button>
+            <svg viewBox="0 0 24 24" width="40" height="40" fill="#D4AF37" style="margin-bottom:12px"><path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 0 0 .167-.054l1.903-1.114a.864.864 0 0 1 .717-.098 10.16 10.16 0 0 0 2.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348zM5.785 5.991c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178A1.17 1.17 0 0 1 4.623 7.17c0-.651.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178 1.17 1.17 0 0 1-1.162-1.178c0-.651.52-1.18 1.162-1.18zm5.34 2.867c-1.797-.052-3.746.512-5.28 1.786-1.72 1.428-2.687 3.72-1.78 6.22.942 2.453 3.666 4.229 6.884 4.229.826 0 1.622-.12 2.361-.336a.722.722 0 0 1 .598.082l1.584.926a.272.272 0 0 0 .14.047c.134 0 .24-.111.24-.247 0-.06-.023-.12-.038-.177l-.327-1.233a.582.582 0 0 1-.023-.156.49.49 0 0 1 .201-.398C23.024 18.48 24 16.82 24 14.98c0-3.21-2.931-5.837-7.062-6.122zm-3.957 3.467c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.969-.982zm4.844 0c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.969-.982z"/></svg>
+            <h3 style="color:#D4AF37;margin:0 0 8px;font-size:18px;">WeChat</h3>
+            <p style="color:rgba(245,240,230,0.7);font-size:13px;margin:0 0 20px;">Scan the QR code to connect with us on WeChat</p>
+            <div style="width:160px;height:160px;margin:0 auto;display:flex;align-items:center;justify-content:center;">
+                <img src="images/微信图片_20260324143206_59_9.jpg" alt="WeChat QR Code" style="width:100%;height:100%;border-radius:8px;object-fit:cover;" loading="lazy">
+            </div>
+            <p style="color:rgba(245,240,230,0.5);font-size:12px;margin:16px 0 0;">WeChat ID: your-wechat-id</p>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // 订单确认页面 - 支持两种支付模式
+        // 1. Stripe Checkout (session_id)
+        // 2. Payment Intent (payment_intent)
+        // ============================================
+
+        const API_BASE_URL = '/.netlify/functions';
+        
+        // 初始化
+        document.addEventListener('DOMContentLoaded', initOrderConfirmation);
+
+        async function initOrderConfirmation() {
+            const urlParams = new URLSearchParams(window.location.search);
+            
+            // 支持两种参数：session_id (Stripe Checkout) 和 payment_intent (Payment Intent)
+            const sessionId = urlParams.get('session_id');
+            const paymentIntentId = urlParams.get('payment_intent');
+            const orderId = urlParams.get('order_id');
+            const canceled = urlParams.get('canceled');
+            const testMode = urlParams.get('test_mode');
+
+            // 如果是测试模式
+            if (testMode === 'true') {
+                showTestModeSuccess();
+                return;
+            }
+
+            // 如果用户取消支付
+            if (canceled === 'true') {
+                showWarning('支付已取消，请重新下单');
+                return;
+            }
+
+            // 如果没有支付参数，显示错误
+            if (!sessionId && !paymentIntentId) {
+                showError('订单信息无效，请返回商店重新下单');
+                return;
+            }
+
+            try {
+                if (sessionId) {
+                    // Stripe Checkout 模式
+                    await handleCheckoutSession(sessionId);
+                } else if (paymentIntentId) {
+                    // Payment Intent 模式
+                    await handlePaymentIntent(paymentIntentId, orderId);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showError('验证失败：' + error.message);
+            }
+        }
+
+        // 处理 Stripe Checkout Session
+        async function handleCheckoutSession(sessionId) {
+            showLoading('正在验证订单...');
+            
+            // Stripe Checkout 成功后会自动重定向到这里
+            // 假设如果能加载到这个页面就是成功的
+            showSuccess('订单已确认！', {
+                orderId: sessionId.substring(0, 20) + '...',
+                message: '感谢您的购买！'
+            });
+            
+            // 清空购物车
+            localStorage.removeItem('daoessence_cart');
+        }
+
+        // 处理 Payment Intent
+        async function handlePaymentIntent(paymentIntentId, orderId) {
+            showLoading('正在验证支付状态...');
+            
+            try {
+                // 调用后端 API 检查支付状态
+                const response = await fetch(`${API_BASE_URL}/get-payment-intent?id=${paymentIntentId}`);
+                const data = await response.json();
+
+                if (!data.success) {
+                    throw new Error(data.error || '无法获取支付状态');
+                }
+
+                const paymentIntent = data.paymentIntent;
+
+                if (paymentIntent.status === 'succeeded') {
+                    showSuccess('支付成功！', {
+                        orderId: orderId || paymentIntentId,
+                        amount: '$' + (paymentIntent.amount / 100).toFixed(2),
+                        message: '感谢您的购买！'
+                    });
+                    
+                    // 清空购物车
+                    localStorage.removeItem('daoessence_cart');
+                } else {
+                    showWarning(`支付状态: ${paymentIntent.status}，请联系客服`);
+                }
+
+            } catch (error) {
+                console.error('Error checking payment:', error);
+                
+                // 如果是网络错误，但 URL 有 payment_intent 参数，
+                // 假设支付可能已完成，显示成功信息
+                showSuccess('订单已确认！', {
+                    orderId: orderId || paymentIntentId,
+                    message: '感谢您的购买！'
+                });
+                
+                // 清空购物车
+                localStorage.removeItem('daoessence_cart');
+            }
+        }
+
+        // 显示加载状态
+        function showLoading(message) {
+            document.getElementById('order-status').innerHTML = `
+                <div class="loading">
+                    <p>${message}</p>
+                </div>
+            `;
+        }
+
+        // 显示成功
+        function showSuccess(title, details) {
+            // 从 localStorage 读取买家信息
+            const buyerInfoStr = localStorage.getItem('daoessence_buyer');
+            let buyerInfo = null;
+            try { buyerInfo = buyerInfoStr ? JSON.parse(buyerInfoStr) : null; } catch(e) {}
+
+            const emailHint = buyerInfo?.email
+                ? `<div class="email-sent-badge">✉️ 确认邮件已发送至 <strong>${buyerInfo.email}</strong></div>`
+                : '<div class="email-sent-badge">✉️ 订单确认邮件将通过Stripe发送至您的邮箱</div>';
+
+            const buyerDetails = buyerInfo ? `
+                <div class="buyer-summary">
+                    ${buyerInfo.name ? `<p><span class="label">收件人：</span>${buyerInfo.name}</p>` : ''}
+                    ${buyerInfo.shippingMethod ? `<p><span class="label">运输方式：</span>${buyerInfo.shippingMethod}</p>` : ''}
+                    ${buyerInfo.address ? `<p><span class="label">收货地址：</span>${buyerInfo.address}</p>` : ''}
+                    ${buyerInfo.total ? `<p><span class="label">支付总额：</span><strong>$${parseFloat(buyerInfo.total).toFixed(2)} USD</strong></p>` : ''}
+                </div>
+            ` : '';
+
+            document.getElementById('order-status').innerHTML = `
+                <div class="success-message">
+                    <div class="success-icon">✓</div>
+                    <h2>${title}</h2>
+                    <p>${details.message}</p>
+                    <p style="margin-top: 10px; color: #666; font-size:14px;">订单号：<code>${details.orderId}</code></p>
+                    ${details.amount ? `<p>支付金额：${details.amount}</p>` : ''}
+                    ${emailHint}
+                    ${buyerDetails}
+                </div>
+            `;
+            document.getElementById('order-info').style.display = 'block';
+            document.getElementById('action-buttons').style.display = 'flex';
+        }
+
+        // 显示警告
+        function showWarning(message) {
+            document.getElementById('order-status').innerHTML = `
+                <div class="warning-message">
+                    <h2>⚠️ ${message}</h2>
+                    <p>请返回<a href="shop">产品页面</a>重新尝试</p>
+                </div>
+            `;
+            document.getElementById('action-buttons').style.display = 'flex';
+        }
+
+        // 显示错误
+        function showError(message) {
+            document.getElementById('order-status').innerHTML = `
+                <div class="error-message">
+                    <h2>❌ ${message}</h2>
+                    <p>请<a href="shop">返回商店</a>或联系客服</p>
+                </div>
+            `;
+            document.getElementById('action-buttons').style.display = 'flex';
+        }
+
+        // 测试模式成功提示
+        function showTestModeSuccess() {
+            // 从 localStorage 读取买家信息
+            const buyerInfoStr = localStorage.getItem('daoessence_buyer');
+            let buyerInfo = null;
+            try { buyerInfo = buyerInfoStr ? JSON.parse(buyerInfoStr) : null; } catch(e) {}
+
+            const emailHint = buyerInfo?.email
+                ? `<div class="email-sent-badge">✉️ 确认邮件将发送至 <strong>${buyerInfo.email}</strong></div>`
+                : '';
+
+            const buyerDetails = buyerInfo ? `
+                <div class="buyer-summary">
+                    ${buyerInfo.name ? `<p><span class="label">收件人：</span>${buyerInfo.name}</p>` : ''}
+                    ${buyerInfo.shippingMethod ? `<p><span class="label">运输方式：</span>${buyerInfo.shippingMethod}</p>` : ''}
+                </div>
+            ` : '';
+
+            document.getElementById('order-status').innerHTML = `
+                <div class="test-mode-message">
+                    <div class="success-icon">✓</div>
+                    <h2>订单已确认！</h2>
+                    <p style="color: #f59e0b; font-weight: bold;">🧪 测试模式</p>
+                    <p>这是一次模拟支付，仅用于测试。</p>
+                    <p style="margin-top: 10px; color: #666;">订单号：<code>TEST_${Date.now()}</code></p>
+                    ${emailHint}
+                    ${buyerDetails}
+                </div>
+            `;
+            document.getElementById('order-info').style.display = 'block';
+            document.getElementById('action-buttons').style.display = 'flex';
+            
+            // 清空购物车
+            localStorage.removeItem('daoessence_cart');
+            // 注意：测试模式下不清除 buyer 信息，方便查看
+        }
+    </script>
+
+    <style>
+        .order-confirmation-page {
+            min-height: calc(100vh - 200px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 80px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .confirmation-container {
+            max-width: 600px;
+            width: 100%;
+            background: white;
+            border-radius: 12px;
+            padding: 60px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        .success-message,
+        .warning-message,
+        .error-message,
+        .test-mode-message {
+            margin-bottom: 40px;
+        }
+
+        .success-icon {
+            font-size: 80px;
+            color: #10b981;
+            margin-bottom: 20px;
+        }
+
+        .success-message h2 {
+            color: #10b981;
+            font-size: 32px;
+            margin-bottom: 15px;
+        }
+
+        .warning-message h2 {
+            color: #f59e0b;
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .error-message h2 {
+            color: #ef4444;
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .order-info {
+            text-align: left;
+            background: #f9fafb;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+
+        .order-info h2 {
+            color: #1f2937;
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+        .order-info p {
+            color: #6b7280;
+            margin: 10px 0;
+            line-height: 1.6;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .loading {
+            padding: 40px;
+            color: #6b7280;
+        }
+
+        /* 邮件发送徽章 */
+        .email-sent-badge {
+            display: inline-block;
+            background: #f0fdf4;
+            border: 1px solid #86efac;
+            border-radius: 20px;
+            padding: 8px 18px;
+            color: #16a34a;
+            font-size: 14px;
+            margin: 15px 0 10px;
+        }
+
+        /* 买家信息摘要 */
+        .buyer-summary {
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 15px 20px;
+            margin: 12px 0;
+            text-align: left;
+            font-size: 14px;
+            color: #555;
+            line-height: 1.8;
+        }
+
+        .buyer-summary .label {
+            color: #888;
+            margin-right: 4px;
+        }
+
+        .buyer-summary p {
+            margin: 4px 0;
+        }
+
+        code {
+            background: #f1f5f9;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 13px;
+            color: #475569;
+        }
+
+        @media (max-width: 768px) {
+            .confirmation-container {
+                padding: 30px;
+            }
+
+            .success-icon {
+                font-size: 60px;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .action-buttons .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</body>
+</html>
+
+
