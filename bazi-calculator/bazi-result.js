@@ -1,7 +1,7 @@
 /**
  * DaoEssence BaZi Result Page
  * Reads params from URL hash, renders full chart with interpretations.
- * Powered by paipan.js
+ * Powered by paipan.js — all interpretations driven by engine data.
  */
 (function () {
     'use strict';
@@ -12,10 +12,144 @@
     var WX_NAMES = ['金','水','木','火','土'];
     var WX_COLORS = { '金': '#C9B37A', '水': '#5B8FB9', '木': '#6B8E6B', '火': '#C25B56', '土': '#B8860B' };
     var WX_ICONS = { '金': '⚔️', '水': '💧', '木': '🌿', '火': '🔥', '土': '⛰️' };
-    // stem index -> wuxing code (金=0, 水=1, 木=2, 火=3, 土=4)
-    var STEM_WX = [2, 2, 3, 3, 4, 4, 0, 0, 1, 1];
-    // branch index -> wuxing code
-    var BRANCH_WX = [1, 4, 2, 2, 4, 3, 3, 4, 0, 0, 4, 1];
+    var STEM_WX = [2, 2, 3, 3, 4, 4, 0, 0, 1, 1]; // stem index → wuxing code
+    var BRANCH_WX = [1, 4, 2, 2, 4, 3, 3, 4, 0, 0, 4, 1]; // branch index → wuxing code
+
+    // Hidden stems table (from paipan zcg)
+    var ZCG_TABLE = [
+        [9,-1,-1],  // 子: 癸
+        [5,9,7],    // 丑: 己癸辛
+        [0,2,4],    // 寅: 甲丙戊
+        [1,-1,-1],  // 卯: 乙
+        [4,1,9],    // 辰: 戊乙癸
+        [2,4,6],    // 巳: 丙戊庚
+        [3,5,-1],   // 午: 丁己
+        [5,1,3],    // 未: 己丁乙
+        [6,8,4],    // 申: 庚壬戊
+        [7,-1,-1],  // 酉: 辛
+        [4,7,3],    // 戌: 戊辛丁
+        [8,0,-1]    // 亥: 壬甲
+    ];
+
+    // ==================== TEN GODS ENGINE ====================
+    // Ten Gods names in Chinese and English
+    var TEN_GODS_NAMES = {
+        '比肩': { cn: '比肩', en: 'Friend (Bi Jian)', short: 'Friend' },
+        '劫财': { cn: '劫财', en: 'Rob Wealth (Jie Cai)', short: 'Rob Wealth' },
+        '食神': { cn: '食神', en: 'Eating God (Shi Shen)', short: 'Eating God' },
+        '伤官': { cn: '伤官', en: 'Hurting Officer (Shang Guan)', short: 'Hurting Officer' },
+        '偏财': { cn: '偏财', en: 'Unconventional Wealth (Pian Cai)', short: 'Windfall' },
+        '正财': { cn: '正财', en: 'Direct Wealth (Zheng Cai)', short: 'Income' },
+        '七杀': { cn: '七杀', en: 'Seven Killings (Qi Sha)', short: 'Seven Killings' },
+        '正官': { cn: '正官', en: 'Direct Officer (Zheng Guan)', short: 'Authority' },
+        '偏印': { cn: '偏印', en: 'Indirect Resource (Pian Yin)', short: 'Odd Resource' },
+        '正印': { cn: '正印', en: 'Direct Resource (Zheng Yin)', short: 'Resource' }
+    };
+
+    // Day Gan ShiShen lookup table (from paipan dgs)
+    // dgs[dayStemIndex][otherStemIndex] → ten gods index (0-9)
+    // Index mapping: 0=比肩,1=劫财,2=食神,3=伤官,4=偏财,5=正财,6=七杀,7=正官,8=偏印,9=正印
+    var DGS_TABLE = [
+        [2,3,1,0,9,8,7,6,5,4], // 甲
+        [3,2,0,1,8,9,6,7,4,5], // 乙
+        [5,4,2,3,1,0,9,8,7,6], // 丙
+        [4,5,3,2,0,1,8,9,6,7], // 丁
+        [7,6,5,4,2,3,1,0,9,8], // 戊
+        [6,7,4,5,3,2,0,1,8,9], // 己
+        [9,8,7,6,5,4,2,3,1,0], // 庚
+        [8,9,6,7,4,5,3,2,0,1], // 辛
+        [1,0,9,8,7,6,5,4,2,3], // 壬
+        [0,1,8,9,6,7,4,5,3,2]  // 癸
+    ];
+    var TG_INDEX = ['比肩','劫财','食神','伤官','偏财','正财','七杀','正官','偏印','正印'];
+
+    /**
+     * Calculate the Ten Gods (Shi Shen) for a stem relative to the day master.
+     * @param {number} stemIdx - Index of the stem (0=甲...9=癸)
+     * @param {number} dayMasterIdx - Index of the day master stem
+     * @returns {object} { name: '正官', en: 'Direct Officer', ... }
+     */
+    function getStemShiShen(stemIdx, dayMasterIdx) {
+        var tgIdx = DGS_TABLE[dayMasterIdx][stemIdx];
+        var name = TG_INDEX[tgIdx];
+        return Object.assign({ index: tgIdx }, TEN_GODS_NAMES[name]);
+    }
+
+    /**
+     * Calculate the Ten Gods for hidden stems of a branch relative to the day master.
+     * @param {number} branchIdx - Index of the branch (0=子...11=亥)
+     * @param {number} dayMasterIdx - Index of the day master stem
+     * @returns {array} [{stem:'癸', stemIdx:9, tg:{name:'正官',...}}, ...]
+     */
+    function getBranchShiShen(branchIdx, dayMasterIdx) {
+        var cangGan = ZCG_TABLE[branchIdx];
+        var result = [];
+        for (var i = 0; i < cangGan.length; i++) {
+            if (cangGan[i] >= 0) {
+                result.push({
+                    stem: STEMS[cangGan[i]],
+                    stemIdx: cangGan[i],
+                    primary: i === 0, // first is primary (本气)
+                    tg: getStemShiShen(cangGan[i], dayMasterIdx)
+                });
+            }
+        }
+        return result;
+    }
+
+    // ==================== TEN GODS INTERPRETATIONS ====================
+    var TG_INTERPRETATIONS = {
+        '比肩': {
+            dayun: 'Friend (Bi Jian) energy brings self-reliance and independence. During this period, you may encounter strong-willed peers or competitors. Collaborations can be powerful if egos are managed. Focus on partnerships where mutual respect exists, but be cautious of others who may challenge your position.',
+            career: 'Good for partnerships, teamwork, and independent ventures. Competition is strong — stand firm in your expertise.',
+            life: 'Social circle expands. Equal relationships are highlighted. Be mindful of financial sharing — clear boundaries prevent disputes.'
+        },
+        '劫财': {
+            dayun: 'Rob Wealth (Jie Cai) energy brings competitive dynamics and financial fluctuations. You may experience unexpected expenses or income opportunities. Impulsive decisions should be avoided. This period favors bold moves in controlled environments — speculation should be approached with caution.',
+            career: 'Competitive advantages emerge, but so do rivals. Good for sales, negotiations, and competitive fields. Guard your resources carefully.',
+            life: 'Financial volatility is likely. Avoid lending money or making large impulse purchases. Channel competitive energy into productive achievements.'
+        },
+        '食神': {
+            dayun: 'Eating God (Shi Shen) energy is one of the most auspicious — it brings creativity, enjoyment, and natural talent expression. This is a period where your skills shine, social connections bring joy, and opportunities arise organically. Good health, good appetite, and a generally positive outlook characterize this phase.',
+            career: 'Excellent for creative work, teaching, consulting, and any field requiring expertise and expression. Recognition comes naturally.',
+            life: 'A period of enjoyment and fulfillment. Pursue hobbies, travel, and creative projects. Relationships tend to be warm and harmonious.'
+        },
+        '伤官': {
+            dayun: 'Hurting Officer (Shang Guan) energy brings strong rebellious and innovative forces. You may feel dissatisfied with authority and conventional paths. This energy, while challenging, is incredibly powerful for breakthroughs. Your unique perspective becomes your greatest asset. Be diplomatic in expressing dissent.',
+            career: 'Excellent for innovation, entrepreneurship, entertainment, and tech. Avoid direct conflicts with authority figures — channel rebellion into creation.',
+            life: 'Relationships may face turbulence due to outspokenness. Channel this energy into creative expression. Your sharp insights can be transformative if expressed wisely.'
+        },
+        '偏财': {
+            dayun: 'Windfall (Pian Cai) energy brings opportunities for unexpected income, side ventures, and social generosity. You may attract financial opportunities through networking, investments, or unconventional channels. This period favors entrepreneurial thinking and calculated risks.',
+            career: 'Great for investments, side businesses, and leveraging social connections. Financial luck is strong but not guaranteed — due diligence is still essential.',
+            life: 'Social life is vibrant. Generosity increases, which attracts goodwill. Romantic encounters may arise. Enjoy but maintain financial discipline.'
+        },
+        '正财': {
+            dayun: 'Income (Zheng Cai) energy brings stability in finances, career advancement through steady effort, and practical rewards for hard work. This is a period of accumulation — savings grow, salary increases, and material comfort improves. Focus on building long-term security rather than quick gains.',
+            career: 'Excellent for career advancement, business stability, and financial planning. Hard work pays off. Favorable for real estate and long-term investments.',
+            life: 'Relationships become more stable and committed. Financial discipline is strong. A good period for marriage, family planning, and building foundations.'
+        },
+        '七杀': {
+            dayun: 'Seven Killings (Qi Sha) energy brings intense pressure, challenges, and transformation. This is a demanding period where obstacles test your resolve. However, for those with strong character, this energy drives extraordinary achievements. The key is to harness pressure as motivation rather than being overwhelmed by it.',
+            career: 'High-pressure environments can yield breakthrough results. Good for leadership under fire, crisis management, and competitive fields. Health and stress management are critical.',
+            life: 'A testing period. Authority figures may apply pressure. Health needs attention — especially stress-related issues. Channel intensity into physical activity and strategic action.'
+        },
+        '正官': {
+            dayun: 'Authority (Zheng Guan) energy brings structure, discipline, and recognition from those in power. This is one of the most favorable periods for career advancement. Your reputation improves, and others respect your reliability and integrity. Legal and official matters tend to be resolved favorably.',
+            career: 'Promotions, awards, and formal recognition are likely. Excellent for government, corporate, and management roles. Integrity is your greatest asset.',
+            life: 'A period of order and stability. Relationships benefit from commitment and responsibility. Legal matters, contracts, and official procedures favor you.'
+        },
+        '偏印': {
+            dayun: 'Odd Resource (Pian Yin) energy brings unconventional learning, spiritual exploration, and a tendency toward introspection. You may develop interest in niche subjects, alternative philosophies, or solitary pursuits. While this energy enhances depth of thought, it can also bring periods of loneliness or overthinking.',
+            career: 'Good for research, specialized fields, technology, and unconventional paths. Innovation through deep study is favored. Avoid spreading yourself too thin across multiple interests.',
+            life: 'A period of inner exploration. Meditation, spiritual practices, and deep study are beneficial. Be mindful of isolation — maintain social connections even when you prefer solitude.'
+        },
+        '正印': {
+            dayun: 'Resource (Zheng Yin) energy is highly auspicious — it brings mentorship, education, protection, and nurturing support. This is a period where learning comes easily, teachers appear, and your knowledge base expands significantly. Good for academic pursuits, certification, and any form of personal development.',
+            career: 'Excellent for education, training, mentorship roles, and government-related work. Your expertise is valued. Favorable for writing, publishing, and intellectual property.',
+            life: 'A nurturing and protected period. Family support is strong, especially from maternal figures. Good for travel, moving, and making significant purchases like property.'
+        }
+    };
 
     // ==================== DAY MASTER PROFILES ====================
     var DM_PROFILES = {
@@ -82,17 +216,13 @@
     };
 
     function getWxInterpretation(nwx) {
-        var total = nwx.reduce(function(a, b) { return a + b; }, 0);
         var dominant = [];
         var weak = [];
         var maxCount = Math.max.apply(null, nwx);
 
         for (var i = 0; i < 5; i++) {
-            if (nwx[i] === 0) {
-                weak.push(WX_NAMES[i]);
-            } else if (nwx[i] === maxCount) {
-                dominant.push(WX_NAMES[i]);
-            }
+            if (nwx[i] === 0) weak.push(WX_NAMES[i]);
+            else if (nwx[i] === maxCount) dominant.push(WX_NAMES[i]);
         }
 
         var html = '';
@@ -106,7 +236,6 @@
             if (dominant.indexOf('土') >= 0) html += 'Your Earth nature offers stability and nurturing. ';
             html += '</p>';
         }
-
         if (weak.length > 0) {
             html += '<p><strong>Missing or Weak Elements (' + weak.join(', ') + '):</strong> ';
             html += 'These areas may need conscious cultivation. ';
@@ -116,15 +245,13 @@
             }
             html += '</p>';
         }
-
         if (weak.length === 0) {
-            html += '<p><strong>Balanced Chart:</strong> All five elements are represented in your chart. This suggests a well-rounded personality with access to diverse energies. Your challenge lies in maintaining this balance rather than compensating for gaps.</p>';
+            html += '<p><strong>Balanced Chart:</strong> All five elements are represented in your chart. This suggests a well-rounded personality with access to diverse energies.</p>';
         }
-
         return html;
     }
 
-    // ==================== SHIER CHANGSHENG INTERPRETATION ====================
+    // ==================== SHIER CHANGSHENG ====================
     function getNZSCClass(nzsc) {
         if (!nzsc) return 'neutral';
         if (nzsc.indexOf('大吉') >= 0 || nzsc.indexOf('吉') >= 0) return 'auspicious';
@@ -132,84 +259,119 @@
         return 'neutral';
     }
 
-    var DAYUN_INTERPRETATIONS = {
-        '长生': 'represents birth and new beginnings — a period of vitality, learning, and growth. New opportunities emerge, and your energy is naturally upward.',
-        '沐浴': 'is a phase of cleansing and refinement. You may experience personal transformation, heightened sensitivity, and creative breakthroughs. Social connections can be particularly meaningful.',
-        '冠带': 'marks coming of age and recognition. Your talents are noticed, confidence rises, and you step into a more prominent role. Dress well and present your best self.',
-        '临官': 'is your peak professional period — authority, success, and career advancement are strongly favored. Your efforts receive recognition, and financial stability increases.',
-        '帝旺': 'represents maximum power and influence. You are at the height of your capabilities, but beware of overconfidence. Channel this energy wisely rather than letting it consume you.',
-        '衰': 'signals a natural slowing down. Focus on consolidation rather than expansion. Your experience and wisdom become more valuable than raw ambition.',
-        '病': 'suggests a period of vulnerability — health, emotions, or projects may need extra attention. This is a time for healing and reflection, not pushing forward aggressively.',
-        '死': 'indicates endings and closure. Old chapters close to make way for new ones. While challenging, this phase is essential for transformation and rebirth.',
-        '墓': 'is a period of storage and introspection. Focus on saving resources, consolidating gains, and deepening your knowledge. Good for research, planning, and behind-the-scenes work.',
-        '绝': 'represents the deepest valley before the next rise. Though difficult, this phase tests your resilience and clears away what no longer serves you. Hold on — recovery follows.',
-        '胎': 'marks the conception of a new cycle. New ideas, relationships, or projects begin to take shape. Nurture these seeds carefully; they hold future potential.',
-        '养': 'is a nurturing phase of steady development. Like tending a garden, consistent care brings gradual progress. Patience and routine are your greatest allies.'
+    var NZSC_MEANINGS = {
+        '长生': { en: 'Birth', desc: 'A period of vitality, learning, and growth. New opportunities emerge naturally.' },
+        '沐浴': { en: 'Bath', desc: 'A phase of refinement and transformation. Social connections are meaningful.' },
+        '冠帶': { en: 'Coronation', desc: 'Coming of age and recognition. Talents are noticed, confidence rises.' },
+        '臨官': { en: 'Official', desc: 'Peak professional period — authority, success, and career advancement.' },
+        '帝旺': { en: 'Prosperity', desc: 'Maximum power and influence. Beware of overconfidence.' },
+        '衰': { en: 'Decline', desc: 'Natural slowing down. Focus on consolidation, not expansion.' },
+        '病': { en: 'Sickness', desc: 'Period of vulnerability. Time for healing and reflection.' },
+        '死': { en: 'Death', desc: 'Endings and closure. Old chapters close for transformation.' },
+        '墓': { en: 'Tomb', desc: 'Storage and introspection. Good for research and planning.' },
+        '絕': { en: 'Extinction', desc: 'Deepest valley before recovery. Resilience is tested.' },
+        '胎': { en: 'Conception', desc: 'New cycle begins. Ideas and projects take shape.' },
+        '養': { en: 'Nurture', desc: 'Steady development through consistent care and patience.' }
     };
 
-    function getDayunInterpretation(dy, dmWxCode) {
-        var nzsc = dy['nzsc'] || '';
-        // Extract the stage name (before parentheses)
+    function getNZSCMeaning(nzsc) {
+        if (!nzsc) return null;
         var stage = nzsc.replace(/\(.*\)/, '').trim();
+        return NZSC_MEANINGS[stage] || null;
+    }
+
+    // ==================== DAYUN INTERPRETATION (DATA-DRIVEN) ====================
+    function getDayunInterpretation(dy, dmIdx, rt) {
+        var nzsc = dy['nzsc'] || '';
+        var stageInfo = getNZSCMeaning(nzsc);
+
+        // Calculate Ten Gods for Dayun stem and branch
+        var dyGanIdx = STEMS.indexOf(dy['zfma']);
+        var dyZhiIdx = BRANCHES.indexOf(dy['zfmb']);
+        var stemTg = dyGanIdx >= 0 ? getStemShiShen(dyGanIdx, dmIdx) : null;
+        var branchTgList = dyZhiIdx >= 0 ? getBranchShiShen(dyZhiIdx, dmIdx) : [];
+
+        var ganWx = dyGanIdx >= 0 ? WX_NAMES[STEM_WX[dyGanIdx]] : '';
+        var zhiWx = dyZhiIdx >= 0 ? WX_NAMES[BRANCH_WX[dyZhiIdx]] : '';
         var isAuspicious = nzsc.indexOf('大吉') >= 0 || nzsc.indexOf('吉') >= 0;
         var isInauspicious = nzsc.indexOf('凶') >= 0;
 
-        var ganIdx = STEMS.indexOf(dy['zfma']);
-        var zhiIdx = BRANCHES.indexOf(dy['zfmb']);
-        var ganWx = ganIdx >= 0 ? WX_NAMES[STEM_WX[ganIdx]] : '';
-        var zhiWx = zhiIdx >= 0 ? WX_NAMES[BRANCH_WX[zhiIdx]] : '';
+        var html = '';
 
-        // Determine relationship to day master
-        var ganRel = '';
-        var zhiRel = '';
-        if (ganIdx >= 0) {
-            ganRel = getWxRelation(STEM_WX[ganIdx], dmWxCode, STEMS[ganIdx]);
+        // Twelve Life Stage
+        if (stageInfo) {
+            html += '<div class="dy-life-stage">';
+            html += '<strong>Life Stage: ' + stageInfo.en + ' (' + nzsc + ')</strong>';
+            html += '<p>' + stageInfo.desc + '</p>';
+            if (isAuspicious) {
+                html += '<p class="dy-auspicious">&#10022; Auspicious — favorable conditions for growth.</p>';
+            } else if (isInauspicious) {
+                html += '<p class="dy-inauspicious">&#9888; Challenging — focus on caution and preparation.</p>';
+            }
+            html += '</div>';
         }
 
-        var html = '<p>';
-        html += '<strong>' + nzsc + '</strong> ' + (DAYUN_INTERPRETATIONS[stage] || 'is a transitional phase in your life journey.');
-        html += '</p>';
+        // Ten Gods interpretation for Dayun stem
+        if (stemTg) {
+            var tgInterp = TG_INTERPRETATIONS[TG_INDEX[stemTg.index]];
+            if (tgInterp) {
+                html += '<div class="dy-tengod-section">';
+                html += '<div class="dy-tengod-label">Dayun Stem <strong>' + dy['zfma'] + ' (' + ganWx + ')</strong> → ' + stemTg.cn + ' (' + stemTg.en + ')</div>';
+                html += '<p>' + tgInterp.dayun + '</p>';
+                html += '<div class="dy-tengod-details">';
+                html += '<div class="dy-tengod-item"><strong>Career:</strong> ' + tgInterp.career + '</div>';
+                html += '<div class="dy-tengod-item"><strong>Life:</strong> ' + tgInterp.life + '</div>';
+                html += '</div>';
+                html += '</div>';
+            }
+        }
 
-        if (ganRel) {
-            html += '<p>The Dayun Stem <strong>' + dy['zfma'] + ' (' + ganWx + ')</strong> brings ' + ganRel + ' energy. ';
+        // Branch hidden stems with Ten Gods
+        if (branchTgList.length > 0) {
+            html += '<div class="dy-branch-section">';
+            html += '<strong>Dayun Branch ' + dy['zfmb'] + ' (' + zhiWx + ') Hidden Stems:</strong>';
+            html += '<div class="dy-canggan-list">';
+            for (var i = 0; i < branchTgList.length; i++) {
+                var cg = branchTgList[i];
+                var cgWx = WX_NAMES[STEM_WX[cg.stemIdx]];
+                var cgColor = WX_COLORS[cgWx];
+                var label = cg.primary ? ' (Primary)' : '';
+                html += '<div class="dy-canggan-item">';
+                html += '<span class="cg-stem" style="color:' + cgColor + '">' + cg.stem + ' ' + cgWx + '</span>';
+                html += '<span class="cg-tg">' + cg.tg.cn + ' (' + cg.tg.en + ')' + label + '</span>';
+                html += '</div>';
+            }
+            html += '</div></div>';
         }
-        if (zhiWx) {
-            html += 'The Branch <strong>' + dy['zfmb'] + ' (' + zhiWx + ')</strong> influences your environment and relationships. ';
-        }
-        html += '</p>';
 
-        // Auspicious/inauspicious note
-        if (isAuspicious) {
-            html += '<p style="color: #6B8E6B;">✦ This is an <strong>auspicious period</strong>. Make the most of favorable conditions for career, relationships, and personal growth.</p>';
-        } else if (isInauspicious) {
-            html += '<p style="color: #C25B56;">⚠ This is a <strong>challenging period</strong>. Focus on caution, preparation, and avoiding major risks. Use this time for internal growth.</p>';
+        // Favorable vs unfavorable summary
+        html += '<div class="dy-summary">';
+        var favorable = [];
+        var unfavorable = [];
+        if (stemTg) {
+            var tgName = TG_INDEX[stemTg.index];
+            if (['食神','正财','正官','正印'].indexOf(tgName) >= 0) {
+                favorable.push(tgName + ' Stem');
+            }
+            if (['七杀','伤官','劫财'].indexOf(tgName) >= 0) {
+                unfavorable.push(tgName + ' Stem');
+            }
         }
+        if (isAuspicious) favorable.push(nzsc.replace(/\(.*\)/, ''));
+        if (isInauspicious) unfavorable.push(nzsc.replace(/\(.*\)/, ''));
+
+        if (favorable.length > 0) {
+            html += '<p class="dy-fav">&#10022; <strong>Favorable:</strong> ' + favorable.join(', ') + '</p>';
+        }
+        if (unfavorable.length > 0) {
+            html += '<p class="dy-unfav">&#9888; <strong>Challenging:</strong> ' + unfavorable.join(', ') + '</p>';
+        }
+        if (favorable.length === 0 && unfavorable.length === 0) {
+            html += '<p>A mixed period with both opportunities and challenges. Balance and adaptability are key.</p>';
+        }
+        html += '</div>';
 
         return html;
-    }
-
-    function getWxRelation(wxCode, dmWxCode, stemChar) {
-        // Generate relationship description based on wuxing
-        var relations = [
-            'same element (比肩) — independent, self-reliant',
-            'produces you (印星) — supportive, educational',
-            'you produce (食伤) — creative, expressive',
-            'you control (财星) — material, practical',
-            'controls you (官杀) — challenging, disciplinary'
-        ];
-        if (wxCode === dmWxCode) return relations[0]; // same element
-        var wxCycle = [0, 1, 2, 3, 4]; // 金水木火土
-        var dmPos = wxCycle.indexOf(dmWxCode);
-        var wxPos = wxCycle.indexOf(wxCode);
-        // 生: (dmPos + 1) % 5 produces dmPos
-        if ((dmPos + 1) % 5 === wxPos) return 'produces you (印星) — supportive, educational';
-        // 被生: dmPos produces (dmPos + 4) % 5
-        if ((dmPos + 4) % 5 === wxPos) return 'you produce (食伤) — creative, expressive';
-        // 克: dmPos controls (dmPos + 2) % 5
-        if ((dmPos + 2) % 5 === wxPos) return 'you control (财星) — material, practical';
-        // 被克: (dmPos + 3) % 5 controls dmPos
-        if ((dmPos + 3) % 5 === wxPos) return 'controls you (官杀) — challenging, disciplinary';
-        return '';
     }
 
     // ==================== MAIN RENDER ====================
@@ -218,18 +380,19 @@
         var container = document.getElementById('bazi-result');
         container.style.display = 'block';
 
-        // Basic info
         var gender = rt['xb'];
         var zodiac = rt['sx'];
         var xz = rt['xz'];
+        var dayMaster = rt['ctg'][2];
+        var dmIdx = STEMS.indexOf(dayMaster);
+        var dmWxCode = STEM_WX[dmIdx];
+        var dmElement = WX_NAMES[dmWxCode];
+        var dmProfile = DM_PROFILES[dayMaster] || { element: dmElement, en: dayMaster, desc: '', traits: [] };
+
         var eightChar = rt['ctg'][0] + rt['cdz'][0] + ' ' +
                         rt['ctg'][1] + rt['cdz'][1] + ' ' +
                         rt['ctg'][2] + rt['cdz'][2] + ' ' +
                         rt['ctg'][3] + rt['cdz'][3];
-        var dayMaster = rt['ctg'][2];
-        var dmWxCode = STEM_WX[STEMS.indexOf(dayMaster)];
-        var dmElement = WX_NAMES[dmWxCode];
-        var dmProfile = DM_PROFILES[dayMaster] || { element: dmElement, en: dayMaster, desc: '', traits: [] };
 
         // Five elements
         var nwx = rt['nwx'] || [0, 0, 0, 0, 0];
@@ -238,10 +401,7 @@
             wxData.push({ name: WX_NAMES[i], count: nwx[i], color: WX_COLORS[WX_NAMES[i]] });
         }
 
-        // Hidden stems table
-        var zcgTable = [[9,-1,-1],[5,9,7],[0,2,4],[1,-1,-1],[4,1,9],[2,4,6],[3,5,-1],[5,1,3],[6,8,4],[7,-1,-1],[4,7,3],[8,0,-1]];
-
-        // Build pillars HTML
+        // Build pillars with Ten Gods
         var pillarLabels = ['Year Pillar', 'Month Pillar', 'Day Pillar', 'Hour Pillar'];
         var pillarsHTML = '';
         for (var p = 0; p < 4; p++) {
@@ -252,54 +412,71 @@
             var ganWx = WX_NAMES[ganWxCode];
             var zhiWx = WX_NAMES[zhiWxCode];
 
-            var hiddenStems = [];
-            var cgIdx = BRANCHES.indexOf(zhi);
-            if (zcgTable[cgIdx]) {
-                zcgTable[cgIdx].forEach(function(sc) {
-                    if (sc >= 0) hiddenStems.push(STEMS[sc]);
-                });
-            }
+            // Stem Ten Gods
+            var ganTg = (p !== 2) ? getStemShiShen(STEMS.indexOf(gan), dmIdx) : null; // day master itself
 
-            pillarsHTML += '<div class="bazi-pillar">' +
-                '<div class="bazi-pillar-label">' + pillarLabels[p] + '</div>' +
-                '<div class="bazi-pillar-gan" style="border-bottom-color:' + WX_COLORS[ganWx] + '">' +
-                    '<span class="bazi-gan-char">' + gan + '</span>' +
-                    '<span class="bazi-gan-wx" style="color:' + WX_COLORS[ganWx] + '">' + ganWx + '</span>' +
-                '</div>' +
-                '<div class="bazi-pillar-zhi" style="border-bottom-color:' + WX_COLORS[zhiWx] + '">' +
-                    '<span class="bazi-zhi-char">' + zhi + '</span>' +
-                    '<span class="bazi-zhi-wx" style="color:' + WX_COLORS[zhiWx] + '">' + zhiWx + '</span>' +
-                '</div>' +
-                '<div class="bazi-pillar-hidden">' +
-                    hiddenStems.map(function(s) {
-                        var swc = WX_NAMES[STEM_WX[STEMS.indexOf(s)]];
-                        return '<span style="color:' + WX_COLORS[swc] + '">' + s + '</span>';
-                    }).join(' ') +
-                '</div>' +
-            '</div>';
+            // Branch hidden stems with Ten Gods
+            var branchIdx = BRANCHES.indexOf(zhi);
+            var cangGanList = getBranchShiShen(branchIdx, dmIdx);
+
+            pillarsHTML += '<div class="bazi-pillar">';
+            pillarsHTML += '<div class="bazi-pillar-label">' + pillarLabels[p] + '</div>';
+            pillarsHTML += '<div class="bazi-pillar-gan" style="border-bottom-color:' + WX_COLORS[ganWx] + '">';
+            pillarsHTML += '<span class="bazi-gan-char">' + gan + '</span>';
+            pillarsHTML += '<span class="bazi-gan-wx" style="color:' + WX_COLORS[ganWx] + '">' + ganWx + '</span>';
+            if (ganTg) {
+                pillarsHTML += '<span class="bazi-gan-tg">' + ganTg.cn + '</span>';
+            } else {
+                pillarsHTML += '<span class="bazi-gan-tg dm-self">Day Master</span>';
+            }
+            pillarsHTML += '</div>';
+            pillarsHTML += '<div class="bazi-pillar-zhi" style="border-bottom-color:' + WX_COLORS[zhiWx] + '">';
+            pillarsHTML += '<span class="bazi-zhi-char">' + zhi + '</span>';
+            pillarsHTML += '<span class="bazi-zhi-wx" style="color:' + WX_COLORS[zhiWx] + '">' + zhiWx + '</span>';
+            pillarsHTML += '</div>';
+            pillarsHTML += '<div class="bazi-pillar-hidden">';
+            for (var ci = 0; ci < cangGanList.length; ci++) {
+                var cg = cangGanList[ci];
+                var cgWx = WX_NAMES[STEM_WX[cg.stemIdx]];
+                var cgColor = WX_COLORS[cgWx];
+                var primaryClass = cg.primary ? ' cg-primary' : '';
+                pillarsHTML += '<div class="bazi-canggan' + primaryClass + '">';
+                pillarsHTML += '<span style="color:' + cgColor + '">' + cg.stem + '</span>';
+                pillarsHTML += '<span class="cg-tg-label">' + cg.tg.cn + '</span>';
+                pillarsHTML += '</div>';
+            }
+            pillarsHTML += '</div>';
+            pillarsHTML += '</div>';
         }
 
-        // Da Yun (大运)
+        // Da Yun
         var qyyDesc = rt['qyy_desc'] || '';
         var dyHTML = '';
         if (rt['dy'] && rt['dy'].length > 0) {
             dyHTML = '<div class="bazi-dayun-section">';
             dyHTML += '<h3 class="bazi-section-title">Life Cycles (Da Yun)</h3>';
-            dyHTML += '<p class="bazi-qyy">⏳ ' + qyyDesc + '</p>';
-            dyHTML += '<p style="text-align:center;font-size:0.78rem;color:var(--text-muted);margin-bottom:1rem;">Click on any Life Cycle to see detailed interpretation and flow years.</p>';
+            dyHTML += '<p class="bazi-qyy">&#9203; ' + qyyDesc + '</p>';
+            dyHTML += '<p style="text-align:center;font-size:0.78rem;color:var(--text-muted);margin-bottom:1rem;">Click on any Life Cycle to see Ten Gods analysis, flow years, and detailed interpretation.</p>';
             dyHTML += '<div class="bazi-dayun-grid">';
             for (var k = 0; k < Math.min(rt['dy'].length, 8); k++) {
                 var dy = rt['dy'][k];
+                var dyGanIdx2 = STEMS.indexOf(dy['zfma']);
+                var dyStemTg = dyGanIdx2 >= 0 ? getStemShiShen(dyGanIdx2, dmIdx) : null;
                 var dyGanZhi = (dy['zfma'] || '') + (dy['zfmb'] || '');
                 var dyNzsc = dy['nzsc'] || '';
                 var nzscClass = getNZSCClass(dyNzsc);
 
-                dyHTML += '<div class="bazi-dayun-item" data-dy-index="' + k + '">' +
-                    '<div class="bazi-dayun-ganzhi">' + dyGanZhi + '</div>' +
-                    '<div class="bazi-dayun-age">Age ' + dy['zqage'] + '-' + dy['zboz'] + '</div>' +
-                    '<div class="bazi-dayun-years">' + dy['syear'] + '-' + dy['eyear'] + '</div>' +
-                    (dyNzsc ? '<div class="bazi-dayun-status ' + nzscClass + '">' + dyNzsc + '</div>' : '') +
-                '</div>';
+                dyHTML += '<div class="bazi-dayun-item" data-dy-index="' + k + '">';
+                dyHTML += '<div class="bazi-dayun-ganzhi">' + dyGanZhi + '</div>';
+                if (dyStemTg) {
+                    dyHTML += '<div class="bazi-dayun-tg">' + dyStemTg.cn + '</div>';
+                }
+                dyHTML += '<div class="bazi-dayun-age">Age ' + dy['zqage'] + '-' + dy['zboz'] + '</div>';
+                dyHTML += '<div class="bazi-dayun-years">' + dy['syear'] + '-' + dy['eyear'] + '</div>';
+                if (dyNzsc) {
+                    dyHTML += '<div class="bazi-dayun-status ' + nzscClass + '">' + dyNzsc + '</div>';
+                }
+                dyHTML += '</div>';
             }
             dyHTML += '</div>';
 
@@ -341,8 +518,9 @@
                 '</div>' +
             '</div>' +
 
-            // Four Pillars
-            '<h3 class="bazi-section-title">Four Pillars of Destiny</h3>' +
+            // Four Pillars with Ten Gods
+            '<h3 class="bazi-section-title">Four Pillars of Destiny (with Ten Gods)</h3>' +
+            '<p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:0.8rem;">Ten Gods (Shi Shen) show the relationship between each stem and your Day Master, revealing your life patterns.</p>' +
             '<div class="bazi-pillars-grid">' + pillarsHTML + '</div>' +
 
             // Five Elements
@@ -372,7 +550,7 @@
 
             // Disclaimer
             '<div class="bazi-disclaimer">' +
-                '<p>This free BaZi chart is generated using traditional Chinese metaphysics calculations. It provides a foundational analysis of your birth chart. For comprehensive life path guidance, career advice, relationship insights, and personalized recommendations, consult a professional BaZi practitioner.</p>' +
+                '<p>This free BaZi chart is generated using traditional Chinese metaphysics calculations powered by paipan.js engine. Ten Gods (Shi Shen) interpretations are based on classical BaZi theory. For comprehensive life path guidance, career advice, relationship insights, and personalized recommendations, consult a professional BaZi practitioner.</p>' +
             '</div>';
 
         // Bind dayun click events
@@ -390,7 +568,6 @@
                     var idx = parseInt(this.getAttribute('data-dy-index'));
                     var dy = rt['dy'][idx];
 
-                    // Toggle active
                     if (activeItem === this) {
                         detailPanel.classList.remove('show');
                         this.classList.remove('active');
@@ -402,19 +579,27 @@
                     this.classList.add('active');
                     activeItem = this;
 
-                    // Update detail
                     detailTitle.textContent = 'Dayun ' + (dy['zfma'] || '') + (dy['zfmb'] || '') + ' — Age ' + dy['zqage'] + ' to ' + dy['zboz'];
-                    detailInterp.innerHTML = getDayunInterpretation(dy, dmWxCode);
+                    detailInterp.innerHTML = getDayunInterpretation(dy, dmIdx, rt);
 
-                    // Liu Nian (Flow Years)
+                    // Liu Nian (Flow Years) with Ten Gods
                     if (dy['ly'] && dy['ly'].length > 0) {
                         var lyHTML = '<p class="bazi-liunian-title">Flow Years (Liu Nian)</p>';
                         lyHTML += '<div class="bazi-liunian-grid">';
                         dy['ly'].forEach(function(ly) {
-                            lyHTML += '<div class="bazi-liunian-item">' +
-                                '<div class="ly-ganzhi">' + (ly['lye'] || '') + '</div>' +
-                                '<div class="ly-year">' + (ly['year'] || ly['age'] || '') + '</div>' +
-                            '</div>';
+                            var lyGanZhi = ly['lye'] || '';
+                            var lyGan = lyGanZhi.substring(0, 1);
+                            var lyZhi = lyGanZhi.substring(1, 2);
+                            var lyGanIdx = STEMS.indexOf(lyGan);
+                            var lyTg = lyGanIdx >= 0 ? getStemShiShen(lyGanIdx, dmIdx) : null;
+
+                            lyHTML += '<div class="bazi-liunian-item">';
+                            lyHTML += '<div class="ly-ganzhi">' + lyGanZhi + '</div>';
+                            if (lyTg) {
+                                lyHTML += '<div class="ly-tg">' + lyTg.cn + '</div>';
+                            }
+                            lyHTML += '<div class="ly-year">' + (ly['year'] || '') + '</div>';
+                            lyHTML += '</div>';
                         });
                         lyHTML += '</div>';
                         liunianSection.innerHTML = lyHTML;
@@ -436,13 +621,11 @@
 
     // ==================== INIT ====================
     function init() {
-        // Read params from URL hash
         var hash = window.location.hash;
         if (!hash || hash.length < 2) {
             showError('No calculation data found. Please go back and try again.');
             return;
         }
-
         try {
             var params = JSON.parse(decodeURIComponent(hash.substring(1)));
             var yy = parseInt(params.yy);
@@ -476,7 +659,7 @@
         document.getElementById('bazi-loading').style.display = 'none';
         var errDiv = document.getElementById('bazi-error');
         errDiv.style.display = 'flex';
-        errDiv.innerHTML = '<p>' + msg + '</p><a href="/#free-bazi">← Try Again</a>';
+        errDiv.innerHTML = '<p>' + msg + '</p><a href="/#free-bazi">&larr; Try Again</a>';
     }
 
     // ==================== BOOT ====================
