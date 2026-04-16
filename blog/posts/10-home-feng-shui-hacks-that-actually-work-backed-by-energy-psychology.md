@@ -1,5 +1,5 @@
 ---
-title: 10 Home Feng Shui Hacks That Actually Work (Backed by Energy & Psychology)
+title: 10 Home Feng Shui Hacks That Actually Work
 category: feng-shui
 tags:
   - Feng Shui
