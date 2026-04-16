@@ -144,6 +144,194 @@ const ARTICLE_STYLES = `
         .blog-cta a { display: inline-block; padding: 1rem 2.5rem; background: var(--accent-color); color: #1A1208; text-decoration: none; font-weight: 600; letter-spacing: 0.05em; border-radius: 6px; transition: all 0.3s; }
         .blog-cta a:hover { background: #E8C547; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(212,175,55,0.3); }`;
 
+// ─── Zodiac Lookup Widget ──────────────────────────────────
+const ZODIAC_LOOKUP_HTML = `
+<div class="zodiac-lookup-widget" id="zodiacLookup">
+    <style>
+        .zodiac-lookup-widget {
+            background: linear-gradient(135deg, rgba(212,175,55,0.08), rgba(212,175,55,0.03));
+            border: 1px solid rgba(212,175,55,0.2);
+            border-radius: 16px;
+            padding: 2.5rem 2rem;
+            margin: 3rem 0;
+            text-align: center;
+        }
+        .zodiac-lookup-widget h3 {
+            font-family: var(--font-display);
+            color: var(--accent-color);
+            font-size: 1.4rem;
+            letter-spacing: 0.08em;
+            margin-bottom: 0.5rem;
+        }
+        .zodiac-lookup-widget p.sub {
+            color: var(--text-secondary);
+            font-size: 0.92rem;
+            margin-bottom: 1.8rem;
+        }
+        .zodiac-form {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+        .zodiac-form select, .zodiac-form input {
+            padding: 0.7rem 1.2rem;
+            border: 1px solid rgba(212,175,55,0.3);
+            border-radius: 8px;
+            background: rgba(255,255,255,0.8);
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        .zodiac-form select:focus, .zodiac-form input:focus {
+            border-color: var(--accent-color);
+        }
+        .zodiac-form button {
+            padding: 0.7rem 1.8rem;
+            background: var(--accent-color);
+            color: #1A1208;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            letter-spacing: 0.03em;
+            transition: all 0.3s;
+        }
+        .zodiac-form button:hover {
+            background: #E8C547;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 16px rgba(212,175,55,0.3);
+        }
+        .zodiac-result {
+            margin-top: 2rem;
+            display: none;
+        }
+        .zodiac-result.show {
+            display: block;
+            animation: zodiacFadeIn 0.5s ease;
+        }
+        @keyframes zodiacFadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .zodiac-result .zodiac-emoji {
+            font-size: 3.5rem;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+        .zodiac-result .zodiac-name {
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            color: var(--accent-color);
+            letter-spacing: 0.1em;
+            margin-bottom: 0.3rem;
+        }
+        .zodiac-result .zodiac-desc {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+    </style>
+    <h3>🐍 What's Your Chinese Zodiac?</h3>
+    <p class="sub">Enter your birth year to find out</p>
+    <div class="zodiac-form">
+        <select id="zodiacYear">
+            <option value="">Select Year</option>
+        </select>
+        <select id="zodiacMonth">
+            <option value="">Month</option>
+            <option value="1">January</option>
+            <option value="2">February</option>
+            <option value="3">March</option>
+            <option value="4">April</option>
+            <option value="5">May</option>
+            <option value="6">June</option>
+            <option value="7">July</option>
+            <option value="8">August</option>
+            <option value="9">September</option>
+            <option value="10">October</option>
+            <option value="11">November</option>
+            <option value="12">December</option>
+        </select>
+        <button onclick="lookupZodiac()">Look Up</button>
+    </div>
+    <div class="zodiac-result" id="zodiacResult">
+        <div class="zodiac-emoji" id="zodiacEmoji"></div>
+        <div class="zodiac-name" id="zodiacName"></div>
+        <div class="zodiac-desc" id="zodiacDesc"></div>
+    </div>
+    <script>
+    (function() {
+        // Populate year dropdown (1940-2026)
+        var sel = document.getElementById('zodiacYear');
+        if (sel) {
+            for (var y = 2026; y >= 1940; y--) {
+                var opt = document.createElement('option');
+                opt.value = y;
+                opt.textContent = y;
+                sel.appendChild(opt);
+            }
+        }
+    })();
+
+    var ZODIAC_DATA = {
+        'Rat': { emoji: '🐭', desc: 'Quick-witted, resourceful, and versatile. Rats are natural problem-solvers with sharp intuition.' },
+        'Ox': { emoji: '🐂', desc: 'Diligent, dependable, and determined. The Ox embodies strength, patience, and honest hard work.' },
+        'Tiger': { emoji: '🐅', desc: 'Brave, competitive, and confident. Tigers are born leaders who embrace challenges with courage.' },
+        'Rabbit': { emoji: '🐇', desc: 'Gentle, elegant, and alert. Rabbits have a refined nature and a talent for diplomacy.' },
+        'Dragon': { emoji: '🐉', desc: 'Energetic, fearless, and charismatic. Dragons are the most revered sign, full of vitality and ambition.' },
+        'Snake': { emoji: '🐍', desc: 'Wise, enigmatic, and intuitive. Snakes possess deep insight and a calm, strategic mind.' },
+        'Horse': { emoji: '🐎', desc: 'Animated, active, and energetic. Horses love freedom and have an adventurous, warm-hearted spirit.' },
+        'Goat': { emoji: '🐑', desc: 'Calm, gentle, and sympathetic. Goats are creative souls with a deep appreciation for beauty and harmony.' },
+        'Monkey': { emoji: '🐒', desc: 'Sharp, smart, and curious. Monkeys are clever innovators with a playful, magnetic personality.' },
+        'Rooster': { emoji: '🐓', desc: 'Observant, hardworking, and courageous. Roosters are perfectionists with a strong sense of timing.' },
+        'Dog': { emoji: '🐕', desc: 'Loyal, honest, and amiable. Dogs are steadfast companions who value justice and loyalty above all.' },
+        'Pig': { emoji: '🐖', desc: 'Compassionate, generous, and diligent. Pigs have a kind heart and an easy-going, optimistic nature.' }
+    };
+
+    var ZODIAC_CN_EN = {
+        '鼠': 'Rat', '牛': 'Ox', '虎': 'Tiger', '兔': 'Rabbit',
+        '龙': 'Dragon', '蛇': 'Snake', '马': 'Horse', '羊': 'Goat',
+        '猴': 'Monkey', '鸡': 'Rooster', '狗': 'Dog', '猪': 'Pig'
+    };
+
+    function lookupZodiac() {
+        var year = parseInt(document.getElementById('zodiacYear').value);
+        var month = parseInt(document.getElementById('zodiacMonth').value);
+        if (!year || !month) {
+            alert('Please select your birth year and month.');
+            return;
+        }
+        if (typeof window.p === 'undefined') {
+            alert('Zodiac engine is still loading. Please try again in a moment.');
+            return;
+        }
+        // Use paipan engine: GetGZ(year, month, day, hour, min, sec)
+        // We use mid-month (15th) at noon to avoid edge cases near lichun
+        var result = p.GetGZ(year, month, 15, 12, 0, 10);
+        if (!result) {
+            alert('Could not calculate. Please check your input.');
+            return;
+        }
+        var dzIndex = result[1][0]; // year branch index
+        var sxCN = p.csx[dzIndex]; // Chinese zodiac animal name
+        var sxEN = ZODIAC_CN_EN[sxCN] || sxCN;
+        var data = ZODIAC_DATA[sxEN];
+        if (!data) return;
+
+        document.getElementById('zodiacEmoji').textContent = data.emoji;
+        document.getElementById('zodiacName').textContent = 'You are the ' + sxEN + ' ' + sxCN;
+        document.getElementById('zodiacDesc').textContent = data.desc;
+        var el = document.getElementById('zodiacResult');
+        el.className = 'zodiac-result show';
+    }
+    <\/script>
+</div>`;
+
 // ─── Helpers ────────────────────────────────────────────────
 
 function copyDirSync(src, dest, excludeDirs = []) {
@@ -237,6 +425,12 @@ function generateArticleHtml(post, category) {
   const categoryLabel = CATEGORY_LABELS[category] || category;
   const categoryHref = `/blog/${category}`;
 
+  // Check if article contains zodiac lookup widget
+  const hasZodiacLookup = htmlBody.includes('<!--zodiac-lookup-->');
+  const finalBody = hasZodiacLookup
+    ? htmlBody.replace('<!--zodiac-lookup-->', ZODIAC_LOOKUP_HTML)
+    : htmlBody;
+
   // FAQ structured data
   let faqJsonLd = '';
   if (data.faq && data.faq.length > 0) {
@@ -276,6 +470,7 @@ function generateArticleHtml(post, category) {
     <link rel="canonical" href="${SITE_URL}/blog/${slug}">
     <link rel="stylesheet" href="/styles.min.css?v=${CSS_VERSION}">
     <script src="/main.min.js?v=${CSS_VERSION}" defer></script>
+    ${hasZodiacLookup ? '<script src="/bazi-calculator/paipan.js"><\/script>' : ''}
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -316,7 +511,7 @@ ${NAV_HTML}
             ${data.readTime ? ` · <span>${data.readTime} min read</span>` : ''}
         </div>
 
-        ${htmlBody}
+        ${finalBody}
 
         <div class="blog-cta">
             <h3 style="font-family: var(--font-display); color: var(--accent-color); margin-bottom: 0.8rem;">Discover Your Energy Path</h3>

@@ -51,4 +51,6 @@ image: https://raw.githubusercontent.com/pixuan1989/dao-essence-shop/main/images
 
 **🐅 Tiger**​ – **Caution Needed.**​ The day feels conflicting. Avoid arguments and risky moves. Take deep breaths—patience is your best tool today.
 
+<!--zodiac-lookup-->
+
 *Note: This is a cultural forecast for entertainment and self-reflection only.*
