@@ -97,14 +97,77 @@
         return result;
     }
 
-    // (Ten Gods interpretations removed — only engine data is displayed)
+    // ==================== DAY MASTER PROFILES (ENGINE-DRIVEN) ====================
+    var DM_NATURE = {
+        '甲': { trait: 'Straightforward & ambitious', keyword: 'growth' },
+        '乙': { trait: 'Flexible & persistent', keyword: 'adaptation' },
+        '丙': { trait: 'Warm & charismatic', keyword: 'radiance' },
+        '丁': { trait: 'Insightful & refined', keyword: 'focus' },
+        '戊': { trait: 'Steadfast & reliable', keyword: 'stability' },
+        '己': { trait: 'Nurturing & patient', keyword: 'cultivation' },
+        '庚': { trait: 'Decisive & righteous', keyword: 'resolve' },
+        '辛': { trait: 'Elegant & detail-oriented', keyword: 'precision' },
+        '壬': { trait: 'Dynamic & resourceful', keyword: 'wisdom' },
+        '癸': { trait: 'Intuitive & perceptive', keyword: 'depth' }
+    };
 
-    // (Day Master profiles removed — only engine data is displayed)
+    function buildDmProfile(rt) {
+        var dm = rt['ctg'][2];
+        var dmIdx = STEMS.indexOf(dm);
+        var dmWx = WX_NAMES[STEM_WX[dmIdx]];
+        var dmYy = rt['yytg'] ? rt['yytg'][2] : 0; // 0=yang, 1=yin
+        var dmNature = DM_NATURE[dm];
+        if (!dmNature) return '';
 
-    // (Five elements interpretations removed — only engine data is displayed)
+        // Collect Ten Gods from all four pillars (engine data: rt['bctg'], rt['bzcg'])
+        var allTg = []; // { cn, en, count }
+        for (var p = 0; p < 4; p++) {
+            if (p !== 2) { // skip day pillar (day master itself)
+                var stemTg = getStemShiShen(STEMS.indexOf(rt['ctg'][p]), dmIdx);
+                var found = false;
+                for (var t = 0; t < allTg.length; t++) {
+                    if (allTg[t].cn === stemTg.cn) { allTg[t].count++; found = true; break; }
+                }
+                if (!found) allTg.push({ cn: stemTg.cn, en: stemTg.en, count: 1 });
+            }
+            // Hidden stems Ten Gods
+            for (var j = 0; j < 3; j++) {
+                var bzcgIdx = 3 * p + j;
+                if (rt['bzcg'] && rt['bzcg'][bzcgIdx] && rt['bzcg'][bzcgIdx] !== '') {
+                    var bzName = rt['bzcg'][bzcgIdx]; // engine short name: 印/卩/比/劫/伤/食/财/才/官/杀
+                    var bzFullName = TEN_GODS_NAMES[TG_INDEX[['印','卩','比','劫','伤','食','财','才','官','杀'].indexOf(bzName)]];
+                    if (bzFullName) {
+                        var found2 = false;
+                        for (var t2 = 0; t2 < allTg.length; t2++) {
+                            if (allTg[t2].cn === bzFullName.cn) { allTg[t2].count++; found2 = true; break; }
+                        }
+                        if (!found2) allTg.push({ cn: bzFullName.cn, en: bzFullName.en, count: 1 });
+                    }
+                }
+            }
+        }
+
+        // Sort by count descending
+        allTg.sort(function(a, b) { return b.count - a.count; });
+
+        var html = '<div class="dm-profile-row">';
+        html += '<div class="dm-profile-col"><strong>Day Master:</strong> ' + dm + ' ' + dmWx + ' (' + (dmYy === 0 ? 'Yang' : 'Yin') + ')</div>';
+        html += '<div class="dm-profile-col"><strong>Nature:</strong> ' + dmNature.trait + '</div>';
+        html += '</div>';
+        html += '<div class="dm-profile-row">';
+        html += '<div class="dm-profile-col"><strong>Key Ten Gods:</strong> ';
+        var topTg = allTg.slice(0, 4);
+        html += topTg.map(function(t) { return t.cn + '(' + t.count + ')'; }).join(' · ');
+        html += '</div>';
+        html += '</div>';
+        return html;
+    }
+
+    // ==================== FIVE ELEMENTS INTERPRETATION (ENGINE-DRIVEN) ====================
+    // Compact lookup: element → body area (from classical theory)
+    var WX_BODY = { '金': 'Lungs & Large Intestine', '水': 'Kidneys & Bladder', '木': 'Liver & Gallbladder', '火': 'Heart & Small Intestine', '土': 'Spleen & Stomach' };
 
     function getWxInterpretation(nwx) {
-        // Returns summary of dominant/weak elements based on engine counts only
         var maxCount = Math.max.apply(null, nwx);
         var dominant = [];
         var weak = [];
@@ -117,7 +180,9 @@
             html += '<p><strong>Strongest:</strong> ' + dominant.join(', ') + ' (' + maxCount + ')</p>';
         }
         if (weak.length > 0) {
-            html += '<p><strong>Absent:</strong> ' + weak.join(', ') + '</p>';
+            html += '<p><strong>Absent:</strong> ';
+            html += weak.map(function(w) { return w + ' (' + WX_BODY[w] + ')'; }).join(', ');
+            html += '</p>';
         }
         if (weak.length === 0) {
             html += '<p>All five elements are present.</p>';
@@ -133,7 +198,12 @@
         return 'neutral';
     }
 
-    // (NZSC_MEANINGS removed — only engine status label is displayed)
+    // (NZSC stage names from engine: this.czs array)
+    var NZSC_EN = {
+        '長生': 'Birth', '沐浴': 'Bath', '冠帶': 'Coronation', '臨官': 'Official',
+        '帝旺': 'Prosperity', '衰': 'Decline', '病': 'Sickness', '死': 'Death',
+        '墓': 'Tomb', '絕': 'Extinction', '胎': 'Conception', '養': 'Nurture'
+    };
 
     // ==================== DAYUN DETAIL (ENGINE DATA ONLY) ====================
     function getDayunInterpretation(dy, dmIdx) {
@@ -387,6 +457,9 @@
                 '</div>' +
                 '<div class="bazi-result-eight">' + eightChar + '</div>' +
             '</div>' +
+
+            // Da Yun section
+            buildDmProfile(rt) +
 
             // Two-column: Four Pillars + Five Elements
             '<div class="bazi-main-row">' +
