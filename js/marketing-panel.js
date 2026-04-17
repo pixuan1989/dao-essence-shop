@@ -504,7 +504,7 @@
         }
 
         try {
-            const result = await compressImage(file, 600, 150 * 1024);
+            const result = await compressImage(file, 600, 25 * 1024);
             const base64 = result.base64;
             const width = result.width;
             const height = result.height;
@@ -564,24 +564,15 @@
                     ctx.drawImage(img, 0, 0, w, h);
 
                     // 转为 Base64，逐步降低质量直到满足大小限制
-                    let quality = 0.85;
-                    const mimeType = file.type === 'image/png' ? 'image/png' : 'image/jpeg';
+                    let quality = 0.5;
+                    // 所有图片统一用 JPEG（比 PNG 小很多，适合照片类内容）
+                    const mimeType = 'image/jpeg';
                     let base64;
-
-                    // PNG 不可调质量，直接输出
-                    if (mimeType === 'image/png') {
-                        base64 = canvas.toDataURL('image/png');
-                        // 如果 PNG 太大，转 JPEG
-                        if (base64.length * 3 / 4 > maxSizeBytes) {
-                            base64 = canvas.toDataURL('image/jpeg', quality);
-                        }
-                    } else {
-                        base64 = canvas.toDataURL('image/jpeg', quality);
-                        // 逐步降质量
-                        while (base64.length * 3 / 4 > maxSizeBytes && quality > 0.3) {
-                            quality -= 0.1;
-                            base64 = canvas.toDataURL('image/jpeg', Math.max(quality, 0.1));
-                        }
+                    base64 = canvas.toDataURL('image/jpeg', quality);
+                    // 逐步降质量直到满足大小限制
+                    while (base64.length * 3 / 4 > maxSizeBytes && quality > 0.1) {
+                        quality -= 0.05;
+                        base64 = canvas.toDataURL('image/jpeg', Math.max(quality, 0.1));
                     }
 
                     resolve({ base64, width: w, height: h });
@@ -637,8 +628,8 @@
             statusEl.style.display = 'none';
         } else {
             const totalKB = Math.round(totalBytes / 1024);
-            const color = totalKB > 200 ? '#ef5350' : '#d4af37';
-            const warning = totalKB > 200 ? ' ⚠️ 接近 Gmail 裁剪限制（102KB HTML）' : '';
+            const color = totalKB > 25 ? '#ef5350' : '#d4af37';
+            const warning = totalKB > 25 ? ' ⚠️ 超过阿里云 API 80KB 限制，请减少图片数量或使用更小图片' : '';
             statusEl.style.display = 'block';
             statusEl.style.color = color;
             statusEl.textContent = `🖼 已插入 ${base64Matches.length} 张图片，Base64 总大小约 ${totalKB}KB${warning}`;
@@ -820,6 +811,13 @@
         subject = applyTemplateVars(subject);
         htmlContent = applyTemplateVars(htmlContent);
 
+        // 检查邮件 HTML 总大小（阿里云 API URL 传参限制约 80KB）
+        const previewHtmlSize = new Blob([htmlContent]).size;
+        if (previewHtmlSize > 70000) {
+            alert(`邮件内容过大（${Math.round(previewHtmlSize / 1024)}KB），阿里云 API 限制约 80KB。\n请减少图片数量或使用更小的图片。`);
+            return;
+        }
+
         // 检查是否还有未替换的模板变量
         const unreplaced = (htmlContent + ' ' + subject).match(/\{\{(?!name|email)\w+\}\}/g);
         if (unreplaced && unreplaced.length > 0) {
@@ -896,6 +894,13 @@
         syncTemplateVarsFromInputs();
         subject = applyTemplateVars(subject);
         htmlContent = applyTemplateVars(htmlContent);
+
+        // 检查邮件 HTML 总大小（阿里云 API URL 传参限制约 80KB）
+        const emailHtmlSize = new Blob([htmlContent]).size;
+        if (emailHtmlSize > 70000) {
+            alert(`邮件内容过大（${Math.round(emailHtmlSize / 1024)}KB），阿里云 API 限制约 80KB。\n请减少图片数量或使用更小的图片。`);
+            return;
+        }
 
         // 检查是否还有未替换的模板变量（name/email 除外，它们由后端替换）
         const unreplaced = (htmlContent + ' ' + subject).match(/\{\{(?!name|email)\w+\}\}/g);
