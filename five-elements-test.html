@@ -393,52 +393,6 @@
         .dominant-metal { background: rgba(184,168,126,0.15); color: var(--wx-metal); }
         .dominant-water { background: rgba(91,130,153,0.15); color: var(--wx-water); }
 
-        .result-pillars {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-        .result-pillars h3 {
-            font-family: var(--serif);
-            font-size: 0.9rem;
-            color: var(--gold-dim);
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            margin-bottom: 1rem;
-        }
-        .pillars-row {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 0.6rem;
-        }
-        .pillar-card {
-            text-align: center;
-            padding: 0.8rem 0.4rem;
-            background: rgba(255,255,255,0.02);
-            border: 1px solid rgba(255,255,255,0.04);
-            border-radius: 8px;
-        }
-        .pillar-card-label {
-            font-size: 0.6rem;
-            color: var(--text-muted);
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            margin-bottom: 0.3rem;
-        }
-        .pillar-card-chars {
-            font-family: var(--serif);
-            font-size: 1.4rem;
-            color: var(--text-primary);
-            letter-spacing: 0.1em;
-            line-height: 1.3;
-        }
-        .pillar-card-wx {
-            font-size: 0.6rem;
-            color: var(--text-muted);
-            margin-top: 0.2rem;
-        }
 
         .result-bars {
             background: var(--bg-card);
@@ -554,6 +508,7 @@
         .email-form input:focus { border-color: var(--gold); }
         .email-form input::placeholder { color: var(--text-muted); }
         .email-form button {
+            width: 100%;
             padding: 0.7rem 1.5rem;
             background: var(--gold);
             color: var(--bg-dark);
@@ -581,29 +536,8 @@
         .email-success .check { font-size: 2rem; margin-bottom: 0.5rem; }
         .email-success p { color: var(--wx-wood); font-size: 0.95rem; }
 
-        .cta-links {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-top: 2rem;
-            flex-wrap: wrap;
-        }
-        .cta-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
-            padding: 0.6rem 1.3rem;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: 0.85rem;
-            transition: all 0.2s;
-        }
-        .cta-link:hover {
-            border-color: var(--gold);
-            color: var(--gold);
-        }
+
+
 
         /* ===== FOOTER ===== */
         .footer {
@@ -637,11 +571,8 @@
             .hero { padding: 2rem 0 1.5rem; }
             .form-row { grid-template-columns: repeat(3, 1fr); gap: 0.5rem; }
             .birth-form { padding: 1.2rem; }
-            .pillars-row { gap: 0.4rem; }
-            .pillar-card-chars { font-size: 1.1rem; }
             .email-form-row { flex-direction: column; }
             .wx-icons { gap: 1rem; }
-            .cta-links { flex-direction: column; align-items: center; }
         }
     </style>
 </head>
@@ -758,22 +689,16 @@
             </div>
         </div>
 
-        <!-- CTA links -->
-        <div class="cta-links">
-            <a href="/bazi-form" class="cta-link">查看完整八字排盘 →</a>
-            <a href="/blog/bazi-astrology" class="cta-link">Read More Articles</a>
-        </div>
-
         <!-- Email CTA (positioned after all results, as a "next step") -->
         <div class="email-cta" id="emailCta">
-            <h3>🎁 Get Your Free Deep-Dive Report</h3>
+            <h3>🎁 获取完整的报告</h3>
             <p>We'll send you a personalized Five Elements profile — career paths, relationship patterns, health insights, and actionable advice based on your unique element mix.</p>
             <div class="email-form" id="emailForm">
                 <div class="email-form-row">
                     <input type="text" id="nameInput" placeholder="Your first name" autocomplete="given-name" style="flex:0.8;">
                     <input type="email" id="emailInput" placeholder="Your email address" autocomplete="email">
                 </div>
-                <button onclick="submitEmail()">Send My Free Report</button>
+                <button onclick="submitEmail()">获取完整的报告</button>
             </div>
             <p class="email-privacy">We respect your privacy. Unsubscribe anytime. No spam, ever.</p>
             <div class="email-success" id="emailSuccess">
@@ -1241,20 +1166,10 @@
             html += '</div>';
         }
 
-        // Four Pillars
-        html += '<div class="result-pillars"><h3>Your Birth Chart</h3><div class="pillars-row">';
-        pillars.forEach(function(p) {
-            html += '<div class="pillar-card">';
-            html += '<div class="pillar-card-label">' + p.label + '</div>';
-            html += '<div class="pillar-card-chars">' + p.stem + '<br>' + p.branch + '</div>';
-            html += '<div class="pillar-card-wx">' + p.stemWx + ' · ' + p.branchWx + '</div>';
-            html += '</div>';
-        });
-        html += '</div></div>';
-
+        // Five Elements Distribution
         // Five Elements bars
         var total = wxCount.wood + wxCount.fire + wxCount.earth + wxCount.metal + wxCount.water;
-        html += '<div class="result-bars"><h3>Five Elements Distribution</h3>';
+        html += '<div class="result-bars"><h3>你的生命元素</h3>';
         var elements = [
             { key: 'wood', name: 'Wood', icon: '木' },
             { key: 'fire', name: 'Fire', icon: '火' },
