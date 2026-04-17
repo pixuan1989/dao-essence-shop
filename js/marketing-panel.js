@@ -176,6 +176,7 @@
                             <label style="color: #888; font-size: 0.85rem;">邮件内容 (HTML)</label>
                             <div style="display: flex; gap: 6px;">
                                 <button class="btn" onclick="MP.insertImage()" style="padding: 4px 10px; background: rgba(212,175,55,0.15); color: #d4af37; font-size: 0.8rem;">🖼 插入图片</button>
+                                <button class="btn" id="deleteImageBtn" onclick="MP.deleteLastImage()" style="display:none;padding: 4px 10px; background: rgba(239,83,80,0.15); color: #ef5350; font-size: 0.8rem;">🗑 删除图片</button>
                                 <button class="btn" onclick="MP.togglePreview()" style="padding: 4px 10px; background: rgba(255,255,255,0.05); color: #888; font-size: 0.8rem;">👁 预览</button>
                             </div>
                         </div>
@@ -589,24 +590,70 @@
         if (!modal || !modal._processedBase64) return;
 
         const alt = document.getElementById('imgAltText')?.value?.trim() || 'DAO Essence';
-        const width = modal._processedWidth;
 
-        const imgTag = `\n<img src="${modal._processedBase64}" alt="${alt}" style="max-width:600px;width:100%;height:auto;border-radius:8px;display:block;margin:15px auto;">\n`;
+        const imgTag = `<img src="${modal._processedBase64}" alt="${alt}" style="max-width:600px;width:100%;height:auto;border-radius:8px;display:block;margin:15px auto;">`;
 
         const textarea = document.getElementById('emailContent');
         if (!textarea) return;
 
-        // 在光标位置插入
-        const start = textarea.selectionStart;
-        const end = textarea.selectionEnd;
+        // 插入到内容最上方（第一个 < 之前，如果没有则直接放开头）
         const value = textarea.value;
-        textarea.value = value.substring(0, start) + imgTag + value.substring(end);
-        textarea.selectionStart = textarea.selectionEnd = start + imgTag.length;
+        const firstTagIndex = value.search(/<[a-zA-Z]/);
+        if (firstTagIndex >= 0) {
+            // 在第一个标签前插入，前面加空行
+            textarea.value = value.substring(0, firstTagIndex) + imgTag + '\n\n' + value.substring(firstTagIndex);
+        } else {
+            // 没有标签，直接放开头
+            textarea.value = imgTag + '\n\n' + value;
+        }
 
         // 移除弹窗
         modal.remove();
 
         // 更新图片状态
+        checkImageSize();
+    }
+
+    // 删除最后插入的图片
+    function deleteLastImage() {
+        const textarea = document.getElementById('emailContent');
+        if (!textarea) return;
+
+        const content = textarea.value;
+        // 找所有 <img> 标签的位置
+        const imgRegex = /<img\s[^>]*src="data:image\/[^"]+;base64,[^"]*"[^>]*>\n?/g;
+        const matches = [...content.matchAll(imgRegex)];
+
+        if (matches.length === 0) {
+            alert('没有找到图片');
+            return;
+        }
+
+        // 如果只有一张，直接确认删除
+        // 如果有多张，列出序号让用户选择
+        if (matches.length === 1) {
+            const confirmed = confirm('确认删除这张图片？');
+            if (!confirmed) return;
+            textarea.value = content.replace(imgRegex, '').replace(/\n{3,}/g, '\n\n').trim();
+        } else {
+            const choice = prompt(`当前有 ${matches.length} 张图片，输入要删除的序号（1-${matches.length}），或输入 "all" 删除全部：`);
+            if (!choice) return;
+
+            if (choice.toLowerCase() === 'all') {
+                textarea.value = content.replace(imgRegex, '').replace(/\n{3,}/g, '\n\n').trim();
+            } else {
+                const index = parseInt(choice) - 1;
+                if (isNaN(index) || index < 0 || index >= matches.length) {
+                    alert('无效的序号');
+                    return;
+                }
+                // 删除指定位置的图片
+                const match = matches[index];
+                textarea.value = content.substring(0, match.index) + content.substring(match.index + match[0].length)
+                    .replace(/\n{3,}/g, '\n\n').trim();
+            }
+        }
+
         checkImageSize();
     }
 
@@ -626,6 +673,8 @@
 
         if (base64Matches.length === 0) {
             statusEl.style.display = 'none';
+            const delBtn = document.getElementById('deleteImageBtn');
+            if (delBtn) delBtn.style.display = 'none';
         } else {
             const totalKB = Math.round(totalBytes / 1024);
             const color = totalKB > 25 ? '#ef5350' : '#d4af37';
@@ -633,6 +682,8 @@
             statusEl.style.display = 'block';
             statusEl.style.color = color;
             statusEl.textContent = `🖼 已插入 ${base64Matches.length} 张图片，Base64 总大小约 ${totalKB}KB${warning}`;
+            const delBtn = document.getElementById('deleteImageBtn');
+            if (delBtn) delBtn.style.display = 'inline-block';
         }
     }
 
@@ -1033,6 +1084,7 @@
         insertImage,
         handleImageFile,
         confirmInsertImage,
+        deleteLastImage,
         checkImageSize,
         loadTemplate,
         onVarChange,
