@@ -124,6 +124,7 @@
                                 <option value="contact_form">联系表单</option>
                                 <option value="manual">手动添加</option>
                             </select>
+                            <button class="btn" onclick="MP.showAddSubscriber()" style="padding: 6px 12px; background: rgba(76,175,80,0.15); color: #4caf50; font-size: 0.8rem;">➕ 添加</button>
                             <button class="btn" onclick="MP.selectAll()" style="padding: 6px 12px; background: rgba(212,175,55,0.1); color: #d4af37; font-size: 0.8rem;">全选</button>
                             <button class="btn" onclick="MP.deselectAll()" style="padding: 6px 12px; background: rgba(255,255,255,0.05); color: #888; font-size: 0.8rem;">取消全选</button>
                         </div>
@@ -173,8 +174,13 @@
                     <div style="padding: 10px 15px;">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
                             <label style="color: #888; font-size: 0.85rem;">邮件内容 (HTML)</label>
-                            <button class="btn" onclick="MP.togglePreview()" style="padding: 4px 10px; background: rgba(255,255,255,0.05); color: #888; font-size: 0.8rem;">👁 预览</button>
+                            <div style="display: flex; gap: 6px;">
+                                <button class="btn" onclick="MP.insertImage()" style="padding: 4px 10px; background: rgba(212,175,55,0.15); color: #d4af37; font-size: 0.8rem;">🖼 插入图片</button>
+                                <button class="btn" onclick="MP.togglePreview()" style="padding: 4px 10px; background: rgba(255,255,255,0.05); color: #888; font-size: 0.8rem;">👁 预览</button>
+                            </div>
                         </div>
+                        <!-- 图片状态提示 -->
+                        <div id="imageStatus" style="display: none; margin-bottom: 6px; padding: 6px 10px; background: rgba(212,175,55,0.1); border-radius: 4px; color: #d4af37; font-size: 0.78rem;"></div>
                         <textarea id="emailContent" rows="12"
                             style="width: 100%; padding: 12px; border: 1px solid rgba(212,175,55,0.2); border-radius: 8px; background: rgba(0,0,0,0.3); color: #e8e8e8; font-family: 'Consolas', monospace; font-size: 0.85rem; resize: vertical; line-height: 1.6;"
                             placeholder="支持 HTML 格式。可用变量：{{name}}, {{email}}"></textarea>
@@ -324,6 +330,319 @@
     function updateSelectedCount() {
         const el = document.getElementById('selectedCount');
         if (el) el.textContent = selectedEmails.size;
+    }
+
+    // ========== 手动添加订阅者 ==========
+    function showAddSubscriber() {
+        // 如果弹窗已存在，先移除
+        const existing = document.getElementById('addSubscriberModal');
+        if (existing) existing.remove();
+
+        const modal = document.createElement('div');
+        modal.id = 'addSubscriberModal';
+        modal.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:10000;display:flex;align-items:center;justify-content:center;';
+        modal.innerHTML = `
+            <div style="background:#1a1a2e;border:1px solid rgba(212,175,55,0.3);border-radius:12px;padding:30px;width:400px;max-width:90vw;">
+                <h3 style="color:#d4af37;margin:0 0 20px;font-size:1.1rem;">➕ 添加订阅者</h3>
+                <div style="margin-bottom:14px;">
+                    <label style="color:#888;font-size:0.85rem;display:block;margin-bottom:6px;">姓名（可选）</label>
+                    <input type="text" id="addSubName" placeholder="输入姓名..."
+                        style="width:100%;padding:10px 14px;border:1px solid rgba(212,175,55,0.2);border-radius:8px;background:rgba(255,255,255,0.05);color:#e8e8e8;font-family:inherit;">
+                </div>
+                <div style="margin-bottom:20px;">
+                    <label style="color:#888;font-size:0.85rem;display:block;margin-bottom:6px;">邮箱 <span style="color:#ef5350;">*</span></label>
+                    <input type="email" id="addSubEmail" placeholder="输入邮箱地址..."
+                        style="width:100%;padding:10px 14px;border:1px solid rgba(212,175,55,0.2);border-radius:8px;background:rgba(255,255,255,0.05);color:#e8e8e8;font-family:inherit;">
+                    <div id="addSubError" style="color:#ef5350;font-size:0.8rem;margin-top:6px;display:none;"></div>
+                </div>
+                <div style="display:flex;gap:10px;justify-content:flex-end;">
+                    <button onclick="document.getElementById('addSubscriberModal').remove()"
+                        style="padding:10px 20px;border:1px solid rgba(255,255,255,0.1);border-radius:8px;background:transparent;color:#888;cursor:pointer;font-family:inherit;">取消</button>
+                    <button onclick="MP.addSubscriber()"
+                        style="padding:10px 20px;border:none;border-radius:8px;background:linear-gradient(135deg,#4caf50,#388e3c);color:#fff;cursor:pointer;font-weight:600;font-family:inherit;">确认添加</button>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+
+        // 回车提交
+        modal.querySelector('#addSubEmail').addEventListener('keydown', e => {
+            if (e.key === 'Enter') MP.addSubscriber();
+        });
+        modal.querySelector('#addSubName').addEventListener('keydown', e => {
+            if (e.key === 'Enter') modal.querySelector('#addSubEmail').focus();
+        });
+
+        modal.querySelector('#addSubName').focus();
+    }
+
+    async function addSubscriber() {
+        const nameEl = document.getElementById('addSubName');
+        const emailEl = document.getElementById('addSubEmail');
+        const errorEl = document.getElementById('addSubError');
+        const name = nameEl?.value?.trim() || '';
+        const email = emailEl?.value?.trim() || '';
+
+        if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            errorEl.textContent = '请输入有效的邮箱地址';
+            errorEl.style.display = 'block';
+            return;
+        }
+
+        try {
+            const res = await fetch('/api/marketing', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${window.adminKey}`
+                },
+                body: JSON.stringify({ addSubscriber: { name, email } })
+            });
+
+            const data = await res.json();
+            if (data.success) {
+                document.getElementById('addSubscriberModal')?.remove();
+                alert(`✅ 已添加订阅者：${email}`);
+                loadSubscribers(); // 刷新列表
+            } else {
+                errorEl.textContent = data.error || '添加失败';
+                errorEl.style.display = 'block';
+            }
+        } catch (err) {
+            errorEl.textContent = '网络错误: ' + err.message;
+            errorEl.style.display = 'block';
+        }
+    }
+
+    // ========== 图片插入 ==========
+    function insertImage() {
+        // 如果弹窗已存在，先移除
+        const existing = document.getElementById('insertImageModal');
+        if (existing) existing.remove();
+
+        const modal = document.createElement('div');
+        modal.id = 'insertImageModal';
+        modal.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:10000;display:flex;align-items:center;justify-content:center;';
+        modal.innerHTML = `
+            <div style="background:#1a1a2e;border:1px solid rgba(212,175,55,0.3);border-radius:12px;padding:30px;width:440px;max-width:90vw;">
+                <h3 style="color:#d4af37;margin:0 0 6px;font-size:1.1rem;">🖼 插入图片</h3>
+                <p style="color:#888;font-size:0.78rem;margin:0 0 16px;">支持 JPG/PNG/GIF，图片会自动压缩至 600px 宽，单张 &lt;150KB</p>
+
+                <!-- 上传区域 -->
+                <div id="imgDropZone" onclick="document.getElementById('imgFileInput').click()"
+                    style="border:2px dashed rgba(212,175,55,0.3);border-radius:10px;padding:30px;text-align:center;cursor:pointer;margin-bottom:14px;transition:all 0.2s;">
+                    <div style="font-size:2rem;margin-bottom:8px;">📁</div>
+                    <p style="color:#d4af37;margin:0;font-size:0.9rem;">点击选择图片或拖拽至此处</p>
+                    <p style="color:#666;margin:6px 0 0;font-size:0.75rem;">JPG / PNG / GIF，最大 1MB（压缩前）</p>
+                </div>
+                <input type="file" id="imgFileInput" accept="image/jpeg,image/png,image/gif" style="display:none;" onchange="MP.handleImageFile(this.files[0])">
+
+                <!-- 预览区 -->
+                <div id="imgPreviewArea" style="display:none;margin-bottom:14px;text-align:center;">
+                    <img id="imgPreview" style="max-width:100%;max-height:200px;border-radius:8px;border:1px solid rgba(212,175,55,0.2);">
+                    <p id="imgSizeInfo" style="color:#888;font-size:0.78rem;margin:8px 0 0;"></p>
+                </div>
+
+                <!-- 替代文本 -->
+                <div id="imgAltRow" style="display:none;margin-bottom:14px;">
+                    <label style="color:#888;font-size:0.85rem;display:block;margin-bottom:6px;">替代文本（Alt Text）</label>
+                    <input type="text" id="imgAltText" placeholder="描述图片内容，用于无法加载图片时显示..."
+                        style="width:100%;padding:10px 14px;border:1px solid rgba(212,175,55,0.2);border-radius:8px;background:rgba(255,255,255,0.05);color:#e8e8e8;font-family:inherit;">
+                </div>
+
+                <div id="imgInsertError" style="color:#ef5350;font-size:0.8rem;margin-bottom:10px;display:none;"></div>
+
+                <div style="display:flex;gap:10px;justify-content:flex-end;">
+                    <button onclick="document.getElementById('insertImageModal').remove()"
+                        style="padding:10px 20px;border:1px solid rgba(255,255,255,0.1);border-radius:8px;background:transparent;color:#888;cursor:pointer;font-family:inherit;">取消</button>
+                    <button id="imgInsertBtn" onclick="MP.confirmInsertImage()" disabled
+                        style="padding:10px 20px;border:none;border-radius:8px;background:linear-gradient(135deg,#d4af37,#b8941f);color:#1a1a2e;cursor:pointer;font-weight:600;font-family:inherit;opacity:0.5;">插入到邮件</button>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+
+        // 拖拽事件
+        const dropZone = modal.querySelector('#imgDropZone');
+        dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.style.borderColor = '#d4af37'; dropZone.style.background = 'rgba(212,175,55,0.05)'; });
+        dropZone.addEventListener('dragleave', () => { dropZone.style.borderColor = 'rgba(212,175,55,0.3)'; dropZone.style.background = 'transparent'; });
+        dropZone.addEventListener('drop', e => {
+            e.preventDefault();
+            dropZone.style.borderColor = 'rgba(212,175,55,0.3)';
+            dropZone.style.background = 'transparent';
+            const file = e.dataTransfer?.files?.[0];
+            if (file) MP.handleImageFile(file);
+        });
+
+        // 存储处理后的 base64
+        modal._processedBase64 = null;
+        modal._processedWidth = 0;
+    }
+
+    // 处理图片文件：压缩 + 转Base64
+    async function handleImageFile(file) {
+        const errorEl = document.getElementById('imgInsertError');
+        const previewArea = document.getElementById('imgPreviewArea');
+        const altRow = document.getElementById('imgAltRow');
+        const insertBtn = document.getElementById('imgInsertBtn');
+        const modal = document.getElementById('insertImageModal');
+
+        errorEl.style.display = 'none';
+
+        // 校验文件类型
+        if (!['image/jpeg', 'image/png', 'image/gif'].includes(file.type)) {
+            errorEl.textContent = '仅支持 JPG、PNG、GIF 格式';
+            errorEl.style.display = 'block';
+            return;
+        }
+
+        // 校验文件大小（压缩前不超过 1MB）
+        if (file.size > 1024 * 1024) {
+            errorEl.textContent = '图片过大，请选择小于 1MB 的图片';
+            errorEl.style.display = 'block';
+            return;
+        }
+
+        try {
+            const result = await compressImage(file, 600, 150 * 1024);
+            const base64 = result.base64;
+            const width = result.width;
+            const height = result.height;
+            const sizeKB = Math.round(base64.length * 3 / 4 / 1024); // base64 实际大小
+
+            // 存储到弹窗对象
+            if (modal) {
+                modal._processedBase64 = base64;
+                modal._processedWidth = width;
+            }
+
+            // 显示预览
+            const previewImg = document.getElementById('imgPreview');
+            const sizeInfo = document.getElementById('imgSizeInfo');
+            if (previewImg) previewImg.src = base64;
+            if (sizeInfo) sizeInfo.textContent = `${width} × ${height}px · ${sizeKB}KB`;
+            if (previewArea) previewArea.style.display = 'block';
+            if (altRow) altRow.style.display = 'block';
+
+            // 启用插入按钮
+            if (insertBtn) { insertBtn.disabled = false; insertBtn.style.opacity = '1'; }
+
+            // 检查 HTML 大小
+            checkImageSize();
+
+        } catch (err) {
+            errorEl.textContent = '图片处理失败: ' + err.message;
+            errorEl.style.display = 'block';
+        }
+    }
+
+    // 压缩图片：缩放 + 质量 + 转 Base64
+    function compressImage(file, maxWidth, maxSizeBytes) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onerror = () => reject(new Error('文件读取失败'));
+            reader.onload = (e) => {
+                const img = new Image();
+                img.onerror = () => reject(new Error('图片解析失败'));
+                img.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+
+                    let w = img.width;
+                    let h = img.height;
+
+                    // 缩放到 maxWidth
+                    if (w > maxWidth) {
+                        h = Math.round(h * maxWidth / w);
+                        w = maxWidth;
+                    }
+
+                    canvas.width = w;
+                    canvas.height = h;
+
+                    // 绘制
+                    ctx.drawImage(img, 0, 0, w, h);
+
+                    // 转为 Base64，逐步降低质量直到满足大小限制
+                    let quality = 0.85;
+                    const mimeType = file.type === 'image/png' ? 'image/png' : 'image/jpeg';
+                    let base64;
+
+                    // PNG 不可调质量，直接输出
+                    if (mimeType === 'image/png') {
+                        base64 = canvas.toDataURL('image/png');
+                        // 如果 PNG 太大，转 JPEG
+                        if (base64.length * 3 / 4 > maxSizeBytes) {
+                            base64 = canvas.toDataURL('image/jpeg', quality);
+                        }
+                    } else {
+                        base64 = canvas.toDataURL('image/jpeg', quality);
+                        // 逐步降质量
+                        while (base64.length * 3 / 4 > maxSizeBytes && quality > 0.3) {
+                            quality -= 0.1;
+                            base64 = canvas.toDataURL('image/jpeg', Math.max(quality, 0.1));
+                        }
+                    }
+
+                    resolve({ base64, width: w, height: h });
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+
+    // 确认插入图片到 textarea
+    function confirmInsertImage() {
+        const modal = document.getElementById('insertImageModal');
+        if (!modal || !modal._processedBase64) return;
+
+        const alt = document.getElementById('imgAltText')?.value?.trim() || 'DAO Essence';
+        const width = modal._processedWidth;
+
+        const imgTag = `\n<img src="${modal._processedBase64}" alt="${alt}" style="max-width:600px;width:100%;height:auto;border-radius:8px;display:block;margin:15px auto;">\n`;
+
+        const textarea = document.getElementById('emailContent');
+        if (!textarea) return;
+
+        // 在光标位置插入
+        const start = textarea.selectionStart;
+        const end = textarea.selectionEnd;
+        const value = textarea.value;
+        textarea.value = value.substring(0, start) + imgTag + value.substring(end);
+        textarea.selectionStart = textarea.selectionEnd = start + imgTag.length;
+
+        // 移除弹窗
+        modal.remove();
+
+        // 更新图片状态
+        checkImageSize();
+    }
+
+    // 检查邮件中图片总大小
+    function checkImageSize() {
+        const content = document.getElementById('emailContent')?.value || '';
+        const statusEl = document.getElementById('imageStatus');
+        if (!statusEl) return;
+
+        // 匹配所有 base64 图片
+        const base64Matches = content.match(/src="data:image\/[^;]+;base64,[A-Za-z0-9+/=]+"/g) || [];
+        let totalBytes = 0;
+        base64Matches.forEach(match => {
+            const b64 = match.match(/base64,([A-Za-z0-9+/=]+)/);
+            if (b64) totalBytes += b64[1].length * 3 / 4;
+        });
+
+        if (base64Matches.length === 0) {
+            statusEl.style.display = 'none';
+        } else {
+            const totalKB = Math.round(totalBytes / 1024);
+            const color = totalKB > 200 ? '#ef5350' : '#d4af37';
+            const warning = totalKB > 200 ? ' ⚠️ 接近 Gmail 裁剪限制（102KB HTML）' : '';
+            statusEl.style.display = 'block';
+            statusEl.style.color = color;
+            statusEl.textContent = `🖼 已插入 ${base64Matches.length} 张图片，Base64 总大小约 ${totalKB}KB${warning}`;
+        }
     }
 
     // 当前模板变量值（模板自定义变量，如 title/description 等）
@@ -704,6 +1023,12 @@
         toggleSelect,
         selectAll,
         deselectAll,
+        showAddSubscriber,
+        addSubscriber,
+        insertImage,
+        handleImageFile,
+        confirmInsertImage,
+        checkImageSize,
         loadTemplate,
         onVarChange,
         syncTemplateVarsFromInputs,

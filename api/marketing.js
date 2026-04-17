@@ -161,9 +161,59 @@ export default async function handler(req, res) {
     if (req.method === 'GET') {
         return handleGetSubscribers(req, res);
     } else if (req.method === 'POST') {
+        // 检查是否是添加订阅者请求
+        if (req.body?.addSubscriber) {
+            return handleAddSubscriber(req, res);
+        }
         return handleSendMarketing(req, res);
     } else {
         return res.status(405).json({ error: 'Method not allowed' });
+    }
+}
+
+// ==================== POST: 添加订阅者 ====================
+
+async function handleAddSubscriber(req, res) {
+    try {
+        const { name, email } = req.body.addSubscriber;
+
+        if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            return res.status(400).json({ error: '邮箱格式无效' });
+        }
+
+        // 获取现有手动订阅者列表
+        const existing = await redisGet('manual_subscribers') || [];
+        const normalizedEmail = email.toLowerCase().trim();
+
+        // 检查是否已存在
+        const alreadyExists = existing.some(s => s.email && s.email.toLowerCase().trim() === normalizedEmail);
+        if (alreadyExists) {
+            return res.status(409).json({ error: '该邮箱已在订阅列表中' });
+        }
+
+        // 添加新订阅者
+        existing.push({
+            email: normalizedEmail,
+            name: (name || '').trim(),
+            source: 'manual',
+            sourceLabel: '手动添加',
+            date: new Date().toISOString()
+        });
+
+        await redisSet('manual_subscribers', existing);
+        console.log(`✅ 手动添加订阅者: ${normalizedEmail}`);
+
+        return res.status(200).json({
+            success: true,
+            message: `已添加订阅者: ${normalizedEmail}`
+        });
+
+    } catch (error) {
+        console.error('❌ 添加订阅者失败:', error);
+        return res.status(500).json({
+            error: '添加订阅者失败',
+            detail: error.message
+        });
     }
 }
 
