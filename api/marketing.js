@@ -116,8 +116,10 @@ async function sendBulkMail(recipients, options, renderFn, onProgress) {
             if (onProgress) onProgress(i + 1, recipients.length, r.email, 'sent');
         } catch (err) {
             failed++;
-            errors.push({ email: r.email, error: err.message });
-            if (onProgress) onProgress(i + 1, recipients.length, r.email, `failed: ${err.message}`);
+            const errMsg = err.message || err.code || JSON.stringify(err);
+            errors.push({ email: r.email, error: errMsg, fullError: err.toString() });
+            console.error(`❌ 发送失败 ${r.email}:`, err);
+            if (onProgress) onProgress(i + 1, recipients.length, r.email, `failed: ${errMsg}`);
         }
     }
 
