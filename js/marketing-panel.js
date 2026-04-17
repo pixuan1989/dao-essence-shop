@@ -418,6 +418,17 @@
         templateVars[varName] = value;
     }
 
+    // 从模板变量输入框同步到 templateVars 对象
+    function syncTemplateVarsFromInputs() {
+        const inputs = document.querySelectorAll('.tpl-var-input');
+        inputs.forEach(input => {
+            const varName = input.dataset.var;
+            if (varName && input.value) {
+                templateVars[varName] = input.value;
+            }
+        });
+    }
+
     // 用模板变量替换内容中的占位符
     function applyTemplateVars(content) {
         let result = content;
@@ -436,7 +447,8 @@
         if (!contentEl || !previewEl) return;
 
         if (previewEl.style.display === 'none') {
-            // 用第一个选中收件人的信息 + 模板变量渲染预览
+            // 同步模板变量输入框的值 + 用第一个选中收件人的信息渲染预览
+            syncTemplateVarsFromInputs();
             let previewHtml = applyTemplateVars(contentEl.value);
             let previewSubject = applyTemplateVars(document.getElementById('emailSubject')?.value || '');
             const firstSub = subscribers.find(s => selectedEmails.has(s.email)) || { name: '张三', email: 'test@example.com' };
@@ -484,9 +496,22 @@
             return;
         }
 
-        // 替换模板变量
+        // 同步模板变量输入框的值 + 替换模板变量
+        syncTemplateVarsFromInputs();
         subject = applyTemplateVars(subject);
         htmlContent = applyTemplateVars(htmlContent);
+
+        // 检查是否还有未替换的模板变量
+        const unreplaced = (htmlContent + ' ' + subject).match(/\{\{(?!name|email)\w+\}\}/g);
+        if (unreplaced && unreplaced.length > 0) {
+            const unique = [...new Set(unreplaced)];
+            const proceed = confirm(
+                `⚠️ 检测到 ${unique.length} 个未替换的模板变量：\n${unique.join(', ')}\n\n` +
+                `建议先在「填写模板变量」区域填写这些值。\n\n` +
+                `是否仍然发送？（未替换的变量会原样显示在邮件中）`
+            );
+            if (!proceed) return;
+        }
 
         try {
             const res = await fetch('/api/marketing', {
@@ -548,9 +573,22 @@
 
         if (!subject || !htmlContent) return;
 
-        // 替换模板变量
+        // 同步模板变量输入框的值 + 替换模板变量
+        syncTemplateVarsFromInputs();
         subject = applyTemplateVars(subject);
         htmlContent = applyTemplateVars(htmlContent);
+
+        // 检查是否还有未替换的模板变量（name/email 除外，它们由后端替换）
+        const unreplaced = (htmlContent + ' ' + subject).match(/\{\{(?!name|email)\w+\}\}/g);
+        if (unreplaced && unreplaced.length > 0) {
+            const unique = [...new Set(unreplaced)];
+            const proceed = confirm(
+                `⚠️ 检测到 ${unique.length} 个未替换的模板变量：\n${unique.join(', ')}\n\n` +
+                `建议先在「填写模板变量」区域填写这些值。\n\n` +
+                `是否仍然发送？（未替换的变量会原样显示在邮件中）`
+            );
+            if (!proceed) return;
+        }
 
         // 构建收件人列表
         const recipients = [];
@@ -668,6 +706,7 @@
         deselectAll,
         loadTemplate,
         onVarChange,
+        syncTemplateVarsFromInputs,
         applyTemplateVars,
         togglePreview,
         sendPreview,
