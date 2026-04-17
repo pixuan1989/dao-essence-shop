@@ -1023,6 +1023,9 @@
                 if (data.truncated) {
                     msg += `\n⚠️ 收件人超过50人，仅发送了前50封。分批发送功能开发中。`;
                 }
+                if (data.errors && data.errors.length > 0) {
+                    msg += `\n\n❌ 失败详情:\n${data.errors.map(e => `${e.email}: ${e.error}`).join('\n')}`;
+                }
                 alert(msg);
             } else {
                 alert(`发送失败: ${data.error}`);
