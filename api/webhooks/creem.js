@@ -23,7 +23,7 @@
  * }
  */
 
-import { getRedis, redisGet, redisSet } from '../redis.js';
+import { getRedis, redisGet, redisSet } from '../../shared/redis.js';
 
 /**
  * Vercel Function 主处理函数

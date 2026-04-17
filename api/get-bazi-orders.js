@@ -5,7 +5,7 @@
  * ============================================
  */
 
-import { redisGet, redisSet } from './redis.js';
+import { redisGet, redisSet } from '../shared/redis.js';
 
 export default async function handler(req, res) {
     if (req.method !== 'GET') {

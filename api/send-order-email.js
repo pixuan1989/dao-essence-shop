@@ -5,23 +5,78 @@
  * ============================================
  */
 
-const Core = require('@alicloud/pop-core');
+import crypto from 'crypto';
 
-// 创建阿里云客户端
-function createClient() {
+// ==================== 阿里云邮件推送签名 ====================
+
+function getAliyunSign(params, secret) {
+    const sortedKeys = Object.keys(params).sort();
+    const canonicalized = sortedKeys
+        .map(k => percentEncode(k) + '=' + percentEncode(params[k]))
+        .join('&');
+    const stringToSign = 'POST&' + percentEncode('/') + '&' + percentEncode(canonicalized);
+    return crypto
+        .createHmac('sha1', secret + '&')
+        .update(stringToSign)
+        .digest('base64');
+}
+
+function percentEncode(str) {
+    return encodeURIComponent(String(str))
+        .replace(/!/g, '%21')
+        .replace(/'/g, '%27')
+        .replace(/\(/g, '%28')
+        .replace(/\)/g, '%29')
+        .replace(/\*/g, '%2A')
+        .replace(/~/g, '%7E');
+}
+
+// 发送单封邮件（原生 fetch，不依赖 @alicloud/pop-core）
+async function sendMail({ to, subject, htmlBody, textBody, fromAlias, tagName, replyToAddress }) {
     const accessKeyId = process.env.ALIYUN_ACCESS_KEY;
     const accessKeySecret = process.env.ALIYUN_ACCESS_SECRET;
+    const account = process.env.ALIYUN_EMAIL_ACCOUNT;
 
-    if (!accessKeyId || !accessKeySecret) {
-        throw new Error('阿里云配置缺失：ALIYUN_ACCESS_KEY 和 ALIYUN_ACCESS_SECRET 必须在环境变量中设置');
+    if (!accessKeyId || !accessKeySecret || !account) {
+        throw new Error('阿里云配置缺失（ALIYUN_ACCESS_KEY/ALIYUN_ACCESS_SECRET/ALIYUN_EMAIL_ACCOUNT）');
     }
 
-    return new Core({
-        accessKeyId: accessKeyId,
-        accessKeySecret: accessKeySecret,
-        endpoint: 'https://dm.aliyuncs.com',
-        apiVersion: '2015-11-23'
+    const params = {
+        Action: 'SingleSendMail',
+        AccountName: account,
+        AddressType: 1,
+        Format: 'JSON',
+        Version: '2015-11-23',
+        AccessKeyId: accessKeyId,
+        SignatureMethod: 'HMAC-SHA1',
+        SignatureVersion: '1.0',
+        SignatureNonce: crypto.randomUUID(),
+        Timestamp: new Date().toISOString().replace(/\.\d{3}Z$/, 'Z'),
+        ToAddress: to,
+        Subject: subject,
+        HtmlBody: htmlBody,
+        FromAlias: fromAlias || 'DAO Essence',
+        ReplyToAddress: replyToAddress !== false,
+    };
+
+    if (textBody) params.TextBody = textBody;
+    if (tagName) params.TagName = tagName;
+
+    params.Signature = getAliyunSign(params, accessKeySecret);
+
+    const response = await fetch('https://dm.aliyuncs.com/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: Object.entries(params)
+            .map(([k, v]) => `${percentEncode(k)}=${percentEncode(v)}`)
+            .join('&')
     });
+
+    const result = await response.json();
+    if (result.Code) {
+        throw new Error(`阿里云邮件API错误: ${result.Code} - ${result.Message}`);
+    }
+    return result;
 }
 
 // 格式化商品列表（邮件 HTML）
@@ -40,7 +95,7 @@ function formatItemsHtml(items) {
 }
 
 // 发送买家确认邮件
-async function sendBuyerConfirmationEmail(client, orderData) {
+async function sendBuyerConfirmationEmail(orderData) {
     const {
         customerEmail,
         customerName,
@@ -73,16 +128,12 @@ async function sendBuyerConfirmationEmail(client, orderData) {
         </table>`
         : '';
 
-    const params = {
-            Action: 'SingleSendMail',
-            AccountName: process.env.ALIYUN_EMAIL_ACCOUNT,
-            FromAlias: 'DAO Essence',
-            AddressType: 1,
-            TagName: 'order',
-            ReplyToAddress: true,
-            ToAddress: customerEmail,
-            Subject: `✅ 订单确认 - DAO Essence | Order #${orderId}`,
-            HtmlBody: `
+    return sendMail({
+        to: customerEmail,
+        subject: `✅ 订单确认 - DAO Essence | Order #${orderId}`,
+        tagName: 'order',
+        replyToAddress: true,
+        htmlBody: `
 <!DOCTYPE html>
 <html>
 <head>
@@ -188,15 +239,11 @@ async function sendBuyerConfirmationEmail(client, orderData) {
     </div>
 </body>
 </html>
-        `
-    };
-
-    await client.request('SingleSendMail', params);
-    console.log(`✅ 买家确认邮件已发送至: ${customerEmail}`);
+    `});
 }
 
 // 发送商家新订单通知邮件
-async function sendMerchantNotificationEmail(client, orderData) {
+async function sendMerchantNotificationEmail(orderData) {
     const merchantEmail = process.env.MERCHANT_EMAIL || process.env.ALIYUN_EMAIL_ACCOUNT;
 
     if (!merchantEmail) {
@@ -221,16 +268,13 @@ async function sendMerchantNotificationEmail(client, orderData) {
 
     const itemsHtml = formatItemsHtml(items);
 
-    const params = {
-        Action: 'SingleSendMail',
-        AccountName: process.env.ALIYUN_EMAIL_ACCOUNT,
-        FromAlias: 'DAO Essence 订单系统',
-        AddressType: 1,
-        TagName: 'merchant',
-        ReplyToAddress: true,
-        ToAddress: merchantEmail,
-        Subject: `🛍️ 新订单到账！$${parseFloat(amount || 0).toFixed(2)} - Order #${orderId}`,
-        HtmlBody: `
+    return sendMail({
+        to: merchantEmail,
+        subject: `🛍️ 新订单到账！$${parseFloat(amount || 0).toFixed(2)} - Order #${orderId}`,
+        tagName: 'merchant',
+        fromAlias: 'DAO Essence 订单系统',
+        replyToAddress: true,
+        htmlBody: `
 <!DOCTYPE html>
 <html>
 <head><meta charset="UTF-8"></head>
@@ -306,15 +350,11 @@ async function sendMerchantNotificationEmail(client, orderData) {
     </div>
 </body>
 </html>
-        `
-    };
-
-    await client.request('SingleSendMail', params);
-    console.log(`✅ 商家通知邮件已发送至: ${merchantEmail}`);
+    `});
 }
 
 // 发送发货通知邮件
-async function sendShippingNotificationEmail(client, orderData) {
+async function sendShippingNotificationEmail(orderData) {
     const { customerEmail, customerName, orderId, trackingNumber, shippingCompany, items } = orderData;
 
     if (!customerEmail) {
@@ -330,16 +370,13 @@ async function sendShippingNotificationEmail(client, orderData) {
     const itemsHtml = formatItemsHtml(items);
     const trackingUrl = getTrackingUrl(shippingCompany, trackingNumber);
 
-    const params = {
-        Action: 'SingleSendMail',
-        AccountName: process.env.ALIYUN_EMAIL_ACCOUNT,
-        FromAlias: 'DAO Essence 物流通知',
-        AddressType: 1,
-        TagName: 'shipping',
-        ReplyToAddress: true,
-        ToAddress: customerEmail,
-        Subject: `📦 您的订单已发货 - DAO Essence | Order #${orderId}`,
-        HtmlBody: `
+    return sendMail({
+        to: customerEmail,
+        subject: `📦 您的订单已发货 - DAO Essence | Order #${orderId}`,
+        tagName: 'shipping',
+        fromAlias: 'DAO Essence 物流通知',
+        replyToAddress: true,
+        htmlBody: `
 <!DOCTYPE html>
 <html>
 <head>
@@ -439,12 +476,10 @@ async function sendShippingNotificationEmail(client, orderData) {
     </div>
 </body>
 </html>
-        `
-    };
-
-    await client.request('SingleSendMail', params);
-    console.log(`✅ 发货通知邮件已发送至: ${customerEmail}`);
+    `});
 }
+
+
 
 // 获取物流查询URL
 function getTrackingUrl(shippingCompany, trackingNumber) {
@@ -471,22 +506,14 @@ export default async function handler(req, res) {
 
         console.log('📧 开始发送邮件，订单号:', orderData.orderId);
 
-        // 创建阿里云客户端
-        const client = createClient();
-
-        let results;
-        
         // 根据邮件类型发送不同的邮件
         if (orderData.emailType === 'shipping') {
             // 发送发货通知邮件
-            const shippingResult = await sendShippingNotificationEmail(client, orderData);
-            results = [shippingResult];
+            await sendShippingNotificationEmail(orderData);
         } else {
-                // 发送商家通知邮件（买家邮件由 Creem 自动发送）
-                results = await Promise.allSettled([
-                    sendMerchantNotificationEmail(client, orderData)
-                ]);
-            }
+            // 发送商家通知邮件（买家邮件由 Creem 自动发送）
+            await sendMerchantNotificationEmail(orderData);
+        }
 
         const response = {
             success: true
@@ -496,8 +523,7 @@ export default async function handler(req, res) {
         if (orderData.emailType === 'shipping') {
             response.shipping = 'sent';
         } else {
-            const merchantResult = results[0];
-            response.merchant = merchantResult.status === 'fulfilled' ? 'sent' : `failed: ${merchantResult.reason?.message}`;
+            response.merchant = 'sent';
         }
 
         console.log('📧 邮件发送结果:', response);
