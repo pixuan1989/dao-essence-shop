@@ -531,9 +531,14 @@
         }
         .email-form {
             display: flex;
+            flex-direction: column;
             gap: 0.6rem;
             max-width: 420px;
             margin: 0 auto 0.8rem;
+        }
+        .email-form-row {
+            display: flex;
+            gap: 0.6rem;
         }
         .email-form input {
             flex: 1;
@@ -634,7 +639,7 @@
             .birth-form { padding: 1.2rem; }
             .pillars-row { gap: 0.4rem; }
             .pillar-card-chars { font-size: 1.1rem; }
-            .email-form { flex-direction: column; }
+            .email-form-row { flex-direction: column; }
             .wx-icons { gap: 1rem; }
             .cta-links { flex-direction: column; align-items: center; }
         }
@@ -739,24 +744,37 @@
 
         <div id="resultContent"></div>
 
-        <!-- Email CTA -->
+        <!-- Share / Social proof before email -->
+        <div style="text-align:center; margin: 2rem 0 0.5rem;">
+            <p style="color:var(--text-muted); font-size:0.82rem;">Enjoyed this? Share your element with friends.</p>
+            <div style="display:flex; justify-content:center; gap:0.8rem; margin-top:0.8rem;">
+                <button onclick="shareResult('twitter')" style="background:none; border:1px solid var(--border); border-radius:8px; color:var(--text-secondary); padding:0.5rem 1rem; cursor:pointer; font-size:0.82rem;">𝕏 Twitter</button>
+                <button onclick="copyResultLink()" style="background:none; border:1px solid var(--border); border-radius:8px; color:var(--text-secondary); padding:0.5rem 1rem; cursor:pointer; font-size:0.82rem;">📋 Copy Link</button>
+            </div>
+        </div>
+
+        <!-- CTA links -->
+        <div class="cta-links">
+            <a href="/bazi-form" class="cta-link">查看完整八字排盘 →</a>
+            <a href="/blog/bazi-astrology" class="cta-link">Read More Articles</a>
+        </div>
+
+        <!-- Email CTA (positioned after all results, as a "next step") -->
         <div class="email-cta" id="emailCta">
-            <h3>Unlock Your Full Report</h3>
-            <p>Get a personalized deep-dive into your Five Elements profile — career paths, relationship patterns, and health insights delivered to your inbox.</p>
+            <h3>🎁 Get Your Free Deep-Dive Report</h3>
+            <p>We'll send you a personalized Five Elements profile — career paths, relationship patterns, health insights, and actionable advice based on your unique element mix.</p>
             <div class="email-form" id="emailForm">
-                <input type="email" id="emailInput" placeholder="Your email address" autocomplete="email">
-                <button onclick="submitEmail()">Get Free Report</button>
+                <div class="email-form-row">
+                    <input type="text" id="nameInput" placeholder="Your first name" autocomplete="given-name" style="flex:0.8;">
+                    <input type="email" id="emailInput" placeholder="Your email address" autocomplete="email">
+                </div>
+                <button onclick="submitEmail()">Send My Free Report</button>
             </div>
             <p class="email-privacy">We respect your privacy. Unsubscribe anytime. No spam, ever.</p>
             <div class="email-success" id="emailSuccess">
                 <div class="check">✓</div>
                 <p>Check your inbox for the full report!</p>
             </div>
-        </div>
-
-        <div class="cta-links">
-            <a href="/bazi-form" class="cta-link">查看完整八字排盘 →</a>
-            <a href="/blog/bazi-astrology" class="cta-link">Read More Articles</a>
         </div>
     </div>
 
@@ -1193,6 +1211,7 @@
 
     // ===== EMAIL SUBMISSION =====
     window.submitEmail = function() {
+        var name = document.getElementById('nameInput').value.trim();
         var email = document.getElementById('emailInput').value.trim();
         var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -1201,6 +1220,7 @@
             return;
         }
         document.getElementById('emailInput').style.borderColor = '';
+        document.getElementById('nameInput').style.borderColor = '';
 
         var wxResult = { dominant: '', wood: 0, fire: 0, earth: 0, metal: 0, water: 0 };
         try {
@@ -1210,6 +1230,7 @@
         } catch(e) {}
 
         var payload = {
+            name: name || '',
             email: email,
             birth_year: birthData.year,
             birth_month: birthData.month,
@@ -1236,6 +1257,30 @@
             document.getElementById('emailForm').style.display = 'none';
             document.querySelector('.email-privacy').style.display = 'none';
             document.getElementById('emailSuccess').classList.add('show');
+        });
+    };
+
+    // ===== SHARE =====
+    window.shareResult = function(platform) {
+        var result = {};
+        try { result = calculateFiveElements(); } catch(e) {}
+        var interp = INTERPRETATIONS[result.dominant || 'wood'];
+        var text = 'My dominant Five Element is ' + interp.name + ' (' + interp.tagline + ')! Take the test:';
+        var url = window.location.href;
+        if (platform === 'twitter') {
+            window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(text) + '&url=' + encodeURIComponent(url), '_blank');
+        } else if (platform === 'facebook') {
+            window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url), '_blank');
+        }
+    };
+
+    window.copyResultLink = function() {
+        var url = window.location.href;
+        navigator.clipboard.writeText(url).then(function() {
+            var btn = event.target;
+            var orig = btn.textContent;
+            btn.textContent = '✓ Copied!';
+            setTimeout(function() { btn.textContent = orig; }, 2000);
         });
     };
 

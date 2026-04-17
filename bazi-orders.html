@@ -890,20 +890,38 @@
         }
 
         function renderQuizRow(lead) {
+            var wxResult = lead.wuxingResult || {};
+            var dominant = wxResult.dominant || '-';
+            var birthInfo = (lead.birthYear && lead.birthMonth && lead.birthDay) 
+                ? (lead.birthYear + '-' + String(lead.birthMonth).padStart(2,'0') + '-' + String(lead.birthDay).padStart(2,'0')) 
+                : '-';
+            var genderText = lead.gender === 'male' ? '男' : lead.gender === 'female' ? '女' : '-';
+            
+            // Five elements counts
+            var wxCounts = [];
+            if (wxResult.wood) wxCounts.push('木' + wxResult.wood);
+            if (wxResult.fire) wxCounts.push('火' + wxResult.fire);
+            if (wxResult.earth) wxCounts.push('土' + wxResult.earth);
+            if (wxResult.metal) wxCounts.push('金' + wxResult.metal);
+            if (wxResult.water) wxCounts.push('水' + wxResult.water);
+            var wxCountsStr = wxCounts.length ? wxCounts.join(' ') : '-';
+            
             return `
                 <tr>
                     <td>
                         <strong style="color: #64b5f6;">Quiz-${lead.id?.slice(-8) || 'N/A'}</strong>
                     </td>
                     <td>
-                        <strong>${lead.name || lead.email?.split('@')[0] || '匿名'}</strong>
+                        <strong>${lead.name || (lead.email ? lead.email.split('@')[0] : '匿名')}</strong>
                         <br>
                         <a href="mailto:${lead.email}" class="email-link">${lead.email || '无邮箱'}</a>
                     </td>
                     <td>
                         <div class="bazi-info">
-                            <span><strong>结果:</strong> ${lead.elementResult || lead.element || '-'}</span>
-                            <span><strong>生日:</strong> ${lead.birthDate || '-'}</span>
+                            <span><strong>主元素:</strong> ${dominant}</span>
+                            <span><strong>五行:</strong> ${wxCountsStr}</span>
+                            <span><strong>生日:</strong> ${birthInfo}</span>
+                            <span><strong>性别:</strong> ${genderText}</span>
                         </div>
                     </td>
                     <td>
@@ -916,7 +934,7 @@
                         <span class="status-badge" style="background: rgba(100,181,246,0.15); color: #64b5f6;">已留资</span>
                     </td>
                     <td>
-                        ${formatDate(lead.createdAt || lead.collectedAt)}
+                        ${formatDate(lead.createdAt)}
                     </td>
                     <td>
                         <button class="btn btn-primary" onclick="viewQuizLead('${lead.id}')">查看</button>
@@ -1050,6 +1068,19 @@
             const lead = orders.find(o => o.type === 'wuxing_quiz' && o.id === leadId);
             if (!lead) return;
 
+            var wxResult = lead.wuxingResult || {};
+            var dominant = wxResult.dominant || '-';
+            var birthInfo = (lead.birthYear && lead.birthMonth && lead.birthDay) 
+                ? (lead.birthYear + '-' + String(lead.birthMonth).padStart(2,'0') + '-' + String(lead.birthDay).padStart(2,'0') + (lead.birthHour && lead.birthHour !== '-1' ? ' ' + lead.birthHour + ':00' : ''))
+                : 'N/A';
+            var genderText = lead.gender === 'male' ? '男' : lead.gender === 'female' ? '女' : 'N/A';
+            
+            // Quiz answers summary
+            var quizAnswers = lead.quizAnswers || {};
+            var quizSummary = Object.keys(quizAnswers).length > 0 
+                ? Object.keys(quizAnswers).sort().map(k => 'Q' + (parseInt(k)+1) + ': Option ' + ['A','B','C','D','E'][quizAnswers[k]]).join(', ')
+                : 'N/A';
+
             const modalBody = document.getElementById('modalBody');
             modalBody.innerHTML = `
                 <div class="detail-row">
@@ -1065,16 +1096,30 @@
                     <span class="detail-value"><a href="mailto:${lead.email}" class="email-link">${lead.email || 'N/A'}</a></span>
                 </div>
                 <div class="detail-row">
-                    <span class="detail-label">五行结果</span>
-                    <span class="detail-value">${lead.elementResult || lead.element || 'N/A'}</span>
+                    <span class="detail-label">主元素</span>
+                    <span class="detail-value" style="color: #d4af37;">${dominant}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">五行分布</span>
+                    <span class="detail-value">
+                        木 ${wxResult.wood || 0} · 火 ${wxResult.fire || 0} · 土 ${wxResult.earth || 0} · 金 ${wxResult.metal || 0} · 水 ${wxResult.water || 0}
+                    </span>
                 </div>
                 <div class="detail-row">
                     <span class="detail-label">生日</span>
-                    <span class="detail-value">${lead.birthDate || 'N/A'}</span>
+                    <span class="detail-value">${birthInfo}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">性别</span>
+                    <span class="detail-value">${genderText}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">答题记录</span>
+                    <span class="detail-value" style="font-size:0.85rem;">${quizSummary}</span>
                 </div>
                 <div class="detail-row">
                     <span class="detail-label">收集时间</span>
-                    <span class="detail-value">${formatDateTime(lead.createdAt || lead.collectedAt)}</span>
+                    <span class="detail-value">${formatDateTime(lead.createdAt)}</span>
                 </div>
             `;
 
