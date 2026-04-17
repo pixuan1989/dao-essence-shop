@@ -54,7 +54,7 @@ function getSmtpTransporter() {
     return _smtpTransporter;
 }
 
-async function sendSingleMail({ to, subject, htmlBody, textBody, fromAlias }) {
+async function sendSingleMail({ to, subject, htmlBody, textBody, fromAlias, images }) {
     const transporter = getSmtpTransporter();
     const account = process.env.ALIYUN_EMAIL_ACCOUNT;
 
@@ -63,11 +63,17 @@ async function sendSingleMail({ to, subject, htmlBody, textBody, fromAlias }) {
         to: to,
         subject: subject,
         html: htmlBody,
-        text: textBody || htmlBody.replace(/<[^>]*>/g, '')
+        text: textBody || htmlBody.replace(/<[^>]*>/g, ''),
+        attachments: (images || []).map(img => ({
+            filename: img.filename,
+            content: img.content,
+            encoding: img.encoding || 'base64',
+            cid: `<${img.cid}>`  // nodemailer CID 引用
+        }))
     };
 
     const result = await transporter.sendMail(mailOptions);
-    console.log(`✅ 邮件发送成功: ${to} ( messageId: ${result.messageId} )`);
+    console.log(`✅ 邮件发送成功: ${to} ( messageId: ${result.messageId}, 附件: ${(images||[]).length}张 )`);
     return result;
 }
 
@@ -110,7 +116,8 @@ async function sendBulkMail(recipients, options, renderFn, onProgress) {
                 subject: rendered.subject,
                 htmlBody: rendered.htmlBody,
                 textBody: rendered.textBody,
-                fromAlias: options.fromAlias
+                fromAlias: options.fromAlias,
+                images: options.images
             });
             sent++;
             if (onProgress) onProgress(i + 1, recipients.length, r.email, 'sent');
@@ -332,7 +339,8 @@ async function handleSendMarketing(req, res) {
             title,
             fromAlias,
             replyTo = true,
-            previewEmail
+            previewEmail,
+            images
         } = req.body;
 
         if (!subject || !subject.trim()) {
@@ -349,7 +357,8 @@ async function handleSendMarketing(req, res) {
                 to: previewEmail,
                 subject: `[Preview] ${subject}`,
                 htmlBody: fullHtml,
-                fromAlias: fromAlias || 'DAO Essence'
+                fromAlias: fromAlias || 'DAO Essence',
+                images
             });
 
             return res.status(200).json({
@@ -397,7 +406,8 @@ async function handleSendMarketing(req, res) {
         const results = await sendBulkMail(
             toSend,
             {
-                fromAlias: fromAlias || 'DAO Essence'
+                fromAlias: fromAlias || 'DAO Essence',
+                images
             },
             renderFn,
             (index, total, email, status) => {

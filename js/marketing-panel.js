@@ -801,6 +801,28 @@
         return result;
     }
 
+    // ========== 提取 Base64 图片并转为 CID 引用 ==========
+    function extractBase64Images(htmlContent) {
+        const images = [];
+        let cidHtml = htmlContent;
+        let imgIndex = 0;
+
+        // 匹配 data:image/xxx;base64,... 模式
+        cidHtml = cidHtml.replace(/src="(data:image\/(jpeg|jpg|png|gif);base64,([^"]+))"/gi, (match, fullSrc, mime, b64) => {
+            const cid = `img_${imgIndex}`;
+            images.push({
+                filename: `image_${imgIndex}.${mime === 'jpeg' || mime === 'jpg' ? 'jpg' : mime === 'png' ? 'png' : 'gif'}`,
+                content: b64,
+                encoding: 'base64',
+                cid: cid
+            });
+            imgIndex++;
+            return `src="cid:${cid}"`;
+        });
+
+        return { htmlContent: cidHtml, images };
+    }
+
     // ========== 预览 ==========
     function togglePreview() {
         const contentEl = document.getElementById('emailContent');
@@ -881,6 +903,9 @@
             if (!proceed) return;
         }
 
+        // 提取 Base64 图片并转为 CID 引用
+        const { htmlContent: cidHtmlContent, images } = extractBase64Images(htmlContent);
+
         try {
             const res = await fetch('/api/marketing', {
                 method: 'POST',
@@ -891,8 +916,9 @@
                 body: JSON.stringify({
                     previewEmail,
                     subject,
-                    htmlContent,
-                    title: subject
+                    htmlContent: cidHtmlContent,
+                    title: subject,
+                    images: images.length > 0 ? images : undefined
                 })
             });
 
@@ -979,6 +1005,9 @@
             return;
         }
 
+        // 提取 Base64 图片并转为 CID 引用
+        const { htmlContent: cidHtmlContent, images } = extractBase64Images(htmlContent);
+
         // 禁用按钮
         if (sendBtn) {
             sendBtn.disabled = true;
@@ -996,10 +1025,11 @@
                 body: JSON.stringify({
                     recipients,
                     subject,
-                    htmlContent,
+                    htmlContent: cidHtmlContent,
                     title: subject,
                     fromAlias: 'DAO Essence',
-                    replyTo: true
+                    replyTo: true,
+                    images: images.length > 0 ? images : undefined
                 })
             });
 
