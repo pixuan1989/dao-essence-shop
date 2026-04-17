@@ -427,7 +427,7 @@
         modal.innerHTML = `
             <div style="background:#1a1a2e;border:1px solid rgba(212,175,55,0.3);border-radius:12px;padding:30px;width:440px;max-width:90vw;">
                 <h3 style="color:#d4af37;margin:0 0 6px;font-size:1.1rem;">🖼 插入图片</h3>
-                <p style="color:#888;font-size:0.78rem;margin:0 0 16px;">支持 JPG/PNG/GIF，图片会自动压缩至 600px 宽，单张 &lt;150KB</p>
+                <p style="color:#888;font-size:0.78rem;margin:0 0 16px;">支持 JPG/PNG/GIF，图片会自动压缩至 600px 宽，单张 &lt;500KB</p>
 
                 <!-- 上传区域 -->
                 <div id="imgDropZone" onclick="document.getElementById('imgFileInput').click()"
@@ -497,15 +497,15 @@
             return;
         }
 
-        // 校验文件大小（压缩前不超过 1MB）
-        if (file.size > 1024 * 1024) {
-            errorEl.textContent = '图片过大，请选择小于 1MB 的图片';
+        // 校验文件大小（压缩前不超过 2MB）
+        if (file.size > 2 * 1024 * 1024) {
+            errorEl.textContent = '图片过大，请选择小于 2MB 的图片';
             errorEl.style.display = 'block';
             return;
         }
 
         try {
-            const result = await compressImage(file, 600, 25 * 1024);
+            const result = await compressImage(file, 600, 500 * 1024);
             const base64 = result.base64;
             const width = result.width;
             const height = result.height;
@@ -565,15 +565,15 @@
                     ctx.drawImage(img, 0, 0, w, h);
 
                     // 转为 Base64，逐步降低质量直到满足大小限制
-                    let quality = 0.5;
+                    let quality = 0.85;
                     // 所有图片统一用 JPEG（比 PNG 小很多，适合照片类内容）
                     const mimeType = 'image/jpeg';
                     let base64;
                     base64 = canvas.toDataURL('image/jpeg', quality);
                     // 逐步降质量直到满足大小限制
-                    while (base64.length * 3 / 4 > maxSizeBytes && quality > 0.1) {
+                    while (base64.length * 3 / 4 > maxSizeBytes && quality > 0.3) {
                         quality -= 0.05;
-                        base64 = canvas.toDataURL('image/jpeg', Math.max(quality, 0.1));
+                        base64 = canvas.toDataURL('image/jpeg', Math.max(quality, 0.3));
                     }
 
                     resolve({ base64, width: w, height: h });
@@ -862,10 +862,10 @@
         subject = applyTemplateVars(subject);
         htmlContent = applyTemplateVars(htmlContent);
 
-        // 检查邮件 HTML 总大小（阿里云 API URL 传参限制约 80KB）
+        // 检查邮件 HTML 总大小（SMTP 限制约 15MB）
         const previewHtmlSize = new Blob([htmlContent]).size;
-        if (previewHtmlSize > 70000) {
-            alert(`邮件内容过大（${Math.round(previewHtmlSize / 1024)}KB），阿里云 API 限制约 80KB。\n请减少图片数量或使用更小的图片。`);
+        if (previewHtmlSize > 14 * 1024 * 1024) {
+            alert(`邮件内容过大（${Math.round(previewHtmlSize / 1024)}KB），SMTP 限制约 15MB。\n请减少图片数量或使用更小的图片。`);
             return;
         }
 
@@ -946,10 +946,10 @@
         subject = applyTemplateVars(subject);
         htmlContent = applyTemplateVars(htmlContent);
 
-        // 检查邮件 HTML 总大小（阿里云 API URL 传参限制约 80KB）
+        // 检查邮件 HTML 总大小（SMTP 限制约 15MB）
         const emailHtmlSize = new Blob([htmlContent]).size;
-        if (emailHtmlSize > 70000) {
-            alert(`邮件内容过大（${Math.round(emailHtmlSize / 1024)}KB），阿里云 API 限制约 80KB。\n请减少图片数量或使用更小的图片。`);
+        if (emailHtmlSize > 14 * 1024 * 1024) {
+            alert(`邮件内容过大（${Math.round(emailHtmlSize / 1024)}KB），SMTP 限制约 15MB。\n请减少图片数量或使用更小的图片。`);
             return;
         }
 
