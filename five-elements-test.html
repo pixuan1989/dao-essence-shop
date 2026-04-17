@@ -597,11 +597,11 @@
             <h1>Discover Your<br><em>Five Element</em> Personality</h1>
             <p class="hero-sub">Based on your birth date and the ancient Chinese BaZi system — find out which of the five elements shapes who you are.</p>
             <div class="wx-icons">
-                <div class="wx-icon"><div class="wx-icon-dot wood">木</div><span>Wood</span></div>
-                <div class="wx-icon"><div class="wx-icon-dot fire">火</div><span>Fire</span></div>
-                <div class="wx-icon"><div class="wx-icon-dot earth">土</div><span>Earth</span></div>
-                <div class="wx-icon"><div class="wx-icon-dot metal">金</div><span>Metal</span></div>
-                <div class="wx-icon"><div class="wx-icon-dot water">水</div><span>Water</span></div>
+                <div class="wx-icon"><div class="wx-icon-dot wood">🌲</div><span>Wood</span></div>
+                <div class="wx-icon"><div class="wx-icon-dot fire">🔥</div><span>Fire</span></div>
+                <div class="wx-icon"><div class="wx-icon-dot earth">🏔️</div><span>Earth</span></div>
+                <div class="wx-icon"><div class="wx-icon-dot metal">⚔️</div><span>Metal</span></div>
+                <div class="wx-icon"><div class="wx-icon-dot water">💧</div><span>Water</span></div>
             </div>
         </div>
 
@@ -679,26 +679,23 @@
         <div style="text-align:center; margin: 2rem 0 0.5rem;">
             <p style="color:var(--text-muted); font-size:0.82rem;">Enjoyed this? Share your element with friends.</p>
             <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:0.6rem; margin-top:0.8rem;">
-                <button onclick="shareResult('twitter')" style="background:none; border:1px solid var(--border); border-radius:8px; color:var(--text-secondary); padding:0.5rem 0.8rem; cursor:pointer; font-size:0.82rem;">𝕏 Twitter</button>
-                <button onclick="shareResult('facebook')" style="background:none; border:1px solid var(--border); border-radius:8px; color:var(--text-secondary); padding:0.5rem 0.8rem; cursor:pointer; font-size:0.82rem;">📘 Facebook</button>
-                <button onclick="shareResult('whatsapp')" style="background:none; border:1px solid var(--border); border-radius:8px; color:var(--text-secondary); padding:0.5rem 0.8rem; cursor:pointer; font-size:0.82rem;">💬 WhatsApp</button>
-                <button onclick="shareResult('telegram')" style="background:none; border:1px solid var(--border); border-radius:8px; color:var(--text-secondary); padding:0.5rem 0.8rem; cursor:pointer; font-size:0.82rem;">✈️ Telegram</button>
-                <button onclick="shareResult('reddit')" style="background:none; border:1px solid var(--border); border-radius:8px; color:var(--text-secondary); padding:0.5rem 0.8rem; cursor:pointer; font-size:0.82rem;">🤖 Reddit</button>
-                <button onclick="shareResult('pinterest')" style="background:none; border:1px solid var(--border); border-radius:8px; color:var(--text-secondary); padding:0.5rem 0.8rem; cursor:pointer; font-size:0.82rem;">📌 Pinterest</button>
-                <button onclick="copyResultLink()" style="background:none; border:1px solid var(--border); border-radius:8px; color:var(--text-secondary); padding:0.5rem 0.8rem; cursor:pointer; font-size:0.82rem;">📋 Copy Link</button>
+                <button onclick="shareResult('twitter')" style="background:none; border:1px solid var(--border); border-radius:8px; color:var(--text-secondary); padding:0.5rem 0.8rem; cursor:pointer; font-size:0.82rem;">X Twitter</button>
+                <button onclick="shareResult('facebook')" style="background:none; border:1px solid var(--border); border-radius:8px; color:var(--text-secondary); padding:0.5rem 0.8rem; cursor:pointer; font-size:0.82rem;">Facebook</button>
+                <button onclick="shareResult('whatsapp')" style="background:none; border:1px solid var(--border); border-radius:8px; color:var(--text-secondary); padding:0.5rem 0.8rem; cursor:pointer; font-size:0.82rem;">WhatsApp</button>
+                <button onclick="copyResultLink()" style="background:none; border:1px solid var(--border); border-radius:8px; color:var(--text-secondary); padding:0.5rem 0.8rem; cursor:pointer; font-size:0.82rem;">Copy Link</button>
             </div>
         </div>
 
         <!-- Email CTA (positioned after all results, as a "next step") -->
         <div class="email-cta" id="emailCta">
-            <h3>🎁 获取完整的报告</h3>
+            <h3>🎁 Get Your Full Report</h3>
             <p>We'll send you a personalized Five Elements profile — career paths, relationship patterns, health insights, and actionable advice based on your unique element mix.</p>
             <div class="email-form" id="emailForm">
                 <div class="email-form-row">
                     <input type="text" id="nameInput" placeholder="Your first name" autocomplete="given-name" style="flex:0.8;">
                     <input type="email" id="emailInput" placeholder="Your email address" autocomplete="email">
                 </div>
-                <button onclick="submitEmail()">获取完整的报告</button>
+                <button onclick="submitEmail()">Get Your Full Report</button>
             </div>
             <p class="email-privacy">We respect your privacy. Unsubscribe anytime. No spam, ever.</p>
             <div class="email-success" id="emailSuccess">
@@ -843,29 +840,6 @@
         '癸': { nature: 'Intuitive, perceptive, deep-thinking', symbol: 'Yin Water — Morning Dew', personality: 'You are morning dew — subtle yet transformative. Your intuition is your superpower. You absorb information like a sponge and process it through layers of consciousness. Your perceptive nature allows you to read between the lines of every situation.', career: 'Psychology, research, art, writing, healing arts, spirituality, data science', relationships: 'Emotionally deep and intuitive. You understand unspoken needs and create profound connections.' }
     };
 
-    // ===== COMPACT TEN GODS ENGINE =====
-    var TG_INDEX_EN = ['Friend','Rob Wealth','Eating God','Hurting Officer','Unconv. Wealth','Direct Wealth','Seven Killings','Direct Officer','Indirect Resource','Direct Resource'];
-    var DGS_TABLE = [
-        [2,3,1,0,9,8,7,6,5,4],[3,2,0,1,8,9,6,7,4,5],
-        [5,4,2,3,1,0,9,8,7,6],[4,5,3,2,0,1,8,9,6,7],
-        [7,6,5,4,2,3,1,0,9,8],[6,7,4,5,3,2,0,1,8,9],
-        [9,8,7,6,5,4,2,3,1,0],[8,9,6,7,4,5,3,2,0,1],
-        [1,0,9,8,7,6,5,4,2,3],[0,1,8,9,6,7,4,5,3,2]
-    ];
-    var STEM_WX_MAP = [2,2,3,3,4,4,0,0,1,1];
-    var TG_LABELS = {
-        'Friend': { career: 'Independent work, partnerships', life: 'Self-reliance, competition' },
-        'Rob Wealth': { career: 'Competitive fields, sales', life: 'Bold action, volatility' },
-        'Eating God': { career: 'Creative arts, teaching, food', life: 'Enjoyment, talent, comfort' },
-        'Hurting Officer': { career: 'Innovation, tech, entertainment', life: 'Rebellion, brilliance' },
-        'Unconv. Wealth': { career: 'Investment, business ventures', life: 'Generosity, social luck' },
-        'Direct Wealth': { career: 'Stable employment, finance', life: 'Prudence, steady rewards' },
-        'Seven Killings': { career: 'Military, law, crisis mgmt', life: 'Pressure, authority, power' },
-        'Direct Officer': { career: 'Government, management', life: 'Discipline, responsibility' },
-        'Indirect Resource': { career: 'Research, niche expertise', life: 'Solitude, intuition' },
-        'Direct Resource': { career: 'Education, scholarship, culture', life: 'Learning, wisdom, patience' }
-    };
-
     // ===== QUIZ-BASED PERSONALITY TRAITS =====
     var QUIZ_TRAITS = {
         wood: { personality: 'Your quiz answers reveal a growth-driven pioneer. In social situations, you naturally take the lead and inspire others with your vision.', keywords: ['Pioneer', 'Leader', 'Visionary'] },
@@ -905,18 +879,18 @@
 
         var hourSel = document.getElementById('birthHour');
         var hours = [
-            { name: '23:00-01:00 (Zi 子时)', value: 23 },
-            { name: '01:00-03:00 (Chou 丑时)', value: 1 },
-            { name: '03:00-05:00 (Yin 寅时)', value: 3 },
-            { name: '05:00-07:00 (Mao 卯时)', value: 5 },
-            { name: '07:00-09:00 (Chen 辰时)', value: 7 },
-            { name: '09:00-11:00 (Si 巳时)', value: 9 },
-            { name: '11:00-13:00 (Wu 午时)', value: 11 },
-            { name: '13:00-15:00 (Wei 未时)', value: 13 },
-            { name: '15:00-17:00 (Shen 申时)', value: 15 },
-            { name: '17:00-19:00 (You 酉时)', value: 17 },
-            { name: '19:00-21:00 (Xu 戌时)', value: 19 },
-            { name: '21:00-23:00 (Hai 亥时)', value: 21 }
+            { name: '23:00 - 01:00 (Rat)', value: 23 },
+            { name: '01:00 - 03:00 (Ox)', value: 1 },
+            { name: '03:00 - 05:00 (Tiger)', value: 3 },
+            { name: '05:00 - 07:00 (Rabbit)', value: 5 },
+            { name: '07:00 - 09:00 (Dragon)', value: 7 },
+            { name: '09:00 - 11:00 (Snake)', value: 9 },
+            { name: '11:00 - 13:00 (Horse)', value: 11 },
+            { name: '13:00 - 15:00 (Goat)', value: 13 },
+            { name: '15:00 - 17:00 (Monkey)', value: 15 },
+            { name: '17:00 - 19:00 (Rooster)', value: 17 },
+            { name: '19:00 - 21:00 (Dog)', value: 19 },
+            { name: '21:00 - 23:00 (Pig)', value: 21 }
         ];
         hours.forEach(function(h) {
             var opt = document.createElement('option');
@@ -1075,29 +1049,6 @@
             });
         }
 
-        // Calculate Ten Gods from the four heavenly stems (relative to day master)
-        var dmIdx = STEMS_LIST.indexOf(stems[2]);
-        var tgCount = {};
-        for (var p = 0; p < 4; p++) {
-            if (p === 2) continue; // skip day master itself
-            var sIdx = STEMS_LIST.indexOf(stems[p]);
-            if (sIdx < 0 || dmIdx < 0) continue;
-            var tgIdx = DGS_TABLE[dmIdx][sIdx];
-            var tgName = TG_INDEX_EN[tgIdx];
-            tgCount[tgName] = (tgCount[tgName] || 0) + 1;
-        }
-        // Also count from hidden stems (bzcg) if available
-        if (rt['bzcg']) {
-            var BZCG_MAP = { '比':'Friend', '劫':'Rob Wealth', '食':'Eating God', '伤':'Hurting Officer', '财':'Unconv. Wealth', '才':'Direct Wealth', '杀':'Seven Killings', '官':'Direct Officer', '卩':'Indirect Resource', '印':'Direct Resource' };
-            for (var b = 0; b < 12; b++) {
-                var bzChar = rt['bzcg'][b];
-                if (bzChar && BZCG_MAP[bzChar]) {
-                    tgCount[BZCG_MAP[bzChar]] = (tgCount[BZCG_MAP[bzChar]] || 0) + 1;
-                }
-            }
-        }
-        var topGods = Object.keys(tgCount).sort(function(a, b) { return tgCount[b] - tgCount[a]; }).map(function(name) { return { name: name, count: tgCount[name] }; });
-
         // Quiz-based element (from answers)
         var quizWx = { wood: 0, fire: 0, earth: 0, metal: 0, water: 0 };
         for (var qIdx in quizAnswers) {
@@ -1122,8 +1073,7 @@
             dominant: dominant,
             dayMaster: stems[2],
             quizWx: quizWx,
-            quizDominant: quizDominant,
-            topGods: topGods
+            quizDominant: quizDominant
         };
     }
 
@@ -1154,28 +1104,19 @@
             html += '<div style="background:rgba(255,255,255,0.04);padding:0.6rem;border-radius:8px;"><strong style="font-size:0.8rem;color:var(--text-muted);">💼 Best Career Paths</strong><br><span style="font-size:0.9rem;">' + dmProfile.career + '</span></div>';
             html += '<div style="background:rgba(255,255,255,0.04);padding:0.6rem;border-radius:8px;"><strong style="font-size:0.8rem;color:var(--text-muted);">❤️ Relationship Style</strong><br><span style="font-size:0.9rem;">' + dmProfile.relationships + '</span></div>';
             html += '</div>';
-            // Top Ten Gods
-            if (result.topGods && result.topGods.length > 0) {
-                html += '<p style="margin-top:0.8rem;"><strong style="font-size:0.85rem;">Key Influence Patterns:</strong></p>';
-                html += '<div style="display:flex;flex-wrap:wrap;gap:0.4rem;margin-top:0.3rem;">';
-                result.topGods.slice(0, 3).forEach(function(tg) {
-                    html += '<span style="background:rgba(212,175,55,0.12);color:#d4af37;padding:0.25rem 0.6rem;border-radius:12px;font-size:0.8rem;">' + tg.name + ' — ' + (TG_LABELS[tg.name] ? TG_LABELS[tg.name].career : '') + '</span>';
-                });
-                html += '</div>';
-            }
             html += '</div>';
         }
 
         // Five Elements Distribution
         // Five Elements bars
         var total = wxCount.wood + wxCount.fire + wxCount.earth + wxCount.metal + wxCount.water;
-        html += '<div class="result-bars"><h3>你的生命元素</h3>';
+        html += '<div class="result-bars"><h3>Your Life Elements</h3>';
         var elements = [
-            { key: 'wood', name: 'Wood', icon: '木' },
-            { key: 'fire', name: 'Fire', icon: '火' },
-            { key: 'earth', name: 'Earth', icon: '土' },
-            { key: 'metal', name: 'Metal', icon: '金' },
-            { key: 'water', name: 'Water', icon: '水' }
+            { key: 'wood', name: 'Wood', icon: '🌲' },
+            { key: 'fire', name: 'Fire', icon: '🔥' },
+            { key: 'earth', name: 'Earth', icon: '🏔️' },
+            { key: 'metal', name: 'Metal', icon: '⚔️' },
+            { key: 'water', name: 'Water', icon: '💧' }
         ];
         elements.forEach(function(el) {
             var count = wxCount[el.key];
@@ -1188,7 +1129,7 @@
         });
         html += '</div>';
 
-        // Interpretation + Quiz综合分析
+        // Interpretation + Quiz personality insight
         html += '<div class="result-interpretation">';
         html += '<h3>' + interp.name + '</h3>';
         html += '<p>' + interp.description + '</p>';
@@ -1199,7 +1140,7 @@
         html += '<p><strong>Growth Area:</strong> ' + interp.growth + '</p>';
         html += '</div>';
 
-        // Quiz-based personality insight + 综合分析
+        // Quiz-based personality insight + integrated analysis
         if (quizTrait.personality) {
             var isMatch = quizDominant === d;
             html += '<div class="result-interpretation" style="border-left:3px solid ' + (isMatch ? 'var(--wx-wood)' : 'var(--wx-water)') + ';">';
@@ -1219,13 +1160,14 @@
                 html += '</div>';
             } else {
                 // Find the bridge between day master element and quiz element
-                var dmWxCode = STEM_WX_MAP[STEMS_LIST.indexOf(dm)];
-                var WX_NAMES_ORDER = ['Metal','Water','Wood','Fire','Earth'];
-                var WX_KEYS = ['metal','water','wood','fire','earth'];
-                var dmElemEn = WX_NAMES_ORDER[dmWxCode] || d;
+                var STEMS_WX2 = {'甲':'wood','乙':'wood','丙':'fire','丁':'fire','戊':'earth','己':'earth','庚':'metal','辛':'metal','壬':'water','癸':'water'};
+                var dmWx = STEMS_WX2[dm] || d;
+                var WX_CAP = { 'metal':'Metal', 'water':'Water', 'wood':'Wood', 'fire':'Fire', 'earth':'Earth' };
+                var dmElemEn = WX_CAP[dmWx] || d;
+                var quizElemEn = quizDominant.charAt(0).toUpperCase() + quizDominant.slice(1);
                 var wxGenerate = { 'metal':'generates Water', 'water':'generates Wood', 'wood':'generates Fire', 'fire':'generates Earth', 'earth':'generates Metal' };
                 html += '<div style="background:rgba(91,130,153,0.08);border-radius:10px;padding:0.8rem;margin-top:0.6rem;">';
-                html += '<p style="margin:0;font-size:0.88rem;"><strong style="color:var(--wx-water);">🔍 Dual Element Pattern</strong> — Your BaZi chart shows ' + dmElemEn + ' as dominant, but your quiz reveals ' + quizDominant + ' tendencies. This is actually a rich pattern: your birth chart (Day Master ' + dm + ', ' + dmProfile.symbol + ') represents your innate nature, while your quiz answers reflect your current personality expression. Many successful people have this dual pattern — the contrast gives you versatility. ' + (dmElemEn !== quizDominant.charAt(0).toUpperCase() + quizDominant.slice(1) ? 'Your ' + dmElemEn + ' nature ' + wxGenerate[d] + ', which naturally feeds into ' + quizDominant + ' energy — meaning your inner nature supports your outer expression.' : '') + '</p>';
+                html += '<p style="margin:0;font-size:0.88rem;"><strong style="color:var(--wx-water);">🔍 Dual Element Pattern</strong> — Your BaZi chart shows ' + dmElemEn + ' as dominant, but your quiz reveals ' + quizElemEn + ' tendencies. This is actually a rich pattern: your birth chart (Day Master ' + dm + ', ' + dmProfile.symbol + ') represents your innate nature, while your quiz answers reflect your current personality expression. Many successful people have this dual pattern — the contrast gives you versatility. ' + (dmWx !== quizDominant ? 'Your ' + dmElemEn + ' nature ' + wxGenerate[dmWx] + ', which naturally feeds into ' + quizElemEn + ' energy — meaning your inner nature supports your outer expression.' : '') + '</p>';
                 html += '</div>';
             }
             html += '</div>';
@@ -1250,8 +1192,14 @@
         var wxResult = { dominant: '', wood: 0, fire: 0, earth: 0, metal: 0, water: 0 };
         try {
             var calc = calculateFiveElements();
-            wxResult = calc.wxCount;
-            wxResult.dominant = calc.dominant;
+            wxResult = {
+                dominant: calc.dominant,
+                wood: calc.wxCount.wood,
+                fire: calc.wxCount.fire,
+                earth: calc.wxCount.earth,
+                metal: calc.wxCount.metal,
+                water: calc.wxCount.water
+            };
         } catch(e) {}
 
         var payload = {
