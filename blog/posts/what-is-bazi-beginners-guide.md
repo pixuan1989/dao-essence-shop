@@ -15,6 +15,7 @@ date: 2026-04-08
 author: DAO Essence
 readTime: 11
 pinned: true
+image: https://raw.githubusercontent.com/pixuan1989/dao-essence-shop/main/images/blog/22.webp
 faq:
   - question: Is BaZi the same as Chinese zodiac?
     answer: No. The Chinese zodiac (Sheng Xiao) uses only 12 animal signs based on
