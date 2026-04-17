@@ -677,11 +677,11 @@
             if (delBtn) delBtn.style.display = 'none';
         } else {
             const totalKB = Math.round(totalBytes / 1024);
-            const color = totalKB > 25 ? '#ef5350' : '#d4af37';
-            const warning = totalKB > 25 ? ' ⚠️ 超过阿里云 API 80KB 限制，请减少图片数量或使用更小图片' : '';
+            const color = totalKB > 10240 ? '#ef5350' : '#d4af37';
+            const warning = totalKB > 10240 ? ' ⚠️ 图片总大小超过 10MB，建议减少数量' : '';
             statusEl.style.display = 'block';
             statusEl.style.color = color;
-            statusEl.textContent = `🖼 已插入 ${base64Matches.length} 张图片，Base64 总大小约 ${totalKB}KB${warning}`;
+            statusEl.textContent = `🖼 已插入 ${base64Matches.length} 张图片，Base64 总大小约 ${totalKB > 1024 ? (totalKB / 1024).toFixed(1) + 'MB' : totalKB + 'KB'}${warning}`;
             const delBtn = document.getElementById('deleteImageBtn');
             if (delBtn) delBtn.style.display = 'inline-block';
         }
