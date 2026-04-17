@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Five Elements Personality Test | DAO Essence</title>
+    <meta name="description" content="Discover your dominant Five Element personality based on your birth date and ancient Chinese BaZi wisdom. Free, instant results.">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="Five Elements Personality Test | DAO Essence">
+    <meta property="og:description" content="Discover your dominant Five Element personality. Based on your birth date + ancient Chinese wisdom.">
+    <meta property="og:image" content="https://www.daoessentia.com/images/og-default.jpg">
+    <meta property="og:url" content="https://www.daoessentia.com/five-elements-test">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="DAO Essence">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="canonical" href="https://www.daoessentia.com/five-elements-test">
+    <link rel="icon" href="/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0B0B14;
+            --bg-card: rgba(255,255,255,0.04);
+            --bg-card-hover: rgba(255,255,255,0.07);
+            --gold: #D4AF37;
+            --gold-dim: #A88B2A;
+            --gold-glow: rgba(212,175,55,0.15);
+            --text-primary: #F0EDE6;
+            --text-secondary: #9B978F;
+            --text-muted: #5A5750;
+            --border: rgba(212,175,55,0.12);
+            --border-hover: rgba(212,175,55,0.3);
+            --wx-wood: #6B9E6B;
+            --wx-fire: #C45C54;
+            --wx-earth: #A89A5E;
+            --wx-metal: #B8A87E;
+            --wx-water: #5B8299;
+            --serif: 'Cormorant Garamond', 'SimSun', serif;
+            --sans: 'Inter', -apple-system, sans-serif;
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: var(--sans);
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Background atmosphere */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(ellipse at 30% 20%, rgba(212,175,55,0.03) 0%, transparent 50%),
+                        radial-gradient(ellipse at 70% 80%, rgba(91,130,153,0.02) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* ===== NAV ===== */
+        .nav {
+            position: sticky; top: 0; z-index: 100;
+            padding: 0.8rem 0;
+            background: rgba(11,11,20,0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+        }
+        .nav-inner {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .nav-logo {
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .nav-logo-icon {
+            width: 28px; height: 28px;
+            border: 1.5px solid var(--gold);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 14px; color: var(--gold);
+        }
+        .nav-logo-text {
+            font-family: var(--serif);
+            font-size: 1.1rem;
+            color: var(--gold);
+            letter-spacing: 0.15em;
+        }
+
+        /* ===== MAIN CONTAINER ===== */
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 4rem;
+        }
+
+        /* ===== STEP CONTAINER ===== */
+        .step { display: none; animation: fadeIn 0.4s ease; }
+        .step.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* ===== STEP 1: HERO ===== */
+        .hero { text-align: center; padding: 3rem 0 2rem; }
+        .hero-badge {
+            display: inline-block;
+            padding: 0.3rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            font-size: 0.72rem;
+            color: var(--gold-dim);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+        }
+        .hero h1 {
+            font-family: var(--serif);
+            font-size: clamp(2rem, 6vw, 3rem);
+            font-weight: 300;
+            color: var(--text-primary);
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            letter-spacing: 0.04em;
+        }
+        .hero h1 em {
+            font-style: italic;
+            color: var(--gold);
+            font-weight: 500;
+        }
+        .hero-sub {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            max-width: 520px;
+            margin: 0 auto 2.5rem;
+            line-height: 1.7;
+        }
+
+        /* Five element icons row */
+        .wx-icons {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+        .wx-icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.4rem;
+            opacity: 0.6;
+            transition: all 0.3s;
+        }
+        .wx-icon:hover { opacity: 1; transform: translateY(-2px); }
+        .wx-icon-dot {
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 16px;
+        }
+        .wx-icon-dot.wood { background: rgba(107,158,107,0.15); color: var(--wx-wood); }
+        .wx-icon-dot.fire { background: rgba(196,92,84,0.15); color: var(--wx-fire); }
+        .wx-icon-dot.earth { background: rgba(168,154,94,0.15); color: var(--wx-earth); }
+        .wx-icon-dot.metal { background: rgba(184,168,126,0.15); color: var(--wx-metal); }
+        .wx-icon-dot.water { background: rgba(91,130,153,0.15); color: var(--wx-water); }
+        .wx-icon span { font-size: 0.68rem; color: var(--text-muted); letter-spacing: 0.08em; text-transform: uppercase; }
+
+        /* ===== BIRTH FORM ===== */
+        .birth-form {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.8rem;
+            margin-bottom: 0.8rem;
+        }
+        .form-row-2 {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 0.8rem;
+            margin-bottom: 1.5rem;
+        }
+        .form-group { display: flex; flex-direction: column; gap: 0.3rem; }
+        .form-group label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+        .form-group select, .form-group input {
+            padding: 0.65rem 0.8rem;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-family: var(--sans);
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color 0.3s;
+            -webkit-appearance: none;
+        }
+        .form-group select:focus, .form-group input:focus {
+            border-color: var(--gold);
+        }
+        .form-group select option { background: #1a1a2e; color: var(--text-primary); }
+
+        .btn-primary {
+            width: 100%;
+            padding: 0.9rem 2rem;
+            background: linear-gradient(135deg, var(--gold), var(--gold-dim));
+            color: var(--bg-dark);
+            border: none;
+            border-radius: 8px;
+            font-family: var(--sans);
+            font-size: 0.95rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(212,175,55,0.25);
+        }
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .form-note {
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* ===== STEP 2: QUIZ ===== */
+        .quiz-header {
+            text-align: center;
+            padding: 2rem 0 1.5rem;
+        }
+        .quiz-header h2 {
+            font-family: var(--serif);
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            letter-spacing: 0.04em;
+            margin-bottom: 0.5rem;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 3px;
+            background: var(--border);
+            border-radius: 2px;
+            margin-top: 1rem;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: var(--gold);
+            border-radius: 2px;
+            transition: width 0.4s ease;
+        }
+
+        .quiz-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+        }
+        .quiz-question {
+            font-family: var(--serif);
+            font-size: 1.15rem;
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+        .quiz-options { display: flex; flex-direction: column; gap: 0.6rem; }
+        .quiz-option {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.9rem 1.2rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.92rem;
+            color: var(--text-secondary);
+        }
+        .quiz-option:hover {
+            border-color: var(--border-hover);
+            background: var(--bg-card-hover);
+            color: var(--text-primary);
+        }
+        .quiz-option.selected {
+            border-color: var(--gold);
+            background: var(--gold-glow);
+            color: var(--text-primary);
+        }
+        .quiz-option-key {
+            width: 28px; height: 28px;
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            flex-shrink: 0;
+            transition: all 0.2s;
+        }
+        .quiz-option.selected .quiz-option-key {
+            background: var(--gold);
+            border-color: var(--gold);
+            color: var(--bg-dark);
+        }
+
+        .quiz-nav {
+            display: flex;
+            justify-content: space-between;
+            gap: 0.8rem;
+        }
+        .btn-ghost {
+            padding: 0.7rem 1.5rem;
+            background: transparent;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            font-family: var(--sans);
+            font-size: 0.88rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-ghost:hover {
+            border-color: var(--border-hover);
+            color: var(--text-primary);
+        }
+        .btn-skip {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            cursor: pointer;
+            padding: 0.7rem 0;
+            font-family: var(--sans);
+        }
+        .btn-skip:hover { color: var(--text-secondary); }
+
+        /* ===== STEP 3: RESULT ===== */
+        .result-header {
+            text-align: center;
+            padding: 2rem 0 1.5rem;
+        }
+        .result-header h2 {
+            font-family: var(--serif);
+            font-size: 1.6rem;
+            font-weight: 300;
+            color: var(--text-primary);
+            letter-spacing: 0.04em;
+            margin-bottom: 0.4rem;
+        }
+        .result-header .dominant-label {
+            display: inline-block;
+            font-family: var(--serif);
+            font-size: 1.1rem;
+            font-weight: 600;
+            padding: 0.3rem 1.2rem;
+            border-radius: 20px;
+            margin-top: 0.8rem;
+        }
+        .dominant-wood { background: rgba(107,158,107,0.15); color: var(--wx-wood); }
+        .dominant-fire { background: rgba(196,92,84,0.15); color: var(--wx-fire); }
+        .dominant-earth { background: rgba(168,154,94,0.15); color: var(--wx-earth); }
+        .dominant-metal { background: rgba(184,168,126,0.15); color: var(--wx-metal); }
+        .dominant-water { background: rgba(91,130,153,0.15); color: var(--wx-water); }
+
+        .result-pillars {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .result-pillars h3 {
+            font-family: var(--serif);
+            font-size: 0.9rem;
+            color: var(--gold-dim);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+        .pillars-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.6rem;
+        }
+        .pillar-card {
+            text-align: center;
+            padding: 0.8rem 0.4rem;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.04);
+            border-radius: 8px;
+        }
+        .pillar-card-label {
+            font-size: 0.6rem;
+            color: var(--text-muted);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 0.3rem;
+        }
+        .pillar-card-chars {
+            font-family: var(--serif);
+            font-size: 1.4rem;
+            color: var(--text-primary);
+            letter-spacing: 0.1em;
+            line-height: 1.3;
+        }
+        .pillar-card-wx {
+            font-size: 0.6rem;
+            color: var(--text-muted);
+            margin-top: 0.2rem;
+        }
+
+        .result-bars {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .result-bars h3 {
+            font-family: var(--serif);
+            font-size: 0.9rem;
+            color: var(--gold-dim);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+        .bar-row {
+            display: grid;
+            grid-template-columns: 70px 1fr 30px;
+            align-items: center;
+            gap: 0.6rem;
+            margin-bottom: 0.5rem;
+        }
+        .bar-label { font-size: 0.82rem; font-weight: 500; }
+        .bar-label.wood { color: var(--wx-wood); }
+        .bar-label.fire { color: var(--wx-fire); }
+        .bar-label.earth { color: var(--wx-earth); }
+        .bar-label.metal { color: var(--wx-metal); }
+        .bar-label.water { color: var(--wx-water); }
+        .bar-track {
+            height: 8px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .bar-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 1s ease-out;
+        }
+        .bar-fill.wood { background: var(--wx-wood); }
+        .bar-fill.fire { background: var(--wx-fire); }
+        .bar-fill.earth { background: var(--wx-earth); }
+        .bar-fill.metal { background: var(--wx-metal); }
+        .bar-fill.water { background: var(--wx-water); }
+        .bar-count { font-size: 0.78rem; color: var(--text-muted); text-align: right; }
+
+        .result-interpretation {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .result-interpretation h3 {
+            font-family: var(--serif);
+            font-size: 1rem;
+            color: var(--text-primary);
+            margin-bottom: 0.8rem;
+            letter-spacing: 0.04em;
+        }
+        .result-interpretation p {
+            color: var(--text-secondary);
+            font-size: 0.92rem;
+            line-height: 1.7;
+            margin-bottom: 0.8rem;
+        }
+
+        /* ===== STEP 4: EMAIL CTA ===== */
+        .email-cta {
+            text-align: center;
+            background: linear-gradient(135deg, rgba(212,175,55,0.08), rgba(212,175,55,0.02));
+            border: 1px solid var(--border-hover);
+            border-radius: 20px;
+            padding: 2.5rem 2rem;
+            margin-bottom: 1.5rem;
+        }
+        .email-cta h3 {
+            font-family: var(--serif);
+            font-size: 1.3rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.04em;
+        }
+        .email-cta p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        .email-form {
+            display: flex;
+            gap: 0.6rem;
+            max-width: 420px;
+            margin: 0 auto 0.8rem;
+        }
+        .email-form input {
+            flex: 1;
+            padding: 0.7rem 1rem;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-family: var(--sans);
+            font-size: 0.9rem;
+            outline: none;
+        }
+        .email-form input:focus { border-color: var(--gold); }
+        .email-form input::placeholder { color: var(--text-muted); }
+        .email-form button {
+            padding: 0.7rem 1.5rem;
+            background: var(--gold);
+            color: var(--bg-dark);
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.88rem;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.3s;
+        }
+        .email-form button:hover { background: #E8C547; }
+        .email-privacy {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        /* Success state */
+        .email-success {
+            display: none;
+            text-align: center;
+            padding: 1rem 0;
+        }
+        .email-success.show { display: block; animation: fadeIn 0.3s ease; }
+        .email-success .check { font-size: 2rem; margin-bottom: 0.5rem; }
+        .email-success p { color: var(--wx-wood); font-size: 0.95rem; }
+
+        .cta-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+        .cta-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.6rem 1.3rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+        .cta-link:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            text-align: center;
+            padding: 2rem 0;
+            border-top: 1px solid var(--border);
+            margin-top: 3rem;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+        .footer a {
+            color: var(--gold-dim);
+            text-decoration: none;
+        }
+
+        /* ===== LOADING ===== */
+        .loading { text-align: center; padding: 4rem 0; }
+        .spinner {
+            width: 32px; height: 32px;
+            border: 2px solid var(--border);
+            border-top-color: var(--gold);
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+            margin: 0 auto 1rem;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 640px) {
+            .container { padding: 1.5rem 1rem 3rem; }
+            .hero { padding: 2rem 0 1.5rem; }
+            .form-row { grid-template-columns: repeat(3, 1fr); gap: 0.5rem; }
+            .birth-form { padding: 1.2rem; }
+            .pillars-row { gap: 0.4rem; }
+            .pillar-card-chars { font-size: 1.1rem; }
+            .email-form { flex-direction: column; }
+            .wx-icons { gap: 1rem; }
+            .cta-links { flex-direction: column; align-items: center; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="nav">
+    <div class="nav-inner">
+        <a href="/" class="nav-logo">
+            <div class="nav-logo-icon">☯</div>
+            <div class="nav-logo-text">DAO ESSENCE</div>
+        </a>
+    </div>
+</nav>
+
+<div class="container">
+
+    <!-- STEP 1: Birth Date Input -->
+    <div class="step active" id="step1">
+        <div class="hero">
+            <div class="hero-badge">Ancient Wisdom Meets You</div>
+            <h1>Discover Your<br><em>Five Element</em> Personality</h1>
+            <p class="hero-sub">Based on your birth date and the ancient Chinese BaZi system — find out which of the five elements shapes who you are.</p>
+            <div class="wx-icons">
+                <div class="wx-icon"><div class="wx-icon-dot wood">木</div><span>Wood</span></div>
+                <div class="wx-icon"><div class="wx-icon-dot fire">火</div><span>Fire</span></div>
+                <div class="wx-icon"><div class="wx-icon-dot earth">土</div><span>Earth</span></div>
+                <div class="wx-icon"><div class="wx-icon-dot metal">金</div><span>Metal</span></div>
+                <div class="wx-icon"><div class="wx-icon-dot water">水</div><span>Water</span></div>
+            </div>
+        </div>
+
+        <div class="birth-form">
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Year</label>
+                    <select id="birthYear"></select>
+                </div>
+                <div class="form-group">
+                    <label>Month</label>
+                    <select id="birthMonth"></select>
+                </div>
+                <div class="form-group">
+                    <label>Day</label>
+                    <select id="birthDay"></select>
+                </div>
+            </div>
+            <div class="form-row-2">
+                <div class="form-group">
+                    <label>Birth Hour <span style="opacity:0.5">(optional)</span></label>
+                    <select id="birthHour">
+                        <option value="-1">Unknown</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Gender</label>
+                    <select id="gender">
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
+                </div>
+            </div>
+            <button class="btn-primary" id="startBtn" onclick="startQuiz()">Reveal My Element →</button>
+            <p class="form-note">Takes 30 seconds · 5 quick questions · Free forever</p>
+        </div>
+    </div>
+
+    <!-- STEP 2: Quiz Questions -->
+    <div class="step" id="step2">
+        <div class="quiz-header">
+            <h2 id="quizTitle">Quick Personality Check</h2>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+            </div>
+        </div>
+
+        <div id="quizArea"></div>
+
+        <div class="quiz-nav" id="quizNav">
+            <button class="btn-ghost" id="prevBtn" onclick="prevQuestion()" style="visibility:hidden">← Back</button>
+            <button class="btn-skip" onclick="skipQuiz()">Skip questions →</button>
+            <button class="btn-primary" id="nextBtn" onclick="nextQuestion()" style="width:auto;padding:0.7rem 1.5rem;">Next →</button>
+        </div>
+    </div>
+
+    <!-- STEP 3: Loading -->
+    <div class="step" id="stepLoading">
+        <div class="loading">
+            <div class="spinner"></div>
+            <p style="color:var(--text-secondary);font-size:0.9rem;">Calculating your elemental blueprint...</p>
+        </div>
+    </div>
+
+    <!-- STEP 4: Result -->
+    <div class="step" id="step3">
+        <div class="result-header">
+            <h2>Your Elemental Blueprint</h2>
+            <div id="dominantBadge"></div>
+        </div>
+
+        <div id="resultContent"></div>
+
+        <!-- Email CTA -->
+        <div class="email-cta" id="emailCta">
+            <h3>Unlock Your Full Report</h3>
+            <p>Get a personalized deep-dive into your Five Elements profile — career paths, relationship patterns, and health insights delivered to your inbox.</p>
+            <div class="email-form" id="emailForm">
+                <input type="email" id="emailInput" placeholder="Your email address" autocomplete="email">
+                <button onclick="submitEmail()">Get Free Report</button>
+            </div>
+            <p class="email-privacy">We respect your privacy. Unsubscribe anytime. No spam, ever.</p>
+            <div class="email-success" id="emailSuccess">
+                <div class="check">✓</div>
+                <p>Check your inbox for the full report!</p>
+            </div>
+        </div>
+
+        <div class="cta-links">
+            <a href="/bazi-form" class="cta-link">查看完整八字排盘 →</a>
+            <a href="/blog/bazi-astrology" class="cta-link">Read More Articles</a>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>&copy; 2024-2026 DAO Essence. Based on traditional Five Elements theory (Wu Xing) and BaZi calculations.</p>
+    </div>
+</div>
+
+<!-- BaZi Engine -->
+<script src="/bazi-calculator/paipan.min.js"></script>
+
+<script>
+(function() {
+    'use strict';
+
+    // ===== STATE =====
+    var birthData = { year: 1990, month: 1, day: 1, hour: -1, gender: 'male' };
+    var quizAnswers = {};
+    var currentQuestion = 0;
+
+    // ===== QUIZ DATA =====
+    var QUESTIONS = [
+        {
+            question: 'When you are under pressure, your first reaction is usually to...',
+            options: [
+                { key: 'A', text: 'Push through with determination — I refuse to give up', element: 'wood' },
+                { key: 'B', text: 'Channel the energy into action — movement helps me think', element: 'fire' },
+                { key: 'C', text: 'Slow down and think carefully before I act', element: 'earth' },
+                { key: 'D', text: 'Analyze the situation logically — what is the most efficient path?', element: 'metal' },
+                { key: 'E', text: 'Withdraw and reflect — I need space to process my feelings', element: 'water' }
+            ]
+        },
+        {
+            question: 'In a group setting, people naturally see you as the one who...',
+            options: [
+                { key: 'A', text: 'Takes charge and sets the direction', element: 'wood' },
+                { key: 'B', text: 'Brings energy and keeps everyone engaged', element: 'fire' },
+                { key: 'C', text: 'Mediates conflicts and makes sure everyone feels heard', element: 'earth' },
+                { key: 'D', text: 'Organizes things and keeps the group on track', element: 'metal' },
+                { key: 'E', text: 'Observes quietly and offers deep insights when asked', element: 'water' }
+            ]
+        },
+        {
+            question: 'When making a big life decision, you tend to rely on...',
+            options: [
+                { key: 'A', text: 'My gut instinct — I trust my inner compass', element: 'wood' },
+                { key: 'B', text: 'My passion — what excites me the most wins', element: 'fire' },
+                { key: 'C', text: 'Advice from people I trust and past experience', element: 'earth' },
+                { key: 'D', text: 'Data, pros/cons lists, and careful analysis', element: 'metal' },
+                { key: 'E', text: 'Intuition — I wait until I feel a sense of clarity', element: 'water' }
+            ]
+        },
+        {
+            question: 'Of these values, the one that resonates most deeply with you is...',
+            options: [
+                { key: 'A', text: 'Freedom and personal growth — I need room to expand', element: 'wood' },
+                { key: 'B', text: 'Passion and self-expression — life should be vivid', element: 'fire' },
+                { key: 'C', text: 'Stability and loyalty — a solid foundation matters most', element: 'earth' },
+                { key: 'D', text: 'Excellence and integrity — doing things right matters', element: 'metal' },
+                { key: 'E', text: 'Wisdom and understanding — truth is more important than comfort', element: 'water' }
+            ]
+        },
+        {
+            question: 'On a free day with no obligations, you are most likely to...',
+            options: [
+                { key: 'A', text: 'Start a new project or go on an adventure', element: 'wood' },
+                { key: 'B', text: 'Socialize, create something, or explore somewhere new', element: 'fire' },
+                { key: 'C', text: 'Enjoy good food, comfort, and quality time with loved ones', element: 'earth' },
+                { key: 'D', text: 'Organize my space, plan ahead, or learn a new skill', element: 'metal' },
+                { key: 'E', text: 'Read, meditate, watch documentaries, or be near water', element: 'water' }
+            ]
+        }
+    ];
+
+    // Five element personality interpretations
+    var INTERPRETATIONS = {
+        wood: {
+            name: 'The Wood Personality',
+            emoji: '🌲',
+            tagline: 'The Visionary & Pioneer',
+            mbti: 'ENFP / ENTJ — The Trailblazer',
+            description: 'You are driven by a deep need for growth and expansion. Like a tree reaching for sunlight, you are always pushing boundaries and seeking new horizons. Your creativity is boundless, and your resilience is your greatest asset. You are the person who sees possibilities where others see obstacles.',
+            strengths: ['Boundless creativity and vision', 'Natural leadership and initiative', 'Resilience in the face of adversity', 'Ability to inspire others'],
+            growth: 'Be mindful of impatience — not every seed grows at the same pace. Practice pausing to appreciate how far you have come, and learn to delegate rather than carrying everything alone.'
+        },
+        fire: {
+            name: 'The Fire Personality',
+            emoji: '🔥',
+            tagline: 'The Charismatic Spark',
+            mbti: 'ESFJ / ENTP — The Life of the Party',
+            description: 'You are warmth, expression, and connection personified. Your emotional intelligence allows you to read a room in seconds and bring people together. When you speak, people listen — not because you demand it, but because your genuine enthusiasm is magnetic.',
+            strengths: ['Exceptional emotional intelligence', 'Natural charisma and stage presence', 'Ability to inspire and motivate', 'Deep empathy and connection skills'],
+            growth: 'Your fire is a gift, but it can also burn you out. Learn to distinguish between passion-driven action and reactivity. Protect your energy — you do not need to be "on" all the time.'
+        },
+        earth: {
+            name: 'The Earth Personality',
+            emoji: '🪨',
+            tagline: 'The Grounded Nurturer',
+            mbti: 'ISFJ / ESFJ — The Rock',
+            description: 'You are the foundation that others build upon. Your reliability and deep empathy make you the person everyone turns to when things fall apart. You value loyalty, tradition, and meaningful connection above all else. You are the anchor in every storm.',
+            strengths: ['Unwavering reliability and trustworthiness', 'Deep empathy and nurturing nature', 'Ability to create stability in chaos', 'Strong sense of justice and fairness'],
+            growth: 'Your strength of holding on can become a weakness when you resist necessary change. Practice letting go — growth often requires discomfort, and the most beautiful gardens need both sun and rain.'
+        },
+        metal: {
+            name: 'The Metal Personality',
+            emoji: '⚔️',
+            tagline: 'The Disciplined Achiever',
+            mbti: 'ESTJ / ISTJ — The Architect',
+            description: 'You are precision, structure, and excellence personified. Your mind works like a well-oiled machine — analyzing, categorizing, and optimizing. You have incredibly high standards because you know what is possible when things are done right. You are the person who actually reads the terms and conditions.',
+            strengths: ['Strategic thinking and flawless execution', 'Inner strength and resilience', 'High standards that elevate everyone around you', 'Ability to see through complexity to the core issue'],
+            growth: 'Perfectionism is both your superpower and your kryptonite. Not everything needs to be polished to 100% — sometimes 80% is enough. Practice self-compassion and remember that your worth is not defined by your productivity.'
+        },
+        water: {
+            name: 'The Water Personality',
+            emoji: '🌊',
+            tagline: 'The Adaptive Mystic',
+            mbti: 'INFP / INFJ — The Philosopher',
+            description: 'You are the deepest thinker in any room. Your intuition operates on a frequency that most people cannot access, and your ability to adapt to any situation is almost supernatural. You process the world through a deeply philosophical lens, finding meaning in places others overlook.',
+            strengths: ['Profound intuition and inner wisdom', 'Emotional adaptability and resilience', 'Ability to see hidden patterns and connections', 'Deep philosophical understanding of life'],
+            growth: 'Your tendency to overthink can create paralysis. Remember that the river does not stop to analyze every stone — it flows around them. Trust your first instinct more often and take action before you feel 100% ready.'
+        }
+    };
+
+    // ===== INIT =====
+    function init() {
+        populateForm();
+    }
+
+    function populateForm() {
+        var yearSel = document.getElementById('birthYear');
+        for (var y = 2026; y >= 1940; y--) {
+            var opt = document.createElement('option');
+            opt.value = y; opt.textContent = y;
+            yearSel.appendChild(opt);
+        }
+        yearSel.value = 1990;
+
+        var monthSel = document.getElementById('birthMonth');
+        for (var m = 1; m <= 12; m++) {
+            var opt = document.createElement('option');
+            opt.value = m; opt.textContent = m;
+            monthSel.appendChild(opt);
+        }
+
+        var daySel = document.getElementById('birthDay');
+        for (var d = 1; d <= 31; d++) {
+            var opt = document.createElement('option');
+            opt.value = d; opt.textContent = d;
+            daySel.appendChild(opt);
+        }
+
+        var hourSel = document.getElementById('birthHour');
+        var hours = [
+            { name: '23:00-01:00 (Zi 子时)', value: 23 },
+            { name: '01:00-03:00 (Chou 丑时)', value: 1 },
+            { name: '03:00-05:00 (Yin 寅时)', value: 3 },
+            { name: '05:00-07:00 (Mao 卯时)', value: 5 },
+            { name: '07:00-09:00 (Chen 辰时)', value: 7 },
+            { name: '09:00-11:00 (Si 巳时)', value: 9 },
+            { name: '11:00-13:00 (Wu 午时)', value: 11 },
+            { name: '13:00-15:00 (Wei 未时)', value: 13 },
+            { name: '15:00-17:00 (Shen 申时)', value: 15 },
+            { name: '17:00-19:00 (You 酉时)', value: 17 },
+            { name: '19:00-21:00 (Xu 戌时)', value: 19 },
+            { name: '21:00-23:00 (Hai 亥时)', value: 21 }
+        ];
+        hours.forEach(function(h) {
+            var opt = document.createElement('option');
+            opt.value = h.value; opt.textContent = h.name;
+            hourSel.appendChild(opt);
+        });
+    }
+
+    function showStep(id) {
+        document.querySelectorAll('.step').forEach(function(s) { s.classList.remove('active'); });
+        document.getElementById(id).classList.add('active');
+    }
+
+    // ===== STEP 1 → STEP 2 =====
+    window.startQuiz = function() {
+        birthData.year = parseInt(document.getElementById('birthYear').value);
+        birthData.month = parseInt(document.getElementById('birthMonth').value);
+        birthData.day = parseInt(document.getElementById('birthDay').value);
+        birthData.hour = parseInt(document.getElementById('birthHour').value);
+        birthData.gender = document.getElementById('gender').value;
+
+        if (!birthData.year || !birthData.month || !birthData.day) {
+            alert('Please select your birth date.');
+            return;
+        }
+
+        currentQuestion = 0;
+        quizAnswers = {};
+        renderQuestion();
+        showStep('step2');
+    };
+
+    // ===== QUIZ LOGIC =====
+    function renderQuestion() {
+        var q = QUESTIONS[currentQuestion];
+        var percent = Math.round((currentQuestion / QUESTIONS.length) * 100);
+        document.getElementById('progressFill').style.width = percent + '%';
+        document.getElementById('quizTitle').textContent = 'Quick Personality Check';
+
+        var html = '<div class="quiz-card">';
+        html += '<div class="quiz-question">Q' + (currentQuestion + 1) + ' of ' + QUESTIONS.length + '. ' + q.question + '</div>';
+        html += '<div class="quiz-options">';
+        q.options.forEach(function(opt, i) {
+            var selected = quizAnswers[currentQuestion] === i ? ' selected' : '';
+            html += '<div class="quiz-option' + selected + '" onclick="selectOption(' + currentQuestion + ',' + i + ')">';
+            html += '<div class="quiz-option-key">' + opt.key + '</div>';
+            html += '<span>' + opt.text + '</span>';
+            html += '</div>';
+        });
+        html += '</div></div>';
+
+        document.getElementById('quizArea').innerHTML = html;
+
+        // Nav buttons
+        document.getElementById('prevBtn').style.visibility = currentQuestion === 0 ? 'hidden' : 'visible';
+        var isLast = currentQuestion === QUESTIONS.length - 1;
+        document.getElementById('nextBtn').textContent = isLast ? 'See My Results →' : 'Next →';
+    }
+
+    window.selectOption = function(qIdx, optIdx) {
+        quizAnswers[qIdx] = optIdx;
+        // Re-render to update selection state
+        renderQuestion();
+    };
+
+    window.nextQuestion = function() {
+        if (currentQuestion < QUESTIONS.length - 1) {
+            currentQuestion++;
+            renderQuestion();
+        } else {
+            showResults();
+        }
+    };
+
+    window.prevQuestion = function() {
+        if (currentQuestion > 0) {
+            currentQuestion--;
+            renderQuestion();
+        }
+    };
+
+    window.skipQuiz = function() {
+        showResults();
+    };
+
+    // ===== STEP 2 → STEP 3 (Loading) → STEP 4 =====
+    function showResults() {
+        showStep('stepLoading');
+
+        // Use setTimeout to allow loading UI to render
+        setTimeout(function() {
+            try {
+                var result = calculateFiveElements();
+                renderResults(result);
+            } catch (err) {
+                console.error('Calculation error:', err);
+                document.getElementById('resultContent').innerHTML = '<p style="color:var(--wx-fire);text-align:center;">Something went wrong. Please try again.</p>';
+            }
+            showStep('step3');
+        }, 800);
+    }
+
+    function calculateFiveElements() {
+        if (typeof window.p === 'undefined') {
+            throw new Error('paipan engine not loaded');
+        }
+
+        var yy = birthData.year;
+        var mm = birthData.month;
+        var dd = birthData.day;
+        var hh = birthData.hour >= 0 ? birthData.hour : 12;
+        var xb = birthData.gender === 'male' ? 1 : 0;
+
+        var result = p.GetGZ(yy, mm, dd, hh, 0, xb);
+        if (!result) throw new Error('Failed to calculate BaZi');
+
+        // result[0] = year pillar [stemIdx, branchIdx]
+        // result[1] = month pillar
+        // result[2] = day pillar
+        // result[3] = hour pillar
+
+        var stems = ['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'];
+        var wxMap = [2,2,3,3,4,4,0,0,1,1]; // Jia=Wood etc.
+        var wxNames = ['Metal','Water','Wood','Fire','Earth'];
+        var wxKeys = ['metal','water','wood','fire','earth'];
+
+        // Count five elements from all 8 characters (4 stems + 4 branches main hidden stems)
+        var wxCount = { metal: 0, water: 0, wood: 0, fire: 0, earth: 0 };
+
+        for (var i = 0; i < 4; i++) {
+            // Stem
+            var stemWxIdx = wxMap[result[i][0]];
+            wxCount[wxKeys[stemWxIdx]]++;
+
+            // Branch main hidden stem
+            var branchIdx = result[i][1];
+            // ZCG_TABLE from bazi-result.js
+            var ZCG = [
+                [9,-1,-1],[5,9,7],[0,2,4],[1,-1,-1],[4,1,9],[2,4,6],
+                [3,5,-1],[5,1,3],[6,8,4],[7,-1,-1],[4,7,3],[8,0,-1]
+            ];
+            var mainHidden = ZCG[branchIdx][0];
+            if (mainHidden >= 0) {
+                var hiddenWxIdx = wxMap[mainHidden];
+                wxCount[wxKeys[hiddenWxIdx]]++;
+            }
+        }
+
+        // Find dominant
+        var dominant = 'wood';
+        var maxCount = 0;
+        for (var key in wxCount) {
+            if (wxCount[key] > maxCount) {
+                maxCount = wxCount[key];
+                dominant = key;
+            }
+        }
+
+        // Build pillars display
+        var branches = ['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];
+        var pillars = [];
+        var labels = ['Year','Month','Day','Hour'];
+        for (var i = 0; i < 4; i++) {
+            var sIdx = result[i][0];
+            var bIdx = result[i][1];
+            pillars.push({
+                label: labels[i],
+                stem: stems[sIdx],
+                branch: branches[bIdx],
+                stemWx: wxNames[wxMap[sIdx]],
+                branchWx: wxNames[wxMap[ZCG[bIdx][0]]] || '-'
+            });
+        }
+
+        // Quiz-based element (from answers)
+        var quizWx = { wood: 0, fire: 0, earth: 0, metal: 0, water: 0 };
+        for (var qIdx in quizAnswers) {
+            var optIdx = quizAnswers[qIdx];
+            if (QUESTIONS[qIdx] && QUESTIONS[qIdx].options[optIdx]) {
+                var elem = QUESTIONS[qIdx].options[optIdx].element;
+                quizWx[elem]++;
+            }
+        }
+        var quizDominant = 'wood';
+        var quizMax = 0;
+        for (var key in quizWx) {
+            if (quizWx[key] > quizMax) {
+                quizMax = quizWx[key];
+                quizDominant = key;
+            }
+        }
+
+        return {
+            pillars: pillars,
+            wxCount: wxCount,
+            dominant: dominant,
+            quizWx: quizWx,
+            quizDominant: quizDominant
+        };
+    }
+
+    function renderResults(result) {
+        var d = result.dominant;
+        var interp = INTERPRETATIONS[d];
+        var pillars = result.pillars;
+        var wxCount = result.wxCount;
+
+        // Dominant badge
+        var badgeClass = 'dominant-' + d;
+        var badgeEmoji = interp.emoji;
+        document.getElementById('dominantBadge').innerHTML = '<div class="dominant-label ' + badgeClass + '">' + badgeEmoji + ' ' + interp.tagline + '</div>';
+
+        // Build result HTML
+        var html = '';
+
+        // Four Pillars
+        html += '<div class="result-pillars"><h3>Your Birth Chart</h3><div class="pillars-row">';
+        pillars.forEach(function(p) {
+            html += '<div class="pillar-card">';
+            html += '<div class="pillar-card-label">' + p.label + '</div>';
+            html += '<div class="pillar-card-chars">' + p.stem + '<br>' + p.branch + '</div>';
+            html += '<div class="pillar-card-wx">' + p.stemWx + ' · ' + p.branchWx + '</div>';
+            html += '</div>';
+        });
+        html += '</div></div>';
+
+        // Five Elements bars
+        var total = wxCount.wood + wxCount.fire + wxCount.earth + wxCount.metal + wxCount.water;
+        html += '<div class="result-bars"><h3>Five Elements Distribution</h3>';
+        var elements = [
+            { key: 'wood', name: 'Wood', icon: '木' },
+            { key: 'fire', name: 'Fire', icon: '火' },
+            { key: 'earth', name: 'Earth', icon: '土' },
+            { key: 'metal', name: 'Metal', icon: '金' },
+            { key: 'water', name: 'Water', icon: '水' }
+        ];
+        elements.forEach(function(el) {
+            var count = wxCount[el.key];
+            var pct = total > 0 ? Math.round((count / total) * 100) : 0;
+            html += '<div class="bar-row">';
+            html += '<div class="bar-label ' + el.key + '">' + el.icon + ' ' + el.name + '</div>';
+            html += '<div class="bar-track"><div class="bar-fill ' + el.key + '" style="width:' + pct + '%"></div></div>';
+            html += '<div class="bar-count">' + count + '</div>';
+            html += '</div>';
+        });
+        html += '</div>';
+
+        // Interpretation
+        var matchNote = '';
+        if (result.quizDominant === d) {
+            matchNote = '<p style="color:var(--wx-wood);font-size:0.85rem;margin-top:0.5rem;">✓ Your personality quiz confirms your BaZi reading — a strong indicator of your dominant element.</p>';
+        } else {
+            matchNote = '<p style="font-size:0.85rem;margin-top:0.5rem;color:var(--text-muted);">Your personality quiz suggests a ' + result.quizDominant + ' inclination — many people have a secondary element that influences their behavior.</p>';
+        }
+
+        html += '<div class="result-interpretation">';
+        html += '<h3>' + interp.name + '</h3>';
+        html += '<p>' + interp.description + '</p>';
+        html += '<p><strong>MBTI Vibe:</strong> ' + interp.mbti + '</p>';
+        html += '<p><strong>Core Strengths:</strong></p><ul style="color:var(--text-secondary);padding-left:1.2rem;margin-bottom:0.8rem;font-size:0.9rem;line-height:1.8;">';
+        interp.strengths.forEach(function(s) { html += '<li>' + s + '</li>'; });
+        html += '</ul>';
+        html += '<p><strong>Growth Area:</strong> ' + interp.growth + '</p>';
+        html += matchNote;
+        html += '</div>';
+
+        document.getElementById('resultContent').innerHTML = html;
+    }
+
+    // ===== EMAIL SUBMISSION =====
+    window.submitEmail = function() {
+        var email = document.getElementById('emailInput').value.trim();
+        var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (!email || !emailRegex.test(email)) {
+            document.getElementById('emailInput').style.borderColor = 'var(--wx-fire)';
+            return;
+        }
+        document.getElementById('emailInput').style.borderColor = '';
+
+        var wxResult = { dominant: '', wood: 0, fire: 0, earth: 0, metal: 0, water: 0 };
+        try {
+            var calc = calculateFiveElements();
+            wxResult = calc.wxCount;
+            wxResult.dominant = calc.dominant;
+        } catch(e) {}
+
+        var payload = {
+            email: email,
+            birth_year: birthData.year,
+            birth_month: birthData.month,
+            birth_day: birthData.day,
+            birth_hour: birthData.hour,
+            gender: birthData.gender,
+            quiz_answers: quizAnswers,
+            wuxing_result: wxResult
+        };
+
+        fetch('/api/marketing', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ quizLead: payload })
+        })
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+            document.getElementById('emailForm').style.display = 'none';
+            document.querySelector('.email-privacy').style.display = 'none';
+            document.getElementById('emailSuccess').classList.add('show');
+        })
+        .catch(function(err) {
+            // Still show success even if API fails (don't block user)
+            document.getElementById('emailForm').style.display = 'none';
+            document.querySelector('.email-privacy').style.display = 'none';
+            document.getElementById('emailSuccess').classList.add('show');
+        });
+    };
+
+    // ===== KEYBOARD SHORTCUTS =====
+    document.addEventListener('keydown', function(e) {
+        var step2 = document.getElementById('step2');
+        if (!step2.classList.contains('active')) return;
+
+        var keyMap = { 'a': 0, 'b': 1, 'c': 2, 'd': 3, 'e': 4 };
+        var key = e.key.toLowerCase();
+
+        if (keyMap.hasOwnProperty(key)) {
+            selectOption(currentQuestion, keyMap[key]);
+        } else if (e.key === 'Enter') {
+            nextQuestion();
+        } else if (e.key === 'Backspace' || e.key === 'ArrowLeft') {
+            if (currentQuestion > 0) prevQuestion();
+        }
+    });
+
+    // ===== BOOT =====
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+})();
+</script>
+
+</body>
+</html>

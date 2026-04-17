@@ -36,6 +36,14 @@ export default async function handler(req, res) {
             console.log('📭 Redis 中暂无订单数据');
             // 尝试从 Creem API 回填
             const backfilled = await backfillFromCreem();
+            // 同时尝试读取 quiz leads
+            try {
+                const quizLeadIds = await redisGet('wuxing_lead_ids') || [];
+                for (const id of quizLeadIds) {
+                    const lead = await redisGet(`wuxing_lead:${id}`);
+                    if (lead) { lead.type = 'wuxing_quiz'; backfilled.push(lead); }
+                }
+            } catch (e) { /* ignore */ }
             return res.status(200).json({
                 success: true,
                 orders: backfilled,
@@ -58,6 +66,27 @@ export default async function handler(req, res) {
         }
 
         console.log(`✅ 从 Redis 读取 ${orders.length} 笔订单`);
+
+        // 同时读取五行测试 leads
+        try {
+            const quizLeadIds = await redisGet('wuxing_lead_ids') || [];
+            console.log(`🎯 五行测试 Leads: ${quizLeadIds.length} 条`);
+            for (const id of quizLeadIds) {
+                try {
+                    const lead = await redisGet(`wuxing_lead:${id}`);
+                    if (lead) {
+                        lead.type = 'wuxing_quiz';
+                        orders.push(lead);
+                    }
+                } catch (err) {
+                    console.error(`❌ 读取 quiz lead ${id} 失败:`, err.message);
+                }
+            }
+        } catch (err) {
+            console.error('❌ 读取五行测试 leads 失败:', err.message);
+        }
+
+        console.log(`✅ 合计 ${orders.length} 条数据（含 quiz leads）`);
 
         return res.status(200).json({
             success: true,

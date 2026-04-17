@@ -923,6 +923,7 @@ async function main() {
     { loc: '/about', changefreq: 'monthly', priority: '0.6' },
 
     { loc: '/bazi-form', changefreq: 'monthly', priority: '0.8' },
+    { loc: '/five-elements-test', changefreq: 'weekly', priority: '0.8' },
     { loc: '/guide', changefreq: 'monthly', priority: '0.7' },
     { loc: '/destiny', changefreq: 'monthly', priority: '0.7' },
     { loc: '/privacy', changefreq: 'yearly', priority: '0.3' },

@@ -136,6 +136,11 @@ async function sendBulkMail(recipients, options, renderFn, onProgress) {
 // ==================== 主处理器 ====================
 
 export default async function handler(req, res) {
+    // Quiz lead 收集无需认证（公开 API）
+    if (req.method === 'POST' && req.body?.quizLead) {
+        return handleQuizLead(req, res);
+    }
+
     const authHeader = req.headers['authorization'];
     const adminKey = process.env.ADMIN_KEY;
 
@@ -153,6 +158,95 @@ export default async function handler(req, res) {
         return handleSendMarketing(req, res);
     } else {
         return res.status(405).json({ error: 'Method not allowed' });
+    }
+}
+
+// ==================== POST: 五行测试 Lead 收集（无需认证） ====================
+
+async function handleQuizLead(req, res) {
+    try {
+        const lead = req.body.quizLead;
+        const {
+            email,
+            birth_year,
+            birth_month,
+            birth_day,
+            birth_hour,
+            gender,
+            quiz_answers,
+            wuxing_result,
+            name
+        } = lead;
+
+        if (!email) {
+            return res.status(400).json({ error: 'Email is required' });
+        }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            return res.status(400).json({ error: 'Invalid email format' });
+        }
+        if (!birth_year || !birth_month || !birth_day) {
+            return res.status(400).json({ error: 'Birth date is required' });
+        }
+
+        console.log('🎯 Five Elements Quiz Lead:', email);
+
+        const leadId = `WX_${Date.now()}_${Math.floor(Math.random() * 10000)}`;
+        const leadData = {
+            id: leadId,
+            type: 'wuxing_quiz',
+            email: email.toLowerCase().trim(),
+            name: name || '',
+            birthYear: String(birth_year),
+            birthMonth: String(birth_month),
+            birthDay: String(birth_day),
+            birthHour: String(birth_hour || -1),
+            gender: gender || '',
+            quizAnswers: quiz_answers || {},
+            wuxingResult: wuxing_result || {},
+            createdAt: new Date().toISOString()
+        };
+
+        try {
+            await redisSet(`wuxing_lead:${leadId}`, leadData);
+            let leadIds = await redisGet('wuxing_lead_ids') || [];
+            leadIds.unshift(leadId);
+            if (leadIds.length > 1000) leadIds = leadIds.slice(0, 1000);
+            await redisSet('wuxing_lead_ids', leadIds);
+
+            // 同时写入营销订阅者列表
+            let subscribers = await redisGet('marketing_subscribers') || [];
+            const exists = subscribers.some(s =>
+                s.email && s.email.toLowerCase() === email.toLowerCase()
+            );
+            if (!exists) {
+                subscribers.unshift({
+                    email: email.toLowerCase().trim(),
+                    name: name || '',
+                    source: 'wuxing_quiz',
+                    subscribedAt: new Date().toISOString(),
+                    birthInfo: {
+                        year: String(birth_year),
+                        month: String(birth_month),
+                        day: String(birth_day),
+                        hour: String(birth_hour || -1),
+                        gender: gender || ''
+                    },
+                    dominantElement: wuxing_result?.dominant || ''
+                });
+                await redisSet('marketing_subscribers', subscribers);
+            }
+
+            console.log(`✅ Quiz lead saved: ${leadId}`);
+        } catch (redisErr) {
+            console.error('❌ Redis save failed:', redisErr.message);
+            // 降级：仍然返回成功
+        }
+
+        return res.status(200).json({ success: true, leadId });
+
+    } catch (error) {
+        console.error('❌ Quiz lead error:', error);
+        return res.status(500).json({ error: 'Failed to save lead' });
     }
 }
 

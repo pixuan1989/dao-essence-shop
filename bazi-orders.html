@@ -602,6 +602,10 @@
                     <h3 id="totalRevenue">$0</h3>
                     <p>总收入</p>
                 </div>
+                <div class="stat-card">
+                    <h3 id="totalQuizLeads" style="color: #64b5f6;">0</h3>
+                    <p>五行测试线索</p>
+                </div>
             </div>
 
             <div class="filters">
@@ -610,6 +614,11 @@
                     <option value="">全部状态</option>
                     <option value="paid">已支付</option>
                     <option value="pending">待处理</option>
+                </select>
+                <select id="sourceFilter">
+                    <option value="">全部来源</option>
+                    <option value="order">八字订单</option>
+                    <option value="wuxing_quiz">五行测试</option>
                 </select>
                 <input type="date" id="dateFilter">
                 <button class="btn btn-primary" onclick="refreshOrders()">🔄 刷新</button>
@@ -622,8 +631,9 @@
                         <tr>
                             <th>订单号</th>
                             <th>客户信息</th>
-                            <th>八字信息</th>
+                            <th>详情</th>
                             <th>金额</th>
+                            <th>来源</th>
                             <th>状态</th>
                             <th>时间</th>
                             <th>操作</th>
@@ -827,7 +837,17 @@
 
             emptyState.style.display = 'none';
 
-            tbody.innerHTML = filteredOrders.map(order => `
+            tbody.innerHTML = filteredOrders.map(item => {
+                if (item.type === 'wuxing_quiz') {
+                    return renderQuizRow(item);
+                } else {
+                    return renderOrderRow(item);
+                }
+            }).join('');
+        }
+
+        function renderOrderRow(order) {
+            return `
                 <tr>
                     <td>
                         <strong>${order.orderId?.slice(-8) || 'N/A'}</strong>
@@ -852,6 +872,9 @@
                         <strong style="color: #d4af37;">$${order.amount || '0.00'}</strong>
                     </td>
                     <td>
+                        <span class="status-badge" style="background: rgba(212,175,55,0.15); color: #d4af37;">八字订单</span>
+                    </td>
+                    <td>
                         <span class="status-badge ${order.status === 'paid' ? 'status-paid' : 'status-pending'}">
                             ${order.status === 'paid' ? '✓ 已支付' : '⏳ 待处理'}
                         </span>
@@ -863,43 +886,91 @@
                         <button class="btn btn-primary" onclick="viewOrder('${order.orderId}')">查看</button>
                     </td>
                 </tr>
-            `).join('');
+            `;
+        }
+
+        function renderQuizRow(lead) {
+            return `
+                <tr>
+                    <td>
+                        <strong style="color: #64b5f6;">Quiz-${lead.id?.slice(-8) || 'N/A'}</strong>
+                    </td>
+                    <td>
+                        <strong>${lead.name || lead.email?.split('@')[0] || '匿名'}</strong>
+                        <br>
+                        <a href="mailto:${lead.email}" class="email-link">${lead.email || '无邮箱'}</a>
+                    </td>
+                    <td>
+                        <div class="bazi-info">
+                            <span><strong>结果:</strong> ${lead.elementResult || lead.element || '-'}</span>
+                            <span><strong>生日:</strong> ${lead.birthDate || '-'}</span>
+                        </div>
+                    </td>
+                    <td>
+                        <span style="color: #888;">免费测试</span>
+                    </td>
+                    <td>
+                        <span class="status-badge" style="background: rgba(100,181,246,0.15); color: #64b5f6;">五行测试</span>
+                    </td>
+                    <td>
+                        <span class="status-badge" style="background: rgba(100,181,246,0.15); color: #64b5f6;">已留资</span>
+                    </td>
+                    <td>
+                        ${formatDate(lead.createdAt || lead.collectedAt)}
+                    </td>
+                    <td>
+                        <button class="btn btn-primary" onclick="viewQuizLead('${lead.id}')">查看</button>
+                    </td>
+                </tr>
+            `;
         }
 
         function filterOrders() {
             const searchTerm = document.getElementById('searchInput').value.toLowerCase();
             const statusFilter = document.getElementById('statusFilter').value;
+            const sourceFilter = document.getElementById('sourceFilter').value;
             const dateFilter = document.getElementById('dateFilter').value;
 
             return orders.filter(order => {
+                // 来源筛选
+                if (sourceFilter === 'order' && order.type === 'wuxing_quiz') return false;
+                if (sourceFilter === 'wuxing_quiz' && order.type !== 'wuxing_quiz') return false;
+
                 const matchesSearch = !searchTerm ||
                     (order.name && order.name.toLowerCase().includes(searchTerm)) ||
                     (order.email && order.email.toLowerCase().includes(searchTerm)) ||
-                    (order.orderId && order.orderId.toLowerCase().includes(searchTerm));
+                    (order.orderId && order.orderId.toLowerCase().includes(searchTerm)) ||
+                    (order.id && order.id.toLowerCase().includes(searchTerm));
 
                 const matchesStatus = !statusFilter || order.status === statusFilter;
 
+                const orderDate = order.createdAt || order.collectedAt;
                 const matchesDate = !dateFilter ||
-                    (order.createdAt && order.createdAt.startsWith(dateFilter));
+                    (orderDate && orderDate.startsWith(dateFilter));
 
                 return matchesSearch && matchesStatus && matchesDate;
             });
         }
 
         function updateStats() {
-            document.getElementById('totalOrders').textContent = orders.length;
+            const realOrders = orders.filter(o => o.type !== 'wuxing_quiz');
+            const quizLeads = orders.filter(o => o.type === 'wuxing_quiz');
+
+            document.getElementById('totalOrders').textContent = realOrders.length;
 
             const today = new Date().toISOString().split('T')[0];
-            const todayCount = orders.filter(o => o.createdAt && o.createdAt.startsWith(today)).length;
+            const todayCount = realOrders.filter(o => o.createdAt && o.createdAt.startsWith(today)).length;
             document.getElementById('todayOrders').textContent = todayCount;
 
-            const pendingCount = orders.filter(o => o.status === 'pending').length;
+            const pendingCount = realOrders.filter(o => o.status === 'pending').length;
             document.getElementById('pendingOrders').textContent = pendingCount;
 
-            const totalRevenue = orders
+            const totalRevenue = realOrders
                 .filter(o => o.status === 'paid')
                 .reduce((sum, o) => sum + parseFloat(o.amount || 0), 0);
             document.getElementById('totalRevenue').textContent = `$${totalRevenue.toFixed(2)}`;
+
+            document.getElementById('totalQuizLeads').textContent = quizLeads.length;
         }
 
         function viewOrder(orderId) {
@@ -975,24 +1046,62 @@
             document.getElementById('orderModal').classList.remove('active');
         }
 
+        function viewQuizLead(leadId) {
+            const lead = orders.find(o => o.type === 'wuxing_quiz' && o.id === leadId);
+            if (!lead) return;
+
+            const modalBody = document.getElementById('modalBody');
+            modalBody.innerHTML = `
+                <div class="detail-row">
+                    <span class="detail-label">来源</span>
+                    <span class="detail-value" style="color: #64b5f6;">五行测试线索</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">姓名</span>
+                    <span class="detail-value">${lead.name || '匿名'}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">邮箱</span>
+                    <span class="detail-value"><a href="mailto:${lead.email}" class="email-link">${lead.email || 'N/A'}</a></span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">五行结果</span>
+                    <span class="detail-value">${lead.elementResult || lead.element || 'N/A'}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">生日</span>
+                    <span class="detail-value">${lead.birthDate || 'N/A'}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">收集时间</span>
+                    <span class="detail-value">${formatDateTime(lead.createdAt || lead.collectedAt)}</span>
+                </div>
+            `;
+
+            document.getElementById('orderModal').classList.add('active');
+        }
+
         function refreshOrders() {
             loadOrders();
         }
 
         function exportOrders() {
             const csvContent = [
-                ['订单号', 'Checkout ID', '姓名', '邮箱', '金额', '状态', '出生年', '出生月', '出生日', '出生时辰', '性别', '出生地点', '备注', '下单时间'],
+                ['来源', '订单号', 'Checkout ID', '姓名', '邮箱', '金额', '状态', '出生年', '出生月', '出生日', '出生时辰', '性别', '出生地点', '备注', '下单时间'],
                 ...orders.map(o => [
-                    o.orderId, o.checkoutId, o.name, o.email, o.amount, o.status,
-                    o.birthYear, o.birthMonth, o.birthDay, o.birthHour, o.gender,
-                    o.birthPlace, o.notes, o.createdAt
+                    o.type === 'wuxing_quiz' ? '五行测试' : '八字订单',
+                    o.orderId || o.id || '', o.checkoutId || '', o.name || '', o.email || '',
+                    o.amount || '0', o.status || '',
+                    o.birthYear || '', o.birthMonth || '', o.birthDay || '', o.birthHour || '',
+                    o.gender || '', o.birthPlace || '', o.notes || '',
+                    o.createdAt || o.collectedAt || ''
                 ])
-            ].map(row => row.join(',')).join('\n');
+            ].map(row => row.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(',')).join('\n');
 
             const blob = new Blob(['\ufeff' + csvContent], { type: 'text/csv;charset=utf-8;' });
             const link = document.createElement('a');
             link.href = URL.createObjectURL(blob);
-            link.download = `bazi-orders-${new Date().toISOString().split('T')[0]}.csv`;
+            link.download = `daoessence-leads-${new Date().toISOString().split('T')[0]}.csv`;
             link.click();
         }
 
@@ -1011,6 +1120,7 @@
         // 监听筛选
         document.getElementById('searchInput').addEventListener('input', renderOrders);
         document.getElementById('statusFilter').addEventListener('change', renderOrders);
+        document.getElementById('sourceFilter').addEventListener('change', renderOrders);
         document.getElementById('dateFilter').addEventListener('change', renderOrders);
 
         // 点击弹窗外部关闭
