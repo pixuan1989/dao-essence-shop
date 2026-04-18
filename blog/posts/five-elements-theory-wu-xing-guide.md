@@ -85,7 +85,7 @@ body: |
   - **Metal-dominant**: Disciplined organizers, precise, principled, but may be rigid or overly critical
   - **Water-dominant**: Deep thinkers, intuitive, adaptable, but may be indecisive or withdrawn
 
-  You can discover your personal Five Elements profile through **BaZi analysis** (Four Pillars of Destiny), which maps the elements present in your birth chart.
+  You can discover your personal Five Elements profile through **BaZi analysis** (Four Pillars of Destiny), which maps the elements present in your birth chart -- or try our [free Five Elements Quiz](/five-elements-test) for a quick overview of your dominant element.
 
   ## Five Elements in Feng Shui
 

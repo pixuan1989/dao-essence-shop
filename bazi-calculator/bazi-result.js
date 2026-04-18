@@ -514,7 +514,12 @@
 
     // ==================== RENDER SIDEBAR RECOMMENDATIONS ====================
     function renderSidebarRecommendations(sidebar) {
-        var html = '<h3 class="sidebar-title">Recommended Reading</h3>';
+        var html = '<a href="/five-elements-test" class="sidebar-card sidebar-element-cta" style="text-align:center;background:linear-gradient(135deg,rgba(212,175,55,0.1),rgba(212,175,55,0.04));border-color:rgba(212,175,55,0.3);">';
+        html += '<div style="font-size:1.8rem;margin-bottom:0.4rem;">木火土金水</div>';
+        html += '<h3 style="margin:0 0 0.3rem;">Discover Your Element</h3>';
+        html += '<div class="sidebar-card-meta">Free 2-min quiz →</div>';
+        html += '</a>';
+        html += '<h3 class="sidebar-title">Recommended Reading</h3>';
         html += '<div id="sidebar-cards"><p style="font-size:0.78rem;color:var(--ink-3);text-align:center;padding:2rem 0">Loading articles...</p></div>';
         sidebar.innerHTML = html;
 

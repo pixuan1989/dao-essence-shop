@@ -147,10 +147,14 @@ const ARTICLE_STYLES = `
         .blog-cta .cta-features { display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; margin-bottom: 2rem; position: relative; }
         .blog-cta .cta-feat { color: rgba(255,255,255,0.6); font-size: 0.88rem; display: flex; align-items: center; gap: 0.4rem; }
         .blog-cta .cta-feat span { color: #D4AF37; font-size: 1.1rem; }
-        .blog-cta a { display: inline-flex; align-items: center; gap: 0.5rem; padding: 1rem 2.8rem; background: linear-gradient(135deg, #D4AF37, #E8C547); color: #1A1208; text-decoration: none; font-weight: 700; font-size: 1.05rem; letter-spacing: 0.05em; border-radius: 10px; transition: all 0.3s; position: relative; box-shadow: 0 4px 20px rgba(212,175,55,0.3); }
-        .blog-cta a:hover { transform: translateY(-3px); box-shadow: 0 8px 32px rgba(212,175,55,0.5); background: linear-gradient(135deg, #E8C547, #F0D76A); }
-        .blog-cta a::after { content: '→'; font-size: 1.2rem; transition: transform 0.3s; }
-        .blog-cta a:hover::after { transform: translateX(4px); }`;
+        .blog-cta .cta-buttons { display: flex; justify-content: center; align-items: center; gap: 1rem; flex-wrap: wrap; position: relative; }
+        .blog-cta .cta-buttons a { display: inline-flex; align-items: center; gap: 0.5rem; padding: 1rem 2.2rem; background: linear-gradient(135deg, #D4AF37, #E8C547); color: #1A1208; text-decoration: none; font-weight: 700; font-size: 1.05rem; letter-spacing: 0.05em; border-radius: 10px; transition: all 0.3s; position: relative; box-shadow: 0 4px 20px rgba(212,175,55,0.3); }
+        .blog-cta .cta-buttons a:hover { transform: translateY(-3px); box-shadow: 0 8px 32px rgba(212,175,55,0.5); background: linear-gradient(135deg, #E8C547, #F0D76A); }
+        .blog-cta .cta-buttons a::after { content: '→'; font-size: 1.2rem; transition: transform 0.3s; }
+        .blog-cta .cta-buttons a:hover::after { transform: translateX(4px); }
+        .blog-cta .cta-btn-secondary { background: transparent !important; border: 1.5px solid rgba(212,175,55,0.6) !important; color: #D4AF37 !important; box-shadow: none !important; }
+        .blog-cta .cta-btn-secondary:hover { border-color: #D4AF37 !important; background: rgba(212,175,55,0.1) !important; box-shadow: 0 4px 20px rgba(212,175,55,0.15) !important; }
+        .blog-cta .cta-btn-secondary::after { content: '→' !important; }`;
 
 // ─── Zodiac Lookup Widget ──────────────────────────────────
 const ZODIAC_LOOKUP_HTML = `
@@ -532,7 +536,10 @@ ${NAV_HTML}
                 <div class="cta-feat"><span>✦</span> Da Yun Forecast</div>
                 <div class="cta-feat"><span>✦</span> 2026 Outlook</div>
             </div>
-            <a href="/bazi-form">Get Your Free BaZi Reading</a>
+            <div class="cta-buttons">
+                <a href="/bazi-form">Get Your Free BaZi Reading</a>
+                <a href="/five-elements-test" class="cta-btn-secondary">Discover Your Element →</a>
+            </div>
         </div>
     </article>
 
@@ -930,17 +937,16 @@ async function main() {
   const today = new Date().toISOString().split('T')[0];
   const staticUrls = [
     { loc: '/', changefreq: 'weekly', priority: '1.0' },
-    { loc: '/shop', changefreq: 'daily', priority: '0.9' },
-    { loc: '/culture', changefreq: 'monthly', priority: '0.7' },
+    { loc: '/blog/', changefreq: 'weekly', priority: '1.0' },
+    { loc: '/bazi-form', changefreq: 'weekly', priority: '1.0' },
+    { loc: '/five-elements-test', changefreq: 'weekly', priority: '1.0' },
+    { loc: '/culture', changefreq: 'monthly', priority: '0.8' },
+    { loc: '/shop', changefreq: 'daily', priority: '0.6' },
     { loc: '/about', changefreq: 'monthly', priority: '0.6' },
-
-    { loc: '/bazi-form', changefreq: 'monthly', priority: '0.8' },
-    { loc: '/five-elements-test', changefreq: 'weekly', priority: '0.8' },
-    { loc: '/guide', changefreq: 'monthly', priority: '0.7' },
-    { loc: '/destiny', changefreq: 'monthly', priority: '0.7' },
+    { loc: '/guide', changefreq: 'monthly', priority: '0.6' },
+    { loc: '/destiny', changefreq: 'monthly', priority: '0.6' },
     { loc: '/privacy', changefreq: 'yearly', priority: '0.3' },
     { loc: '/terms', changefreq: 'yearly', priority: '0.3' },
-    { loc: '/blog/', changefreq: 'weekly', priority: '0.9' },
   ];
   // Add category pages (only those that actually have articles)
   for (const cat of Object.keys(byCategory)) {
