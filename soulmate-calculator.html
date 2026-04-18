@@ -588,8 +588,71 @@
             border: 1px solid rgba(212,175,55,0.2);
             color: var(--gold);
         }
+        .sc-direction-tag.elem {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--text-muted);
+        }
+
 
         /* Timing bar */
+        /* Timing years - scored bars */
+        .sc-timing-years {
+            margin: 1rem 0;
+        }
+        .sc-timing-year {
+            margin-bottom: 0.8rem;
+        }
+        .sc-timing-year.highlight {
+            background: rgba(244,114,182,0.06);
+            border-radius: 10px;
+            padding: 0.6rem 0.8rem;
+        }
+        .sc-ty-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.3rem;
+        }
+        .sc-ty-label {
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+        .sc-ty-label small {
+            color: var(--text-muted);
+            font-weight: 400;
+            font-size: 0.8rem;
+        }
+        .sc-ty-score {
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 0.15rem 0.5rem;
+            border-radius: 6px;
+        }
+        .sc-ty-score.high { background: rgba(244,114,182,0.15); color: #f472b6; }
+        .sc-ty-score.mid { background: rgba(251,191,36,0.15); color: #fbbf24; }
+        .sc-ty-score.low { background: rgba(148,163,184,0.12); color: var(--text-muted); }
+        .sc-ty-bar {
+            height: 6px;
+            background: rgba(255,255,255,0.06);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        .sc-ty-fill {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 1s ease;
+        }
+        .sc-ty-fill.high { background: linear-gradient(90deg, #f472b6, #fb923c); }
+        .sc-ty-fill.mid { background: linear-gradient(90deg, #fbbf24, #f59e0b); }
+        .sc-ty-fill.low { background: linear-gradient(90deg, #64748b, #94a3b8); }
+        .sc-ty-tier {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            margin-top: 0.2rem;
+        }
+
         .sc-timing-bar {
             background: rgba(255,255,255,0.03);
             border-radius: 12px;
@@ -1012,6 +1075,8 @@
         <p style="margin-top:0.4rem;">This reading is for entertainment and self-reflection purposes.</p>
     </footer>
 
+    <!-- BaZi Engine for precise birth chart calculation -->
+    <script src="/bazi-calculator/paipan.js"></script>
     <script>
     // ===== INIT FORM =====
     (function() {
@@ -1059,35 +1124,15 @@
     })();
 
     // ===== ENCRYPTED ENGINE =====
-    // Core logic is obfuscated to protect proprietary algorithms
+    // Core logic obfuscated to protect proprietary algorithms
     var _0x = (function() {
         var _e = [
             'MtGPx1ZZD7cMd4wrGLPYl5fxPCXRUAnBQjKTLOZaHduFE3JyDbq8CoS+kfIYhvmt9/0Ni6W2Vzs',
             'Rat','Ox','Tiger','Rabbit','Dragon','Snake','Horse','Goat','Monkey','Rooster','Dog','Pig',
-            'East','South','Central / Local','West','North',
+            'East','South','Central','West','North',
             'Southeast','Southwest','Northwest','Northeast',
             'Wood','Fire','Earth','Metal','Water',
             'The Romantic Explorer','The Passionate Spark','The Loyal Foundation','The Refined Partner','The Deep Intuitive',
-            'Growth-oriented: You see love as a journey of mutual growth and discovery',
-            'Creative partner: You express love through thoughtful gestures and shared adventures',
-            'Social connector: You may meet your soulmate through friends or creative communities',
-            'Need space: You thrive in relationships that honor independence and personal growth',
-            'Intense chemistry: Love hits you fast and deep — you recognize soulmate energy instantly',
-            'Dramatic heart: You love grand romantic gestures and emotional depth in relationships',
-            'Warm leader: You naturally draw people in with your charisma and warmth',
-            'Impatient lover: You may rush in — learning patience leads to lasting love',
-            'Stability seeker: You want a love that feels like home — secure, warm, and lasting',
-            'Nurturing soul: You show love through care, comfort, and being there through thick and thin',
-            'Slow to open: You take time to trust, but once committed, your loyalty is unshakable',
-            'Shared values: Financial and life goal alignment matters deeply to you',
-            'High standards: You know exactly what you want and refuse to settle for less',
-            'Quality over quantity: You prefer fewer but deeply meaningful connections',
-            'Fair-minded: You value equality, respect, and clear communication in love',
-            'Elegant lover: You express love with refined taste and thoughtful precision',
-            'Emotional depth: You feel love on a level most people cannot articulate',
-            'Intuitive connector: You often sense soulmate energy before rational proof appears',
-            'Dreamy romantic: You need a partner who understands your inner world and sensitivities',
-            'Adaptable heart: You can love across differences, cultures, and distances',
             'parks, gardens, bookstores, universities, creative workshops, and places with lush greenery',
             'festivals, social gatherings, performance venues, sunny beaches, and vibrant nightlife areas',
             "cozy cafes, family homes, farmer's markets, quiet restaurants, and nature retreats",
@@ -1105,14 +1150,84 @@
         var _b = function(str) {
             try { return atob(str); } catch(e) { return str; }
         };
-        // Build lookup tables from encoded data
         var animals = _e.slice(1, 13);
         var directions = _e.slice(13, 18);
         var subDirs = _e.slice(18, 22);
         var elements = _e.slice(22, 27);
         var styleNames = _e.slice(27, 32);
-        // Element index mapping: Wood=0, Fire=1, Earth=2, Metal=3, Water=4
         var elemIdx = {'Wood':0,'Fire':1,'Earth':2,'Metal':3,'Water':4};
+
+        // ===== Five Elements conquering cycle (五行相克) =====
+        // 金克木、木克土、土克水、水克火、火克金
+        var conquerMap = {
+            'Metal': 'Wood', 'Wood': 'Earth', 'Earth': 'Water', 'Water': 'Fire', 'Fire': 'Metal'
+        };
+
+        // Soulmate Direction per day element and gender (from spec)
+        // Male: I conquer = wife element → direction
+        // Female: Who conquers me = husband element → direction
+        var dirMapping = {
+            'Wood':   { male: 'East',  female: 'East'  },
+            'Fire':   { male: 'South', female: 'South' },
+            'Earth':  { male: 'South', female: 'North' },
+            'Metal':  { male: 'West',  female: 'West'  },
+            'Water':  { male: 'North', female: 'South' }
+        };
+        var subDirMapping = {
+            'Wood':   { male: 'Southeast',  female: 'Southeast'  },
+            'Fire':   { male: 'Southwest',  female: 'Southwest'  },
+            'Earth':  { male: 'Southwest',  female: 'Northeast'  },
+            'Metal':  { male: 'Northwest',  female: 'Northwest'  },
+            'Water':  { male: 'Northeast',  female: 'Southwest'  }
+        };
+
+        // ===== Love Timing: 12 conditions per year =====
+        // 天干五合: 甲己、乙庚、丙辛、丁壬、戊癸
+        var tgWuHe = [
+            [0,5],[1,6],[2,7],[3,8],[4,9]
+        ];
+        // 地支六合: 子丑、寅亥、卯戌、辰酉、巳申、午未
+        var dzLiuHe = [
+            [0,1],[2,11],[3,10],[4,9],[5,8],[6,7]
+        ];
+        // 六穿(六害): 子未、丑午、寅巳、卯辰、申亥、酉戌
+        var dzChuan = [
+            [0,7],[1,6],[2,5],[3,4],[8,11],[9,10]
+        ];
+        // 二破: 子卯、卯午
+        var dzPo = [
+            [0,3],[3,6]
+        ];
+        // 干支自合: 甲午、丁亥、戊子、辛巳、壬午、癸巳
+        var gzZiHe = [
+            {tg:0,dz:6},{tg:3,dz:11},{tg:4,dz:0},{tg:7,dz:5},{tg:8,dz:6},{tg:9,dz:5}
+        ];
+        // 夫妻宫被穿破 (日支被穿或被破)
+        var getChuanIdx = function(dayZhi) {
+            for (var i = 0; i < dzChuan.length; i++) {
+                if (dzChuan[i][0] === dayZhi) return dzChuan[i][1];
+                if (dzChuan[i][1] === dayZhi) return dzChuan[i][0];
+            }
+            return -1;
+        };
+        var getPoIdx = function(dayZhi) {
+            for (var i = 0; i < dzPo.length; i++) {
+                if (dzPo[i][0] === dayZhi) return dzPo[i][1];
+                if (dzPo[i][1] === dayZhi) return dzPo[i][0];
+            }
+            return -1;
+        };
+        // 日支被日干合 (月支或其他干合日支)
+        var getDzHeTg = function(dayZhi) {
+            for (var i = 0; i < dzLiuHe.length; i++) {
+                if (dzLiuHe[i][0] === dayZhi || dzLiuHe[i][1] === dayZhi) return true;
+            }
+            return false;
+        };
+
+        // ===== Element index helpers =====
+        // paipan: 0=金, 1=水, 2=木, 3=火, 4=土
+        var ppToEn = ['Metal','Water','Wood','Fire','Earth'];
 
         return {
             animals: animals,
@@ -1121,18 +1236,17 @@
             elems: elements,
             styleNames: styleNames,
             elemIdx: elemIdx,
-            // Direction index per element
-            dirMap: [0,1,2,3,4],  // Wood->East, Fire->South, Earth->Central, Metal->West, Water->North
-            subDirMap: [0,1,1,2,3], // Wood->SE, Fire->SW, Earth->SW, Metal->NW, Water->NE
-            // Timing data: [bestAge, bestYears, peak, warning, elementNote]
-            timing: [
-                ['24-28','Wood years (Tiger, Rabbit), Dragon years','When your career or personal growth accelerates','Avoid impulsive decisions during Fire years','Water nourishes Wood — look for quiet, transformative periods'],
-                ['22-27','Fire years (Snake, Horse), Sheep years','During periods of creative or social expansion','Earth years may bring emotional stagnation','Wood feeds Fire — love burns brightest when learning or growing'],
-                ['26-32','Earth years (Dragon, Goat, Dog, Ox), Fire years','When life feels stable — career, home, finances aligned','Wood years can bring relationship turbulence','Fire creates Earth — shared passions build lasting bonds'],
-                ['27-33','Metal years (Monkey, Rooster), Earth years','After achieving personal or financial milestones','Fire years challenge your control','Earth bears Metal — stability attracts your soulmate'],
-                ['23-29','Water years (Pig, Rat), Metal years','During introspective or transformative life phases','Earth years may block emotional flow','Metal generates Water — self-improvement draws love to you']
-            ],
-            // Style traits: 4 traits per element, each [label, description]
+            ppToEn: ppToEn,
+            conquerMap: conquerMap,
+            dirMapping: dirMapping,
+            subDirMapping: subDirMapping,
+            tgWuHe: tgWuHe,
+            dzLiuHe: dzLiuHe,
+            dzChuan: dzChuan,
+            dzPo: dzPo,
+            gzZiHe: gzZiHe,
+            getChuanIdx: getChuanIdx,
+            getPoIdx: getPoIdx,
             traits: [
                 [
                     ['Growth-oriented','You see love as a journey of mutual growth and discovery'],
@@ -1141,13 +1255,13 @@
                     ['Need space','You thrive in relationships that honor independence and personal growth']
                 ],
                 [
-                    ['Intense chemistry','Love hits you fast and deep — you recognize soulmate energy instantly'],
+                    ['Intense chemistry','Love hits you fast and deep \u2014 you recognize soulmate energy instantly'],
                     ['Dramatic heart','You love grand romantic gestures and emotional depth in relationships'],
                     ['Warm leader','You naturally draw people in with your charisma and warmth'],
-                    ['Impatient lover','You may rush in — learning patience leads to lasting love']
+                    ['Impatient lover','You may rush in \u2014 learning patience leads to lasting love']
                 ],
                 [
-                    ['Stability seeker','You want a love that feels like home — secure, warm, and lasting'],
+                    ['Stability seeker','You want a love that feels like home \u2014 secure, warm, and lasting'],
                     ['Nurturing soul','You show love through care, comfort, and being there through thick and thin'],
                     ['Slow to open','You take time to trust, but once committed, your loyalty is unshakable'],
                     ['Shared values','Financial and life goal alignment matters deeply to you']
@@ -1165,44 +1279,196 @@
                     ['Adaptable heart','You can love across differences, cultures, and distances']
                 ]
             ],
-            envs: _e.slice(52, 57)
+            envs: _e.slice(32, 37)
         };
     })();
 
-    // BaZi Engine (simplified, obfuscated variable names)
-    var _gG = ['\u7532','\u4e59','\u4e19','\u4e01','\u620a','\u5df1','\u5e9a','\u8f9b','\u58ec','\u7678'];
-    var _wX = ['\u6728','\u6728','\u706b','\u706b','\u571f','\u571f','\u91d1','\u91d1','\u6c34','\u6c34'];
-    var _wXEn = ['Wood','Wood','Fire','Fire','Earth','Earth','Metal','Metal','Water','Water'];
-    var _dZ = ['\u5b50','\u4e11','\u5bc5','\u536f','\u8fb0','\u5df3','\u5348','\u672a','\u7533','\u9149','\u620c','\u4ea5'];
+    // ===== paipan Bridge =====
+    // paipan wxtg: [2,2,3,3,4,4,0,0,1,1] → index0=甲→木(2), index7=辛→金(0)
+    // paipan cwx: ['金','水','木','火','土'] → code 0=金,1=水,2=木,3=火,4=土
+    var ppToEn = ['Metal','Water','Wood','Fire','Earth'];
 
-    function _dG(y, m, d) {
-        var ref = new Date(2000, 0, 7);
-        var tgt = new Date(y, m - 1, d);
-        var diff = Math.floor((tgt - ref) / 86400000);
-        return ((diff % 10) + 10 + 6) % 10;
+    function getDayElementEn(pp) {
+        var dayWxCode = window.p.wxtg[pp.tg[2]]; // 日干对应的五行编码: 0=金,1=水,2=木,3=火,4=土
+        return ppToEn[dayWxCode];
     }
 
-    function _gB(y, m, d) {
-        var yG = (y - 4) % 10;
-        var yZ = (y - 4) % 12;
-        var dG = _dG(y, m, d);
-        var dZ = (dG * 2 + d) % 12;
-        return {
-            yG: yG, yZ: yZ, dG: dG, dZ: dZ,
-            dE: _wXEn[dG], // Day Element (English)
-            dEC: _wX[dG],   // Day Element (Chinese)
-            gC: _gG[dG],    // Day Gan (Chinese)
-            zC: _dZ[dZ],    // Day Zhi (Chinese)
-            animal: _0x.animals[yZ]
-        };
+    // Check if two heavenly stems combine (天干五合)
+    function checkTgHe(tg1, tg2) {
+        for (var i = 0; i < _0x.tgWuHe.length; i++) {
+            var pair = _0x.tgWuHe[i];
+            if ((tg1 === pair[0] && tg2 === pair[1]) || (tg1 === pair[1] && tg2 === pair[0])) return true;
+        }
+        return false;
     }
 
-    function _elIdx(en) {
-        if (en === 'Wood') return 0;
-        if (en === 'Fire') return 1;
-        if (en === 'Earth') return 2;
-        if (en === 'Metal') return 3;
-        return 4;
+    // Check if two earthly branches combine (地支六合)
+    function checkDzHe(dz1, dz2) {
+        for (var i = 0; i < _0x.dzLiuHe.length; i++) {
+            var pair = _0x.dzLiuHe[i];
+            if ((dz1 === pair[0] && dz2 === pair[1]) || (dz1 === pair[1] && dz2 === pair[0])) return true;
+        }
+        return false;
+    }
+
+    // Check 六穿(六害)
+    function checkDzChuan(dz1, dz2) {
+        for (var i = 0; i < _0x.dzChuan.length; i++) {
+            var pair = _0x.dzChuan[i];
+            if ((dz1 === pair[0] && dz2 === pair[1]) || (dz1 === pair[1] && dz2 === pair[0])) return true;
+        }
+        return false;
+    }
+
+    // Check 二破
+    function checkDzPo(dz1, dz2) {
+        for (var i = 0; i < _0x.dzPo.length; i++) {
+            var pair = _0x.dzPo[i];
+            if ((dz1 === pair[0] && dz2 === pair[1]) || (dz1 === pair[1] && dz2 === pair[0])) return true;
+        }
+        return false;
+    }
+
+    // Check 干支自合
+    function checkGzZiHe(tg, dz) {
+        for (var i = 0; i < _0x.gzZiHe.length; i++) {
+            if (_0x.gzZiHe[i].tg === tg && _0x.gzZiHe[i].dz === dz) return true;
+        }
+        return false;
+    }
+
+    // Calculate love timing score for a specific year
+    function calcYearScore(pp, targetYear, gender) {
+        var score = 0;
+        var yTG = (targetYear - 4) % 10;
+        var yDZ = ((targetYear - 4) % 12 + 12) % 12;
+        var isFemale = (gender === 'female');
+        var dayTG = pp.tg[2]; // day master index 0-9
+        var dayDZ = pp.dz[2]; // day branch index 0-11
+        var monthTG = pp.tg[1];
+        var monthDZ = pp.dz[1];
+        var yearTG = pp.tg[0];
+        var yearDZ = pp.dz[0];
+        var hourTG = pp.tg[3];
+        var hourDZ = pp.dz[3];
+
+        // 1. 天干五合 (25pts) — year stem combines with any pillar stem
+        if (checkTgHe(yTG, dayTG) || checkTgHe(yTG, monthTG) || checkTgHe(yTG, hourTG)) score += 25;
+
+        // 2. 地支六合 (20pts) — year branch combines with any pillar branch
+        if (checkDzHe(yDZ, dayDZ) || checkDzHe(yDZ, monthDZ) || checkDzHe(yDZ, hourDZ)) score += 20;
+
+        // 3. 六穿六害 (15pts) — only female
+        if (isFemale) {
+            if (checkDzChuan(yDZ, dayDZ) || checkDzChuan(yDZ, monthDZ)) score += 15;
+        }
+
+        // 4. 二破 (10pts)
+        if (checkDzPo(yDZ, dayDZ) || checkDzPo(yDZ, monthDZ)) score += 10;
+
+        // 5. 天合地合 (30pts) — year TG+he one pillar AND year DZ+he another pillar
+        var hasTgHe = checkTgHe(yTG, dayTG) || checkTgHe(yTG, monthTG) || checkTgHe(yTG, hourTG);
+        var hasDzHe = checkDzHe(yDZ, dayDZ) || checkDzHe(yDZ, monthDZ) || checkDzHe(yDZ, hourDZ);
+        if (hasTgHe && hasDzHe) score += 30;
+
+        // 6. 天干之刃合杀 (25pts) — only female: year stem is 伤官 that combines with 七杀
+        // 伤官: day element conquering, 七杀: element conquering day (opposite gender)
+        if (isFemale) {
+            var dayElem = window.p.wxtg[dayTG];
+            var yearElem = window.p.wxtg[yTG];
+            // 七杀 = element that conquers day element (same yin/yang)
+            var qishaWx = null;
+            var conquerCycle = [3,4,0,1,2]; // 金克木→index0(Metal)=3 conquers 2(Wood), etc. mapping: conquering[conquered]
+            // Actually: 金(0)克木(2), 木(2)克土(4), 土(4)克水(1), 水(1)克火(3), 火(3)克金(0)
+            var conquers = {0:2, 2:4, 4:1, 1:3, 3:0}; // key conquers value
+            var conqueredBy = {2:0, 4:2, 1:4, 3:1, 0:3}; // key is conquered by value
+            var qishaElem = conqueredBy[dayElem]; // 七杀 element
+            var shangGuanElem = conquers[dayElem]; // 伤官 element
+            if (yearElem === shangGuanElem) {
+                // Check if 七杀 appears in year/月/时
+                for (var pi = 0; pi < 4; pi++) {
+                    if (window.p.wxtg[pp.tg[pi]] === qishaElem) {
+                        score += 25;
+                        break;
+                    }
+                }
+            }
+        }
+
+        // 7. 干支自合 (25pts) — year stem+branch self-combine, or any pillar
+        if (checkGzZiHe(yTG, yDZ) || checkGzZiHe(dayTG, dayDZ) || checkGzZiHe(monthTG, monthDZ) || checkGzZiHe(hourTG, hourDZ)) score += 25;
+
+        // 8. 财星显(男)/官杀显(女) (30pts)
+        if (!isFemale) {
+            // Male: 财星 = element day master conquers
+            var caiWx = conquers[dayElem]; // 我克者为财
+            for (var pi = 0; pi < 4; pi++) {
+                if (window.p.wxtg[pp.tg[pi]] === caiWx) { score += 30; break; }
+            }
+        } else {
+            // Female: 官杀 = element that conquers day master
+            var guanWx = conqueredBy[dayElem]; // 克我者为官杀
+            for (var pi = 0; pi < 4; pi++) {
+                if (window.p.wxtg[pp.tg[pi]] === guanWx) { score += 30; break; }
+            }
+        }
+
+        // 9. 夫妻宫禄被穿破 (15pts) — only female: day branch is 穿/破 by year branch
+        if (isFemale) {
+            var chuanOf = _0x.getChuanIdx(dayDZ);
+            var poOf = _0x.getPoIdx(dayDZ);
+            if (yDZ === chuanOf || yDZ === poOf) score += 15;
+        }
+
+        // 10. 夫妻宫本气被日干合 (20pts) — day branch has 六合 with any pillar branch
+        // (日支六合 = spouse palace activated)
+        var dayDZHe = false;
+        for (var i = 0; i < _0x.dzLiuHe.length; i++) {
+            var pair = _0x.dzLiuHe[i];
+            if (dayDZ === pair[0] || dayDZ === pair[1]) { dayDZHe = true; break; }
+        }
+        // Check if year/month/hour branch completes the pair
+        if (dayDZHe) {
+            for (var i = 0; i < _0x.dzLiuHe.length; i++) {
+                var pair = _0x.dzLiuHe[i];
+                if ((dayDZ === pair[0] && (yDZ === pair[1] || monthDZ === pair[1] || hourDZ === pair[1])) ||
+                    (dayDZ === pair[1] && (yDZ === pair[0] || monthDZ === pair[0] || hourDZ === pair[0]))) {
+                    score += 20;
+                    break;
+                }
+            }
+        }
+
+        // 11. 流年=日柱且干支自合 (30pts)
+        if (yTG === dayTG && yDZ === dayDZ && checkGzZiHe(dayTG, dayDZ)) score += 30;
+
+        // 12. 伤官合杀 (40pts) — only female + yin day stem
+        if (isFemale && dayTG % 2 === 1) { // yin stem: 乙丁己辛癸 = odd index
+            // Already handled in condition 6 partially; this is specific to year pillar
+            var shangGuanWx2 = conquers[dayElem];
+            if (window.p.wxtg[yTG] === shangGuanWx2) {
+                var qishaWx2 = conqueredBy[dayElem];
+                if (window.p.wxtg[yTG] === shangGuanWx2) {
+                    // Check if any pillar has 七杀 that combines
+                    for (var pi = 0; pi < 4; pi++) {
+                        if (window.p.wxtg[pp.tg[pi]] === qishaWx2 && checkTgHe(yTG, pp.tg[pi])) {
+                            score += 40;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        // Cap at 100
+        return Math.min(score, 100);
+    }
+
+    // Convert score to percentage tier
+    function scoreToTier(score) {
+        if (score >= 80) return { pct: '80%', label: 'Strong potential', cls: 'high' };
+        if (score >= 50) return { pct: '50%', label: 'Moderate potential', cls: 'mid' };
+        return { pct: '30%', label: 'Low potential', cls: 'low' };
     }
 
     // ===== MAIN CALCULATION =====
@@ -1212,6 +1478,8 @@
         var day = parseInt(document.getElementById('sc-day').value);
         var birthplace = document.getElementById('sc-birthplace').value.trim();
         var gender = document.getElementById('sc-gender').value;
+        var hourVal = document.getElementById('sc-hour').value;
+        var hour = hourVal !== '' ? parseInt(hourVal) : 6; // default Wu (11-13) if unknown
 
         if (!year || !month || !day) {
             alert('Please select your birth year, month, and day.');
@@ -1231,26 +1499,42 @@
         });
 
         setTimeout(function() {
-            var bazi = _gB(year, month, day);
-            renderResults(bazi, birthplace);
+            // Use paipan.js for precise birth chart: fatemaps(xb, yy, mm, dd, hh, mt, ss)
+            var xb = gender === 'male' ? 0 : 1;
+            var pp = window.p.fatemaps(xb, year, month, day, hour, 0, 0);
+            var dayElemEn = getDayElementEn(pp);
+            renderResults(pp, dayElemEn, gender, birthplace);
             showStep(3);
             btn.disabled = false;
         }, 3500);
     }
 
-    function renderResults(bazi, birthplace) {
-        var ei = _elIdx(bazi.dE);
-        var dir = _0x.dirs[_0x.dirMap[ei]];
-        var subDir = _0x.subDirs[_0x.subDirMap[ei]];
-        var t = _0x.timing[ei];
+    function renderResults(pp, dayElemEn, gender, birthplace) {
+        var ei = _0x.elemIdx[dayElemEn];
         var sn = _0x.styleNames[ei];
         var tr = _0x.traits[ei];
         var env = _0x.envs[ei];
 
+        // Direction: gender-based via conquering cycle
+        var dir = _0x.dirMapping[dayElemEn][gender];
+        var subDir = _0x.subDirMapping[dayElemEn][gender];
+
+        // Spouse element explanation
+        var conquers = {Metal:'Wood', Wood:'Earth', Earth:'Water', Water:'Fire', Fire:'Metal'};
+        var conqueredBy = {Wood:'Metal', Earth:'Wood', Water:'Earth', Fire:'Water', Metal:'Fire'};
+        var spouseElem, dirLogic;
+        if (gender === 'male') {
+            spouseElem = conquers[dayElemEn];
+            dirLogic = 'As a ' + dayElemEn + ' Day Master, you attract a ' + spouseElem + ' partner (what you conquer). The ' + spouseElem + ' element resides in the <strong style="color:var(--gold)">' + dir + '</strong> direction.';
+        } else {
+            spouseElem = conqueredBy[dayElemEn];
+            dirLogic = 'As a ' + dayElemEn + ' Day Master, your ideal partner carries ' + spouseElem + ' energy (who conquers you). The ' + spouseElem + ' element resides in the <strong style="color:var(--gold)">' + dir + '</strong> direction.';
+        }
+
         // Header
-        document.getElementById('sc-result-name').textContent = bazi.gC + bazi.zC + ' ' + bazi.animal;
+        document.getElementById('sc-result-name').textContent = pp.ctg[2] + pp.cdz[2] + ' ' + pp.sx;
         document.getElementById('sc-result-summary').textContent =
-            'Your Day Master is ' + bazi.gC + ' (' + bazi.dE + ' Element). Here is your soulmate destiny.';
+            'Your Day Master is ' + pp.ctg[2] + ' (' + dayElemEn + ' Element). Here is your soulmate destiny.';
 
         // Birthplace reference
         var refEl = document.getElementById('sc-result-ref');
@@ -1260,29 +1544,56 @@
             refEl.innerHTML = 'Direction is calculated from your <strong>birthplace</strong>, not your current location.';
         }
 
-        // Direction - concise results only
-        var dirSuffix = dir === 'Central / Local' ? 'ern' : 'ern';
-        var dirWord = dir === 'Central / Local' ? 'Central' : dir;
+        // Direction card
         document.getElementById('sc-direction-body').innerHTML =
             '<div class="sc-direction-tags">' +
                 '<span class="sc-direction-tag primary">' + dir + '</span>' +
                 '<span class="sc-direction-tag secondary">' + subDir + '</span>' +
+                '<span class="sc-direction-tag elem">' + spouseElem + ' Element</span>' +
             '</div>' +
             '<p style="color:var(--text-secondary);font-size:0.9rem;margin-top:0.8rem;">' +
-            'Based on your ' + bazi.dE + ' Day Master, your soulmate energy is strongest in the <strong style="color:var(--gold)">' + dir + '</strong> direction from your birthplace' +
-            (birthplace ? ' (' + birthplace + ')' : '') + '. ' +
-            'The ' + subDir + ' direction also carries supportive energy.' +
+            dirLogic + ' From your birthplace' +
+            (birthplace ? ' (' + birthplace + ')' : '') + ', head <strong>' + dir + '</strong>. ' +
+            'Look for love in ' + env + '.' +
             '</p>';
 
-        // Timing - concise
-        document.getElementById('sc-timing-body').innerHTML =
-            '<div class="sc-timing-bar">' +
-                '<div class="sc-timing-row"><span class="label">Most favorable age range</span><span class="value rose">' + t[0] + '</span></div>' +
-                '<div class="sc-timing-row"><span class="label">Best zodiac years for love</span><span class="value">' + t[1] + '</span></div>' +
-                '<div class="sc-timing-row"><span class="label">Love peaks when</span><span class="value">' + t[2] + '</span></div>' +
-            '</div>';
+        // Timing card — 12-condition scoring for next 5 years
+        var now = new Date();
+        var currentYear = now.getFullYear();
+        var timingHtml = '<div class="sc-timing-years">';
+        var bestYear = null, bestScore = 0;
 
-        // Love Style - concise
+        for (var y = 0; y < 5; y++) {
+            var targetYear = currentYear + y;
+            var score = calcYearScore(pp, targetYear, gender);
+            var tier = scoreToTier(score);
+            var yTG = (targetYear - 4) % 10;
+            var yDZ = ((targetYear - 4) % 12 + 12) % 12;
+            var zodiacAnimal = _0x.animals[yDZ];
+            var barW = Math.max(score, 8); // min visual width
+
+            if (score > bestScore) { bestScore = score; bestYear = targetYear; }
+
+            timingHtml +=
+                '<div class="sc-timing-year ' + (score >= 80 ? 'highlight' : '') + '">' +
+                    '<div class="sc-ty-head">' +
+                        '<span class="sc-ty-label">' + targetYear + ' <small>(' + zodiacAnimal + ')</small></span>' +
+                        '<span class="sc-ty-score ' + tier.cls + '">' + score + '</span>' +
+                    '</div>' +
+                    '<div class="sc-ty-bar"><div class="sc-ty-fill ' + tier.cls + '" style="width:' + barW + '%"></div></div>' +
+                    '<div class="sc-ty-tier">' + tier.label + '</div>' +
+                '</div>';
+        }
+        timingHtml += '</div>';
+
+        timingHtml += '<p style="color:var(--text-secondary);font-size:0.85rem;margin-top:0.8rem;">' +
+            '<strong>Best year: ' + bestYear + '</strong> (score: ' + bestScore + '/100). ' +
+            'Scores are calculated using 12 BaZi compatibility conditions including Heavenly Stem combinations, Earthly Branch harmonies, and spouse palace activation.' +
+            '</p>';
+
+        document.getElementById('sc-timing-body').innerHTML = timingHtml;
+
+        // Love Style card
         var traitsHtml = '';
         for (var i = 0; i < tr.length; i++) {
             traitsHtml += '<div class="sc-style-item"><span class="trait-dot"></span><span class="trait-text"><strong>' + tr[i][0] + ':</strong> ' + tr[i][1] + '</span></div>';
