@@ -680,18 +680,23 @@
             // Health
             buildHealthSection(nwx, dmIdx, rt) +
 
-            // CTA
-            '<section class="cta-box">' +
+            // CTA — Premium conversion
+            '<section class="cta-box"><div class="cta-box-inner">' +
+                '<div class="cta-badge">✦ Premium Reading</div>' +
                 '<h3 class="cta-title">Unlock Your Full Life Blueprint</h3>' +
-                '<p class="cta-desc">This free chart reveals your core personality and elemental balance. For deeper insights, a professional reading covers:</p>' +
+                '<p class="cta-subtitle">This free chart reveals your core personality and elemental balance. A personalized reading decodes every dimension of your destiny.</p>' +
                 '<div class="cta-list">' +
-                    '<span>Career direction</span><span>Relationship compatibility</span>' +
-                    '<span>Wealth cycles</span><span>Health vulnerabilities</span>' +
-                    '<span>Children &amp; family</span><span>Life decisions</span>' +
+                    '<span>Career direction & timing</span><span>Love & relationship compatibility</span>' +
+                    '<span>Wealth peaks & valleys</span><span>Health blind spots</span>' +
+                    '<span>Family & children insights</span><span>Major life decision guidance</span>' +
                 '</div>' +
-                '<a href="https://www.creem.io/checkout/prod_28PqAKMEom5WGRH1w9O35n/ch_1ueb7qKPFnQOzLK8lNPfIN" class="cta-btn" target="_blank" rel="noopener">Get Personalized Reading</a>' +
-                '<p class="cta-note">Based on your exact birth chart · Certified practitioner</p>' +
-            '</section>';
+                '<a href="https://www.creem.io/checkout/prod_28PqAKMEom5WGRH1w9O35n/ch_1ueb7qKPFnQOzLK8lNPfIN" class="cta-btn" target="_blank" rel="noopener">Get Your Personalized Reading →</a>' +
+                '<div class="cta-trust">' +
+                    '<span><span class="trust-dot"></span>Based on your exact chart</span>' +
+                    '<span><span class="trust-dot"></span>Certified practitioner</span>' +
+                    '<span><span class="trust-dot"></span>Delivered in 24h</span>' +
+                '</div>' +
+            '</div></section>';
 
         // Bind dayun events
         if (rt['dy'] && rt['dy'].length > 0) {
