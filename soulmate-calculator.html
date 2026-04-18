@@ -1076,7 +1076,7 @@
     </footer>
 
     <!-- BaZi Engine for precise birth chart calculation -->
-    <script src="/bazi-calculator/paipan.js"></script>
+    <script src="bazi-calculator/paipan.js"></script>
     <script>
     // Fallback: load paipan.js via relative path if absolute path failed (for local file:// preview)
     if (typeof window.p === 'undefined' || !window.p.fatemaps) {
@@ -1346,17 +1346,21 @@
     }
 
     // Calculate love timing score for a specific year
+    // Five Elements conquering cycle (shared by multiple conditions)
+    // 金(0)克木(2), 木(2)克土(4), 土(4)克水(1), 水(1)克火(3), 火(3)克金(0)
+    var _conquers = {0:2, 2:4, 4:1, 1:3, 3:0}; // key conquers value
+    var _conqueredBy = {2:0, 4:2, 1:4, 3:1, 0:3}; // key is conquered by value
+
     function calcYearScore(pp, targetYear, gender) {
         var score = 0;
         var yTG = (targetYear - 4) % 10;
         var yDZ = ((targetYear - 4) % 12 + 12) % 12;
         var isFemale = (gender === 'female');
-        var dayTG = pp.tg[2]; // day master index 0-9
-        var dayDZ = pp.dz[2]; // day branch index 0-11
+        var dayTG = pp.tg[2];
+        var dayDZ = pp.dz[2];
+        var dayElem = window.p.wxtg[dayTG]; // 日主五行编码
         var monthTG = pp.tg[1];
         var monthDZ = pp.dz[1];
-        var yearTG = pp.tg[0];
-        var yearDZ = pp.dz[0];
         var hourTG = pp.tg[3];
         var hourDZ = pp.dz[3];
 
@@ -1380,20 +1384,11 @@
         if (hasTgHe && hasDzHe) score += 30;
 
         // 6. 天干之刃合杀 (25pts) — only female: year stem is 伤官 that combines with 七杀
-        // 伤官: day element conquering, 七杀: element conquering day (opposite gender)
         if (isFemale) {
-            var dayElem = window.p.wxtg[dayTG];
             var yearElem = window.p.wxtg[yTG];
-            // 七杀 = element that conquers day element (same yin/yang)
-            var qishaWx = null;
-            var conquerCycle = [3,4,0,1,2]; // 金克木→index0(Metal)=3 conquers 2(Wood), etc. mapping: conquering[conquered]
-            // Actually: 金(0)克木(2), 木(2)克土(4), 土(4)克水(1), 水(1)克火(3), 火(3)克金(0)
-            var conquers = {0:2, 2:4, 4:1, 1:3, 3:0}; // key conquers value
-            var conqueredBy = {2:0, 4:2, 1:4, 3:1, 0:3}; // key is conquered by value
-            var qishaElem = conqueredBy[dayElem]; // 七杀 element
-            var shangGuanElem = conquers[dayElem]; // 伤官 element
+            var qishaElem = _conqueredBy[dayElem]; // 七杀 element
+            var shangGuanElem = _conquers[dayElem]; // 伤官 element
             if (yearElem === shangGuanElem) {
-                // Check if 七杀 appears in year/月/时
                 for (var pi = 0; pi < 4; pi++) {
                     if (window.p.wxtg[pp.tg[pi]] === qishaElem) {
                         score += 25;
@@ -1408,14 +1403,12 @@
 
         // 8. 财星显(男)/官杀显(女) (30pts)
         if (!isFemale) {
-            // Male: 财星 = element day master conquers
-            var caiWx = conquers[dayElem]; // 我克者为财
+            var caiWx = _conquers[dayElem]; // 我克者为财
             for (var pi = 0; pi < 4; pi++) {
                 if (window.p.wxtg[pp.tg[pi]] === caiWx) { score += 30; break; }
             }
         } else {
-            // Female: 官杀 = element that conquers day master
-            var guanWx = conqueredBy[dayElem]; // 克我者为官杀
+            var guanWx = _conqueredBy[dayElem]; // 克我者为官杀
             for (var pi = 0; pi < 4; pi++) {
                 if (window.p.wxtg[pp.tg[pi]] === guanWx) { score += 30; break; }
             }
@@ -1451,18 +1444,14 @@
         if (yTG === dayTG && yDZ === dayDZ && checkGzZiHe(dayTG, dayDZ)) score += 30;
 
         // 12. 伤官合杀 (40pts) — only female + yin day stem
-        if (isFemale && dayTG % 2 === 1) { // yin stem: 乙丁己辛癸 = odd index
-            // Already handled in condition 6 partially; this is specific to year pillar
-            var shangGuanWx2 = conquers[dayElem];
+        if (isFemale && dayTG % 2 === 1) {
+            var shangGuanWx2 = _conquers[dayElem];
             if (window.p.wxtg[yTG] === shangGuanWx2) {
-                var qishaWx2 = conqueredBy[dayElem];
-                if (window.p.wxtg[yTG] === shangGuanWx2) {
-                    // Check if any pillar has 七杀 that combines
-                    for (var pi = 0; pi < 4; pi++) {
-                        if (window.p.wxtg[pp.tg[pi]] === qishaWx2 && checkTgHe(yTG, pp.tg[pi])) {
-                            score += 40;
-                            break;
-                        }
+                var qishaWx2 = _conqueredBy[dayElem];
+                for (var pi = 0; pi < 4; pi++) {
+                    if (window.p.wxtg[pp.tg[pi]] === qishaWx2 && checkTgHe(yTG, pp.tg[pi])) {
+                        score += 40;
+                        break;
                     }
                 }
             }
