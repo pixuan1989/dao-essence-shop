@@ -316,19 +316,26 @@
 
         /* --- SOULMATE CALCULATOR SECTION --- */
         .soulmate-section {
-            padding: var(--spacing-4xl) 0;
-            background: linear-gradient(160deg, #0D0A12 0%, #14101E 40%, #0D0A12 100%);
-            position: relative;
-            overflow: hidden;
-        }
-        .soulmate-section::before {
-            content: '';
-            position: absolute;
-            inset: 0;
+            padding: var(--spacing-4xl) 0 calc(var(--spacing-4xl) - 2rem);
             background:
                 radial-gradient(ellipse at 20% 30%, rgba(196,125,125,0.06) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 70%, rgba(212,175,55,0.04) 0%, transparent 50%);
+                radial-gradient(ellipse at 80% 70%, rgba(212,175,55,0.04) 0%, transparent 50%),
+                linear-gradient(170deg, #0D0A12 0%, #12101A 50%, #0B0E18 100%);
+            position: relative;
+            overflow: visible;
+        }
+        /* Smooth bridge to next section */
+        .soulmate-section::after {
+            content: '';
+            position: absolute;
+            bottom: -60px; left: 0; right: 0;
+            height: 80px;
+            background: linear-gradient(to bottom,
+                rgba(11,14,24,0) 0%,
+                rgba(8,10,22,0.4) 40%,
+                rgba(6,8,16,0.7) 100%);
             pointer-events: none;
+            z-index: 2;
         }
         .soulmate-section .section-header h2 {
             color: var(--bg-primary);
@@ -495,9 +502,14 @@
         /* --- FREE BAZI TOOL --- */
         .free-bazi {
             padding: var(--spacing-4xl) 0;
-            background: linear-gradient(135deg, var(--bg-dark) 0%, var(--water-dark) 100%);
+            background:
+                linear-gradient(to bottom,
+                    rgba(6,8,16,0.85) 0%,
+                    var(--bg-dark) 15%,
+                    var(--water-dark) 100%);
             position: relative;
             overflow: hidden;
+            margin-top: -2rem;
         }
 
         .free-bazi::before {

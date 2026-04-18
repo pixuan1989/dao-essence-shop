@@ -36,21 +36,23 @@
 
     <style>
         :root {
-            --bg-dark: #0B0B14;
-            --bg-card: rgba(255,255,255,0.04);
-            --bg-card-hover: rgba(255,255,255,0.07);
+            --bg-dark: #0B0A0F;
+            --bg-card: rgba(255,248,240,0.03);
+            --bg-card-hover: rgba(255,248,240,0.06);
             --gold: #D4AF37;
             --gold-dim: #A88B2A;
-            --gold-glow: rgba(212,175,55,0.15);
+            --gold-glow: rgba(212,175,55,0.12);
             --rose: #C47D7D;
-            --rose-light: #D4A0A0;
-            --rose-glow: rgba(196,125,125,0.12);
+            --rose-light: #E8B4B4;
+            --rose-glow: rgba(196,125,125,0.10);
             --rose-deep: #A05050;
-            --text-primary: #F0EDE6;
-            --text-secondary: #9B978F;
-            --text-muted: #5A5750;
-            --border: rgba(212,175,55,0.12);
-            --border-hover: rgba(212,175,55,0.3);
+            --blush: rgba(232,180,180,0.08);
+            --text-primary: #F5EDE6;
+            --text-secondary: #B8AEA0;
+            --text-muted: #6B6560;
+            --border: rgba(212,175,55,0.10);
+            --border-hover: rgba(212,175,55,0.25);
+            --border-rose: rgba(196,125,125,0.20);
             --serif: 'Cormorant Garamond', 'SimSun', serif;
             --sans: 'Inter', -apple-system, sans-serif;
         }
@@ -60,23 +62,48 @@
             font-family: var(--sans);
             background: var(--bg-dark);
             color: var(--text-primary);
-            line-height: 1.6;
+            line-height: 1.7;
             -webkit-font-smoothing: antialiased;
             min-height: 100vh;
             overflow-x: hidden;
         }
 
-        /* Background atmosphere */
+        /* ===== ATMOSPHERIC BACKGROUND ===== */
         body::before {
             content: '';
             position: fixed;
             inset: 0;
             background:
-                radial-gradient(ellipse at 25% 15%, rgba(196,125,125,0.04) 0%, transparent 55%),
-                radial-gradient(ellipse at 75% 85%, rgba(212,175,55,0.03) 0%, transparent 55%),
-                radial-gradient(ellipse at 50% 50%, rgba(196,125,125,0.02) 0%, transparent 70%);
+                /* Top-left warm blush */
+                radial-gradient(ellipse at 18% 12%, rgba(196,125,125,0.07) 0%, transparent 45%),
+                /* Bottom-right gold dust */
+                radial-gradient(ellipse at 82% 88%, rgba(212,175,55,0.05) 0%, transparent 45%),
+                /* Center soft glow */
+                radial-gradient(ellipse at 50% 40%, rgba(200,140,130,0.03) 0%, transparent 60%),
+                /* Base gradient */
+                linear-gradient(165deg, #0B0A0F 0%, #100D16 35%, #0D0912 70%, #09080E 100%);
             pointer-events: none;
             z-index: 0;
+        }
+
+        /* Floating particles overlay */
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image:
+                radial-gradient(1.5px 1.5px at 15% 25%, rgba(212,175,55,0.3) 0%, transparent 100%),
+                radial-gradient(1.5px 1.5px at 75% 60%, rgba(196,125,125,0.25) 0%, transparent 100%),
+                radial-gradient(1px 1px at 45% 80%, rgba(230,190,160,0.2) 0%, transparent 100%),
+                radial-gradient(1.5px 1.5px at 85% 20%, rgba(212,175,55,0.2) 0%, transparent 100%),
+                radial-gradient(1px 1px at 30% 70%, rgba(196,125,125,0.2) 0%, transparent 100%);
+            pointer-events: none;
+            z-index: 0;
+            animation: twinkle 8s ease-in-out infinite alternate;
+        }
+        @keyframes twinkle {
+            0% { opacity: 0.5; }
+            100% { opacity: 1; }
         }
 
         /* ===== NAV ===== */
@@ -84,8 +111,8 @@
             position: fixed;
             top: 0; left: 0; right: 0;
             z-index: 100;
-            background: rgba(11,11,20,0.92);
-            backdrop-filter: blur(20px);
+            background: rgba(11,10,15,0.88);
+            backdrop-filter: blur(24px);
             border-bottom: 1px solid var(--border);
             transition: all 0.3s;
         }
@@ -124,49 +151,64 @@
         .sc-container {
             position: relative;
             z-index: 1;
-            max-width: 800px;
+            max-width: 840px;
             margin: 0 auto;
             padding: 5rem 1.5rem 4rem;
         }
 
         /* ===== STEP CONTAINER ===== */
-        .sc-step { display: none; animation: scFadeIn 0.5s ease; }
+        .sc-step { display: none; animation: scFadeIn 0.6s ease-out; }
         .sc-step.active { display: block; }
         @keyframes scFadeIn {
-            from { opacity: 0; transform: translateY(16px); }
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* ===== STEP 1: HERO ===== */
-        .sc-hero { text-align: center; padding: 3rem 0 1.5rem; }
+        /* ===== STEP 1: HERO — Romantic & Inviting ===== */
+        .sc-hero {
+            text-align: center;
+            padding: 2.5rem 0 1.5rem;
+            position: relative;
+        }
+        /* Decorative heart line */
+        .sc-hero::before {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 2px;
+            margin: 0 auto 2rem;
+            background: linear-gradient(90deg, transparent, var(--rose-light), var(--gold), var(--rose-light), transparent);
+            border-radius: 2px;
+        }
 
         .sc-hero-badge {
             display: inline-flex;
             align-items: center;
             gap: 0.4rem;
-            padding: 0.35rem 1.2rem;
-            border: 1px solid rgba(196,125,125,0.25);
-            border-radius: 24px;
-            font-size: 0.72rem;
+            padding: 0.4rem 1.3rem;
+            border: 1px solid rgba(196,125,125,0.20);
+            border-radius: 30px;
+            font-size: 0.68rem;
             color: var(--rose-light);
-            letter-spacing: 0.15em;
+            letter-spacing: 0.18em;
             text-transform: uppercase;
             margin-bottom: 2rem;
-            background: rgba(196,125,125,0.05);
+            background: linear-gradient(135deg, rgba(196,125,125,0.06), rgba(212,175,55,0.04));
+            backdrop-filter: blur(6px);
         }
 
         .sc-hero h1 {
             font-family: var(--serif);
-            font-size: clamp(2rem, 6vw, 3.2rem);
+            font-size: clamp(2.2rem, 6.5vw, 3.4rem);
             font-weight: 400;
             color: var(--text-primary);
-            line-height: 1.2;
-            margin-bottom: 1rem;
-            letter-spacing: 0.02em;
+            line-height: 1.15;
+            margin-bottom: 1.2rem;
+            letter-spacing: 0.01em;
         }
         .sc-hero h1 em {
             font-style: italic;
-            background: linear-gradient(135deg, var(--rose-light), var(--gold));
+            background: linear-gradient(135deg, #E8B4B4, var(--gold));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -175,26 +217,27 @@
 
         .sc-hero-sub {
             color: var(--text-secondary);
-            font-size: 1.05rem;
-            max-width: 540px;
-            margin: 0 auto 2.5rem;
-            line-height: 1.7;
+            font-size: 1.02rem;
+            max-width: 520px;
+            margin: 0 auto 2.8rem;
+            line-height: 1.75;
         }
 
-        /* Feature cards row */
+        /* Feature cards row — unified elegant style */
         .sc-features {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 1rem;
-            margin-bottom: 3rem;
+            gap: 1.2rem;
+            margin-bottom: 2.8rem;
         }
         .sc-feature-card {
             text-align: center;
-            padding: 1.8rem 1rem 1.5rem;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            transition: all 0.4s;
+            padding: 2rem 1.2rem 1.7rem;
+            background:
+                linear-gradient(165deg, rgba(255,252,245,0.03) 0%, rgba(255,255,255,0.015) 100%);
+            border: 1px solid var(--border-rose);
+            border-radius: 18px;
+            transition: all 0.45s cubic-bezier(0.23, 1, 0.32, 1);
             position: relative;
             overflow: hidden;
         }
@@ -202,80 +245,85 @@
             content: '';
             position: absolute;
             top: 0; left: 0; right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--rose), transparent);
+            height: 1.5px;
+            background: linear-gradient(90deg, transparent 10%, rgba(196,125,125,0.35) 50%, transparent 90%);
             opacity: 0;
-            transition: opacity 0.4s;
+            transition: opacity 0.45s;
         }
         .sc-feature-card:hover::before { opacity: 1; }
         .sc-feature-card:hover {
-            border-color: var(--border-hover);
+            border-color: rgba(196,125,125,0.30);
             background: var(--bg-card-hover);
-            transform: translateY(-4px);
+            transform: translateY(-5px);
+            box-shadow: 
+                0 12px 36px rgba(196,125,125,0.08),
+                0 4px 16px rgba(0,0,0,0.2);
         }
         .sc-feature-icon {
-            width: 48px; height: 48px;
-            margin: 0 auto 1rem;
-            border-radius: 50%;
+            width: 52px; height: 52px;
+            margin: 0 auto 1.1rem;
+            border-radius: 14px;
             display: flex; align-items: center; justify-content: center;
         }
         .sc-feature-icon svg { width: 22px; height: 22px; }
         .sc-feature-icon.rose-bg {
-            background: var(--rose-glow);
-            border: 1px solid rgba(196,125,125,0.2);
+            background: linear-gradient(145deg, rgba(196,125,125,0.12), rgba(196,125,125,0.06));
+            border: 1px solid rgba(196,125,125,0.22);
         }
         .sc-feature-icon.rose-bg svg { stroke: var(--rose-light); fill: none; stroke-width: 1.8; }
         .sc-feature-icon.gold-bg {
-            background: var(--gold-glow);
-            border: 1px solid rgba(212,175,55,0.2);
+            background: linear-gradient(145deg, rgba(212,175,55,0.12), rgba(212,175,55,0.06));
+            border: 1px solid rgba(212,175,55,0.22);
         }
         .sc-feature-icon.gold-bg svg { stroke: var(--gold); fill: none; stroke-width: 1.8; }
         .sc-feature-card h3 {
             font-family: var(--serif);
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             color: var(--text-primary);
-            margin-bottom: 0.3rem;
-            letter-spacing: 0.04em;
+            margin-bottom: 0.4rem;
+            letter-spacing: 0.06em;
         }
         .sc-feature-card .feat-question {
             font-family: var(--serif);
             font-style: italic;
-            font-size: 1rem;
+            font-size: 0.92rem;
             color: var(--rose-light);
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.55rem;
+            opacity: 0.9;
         }
         .sc-feature-card p {
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             color: var(--text-muted);
-            line-height: 1.5;
+            line-height: 1.6;
         }
 
-        /* Divider */
+        /* Elegant divider with heart */
         .sc-divider {
             display: flex;
             align-items: center;
             gap: 1rem;
-            margin: 2.5rem 0;
+            margin: 2.2rem 0 2.5rem;
         }
         .sc-divider::before, .sc-divider::after {
             content: '';
             flex: 1;
             height: 1px;
-            background: linear-gradient(90deg, transparent, var(--border), transparent);
+            background: linear-gradient(90deg, transparent, var(--border-rose), transparent);
         }
         .sc-divider span {
             color: var(--text-muted);
-            font-size: 0.72rem;
-            letter-spacing: 0.2em;
+            font-size: 0.68rem;
+            letter-spacing: 0.22em;
             text-transform: uppercase;
         }
 
-        /* ===== BIRTH FORM ===== */
+        /* ===== BIRTH FORM — Soft & Romantic ===== */
         .sc-form {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 2.5rem 2rem;
+            background:
+                linear-gradient(165deg, rgba(255,252,245,0.03) 0%, rgba(255,255,255,0.01) 100%);
+            border: 1px solid var(--border-rose);
+            border-radius: 22px;
+            padding: 2.8rem 2.3rem;
             max-width: 560px;
             margin: 0 auto;
             position: relative;
@@ -284,79 +332,82 @@
         .sc-form::before {
             content: '';
             position: absolute;
-            top: -1px; left: 20%; right: 20%;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--rose), var(--gold), transparent);
+            top: -1px; left: 18%; right: 18%;
+            height: 1.5px;
+            background: linear-gradient(90deg, transparent, var(--rose-light), var(--gold), var(--rose-light), transparent);
+            opacity: 0.7;
         }
         .sc-form h3 {
             font-family: var(--serif);
             text-align: center;
-            font-size: 1.3rem;
+            font-size: 1.35rem;
             color: var(--text-primary);
-            margin-bottom: 0.3rem;
+            margin-bottom: 0.25rem;
             letter-spacing: 0.04em;
         }
         .sc-form .form-subtitle {
             text-align: center;
-            font-size: 0.82rem;
+            font-size: 0.8rem;
             color: var(--text-muted);
-            margin-bottom: 1.8rem;
+            margin-bottom: 2rem;
         }
         .sc-form-row {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 0.8rem;
-            margin-bottom: 0.8rem;
+            gap: 0.85rem;
+            margin-bottom: 0.85rem;
         }
         .sc-form-row-2 {
             display: grid;
             grid-template-columns: 2fr 1fr;
-            gap: 0.8rem;
-            margin-bottom: 0.8rem;
+            gap: 0.85rem;
+            margin-bottom: 0.85rem;
         }
         .sc-form-row-full {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 0.8rem;
-            margin-bottom: 1.5rem;
+            gap: 0.85rem;
+            margin-bottom: 1.6rem;
         }
         .sc-form-group { display: flex; flex-direction: column; gap: 0.3rem; }
         .sc-form-group label {
-            font-size: 0.7rem;
+            font-size: 0.68rem;
             color: var(--text-muted);
-            letter-spacing: 0.1em;
+            letter-spacing: 0.12em;
             text-transform: uppercase;
         }
         .sc-form-group select, .sc-form-group input {
-            padding: 0.65rem 0.8rem;
-            background: rgba(255,255,255,0.05);
+            padding: 0.7rem 0.9rem;
+            background: rgba(255,255,255,0.04);
             border: 1px solid var(--border);
-            border-radius: 10px;
+            border-radius: 11px;
             color: var(--text-primary);
             font-family: var(--sans);
-            font-size: 0.9rem;
+            font-size: 0.88rem;
             outline: none;
-            transition: border-color 0.3s;
+            transition: all 0.3s ease;
             -webkit-appearance: none;
         }
         .sc-form-group select:focus, .sc-form-group input:focus {
-            border-color: var(--rose);
+            border-color: rgba(196,125,125,0.45);
+            box-shadow: 0 0 0 3px rgba(196,125,125,0.08);
         }
-        .sc-form-group select option { background: #1a1a2e; color: var(--text-primary); }
+        .sc-form-group select option { background: #15121c; color: var(--text-primary); }
 
+        /* Primary button — romantic gradient */
         .sc-btn-primary {
             width: 100%;
-            padding: 1rem 2rem;
+            padding: 1.05rem 2rem;
             background: linear-gradient(135deg, var(--rose), var(--rose-deep));
             color: #fff;
             border: none;
-            border-radius: 12px;
+            border-radius: 13px;
             font-family: var(--sans);
-            font-size: 1rem;
+            font-size: 0.96rem;
             font-weight: 600;
-            letter-spacing: 0.06em;
+            letter-spacing: 0.07em;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
             position: relative;
             overflow: hidden;
         }
@@ -366,16 +417,18 @@
             inset: 0;
             background: linear-gradient(135deg, var(--gold-dim), var(--gold));
             opacity: 0;
-            transition: opacity 0.4s;
+            transition: opacity 0.5s ease;
         }
         .sc-btn-primary:hover::before { opacity: 1; }
         .sc-btn-primary span { position: relative; z-index: 1; }
         .sc-btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(196,125,125,0.3);
+            box-shadow: 
+                0 10px 30px rgba(196,125,125,0.28),
+                0 4px 12px rgba(0,0,0,0.2);
         }
         .sc-btn-primary:disabled {
-            opacity: 0.5;
+            opacity: 0.45;
             cursor: not-allowed;
             transform: none !important;
             box-shadow: none !important;
@@ -514,36 +567,41 @@
         }
         .sc-result-header .result-ref strong { color: var(--text-secondary); }
 
-        /* Result card */
+        /* Result card — elegant glass effect */
         .sc-result-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
+            background:
+                linear-gradient(165deg, rgba(255,252,245,0.03) 0%, rgba(255,255,255,0.01) 100%);
+            border: 1px solid var(--border-rose);
             border-radius: 20px;
             overflow: hidden;
             margin-bottom: 1.5rem;
+            transition: border-color 0.3s ease;
+        }
+        .sc-result-card:hover {
+            border-color: rgba(196,125,125,0.25);
         }
         .sc-result-card-head {
             display: flex;
             align-items: center;
             gap: 1rem;
-            padding: 1.5rem 1.8rem;
-            border-bottom: 1px solid var(--border);
+            padding: 1.6rem 2rem;
+            border-bottom: 1px solid rgba(212,175,55,0.08);
         }
         .sc-result-card-icon {
-            width: 44px; height: 44px;
-            border-radius: 12px;
+            width: 46px; height: 46px;
+            border-radius: 14px;
             display: flex; align-items: center; justify-content: center;
             flex-shrink: 0;
         }
         .sc-result-card-icon svg { width: 20px; height: 20px; }
         .sc-result-card-icon.rose-icon {
-            background: var(--rose-glow);
-            border: 1px solid rgba(196,125,125,0.2);
+            background: linear-gradient(145deg, rgba(196,125,125,0.12), rgba(196,125,125,0.06));
+            border: 1px solid rgba(196,125,125,0.22);
         }
         .sc-result-card-icon.rose-icon svg { stroke: var(--rose-light); fill: none; stroke-width: 1.8; }
         .sc-result-card-icon.gold-icon {
-            background: var(--gold-glow);
-            border: 1px solid rgba(212,175,55,0.2);
+            background: linear-gradient(145deg, rgba(212,175,55,0.12), rgba(212,175,55,0.06));
+            border: 1px solid rgba(212,175,55,0.22);
         }
         .sc-result-card-icon.gold-icon svg { stroke: var(--gold); fill: none; stroke-width: 1.8; }
         .sc-result-card-head h3 {
@@ -703,25 +761,27 @@
             font-weight: 500;
         }
 
-        /* CTA Section */
+        /* CTA Section — warm & inviting */
         .sc-cta {
             text-align: center;
-            padding: 3rem 0 1rem;
+            padding: 2.8rem 0 1rem;
         }
         .sc-cta-box {
-            background: linear-gradient(135deg, rgba(196,125,125,0.08), rgba(212,175,55,0.06));
-            border: 1px solid rgba(196,125,125,0.2);
-            border-radius: 20px;
-            padding: 2.5rem 2rem;
+            background:
+                linear-gradient(145deg, rgba(196,125,125,0.07), rgba(212,175,55,0.04));
+            border: 1px solid rgba(196,125,125,0.18);
+            border-radius: 22px;
+            padding: 2.6rem 2.3rem;
             position: relative;
             overflow: hidden;
         }
         .sc-cta-box::before {
             content: '';
             position: absolute;
-            top: -1px; left: 10%; right: 10%;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--rose), var(--gold), transparent);
+            top: -1px; left: 12%; right: 12%;
+            height: 1.5px;
+            background: linear-gradient(90deg, transparent, var(--rose-light), var(--gold), transparent);
+            opacity: 0.7;
         }
         .sc-cta-box h3 {
             font-family: var(--serif);
@@ -800,30 +860,33 @@
             text-align: center;
             padding: 3rem 1.5rem;
             margin-top: 2rem;
-            border-top: 1px solid var(--border);
+            border-top: 1px solid var(--border-rose);
+            position: relative;
         }
         .sc-footer p {
-            font-size: 0.78rem;
+            font-size: 0.76rem;
             color: var(--text-muted);
         }
         .sc-footer a {
             color: var(--gold-dim);
             text-decoration: none;
+            transition: color 0.3s ease;
         }
         .sc-footer a:hover { color: var(--gold); }
 
         /* ===== RESPONSIVE ===== */
         @media (max-width: 640px) {
             .sc-container { padding: 4rem 1rem 3rem; }
-            .sc-features { grid-template-columns: 1fr; gap: 0.8rem; }
-            .sc-feature-card { padding: 1.3rem 1rem; }
-            .sc-form { padding: 2rem 1.2rem; }
+            .sc-features { grid-template-columns: 1fr; gap: 0.9rem; }
+            .sc-feature-card { padding: 1.5rem 1.2rem; }
+            .sc-form { padding: 2rem 1.3rem; }
             .sc-form-row { grid-template-columns: 1fr; }
             .sc-form-row-2 { grid-template-columns: 1fr; }
             .sc-style-grid { grid-template-columns: 1fr; }
-            .sc-result-card-head { padding: 1.2rem 1.3rem; }
-            .sc-result-card-body { padding: 1.2rem 1.3rem; }
-            .sc-trust { gap: 1rem; }
+            .sc-result-card-head { padding: 1.3rem 1.4rem; }
+            .sc-result-card-body { padding: 1.3rem 1.4rem; }
+            .sc-trust { gap: 1rem; flex-direction: column; align-items: center; }
+            body::after { display: none; }
         }
     </style>
 

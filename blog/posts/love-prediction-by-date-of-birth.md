@@ -48,22 +48,7 @@ Chinese astrology takes a different approach:
 
 In BaZi, the most important character in your chart is your **Day Master** — the Heavenly Stem of your birth day. It represents your core self, and it determines your love archetype.
 
-Here's how the 10 Heavenly Stems map to love styles:
-
-| Heavenly Stem | Element | Love Archetype | Soulmate Direction |
-|:---:|:---:|:---|:---|
-| 甲 (Jia) | Wood | The Romantic Explorer | East / Southeast |
-| 乙 (Yi) | Wood | The Gentle Connector | East / Southeast |
-| 丙 (Bing) | Fire | The Passionate Sun | South / Southwest |
-| 丁 (Ding) | Fire | The Warm Candle | South / Southwest |
-| 戊 (Wu) | Earth | The Steady Mountain | Center / Southwest |
-| 己 (Ji) | Earth | The Nurturing Soil | Center / Southwest |
-| 庚 (Geng) | Metal | The Bold Warrior | West / Northwest |
-| 辛 (Xin) | Metal | The Refined Artist | West / Northwest |
-| 壬 (Ren) | Water | The Mighty River | North / Northeast |
-| 癸 (Gui) | Water | The Gentle Mist | North / Northeast |
-
-Each archetype has distinct patterns in love — from how they fall in love to what they need from a partner to when they're most likely to meet their soulmate.
+Each of the 10 Day Masters carries a unique love blueprint — distinct patterns in how they fall in love, what they need from a partner, and when they're most likely to meet their soulmate.
 
 ## How Love Timing Works in BaZi
 
