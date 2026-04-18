@@ -47,7 +47,7 @@
             font-weight: 700;
         }
 
-        /* Energy Universe page styles */
+        /* Five Elements page styles */
         .culture-hero {
             height: 65vh;
             min-height: 520px;
@@ -391,30 +391,36 @@
         .card-cta {
             display: inline-flex;
             align-items: center;
-            gap: 1rem;
-            padding: 1rem 2rem;
-            background: transparent;
-            border: 1px solid var(--accent-color);
-            color: var(--accent-color);
-            font-size: 0.9rem;
-            letter-spacing: 0.1em;
-            transition: all 0.4s ease;
+            gap: 0.6rem;
+            padding: 0.75rem 1.8rem;
+            background: linear-gradient(135deg, #D4AF37, #C49B2F);
+            border: none;
+            color: #1C1A17;
+            font-size: 0.88rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            transition: all 0.3s ease;
             text-decoration: none;
             align-self: flex-start;
+            border-radius: 3px;
+            box-shadow: 0 3px 12px rgba(212,175,55,0.25);
         }
 
         .card-cta:hover {
-            background: var(--accent-color);
-            color: var(--bg-dark);
+            background: linear-gradient(135deg, #E0BD4A, #D4AF37);
+            box-shadow: 0 5px 20px rgba(212,175,55,0.4);
+            transform: translateY(-1px);
+            color: #1C1A17;
         }
 
         .card-cta::after {
             content: '→';
             transition: transform 0.3s ease;
+            font-weight: 700;
         }
 
         .card-cta:hover::after {
-            transform: translateX(8px);
+            transform: translateX(5px);
         }
 
         /* 风水知识 - 错落布局 */
@@ -722,7 +728,7 @@
                             <a href="blog/lucky-tips">Lucky Tips</a>
                         </div>
                     </li>
-                    <li><a href="culture" class="nav-link active">Energy Universe</a></li>
+                    <li><a href="culture" class="nav-link active">Five Elements</a></li>
                     <li><a href="shop" class="nav-link">Shop</a></li>
 
                     <li><a href="about" class="nav-link">About Us</a></li>
@@ -739,9 +745,9 @@
     <!-- 英雄区域 -->
     <section class="culture-hero">
         <div class="culture-hero-content">
-            <p class="subtitle">Energy Universe</p>
-            <h1>Energy Universe</h1>
-            <p>Explore the source of Eastern wisdom traditions and reveal the universal laws of nature and existence.</p>
+            <p class="subtitle">Five Elements</p>
+            <h1>Five Elements</h1>
+            <p>Discover the ancient Chinese framework behind BaZi, Feng Shui, and Eastern philosophy — rooted in thousands of years of tradition.</p>
         </div>
     </section>
 
@@ -821,8 +827,8 @@
     <section class="energy-cards">
         <div class="section-header" style="padding: 5rem 5% 3rem;">
             <p class="subtitle">What We Offer</p>
-            <h2>Energy Services & Wisdom</h2>
-            <p>From personalized energy rituals to ancient wisdom frameworks — each offering is a doorway into a more balanced, intentional life.</p>
+            <h2>Guidance & Resources</h2>
+            <p>From personalized BaZi readings to time-tested Eastern practices — each offering is a doorway into a more balanced, intentional life.</p>
         </div>
 
         <!-- 产品卡片 01 - 从 Creem 动态加载 (prod_7i2asEAuHFHl5hJMeCEsfB 沉香) -->
@@ -889,8 +895,8 @@
     <!-- 空间能量优化 -->
     <section class="fengshui-section">
         <div class="section-header">
-            <p class="subtitle">Space Energy</p>
-            <h2>Space Energy Optimization</h2>
+            <p class="subtitle">Feng Shui</p>
+            <h2>Feng Shui Consultation</h2>
         </div>
 
         <div class="fengshui-grid">
@@ -1047,7 +1053,7 @@
                     <h4 class="footer-title">Navigation</h4>
                     <ul class="footer-links">
                         <li><a href="/">Home</a></li>
-                        <li><a href="culture">Energy Universe</a></li>
+                        <li><a href="culture">Five Elements</a></li>
                         <li><a href="shop">Shop</a></li>
                         <li><a href="about">About Us</a></li>
                     </ul>
@@ -1151,7 +1157,7 @@
     <!-- Creem 产品实时同步 -->
     <script src="js/creem-sync-v2.js"></script>
 
-    <!-- 用 Creem 数据填充 Energy Universe 页的卡片 01-04 -->
+    <!-- 用 Creem 数据填充 Five Elements 页的卡片 01-04 -->
     <script>
         /**
          * 将 Creem 产品数据按 ID 填入卡片 01~04
@@ -1238,7 +1244,7 @@
                 }
             });
 
-            console.log('✅ Energy Universe 卡片 01-04 已用 Creem 数据动态填充');
+            console.log('✅ Five Elements 卡片 01-04 已用 Creem 数据动态填充');
         }
 
         // Listen for creemProductsReady event

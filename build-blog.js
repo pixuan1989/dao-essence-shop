@@ -67,7 +67,7 @@ const NAV_HTML = `
                             <a href="/blog/lucky-tips">Lucky Tips</a>
                         </div>
                     </li>
-                    <li><a href="/culture" class="nav-link">Energy Universe</a></li>
+                    <li><a href="/culture" class="nav-link">Five Elements</a></li>
                     <li><a href="/shop" class="nav-link">Shop</a></li>
                     <li><a href="/about" class="nav-link">About Us</a></li>
                 </ul>
@@ -89,7 +89,7 @@ const FOOTER_HTML = `
                 </div>
                 <div class="footer-links">
                     <h4>Explore</h4>
-                    <a href="/culture">Energy Universe</a>
+                    <a href="/culture">Five Elements</a>
                     <a href="/shop">Shop</a>
                     <a href="/blog/bazi-astrology">BaZi Blog</a>
                 </div>
