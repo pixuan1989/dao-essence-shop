@@ -578,9 +578,25 @@ function generateArticleHtml(post, category) {
     ? content.replace('<!--zodiac-lookup-->', '<!--ZODIAC_LOOKUP_PLACEHOLDER-->')
     : content;
   const htmlBody = marked.parse(processedContent);
+  // Fix: promote body <h1> to <h2> so only article title is the sole H1
+  const fixedBody = htmlBody.replace(/<h1(.*?)>(.*?)<\/h1>/gi, '<h2$1>$2</h2>');
   const finalBody = hasZodiacLookup
-    ? htmlBody.replace('<!--ZODIAC_LOOKUP_PLACEHOLDER-->', ZODIAC_LOOKUP_HTML)
-    : htmlBody;
+    ? fixedBody.replace('<!--ZODIAC_LOOKUP_PLACEHOLDER-->', ZODIAC_LOOKUP_HTML)
+    : fixedBody;
+
+  // SEO helpers
+  function seoTitle(title) {
+    const full = `${title} | DAO Essence`;
+    if (full.length <= 60) return full;
+    // If title alone > 55, truncate title and add ...
+    if (title.length > 55) return title.substring(0, 52).replace(/\s+\S*$/, '') + '... | DAO Essence';
+    return full; // full <= 60 but title is reasonable
+  }
+  function seoDescription(desc) {
+    if (!desc) return '';
+    if (desc.length <= 155) return desc;
+    return desc.substring(0, 152).replace(/\s+\S*$/, '') + '...';
+  }
 
   // FAQ structured data
   let faqJsonLd = '';
@@ -605,18 +621,18 @@ function generateArticleHtml(post, category) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${escapeHtml(data.title)} | DAO Essence</title>
-    <meta name="description" content="${escapeHtml(data.description || '')}">
+    <title>${escapeHtml(seoTitle(data.title))}</title>
+    <meta name="description" content="${escapeHtml(seoDescription(data.description || ''))}">
     <meta name="robots" content="index, follow">
-    <meta property="og:title" content="${escapeHtml(data.title)} | DAO Essence">
-    <meta property="og:description" content="${escapeHtml(data.description || '')}">
+    <meta property="og:title" content="${escapeHtml(seoTitle(data.title))}">
+    <meta property="og:description" content="${escapeHtml(seoDescription(data.description || ''))}">
     <meta property="og:image" content="${data.image || SITE_URL + '/images/og-default.jpg'}">
     <meta property="og:url" content="${SITE_URL}/blog/${slug}">
     <meta property="og:type" content="article">
     <meta property="og:site_name" content="DAO Essence">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="${escapeHtml(data.title)}">
-    <meta name="twitter:description" content="${escapeHtml(data.description || '')}">
+    <meta name="twitter:title" content="${escapeHtml(seoTitle(data.title))}">
+    <meta name="twitter:description" content="${escapeHtml(seoDescription(data.description || ''))}">
     <meta name="twitter:image" content="${data.image || SITE_URL + '/images/og-default.jpg'}">
     <link rel="canonical" href="${SITE_URL}/blog/${slug}">
     <link rel="stylesheet" href="/styles.min.css?v=${CSS_VERSION}">
