@@ -127,7 +127,7 @@ const ARTICLE_STYLES = `
             display: flex;
             max-width: 1200px;
             margin: 0 auto;
-            padding: 3rem 2rem;
+            padding: 7rem 2rem;
             gap: 2.5rem;
             align-items: flex-start;
         }
@@ -281,7 +281,7 @@ const ARTICLE_STYLES = `
         @media (max-width: 900px) {
             .blog-layout {
                 flex-direction: column;
-                padding: 2rem 1.5rem;
+                padding: 6rem 1.5rem;
             }
             .blog-sidebar {
                 width: 100%;
@@ -869,7 +869,7 @@ function generateBlogIndex(allArticles) {
     <link rel="stylesheet" href="/styles.min.css?v=${CSS_VERSION}">
     <script src="/main.min.js?v=${CSS_VERSION}" defer></script>
     <style>
-        .blog-home { max-width: 1200px; margin: 0 auto; padding: 3rem 2rem 4rem; }
+        .blog-home { max-width: 1200px; margin: 0 auto; padding: 7rem 2rem 4rem; }
         .blog-home-header { text-align: center; margin-bottom: 3.5rem; }
         .blog-home-header h1 { font-family: var(--font-display); font-size: clamp(2rem, 5vw, 2.8rem); color: var(--accent-color); letter-spacing: 0.1em; margin-bottom: 0.8rem; }
         .blog-home-header p { color: var(--text-secondary); font-size: 1.05rem; line-height: 1.7; max-width: 600px; margin: 0 auto; }
