@@ -274,8 +274,8 @@ async function getAllProducts() {
   }
 
   if (!creemProducts || creemProducts.length === 0) {
-    console.warn('⚠️ 全部 API 失败，返回备用数据');
-    return getFallbackProducts();
+    console.warn('⚠️ 全部 API 失败，返回空列表');
+    return [];
   }
 
   // 第2步：查询折扣信息（并发）
@@ -292,62 +292,7 @@ async function getAllProducts() {
   return products;
 }
 
-/**
- * 备用产品数据（当 API 失败时使用）
- * 价格已经是美元格式（不是 cents）
- */
-function getFallbackProducts() {
-  return [
-    {
-      id: "prod_7i2asEAuHFHl5hJMeCEsfB",
-      creemId: "prod_7i2asEAuHFHl5hJMeCEsfB",
-      name: "传统沉香能量券",
-      nameCN: "传统沉香能量券",
-      category: "other",
-      categoryCN: "other",
-      element: "wood",
-      price: 180,            // 折后价
-      originalPrice: 200,    // 原价
-      discount: 20,
-      discountRate: 10,
-      discountCode: 'XJCX520',
-      currency: "USD",
-      description: "Fosters tranquility and restful sleep, clears away negativity, and enhances a positive, balanced state of being.",
-      descriptionCN: "传统沉香能量券，促进平静安眠，驱散负能量。",
-      image: "images/agarwood.jpg",
-      image_url: "images/agarwood.jpg",
-      images: ["images/agarwood.jpg"],
-      stock: 999,
-      benefits: ["Tranquility", "Sleep", "Positivity"],
-      energyLevel: "High",
-      creemUrl: "https://www.creem.io/payment/prod_7i2asEAuHFHl5hJMeCEsfB"
-    },
-    {
-      id: "prod_1YuuAVysoYK6AOmQVab2uR",
-      creemId: "prod_1YuuAVysoYK6AOmQVab2uR",
-      name: "五行能量水晶券",
-      nameCN: "五行能量水晶券",
-      category: "other",
-      categoryCN: "other",
-      element: "water",
-      price: 168,            // 无折扣
-      originalPrice: 168,
-      discount: 0,
-      discountRate: 0,
-      discountCode: null,
-      currency: "USD",
-      description: "Five elements energy bracelet with natural crystal beads.",
-      descriptionCN: "五行能量水晶券，平衡身体能量，促进和谐。",
-      image: "images/bracelet.jpg",
-      image_url: "images/bracelet.jpg",
-      images: ["images/bracelet.jpg"],
-      stock: 999,
-      benefits: ["Balance", "Harmony", "Energy"],
-      energyLevel: "Medium",
-      creemUrl: "https://www.creem.io/payment/prod_1YuuAVysoYK6AOmQVab2uR"
-    }
-  ];
-}
+
 
 /**
  * 获取 CORS 和缓存响应头
@@ -424,8 +369,7 @@ async function handleRequest(request) {
       console.error('❌ 获取产品列表失败:', error);
       return new Response(JSON.stringify({
         success: false,
-        error: error.message || 'Internal Server Error',
-        data: getFallbackProducts()
+        error: error.message || 'Internal Server Error'
       }), {
         status: 500,
         headers
