@@ -9,6 +9,8 @@
     // ==================== CONSTANTS ====================
     var BRANCHES = ['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];
     var STEMS = ['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'];
+    var STEMS_EN = ['Jia','Yi','Bing','Ding','Wu','Ji','Geng','Xin','Ren','Gui'];
+    var BRANCHES_EN = ['Zi','Chou','Yin','Mao','Chen','Si','Wu','Wei','Shen','You','Xu','Hai'];
     var WX_NAMES = ['金','水','木','火','土'];
     var WX_COLORS = { '金': '#9E8E6E', '水': '#5B8299', '木': '#5E825E', '火': '#B8665E', '土': '#9E8B5E' };
     var WX_EN = { '金': 'Metal', '水': 'Water', '木': 'Wood', '火': 'Fire', '土': 'Earth' };
@@ -151,13 +153,14 @@
     function wxRelation(wx1, wx2) {
         var gen = { '金':'水','水':'木','木':'火','火':'土','土':'金' };
         var clash = { '金':'木','木':'土','土':'水','水':'火','火':'金' };
+        var e1 = WX_EN[wx1] || wx1, e2 = WX_EN[wx2] || wx2;
         var same = (wx1 === wx2);
-        if (same) return { type: 'same', desc: wx1 + ' + ' + wx2 + ' — Same element, power amplified' };
-        if (gen[wx1] === wx2) return { type: 'generate', desc: wx1 + ' generates ' + wx2 + ' — your energy flows outward' };
-        if (clash[wx1] === wx2) return { type: 'clash', desc: wx1 + ' controls ' + wx2 + ' — suppressing force' };
-        if (gen[wx2] === wx1) return { type: 'generated', desc: wx2 + ' generates ' + wx1 + ' — receiving support' };
-        if (clash[wx2] === wx1) return { type: 'clashed', desc: wx2 + ' controls ' + wx1 + ' — being constrained' };
-        return { type: 'neutral', desc: wx1 + ' & ' + wx2 + ' — no direct interaction' };
+        if (same) return { type: 'same', desc: e1 + ' + ' + e2 + ' — Same element, power amplified' };
+        if (gen[wx1] === wx2) return { type: 'generate', desc: e1 + ' generates ' + e2 + ' — your energy flows outward' };
+        if (clash[wx1] === wx2) return { type: 'clash', desc: e1 + ' controls ' + e2 + ' — suppressing force' };
+        if (gen[wx2] === wx1) return { type: 'generated', desc: e2 + ' generates ' + e1 + ' — receiving support' };
+        if (clash[wx2] === wx1) return { type: 'clashed', desc: e2 + ' controls ' + e1 + ' — being constrained' };
+        return { type: 'neutral', desc: e1 + ' & ' + e2 + ' — no direct interaction' };
     }
 
     // ==================== BUILD HEALTH INTERPRETATION ====================
@@ -179,7 +182,7 @@
 
         // Day Master element health tendency
         html += '<div class="info-card" style="margin-bottom:0.8rem">';
-        html += '<div class="info-item"><span class="info-label">Constitution</span><span class="info-value">Day Master <strong style="color:' + WX_COLORS[dmWx] + '">' + dm + ' ' + dmWx + '</strong> — ' + WX_BODY[dmWx] + ' system forms the foundation of your constitution.</span></div>';
+        html += '<div class="info-item"><span class="info-label">Constitution</span><span class="info-value">Your Day Master is <strong style="color:' + WX_COLORS[dmWx] + '">' + WX_EN[dmWx] + '</strong> — ' + WX_BODY[dmWx] + ' system forms the foundation of your constitution.</span></div>';
         html += '</div>';
 
         var hasIssues = (absent.length > 0 || excessive.length > 0);
@@ -194,7 +197,7 @@
                 for (var a = 0; a < absent.length; a++) {
                     var w = absent[a];
                     html += '<div class="detail-row" style="margin-bottom:0.4rem">';
-                    html += '<div><strong style="color:' + WX_COLORS[w] + '">' + w + ' ' + WX_EN[w] + '</strong> → ' + WX_BODY[w] + '</div>';
+                    html += '<div><strong style="color:' + WX_COLORS[w] + '">' + WX_EN[w] + '</strong> → ' + WX_BODY[w] + '</div>';
                     html += '<div style="color:var(--ink-2);font-size:0.7rem;line-height:1.5">' + WX_ORGAN_TIPS[w] + '</div>';
                     html += '</div>';
                 }
@@ -212,7 +215,7 @@
                     var clash = { '金':'木','木':'土','土':'水','水':'火','火':'金' };
                     var target = clash[w];
                     html += '<div class="detail-row" style="margin-bottom:0.4rem">';
-                    html += '<div><strong style="color:' + WX_COLORS[w] + '">' + w + '</strong> excessive → controls <strong style="color:' + WX_COLORS[target] + '">' + target + '</strong> (' + WX_BODY[target] + ')</div>';
+                    html += '<div><strong style="color:' + WX_COLORS[w] + '">' + WX_EN[w] + '</strong> excessive → controls <strong style="color:' + WX_COLORS[target] + '">' + WX_EN[target] + '</strong> (' + WX_BODY[target] + ')</div>';
                     html += '<div style="color:var(--ink-2);font-size:0.7rem;line-height:1.5">' + WX_ORGAN_EXCESS[w] + '</div>';
                     html += '</div>';
                 }
@@ -231,7 +234,7 @@
         var tiaohou = TIAOHOU[monthBranch];
         if (tiaohou) {
             html += '<div class="detail-card" style="margin-top:0.5rem">';
-            html += '<div class="detail-card-header">🌙 Seasonal Regulation — Month Branch <strong>' + monthBranch + '</strong> (' + tiaohou.season + ')</div>';
+            html += '<div class="detail-card-header">🌙 Seasonal Regulation — ' + tiaohou.season + '</div>';
             html += '<div class="detail-card-body">';
             html += '<div class="detail-row" style="line-height:1.5;color:var(--ink)">' + tiaohou.tip + '</div>';
             html += '</div></div>';
@@ -242,11 +245,21 @@
     }
 
     // ==================== SHIER CHANGSHENG ====================
+    var NZSC_EN = { '长生':'Birth', '沐浴':'Bath', '冠带':'Crown', '临官':'Prosperity', '帝旺':'Peak', '衰':'Decline', '病':'Illness', '死':'Death', '墓':'Grave', '绝':'Extinction', '胎':'Conception', '养':'Nurture', '大吉':'Great Fortune', '吉':'Auspicious', '凶':'Inauspicious' };
+
     function getNZSCClass(nzsc) {
         if (!nzsc) return 'neutral';
         if (nzsc.indexOf('大吉') >= 0 || nzsc.indexOf('吉') >= 0) return 'auspicious';
         if (nzsc.indexOf('凶') >= 0) return 'inauspicious';
         return 'neutral';
+    }
+
+    function translateNZSC(nzsc) {
+        var result = nzsc;
+        for (var cn in NZSC_EN) {
+            if (nzsc.indexOf(cn) >= 0) result = result.replace(cn, NZSC_EN[cn]);
+        }
+        return result;
     }
 
     // ==================== BUILD DM PROFILE ====================
@@ -278,13 +291,14 @@
 
         var html = '<div class="info-card">';
         html += '<div class="info-card-grid">';
-        html += '<div class="info-item"><span class="info-label">Day Master</span><span class="info-value">' + dm + ' ' + dmWx + ' (' + (dmYy === 0 ? 'Yang' : 'Yin') + ') — ' + nat.wx + '</span></div>';
+        html += '<div class="info-item"><span class="info-label">Day Master</span><span class="info-value">' + (dmYy === 0 ? 'Yang' : 'Yin') + ' ' + WX_EN[dmWx] + ' — ' + nat.wx + '</span></div>';
         html += '<div class="info-item"><span class="info-label">Core Nature</span><span class="info-value">' + nat.trait + '</span></div>';
         html += '</div>';
-        html += '<div class="info-item"><span class="info-label">Dominant Ten Gods (by count in chart)</span><span class="info-value">';
-        html += sorted.slice(0, 5).map(function(cn) {
+        html += '<div class="info-item"><span class="info-label">Dominant Influences</span><span class="info-value">';
+        html += sorted.slice(0, 3).map(function(cn) {
+            var tg = TG_NAMES[cn];
             var kw = TG_KEYWORDS[cn];
-            return '<strong>' + cn + '</strong> (' + tgCount[cn] + 'x) ' + kw.career;
+            return '<strong>' + tg.en + '</strong> (' + tgCount[cn] + 'x) — ' + kw.career;
         }).join('<br>');
         html += '</span></div>';
         html += '</div>';
@@ -302,19 +316,19 @@
         }
         var html = '<div class="wx-summary">';
         if (dominant.length > 0 && excess.length === 0) {
-            html += '<div class="wx-summary-item wx-dominant"><span class="wx-summary-label">Strongest</span> ' + dominant.map(function(w) { return '<span style="color:' + WX_COLORS[w] + '">' + w + ' ' + WX_EN[w] + '</span>'; }).join(' ') + ' (' + maxCount + ')</div>';
+            html += '<div class="wx-summary-item wx-dominant"><span class="wx-summary-label">Strongest</span> ' + dominant.map(function(w) { return '<span style="color:' + WX_COLORS[w] + '">' + WX_EN[w] + '</span>'; }).join(' ') + ' (' + maxCount + ')</div>';
         }
         if (excess.length > 0) {
             html += '<div class="wx-summary-item wx-excess"><span class="wx-summary-label" style="color:var(--bad)">Excessive (≥4)</span> ';
             html += excess.map(function(w) {
-                return '<span style="color:' + WX_COLORS[w] + '">' + w + '</span> — ' + WX_ORGAN_EXCESS[w];
+                return '<span style="color:' + WX_COLORS[w] + '">' + WX_EN[w] + '</span> — ' + WX_ORGAN_EXCESS[w];
             }).join('<br>');
             html += '</div>';
         }
         if (weak.length > 0) {
             html += '<div class="wx-summary-item wx-weak"><span class="wx-summary-label">Absent</span> ';
             html += weak.map(function(w) {
-                return '<span style="color:' + WX_COLORS[w] + '">' + w + ' ' + WX_EN[w] + '</span> — <em>' + WX_BODY[w] + '</em><br><span class="detail-key">Tip: </span>' + WX_ORGAN_TIPS[w];
+                return '<span style="color:' + WX_COLORS[w] + '">' + WX_EN[w] + '</span> — <em>' + WX_BODY[w] + '</em><br><span class="detail-key">Tip: </span>' + WX_ORGAN_TIPS[w];
             }).join('<br><br>');
             html += '</div>';
         }
@@ -352,64 +366,21 @@
         if (stemTg) {
             var wxRel = wxRelation(ganWx, dmWx);
             var relColor = (wxRel.type === 'generate' || wxRel.type === 'generated' || wxRel.type === 'same') ? 'var(--good)' : (wxRel.type === 'clash' || wxRel.type === 'clashed') ? 'var(--bad)' : 'var(--accent)';
-            html += '<div class="detail-row" style="margin-top:0.3rem"><span class="detail-key">Element vs Day Master: </span><span style="color:' + relColor + '">' + wxRel.desc + '</span></div>';
+            html += '<div class="detail-row" style="margin-top:0.3rem"><span class="detail-key">Element Influence: </span><span style="color:' + relColor + '">' + wxRel.desc + '</span></div>';
         }
         html += '</div></div>';
 
-        html += '<div class="detail-grid">';
-
-        // Stem Ten Gods card
+        // Ten Gods career/life card
         if (stemTg) {
             var kw = TG_KEYWORDS[stemTg.cn] || {};
+            html += '<div class="detail-grid">';
             html += '<div class="detail-card">';
-            html += '<div class="detail-card-header">Stem: <strong>' + dy['zfma'] + ' ' + ganWx + '</strong> → ' + stemTg.cn + ' (' + stemTg.en + ')</div>';
+            html += '<div class="detail-card-header">' + stemTg.en + ' Period</div>';
             html += '<div class="detail-card-body">';
             if (kw.career) html += '<div class="detail-row"><span class="detail-key">Career: </span>' + kw.career + '</div>';
-            if (kw.life) html += '<div class="detail-row"><span class="detail-key">Life: </span>' + kw.life + '</div>';
+            if (kw.life) html += '<div class="detail-row"><span class="detail-key">Life Theme: </span>' + kw.life + '</div>';
             html += '</div></div>';
-        }
-
-        // Life Stage card
-        if (nzsc) {
-            var nzscClass = getNZSCClass(nzsc);
-            var nzscSummary = '';
-            if (nzsc.indexOf('长生') >= 0 || nzsc.indexOf('冠带') >= 0 || nzsc.indexOf('临官') >= 0 || nzsc.indexOf('帝旺') >= 0 || nzsc.indexOf('胎') >= 0 || nzsc.indexOf('养') >= 0) {
-                nzscSummary = 'Fortune is rising — high energy, favorable for career growth and expanding connections.';
-            } else if (nzsc.indexOf('衰') >= 0 || nzsc.indexOf('沐浴') >= 0) {
-                nzscSummary = 'Fortune is stable with minor fluctuations. Conserve energy, avoid risky moves.';
-            } else if (nzsc.indexOf('墓') >= 0) {
-                nzscSummary = 'A time to be conservative and steady — wait for the right opportunity.';
-            } else {
-                nzscSummary = 'Fortune is weak — focus on health and avoid major decisions or risks.';
-            }
-            html += '<div class="detail-card">';
-            html += '<div class="detail-card-header">Life Stage (NZSC)</div>';
-            html += '<div class="detail-card-body">';
-            html += '<span class="nzsc-badge ' + nzscClass + '">' + nzsc + '</span>';
-            html += '<div class="detail-row" style="margin-top:0.3rem;color:var(--ink-2)">' + nzscSummary + '</div>';
-            html += '</div></div>';
-        }
-
-        html += '</div>';
-
-        // Branch hidden stems
-        if (branchTgList.length > 0) {
-            html += '<div class="detail-card" style="margin-top:0.5rem">';
-            html += '<div class="detail-card-header">Branch: <strong>' + dy['zfmb'] + ' ' + zhiWx + '</strong> Hidden Stems</div>';
-            html += '<div class="canggan-list">';
-            for (var i = 0; i < branchTgList.length; i++) {
-                var cg = branchTgList[i];
-                var cgWx = WX_NAMES[STEM_WX[cg.stemIdx]];
-                var cgColor = WX_COLORS[cgWx];
-                var cgKw = TG_KEYWORDS[cg.tg.cn] || {};
-                var primaryTag = cg.primary ? ' <span class="cg-primary-tag">Primary</span>' : (i === 1 ? ' <span class="cg-primary-tag">Secondary</span>' : ' <span class="cg-primary-tag">Tertiary</span>');
-                html += '<div class="canggan-entry">';
-                html += '<span class="canggan-stem" style="color:' + cgColor + '">' + cg.stem + cgWx + '</span>';
-                html += '<span class="canggan-tg">' + cg.tg.cn + primaryTag + '</span>';
-                if (cgKw.life) html += '<span class="canggan-desc">' + cgKw.life + '</span>';
-                html += '</div>';
-            }
-            html += '</div></div>';
+            html += '</div>';
         }
 
         return html;
@@ -419,14 +390,9 @@
     function buildLiunianDetail(ly, dmIdx, dyGan, dyZhi) {
         var lyGanZhi = ly['lye'] || '';
         var lyGan = lyGanZhi.substring(0, 1);
-        var lyZhi = lyGanZhi.substring(1, 2);
         var lyGanIdx = STEMS.indexOf(lyGan);
-        var lyZhiIdx = BRANCHES.indexOf(lyZhi);
         var stemTg = lyGanIdx >= 0 ? getStemShiShen(lyGanIdx, dmIdx) : null;
-        var branchTgList = lyZhiIdx >= 0 ? getBranchShiShen(lyZhiIdx, dmIdx) : [];
         var ganWx = lyGanIdx >= 0 ? WX_NAMES[STEM_WX[lyGanIdx]] : '';
-        var zhiWx = lyZhiIdx >= 0 ? WX_NAMES[BRANCH_WX[lyZhiIdx]] : '';
-        var dmWx = WX_NAMES[STEM_WX[dmIdx]];
 
         // Dayun vs Liunian interaction
         var dyGanIdx = STEMS.indexOf(dyGan);
@@ -437,76 +403,40 @@
 
         var html = '';
 
-        // ---- Comprehensive Year Summary ----
+        // ---- Year Summary ----
         html += '<div class="detail-card" style="margin-bottom:0.5rem">';
         html += '<div class="detail-card-header">📌 Year Overview</div>';
         html += '<div class="detail-card-body">';
-        // Key phrase
         if (stemTg) {
             var phrase = LIUNIAN_PHRASES[stemTg.cn] || '';
             html += '<div class="detail-row" style="margin-bottom:0.3rem"><strong style="color:var(--accent)">' + phrase + '</strong></div>';
             var interp = DAYUN_INTERPRETATION[stemTg.cn] || {};
             html += '<div class="detail-row" style="margin-bottom:0.3rem;line-height:1.5;color:var(--ink)">' + interp.overall + '</div>';
-        }
-        // Dayun vs year interaction
-        if (interactionTg) {
-            var dyWx = WX_NAMES[STEM_WX[dyGanIdx]];
-            var wxRel = wxRelation(ganWx, dyWx);
-            var relColor = (wxRel.type === 'generate' || wxRel.type === 'generated' || wxRel.type === 'same') ? 'var(--good)' : (wxRel.type === 'clash' || wxRel.type === 'clashed') ? 'var(--bad)' : 'var(--accent)';
-            html += '<div class="detail-row"><span class="detail-key">Year vs Dayun: </span>' + lyGan + '(' + ganWx + ') vs Dayun ' + dyGan + '(' + dyWx + ') = <span style="color:' + relColor + '">' + interactionTg.cn + ' — ' + wxRel.desc + '</span></div>';
-        }
-        // Year vs day master
-        if (stemTg) {
-            var dmRel = wxRelation(ganWx, dmWx);
-            var dmRelColor = (dmRel.type === 'generate' || dmRel.type === 'generated' || dmRel.type === 'same') ? 'var(--good)' : (dmRel.type === 'clash' || dmRel.type === 'clashed') ? 'var(--bad)' : 'var(--accent)';
-            html += '<div class="detail-row"><span class="detail-key">Year vs Day Master: </span><span style="color:' + dmRelColor + '">' + dmRel.desc + '</span></div>';
+            if (interp.favorable) html += '<div class="detail-row"><span class="detail-key">✅ Favorable: </span>' + interp.favorable + '</div>';
+            if (interp.caution) html += '<div class="detail-row"><span class="detail-key">⚠️ Caution: </span>' + interp.caution + '</div>';
         }
         html += '</div></div>';
 
-        html += '<div class="detail-grid">';
-
-        // Stem Ten Gods card
+        // Ten Gods + Dayun interaction cards
         if (stemTg) {
             var kw = TG_KEYWORDS[stemTg.cn] || {};
+            html += '<div class="detail-grid">';
             html += '<div class="detail-card">';
-            html += '<div class="detail-card-header">Year Stem: <strong>' + lyGan + ' ' + ganWx + '</strong> → ' + stemTg.cn + '</div>';
+            html += '<div class="detail-card-header">' + stemTg.en + ' Year</div>';
             html += '<div class="detail-card-body">';
             if (kw.career) html += '<div class="detail-row"><span class="detail-key">Career: </span>' + kw.career + '</div>';
-            if (kw.life) html += '<div class="detail-row"><span class="detail-key">Life: </span>' + kw.life + '</div>';
+            if (kw.life) html += '<div class="detail-row"><span class="detail-key">Life Theme: </span>' + kw.life + '</div>';
             html += '</div></div>';
-        }
 
-        // Dayun interaction card
-        if (interactionTg) {
-            var intKw = TG_KEYWORDS[interactionTg.cn] || {};
-            html += '<div class="detail-card">';
-            html += '<div class="detail-card-header">Year vs Dayun</div>';
-            html += '<div class="detail-card-body">';
-            html += '<div class="detail-row"><span class="detail-key">Relation: </span>' + interactionTg.cn + ' (' + interactionTg.en + ')</div>';
-            if (intKw.life) html += '<div class="detail-row"><span class="detail-key">Impact: </span>' + intKw.life + '</div>';
-            html += '</div></div>';
-        }
-
-        html += '</div>';
-
-        // Branch hidden stems
-        if (branchTgList.length > 0) {
-            html += '<div class="detail-card" style="margin-top:0.5rem">';
-            html += '<div class="detail-card-header">Year Branch: <strong>' + lyZhi + ' ' + zhiWx + '</strong> Hidden Stems</div>';
-            html += '<div class="canggan-list">';
-            for (var i = 0; i < branchTgList.length; i++) {
-                var cg = branchTgList[i];
-                var cgWx = WX_NAMES[STEM_WX[cg.stemIdx]];
-                var cgColor = WX_COLORS[cgWx];
-                var cgKw = TG_KEYWORDS[cg.tg.cn] || {};
-                var primaryTag = cg.primary ? ' <span class="cg-primary-tag">Primary</span>' : (i === 1 ? ' <span class="cg-primary-tag">Secondary</span>' : ' <span class="cg-primary-tag">Tertiary</span>');
-                html += '<div class="canggan-entry">';
-                html += '<span class="canggan-stem" style="color:' + cgColor + '">' + cg.stem + cgWx + '</span>';
-                html += '<span class="canggan-tg">' + cg.tg.cn + primaryTag + '</span>';
-                if (cgKw.life) html += '<span class="canggan-desc">' + cgKw.life + '</span>';
-                html += '</div>';
+            if (interactionTg) {
+                var intKw = TG_KEYWORDS[interactionTg.cn] || {};
+                html += '<div class="detail-card">';
+                html += '<div class="detail-card-header">vs Current Life Cycle</div>';
+                html += '<div class="detail-card-body">';
+                html += '<div class="detail-row"><span class="detail-key">Impact: </span>' + intKw.life + '</div>';
+                html += '</div></div>';
             }
-            html += '</div></div>';
+            html += '</div>';
         }
 
         return html;
@@ -621,32 +551,21 @@
             var branchIdx = BRANCHES.indexOf(zhi);
             var cangGanList = getBranchShiShen(branchIdx, dmIdx);
 
+            var ganYin = STEM_WX[STEMS.indexOf(gan)] % 2 === 0 ? 'Yang' : 'Yin';
+            var zhiYin = BRANCH_WX[BRANCHES.indexOf(zhi)] % 2 === 0 ? 'Yang' : 'Yin';
             pillarsHTML += '<div class="pillar">';
             pillarsHTML += '<div class="pillar-label">' + pillarLabels[p] + '</div>';
             pillarsHTML += '<div class="pillar-stem">';
-            pillarsHTML += '<span class="pillar-char">' + gan + '</span>';
-            pillarsHTML += '<span class="pillar-wx" style="color:' + WX_COLORS[ganWx] + '">' + WX_EN[ganWx] + '</span>';
+            pillarsHTML += '<span class="pillar-wx" style="color:' + WX_COLORS[ganWx] + '">' + ganYin + ' ' + WX_EN[ganWx] + '</span>';
             if (ganTg) {
-                pillarsHTML += '<span class="pillar-tg">' + ganTg.cn + '</span>';
+                pillarsHTML += '<span class="pillar-tg">' + ganTg.en + '</span>';
             } else {
-                pillarsHTML += '<span class="pillar-tg pillar-tg-self">Self</span>';
+                pillarsHTML += '<span class="pillar-tg pillar-tg-self">Day Master</span>';
             }
             pillarsHTML += '</div>';
             pillarsHTML += '<div class="pillar-branch">';
-            pillarsHTML += '<span class="pillar-char">' + zhi + '</span>';
-            pillarsHTML += '<span class="pillar-wx" style="color:' + WX_COLORS[zhiWx] + '">' + WX_EN[zhiWx] + '</span>';
+            pillarsHTML += '<span class="pillar-wx" style="color:' + WX_COLORS[zhiWx] + '">' + zhiYin + ' ' + WX_EN[zhiWx] + '</span>';
             pillarsHTML += '</div>';
-            if (cangGanList.length > 0) {
-                pillarsHTML += '<div class="pillar-hidden">';
-                for (var ci = 0; ci < cangGanList.length; ci++) {
-                    var cg = cangGanList[ci];
-                    var cgWx = WX_NAMES[STEM_WX[cg.stemIdx]];
-                    var cgColor = WX_COLORS[cgWx];
-                    var pCls = cg.primary ? ' cg-main' : '';
-                    pillarsHTML += '<span class="pillar-cg' + pCls + '"><span style="color:' + cgColor + '">' + cg.stem + '</span> ' + cg.tg.cn + '</span>';
-                }
-                pillarsHTML += '</div>';
-            }
             pillarsHTML += '</div>';
         }
 
@@ -670,25 +589,22 @@
             if (qyyDesc) dyHTML += '<p class="section-desc">' + qyyDesc + '</p>';
             if (currentDayunIdx >= 0) {
                 var cdy = rt['dy'][currentDayunIdx];
-                dyHTML += '<p class="current-hint">Currently in: <strong>' + cdy['zfma'] + cdy['zfmb'] + '</strong> (' + cdy['syear'] + '–' + cdy['eyear'] + ', age ' + cdy['zqage'] + '–' + cdy['zboz'] + ')</p>';
+                var cdyTg = getStemShiShen(STEMS.indexOf(cdy['zfma']), dmIdx);
+                dyHTML += '<p class="current-hint">Currently in: <strong>' + (cdyTg ? cdyTg.en : '') + '</strong> period · Age ' + cdy['zqage'] + '–' + cdy['zboz'] + ' · ' + cdy['syear'] + '–' + cdy['eyear'] + '</p>';
             }
             dyHTML += '<div class="dayun-grid">';
             for (var k = 0; k < Math.min(rt['dy'].length, 8); k++) {
                 var dy = rt['dy'][k];
                 var dyGanIdx2 = STEMS.indexOf(dy['zfma']);
                 var dyStemTg = dyGanIdx2 >= 0 ? getStemShiShen(dyGanIdx2, dmIdx) : null;
-                var dyGanZhi = (dy['zfma'] || '') + (dy['zfmb'] || '');
-                var dyNzsc = dy['nzsc'] || '';
-                var nzscClass = getNZSCClass(dyNzsc);
+                var dyGanWx = dyGanIdx2 >= 0 ? WX_EN[WX_NAMES[STEM_WX[dyGanIdx2]]] : '';
                 var isCurrent = k === currentDayunIdx;
 
                 dyHTML += '<div class="dayun-card' + (isCurrent ? ' dayun-current' : '') + '" data-dy-index="' + k + '">';
                 if (isCurrent) dyHTML += '<span class="badge-current">NOW</span>';
-                dyHTML += '<div class="dayun-ganzhi">' + dyGanZhi + '</div>';
-                if (dyStemTg) dyHTML += '<div class="dayun-tg">' + dyStemTg.cn + '</div>';
+                if (dyStemTg) dyHTML += '<div class="dayun-tg">' + dyStemTg.en + '</div>';
                 dyHTML += '<div class="dayun-age">' + dy['zqage'] + '–' + dy['zboz'] + '</div>';
                 dyHTML += '<div class="dayun-years">' + dy['syear'] + '–' + dy['eyear'] + '</div>';
-                if (dyNzsc) dyHTML += '<div class="nzsc-dot ' + nzscClass + '">' + dyNzsc + '</div>';
                 dyHTML += '</div>';
             }
             dyHTML += '</div>'; // .dayun-grid
@@ -713,9 +629,8 @@
                 '<div class="header-tags">' +
                     '<span class="tag">' + zodiac + (xz ? ' / ' + xz : '') + '</span>' +
                     '<span class="tag">' + gender + '</span>' +
-                    '<span class="tag tag-dm">Day Master: <strong style="color:' + WX_COLORS[dmElement] + '">' + dayMaster + ' ' + WX_EN[dmElement] + '</strong></span>' +
+                    '<span class="tag tag-dm">Day Master: <strong style="color:' + WX_COLORS[dmElement] + '">' + WX_EN[dmElement] + '</strong></span>' +
                 '</div>' +
-                '<div class="eight-char">' + eightChar + '</div>' +
             '</header>' +
 
             // Day Master Profile
@@ -787,12 +702,12 @@
                 item.classList.add('active');
                 activeItem = item;
 
-                detailTitle.textContent = dy['zfma'] + dy['zfmb'] + '  ·  Age ' + dy['zqage'] + '–' + dy['zboz'] + '  ·  ' + dy['syear'] + '–' + dy['eyear'];
+                detailTitle.textContent = 'Age ' + dy['zqage'] + '–' + dy['zboz'] + '  ·  ' + dy['syear'] + '–' + dy['eyear'];
                 detailBody.innerHTML = buildDayunDetail(dy, dmIdx);
 
                 // Flow Years
                 if (dy['ly'] && dy['ly'].length > 0) {
-                    var lyHTML = '<h4 class="liunian-title">Flow Years (Liu Nian)</h4>';
+                    var lyHTML = '<h4 class="liunian-title">Yearly Breakdown</h4>';
                     lyHTML += '<div class="liunian-grid">';
                     dy['ly'].forEach(function(ly, lyIdx) {
                         var lyGanZhi = ly['lye'] || '';
@@ -804,8 +719,7 @@
 
                         lyHTML += '<div class="ly-card' + (isCurrentYear ? ' ly-current' : '') + '" data-ly-index="' + lyIdx + '" data-ly-year="' + lyYear + '">';
                         if (isCurrentYear) lyHTML += '<span class="badge-now">NOW</span>';
-                        lyHTML += '<div class="ly-ganzhi">' + lyGanZhi + '</div>';
-                        if (lyTg) lyHTML += '<div class="ly-tg">' + lyTg.cn + '</div>';
+                        if (lyTg) lyHTML += '<div class="ly-tg">' + lyTg.en + '</div>';
                         lyHTML += '<div class="ly-year">' + lyYear + '</div>';
                         lyHTML += '</div>';
                     });
@@ -844,7 +758,7 @@
                         lyItem.classList.add('ly-active');
                         activeLy = lyItem;
 
-                        lyTitle.textContent = (lyData['lye'] || '') + '  ·  ' + lyYear;
+                        lyTitle.textContent = 'Year ' + lyYear;
                         lyBody.innerHTML = buildLiunianDetail(lyData, dmIdx, dy['zfma'] || '', dy['zfmb'] || '');
                         lyDetail.classList.add('show');
                         lyDetail.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
