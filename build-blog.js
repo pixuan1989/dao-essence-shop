@@ -711,7 +711,7 @@ ${NAV_HTML}
         </div>` : `
         <div class="sidebar-cta sidebar-cta--bazi">
             <h3>Discover Your True Destiny</h3>
-            <p class="cta-sub">Unlock the secrets hidden in your birth chart. Get a free BaZi reading with Four Pillars of Destiny analysis.</p>
+            <p class="cta-sub">Unlock the secrets hidden in your birth chart. Get a complete BaZi reading with Four Pillars of Destiny analysis.</p>
             <div class="cta-features">
                 <div class="cta-feat">
                     <span class="cta-feat-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></span>
@@ -726,7 +726,7 @@ ${NAV_HTML}
                     Life Path Insights
                 </div>
             </div>
-            <a href="/#free-bazi" class="cta-btn">Get Your Free Reading</a>
+            <a href="https://www.creem.io/checkout/prod_28PqAKMEom5WGRH1w9O35n/ch_1ueb7qKPFnQOzLK8lNPfIN" class="cta-btn" target="_blank" rel="noopener">Get Your Full Report</a>
         </div>`}
         </aside>
     </div>
@@ -939,13 +939,13 @@ ${latestCards}
             <aside class="blog-sidebar">
                 <div class="blog-home-cta">
                     <h3>Discover Your True Destiny</h3>
-                    <p class="cta-sub">Unlock the secrets hidden in your birth chart. Get a free BaZi reading with Four Pillars of Destiny analysis.</p>
+                    <p class="cta-sub">Unlock the secrets hidden in your birth chart. Get a complete BaZi reading with Four Pillars of Destiny analysis.</p>
                     <div class="cta-features">
                         <div class="cta-feat"><span>\u2728</span> Four Pillars Reading</div>
                         <div class="cta-feat"><span>\u2B50</span> Five Elements Analysis</div>
                         <div class="cta-feat"><span>\u{1F52E}</span> Life Path Insights</div>
                     </div>
-                    <a href="/#free-bazi">Get Your Free Reading</a>
+                    <a href="https://www.creem.io/checkout/prod_28PqAKMEom5WGRH1w9O35n/ch_1ueb7qKPFnQOzLK8lNPfIN" target="_blank" rel="noopener">Get Your Full Report</a>
                 </div>
             </aside>
         </div>
