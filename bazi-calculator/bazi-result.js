@@ -14,6 +14,7 @@
     var WX_NAMES = ['金','水','木','火','土'];
     var WX_COLORS = { '金': '#9E8E6E', '水': '#5B8299', '木': '#5E825E', '火': '#B8665E', '土': '#9E8B5E' };
     var WX_EN = { '金': 'Metal', '水': 'Water', '木': 'Wood', '火': 'Fire', '土': 'Earth' };
+    var ZODIAC_EN = { '鼠':'Rat','牛':'Ox','虎':'Tiger','兔':'Rabbit','龙':'Dragon','蛇':'Snake','马':'Horse','羊':'Goat','猴':'Monkey','鸡':'Rooster','狗':'Dog','猪':'Pig' };
     var STEM_WX = [2, 2, 3, 3, 4, 4, 0, 0, 1, 1];
     var BRANCH_WX = [1, 4, 2, 2, 4, 3, 3, 4, 0, 0, 4, 1];
 
@@ -530,8 +531,7 @@
         var sidebar = document.getElementById('bazi-sidebar');
 
         var gender = rt['xb'];
-        var zodiac = rt['sx'];
-        var xz = rt['xz'];
+        var zodiac = ZODIAC_EN[rt['sx']] || rt['sx'];
         var dayMaster = rt['ctg'][2];
         var dmIdx = STEMS.indexOf(dayMaster);
         var dmWxCode = STEM_WX[dmIdx];
@@ -640,7 +640,7 @@
             // Header
             '<header class="result-header">' +
                 '<div class="header-tags">' +
-                    '<span class="tag">' + zodiac + (xz ? ' / ' + xz : '') + '</span>' +
+                    '<span class="tag">Chinese Zodiac: ' + zodiac + '</span>' +
                     '<span class="tag">' + gender + '</span>' +
                 '</div>' +
                 '<div class="header-dm-banner" style="background:var(--accent-bg);border:1px solid var(--accent-soft);border-radius:var(--radius);padding:0.5rem 1rem;margin-top:0.6rem;display:inline-block">' +
