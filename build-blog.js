@@ -121,11 +121,33 @@ const FOOTER_HTML = `
 
 const ARTICLE_STYLES = `
         body { background-color: #FFFFFF !important; }
-        .blog-article { max-width: 800px; margin: 0 auto; padding: 4rem 5%; }
-        .blog-article h1 { font-family: var(--font-display); font-size: clamp(2rem, 5vw, 2.8rem); color: #1A1A1A; margin-bottom: 0.5rem; letter-spacing: 0.08em; line-height: 1.2; }
+
+        /* ── Two-column layout: content + sidebar ── */
+        .blog-layout {
+            display: flex;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+            gap: 2.5rem;
+            align-items: flex-start;
+        }
+        .blog-content {
+            flex: 1;
+            min-width: 0;
+        }
+        .blog-sidebar {
+            width: 320px;
+            flex-shrink: 0;
+            position: sticky;
+            top: 100px;
+        }
+
+        /* ── Article typography ── */
+        .blog-article { }
+        .blog-article h1 { font-family: var(--font-display); font-size: clamp(1.8rem, 4vw, 2.6rem); color: #1A1A1A; margin-bottom: 0.5rem; letter-spacing: 0.08em; line-height: 1.2; }
         .blog-meta { color: var(--text-secondary); font-size: 0.88rem; margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid rgba(212,175,55,0.15); }
-        .blog-article h2 { font-family: var(--font-display); font-size: 1.6rem; color: #1A1A1A; margin: 2.5rem 0 1rem; letter-spacing: 0.05em; }
-        .blog-article h3 { font-family: var(--font-display); font-size: 1.2rem; color: #1A1A1A; margin: 2rem 0 0.8rem; }
+        .blog-article h2 { font-family: var(--font-display); font-size: 1.5rem; color: #1A1A1A; margin: 2.5rem 0 1rem; letter-spacing: 0.05em; }
+        .blog-article h3 { font-family: var(--font-display); font-size: 1.15rem; color: #1A1A1A; margin: 2rem 0 0.8rem; }
         .blog-article p { color: var(--text-secondary); line-height: 1.9; font-size: 1rem; margin-bottom: 1.2rem; }
         .blog-article strong { color: var(--text-primary); }
         .blog-article ul, .blog-article ol { color: var(--text-secondary); line-height: 2; margin-bottom: 1.2rem; padding-left: 1.5rem; }
@@ -139,22 +161,135 @@ const ARTICLE_STYLES = `
         .blog-article img { max-width: 100%; border-radius: 8px; margin: 1.5rem 0; }
         .blog-article a { color: var(--accent-color); text-decoration: underline; }
         .blog-article a:hover { color: #E8C547; }
-        .blog-cta { position: relative; overflow: hidden; text-align: center; padding: 3.5rem 3rem; margin: 4rem 0 2rem; background: linear-gradient(160deg, #1A1208 0%, #2C2416 60%, #3D3422 100%); border: 1px solid rgba(212,175,55,0.25); border-radius: 20px; box-shadow: 0 12px 40px rgba(0,0,0,0.15); }
-        .blog-cta::before { content: '☯'; position: absolute; top: -30px; left: 50%; transform: translateX(-50%); font-size: 8rem; opacity: 0.04; color: #D4AF37; pointer-events: none; }
-        .blog-cta::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, rgba(212,175,55,0.5), transparent); }
-        .blog-cta h3 { font-family: var(--font-display); color: #D4AF37; font-size: 1.6rem; letter-spacing: 0.08em; margin-bottom: 0.6rem; position: relative; }
-        .blog-cta .cta-sub { color: rgba(255,255,255,0.7); margin-bottom: 1.8rem; font-size: 1rem; line-height: 1.6; position: relative; }
-        .blog-cta .cta-features { display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; margin-bottom: 2rem; position: relative; }
-        .blog-cta .cta-feat { color: rgba(255,255,255,0.6); font-size: 0.88rem; display: flex; align-items: center; gap: 0.4rem; }
-        .blog-cta .cta-feat span { color: #D4AF37; font-size: 1.1rem; }
-        .blog-cta .cta-buttons { display: flex; justify-content: center; align-items: center; gap: 1rem; flex-wrap: wrap; position: relative; }
-        .blog-cta .cta-buttons a { display: inline-flex; align-items: center; gap: 0.5rem; padding: 1rem 2.2rem; background: linear-gradient(135deg, #D4AF37, #E8C547); color: #1A1208; text-decoration: none; font-weight: 700; font-size: 1.05rem; letter-spacing: 0.05em; border-radius: 10px; transition: all 0.3s; position: relative; box-shadow: 0 4px 20px rgba(212,175,55,0.3); }
-        .blog-cta .cta-buttons a:hover { transform: translateY(-3px); box-shadow: 0 8px 32px rgba(212,175,55,0.5); background: linear-gradient(135deg, #E8C547, #F0D76A); }
-        .blog-cta .cta-buttons a::after { content: '→'; font-size: 1.2rem; transition: transform 0.3s; }
-        .blog-cta .cta-buttons a:hover::after { transform: translateX(4px); }
-        .blog-cta .cta-btn-secondary { background: transparent !important; border: 1.5px solid rgba(212,175,55,0.6) !important; color: #D4AF37 !important; box-shadow: none !important; }
-        .blog-cta .cta-btn-secondary:hover { border-color: #D4AF37 !important; background: rgba(212,175,55,0.1) !important; box-shadow: 0 4px 20px rgba(212,175,55,0.15) !important; }
-        .blog-cta .cta-btn-secondary::after { content: '→' !important; }`;
+
+        /* ── Sidebar CTA: shared ── */
+        .sidebar-cta {
+            border-radius: 16px;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+        .sidebar-cta h3 {
+            font-family: var(--font-display);
+            font-size: 1.15rem;
+            letter-spacing: 0.06em;
+            margin-bottom: 0.5rem;
+            position: relative;
+            line-height: 1.3;
+        }
+        .sidebar-cta .cta-sub {
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin-bottom: 1.2rem;
+            position: relative;
+        }
+        .sidebar-cta .cta-features {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        .sidebar-cta .cta-feat {
+            font-size: 0.82rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            justify-content: center;
+        }
+        .sidebar-cta .cta-feat-icon {
+            width: 18px; height: 18px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+        .sidebar-cta .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.6rem;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            letter-spacing: 0.04em;
+            border-radius: 60px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .sidebar-cta .cta-btn::after { content: '\\2192'; font-size: 1rem; transition: transform 0.3s; }
+        .sidebar-cta .cta-btn:hover::after { transform: translateX(4px); }
+
+        /* ── Sidebar CTA: BaZi (gold theme) ── */
+        .sidebar-cta--bazi {
+            background: linear-gradient(160deg, #1A1208 0%, #2C2416 60%, #3D3422 100%);
+            border: 1px solid rgba(212,175,55,0.25);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+        }
+        .sidebar-cta--bazi::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(212,175,55,0.5), transparent);
+        }
+        .sidebar-cta--bazi h3 { color: #D4AF37; }
+        .sidebar-cta--bazi .cta-sub { color: rgba(255,255,255,0.65); }
+        .sidebar-cta--bazi .cta-feat { color: rgba(255,255,255,0.55); }
+        .sidebar-cta--bazi .cta-feat-icon { background: rgba(212,175,55,0.15); border: 1px solid rgba(212,175,55,0.25); }
+        .sidebar-cta--bazi .cta-feat-icon svg { color: #D4AF37; }
+        .sidebar-cta--bazi .cta-btn {
+            background: linear-gradient(135deg, #D4AF37, #E8C547);
+            color: #1A1208;
+            box-shadow: 0 4px 16px rgba(212,175,55,0.3);
+        }
+        .sidebar-cta--bazi .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(212,175,55,0.45); }
+
+        /* ── Sidebar CTA: Soulmate (rose / love theme) ── */
+        .sidebar-cta--soulmate {
+            background: linear-gradient(160deg, #1A1018 0%, #2C1A24 60%, #3D2230 100%);
+            border: 1px solid rgba(196,125,125,0.25);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+        }
+        .sidebar-cta--soulmate::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(196,125,125,0.5), transparent);
+        }
+        .sidebar-cta--soulmate::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 50% 0%, rgba(196,125,125,0.08) 0%, transparent 60%);
+            pointer-events: none;
+        }
+        .sidebar-cta--soulmate h3 { color: #D49090; }
+        .sidebar-cta--soulmate .cta-sub { color: rgba(255,255,255,0.6); }
+        .sidebar-cta--soulmate .cta-feat { color: rgba(255,255,255,0.5); }
+        .sidebar-cta--soulmate .cta-feat-icon { background: rgba(196,125,125,0.15); border: 1px solid rgba(196,125,125,0.25); }
+        .sidebar-cta--soulmate .cta-feat-icon svg { color: #C47D7D; }
+        .sidebar-cta--soulmate .cta-btn {
+            background: linear-gradient(135deg, #C47D7D, #A85D5D);
+            color: #fff;
+            box-shadow: 0 4px 16px rgba(196,125,125,0.3);
+        }
+        .sidebar-cta--soulmate .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(196,125,125,0.45); background: linear-gradient(135deg, #D49090, #C47D7D); }
+
+        /* ── Mobile: stack layout ── */
+        @media (max-width: 900px) {
+            .blog-layout {
+                flex-direction: column;
+                padding: 2rem 1.5rem;
+            }
+            .blog-sidebar {
+                width: 100%;
+                position: relative;
+                top: auto;
+            }
+        }`;
 
 // ─── Zodiac Lookup Widget ──────────────────────────────────
 const ZODIAC_LOOKUP_HTML = `
@@ -517,44 +652,64 @@ function generateArticleHtml(post, category) {
 <body>
 ${NAV_HTML}
 
-    <article class="blog-article">
-        <p style="font-size: 0.8rem; color: var(--accent-color); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 0.5rem;">${escapeHtml(categoryLabel)}</p>
-        <h1>${escapeHtml(data.title)}</h1>
-        ${data.image ? `<img src="${data.image}" alt="${escapeHtml(data.title)}" style="max-width:100%;border-radius:12px;margin:1.5rem 0;">` : ''}
-        <div class="blog-meta">
-            <span>By ${escapeHtml(data.author || 'DAO Essence')}</span>
-            ${dateFormatted ? ` · <span>${dateFormatted}</span>` : ''}
-            ${data.readTime ? ` · <span>${data.readTime} min read</span>` : ''}
+    <div class="blog-layout">
+        <div class="blog-content">
+        <article class="blog-article">
+            <p style="font-size: 0.8rem; color: var(--accent-color); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 0.5rem;">${escapeHtml(categoryLabel)}</p>
+            <h1>${escapeHtml(data.title)}</h1>
+            ${data.image ? `<img src="${data.image}" alt="${escapeHtml(data.title)}" style="max-width:100%;border-radius:12px;margin:1.5rem 0;">` : ''}
+            <div class="blog-meta">
+                <span>By ${escapeHtml(data.author || 'DAO Essence')}</span>
+                ${dateFormatted ? ` · <span>${dateFormatted}</span>` : ''}
+                ${data.readTime ? ` · <span>${data.readTime} min read</span>` : ''}
+            </div>
+
+            ${finalBody}
+        </article>
         </div>
 
-        ${finalBody}
-
+        <aside class="blog-sidebar">
         ${isSoulmateArticle ? `
-        <div class="blog-cta blog-cta--soulmate">
+        <div class="sidebar-cta sidebar-cta--soulmate">
             <h3>Where Will You Meet Your Soulmate?</h3>
-            <p class="cta-sub">Your birth date holds the map to your most fated love encounter.<br>Discover your soulmate direction, love timing, and relationship style — free.</p>
+            <p class="cta-sub">Your birth date holds the map to your most fated love encounter. Discover your soulmate direction, love timing, and love style — free.</p>
             <div class="cta-features">
-                <div class="cta-feat">Soulmate Direction</div>
-                <div class="cta-feat">Love Timing</div>
-                <div class="cta-feat">Love Style</div>
+                <div class="cta-feat">
+                    <span class="cta-feat-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg></span>
+                    Soulmate Direction
+                </div>
+                <div class="cta-feat">
+                    <span class="cta-feat-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></span>
+                    Love Timing
+                </div>
+                <div class="cta-feat">
+                    <span class="cta-feat-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span>
+                    Love Style
+                </div>
             </div>
-            <div class="cta-buttons">
-                <a href="/soulmate-calculator">Find Your Soulmate Direction</a>
-            </div>
+            <a href="/soulmate-calculator" class="cta-btn">Find Your Soulmate</a>
         </div>` : `
-        <div class="blog-cta blog-cta--bazi">
+        <div class="sidebar-cta sidebar-cta--bazi">
             <h3>Discover Your True Destiny</h3>
-            <p class="cta-sub">Unlock the secrets hidden in your birth chart.<br>Get a free BaZi reading with Four Pillars of Destiny analysis.</p>
+            <p class="cta-sub">Unlock the secrets hidden in your birth chart. Get a free BaZi reading with Four Pillars of Destiny analysis.</p>
             <div class="cta-features">
-                <div class="cta-feat">Four Pillars Reading</div>
-                <div class="cta-feat">Five Elements Analysis</div>
-                <div class="cta-feat">Life Path Insights</div>
+                <div class="cta-feat">
+                    <span class="cta-feat-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></span>
+                    Four Pillars Reading
+                </div>
+                <div class="cta-feat">
+                    <span class="cta-feat-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2 7h7l-5.5 4 2 7L12 16l-5.5 4 2-7L3 9h7z"/></svg></span>
+                    Five Elements Analysis
+                </div>
+                <div class="cta-feat">
+                    <span class="cta-feat-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
+                    Life Path Insights
+                </div>
             </div>
-            <div class="cta-buttons">
-                <a href="/bazi-calculator">Get Your Free Reading</a>
-            </div>
+            <a href="/bazi-calculator" class="cta-btn">Get Your Free Reading</a>
         </div>`}
-    </article>
+        </aside>
+    </div>
 
 ${FOOTER_HTML}
 </body>
