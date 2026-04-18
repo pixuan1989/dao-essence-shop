@@ -38,8 +38,7 @@ faq:
       constant. However, your Da Yun (major life cycles) can temporarily
       activate certain directions more strongly during specific 10-year periods.
 ---
-
-# Where Will I Meet My Soulmate? Your Complete Guide to Soulmate Direction
+# Where Will I Meet My Soulmate? 
 
 *"The person you're meant to find might be closer than you think — just in a direction you haven't considered."*
 
@@ -55,13 +54,13 @@ In **BaZi** (Four Pillars of Destiny) — the Chinese astrological system based 
 
 Your Day Master belongs to one of the **Five Elements** (Wu Xing):
 
-| Element | Direction | Energy |
-|:---:|:---:|:---|
-| Wood | East | Growth, creativity, expansion |
-| Fire | South | Passion, charisma, visibility |
-| Earth | Center / Southwest | Stability, nurturing, groundedness |
-| Metal | West | Refinement, precision, standards |
-| Water | North | Intuition, depth, adaptability |
+| Element | Direction          | Energy                             |
+| ------- | ------------------ | ---------------------------------- |
+| Wood    | East               | Growth, creativity, expansion      |
+| Fire    | South              | Passion, charisma, visibility      |
+| Earth   | Center / Southwest | Stability, nurturing, groundedness |
+| Metal   | West               | Refinement, precision, standards   |
+| Water   | North              | Intuition, depth, adaptability     |
 
 Your **soulmate direction** is the direction associated with your Day Master's element. This means that if you're a Wood Day Master, your soulmate energy flows most strongly from the **East**. You're statistically more likely to meet your soulmate when traveling, studying, or building connections in eastern regions from your birthplace.
 
@@ -125,8 +124,8 @@ Knowing your direction is one thing. Acting on it is another. Here are practical
 
 It's worth noting the difference between these two concepts, because they're often confused:
 
-- **Feng Shui love direction** is about arranging your **physical space** — your bedroom, your home, your desk — to attract romantic energy. It's environmental.
-- **Soulmate direction in BaZi** is about your **geographic compass** — where in the world you are most likely to encounter your fated love. It's spatial and directional.
+* **Feng Shui love direction** is about arranging your **physical space** — your bedroom, your home, your desk — to attract romantic energy. It's environmental.
+* **Soulmate direction in BaZi** is about your **geographic compass** — where in the world you are most likely to encounter your fated love. It's spatial and directional.
 
 They complement each other beautifully. You might position your bed according to Feng Shui while also traveling in your soulmate direction. Both practices draw from the same Five Elements foundation.
 
@@ -134,9 +133,9 @@ They complement each other beautifully. You might position your bed according to
 
 Direction answers *where*. But *when* is equally important. In BaZi, your love timing is revealed through:
 
-- **Your favorable age range** — each element has peak love periods
-- **Beneficial zodiac years** — certain animal years activate your love energy more strongly
-- **Da Yun cycles** — your 10-year life phases show when love energy intensifies
+* **Your favorable age range** — each element has peak love periods
+* **Beneficial zodiac years** — certain animal years activate your love energy more strongly
+* **Da Yun cycles** — your 10-year life phases show when love energy intensifies
 
 For a complete reading that covers both direction and timing, our [soulmate direction calculator](/soulmate-calculator) analyzes your birth chart and delivers personalized results — including your love timing forecast and relationship archetype.
 
@@ -147,7 +146,8 @@ The concept of a soulmate direction might sound mystical, but at its core, it's 
 The ancient Chinese believed that every person has a **Yuan Fen** (缘份) — a predestined connection waiting to unfold. Your soulmate direction is simply the compass that helps you find it.
 
 **Related Reading:**
-- [Love Prediction by Date of Birth](/blog/love-prediction-by-date-of-birth) — How your birth date reveals your love timing and soulmate
-- [When Will I Find Love?](/blog/when-will-i-find-love) — What Chinese astrology says about your love timing
+
+* [Love Prediction by Date of Birth](/blog/love-prediction-by-date-of-birth) — How your birth date reveals your love timing and soulmate
+* [When Will I Find Love?](/blog/when-will-i-find-love) — What Chinese astrology says about your love timing
 
 Ready to discover yours? [Find your soulmate direction now →](/soulmate-calculator)
