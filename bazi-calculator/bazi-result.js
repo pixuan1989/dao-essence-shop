@@ -178,12 +178,7 @@
 
         var html = '<section class="section" id="section-health">';
         html += '<h2 class="section-title">Health & Wellness Insights</h2>';
-        html += '<p class="section-desc">Based on your Five Elements balance, Day Master, and birth season</p>';
-
-        // Day Master element health tendency
-        html += '<div class="info-card" style="margin-bottom:0.8rem">';
-        html += '<div class="info-item"><span class="info-label">Constitution</span><span class="info-value">Your Day Master is <strong style="color:' + WX_COLORS[dmWx] + '">' + WX_EN[dmWx] + '</strong> — ' + WX_BODY[dmWx] + ' system forms the foundation of your constitution.</span></div>';
-        html += '</div>';
+        html += '<p class="section-desc">Based on your Five Elements balance and birth season</p>';
 
         var hasIssues = (absent.length > 0 || excessive.length > 0);
         if (hasIssues) {
@@ -227,16 +222,6 @@
             html += '<div class="detail-card">';
             html += '<div class="detail-card-body" style="text-align:center;color:var(--good);padding:0.6rem">';
             html += '✅ Five Elements are well balanced — no significant deficiencies or excesses. A stable constitution overall.';
-            html += '</div></div>';
-        }
-
-        // Seasonal Tiao Hou advice
-        var tiaohou = TIAOHOU[monthBranch];
-        if (tiaohou) {
-            html += '<div class="detail-card" style="margin-top:0.5rem">';
-            html += '<div class="detail-card-header">🌙 Seasonal Regulation — ' + tiaohou.season + '</div>';
-            html += '<div class="detail-card-body">';
-            html += '<div class="detail-row" style="line-height:1.5;color:var(--ink)">' + tiaohou.tip + '</div>';
             html += '</div></div>';
         }
 
@@ -290,16 +275,12 @@
         var sorted = Object.keys(tgCount).sort(function(a, b) { return tgCount[b] - tgCount[a]; });
 
         var html = '<div class="info-card">';
-        html += '<div class="info-card-grid">';
-        html += '<div class="info-item"><span class="info-label">Day Master</span><span class="info-value">' + (dmYy === 0 ? 'Yang' : 'Yin') + ' ' + WX_EN[dmWx] + ' — ' + nat.wx + '</span></div>';
-        html += '<div class="info-item"><span class="info-label">Core Nature</span><span class="info-value">' + nat.trait + '</span></div>';
-        html += '</div>';
-        html += '<div class="info-item"><span class="info-label">Dominant Influences</span><span class="info-value">';
+        html += '<div class="info-item"><span class="info-label">Dominant Influences & Life Path</span><span class="info-value">';
         html += sorted.slice(0, 3).map(function(cn) {
             var tg = TG_NAMES[cn];
             var kw = TG_KEYWORDS[cn];
-            return '<strong>' + tg.en + '</strong> (' + tgCount[cn] + 'x) — ' + kw.career;
-        }).join('<br>');
+            return '<strong>' + tg.en + '</strong> (' + tgCount[cn] + 'x)<br><span style="color:var(--ink-2)">' + kw.career + '</span><br><span style="color:var(--ink-3);font-size:0.75rem">' + kw.life + '</span>';
+        }).join('<hr style="border:none;border-top:1px solid var(--line-light);margin:0.4rem 0">');
         html += '</span></div>';
         html += '</div>';
         return html;
@@ -332,8 +313,8 @@
             }).join('<br><br>');
             html += '</div>';
         }
-        if (weak.length === 0) {
-            html += '<div class="wx-summary-item">All Five Elements present — a well-balanced chart with relative stability.</div>';
+        if (weak.length === 0 && excess.length === 0) {
+            // No summary needed when balanced
         }
         html += '</div>';
         return html;
@@ -341,13 +322,10 @@
 
     // ==================== BUILD DAYUN INTERPRETATION (Enhanced) ====================
     function buildDayunDetail(dy, dmIdx) {
-        var nzsc = dy['nzsc'] || '';
         var dyGanIdx = STEMS.indexOf(dy['zfma']);
         var dyZhiIdx = BRANCHES.indexOf(dy['zfmb']);
         var stemTg = dyGanIdx >= 0 ? getStemShiShen(dyGanIdx, dmIdx) : null;
-        var branchTgList = dyZhiIdx >= 0 ? getBranchShiShen(dyZhiIdx, dmIdx) : [];
         var ganWx = dyGanIdx >= 0 ? WX_NAMES[STEM_WX[dyGanIdx]] : '';
-        var zhiWx = dyZhiIdx >= 0 ? WX_NAMES[BRANCH_WX[dyZhiIdx]] : '';
         var dmWx = WX_NAMES[STEM_WX[dmIdx]];
 
         var html = '';
@@ -370,20 +348,39 @@
         }
         html += '</div></div>';
 
-        // Ten Gods career/life card
+        // Enriched career & life reading (merged into one rich card)
         if (stemTg) {
             var kw = TG_KEYWORDS[stemTg.cn] || {};
-            html += '<div class="detail-grid">';
-            html += '<div class="detail-card">';
-            html += '<div class="detail-card-header">' + stemTg.en + ' Period</div>';
-            html += '<div class="detail-card-body">';
-            if (kw.career) html += '<div class="detail-row"><span class="detail-key">Career: </span>' + kw.career + '</div>';
-            if (kw.life) html += '<div class="detail-row"><span class="detail-key">Life Theme: </span>' + kw.life + '</div>';
+            var tgEn = stemTg.en;
+            html += '<div class="detail-card" style="margin-bottom:0.5rem">';
+            html += '<div class="detail-card-header"><strong>' + tgEn + '</strong> — What This Means for You</div>';
+            html += '<div class="detail-card-body" style="line-height:1.65">';
+            html += '<div class="detail-row" style="margin-bottom:0.4rem"><span class="detail-key">💼 Career Direction: </span>' + kw.career + '</div>';
+            html += '<div class="detail-row" style="margin-bottom:0.4rem"><span class="detail-key">🌙 Life Theme: </span>' + kw.life + '</div>';
+            // Add actionable advice based on the ten god type
+            var extraAdvice = getDayunAdvice(stemTg.cn);
+            if (extraAdvice) html += '<div class="detail-row"><span class="detail-key">💡 Practical Advice: </span><span style="color:var(--ink)">' + extraAdvice + '</span></div>';
             html += '</div></div>';
-            html += '</div>';
         }
 
         return html;
+    }
+
+    // Additional practical advice per ten god for dayun period
+    function getDayunAdvice(tgCn) {
+        var advice = {
+            '比肩': 'Focus on building your personal brand and professional skills. This is a self-reliance period — invest in yourself first before seeking partnerships.',
+            '劫财': 'Protect your finances with a strict budget. Channel competitive energy into productive challenges like certifications or fitness goals rather than risky investments.',
+            '食神': 'Lean into creative projects and hobbies — they may become income sources. Teaching, writing, or artistic pursuits will feel natural and rewarding.',
+            '伤官': 'Your innovative ideas are sharp — document them. Avoid confrontations with authority figures; instead, seek environments that value bold thinking and disruption.',
+            '偏财': 'Expand your social network intentionally. Attend industry events and explore side ventures, but set clear loss limits before any speculative moves.',
+            '正财': 'Build long-term financial foundations — savings, retirement plans, skill investments. Slow and steady wins this cycle. Avoid get-rich-quick schemes.',
+            '七杀': 'Step into leadership roles despite discomfort — you will grow. Manage stress actively through exercise and meditation. Crisis management is your superpower.',
+            '正官': 'Follow established rules and build your reputation through consistency. Seek mentorship and formal credentials. Promotions are likely if you demonstrate reliability.',
+            '偏印': 'Dedicate time to deep learning — online courses, research, or esoteric studies. Avoid overthinking decisions; set deadlines and commit.',
+            '正印': 'This is your best period for education and certifications. Seek guidance from mentors, parents, or teachers. Real estate and property matters are favored.'
+        };
+        return advice[tgCn] || '';
     }
 
     // ==================== BUILD LIUNIAN INTERPRETATION (Enhanced) ====================
@@ -417,29 +414,43 @@
         }
         html += '</div></div>';
 
-        // Ten Gods + Dayun interaction cards
+        // Enriched career/life/interaction card
         if (stemTg) {
             var kw = TG_KEYWORDS[stemTg.cn] || {};
-            html += '<div class="detail-grid">';
-            html += '<div class="detail-card">';
-            html += '<div class="detail-card-header">' + stemTg.en + ' Year</div>';
-            html += '<div class="detail-card-body">';
-            if (kw.career) html += '<div class="detail-row"><span class="detail-key">Career: </span>' + kw.career + '</div>';
-            if (kw.life) html += '<div class="detail-row"><span class="detail-key">Life Theme: </span>' + kw.life + '</div>';
-            html += '</div></div>';
+            var extraAdvice = getLiunianAdvice(stemTg.cn);
+            html += '<div class="detail-card" style="margin-bottom:0.5rem">';
+            html += '<div class="detail-card-header"><strong>' + stemTg.en + '</strong> — What This Means for You</div>';
+            html += '<div class="detail-card-body" style="line-height:1.65">';
+            html += '<div class="detail-row" style="margin-bottom:0.4rem"><span class="detail-key">💼 Career: </span>' + kw.career + '</div>';
+            html += '<div class="detail-row" style="margin-bottom:0.4rem"><span class="detail-key">🌙 Life: </span>' + kw.life + '</div>';
+            if (extraAdvice) html += '<div class="detail-row" style="margin-bottom:0.4rem"><span class="detail-key">💡 Focus On: </span><span style="color:var(--ink)">' + extraAdvice + '</span></div>';
 
+            // Dayun vs Liunian interaction
             if (interactionTg) {
                 var intKw = TG_KEYWORDS[interactionTg.cn] || {};
-                html += '<div class="detail-card">';
-                html += '<div class="detail-card-header">vs Current Life Cycle</div>';
-                html += '<div class="detail-card-body">';
-                html += '<div class="detail-row"><span class="detail-key">Impact: </span>' + intKw.life + '</div>';
-                html += '</div></div>';
+                html += '<div class="detail-row"><span class="detail-key">🔄 vs Current Life Cycle: </span><span style="color:var(--accent)">' + intKw.life + '</span></div>';
             }
-            html += '</div>';
+            html += '</div></div>';
         }
 
         return html;
+    }
+
+    // Practical advice per ten god for liunian (yearly focus)
+    function getLiunianAdvice(tgCn) {
+        var advice = {
+            '比肩': 'This year favors independent projects and self-improvement. Take on new challenges solo before teaming up.',
+            '劫财': 'Watch your spending closely. Avoid lending money or making large impulse purchases. Channel energy into competitive sports or skill-building.',
+            '食神': 'A great year for creativity and self-expression. Start that creative project you have been putting off. Social connections bring joy.',
+            '伤官': 'Your ideas will be sharp and unconventional — use them in tech, design, or entrepreneurship. Think twice before speaking critically of others.',
+            '偏财': 'Unexpected income opportunities may appear. Expand your network through social events. Set a clear budget to avoid overspending on luxuries.',
+            '正财': 'Consistent effort at work brings steady rewards. Focus on your main income source rather than chasing side ventures.',
+            '七杀': 'Challenges will test your resilience — embrace them. Take on leadership roles but prioritize sleep and stress management.',
+            '正官': 'Follow procedures and build your professional reputation. Authority figures favor you. A good year for promotions and formal recognition.',
+            '偏印': 'Deep study and research come naturally this year. Ideal for learning new skills or exploring niche interests. Avoid isolation — stay socially active.',
+            '正印': 'Seek guidance from mentors and teachers. Education, certifications, and property matters are favored. Family support is strong.'
+        };
+        return advice[tgCn] || '';
     }
 
     // ==================== RENDER SIDEBAR RECOMMENDATIONS ====================
@@ -556,6 +567,7 @@
             pillarsHTML += '<div class="pillar">';
             pillarsHTML += '<div class="pillar-label">' + pillarLabels[p] + '</div>';
             pillarsHTML += '<div class="pillar-stem">';
+            pillarsHTML += '<span class="pillar-char">' + gan + '</span>';
             pillarsHTML += '<span class="pillar-wx" style="color:' + WX_COLORS[ganWx] + '">' + ganYin + ' ' + WX_EN[ganWx] + '</span>';
             if (ganTg) {
                 pillarsHTML += '<span class="pillar-tg">' + ganTg.en + '</span>';
@@ -564,6 +576,7 @@
             }
             pillarsHTML += '</div>';
             pillarsHTML += '<div class="pillar-branch">';
+            pillarsHTML += '<span class="pillar-char">' + zhi + '</span>';
             pillarsHTML += '<span class="pillar-wx" style="color:' + WX_COLORS[zhiWx] + '">' + zhiYin + ' ' + WX_EN[zhiWx] + '</span>';
             pillarsHTML += '</div>';
             pillarsHTML += '</div>';
@@ -586,7 +599,6 @@
         if (rt['dy'] && rt['dy'].length > 0) {
             dyHTML = '<section class="section" id="section-dayun">';
             dyHTML += '<h2 class="section-title">Life Cycles (Da Yun)</h2>';
-            if (qyyDesc) dyHTML += '<p class="section-desc">' + qyyDesc + '</p>';
             if (currentDayunIdx >= 0) {
                 var cdy = rt['dy'][currentDayunIdx];
                 var cdyTg = getStemShiShen(STEMS.indexOf(cdy['zfma']), dmIdx);
@@ -629,7 +641,11 @@
                 '<div class="header-tags">' +
                     '<span class="tag">' + zodiac + (xz ? ' / ' + xz : '') + '</span>' +
                     '<span class="tag">' + gender + '</span>' +
-                    '<span class="tag tag-dm">Day Master: <strong style="color:' + WX_COLORS[dmElement] + '">' + WX_EN[dmElement] + '</strong></span>' +
+                '</div>' +
+                '<div class="header-dm-banner" style="background:var(--accent-bg);border:1px solid var(--accent-soft);border-radius:var(--radius);padding:0.5rem 1rem;margin-top:0.6rem;display:inline-block">' +
+                    '<span style="font-size:0.7rem;color:var(--accent);text-transform:uppercase;letter-spacing:0.08em">Day Master</span><br>' +
+                    '<span style="font-family:var(--serif);font-size:1.15rem;color:var(--ink);font-weight:600">' + (dmElement ? WX_EN[dmElement] : '') + '</span>' +
+                    '<span style="font-size:0.72rem;color:var(--ink-2);margin-left:0.5rem">— ' + (DM_NATURE[dayMaster] ? DM_NATURE[dayMaster].wx : '') + '</span>' +
                 '</div>' +
             '</header>' +
 
