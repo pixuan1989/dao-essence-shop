@@ -35,9 +35,9 @@ const CATEGORY_FOLDERS = [
 // Category display names
 const CATEGORY_LABELS = {
   'bazi-astrology': 'BaZi Astrology',
-  'zodiac-horoscope': 'Zodiac Horoscope',
+  'zodiac-horoscope': 'Chinese Zodiac',
   'feng-shui': 'Feng Shui',
-  'daily-horoscope': 'Daily Horoscope',
+  'daily-horoscope': 'Daily Chinese Horoscope',
   'lucky-tips': 'Lucky Tips'
 };
 
@@ -61,9 +61,9 @@ const NAV_HTML = `
                         <div class="nav-dropdown-menu">
                             <a href="/blog/">All Articles</a>
                             <a href="/blog/bazi-astrology">BaZi Astrology</a>
-                            <a href="/blog/zodiac-horoscope">Zodiac Horoscope</a>
+                            <a href="/blog/zodiac-horoscope">Chinese Zodiac</a>
                             <a href="/blog/feng-shui">Feng Shui</a>
-                            <a href="/blog/daily-horoscope">Daily Horoscope</a>
+                            <a href="/blog/daily-horoscope">Daily Chinese Horoscope</a>
                             <a href="/blog/lucky-tips">Lucky Tips</a>
                         </div>
                     </li>
@@ -96,9 +96,9 @@ const FOOTER_HTML = `
                 <div class="footer-links">
                     <h4>Blog Categories</h4>
                     <a href="/blog/bazi-astrology">BaZi Astrology</a>
-                    <a href="/blog/zodiac-horoscope">Zodiac Horoscope</a>
+                    <a href="/blog/zodiac-horoscope">Chinese Zodiac</a>
                     <a href="/blog/feng-shui">Feng Shui</a>
-                    <a href="/blog/daily-horoscope">Daily Horoscope</a>
+                    <a href="/blog/daily-horoscope">Daily Chinese Horoscope</a>
                     <a href="/blog/lucky-tips">Lucky Tips</a>
                 </div>
                 <div class="footer-links">
@@ -672,7 +672,7 @@ function generateBlogIndex(allArticles) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blog | DAO Essence — Chinese Metaphysics & Taoist Wisdom</title>
-    <meta name="description" content="Explore articles on BaZi astrology, Feng Shui, Five Elements theory, Taoist meditation, Chinese zodiac, and daily horoscopes.">
+    <meta name="description" content="Explore articles on BaZi astrology, Feng Shui, Five Elements theory, Taoist meditation, Chinese zodiac, and daily Chinese horoscopes.">
     <meta name="robots" content="index, follow">
     <meta property="og:title" content="Blog | DAO Essence">
     <meta property="og:url" content="${SITE_URL}/blog/">
