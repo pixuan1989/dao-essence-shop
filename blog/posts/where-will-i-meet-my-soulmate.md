@@ -9,8 +9,7 @@ tags:
   - bazi
   - love-prediction
 description: Where will you meet your soulmate? Discover how Chinese astrology
-  and BaZi can reveal your soulmate direction — the geographic direction most
-  aligned with your fated love encounter.
+  and BaZi can reveal your soulmate direction
 date: 2026-04-18
 author: DAO Essence
 readTime: 12
