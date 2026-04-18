@@ -992,6 +992,35 @@ async function main() {
     console.log(`  ${path.relative(DIST_DIR, htmlPath)} -> ${path.relative(DIST_DIR, dirName)}/index.html`);
   }
 
+  // Step 10: Push URLs to IndexNow (Bing / Yandex / Naver)
+  console.log('Notifying IndexNow...');
+  const sitemapContent = fs.readFileSync(path.join(DIST_DIR, 'sitemap.xml'), 'utf-8');
+  const sitemapUrls = [...sitemapContent.matchAll(/<loc>(.*?)<\/loc>/g)].map(m => m[1]);
+
+  if (sitemapUrls.length > 0) {
+    const indexNowPayload = {
+      host: 'www.daoessentia.com',
+      key: '5ad49cf218073b6e',
+      urlList: sitemapUrls
+    };
+
+    try {
+      const res = await fetch('https://api.indexnow.org/IndexNow', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json; charset=utf-8' },
+        body: JSON.stringify(indexNowPayload)
+      });
+
+      if (res.ok || res.status === 202) {
+        console.log(`  ✅ IndexNow notified: ${sitemapUrls.length} URLs pushed to Bing/Yandex/Naver`);
+      } else {
+        console.warn(`  ⚠️ IndexNow returned status ${res.status}`);
+      }
+    } catch (err) {
+      console.warn(`  ⚠️ IndexNow push failed: ${err.message}`);
+    }
+  }
+
   console.log('=== Blog Build Complete ===');
 }
 

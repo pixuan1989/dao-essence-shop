@@ -9,7 +9,7 @@ export default async function handler(req, res) {
     }
 
     // Simple API key check to prevent abuse
-    const apiKey = process.env.INDEXNOW_KEY || 'daoessence-indexnow-key-2026';
+    const apiKey = process.env.INDEXNOW_KEY || '5ad49cf218073b6e';
     const authHeader = req.headers['authorization'];
     if (authHeader !== `Bearer ${apiKey}`) {
         return res.status(401).json({ error: 'Unauthorized' });
