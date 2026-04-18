@@ -1078,6 +1078,14 @@
     <!-- BaZi Engine for precise birth chart calculation -->
     <script src="/bazi-calculator/paipan.js"></script>
     <script>
+    // Fallback: load paipan.js via relative path if absolute path failed (for local file:// preview)
+    if (typeof window.p === 'undefined' || !window.p.fatemaps) {
+        var s = document.createElement('script');
+        s.src = 'bazi-calculator/paipan.js';
+        document.head.appendChild(s);
+    }
+    </script>
+    <script>
     // ===== INIT FORM =====
     (function() {
         var yearSel = document.getElementById('sc-year');
@@ -1499,9 +1507,22 @@
         });
 
         setTimeout(function() {
+            // Safety check: ensure paipan.js is loaded
+            if (typeof window.p === 'undefined' || !window.p.fatemaps) {
+                document.getElementById('sc-direction-body').innerHTML = '<p style="color:#e74c3c;">Birth chart engine is still loading. Please try again in a moment.</p>';
+                showStep(3);
+                btn.disabled = false;
+                return;
+            }
             // Use paipan.js for precise birth chart: fatemaps(xb, yy, mm, dd, hh, mt, ss)
             var xb = gender === 'male' ? 0 : 1;
             var pp = window.p.fatemaps(xb, year, month, day, hour, 0, 0);
+            if (!pp) {
+                document.getElementById('sc-direction-body').innerHTML = '<p style="color:#e74c3c;">Invalid birth date. Please check your input.</p>';
+                showStep(3);
+                btn.disabled = false;
+                return;
+            }
             var dayElemEn = getDayElementEn(pp);
             renderResults(pp, dayElemEn, gender, birthplace);
             showStep(3);
