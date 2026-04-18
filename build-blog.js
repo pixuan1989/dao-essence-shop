@@ -726,7 +726,7 @@ ${NAV_HTML}
                     Life Path Insights
                 </div>
             </div>
-            <a href="https://www.creem.io/checkout/prod_28PqAKMEom5WGRH1w9O35n/ch_1ueb7qKPFnQOzLK8lNPfIN" class="cta-btn" target="_blank" rel="noopener">Get Your Full Report</a>
+            <a href="https://www.creem.io/checkout/prod_28PqAKMEom5WGRH1w9O35n" class="cta-btn" target="_blank" rel="noopener">Get Your Full Report</a>
         </div>`}
         </aside>
     </div>
@@ -945,7 +945,7 @@ ${latestCards}
                         <div class="cta-feat"><span>\u2B50</span> Five Elements Analysis</div>
                         <div class="cta-feat"><span>\u{1F52E}</span> Life Path Insights</div>
                     </div>
-                    <a href="https://www.creem.io/checkout/prod_28PqAKMEom5WGRH1w9O35n/ch_1ueb7qKPFnQOzLK8lNPfIN" target="_blank" rel="noopener">Get Your Full Report</a>
+                    <a href="https://www.creem.io/checkout/prod_28PqAKMEom5WGRH1w9O35n" target="_blank" rel="noopener">Get Your Full Report</a>
                 </div>
             </aside>
         </div>

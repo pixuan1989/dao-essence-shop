@@ -691,7 +691,7 @@
                     '<span>Wealth peaks & valleys</span><span>Health blind spots</span>' +
                     '<span>Family & children insights</span><span>Major life decision guidance</span>' +
                 '</div>' +
-                '<a href="https://www.creem.io/checkout/prod_28PqAKMEom5WGRH1w9O35n/ch_1ueb7qKPFnQOzLK8lNPfIN" class="cta-btn" target="_blank" rel="noopener">Get Your Personalized Reading →</a>' +
+                '<a href="https://www.creem.io/checkout/prod_28PqAKMEom5WGRH1w9O35n" class="cta-btn" target="_blank" rel="noopener">Get Your Personalized Reading →</a>' +
                 '<div class="cta-trust">' +
                     '<span><span class="trust-dot"></span>Based on your exact chart</span>' +
                     '<span><span class="trust-dot"></span>Certified practitioner</span>' +
