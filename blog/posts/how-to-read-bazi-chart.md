@@ -1,23 +1,32 @@
 ---
 title: "How to Read Your BaZi Chart: A Step-by-Step Guide"
-category: "bazi-astrology"
+category: bazi-astrology
 tags:
   - bazi
   - four-pillars
   - chinese-astrology
   - destiny
-description: "Learn how to read and interpret your BaZi (Four Pillars of Destiny) chart step by step. Understand the Heavenly Stems, Earthly Branches, Five Elements, and Ten Gods in your birth chart."
-date: "2026-04-13"
-author: "DAO Essence"
+description: Learn how to read and interpret your BaZi (Four Pillars of Destiny)
+  chart step by step. Understand the Heavenly Stems, Earthly Branches, Five
+  Elements, and Ten Gods in your birth chart.
+date: 2026-04-18
+author: DAO Essence
 readTime: 8
-image: ""
+image: https://raw.githubusercontent.com/pixuan1989/dao-essence-shop/main/images/blog/1222-1x.webp
 faq:
-  - question: "What is a BaZi chart?"
-    answer: "A BaZi chart is a Chinese astrological birth chart based on your birth year, month, day, and hour. It consists of four pillars, each with a Heavenly Stem and Earthly Branch, revealing your elemental composition and life patterns."
-  - question: "Can I read my BaZi chart by myself?"
-    answer: "Yes! With basic knowledge of the Heavenly Stems, Earthly Branches, Five Elements, and Ten Gods, you can start interpreting your own chart. This guide walks you through the process step by step."
-  - question: "What are the Four Pillars in BaZi?"
-    answer: "The Four Pillars are Year Pillar, Month Pillar, Day Pillar, and Hour Pillar. Each pillar has a Heavenly Stem (top) and Earthly Branch (bottom), making eight characters total — hence the name BaZi (Eight Characters)."
+  - question: What is a BaZi chart?
+    answer: A BaZi chart is a Chinese astrological birth chart based on your birth
+      year, month, day, and hour. It consists of four pillars, each with a
+      Heavenly Stem and Earthly Branch, revealing your elemental composition and
+      life patterns.
+  - question: Can I read my BaZi chart by myself?
+    answer: Yes! With basic knowledge of the Heavenly Stems, Earthly Branches, Five
+      Elements, and Ten Gods, you can start interpreting your own chart. This
+      guide walks you through the process step by step.
+  - question: What are the Four Pillars in BaZi?
+    answer: The Four Pillars are Year Pillar, Month Pillar, Day Pillar, and Hour
+      Pillar. Each pillar has a Heavenly Stem (top) and Earthly Branch (bottom),
+      making eight characters total — hence the name BaZi (Eight Characters).
 ---
 
 ## What Is a BaZi Chart?
