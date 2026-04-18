@@ -726,7 +726,7 @@ ${NAV_HTML}
                     Life Path Insights
                 </div>
             </div>
-            <a href="#" class="cta-btn" onclick="event.preventDefault();var b=this;b.textContent='Creating checkout\u2026';fetch('/api/create-checkout',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({items:[{id:'prod_28PqAKMEom5WGRH1w9O35n',name:'BaZi Reading',price:0,quantity:1}]})}).then(function(r){return r.json()}).then(function(d){if(d.checkoutUrl)window.open(d.checkoutUrl,'_blank');else{b.textContent='Get Your Full Report';alert('Unable to create checkout. Please try again.')}}).catch(function(){b.textContent='Get Your Full Report';alert('Network error. Please try again.')})">Get Your Full Report</a>
+            <a href="#" class="cta-btn" onclick="event.preventDefault();var b=this;b.textContent='Creating checkout\u2026';fetch('/api/create-checkout',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({items:[{id:'prod_28PqAKMEom5WGRH1w9O35n',name:'BaZi Reading',price:0,quantity:1}]})}).then(function(r){return r.json()}).then(function(d){if(d.checkoutUrl)window.open(d.checkoutUrl,'_blank');else{b.textContent='Get Your All-Around Personalized Report';alert('Unable to create checkout. Please try again.')}}).catch(function(){b.textContent='Get Your All-Around Personalized Report';alert('Network error. Please try again.')})">Get Your All-Around Personalized Report</a>
         </div>`}
         </aside>
     </div>
@@ -945,7 +945,7 @@ ${latestCards}
                         <div class="cta-feat"><span>\u2B50</span> Five Elements Analysis</div>
                         <div class="cta-feat"><span>\u{1F52E}</span> Life Path Insights</div>
                     </div>
-                    <a href="#" onclick="event.preventDefault();var b=this;b.textContent='Creating checkout\u2026';fetch('/api/create-checkout',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({items:[{id:'prod_28PqAKMEom5WGRH1w9O35n',name:'BaZi Reading',price:0,quantity:1}]})}).then(function(r){return r.json()}).then(function(d){if(d.checkoutUrl)window.open(d.checkoutUrl,'_blank');else{b.textContent='Get Your Full Report';alert('Unable to create checkout. Please try again.')}}).catch(function(){b.textContent='Get Your Full Report';alert('Network error. Please try again.')})">Get Your Full Report</a>
+                    <a href="#" onclick="event.preventDefault();var b=this;b.textContent='Creating checkout\u2026';fetch('/api/create-checkout',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({items:[{id:'prod_28PqAKMEom5WGRH1w9O35n',name:'BaZi Reading',price:0,quantity:1}]})}).then(function(r){return r.json()}).then(function(d){if(d.checkoutUrl)window.open(d.checkoutUrl,'_blank');else{b.textContent='Get Your All-Around Personalized Report';alert('Unable to create checkout. Please try again.')}}).catch(function(){b.textContent='Get Your All-Around Personalized Report';alert('Network error. Please try again.')})">Get Your All-Around Personalized Report</a>
                 </div>
             </aside>
         </div>
