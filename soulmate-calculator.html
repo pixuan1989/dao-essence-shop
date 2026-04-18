@@ -1171,23 +1171,42 @@
             'Metal': 'Wood', 'Wood': 'Earth', 'Earth': 'Water', 'Water': 'Fire', 'Fire': 'Metal'
         };
 
-        // Soulmate Direction per day element and gender (from spec)
-        // Male: I conquer = wife element → direction
-        // Female: Who conquers me = husband element → direction
-        var dirMapping = {
-            'Wood':   { male: 'East',  female: 'East'  },
-            'Fire':   { male: 'South', female: 'South' },
-            'Earth':  { male: 'South', female: 'North' },
-            'Metal':  { male: 'West',  female: 'West'  },
-            'Water':  { male: 'North', female: 'South' }
+        // Direction mapping with 火土同宫 (fire & earth share south+local)
+        // From core logic: elementDirectionMap
+        var elementDirectionMap = {
+            wood: ['East'],
+            fire: ['South', 'Local'],
+            earth: ['South', 'Local'],
+            metal: ['West'],
+            water: ['North']
         };
-        var subDirMapping = {
-            'Wood':   { male: 'Southeast',  female: 'Southeast'  },
-            'Fire':   { male: 'Southwest',  female: 'Southwest'  },
-            'Earth':  { male: 'Southwest',  female: 'Northeast'  },
-            'Metal':  { male: 'Northwest',  female: 'Northwest'  },
-            'Water':  { male: 'Northeast',  female: 'Southwest'  }
-        };
+
+        // Calculate soulmate direction dynamically (not hardcoded per element)
+        function calcSoulmateDirection(dayElemEn, gender) {
+            var conqueringRelations = {
+                metal: 'wood', wood: 'earth', earth: 'water', water: 'fire', fire: 'metal'
+            };
+            var elemKey = dayElemEn.toLowerCase();
+            var soulmateElem;
+            if (gender === 'male') {
+                // 男命：我克者为妻
+                soulmateElem = conqueringRelations[elemKey];
+            } else {
+                // 女命：克我者为夫
+                for (var ek in conqueringRelations) {
+                    if (conqueringRelations[ek] === elemKey) {
+                        soulmateElem = ek;
+                        break;
+                    }
+                }
+            }
+            var dirs = elementDirectionMap[soulmateElem] || ['Unknown'];
+            return {
+                directions: dirs,
+                soulmateElement: soulmateElem.charAt(0).toUpperCase() + soulmateElem.slice(1),
+                dayElement: dayElemEn
+            };
+        }
 
         // ===== Love Timing: 12 conditions per year =====
         // 天干五合: 甲己、乙庚、丙辛、丁壬、戊癸
@@ -1246,8 +1265,8 @@
             elemIdx: elemIdx,
             ppToEn: ppToEn,
             conquerMap: conquerMap,
-            dirMapping: dirMapping,
-            subDirMapping: subDirMapping,
+            elementDirectionMap: elementDirectionMap,
+            calcSoulmateDirection: calcSoulmateDirection,
             tgWuHe: tgWuHe,
             dzLiuHe: dzLiuHe,
             dzChuan: dzChuan,
@@ -1525,21 +1544,15 @@
         var tr = _0x.traits[ei];
         var env = _0x.envs[ei];
 
-        // Direction: gender-based via conquering cycle
-        var dir = _0x.dirMapping[dayElemEn][gender];
-        var subDir = _0x.subDirMapping[dayElemEn][gender];
+        // Direction: dynamic via conquering cycle
+        var dirResult = _0x.calcSoulmateDirection(dayElemEn, gender);
+        var dir = dirResult.directions[0];
+        var subDir = dirResult.directions.length > 1 ? dirResult.directions[1] : '';
+        var spouseElem = dirResult.soulmateElement;
 
-        // Spouse element explanation
-        var conquers = {Metal:'Wood', Wood:'Earth', Earth:'Water', Water:'Fire', Fire:'Metal'};
-        var conqueredBy = {Wood:'Metal', Earth:'Wood', Water:'Earth', Fire:'Water', Metal:'Fire'};
-        var spouseElem, dirLogic;
-        if (gender === 'male') {
-            spouseElem = conquers[dayElemEn];
-            dirLogic = 'As a ' + dayElemEn + ' Day Master, you attract a ' + spouseElem + ' partner (what you conquer). The ' + spouseElem + ' element resides in the <strong style="color:var(--gold)">' + dir + '</strong> direction.';
-        } else {
-            spouseElem = conqueredBy[dayElemEn];
-            dirLogic = 'As a ' + dayElemEn + ' Day Master, your ideal partner carries ' + spouseElem + ' energy (who conquers you). The ' + spouseElem + ' element resides in the <strong style="color:var(--gold)">' + dir + '</strong> direction.';
-        }
+        var dirLogic = (gender === 'male')
+            ? 'As a ' + dayElemEn + ' Day Master, you attract a ' + spouseElem + ' partner (what you conquer). ' + spouseElem + ' resides in the <strong style="color:var(--gold)">' + dirResult.directions.join(' / ') + '</strong>.'
+            : 'As a ' + dayElemEn + ' Day Master, your partner carries ' + spouseElem + ' energy (who conquers you). ' + spouseElem + ' resides in the <strong style="color:var(--gold)">' + dirResult.directions.join(' / ') + '</strong>.';
 
         // Header
         document.getElementById('sc-result-name').textContent = pp.ctg[2] + pp.cdz[2] + ' ' + pp.sx;
