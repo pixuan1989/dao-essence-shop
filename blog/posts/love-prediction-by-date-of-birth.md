@@ -1,5 +1,5 @@
 ---
-title: "Love Prediction by Date of Birth: How Chinese Astrology Reveals Your Love Timing and Soulmate"
+title: "Love Prediction by Date of Birth: BaZi Reading"
 category: bazi-astrology
 tags:
   - love-prediction

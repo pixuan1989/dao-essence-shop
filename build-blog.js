@@ -166,7 +166,7 @@ const ARTICLE_STYLES = `
         .sidebar-cta {
             border-radius: 16px;
             padding: 2rem 1.5rem;
-            text-align: center;
+            text-align: left;
             position: relative;
             overflow: hidden;
             margin-bottom: 1.5rem;
@@ -197,7 +197,6 @@ const ARTICLE_STYLES = `
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            justify-content: center;
         }
         .sidebar-cta .cta-feat-icon {
             width: 18px; height: 18px;
@@ -870,7 +869,7 @@ function generateBlogIndex(allArticles) {
     <link rel="stylesheet" href="/styles.min.css?v=${CSS_VERSION}">
     <script src="/main.min.js?v=${CSS_VERSION}" defer></script>
     <style>
-        .blog-home { max-width: 1200px; margin: 0 auto; padding: 5rem 5% 4rem; }
+        .blog-home { max-width: 1200px; margin: 0 auto; padding: 3rem 2rem 4rem; }
         .blog-home-header { text-align: center; margin-bottom: 3.5rem; }
         .blog-home-header h1 { font-family: var(--font-display); font-size: clamp(2rem, 5vw, 2.8rem); color: var(--accent-color); letter-spacing: 0.1em; margin-bottom: 0.8rem; }
         .blog-home-header p { color: var(--text-secondary); font-size: 1.05rem; line-height: 1.7; max-width: 600px; margin: 0 auto; }
@@ -893,13 +892,13 @@ function generateBlogIndex(allArticles) {
 
         /* Right sidebar */
         .blog-sidebar { width: 320px; min-width: 320px; position: sticky; top: 100px; }
-        .blog-home-cta { position: relative; overflow: hidden; text-align: center; padding: 2.5rem 2rem; background: linear-gradient(160deg, #1A1208 0%, #2C2416 60%, #3D3422 100%); border: 1px solid rgba(212,175,55,0.25); border-radius: 16px; box-shadow: 0 12px 40px rgba(0,0,0,0.15); }
-        .blog-home-cta::before { content: '\u262F'; position: absolute; top: -20px; left: 50%; transform: translateX(-50%); font-size: 6rem; opacity: 0.04; color: #D4AF37; pointer-events: none; }
+        .blog-home-cta { position: relative; overflow: hidden; text-align: left; padding: 2.5rem 2rem; background: linear-gradient(160deg, #1A1208 0%, #2C2416 60%, #3D3422 100%); border: 1px solid rgba(212,175,55,0.25); border-radius: 16px; box-shadow: 0 12px 40px rgba(0,0,0,0.15); }
+        .blog-home-cta::before { content: '\u262F'; position: absolute; top: -20px; right: 10px; font-size: 6rem; opacity: 0.04; color: #D4AF37; pointer-events: none; }
         .blog-home-cta::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, rgba(212,175,55,0.5), transparent); }
         .blog-home-cta h3 { font-family: var(--font-display); color: #D4AF37; font-size: 1.3rem; letter-spacing: 0.08em; margin-bottom: 0.5rem; position: relative; }
         .blog-home-cta .cta-sub { color: rgba(255,255,255,0.7); margin-bottom: 1.5rem; font-size: 0.92rem; line-height: 1.6; position: relative; }
         .blog-home-cta .cta-features { display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 1.5rem; position: relative; }
-        .blog-home-cta .cta-feat { color: rgba(255,255,255,0.6); font-size: 0.85rem; display: flex; align-items: center; gap: 0.4rem; justify-content: center; }
+        .blog-home-cta .cta-feat { color: rgba(255,255,255,0.6); font-size: 0.85rem; display: flex; align-items: center; gap: 0.4rem; }
         .blog-home-cta .cta-feat span { color: #D4AF37; font-size: 1rem; }
         .blog-home-cta a { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.9rem 2rem; background: linear-gradient(135deg, #D4AF37, #E8C547); color: #1A1208; text-decoration: none; font-weight: 700; font-size: 0.95rem; letter-spacing: 0.05em; border-radius: 10px; transition: all 0.3s; position: relative; box-shadow: 0 4px 20px rgba(212,175,55,0.3); }
         .blog-home-cta a:hover { transform: translateY(-3px); box-shadow: 0 8px 32px rgba(212,175,55,0.5); background: linear-gradient(135deg, #E8C547, #F0D76A); }

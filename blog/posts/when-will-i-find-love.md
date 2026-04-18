@@ -1,5 +1,5 @@
 ---
-title: When will I find love?  Your birth date holds the answer
+title: When Will I Find Love? Your Birth Date Knows
 category: bazi-astrology
 tags:
   - when-will-i-find-love

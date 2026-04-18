@@ -1,6 +1,5 @@
 ---
-title: Where Will I Meet My Soulmate? Your Complete Guide to Soulmate Direction
-  in Chinese Astrology
+title: "Find Your Soulmate Direction: BaZi Guide"
 category: bazi-astrology
 tags:
   - soulmate
