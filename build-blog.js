@@ -586,11 +586,15 @@ function generateArticleHtml(post, category) {
 
   // SEO helpers
   function seoTitle(title) {
-    const full = `${title} | DAO Essence`;
-    if (full.length <= 60) return full;
-    // If title alone > 55, truncate title and add ...
-    if (title.length > 55) return title.substring(0, 52).replace(/\s+\S*$/, '') + '... | DAO Essence';
-    return full; // full <= 60 but title is reasonable
+    const suffix = ' | DAO Essence';
+    const maxLen = 60;
+    // escapeHtml first, then check length (to account for & -> &amp; etc.)
+    const escaped = escapeHtml(title);
+    const full = escaped + suffix;
+    if (full.length <= maxLen) return full;
+    const maxTitle = maxLen - suffix.length - 3; // 3 for '...'
+    const truncated = escaped.substring(0, maxTitle).replace(/\s+\S*$/, '');
+    return truncated + '...' + suffix;
   }
   function seoDescription(desc) {
     if (!desc) return '';
@@ -621,17 +625,17 @@ function generateArticleHtml(post, category) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${escapeHtml(seoTitle(data.title))}</title>
+    <title>${seoTitle(data.title)}</title>
     <meta name="description" content="${escapeHtml(seoDescription(data.description || ''))}">
     <meta name="robots" content="index, follow">
-    <meta property="og:title" content="${escapeHtml(seoTitle(data.title))}">
+    <meta property="og:title" content="${seoTitle(data.title)}">
     <meta property="og:description" content="${escapeHtml(seoDescription(data.description || ''))}">
     <meta property="og:image" content="${data.image || SITE_URL + '/images/og-default.jpg'}">
     <meta property="og:url" content="${SITE_URL}/blog/${slug}">
     <meta property="og:type" content="article">
     <meta property="og:site_name" content="DAO Essence">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="${escapeHtml(seoTitle(data.title))}">
+    <meta name="twitter:title" content="${seoTitle(data.title)}">
     <meta name="twitter:description" content="${escapeHtml(seoDescription(data.description || ''))}">
     <meta name="twitter:image" content="${data.image || SITE_URL + '/images/og-default.jpg'}">
     <link rel="canonical" href="${SITE_URL}/blog/${slug}">
@@ -786,10 +790,10 @@ function generateCategoryHtml(category, articles) {
         .blog-card-image img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s; }
         .blog-card:hover .blog-card-image img { transform: scale(1.05); }
         .blog-card-body { flex: 1; padding: 1.5rem 2rem; display: flex; flex-direction: column; justify-content: center; }
-        .blog-card h2 { font-family: var(--font-display); font-size: 1.3rem; color: var(--accent-color); letter-spacing: 0.05em; margin-bottom: 0.6rem; transition: color 0.3s; }
-        .blog-card:hover h2 { color: #E8C547; }
-        .blog-card p { color: var(--text-secondary); font-size: 0.95rem; line-height: 1.7; margin-bottom: 1rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-        .blog-card-meta { display: flex; gap: 1rem; font-size: 0.82rem; color: var(--text-secondary); opacity: 0.7; }
+        .blog-card h2 { font-family: var(--font-display); font-size: 1.3rem; color: #1A1612; letter-spacing: 0.05em; margin-bottom: 0.6rem; transition: color 0.3s; }
+        .blog-card:hover h2 { color: #1A1612; }
+        .blog-card p { color: #555; font-size: 0.95rem; line-height: 1.7; margin-bottom: 1rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .blog-card-meta { display: flex; gap: 1rem; font-size: 0.82rem; color: #888; opacity: 0.7; }
         .blog-card-meta span { display: flex; align-items: center; gap: 0.3rem; }
         @media (max-width: 640px) {
             .blog-card { flex-direction: column; }
@@ -866,40 +870,51 @@ function generateBlogIndex(allArticles) {
     <link rel="stylesheet" href="/styles.min.css?v=${CSS_VERSION}">
     <script src="/main.min.js?v=${CSS_VERSION}" defer></script>
     <style>
-        .blog-home { max-width: 960px; margin: 0 auto; padding: 5rem 5% 4rem; }
+        .blog-home { max-width: 1200px; margin: 0 auto; padding: 5rem 5% 4rem; }
         .blog-home-header { text-align: center; margin-bottom: 3.5rem; }
         .blog-home-header h1 { font-family: var(--font-display); font-size: clamp(2rem, 5vw, 2.8rem); color: var(--accent-color); letter-spacing: 0.1em; margin-bottom: 0.8rem; }
         .blog-home-header p { color: var(--text-secondary); font-size: 1.05rem; line-height: 1.7; max-width: 600px; margin: 0 auto; }
+        .blog-main-layout { display: flex; gap: 2.5rem; align-items: flex-start; }
+        .blog-main-content { flex: 1; min-width: 0; }
         .blog-section-title { font-family: var(--font-display); font-size: 1.4rem; color: var(--accent-color); letter-spacing: 0.08em; margin-bottom: 1.5rem; padding-bottom: 0.8rem; border-bottom: 1px solid rgba(212,175,55,0.15); }
-        .blog-latest { margin-bottom: 4rem; }
+        .blog-latest { margin-bottom: 2rem; }
         .blog-card-list { display: flex; flex-direction: column; gap: 1.5rem; }
         .blog-card { display: flex; flex-direction: row; background: rgba(212,175,55,0.03); border: 1px solid rgba(212,175,55,0.1); border-radius: 12px; text-decoration: none; transition: all 0.3s ease; overflow: hidden; }
         .blog-card:hover { background: rgba(212,175,55,0.06); border-color: rgba(212,175,55,0.25); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,0,0,0.15); }
-        .blog-card-image { width: 240px; min-width: 240px; aspect-ratio: 1.9 / 1; overflow: hidden; background: var(--bg-dark); }
+        .blog-card-image { width: 220px; min-width: 220px; aspect-ratio: 1.9 / 1; overflow: hidden; background: var(--bg-dark); }
         .blog-card-image img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s; }
         .blog-card:hover .blog-card-image img { transform: scale(1.05); }
         .blog-card-body { flex: 1; padding: 1.5rem 2rem; display: flex; flex-direction: column; justify-content: center; }
         .blog-card-category { display: inline-block; font-size: 0.72rem; color: var(--accent-color); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 0.5rem; padding: 0.2rem 0.6rem; background: rgba(212,175,55,0.08); border-radius: 4px; }
-        .blog-card h2 { font-family: var(--font-display); font-size: 1.25rem; color: var(--accent-color); letter-spacing: 0.05em; margin-bottom: 0.5rem; transition: color 0.3s; }
-        .blog-card:hover h2 { color: #E8C547; }
-        .blog-card p { color: var(--text-secondary); font-size: 0.92rem; line-height: 1.7; margin-bottom: 0.8rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-        .blog-card-meta { display: flex; gap: 1rem; font-size: 0.8rem; color: var(--text-secondary); opacity: 0.7; }
+        .blog-card h2 { font-family: var(--font-display); font-size: 1.25rem; color: #1A1612; letter-spacing: 0.05em; margin-bottom: 0.5rem; transition: color 0.3s; }
+        .blog-card:hover h2 { color: #1A1612; }
+        .blog-card p { color: #555; font-size: 0.92rem; line-height: 1.7; margin-bottom: 0.8rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .blog-card-meta { display: flex; gap: 1rem; font-size: 0.8rem; color: #888; opacity: 0.7; }
+
+        /* Right sidebar */
+        .blog-sidebar { width: 320px; min-width: 320px; position: sticky; top: 100px; }
+        .blog-home-cta { position: relative; overflow: hidden; text-align: center; padding: 2.5rem 2rem; background: linear-gradient(160deg, #1A1208 0%, #2C2416 60%, #3D3422 100%); border: 1px solid rgba(212,175,55,0.25); border-radius: 16px; box-shadow: 0 12px 40px rgba(0,0,0,0.15); }
+        .blog-home-cta::before { content: '\u262F'; position: absolute; top: -20px; left: 50%; transform: translateX(-50%); font-size: 6rem; opacity: 0.04; color: #D4AF37; pointer-events: none; }
+        .blog-home-cta::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, rgba(212,175,55,0.5), transparent); }
+        .blog-home-cta h3 { font-family: var(--font-display); color: #D4AF37; font-size: 1.3rem; letter-spacing: 0.08em; margin-bottom: 0.5rem; position: relative; }
+        .blog-home-cta .cta-sub { color: rgba(255,255,255,0.7); margin-bottom: 1.5rem; font-size: 0.92rem; line-height: 1.6; position: relative; }
+        .blog-home-cta .cta-features { display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 1.5rem; position: relative; }
+        .blog-home-cta .cta-feat { color: rgba(255,255,255,0.6); font-size: 0.85rem; display: flex; align-items: center; gap: 0.4rem; justify-content: center; }
+        .blog-home-cta .cta-feat span { color: #D4AF37; font-size: 1rem; }
+        .blog-home-cta a { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.9rem 2rem; background: linear-gradient(135deg, #D4AF37, #E8C547); color: #1A1208; text-decoration: none; font-weight: 700; font-size: 0.95rem; letter-spacing: 0.05em; border-radius: 10px; transition: all 0.3s; position: relative; box-shadow: 0 4px 20px rgba(212,175,55,0.3); }
+        .blog-home-cta a:hover { transform: translateY(-3px); box-shadow: 0 8px 32px rgba(212,175,55,0.5); background: linear-gradient(135deg, #E8C547, #F0D76A); }
+        .blog-home-cta a::after { content: '\u2192'; font-size: 1.2rem; transition: transform 0.3s; }
+        .blog-home-cta a:hover::after { transform: translateX(4px); }
+
+        @media (max-width: 900px) {
+            .blog-main-layout { flex-direction: column; }
+            .blog-sidebar { width: 100%; min-width: unset; position: static; }
+            .blog-home-cta { margin-top: 2rem; }
+        }
         @media (max-width: 640px) {
             .blog-card { flex-direction: column; }
             .blog-card-image { width: 100%; min-width: unset; }
         }
-        .blog-home-cta { position: relative; overflow: hidden; text-align: center; padding: 3.5rem 3rem; margin-top: 3rem; background: linear-gradient(160deg, #1A1208 0%, #2C2416 60%, #3D3422 100%); border: 1px solid rgba(212,175,55,0.25); border-radius: 20px; box-shadow: 0 12px 40px rgba(0,0,0,0.15); }
-        .blog-home-cta::before { content: '☯'; position: absolute; top: -30px; left: 50%; transform: translateX(-50%); font-size: 8rem; opacity: 0.04; color: #D4AF37; pointer-events: none; }
-        .blog-home-cta::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, rgba(212,175,55,0.5), transparent); }
-        .blog-home-cta h3 { font-family: var(--font-display); color: #D4AF37; font-size: 1.6rem; letter-spacing: 0.08em; margin-bottom: 0.6rem; position: relative; }
-        .blog-home-cta .cta-sub { color: rgba(255,255,255,0.7); margin-bottom: 1.8rem; font-size: 1rem; line-height: 1.6; position: relative; }
-        .blog-home-cta .cta-features { display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; margin-bottom: 2rem; position: relative; }
-        .blog-home-cta .cta-feat { color: rgba(255,255,255,0.6); font-size: 0.88rem; display: flex; align-items: center; gap: 0.4rem; }
-        .blog-home-cta .cta-feat span { color: #D4AF37; font-size: 1.1rem; }
-        .blog-home-cta a { display: inline-flex; align-items: center; gap: 0.5rem; padding: 1rem 2.8rem; background: linear-gradient(135deg, #D4AF37, #E8C547); color: #1A1208; text-decoration: none; font-weight: 700; font-size: 1.05rem; letter-spacing: 0.05em; border-radius: 10px; transition: all 0.3s; position: relative; box-shadow: 0 4px 20px rgba(212,175,55,0.3); }
-        .blog-home-cta a:hover { transform: translateY(-3px); box-shadow: 0 8px 32px rgba(212,175,55,0.5); background: linear-gradient(135deg, #E8C547, #F0D76A); }
-        .blog-home-cta a::after { content: '→'; font-size: 1.2rem; transition: transform 0.3s; }
-        .blog-home-cta a:hover::after { transform: translateX(4px); }
     </style>
 </head>
 <body>
@@ -911,22 +926,28 @@ ${NAV_HTML}
             <p>Ancient wisdom meets modern insight. Explore articles on BaZi astrology, Feng Shui, meditation, and the Five Elements.</p>
         </div>
 
-        <section class="blog-latest">
-            <h2 class="blog-section-title">Latest Articles</h2>
-            <div class="blog-card-list">
+        <div class="blog-main-layout">
+            <div class="blog-main-content">
+                <section class="blog-latest">
+                    <h2 class="blog-section-title">Latest Articles</h2>
+                    <div class="blog-card-list">
 ${latestCards}
+                    </div>
+                </section>
             </div>
-        </section>
 
-        <div class="blog-home-cta">
-            <h3>Discover Your True Destiny</h3>
-            <p class="cta-sub">Unlock the secrets hidden in your birth chart.<br>Get a free BaZi reading with Four Pillars of Destiny analysis.</p>
-            <div class="cta-features">
-                <div class="cta-feat">Four Pillars Reading</div>
-                <div class="cta-feat">Five Elements Analysis</div>
-                <div class="cta-feat">Life Path Insights</div>
-            </div>
-            <a href="/bazi-calculator">Get Your Free Reading</a>
+            <aside class="blog-sidebar">
+                <div class="blog-home-cta">
+                    <h3>Discover Your True Destiny</h3>
+                    <p class="cta-sub">Unlock the secrets hidden in your birth chart. Get a free BaZi reading with Four Pillars of Destiny analysis.</p>
+                    <div class="cta-features">
+                        <div class="cta-feat"><span>\u2728</span> Four Pillars Reading</div>
+                        <div class="cta-feat"><span>\u2B50</span> Five Elements Analysis</div>
+                        <div class="cta-feat"><span>\u{1F52E}</span> Life Path Insights</div>
+                    </div>
+                    <a href="/bazi-calculator">Get Your Free Reading</a>
+                </div>
+            </aside>
         </div>
     </main>
 
