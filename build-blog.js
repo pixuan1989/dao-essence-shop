@@ -726,7 +726,7 @@ ${NAV_HTML}
                     Life Path Insights
                 </div>
             </div>
-            <a href="/bazi-calculator" class="cta-btn">Get Your Free Reading</a>
+            <a href="/#free-bazi" class="cta-btn">Get Your Free Reading</a>
         </div>`}
         </aside>
     </div>
@@ -945,7 +945,7 @@ ${latestCards}
                         <div class="cta-feat"><span>\u2B50</span> Five Elements Analysis</div>
                         <div class="cta-feat"><span>\u{1F52E}</span> Life Path Insights</div>
                     </div>
-                    <a href="/bazi-calculator">Get Your Free Reading</a>
+                    <a href="/#free-bazi">Get Your Free Reading</a>
                 </div>
             </aside>
         </div>
