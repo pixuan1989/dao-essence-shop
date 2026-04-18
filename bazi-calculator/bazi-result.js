@@ -457,10 +457,11 @@
     function renderSidebarRecommendations(sidebar) {
         var html = '<h3 class="sidebar-title">Recommended Reading</h3>';
         html += '<div id="sidebar-cards"><p style="font-size:0.78rem;color:var(--ink-3);text-align:center;padding:2rem 0">Loading articles...</p></div>';
-        html += '<a href="/five-elements-test" class="sidebar-card sidebar-element-cta" style="text-align:center;background:rgba(212,175,55,0.08);border:1px solid rgba(212,175,55,0.4);margin-top:1.2rem;padding:1.2rem 1rem;">';
-        html += '<div style="font-size:1.1rem;margin-bottom:0.5rem;letter-spacing:0.05em;color:#D4AF37;text-shadow:0 1px 2px rgba(0,0,0,0.1);">Wood · Fire · Earth · Metal · Water</div>';
-        html += '<h3 style="margin:0 0 0.4rem;color:var(--text-primary);">Discover Your Element</h3>';
-        html += '<div style="font-size:0.8rem;color:#D4AF37;letter-spacing:0.03em;">Free 2-min quiz →</div>';
+        html += '<a href="/five-elements-test" class="sidebar-card sidebar-element-cta" style="text-align:center;background:linear-gradient(135deg,rgba(212,175,55,0.06),rgba(212,175,55,0.12));border:1px solid rgba(212,175,55,0.35);margin-top:1.2rem;padding:1.2rem 1rem;">';
+        html += '<div style="font-size:0.68rem;font-weight:600;color:#D4AF37;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.6rem;">✦ Your Elemental Profile</div>';
+        html += '<h3 style="margin:0 0 0.5rem;color:var(--text-primary);font-size:0.95rem;line-height:1.4;">Your birth chart reveals a unique elemental signature.</h3>';
+        html += '<p style="margin:0 0 0.8rem;color:var(--ink-2);font-size:0.78rem;line-height:1.5;">Discover how it shapes your personality, relationships, and life path.</p>';
+        html += '<div style="font-size:0.82rem;color:#D4AF37;font-weight:600;letter-spacing:0.02em;">Take the 2-min quiz →</div>';
         html += '</a>';
         sidebar.innerHTML = html;
 
