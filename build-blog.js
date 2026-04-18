@@ -529,16 +529,15 @@ ${NAV_HTML}
         ${finalBody}
 
         <div class="blog-cta">
-            <h3>Unlock Your Birth Chart Secrets</h3>
-            <p class="cta-sub">Your BaZi chart reveals your personality, career path,<br>relationships, and life's hidden opportunities.</p>
+            <h3>Where Will You Meet Your Soulmate?</h3>
+            <p class="cta-sub">Your birth date holds the map to your most fated love encounter.<br>Discover your soulmate direction, love timing, and relationship style — free.</p>
             <div class="cta-features">
-                <div class="cta-feat"><span>✦</span> Four Pillars Analysis</div>
-                <div class="cta-feat"><span>✦</span> Da Yun Forecast</div>
-                <div class="cta-feat"><span>✦</span> 2026 Outlook</div>
+                <div class="cta-feat">Soulmate Direction</div>
+                <div class="cta-feat">Love Timing</div>
+                <div class="cta-feat">Love Style</div>
             </div>
             <div class="cta-buttons">
-                <a href="/bazi-form">Get Your Free BaZi Reading</a>
-                <a href="/five-elements-test" class="cta-btn-secondary">Discover Your Element →</a>
+                <a href="/soulmate-calculator">Find Your Soulmate Direction</a>
             </div>
         </div>
     </article>
@@ -735,14 +734,14 @@ ${latestCards}
         </section>
 
         <div class="blog-home-cta">
-            <h3>Unlock Your Birth Chart Secrets</h3>
-            <p class="cta-sub">Your BaZi chart reveals your personality, career path,<br>relationships, and life's hidden opportunities.</p>
+            <h3>Where Will You Meet Your Soulmate?</h3>
+            <p class="cta-sub">Your birth date holds the map to your most fated love encounter.<br>Discover your soulmate direction, love timing, and relationship style — free.</p>
             <div class="cta-features">
-                <div class="cta-feat"><span>✦</span> Four Pillars Analysis</div>
-                <div class="cta-feat"><span>✦</span> Da Yun Forecast</div>
-                <div class="cta-feat"><span>✦</span> 2026 Outlook</div>
+                <div class="cta-feat">Soulmate Direction</div>
+                <div class="cta-feat">Love Timing</div>
+                <div class="cta-feat">Love Style</div>
             </div>
-            <a href="/bazi-form">Get Your Free BaZi Reading</a>
+            <a href="/soulmate-calculator">Find Your Soulmate Direction</a>
         </div>
     </main>
 
@@ -940,6 +939,7 @@ async function main() {
     { loc: '/blog/', changefreq: 'weekly', priority: '1.0' },
     { loc: '/bazi-form', changefreq: 'weekly', priority: '1.0' },
     { loc: '/five-elements-test', changefreq: 'weekly', priority: '1.0' },
+    { loc: '/soulmate-calculator', changefreq: 'weekly', priority: '1.0' },
     { loc: '/culture', changefreq: 'monthly', priority: '0.8' },
     { loc: '/shop', changefreq: 'daily', priority: '0.6' },
     { loc: '/about', changefreq: 'monthly', priority: '0.6' },

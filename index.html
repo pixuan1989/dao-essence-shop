@@ -314,6 +314,184 @@
             line-height: 1.8;
         }
 
+        /* --- SOULMATE CALCULATOR SECTION --- */
+        .soulmate-section {
+            padding: var(--spacing-4xl) 0;
+            background: linear-gradient(160deg, #0D0A12 0%, #14101E 40%, #0D0A12 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        .soulmate-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse at 20% 30%, rgba(196,125,125,0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 70%, rgba(212,175,55,0.04) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        .soulmate-section .section-header h2 {
+            color: var(--bg-primary);
+        }
+        .soulmate-section .section-header .subtitle {
+            color: var(--accent-color);
+        }
+        .soulmate-section .section-header p {
+            color: rgba(245, 240, 230, 0.65);
+        }
+
+        /* Feature cards */
+        .soulmate-features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--spacing-xl);
+            margin-top: var(--spacing-3xl);
+            margin-bottom: var(--spacing-3xl);
+            position: relative;
+            z-index: 1;
+        }
+        .soulmate-feat-card {
+            text-align: center;
+            padding: var(--spacing-2xl) var(--spacing-lg);
+            background: var(--bg-primary);
+            border-radius: var(--radius-lg);
+            border: 1px solid rgba(196,125,125,0.12);
+            transition: all var(--transition-base);
+            position: relative;
+            overflow: hidden;
+        }
+        .soulmate-feat-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(196,125,125,0.5), transparent);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+        .soulmate-feat-card:hover::before { opacity: 1; }
+        .soulmate-feat-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 40px rgba(196,125,125,0.1);
+            border-color: rgba(196,125,125,0.3);
+        }
+        .soulmate-feat-card h3 {
+            font-family: var(--font-display);
+            font-size: var(--text-xl);
+            color: var(--bg-primary);
+            margin-bottom: var(--spacing-xs);
+            letter-spacing: 0.08em;
+        }
+        .feat-icon-wrap {
+            width: 56px; height: 56px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto var(--spacing-md);
+            font-size: 24px;
+        }
+        .feat-icon-wrap.rose-wrap {
+            background: rgba(196,125,125,0.1);
+            border: 1px solid rgba(196,125,125,0.2);
+        }
+        .feat-icon-wrap.gold-wrap {
+            background: rgba(212,175,55,0.1);
+            border: 1px solid rgba(212,175,55,0.2);
+        }
+        .feat-question {
+            font-family: var(--font-display);
+            font-style: italic;
+            font-size: 0.95rem;
+            color: rgba(196,125,125,0.9);
+            margin-bottom: var(--spacing-sm);
+        }
+        .feat-desc {
+            color: var(--text-secondary);
+            font-size: var(--text-sm);
+            line-height: 1.7;
+        }
+
+        /* CTA area */
+        .soulmate-cta-area {
+            position: relative;
+            z-index: 1;
+            max-width: 560px;
+            margin: 0 auto;
+        }
+        .soulmate-cta-box {
+            text-align: center;
+            padding: var(--spacing-3xl) var(--spacing-2xl);
+            background: linear-gradient(135deg, rgba(196,125,125,0.08), rgba(212,175,55,0.05));
+            border: 1px solid rgba(196,125,125,0.2);
+            border-radius: var(--radius-xl);
+            position: relative;
+            overflow: hidden;
+        }
+        .soulmate-cta-box::before {
+            content: '';
+            position: absolute;
+            top: -1px; left: 15%; right: 15%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(196,125,125,0.6), rgba(212,175,55,0.4), transparent);
+        }
+        .cta-glow {
+            position: absolute;
+            width: 200px; height: 200px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(196,125,125,0.08) 0%, transparent 70%);
+            top: -60px; right: -40px;
+            pointer-events: none;
+        }
+        .soulmate-cta-box h3 {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            color: var(--bg-primary);
+            margin-bottom: var(--spacing-sm);
+            letter-spacing: 0.04em;
+            position: relative;
+        }
+        .soulmate-cta-box p {
+            color: var(--text-secondary);
+            font-size: 0.88rem;
+            margin-bottom: var(--spacing-xl);
+            position: relative;
+        }
+        .soulmate-cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 1rem 2.5rem;
+            background: linear-gradient(135deg, #C47D7D, #A05050);
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            letter-spacing: 0.04em;
+            border-radius: var(--radius-sm);
+            transition: all 0.3s;
+            position: relative;
+            box-shadow: 0 4px 20px rgba(196,125,125,0.25);
+        }
+        .soulmate-cta-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 32px rgba(196,125,125,0.4);
+            background: linear-gradient(135deg, #D4A0A0, #C47D7D);
+        }
+        .cta-heart {
+            font-size: 1.1rem;
+            animation: heartPulse 2s ease infinite;
+        }
+        @keyframes heartPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+
+        @media (max-width: 768px) {
+            .soulmate-features {
+                grid-template-columns: 1fr;
+                gap: var(--spacing-lg);
+            }
+        }
+
         /* --- FREE BAZI TOOL --- */
         .free-bazi {
             padding: var(--spacing-4xl) 0;
@@ -724,6 +902,57 @@
                     <div class="service-line"></div>
                     <p>Wood, Fire, Earth, Metal, Water -- five fundamental forces that shape all of existence. Understand the cycle of generation and restraint, and discover the element that resonates with your life path.</p>
                     <a href="/five-elements-test" class="service-card-link">Discover Your Element →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Soulmate Calculator — Love Section -->
+    <section class="soulmate-section section" id="soulmate-calculator">
+        <div class="container">
+            <div class="section-header">
+                <h2>Discover Your Love Story</h2>
+                <p class="subtitle">Written in the Stars, Revealed by the Ancients</p>
+                <p>Where will you meet your soulmate? When will love arrive? What is your unique love style? Your birth date holds the answers — decoded through 2,000 years of Chinese astrology.</p>
+            </div>
+
+            <!-- Feature cards -->
+            <div class="soulmate-features">
+                <div class="soulmate-feat-card scroll-animate">
+                    <div class="feat-icon-wrap rose-wrap">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+                    </div>
+                    <h3>Direction</h3>
+                    <p class="feat-question">Where will I meet my soulmate?</p>
+                    <p class="feat-desc">The geographic direction aligned with your soulmate's energy — East, West, South, or North?</p>
+                </div>
+                <div class="soulmate-feat-card scroll-animate">
+                    <div class="feat-icon-wrap gold-wrap">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    </div>
+                    <h3>Timing</h3>
+                    <p class="feat-question">When will I find love?</p>
+                    <p class="feat-desc">Your most favorable age range and zodiac years for meeting your soulmate.</p>
+                </div>
+                <div class="soulmate-feat-card scroll-animate">
+                    <div class="feat-icon-wrap rose-wrap">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                    </div>
+                    <h3>Love Style</h3>
+                    <p class="feat-question">What kind of lover am I?</p>
+                    <p class="feat-desc">Your unique relationship archetype — from Passionate Spark to Deep Intuitive.</p>
+                </div>
+            </div>
+
+            <!-- CTA Button -->
+            <div class="soulmate-cta-area scroll-animate">
+                <div class="soulmate-cta-box">
+                    <div class="cta-glow"></div>
+                    <h3>Your Soulmate Direction Awaits</h3>
+                    <p>Free reading · No sign-up · Based on your BaZi birth chart</p>
+                    <a href="/soulmate-calculator" class="soulmate-cta-btn">
+                        <span>Find Your Soulmate Direction &rarr;</span>
+                    </a>
                 </div>
             </div>
         </div>

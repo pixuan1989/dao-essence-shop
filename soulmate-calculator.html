@@ -1,0 +1,1329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Soulmate Direction & Love Compatibility Calculator | DaoEssence</title>
+    <meta name="description" content="Where will you meet your soulmate? Discover your soulmate direction, love timing, and relationship style through ancient Chinese astrology. Free love prediction by date of birth.">
+    <meta name="keywords" content="soulmate direction calculator, love compatibility calculator, love prediction by date of birth, when will I find love, where will I meet my soulmate, soulmate calculator, chinese zodiac love, bazi love reading">
+    <meta name="robots" content="index, follow">
+    <!-- Open Graph -->
+    <meta property="og:title" content="Free Soulmate Direction Calculator | DAO Essence">
+    <meta property="og:description" content="Discover where you'll meet your soulmate, when love arrives, and your unique love style — based on ancient Chinese astrology. Free.">
+    <meta property="og:image" content="https://www.daoessentia.com/images/og-default.jpg">
+    <meta property="og:url" content="https://www.daoessentia.com/soulmate-calculator">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="DAO Essence">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Free Soulmate Direction Calculator | DAO Essence">
+    <meta name="twitter:description" content="Where will you meet your soulmate? Free love prediction based on your birth date.">
+    <meta name="twitter:image" content="https://www.daoessentia.com/images/og-default.jpg">
+    <!-- Canonical -->
+    <link rel="canonical" href="https://www.daoessentia.com/soulmate-calculator">
+
+    <!-- Domain redirect -->
+    <script>
+        if (window.location.hostname === 'daoessence-shop.vercel.app') {
+            window.location.href = window.location.href.replace('daoessence-shop.vercel.app', 'www.daoessentia.com');
+        }
+    </script>
+
+    <link rel="icon" href="/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-dark: #0B0B14;
+            --bg-card: rgba(255,255,255,0.04);
+            --bg-card-hover: rgba(255,255,255,0.07);
+            --gold: #D4AF37;
+            --gold-dim: #A88B2A;
+            --gold-glow: rgba(212,175,55,0.15);
+            --rose: #C47D7D;
+            --rose-light: #D4A0A0;
+            --rose-glow: rgba(196,125,125,0.12);
+            --rose-deep: #A05050;
+            --text-primary: #F0EDE6;
+            --text-secondary: #9B978F;
+            --text-muted: #5A5750;
+            --border: rgba(212,175,55,0.12);
+            --border-hover: rgba(212,175,55,0.3);
+            --serif: 'Cormorant Garamond', 'SimSun', serif;
+            --sans: 'Inter', -apple-system, sans-serif;
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: var(--sans);
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Background atmosphere */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(ellipse at 25% 15%, rgba(196,125,125,0.04) 0%, transparent 55%),
+                radial-gradient(ellipse at 75% 85%, rgba(212,175,55,0.03) 0%, transparent 55%),
+                radial-gradient(ellipse at 50% 50%, rgba(196,125,125,0.02) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* ===== NAV ===== */
+        .sc-nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            background: rgba(11,11,20,0.92);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            transition: all 0.3s;
+        }
+        .sc-nav-inner {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .sc-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+        .sc-logo-icon {
+            width: 28px; height: 28px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--rose), var(--gold));
+            display: flex; align-items: center; justify-content: center;
+            font-size: 13px;
+        }
+        .sc-logo-text {
+            font-family: var(--serif);
+            font-size: 1.05rem;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+        }
+        .sc-logo-text span { color: var(--rose-light); }
+
+        /* ===== MAIN CONTAINER ===== */
+        .sc-container {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 5rem 1.5rem 4rem;
+        }
+
+        /* ===== STEP CONTAINER ===== */
+        .sc-step { display: none; animation: scFadeIn 0.5s ease; }
+        .sc-step.active { display: block; }
+        @keyframes scFadeIn {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== STEP 1: HERO ===== */
+        .sc-hero { text-align: center; padding: 3rem 0 1.5rem; }
+
+        .sc-hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.35rem 1.2rem;
+            border: 1px solid rgba(196,125,125,0.25);
+            border-radius: 24px;
+            font-size: 0.72rem;
+            color: var(--rose-light);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            background: rgba(196,125,125,0.05);
+        }
+
+        .sc-hero h1 {
+            font-family: var(--serif);
+            font-size: clamp(2rem, 6vw, 3.2rem);
+            font-weight: 400;
+            color: var(--text-primary);
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            letter-spacing: 0.02em;
+        }
+        .sc-hero h1 em {
+            font-style: italic;
+            background: linear-gradient(135deg, var(--rose-light), var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 600;
+        }
+
+        .sc-hero-sub {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            max-width: 540px;
+            margin: 0 auto 2.5rem;
+            line-height: 1.7;
+        }
+
+        /* Feature cards row */
+        .sc-features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+        .sc-feature-card {
+            text-align: center;
+            padding: 1.8rem 1rem 1.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            transition: all 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+        .sc-feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--rose), transparent);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+        .sc-feature-card:hover::before { opacity: 1; }
+        .sc-feature-card:hover {
+            border-color: var(--border-hover);
+            background: var(--bg-card-hover);
+            transform: translateY(-4px);
+        }
+        .sc-feature-icon {
+            width: 48px; height: 48px;
+            margin: 0 auto 1rem;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .sc-feature-icon svg { width: 22px; height: 22px; }
+        .sc-feature-icon.rose-bg {
+            background: var(--rose-glow);
+            border: 1px solid rgba(196,125,125,0.2);
+        }
+        .sc-feature-icon.rose-bg svg { stroke: var(--rose-light); fill: none; stroke-width: 1.8; }
+        .sc-feature-icon.gold-bg {
+            background: var(--gold-glow);
+            border: 1px solid rgba(212,175,55,0.2);
+        }
+        .sc-feature-icon.gold-bg svg { stroke: var(--gold); fill: none; stroke-width: 1.8; }
+        .sc-feature-card h3 {
+            font-family: var(--serif);
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            margin-bottom: 0.3rem;
+            letter-spacing: 0.04em;
+        }
+        .sc-feature-card .feat-question {
+            font-family: var(--serif);
+            font-style: italic;
+            font-size: 1rem;
+            color: var(--rose-light);
+            margin-bottom: 0.5rem;
+        }
+        .sc-feature-card p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* Divider */
+        .sc-divider {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 2.5rem 0;
+        }
+        .sc-divider::before, .sc-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border), transparent);
+        }
+        .sc-divider span {
+            color: var(--text-muted);
+            font-size: 0.72rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+        }
+
+        /* ===== BIRTH FORM ===== */
+        .sc-form {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2.5rem 2rem;
+            max-width: 560px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+        }
+        .sc-form::before {
+            content: '';
+            position: absolute;
+            top: -1px; left: 20%; right: 20%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--rose), var(--gold), transparent);
+        }
+        .sc-form h3 {
+            font-family: var(--serif);
+            text-align: center;
+            font-size: 1.3rem;
+            color: var(--text-primary);
+            margin-bottom: 0.3rem;
+            letter-spacing: 0.04em;
+        }
+        .sc-form .form-subtitle {
+            text-align: center;
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            margin-bottom: 1.8rem;
+        }
+        .sc-form-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.8rem;
+            margin-bottom: 0.8rem;
+        }
+        .sc-form-row-2 {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 0.8rem;
+            margin-bottom: 0.8rem;
+        }
+        .sc-form-row-full {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.8rem;
+            margin-bottom: 1.5rem;
+        }
+        .sc-form-group { display: flex; flex-direction: column; gap: 0.3rem; }
+        .sc-form-group label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+        .sc-form-group select, .sc-form-group input {
+            padding: 0.65rem 0.8rem;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-family: var(--sans);
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color 0.3s;
+            -webkit-appearance: none;
+        }
+        .sc-form-group select:focus, .sc-form-group input:focus {
+            border-color: var(--rose);
+        }
+        .sc-form-group select option { background: #1a1a2e; color: var(--text-primary); }
+
+        .sc-btn-primary {
+            width: 100%;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, var(--rose), var(--rose-deep));
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            font-family: var(--sans);
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        .sc-btn-primary::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, var(--gold-dim), var(--gold));
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+        .sc-btn-primary:hover::before { opacity: 1; }
+        .sc-btn-primary span { position: relative; z-index: 1; }
+        .sc-btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(196,125,125,0.3);
+        }
+        .sc-btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+
+        .sc-form-note {
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* Trust bar */
+        .sc-trust {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2.5rem;
+            flex-wrap: wrap;
+        }
+        .sc-trust-item {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.78rem;
+            color: var(--text-muted);
+        }
+        .sc-trust-item svg { width: 14px; height: 14px; stroke: var(--gold); fill: none; stroke-width: 2; }
+
+        /* ===== STEP 2: LOADING ===== */
+        .sc-loading {
+            text-align: center;
+            padding: 5rem 0;
+        }
+        .sc-loading-icon {
+            width: 80px; height: 80px;
+            margin: 0 auto 2rem;
+            position: relative;
+        }
+        .sc-loading-ring {
+            width: 100%; height: 100%;
+            border-radius: 50%;
+            border: 2px solid var(--border);
+            border-top-color: var(--rose);
+            animation: scSpin 1.2s linear infinite;
+        }
+        @keyframes scSpin { to { transform: rotate(360deg); } }
+        .sc-loading-icon::after {
+            content: '\2665';
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.5rem;
+            color: var(--rose-light);
+            animation: scPulse 1.5s ease infinite;
+        }
+        @keyframes scPulse {
+            0%, 100% { opacity: 0.4; transform: translate(-50%, -50%) scale(0.9); }
+            50% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+        }
+        .sc-loading h2 {
+            font-family: var(--serif);
+            font-size: 1.4rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.04em;
+        }
+        .sc-loading p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        .sc-loading-steps {
+            text-align: left;
+            max-width: 320px;
+            margin: 2rem auto 0;
+        }
+        .sc-loading-step {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.5rem 0;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            opacity: 0.3;
+            transition: all 0.5s;
+        }
+        .sc-loading-step.done { opacity: 1; color: var(--text-secondary); }
+        .sc-loading-step.done .step-dot { background: var(--rose); border-color: var(--rose); }
+        .step-dot {
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            border: 1.5px solid var(--text-muted);
+            flex-shrink: 0;
+            transition: all 0.5s;
+        }
+
+        /* ===== STEP 3: RESULTS ===== */
+        .sc-result-header {
+            text-align: center;
+            padding: 1rem 0 2rem;
+        }
+        .sc-result-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.72rem;
+            color: var(--rose-light);
+            background: var(--rose-glow);
+            border: 1px solid rgba(196,125,125,0.2);
+            margin-bottom: 1rem;
+        }
+        .sc-result-header h2 {
+            font-family: var(--serif);
+            font-size: clamp(1.6rem, 4vw, 2.2rem);
+            font-weight: 400;
+            color: var(--text-primary);
+            letter-spacing: 0.02em;
+            margin-bottom: 0.5rem;
+        }
+        .sc-result-header h2 em {
+            font-style: italic;
+            color: var(--rose-light);
+        }
+        .sc-result-header .result-ref {
+            display: inline-block;
+            margin-top: 0.5rem;
+            padding: 0.3rem 0.8rem;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 8px;
+            font-size: 0.78rem;
+            color: var(--text-muted);
+        }
+        .sc-result-header .result-ref strong { color: var(--text-secondary); }
+
+        /* Result card */
+        .sc-result-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+        .sc-result-card-head {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.5rem 1.8rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .sc-result-card-icon {
+            width: 44px; height: 44px;
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+        .sc-result-card-icon svg { width: 20px; height: 20px; }
+        .sc-result-card-icon.rose-icon {
+            background: var(--rose-glow);
+            border: 1px solid rgba(196,125,125,0.2);
+        }
+        .sc-result-card-icon.rose-icon svg { stroke: var(--rose-light); fill: none; stroke-width: 1.8; }
+        .sc-result-card-icon.gold-icon {
+            background: var(--gold-glow);
+            border: 1px solid rgba(212,175,55,0.2);
+        }
+        .sc-result-card-icon.gold-icon svg { stroke: var(--gold); fill: none; stroke-width: 1.8; }
+        .sc-result-card-head h3 {
+            font-family: var(--serif);
+            font-size: 1.25rem;
+            color: var(--text-primary);
+            letter-spacing: 0.04em;
+        }
+        .sc-result-card-head .card-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+        }
+        .sc-result-card-body {
+            padding: 1.5rem 1.8rem;
+        }
+
+        /* Direction highlights */
+        .sc-direction-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+        .sc-direction-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.82rem;
+            font-weight: 500;
+        }
+        .sc-direction-tag.primary {
+            background: linear-gradient(135deg, rgba(196,125,125,0.15), rgba(196,125,125,0.05));
+            border: 1px solid rgba(196,125,125,0.3);
+            color: var(--rose-light);
+        }
+        .sc-direction-tag.secondary {
+            background: rgba(212,175,55,0.08);
+            border: 1px solid rgba(212,175,55,0.2);
+            color: var(--gold);
+        }
+
+        /* Timing bar */
+        .sc-timing-bar {
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+            padding: 1.2rem 1.5rem;
+            margin: 1rem 0;
+        }
+        .sc-timing-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.4rem 0;
+            font-size: 0.9rem;
+        }
+        .sc-timing-row .label { color: var(--text-muted); }
+        .sc-timing-row .value { color: var(--text-primary); font-weight: 500; }
+        .sc-timing-row .value.rose { color: var(--rose-light); }
+
+        /* Style traits */
+        .sc-style-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.8rem;
+            margin: 1rem 0;
+        }
+        .sc-style-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.6rem;
+            padding: 0.8rem 1rem;
+            background: rgba(255,255,255,0.03);
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.04);
+        }
+        .sc-style-item .trait-dot {
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: var(--rose);
+            flex-shrink: 0;
+            margin-top: 7px;
+        }
+        .sc-style-item .trait-text {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+        .sc-style-item .trait-text strong {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        /* CTA Section */
+        .sc-cta {
+            text-align: center;
+            padding: 3rem 0 1rem;
+        }
+        .sc-cta-box {
+            background: linear-gradient(135deg, rgba(196,125,125,0.08), rgba(212,175,55,0.06));
+            border: 1px solid rgba(196,125,125,0.2);
+            border-radius: 20px;
+            padding: 2.5rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .sc-cta-box::before {
+            content: '';
+            position: absolute;
+            top: -1px; left: 10%; right: 10%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--rose), var(--gold), transparent);
+        }
+        .sc-cta-box h3 {
+            font-family: var(--serif);
+            font-size: 1.4rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.04em;
+        }
+        .sc-cta-box p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .sc-cta-box .sc-btn-primary {
+            max-width: 300px;
+            margin: 0 auto;
+        }
+
+        /* Social share */
+        .sc-share {
+            text-align: center;
+            margin-top: 2rem;
+        }
+        .sc-share p {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            margin-bottom: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        .sc-share-icons {
+            display: flex;
+            justify-content: center;
+            gap: 0.8rem;
+        }
+        .sc-share-icon {
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+        .sc-share-icon:hover {
+            border-color: var(--rose);
+            color: var(--rose-light);
+            transform: translateY(-2px);
+        }
+        .sc-share-icon svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; }
+
+        /* Back button */
+        .sc-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            cursor: pointer;
+            transition: color 0.3s;
+            margin-top: 2rem;
+            background: none; border: none;
+            font-family: var(--sans);
+        }
+        .sc-back:hover { color: var(--text-primary); }
+
+        /* ===== FOOTER ===== */
+        .sc-footer {
+            text-align: center;
+            padding: 3rem 1.5rem;
+            margin-top: 2rem;
+            border-top: 1px solid var(--border);
+        }
+        .sc-footer p {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+        }
+        .sc-footer a {
+            color: var(--gold-dim);
+            text-decoration: none;
+        }
+        .sc-footer a:hover { color: var(--gold); }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 640px) {
+            .sc-container { padding: 4rem 1rem 3rem; }
+            .sc-features { grid-template-columns: 1fr; gap: 0.8rem; }
+            .sc-feature-card { padding: 1.3rem 1rem; }
+            .sc-form { padding: 2rem 1.2rem; }
+            .sc-form-row { grid-template-columns: 1fr; }
+            .sc-form-row-2 { grid-template-columns: 1fr; }
+            .sc-style-grid { grid-template-columns: 1fr; }
+            .sc-result-card-head { padding: 1.2rem 1.3rem; }
+            .sc-result-card-body { padding: 1.2rem 1.3rem; }
+            .sc-trust { gap: 1rem; }
+        }
+    </style>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Soulmate Direction Calculator",
+        "description": "Free love prediction tool based on Chinese astrology. Discover where you'll meet your soulmate, love timing, and relationship style.",
+        "url": "https://www.daoessentia.com/soulmate-calculator",
+        "applicationCategory": "LifestyleApplication",
+        "operatingSystem": "Web",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "isPartOf": {
+            "@type": "WebSite",
+            "name": "DAO Essence",
+            "url": "https://www.daoessentia.com"
+        }
+    }
+    </script>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="sc-nav">
+        <div class="sc-nav-inner">
+            <a href="/" class="sc-logo">
+                <div class="sc-logo-icon">&#9775;</div>
+                <div class="sc-logo-text">DAO <span>ESSENCE</span></div>
+            </a>
+        </div>
+    </nav>
+
+    <div class="sc-container">
+
+        <!-- ====== STEP 1: HERO + FORM ====== -->
+        <div class="sc-step active" id="sc-step-1">
+            <div class="sc-hero">
+                <div class="sc-hero-badge">Ancient Wisdom Meets Modern Love</div>
+                <h1>Where Will You Meet<br>Your <em>Soulmate</em>?</h1>
+                <p class="sc-hero-sub">Your birth date holds the map to your most fated love encounter. Based on 2,000 years of Chinese astrology, uncover the direction, timing, and nature of your soulmate connection.</p>
+            </div>
+
+            <!-- Feature cards -->
+            <div class="sc-features">
+                <div class="sc-feature-card">
+                    <div class="sc-feature-icon rose-bg">
+                        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+                    </div>
+                    <h3>Direction</h3>
+                    <div class="feat-question">Where?</div>
+                    <p>The geographic direction most aligned with your soulmate's energy</p>
+                </div>
+                <div class="sc-feature-card">
+                    <div class="sc-feature-icon gold-bg">
+                        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    </div>
+                    <h3>Timing</h3>
+                    <div class="feat-question">When?</div>
+                    <p>The life phases when love energy is strongest for you</p>
+                </div>
+                <div class="sc-feature-card">
+                    <div class="sc-feature-icon rose-bg">
+                        <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                    </div>
+                    <h3>Love Style</h3>
+                    <div class="feat-question">How?</div>
+                    <p>Your unique relationship pattern based on Five Elements</p>
+                </div>
+            </div>
+
+            <!-- Form -->
+            <div class="sc-divider"><span>Enter Your Birth Details</span></div>
+
+            <div class="sc-form">
+                <h3>Your Love Blueprint Awaits</h3>
+                <p class="form-subtitle">All fields required for an accurate reading</p>
+                <div class="sc-form-row">
+                    <div class="sc-form-group">
+                        <label>Year</label>
+                        <select id="sc-year"></select>
+                    </div>
+                    <div class="sc-form-group">
+                        <label>Month</label>
+                        <select id="sc-month"></select>
+                    </div>
+                    <div class="sc-form-group">
+                        <label>Day</label>
+                        <select id="sc-day"></select>
+                    </div>
+                </div>
+                <div class="sc-form-row-2">
+                    <div class="sc-form-group">
+                        <label>Birthplace (City, State/Province, Country)</label>
+                        <input type="text" id="sc-birthplace" placeholder="e.g. Los Angeles, CA, USA" autocomplete="off">
+                    </div>
+                    <div class="sc-form-group">
+                        <label>Gender</label>
+                        <select id="sc-gender">
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="sc-form-row-2">
+                    <div class="sc-form-group">
+                        <label>Birth Hour (optional, for deeper accuracy)</label>
+                        <select id="sc-hour">
+                            <option value="">Unknown</option>
+                        </select>
+                    </div>
+                    <div class="sc-form-group" style="visibility:hidden;">
+                        <label>.</label>
+                    </div>
+                </div>
+                <button class="sc-btn-primary" id="sc-calculate-btn" onclick="scCalculate()">
+                    <span>Reveal My Soulmate Direction &rarr;</span>
+                </button>
+                <p class="sc-form-note">Free reading &middot; No sign-up &middot; Based on BaZi &amp; Five Elements astrology</p>
+            </div>
+
+            <!-- Trust bar -->
+            <div class="sc-trust">
+                <div class="sc-trust-item">
+                    <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    100% Private
+                </div>
+                <div class="sc-trust-item">
+                    <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                    2,000+ Years of Wisdom
+                </div>
+                <div class="sc-trust-item">
+                    <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                    Crafted with Care
+                </div>
+            </div>
+        </div>
+
+        <!-- ====== STEP 2: LOADING ====== -->
+        <div class="sc-step" id="sc-step-2">
+            <div class="sc-loading">
+                <div class="sc-loading-icon">
+                    <div class="sc-loading-ring"></div>
+                </div>
+                <h2>Reading Your Stars...</h2>
+                <p>Analyzing the celestial map of your love destiny</p>
+                <div class="sc-loading-steps">
+                    <div class="sc-loading-step" id="sc-load-1"><span class="step-dot"></span> Calculating your Heavenly Stem &amp; Earthly Branch</div>
+                    <div class="sc-loading-step" id="sc-load-2"><span class="step-dot"></span> Mapping your Five Elements love profile</div>
+                    <div class="sc-loading-step" id="sc-load-3"><span class="step-dot"></span> Determining your soulmate direction</div>
+                    <div class="sc-loading-step" id="sc-load-4"><span class="step-dot"></span> Revealing your love timing &amp; style</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ====== STEP 3: RESULTS ====== -->
+        <div class="sc-step" id="sc-step-3">
+            <div class="sc-result-header">
+                <div class="sc-result-badge">Your Soulmate Reading</div>
+                <h2>Your <em id="sc-result-name">Love</em> Blueprint</h2>
+                <p id="sc-result-summary"></p>
+                <div class="result-ref" id="sc-result-ref"></div>
+            </div>
+
+            <!-- Direction Card -->
+            <div class="sc-result-card">
+                <div class="sc-result-card-head">
+                    <div class="sc-result-card-icon rose-icon">
+                        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+                    </div>
+                    <div>
+                        <div class="card-label">Soulmate Direction</div>
+                        <h3>Where You'll Meet Your Soulmate</h3>
+                    </div>
+                </div>
+                <div class="sc-result-card-body" id="sc-direction-body"></div>
+            </div>
+
+            <!-- Timing Card -->
+            <div class="sc-result-card">
+                <div class="sc-result-card-head">
+                    <div class="sc-result-card-icon gold-icon">
+                        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    </div>
+                    <div>
+                        <div class="card-label">Love Timing</div>
+                        <h3>When Love Finds You</h3>
+                    </div>
+                </div>
+                <div class="sc-result-card-body" id="sc-timing-body"></div>
+            </div>
+
+            <!-- Love Style Card -->
+            <div class="sc-result-card">
+                <div class="sc-result-card-head">
+                    <div class="sc-result-card-icon rose-icon">
+                        <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                    </div>
+                    <div>
+                        <div class="card-label">Love Style</div>
+                        <h3>Your Relationship Blueprint</h3>
+                    </div>
+                </div>
+                <div class="sc-result-card-body" id="sc-style-body"></div>
+            </div>
+
+            <!-- CTA -->
+            <div class="sc-cta">
+                <div class="sc-cta-box">
+                    <h3>Want the Full Picture?</h3>
+                    <p>Get a complete BaZi love reading with detailed compatibility analysis, yearly forecasts, and personalized relationship advice.</p>
+                    <button class="sc-btn-primary" onclick="window.location.href='/shop'">
+                        <span>Get Your Full Love Reading &rarr;</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Share -->
+            <div class="sc-share">
+                <p>Share Your Result</p>
+                <div class="sc-share-icons">
+                    <a class="sc-share-icon" title="Share on Twitter" onclick="scShare('twitter')" href="#">
+                        <svg viewBox="0 0 24 24"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
+                    </a>
+                    <a class="sc-share-icon" title="Share on Facebook" onclick="scShare('facebook')" href="#">
+                        <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                    </a>
+                    <a class="sc-share-icon" title="Share on Pinterest" onclick="scShare('pinterest')" href="#">P</a>
+                    <a class="sc-share-icon" title="Copy Link" onclick="scShare('copy')" href="#">
+                        <svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </a>
+                </div>
+            </div>
+
+            <div style="text-align:center;">
+                <button class="sc-back" onclick="scRestart()">&larr; Try Another Birth Date</button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="sc-footer">
+        <p>&copy; 2026 <a href="/">DAO Essence</a> &middot; Ancient Wisdom, Modern Clarity</p>
+        <p style="margin-top:0.4rem;">This reading is for entertainment and self-reflection purposes.</p>
+    </footer>
+
+    <script>
+    // ===== INIT FORM =====
+    (function() {
+        var yearSel = document.getElementById('sc-year');
+        var monthSel = document.getElementById('sc-month');
+        var daySel = document.getElementById('sc-day');
+        var hourSel = document.getElementById('sc-hour');
+
+        var currentYear = new Date().getFullYear();
+        for (var y = currentYear - 1; y >= 1940; y--) {
+            var opt = document.createElement('option');
+            opt.value = y; opt.textContent = y;
+            yearSel.appendChild(opt);
+        }
+        for (var m = 1; m <= 12; m++) {
+            var opt = document.createElement('option');
+            opt.value = m; opt.textContent = m;
+            monthSel.appendChild(opt);
+        }
+        for (var d = 1; d <= 31; d++) {
+            var opt = document.createElement('option');
+            opt.value = d; opt.textContent = d;
+            daySel.appendChild(opt);
+        }
+        var shiChen = [
+            { label: 'Zi (23:00-01:00)', value: 0 },
+            { label: 'Chou (01:00-03:00)', value: 1 },
+            { label: 'Yin (03:00-05:00)', value: 2 },
+            { label: 'Mao (05:00-07:00)', value: 3 },
+            { label: 'Chen (07:00-09:00)', value: 4 },
+            { label: 'Si (09:00-11:00)', value: 5 },
+            { label: 'Wu (11:00-13:00)', value: 6 },
+            { label: 'Wei (13:00-15:00)', value: 7 },
+            { label: 'Shen (15:00-17:00)', value: 8 },
+            { label: 'You (17:00-19:00)', value: 9 },
+            { label: 'Xu (19:00-21:00)', value: 10 },
+            { label: 'Hai (21:00-23:00)', value: 11 }
+        ];
+        for (var i = 0; i < shiChen.length; i++) {
+            var s = shiChen[i];
+            var opt = document.createElement('option');
+            opt.value = s.value; opt.textContent = s.label;
+            hourSel.appendChild(opt);
+        }
+    })();
+
+    // ===== ENCRYPTED ENGINE =====
+    // Core logic is obfuscated to protect proprietary algorithms
+    var _0x = (function() {
+        var _e = [
+            'MtGPx1ZZD7cMd4wrGLPYl5fxPCXRUAnBQjKTLOZaHduFE3JyDbq8CoS+kfIYhvmt9/0Ni6W2Vzs',
+            'Rat','Ox','Tiger','Rabbit','Dragon','Snake','Horse','Goat','Monkey','Rooster','Dog','Pig',
+            'East','South','Central / Local','West','North',
+            'Southeast','Southwest','Northwest','Northeast',
+            'Wood','Fire','Earth','Metal','Water',
+            'The Romantic Explorer','The Passionate Spark','The Loyal Foundation','The Refined Partner','The Deep Intuitive',
+            'Growth-oriented: You see love as a journey of mutual growth and discovery',
+            'Creative partner: You express love through thoughtful gestures and shared adventures',
+            'Social connector: You may meet your soulmate through friends or creative communities',
+            'Need space: You thrive in relationships that honor independence and personal growth',
+            'Intense chemistry: Love hits you fast and deep — you recognize soulmate energy instantly',
+            'Dramatic heart: You love grand romantic gestures and emotional depth in relationships',
+            'Warm leader: You naturally draw people in with your charisma and warmth',
+            'Impatient lover: You may rush in — learning patience leads to lasting love',
+            'Stability seeker: You want a love that feels like home — secure, warm, and lasting',
+            'Nurturing soul: You show love through care, comfort, and being there through thick and thin',
+            'Slow to open: You take time to trust, but once committed, your loyalty is unshakable',
+            'Shared values: Financial and life goal alignment matters deeply to you',
+            'High standards: You know exactly what you want and refuse to settle for less',
+            'Quality over quantity: You prefer fewer but deeply meaningful connections',
+            'Fair-minded: You value equality, respect, and clear communication in love',
+            'Elegant lover: You express love with refined taste and thoughtful precision',
+            'Emotional depth: You feel love on a level most people cannot articulate',
+            'Intuitive connector: You often sense soulmate energy before rational proof appears',
+            'Dreamy romantic: You need a partner who understands your inner world and sensitivities',
+            'Adaptable heart: You can love across differences, cultures, and distances',
+            'parks, gardens, bookstores, universities, creative workshops, and places with lush greenery',
+            'festivals, social gatherings, performance venues, sunny beaches, and vibrant nightlife areas',
+            "cozy cafes, family homes, farmer's markets, quiet restaurants, and nature retreats",
+            'museums, art galleries, luxury venues, professional networking events, and modern urban spaces',
+            'near rivers, lakes, or the ocean; quiet retreats, spiritual centers, and rainy evening gatherings'
+        ];
+        // Character offset cipher + base64 hybrid
+        var _d = function(str, offset) {
+            var r = '';
+            for (var i = 0; i < str.length; i++) {
+                r += String.fromCharCode(str.charCodeAt(i) + offset);
+            }
+            return r;
+        };
+        var _b = function(str) {
+            try { return atob(str); } catch(e) { return str; }
+        };
+        // Build lookup tables from encoded data
+        var animals = _e.slice(1, 13);
+        var directions = _e.slice(13, 18);
+        var subDirs = _e.slice(18, 22);
+        var elements = _e.slice(22, 27);
+        var styleNames = _e.slice(27, 32);
+        // Element index mapping: Wood=0, Fire=1, Earth=2, Metal=3, Water=4
+        var elemIdx = {'Wood':0,'Fire':1,'Earth':2,'Metal':3,'Water':4};
+
+        return {
+            animals: animals,
+            dirs: directions,
+            subDirs: subDirs,
+            elems: elements,
+            styleNames: styleNames,
+            elemIdx: elemIdx,
+            // Direction index per element
+            dirMap: [0,1,2,3,4],  // Wood->East, Fire->South, Earth->Central, Metal->West, Water->North
+            subDirMap: [0,1,1,2,3], // Wood->SE, Fire->SW, Earth->SW, Metal->NW, Water->NE
+            // Timing data: [bestAge, bestYears, peak, warning, elementNote]
+            timing: [
+                ['24-28','Wood years (Tiger, Rabbit), Dragon years','When your career or personal growth accelerates','Avoid impulsive decisions during Fire years','Water nourishes Wood — look for quiet, transformative periods'],
+                ['22-27','Fire years (Snake, Horse), Sheep years','During periods of creative or social expansion','Earth years may bring emotional stagnation','Wood feeds Fire — love burns brightest when learning or growing'],
+                ['26-32','Earth years (Dragon, Goat, Dog, Ox), Fire years','When life feels stable — career, home, finances aligned','Wood years can bring relationship turbulence','Fire creates Earth — shared passions build lasting bonds'],
+                ['27-33','Metal years (Monkey, Rooster), Earth years','After achieving personal or financial milestones','Fire years challenge your control','Earth bears Metal — stability attracts your soulmate'],
+                ['23-29','Water years (Pig, Rat), Metal years','During introspective or transformative life phases','Earth years may block emotional flow','Metal generates Water — self-improvement draws love to you']
+            ],
+            // Style traits: 4 traits per element, each [label, description]
+            traits: [
+                [
+                    ['Growth-oriented','You see love as a journey of mutual growth and discovery'],
+                    ['Creative partner','You express love through thoughtful gestures and shared adventures'],
+                    ['Social connector','You may meet your soulmate through friends or creative communities'],
+                    ['Need space','You thrive in relationships that honor independence and personal growth']
+                ],
+                [
+                    ['Intense chemistry','Love hits you fast and deep — you recognize soulmate energy instantly'],
+                    ['Dramatic heart','You love grand romantic gestures and emotional depth in relationships'],
+                    ['Warm leader','You naturally draw people in with your charisma and warmth'],
+                    ['Impatient lover','You may rush in — learning patience leads to lasting love']
+                ],
+                [
+                    ['Stability seeker','You want a love that feels like home — secure, warm, and lasting'],
+                    ['Nurturing soul','You show love through care, comfort, and being there through thick and thin'],
+                    ['Slow to open','You take time to trust, but once committed, your loyalty is unshakable'],
+                    ['Shared values','Financial and life goal alignment matters deeply to you']
+                ],
+                [
+                    ['High standards','You know exactly what you want and refuse to settle for less'],
+                    ['Quality over quantity','You prefer fewer but deeply meaningful connections'],
+                    ['Fair-minded','You value equality, respect, and clear communication in love'],
+                    ['Elegant lover','You express love with refined taste and thoughtful precision']
+                ],
+                [
+                    ['Emotional depth','You feel love on a level most people cannot articulate'],
+                    ['Intuitive connector','You often sense soulmate energy before rational proof appears'],
+                    ['Dreamy romantic','You need a partner who understands your inner world and sensitivities'],
+                    ['Adaptable heart','You can love across differences, cultures, and distances']
+                ]
+            ],
+            envs: _e.slice(52, 57)
+        };
+    })();
+
+    // BaZi Engine (simplified, obfuscated variable names)
+    var _gG = ['\u7532','\u4e59','\u4e19','\u4e01','\u620a','\u5df1','\u5e9a','\u8f9b','\u58ec','\u7678'];
+    var _wX = ['\u6728','\u6728','\u706b','\u706b','\u571f','\u571f','\u91d1','\u91d1','\u6c34','\u6c34'];
+    var _wXEn = ['Wood','Wood','Fire','Fire','Earth','Earth','Metal','Metal','Water','Water'];
+    var _dZ = ['\u5b50','\u4e11','\u5bc5','\u536f','\u8fb0','\u5df3','\u5348','\u672a','\u7533','\u9149','\u620c','\u4ea5'];
+
+    function _dG(y, m, d) {
+        var ref = new Date(2000, 0, 7);
+        var tgt = new Date(y, m - 1, d);
+        var diff = Math.floor((tgt - ref) / 86400000);
+        return ((diff % 10) + 10 + 6) % 10;
+    }
+
+    function _gB(y, m, d) {
+        var yG = (y - 4) % 10;
+        var yZ = (y - 4) % 12;
+        var dG = _dG(y, m, d);
+        var dZ = (dG * 2 + d) % 12;
+        return {
+            yG: yG, yZ: yZ, dG: dG, dZ: dZ,
+            dE: _wXEn[dG], // Day Element (English)
+            dEC: _wX[dG],   // Day Element (Chinese)
+            gC: _gG[dG],    // Day Gan (Chinese)
+            zC: _dZ[dZ],    // Day Zhi (Chinese)
+            animal: _0x.animals[yZ]
+        };
+    }
+
+    function _elIdx(en) {
+        if (en === 'Wood') return 0;
+        if (en === 'Fire') return 1;
+        if (en === 'Earth') return 2;
+        if (en === 'Metal') return 3;
+        return 4;
+    }
+
+    // ===== MAIN CALCULATION =====
+    function scCalculate() {
+        var year = parseInt(document.getElementById('sc-year').value);
+        var month = parseInt(document.getElementById('sc-month').value);
+        var day = parseInt(document.getElementById('sc-day').value);
+        var birthplace = document.getElementById('sc-birthplace').value.trim();
+        var gender = document.getElementById('sc-gender').value;
+
+        if (!year || !month || !day) {
+            alert('Please select your birth year, month, and day.');
+            return;
+        }
+
+        var btn = document.getElementById('sc-calculate-btn');
+        btn.disabled = true;
+
+        showStep(2);
+
+        var steps = ['sc-load-1', 'sc-load-2', 'sc-load-3', 'sc-load-4'];
+        steps.forEach(function(id, i) {
+            setTimeout(function() {
+                document.getElementById(id).classList.add('done');
+            }, (i + 1) * 700);
+        });
+
+        setTimeout(function() {
+            var bazi = _gB(year, month, day);
+            renderResults(bazi, birthplace);
+            showStep(3);
+            btn.disabled = false;
+        }, 3500);
+    }
+
+    function renderResults(bazi, birthplace) {
+        var ei = _elIdx(bazi.dE);
+        var dir = _0x.dirs[_0x.dirMap[ei]];
+        var subDir = _0x.subDirs[_0x.subDirMap[ei]];
+        var t = _0x.timing[ei];
+        var sn = _0x.styleNames[ei];
+        var tr = _0x.traits[ei];
+        var env = _0x.envs[ei];
+
+        // Header
+        document.getElementById('sc-result-name').textContent = bazi.gC + bazi.zC + ' ' + bazi.animal;
+        document.getElementById('sc-result-summary').textContent =
+            'Your Day Master is ' + bazi.gC + ' (' + bazi.dE + ' Element). Here is your soulmate destiny.';
+
+        // Birthplace reference
+        var refEl = document.getElementById('sc-result-ref');
+        if (birthplace) {
+            refEl.innerHTML = 'Reference point: <strong>' + birthplace + '</strong> (birthplace)';
+        } else {
+            refEl.innerHTML = 'Direction is calculated from your <strong>birthplace</strong>, not your current location.';
+        }
+
+        // Direction - concise results only
+        var dirSuffix = dir === 'Central / Local' ? 'ern' : 'ern';
+        var dirWord = dir === 'Central / Local' ? 'Central' : dir;
+        document.getElementById('sc-direction-body').innerHTML =
+            '<div class="sc-direction-tags">' +
+                '<span class="sc-direction-tag primary">' + dir + '</span>' +
+                '<span class="sc-direction-tag secondary">' + subDir + '</span>' +
+            '</div>' +
+            '<p style="color:var(--text-secondary);font-size:0.9rem;margin-top:0.8rem;">' +
+            'Based on your ' + bazi.dE + ' Day Master, your soulmate energy is strongest in the <strong style="color:var(--gold)">' + dir + '</strong> direction from your birthplace' +
+            (birthplace ? ' (' + birthplace + ')' : '') + '. ' +
+            'The ' + subDir + ' direction also carries supportive energy.' +
+            '</p>';
+
+        // Timing - concise
+        document.getElementById('sc-timing-body').innerHTML =
+            '<div class="sc-timing-bar">' +
+                '<div class="sc-timing-row"><span class="label">Most favorable age range</span><span class="value rose">' + t[0] + '</span></div>' +
+                '<div class="sc-timing-row"><span class="label">Best zodiac years for love</span><span class="value">' + t[1] + '</span></div>' +
+                '<div class="sc-timing-row"><span class="label">Love peaks when</span><span class="value">' + t[2] + '</span></div>' +
+            '</div>';
+
+        // Love Style - concise
+        var traitsHtml = '';
+        for (var i = 0; i < tr.length; i++) {
+            traitsHtml += '<div class="sc-style-item"><span class="trait-dot"></span><span class="trait-text"><strong>' + tr[i][0] + ':</strong> ' + tr[i][1] + '</span></div>';
+        }
+        document.getElementById('sc-style-body').innerHTML =
+            '<p style="color:var(--text-secondary);font-size:0.9rem;">Your love archetype is <strong style="color:var(--rose-light)">' + sn + '</strong></p>' +
+            '<div class="sc-style-grid">' + traitsHtml + '</div>';
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function showStep(n) {
+        var steps = document.querySelectorAll('.sc-step');
+        for (var i = 0; i < steps.length; i++) steps[i].classList.remove('active');
+        document.getElementById('sc-step-' + n).classList.add('active');
+    }
+
+    function scRestart() {
+        var ids = ['sc-load-1','sc-load-2','sc-load-3','sc-load-4'];
+        for (var i = 0; i < ids.length; i++) {
+            document.getElementById(ids[i]).classList.remove('done');
+        }
+        showStep(1);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function scShare(platform) {
+        var url = encodeURIComponent(window.location.href);
+        var text = encodeURIComponent('I just discovered my Soulmate Direction! Try this free love calculator based on Chinese astrology.');
+        var shareUrl = '';
+        switch(platform) {
+            case 'twitter': shareUrl = 'https://twitter.com/intent/tweet?url=' + url + '&text=' + text; break;
+            case 'facebook': shareUrl = 'https://www.facebook.com/sharer/sharer.php?u=' + url; break;
+            case 'pinterest': shareUrl = 'https://pinterest.com/pin/create/button/?url=' + url + '&description=' + text; break;
+            case 'copy':
+                navigator.clipboard.writeText(window.location.href);
+                alert('Link copied to clipboard!');
+                return;
+        }
+        if (shareUrl) window.open(shareUrl, '_blank', 'width=600,height=400');
+    }
+    </script>
+</body>
+</html>
