@@ -254,6 +254,13 @@ async function getAllProducts() {
   // 第1步：拉取产品列表
   let creemProducts = await fetchCreemProducts();
 
+  // ✅ 过滤掉归档产品（只保留 active）
+  if (creemProducts) {
+    const before = creemProducts.length;
+    creemProducts = creemProducts.filter(p => p.status === 'active');
+    console.log(`🔍 过滤归档产品: ${before} → ${creemProducts.length}（移除 ${before - creemProducts.length} 个归档）`);
+  }
+
   if (!creemProducts || creemProducts.length === 0) {
     console.warn('⚠️ 产品列表 API 失败，尝试逐个拉取...');
     const results = await Promise.allSettled(
@@ -261,7 +268,9 @@ async function getAllProducts() {
     );
     creemProducts = results
       .filter(r => r.status === 'fulfilled' && r.value)
-      .map(r => r.value);
+      .map(r => r.value)
+      // ✅ 逐个拉取的也要过滤归档
+      .filter(p => p.status === 'active' || !p.status);
   }
 
   if (!creemProducts || creemProducts.length === 0) {
