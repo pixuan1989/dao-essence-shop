@@ -435,6 +435,7 @@ function generateArticleHtml(post, category) {
   const dateFormatted = formatDate(data.date);
   const categoryLabel = CATEGORY_LABELS[category] || category;
   const categoryHref = `/blog/${category}`;
+  const isSoulmateArticle = ['where-will-i-meet-my-soulmate', 'love-prediction-by-date-of-birth', 'when-will-i-find-love'].includes(slug);
 
   // Replace zodiac-lookup marker AFTER marked.parse to avoid marked escaping <script> tags
   const hasZodiacLookup = content.includes('<!--zodiac-lookup-->');
@@ -528,7 +529,8 @@ ${NAV_HTML}
 
         ${finalBody}
 
-        <div class="blog-cta">
+        ${isSoulmateArticle ? `
+        <div class="blog-cta blog-cta--soulmate">
             <h3>Where Will You Meet Your Soulmate?</h3>
             <p class="cta-sub">Your birth date holds the map to your most fated love encounter.<br>Discover your soulmate direction, love timing, and relationship style — free.</p>
             <div class="cta-features">
@@ -539,7 +541,19 @@ ${NAV_HTML}
             <div class="cta-buttons">
                 <a href="/soulmate-calculator">Find Your Soulmate Direction</a>
             </div>
-        </div>
+        </div>` : `
+        <div class="blog-cta blog-cta--bazi">
+            <h3>Discover Your True Destiny</h3>
+            <p class="cta-sub">Unlock the secrets hidden in your birth chart.<br>Get a free BaZi reading with Four Pillars of Destiny analysis.</p>
+            <div class="cta-features">
+                <div class="cta-feat">Four Pillars Reading</div>
+                <div class="cta-feat">Five Elements Analysis</div>
+                <div class="cta-feat">Life Path Insights</div>
+            </div>
+            <div class="cta-buttons">
+                <a href="/bazi-calculator">Get Your Free Reading</a>
+            </div>
+        </div>`}
     </article>
 
 ${FOOTER_HTML}
@@ -734,14 +748,14 @@ ${latestCards}
         </section>
 
         <div class="blog-home-cta">
-            <h3>Where Will You Meet Your Soulmate?</h3>
-            <p class="cta-sub">Your birth date holds the map to your most fated love encounter.<br>Discover your soulmate direction, love timing, and relationship style — free.</p>
+            <h3>Discover Your True Destiny</h3>
+            <p class="cta-sub">Unlock the secrets hidden in your birth chart.<br>Get a free BaZi reading with Four Pillars of Destiny analysis.</p>
             <div class="cta-features">
-                <div class="cta-feat">Soulmate Direction</div>
-                <div class="cta-feat">Love Timing</div>
-                <div class="cta-feat">Love Style</div>
+                <div class="cta-feat">Four Pillars Reading</div>
+                <div class="cta-feat">Five Elements Analysis</div>
+                <div class="cta-feat">Life Path Insights</div>
             </div>
-            <a href="/soulmate-calculator">Find Your Soulmate Direction</a>
+            <a href="/bazi-calculator">Get Your Free Reading</a>
         </div>
     </main>
 
