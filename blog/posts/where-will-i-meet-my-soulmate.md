@@ -15,26 +15,14 @@ author: DAO Essence
 readTime: 12
 image: https://raw.githubusercontent.com/pixuan1989/dao-essence-shop/main/images/blog/1222-1x.webp
 faq:
-  - question: What is a soulmate direction?
-    answer: In Chinese astrology, your soulmate direction is the geographic direction
-      most aligned with your Day Master's elemental energy. Based on your BaZi
-      birth chart, this direction indicates where you are most likely to encounter
-      your soulmate — whether that's East, West, South, North, or another direction.
-  - question: How do I find my soulmate direction?
-    answer: Your soulmate direction is calculated from your Day Master (the Heavenly
-      Stem of your birth day) in your BaZi chart. Each of the Five Elements
-      (Wood, Fire, Earth, Metal, Water) corresponds to a direction. A soulmate
-      direction calculator can determine this instantly from your birth date.
-  - question: Is the soulmate direction the same as Feng Shui love direction?
-    answer: They are related concepts rooted in the same Five Elements theory,
-      but they serve different purposes. Feng Shui love direction focuses on
-      arranging your physical space to attract love, while soulmate direction
-      in BaZi reveals the geographic direction where you are most likely to
-      meet your soulmate.
-  - question: Can my soulmate direction change over time?
-    answer: Your core soulmate direction is based on your birth chart and remains
-      constant. However, your Da Yun (major life cycles) can temporarily activate
-      certain directions more strongly during specific 10-year periods.
+  - question: "What is a soulmate direction?"
+    answer: "In Chinese astrology, your soulmate direction is the geographic direction most aligned with your Day Master's elemental energy. Based on your BaZi birth chart, this direction indicates where you are most likely to encounter your soulmate — whether that's East, West, South, North, or another direction."
+  - question: "How do I find my soulmate direction?"
+    answer: "Your soulmate direction is calculated from your Day Master (the Heavenly Stem of your birth day) in your BaZi chart. Each of the Five Elements (Wood, Fire, Earth, Metal, Water) corresponds to a direction. A soulmate direction calculator can determine this instantly from your birth date."
+  - question: "Is the soulmate direction the same as Feng Shui love direction?"
+    answer: "They are related concepts rooted in the same Five Elements theory, but they serve different purposes. Feng Shui love direction focuses on arranging your physical space to attract love, while soulmate direction in BaZi reveals the geographic direction where you are most likely to meet your soulmate."
+  - question: "Can my soulmate direction change over time?"
+    answer: "Your core soulmate direction is based on your birth chart and remains constant. However, your Da Yun (major life cycles) can temporarily activate certain directions more strongly during specific 10-year periods."
 ---
 
 # Where Will I Meet My Soulmate? Your Complete Guide to Soulmate Direction
