@@ -47,7 +47,7 @@ export default async function handler(req, res) {
     }
 
     try {
-        const { items, discountCode } = req.body;
+        const { items, discountCode, successUrl } = req.body;
 
         // 🔥 调试日志：打印接收到的完整请求数据
         console.log('📥 收到创建支付请求:', {
@@ -108,12 +108,13 @@ export default async function handler(req, res) {
             ? `https://${process.env.VERCEL_URL}`
             : (req.headers.origin || 'https://daoessentia.com');
         // 不传 total 参数，避免前端价格和 Creem 价格不一致
-        const successUrl = `${baseUrl}/payment-success.html?order_id=${orderId}&product=${encodedName}`;
+        // 支持 almanac 等页面传入自定义 successUrl
+        const finalSuccessUrl = successUrl || `${baseUrl}/payment-success.html?order_id=${orderId}&product=${encodedName}`;
 
         // 准备 Creem API 请求数据（精简，去掉不必要的 metadata）
         const creemCheckoutData = {
             product_id: productId,
-            success_url: successUrl,
+            success_url: finalSuccessUrl,
             request_id: orderId
         };
 

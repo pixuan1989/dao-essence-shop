@@ -864,6 +864,18 @@
 
         // ===== UNLOCK LOGIC =====
         const UNLOCK_KEY = 'almanac_unlocked';
+        const ALMANAC_PRODUCT_ID = 'prod_3fJInBNekM9UVJwtClgUtx';
+
+        // Check URL params for successful payment callback
+        (function() {
+            var params = new URLSearchParams(window.location.search);
+            if (params.get('payment') === 'success') {
+                localStorage.setItem(UNLOCK_KEY, 'true');
+                // Clean URL without reload
+                window.history.replaceState({}, '', window.location.pathname);
+            }
+        })();
+
         function isUnlocked() {
             return localStorage.getItem(UNLOCK_KEY) === 'true';
         }
@@ -875,11 +887,35 @@
                 renderCalendar();
             }
         }
-        // Global function for the pay modal button
+        // Global function for the pay modal button — real Creem payment
         window.unlockAll = function() {
-            localStorage.setItem(UNLOCK_KEY, 'true');
-            applyUnlockState();
-            document.getElementById('payModal').classList.remove('visible');
+            var btn = document.querySelector('#payModal .cta-btn');
+            btn.textContent = 'Creating checkout\u2026';
+            btn.disabled = true;
+            var baseUrl = window.location.origin;
+            fetch('/api/create-checkout', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    items: [{ id: ALMANAC_PRODUCT_ID, name: 'Almanac Full Access', price: 0, quantity: 1 }],
+                    successUrl: baseUrl + '/almanac.html?payment=success'
+                })
+            })
+            .then(function(r) { return r.json(); })
+            .then(function(d) {
+                if (d.checkoutUrl) {
+                    window.location.href = d.checkoutUrl;
+                } else {
+                    btn.textContent = 'Unlock for $2.99';
+                    btn.disabled = false;
+                    alert('Unable to create checkout. Please try again.');
+                }
+            })
+            .catch(function() {
+                btn.textContent = 'Unlock for $2.99';
+                btn.disabled = false;
+                alert('Network error. Please try again.');
+            });
         };
 
         function changeMonth(dir) {
