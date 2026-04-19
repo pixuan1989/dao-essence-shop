@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Five Elements & Feng Shui | DAO Essence</title>
-    <meta name="description" content="Discover the Five Elements theory (Wu Xing) — the foundation of Chinese metaphysics, TCM, feng shui, and BaZi numerology. Free guide from DAO Essence.">
+    <title>Five Elements (Wu Xing) Guide — Understand BaZi Better | DAO Essence</title>
+    <meta name="description" content="Learn the Five Elements (Wu Xing) — the foundation of BaZi, Feng Shui, and Chinese metaphysics. Discover your elemental profile and how it shapes your personality, health, and relationships.">
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
-    <meta name="keywords" content="Five elements, Wu Xing, Taoist cosmology, Bazi numerology, Qigong practice, Chinese metaphysics, Energy healing, Feng shui, Traditional Chinese medicine, Eastern philosophy, Five elements theory, Chinese energy wisdom, Taoist philosophy, Energy balance techniques, Five elements personality, Bazi reading, Taoist energy healing, Qigong meditation">
+    <meta name="keywords" content="Five elements, Wu Xing, Chinese five elements, BaZi elements, five elements personality, five elements health, Wood Fire Earth Metal Water, Chinese metaphysics, BaZi reading, Chinese astrology, Five elements theory">
     <!-- Open Graph -->
-    <meta property="og:title" content="Five Elements (Wu Xing) | DAO Essence">
-    <meta property="og:description" content="Discover the Five Elements theory — the ancient Chinese framework behind TCM, feng shui, BaZi numerology, and energy healing. Learn Wood, Fire, Earth, Metal, Water.">
+    <meta property="og:title" content="Five Elements (Wu Xing) — The Key to Understanding Your BaZi | DAO Essence">
+    <meta property="og:description" content="Master the Five Elements that power BaZi charts. Discover which element you are and how it shapes your personality, career, health, and relationships.">
     <meta property="og:image" content="https://www.daoessentia.com/images/og-default.jpg">
     <meta property="og:url" content="https://www.daoessentia.com/culture">
     <meta property="og:type" content="article">
@@ -30,23 +30,6 @@
       document.head.appendChild(script);
     </script>
     <style>
-        /* 购物车徽章样式 */
-        .cart-badge {
-            position: absolute;
-            top: -8px;
-            right: -8px;
-            background: var(--fire-primary, #8B2500);
-            color: white;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 11px;
-            font-weight: 700;
-        }
-
         /* Five Elements page styles */
         .culture-hero {
             height: 65vh;
@@ -71,7 +54,6 @@
             padding: 0 2rem;
         }
 
-        /* 主标题 */
         .culture-hero h1 {
             font-family: var(--font-display);
             font-size: clamp(2.8rem, 7vw, 4.5rem);
@@ -81,7 +63,6 @@
             text-shadow: 0 2px 30px rgba(201, 169, 97, 0.3);
         }
 
-        /* 副标题 */
         .culture-hero .subtitle {
             font-family: var(--font-english);
             font-size: 0.95rem;
@@ -91,7 +72,6 @@
             margin-bottom: 1.5rem;
         }
 
-        /* 描述文字 */
         .culture-hero p {
             font-size: 1.1rem;
             color: rgba(245, 240, 230, 0.85);
@@ -127,7 +107,6 @@
             transition: all 0.3s;
             cursor: pointer;
             z-index: 2;
-            /* 用 calc 居中，避免 JS 动画覆盖 transform */
             top: calc(var(--top) - 8%);
             left: calc(var(--left) - 8%);
         }
@@ -145,35 +124,20 @@
             text-shadow: 0 1px 3px rgba(0,0,0,0.3);
         }
 
-        /* 五元素节点均匀分布在圆周上（百分比定位，响应式自适应） */
         .wuxing-node.wood {
-            --top: 15%;
-            --left: 50%;
-            background: #3D5A47;
+            --top: 15%; --left: 50%; background: #3D5A47;
         }
-
         .wuxing-node.fire {
-            --top: 39.2%;
-            --left: 83.2%;
-            background: #8B4D4D;
+            --top: 39.2%; --left: 83.2%; background: #8B4D4D;
         }
-
         .wuxing-node.earth {
-            --top: 78.4%;
-            --left: 70.6%;
-            background: #8B7355;
+            --top: 78.4%; --left: 70.6%; background: #8B7355;
         }
-
         .wuxing-node.metal {
-            --top: 78.4%;
-            --left: 29.4%;
-            background: #6B6B6B;
+            --top: 78.4%; --left: 29.4%; background: #6B6B6B;
         }
-
         .wuxing-node.water {
-            --top: 39.2%;
-            --left: 16.8%;
-            background: #4A5D6B;
+            --top: 39.2%; --left: 16.8%; background: #4A5D6B;
         }
 
         .wuxing-lines {
@@ -202,9 +166,7 @@
         }
 
         @keyframes dash {
-            to {
-                stroke-dashoffset: -100;
-            }
+            to { stroke-dashoffset: -100; }
         }
 
         .ke-line {
@@ -265,308 +227,253 @@
             line-height: 1.8;
         }
 
-        /* 能量卡券品类 - 全屏通栏布局 */
-        .energy-cards {
-            padding: 0;
+        /* Element deep dive — editorial layout */
+        .element-grid {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 1rem 0;
         }
 
-        .card-item {
-            display: flex;
-            align-items: stretch;
-            min-height: 500px;
-            position: relative;
-            overflow: hidden;
+        /* Each element is a full-width horizontal block */
+        .element-block {
+            display: grid;
+            grid-template-columns: 80px 1fr;
+            gap: 0;
+            margin-bottom: 2.5rem;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            padding-bottom: 2.5rem;
         }
 
-        .card-item:nth-child(even) {
-            flex-direction: row-reverse;
+        .element-block:last-of-type {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
         }
 
-        .card-visual {
-            flex: 1;
-            min-width: 50%;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
-
-        .card-visual img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.8s ease;
-        }
-
-        .card-item:hover .card-visual img {
-            transform: scale(1.05);
-        }
-
-        .card-visual::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, rgba(15, 20, 18, 0.4) 0%, rgba(15, 20, 18, 0.6) 100%);
-            pointer-events: none;
-        }
-
-        .card-content {
-            flex: 1;
-            min-width: 50%;
-            padding: 4rem 5rem;
+        /* Left: Chinese character pillar */
+        .element-char {
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            background: var(--bg-primary);
-            position: relative;
+            align-items: center;
+            justify-content: flex-start;
+            padding-top: 0.3rem;
         }
 
-        .card-item:nth-child(even) .card-content {
-            background: var(--bg-secondary);
-        }
-
-        .card-number {
-            font-size: 6rem;
-            font-weight: 200;
-            color: rgba(212, 175, 55, 0.1);
-            position: absolute;
-            top: 1rem;
-            right: 3rem;
-            font-family: var(--font-english);
-        }
-
-        .card-content h3 {
+        .element-char .cn {
             font-family: var(--font-display);
-            font-size: 2.5rem;
+            font-size: 2.8rem;
+            line-height: 1;
+            opacity: 0.2;
+        }
+
+        .element-char .en {
+            font-family: var(--font-english);
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--text-light);
+            margin-top: 0.3rem;
+        }
+
+        /* Right: content area */
+        .element-body h3 {
+            font-family: var(--font-display);
+            font-size: 1.35rem;
+            margin-bottom: 0.4rem;
+            letter-spacing: 0.04em;
+        }
+
+        .element-body .tagline {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            letter-spacing: 0.06em;
+            margin-bottom: 0.8rem;
+            font-style: italic;
+        }
+
+        .element-body .element-desc {
+            color: var(--text-secondary);
+            line-height: 1.85;
+            font-size: 0.92rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Inline tips — horizontal flow, not a list block */
+        .element-tips-inline {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem 1.2rem;
+            font-size: 0.82rem;
+            color: var(--text-light);
+        }
+
+        .element-tips-inline span {
+            white-space: nowrap;
+        }
+
+        .element-tips-inline span::before {
+            content: '';
+            display: inline-block;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            margin-right: 6px;
+            vertical-align: middle;
+            opacity: 0.5;
+        }
+
+        /* Element-specific colors */
+        .el-wood .cn { color: #3D5A47; }
+        .el-wood h3 { color: #3D5A47; }
+        .el-wood .element-tips-inline span::before { background: #3D5A47; }
+        .el-fire .cn { color: #8B4D4D; }
+        .el-fire h3 { color: #8B4D4D; }
+        .el-fire .element-tips-inline span::before { background: #8B4D4D; }
+        .el-earth .cn { color: #8B7355; }
+        .el-earth h3 { color: #8B7355; }
+        .el-earth .element-tips-inline span::before { background: #8B7355; }
+        .el-metal .cn { color: #6B6B6B; }
+        .el-metal h3 { color: #6B6B6B; }
+        .el-metal .element-tips-inline span::before { background: #6B6B6B; }
+        .el-water .cn { color: #4A5D6B; }
+        .el-water h3 { color: #4A5D6B; }
+        .el-water .element-tips-inline span::before { background: #4A5D6B; }
+
+        /* Balance section — full-width accent block */
+        .element-balance-block {
+            margin-top: 3rem;
+            padding: 2.5rem 3rem;
+            background: linear-gradient(135deg, rgba(212,175,55,0.03), rgba(212,175,55,0.06));
+            border: 1px solid rgba(212,175,55,0.1);
+            border-radius: 4px;
+        }
+
+        .element-balance-block h3 {
+            font-family: var(--font-display);
+            font-size: 1.2rem;
             color: var(--accent-color);
-            margin-bottom: 0.5rem;
+            letter-spacing: 0.06em;
+            margin-bottom: 1rem;
+        }
+
+        .element-balance-block p {
+            color: var(--text-secondary);
+            font-size: 0.92rem;
+            line-height: 1.85;
+            max-width: 640px;
+        }
+
+        /* Section divider */
+        .section-divider {
+            max-width: 900px;
+            margin: 0 auto;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(212,175,55,0.15) 30%, rgba(212,175,55,0.15) 70%, transparent);
+        }
+
+        @media (max-width: 600px) {
+            .element-block {
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
+            }
+            .element-char {
+                flex-direction: row;
+                gap: 0.5rem;
+            }
+            .element-char .cn {
+                font-size: 2rem;
+                opacity: 0.3;
+            }
+            .element-balance-block {
+                padding: 1.5rem;
+            }
+        }
+
+        /* FAQ styles */
+        .faq-item {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 1.5rem 1.8rem;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(212,175,55,0.08);
+        }
+
+        .faq-item:hover {
+            border-color: rgba(212,175,55,0.2);
+        }
+
+        .faq-item .faq-question {
+            font-weight: 600;
+            font-size: 1.05rem;
+            color: var(--text-primary);
+            letter-spacing: 0.02em;
+        }
+
+        .faq-item .faq-answer {
+            display: none;
+            margin-top: 0.8rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            font-size: 0.95rem;
+        }
+
+        .faq-active .faq-answer {
+            display: block;
+        }
+
+        .faq-active .faq-question::after {
+            content: '';
+        }
+
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            padding: 5rem 5%;
+            background: var(--bg-primary);
+        }
+
+        .cta-section h2 {
+            font-family: var(--font-display);
+            font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+            color: var(--accent-color);
+            margin-bottom: 1rem;
             letter-spacing: 0.1em;
         }
 
-        .card-content .card-subtitle {
-            font-family: var(--font-english);
-            font-size: 0.9rem;
-            color: var(--text-light);
-            letter-spacing: 0.3em;
-            text-transform: uppercase;
-            margin-bottom: 2rem;
-        }
-
-        .card-content .card-desc {
+        .cta-section p {
             color: var(--text-secondary);
-            line-height: 2;
-            margin-bottom: 2.5rem;
-            font-size: 1rem;
-            max-width: 480px;
-            /* 显示3行后截断 */
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            max-width: 550px;
+            margin: 0 auto 2rem;
+            line-height: 1.8;
         }
 
-        .card-features {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            margin-bottom: 2.5rem;
-        }
-
-        .card-feature-item {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-        }
-
-        .card-feature-item::before {
-            content: '◇';
-            color: var(--accent-color);
-            font-size: 0.7rem;
-        }
-
-        .card-cta {
+        .cta-btn {
             display: inline-flex;
             align-items: center;
             gap: 0.6rem;
-            padding: 0.75rem 1.8rem;
+            padding: 1rem 2.2rem;
             background: linear-gradient(135deg, #D4AF37, #C49B2F);
-            border: none;
             color: #1C1A17;
-            font-size: 0.88rem;
+            font-size: 0.95rem;
             font-weight: 700;
             letter-spacing: 0.04em;
-            transition: all 0.3s ease;
             text-decoration: none;
-            align-self: flex-start;
-            border-radius: 3px;
-            box-shadow: 0 3px 12px rgba(212,175,55,0.25);
+            border-radius: 4px;
+            box-shadow: 0 4px 16px rgba(212,175,55,0.35);
+            transition: all 0.3s ease;
+            border: none;
         }
 
-        .card-cta:hover {
+        .cta-btn:hover {
             background: linear-gradient(135deg, #E0BD4A, #D4AF37);
-            box-shadow: 0 5px 20px rgba(212,175,55,0.4);
-            transform: translateY(-1px);
+            box-shadow: 0 6px 24px rgba(212,175,55,0.5);
+            transform: translateY(-2px);
             color: #1C1A17;
         }
 
-        .card-cta::after {
-            content: '→';
-            transition: transform 0.3s ease;
-            font-weight: 700;
-        }
-
-        .card-cta:hover::after {
-            transform: translateX(5px);
-        }
-
-        /* 风水知识 - 错落布局 */
-        .fengshui-section {
-            padding: 6rem 5%;
-            background: var(--bg-secondary);
-        }
-
-        .fengshui-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem 0;
-        }
-
-        .fengshui-item {
-            padding: 2rem 1.5rem;
-            background: var(--bg-primary);
-            border-radius: 12px;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 1px solid rgba(212, 175, 55, 0.08);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .fengshui-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        .fengshui-item:nth-child(1)::before {
-            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='30' cy='30' r='15' fill='none' stroke='%23C9A961' stroke-width='0.5' opacity='0.08'/%3E%3Ccircle cx='30' cy='30' r='8' fill='none' stroke='%23C9A961' stroke-width='0.5' opacity='0.08'/%3E%3Ccircle cx='30' cy='30' r='2' fill='%23C9A961' opacity='0.05'/%3E%3C/svg%3E");
-            background-size: 60px 60px;
-        }
-
-        .fengshui-item:nth-child(2)::before {
-            background-image: url("data:image/svg+xml,%3Csvg width='80' height='40' viewBox='0 0 80 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 20 Q10 10, 20 20 T40 20 T60 20 T80 20' fill='none' stroke='%23C9A961' stroke-width='0.5' opacity='0.08'/%3E%3Cpath d='M0 25 Q10 15, 20 25 T40 25 T60 25 T80 25' fill='none' stroke='%23C9A961' stroke-width='0.5' opacity='0.06'/%3E%3C/svg%3E");
-            background-size: 80px 40px;
-        }
-
-        .fengshui-item:nth-child(3)::before {
-            background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='0' y='0' width='40' height='40' fill='none' stroke='%23C9A961' stroke-width='0.5' opacity='0.08'/%3E%3Crect x='8' y='8' width='24' height='24' fill='none' stroke='%23C9A961' stroke-width='0.5' opacity='0.06'/%3E%3Crect x='16' y='16' width='8' height='8' fill='none' stroke='%23C9A961' stroke-width='0.5' opacity='0.04'/%3E%3C/svg%3E");
-            background-size: 40px 40px;
-        }
-
-        .fengshui-item:nth-child(4)::before,
-        .fengshui-item:nth-child(8)::before {
-            background-image: url("data:image/svg+xml,%3Csvg width='50' height='50' viewBox='0 0 50 50' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='25' cy='25' r='20' fill='none' stroke='%23C9A961' stroke-width='0.5' opacity='0.08'/%3E%3Cpath d='M25 10 L28 20 L38 23 L28 26 L25 36 L22 26 L12 23 L22 20 Z' fill='none' stroke='%23C9A961' stroke-width='0.5' opacity='0.06'/%3E%3C/svg%3E");
-            background-size: 50px 50px;
-        }
-
-        .fengshui-item:nth-child(5)::before {
-            background-image: url("data:image/svg+xml,%3Csvg width='60' height='30' viewBox='0 0 60 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 15 L10 15 L15 5 L20 15 L30 15' fill='none' stroke='%23C9A961' stroke-width='0.5' opacity='0.08'/%3E%3Cpath d='M0 15 L10 15 L15 5 L20 15 L30 15' fill='none' stroke='%23C9A961' stroke-width='0.5' opacity='0.08' transform='translate(30,0)'/%3E%3C/svg%3E");
-            background-size: 60px 30px;
-        }
-
-        .fengshui-item:nth-child(6)::before {
-            background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0 L20 0 L20 20 L40 20 L40 40 L20 40 L20 20 L0 20 Z' fill='none' stroke='%23C9A961' stroke-width='0.5' opacity='0.08'/%3E%3C/svg%3E");
-            background-size: 40px 40px;
-        }
-
-        .fengshui-item:nth-child(7)::before {
-            background-image: url("data:image/svg+xml,%3Csvg width='70' height='35' viewBox='0 0 70 35' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 17.5 Q17.5 5, 35 17.5 T70 17.5' fill='none' stroke='%23C9A961' stroke-width='0.5' opacity='0.08'/%3E%3Cpath d='M0 17.5 Q17.5 30, 35 17.5 T70 17.5' fill='none' stroke='%23C9A961' stroke-width='0.5' opacity='0.06'/%3E%3C/svg%3E");
-            background-size: 70px 35px;
-        }
-
-        .fengshui-item:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-            border-color: rgba(212, 175, 55, 0.2);
-        }
-
-        .fengshui-text {
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            z-index: 1;
-        }
-
-        .fengshui-text strong {
-            color: var(--text-primary);
-            font-size: 1.1rem;
-            margin-bottom: 0.75rem;
-            font-weight: 600;
-            letter-spacing: 0.05em;
-            position: relative;
-            z-index: 1;
-        }
-
-        .fengshui-text span {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            line-height: 1.7;
-            position: relative;
-            z-index: 1;
-        }
-
-        .fengshui-item:nth-child(1),
-        .fengshui-item:nth-child(6) {
-            grid-column: span 2;
-        }
-
-        .fengshui-item:nth-child(2),
-        .fengshui-item:nth-child(7) {
-            grid-row: span 2;
-        }
-
-        .fengshui-item:nth-child(4),
-        .fengshui-item:nth-child(8) {
-            background: linear-gradient(135deg, rgba(212, 175, 55, 0.05), rgba(212, 175, 55, 0.02));
-        }
-
-        /* 响应式 */
-        @media (max-width: 1024px) {
-            .card-item {
-                flex-direction: column !important;
-                min-height: auto;
-            }
-
-            .card-visual {
-                min-width: 100%;
-                min-height: 300px;
-            }
-
-            .card-content {
-                min-width: 100%;
-                padding: 3rem 2rem;
-            }
-
-
-
-            .card-number {
-                top: 0.5rem;
-                right: 1.5rem;
-                font-size: 4rem;
-            }
-        }
-
+        /* Responsive */
         @media (max-width: 768px) {
             .wuxing-circle {
                 width: min(300px, 85vw);
@@ -576,19 +483,6 @@
             .wuxing-motto p {
                 font-size: 0.95rem;
             }
-
-            .fengshui-item {
-                flex: 1 1 100%;
-                max-width: 100%;
-            }
-
-            .product-content h3 {
-                font-size: 1.8rem;
-            }
-
-            .product-features {
-                gap: 0.8rem;
-            }
         }
 
         @media (max-width: 480px) {
@@ -596,62 +490,6 @@
                 width: min(260px, 90vw);
                 height: min(260px, 90vw);
             }
-
-            .product-visual {
-                min-height: 200px;
-            }
-        }
-
-        /* 右下角浮动购物车按钮 */
-        .floating-cart-btn {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #D4AF37 0%, #CD853F 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 4px 20px rgba(212, 175, 55, 0.4);
-            transition: all 0.3s ease;
-            z-index: 9999;
-            font-size: 24px;
-            border: none;
-            animation: float-pulse 2s infinite;
-        }
-        
-        .floating-cart-btn:hover {
-            transform: translateY(-5px) scale(1.1);
-            box-shadow: 0 8px 30px rgba(212, 175, 55, 0.6);
-        }
-        
-        @keyframes float-pulse {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-5px);
-            }
-        }
-        
-        .floating-cart-badge {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background: #8B2500;
-            color: white;
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            font-weight: 700;
-            box-shadow: 0 2px 8px rgba(139, 37, 0, 0.5);
         }
     </style>
     <script type="application/ld+json">
@@ -661,18 +499,26 @@
         "mainEntity": [
             {
                 "@type": "Question",
-                "name": "How is Chinese astrology different from Western astrology?",
+                "name": "What are the Five Elements in Chinese metaphysics?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Western astrology is based on your birth month and zodiac sign (Aries, Taurus, etc.). Chinese astrology uses your exact birth date and time to build a chart around five elements — Wood, Fire, Earth, Metal, and Water. Instead of one sign, you get a personalized elemental profile shaped by when you were born, down to the hour."
+                    "text": "The Five Elements (Wu Xing, 五行) are Wood, Fire, Earth, Metal, and Water — five fundamental forces that interact through generating and controlling cycles. In BaZi (Chinese astrology), every person has a unique elemental composition based on their birth date and time, which reveals their personality, strengths, and life patterns."
                 }
             },
             {
                 "@type": "Question",
-                "name": "Do I need my exact birth time for a BaZi reading?",
+                "name": "How do I know which element I am in BaZi?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Yes, your birth hour is essential. BaZi charts contain four pillars — Year, Month, Day, and Hour — and the Hour Pillar reveals your inner self, aspirations, and later-life direction. Without it, your reading would be incomplete. Even a 30-minute difference can shift your chart."
+                    "text": "Your primary element is determined by your Day Master — the Heavenly Stem of the day you were born. For example, if you were born on a day ruled by Jia (甲), your Day Master is Wood. You can find your Day Master instantly with our free BaZi calculator — just enter your birth date and time."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What happens if an element is missing from my BaZi chart?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "A missing element doesn't mean disaster — it simply means that quality is less accessible to you. For instance, missing Water might suggest difficulty with adaptability or deep reflection, while missing Fire could affect social confidence. The key is understanding which elements support or challenge your Day Master, not just counting what's present."
                 }
             },
             {
@@ -680,20 +526,28 @@
                 "name": "How are the Five Elements related to health?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "In Traditional Chinese Medicine, each element governs specific organs: Wood for Liver and Gallbladder, Fire for Heart, Earth for Spleen and Stomach, Metal for Lungs, and Water for Kidneys. An imbalance in your chart may point to vulnerabilities in those areas — it's a framework for prevention, not diagnosis."
+                    "text": "In Traditional Chinese Medicine, each element governs specific organs: Wood for Liver and Gallbladder, Fire for Heart, Earth for Spleen and Stomach, Metal for Lungs, and Water for Kidneys. An imbalance in your BaZi chart may point to vulnerabilities in those areas — it's a framework for prevention, not diagnosis."
                 }
             },
             {
                 "@type": "Question",
-                "name": "What is a Day Master and why does it matter?",
+                "name": "Can the Five Elements help me choose a career?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Your Day Master is the element assigned to the day you were born — think of it as your elemental core. It defines your natural strengths, blind spots, and how you interact with the world. Whether you're a Wood person (innovative) or a Metal person (structured), your Day Master is the starting point for any BaZi reading."
+                    "text": "Yes. Your Day Master element reveals your natural working style. Wood people thrive in creative and growth-oriented roles, Fire people excel in communication and leadership, Earth people shine in service and stability, Metal people prefer structure and precision, and Water people do well in strategy and research. A full BaZi reading maps your elemental strengths to career paths."
                 }
             },
             {
                 "@type": "Question",
-                "name": "How accurate is a BaZi reading?",
+                "name": "What is the generating cycle (Sheng) of the Five Elements?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Wood generates Fire, Fire generates Earth, Earth generates Metal, Metal generates Water, and Water generates Wood. This cycle represents nourishment, support, and growth. In BaZi, understanding which elements feed your Day Master helps identify your most supportive environments and relationships."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How accurate is a BaZi reading based on Five Elements?",
                 "acceptedAnswer": {
                     "@type": "Answer",
                     "text": "BaZi has been refined over 2,000 years and is built on precise astronomical calculations, not intuition. The accuracy depends on two things: correct birth data (date, time, and place) and a skilled interpreter. Our calculator handles the math perfectly — the insight comes from reading the patterns in your chart."
@@ -705,7 +559,6 @@
 </head>
 <body>
     <!-- 导航栏 -->
-    <!-- 头部导航 -->
     <header class="header">
         <div class="container">
             <nav class="nav">
@@ -730,7 +583,6 @@
                     </li>
                     <li><a href="culture" class="nav-link active">Five Elements</a></li>
                     <li><a href="shop" class="nav-link">Shop</a></li>
-
                     <li><a href="about" class="nav-link">About Us</a></li>
                 </ul>
                 <button class="mobile-menu-btn">
@@ -742,21 +594,21 @@
         </div>
     </header>
 
-    <!-- 英雄区域 -->
+    <!-- Hero -->
     <section class="culture-hero">
         <div class="culture-hero-content">
-            <p class="subtitle">Five Elements</p>
+            <p class="subtitle">Wu Xing</p>
             <h1>Five Elements</h1>
-            <p>Discover the ancient Chinese framework behind BaZi, Feng Shui, and Eastern philosophy — rooted in thousands of years of tradition.</p>
+            <p>The Five Elements (Wu Xing) are the building blocks of every BaZi chart. Understand them, and you hold the key to reading your own destiny.</p>
         </div>
     </section>
 
-    <!-- 五元素学说 -->
+    <!-- Five Elements Theory -->
     <section class="culture-section">
         <div class="section-header">
-            <p class="subtitle">Five Elements</p>
-            <h2>Five Elements Theory</h2>
-            <p>All things in heaven and earth are composed of five basic elements: Wood, Fire, Earth, Metal, and Water. They generate and control each other in endless cycles.</p>
+            <p class="subtitle">The Foundation</p>
+            <h2>How the Five Elements Work</h2>
+            <p>All things in heaven and earth are composed of five fundamental forces: Wood, Fire, Earth, Metal, and Water. They generate and control each other in endless cycles — and your BaZi chart is a snapshot of these elements at the moment you were born.</p>
         </div>
 
         <div class="wuxing-circle-container">
@@ -777,41 +629,29 @@
                     <span class="node-char">Water</span>
                 </div>
                 <svg class="wuxing-lines" viewBox="0 0 500 500">
-                    <!-- 轨道参考圆 - 圆心(250,250)，半径175 -->
                     <circle cx="250" cy="250" r="175" fill="none" stroke="rgba(212, 175, 55, 0.15)" stroke-width="1" stroke-dasharray="5,5"/>
 
-                    <!-- 中心太极图（黑白，自动旋转） -->
+                    <!-- Taiji center -->
                     <g class="taiji-center">
-                        <!-- 底圆白色背景 -->
                         <circle cx="250" cy="250" r="38" fill="white"/>
-                        <!-- 黑色阴鱼 -->
                         <path d="M250 212 A38 38 0 0 1 250 288 A19 19 0 0 1 250 250 A19 19 0 0 0 250 212" fill="black"/>
-                        <!-- 阳鱼（白色半边）中的黑色鱼眼 -->
                         <circle cx="250" cy="231" r="6" fill="black"/>
-                        <!-- 阴鱼（黑色半边）中的白色鱼眼 -->
                         <circle cx="250" cy="269" r="6" fill="white"/>
-                        <!-- 外圈描边 -->
                         <circle cx="250" cy="250" r="38" fill="none" stroke="rgba(180,180,180,0.4)" stroke-width="1"/>
                     </g>
                     
-                    <!-- 相生线（外圈顺时针）- 木→火→土→金→水→木 -->
-                    <!-- 木(250,75) → 火(416,196) → 土(353,392) → 金(147,392) → 水(84,196) → 木 -->
+                    <!-- Generating cycle (outer clockwise): Wood→Fire→Earth→Metal→Water→Wood -->
                     <path class="sheng-line" d="M 250,75 A 175,175 0 0,1 416,196" />
                     <path class="sheng-line" d="M 416,196 A 175,175 0 0,1 353,392" />
                     <path class="sheng-line" d="M 353,392 A 175,175 0 0,1 147,392" />
                     <path class="sheng-line" d="M 147,392 A 175,175 0 0,1 84,196" />
                     <path class="sheng-line" d="M 84,196 A 175,175 0 0,1 250,75" />
 
-                    <!-- 相克线（五角星） -->
-                    <!-- 木(250,75) → 土(353,392) -->
+                    <!-- Controlling cycle (pentagram) -->
                     <line class="ke-line" x1="250" y1="75" x2="353" y2="392" />
-                    <!-- 土(353,392) → 水(84,196) -->
                     <line class="ke-line" x1="353" y1="392" x2="84" y2="196" />
-                    <!-- 水(84,196) → 火(416,196) -->
                     <line class="ke-line" x1="84" y1="196" x2="416" y2="196" />
-                    <!-- 火(416,196) → 金(147,392) -->
                     <line class="ke-line" x1="416" y1="196" x2="147" y2="392" />
-                    <!-- 金(147,392) → 木(250,75) -->
                     <line class="ke-line" x1="147" y1="392" x2="250" y2="75" />
                 </svg>
             </div>
@@ -823,226 +663,170 @@
         </div>
     </section>
 
-    <!-- 能量卡券 -->
-    <section class="energy-cards">
-        <div class="section-header" style="padding: 5rem 5% 3rem;">
-            <p class="subtitle">What We Offer</p>
-            <h2>Guidance & Resources</h2>
-            <p>From personalized BaZi readings to time-tested Eastern practices — each offering is a doorway into a more balanced, intentional life.</p>
-        </div>
-
-        <!-- 产品卡片 01 - 从 Creem 动态加载 (prod_7i2asEAuHFHl5hJMeCEsfB 沉香) -->
-        <div class="card-item fulu" id="culture-product-01">
-            <div class="card-visual">
-                <img src="images/3_compressed.jpg" alt="" id="culture-product-01-img" loading="lazy">
-            </div>
-            <div class="card-content">
-                <span class="card-number">01</span>
-                <h3 id="culture-product-01-name">Loading...</h3>
-                <p class="card-subtitle" id="culture-product-01-subtitle">&nbsp;</p>
-                <p class="card-desc" id="culture-product-01-desc">Loading product details from our store...</p>
-                <div class="card-features" id="culture-product-01-features"></div>
-                <a href="shop" class="card-cta" id="culture-product-01-link">Explore Content</a>
-            </div>
-        </div>
-
-        <!-- 产品卡片 02 - 从 Creem 动态加载 (prod_1YuuAVysoYK6AOmQVab2uR 五行能量) -->
-        <div class="card-item thunderwood" id="culture-product-02">
-            <div class="card-visual">
-                <img src="images/3_compressed.jpg" alt="" id="culture-product-02-img" loading="lazy">
-            </div>
-            <div class="card-content">
-                <span class="card-number">02</span>
-                <h3 id="culture-product-02-name">Loading...</h3>
-                <p class="card-subtitle" id="culture-product-02-subtitle">&nbsp;</p>
-                <p class="card-desc" id="culture-product-02-desc">Loading product details from our store...</p>
-                <div class="card-features" id="culture-product-02-features"></div>
-                <a href="shop" class="card-cta" id="culture-product-02-link">Explore Content</a>
-            </div>
-        </div>
-
-        <!-- 产品卡片 03 - 从 Creem 动态加载 (prod_45v7a05ZjqA9a1LVq0o0g3 Taoist Music) -->
-        <div class="card-item crystal" id="culture-product-03">
-            <div class="card-visual">
-                <img src="images/3_compressed.jpg" alt="" id="culture-product-03-img" loading="lazy">
-            </div>
-            <div class="card-content">
-                <span class="card-number">03</span>
-                <h3 id="culture-product-03-name">Loading...</h3>
-                <p class="card-subtitle" id="culture-product-03-subtitle">&nbsp;</p>
-                <p class="card-desc" id="culture-product-03-desc">Loading product details from our store...</p>
-                <div class="card-features" id="culture-product-03-features"></div>
-                <a href="shop" class="card-cta" id="culture-product-03-link">Explore Content</a>
-            </div>
-        </div>
-
-        <!-- 产品卡片 04 - 从 Creem 动态加载 (prod_26987QrSoIC3ui76ill96H 道德经) -->
-        <div class="card-item incense" id="culture-product-04">
-            <div class="card-visual">
-                <img src="images/3_compressed.jpg" alt="" id="culture-product-04-img" loading="lazy">
-            </div>
-            <div class="card-content">
-                <span class="card-number">04</span>
-                <h3 id="culture-product-04-name">Loading...</h3>
-                <p class="card-subtitle" id="culture-product-04-subtitle">&nbsp;</p>
-                <p class="card-desc" id="culture-product-04-desc">Loading product details from our store...</p>
-                <div class="card-features" id="culture-product-04-features"></div>
-                <a href="shop" class="card-cta" id="culture-product-04-link">Explore Content</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- 空间能量优化 -->
-    <section class="fengshui-section">
-        <div class="section-header">
-            <p class="subtitle">Feng Shui</p>
-            <h2>Feng Shui Consultation</h2>
-        </div>
-
-        <div class="fengshui-grid">
-            <div class="fengshui-item">
-                <div class="fengshui-text">
-                    <strong>Home Energy Flow</strong>
-                    <span>Entrance bright, bedroom peaceful. A well-arranged home promotes harmony and positive energy. Keep the entrance uncluttered and the bedroom a sanctuary of rest and tranquility.</span>
-                </div>
-            </div>
-            <div class="fengshui-item">
-                <div class="fengshui-text">
-                    <strong>Abundance Area</strong>
-                    <span>Diagonal from entrance. The southeast corner is traditionally associated with abundance. Place positive energy items here to support financial well-being and prosperity.</span>
-                </div>
-            </div>
-            <div class="fengshui-item">
-                <div class="fengshui-text">
-                    <strong>Plants</strong>
-                    <span>Money tree, lucky bamboo. Living plants bring vital life energy and symbolize growth and prosperity. Choose plants with round leaves and avoid thorny varieties indoors.</span>
-                </div>
-            </div>
-            <div class="fengshui-item">
-                <div class="pattern-decoration bottom-left"></div>
-                <div class="fengshui-text">
-                    <strong>Water Flow</strong>
-                    <span>Flow inward for positive energy. Water symbolizes abundance in traditional space energy practices. Ensure water features flow towards the center of the home to gather positive energy and abundance.</span>
-                </div>
-            </div>
-            <div class="fengshui-item">
-                <div class="fengshui-text">
-                    <strong>Negative Energy</strong>
-                    <span>Screens, mirrors, crystals. Use protective elements to deflect harmful energy. Mirrors can redirect energy, while crystals absorb negative vibrations and create a harmonious atmosphere.</span>
-                </div>
-            </div>
-            <div class="fengshui-item">
-                <div class="pattern-decoration bottom-right"></div>
-                <div class="fengshui-text">
-                    <strong>Relationship Area</strong>
-                    <span>Southwest position. The southwest corner governs relationships. Decorate with pairs of objects, romantic imagery, and warm colors to support relationship harmony.</span>
-                </div>
-            </div>
-            <div class="fengshui-item">
-                <div class="fengshui-text">
-                    <strong>Bedroom</strong>
-                    <span>Headboard against wall. Position the bed with a solid headboard against a solid wall for support and stability. Avoid placing the bed directly under a beam or facing the door.</span>
-                </div>
-            </div>
-            <div class="fengshui-item">
-                <div class="pattern-decoration top-right"></div>
-                <div class="fengshui-text">
-                    <strong>Door Position</strong>
-                    <span>Avoid door facing door. Conflicting doors create disruptive energy flow. Use screens, curtains, or plants to soften the energy and maintain a peaceful transition between spaces.</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- Five Elements Deep Dive -->
-    <section class="culture-section">
+    <section class="culture-section" style="background: var(--bg-secondary);">
         <div class="section-header">
             <p class="subtitle">Understanding Wu Xing</p>
-            <h2>The Five Elements in Your Daily Life</h2>
-            <p>The Five Elements theory (Wu Xing, 五行) is far more than an ancient Chinese philosophical concept — it is a living framework for understanding how natural rhythms influence your health, emotions, relationships, and decision-making. Each of the five elements — Wood, Fire, Earth, Metal, and Water — corresponds to specific organs, emotions, seasons, colors, and personality archetypes in <strong>Chinese metaphysics</strong>.</p>
+            <h2>The Five Elements in Your Life</h2>
+            <p>Each element governs specific organs, emotions, seasons, and personality traits. Your BaZi chart reveals which elements are strong, weak, or missing — and that profile shapes who you are.</p>
         </div>
-        <div style="max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; padding: 2rem 0;">
-            <div style="padding: 2rem; background: rgba(61,90,71,0.08); border-radius: 12px; border-left: 4px solid #3D5A47;">
-                <h3 style="font-family: var(--font-display); color: #3D5A47; margin-bottom: 0.8rem; font-size: 1.2rem;">🌿 Wood Element</h3>
-                <p style="color: var(--text-secondary); line-height: 1.8; font-size: 0.95rem;">Associated with spring, the liver, and the emotion of anger. Wood element personalities are driven, visionary, and natural leaders. When balanced, they exhibit kindness and flexibility; when excessive, they may become stubborn or impatient.</p>
+
+        <div class="element-grid">
+
+            <!-- Wood -->
+            <div class="element-block el-wood">
+                <div class="element-char">
+                    <span class="cn">木</span>
+                    <span class="en">Wood</span>
+                </div>
+                <div class="element-body">
+                    <h3>Wood</h3>
+                    <p class="tagline">Spring &middot; Liver &middot; Ambition &middot; Forward Motion</p>
+                    <p class="element-desc">Wood people are natural starters — visionaries who push things forward. Balanced Wood shows kindness and flexibility. Excess shows impatience and stubbornness.</p>
+                    <div class="element-tips-inline">
+                        <span>Green tones in wardrobe and living space</span>
+                        <span>Morning walks in nature</span>
+                        <span>Leafy greens, sour flavors</span>
+                        <span>Peak creativity: early morning</span>
+                    </div>
+                </div>
             </div>
-            <div style="padding: 2rem; background: rgba(139,77,77,0.08); border-radius: 12px; border-left: 4px solid #8B4D4D;">
-                <h3 style="font-family: var(--font-display); color: #8B4D4D; margin-bottom: 0.8rem; font-size: 1.2rem;">🔥 Fire Element</h3>
-                <p style="color: var(--text-secondary); line-height: 1.8; font-size: 0.95rem;">Linked to summer, the heart, and the emotion of joy. Fire element individuals are passionate, charismatic, and socially magnetic. Balance brings warmth and enthusiasm; excess may cause anxiety or restlessness.</p>
+
+            <!-- Fire -->
+            <div class="element-block el-fire">
+                <div class="element-char">
+                    <span class="cn">火</span>
+                    <span class="en">Fire</span>
+                </div>
+                <div class="element-body">
+                    <h3>Fire</h3>
+                    <p class="tagline">Summer &middot; Heart &middot; Passion &middot; Connection</p>
+                    <p class="element-desc">Fire people draw others in — charismatic, expressive, and socially magnetic. Balanced Fire brings warmth and joy. Excess brings restlessness and burnout.</p>
+                    <div class="element-tips-inline">
+                        <span>Warm tones — reds, oranges, purples</span>
+                        <span>Meaningful social connections</span>
+                        <span>Berries, dark chocolate</span>
+                        <span>Peak energy: midday</span>
+                    </div>
+                </div>
             </div>
-            <div style="padding: 2rem; background: rgba(139,115,85,0.08); border-radius: 12px; border-left: 4px solid #8B7355;">
-                <h3 style="font-family: var(--font-display); color: #8B7355; margin-bottom: 0.8rem; font-size: 1.2rem;">🏔️ Earth Element</h3>
-                <p style="color: var(--text-secondary); line-height: 1.8; font-size: 0.95rem;">Connected to late summer, the spleen and stomach, and the emotion of worry. Earth types are nurturing, reliable, and grounded. They provide stability but may struggle with overthinking when out of balance.</p>
+
+            <!-- Earth -->
+            <div class="element-block el-earth">
+                <div class="element-char">
+                    <span class="cn">土</span>
+                    <span class="en">Earth</span>
+                </div>
+                <div class="element-body">
+                    <h3>Earth</h3>
+                    <p class="tagline">Late Summer &middot; Spleen &middot; Stability &middot; Nourishment</p>
+                    <p class="element-desc">Earth types are the reliable center — grounding, patient, and deeply caring. They hold things together. The risk is overthinking and getting stuck in comfort zones.</p>
+                    <div class="element-tips-inline">
+                        <span>Beige, brown, yellow tones</span>
+                        <span>Consistent daily routines</span>
+                        <span>Warm, cooked foods — soups and stews</span>
+                        <span>Best focus: late morning</span>
+                    </div>
+                </div>
             </div>
-            <div style="padding: 2rem; background: rgba(107,107,107,0.08); border-radius: 12px; border-left: 4px solid #6B6B6B;">
-                <h3 style="font-family: var(--font-display); color: #6B6B6B; margin-bottom: 0.8rem; font-size: 1.2rem;">⚔️ Metal Element</h3>
-                <p style="color: var(--text-secondary); line-height: 1.8; font-size: 0.95rem;">Tied to autumn, the lungs, and the emotion of grief. Metal personalities are disciplined, precise, and value integrity. They excel at organization and setting boundaries but may become rigid when imbalanced.</p>
+
+            <!-- Metal -->
+            <div class="element-block el-metal">
+                <div class="element-char">
+                    <span class="cn">金</span>
+                    <span class="en">Metal</span>
+                </div>
+                <div class="element-body">
+                    <h3>Metal</h3>
+                    <p class="tagline">Autumn &middot; Lungs &middot; Structure &middot; Precision</p>
+                    <p class="element-desc">Metal people value integrity and clear boundaries. They excel at organizing complex systems and cutting through noise. The risk is becoming too rigid or detached.</p>
+                    <div class="element-tips-inline">
+                        <span>White, silver, and gold tones</span>
+                        <span>Breathwork and structured exercise</span>
+                        <span>Ginger, garlic, pungent flavors</span>
+                        <span>Sharpest focus: late afternoon</span>
+                    </div>
+                </div>
             </div>
-            <div style="padding: 2rem; background: rgba(74,93,107,0.08); border-radius: 12px; border-left: 4px solid #4A5D6B;">
-                <h3 style="font-family: var(--font-display); color: #4A5D6B; margin-bottom: 0.8rem; font-size: 1.2rem;">💧 Water Element</h3>
-                <p style="color: var(--text-secondary); line-height: 1.8; font-size: 0.95rem;">Associated with winter, the kidneys, and the emotion of fear. Water element people are intuitive, adaptable, and deeply thoughtful. They possess inner wisdom and resilience but may struggle with indecision when depleted.</p>
+
+            <!-- Water -->
+            <div class="element-block el-water">
+                <div class="element-char">
+                    <span class="cn">水</span>
+                    <span class="en">Water</span>
+                </div>
+                <div class="element-body">
+                    <h3>Water</h3>
+                    <p class="tagline">Winter &middot; Kidneys &middot; Depth &middot; Intuition</p>
+                    <p class="element-desc">Water people think deeply and adapt fluidly. They carry inner wisdom that others rely on. The risk is indecision, withdrawal, and letting momentum fade.</p>
+                    <div class="element-tips-inline">
+                        <span>Blue and black tones</span>
+                        <span>Time near water — oceans, rivers</span>
+                        <span>Salty foods, seafood</span>
+                        <span>Intuition peaks: evening</span>
+                    </div>
+                </div>
             </div>
-            <div style="padding: 2rem; background: rgba(212,175,55,0.06); border-radius: 12px; border-left: 4px solid var(--accent-color);">
-                <h3 style="font-family: var(--font-display); color: var(--accent-color); margin-bottom: 0.8rem; font-size: 1.2rem;">☯️ Yin Yang Balance</h3>
-                <p style="color: var(--text-secondary); line-height: 1.8; font-size: 0.95rem;">The Five Elements exist within the broader framework of Yin and Yang — the complementary forces that underpin all of Chinese philosophy. Understanding your elemental profile through <strong>BaZi numerology</strong> reveals which elements are dominant and which need support for optimal wellbeing.</p>
+
+            <!-- Yin Yang Balance -->
+            <div class="element-balance-block">
+                <h3>Yin Yang Balance</h3>
+                <p>The Five Elements exist within the broader framework of Yin and Yang — complementary forces that underpin all of Chinese philosophy. Every chart has a unique elemental mix, and no two are identical. Strength in one area often means weakness in another. A full BaZi reading maps these dynamics and reveals what your elemental profile truly means for your life path.</p>
             </div>
-        </div>
-        <div style="text-align: center; margin-top: 2rem;">
-            <a href="five-elements-test.html" class="cta-hero-btn" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 1rem 2rem; background: linear-gradient(135deg, #D4AF37, #C49B2F); color: #1C1A17; font-weight: 700; font-size: 0.95rem; border-radius: 4px; text-decoration: none; letter-spacing: 0.05em; box-shadow: 0 4px 16px rgba(212,175,55,0.35); transition: all 0.2s; border: none;">Discover Your Five Elements Profile →</a>
+
         </div>
     </section>
 
     <!-- FAQ Section -->
-    <section style="padding: 5rem 5%; background: #FFFFFF;">
+    <section style="padding: 5rem 5%; background: var(--bg-primary);">
         <div style="max-width: 800px; margin: 0 auto;">
             <h2 style="font-family: var(--font-display); font-size: 1.8rem; color: var(--accent-color); text-align: center; margin-bottom: 2.5rem; letter-spacing: 0.1em;">Frequently Asked Questions</h2>
-            
-            <div class="fengshui-item" style="grid-column: span 1; padding: 1.5rem 1.8rem; cursor: pointer;" onclick="this.classList.toggle('faq-active')">
-                <div class="fengshui-text">
-                    <strong>How is Chinese astrology different from Western astrology?</strong>
-                    <span style="display: none; margin-top: 0.8rem;">Western astrology uses your birth month to assign one zodiac sign. Chinese astrology uses your exact birth date and time to build a chart around five elements — Wood, Fire, Earth, Metal, and Water. Instead of a single sign, you get a personalized elemental profile shaped by when you were born, down to the hour.</span>
-                </div>
+
+            <div class="faq-item" onclick="this.classList.toggle('faq-active')">
+                <div class="faq-question">What are the Five Elements in Chinese metaphysics?</div>
+                <div class="faq-answer">The Five Elements (Wu Xing, 五行) are Wood, Fire, Earth, Metal, and Water — five fundamental forces that interact through generating and controlling cycles. In BaZi (Chinese astrology), every person has a unique elemental composition based on their birth date and time, which reveals their personality, strengths, and life patterns.</div>
             </div>
 
-            <div class="fengshui-item" style="grid-column: span 1; padding: 1.5rem 1.8rem; cursor: pointer;" onclick="this.classList.toggle('faq-active')">
-                <div class="fengshui-text">
-                    <strong>Do I need my exact birth time for a BaZi reading?</strong>
-                    <span style="display: none; margin-top: 0.8rem;">Yes, your birth hour is essential. A BaZi chart has four pillars — Year, Month, Day, and Hour — and the Hour Pillar reveals your inner self and later-life direction. Even a 30-minute difference can shift your chart, so try to be as precise as possible.</span>
-                </div>
+            <div class="faq-item" onclick="this.classList.toggle('faq-active')">
+                <div class="faq-question">How do I know which element I am in BaZi?</div>
+                <div class="faq-answer">Your primary element is determined by your Day Master — the Heavenly Stem of the day you were born. For example, if you were born on a day ruled by Jia (甲), your Day Master is Wood. You can find your Day Master instantly with our free BaZi calculator — just enter your birth date and time.</div>
             </div>
 
-            <div class="fengshui-item" style="grid-column: span 1; padding: 1.5rem 1.8rem; cursor: pointer;" onclick="this.classList.toggle('faq-active')">
-                <div class="fengshui-text">
-                    <strong>How are the Five Elements related to health?</strong>
-                    <span style="display: none; margin-top: 0.8rem;">In Traditional Chinese Medicine, each element governs specific organs: Wood for Liver and Gallbladder, Fire for Heart, Earth for Spleen and Stomach, Metal for Lungs, and Water for Kidneys. An imbalance in your chart may point to vulnerabilities in those areas — it's a framework for prevention, not diagnosis.</span>
-                </div>
+            <div class="faq-item" onclick="this.classList.toggle('faq-active')">
+                <div class="faq-question">What happens if an element is missing from my BaZi chart?</div>
+                <div class="faq-answer">A missing element doesn't mean disaster — it simply means that quality is less accessible to you. For instance, missing Water might suggest difficulty with adaptability or deep reflection, while missing Fire could affect social confidence. The key is understanding which elements support or challenge your Day Master, not just counting what's present.</div>
             </div>
 
-            <div class="fengshui-item" style="grid-column: span 1; padding: 1.5rem 1.8rem; cursor: pointer;" onclick="this.classList.toggle('faq-active')">
-                <div class="fengshui-text">
-                    <strong>What is a Day Master and why does it matter?</strong>
-                    <span style="display: none; margin-top: 0.8rem;">Your Day Master is the element assigned to the day you were born — think of it as your elemental core. It defines your natural strengths, blind spots, and how you interact with the world. Whether you're a Wood person (innovative) or a Metal person (structured), your Day Master is the starting point for any BaZi reading.</span>
-                </div>
+            <div class="faq-item" onclick="this.classList.toggle('faq-active')">
+                <div class="faq-question">How are the Five Elements related to health?</div>
+                <div class="faq-answer">In Traditional Chinese Medicine, each element governs specific organs: Wood for Liver and Gallbladder, Fire for Heart, Earth for Spleen and Stomach, Metal for Lungs, and Water for Kidneys. An imbalance in your BaZi chart may point to vulnerabilities in those areas — it's a framework for prevention, not diagnosis.</div>
             </div>
 
-            <div class="fengshui-item" style="grid-column: span 1; padding: 1.5rem 1.8rem; cursor: pointer;" onclick="this.classList.toggle('faq-active')">
-                <div class="fengshui-text">
-                    <strong>How accurate is a BaZi reading?</strong>
-                    <span style="display: none; margin-top: 0.8rem;">BaZi has been refined over 2,000 years and is built on precise astronomical calculations, not intuition. The accuracy depends on two things: correct birth data and a skilled interpreter. Our calculator handles the math perfectly — the insight comes from reading the patterns in your chart.</span>
-                </div>
+            <div class="faq-item" onclick="this.classList.toggle('faq-active')">
+                <div class="faq-question">Can the Five Elements help me choose a career?</div>
+                <div class="faq-answer">Yes. Your Day Master element reveals your natural working style. Wood people thrive in creative and growth-oriented roles, Fire people excel in communication and leadership, Earth people shine in service and stability, Metal people prefer structure and precision, and Water people do well in strategy and research. A full BaZi reading maps your elemental strengths to career paths.</div>
             </div>
 
-            <div style="text-align: center; margin-top: 2.5rem;">
-                <a href="/#free-bazi" style="display: inline-block; padding: 0.7rem 2rem; background: linear-gradient(135deg, #D4AF37, #C49B2F); color: #1C1A17; font-weight: 700; font-size: 0.9rem; border-radius: 4px; text-decoration: none; box-shadow: 0 4px 16px rgba(212,175,55,0.3); transition: all 0.2s;">Try Your Free BaZi Reading →</a>
+            <div class="faq-item" onclick="this.classList.toggle('faq-active')">
+                <div class="faq-question">What is the generating cycle (Sheng) of the Five Elements?</div>
+                <div class="faq-answer">Wood generates Fire, Fire generates Earth, Earth generates Metal, Metal generates Water, and Water generates Wood. This cycle represents nourishment, support, and growth. In BaZi, understanding which elements feed your Day Master helps identify your most supportive environments and relationships.</div>
+            </div>
+
+            <div class="faq-item" onclick="this.classList.toggle('faq-active')">
+                <div class="faq-question">How accurate is a BaZi reading based on Five Elements?</div>
+                <div class="faq-answer">BaZi has been refined over 2,000 years and is built on precise astronomical calculations, not intuition. The accuracy depends on two things: correct birth data (date, time, and place) and a skilled interpreter. Our calculator handles the math perfectly — the insight comes from reading the patterns in your chart.</div>
             </div>
         </div>
     </section>
 
-    <style>
-        .faq-active span { display: block !important; }
-    </style>
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <h2>Discover Your Elemental Profile</h2>
+        <p>Your BaZi chart is a map of the Five Elements at your birth moment. Enter your birth details and see your elemental composition, Day Master, and what it all means — in seconds.</p>
+        <a href="/#free-bazi" class="cta-btn">Try Your Free BaZi Reading</a>
+    </section>
 
-        <!-- Footer -->
+    <!-- Footer -->
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
@@ -1051,8 +835,7 @@
                         <span class="logo-en">DAO ESSENCE</span>
                     </div>
                     <p>Ancient Wisdom, Modern Clarity. Navigate life with structured insight through BaZi analysis, Feng Shui consultation, and Five Elements guidance.</p>
-
-                                        </div>
+                </div>
                 <div>
                     <h4 class="footer-title">Navigation</h4>
                     <ul class="footer-links">
@@ -1083,19 +866,14 @@
                             <a href="#" onclick="document.getElementById('wechat-modal').style.display='flex';return false;">WeChat</a>
                         </li>
                         <li>
-                            <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle;margin-right:6px"><circle cx="10" cy="10" r="8"/><path d="M10 6v4l2.5 2.5"/></svg>
-                        <li>
                             <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style="vertical-align:middle;margin-right:6px;color:#229ED9"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
                             <a href="https://t.me/dingwei_123" target="_blank" rel="noopener">Telegram Channel</a>
                         </li>
                         <li>
-                            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style="vertical-align:middle;margin-right:6px;color:#229ED9"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
-                            <a href="https://t.me/Dingwei_pi" target="_blank" rel="noopener">Telegram @Dingwei_pi</a>
-                        </li>
-                        <li>
                             <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style="vertical-align:middle;margin-right:6px;color:#E60023"><path d="M12 0C5.373 0 0 5.372 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 0 1 .083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.631-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12 0-6.628-5.373-12-12-12z"/></svg>
                             <a href="https://www.pinterest.com/pixuan/wallpapers/" target="_blank" rel="noopener">Pinterest</a>
-                        </li>                        <li>
+                        </li>
+                        <li>
                             <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle;margin-right:6px"><circle cx="10" cy="10" r="8"/><path d="M10 6v4l2.5 2.5"/></svg>
                             Mon&ndash;Sat: 9AM&ndash;9PM (CST / UTC+8)
                         </li>
@@ -1103,7 +881,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2026 DAO Essence &amp; Five Elements. All rights reserved.</p>
+                <p>&copy; 2026 DAO Essence. All rights reserved.</p>
                 <div class="footer-legal-links">
                     <a href="privacy">Privacy Policy</a>
                     <span>|</span>
@@ -1127,15 +905,8 @@
         </div>
     </div>
 
-
-
     <script>
-        // 移动端菜单
-        document.querySelector('.mobile-menu-btn').addEventListener('click', () => {
-            document.querySelector('.nav-links').classList.toggle('active');
-        });
-
-        // 滚动动画
+        // Scroll animation
         const observerOptions = {
             threshold: 0.1,
             rootMargin: '0px 0px -50px 0px'
@@ -1150,118 +921,12 @@
             });
         }, observerOptions);
 
-        document.querySelectorAll('.wuxing-node, .category-card, .fengshui-card').forEach(el => {
+        document.querySelectorAll('.wuxing-node, .element-block, .element-balance-block').forEach(el => {
             el.style.opacity = '0';
             el.style.transform = 'translateY(30px)';
             el.style.transition = 'all 0.6s ease';
             observer.observe(el);
         });
-    </script>
-
-    <!-- Creem 产品实时同步 -->
-    <script src="js/creem-sync-v2.js"></script>
-
-    <!-- 用 Creem 数据填充 Five Elements 页的卡片 01-04 -->
-    <script>
-        /**
-         * 将 Creem 产品数据按 ID 填入卡片 01~04
-         * 不再依赖 index，改为按产品 ID 精确匹配
-         */
-        const CULTURE_CARD_PRODUCTS = {
-            '01': 'prod_7i2asEAuHFHl5hJMeCEsfB',   // Agarwood Energy Cleansing Audio Set
-            '02': 'prod_1YuuAVysoYK6AOmQVab2uR',   // Five Elements Energy Digital Set
-            '03': 'prod_45v7a05ZjqA9a1LVq0o0g3',   // Taoist Music
-            '04': 'prod_26987QrSoIC3ui76ill96H'    // Tao Te Ching
-        };
-
-        // 默认特性标签（当 Creem 数据没有 benefits 时使用）
-        const DEFAULT_FEATURES = {
-            '01': ['Emotional Reset', 'Space Cleansing', 'Deep Focus', 'Sleep Quality', 'Inner Peace'],
-            '02': ['Five Elements Balance', 'Career Clarity', 'Relationship Harmony', 'Wealth Alignment', 'Vitality Support'],
-            '03': ['Stress Reduction', 'Meditation Aid', 'Sleep Improvement', 'Emotional Balance', 'Nature Connection'],
-            '04': ['Philosophical Insight', 'Mindfulness', 'Leadership Wisdom', 'Inner Peace', 'Simplicity']
-        };
-
-        // 默认副标题
-        const DEFAULT_SUBTITLES = {
-            '01': 'Restore Inner Peace',
-            '02': 'Harmonize Your Energy',
-            '03': 'Ancient Healing Sounds',
-            '04': 'Timeless Wisdom'
-        };
-
-        function updateCultureProductCards() {
-            if (!window.allProducts || window.allProducts.length === 0) return;
-
-            // Build a lookup map: productId -> product
-            const productMap = {};
-            window.allProducts.forEach(p => {
-                productMap[p.id] = p;
-            });
-
-            Object.entries(CULTURE_CARD_PRODUCTS).forEach(([suffix, productId]) => {
-                const product = productMap[productId];
-                if (!product) {
-                    console.warn('⚠️ 卡片 ' + suffix + ' 的产品未找到: ' + productId);
-                    // Hide card if product not found
-                    const cardEl = document.getElementById('culture-product-' + suffix);
-                    if (cardEl) cardEl.style.display = 'none';
-                    return;
-                }
-
-                // Use Chinese name if available, otherwise English
-                const name = product.nameCN || product.name || '';
-                const desc = product.descriptionCN || product.description || '';
-                const shortDesc = desc.length > 350 ? desc.substring(0, 350) + '...' : desc;
-                const imgSrc = product.image_url || product.image || '';
-                const subtitle = DEFAULT_SUBTITLES[suffix] || '';
-                const features = (product.benefits && product.benefits.length > 0)
-                    ? product.benefits
-                    : (DEFAULT_FEATURES[suffix] || []);
-
-                const nameEl   = document.getElementById('culture-product-' + suffix + '-name');
-                const descEl   = document.getElementById('culture-product-' + suffix + '-desc');
-                const linkEl   = document.getElementById('culture-product-' + suffix + '-link');
-                const imgEl    = document.getElementById('culture-product-' + suffix + '-img');
-                const subEl    = document.getElementById('culture-product-' + suffix + '-subtitle');
-                const featEl   = document.getElementById('culture-product-' + suffix + '-features');
-
-                if (nameEl && name) nameEl.textContent = name;
-                if (descEl && desc) descEl.textContent = shortDesc;
-                if (subEl && subtitle) subEl.textContent = subtitle;
-                if (featEl) {
-                    featEl.innerHTML = '';
-                    features.forEach(f => {
-                        const span = document.createElement('span');
-                        span.className = 'card-feature-item';
-                        span.textContent = f;
-                        featEl.appendChild(span);
-                    });
-                }
-                // Link always points to product detail page
-                if (linkEl) {
-                    linkEl.href = 'product-detail.html?id=' + productId;
-                }
-                if (imgEl && imgSrc) {
-                    imgEl.src = imgSrc;
-                    imgEl.alt = name;
-                }
-            });
-
-            console.log('✅ Five Elements 卡片 01-04 已用 Creem 数据动态填充');
-        }
-
-        // Listen for creemProductsReady event
-        window.addEventListener('creemProductsReady', updateCultureProductCards);
-
-        // Fallback polling
-        (function poll() {
-            if (window.allProducts && window.allProducts.length > 0) {
-                updateCultureProductCards();
-            } else {
-                setTimeout(poll, 200);
-            }
-        })();
     </script>
 </body>
 </html>

@@ -535,6 +535,15 @@
         .email-success.show { display: block; animation: fadeIn 0.3s ease; }
         .email-success .check { font-size: 2rem; margin-bottom: 0.5rem; }
         .email-success p { color: var(--wx-wood); font-size: 0.95rem; }
+        .email-success .report-note {
+            margin-top: 0.8rem;
+            padding: 0.8rem 1.2rem;
+            background: rgba(201, 168, 76, 0.08);
+            border-left: 3px solid var(--accent-color);
+            border-radius: 4px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
 
 
 
@@ -688,7 +697,7 @@
 
         <!-- Email CTA (positioned after all results, as a "next step") -->
         <div class="email-cta" id="emailCta">
-            <h3>🎁 Get Your Full Report</h3>
+            <h3>Get Your Full Report</h3>
             <p>We'll send you a personalized Five Elements profile — career paths, relationship patterns, health insights, and actionable advice based on your unique element mix.</p>
             <div class="email-form" id="emailForm">
                 <div class="email-form-row">
@@ -699,8 +708,9 @@
             </div>
             <p class="email-privacy">We respect your privacy. Unsubscribe anytime. No spam, ever.</p>
             <div class="email-success" id="emailSuccess">
-                <div class="check">✓</div>
-                <p>Check your inbox for the full report!</p>
+                <div class="check">&#10003;</div>
+                <p>Thank you! Your request has been received.</p>
+                <div class="report-note">Your personalized Five Elements report will be delivered to your inbox within <strong>48 hours</strong>.</div>
             </div>
         </div>
     </div>
