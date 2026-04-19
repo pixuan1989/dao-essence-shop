@@ -1260,6 +1260,7 @@ async function main() {
     { loc: '/bazi-form', changefreq: 'weekly', priority: '1.0' },
     { loc: '/five-elements-test', changefreq: 'weekly', priority: '1.0' },
     { loc: '/soulmate-calculator', changefreq: 'weekly', priority: '1.0' },
+    { loc: '/almanac', changefreq: 'daily', priority: '1.0' },
     { loc: '/culture', changefreq: 'monthly', priority: '0.8' },
     { loc: '/shop', changefreq: 'daily', priority: '0.6' },
     { loc: '/about', changefreq: 'monthly', priority: '0.6' },
