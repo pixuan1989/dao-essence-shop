@@ -432,6 +432,34 @@
             margin-bottom: 1.5rem;
             line-height: 1.5;
         }
+        .pay-modal-box .pay-price {
+            font-family: var(--serif);
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--gold);
+            margin-bottom: 0.3rem;
+        }
+        .pay-modal-box .pay-badges {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+        .pay-modal-box .pay-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.72rem;
+            color: rgba(212,175,55,0.8);
+            background: rgba(212,175,55,0.08);
+            border: 1px solid rgba(212,175,55,0.15);
+            padding: 3px 10px;
+            border-radius: 100px;
+        }
+        .pay-modal-box .pay-badge svg {
+            flex-shrink: 0;
+        }
         .pay-modal-box .cta-btn {
             display: inline-block;
         }
@@ -741,8 +769,23 @@
     <div class="pay-modal" id="payModal">
         <div class="pay-modal-box">
             <h3>Unlock All Features</h3>
-            <p>Unlock the full calendar and all 12 activity planners — find your perfect day for anything.</p>
-            <button class="cta-btn" onclick="unlockAll()">Unlock for $2.99</button>
+            <div class="pay-price">$2.99</div>
+            <div class="pay-badges">
+                <span class="pay-badge">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    One-Time Payment
+                </span>
+                <span class="pay-badge">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    Lifetime Access
+                </span>
+                <span class="pay-badge">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    No Subscription
+                </span>
+            </div>
+            <p>Unlock all 12 activity planners — find your perfect day for anything, forever.</p>
+            <button class="cta-btn" onclick="unlockAll()">Unlock Now</button>
             <br>
             <button class="pay-modal-close" onclick="document.getElementById('payModal').classList.remove('visible')">Maybe later</button>
         </div>
