@@ -302,6 +302,31 @@ const ARTICLE_STYLES = `
         }
         .sidebar-cta--five-elements .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(76,145,130,0.45); background: linear-gradient(135deg, #6BC4B0, #4C9182); }
 
+        /* ── Sidebar CTA: Almanac (warm gold / calendar theme) ── */
+        .sidebar-cta--almanac {
+            background: linear-gradient(160deg, #14100A 0%, #261E12 60%, #382C1C 100%);
+            border: 1px solid rgba(212,175,55,0.25);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+        }
+        .sidebar-cta--almanac::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(212,175,55,0.5), transparent);
+        }
+        .sidebar-cta--almanac h3 { color: #D4AF37; }
+        .sidebar-cta--almanac .cta-sub { color: rgba(255,255,255,0.65); }
+        .sidebar-cta--almanac .cta-feat { color: rgba(255,255,255,0.55); }
+        .sidebar-cta--almanac .cta-feat-icon { background: rgba(212,175,55,0.15); border: 1px solid rgba(212,175,55,0.25); }
+        .sidebar-cta--almanac .cta-feat-icon svg { color: #D4AF37; }
+        .sidebar-cta--almanac .cta-btn {
+            background: linear-gradient(135deg, #D4AF37, #E8C547);
+            color: #1A1208;
+            box-shadow: 0 4px 16px rgba(212,175,55,0.3);
+        }
+        .sidebar-cta--almanac .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(212,175,55,0.45); }
+
         /* ── Mobile: stack layout ── */
         @media (max-width: 900px) {
             .blog-layout {
@@ -620,6 +645,27 @@ function generateArticleHtml(post, category) {
                 </div>
             </div>
             <a href="/soulmate-calculator" class="cta-btn">Find Your Soulmate</a>
+        </div>`;
+      case 'almanac':
+        return `
+        <div class="sidebar-cta sidebar-cta--almanac">
+            <h3>Is Today a Good Day?</h3>
+            <p class="cta-sub">Check the Chinese Almanac — 2,000 years of astrological wisdom distilled into a simple daily rating. Find your best day for any plan.</p>
+            <div class="cta-features">
+                <div class="cta-feat">
+                    <span class="cta-feat-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>
+                    Daily 5-Star Rating
+                </div>
+                <div class="cta-feat">
+                    <span class="cta-feat-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2 7h7l-5.5 4 2 7L12 16l-5.5 4 2-7L3 9h7z"/></svg></span>
+                    Best Dates for Any Plan
+                </div>
+                <div class="cta-feat">
+                    <span class="cta-feat-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span>
+                    Do's and Don'ts
+                </div>
+            </div>
+            <a href="/almanac.html" class="cta-btn">Check Today's Almanac</a>
         </div>`;
       case 'five-elements':
         return `
