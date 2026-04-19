@@ -32,12 +32,7 @@ const CACHE_CONFIG = {
 const PRODUCT_CATEGORY_MAP = {
   // 八字分析类
   'prod_28PqAKMEom5WGRH1w9O35n': 'bazi-analysis',       // 八字分析报告
-  // 道家冥想类
-  'prod_7i2asEAuHFHl5hJMeCEsfB': 'dao-meditation',      // 沉香冥想音频
-  'prod_1YuuAVysoYK6AOmQVab2uR': 'dao-meditation',      // 五行能量音频
-  'prod_45v7a05ZjqA9a1LVq0o0g3': 'dao-meditation',      // 新增道家冥想产品
-  'prod_xxx_taisui': 'dao-meditation',                  // 生肖太岁音频
-  'prod_xxx_obsidian': 'dao-meditation',                // 黑曜石冥想
+  // 道家冥想类（如有新增再加）
   // 中国修仙小说类
   'prod_3btZfL4MwsO2xSr7AB3J8S': 'cultivation-novels',  // 诡秘之主
   // 道家读物类（道德经等）
@@ -48,36 +43,22 @@ const PRODUCT_CATEGORY_MAP = {
 
 /**
  * 备用数据（API 失败时使用）
- * 🔥 包含正确的折扣信息
+ * 🔥 只保留实际在售的商品
  */
 const FALLBACK_PRODUCTS = [
   {
-    id: 'prod_7i2asEAuHFHl5hJMeCEsfB',
-    name: 'Traditional Agarwood Energy Ritual Service',
-    nameCN: '传统沉香能量净化定制服务',
-    price: 180,           // 🔥 折后价格（使用折扣码 XJCX520 后）
-    originalPrice: 200,   // 🔥 原价
-    discount: 20,         // 🔥 折扣金额
-    discountRate: 10,     // 🔥 折扣率 10%
-    currency: 'USD',
-    description: 'A personalized digital energy cleansing ritual service, including one-on-one remote guidance by a certified practitioner, personalized meditation audio, and digital energy alignment materials.',
-    descriptionCN: '由认证传承人提供的个人专属数字能量净化服务，含一对一远程指导、个性化冥想音频及数字能量调和资料。',
-    image: 'images/agarwood.jpg',
-    category: 'digital'
-  },
-  {
-    id: 'prod_1YuuAVysoYK6AOmQVab2uR',
-    name: 'Five Elements Energy Balance Consultation',
-    nameCN: '五行能量平衡定制咨询服务',
-    price: 168,           // 无折扣
-    originalPrice: 168,
+    id: 'prod_28PqAKMEom5WGRH1w9O35n',
+    name: 'BaZi Life Guidance',
+    nameCN: '八字命理解读',
+    price: 39.90,
+    originalPrice: 39.90,
     discount: 0,
     discountRate: 0,
     currency: 'USD',
-    description: 'A personalized Five Elements energy balancing consultation service, including a custom energy assessment report, personalized guidance session, and digital Five Elements harmony resources.',
-    descriptionCN: '由传承人提供的五行能量平衡定制咨询，含专属能量评估报告、个性化指导课程及数字五行调和资源。',
-    image: 'images/bracelet.jpg',
-    category: 'digital'
+    description: 'Personalized BaZi (Four Pillars) analysis by Master Xuanzhen. Receive a comprehensive PDF report within 48 hours.',
+    descriptionCN: '由玄真大师提供的个人八字命理解读服务，48小时内交付完整PDF报告。',
+    image: 'images/bazi-service.jpg',
+    category: 'bazi-analysis'
   }
 ];
 
