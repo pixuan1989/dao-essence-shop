@@ -20,11 +20,15 @@ window.loadProducts = async function() {
         // Wait for creem-sync-v2.js to populate window.allProducts
         if (typeof window.allProducts !== 'undefined' && window.allProducts.length > 0) {
             console.log('✅ Products loaded successfully from Creem API:', window.allProducts.length, 'items');
+            // Filter out non-shop products (e.g. almanac unlock)
+            window.allProducts = window.allProducts.filter(p => p.id !== 'prod_3fJInBNekM9UVJwtClgUtx');
+            console.log('🛒 Shop products after filter:', window.allProducts.length, 'items');
         } else {
             // Fallback: wait a bit and check again
             setTimeout(() => {
                 if (typeof window.allProducts !== 'undefined' && window.allProducts.length > 0) {
                     console.log('✅ Products loaded successfully from Creem API (delayed):', window.allProducts.length, 'items');
+                    window.allProducts = window.allProducts.filter(p => p.id !== 'prod_3fJInBNekM9UVJwtClgUtx');
                     window.renderShop();
                 } else {
                     console.warn('⚠️ No products from Creem API, using empty array');
