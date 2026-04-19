@@ -687,6 +687,7 @@
             <div class="today-stars" id="todayStars"></div>
         </div>
         <div class="today-explain" id="todayExplain"></div>
+        <div class="today-lucky" id="todayLucky"></div>
     </section>
 
     <!-- Divider -->
@@ -752,8 +753,8 @@
         <p>DAO Essence &mdash; Ancient Wisdom, Modern Guidance</p>
     </footer>
 
-    <!-- lunar-javascript (local) -->
-    <script src="file:///C:/Users/agenew/Desktop/DaoEssence1.0/node_modules/lunar-javascript/lunar.js"></script>
+    <!-- lunar-javascript -->
+    <script src="lunar.js"></script>
 
     <script>
     (function() {
@@ -991,6 +992,27 @@
                 </div>
             `;
 
+            // Lucky info
+            const luckyEl = document.getElementById('todayLucky');
+            const wuxingColors = WUXING_COLORS[dd.dayElement] || 'Any';
+            const wuxingNumbers = WUXING_NUMBERS[dd.dayElement] || '-';
+            luckyEl.innerHTML = `
+                <div class="lucky-row">
+                    <div class="lucky-item">
+                        <div class="lucky-label">Lucky Direction</div>
+                        <div class="lucky-value">${dd.caiDir}</div>
+                    </div>
+                    <div class="lucky-item">
+                        <div class="lucky-label">Colors to Wear</div>
+                        <div class="lucky-value">${wuxingColors}</div>
+                    </div>
+                    <div class="lucky-item">
+                        <div class="lucky-label">Lucky Numbers</div>
+                        <div class="lucky-value">${wuxingNumbers}</div>
+                    </div>
+                </div>
+            `;
+
         }
 
         // ===== RENDER CALENDAR =====
@@ -1113,6 +1135,20 @@
                 <div class="detail-scenarios" style="margin-top:0.8rem;">
                     <div class="dg-label">Not Ideal</div>
                     <div class="scenario-list">${avoidHtml}</div>
+                </div>
+                <div class="lucky-row" style="margin-top:1rem;">
+                    <div class="lucky-item">
+                        <div class="lucky-label">Lucky Direction</div>
+                        <div class="lucky-value">${dd.caiDir}</div>
+                    </div>
+                    <div class="lucky-item">
+                        <div class="lucky-label">Colors to Wear</div>
+                        <div class="lucky-value">${WUXING_COLORS[dd.dayElement] || 'Any'}</div>
+                    </div>
+                    <div class="lucky-item">
+                        <div class="lucky-label">Lucky Numbers</div>
+                        <div class="lucky-value">${WUXING_NUMBERS[dd.dayElement] || '-'}</div>
+                    </div>
                 </div>
             `;
             panel.classList.add('visible');

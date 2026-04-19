@@ -1080,7 +1080,17 @@ async function main() {
     'docs', 'scripts'
   ]);
 
-  // Step 2b: Clean up source files that shouldn't be in dist/
+  // Step 2b: Copy almanac dependency (lunar-javascript) to dist/
+  const lunarSrc = path.join(SRC_DIR, 'node_modules', 'lunar-javascript', 'lunar.js');
+  const lunarDest = path.join(DIST_DIR, 'lunar.js');
+  if (fs.existsSync(lunarSrc)) {
+    fs.copyFileSync(lunarSrc, lunarDest);
+    console.log('  Copied: lunar.js -> dist/lunar.js');
+  } else {
+    console.warn('  WARNING: lunar.js not found in node_modules, almanac page will not work');
+  }
+
+  // Step 2c: Clean up source files that shouldn't be in dist/
   const distPostsDir = path.join(DIST_DIR, 'blog', 'posts');
   if (fs.existsSync(distPostsDir)) {
     fs.rmSync(distPostsDir, { recursive: true, force: true });
