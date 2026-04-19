@@ -1,6 +1,8 @@
 ---
 title: "Find Your Soulmate Direction: BaZi Guide"
 category: bazi-astrology
+cta_cards:
+  - soulmate
 tags:
   - soulmate
   - love-direction

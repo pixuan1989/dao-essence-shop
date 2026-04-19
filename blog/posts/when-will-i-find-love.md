@@ -1,6 +1,8 @@
 ---
 title: When Will I Find Love? Your Birth Date Knows
 category: bazi-astrology
+cta_cards:
+  - soulmate
 tags:
   - when-will-i-find-love
   - love-timing

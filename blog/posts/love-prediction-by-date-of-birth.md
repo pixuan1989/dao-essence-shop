@@ -1,6 +1,8 @@
 ---
 title: "Love Prediction by Date of Birth: BaZi Reading"
 category: bazi-astrology
+cta_cards:
+  - soulmate
 tags:
   - love-prediction
   - birth-date-astrology

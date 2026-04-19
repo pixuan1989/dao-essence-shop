@@ -62,6 +62,15 @@
               { label: '阅读时长（分钟）', name: 'readTime', widget: 'number', default: 5, min: 1, max: 60 },
               { label: '首页置顶', name: 'pinned', widget: 'boolean', default: false, required: false, hint: '开启后文章将固定显示在首页文章区域最前面，不会被新文章挤掉' },
               { label: '封面图片', name: 'image', widget: 'image', required: false, hint: '上传封面图（建议尺寸：1200x630）' },
+              {
+                label: '引导卡片（文章右侧+底部显示）', name: 'cta_cards', widget: 'select', multiple: true, required: false,
+                options: [
+                  { label: '八字付费解读', value: 'bazi' },
+                  { label: '测缘分（Soulmate Calculator）', value: 'soulmate' },
+                  { label: '测五行（Five Elements Test）', value: 'five-elements' }
+                ],
+                hint: '选择这篇文章要挂哪些引导卡片，可多选。不选则默认显示八字卡片。'
+              },
               { label: '正文', name: 'body', widget: 'markdown', hint: '使用Markdown编写文章内容。## 标题，> 引用，**加粗**等' },
               {
                 label: '常见问题', name: 'faq', widget: 'list', required: false,

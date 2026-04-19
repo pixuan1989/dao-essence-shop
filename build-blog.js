@@ -277,6 +277,31 @@ const ARTICLE_STYLES = `
         }
         .sidebar-cta--soulmate .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(196,125,125,0.45); background: linear-gradient(135deg, #D49090, #C47D7D); }
 
+        /* ── Sidebar CTA: Five Elements (teal / nature theme) ── */
+        .sidebar-cta--five-elements {
+            background: linear-gradient(160deg, #081A18 0%, #142C24 60%, #1E3D32 100%);
+            border: 1px solid rgba(76,145,130,0.25);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+        }
+        .sidebar-cta--five-elements::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(76,145,130,0.5), transparent);
+        }
+        .sidebar-cta--five-elements h3 { color: #6BC4B0; }
+        .sidebar-cta--five-elements .cta-sub { color: rgba(255,255,255,0.6); }
+        .sidebar-cta--five-elements .cta-feat { color: rgba(255,255,255,0.5); }
+        .sidebar-cta--five-elements .cta-feat-icon { background: rgba(76,145,130,0.15); border: 1px solid rgba(76,145,130,0.25); }
+        .sidebar-cta--five-elements .cta-feat-icon svg { color: #4C9182; }
+        .sidebar-cta--five-elements .cta-btn {
+            background: linear-gradient(135deg, #4C9182, #3A7A6C);
+            color: #fff;
+            box-shadow: 0 4px 16px rgba(76,145,130,0.3);
+        }
+        .sidebar-cta--five-elements .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(76,145,130,0.45); background: linear-gradient(135deg, #6BC4B0, #4C9182); }
+
         /* ── Mobile: stack layout ── */
         @media (max-width: 900px) {
             .blog-layout {
@@ -569,7 +594,79 @@ function generateArticleHtml(post, category) {
   const dateFormatted = formatDate(data.date);
   const categoryLabel = CATEGORY_LABELS[category] || category;
   const categoryHref = `/blog/${category}`;
-  const isSoulmateArticle = ['where-will-i-meet-my-soulmate', 'love-prediction-by-date-of-birth', 'when-will-i-find-love'].includes(slug);
+
+  // CTA cards: read from frontmatter, fallback to bazi for old articles
+  const ctaCards = Array.isArray(data.cta_cards) ? data.cta_cards : ['bazi'];
+
+  function renderCtaCard(type) {
+    switch (type) {
+      case 'soulmate':
+        return `
+        <div class="sidebar-cta sidebar-cta--soulmate">
+            <h3>Where Will You Meet Your Soulmate?</h3>
+            <p class="cta-sub">Your birth date holds the map to your most fated love encounter. Discover your soulmate direction, love timing, and love style — free.</p>
+            <div class="cta-features">
+                <div class="cta-feat">
+                    <span class="cta-feat-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg></span>
+                    Soulmate Direction
+                </div>
+                <div class="cta-feat">
+                    <span class="cta-feat-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></span>
+                    Love Timing
+                </div>
+                <div class="cta-feat">
+                    <span class="cta-feat-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span>
+                    Love Style
+                </div>
+            </div>
+            <a href="/soulmate-calculator" class="cta-btn">Find Your Soulmate</a>
+        </div>`;
+      case 'five-elements':
+        return `
+        <div class="sidebar-cta sidebar-cta--five-elements">
+            <h3>What's Your Dominant Element?</h3>
+            <p class="cta-sub">Wood, Fire, Earth, Metal, or Water — your birth date reveals which element governs your personality, health, and relationships.</p>
+            <div class="cta-features">
+                <div class="cta-feat">
+                    <span class="cta-feat-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20"/></svg></span>
+                    Element Profile
+                </div>
+                <div class="cta-feat">
+                    <span class="cta-feat-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2 7h7l-5.5 4 2 7L12 16l-5.5 4 2-7L3 9h7z"/></svg></span>
+                    Personality Traits
+                </div>
+                <div class="cta-feat">
+                    <span class="cta-feat-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></span>
+                    Health Guidance
+                </div>
+            </div>
+            <a href="/five-elements-test" class="cta-btn">Discover Your Element</a>
+        </div>`;
+      case 'bazi':
+      default:
+        return `
+        <div class="sidebar-cta sidebar-cta--bazi">
+            <h3>Discover Your True Destiny</h3>
+            <p class="cta-sub">Unlock the secrets hidden in your birth chart. Get a complete BaZi reading with Four Pillars of Destiny analysis.</p>
+            <div class="cta-features">
+                <div class="cta-feat">
+                    <span class="cta-feat-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></span>
+                    Four Pillars Reading
+                </div>
+                <div class="cta-feat">
+                    <span class="cta-feat-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2 7h7l-5.5 4 2 7L12 16l-5.5 4 2-7L3 9h7z"/></svg></span>
+                    Five Elements Analysis
+                </div>
+                <div class="cta-feat">
+                    <span class="cta-feat-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
+                    Life Path Insights
+                </div>
+            </div>
+            <a href="#" class="cta-btn" onclick="event.preventDefault();var b=this;b.textContent='Creating checkout\u2026';fetch('/api/create-checkout',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({items:[{id:'prod_28PqAKMEom5WGRH1w9O35n',name:'BaZi Reading',price:0,quantity:1}]})}).then(function(r){return r.json()}).then(function(d){if(d.checkoutUrl)window.open(d.checkoutUrl,'_blank');else{b.textContent='Get Your All-Around Personalized Report';alert('Unable to create checkout. Please try again.')}}).catch(function(){b.textContent='Get Your All-Around Personalized Report';alert('Network error. Please try again.')})">Get Your All-Around Personalized Report</a>
+        </div>`;
+    }
+  }
+  const sidebarCtaHtml = ctaCards.map(renderCtaCard).join('\n');
 
   // Replace zodiac-lookup marker AFTER marked.parse to avoid marked escaping <script> tags
   const hasZodiacLookup = content.includes('<!--zodiac-lookup-->');
@@ -688,45 +785,7 @@ ${NAV_HTML}
         </div>
 
         <aside class="blog-sidebar">
-        ${isSoulmateArticle ? `
-        <div class="sidebar-cta sidebar-cta--soulmate">
-            <h3>Where Will You Meet Your Soulmate?</h3>
-            <p class="cta-sub">Your birth date holds the map to your most fated love encounter. Discover your soulmate direction, love timing, and love style — free.</p>
-            <div class="cta-features">
-                <div class="cta-feat">
-                    <span class="cta-feat-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg></span>
-                    Soulmate Direction
-                </div>
-                <div class="cta-feat">
-                    <span class="cta-feat-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></span>
-                    Love Timing
-                </div>
-                <div class="cta-feat">
-                    <span class="cta-feat-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span>
-                    Love Style
-                </div>
-            </div>
-            <a href="/soulmate-calculator" class="cta-btn">Find Your Soulmate</a>
-        </div>` : `
-        <div class="sidebar-cta sidebar-cta--bazi">
-            <h3>Discover Your True Destiny</h3>
-            <p class="cta-sub">Unlock the secrets hidden in your birth chart. Get a complete BaZi reading with Four Pillars of Destiny analysis.</p>
-            <div class="cta-features">
-                <div class="cta-feat">
-                    <span class="cta-feat-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></span>
-                    Four Pillars Reading
-                </div>
-                <div class="cta-feat">
-                    <span class="cta-feat-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2 7h7l-5.5 4 2 7L12 16l-5.5 4 2-7L3 9h7z"/></svg></span>
-                    Five Elements Analysis
-                </div>
-                <div class="cta-feat">
-                    <span class="cta-feat-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
-                    Life Path Insights
-                </div>
-            </div>
-            <a href="#" class="cta-btn" onclick="event.preventDefault();var b=this;b.textContent='Creating checkout\u2026';fetch('/api/create-checkout',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({items:[{id:'prod_28PqAKMEom5WGRH1w9O35n',name:'BaZi Reading',price:0,quantity:1}]})}).then(function(r){return r.json()}).then(function(d){if(d.checkoutUrl)window.open(d.checkoutUrl,'_blank');else{b.textContent='Get Your All-Around Personalized Report';alert('Unable to create checkout. Please try again.')}}).catch(function(){b.textContent='Get Your All-Around Personalized Report';alert('Network error. Please try again.')})">Get Your All-Around Personalized Report</a>
-        </div>`}
+        ${sidebarCtaHtml}
         </aside>
     </div>
 
