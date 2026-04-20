@@ -34,11 +34,11 @@ const CATEGORY_FOLDERS = [
 
 // Category display names
 const CATEGORY_LABELS = {
-  'bazi-astrology': '八字占星',
-  'zodiac-horoscope': '中国生肖运势',
-  'feng-shui': '风水知识',
-  'daily-horoscope': '每日中国生肖运势',
-  'lucky-tips': '旺运术'
+  'bazi-astrology': 'BaZi Astrology',
+  'zodiac-horoscope': 'Chinese Zodiac',
+  'feng-shui': 'Feng Shui',
+  'daily-horoscope': 'Daily Horoscope',
+  'lucky-tips': 'Lucky Tips'
 };
 
 // CSS version for cache busting
@@ -60,11 +60,11 @@ const NAV_HTML = `
                         <span class="nav-dropdown-trigger">Blog <i class="nav-dropdown-arrow"></i></span>
                         <div class="nav-dropdown-menu">
                             <a href="/blog/">All Articles</a>
-                            <a href="/blog/bazi-astrology">八字占星</a>
-                            <a href="/blog/zodiac-horoscope">中国生肖运势</a>
-                            <a href="/blog/feng-shui">风水知识</a>
-                            <a href="/blog/daily-horoscope">每日中国生肖运势</a>
-                            <a href="/blog/lucky-tips">旺运术</a>
+                            <a href="/blog/bazi-astrology">BaZi Astrology</a>
+                            <a href="/blog/zodiac-horoscope">Chinese Zodiac</a>
+                            <a href="/blog/feng-shui">Feng Shui</a>
+                            <a href="/blog/daily-horoscope">Daily Horoscope</a>
+                            <a href="/blog/lucky-tips">Lucky Tips</a>
                         </div>
                     </li>
                     <li><a href="/culture" class="nav-link">Five Elements</a></li>
@@ -91,15 +91,15 @@ const FOOTER_HTML = `
                     <h4>Explore</h4>
                     <a href="/culture">Five Elements</a>
                     <a href="/shop">Shop</a>
-                    <a href="/blog/bazi-astrology">八字占星</a>
+                    <a href="/blog/bazi-astrology">BaZi Astrology</a>
                 </div>
                 <div class="footer-links">
                     <h4>Blog Categories</h4>
-                    <a href="/blog/bazi-astrology">八字占星</a>
-                    <a href="/blog/zodiac-horoscope">中国生肖运势</a>
-                    <a href="/blog/feng-shui">风水知识</a>
-                    <a href="/blog/daily-horoscope">每日中国生肖运势</a>
-                    <a href="/blog/lucky-tips">旺运术</a>
+                    <a href="/blog/bazi-astrology">BaZi Astrology</a>
+                    <a href="/blog/zodiac-horoscope">Chinese Zodiac</a>
+                    <a href="/blog/feng-shui">Feng Shui</a>
+                    <a href="/blog/daily-horoscope">Daily Horoscope</a>
+                    <a href="/blog/lucky-tips">Lucky Tips</a>
                 </div>
                 <div class="footer-links">
                     <h4>Support</h4>
