@@ -2,31 +2,43 @@
  * ============================================
  * 八字订单查询 API (Vercel Functions)
  * 从 Redis 读取订单数据
+ * 支持: GET(查询) / DELETE(删除)
  * ============================================
  */
 
-import { redisGet, redisSet } from '../shared/redis.js';
+import { redisGet, redisSet, redisDel } from '../shared/redis.js';
 
 export default async function handler(req, res) {
-    if (req.method !== 'GET') {
-        return res.status(405).json({ error: 'Method not allowed' });
+    // 验证管理密钥
+    const authHeader = req.headers['authorization'];
+    const adminKey = process.env.ADMIN_KEY;
+
+    if (!adminKey) {
+        console.error('❌ 未配置 ADMIN_KEY 环境变量');
+        return res.status(500).json({ error: '服务器配置错误' });
+    }
+
+    if (!authHeader || authHeader !== `Bearer ${adminKey}`) {
+        return res.status(401).json({ error: '未授权' });
     }
 
     try {
-        // 验证管理密钥
-        const authHeader = req.headers['authorization'];
-        const adminKey = process.env.ADMIN_KEY;
-
-        if (!adminKey) {
-            console.error('❌ 未配置 ADMIN_KEY 环境变量');
-            return res.status(500).json({ error: '服务器配置错误' });
+        if (req.method === 'DELETE') {
+            return handleDelete(req, res);
         }
-
-        if (!authHeader || authHeader !== `Bearer ${adminKey}`) {
-            return res.status(401).json({ error: '未授权' });
+        if (req.method === 'POST') {
+            return handlePost(req, res);
+        }
+        if (req.method !== 'GET') {
+            return res.status(405).json({ error: 'Method not allowed' });
         }
 
         const type = req.query.type || '';
+
+        // 未读计数
+        if (type === 'unread-count') {
+            return handleUnreadCount(res);
+        }
 
         // ===== 通用查询：商城 / 黄历 / 留资 =====
         if (type === 'shop') {
@@ -43,9 +55,138 @@ export default async function handler(req, res) {
         return handleBaziOrders(res);
 
     } catch (error) {
-        console.error('❌ 获取订单错误:', error);
-        return res.status(500).json({ error: '获取订单失败', detail: error.message });
+        console.error('❌ 订单操作错误:', error);
+        return res.status(500).json({ error: '操作失败', detail: error.message });
     }
+}
+
+// ========== 删除订单/留资 ==========
+async function handleDelete(req, res) {
+    const { type, id, idsKey, keyPrefix } = req.body || {};
+
+    if (!type || !id) {
+        return res.status(400).json({ error: '缺少 type 或 id 参数' });
+    }
+
+    let keysToDelete = [];
+    let indexKey = '';
+
+    switch (type) {
+        case 'bazi':
+            keysToDelete = [`bazi_order:${id}`];
+            indexKey = 'bazi_order_ids';
+            break;
+        case 'shop':
+            keysToDelete = [`shop_order:${id}`];
+            indexKey = 'shop_order_ids';
+            break;
+        case 'almanac':
+            keysToDelete = [`almanac_order:${id}`];
+            indexKey = 'almanac_order_ids';
+            break;
+        case 'wuxing_quiz':
+            keysToDelete = [`wuxing_lead:${id}`];
+            indexKey = 'wuxing_lead_ids';
+            break;
+        case 'contact':
+            // 联系表单是数组存储在 contact_subscribers
+            keysToDelete = [];
+            indexKey = 'contact_subscribers';
+            break;
+        default:
+            return res.status(400).json({ error: '未知类型: ' + type });
+    }
+
+    let success = true;
+
+    // 删除数据 key
+    for (const key of keysToDelete) {
+        const ok = await redisDel(key);
+        if (!ok) success = false;
+    }
+
+    // 从索引列表中移除
+    if (indexKey) {
+        if (type === 'contact') {
+            // 联系表单: contact_subscribers 是数组，按 date 匹配删除
+            const subscribers = await redisGet(indexKey) || [];
+            const idx = subscribers.findIndex(s => s.date === id || s.createdAt === id);
+            if (idx !== -1) {
+                subscribers.splice(idx, 1);
+                const ok = await redisSet(indexKey, subscribers);
+                if (!ok) success = false;
+            }
+        } else {
+            const idList = await redisGet(indexKey) || [];
+            const newIds = idList.filter(item => item !== id);
+            const ok = await redisSet(indexKey, newIds);
+            if (!ok) success = false;
+        }
+    }
+
+    console.log(`🗑️ 删除 ${type}:${id} ${success ? '成功' : '部分失败'}`);
+    return res.status(200).json({ success });
+}
+
+// ========== POST: 记录最后查看时间（标记已读） ==========
+async function handlePost(req, res) {
+    const { type } = req.body || {};
+    if (type === 'mark-read') {
+        await redisSet('admin_last_read', new Date().toISOString());
+        return res.status(200).json({ success: true });
+    }
+    return res.status(400).json({ error: '未知 POST 操作' });
+}
+
+// ========== 未读计数 ==========
+async function handleUnreadCount(res) {
+    const lastReadStr = await redisGet('admin_last_read');
+    const lastRead = lastReadStr ? new Date(lastReadStr).getTime() : 0;
+
+    let newOrders = 0;
+    let newLeads = 0;
+
+    // 八字订单
+    const baziIds = await redisGet('bazi_order_ids') || [];
+    for (const id of baziIds) {
+        const order = await redisGet(`bazi_order:${id}`);
+        if (order && new Date(order.createdAt).getTime() > lastRead) newOrders++;
+    }
+
+    // 商城订单
+    const shopIds = await redisGet('shop_order_ids') || [];
+    for (const id of shopIds) {
+        const order = await redisGet(`shop_order:${id}`);
+        if (order && new Date(order.createdAt).getTime() > lastRead) newOrders++;
+    }
+
+    // 黄历订单
+    const almanacIds = await redisGet('almanac_order_ids') || [];
+    for (const id of almanacIds) {
+        const order = await redisGet(`almanac_order:${id}`);
+        if (order && new Date(order.createdAt).getTime() > lastRead) newOrders++;
+    }
+
+    // 五行测试留资
+    const quizIds = await redisGet('wuxing_lead_ids') || [];
+    for (const id of quizIds) {
+        const lead = await redisGet(`wuxing_lead:${id}`);
+        if (lead && new Date(lead.createdAt).getTime() > lastRead) newLeads++;
+    }
+
+    // 联系表单留资
+    const contacts = await redisGet('contact_subscribers') || [];
+    for (const c of contacts) {
+        const t = new Date(c.createdAt || c.date || 0).getTime();
+        if (t > lastRead) newLeads++;
+    }
+
+    return res.status(200).json({
+        success: true,
+        newOrders,
+        newLeads,
+        total: newOrders + newLeads
+    });
 }
 
 // ========== 八字订单 + 五行测试 ==========

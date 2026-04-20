@@ -475,6 +475,127 @@
             min-height: 100px;
         }
 
+        /* 删除按钮 */
+        .btn-delete {
+            padding: 6px 14px;
+            border: 1px solid rgba(239, 83, 80, 0.3);
+            border-radius: 6px;
+            background: transparent;
+            color: #ef5350;
+            font-family: inherit;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn-delete:hover {
+            background: rgba(239, 83, 80, 0.1);
+            border-color: #ef5350;
+        }
+
+        /* 确认弹窗 */
+        .confirm-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 10001;
+            justify-content: center;
+            align-items: center;
+        }
+        .confirm-overlay.active {
+            display: flex;
+        }
+        .confirm-box {
+            background: #1a1a2e;
+            border: 1px solid rgba(239, 83, 80, 0.3);
+            border-radius: 16px;
+            padding: 30px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+        }
+        .confirm-box h3 {
+            color: #ef5350;
+            margin-bottom: 12px;
+            font-size: 1.2rem;
+        }
+        .confirm-box p {
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 24px;
+        }
+        .confirm-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+        .confirm-actions .btn-cancel {
+            padding: 10px 24px;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            background: transparent;
+            color: #888;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .confirm-actions .btn-cancel:hover {
+            border-color: #888;
+            color: #e8e8e8;
+        }
+        .confirm-actions .btn-confirm-del {
+            padding: 10px 24px;
+            border: none;
+            border-radius: 8px;
+            background: #ef5350;
+            color: #fff;
+            font-family: inherit;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .confirm-actions .btn-confirm-del:hover {
+            background: #d32f2f;
+        }
+
+        /* Toast 通知 */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 10002;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            pointer-events: none;
+        }
+        .toast {
+            background: #1a1a2e;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 10px;
+            padding: 14px 20px;
+            color: #e8e8e8;
+            font-size: 0.9rem;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+            pointer-events: auto;
+            transform: translateX(120%);
+            transition: transform 0.4s ease;
+            max-width: 360px;
+        }
+        .toast.show {
+            transform: translateX(0);
+        }
+        .toast.toast-success {
+            border-color: rgba(76, 175, 80, 0.4);
+        }
+        .toast.toast-error {
+            border-color: rgba(239, 83, 80, 0.4);
+        }
+        .toast.toast-info {
+            border-color: rgba(212, 175, 55, 0.4);
+        }
+
         /* Loading 状态 */
         .loading-overlay {
             display: none;
@@ -729,6 +850,21 @@
         </div><!-- /container -->
     </div><!-- /admin-panel -->
 
+    <!-- Toast 通知容器 -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- 删除确认弹窗 -->
+    <div class="confirm-overlay" id="confirmOverlay">
+        <div class="confirm-box">
+            <h3>确认删除</h3>
+            <p id="confirmMsg">确定要删除这条记录吗？此操作不可恢复。</p>
+            <div class="confirm-actions">
+                <button class="btn-cancel" onclick="cancelDelete()">取消</button>
+                <button class="btn-confirm-del" id="confirmDelBtn" onclick="confirmDelete()">删除</button>
+            </div>
+        </div>
+    </div>
+
     <!-- 订单详情弹窗 -->
     <div class="modal" id="orderModal">
         <div class="modal-content">
@@ -833,6 +969,9 @@
             document.getElementById('adminPanel').classList.add('visible');
             renderOrders();
             updateStats();
+            // 启动新消息轮询
+            lastUnreadTotal = 0;
+            startPolling();
         }
 
         // 退出登录
@@ -840,6 +979,8 @@
             window.adminKey = null;
             localStorage.removeItem('baziAdminKey');
             orders = [];
+            if (pollTimer) { clearInterval(pollTimer); pollTimer = null; }
+            lastUnreadTotal = 0;
             document.getElementById('loginScreen').classList.remove('hidden');
             document.getElementById('adminPanel').classList.remove('visible');
             document.getElementById('loginKey').value = '';
@@ -974,6 +1115,7 @@
                     </td>
                     <td>
                         <button class="btn btn-primary" onclick="viewOrder('${order.orderId}')">查看</button>
+                        <button class="btn-delete" onclick="requestDelete('bazi','${order.id}','${(order.name||'').replace(/'/g,"\\'")}订单')">删除</button>
                     </td>
                 </tr>
             `;
@@ -1028,6 +1170,7 @@
                     </td>
                     <td>
                         <button class="btn btn-primary" onclick="viewQuizLead('${lead.id}')">查看</button>
+                        <button class="btn-delete" onclick="requestDelete('wuxing_quiz','${lead.id}','${(lead.name||'').replace(/'/g,"\\'")}线索')">删除</button>
                     </td>
                 </tr>
             `;
@@ -1269,7 +1412,7 @@
             if (!window.adminKey) return;
             showLoading(true);
             try {
-                const res = await fetch('/api/get-orders?type=shop', {
+                const res = await fetch('/api/get-bazi-orders?type=shop', {
                     headers: { 'Authorization': 'Bearer ' + window.adminKey }
                 });
                 if (res.status === 401) { handleLogout(); return; }
@@ -1284,7 +1427,7 @@
             const empty = document.getElementById('shopEmptyState');
             if (!shopOrders.length) { tbody.innerHTML = ''; empty.style.display = 'block'; return; }
             empty.style.display = 'none';
-            tbody.innerHTML = shopOrders.map(o => '<tr><td><strong>' + (o.orderId||'').slice(-8) + '</strong></td><td><strong>' + (o.name||'匿名') + '</strong><br><a href="mailto:' + (o.email||'') + '" class="email-link">' + (o.email||'无') + '</a></td><td>' + (o.productName||'-') + '</td><td><strong style="color:#d4af37">$' + (o.amount||0) + '</strong></td><td><span class="status-badge status-paid">已支付</span></td><td>' + formatDate(o.createdAt) + '</td><td><button class="btn btn-primary" onclick="viewShopOrder(\'' + o.checkoutId + '\')">查看</button></td></tr>').join('');
+            tbody.innerHTML = shopOrders.map(o => '<tr><td><strong>' + (o.orderId||'').slice(-8) + '</strong></td><td><strong>' + (o.name||'匿名') + '</strong><br><a href="mailto:' + (o.email||'') + '" class="email-link">' + (o.email||'无') + '</a></td><td>' + (o.productName||'-') + '</td><td><strong style="color:#d4af37">$' + (o.amount||0) + '</strong></td><td><span class="status-badge status-paid">已支付</span></td><td>' + formatDate(o.createdAt) + '</td><td><button class="btn btn-primary" onclick="viewShopOrder(\'' + o.checkoutId + '\')">查看</button> <button class="btn-delete" onclick="requestDelete(\'shop\',\'' + (o.checkoutId||o.id) + '\',\'' + (o.name||'').replace(/'/g,"\\'") + ' 订单\')">删除</button></td></tr>').join('');
             document.getElementById('shopTotalOrders').textContent = shopOrders.length;
             document.getElementById('shopTotalRevenue').textContent = '$' + shopOrders.reduce((s,o) => s + parseFloat(o.amount||0), 0).toFixed(2);
         }
@@ -1305,7 +1448,7 @@
             if (!window.adminKey) return;
             showLoading(true);
             try {
-                const res = await fetch('/api/get-orders?type=almanac', {
+                const res = await fetch('/api/get-bazi-orders?type=almanac', {
                     headers: { 'Authorization': 'Bearer ' + window.adminKey }
                 });
                 if (res.status === 401) { handleLogout(); return; }
@@ -1320,7 +1463,7 @@
             const empty = document.getElementById('almanacEmptyState');
             if (!almanacOrders.length) { tbody.innerHTML = ''; empty.style.display = 'block'; return; }
             empty.style.display = 'none';
-            tbody.innerHTML = almanacOrders.map(o => '<tr><td><strong>' + (o.orderId||'').slice(-8) + '</strong></td><td><a href="mailto:' + (o.email||'') + '" class="email-link">' + (o.email||'无') + '</a></td><td><strong style="color:#d4af37">$' + (o.amount||0) + '</strong></td><td><span class="status-badge status-paid">已支付</span></td><td>' + formatDate(o.createdAt) + '</td><td><button class="btn btn-primary" onclick="viewAlmanacOrder(\'' + o.checkoutId + '\')">查看</button></td></tr>').join('');
+            tbody.innerHTML = almanacOrders.map(o => '<tr><td><strong>' + (o.orderId||'').slice(-8) + '</strong></td><td><a href="mailto:' + (o.email||'') + '" class="email-link">' + (o.email||'无') + '</a></td><td><strong style="color:#d4af37">$' + (o.amount||0) + '</strong></td><td><span class="status-badge status-paid">已支付</span></td><td>' + formatDate(o.createdAt) + '</td><td><button class="btn btn-primary" onclick="viewAlmanacOrder(\'' + o.checkoutId + '\')">查看</button> <button class="btn-delete" onclick="requestDelete(\'almanac\',\'' + (o.checkoutId||o.id) + '\',\'' + (o.email||'').replace(/'/g,"\\'") + ' 黄历\')">删除</button></td></tr>').join('');
             document.getElementById('almanacTotalOrders').textContent = almanacOrders.length;
             document.getElementById('almanacTotalRevenue').textContent = '$' + almanacOrders.reduce((s,o) => s + parseFloat(o.amount||0), 0).toFixed(2);
         }
@@ -1341,7 +1484,7 @@
             if (!window.adminKey) return;
             showLoading(true);
             try {
-                const res = await fetch('/api/get-orders?type=leads', {
+                const res = await fetch('/api/get-bazi-orders?type=leads', {
                     headers: { 'Authorization': 'Bearer ' + window.adminKey }
                 });
                 if (res.status === 401) { handleLogout(); return; }
@@ -1365,7 +1508,10 @@
                 const summary = l.source === 'contact_form'
                     ? (l.subjectLabel || l.subject || '-') + ': ' + ((l.message||'').substring(0,50)) + (l.message && l.message.length > 50 ? '...' : '')
                     : '五行: ' + (l.wuxingResult?.dominant || '-') + ' | ' + (l.birthYear||'-') + '-' + (l.birthMonth||'-') + '-' + (l.birthDay||'-');
-                return '<tr><td>' + sourceBadge + '</td><td>' + (l.name||'匿名') + '</td><td><a href="mailto:' + (l.email||'') + '" class="email-link">' + (l.email||'-') + '</a></td><td style="font-size:0.85rem;color:#888;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="' + (summary||'').replace(/"/g,'&quot;') + '">' + summary + '</td><td>' + formatDate(l.createdAt || l.date) + '</td><td><button class="btn btn-primary" onclick="viewLead(\'' + l.id + '\')">查看</button></td></tr>';
+                const delType = l.source === 'contact_form' ? 'contact' : 'wuxing_quiz';
+                const delId = l.id || l.date || '';
+                const delLabel = (l.name||'').replace(/'/g,"\\'");
+                return '<tr><td>' + sourceBadge + '</td><td>' + (l.name||'匿名') + '</td><td><a href="mailto:' + (l.email||'') + '" class="email-link">' + (l.email||'-') + '</a></td><td style="font-size:0.85rem;color:#888;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="' + (summary||'').replace(/"/g,'&quot;') + '">' + summary + '</td><td>' + formatDate(l.createdAt || l.date) + '</td><td><button class="btn btn-primary" onclick="viewLead(\'' + l.id + '\')">查看</button> <button class="btn-delete" onclick="requestDelete(\'' + delType + '\',\'' + delId + '\',\'' + delLabel + ' 留资\')">删除</button></td></tr>';
             }).join('');
             const contactCount = leadsData.filter(l => l.source === 'contact_form').length;
             const quizCount = leadsData.filter(l => l.source === 'wuxing_quiz').length;
@@ -1400,6 +1546,131 @@
             link.href = URL.createObjectURL(blob);
             link.download = filename + '-' + new Date().toISOString().split('T')[0] + '.csv';
             link.click();
+        }
+
+        // ========== Toast 通知 ==========
+        function showToast(message, type) {
+            type = type || 'info';
+            var container = document.getElementById('toastContainer');
+            var toast = document.createElement('div');
+            toast.className = 'toast toast-' + type;
+            toast.textContent = message;
+            container.appendChild(toast);
+            // 触发动画
+            requestAnimationFrame(function() {
+                toast.classList.add('show');
+            });
+            // 自动消失
+            setTimeout(function() {
+                toast.classList.remove('show');
+                setTimeout(function() {
+                    if (toast.parentNode) toast.parentNode.removeChild(toast);
+                }, 400);
+            }, 4000);
+        }
+
+        // ========== 删除功能 ==========
+        var pendingDelete = null; // { type, id, label }
+
+        function requestDelete(type, id, label) {
+            pendingDelete = { type: type, id: id, label: label || id };
+            document.getElementById('confirmMsg').textContent = '确定要删除"' + (label || id) + '"吗？此操作不可恢复。';
+            document.getElementById('confirmOverlay').classList.add('active');
+        }
+
+        function cancelDelete() {
+            pendingDelete = null;
+            document.getElementById('confirmOverlay').classList.remove('active');
+        }
+
+        async function confirmDelete() {
+            if (!pendingDelete || !window.adminKey) return;
+            var del = pendingDelete;
+            pendingDelete = null;
+            document.getElementById('confirmOverlay').classList.remove('active');
+            document.getElementById('confirmDelBtn').disabled = true;
+            document.getElementById('confirmDelBtn').textContent = '删除中...';
+
+            try {
+                var res = await fetch('/api/get-bazi-orders', {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': 'Bearer ' + window.adminKey,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ type: del.type, id: del.id })
+                });
+                if (res.status === 401) { handleLogout(); return; }
+                var data = await res.json();
+                if (data.success) {
+                    showToast('已删除', 'success');
+                    // 刷新当前 tab 的数据
+                    var activeTab = document.querySelector('.tab-btn.active');
+                    if (activeTab) {
+                        var tabName = activeTab.getAttribute('onclick')?.match(/'(\w+)'/)?.[1];
+                        if (tabName === 'orders') loadOrders();
+                        else if (tabName === 'shop') loadShopOrders();
+                        else if (tabName === 'almanac') loadAlmanacOrders();
+                        else if (tabName === 'leads') loadLeads();
+                    }
+                } else {
+                    showToast('删除失败: ' + (data.error || '未知错误'), 'error');
+                }
+            } catch (e) {
+                showToast('删除失败: ' + e.message, 'error');
+            } finally {
+                document.getElementById('confirmDelBtn').disabled = false;
+                document.getElementById('confirmDelBtn').textContent = '删除';
+            }
+        }
+
+        // ========== 新消息轮询（10分钟） ==========
+        var pollTimer = null;
+        var lastUnreadTotal = 0;
+
+        function startPolling() {
+            // 立即检查一次
+            checkUnread();
+            // 每10分钟检查
+            if (pollTimer) clearInterval(pollTimer);
+            pollTimer = setInterval(checkUnread, 10 * 60 * 1000);
+        }
+
+        async function checkUnread() {
+            if (!window.adminKey) return;
+            try {
+                var res = await fetch('/api/get-bazi-orders?type=unread-count', {
+                    headers: { 'Authorization': 'Bearer ' + window.adminKey }
+                });
+                if (res.status === 401) return;
+                var data = await res.json();
+                if (data.success) {
+                    var total = data.total || 0;
+                    if (total > lastUnreadTotal && lastUnreadTotal >= 0) {
+                        // 有新消息
+                        var parts = [];
+                        if (data.newOrders > 0) parts.push(data.newOrders + ' 笔新订单');
+                        if (data.newLeads > 0) parts.push(data.newLeads + ' 条新留资');
+                        showToast('收到 ' + parts.join('，'), 'info');
+                    }
+                    lastUnreadTotal = total;
+
+                    // 标记为已读（更新 last_read 时间）
+                    if (total > 0) {
+                        fetch('/api/get-bazi-orders', {
+                            method: 'POST',
+                            headers: {
+                                'Authorization': 'Bearer ' + window.adminKey,
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ type: 'mark-read' })
+                        });
+                        lastUnreadTotal = 0;
+                    }
+                }
+            } catch (e) {
+                console.error('轮询未读计数失败:', e);
+            }
         }
     </script>
 

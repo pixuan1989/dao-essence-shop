@@ -40,6 +40,21 @@ export async function redisGet(key) {
 }
 
 /**
+ * 删除 key
+ */
+export async function redisDel(key) {
+    const client = getRedis();
+    if (!client) return false;
+    try {
+        await client.del(key);
+        return true;
+    } catch (err) {
+        console.error('❌ Redis DEL 失败:', err.message);
+        return false;
+    }
+}
+
+/**
  * 设置值（自动 JSON.stringify）
  */
 export async function redisSet(key, value) {
