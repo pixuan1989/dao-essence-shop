@@ -771,19 +771,30 @@ function generateArticleHtml(post, category, allArticles) {
         </div>`;
     }
   }
-  const sidebarCtaHtml = ctaCards.map(renderCtaCard).join('\n');
+  // Separate zodiac-lookup (inline widget) from sidebar CTA cards
+  const hasZodiacCta = ctaCards.includes('zodiac-lookup');
+  const sidebarCards = ctaCards.filter(t => t !== 'zodiac-lookup');
+  const sidebarCtaHtml = sidebarCards.length > 0 ? sidebarCards.map(renderCtaCard).join('\n') : renderCtaCard('bazi');
 
-  // Replace zodiac-lookup marker AFTER marked.parse to avoid marked escaping <script> tags
-  const hasZodiacLookup = content.includes('<!--zodiac-lookup-->');
-  const processedContent = hasZodiacLookup
+  // Replace zodiac-lookup: either from Markdown marker or from cta_cards field
+  const hasMarkdownMarker = content.includes('<!--zodiac-lookup-->');
+  const hasZodiacLookup = hasMarkdownMarker || hasZodiacCta;
+  const processedContent = hasMarkdownMarker
     ? content.replace('<!--zodiac-lookup-->', '<!--ZODIAC_LOOKUP_PLACEHOLDER-->')
     : content;
   const htmlBody = marked.parse(processedContent);
   // Fix: promote body <h1> to <h2> so only article title is the sole H1
   const fixedBody = htmlBody.replace(/<h1(.*?)>(.*?)<\/h1>/gi, '<h2$1>$2</h2>');
-  const finalBody = hasZodiacLookup
-    ? fixedBody.replace('<!--ZODIAC_LOOKUP_PLACEHOLDER-->', ZODIAC_LOOKUP_HTML)
-    : fixedBody;
+  let finalBody;
+  if (hasMarkdownMarker) {
+    // Replace inline placeholder
+    finalBody = fixedBody.replace('<!--ZODIAC_LOOKUP_PLACEHOLDER-->', ZODIAC_LOOKUP_HTML);
+  } else if (hasZodiacCta) {
+    // Append widget at end of article content (will be placed before </article>)
+    finalBody = fixedBody + '\n' + ZODIAC_LOOKUP_HTML;
+  } else {
+    finalBody = fixedBody;
+  }
 
   // SEO helpers
   function seoTitle(title) {
