@@ -864,6 +864,8 @@ function generateArticleHtml(post, category, allArticles) {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="/images/favicon.png">
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${seoTitle(data.title)}</title>
     <meta name="description" content="${escapeHtml(seoDescription(data.description || ''))}">
@@ -968,6 +970,8 @@ function generateCategoryHtml(category, articles) {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="/images/favicon.png">
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${label} Blog | DAO Essence</title>
     <meta name="description" content="Explore our ${label} articles — Chinese metaphysics, BaZi, Feng Shui, and more.">
@@ -1062,6 +1066,8 @@ function generateBlogIndex(allArticles) {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="/images/favicon.png">
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blog | DAO Essence — Chinese Metaphysics & Taoist Wisdom</title>
     <meta name="description" content="Explore articles on BaZi astrology, Feng Shui, Five Elements theory, Taoist meditation, Chinese zodiac, and daily Chinese horoscopes.">
