@@ -864,6 +864,7 @@ function generateArticleHtml(post, category, allArticles) {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
     <link rel="icon" type="image/png" href="/images/favicon.png">
     <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -970,6 +971,7 @@ function generateCategoryHtml(category, articles) {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
     <link rel="icon" type="image/png" href="/images/favicon.png">
     <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -1066,6 +1068,7 @@ function generateBlogIndex(allArticles) {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
     <link rel="icon" type="image/png" href="/images/favicon.png">
     <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
