@@ -27,8 +27,8 @@
     var TG_NAMES = {
         '比肩': { cn: '比肩', en: 'Friend', simple: 'Peers & Competition', desc: 'Represents your friends, colleagues, and competition in the same field.' },
         '劫财': { cn: '劫财', en: 'Rob Wealth', simple: 'Financial Leaks', desc: 'Unnecessary spending, money taken by others, or resource competition.' },
-        '食神': { cn: '食神', en: 'Eating God', simple: '', desc: '' },
-        '伤官': { cn: '伤官', en: 'Hurting Officer', simple: '', desc: '' },
+        '食神': { cn: '食神', en: 'Eating God', simple: 'Talent & Enjoyment', desc: 'Represents natural talent, creativity, enjoyment of life, and artistic expression.' },
+        '伤官': { cn: '伤官', en: 'Hurting Officer', simple: 'Brilliance & Rebellion', desc: 'Represents sharp intelligence, innovation, and the drive to challenge conventions.' },
         '偏财': { cn: '偏财', en: 'Indirect Wealth', simple: 'Unexpected Income', desc: 'Represents investment, side hustles, and creative gains — not salary income.' },
         '正财': { cn: '正财', en: 'Direct Wealth', simple: 'Steady Income', desc: 'Represents your salary, main income, and stable finances.' },
         '七杀': { cn: '七杀', en: 'Seven Killings', simple: 'Challenge & Drive', desc: 'Represents pressure, ambition, and boldness — can empower or create conflict.' },
@@ -64,12 +64,32 @@
         return Object.assign({ index: tgIdx }, TG_NAMES[TG_INDEX[tgIdx]]);
     }
 
-    // Format ten god display: show original term, tooltip on hover shows simple + desc
+    // Format ten god display: show cn + simple inline, desc on hover/tap via CSS tooltip
     function tgLabel(tg) {
         if (!tg) return '';
-        var tip = (tg.simple ? tg.simple + '. ' : '') + tg.desc;
-        return '<span class="tg-label" title="' + tip.replace(/"/g, '&quot;') + '">' + tg.cn + '</span>';
+        var tip = tg.desc || '';
+        var html = '<span class="tg-label"' + (tip ? ' data-tip="' + tip.replace(/"/g, '&quot;') + '"' : '') + '>' + tg.cn;
+        if (tg.simple) html += '<span class="tg-simple">' + tg.simple + '</span>';
+        html += '</span>';
+        return html;
     }
+
+    // Mobile: tap to toggle tooltip, tap elsewhere to dismiss
+    document.addEventListener('DOMContentLoaded', function() {
+        if (!('ontouchstart' in window)) return;
+        var active = null;
+        document.addEventListener('click', function(e) {
+            var label = e.target.closest('.tg-label');
+            if (active && active !== label) active.classList.remove('tg-active');
+            if (label && label.dataset.tip) {
+                e.preventDefault();
+                label.classList.toggle('tg-active');
+                active = label.classList.contains('tg-active') ? label : null;
+            } else {
+                active = null;
+            }
+        });
+    });
 
     function getBranchShiShen(branchIdx, dmIdx) {
         var cg = ZCG_TABLE[branchIdx];
