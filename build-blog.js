@@ -37,7 +37,7 @@ const CATEGORY_LABELS = {
   'bazi-astrology': 'BaZi Astrology',
   'zodiac-horoscope': 'Chinese Zodiac',
   'feng-shui': 'Feng Shui',
-  'daily-horoscope': 'Daily Horoscope',
+  'daily-horoscope': 'Daily Chinese Horoscope',
   'lucky-tips': 'Lucky Tips'
 };
 
