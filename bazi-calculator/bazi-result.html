@@ -184,19 +184,22 @@
             display: inline-block; font-size: 0.56rem; color: var(--accent);
             background: var(--accent-bg); border-radius: 3px; padding: 0.02rem 0.35rem; margin-top: 0.12rem;
         }
-        .tg-label { cursor: help; position: relative; white-space: nowrap; }
-        .tg-simple { display: inline-block; margin-left: 0.2rem; font-size: 0.5rem; color: var(--ink-2); font-weight: 400; }
-        .tg-label::after {
+        /* Tooltip on any element with data-tip: hover/tap to show */
+        [data-tip] { position: relative; cursor: help; }
+        [data-tip]::after {
             content: attr(data-tip);
-            position: absolute; bottom: calc(100% + 6px); left: 50%; transform: translateX(-50%);
-            background: var(--ink); color: #fff; font-size: 0.55rem; font-weight: 400; line-height: 1.4;
-            padding: 0.35rem 0.5rem; border-radius: 4px; width: max-content; max-width: 200px;
-            white-space: normal; text-align: center;
+            position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%);
+            background: var(--ink); color: #fff; font-size: 0.6rem; font-weight: 400; line-height: 1.5;
+            padding: 0.4rem 0.55rem; border-radius: 5px; width: max-content; max-width: 220px;
+            white-space: normal; text-align: left;
             opacity: 0; pointer-events: none; transition: opacity 0.2s;
-            z-index: 10;
+            z-index: 100;
         }
-        .tg-label:hover::after,
-        .tg-label.tg-active::after { opacity: 1; pointer-events: auto; }
+        [data-tip]:hover::after,
+        [data-tip].tg-active::after { opacity: 1; pointer-events: auto; }
+        /* Dayun & liunian card tooltip: show below */
+        .dayun-card[data-tip]::after,
+        .ly-card[data-tip]::after { bottom: auto; top: calc(100% + 8px); }
         .pillar-tg-self { color: var(--ink-3); background: var(--line-light); }
         .pillar-hidden { margin-top: 0.25rem; padding-top: 0.25rem; border-top: 1px solid var(--line-light); display: flex; flex-direction: column; gap: 0.08rem; }
         .pillar-cg { font-size: 0.62rem; color: var(--ink-2); }

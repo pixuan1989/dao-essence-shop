@@ -64,27 +64,33 @@
         return Object.assign({ index: tgIdx }, TG_NAMES[TG_INDEX[tgIdx]]);
     }
 
-    // Format ten god display: show cn + simple inline, desc on hover/tap via CSS tooltip
+    // Format ten god display: show cn only
     function tgLabel(tg) {
         if (!tg) return '';
-        var tip = tg.desc || '';
-        var html = '<span class="tg-label"' + (tip ? ' data-tip="' + tip.replace(/"/g, '&quot;') + '"' : '') + '>' + tg.cn;
-        if (tg.simple) html += '<span class="tg-simple">' + tg.simple + '</span>';
-        html += '</span>';
-        return html;
+        return tg.cn;
     }
 
-    // Mobile: tap to toggle tooltip, tap elsewhere to dismiss
+    // Build tooltip text for a ten god
+    function tgTip(tg) {
+        if (!tg) return '';
+        var parts = [];
+        if (tg.en) parts.push(tg.en);
+        if (tg.simple) parts.push(tg.simple);
+        if (tg.desc) parts.push(tg.desc);
+        return parts.join('\n');
+    }
+
+    // Mobile: tap to toggle tooltip on dayun/ly cards and pillar labels, tap elsewhere to dismiss
     document.addEventListener('DOMContentLoaded', function() {
         if (!('ontouchstart' in window)) return;
         var active = null;
         document.addEventListener('click', function(e) {
-            var label = e.target.closest('.tg-label');
-            if (active && active !== label) active.classList.remove('tg-active');
-            if (label && label.dataset.tip) {
+            var target = e.target.closest('[data-tip]');
+            if (active && active !== target) active.classList.remove('tg-active');
+            if (target) {
                 e.preventDefault();
-                label.classList.toggle('tg-active');
-                active = label.classList.contains('tg-active') ? label : null;
+                target.classList.toggle('tg-active');
+                active = target.classList.contains('tg-active') ? target : null;
             } else {
                 active = null;
             }
@@ -640,7 +646,7 @@
                 var dyGanWx = dyGanIdx2 >= 0 ? WX_EN[WX_NAMES[STEM_WX[dyGanIdx2]]] : '';
                 var isCurrent = k === currentDayunIdx;
 
-                dyHTML += '<div class="dayun-card' + (isCurrent ? ' dayun-current' : '') + '" data-dy-index="' + k + '">';
+                dyHTML += '<div class="dayun-card' + (isCurrent ? ' dayun-current' : '') + '" data-dy-index="' + k + '"' + (dyStemTg ? ' data-tip="' + tgTip(dyStemTg).replace(/"/g, '&quot;').replace(/\n/g, ' | ') + '"' : '') + '>';
                 if (isCurrent) dyHTML += '<span class="badge-current">NOW</span>';
                 if (dyStemTg) dyHTML += '<div class="dayun-tg">' + tgLabel(dyStemTg) + '</div>';
                 dyHTML += '<div class="dayun-age">' + dy['zqage'] + '–' + dy['zboz'] + '</div>';
@@ -766,7 +772,7 @@
                         var lyYear = ly['year'] || 0;
                         var isCurrentYear = (lyYear === currentYear);
 
-                        lyHTML += '<div class="ly-card' + (isCurrentYear ? ' ly-current' : '') + '" data-ly-index="' + lyIdx + '" data-ly-year="' + lyYear + '">';
+                        lyHTML += '<div class="ly-card' + (isCurrentYear ? ' ly-current' : '') + '" data-ly-index="' + lyIdx + '" data-ly-year="' + lyYear + '"' + (lyTg ? ' data-tip="' + tgTip(lyTg).replace(/"/g, '&quot;').replace(/\n/g, ' | ') + '"' : '') + '>';
                         if (isCurrentYear) lyHTML += '<span class="badge-now">NOW</span>';
                         if (lyTg) lyHTML += '<div class="ly-tg">' + tgLabel(lyTg) + '</div>';
                         lyHTML += '<div class="ly-year">' + lyYear + '</div>';
