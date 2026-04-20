@@ -58,7 +58,7 @@
               { label: '标签', name: 'tags', widget: 'list', allow_add: true, hint: '添加相关标签（按回车添加）', default: ['八字', '命理'] },
               { label: '描述', name: 'description', widget: 'text', hint: '文章摘要（150-160字，用于SEO）' },
               { label: '发布日期', name: 'date', widget: 'datetime', format: 'YYYY-MM-DD', default: '{{now}}' },
-              { label: '作者', name: 'author', widget: 'string', default: 'DAO Essence' },
+              { label: 'Author', name: 'author', widget: 'select', options: ['Xuanzhen', 'Dingwei'], default: 'Xuanzhen' },
               { label: '阅读时长（分钟）', name: 'readTime', widget: 'number', default: 5, min: 1, max: 60 },
               { label: '首页置顶', name: 'pinned', widget: 'boolean', default: false, required: false, hint: '开启后文章将固定显示在首页文章区域最前面，不会被新文章挤掉' },
               { label: '封面图片', name: 'image', widget: 'image', required: false, hint: '上传封面图（建议尺寸：1200x630）' },

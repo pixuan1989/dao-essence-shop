@@ -653,6 +653,37 @@ function generateArticleHtml(post, category, allArticles) {
       .sort((a, b) => new Date(b.data.date || 0) - new Date(a.data.date || 0))
       .slice(0, 3);
   }
+
+  const AUTHOR_INFO = {
+    'Xuanzhen': {
+      name: 'Master Xuanzhen',
+      title: 'Senior BaZi & Feng Shui Master at DaoEssence',
+      bio: 'Specializing in Chinese metaphysics, BaZi chart analysis, and Feng Shui consultation with over 15 years of experience.'
+    },
+    'Dingwei': {
+      name: 'Master Dingwei',
+      title: 'Chinese Astrology & Five Elements Expert at DaoEssence',
+      bio: 'Focused on Chinese Zodiac forecasting, Five Elements (Wu Xing) theory, and daily horoscope analysis.'
+    }
+  };
+
+  function renderAuthorCard() {
+    const authorName = data.author || 'Xuanzhen';
+    const info = AUTHOR_INFO[authorName] || AUTHOR_INFO['Xuanzhen'];
+    return `
+      <div class="author-card" style="margin:2rem 0;padding:1.5rem;border:1px solid #e8e2d8;border-radius:12px;background:#faf8f5;display:flex;align-items:center;gap:1rem;">
+        <div class="author-card-avatar" style="width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#d4af37,#f5e6c8);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 1 0-16 0"/></svg>
+        </div>
+        <div class="author-card-info" style="flex:1;min-width:0;">
+          <div style="font-size:1rem;font-weight:600;color:#1A1612;">${escapeHtml(info.name)}</div>
+          <div style="font-size:0.82rem;color:#d4af37;margin:2px 0;">${escapeHtml(info.title)}</div>
+          <div style="font-size:0.8rem;color:#888;line-height:1.4;">${escapeHtml(info.bio)}</div>
+        </div>
+      </div>
+    `;
+  }
+
   function renderRelatedPosts() {
     if (relatedPosts.length === 0) return '';
     const cards = relatedPosts.map(p => {
@@ -872,7 +903,7 @@ function generateArticleHtml(post, category, allArticles) {
         "headline": "${escapeHtml(data.title)}",
         "description": "${escapeHtml(data.description || '')}",
         "image": "${data.image || SITE_URL + '/images/og-default.jpg'}",
-        "author": {"@type": "Organization", "name": "${escapeHtml(data.author || 'DAO Essence')}"},
+        "author": {"@type": "Person", "name": "${escapeHtml(data.author || 'Xuanzhen')}"},
         "publisher": {"@type": "Organization", "name": "DAO Essence", "logo": {"@type": "ImageObject", "url": "${SITE_URL}/images/og-default.jpg"}},
         "datePublished": "${data.date || ''}",
         "dateModified": "${data.date || ''}",
@@ -891,7 +922,7 @@ ${NAV_HTML}
             <h1>${escapeHtml(data.title)}</h1>
             ${data.image ? `<img src="${data.image}" alt="${escapeHtml(data.title)}" style="max-width:100%;border-radius:12px;margin:1.5rem 0;">` : ''}
             <div class="blog-meta">
-                <span>By ${escapeHtml(data.author || 'DAO Essence')}</span>
+                <span>By ${escapeHtml(data.author || 'Xuanzhen')}</span>
                 ${dateFormatted ? ` · <span>${dateFormatted}</span>` : ''}
                 ${data.readTime ? ` · <span>${data.readTime} min read</span>` : ''}
             </div>
@@ -899,6 +930,7 @@ ${NAV_HTML}
             ${finalBody}
         </article>
 
+        ${renderAuthorCard()}
         ${renderRelatedPosts()}
         </div>
 
@@ -929,7 +961,7 @@ function generateCategoryHtml(category, articles) {
                     <h2>${escapeHtml(a.data.title)}</h2>
                     <p>${escapeHtml(a.data.description || '')}</p>
                     <div class="blog-card-meta">
-                        <span>${escapeHtml(a.data.author || 'DAO Essence')}</span>
+                        <span>${escapeHtml(a.data.author || 'Xuanzhen')}</span>
                         ${a.data.readTime ? `<span>·</span><span>${a.data.readTime} min read</span>` : ''}
                     </div>
                 </div>
@@ -1023,7 +1055,7 @@ function generateBlogIndex(allArticles) {
                         <h2>${escapeHtml(a.data.title)}</h2>
                         <p>${escapeHtml(a.data.description || '')}</p>
                         <div class="blog-card-meta">
-                            <span>${escapeHtml(a.data.author || 'DAO Essence')}</span>
+                            <span>${escapeHtml(a.data.author || 'Xuanzhen')}</span>
                             ${a.data.readTime ? `<span>·</span><span>${a.data.readTime} min read</span>` : ''}
                         </div>
                     </div>
@@ -1308,7 +1340,7 @@ async function main() {
                         <h3>${escapeHtml(post.data.title)}</h3>
                         <p>${escapeHtml(post.data.description || '')}</p>
                         <div class="article-card-meta">
-                            <span>${escapeHtml(post.data.author || 'DAO Essence')}</span>
+                            <span>${escapeHtml(post.data.author || 'Xuanzhen')}</span>
                             ${dateStr ? `<span>${dateStr}</span>` : ''}
                             ${post.data.readTime ? `<span>${post.data.readTime} min read</span>` : ''}
                         </div>
