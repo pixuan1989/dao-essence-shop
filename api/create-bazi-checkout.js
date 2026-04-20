@@ -190,6 +190,23 @@ export default async function handler(req, res) {
             if (intentIds.length > 500) intentIds = intentIds.slice(0, 500);
             await redisSet('checkout_intent_ids', intentIds);
             console.log(`📝 八字付费意向已记录: ${orderId}`);
+
+            // 追加营销池（有邮箱就加）
+            if (email) {
+                const normalizedEmail = email.trim().toLowerCase();
+                let subscribers = await redisGet('marketing_subscribers') || [];
+                const exists = subscribers.some(s => s.email && s.email.toLowerCase() === normalizedEmail);
+                if (!exists) {
+                    subscribers.unshift({
+                        email: normalizedEmail,
+                        name: name || '',
+                        source: 'bazi_intent',
+                        subscribedAt: new Date().toISOString()
+                    });
+                    await redisSet('marketing_subscribers', subscribers);
+                    console.log(`📬 Added ${normalizedEmail} to marketing pool (bazi intent), total: ${subscribers.length}`);
+                }
+            }
         } catch (intentErr) {
             console.error('⚠️ 记录付费意向失败（非致命）:', intentErr.message);
         }
