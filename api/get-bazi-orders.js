@@ -51,7 +51,7 @@ export default async function handler(req, res) {
             return handleLeadsQuery(res);
         }
 
-        // ===== 默认：八字订单 + 五行测试（原有逻辑） =====
+        // ===== 默认：八字订单 + 付费意向 =====
         return handleBaziOrders(res);
 
     } catch (error) {
@@ -87,6 +87,10 @@ async function handleDelete(req, res) {
         case 'wuxing_quiz':
             keysToDelete = [`wuxing_lead:${id}`];
             indexKey = 'wuxing_lead_ids';
+            break;
+        case 'intent':
+            keysToDelete = [`checkout_intent:${id}`];
+            indexKey = 'checkout_intent_ids';
             break;
         case 'contact':
             // 联系表单是数组存储在 contact_subscribers
@@ -181,6 +185,13 @@ async function handleUnreadCount(res) {
         if (t > lastRead) newLeads++;
     }
 
+    // 付费意向（未支付）
+    const intentIds = await redisGet('checkout_intent_ids') || [];
+    for (const id of intentIds) {
+        const intent = await redisGet(`checkout_intent:${id}`);
+        if (intent && new Date(intent.createdAt).getTime() > lastRead) newOrders++;
+    }
+
     return res.status(200).json({
         success: true,
         newOrders,
@@ -189,7 +200,7 @@ async function handleUnreadCount(res) {
     });
 }
 
-// ========== 八字订单 + 五行测试 ==========
+// ========== 八字订单 + 付费意向（未支付） ==========
 async function handleBaziOrders(res) {
     try {
         const orderIds = await redisGet('bazi_order_ids') || [];
@@ -199,18 +210,14 @@ async function handleBaziOrders(res) {
             console.log('📭 Redis 中暂无订单数据');
             // 尝试从 Creem API 回填
             const backfilled = await backfillFromCreem();
-            // 同时尝试读取 quiz leads
-            try {
-                const quizLeadIds = await redisGet('wuxing_lead_ids') || [];
-                for (const id of quizLeadIds) {
-                    const lead = await redisGet(`wuxing_lead:${id}`);
-                    if (lead) { lead.type = 'wuxing_quiz'; backfilled.push(lead); }
-                }
-            } catch (e) { /* ignore */ }
+            // 同时读取付费意向
+            const intents = await getPendingIntents();
+            const allItems = [...intents, ...backfilled];
             return res.status(200).json({
                 success: true,
-                orders: backfilled,
-                total: backfilled.length,
+                orders: allItems,
+                total: allItems.length,
+                pendingIntents: intents.length,
                 source: 'creem_api_backfill'
             });
         }
@@ -228,33 +235,20 @@ async function handleBaziOrders(res) {
             }
         }
 
-        console.log(`✅ 从 Redis 读取 ${orders.length} 笔订单`);
+        console.log(`✅ 从 Redis 读取 ${orders.length} 笔八字订单`);
 
-        // 同时读取五行测试 leads
-        try {
-            const quizLeadIds = await redisGet('wuxing_lead_ids') || [];
-            console.log(`🎯 五行测试 Leads: ${quizLeadIds.length} 条`);
-            for (const id of quizLeadIds) {
-                try {
-                    const lead = await redisGet(`wuxing_lead:${id}`);
-                    if (lead) {
-                        lead.type = 'wuxing_quiz';
-                        orders.push(lead);
-                    }
-                } catch (err) {
-                    console.error(`❌ 读取 quiz lead ${id} 失败:`, err.message);
-                }
-            }
-        } catch (err) {
-            console.error('❌ 读取五行测试 leads 失败:', err.message);
-        }
+        // 获取付费意向（未支付的）
+        const intents = await getPendingIntents();
+        console.log(`📝 付费意向（未支付）: ${intents.length} 条`);
 
-        console.log(`✅ 合计 ${orders.length} 条数据（含 quiz leads）`);
+        // 合并：intents 在前（未支付优先显示）
+        const allItems = [...intents, ...orders];
 
         return res.status(200).json({
             success: true,
-            orders: orders,
-            total: orders.length,
+            orders: allItems,
+            total: allItems.length,
+            pendingIntents: intents.length,
             source: 'redis'
         });
 
@@ -262,10 +256,32 @@ async function handleBaziOrders(res) {
         console.error('❌ 获取八字订单错误:', error);
         try {
             const backfilled = await backfillFromCreem();
-            return res.status(200).json({ success: true, orders: backfilled, total: backfilled.length, source: 'creem_api_fallback' });
+            const intents = await getPendingIntents();
+            const allItems = [...intents, ...backfilled];
+            return res.status(200).json({ success: true, orders: allItems, total: allItems.length, pendingIntents: intents.length, source: 'creem_api_fallback' });
         } catch (fallbackError) {
             return res.status(500).json({ error: '获取订单失败', detail: error.message });
         }
+    }
+}
+
+// ========== 获取待处理的付费意向 ==========
+async function getPendingIntents() {
+    try {
+        const intentIds = await redisGet('checkout_intent_ids') || [];
+        const intents = [];
+        for (const id of intentIds) {
+            try {
+                const intent = await redisGet(`checkout_intent:${id}`);
+                if (intent) {
+                    intent._isPending = true;
+                    intents.push(intent);
+                }
+            } catch (err) { /* skip */ }
+        }
+        return intents;
+    } catch (err) {
+        return [];
     }
 }
 

@@ -23,7 +23,7 @@
  * }
  */
 
-import { getRedis, redisGet, redisSet } from '../../shared/redis.js';
+import { getRedis, redisGet, redisSet, redisDel } from '../../shared/redis.js';
 
 // 黄历解锁产品 ID
 const ALMANAC_PRODUCT_ID = 'prod_3fJInBNekM9UVJwtClgUtx';
@@ -64,6 +64,17 @@ export default async function handler(req, res) {
                 console.log('💰 Order amount:', order.amount, order.currency);
 
                 const orderId = metadata.order_id || order.id || checkout.id;
+
+                // 支付完成 → 清除对应的付费意向记录
+                try {
+                    await redisDel(`checkout_intent:${orderId}`);
+                    let intentIds = await redisGet('checkout_intent_ids') || [];
+                    intentIds = intentIds.filter(id => id !== orderId);
+                    await redisSet('checkout_intent_ids', intentIds);
+                    console.log(`🗑️ 已清除付费意向: ${orderId}`);
+                } catch (intentErr) {
+                    console.error('⚠️ 清除付费意向失败（非致命）:', intentErr.message);
+                }
 
                 // 计算金额（Creem 以分为单位）
                 const amountInCents = order.amount || checkout.amount || 0;

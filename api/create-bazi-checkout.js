@@ -7,6 +7,8 @@
  * ============================================
  */
 
+import { redisGet, redisSet, redisDel } from '../shared/redis.js';
+
 /**
  * 根据产品 ID 获取 Creem Product ID（生产模式，直接返回）
  * @param {string} productId - 产品 ID
@@ -162,6 +164,35 @@ export default async function handler(req, res) {
 
         console.log(`✅ Checkout 创建成功: ${result.id}`);
         console.log(`   回调URL: ${result.checkout_url}`);
+
+        // 记录付费意向（用于后台"未处理"标记）
+        try {
+            const intentData = {
+                id: orderId,
+                orderId: orderId,
+                checkoutId: result.id || '',
+                productName: 'BaZi Reading',
+                productId: product_id,
+                amount: 0,
+                name: name || '',
+                email: email || '',
+                birthYear: String(birth_year),
+                birthMonth: String(birth_month),
+                birthDay: String(birth_day),
+                birthHour: String(birth_hour),
+                gender: gender,
+                createdAt: new Date().toISOString(),
+                status: 'pending'
+            };
+            await redisSet(`checkout_intent:${orderId}`, intentData);
+            let intentIds = await redisGet('checkout_intent_ids') || [];
+            intentIds.unshift(orderId);
+            if (intentIds.length > 500) intentIds = intentIds.slice(0, 500);
+            await redisSet('checkout_intent_ids', intentIds);
+            console.log(`📝 八字付费意向已记录: ${orderId}`);
+        } catch (intentErr) {
+            console.error('⚠️ 记录付费意向失败（非致命）:', intentErr.message);
+        }
 
         return res.status(200).json({
             success: true,

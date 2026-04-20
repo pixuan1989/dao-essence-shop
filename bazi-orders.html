@@ -741,8 +741,8 @@
                 </select>
                 <select id="sourceFilter">
                     <option value="">全部来源</option>
-                    <option value="order">八字订单</option>
-                    <option value="wuxing_quiz">五行测试</option>
+                    <option value="order">付费订单</option>
+                    <option value="pending">未支付</option>
                 </select>
                 <input type="date" id="dateFilter">
                 <button class="btn btn-primary" onclick="refreshOrders()">🔄 刷新</button>
@@ -1069,15 +1069,49 @@
             emptyState.style.display = 'none';
 
             tbody.innerHTML = filteredOrders.map(item => {
-                if (item.type === 'wuxing_quiz') {
-                    return renderQuizRow(item);
-                } else {
-                    return renderOrderRow(item);
-                }
+                return renderOrderRow(item);
             }).join('');
         }
 
         function renderOrderRow(order) {
+            // 付费意向（未支付）的特殊渲染
+            if (order._isPending) {
+                return `
+                <tr style="background: #fff8e1;">
+                    <td>
+                        <strong style="color: #e65100;">${order.orderId?.slice(-8) || 'N/A'}</strong>
+                        <br><small style="color: #999;">${order.checkoutId?.slice(-12) || ''}</small>
+                    </td>
+                    <td>
+                        <strong>${order.name || '-'}</strong>
+                        <br>
+                        <a href="mailto:${order.email}" class="email-link">${order.email || '-'}</a>
+                    </td>
+                    <td>
+                        <div class="bazi-info">
+                            ${order.birthYear ? '<span><strong>年:</strong> ' + order.birthYear + '</span>' : ''}
+                            ${order.birthMonth ? '<span><strong>月:</strong> ' + order.birthMonth + '</span>' : ''}
+                            ${order.birthDay ? '<span><strong>日:</strong> ' + order.birthDay + '</span>' : ''}
+                            ${order.gender ? '<span><strong>性别:</strong> ' + (order.gender === 'male' ? '男' : order.gender === 'female' ? '女' : order.gender) + '</span>' : ''}
+                        </div>
+                    </td>
+                    <td>
+                        <strong style="color: #e65100;">$${order.amount || '0.00'}</strong>
+                    </td>
+                    <td>
+                        <span class="status-badge" style="background: rgba(230,81,0,0.12); color: #e65100;">${order.productName || '付费意向'}</span>
+                    </td>
+                    <td>
+                        <span class="status-badge" style="background: #ff3d00; color: #fff; font-weight: 600;">未支付</span>
+                    </td>
+                    <td>
+                        ${formatDate(order.createdAt)}
+                    </td>
+                    <td>
+                        <button class="btn-delete" onclick="requestDelete('intent','${order.orderId}','${(order.name||order.productName||'').replace(/'/g,"\\'")}意向')">删除</button>
+                    </td>
+                </tr>
+            `;
             return `
                 <tr>
                     <td>
@@ -1184,8 +1218,12 @@
 
             return orders.filter(order => {
                 // 来源筛选
-                if (sourceFilter === 'order' && order.type === 'wuxing_quiz') return false;
-                if (sourceFilter === 'wuxing_quiz' && order.type !== 'wuxing_quiz') return false;
+                if (sourceFilter === 'order' && order._isPending) return false;
+                if (sourceFilter === 'pending' && !order._isPending) return false;
+
+                // 状态筛选：pending 匹配 _isPending
+                if (statusFilter === 'pending' && !order._isPending) return false;
+                if (statusFilter === 'paid' && order._isPending) return false;
 
                 const matchesSearch = !searchTerm ||
                     (order.name && order.name.toLowerCase().includes(searchTerm)) ||
@@ -1193,19 +1231,19 @@
                     (order.orderId && order.orderId.toLowerCase().includes(searchTerm)) ||
                     (order.id && order.id.toLowerCase().includes(searchTerm));
 
-                const matchesStatus = !statusFilter || order.status === statusFilter;
+                const matchesStatus2 = !statusFilter || order.status === statusFilter;
 
                 const orderDate = order.createdAt || order.collectedAt;
                 const matchesDate = !dateFilter ||
                     (orderDate && orderDate.startsWith(dateFilter));
 
-                return matchesSearch && matchesStatus && matchesDate;
+                return matchesSearch && matchesStatus2 && matchesDate;
             });
         }
 
         function updateStats() {
-            const realOrders = orders.filter(o => o.type !== 'wuxing_quiz');
-            const quizLeads = orders.filter(o => o.type === 'wuxing_quiz');
+            const realOrders = orders.filter(o => !o._isPending && o.type !== 'wuxing_quiz');
+            const pendingIntents = orders.filter(o => o._isPending);
 
             document.getElementById('totalOrders').textContent = realOrders.length;
 
@@ -1213,7 +1251,8 @@
             const todayCount = realOrders.filter(o => o.createdAt && o.createdAt.startsWith(today)).length;
             document.getElementById('todayOrders').textContent = todayCount;
 
-            const pendingCount = realOrders.filter(o => o.status === 'pending').length;
+            // 未支付 = 付费意向（未支付） + 订单中 status=pending 的
+            const pendingCount = pendingIntents.length + realOrders.filter(o => o.status === 'pending').length;
             document.getElementById('pendingOrders').textContent = pendingCount;
 
             const totalRevenue = realOrders
@@ -1221,7 +1260,8 @@
                 .reduce((sum, o) => sum + parseFloat(o.amount || 0), 0);
             document.getElementById('totalRevenue').textContent = `$${totalRevenue.toFixed(2)}`;
 
-            document.getElementById('totalQuizLeads').textContent = quizLeads.length;
+            // 五行测试留资数量（从留资 Tab 获取，不在此显示）
+            document.getElementById('totalQuizLeads').textContent = '0';
         }
 
         function viewOrder(orderId) {

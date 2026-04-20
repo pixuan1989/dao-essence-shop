@@ -6,6 +6,8 @@
  * ============================================
  */
 
+import { redisGet, redisSet, redisDel } from '../shared/redis.js';
+
 /**
  * 根据购物车 items 获取对应的 Creem Product ID
  * @param {Array} items - 购物车商品列表
@@ -162,6 +164,19 @@ export default async function handler(req, res) {
                     console.log(`📥 响应 (JSON):`);
                     console.log(JSON.stringify(discountResult, null, 2));
                     console.log('======================================');
+                    // 记录付费意向
+                    try {
+                        const intentData = {
+                            id: orderId, orderId, checkoutId: discountResult.id || '',
+                            productName, productId, amount: subtotal,
+                            createdAt: new Date().toISOString(), status: 'pending'
+                        };
+                        await redisSet(`checkout_intent:${orderId}`, intentData);
+                        let intentIds = await redisGet('checkout_intent_ids') || [];
+                        intentIds.unshift(orderId);
+                        if (intentIds.length > 500) intentIds = intentIds.slice(0, 500);
+                        await redisSet('checkout_intent_ids', intentIds);
+                    } catch (e) { console.error('⚠️ 记录付费意向失败:', e.message); }
                     return res.status(200).json({
                         success: true,
                         checkoutUrl: discountResult.checkout_url,
@@ -190,6 +205,28 @@ export default async function handler(req, res) {
         if (!result.checkout_url) {
             console.error('Creem API 响应缺少 checkout_url');
             return res.status(500).json({ error: '支付系统响应错误' });
+        }
+
+        // 记录付费意向（用于后台"未处理"标记）
+        try {
+            const intentData = {
+                id: orderId,
+                orderId: orderId,
+                checkoutId: result.id || '',
+                productName: productName,
+                productId: productId,
+                amount: subtotal,
+                createdAt: new Date().toISOString(),
+                status: 'pending'
+            };
+            await redisSet(`checkout_intent:${orderId}`, intentData);
+            let intentIds = await redisGet('checkout_intent_ids') || [];
+            intentIds.unshift(orderId);
+            if (intentIds.length > 500) intentIds = intentIds.slice(0, 500);
+            await redisSet('checkout_intent_ids', intentIds);
+            console.log(`📝 付费意向已记录: ${orderId}`);
+        } catch (intentErr) {
+            console.error('⚠️ 记录付费意向失败（非致命）:', intentErr.message);
         }
 
         return res.status(200).json({
