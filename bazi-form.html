@@ -700,6 +700,12 @@
                     <!-- 提交按钮 -->
                     <button type="submit" class="submit-btn">Continue to Payment</button>
 
+                    <!-- Privacy consent -->
+                    <label style="display:flex;align-items:flex-start;gap:8px;margin-top:10px;font-size:0.82rem;color:var(--text-tertiary, #888);cursor:pointer;user-select:none;grid-column:1/-1;">
+                        <input type="checkbox" id="bazi-form-consent" style="margin-top:3px;accent-color:var(--accent-color,#d4af37);" />
+                        I agree to the <a href="/privacy" style="color:var(--accent-color,#d4af37);text-decoration:underline;">Privacy Policy</a> — my birth data will be used solely for my BaZi reading and will not be shared with third parties.
+                    </label>
+
                     <!-- 流程步骤（放在提交按钮后面，紧凑展示） -->
                     <div class="bazi-process-steps" style="grid-column: 1 / -1;">
                         <div class="bazi-step">
@@ -889,6 +895,13 @@
         // 走后端创建 Checkout Session，将八字数据写入 metadata
         document.getElementById('baziForm').addEventListener('submit', async function(e) {
             e.preventDefault();
+
+            // Consent check
+            const consentBox = document.getElementById('bazi-form-consent');
+            if (consentBox && !consentBox.checked) {
+                alert('Please agree to the Privacy Policy before submitting.');
+                return;
+            }
 
             const btn = this.querySelector('.submit-btn');
             btn.textContent = 'Processing...';

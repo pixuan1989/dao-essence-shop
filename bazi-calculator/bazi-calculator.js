@@ -73,6 +73,17 @@
 
     // ==================== CALCULATE ====================
     function calculate() {
+        // Consent check
+        var consentBox = document.getElementById('bazi-consent');
+        if (consentBox && !consentBox.checked) {
+            var container = document.getElementById('bazi-result');
+            if (container) {
+                container.style.display = 'block';
+                container.innerHTML = '<div class="bazi-error">Please agree to the Privacy Policy before calculating.</div>';
+            }
+            return;
+        }
+
         var yy = parseInt(document.getElementById('bazi-year').value);
         var mm = parseInt(document.getElementById('bazi-month').value);
         var dd = parseInt(document.getElementById('bazi-day').value);

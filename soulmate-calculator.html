@@ -1009,6 +1009,10 @@
                 <button class="sc-btn-primary" id="sc-calculate-btn" onclick="scCalculate()">
                     <span>Reveal My Soulmate Direction &rarr;</span>
                 </button>
+                <label style="display:flex;align-items:flex-start;gap:8px;margin-top:14px;font-size:0.78rem;color:rgba(180,140,160,0.7);cursor:pointer;user-select:none;">
+                    <input type="checkbox" id="sc-consent" style="margin-top:3px;accent-color:#e8b4b8;" />
+                    I agree to the <a href="/privacy" style="color:#e8b4b8;text-decoration:underline;">Privacy Policy</a> — my birth data will be used solely for this reading and will not be stored.
+                </label>
                 <p class="sc-form-note">Free reading &middot; No sign-up &middot; Based on BaZi &amp; Five Elements astrology</p>
             </div>
 
@@ -1552,6 +1556,13 @@
 
     // ===== MAIN CALCULATION =====
     function scCalculate() {
+        // Consent check
+        var consentBox = document.getElementById('sc-consent');
+        if (consentBox && !consentBox.checked) {
+            alert('Please agree to the Privacy Policy before calculating.');
+            return;
+        }
+
         var year = parseInt(document.getElementById('sc-year').value);
         var month = parseInt(document.getElementById('sc-month').value);
         var day = parseInt(document.getElementById('sc-day').value);
