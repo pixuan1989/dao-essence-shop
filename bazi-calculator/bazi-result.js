@@ -25,16 +25,16 @@
 
     // ==================== TEN GODS ENGINE ====================
     var TG_NAMES = {
-        '比肩': { cn: '比肩', en: 'Friend' },
-        '劫财': { cn: '劫财', en: 'Rob Wealth' },
-        '食神': { cn: '食神', en: 'Eating God' },
-        '伤官': { cn: '伤官', en: 'Hurting Officer' },
-        '偏财': { cn: '偏财', en: 'Unconv. Wealth' },
-        '正财': { cn: '正财', en: 'Direct Wealth' },
-        '七杀': { cn: '七杀', en: 'Seven Killings' },
-        '正官': { cn: '正官', en: 'Direct Officer' },
-        '偏印': { cn: '偏印', en: 'Indirect Resource' },
-        '正印': { cn: '正印', en: 'Direct Resource' }
+        '比肩': { cn: '比肩', en: 'Friend', simple: 'Peers & Competition', desc: 'Represents your friends, colleagues, and competition in the same field.' },
+        '劫财': { cn: '劫财', en: 'Rob Wealth', simple: 'Financial Leaks', desc: 'Unnecessary spending, money taken by others, or resource competition.' },
+        '食神': { cn: '食神', en: 'Eating God', simple: '', desc: '' },
+        '伤官': { cn: '伤官', en: 'Hurting Officer', simple: '', desc: '' },
+        '偏财': { cn: '偏财', en: 'Indirect Wealth', simple: 'Unexpected Income', desc: 'Represents investment, side hustles, and creative gains — not salary income.' },
+        '正财': { cn: '正财', en: 'Direct Wealth', simple: 'Steady Income', desc: 'Represents your salary, main income, and stable finances.' },
+        '七杀': { cn: '七杀', en: 'Seven Killings', simple: 'Challenge & Drive', desc: 'Represents pressure, ambition, and boldness — can empower or create conflict.' },
+        '正官': { cn: '正官', en: 'Direct Officer', simple: 'Career & Reputation', desc: 'Represents your work, social status, responsibility, and rules.' },
+        '偏印': { cn: '偏印', en: 'Indirect Resource', simple: 'Intuition & Insight', desc: 'Represents inspiration, metaphysical talent, and unorthodox learning.' },
+        '正印': { cn: '正印', en: 'Direct Resource', simple: 'Knowledge & Support', desc: 'Represents education, mentors, and the protection of elders and benefactors.' }
     };
     // Career/life keywords per ten god (compact lookup)
     var TG_KEYWORDS = {
@@ -62,6 +62,13 @@
     function getStemShiShen(stemIdx, dmIdx) {
         var tgIdx = DGS_TABLE[dmIdx][stemIdx];
         return Object.assign({ index: tgIdx }, TG_NAMES[TG_INDEX[tgIdx]]);
+    }
+
+    // Format ten god display: show original term, tooltip on hover shows simple + desc
+    function tgLabel(tg) {
+        if (!tg) return '';
+        var tip = (tg.simple ? tg.simple + '. ' : '') + tg.desc;
+        return '<span class="tg-label" title="' + tip.replace(/"/g, '&quot;') + '">' + tg.cn + '</span>';
     }
 
     function getBranchShiShen(branchIdx, dmIdx) {
@@ -280,7 +287,7 @@
         html += sorted.slice(0, 3).map(function(cn) {
             var tg = TG_NAMES[cn];
             var kw = TG_KEYWORDS[cn];
-            return '<strong>' + tg.en + '</strong> (' + tgCount[cn] + 'x)<br><span style="color:var(--ink-2)">' + kw.career + '</span><br><span style="color:var(--ink-3);font-size:0.75rem">' + kw.life + '</span>';
+            return '<strong>' + tgLabel(tg) + '</strong> (' + tgCount[cn] + 'x)<br><span style="color:var(--ink-2)">' + kw.career + '</span><br><span style="color:var(--ink-3);font-size:0.75rem">' + kw.life + '</span>';
         }).join('<hr style="border:none;border-top:1px solid var(--line-light);margin:0.4rem 0">');
         html += '</span></div>';
         html += '</div>';
@@ -354,7 +361,7 @@
             var kw = TG_KEYWORDS[stemTg.cn] || {};
             var tgEn = stemTg.en;
             html += '<div class="detail-card" style="margin-bottom:0.5rem">';
-            html += '<div class="detail-card-header"><strong>' + tgEn + '</strong> — What This Means for You</div>';
+            html += '<div class="detail-card-header"><strong>' + tgLabel(stemTg) + '</strong> — What This Means for You</div>';
             html += '<div class="detail-card-body" style="line-height:1.65">';
             html += '<div class="detail-row" style="margin-bottom:0.4rem"><span class="detail-key">💼 Career Direction: </span>' + kw.career + '</div>';
             html += '<div class="detail-row" style="margin-bottom:0.4rem"><span class="detail-key">🌙 Life Theme: </span>' + kw.life + '</div>';
@@ -420,7 +427,7 @@
             var kw = TG_KEYWORDS[stemTg.cn] || {};
             var extraAdvice = getLiunianAdvice(stemTg.cn);
             html += '<div class="detail-card" style="margin-bottom:0.5rem">';
-            html += '<div class="detail-card-header"><strong>' + stemTg.en + '</strong> — What This Means for You</div>';
+            html += '<div class="detail-card-header"><strong>' + tgLabel(stemTg) + '</strong> — What This Means for You</div>';
             html += '<div class="detail-card-body" style="line-height:1.65">';
             html += '<div class="detail-row" style="margin-bottom:0.4rem"><span class="detail-key">💼 Career: </span>' + kw.career + '</div>';
             html += '<div class="detail-row" style="margin-bottom:0.4rem"><span class="detail-key">🌙 Life: </span>' + kw.life + '</div>';
@@ -571,7 +578,7 @@
             pillarsHTML += '<span class="pillar-char">' + gan + '</span>';
             pillarsHTML += '<span class="pillar-wx" style="color:' + WX_COLORS[ganWx] + '">' + ganYin + ' ' + WX_EN[ganWx] + '</span>';
             if (ganTg) {
-                pillarsHTML += '<span class="pillar-tg">' + ganTg.en + '</span>';
+                pillarsHTML += '<span class="pillar-tg">' + tgLabel(ganTg) + '</span>';
             } else {
                 pillarsHTML += '<span class="pillar-tg pillar-tg-self">Day Master</span>';
             }
@@ -603,7 +610,7 @@
             if (currentDayunIdx >= 0) {
                 var cdy = rt['dy'][currentDayunIdx];
                 var cdyTg = getStemShiShen(STEMS.indexOf(cdy['zfma']), dmIdx);
-                dyHTML += '<p class="current-hint">Currently in: <strong>' + (cdyTg ? cdyTg.en : '') + '</strong> period · Age ' + cdy['zqage'] + '–' + cdy['zboz'] + ' · ' + cdy['syear'] + '–' + cdy['eyear'] + '</p>';
+                dyHTML += '<p class="current-hint">Currently in: <strong>' + (cdyTg ? tgLabel(cdyTg) : '') + '</strong> period · Age ' + cdy['zqage'] + '–' + cdy['zboz'] + ' · ' + cdy['syear'] + '–' + cdy['eyear'] + '</p>';
             }
             dyHTML += '<div class="dayun-grid">';
             for (var k = 0; k < Math.min(rt['dy'].length, 8); k++) {
@@ -615,7 +622,7 @@
 
                 dyHTML += '<div class="dayun-card' + (isCurrent ? ' dayun-current' : '') + '" data-dy-index="' + k + '">';
                 if (isCurrent) dyHTML += '<span class="badge-current">NOW</span>';
-                if (dyStemTg) dyHTML += '<div class="dayun-tg">' + dyStemTg.en + '</div>';
+                if (dyStemTg) dyHTML += '<div class="dayun-tg">' + tgLabel(dyStemTg) + '</div>';
                 dyHTML += '<div class="dayun-age">' + dy['zqage'] + '–' + dy['zboz'] + '</div>';
                 dyHTML += '<div class="dayun-years">' + dy['syear'] + '–' + dy['eyear'] + '</div>';
                 dyHTML += '</div>';
@@ -741,7 +748,7 @@
 
                         lyHTML += '<div class="ly-card' + (isCurrentYear ? ' ly-current' : '') + '" data-ly-index="' + lyIdx + '" data-ly-year="' + lyYear + '">';
                         if (isCurrentYear) lyHTML += '<span class="badge-now">NOW</span>';
-                        if (lyTg) lyHTML += '<div class="ly-tg">' + lyTg.en + '</div>';
+                        if (lyTg) lyHTML += '<div class="ly-tg">' + tgLabel(lyTg) + '</div>';
                         lyHTML += '<div class="ly-year">' + lyYear + '</div>';
                         lyHTML += '</div>';
                     });
