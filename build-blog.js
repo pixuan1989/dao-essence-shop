@@ -565,6 +565,30 @@ function copyDirSync(src, dest, excludeDirs = []) {
   }
 }
 
+const AUTHOR_INFO = {
+  'Xuanzhen': {
+    name: 'Master Xuanzhen',
+    title: 'Senior BaZi & Feng Shui Master at DaoEssence',
+    bio: 'Specializing in Chinese metaphysics, BaZi chart analysis, and Feng Shui consultation with over 15 years of experience.'
+  },
+  'Dingwei': {
+    name: 'Master Dingwei',
+    title: 'Chinese Astrology & Five Elements Expert at DaoEssence',
+    bio: 'Focused on Chinese Zodiac forecasting, Five Elements (Wu Xing) theory, and daily horoscope analysis.'
+  }
+};
+
+// Normalize author name: map old values to valid AUTHOR_INFO keys, default to Xuanzhen
+function normalizeAuthor(author) {
+  if (!author) return 'Xuanzhen';
+  const a = String(author).trim();
+  if (AUTHOR_INFO[a]) return a;
+  const lower = a.toLowerCase();
+  if (lower.includes('xuanzhen') || lower.includes('xuan')) return 'Xuanzhen';
+  if (lower.includes('dingwei') || lower.includes('ding')) return 'Dingwei';
+  return 'Xuanzhen';
+}
+
 function generateSlug(filename, data, existingSlugs) {
   // Remove .md extension and surrounding quotes
   let base = filename.replace(/\.md$/, '').replace(/^["'""'']+|["'""'']+$/g, '');
@@ -654,18 +678,6 @@ function generateArticleHtml(post, category, allArticles) {
       .slice(0, 3);
   }
 
-  const AUTHOR_INFO = {
-    'Xuanzhen': {
-      name: 'Master Xuanzhen',
-      title: 'Senior BaZi & Feng Shui Master at DaoEssence',
-      bio: 'Specializing in Chinese metaphysics, BaZi chart analysis, and Feng Shui consultation with over 15 years of experience.'
-    },
-    'Dingwei': {
-      name: 'Master Dingwei',
-      title: 'Chinese Astrology & Five Elements Expert at DaoEssence',
-      bio: 'Focused on Chinese Zodiac forecasting, Five Elements (Wu Xing) theory, and daily horoscope analysis.'
-    }
-  };
 
 
 
@@ -888,7 +900,7 @@ function generateArticleHtml(post, category, allArticles) {
         "headline": "${escapeHtml(data.title)}",
         "description": "${escapeHtml(data.description || '')}",
         "image": "${data.image || SITE_URL + '/images/og-default.jpg'}",
-        "author": {"@type": "Person", "name": "${escapeHtml(data.author || 'Xuanzhen')}"},
+        "author": {"@type": "Person", "name": "${escapeHtml(normalizeAuthor(data.author))}"},
         "publisher": {"@type": "Organization", "name": "DAO Essence", "logo": {"@type": "ImageObject", "url": "${SITE_URL}/images/og-default.jpg"}},
         "datePublished": "${data.date || ''}",
         "dateModified": "${data.date || ''}",
@@ -907,7 +919,7 @@ ${NAV_HTML}
             <h1>${escapeHtml(data.title)}</h1>
             ${data.image ? `<img src="${data.image}" alt="${escapeHtml(data.title)}" style="max-width:100%;border-radius:12px;margin:1.5rem 0;">` : ''}
             <div class="blog-meta">
-                <span>By ${escapeHtml(data.author || 'Xuanzhen')}</span>
+                <span>By ${escapeHtml(normalizeAuthor(data.author))}</span>
                 ${dateFormatted ? ` · <span>${dateFormatted}</span>` : ''}
                 ${data.readTime ? ` · <span>${data.readTime} min read</span>` : ''}
             </div>
@@ -945,7 +957,7 @@ function generateCategoryHtml(category, articles) {
                     <h2>${escapeHtml(a.data.title)}</h2>
                     <p>${escapeHtml(a.data.description || '')}</p>
                     <div class="blog-card-meta">
-                        <span>${escapeHtml(a.data.author || 'Xuanzhen')}</span>
+                        <span>${escapeHtml(normalizeAuthor(a.data.author))}</span>
                         ${a.data.readTime ? `<span>·</span><span>${a.data.readTime} min read</span>` : ''}
                     </div>
                 </div>
@@ -1039,7 +1051,7 @@ function generateBlogIndex(allArticles) {
                         <h2>${escapeHtml(a.data.title)}</h2>
                         <p>${escapeHtml(a.data.description || '')}</p>
                         <div class="blog-card-meta">
-                            <span>${escapeHtml(a.data.author || 'Xuanzhen')}</span>
+                            <span>${escapeHtml(normalizeAuthor(a.data.author))}</span>
                             ${a.data.readTime ? `<span>·</span><span>${a.data.readTime} min read</span>` : ''}
                         </div>
                     </div>
@@ -1324,7 +1336,7 @@ async function main() {
                         <h3>${escapeHtml(post.data.title)}</h3>
                         <p>${escapeHtml(post.data.description || '')}</p>
                         <div class="article-card-meta">
-                            <span>${escapeHtml(post.data.author || 'Xuanzhen')}</span>
+                            <span>${escapeHtml(normalizeAuthor(post.data.author))}</span>
                             ${dateStr ? `<span>${dateStr}</span>` : ''}
                             ${post.data.readTime ? `<span>${post.data.readTime} min read</span>` : ''}
                         </div>
