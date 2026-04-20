@@ -426,7 +426,31 @@ async function handleGetSubscribers(req, res) {
             console.error('❌ 获取黄历订单邮箱失败:', err.message);
         }
 
-        // 5. 手动添加的订阅者
+        // 5. 从付费意向（未支付）获取邮箱
+        try {
+            const intentIds = await redisGet('checkout_intent_ids') || [];
+            for (const id of intentIds) {
+                const intent = await redisGet(`checkout_intent:${id}`);
+                if (intent && intent.email) {
+                    const email = (intent.email || '').toLowerCase().trim();
+                    if (!allEmails.has(email)) {
+                        allEmails.set(email, {
+                            email: intent.email,
+                            name: intent.name || '',
+                            source: 'bazi_intent',
+                            sourceLabel: '八字未支付',
+                            orderId: intent.orderId || id,
+                            date: intent.createdAt || ''
+                        });
+                    }
+                }
+            }
+            console.log(`📋 付费意向邮箱: ${intentIds.length} 个`);
+        } catch (err) {
+            console.error('❌ 获取付费意向邮箱失败:', err.message);
+        }
+
+        // 6. 手动添加的订阅者
         try {
             const manualSubscribers = await redisGet('manual_subscribers') || [];
             for (const item of manualSubscribers) {
