@@ -578,6 +578,9 @@
             <!-- Tab 导航 -->
             <div class="tab-nav">
                 <button class="tab-btn active" onclick="switchTab('orders')">📋 订单管理</button>
+                <button class="tab-btn" onclick="switchTab('shop')">🛒 商城订单</button>
+                <button class="tab-btn" onclick="switchTab('almanac')">📅 黄历订单</button>
+                <button class="tab-btn" onclick="switchTab('leads')">💬 留资线索</button>
                 <button class="tab-btn" onclick="switchTab('marketing')">📧 营销邮件</button>
             </div>
 
@@ -651,7 +654,76 @@
             </div><!-- /padding wrapper -->
         </div><!-- /ordersTabContent -->
 
-            <!-- Tab 2: 营销邮件 -->
+            <!-- Tab 2: 商城订单 -->
+            <div class="tab-content" id="shopTabContent">
+                <div style="padding-top: 20px;">
+                    <div class="stats-bar">
+                        <div class="stat-card"><h3 id="shopTotalOrders">0</h3><p>商城订单总数</p></div>
+                        <div class="stat-card"><h3 id="shopTotalRevenue">$0</h3><p>商城总收入</p></div>
+                    </div>
+                    <div class="filters">
+                        <button class="btn btn-primary" onclick="loadShopOrders()">🔄 刷新</button>
+                        <button class="btn btn-primary" onclick="exportShopOrders()">📥 导出</button>
+                    </div>
+                    <div class="orders-table">
+                        <table>
+                            <thead><tr><th>订单号</th><th>客户信息</th><th>商品</th><th>金额</th><th>状态</th><th>时间</th><th>操作</th></tr></thead>
+                            <tbody id="shopOrdersBody"></tbody>
+                        </table>
+                    </div>
+                    <div class="empty-state" id="shopEmptyState" style="display:none;"><h3>暂无商城订单</h3><p>商城商品支付后将显示在这里</p></div>
+                </div>
+            </div>
+
+            <!-- Tab 3: 黄历订单 -->
+            <div class="tab-content" id="almanacTabContent">
+                <div style="padding-top: 20px;">
+                    <div class="stats-bar">
+                        <div class="stat-card"><h3 id="almanacTotalOrders">0</h3><p>黄历解锁总数</p></div>
+                        <div class="stat-card"><h3 id="almanacTotalRevenue">$0</h3><p>黄历总收入</p></div>
+                    </div>
+                    <div class="filters">
+                        <button class="btn btn-primary" onclick="loadAlmanacOrders()">🔄 刷新</button>
+                        <button class="btn btn-primary" onclick="exportAlmanacOrders()">📥 导出</button>
+                    </div>
+                    <div class="orders-table">
+                        <table>
+                            <thead><tr><th>订单号</th><th>客户信息</th><th>金额</th><th>状态</th><th>时间</th><th>操作</th></tr></thead>
+                            <tbody id="almanacOrdersBody"></tbody>
+                        </table>
+                    </div>
+                    <div class="empty-state" id="almanacEmptyState" style="display:none;"><h3>暂无黄历订单</h3><p>黄历解锁支付后将显示在这里</p></div>
+                </div>
+            </div>
+
+            <!-- Tab 4: 留资线索 -->
+            <div class="tab-content" id="leadsTabContent">
+                <div style="padding-top: 20px;">
+                    <div class="stats-bar">
+                        <div class="stat-card"><h3 id="leadsTotal">0</h3><p>留资总数</p></div>
+                        <div class="stat-card"><h3 id="leadsContactCount" style="color: #2196f3;">0</h3><p>联系表单</p></div>
+                        <div class="stat-card"><h3 id="leadsQuizCount" style="color: #64b5f6;">0</h3><p>五行测试</p></div>
+                    </div>
+                    <div class="filters">
+                        <select id="leadsSourceFilter" onchange="renderLeads()">
+                            <option value="">全部来源</option>
+                            <option value="contact_form">联系表单</option>
+                            <option value="wuxing_quiz">五行测试</option>
+                        </select>
+                        <button class="btn btn-primary" onclick="loadLeads()">🔄 刷新</button>
+                        <button class="btn btn-primary" onclick="exportLeads()">📥 导出</button>
+                    </div>
+                    <div class="orders-table">
+                        <table>
+                            <thead><tr><th>来源</th><th>姓名</th><th>邮箱</th><th>内容</th><th>时间</th><th>操作</th></tr></thead>
+                            <tbody id="leadsBody"></tbody>
+                        </table>
+                    </div>
+                    <div class="empty-state" id="leadsEmptyState" style="display:none;"><h3>暂无留资数据</h3><p>联系表单和五行测试留资将显示在这里</p></div>
+                </div>
+            </div>
+
+            <!-- Tab 5: 营销邮件 -->
             <div class="tab-content" id="marketingTabContent"></div>
 
         </div><!-- /container -->
@@ -674,16 +746,34 @@
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
 
-            if (tabName === 'orders') {
-                document.getElementById('ordersTabContent').classList.add('active');
-                document.querySelectorAll('.tab-btn')[0].classList.add('active');
-            } else if (tabName === 'marketing') {
-                document.getElementById('marketingTabContent').classList.add('active');
-                document.querySelectorAll('.tab-btn')[1].classList.add('active');
-                // 切换到营销 Tab 时加载数据
-                if (typeof MP !== 'undefined') {
-                    MP.loadSubscribers();
-                }
+            const tabMap = {
+                'orders': 0,
+                'shop': 1,
+                'almanac': 2,
+                'leads': 3,
+                'marketing': 4
+            };
+            const idx = tabMap[tabName];
+            if (idx !== undefined) {
+                document.querySelectorAll('.tab-btn')[idx].classList.add('active');
+            }
+
+            const contentMap = {
+                'orders': 'ordersTabContent',
+                'shop': 'shopTabContent',
+                'almanac': 'almanacTabContent',
+                'leads': 'leadsTabContent',
+                'marketing': 'marketingTabContent'
+            };
+            const el = document.getElementById(contentMap[tabName]);
+            if (el) el.classList.add('active');
+
+            // 切换时加载对应数据
+            if (tabName === 'shop') loadShopOrders();
+            if (tabName === 'almanac') loadAlmanacOrders();
+            if (tabName === 'leads') loadLeads();
+            if (tabName === 'marketing' && typeof MP !== 'undefined') {
+                MP.loadSubscribers();
             }
         }
 
@@ -1172,6 +1262,145 @@
         document.getElementById('orderModal').addEventListener('click', function(e) {
             if (e.target === this) closeModal();
         });
+
+        // ========== 商城订单 ==========
+        let shopOrders = [];
+        async function loadShopOrders() {
+            if (!window.adminKey) return;
+            showLoading(true);
+            try {
+                const res = await fetch('/api/get-orders?type=shop', {
+                    headers: { 'Authorization': 'Bearer ' + window.adminKey }
+                });
+                if (res.status === 401) { handleLogout(); return; }
+                const data = await res.json();
+                shopOrders = data.orders || [];
+                renderShopOrders();
+            } catch (e) { console.error('Load shop orders error:', e); }
+            finally { showLoading(false); }
+        }
+        function renderShopOrders() {
+            const tbody = document.getElementById('shopOrdersBody');
+            const empty = document.getElementById('shopEmptyState');
+            if (!shopOrders.length) { tbody.innerHTML = ''; empty.style.display = 'block'; return; }
+            empty.style.display = 'none';
+            tbody.innerHTML = shopOrders.map(o => '<tr><td><strong>' + (o.orderId||'').slice(-8) + '</strong></td><td><strong>' + (o.name||'匿名') + '</strong><br><a href="mailto:' + (o.email||'') + '" class="email-link">' + (o.email||'无') + '</a></td><td>' + (o.productName||'-') + '</td><td><strong style="color:#d4af37">$' + (o.amount||0) + '</strong></td><td><span class="status-badge status-paid">已支付</span></td><td>' + formatDate(o.createdAt) + '</td><td><button class="btn btn-primary" onclick="viewShopOrder(\'' + o.checkoutId + '\')">查看</button></td></tr>').join('');
+            document.getElementById('shopTotalOrders').textContent = shopOrders.length;
+            document.getElementById('shopTotalRevenue').textContent = '$' + shopOrders.reduce((s,o) => s + parseFloat(o.amount||0), 0).toFixed(2);
+        }
+        function viewShopOrder(id) {
+            const o = shopOrders.find(x => x.checkoutId === id);
+            if (!o) return;
+            document.getElementById('modalBody').innerHTML = '<div class="detail-row"><span class="detail-label">订单号</span><span class="detail-value">' + (o.orderId||'-') + '</span></div><div class="detail-row"><span class="detail-label">商品</span><span class="detail-value">' + (o.productName||'-') + '</span></div><div class="detail-row"><span class="detail-label">客户</span><span class="detail-value">' + (o.name||'-') + '</span></div><div class="detail-row"><span class="detail-label">邮箱</span><span class="detail-value"><a href="mailto:' + (o.email||'') + '" class="email-link">' + (o.email||'-') + '</a></span></div><div class="detail-row"><span class="detail-label">金额</span><span class="detail-value" style="color:#d4af37">$' + (o.amount||0) + '</span></div><div class="detail-row"><span class="detail-label">时间</span><span class="detail-value">' + formatDateTime(o.createdAt) + '</span></div>';
+            document.getElementById('orderModal').classList.add('active');
+        }
+        function exportShopOrders() {
+            const csv = ['订单号,商品,姓名,邮箱,金额,时间', ...shopOrders.map(o => [o.orderId||'', o.productName||'', o.name||'', o.email||'', o.amount||0, o.createdAt||''].map(c => '"' + String(c).replace(/"/g,'""') + '"').join(','))].join('\n');
+            downloadCSV(csv, 'daoessence-shop-orders');
+        }
+
+        // ========== 黄历订单 ==========
+        let almanacOrders = [];
+        async function loadAlmanacOrders() {
+            if (!window.adminKey) return;
+            showLoading(true);
+            try {
+                const res = await fetch('/api/get-orders?type=almanac', {
+                    headers: { 'Authorization': 'Bearer ' + window.adminKey }
+                });
+                if (res.status === 401) { handleLogout(); return; }
+                const data = await res.json();
+                almanacOrders = data.orders || [];
+                renderAlmanacOrders();
+            } catch (e) { console.error('Load almanac orders error:', e); }
+            finally { showLoading(false); }
+        }
+        function renderAlmanacOrders() {
+            const tbody = document.getElementById('almanacOrdersBody');
+            const empty = document.getElementById('almanacEmptyState');
+            if (!almanacOrders.length) { tbody.innerHTML = ''; empty.style.display = 'block'; return; }
+            empty.style.display = 'none';
+            tbody.innerHTML = almanacOrders.map(o => '<tr><td><strong>' + (o.orderId||'').slice(-8) + '</strong></td><td><a href="mailto:' + (o.email||'') + '" class="email-link">' + (o.email||'无') + '</a></td><td><strong style="color:#d4af37">$' + (o.amount||0) + '</strong></td><td><span class="status-badge status-paid">已支付</span></td><td>' + formatDate(o.createdAt) + '</td><td><button class="btn btn-primary" onclick="viewAlmanacOrder(\'' + o.checkoutId + '\')">查看</button></td></tr>').join('');
+            document.getElementById('almanacTotalOrders').textContent = almanacOrders.length;
+            document.getElementById('almanacTotalRevenue').textContent = '$' + almanacOrders.reduce((s,o) => s + parseFloat(o.amount||0), 0).toFixed(2);
+        }
+        function viewAlmanacOrder(id) {
+            const o = almanacOrders.find(x => x.checkoutId === id);
+            if (!o) return;
+            document.getElementById('modalBody').innerHTML = '<div class="detail-row"><span class="detail-label">订单号</span><span class="detail-value">' + (o.orderId||'-') + '</span></div><div class="detail-row"><span class="detail-label">邮箱</span><span class="detail-value"><a href="mailto:' + (o.email||'') + '" class="email-link">' + (o.email||'-') + '</a></span></div><div class="detail-row"><span class="detail-label">金额</span><span class="detail-value" style="color:#d4af37">$' + (o.amount||0) + '</span></div><div class="detail-row"><span class="detail-label">时间</span><span class="detail-value">' + formatDateTime(o.createdAt) + '</span></div>';
+            document.getElementById('orderModal').classList.add('active');
+        }
+        function exportAlmanacOrders() {
+            const csv = ['订单号,邮箱,金额,时间', ...almanacOrders.map(o => [o.orderId||'', o.email||'', o.amount||0, o.createdAt||''].map(c => '"' + String(c).replace(/"/g,'""') + '"').join(','))].join('\n');
+            downloadCSV(csv, 'daoessence-almanac-orders');
+        }
+
+        // ========== 留资线索 ==========
+        let leadsData = [];
+        async function loadLeads() {
+            if (!window.adminKey) return;
+            showLoading(true);
+            try {
+                const res = await fetch('/api/get-orders?type=leads', {
+                    headers: { 'Authorization': 'Bearer ' + window.adminKey }
+                });
+                if (res.status === 401) { handleLogout(); return; }
+                const data = await res.json();
+                leadsData = data.leads || [];
+                renderLeads();
+            } catch (e) { console.error('Load leads error:', e); }
+            finally { showLoading(false); }
+        }
+        function renderLeads() {
+            const tbody = document.getElementById('leadsBody');
+            const empty = document.getElementById('leadsEmptyState');
+            const sourceFilter = document.getElementById('leadsSourceFilter').value;
+            const filtered = sourceFilter ? leadsData.filter(l => l.source === sourceFilter) : leadsData;
+            if (!filtered.length) { tbody.innerHTML = ''; empty.style.display = 'block'; return; }
+            empty.style.display = 'none';
+            tbody.innerHTML = filtered.map(l => {
+                const sourceBadge = l.source === 'contact_form'
+                    ? '<span class="status-badge" style="background:rgba(33,150,243,0.15);color:#2196f3;">联系表单</span>'
+                    : '<span class="status-badge" style="background:rgba(100,181,246,0.15);color:#64b5f6;">五行测试</span>';
+                const summary = l.source === 'contact_form'
+                    ? (l.subjectLabel || l.subject || '-') + ': ' + ((l.message||'').substring(0,50)) + (l.message && l.message.length > 50 ? '...' : '')
+                    : '五行: ' + (l.wuxingResult?.dominant || '-') + ' | ' + (l.birthYear||'-') + '-' + (l.birthMonth||'-') + '-' + (l.birthDay||'-');
+                return '<tr><td>' + sourceBadge + '</td><td>' + (l.name||'匿名') + '</td><td><a href="mailto:' + (l.email||'') + '" class="email-link">' + (l.email||'-') + '</a></td><td style="font-size:0.85rem;color:#888;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="' + (summary||'').replace(/"/g,'&quot;') + '">' + summary + '</td><td>' + formatDate(l.createdAt || l.date) + '</td><td><button class="btn btn-primary" onclick="viewLead(\'' + l.id + '\')">查看</button></td></tr>';
+            }).join('');
+            const contactCount = leadsData.filter(l => l.source === 'contact_form').length;
+            const quizCount = leadsData.filter(l => l.source === 'wuxing_quiz').length;
+            document.getElementById('leadsTotal').textContent = leadsData.length;
+            document.getElementById('leadsContactCount').textContent = contactCount;
+            document.getElementById('leadsQuizCount').textContent = quizCount;
+        }
+        function viewLead(id) {
+            const l = leadsData.find(x => x.id === id);
+            if (!l) return;
+            let html = '<div class="detail-row"><span class="detail-label">来源</span><span class="detail-value">' + (l.source === 'contact_form' ? '联系表单' : '五行测试') + '</span></div><div class="detail-row"><span class="detail-label">姓名</span><span class="detail-value">' + (l.name||'-') + '</span></div><div class="detail-row"><span class="detail-label">邮箱</span><span class="detail-value"><a href="mailto:' + (l.email||'') + '" class="email-link">' + (l.email||'-') + '</a></span></div>';
+            if (l.source === 'contact_form') {
+                html += '<div class="detail-row"><span class="detail-label">主题</span><span class="detail-value">' + (l.subjectLabel||l.subject||'-') + '</span></div><div style="margin-top:15px;"><span class="detail-label">留言内容</span><div class="notes-box">' + (l.message||'无') + '</div></div>';
+            } else {
+                html += '<div class="detail-row"><span class="detail-label">主元素</span><span class="detail-value" style="color:#d4af37">' + (l.wuxingResult?.dominant||'-') + '</span></div><div class="detail-row"><span class="detail-label">生日</span><span class="detail-value">' + (l.birthYear||'-') + '-' + String(l.birthMonth||0).padStart(2,'0') + '-' + String(l.birthDay||0).padStart(2,'0') + '</span></div><div class="detail-row"><span class="detail-label">时间</span><span class="detail-value">' + formatDateTime(l.createdAt) + '</span></div>';
+            }
+            document.getElementById('modalBody').innerHTML = html;
+            document.getElementById('orderModal').classList.add('active');
+        }
+        function exportLeads() {
+            const csv = ['来源,姓名,邮箱,内容,时间', ...leadsData.map(l => {
+                const content = l.source === 'contact_form' ? (l.subjectLabel||'') + ': ' + (l.message||'') : '五行:' + (l.wuxingResult?.dominant||'') + ' ' + (l.birthYear||'') + '-' + (l.birthMonth||'') + '-' + (l.birthDay||'');
+                return ['"'+(l.source==='contact_form'?'联系表单':'五行测试')+'"', '"'+(l.name||'')+'"', '"'+(l.email||'')+'"', '"'+content.replace(/"/g,'""')+'"', '"'+(l.createdAt||l.date||'')+'"'].join(',');
+            })].join('\n');
+            downloadCSV(csv, 'daoessence-leads');
+        }
+
+        // ========== 通用 CSV 下载 ==========
+        function downloadCSV(csvContent, filename) {
+            const blob = new Blob(['\ufeff' + csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = filename + '-' + new Date().toISOString().split('T')[0] + '.csv';
+            link.click();
+        }
     </script>
 
     <!-- 营销邮件面板（独立模块） -->

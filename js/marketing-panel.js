@@ -121,7 +121,10 @@
                                 style="padding: 6px 10px; border: 1px solid rgba(212,175,55,0.2); border-radius: 6px; background: rgba(255,255,255,0.05); color: #e8e8e8; font-family: inherit;">
                                 <option value="">全部来源</option>
                                 <option value="bazi_order">八字订单</option>
+                                <option value="shop_order">商城订单</option>
+                                <option value="almanac_order">黄历解锁</option>
                                 <option value="contact_form">联系表单</option>
+                                <option value="wuxing_quiz">五行测试</option>
                                 <option value="manual">手动添加</option>
                             </select>
                             <button class="btn" onclick="MP.showAddSubscriber()" style="padding: 6px 12px; background: rgba(76,175,80,0.15); color: #4caf50; font-size: 0.8rem;">➕ 添加</button>
@@ -274,7 +277,7 @@
 
         listEl.innerHTML = filtered.map(s => {
             const checked = selectedEmails.has(s.email) ? 'checked' : '';
-            const sourceColor = s.source === 'bazi_order' ? '#4caf50' : s.source === 'contact_form' ? '#2196f3' : '#ff9800';
+            const sourceColor = s.source === 'bazi_order' ? '#4caf50' : s.source === 'shop_order' ? '#ff9800' : s.source === 'almanac_order' ? '#9c27b0' : s.source === 'contact_form' ? '#2196f3' : s.source === 'wuxing_quiz' ? '#64b5f6' : '#ff9800';
             return `
             <div style="display: flex; align-items: center; gap: 10px; padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.03); cursor: pointer;" onclick="MP.toggleSelect('${s.email}')">
                 <input type="checkbox" ${checked} onclick="event.stopPropagation(); MP.toggleSelect('${s.email}')" style="accent-color: #d4af37;">

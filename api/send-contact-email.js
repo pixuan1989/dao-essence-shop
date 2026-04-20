@@ -11,6 +11,7 @@
  */
 
 import crypto from 'crypto';
+import { redisGet, redisSet } from '../shared/redis.js';
 
 // ==================== 阿里云邮件推送签名 ====================
 
@@ -246,6 +247,45 @@ export default async function handler(req, res) {
         });
 
         console.log(`✅ Contact email sent from ${email}`);
+
+        // 写 Redis：contact_subscribers（留资详情）
+        try {
+            const contactData = {
+                name: name.trim(),
+                email: email.trim().toLowerCase(),
+                subject: subject || 'general',
+                subjectLabel: SUBJECT_MAP[subject] || subject || 'General Inquiry',
+                message: message.trim(),
+                date: new Date().toISOString()
+            };
+            let contacts = await redisGet('contact_subscribers') || [];
+            contacts.unshift(contactData);
+            if (contacts.length > 500) contacts = contacts.slice(0, 500);
+            await redisSet('contact_subscribers', contacts);
+            console.log(`💾 Contact saved to Redis, total: ${contacts.length}`);
+        } catch (redisErr) {
+            console.error('❌ Redis save failed (non-fatal):', redisErr.message);
+        }
+
+        // 追加营销池（邮箱去重）
+        try {
+            const normalizedEmail = email.trim().toLowerCase();
+            let subscribers = await redisGet('marketing_subscribers') || [];
+            const exists = subscribers.some(s => s.email && s.email.toLowerCase() === normalizedEmail);
+            if (!exists) {
+                subscribers.unshift({
+                    email: normalizedEmail,
+                    name: name.trim(),
+                    source: 'contact_form',
+                    subscribedAt: new Date().toISOString()
+                });
+                await redisSet('marketing_subscribers', subscribers);
+                console.log(`📬 Added to marketing pool, total: ${subscribers.length}`);
+            }
+        } catch (redisErr) {
+            console.error('❌ Marketing pool update failed (non-fatal):', redisErr.message);
+        }
+
         return res.status(200).json({ success: true, message: 'Message sent successfully!' });
 
     } catch (error) {

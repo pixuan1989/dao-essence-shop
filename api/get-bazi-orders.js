@@ -26,9 +26,31 @@ export default async function handler(req, res) {
             return res.status(401).json({ error: '未授权' });
         }
 
-        console.log('========== 八字订单查询（从 Redis 读取） ==========');
+        const type = req.query.type || '';
 
-        // 从 Redis 获取订单 ID 列表
+        // ===== 通用查询：商城 / 黄历 / 留资 =====
+        if (type === 'shop') {
+            return handleTypeQuery(res, 'shop_order_ids', 'shop_order:');
+        }
+        if (type === 'almanac') {
+            return handleTypeQuery(res, 'almanac_order_ids', 'almanac_order:');
+        }
+        if (type === 'leads') {
+            return handleLeadsQuery(res);
+        }
+
+        // ===== 默认：八字订单 + 五行测试（原有逻辑） =====
+        return handleBaziOrders(res);
+
+    } catch (error) {
+        console.error('❌ 获取订单错误:', error);
+        return res.status(500).json({ error: '获取订单失败', detail: error.message });
+    }
+}
+
+// ========== 八字订单 + 五行测试 ==========
+async function handleBaziOrders(res) {
+    try {
         const orderIds = await redisGet('bazi_order_ids') || [];
         console.log(`📊 订单 ID 列表: ${JSON.stringify(orderIds)}`);
 
@@ -97,24 +119,62 @@ export default async function handler(req, res) {
 
     } catch (error) {
         console.error('❌ 获取八字订单错误:', error);
-
-        // Redis 不可用时，回退到 Creem API
-        console.log('⚠️ Redis 不可用，尝试从 Creem API 回填...');
         try {
             const backfilled = await backfillFromCreem();
-            return res.status(200).json({
-                success: true,
-                orders: backfilled,
-                total: backfilled.length,
-                source: 'creem_api_fallback'
-            });
+            return res.status(200).json({ success: true, orders: backfilled, total: backfilled.length, source: 'creem_api_fallback' });
         } catch (fallbackError) {
-            return res.status(500).json({
-                error: '获取订单失败',
-                detail: error.message,
-                fallback_detail: fallbackError.message
-            });
+            return res.status(500).json({ error: '获取订单失败', detail: error.message });
         }
+    }
+}
+
+// ========== 通用订单查询（商城/黄历） ==========
+async function handleTypeQuery(res, idsKey, prefix) {
+    try {
+        const ids = await redisGet(idsKey) || [];
+        const orders = [];
+        for (const id of ids) {
+            const order = await redisGet(prefix + id);
+            if (order) orders.push(order);
+        }
+        console.log(`📦 ${prefix}* 读取 ${orders.length} 条`);
+        return res.status(200).json({ success: true, orders: orders, total: orders.length });
+    } catch (err) {
+        console.error(`❌ 查询 ${idsKey} 失败:`, err.message);
+        return res.status(500).json({ error: '查询失败', detail: err.message });
+    }
+}
+
+// ========== 留资线索查询（联系表单 + 五行测试） ==========
+async function handleLeadsQuery(res) {
+    try {
+        const leads = [];
+
+        // 联系表单留资
+        const contacts = await redisGet('contact_subscribers') || [];
+        for (const c of contacts) {
+            leads.push({ ...c, source: 'contact_form', id: 'CT_' + (c.date || '') });
+        }
+
+        // 五行测试留资
+        const quizIds = await redisGet('wuxing_lead_ids') || [];
+        for (const id of quizIds) {
+            const lead = await redisGet('wuxing_lead:' + id);
+            if (lead) leads.push({ ...lead, source: 'wuxing_quiz' });
+        }
+
+        // 按时间倒序
+        leads.sort((a, b) => {
+            const ta = new Date(a.createdAt || a.date || 0).getTime();
+            const tb = new Date(b.createdAt || b.date || 0).getTime();
+            return tb - ta;
+        });
+
+        console.log(`💬 留资线索: 联系表单 ${contacts.length} + 五行测试 ${quizIds.length} = ${leads.length}`);
+        return res.status(200).json({ success: true, leads: leads, total: leads.length });
+    } catch (err) {
+        console.error('❌ 查询留资线索失败:', err.message);
+        return res.status(500).json({ error: '查询失败', detail: err.message });
     }
 }
 

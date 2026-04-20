@@ -376,7 +376,57 @@ async function handleGetSubscribers(req, res) {
             console.error('❌ 获取联系表单邮箱失败:', err.message);
         }
 
-        // 3. 手动添加的订阅者
+        // 3. 从商城订单获取邮箱
+        try {
+            const shopOrderIds = await redisGet('shop_order_ids') || [];
+            for (const id of shopOrderIds) {
+                const order = await redisGet(`shop_order:${id}`);
+                if (order && order.email) {
+                    const email = (order.email || '').toLowerCase().trim();
+                    if (!allEmails.has(email)) {
+                        allEmails.set(email, {
+                            email: order.email,
+                            name: order.name || '',
+                            source: 'shop_order',
+                            sourceLabel: '商城订单',
+                            orderId: order.orderId || id,
+                            amount: order.amount || 0,
+                            date: order.createdAt || ''
+                        });
+                    }
+                }
+            }
+            console.log(`🛒 商城订单邮箱: ${shopOrderIds.length} 个`);
+        } catch (err) {
+            console.error('❌ 获取商城订单邮箱失败:', err.message);
+        }
+
+        // 4. 从黄历订单获取邮箱
+        try {
+            const almanacOrderIds = await redisGet('almanac_order_ids') || [];
+            for (const id of almanacOrderIds) {
+                const order = await redisGet(`almanac_order:${id}`);
+                if (order && order.email) {
+                    const email = (order.email || '').toLowerCase().trim();
+                    if (!allEmails.has(email)) {
+                        allEmails.set(email, {
+                            email: order.email,
+                            name: order.name || '',
+                            source: 'almanac_order',
+                            sourceLabel: '黄历解锁',
+                            orderId: order.orderId || id,
+                            amount: order.amount || 0,
+                            date: order.createdAt || ''
+                        });
+                    }
+                }
+            }
+            console.log(`📅 黄历订单邮箱: ${almanacOrderIds.length} 个`);
+        } catch (err) {
+            console.error('❌ 获取黄历订单邮箱失败:', err.message);
+        }
+
+        // 5. 手动添加的订阅者
         try {
             const manualSubscribers = await redisGet('manual_subscribers') || [];
             for (const item of manualSubscribers) {
@@ -401,6 +451,8 @@ async function handleGetSubscribers(req, res) {
         const stats = {
             total: subscribers.length,
             baziOrders: subscribers.filter(s => s.source === 'bazi_order').length,
+            shopOrders: subscribers.filter(s => s.source === 'shop_order').length,
+            almanacOrders: subscribers.filter(s => s.source === 'almanac_order').length,
             contactForm: subscribers.filter(s => s.source === 'contact_form').length,
             manual: subscribers.filter(s => s.source === 'manual').length
         };

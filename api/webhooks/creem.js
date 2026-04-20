@@ -25,6 +25,9 @@
 
 import { getRedis, redisGet, redisSet } from '../../shared/redis.js';
 
+// 黄历解锁产品 ID
+const ALMANAC_PRODUCT_ID = 'prod_3fJInBNekM9UVJwtClgUtx';
+
 /**
  * Vercel Function 主处理函数
  */
@@ -114,21 +117,20 @@ export default async function handler(req, res) {
                     console.log('💾 保存八字订单到 Redis:', JSON.stringify(orderData, null, 2));
 
                     try {
-                        // 用 checkout ID 作为 key，防止重复
                         await redisSet(`bazi_order:${checkout.id}`, orderData);
-
-                        // 同时维护一个订单 ID 列表
                         let existingIds = await redisGet('bazi_order_ids') || [];
                         if (!existingIds.includes(checkout.id)) {
                             existingIds.unshift(checkout.id);
                             await redisSet('bazi_order_ids', existingIds);
                             console.log(`💾 订单列表已更新，共 ${existingIds.length} 笔`);
                         }
-
                         console.log('✅ 八字订单保存成功!');
                     } catch (redisError) {
                         console.error('❌ Redis 保存失败（非致命）:', redisError.message);
                     }
+
+                    // 追加营销池
+                    await addToMarketingPool(orderData.email, orderData.name || customer.name);
 
                     // 发送企业微信通知
                     await sendWechatNotification({
@@ -142,7 +144,53 @@ export default async function handler(req, res) {
                         }
                     });
                 } else {
-                    // 非八字订单，也发微信通知
+                    // 非八字订单：判断商城/黄历，分别写入 Redis
+                    const isAlmanac = product.id === ALMANAC_PRODUCT_ID ||
+                                      product.name?.toLowerCase().includes('almanac') ||
+                                      product.name?.includes('黄历');
+
+                    const orderType = isAlmanac ? 'almanac' : 'shop';
+                    const orderKey = `${orderType}_order:${checkout.id}`;
+                    const idsKey = `${orderType}_order_ids`;
+
+                    const genericOrderData = {
+                        id: checkout.id,
+                        orderId: orderId,
+                        checkoutId: checkout.id,
+                        email: allData.email || customer.email || '',
+                        name: allData.name || customer.name || '',
+                        amount: amount,
+                        currency: order.currency || checkout.currency || 'USD',
+                        status: order.status || 'paid',
+                        productName: product.name || '',
+                        productId: product.id || '',
+                        createdAt: order.created_at || checkout.created_at || new Date().toISOString(),
+                        paidAt: new Date().toISOString(),
+                        mode: checkout.mode || 'live',
+                        customerName: customer.name || '',
+                        customerEmail: customer.email || '',
+                        customerCountry: customer.country || ''
+                    };
+
+                    console.log(`💾 保存${isAlmanac ? '黄历' : '商城'}订单到 Redis:`, orderKey);
+
+                    try {
+                        await redisSet(orderKey, genericOrderData);
+                        let existingIds = await redisGet(idsKey) || [];
+                        if (!existingIds.includes(checkout.id)) {
+                            existingIds.unshift(checkout.id);
+                            await redisSet(idsKey, existingIds);
+                            console.log(`💾 ${orderType} 订单列表已更新，共 ${existingIds.length} 笔`);
+                        }
+                        console.log(`✅ ${isAlmanac ? '黄历' : '商城'}订单保存成功!`);
+                    } catch (redisError) {
+                        console.error('❌ Redis 保存失败（非致命）:', redisError.message);
+                    }
+
+                    // 追加营销池
+                    await addToMarketingPool(genericOrderData.email, genericOrderData.name || customer.name);
+
+                    // 发企业微信通知
                     await sendWechatNotification({
                         orderId: orderId,
                         amount: amount,
@@ -169,6 +217,30 @@ export default async function handler(req, res) {
     } catch (error) {
         console.error('❌ Error processing Creem webhook:', error);
         return res.status(500).json({ error: error.message });
+    }
+}
+
+/**
+ * 追加邮箱到营销池（去重）
+ */
+async function addToMarketingPool(email, name) {
+    if (!email) return;
+    try {
+        const normalizedEmail = email.toLowerCase().trim();
+        let subscribers = await redisGet('marketing_subscribers') || [];
+        const exists = subscribers.some(s => s.email && s.email.toLowerCase() === normalizedEmail);
+        if (!exists) {
+            subscribers.unshift({
+                email: normalizedEmail,
+                name: (name || '').trim(),
+                source: 'purchase',
+                subscribedAt: new Date().toISOString()
+            });
+            await redisSet('marketing_subscribers', subscribers);
+            console.log(`📬 Added ${normalizedEmail} to marketing pool (purchase), total: ${subscribers.length}`);
+        }
+    } catch (err) {
+        console.error('❌ Marketing pool update failed (non-fatal):', err.message);
     }
 }
 
