@@ -57,7 +57,7 @@ const NAV_HTML = `
                 <ul class="nav-menu">
                     <li><a href="/" class="nav-link">Home</a></li>
                     <li class="nav-dropdown">
-                        <span class="nav-dropdown-trigger">Blog <i class="nav-dropdown-arrow"></i></span>
+                        <a href="/blog/" class="nav-dropdown-trigger">Blog <i class="nav-dropdown-arrow"></i></a>
                         <div class="nav-dropdown-menu">
                             <a href="/blog/">All Articles</a>
                             <a href="/blog/bazi-astrology">BaZi Astrology</a>
@@ -89,9 +89,9 @@ const FOOTER_HTML = `
                 </div>
                 <div class="footer-links">
                     <h4>Explore</h4>
+                    <a href="/blog/">Blog</a>
                     <a href="/culture">Five Elements</a>
                     <a href="/shop">Shop</a>
-                    <a href="/blog/bazi-astrology">BaZi Astrology</a>
                 </div>
                 <div class="footer-links">
                     <h4>Blog Categories</h4>
