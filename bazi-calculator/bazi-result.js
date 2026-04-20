@@ -530,7 +530,7 @@
         var container = document.getElementById('bazi-main');
         var sidebar = document.getElementById('bazi-sidebar');
 
-        var gender = rt['xb'] === 1 ? 'Male' : 'Female';
+        var gender = rt['xb'] === '男' ? 'Male' : 'Female';
         var zodiac = ZODIAC_EN[rt['sx']] || rt['sx'];
         var dayMaster = rt['ctg'][2];
         var dmIdx = STEMS.indexOf(dayMaster);

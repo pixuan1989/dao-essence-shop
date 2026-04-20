@@ -64,9 +64,9 @@
 
         var genderSel = document.getElementById('bazi-gender');
         var optM = document.createElement('option');
-        optM.value = '1'; optM.textContent = 'Male';
+        optM.value = '0'; optM.textContent = 'Male';
         var optF = document.createElement('option');
-        optF.value = '0'; optF.textContent = 'Female';
+        optF.value = '1'; optF.textContent = 'Female';
         genderSel.appendChild(optM);
         genderSel.appendChild(optF);
     }
