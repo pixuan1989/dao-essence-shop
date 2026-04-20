@@ -667,22 +667,7 @@ function generateArticleHtml(post, category, allArticles) {
     }
   };
 
-  function renderAuthorCard() {
-    const authorName = data.author || 'Xuanzhen';
-    const info = AUTHOR_INFO[authorName] || AUTHOR_INFO['Xuanzhen'];
-    return `
-      <div class="author-card" style="margin:2rem 0;padding:1.5rem;border:1px solid #e8e2d8;border-radius:12px;background:#faf8f5;display:flex;align-items:center;gap:1rem;">
-        <div class="author-card-avatar" style="width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#d4af37,#f5e6c8);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 1 0-16 0"/></svg>
-        </div>
-        <div class="author-card-info" style="flex:1;min-width:0;">
-          <div style="font-size:1rem;font-weight:600;color:#1A1612;">${escapeHtml(info.name)}</div>
-          <div style="font-size:0.82rem;color:#d4af37;margin:2px 0;">${escapeHtml(info.title)}</div>
-          <div style="font-size:0.8rem;color:#888;line-height:1.4;">${escapeHtml(info.bio)}</div>
-        </div>
-      </div>
-    `;
-  }
+
 
   function renderRelatedPosts() {
     if (relatedPosts.length === 0) return '';
@@ -930,7 +915,6 @@ ${NAV_HTML}
             ${finalBody}
         </article>
 
-        ${renderAuthorCard()}
         ${renderRelatedPosts()}
         </div>
 
