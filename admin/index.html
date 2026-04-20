@@ -72,6 +72,10 @@
                 ],
                 hint: '选择这篇文章要挂哪些引导卡片，可多选。不选则默认显示八字卡片。'
               },
+              {
+                label: '相关推荐（You May Also Like）', name: 'related_posts', widget: 'relation', collection: 'blog', valueField: 'title', searchFields: ['title', 'category', 'tags'], multiple: true, required: false, max: 3,
+                hint: '选择 1-3 篇关联文章，将显示在文章底部。不选则自动推荐同分类文章。'
+              },
               { label: '正文', name: 'body', widget: 'markdown', hint: '使用Markdown编写文章内容。## 标题，> 引用，**加粗**等' },
               {
                 label: '常见问题', name: 'faq', widget: 'list', required: false,

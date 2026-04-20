@@ -162,6 +162,22 @@ const ARTICLE_STYLES = `
         .blog-article a { color: var(--accent-color); text-decoration: underline; }
         .blog-article a:hover { color: #E8C547; }
 
+        /* ── Related Posts (You May Also Like) ── */
+        .related-posts { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid rgba(212,175,55,0.15); }
+        .related-posts-title { font-family: var(--font-display); font-size: 1.3rem; color: var(--accent-color); letter-spacing: 0.06em; margin-bottom: 1.5rem; }
+        .related-posts-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; }
+        .related-card { display: flex; flex-direction: column; text-decoration: none; border-radius: 10px; overflow: hidden; background: rgba(212,175,55,0.03); border: 1px solid rgba(212,175,55,0.1); transition: all 0.3s ease; }
+        .related-card:hover { background: rgba(212,175,55,0.06); border-color: rgba(212,175,55,0.25); transform: translateY(-2px); box-shadow: 0 6px 24px rgba(0,0,0,0.1); }
+        .related-card-img { aspect-ratio: 16/9; overflow: hidden; background: var(--bg-dark); }
+        .related-card-img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s; }
+        .related-card:hover .related-card-img img { transform: scale(1.05); }
+        .related-card-body { padding: 1rem; display: flex; flex-direction: column; gap: 0.3rem; }
+        .related-card-cat { font-size: 0.7rem; color: var(--accent-color); letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.8; }
+        .related-card h3 { font-size: 0.92rem; color: #1A1612; line-height: 1.4; letter-spacing: 0.02em; transition: color 0.3s; }
+        .related-card:hover h3 { color: #1A1612; }
+        @media (max-width: 900px) { .related-posts-grid { grid-template-columns: 1fr 1fr; } }
+        @media (max-width: 540px) { .related-posts-grid { grid-template-columns: 1fr; } }
+
         /* ── Sidebar CTA: shared ── */
         .sidebar-cta {
             border-radius: 16px;
@@ -614,11 +630,54 @@ function readAllMdFiles(dir) {
 
 // ─── Generate Article HTML ──────────────────────────────────
 
-function generateArticleHtml(post, category) {
+function generateArticleHtml(post, category, allArticles) {
   const { data, content, slug } = post;
   const dateFormatted = formatDate(data.date);
   const categoryLabel = CATEGORY_LABELS[category] || category;
   const categoryHref = `/blog/${category}`;
+
+  // ── Related posts (You May Also Like) ──
+  let relatedPosts = [];
+  if (Array.isArray(data.related_posts) && data.related_posts.length > 0) {
+    // Manual: match by title
+    relatedPosts = data.related_posts
+      .map(title => allArticles.find(p => p.data.title === title))
+      .filter(Boolean)
+      .filter(p => p.slug !== slug)
+      .slice(0, 3);
+  }
+  if (relatedPosts.length === 0 && Array.isArray(allArticles)) {
+    // Auto: same category, exclude current, pick up to 3 most recent
+    relatedPosts = allArticles
+      .filter(p => p.category === category && p.slug !== slug)
+      .sort((a, b) => new Date(b.data.date || 0) - new Date(a.data.date || 0))
+      .slice(0, 3);
+  }
+  function renderRelatedPosts() {
+    if (relatedPosts.length === 0) return '';
+    const cards = relatedPosts.map(p => {
+      let imgSrc = p.data.image || SITE_URL + '/images/og-default.jpg';
+      imgSrc = imgSrc.replace(/\/feature\/blog-cms\//g, '/main/');
+      if (!imgSrc || imgSrc === '""') imgSrc = SITE_URL + '/images/og-default.jpg';
+      const catLabel = CATEGORY_LABELS[p.category] || p.category || '';
+      return `
+              <a href="/blog/${p.slug}" class="related-card">
+                <div class="related-card-img">
+                  <img src="${imgSrc}" alt="${escapeHtml(p.data.title)}" loading="lazy" onerror="this.src='${SITE_URL}/images/og-default.jpg'">
+                </div>
+                <div class="related-card-body">
+                  <span class="related-card-cat">${escapeHtml(catLabel)}</span>
+                  <h3>${escapeHtml(p.data.title)}</h3>
+                </div>
+              </a>`;
+    }).join('');
+    return `
+        <section class="related-posts">
+          <h2 class="related-posts-title">You May Also Like</h2>
+          <div class="related-posts-grid">${cards}
+          </div>
+        </section>`;
+  }
 
   // CTA cards: read from frontmatter, fallback to bazi for old articles
   const ctaCards = Array.isArray(data.cta_cards) ? data.cta_cards : ['bazi'];
@@ -828,6 +887,8 @@ ${NAV_HTML}
 
             ${finalBody}
         </article>
+
+        ${renderRelatedPosts()}
         </div>
 
         <aside class="blog-sidebar">
@@ -1135,7 +1196,7 @@ async function main() {
     const slug = generateSlug(post.filename, post.data, usedSlugs);
     post.slug = slug;
 
-    const html = generateArticleHtml(post, post.category);
+    const html = generateArticleHtml(post, post.category, allArticles);
     const outPath = path.join(DIST_BLOG_DIR, `${slug}.html`);
     fs.writeFileSync(outPath, html);
     console.log(`  Generated: dist/blog/${slug}.html`);
