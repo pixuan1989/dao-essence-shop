@@ -21,7 +21,9 @@ const SRC_DIR = __dirname;
 const DIST_DIR = path.join(__dirname, 'dist');
 const BLOG_DIR = path.join(SRC_DIR, 'blog');
 const POSTS_DIR = path.join(BLOG_DIR, 'posts');
+const POSTS_ZH_DIR = path.join(BLOG_DIR, 'posts-zh');
 const DIST_BLOG_DIR = path.join(DIST_DIR, 'blog');
+const DIST_ZH_BLOG_DIR = path.join(DIST_DIR, 'zh', 'blog');
 
 // Category subfolder collections from CMS config
 const CATEGORY_FOLDERS = [
@@ -32,13 +34,22 @@ const CATEGORY_FOLDERS = [
   'lucky-tips'
 ];
 
-// Category display names
+// Category labels (English)
 const CATEGORY_LABELS = {
   'bazi-astrology': 'BaZi Astrology',
   'zodiac-horoscope': 'Chinese Zodiac',
   'feng-shui': 'Feng Shui',
   'daily-horoscope': 'Daily Chinese Horoscope',
   'lucky-tips': 'Lucky Tips'
+};
+
+// Category labels (Traditional Chinese)
+const CATEGORY_LABELS_ZH = {
+  'bazi-astrology': '八字命理',
+  'zodiac-horoscope': '十二生肖',
+  'feng-shui': '風水',
+  'daily-horoscope': '每日生肖運勢',
+  'lucky-tips': '運勢小貼士'
 };
 
 // CSS version for cache busting
@@ -686,11 +697,15 @@ function readAllMdFiles(dir) {
 
 // ─── Generate Article HTML ──────────────────────────────────
 
-function generateArticleHtml(post, category, allArticles) {
+function generateArticleHtml(post, category, allArticles, options = {}) {
   const { data, content, slug } = post;
-  const dateFormatted = formatDate(data.date);
-  const categoryLabel = CATEGORY_LABELS[category] || category;
-  const categoryHref = `/blog/${category}`;
+  const isZh = options.lang === 'zh-Hant';
+  const lang = isZh ? 'zh-Hant' : 'en';
+  const langPrefix = isZh ? '/zh' : '';
+  const categoryLabel = isZh
+    ? (CATEGORY_LABELS_ZH[category] || CATEGORY_LABELS[category] || category)
+    : (CATEGORY_LABELS[category] || category);
+  const categoryHref = `${langPrefix}/blog/${category}`;
 
   // ── Related posts (You May Also Like) ──
   let relatedPosts = [];
@@ -715,25 +730,29 @@ function generateArticleHtml(post, category, allArticles) {
 
   function renderRelatedPosts() {
     if (relatedPosts.length === 0) return '';
+    const youMayAlsoText = isZh ? '你可能也喜歡' : 'You May Also Like';
     const cards = relatedPosts.map(p => {
       let imgSrc = p.data.image || SITE_URL + '/images/og-default.jpg';
       imgSrc = imgSrc.replace(/\/feature\/blog-cms\//g, '/main/');
       if (!imgSrc || imgSrc === '""') imgSrc = SITE_URL + '/images/og-default.jpg';
-      const catLabel = CATEGORY_LABELS[p.category] || p.category || '';
+      const catLabel = isZh
+        ? (CATEGORY_LABELS_ZH[p.category] || CATEGORY_LABELS[p.category] || p.category || '')
+        : (CATEGORY_LABELS[p.category] || p.category || '');
+      const relatedHref = `${langPrefix}/blog/${p.slug}`;
       return `
-              <a href="/blog/${p.slug}" class="related-card">
+              <a href="${relatedHref}" class="related-card">
                 <div class="related-card-img">
                   <img src="${imgSrc}" alt="${escapeHtml(p.data.title)}" loading="lazy" onerror="this.src='${SITE_URL}/images/og-default.jpg'">
                 </div>
                 <div class="related-card-body">
                   <span class="related-card-cat">${escapeHtml(catLabel)}</span>
-                  <h3>${escapeHtml(p.data.title)}</h3>
+                  <h3>${escapeHtml(isZh ? p.data.title : p.data.title)}</h3>
                 </div>
               </a>`;
     }).join('');
     return `
         <section class="related-posts">
-          <h2 class="related-posts-title">You May Also Like</h2>
+          <h2 class="related-posts-title">${youMayAlsoText}</h2>
           <div class="related-posts-grid">${cards}
           </div>
         </section>`;
@@ -878,6 +897,8 @@ function generateArticleHtml(post, category, allArticles) {
   }
 
   // SEO helpers
+  const dateFormatted = formatDate(data.date);
+
   function seoTitle(title) {
     const suffix = ' | DAO Essence';
     const maxLen = 60;
@@ -913,8 +934,18 @@ function generateArticleHtml(post, category, allArticles) {
     </script>`;
   }
 
+  // hreflang links for multilingual SEO
+  const articleUrl = `${SITE_URL}${langPrefix}/blog/${slug}`;
+  const enUrl = `${SITE_URL}/blog/${slug}`;
+  const zhUrl = `${SITE_URL}/zh/blog/${slug}`;
+  const hreflangLinks = `
+    <link rel="alternate" hreflang="en" href="${enUrl}">
+    <link rel="alternate" hreflang="zh-Hant" href="${zhUrl}">
+    <link rel="alternate" hreflang="x-default" href="${enUrl}">`;
+  const canonicalUrl = articleUrl;
+
   return `<!DOCTYPE html>
-<html lang="en">
+<html lang="${lang}">
 <head>
     <meta charset="UTF-8">
     <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
@@ -927,14 +958,16 @@ function generateArticleHtml(post, category, allArticles) {
     <meta property="og:title" content="${seoTitle(data.title)}">
     <meta property="og:description" content="${escapeHtml(seoDescription(data.description || ''))}">
     <meta property="og:image" content="${data.image || SITE_URL + '/images/og-default.jpg'}">
-    <meta property="og:url" content="${SITE_URL}/blog/${slug}">
+    <meta property="og:url" content="${articleUrl}">
     <meta property="og:type" content="article">
     <meta property="og:site_name" content="DAO Essence">
+    <meta property="og:locale" content="${isZh ? 'zh_Hant' : 'en_US'}">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="${seoTitle(data.title)}">
     <meta name="twitter:description" content="${escapeHtml(seoDescription(data.description || ''))}">
     <meta name="twitter:image" content="${data.image || SITE_URL + '/images/og-default.jpg'}">
-    <link rel="canonical" href="${SITE_URL}/blog/${slug}">
+    <link rel="canonical" href="${canonicalUrl}">
+    ${hreflangLinks}
     <link rel="stylesheet" href="/styles.min.css?v=${CSS_VERSION}">
     <script src="/main.min.js?v=${CSS_VERSION}" defer></script>
     ${hasZodiacLookup ? '<script src="/bazi-calculator/paipan.js"><\/script>' : ''}
@@ -944,8 +977,8 @@ function generateArticleHtml(post, category, allArticles) {
         "@type": "BreadcrumbList",
         "itemListElement": [
             {"@type": "ListItem", "position": 1, "name": "Home", "item": "${SITE_URL}/"},
-            {"@type": "ListItem", "position": 2, "name": "Blog", "item": "${SITE_URL}/blog"},
-            {"@type": "ListItem", "position": 3, "name": "${escapeHtml(data.title)}", "item": "${SITE_URL}/blog/${slug}"}
+            {"@type": "ListItem", "position": 2, "name": "${isZh ? '部落格' : 'Blog'}", "item": "${SITE_URL}${langPrefix}/blog"},
+            {"@type": "ListItem", "position": 3, "name": "${escapeHtml(data.title)}", "item": "${articleUrl}"}
         ]
     }
     </script>
@@ -960,7 +993,8 @@ function generateArticleHtml(post, category, allArticles) {
         "publisher": {"@type": "Organization", "name": "DAO Essence", "logo": {"@type": "ImageObject", "url": "${SITE_URL}/images/og-default.jpg"}},
         "datePublished": "${data.date || ''}",
         "dateModified": "${data.date || ''}",
-        "mainEntityOfPage": "${SITE_URL}/blog/${slug}"
+        "mainEntityOfPage": "${articleUrl}",
+        "inLanguage": "${lang}"
     }
     </script>${faqJsonLd}
     <style>${ARTICLE_STYLES}</style>
@@ -998,14 +1032,25 @@ ${FOOTER_HTML}
 
 // ─── Generate Category Page ─────────────────────────────────
 
-function generateCategoryHtml(category, articles) {
-  const label = CATEGORY_LABELS[category] || category;
+function generateCategoryHtml(category, articles, options = {}) {
+  const isZh = options.lang === 'zh-Hant';
+  const lang = isZh ? 'zh-Hant' : 'en';
+  const langPrefix = isZh ? '/zh' : '';
+  const label = isZh
+    ? (CATEGORY_LABELS_ZH[category] || CATEGORY_LABELS[category] || category)
+    : (CATEGORY_LABELS[category] || category);
+  const catUrl = `${SITE_URL}${langPrefix}/blog/${category}`;
+  const enCatUrl = `${SITE_URL}/blog/${category}`;
+  const zhCatUrl = `${SITE_URL}/zh/blog/${category}`;
+  const canonicalUrl = catUrl;
   const cardHtml = articles.map(a => {
       let imgSrc = a.data.image || SITE_URL + '/images/og-default.jpg';
       imgSrc = imgSrc.replace(/\/feature\/blog-cms\//g, '/main/');
       if (!imgSrc || imgSrc === '""') imgSrc = SITE_URL + '/images/og-default.jpg';
+      const articleHref = `${langPrefix}/blog/${a.slug}`;
+      const minReadText = a.data.readTime ? `${a.data.readTime} min read` : '';
       return `
-            <a href="/blog/${a.slug}" class="blog-card">
+            <a href="${articleHref}" class="blog-card">
                 <div class="blog-card-image">
                     <img src="${imgSrc}" alt="${escapeHtml(a.data.title)}" loading="lazy" onerror="this.src='${SITE_URL}/images/og-default.jpg'">
                 </div>
@@ -1014,28 +1059,32 @@ function generateCategoryHtml(category, articles) {
                     <p>${escapeHtml(a.data.description || '')}</p>
                     <div class="blog-card-meta">
                         <span>${escapeHtml(normalizeAuthor(a.data.author))}</span>
-                        ${a.data.readTime ? `<span>·</span><span>${a.data.readTime} min read</span>` : ''}
+                        ${a.data.readTime ? `<span>·</span><span>${minReadText}</span>` : ''}
                     </div>
                 </div>
             </a>`;
     }).join('\n');
 
   return `<!DOCTYPE html>
-<html lang="en">
+<html lang="${lang}">
 <head>
     <meta charset="UTF-8">
     <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
     <link rel="icon" type="image/png" href="/images/favicon.png">
     <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${label} Blog | DAO Essence</title>
-    <meta name="description" content="Explore our ${label} articles — Chinese metaphysics, BaZi, Feng Shui, and more.">
+    <title>${label} ${isZh ? '部落格' : 'Blog'} | DAO Essence</title>
+    <meta name="description" content="${isZh ? `探索 DaoEssence 的${label}文章 — 中國玄學、八字、風水等。` : `Explore our ${label} articles — Chinese metaphysics, BaZi, Feng Shui, and more.`}">
     <meta name="robots" content="index, follow">
-    <meta property="og:title" content="${label} Blog | DAO Essence">
-    <meta property="og:url" content="${SITE_URL}/blog/${category}">
+    <meta property="og:title" content="${label} ${isZh ? '部落格' : 'Blog'} | DAO Essence">
+    <meta property="og:url" content="${catUrl}">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="DAO Essence">
-    <link rel="canonical" href="${SITE_URL}/blog/${category}">
+    <meta property="og:locale" content="${isZh ? 'zh_Hant' : 'en_US'}">
+    <link rel="canonical" href="${canonicalUrl}">
+    <link rel="alternate" hreflang="en" href="${enCatUrl}">
+    <link rel="alternate" hreflang="zh-Hant" href="${zhCatUrl}">
+    <link rel="alternate" hreflang="x-default" href="${enCatUrl}">
     <link rel="stylesheet" href="/styles.min.css?v=${CSS_VERSION}">
     <script src="/main.min.js?v=${CSS_VERSION}" defer></script>
     <style>
@@ -1070,11 +1119,11 @@ function generateCategoryHtml(category, articles) {
 ${NAV_HTML}
 
     <main class="blog-category">
-        <a href="/blog/" class="blog-back-link">← Back to Blog</a>
+        <a href="${langPrefix}/blog/" class="blog-back-link">${isZh ? '← 返回部落格' : '← Back to Blog'}</a>
         <div class="blog-category-header">
-            <p class="blog-category-breadcrumb"><a href="/">Home</a> / <a href="/blog/">Blog</a> / ${label}</p>
+            <p class="blog-category-breadcrumb"><a href="/">${isZh ? '首頁' : 'Home'}</a> / <a href="${langPrefix}/blog/">Blog</a> / ${label}</p>
             <h1>${label}</h1>
-            <p>Articles and guides on ${label} by DAO Essence.</p>
+            <p>${isZh ? `DaoEssence 的${label}文章與指南。` : `Articles and guides on ${label} by DAO Essence.`}</p>
         </div>
 
         <div class="blog-card-list">
@@ -1089,19 +1138,25 @@ ${FOOTER_HTML}
 
 // ─── Generate Blog Index ────────────────────────────────────
 
-function generateBlogIndex(allArticles) {
+function generateBlogIndex(allArticles, options = {}) {
+  const isZh = options.lang === 'zh-Hant';
+  const lang = isZh ? 'zh-Hant' : 'en';
+  const langPrefix = isZh ? '/zh' : '';
+
   // Group by category for latest section
   const latestCards = allArticles
     .sort((a, b) => new Date(b.data.date) - new Date(a.data.date))
     .slice(0, 8)
     .map(a => {
       const cat = a.data.category || 'bazi-astrology';
-      const catLabel = CATEGORY_LABELS[cat] || cat;
+      const catLabel = isZh
+        ? (CATEGORY_LABELS_ZH[cat] || CATEGORY_LABELS[cat] || cat)
+        : (CATEGORY_LABELS[cat] || cat);
       let imgSrc = a.data.image || SITE_URL + '/images/og-default.jpg';
       imgSrc = imgSrc.replace(/\/feature\/blog-cms\//g, '/main/');
       if (!imgSrc || imgSrc === '""') imgSrc = SITE_URL + '/images/og-default.jpg';
       return `
-                <a href="/blog/${a.slug}" class="blog-card">
+                <a href="${langPrefix}/blog/${a.slug}" class="blog-card">
                     <div class="blog-card-image">
                         <img src="${imgSrc}" alt="${escapeHtml(a.data.title)}" loading="lazy" onerror="this.src='${SITE_URL}/images/og-default.jpg'">
                     </div>
@@ -1118,21 +1173,25 @@ function generateBlogIndex(allArticles) {
     }).join('\n');
 
   return `<!DOCTYPE html>
-<html lang="en">
+<html lang="${lang}">
 <head>
     <meta charset="UTF-8">
     <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
     <link rel="icon" type="image/png" href="/images/favicon.png">
     <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog | DAO Essence — Chinese Metaphysics & Taoist Wisdom</title>
-    <meta name="description" content="Explore articles on BaZi astrology, Feng Shui, Five Elements theory, Taoist meditation, Chinese zodiac, and daily Chinese horoscopes.">
+    <title>${isZh ? '部落格' : 'Blog'} | DAO Essence — ${isZh ? '中國玄學與道家智慧' : 'Chinese Metaphysics & Taoist Wisdom'}</title>
+    <meta name="description" content="${isZh ? '探索八字命理、風水、五行理論、道家冥想、十二生肖及每日生肖運勢等文章。' : 'Explore articles on BaZi astrology, Feng Shui, Five Elements theory, Taoist meditation, Chinese zodiac, and daily Chinese horoscopes.'}">
     <meta name="robots" content="index, follow">
-    <meta property="og:title" content="Blog | DAO Essence">
-    <meta property="og:url" content="${SITE_URL}/blog">
+    <meta property="og:title" content="${isZh ? '部落格' : 'Blog'} | DAO Essence">
+    <meta property="og:url" content="${SITE_URL}${langPrefix}/blog">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="DAO Essence">
-    <link rel="canonical" href="${SITE_URL}/blog">
+    <meta property="og:locale" content="${isZh ? 'zh_Hant' : 'en_US'}">
+    <link rel="canonical" href="${SITE_URL}${langPrefix}/blog">
+    <link rel="alternate" hreflang="en" href="${SITE_URL}/blog">
+    <link rel="alternate" hreflang="zh-Hant" href="${SITE_URL}/zh/blog">
+    <link rel="alternate" hreflang="x-default" href="${SITE_URL}/blog">
     <link rel="stylesheet" href="/styles.min.css?v=${CSS_VERSION}">
     <script src="/main.min.js?v=${CSS_VERSION}" defer></script>
     <style>
@@ -1188,14 +1247,14 @@ ${NAV_HTML}
 
     <main class="blog-home">
         <div class="blog-home-header">
-            <h1>Blog</h1>
-            <p>Ancient wisdom meets modern insight. Explore articles on BaZi astrology, Feng Shui, meditation, and the Five Elements.</p>
+            <h1>${isZh ? '部落格' : 'Blog'}</h1>
+            <p>${isZh ? '古老智慧，現代洞察。探索八字命理、風水、冥想與五行等文章。' : 'Ancient wisdom meets modern insight. Explore articles on BaZi astrology, Feng Shui, meditation, and the Five Elements.'}</p>
         </div>
 
         <div class="blog-main-layout">
             <div class="blog-main-content">
                 <section class="blog-latest">
-                    <h2 class="blog-section-title">Latest Articles</h2>
+                    <h2 class="blog-section-title">${isZh ? '最新文章' : 'Latest Articles'}</h2>
                     <div class="blog-card-list">
 ${latestCards}
                     </div>
@@ -1258,11 +1317,16 @@ async function main() {
     fs.rmSync(distPostsDir, { recursive: true, force: true });
     console.log('  Cleaned: dist/blog/posts/ (Markdown sources)');
   }
+  const distPostsZhDir = path.join(DIST_DIR, 'blog', 'posts-zh');
+  if (fs.existsSync(distPostsZhDir)) {
+    fs.rmSync(distPostsZhDir, { recursive: true, force: true });
+    console.log('  Cleaned: dist/blog/posts-zh/ (Markdown sources)');
+  }
 
   // Step 3: Collect all articles from CMS
   let allArticles = [];
 
-  // Read from blog/posts/ (main blog collection)
+  // Read from blog/posts/ (main blog collection — English)
   const mainPosts = readAllMdFiles(POSTS_DIR);
   mainPosts.forEach(post => {
     // Fallback: some CMS-generated files put content in data.body instead of content area
@@ -1275,7 +1339,40 @@ async function main() {
   // Note: All articles are now in blog/posts/ with a category field.
   // Category subfolders (blog/bazi-astrology/, etc.) are no longer used.
 
-  console.log(`Found ${allArticles.length} articles total`);
+  console.log(`Found ${allArticles.length} English articles`);
+
+  // Step 3b: Auto-translate new articles to Traditional Chinese (if DASHSCOPE_API_KEY is set)
+  let zhArticles = [];
+  if (process.env.DASHSCOPE_API_KEY) {
+    try {
+      console.log('Checking for articles needing translation...');
+      const { autoTranslateIfNeeded } = await import('./scripts/translate-zh-auto.mjs');
+      zhArticles = await autoTranslateIfNeeded(allArticles, POSTS_ZH_DIR);
+      console.log(`Translation step complete. ${zhArticles.length} zh articles available.`);
+    } catch (err) {
+      console.warn(`  ⚠️ Translation step skipped: ${err.message}`);
+    }
+  } else {
+    console.log('DASHSCOPE_API_KEY not set — skipping auto-translation.');
+    console.log('  Set DASHSCOPE_API_KEY in Vercel env to enable automatic zh translation.');
+  }
+
+  // Fallback: read pre-existing zh articles if auto-translate didn't run
+  if (zhArticles.length === 0 && fs.existsSync(POSTS_ZH_DIR)) {
+    const zhPosts = readAllMdFiles(POSTS_ZH_DIR);
+    zhPosts.forEach(post => {
+      if (!post.content.trim() && post.data.body) {
+        post.content = post.data.body;
+      }
+      zhArticles.push({ ...post, category: post.data.category || 'bazi-astrology' });
+    });
+  }
+
+  // Build a map of en slug -> zh article for cross-linking
+  const zhArticleMap = {};
+  for (const zhPost of zhArticles) {
+    zhArticleMap[zhPost.slug] = zhPost;
+  }
 
   if (allArticles.length === 0) {
     console.error('ERROR: No articles found! Build will FAIL to prevent empty deploy.');
@@ -1291,16 +1388,32 @@ async function main() {
     process.exit(1); // FAIL the build so Vercel shows it as failed
   }
 
-  // Step 4: Generate article HTML files in dist/blog/
+  // Step 4: Generate English article HTML files in dist/blog/
   const usedSlugs = new Set();
   for (const post of allArticles) {
     const slug = generateSlug(post.filename, post.data, usedSlugs);
     post.slug = slug;
 
-    const html = generateArticleHtml(post, post.category, allArticles);
+    const html = generateArticleHtml(post, post.category, allArticles, { lang: 'en' });
     const outPath = path.join(DIST_BLOG_DIR, `${slug}.html`);
     fs.writeFileSync(outPath, html);
     console.log(`  Generated: dist/blog/${slug}.html`);
+  }
+
+  // Step 4b: Generate Traditional Chinese article HTML files in dist/zh/blog/
+  if (zhArticles.length > 0) {
+    fs.mkdirSync(DIST_ZH_BLOG_DIR, { recursive: true });
+    const zhUsedSlugs = new Set(usedSlugs); // share slug namespace
+    for (const post of zhArticles) {
+      const slug = generateSlug(post.filename, post.data, zhUsedSlugs);
+      post.slug = slug;
+
+      // Use zh articles for related posts when available
+      const html = generateArticleHtml(post, post.category, zhArticles, { lang: 'zh-Hant' });
+      const outPath = path.join(DIST_ZH_BLOG_DIR, `${slug}.html`);
+      fs.writeFileSync(outPath, html);
+      console.log(`  Generated: dist/zh/blog/${slug}.html`);
+    }
   }
 
   // Step 5: Group articles by category and generate category pages
@@ -1311,21 +1424,47 @@ async function main() {
     byCategory[cat].push(post);
   }
 
-  // Generate category pages for ALL defined categories (even if empty)
-  // This prevents nav links and sitemap entries from 404ing
+  // Group zh articles by category
+  const zhByCategory = {};
+  for (const post of zhArticles) {
+    const cat = post.category || 'bazi-astrology';
+    if (!zhByCategory[cat]) zhByCategory[cat] = [];
+    zhByCategory[cat].push(post);
+  }
+
+  // Generate English category pages for ALL defined categories (even if empty)
   for (const cat of CATEGORY_FOLDERS) {
     const articles = byCategory[cat] || [];
-    const html = generateCategoryHtml(cat, articles);
+    const html = generateCategoryHtml(cat, articles, { lang: 'en' });
     const outPath = path.join(DIST_BLOG_DIR, `${cat}.html`);
     fs.writeFileSync(outPath, html);
     console.log(`  Updated: dist/blog/${cat}.html (${articles.length} articles)`);
   }
 
-  // Step 6: Generate blog index
-  const indexHtml = generateBlogIndex(allArticles);
+  // Generate Traditional Chinese category pages
+  if (zhArticles.length > 0) {
+    for (const cat of CATEGORY_FOLDERS) {
+      const articles = zhByCategory[cat] || [];
+      const html = generateCategoryHtml(cat, articles, { lang: 'zh-Hant' });
+      const outPath = path.join(DIST_ZH_BLOG_DIR, `${cat}.html`);
+      fs.writeFileSync(outPath, html);
+      console.log(`  Generated: dist/zh/blog/${cat}.html (${articles.length} articles)`);
+    }
+  }
+
+  // Step 6: Generate English blog index
+  const indexHtml = generateBlogIndex(allArticles, { lang: 'en' });
   const indexPath = path.join(DIST_BLOG_DIR, 'index.html');
   fs.writeFileSync(indexPath, indexHtml);
   console.log(`  Updated: dist/blog/index.html`);
+
+  // Step 6a: Generate Traditional Chinese blog index
+  if (zhArticles.length > 0) {
+    const zhIndexHtml = generateBlogIndex(zhArticles, { lang: 'zh-Hant' });
+    const zhIndexPath = path.join(DIST_ZH_BLOG_DIR, 'index.html');
+    fs.writeFileSync(zhIndexPath, zhIndexHtml);
+    console.log(`  Generated: dist/zh/blog/index.html`);
+  }
 
   // Step 6b: Generate bazi-recommendations.json for bazi result page sidebar
   console.log('Generating bazi-recommendations.json...');
@@ -1436,8 +1575,16 @@ async function main() {
   for (const cat of Object.keys(byCategory)) {
     staticUrls.push({ loc: `/blog/${cat}`, changefreq: 'weekly', priority: '0.7' });
   }
+  // Add zh blog index and zh category pages
+  if (zhArticles.length > 0) {
+    staticUrls.push({ loc: '/zh/blog/', changefreq: 'weekly', priority: '1.0' });
+    for (const cat of Object.keys(zhByCategory)) {
+      staticUrls.push({ loc: `/zh/blog/${cat}`, changefreq: 'weekly', priority: '0.7' });
+    }
+  }
   let sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
 `;
   for (const u of staticUrls) {
     sitemapXml += `    <url>
@@ -1447,7 +1594,7 @@ async function main() {
         <priority>${u.priority}</priority>
     </url>\n`;
   }
-  // Add blog articles from CMS
+  // Add blog articles from CMS (English)
   for (const post of allArticles) {
     const d = post.data.date instanceof Date ? post.data.date.toISOString().split('T')[0] : String(post.data.date || today);
     sitemapXml += `    <url>
@@ -1455,11 +1602,23 @@ async function main() {
         <lastmod>${d}</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
+        <xhtml:link rel="alternate" hreflang="zh-Hant" href="${SITE_URL}/zh/blog/${post.slug}"/>
+    </url>\n`;
+  }
+  // Add translated zh articles
+  for (const post of zhArticles) {
+    const d = post.data.date instanceof Date ? post.data.date.toISOString().split('T')[0] : String(post.data.date || today);
+    sitemapXml += `    <url>
+        <loc>${SITE_URL}/zh/blog/${post.slug}</loc>
+        <lastmod>${d}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="${SITE_URL}/blog/${post.slug}"/>
     </url>\n`;
   }
   sitemapXml += `</urlset>`;
   fs.writeFileSync(path.join(DIST_DIR, 'sitemap.xml'), sitemapXml);
-  console.log(`  Generated: sitemap.xml (${staticUrls.length + allArticles.length} URLs)`);
+  console.log(`  Generated: sitemap.xml (${staticUrls.length + allArticles.length + zhArticles.length} URLs)`);
 
   // Step 9: Generate clean URLs (create /about/index.html from /about.html)
   console.log('Generating clean URLs...');
