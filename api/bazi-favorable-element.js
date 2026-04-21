@@ -6,8 +6,8 @@
  * ============================================
  */
 
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
-const GEMINI_MODEL = 'gemini-2.0-flash';
+const DASHSCOPE_API_KEY = process.env.DASHSCOPE_API_KEY;
+const DASHSCOPE_MODEL = 'qwen-turbo';
 
 // 天干五行
 const STEM_WX = {'甲':'Wood','乙':'Wood','丙':'Fire','丁':'Fire','戊':'Earth','己':'Earth','庚':'Metal','辛':'Metal','壬':'Water','癸':'Water'};
@@ -96,23 +96,25 @@ Return ONLY a valid JSON object with exactly these fields, no other text:
 }
 
 /**
- * Call Google Gemini API with retry
+ * Call Qwen API (DashScope, OpenAI-compatible) with retry
  */
 async function callLLM(prompt, retries = 2) {
     for (let attempt = 0; attempt <= retries; attempt++) {
         try {
             const controller = new AbortController();
-            const timeout = setTimeout(() => controller.abort(), 25000); // 25s timeout
+            const timeout = setTimeout(() => controller.abort(), 25000);
 
-            const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_API_KEY}`, {
+            const res = await fetch('https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${DASHSCOPE_API_KEY}`
+                },
                 body: JSON.stringify({
-                    contents: [{ parts: [{ text: prompt }] }],
-                    generationConfig: {
-                        temperature: 0.3,
-                        maxOutputTokens: 1000
-                    }
+                    model: DASHSCOPE_MODEL,
+                    messages: [{ role: 'user', content: prompt }],
+                    temperature: 0.3,
+                    max_tokens: 1000
                 }),
                 signal: controller.signal
             });
@@ -122,7 +124,6 @@ async function callLLM(prompt, retries = 2) {
             if (!res.ok) {
                 const errText = await res.text();
                 if (res.status === 429 && attempt < retries) {
-                    // Rate limited, wait 2s and retry
                     await new Promise(r => setTimeout(r, 2000));
                     continue;
                 }
@@ -136,10 +137,10 @@ async function callLLM(prompt, retries = 2) {
             }
 
             const data = await res.json();
-            if (!data.candidates || !data.candidates[0]?.content?.parts?.[0]?.text) {
+            if (!data.choices?.[0]?.message?.content) {
                 throw new Error('LLM returned empty response. Please try again.');
             }
-            return data.candidates[0].content.parts[0].text.trim();
+            return data.choices[0].message.content.trim();
         } catch (err) {
             if (err.name === 'AbortError' && attempt < retries) {
                 await new Promise(r => setTimeout(r, 1000));
@@ -193,7 +194,7 @@ export default async function handler(req, res) {
             return res.status(400).json({ error: 'Missing chart data. Please calculate BaZi first.' });
         }
 
-        if (!GEMINI_API_KEY) {
+        if (!DASHSCOPE_API_KEY) {
             return res.status(500).json({ success: false, error: 'LLM service not configured. Please contact support.' });
         }
 
