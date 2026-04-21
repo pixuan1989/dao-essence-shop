@@ -96,34 +96,62 @@ Return ONLY a valid JSON object with exactly these fields, no other text:
 }
 
 /**
- * Call Google Gemini API
+ * Call Google Gemini API with retry
  */
-async function callLLM(prompt) {
-    const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_API_KEY}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            contents: [{ parts: [{ text: prompt }] }],
-            generationConfig: {
-                temperature: 0.3,
-                maxOutputTokens: 1000
+async function callLLM(prompt, retries = 2) {
+    for (let attempt = 0; attempt <= retries; attempt++) {
+        try {
+            const controller = new AbortController();
+            const timeout = setTimeout(() => controller.abort(), 25000); // 25s timeout
+
+            const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_API_KEY}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    contents: [{ parts: [{ text: prompt }] }],
+                    generationConfig: {
+                        temperature: 0.3,
+                        maxOutputTokens: 1000
+                    }
+                }),
+                signal: controller.signal
+            });
+
+            clearTimeout(timeout);
+
+            if (!res.ok) {
+                const errText = await res.text();
+                if (res.status === 429 && attempt < retries) {
+                    // Rate limited, wait 2s and retry
+                    await new Promise(r => setTimeout(r, 2000));
+                    continue;
+                }
+                if (res.status === 429) {
+                    throw new Error('Analysis service is busy. Please try again in 30 seconds.');
+                }
+                if (res.status === 401 || res.status === 403) {
+                    throw new Error('Analysis service is not configured. Please contact support.');
+                }
+                throw new Error(`Analysis service error (HTTP ${res.status}). Please try again later.`);
             }
-        })
-    });
 
-    if (!res.ok) {
-        const errText = await res.text();
-        if (res.status === 429) {
-            throw new Error('Analysis service is busy. Please try again in 30 seconds.');
+            const data = await res.json();
+            if (!data.candidates || !data.candidates[0]?.content?.parts?.[0]?.text) {
+                throw new Error('LLM returned empty response. Please try again.');
+            }
+            return data.candidates[0].content.parts[0].text.trim();
+        } catch (err) {
+            if (err.name === 'AbortError' && attempt < retries) {
+                await new Promise(r => setTimeout(r, 1000));
+                continue;
+            }
+            if (err.name === 'AbortError') {
+                throw new Error('Analysis timed out. Please try again.');
+            }
+            throw err;
         }
-        if (res.status === 401 || res.status === 403) {
-            throw new Error('Analysis service is not configured. Please contact support.');
-        }
-        throw new Error(`Analysis service error (HTTP ${res.status}). Please try again later.`);
     }
-
-    const data = await res.json();
-    return data.candidates[0].content.parts[0].text.trim();
+    throw new Error('Analysis failed after multiple attempts. Please try again later.');
 }
 
 /**
