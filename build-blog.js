@@ -768,23 +768,23 @@ function generateArticleHtml(post, category, allArticles) {
       case 'favorable-element':
         return `
         <div class="sidebar-cta sidebar-cta--favorable-element">
-            <h3>Discover Your Favorable Element</h3>
-            <p class="cta-sub">Your birth chart reveals the element that brings balance and fortune to your life. Find out your 喜用神 in seconds.</p>
+            <h3>Your Lucky Colors & Energy Guide</h3>
+            <p class="cta-sub">Your birth date reveals a personal energy profile — the colors, directions, and lifestyle choices that naturally support you. Discover yours in seconds.</p>
             <div class="cta-features">
                 <div class="cta-feat">
                     <span class="cta-feat-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></span>
-                    Favorable Element
+                    Lucky Colors
                 </div>
                 <div class="cta-feat">
                     <span class="cta-feat-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></span>
-                    Life Advice
+                    Best Directions
                 </div>
                 <div class="cta-feat">
                     <span class="cta-feat-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="13.5" cy="6.5" r="2.5"/><path d="M17.5 10.5l-2 5-4.5 1.5-3.5-3-2.5 4 1 3.5h5.5l1.5-2.5"/></svg></span>
-                    Lucky Colors & Directions
+                    Personal Energy Profile
                 </div>
             </div>
-            <a href="/favorable-element" class="cta-btn">Find My Element</a>
+            <a href="/favorable-element" class="cta-btn">Discover My Energy Guide</a>
         </div>`;
       case 'almanac':
         return `
@@ -805,7 +805,7 @@ function generateArticleHtml(post, category, allArticles) {
                     Do's and Don'ts
                 </div>
             </div>
-            <a href="/almanac.html" class="cta-btn">Check Today's Almanac</a>
+            <a href="/almanac" class="cta-btn">Check Today's Almanac</a>
         </div>`;
       case 'five-elements':
         return `
