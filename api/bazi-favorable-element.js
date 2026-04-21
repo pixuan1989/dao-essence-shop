@@ -7,8 +7,8 @@
 
 import paipan from '../bazi-calculator/paipan.js';
 
-const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
-const OPENAI_MODEL = 'gpt-4o-mini';
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
+const GEMINI_MODEL = 'gemini-2.0-flash';
 
 // 天干映射
 const STEMS = ['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'];
@@ -115,30 +115,34 @@ Return ONLY a valid JSON object with exactly these fields, no other text:
 }
 
 /**
- * Call OpenAI API
+ * Call Google Gemini API
  */
 async function callLLM(prompt) {
-    const res = await fetch('https://api.openai.com/v1/chat/completions', {
+    const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_API_KEY}`, {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${OPENAI_API_KEY}`
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-            model: OPENAI_MODEL,
-            messages: [{ role: 'user', content: prompt }],
-            temperature: 0.3,
-            max_tokens: 1000
+            contents: [{ parts: [{ text: prompt }] }],
+            generationConfig: {
+                temperature: 0.3,
+                maxOutputTokens: 1000
+            }
         })
     });
 
     if (!res.ok) {
         const errText = await res.text();
-        throw new Error(`OpenAI API error: ${res.status} - ${errText}`);
+        if (res.status === 429) {
+            throw new Error('Analysis service is busy. Please try again in 30 seconds.');
+        }
+        if (res.status === 401 || res.status === 403) {
+            throw new Error('Analysis service is not configured. Please contact support.');
+        }
+        throw new Error(`Analysis service error (HTTP ${res.status}). Please try again later.`);
     }
 
     const data = await res.json();
-    return data.choices[0].message.content.trim();
+    return data.candidates[0].content.parts[0].text.trim();
 }
 
 /**
@@ -197,7 +201,7 @@ export default async function handler(req, res) {
             return res.status(400).json({ error: 'Gender must be 1 (male) or 2 (female)' });
         }
 
-        if (!OPENAI_API_KEY) {
+        if (!GEMINI_API_KEY) {
             return res.status(500).json({ error: 'LLM service not configured' });
         }
 
@@ -243,7 +247,10 @@ export default async function handler(req, res) {
             analysis
         });
     } catch (e) {
-        console.error('Favorable element error:', e);
-        return res.status(500).json({ error: e.message || 'Internal server error' });
+        console.error('Favorable element error:', e.message || e);
+        return res.status(500).json({ 
+            success: false,
+            error: e.message || 'Internal server error' 
+        });
     }
 }
