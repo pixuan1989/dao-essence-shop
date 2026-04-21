@@ -891,7 +891,7 @@ function generateArticleHtml(post, category, allArticles) {
         "@type": "BreadcrumbList",
         "itemListElement": [
             {"@type": "ListItem", "position": 1, "name": "Home", "item": "${SITE_URL}/"},
-            {"@type": "ListItem", "position": 2, "name": "Blog", "item": "${SITE_URL}/blog/"},
+            {"@type": "ListItem", "position": 2, "name": "Blog", "item": "${SITE_URL}/blog"},
             {"@type": "ListItem", "position": 3, "name": "${escapeHtml(data.title)}", "item": "${SITE_URL}/blog/${slug}"}
         ]
     }
@@ -1076,10 +1076,10 @@ function generateBlogIndex(allArticles) {
     <meta name="description" content="Explore articles on BaZi astrology, Feng Shui, Five Elements theory, Taoist meditation, Chinese zodiac, and daily Chinese horoscopes.">
     <meta name="robots" content="index, follow">
     <meta property="og:title" content="Blog | DAO Essence">
-    <meta property="og:url" content="${SITE_URL}/blog/">
+    <meta property="og:url" content="${SITE_URL}/blog">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="DAO Essence">
-    <link rel="canonical" href="${SITE_URL}/blog/">
+    <link rel="canonical" href="${SITE_URL}/blog">
     <link rel="stylesheet" href="/styles.min.css?v=${CSS_VERSION}">
     <script src="/main.min.js?v=${CSS_VERSION}" defer></script>
     <style>
