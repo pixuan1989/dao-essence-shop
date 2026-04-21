@@ -33,6 +33,12 @@ const HIDDEN_PRODUCT_IDS = [
   'prod_3fJInBNekM9UVJwtClgUtx',  // Almanac Full Access ($2.99)
   'prod_2wj3G9PQp6ZlbD8oFJdr2X',  // Soulmate Timing Unlock ($2.99)
 ];
+
+/**
+ * 产品分类映射表
+ * Key: 产品 ID, Value: 商城分类
+ */
+const PRODUCT_CATEGORY_MAP = {
   // 八字分析类
   'prod_28PqAKMEom5WGRH1w9O35n': 'bazi-analysis',       // 八字分析报告
   // 道家冥想类（如有新增再加）
