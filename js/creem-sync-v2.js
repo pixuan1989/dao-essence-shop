@@ -31,7 +31,7 @@ const CACHE_CONFIG = {
  */
 const HIDDEN_PRODUCT_IDS = [
   'prod_3fJInBNekM9UVJwtClgUtx',  // Almanac Full Access ($2.99)
-  // Soulmeate Timing Unlock — 用户在 Creem 后台创建后，把产品 ID 填在这里
+  'prod_2wj3G9PQp6ZlbD8oFJdr2X',  // Soulmate Timing Unlock ($2.99)
 ];
   // 八字分析类
   'prod_28PqAKMEom5WGRH1w9O35n': 'bazi-analysis',       // 八字分析报告
