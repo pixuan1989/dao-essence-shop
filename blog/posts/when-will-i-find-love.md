@@ -1,8 +1,6 @@
 ---
 title: When Will I Find Love? Your Birth Date Knows
 category: bazi-astrology
-cta_cards:
-  - soulmate
 tags:
   - when-will-i-find-love
   - love-timing
@@ -14,7 +12,9 @@ date: 2026-04-18
 author: DAO Essence
 readTime: 13
 pinned: true
-image: https://raw.githubusercontent.com/pixuan1989/dao-essence-shop/main/images/blog/12345-1x.webp
+image: https://raw.githubusercontent.com/pixuan1989/dao-essence-shop/main/images/blog/211243434554.webp
+cta_cards:
+  - soulmate
 faq:
   - question: Can astrology really tell me when I'll find love?
     answer: "Astrology — including Chinese astrology — doesn't give exact dates.
