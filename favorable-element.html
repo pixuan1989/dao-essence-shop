@@ -646,13 +646,14 @@
         const rt = p.fatemaps(xb, year, month, day, hour, 0, 0);
         if (!rt) throw new Error('BaZi calculation failed');
 
-        const dayMaster = STEMS[rt.ctg[2] % 10];
+        // paipan returns ctg/cdz as Chinese characters directly
+        const dayMaster = rt.ctg[2];
 
         // Build pillars
         const pillars = [];
         for (let i = 0; i < 4; i++) {
-            const stem = STEMS[rt.ctg[i] % 10];
-            const branch = BRANCHES[rt.cdz[i] % 12];
+            const stem = rt.ctg[i];
+            const branch = rt.cdz[i];
             pillars.push({
                 position: ['Year','Month','Day','Hour'][i],
                 stem, branch,
@@ -665,11 +666,11 @@
         // Five elements count (stems + branches + hidden stems)
         const wxCount = { Wood: 0, Fire: 0, Earth: 0, Metal: 0, Water: 0 };
         for (let i = 0; i < 4; i++) {
-            wxCount[STEM_WX[STEMS[rt.ctg[i] % 10]]]++;
-            wxCount[BRANCH_WX[BRANCHES[rt.cdz[i] % 12]]]++;
+            wxCount[STEM_WX[rt.ctg[i]]]++;
+            wxCount[BRANCH_WX[rt.cdz[i]]]++;
         }
         for (let i = 0; i < 4; i++) {
-            const branch = BRANCHES[rt.cdz[i] % 12];
+            const branch = rt.cdz[i];
             for (const hidden of BRANCH_HIDDEN[branch]) {
                 wxCount[STEM_WX[hidden]]++;
             }
