@@ -9,7 +9,7 @@ date: 2026-04-21
 author: Xuanzhen
 readTime: 8
 pinned: true
-image: https://raw.githubusercontent.com/pixuan1989/dao-essence-shop/main/images/blog/234235423424-1x.webp
+image: https://raw.githubusercontent.com/pixuan1989/dao-essence-shop/main/images/blog/生肖.webp
 cta_cards:
   - bazi
   - zodiac-lookup
