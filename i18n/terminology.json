@@ -2,6 +2,7 @@
   "version": "1.0",
   "description": "DaoEssence 玄学术语映射表 — 英文→繁體中文（港台風格）",
   "note": "用於大模型翻譯時的 system prompt 詞典，確保術語一致性",
+  "maintenance_rule": "每次翻譯或審閱文章時，自動檢查是否有新術語不在本表中，有則收錄到對應分類。新分類可自行新增，保持結構一致。版本號按修改次遞增。",
   "categories": {
     "core_systems": {
       "BaZi": "八字",
