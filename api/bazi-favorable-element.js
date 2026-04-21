@@ -86,10 +86,13 @@ Return ONLY a valid JSON object with exactly these fields, no other text:
   "strength": "Strong or Weak",
   "favorableElement": "Wood or Fire or Earth or Metal or Water",
   "favorableElementZh": "木 or 火 or 土 or 金 or 水",
-  "explanation": "A 2-3 sentence plain English explanation of WHY this element is favorable. Use everyday language, no jargon. Example: 'Your chart has too much Metal energy, making you prone to stress. Adding Water helps Metal flow smoothly and brings balance.'",
+  "explanation": "A 2-3 sentence plain English explanation of WHY this element is favorable. Use everyday language, no jargon.",
   "lifeAdvice": ["3 practical, actionable life tips based on the favorable element, each 15-25 words"],
   "luckyColors": ["3 colors that correspond to the favorable element in Five Elements theory"],
   "luckyDirections": ["2 directions that correspond to the favorable element"],
+  "bestCareers": ["4 career fields or job types that align with the favorable element. Be specific and practical, e.g. 'Education & Training' not 'Wood jobs'. Use everyday English."],
+  "luckyAccessories": ["4 wearable/decorative items related to the favorable element. Include crystal/bracelet recommendations, e.g. 'Green Aventurine bracelet for Wood energy', 'Red Agate pendant for Fire energy'. Be specific with materials."],
+  "desktopThemes": ["3 desktop wallpaper or home decor style suggestions that incorporate the favorable element's colors and energy, e.g. 'Forest green nature wallpaper with morning light' for Wood"],
   "avoidElement": "The element to avoid",
   "avoidElementZh": "Chinese character of element to avoid"
 }`;

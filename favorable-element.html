@@ -776,6 +776,24 @@
             dirsHtml += '<span class="fe-tag">' + d + '</span>';
         });
 
+        // Best careers
+        let careersHtml = '';
+        (analysis.bestCareers || []).forEach(function(c) {
+            careersHtml += '<li class="fe-advice-item"><span class="fe-advice-num">' + (analysis.bestCareers.indexOf(c) + 1) + '</span><span>' + c + '</span></li>';
+        });
+
+        // Lucky accessories
+        let accessoriesHtml = '';
+        (analysis.luckyAccessories || []).forEach(function(a) {
+            accessoriesHtml += '<li class="fe-advice-item"><span class="fe-advice-num">' + (analysis.luckyAccessories.indexOf(a) + 1) + '</span><span>' + a + '</span></li>';
+        });
+
+        // Desktop themes
+        let themesHtml = '';
+        (analysis.desktopThemes || []).forEach(function(t) {
+            themesHtml += '<li class="fe-advice-item"><span class="fe-advice-num">' + (analysis.desktopThemes.indexOf(t) + 1) + '</span><span>' + t + '</span></li>';
+        });
+
         const strengthClass = analysis.strength === 'Strong' ? 'fe-strength-strong' : 'fe-strength-weak';
 
         document.getElementById('feResult').innerHTML =
@@ -823,6 +841,30 @@
                     'Favorable Directions' +
                 '</div>' +
                 '<div class="fe-tags">' + dirsHtml + '</div>' +
+            '</div>' +
+
+            '<div class="fe-section">' +
+                '<div class="fe-section-title">' +
+                    '<svg viewBox="0 0 24 24"><path d="M20 7H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2zM16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="12.01"/></svg>' +
+                    'Best Career Fields' +
+                '</div>' +
+                '<ul class="fe-advice-list">' + careersHtml + '</ul>' +
+            '</div>' +
+
+            '<div class="fe-section">' +
+                '<div class="fe-section-title">' +
+                    '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 12l2 2 4-4"/></svg>' +
+                    'Lucky Accessories & Crystals' +
+                '</div>' +
+                '<ul class="fe-advice-list">' + accessoriesHtml + '</ul>' +
+            '</div>' +
+
+            '<div class="fe-section">' +
+                '<div class="fe-section-title">' +
+                    '<svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>' +
+                    'Desktop & Home Decor Themes' +
+                '</div>' +
+                '<ul class="fe-advice-list">' + themesHtml + '</ul>' +
             '</div>' +
 
             '<div class="fe-avoid">' +
