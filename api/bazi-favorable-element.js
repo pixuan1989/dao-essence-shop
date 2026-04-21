@@ -5,7 +5,8 @@
  * ============================================
  */
 
-import paipan from '../bazi-calculator/paipan.js';
+import { readFileSync } from 'fs';
+import { join } from 'path';
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 const GEMINI_MODEL = 'gemini-2.0-flash';
@@ -208,7 +209,15 @@ export default async function handler(req, res) {
         // Step 1: Calculate BaZi chart using paipan.js
         let rt;
         try {
-            const p = new paipan();
+            // paipan.js is not an ES module; load via eval
+            // Vercel CWD is project root, so bazi-calculator/paipan.js is accessible
+            const paipanPath = join(process.cwd(), 'bazi-calculator', 'paipan.js');
+            const paipanCode = readFileSync(paipanPath, 'utf8');
+            const fn = new Function('exports', paipanCode.replace('window.p = new paipan();', 'exports.paipan = paipan;'));
+            const mod = {};
+            fn(mod);
+            const PaipanClass = mod.paipan;
+            const p = new PaipanClass();
             p.pdy = true;
             rt = p.fatemaps(xb, yy, mm, dd, hh, 0, 0);
             if (!rt) {
