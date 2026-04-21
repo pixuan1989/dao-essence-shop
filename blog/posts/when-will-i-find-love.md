@@ -163,7 +163,7 @@ While waiting for your favorable love season, you can:
 
 ## Ready to Discover Your Love Timing?
 
-Your birth date already holds the answers. Our [free soulmate direction calculator](/soulmate-calculator) analyzes your BaZi chart and reveals:
+Your birth date already holds the answers. Our [free soulmate finder](/soulmate-calculator) analyzes your BaZi chart and reveals:
 
 * 🧭 Your **soulmate direction** — where you'll most likely meet your soulmate
 * ⏰ Your **love timing** — favorable age range and zodiac years

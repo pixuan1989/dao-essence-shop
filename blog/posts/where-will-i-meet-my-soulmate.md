@@ -75,7 +75,7 @@ The calculation is based on your **birth date**. Here's the simplified logic:
 
 The secondary direction also carries supportive energy. For example, a Wood Day Master has East as primary and Southeast as secondary. Both directions are worth exploring.
 
-If you want to skip the manual calculation, you can use our [free soulmate direction calculator](/soulmate-calculator) — it takes your birth date and instantly reveals your direction, timing, and love style.
+If you want to skip the manual calculation, you can use our [free soulmate finder](/soulmate-calculator) — it takes your birth date and instantly reveals your direction, timing, and love style.
 
 ## What Your Soulmate Direction Means (Element by Element)
 
@@ -138,7 +138,7 @@ Direction answers *where*. But *when* is equally important. In BaZi, your love t
 * **Beneficial zodiac years** — certain animal years activate your love energy more strongly
 * **Da Yun cycles** — your 10-year life phases show when love energy intensifies
 
-For a complete reading that covers both direction and timing, our [soulmate direction calculator](/soulmate-calculator) analyzes your birth chart and delivers personalized results — including your love timing forecast and relationship archetype.
+For a complete reading that covers both direction and timing, our [soulmate finder](/soulmate-calculator) analyzes your birth chart and delivers personalized results — including your love timing forecast and relationship archetype.
 
 ## Final Thoughts
 
@@ -151,4 +151,4 @@ The ancient Chinese believed that every person has a **Yuan Fen** (缘份) — a
 * [Love Prediction by Date of Birth](/blog/love-prediction-by-date-of-birth) — How your birth date reveals your love timing and soulmate
 * [When Will I Find Love?](/blog/when-will-i-find-love) — What Chinese astrology says about your love timing
 
-Ready to discover yours? [Find your soulmate direction now →](/soulmate-calculator)
+Ready to discover yours? [Find your soulmate now →](/soulmate-calculator)
