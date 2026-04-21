@@ -106,7 +106,7 @@ While a full compatibility reading requires both partners' charts, your solo cha
 
 ## How to Get Your Love Prediction
 
-You don't need to study BaZi for years to access this wisdom. Our [free soulmate finder](/soulmate-calculator) takes your birth date and delivers an instant reading covering:
+You don't need to study BaZi for years to access this wisdom. Our [soulmate finder](/soulmate-calculator) takes your birth date and delivers an instant reading covering:
 
 - 🧭 **Your soulmate direction** — where you're most likely to meet your soulmate
 - ⏰ **Your love timing** — favorable age range and zodiac years
@@ -126,4 +126,4 @@ That's the real power of love prediction by birth date — not knowing the futur
 - [Where Will I Meet My Soulmate?](/blog/where-will-i-meet-my-soulmate) — Your complete guide to soulmate direction in Chinese astrology
 - [When Will I Find Love?](/blog/when-will-i-find-love) — What Chinese astrology says about your love timing
 
-Ready to see what your birth date reveals? [Get your free love prediction →](/soulmate-calculator)
+Ready to see what your birth date reveals? [Get your love prediction →](/soulmate-calculator)

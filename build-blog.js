@@ -748,7 +748,7 @@ function generateArticleHtml(post, category, allArticles) {
         return `
         <div class="sidebar-cta sidebar-cta--soulmate">
             <h3>Find Your Soulmate</h3>
-            <p class="cta-sub">Your birth date holds the map to your most fated love encounter. Discover your love direction, timing, and style — free.</p>
+            <p class="cta-sub">Your birth date holds the map to your most fated love encounter. Discover your love direction, timing, and style.</p>
             <div class="cta-features">
                 <div class="cta-feat">
                     <span class="cta-feat-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg></span>

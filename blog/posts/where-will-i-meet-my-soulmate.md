@@ -75,7 +75,7 @@ The calculation is based on your **birth date**. Here's the simplified logic:
 
 The secondary direction also carries supportive energy. For example, a Wood Day Master has East as primary and Southeast as secondary. Both directions are worth exploring.
 
-If you want to skip the manual calculation, you can use our [free soulmate finder](/soulmate-calculator) — it takes your birth date and instantly reveals your direction, timing, and love style.
+If you want to skip the manual calculation, you can use our [soulmate finder](/soulmate-calculator) — it takes your birth date and instantly reveals your direction, timing, and love style.
 
 ## What Your Soulmate Direction Means (Element by Element)
 
