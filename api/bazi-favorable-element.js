@@ -1,25 +1,19 @@
 /**
  * ============================================
  * BaZi Favorable Element API (Vercel Function)
- * 排盘 + LLM 喜用神分析
+ * 接收前端排盘数据 + LLM 喜用神分析
+ * (paipan.js 排盘在前端完成，API 只做 LLM 分析)
  * ============================================
  */
-
-import { readFileSync } from 'fs';
-import { join } from 'path';
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 const GEMINI_MODEL = 'gemini-2.0-flash';
 
-// 天干映射
-const STEMS = ['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'];
-const BRANCHES = ['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];
-
 // 天干五行
-const STEM_WX = {'甲':'木','乙':'木','丙':'火','丁':'火','戊':'土','己':'土','庚':'金','辛':'金','壬':'水','癸':'水'};
+const STEM_WX = {'甲':'Wood','乙':'Wood','丙':'Fire','丁':'Fire','戊':'Earth','己':'Earth','庚':'Metal','辛':'Metal','壬':'Water','癸':'Water'};
 
 // 地支五行
-const BRANCH_WX = {'子':'水','丑':'土','寅':'木','卯':'木','辰':'土','巳':'火','午':'火','未':'土','申':'金','酉':'金','戌':'土','亥':'水'};
+const BRANCH_WX = {'子':'Water','丑':'Earth','寅':'Wood','卯':'Wood','辰':'Earth','巳':'Fire','午':'Fire','未':'Earth','申':'Metal','酉':'Metal','戌':'Earth','亥':'Water'};
 
 // 地支藏干
 const BRANCH_HIDDEN = {
@@ -29,53 +23,39 @@ const BRANCH_HIDDEN = {
     '酉': ['辛'], '戌': ['戊','辛','丁'], '亥': ['壬','甲']
 };
 
-// 五行英文
-const WX_EN = {'木':'Wood','火':'Fire','土':'Earth','金':'Metal','水':'Water'};
+// 中文五行 → 英文
+const WX_ZH_EN = {'木':'Wood','火':'Fire','土':'Earth','金':'Metal','水':'Water'};
 
 /**
- * 构建传给 LLM 的结构化数据
+ * 从前端传来的排盘数据构建 LLM prompt 所需的结构
+ * 前端传入: { pillars, dayMaster, gender, wxCount }
  */
-function buildBaziData(rt, gender) {
-    const dayStem = STEMS[rt.ctg[2] % 10];
-    const dayWx = STEM_WX[dayStem];
-    const genderText = gender === 1 ? 'Male' : 'Female';
+function buildBaziData(chartData) {
+    const dayWx = STEM_WX[chartData.dayMaster] || 'Unknown';
+    const genderText = chartData.gender === 1 ? 'Male' : 'Female';
 
-    // 四柱
-    const pillars = [];
-    for (let i = 0; i < 4; i++) {
-        const stem = STEMS[rt.ctg[i] % 10];
-        const branch = BRANCHES[rt.cdz[i] % 12];
-        pillars.push({ stem, branch, stemWx: STEM_WX[stem], branchWx: BRANCH_WX[branch], hidden: BRANCH_HIDDEN[branch].map(s => s + '(' + STEM_WX[s] + ')') });
-    }
+    // 重新计算英文五行的隐藏干信息
+    const pillars = chartData.pillars.map(p => {
+        const hiddenWxInfo = (BRANCH_HIDDEN[p.branch] || []).map(s => s + '(' + (STEM_WX[s] || '') + ')');
+        return {
+            stem: p.stem,
+            branch: p.branch,
+            stemWx: STEM_WX[p.stem] || '',
+            branchWx: BRANCH_WX[p.branch] || '',
+            hidden: hiddenWxInfo
+        };
+    });
 
-    // 五行统计
-    const wxCount = { '木': 0, '火': 0, '土': 0, '金': 0, '水': 0 };
-    for (let i = 0; i < 4; i++) {
-        wxCount[STEM_WX[STEMS[rt.ctg[i] % 10]]]++;
-        wxCount[BRANCH_WX[BRANCHES[rt.cdz[i] % 12]]]++;
-    }
-    // 藏干也算入
-    for (let i = 0; i < 4; i++) {
-        const branch = BRANCHES[rt.cdz[i] % 12];
-        for (const hidden of BRANCH_HIDDEN[branch]) {
-            wxCount[STEM_WX[hidden]]++;
-        }
-    }
-
-    const wxEnCount = {};
-    for (const [k, v] of Object.entries(wxCount)) {
-        wxEnCount[WX_EN[k]] = v;
-    }
+    // 合并英文五元素计数（前端传的是英文 key）
+    const wxEnCount = chartData.wxCount || { Wood: 0, Fire: 0, Earth: 0, Metal: 0, Water: 0 };
 
     return {
-        dayStem,
-        dayWx,
-        dayWxEn: WX_EN[dayWx],
+        dayStem: chartData.dayMaster,
+        dayWx: dayWx,
+        dayWxEn: dayWx,
         gender: genderText,
         pillars,
-        wxCount,
-        wxEnCount,
-        nwx: rt.nwx || []
+        wxEnCount
     };
 }
 
@@ -178,81 +158,29 @@ export default async function handler(req, res) {
     }
 
     try {
-        const { birth_year, birth_month, birth_day, birth_hour, gender } = req.body;
+        const { chart } = req.body;
 
-        // Validate
-        if (!birth_year || !birth_month || !birth_day || gender === undefined) {
-            return res.status(400).json({ error: 'Missing required fields: birth_year, birth_month, birth_day, gender' });
-        }
-
-        const yy = parseInt(birth_year);
-        const mm = parseInt(birth_month);
-        const dd = parseInt(birth_day);
-        const hh = parseInt(birth_hour);
-        const xb = parseInt(gender); // 1=male, 2=female (paipan convention)
-
-        // Basic range validation
-        if (yy < 1900 || yy > 2100 || mm < 1 || mm > 12 || dd < 1 || dd > 31) {
-            return res.status(400).json({ error: 'Invalid date range' });
-        }
-        if (hh < -1 || hh > 23) {
-            return res.status(400).json({ error: 'Invalid hour (-1 for unknown)' });
-        }
-        if (xb !== 1 && xb !== 2) {
-            return res.status(400).json({ error: 'Gender must be 1 (male) or 2 (female)' });
+        // Validate chart data from frontend paipan.js
+        if (!chart || !chart.pillars || !chart.dayMaster || chart.gender === undefined) {
+            return res.status(400).json({ error: 'Missing chart data. Please calculate BaZi first.' });
         }
 
         if (!GEMINI_API_KEY) {
-            return res.status(500).json({ error: 'LLM service not configured' });
+            return res.status(500).json({ success: false, error: 'LLM service not configured. Please contact support.' });
         }
 
-        // Step 1: Calculate BaZi chart using paipan.js
-        let rt;
-        try {
-            // paipan.js is not an ES module; load via eval
-            // Vercel CWD is project root, so bazi-calculator/paipan.js is accessible
-            const paipanPath = join(process.cwd(), 'bazi-calculator', 'paipan.js');
-            const paipanCode = readFileSync(paipanPath, 'utf8');
-            const fn = new Function('exports', paipanCode.replace('window.p = new paipan();', 'exports.paipan = paipan;'));
-            const mod = {};
-            fn(mod);
-            const PaipanClass = mod.paipan;
-            const p = new PaipanClass();
-            p.pdy = true;
-            rt = p.fatemaps(xb, yy, mm, dd, hh, 0, 0);
-            if (!rt) {
-                return res.status(500).json({ error: 'BaZi calculation failed' });
-            }
-        } catch (e) {
-            console.error('Paipan error:', e);
-            return res.status(500).json({ error: 'BaZi calculation error' });
-        }
+        // Step 1: Build structured data from frontend chart
+        const baziData = buildBaziData(chart);
 
-        // Step 2: Build structured data
-        const baziData = buildBaziData(rt, xb);
-
-        // Step 3: Call LLM for favorable element analysis
+        // Step 2: Call LLM for favorable element analysis
         const prompt = buildPrompt(baziData);
         const llmResponse = await callLLM(prompt);
         const analysis = parseLLMResponse(llmResponse);
 
-        // Step 4: Return combined result
+        // Step 3: Return combined result
         return res.status(200).json({
             success: true,
-            chart: {
-                pillars: baziData.pillars.map((p, i) => ({
-                    position: ['Year', 'Month', 'Day', 'Hour'][i],
-                    stem: p.stem,
-                    branch: p.branch,
-                    stemElement: p.stemWx,
-                    branchElement: p.branchWx,
-                    hiddenStems: BRANCH_HIDDEN[p.branch]
-                })),
-                dayMaster: baziData.dayStem,
-                dayMasterElement: baziData.dayWx,
-                dayMasterElementEn: baziData.dayWxEn,
-                wxCount: baziData.wxEnCount
-            },
+            chart,
             analysis
         });
     } catch (e) {

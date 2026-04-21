@@ -567,6 +567,7 @@
     </div>
 </div>
 
+<script src="bazi-calculator/paipan.min.js"></script>
 <script>
 (function() {
     // Populate year (1940-2026)
@@ -622,6 +623,68 @@
         return map[element] || element;
     }
 
+    // WX helper tables
+    const STEMS = ['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'];
+    const BRANCHES = ['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];
+    const STEM_WX = {'甲':'Wood','乙':'Wood','丙':'Fire','丁':'Fire','戊':'Earth','己':'Earth','庚':'Metal','辛':'Metal','壬':'Water','癸':'Water'};
+    const BRANCH_WX = {'子':'Water','丑':'Earth','寅':'Wood','卯':'Wood','辰':'Earth','巳':'Fire','午':'Fire','未':'Earth','申':'Metal','酉':'Metal','戌':'Earth','亥':'Water'};
+    const BRANCH_HIDDEN = {
+        '子': ['癸'], '丑': ['己','癸','辛'], '寅': ['甲','丙','戊'],
+        '卯': ['乙'], '辰': ['戊','乙','癸'], '巳': ['丙','戊','庚'],
+        '午': ['丁','己'], '未': ['己','丁','乙'], '申': ['庚','壬','戊'],
+        '酉': ['辛'], '戌': ['戊','辛','丁'], '亥': ['壬','甲']
+    };
+
+    /**
+     * Run BaZi chart calculation locally using paipan.js
+     * Returns { pillars, dayMaster, gender, wxCount }
+     */
+    function calculateChart(genderVal, year, month, day, hour) {
+        const xb = parseInt(genderVal); // 1=male, 2=female
+        const p = new paipan();
+        p.pdy = true;
+        const rt = p.fatemaps(xb, year, month, day, hour, 0, 0);
+        if (!rt) throw new Error('BaZi calculation failed');
+
+        const dayMaster = STEMS[rt.ctg[2] % 10];
+
+        // Build pillars
+        const pillars = [];
+        for (let i = 0; i < 4; i++) {
+            const stem = STEMS[rt.ctg[i] % 10];
+            const branch = BRANCHES[rt.cdz[i] % 12];
+            pillars.push({
+                position: ['Year','Month','Day','Hour'][i],
+                stem, branch,
+                stemElement: STEM_WX[stem],
+                branchElement: BRANCH_WX[branch],
+                hiddenStems: BRANCH_HIDDEN[branch]
+            });
+        }
+
+        // Five elements count (stems + branches + hidden stems)
+        const wxCount = { Wood: 0, Fire: 0, Earth: 0, Metal: 0, Water: 0 };
+        for (let i = 0; i < 4; i++) {
+            wxCount[STEM_WX[STEMS[rt.ctg[i] % 10]]]++;
+            wxCount[BRANCH_WX[BRANCHES[rt.cdz[i] % 12]]]++;
+        }
+        for (let i = 0; i < 4; i++) {
+            const branch = BRANCHES[rt.cdz[i] % 12];
+            for (const hidden of BRANCH_HIDDEN[branch]) {
+                wxCount[STEM_WX[hidden]]++;
+            }
+        }
+
+        return {
+            pillars,
+            dayMaster,
+            dayMasterElement: STEM_WX[dayMaster],
+            dayMasterElementEn: STEM_WX[dayMaster],
+            gender: xb,
+            wxCount
+        };
+    }
+
     // Form submit
     document.getElementById('feForm').addEventListener('submit', async function(e) {
         e.preventDefault();
@@ -633,16 +696,20 @@
         showStep(2);
 
         try {
+            // Step 1: Calculate BaZi chart locally using paipan.js
+            const chart = calculateChart(
+                gender,
+                parseInt(yearSel.value),
+                parseInt(monthSel.value),
+                parseInt(daySel.value),
+                parseInt(hourSel.value)
+            );
+
+            // Step 2: Send chart to API for LLM analysis
             const res = await fetch('/api/bazi-favorable-element', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    birth_year: parseInt(yearSel.value),
-                    birth_month: parseInt(monthSel.value),
-                    birth_day: parseInt(daySel.value),
-                    birth_hour: parseInt(hourSel.value),
-                    gender: parseInt(gender)
-                })
+                body: JSON.stringify({ chart })
             });
 
             const data = await res.json();
