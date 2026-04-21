@@ -26,10 +26,13 @@ const CACHE_CONFIG = {
 };
 
 /**
- * 产品ID到分类的映射表
- * 用于覆盖Creem API返回的分类
+ * 不在商城显示的内部产品 ID（工具解锁类）
+ * 这些产品通过特定页面直接链接到 checkout，不在 /shop 展示
  */
-const PRODUCT_CATEGORY_MAP = {
+const HIDDEN_PRODUCT_IDS = [
+  'prod_3fJInBNekM9UVJwtClgUtx',  // Almanac Full Access ($2.99)
+  // Soulmeate Timing Unlock — 用户在 Creem 后台创建后，把产品 ID 填在这里
+];
   // 八字分析类
   'prod_28PqAKMEom5WGRH1w9O35n': 'bazi-analysis',       // 八字分析报告
   // 道家冥想类（如有新增再加）
@@ -157,7 +160,17 @@ function transformProducts(products) {
     return FALLBACK_PRODUCTS;
   }
 
-  return products.map(product => {
+  return products
+    // Filter out hidden products (tool unlocks that should not appear in /shop)
+    .filter(function(product) {
+      var pid = product.id || product.creemId || product.productId || product.product_id || '';
+      if (HIDDEN_PRODUCT_IDS.indexOf(pid) > -1) {
+        console.log('🚫 隐藏商品（不在商城显示）: ' + pid + ' — ' + (product.name || ''));
+        return false;
+      }
+      return true;
+    })
+    .map(function(product) {
     const productId = product.id || product.creemId || product.productId || product.product_id || '未知';
     // 🔥 使用映射表覆盖分类，如果没有映射则使用API返回的分类
     const mappedCategory = PRODUCT_CATEGORY_MAP[productId] || product.category || 'spiritual';
