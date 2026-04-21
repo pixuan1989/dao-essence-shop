@@ -83,8 +83,6 @@ Metal	        庚/辛	                  Refinement, discipline
 
 Water	        壬/癸	                  Flow, adaptability
 
-
-
 **Step 3: Check the Annual Influence**
 
 Your Ben Ming Nian’s Earthly Branch will be the same as your birth year branch. In BaZi, this creates a relationship called Fan Tai Sui (犯太岁) — literally “clashing with Tai Sui.” The nature of this clash depends on the specific branch:
@@ -100,8 +98,6 @@ Your Ben Ming Nian’s Earthly Branch will be the same as your birth year branch
 •Dragon → Dog clash
 
 •Snake → Pig clash
-
-
 
 When your birth branch clashes with the year’s governing branch, the energy tension is at its highest. But “clash” doesn’t mean “disaster” — it means change. The direction of that change depends on your Day Master.
 
@@ -161,7 +157,7 @@ The most common Ben Ming Nian advice in English articles is “wear red.” Red 
 
 **The Common Thread: Awareness Over Fear.** What Ben Ming Nian teaches, through the BaZi lens, is cyclical awareness. Every 12 years, life presents a natural checkpoint. Instead of fearing it, you can use it — run your chart, understand your Day Master, and make informed decisions about the year ahead.
 
-For a deeper, personalized analysis, consider our **BaZi Life Guidance reading** [Free BaZi Calculator — Four Pillars of Destiny Birth Chart Reading ](https://www.daoessentia.com/bazi-form) — a detailed report crafted by Master Xuanzhen.
+For a deeper, personalized analysis, consider our **BaZi Life Guidance reading** [Four Pillars of Destiny Birth Chart Reading ](https://www.daoessentia.com/bazi-form) — a detailed report crafted by Master Xuanzhen.
 
 **Frequently Asked Questions**
 
