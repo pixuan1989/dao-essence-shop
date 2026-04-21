@@ -1371,13 +1371,13 @@ async function main() {
     // Sort regular articles by date (newest first)
     filteredRegular.sort((a, b) => new Date(b.data.date) - new Date(a.data.date));
 
-    // Homepage shows up to 4 articles: pinned first, then fill with latest
+    // Homepage shows up to 6 articles: pinned first, then fill with latest
     const homepageCount = 6;
     const regularCount = Math.max(0, homepageCount - pinnedArticles.length);
     const displayArticles = [
       ...pinnedArticles,
       ...filteredRegular.slice(0, regularCount)
-    ];
+    ].slice(0, homepageCount);
 
     console.log(`  Pinned: ${pinnedArticles.length}, Regular: ${displayArticles.length - pinnedArticles.length}, Total: ${displayArticles.length}`);
 
