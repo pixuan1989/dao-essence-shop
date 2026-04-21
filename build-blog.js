@@ -789,23 +789,23 @@ function generateArticleHtml(post, category, allArticles) {
       case 'almanac':
         return `
         <div class="sidebar-cta sidebar-cta--almanac">
-            <h3>Is Today a Good Day?</h3>
-            <p class="cta-sub">Check the Chinese Almanac — 2,000 years of astrological wisdom distilled into a simple daily rating. Find your best day for any plan.</p>
+            <h3>Is Today a Lucky Day?</h3>
+            <p class="cta-sub">Pick the perfect date for weddings, moving, business openings, and more. 2,000 years of Chinese astrological wisdom in one click.</p>
             <div class="cta-features">
                 <div class="cta-feat">
                     <span class="cta-feat-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>
-                    Daily 5-Star Rating
+                    Daily Energy Rating
                 </div>
                 <div class="cta-feat">
                     <span class="cta-feat-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2 7h7l-5.5 4 2 7L12 16l-5.5 4 2-7L3 9h7z"/></svg></span>
-                    Best Dates for Any Plan
+                    Auspicious Dates for Any Plan
                 </div>
                 <div class="cta-feat">
                     <span class="cta-feat-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span>
                     Do's and Don'ts
                 </div>
             </div>
-            <a href="/almanac" class="cta-btn">Check Today's Almanac</a>
+            <a href="/almanac" class="cta-btn">Pick My Auspicious Date</a>
         </div>`;
       case 'five-elements':
         return `
