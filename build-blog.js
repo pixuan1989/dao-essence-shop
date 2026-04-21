@@ -293,6 +293,38 @@ const ARTICLE_STYLES = `
         }
         .sidebar-cta--soulmate .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(196,125,125,0.45); background: linear-gradient(135deg, #D49090, #C47D7D); }
 
+        /* ── Sidebar CTA: Favorable Element (gold / wisdom theme) ── */
+        .sidebar-cta--favorable-element {
+            background: linear-gradient(160deg, #12100A 0%, #1E1A10 60%, #2A2418 100%);
+            border: 1px solid rgba(212,175,55,0.25);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+        }
+        .sidebar-cta--favorable-element::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(212,175,55,0.5), transparent);
+        }
+        .sidebar-cta--favorable-element::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 50% 0%, rgba(212,175,55,0.08) 0%, transparent 60%);
+            pointer-events: none;
+        }
+        .sidebar-cta--favorable-element h3 { color: #D4AF37; }
+        .sidebar-cta--favorable-element .cta-sub { color: rgba(255,255,255,0.6); }
+        .sidebar-cta--favorable-element .cta-feat { color: rgba(255,255,255,0.5); }
+        .sidebar-cta--favorable-element .cta-feat-icon { background: rgba(212,175,55,0.15); border: 1px solid rgba(212,175,55,0.25); }
+        .sidebar-cta--favorable-element .cta-feat-icon svg { color: #D4AF37; }
+        .sidebar-cta--favorable-element .cta-btn {
+            background: linear-gradient(135deg, #D4AF37, #A88B2A);
+            color: #0B0A0F;
+            box-shadow: 0 4px 16px rgba(212,175,55,0.3);
+        }
+        .sidebar-cta--favorable-element .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(212,175,55,0.45); }
+
         /* ── Sidebar CTA: Five Elements (teal / nature theme) ── */
         .sidebar-cta--five-elements {
             background: linear-gradient(160deg, #081A18 0%, #142C24 60%, #1E3D32 100%);
@@ -732,6 +764,27 @@ function generateArticleHtml(post, category, allArticles) {
                 </div>
             </div>
             <a href="/soulmate-calculator" class="cta-btn">Find Your Soulmate</a>
+        </div>`;
+      case 'favorable-element':
+        return `
+        <div class="sidebar-cta sidebar-cta--favorable-element">
+            <h3>Discover Your Favorable Element</h3>
+            <p class="cta-sub">Your birth chart reveals the element that brings balance and fortune to your life. Find out your 喜用神 in seconds.</p>
+            <div class="cta-features">
+                <div class="cta-feat">
+                    <span class="cta-feat-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></span>
+                    Favorable Element
+                </div>
+                <div class="cta-feat">
+                    <span class="cta-feat-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></span>
+                    Life Advice
+                </div>
+                <div class="cta-feat">
+                    <span class="cta-feat-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="13.5" cy="6.5" r="2.5"/><path d="M17.5 10.5l-2 5-4.5 1.5-3.5-3-2.5 4 1 3.5h5.5l1.5-2.5"/></svg></span>
+                    Lucky Colors & Directions
+                </div>
+            </div>
+            <a href="/favorable-element" class="cta-btn">Find My Element</a>
         </div>`;
       case 'almanac':
         return `
@@ -1369,6 +1422,7 @@ async function main() {
     { loc: '/bazi-form', changefreq: 'weekly', priority: '1.0' },
     { loc: '/five-elements-test', changefreq: 'weekly', priority: '1.0' },
     { loc: '/soulmate-calculator', changefreq: 'weekly', priority: '1.0' },
+    { loc: '/favorable-element', changefreq: 'weekly', priority: '1.0' },
     { loc: '/almanac', changefreq: 'daily', priority: '1.0' },
     { loc: '/culture', changefreq: 'monthly', priority: '0.8' },
     { loc: '/shop', changefreq: 'daily', priority: '0.6' },

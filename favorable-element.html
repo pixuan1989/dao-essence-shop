@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discover Your Favorable Element | Free BaZi Five Elements Analysis</title>
+    <meta name="description" content="Find out your favorable element (喜用神) in BaZi. Enter your birth details and get a personalized Five Elements analysis with life advice, lucky colors, and directions.">
+    <meta name="keywords" content="favorable element, bazi favorable element, five elements analysis, chinese astrology, xiyong shen, useful god bazi, bazi reading, five elements balance">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="Discover Your Favorable Element | DAO Essence">
+    <meta property="og:description" content="Find your favorable element (喜用神) through BaZi analysis. Get personalized life advice, lucky colors, and directions.">
+    <meta property="og:image" content="https://www.daoessentia.com/images/og-default.jpg">
+    <meta property="og:url" content="https://www.daoessentia.com/favorable-element">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="DAO Essence">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Discover Your Favorable Element | DAO Essence">
+    <meta name="twitter:description" content="Find your BaZi favorable element. Personalized Five Elements analysis.">
+    <meta name="twitter:image" content="https://www.daoessentia.com/images/og-default.jpg">
+    <link rel="canonical" href="https://www.daoessentia.com/favorable-element">
+    <link rel="icon" href="/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "BaZi Favorable Element Calculator",
+        "description": "Discover your favorable element (喜用神) through BaZi Four Pillars analysis. Get personalized Five Elements insights.",
+        "url": "https://www.daoessentia.com/favorable-element",
+        "applicationCategory": "LifestyleApplication",
+        "operatingSystem": "Web",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+        "publisher": { "@type": "Organization", "name": "DAO Essence", "url": "https://www.daoessentia.com" }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.daoessentia.com/"},
+            {"@type": "ListItem", "position": 2, "name": "Favorable Element", "item": "https://www.daoessentia.com/favorable-element"}
+        ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What is a favorable element (喜用神) in BaZi?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "In BaZi (Four Pillars of Destiny), the favorable element (喜用神) is the Five Element that brings balance to your birth chart. Everyone's chart has a unique combination of Wood, Fire, Earth, Metal, and Water energies. The favorable element is the one that corrects imbalances and strengthens your life force."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How is the favorable element calculated?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "The calculation analyzes your Four Pillars (Year, Month, Day, Hour), the strength of your Day Master, seasonal influences, and the distribution of Five Elements in your chart. Traditional BaZi masters consider multiple factors including 得令 (seasonal support), 得地 (root strength), and 得势 (elemental momentum)."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How can I use my favorable element in daily life?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "You can incorporate your favorable element through colors you wear, directions you face, activities you pursue, and even digital wallpapers on your devices. For example, if your favorable element is Water, you might benefit from wearing blue/black, facing North, and spending time near water."
+                }
+            }
+        ]
+    }
+    </script>
+    <style>
+        :root {
+            --bg-dark: #0B0A0F;
+            --bg-card: rgba(255,248,240,0.03);
+            --bg-card-hover: rgba(255,248,240,0.06);
+            --gold: #D4AF37;
+            --gold-dim: #A88B2A;
+            --gold-glow: rgba(212,175,55,0.12);
+            --text-primary: #F5EDE6;
+            --text-secondary: #B8AEA0;
+            --text-muted: #6B6560;
+            --border: rgba(212,175,55,0.10);
+            --border-hover: rgba(212,175,55,0.25);
+            --serif: 'Cormorant Garamond', 'SimSun', serif;
+            --sans: 'Inter', -apple-system, sans-serif;
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: var(--sans);
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(ellipse at 20% 15%, rgba(212,175,55,0.06) 0%, transparent 45%),
+                radial-gradient(ellipse at 80% 85%, rgba(100,80,60,0.04) 0%, transparent 45%),
+                radial-gradient(ellipse at 50% 50%, rgba(180,160,120,0.02) 0%, transparent 60%),
+                linear-gradient(165deg, #0B0A0F 0%, #100D16 35%, #0D0912 70%, #09080E 100%);
+            pointer-events: none;
+            z-index: 0;
+        }
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image:
+                radial-gradient(1.5px 1.5px at 15% 25%, rgba(212,175,55,0.3) 0%, transparent 100%),
+                radial-gradient(1px 1px at 75% 60%, rgba(200,180,140,0.2) 0%, transparent 100%),
+                radial-gradient(1.5px 1.5px at 45% 80%, rgba(180,160,100,0.15) 0%, transparent 100%),
+                radial-gradient(1px 1px at 85% 20%, rgba(212,175,55,0.2) 0%, transparent 100%);
+            pointer-events: none;
+            z-index: 0;
+            animation: twinkle 8s ease-in-out infinite alternate;
+        }
+        @keyframes twinkle { 0% { opacity: 0.5; } 100% { opacity: 1; } }
+
+        /* Nav */
+        .fe-nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            background: rgba(11,10,15,0.88);
+            backdrop-filter: blur(24px);
+            border-bottom: 1px solid var(--border);
+        }
+        .fe-nav-inner {
+            max-width: 900px; margin: 0 auto; padding: 0 1.5rem;
+            height: 56px; display: flex; align-items: center; justify-content: space-between;
+        }
+        .fe-logo {
+            display: flex; align-items: center; gap: 0.6rem;
+            text-decoration: none; color: var(--text-primary);
+        }
+        .fe-logo-icon {
+            width: 28px; height: 28px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--gold-dim), var(--gold));
+            display: flex; align-items: center; justify-content: center; font-size: 13px;
+        }
+        .fe-logo-text {
+            font-family: var(--serif); font-size: 1.05rem;
+            font-weight: 500; letter-spacing: 0.12em;
+        }
+        .fe-logo-text span { color: var(--gold); }
+        .fe-nav-back {
+            font-size: 0.8rem; color: var(--text-secondary);
+            text-decoration: none; letter-spacing: 0.05em;
+            transition: color 0.3s;
+        }
+        .fe-nav-back:hover { color: var(--gold); }
+
+        /* Container */
+        .fe-container {
+            position: relative; z-index: 1;
+            max-width: 720px; margin: 0 auto; padding: 5rem 1.5rem 4rem;
+        }
+
+        /* Step visibility */
+        .fe-step { display: none; animation: feFadeIn 0.6s ease-out; }
+        .fe-step.active { display: block; }
+        @keyframes feFadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Hero */
+        .fe-hero { text-align: center; padding: 2.5rem 0 1.5rem; position: relative; }
+        .fe-hero::before {
+            content: ''; display: block; width: 60px; height: 2px;
+            margin: 0 auto 2rem;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            border-radius: 2px;
+        }
+        .fe-hero-badge {
+            display: inline-flex; align-items: center; gap: 0.4rem;
+            padding: 0.4rem 1.3rem;
+            border: 1px solid rgba(212,175,55,0.18);
+            border-radius: 30px; font-size: 0.68rem;
+            color: var(--gold); letter-spacing: 0.18em;
+            text-transform: uppercase; margin-bottom: 2rem;
+            background: rgba(212,175,55,0.04);
+        }
+        .fe-hero h1 {
+            font-family: var(--serif);
+            font-size: clamp(2rem, 6vw, 3rem);
+            font-weight: 400; color: var(--text-primary);
+            line-height: 1.2; margin-bottom: 1.2rem;
+        }
+        .fe-hero h1 em {
+            font-style: italic;
+            background: linear-gradient(135deg, var(--gold-dim), #E8D5A0);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text; font-weight: 600;
+        }
+        .fe-hero-sub {
+            color: var(--text-secondary); font-size: 1rem;
+            max-width: 500px; margin: 0 auto 2.5rem; line-height: 1.75;
+        }
+
+        /* Form */
+        .fe-form {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2.5rem 2rem;
+            max-width: 480px; margin: 0 auto;
+        }
+        .fe-form-group { margin-bottom: 1.5rem; }
+        .fe-form-label {
+            display: block; font-size: 0.75rem;
+            color: var(--text-secondary); letter-spacing: 0.1em;
+            text-transform: uppercase; margin-bottom: 0.6rem;
+            font-weight: 500;
+        }
+        .fe-form-row {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+        }
+        .fe-form-select, .fe-form-input {
+            width: 100%; padding: 0.8rem 1rem;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(212,175,55,0.12);
+            border-radius: 10px; color: var(--text-primary);
+            font-family: var(--sans); font-size: 0.95rem;
+            transition: border-color 0.3s;
+            outline: none;
+        }
+        .fe-form-select:focus, .fe-form-input:focus {
+            border-color: var(--gold);
+        }
+        .fe-form-select option { background: #1a1a2e; color: #fff; }
+        .fe-form-radio {
+            display: flex; gap: 1.2rem; margin-top: 0.3rem;
+        }
+        .fe-form-radio label {
+            display: flex; align-items: center; gap: 0.5rem;
+            font-size: 0.95rem; color: var(--text-secondary);
+            cursor: pointer;
+        }
+        .fe-form-radio input[type="radio"] {
+            accent-color: var(--gold); width: 16px; height: 16px;
+        }
+        .fe-submit-btn {
+            width: 100%; padding: 1rem;
+            background: linear-gradient(135deg, var(--gold-dim), var(--gold));
+            border: none; border-radius: 12px;
+            color: #0B0A0F; font-family: var(--sans);
+            font-size: 0.95rem; font-weight: 600;
+            letter-spacing: 0.08em; cursor: pointer;
+            transition: all 0.3s; margin-top: 0.5rem;
+        }
+        .fe-submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(212,175,55,0.25);
+        }
+        .fe-submit-btn:disabled {
+            opacity: 0.5; cursor: not-allowed; transform: none;
+            box-shadow: none;
+        }
+
+        /* Loading */
+        .fe-loading {
+            text-align: center; padding: 4rem 2rem;
+        }
+        .fe-loading-spinner {
+            width: 48px; height: 48px;
+            border: 3px solid rgba(212,175,55,0.15);
+            border-top-color: var(--gold);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1.5rem;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .fe-loading-text {
+            color: var(--text-secondary); font-size: 0.95rem;
+        }
+
+        /* Result */
+        .fe-result { padding-top: 1rem; }
+
+        /* Element reveal card */
+        .fe-element-card {
+            text-align: center; padding: 3rem 2rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            margin-bottom: 2rem;
+            position: relative; overflow: hidden;
+        }
+        .fe-element-card::before {
+            content: ''; position: absolute;
+            top: 0; left: 0; right: 0; height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        }
+        .fe-element-label {
+            font-size: 0.7rem; color: var(--text-muted);
+            letter-spacing: 0.2em; text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+        .fe-element-name {
+            font-family: var(--serif);
+            font-size: clamp(3rem, 10vw, 4.5rem);
+            font-weight: 600; line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+        .fe-element-zh {
+            font-size: 1.5rem; color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+        .fe-day-master-info {
+            font-size: 0.85rem; color: var(--text-secondary);
+            margin-bottom: 0.3rem;
+        }
+        .fe-strength-badge {
+            display: inline-block; padding: 0.25rem 0.8rem;
+            border-radius: 20px; font-size: 0.75rem;
+            font-weight: 500; letter-spacing: 0.05em;
+            margin-top: 0.5rem;
+        }
+        .fe-strength-strong {
+            background: rgba(212,175,55,0.1); color: var(--gold);
+            border: 1px solid rgba(212,175,55,0.2);
+        }
+        .fe-strength-weak {
+            background: rgba(150,180,220,0.1); color: #96B4DC;
+            border: 1px solid rgba(150,180,220,0.2);
+        }
+
+        /* Pillars display */
+        .fe-pillars {
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            gap: 0.8rem; margin-bottom: 2rem;
+        }
+        .fe-pillar {
+            text-align: center; padding: 1.2rem 0.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+        }
+        .fe-pillar-pos {
+            font-size: 0.65rem; color: var(--text-muted);
+            letter-spacing: 0.15em; text-transform: uppercase;
+            margin-bottom: 0.8rem;
+        }
+        .fe-pillar-stem {
+            font-family: var(--serif); font-size: 1.8rem;
+            font-weight: 600; margin-bottom: 0.2rem;
+        }
+        .fe-pillar-branch {
+            font-family: var(--serif); font-size: 1.8rem;
+            font-weight: 600; color: var(--gold);
+            margin-bottom: 0.6rem;
+        }
+        .fe-pillar-wx {
+            font-size: 0.7rem; color: var(--text-muted);
+        }
+
+        /* Five Elements bar */
+        .fe-wx-bar {
+            display: flex; height: 8px; border-radius: 4px;
+            overflow: hidden; margin-bottom: 2rem;
+            background: rgba(255,255,255,0.03);
+        }
+        .fe-wx-bar-segment {
+            transition: width 0.8s ease-out;
+        }
+        .fe-wx-bar-labels {
+            display: flex; justify-content: space-between;
+            font-size: 0.7rem; color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+
+        /* Section cards */
+        .fe-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.8rem; margin-bottom: 1.2rem;
+        }
+        .fe-section-title {
+            font-family: var(--serif); font-size: 1.2rem;
+            font-weight: 500; margin-bottom: 1rem;
+            display: flex; align-items: center; gap: 0.6rem;
+        }
+        .fe-section-title svg { width: 18px; height: 18px; stroke: var(--gold); fill: none; stroke-width: 2; }
+        .fe-explanation {
+            color: var(--text-secondary); font-size: 0.95rem;
+            line-height: 1.8;
+        }
+
+        /* Advice list */
+        .fe-advice-list { list-style: none; }
+        .fe-advice-item {
+            display: flex; gap: 0.8rem;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid rgba(212,175,55,0.06);
+            color: var(--text-secondary); font-size: 0.92rem;
+            line-height: 1.7;
+        }
+        .fe-advice-item:last-child { border-bottom: none; }
+        .fe-advice-num {
+            flex-shrink: 0; width: 24px; height: 24px;
+            border-radius: 50%; background: rgba(212,175,55,0.1);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.72rem; color: var(--gold); font-weight: 600;
+        }
+
+        /* Tags */
+        .fe-tags { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+        .fe-tag {
+            padding: 0.4rem 1rem;
+            background: rgba(212,175,55,0.06);
+            border: 1px solid rgba(212,175,55,0.15);
+            border-radius: 8px;
+            font-size: 0.85rem; color: var(--text-secondary);
+        }
+
+        /* Avoid element */
+        .fe-avoid {
+            text-align: center; padding: 1.2rem;
+            background: rgba(200,80,80,0.04);
+            border: 1px solid rgba(200,80,80,0.12);
+            border-radius: 12px; margin-top: 1.5rem;
+        }
+        .fe-avoid-label {
+            font-size: 0.7rem; color: var(--text-muted);
+            letter-spacing: 0.15em; text-transform: uppercase;
+            margin-bottom: 0.3rem;
+        }
+        .fe-avoid-element {
+            font-family: var(--serif); font-size: 1.3rem;
+            color: #C88B8B; font-weight: 500;
+        }
+
+        /* Try again */
+        .fe-retry {
+            display: block; text-align: center;
+            margin-top: 2.5rem; padding: 0.9rem;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--text-secondary); font-size: 0.88rem;
+            text-decoration: none; transition: all 0.3s;
+            letter-spacing: 0.05em;
+        }
+        .fe-retry:hover {
+            border-color: var(--gold); color: var(--gold);
+        }
+
+        /* Footer */
+        .fe-footer {
+            text-align: center; padding: 3rem 0 1rem;
+            font-size: 0.75rem; color: var(--text-muted);
+            border-top: 1px solid var(--border);
+            margin-top: 3rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .fe-form-row { grid-template-columns: 1fr; }
+            .fe-form { padding: 1.8rem 1.2rem; }
+            .fe-pillars { gap: 0.5rem; }
+            .fe-pillar-stem, .fe-pillar-branch { font-size: 1.4rem; }
+        }
+
+        /* Five element colors */
+        .wx-wood { color: #7CB87C; }
+        .wx-fire { color: #E87C5C; }
+        .wx-earth { color: #D4AF37; }
+        .wx-metal { color: #C8C8D0; }
+        .wx-water { color: #6CA8D0; }
+        .wx-bg-wood { background: #7CB87C; }
+        .wx-bg-fire { background: #E87C5C; }
+        .wx-bg-earth { background: #D4AF37; }
+        .wx-bg-metal { background: #C8C8D0; }
+        .wx-bg-water { background: #6CA8D0; }
+    </style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav class="fe-nav">
+    <div class="fe-nav-inner">
+        <a href="/" class="fe-logo">
+            <div class="fe-logo-icon">DAO</div>
+            <div class="fe-logo-text">DAO <span>Essence</span></div>
+        </a>
+        <a href="/" class="fe-nav-back">Back to Home</a>
+    </div>
+</nav>
+
+<div class="fe-container">
+
+    <!-- Step 1: Input -->
+    <div class="fe-step active" id="feStep1">
+        <div class="fe-hero">
+            <div class="fe-hero-badge">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                BaZi Analysis
+            </div>
+            <h1>Discover Your<br><em>Favorable Element</em></h1>
+            <p class="fe-hero-sub">Unlock the element that brings balance to your birth chart. Based on the ancient wisdom of BaZi (Four Pillars of Destiny).</p>
+        </div>
+
+        <form class="fe-form" id="feForm">
+            <div class="fe-form-row">
+                <div class="fe-form-group">
+                    <label class="fe-form-label">Birth Year</label>
+                    <select class="fe-form-select" id="feYear" required></select>
+                </div>
+                <div class="fe-form-group">
+                    <label class="fe-form-label">Birth Month</label>
+                    <select class="fe-form-select" id="feMonth" required></select>
+                </div>
+            </div>
+            <div class="fe-form-row">
+                <div class="fe-form-group">
+                    <label class="fe-form-label">Birth Day</label>
+                    <select class="fe-form-select" id="feDay" required></select>
+                </div>
+                <div class="fe-form-group">
+                    <label class="fe-form-label">Birth Hour</label>
+                    <select class="fe-form-select" id="feHour" required>
+                        <option value="-1">Unknown</option>
+                    </select>
+                </div>
+            </div>
+            <div class="fe-form-group">
+                <label class="fe-form-label">Gender</label>
+                <div class="fe-form-radio">
+                    <label><input type="radio" name="feGender" value="1" checked> Male</label>
+                    <label><input type="radio" name="feGender" value="2"> Female</label>
+                </div>
+            </div>
+            <button type="submit" class="fe-submit-btn" id="feSubmitBtn">Reveal My Element</button>
+        </form>
+    </div>
+
+    <!-- Step 2: Loading -->
+    <div class="fe-step" id="feStep2">
+        <div class="fe-loading">
+            <div class="fe-loading-spinner"></div>
+            <p class="fe-loading-text">Analyzing your birth chart...</p>
+            <p class="fe-loading-text" style="font-size:0.8rem;margin-top:0.5rem;color:var(--text-muted);">Calculating Four Pillars and determining favorable element</p>
+        </div>
+    </div>
+
+    <!-- Step 3: Result -->
+    <div class="fe-step" id="feStep3">
+        <div class="fe-result" id="feResult"></div>
+        <a href="#" class="fe-retry" id="feRetry">Try Another Birth Chart</a>
+        <div class="fe-footer">
+            DAO Essence &mdash; Ancient Wisdom, Modern Insight
+        </div>
+    </div>
+</div>
+
+<script>
+(function() {
+    // Populate year (1940-2026)
+    const yearSel = document.getElementById('feYear');
+    for (let y = 2026; y >= 1940; y--) {
+        const opt = document.createElement('option');
+        opt.value = y; opt.textContent = y;
+        yearSel.appendChild(opt);
+    }
+    // Populate month
+    const monthSel = document.getElementById('feMonth');
+    for (let m = 1; m <= 12; m++) {
+        const opt = document.createElement('option');
+        opt.value = m; opt.textContent = m;
+        monthSel.appendChild(opt);
+    }
+    // Populate day (1-31)
+    const daySel = document.getElementById('feDay');
+    for (let d = 1; d <= 31; d++) {
+        const opt = document.createElement('option');
+        opt.value = d; opt.textContent = d;
+        daySel.appendChild(opt);
+    }
+    // Populate hour
+    const hourSel = document.getElementById('feHour');
+    const hourLabels = [
+        'Unknown (23:00-01:00 子)', '01:00-03:00 丑', '03:00-05:00 寅',
+        '05:00-07:00 卯', '07:00-09:00 辰', '09:00-11:00 巳',
+        '11:00-13:00 午', '13:00-15:00 未', '15:00-17:00 申',
+        '17:00-19:00 酉', '19:00-21:00 戌', '21:00-23:00 亥'
+    ];
+    for (let h = 0; h < 12; h++) {
+        const opt = document.createElement('option');
+        opt.value = h === 0 ? -1 : h + 1;
+        opt.textContent = hourLabels[h];
+        hourSel.appendChild(opt);
+    }
+
+    // Step switching
+    function showStep(n) {
+        document.querySelectorAll('.fe-step').forEach(s => s.classList.remove('active'));
+        document.getElementById('feStep' + n).classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // WX class helper
+    function wxClass(element) {
+        const map = { Wood: 'wood', Fire: 'fire', Earth: 'earth', Metal: 'metal', Water: 'water' };
+        return map[element] || 'earth';
+    }
+    function wxZh(element) {
+        const map = { Wood: '木', Fire: '火', Earth: '土', Metal: '金', Water: '水' };
+        return map[element] || element;
+    }
+
+    // Form submit
+    document.getElementById('feForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const btn = document.getElementById('feSubmitBtn');
+        btn.disabled = true;
+
+        const gender = document.querySelector('input[name="feGender"]:checked').value;
+
+        showStep(2);
+
+        try {
+            const res = await fetch('/api/bazi-favorable-element', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    birth_year: parseInt(yearSel.value),
+                    birth_month: parseInt(monthSel.value),
+                    birth_day: parseInt(daySel.value),
+                    birth_hour: parseInt(hourSel.value),
+                    gender: parseInt(gender)
+                })
+            });
+
+            const data = await res.json();
+
+            if (!res.ok || !data.success) {
+                throw new Error(data.error || 'Analysis failed. Please try again.');
+            }
+
+            renderResult(data);
+            showStep(3);
+        } catch (err) {
+            alert(err.message);
+            showStep(1);
+        } finally {
+            btn.disabled = false;
+        }
+    });
+
+    // Render result
+    function renderResult(data) {
+        const { chart, analysis } = data;
+        const fav = analysis.favorableElement;
+        const favClass = wxClass(fav);
+        const total = Object.values(chart.wxCount).reduce((a, b) => a + b, 0);
+
+        // Five elements bar
+        const wxOrder = ['Wood', 'Fire', 'Earth', 'Metal', 'Water'];
+        const wxBgClass = { Wood: 'wx-bg-wood', Fire: 'wx-bg-fire', Earth: 'wx-bg-earth', Metal: 'wx-bg-metal', Water: 'wx-bg-water' };
+        let barHtml = '';
+        let labelsHtml = '';
+        for (const wx of wxOrder) {
+            const pct = Math.round((chart.wxCount[wx] / total) * 100);
+            barHtml += '<div class="fe-wx-bar-segment ' + wxBgClass[wx] + '" style="width:' + pct + '%"></div>';
+            labelsHtml += '<span class="wx-' + wxClass(wx) + '">' + wx + ' ' + chart.wxCount[wx] + '</span>';
+        }
+
+        // Pillars
+        let pillarsHtml = '';
+        chart.pillars.forEach(function(p) {
+            pillarsHtml += '<div class="fe-pillar">' +
+                '<div class="fe-pillar-pos">' + p.position + '</div>' +
+                '<div class="fe-pillar-stem wx-' + wxClass(p.stemElement) + '">' + p.stem + '</div>' +
+                '<div class="fe-pillar-branch wx-' + wxClass(p.branchElement) + '">' + p.branch + '</div>' +
+                '<div class="fe-pillar-wx">' + p.stemElement + ' / ' + p.branchElement + '</div>' +
+                '</div>';
+        });
+
+        // Advice
+        let adviceHtml = '';
+        (analysis.lifeAdvice || []).forEach(function(a, i) {
+            adviceHtml += '<li class="fe-advice-item"><span class="fe-advice-num">' + (i + 1) + '</span><span>' + a + '</span></li>';
+        });
+
+        // Colors
+        let colorsHtml = '';
+        (analysis.luckyColors || []).forEach(function(c) {
+            colorsHtml += '<span class="fe-tag">' + c + '</span>';
+        });
+
+        // Directions
+        let dirsHtml = '';
+        (analysis.luckyDirections || []).forEach(function(d) {
+            dirsHtml += '<span class="fe-tag">' + d + '</span>';
+        });
+
+        const strengthClass = analysis.strength === 'Strong' ? 'fe-strength-strong' : 'fe-strength-weak';
+
+        document.getElementById('feResult').innerHTML =
+            '<div class="fe-element-card">' +
+                '<div class="fe-element-label">Your Favorable Element</div>' +
+                '<div class="fe-element-name wx-' + favClass + '">' + fav + '</div>' +
+                '<div class="fe-element-zh">' + (analysis.favorableElementZh || '') + '</div>' +
+                '<div class="fe-day-master-info">Day Master: ' + chart.dayMaster + ' (' + chart.dayMasterElementEn + ')</div>' +
+                '<div class="fe-strength-badge ' + strengthClass + '">' + (analysis.strength || '') + ' Day Master</div>' +
+            '</div>' +
+
+            '<h3 style="font-family:var(--serif);font-size:1rem;color:var(--text-muted);letter-spacing:0.12em;text-transform:uppercase;text-align:center;margin-bottom:1rem;">Your Four Pillars</h3>' +
+            '<div class="fe-pillars">' + pillarsHtml + '</div>' +
+
+            '<div class="fe-wx-bar">' + barHtml + '</div>' +
+            '<div class="fe-wx-bar-labels">' + labelsHtml + '</div>' +
+
+            '<div class="fe-section">' +
+                '<div class="fe-section-title">' +
+                    '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>' +
+                    'Why ' + fav + '?' +
+                '</div>' +
+                '<p class="fe-explanation">' + (analysis.explanation || '') + '</p>' +
+            '</div>' +
+
+            '<div class="fe-section">' +
+                '<div class="fe-section-title">' +
+                    '<svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>' +
+                    'Life Advice' +
+                '</div>' +
+                '<ul class="fe-advice-list">' + adviceHtml + '</ul>' +
+            '</div>' +
+
+            '<div class="fe-section">' +
+                '<div class="fe-section-title">' +
+                    '<svg viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>' +
+                    'Lucky Colors' +
+                '</div>' +
+                '<div class="fe-tags">' + colorsHtml + '</div>' +
+            '</div>' +
+
+            '<div class="fe-section">' +
+                '<div class="fe-section-title">' +
+                    '<svg viewBox="0 0 24 24"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"/></svg>' +
+                    'Favorable Directions' +
+                '</div>' +
+                '<div class="fe-tags">' + dirsHtml + '</div>' +
+            '</div>' +
+
+            '<div class="fe-avoid">' +
+                '<div class="fe-avoid-label">Element to Avoid</div>' +
+                '<div class="fe-avoid-element">' + (analysis.avoidElement || '') + ' (' + (analysis.avoidElementZh || '') + ')</div>' +
+            '</div>';
+    }
+
+    // Retry
+    document.getElementById('feRetry').addEventListener('click', function(e) {
+        e.preventDefault();
+        showStep(1);
+    });
+})();
+</script>
+
+</body>
+</html>
