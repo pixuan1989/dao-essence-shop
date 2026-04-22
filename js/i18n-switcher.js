@@ -33,9 +33,13 @@
   }
 
   /**
-   * Determine initial language: URL param > saved > default (no auto browser detection)
+   * Determine initial language: URL path > URL param > saved > default
    */
   function getInitialLang() {
+    // Check URL path for /zh/ prefix first
+    if (window.location.pathname.indexOf('/zh/') === 0 || window.location.pathname === '/zh') {
+      return 'zh';
+    }
     var params = new URLSearchParams(window.location.search);
     var urlLang = params.get('lang');
     if (urlLang && SUPPORTED_LANGS.indexOf(urlLang) !== -1) return urlLang;
@@ -198,7 +202,8 @@
     // Only rewrite blog links to /zh/blog/* (blog articles have separate zh HTML files).
     // Other pages (shop, about, tools, etc.) stay at their original path —
     // i18n-switcher uses localStorage to render zh UI on the same URL.
-    var links = document.querySelectorAll('header a[href], footer a[href], .nav-dropdown-menu a[href]');
+    // Also include article card links on homepage and other content areas
+    var links = document.querySelectorAll('header a[href], footer a[href], .nav-dropdown-menu a[href], .articles-list a[href], .article-card[href]');
 
     for (var i = 0; i < links.length; i++) {
       var link = links[i];

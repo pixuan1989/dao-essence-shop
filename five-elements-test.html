@@ -1083,9 +1083,30 @@
 
     // ===== INIT =====
     function init() {
-        buildQuizData();
-        populateForm(true);
-        setupPlaceholders();
+        // If zh mode, wait for translations to load before building quiz data
+        if (window.DaoI18n && window.DaoI18n.current() === 'zh') {
+            var waitForI18n = function() {
+                try {
+                    var testVal = window.DaoI18n.t('fivet.quiz_title');
+                    if (testVal === 'fivet.quiz_title') {
+                        // Translations not loaded yet — wait
+                        setTimeout(waitForI18n, 50);
+                        return;
+                    }
+                } catch(e) {
+                    setTimeout(waitForI18n, 50);
+                    return;
+                }
+                buildQuizData();
+                populateForm(true);
+                setupPlaceholders();
+            };
+            waitForI18n();
+        } else {
+            buildQuizData();
+            populateForm(true);
+            setupPlaceholders();
+        }
     }
 
     function setupPlaceholders() {

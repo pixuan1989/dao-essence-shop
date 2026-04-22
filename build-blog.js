@@ -1160,10 +1160,16 @@ function generateBlogIndex(allArticles, options = {}) {
   const lang = isZh ? 'zh-Hant' : 'en';
   const langPrefix = isZh ? '/zh' : '';
 
-  // Group by category for latest section
-  const latestCards = allArticles
-    .sort((a, b) => new Date(b.data.date) - new Date(a.data.date))
-    .slice(0, 8)
+  // Separate pinned and regular articles (pinned first, then latest)
+  const pinnedArticles = allArticles.filter(a => a.data.pinned === true);
+  const regularArticles = allArticles.filter(a => a.data.pinned !== true);
+  // Deduplicate: remove pinned from regular
+  const pinnedSlugs = new Set(pinnedArticles.map(a => a.slug));
+  const filteredRegular = regularArticles.filter(a => !pinnedSlugs.has(a.slug));
+  filteredRegular.sort((a, b) => new Date(b.data.date) - new Date(a.data.date));
+  const sortedArticles = [...pinnedArticles, ...filteredRegular];
+
+  const latestCards = sortedArticles
     .map(a => {
       const cat = a.data.category || 'bazi-astrology';
       const catLabel = isZh
@@ -1172,12 +1178,15 @@ function generateBlogIndex(allArticles, options = {}) {
       let imgSrc = a.data.image || SITE_URL + '/images/og-default.jpg';
       imgSrc = imgSrc.replace(/\/feature\/blog-cms\//g, '/main/');
       if (!imgSrc || imgSrc === '""') imgSrc = SITE_URL + '/images/og-default.jpg';
+      const isPinned = a.data.pinned === true;
+      const pinnedBadge = isPinned ? `<span class="blog-card-pinned">${isZh ? '📌 置頂' : '📌 Pinned'}</span>` : '';
       return `
-                <a href="${langPrefix}/blog/${a.slug}" class="blog-card">
+                <a href="${langPrefix}/blog/${a.slug}" class="blog-card${isPinned ? ' pinned' : ''}">
                     <div class="blog-card-image">
                         <img src="${imgSrc}" alt="${escapeHtml(a.data.title)}" loading="lazy" onerror="this.src='${SITE_URL}/images/og-default.jpg'">
                     </div>
                     <div class="blog-card-body">
+                        ${pinnedBadge}
                         <span class="blog-card-category">${catLabel}</span>
                         <h2>${escapeHtml(a.data.title)}</h2>
                         <p>${escapeHtml(a.data.description || '')}</p>
@@ -1232,6 +1241,8 @@ function generateBlogIndex(allArticles, options = {}) {
         .blog-card:hover h2 { color: #1A1612; }
         .blog-card p { color: #555; font-size: 0.92rem; line-height: 1.7; margin-bottom: 0.8rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
         .blog-card-meta { display: flex; gap: 1rem; font-size: 0.8rem; color: #888; opacity: 0.7; }
+        .blog-card-pinned { display: inline-block; font-size: 0.72rem; color: #D4AF37; letter-spacing: 0.08em; margin-bottom: 0.3rem; }
+        .blog-card.pinned { border-color: rgba(212,175,55,0.3); background: rgba(212,175,55,0.06); }
 
         /* Right sidebar */
         .blog-sidebar { width: 320px; min-width: 320px; position: sticky; top: 100px; }
