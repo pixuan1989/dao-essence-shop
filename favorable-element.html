@@ -611,6 +611,7 @@
 <script>
 (function() {
     var t = function(key) { return window.DaoI18n && window.DaoI18n.t ? window.DaoI18n.t(key) : key; };
+    var isZh = function() { return window.DaoI18n && window.DaoI18n.current() === 'zh'; };
     // Populate year (1940-2026)
     const yearSel = document.getElementById('feYear');
     for (let y = 2026; y >= 1940; y--) {
