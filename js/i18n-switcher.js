@@ -33,7 +33,7 @@
   }
 
   /**
-   * Determine initial language: URL param > saved > browser detect > default
+   * Determine initial language: URL param > saved > default (no auto browser detection)
    */
   function getInitialLang() {
     var params = new URLSearchParams(window.location.search);
@@ -41,8 +41,6 @@
     if (urlLang && SUPPORTED_LANGS.indexOf(urlLang) !== -1) return urlLang;
     var saved = getSavedLang();
     if (saved && SUPPORTED_LANGS.indexOf(saved) !== -1) return saved;
-    var detected = detectBrowserLang();
-    if (detected) return detected;
     return DEFAULT_LANG;
   }
 
