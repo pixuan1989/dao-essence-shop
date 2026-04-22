@@ -6,6 +6,13 @@
 (function () {
     'use strict';
 
+    // ==================== i18n HELPER ====================
+    function t(key) {
+        if (window.DaoI18n && window.DaoI18n.t) return window.DaoI18n.t(key);
+        return key;
+    }
+    var isZh = function() { return window.DaoI18n && window.DaoI18n.current() === 'zh'; };
+
     // ==================== CONSTANTS ====================
     var BRANCHES = ['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];
     var STEMS = ['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'];
@@ -38,16 +45,16 @@
     };
     // Career/life keywords per ten god (compact lookup)
     var TG_KEYWORDS = {
-        '比肩':   { career: 'Independent work, partnerships, peers', life: 'Self-reliance, competition, willpower' },
-        '劫财':   { career: 'Competitive fields, sales, risk-taking', life: 'Bold action, financial volatility, social' },
-        '食神':   { career: 'Creative arts, teaching, food industry', life: 'Enjoyment, talent, expression, comfort' },
-        '伤官':   { career: 'Innovation, technology, entertainment', life: 'Rebellion, brilliance, sharp tongue' },
-        '偏财':   { career: 'Investment, business, speculative gains', life: 'Generosity, social connections, luck' },
-        '正财':   { career: 'Stable employment, finance, administration', life: 'Prudence, diligence, steady rewards' },
-        '七杀':   { career: 'Military, law, crisis management, surgery', life: 'Pressure, authority, transformation' },
-        '正官':   { career: 'Government, management, corporate hierarchy', life: 'Discipline, responsibility, reputation' },
-        '偏印':   { career: 'Research, occult studies, niche expertise', life: 'Solitude, unconventional thinking, intuition' },
-        '正印':   { career: 'Education, scholarship, mentoring, culture', life: 'Learning, nurturing, inner wisdom, patience' }
+        '比肩':   { career: 'Independent work, partnerships, peers', life: 'Self-reliance, competition, willpower', careerZh: 'bazi_result.ten_gods.friend_career', lifeZh: 'bazi_result.ten_gods.friend_life' },
+        '劫财':   { career: 'Competitive fields, sales, risk-taking', life: 'Bold action, financial volatility, social', careerZh: 'bazi_result.ten_gods.rob_wealth_career', lifeZh: 'bazi_result.ten_gods.rob_wealth_life' },
+        '食神':   { career: 'Creative arts, teaching, food industry', life: 'Enjoyment, talent, expression, comfort', careerZh: 'bazi_result.ten_gods.eating_god_career', lifeZh: 'bazi_result.ten_gods.eating_god_life' },
+        '伤官':   { career: 'Innovation, technology, entertainment', life: 'Rebellion, brilliance, sharp tongue', careerZh: 'bazi_result.ten_gods.hurting_officer_career', lifeZh: 'bazi_result.ten_gods.hurting_officer_life' },
+        '偏财':   { career: 'Investment, business, speculative gains', life: 'Generosity, social connections, luck', careerZh: 'bazi_result.ten_gods.indirect_wealth_career', lifeZh: 'bazi_result.ten_gods.indirect_wealth_life' },
+        '正财':   { career: 'Stable employment, finance, administration', life: 'Prudence, diligence, steady rewards', careerZh: 'bazi_result.ten_gods.direct_wealth_career', lifeZh: 'bazi_result.ten_gods.direct_wealth_life' },
+        '七杀':   { career: 'Military, law, crisis management, surgery', life: 'Pressure, authority, transformation', careerZh: 'bazi_result.ten_gods.seven_killings_career', lifeZh: 'bazi_result.ten_gods.seven_killings_life' },
+        '正官':   { career: 'Government, management, corporate hierarchy', life: 'Discipline, responsibility, reputation', careerZh: 'bazi_result.ten_gods.direct_officer_career', lifeZh: 'bazi_result.ten_gods.direct_officer_life' },
+        '偏印':   { career: 'Research, occult studies, niche expertise', life: 'Solitude, unconventional thinking, intuition', careerZh: 'bazi_result.ten_gods.indirect_resource_career', lifeZh: 'bazi_result.ten_gods.indirect_resource_life' },
+        '正印':   { career: 'Education, scholarship, mentoring, culture', life: 'Learning, nurturing, inner wisdom, patience', careerZh: 'bazi_result.ten_gods.direct_resource_career', lifeZh: 'bazi_result.ten_gods.direct_resource_life' }
     };
 
     var DGS_TABLE = [
@@ -68,6 +75,13 @@
     function tgLabel(tg) {
         if (!tg) return '';
         return tg.cn;
+    }
+
+    // Get localized ten god keywords
+    function tgKw(tgCn) {
+        var kw = TG_KEYWORDS[tgCn];
+        if (!kw) return { career: '', life: '' };
+        return { career: isZh() ? t(kw.careerZh) : kw.career, life: isZh() ? t(kw.lifeZh) : kw.life };
     }
 
     // Build tooltip text for a ten god
@@ -110,16 +124,16 @@
 
     // ==================== DM NATURE (compact lookup) ====================
     var DM_NATURE = {
-        '甲': { trait: 'Straightforward, ambitious, growth-oriented', wx: 'Yang Wood — like a tall oak' },
-        '乙': { trait: 'Flexible, persistent, relationship-focused', wx: 'Yin Wood — like a willow' },
-        '丙': { trait: 'Warm, charismatic, naturally generous', wx: 'Yang Fire — like the sun' },
-        '丁': { trait: 'Insightful, refined, quietly determined', wx: 'Yin Fire — like a candle' },
-        '戊': { trait: 'Steadfast, reliable, protective', wx: 'Yang Earth — like a mountain' },
-        '己': { trait: 'Nurturing, patient, quietly diligent', wx: 'Yin Earth — like fertile soil' },
-        '庚': { trait: 'Decisive, righteous, bold under pressure', wx: 'Yang Metal — like forged steel' },
-        '辛': { trait: 'Elegant, detail-oriented, perfectionist', wx: 'Yin Metal — like fine jewelry' },
-        '壬': { trait: 'Dynamic, resourceful, far-sighted', wx: 'Yang Water — like a great river' },
-        '癸': { trait: 'Intuitive, perceptive, deep-thinking', wx: 'Yin Water — like morning dew' }
+        '甲': { trait: 'Straightforward, ambitious, growth-oriented', wx: 'Yang Wood — like a tall oak', traitZh: 'bazi_result.dm_nature.jia_trait', wxZh: 'bazi_result.dm_nature.jia_wx' },
+        '乙': { trait: 'Flexible, persistent, relationship-focused', wx: 'Yin Wood — like a willow', traitZh: 'bazi_result.dm_nature.yi_trait', wxZh: 'bazi_result.dm_nature.yi_wx' },
+        '丙': { trait: 'Warm, charismatic, naturally generous', wx: 'Yang Fire — like the sun', traitZh: 'bazi_result.dm_nature.bing_trait', wxZh: 'bazi_result.dm_nature.bing_wx' },
+        '丁': { trait: 'Insightful, refined, quietly determined', wx: 'Yin Fire — like a candle', traitZh: 'bazi_result.dm_nature.ding_trait', wxZh: 'bazi_result.dm_nature.ding_wx' },
+        '戊': { trait: 'Steadfast, reliable, protective', wx: 'Yang Earth — like a mountain', traitZh: 'bazi_result.dm_nature.wu_trait', wxZh: 'bazi_result.dm_nature.wu_wx' },
+        '己': { trait: 'Nurturing, patient, quietly diligent', wx: 'Yin Earth — like fertile soil', traitZh: 'bazi_result.dm_nature.ji_trait', wxZh: 'bazi_result.dm_nature.ji_wx' },
+        '庚': { trait: 'Decisive, righteous, bold under pressure', wx: 'Yang Metal — like forged steel', traitZh: 'bazi_result.dm_nature.geng_trait', wxZh: 'bazi_result.dm_nature.geng_wx' },
+        '辛': { trait: 'Elegant, detail-oriented, perfectionist', wx: 'Yin Metal — like fine jewelry', traitZh: 'bazi_result.dm_nature.xin_trait', wxZh: 'bazi_result.dm_nature.xin_wx' },
+        '壬': { trait: 'Dynamic, resourceful, far-sighted', wx: 'Yang Water — like a great river', traitZh: 'bazi_result.dm_nature.ren_trait', wxZh: 'bazi_result.dm_nature.ren_wx' },
+        '癸': { trait: 'Intuitive, perceptive, deep-thinking', wx: 'Yin Water — like morning dew', traitZh: 'bazi_result.dm_nature.gui_trait', wxZh: 'bazi_result.dm_nature.gui_wx' }
     };
 
     // ==================== FIVE ELEMENTS BODY MAP ====================
@@ -132,12 +146,26 @@
         '火': 'Fire governs heart & small intestine. Weak Fire may cause insomnia, palpitations, poor circulation. Rest at midday in summer, eat red foods like dates, goji berries.',
         '土': 'Earth governs spleen & stomach. Weak Earth may cause poor digestion, bloating, fatigue. Eat regularly, chew thoroughly, avoid cold/raw foods.'
     };
+    var WX_ORGAN_TIPS_ZH = {
+        '金': 'bazi_result.organ_tips.metal',
+        '水': 'bazi_result.organ_tips.water',
+        '木': 'bazi_result.organ_tips.wood',
+        '火': 'bazi_result.organ_tips.fire',
+        '土': 'bazi_result.organ_tips.earth'
+    };
     var WX_ORGAN_EXCESS = {
         '金': 'Excessive Metal suppresses Wood — may cause liver stagnation, stiff muscles. Exercise regularly, avoid being too rigid.',
         '水': 'Excessive Water suppresses Fire — may cause poor circulation, cold extremities, urinary issues. Get more sunlight, stay active.',
         '木': 'Excessive Wood suppresses Earth — may cause digestive issues, headaches, dizziness. Stay calm, avoid emotional extremes.',
         '火': 'Excessive Fire suppresses Metal — may cause cough, mouth ulcers, restlessness. Cool the body, avoid spicy foods.',
         '土': 'Excessive Earth suppresses Water — may cause kidney weakness, sluggish metabolism, weight gain. Control diet, exercise more.'
+    };
+    var WX_ORGAN_EXCESS_ZH = {
+        '金': 'bazi_result.organ_excess.metal',
+        '水': 'bazi_result.organ_excess.water',
+        '木': 'bazi_result.organ_excess.wood',
+        '火': 'bazi_result.organ_excess.fire',
+        '土': 'bazi_result.organ_excess.earth'
     };
     // Tiao Hou (seasonal regulation) - month branch mapping
     var TIAOHOU = {
@@ -183,24 +211,50 @@
         '正印': 'Year of Learning — Benefactor Guidance'
     };
 
+    // ==================== i18n HELPERS FOR DAYUN/LIUNIAN ====================
+    var TG_ZH_KEYS = {
+        '比肩': 'friend', '劫财': 'rob_wealth', '食神': 'eating_god', '伤官': 'hurting_officer',
+        '偏财': 'indirect_wealth', '正财': 'direct_wealth', '七杀': 'seven_killings',
+        '正官': 'direct_officer', '偏印': 'indirect_resource', '正印': 'direct_resource'
+    };
+    function getDayunInterpZh(tgCn) {
+        var k = TG_ZH_KEYS[tgCn]; if (!k) return {};
+        return { overall: t('bazi_result.dayun_interp.' + k + '_overall'), favorable: t('bazi_result.dayun_interp.' + k + '_favorable'), caution: t('bazi_result.dayun_interp.' + k + '_caution') };
+    }
+    function getDayunAdviceZh(tgCn) {
+        var k = TG_ZH_KEYS[tgCn]; if (!k) return '';
+        return t('bazi_result.dayun_advice.' + k);
+    }
+    function getLiunianPhraseZh(tgCn) {
+        var k = TG_ZH_KEYS[tgCn]; if (!k) return '';
+        return t('bazi_result.liunian_phrase.' + k);
+    }
+    function getLiunianAdviceZh(tgCn) {
+        var k = TG_ZH_KEYS[tgCn]; if (!k) return '';
+        return t('bazi_result.liunian_advice.' + k);
+    }
+    function getLocalizedDayunInterp(tgCn) { return isZh() ? getDayunInterpZh(tgCn) : DAYUN_INTERPRETATION[tgCn] || {}; }
+    function getLocalizedDayunAdvice(tgCn) { return isZh() ? getDayunAdviceZh(tgCn) : getDayunAdvice(tgCn); }
+    function getLocalizedLiunianPhrase(tgCn) { return isZh() ? getLiunianPhraseZh(tgCn) : (LIUNIAN_PHRASES[tgCn] || ''); }
+    function getLocalizedLiunianAdvice(tgCn) { return isZh() ? getLiunianAdviceZh(tgCn) : getLiunianAdvice(tgCn); }
+
     // Wuxing generation/clash analysis helper
     function wxRelation(wx1, wx2) {
         var gen = { '金':'水','水':'木','木':'火','火':'土','土':'金' };
         var clash = { '金':'木','木':'土','土':'水','水':'火','火':'金' };
         var e1 = WX_EN[wx1] || wx1, e2 = WX_EN[wx2] || wx2;
         var same = (wx1 === wx2);
-        if (same) return { type: 'same', desc: e1 + ' + ' + e2 + ' — Same element, power amplified' };
-        if (gen[wx1] === wx2) return { type: 'generate', desc: e1 + ' generates ' + e2 + ' — your energy flows outward' };
-        if (clash[wx1] === wx2) return { type: 'clash', desc: e1 + ' controls ' + e2 + ' — suppressing force' };
-        if (gen[wx2] === wx1) return { type: 'generated', desc: e2 + ' generates ' + e1 + ' — receiving support' };
-        if (clash[wx2] === wx1) return { type: 'clashed', desc: e2 + ' controls ' + e1 + ' — being constrained' };
-        return { type: 'neutral', desc: e1 + ' & ' + e2 + ' — no direct interaction' };
+        if (same) return { type: 'same', desc: e1 + ' + ' + e2 + ' — ' + (isZh() ? t('bazi_result.wx_relation.same') : 'Same element, power amplified') };
+        if (gen[wx1] === wx2) return { type: 'generate', desc: e1 + ' ' + (isZh() ? t('bazi_result.wx_relation.generate') : 'generates') + ' ' + e2 + ' — ' + (isZh() ? t('bazi_result.wx_relation.outward') : 'your energy flows outward') };
+        if (clash[wx1] === wx2) return { type: 'clash', desc: e1 + ' ' + (isZh() ? t('bazi_result.wx_relation.clash') : 'controls') + ' ' + e2 + ' — ' + (isZh() ? t('bazi_result.wx_relation.suppressing') : 'suppressing force') };
+        if (gen[wx2] === wx1) return { type: 'generated', desc: e2 + ' ' + (isZh() ? t('bazi_result.wx_relation.generate') : 'generates') + ' ' + e1 + ' — ' + (isZh() ? t('bazi_result.wx_relation.support') : 'receiving support') };
+        if (clash[wx2] === wx1) return { type: 'clashed', desc: e2 + ' ' + (isZh() ? t('bazi_result.wx_relation.clash') : 'controls') + ' ' + e1 + ' — ' + (isZh() ? t('bazi_result.wx_relation.constrained') : 'being constrained') };
+        return { type: 'neutral', desc: e1 + ' & ' + e2 + ' — ' + (isZh() ? t('bazi_result.wx_relation.neutral') : 'no direct interaction') };
     }
 
     // ==================== BUILD HEALTH INTERPRETATION ====================
     function buildHealthSection(nwx, dmIdx, rt) {
         var dm = rt['ctg'][2];
-        var dmWx = WX_NAMES[STEM_WX[dmIdx]];
         var monthBranch = rt['cdz'][1];
         var maxCount = Math.max.apply(null, nwx);
         var absent = [], excessive = [], strong = [];
@@ -211,8 +265,8 @@
         }
 
         var html = '<section class="section" id="section-health">';
-        html += '<h2 class="section-title">Health & Wellness Insights</h2>';
-        html += '<p class="section-desc">Based on your Five Elements balance and birth season</p>';
+        html += '<h2 class="section-title">' + t('bazi_result.section_health') + '</h2>';
+        html += '<p class="section-desc">' + t('bazi_result.section_health_desc') + '</p>';
 
         var hasIssues = (absent.length > 0 || excessive.length > 0);
         if (hasIssues) {
@@ -221,13 +275,14 @@
             // Absent elements - health vulnerabilities
             if (absent.length > 0) {
                 html += '<div class="detail-card">';
-                html += '<div class="detail-card-header" style="color:var(--bad)">⚠️ Missing Elements — Vulnerable Organs</div>';
+                html += '<div class="detail-card-header" style="color:var(--bad)">' + t('bazi_result.health_missing') + '</div>';
                 html += '<div class="detail-card-body">';
                 for (var a = 0; a < absent.length; a++) {
                     var w = absent[a];
+                    var tipText = isZh() ? t(WX_ORGAN_TIPS_ZH[w]) : WX_ORGAN_TIPS[w];
                     html += '<div class="detail-row" style="margin-bottom:0.4rem">';
                     html += '<div><strong style="color:' + WX_COLORS[w] + '">' + WX_EN[w] + '</strong> → ' + WX_BODY[w] + '</div>';
-                    html += '<div style="color:var(--ink-2);font-size:0.7rem;line-height:1.5">' + WX_ORGAN_TIPS[w] + '</div>';
+                    html += '<div style="color:var(--ink-2);font-size:0.7rem;line-height:1.5">' + tipText + '</div>';
                     html += '</div>';
                 }
                 html += '</div></div>';
@@ -236,16 +291,16 @@
             // Excessive elements - overactive organs
             if (excessive.length > 0) {
                 html += '<div class="detail-card">';
-                html += '<div class="detail-card-header" style="color:var(--accent)">📊 Excessive Elements — Imbalance Risk</div>';
+                html += '<div class="detail-card-header" style="color:var(--accent)">' + t('bazi_result.health_excessive') + '</div>';
                 html += '<div class="detail-card-body">';
                 for (var e = 0; e < excessive.length; e++) {
                     var w = excessive[e];
-                    // Find what this element clashes
+                    var excessText = isZh() ? t(WX_ORGAN_EXCESS_ZH[w]) : WX_ORGAN_EXCESS[w];
                     var clash = { '金':'木','木':'土','土':'水','水':'火','火':'金' };
                     var target = clash[w];
                     html += '<div class="detail-row" style="margin-bottom:0.4rem">';
                     html += '<div><strong style="color:' + WX_COLORS[w] + '">' + WX_EN[w] + '</strong> excessive → controls <strong style="color:' + WX_COLORS[target] + '">' + WX_EN[target] + '</strong> (' + WX_BODY[target] + ')</div>';
-                    html += '<div style="color:var(--ink-2);font-size:0.7rem;line-height:1.5">' + WX_ORGAN_EXCESS[w] + '</div>';
+                    html += '<div style="color:var(--ink-2);font-size:0.7rem;line-height:1.5">' + excessText + '</div>';
                     html += '</div>';
                 }
                 html += '</div></div>';
@@ -255,7 +310,7 @@
         } else {
             html += '<div class="detail-card">';
             html += '<div class="detail-card-body" style="text-align:center;color:var(--good);padding:0.6rem">';
-            html += '✅ Five Elements are well balanced — no significant deficiencies or excesses. A stable constitution overall.';
+            html += t('bazi_result.health_balanced');
             html += '</div></div>';
         }
 
@@ -309,10 +364,10 @@
         var sorted = Object.keys(tgCount).sort(function(a, b) { return tgCount[b] - tgCount[a]; });
 
         var html = '<div class="info-card">';
-        html += '<div class="info-item"><span class="info-label">Dominant Influences & Life Path</span><span class="info-value">';
+        html += '<div class="info-item"><span class="info-label">' + t('bazi_result.dominant_influences') + '</span><span class="info-value">';
         html += sorted.slice(0, 3).map(function(cn) {
             var tg = TG_NAMES[cn];
-            var kw = TG_KEYWORDS[cn];
+            var kw = tgKw(cn);
             return '<strong>' + tgLabel(tg) + '</strong> (' + tgCount[cn] + 'x)<br><span style="color:var(--ink-2)">' + kw.career + '</span><br><span style="color:var(--ink-3);font-size:0.75rem">' + kw.life + '</span>';
         }).join('<hr style="border:none;border-top:1px solid var(--line-light);margin:0.4rem 0">');
         html += '</span></div>';
@@ -331,19 +386,21 @@
         }
         var html = '<div class="wx-summary">';
         if (dominant.length > 0 && excess.length === 0) {
-            html += '<div class="wx-summary-item wx-dominant"><span class="wx-summary-label">Strongest</span> ' + dominant.map(function(w) { return '<span style="color:' + WX_COLORS[w] + '">' + WX_EN[w] + '</span>'; }).join(' ') + ' (' + maxCount + ')</div>';
+            html += '<div class="wx-summary-item wx-dominant"><span class="wx-summary-label">' + t('bazi_result.wx_strongest') + '</span> ' + dominant.map(function(w) { return '<span style="color:' + WX_COLORS[w] + '">' + WX_EN[w] + '</span>'; }).join(' ') + ' (' + maxCount + ')</div>';
         }
         if (excess.length > 0) {
-            html += '<div class="wx-summary-item wx-excess"><span class="wx-summary-label" style="color:var(--bad)">Excessive (≥4)</span> ';
+            html += '<div class="wx-summary-item wx-excess"><span class="wx-summary-label" style="color:var(--bad)">' + t('bazi_result.wx_excessive') + '</span> ';
             html += excess.map(function(w) {
-                return '<span style="color:' + WX_COLORS[w] + '">' + WX_EN[w] + '</span> — ' + WX_ORGAN_EXCESS[w];
+                var excessText = isZh() ? t(WX_ORGAN_EXCESS_ZH[w]) : WX_ORGAN_EXCESS[w];
+                return '<span style="color:' + WX_COLORS[w] + '">' + WX_EN[w] + '</span> — ' + excessText;
             }).join('<br>');
             html += '</div>';
         }
         if (weak.length > 0) {
-            html += '<div class="wx-summary-item wx-weak"><span class="wx-summary-label">Absent</span> ';
+            html += '<div class="wx-summary-item wx-weak"><span class="wx-summary-label">' + t('bazi_result.wx_absent') + '</span> ';
             html += weak.map(function(w) {
-                return '<span style="color:' + WX_COLORS[w] + '">' + WX_EN[w] + '</span> — <em>' + WX_BODY[w] + '</em><br><span class="detail-key">Tip: </span>' + WX_ORGAN_TIPS[w];
+                var tipText = isZh() ? t(WX_ORGAN_TIPS_ZH[w]) : WX_ORGAN_TIPS[w];
+                return '<span style="color:' + WX_COLORS[w] + '">' + WX_EN[w] + '</span> — <em>' + WX_BODY[w] + '</em><br><span class="detail-key">' + t('bazi_result.wx_tip') + '</span>' + tipText;
             }).join('<br><br>');
             html += '</div>';
         }
@@ -366,34 +423,34 @@
 
         // ---- Comprehensive Fortune Summary ----
         html += '<div class="detail-card" style="margin-bottom:0.5rem">';
-        html += '<div class="detail-card-header">📊 10-Year Fortune Overview</div>';
+        html += '<div class="detail-card-header">' + t('bazi_result.dayun_overview') + '</div>';
         html += '<div class="detail-card-body">';
         if (stemTg) {
-            var interp = DAYUN_INTERPRETATION[stemTg.cn] || {};
+            var interp = getLocalizedDayunInterp(stemTg.cn);
             html += '<div class="detail-row" style="margin-bottom:0.4rem;line-height:1.6;color:var(--ink)">' + interp.overall + '</div>';
-            if (interp.favorable) html += '<div class="detail-row"><span class="detail-key">✅ Favorable: </span>' + interp.favorable + '</div>';
-            if (interp.caution) html += '<div class="detail-row"><span class="detail-key">⚠️ Caution: </span>' + interp.caution + '</div>';
+            if (interp.favorable) html += '<div class="detail-row"><span class="detail-key">' + t('bazi_result.dayun_favorable') + '</span>' + interp.favorable + '</div>';
+            if (interp.caution) html += '<div class="detail-row"><span class="detail-key">' + t('bazi_result.dayun_caution') + '</span>' + interp.caution + '</div>';
         }
         // Wuxing interaction between dayun gan & day master
         if (stemTg) {
             var wxRel = wxRelation(ganWx, dmWx);
             var relColor = (wxRel.type === 'generate' || wxRel.type === 'generated' || wxRel.type === 'same') ? 'var(--good)' : (wxRel.type === 'clash' || wxRel.type === 'clashed') ? 'var(--bad)' : 'var(--accent)';
-            html += '<div class="detail-row" style="margin-top:0.3rem"><span class="detail-key">Element Influence: </span><span style="color:' + relColor + '">' + wxRel.desc + '</span></div>';
+            html += '<div class="detail-row" style="margin-top:0.3rem"><span class="detail-key">' + t('bazi_result.dayun_element_influence') + '</span><span style="color:' + relColor + '">' + wxRel.desc + '</span></div>';
         }
         html += '</div></div>';
 
         // Enriched career & life reading (merged into one rich card)
         if (stemTg) {
-            var kw = TG_KEYWORDS[stemTg.cn] || {};
+            var kw = tgKw(stemTg.cn);
             var tgEn = stemTg.en;
             html += '<div class="detail-card" style="margin-bottom:0.5rem">';
-            html += '<div class="detail-card-header"><strong>' + tgLabel(stemTg) + '</strong> — What This Means for You</div>';
+            html += '<div class="detail-card-header"><strong>' + tgLabel(stemTg) + '</strong> — ' + t('bazi_result.dayun_what_means') + '</div>';
             html += '<div class="detail-card-body" style="line-height:1.65">';
-            html += '<div class="detail-row" style="margin-bottom:0.4rem"><span class="detail-key">💼 Career Direction: </span>' + kw.career + '</div>';
-            html += '<div class="detail-row" style="margin-bottom:0.4rem"><span class="detail-key">🌙 Life Theme: </span>' + kw.life + '</div>';
+            html += '<div class="detail-row" style="margin-bottom:0.4rem"><span class="detail-key">' + t('bazi_result.dayun_career') + '</span>' + kw.career + '</div>';
+            html += '<div class="detail-row" style="margin-bottom:0.4rem"><span class="detail-key">' + t('bazi_result.dayun_life_theme') + '</span>' + kw.life + '</div>';
             // Add actionable advice based on the ten god type
-            var extraAdvice = getDayunAdvice(stemTg.cn);
-            if (extraAdvice) html += '<div class="detail-row"><span class="detail-key">💡 Practical Advice: </span><span style="color:var(--ink)">' + extraAdvice + '</span></div>';
+            var extraAdvice = getLocalizedDayunAdvice(stemTg.cn);
+            if (extraAdvice) html += '<div class="detail-row"><span class="detail-key">' + t('bazi_result.dayun_practical_advice') + '</span><span style="color:var(--ink)">' + extraAdvice + '</span></div>';
             html += '</div></div>';
         }
 
@@ -436,33 +493,33 @@
 
         // ---- Year Summary ----
         html += '<div class="detail-card" style="margin-bottom:0.5rem">';
-        html += '<div class="detail-card-header">📌 Year Overview</div>';
+        html += '<div class="detail-card-header">' + t('bazi_result.liunian_year_overview') + '</div>';
         html += '<div class="detail-card-body">';
         if (stemTg) {
-            var phrase = LIUNIAN_PHRASES[stemTg.cn] || '';
+            var phrase = getLocalizedLiunianPhrase(stemTg.cn);
             html += '<div class="detail-row" style="margin-bottom:0.3rem"><strong style="color:var(--accent)">' + phrase + '</strong></div>';
-            var interp = DAYUN_INTERPRETATION[stemTg.cn] || {};
+            var interp = getLocalizedDayunInterp(stemTg.cn);
             html += '<div class="detail-row" style="margin-bottom:0.3rem;line-height:1.5;color:var(--ink)">' + interp.overall + '</div>';
-            if (interp.favorable) html += '<div class="detail-row"><span class="detail-key">✅ Favorable: </span>' + interp.favorable + '</div>';
-            if (interp.caution) html += '<div class="detail-row"><span class="detail-key">⚠️ Caution: </span>' + interp.caution + '</div>';
+            if (interp.favorable) html += '<div class="detail-row"><span class="detail-key">' + t('bazi_result.dayun_favorable') + '</span>' + interp.favorable + '</div>';
+            if (interp.caution) html += '<div class="detail-row"><span class="detail-key">' + t('bazi_result.dayun_caution') + '</span>' + interp.caution + '</div>';
         }
         html += '</div></div>';
 
         // Enriched career/life/interaction card
         if (stemTg) {
-            var kw = TG_KEYWORDS[stemTg.cn] || {};
-            var extraAdvice = getLiunianAdvice(stemTg.cn);
+            var kw = tgKw(stemTg.cn);
+            var extraAdvice = getLocalizedLiunianAdvice(stemTg.cn);
             html += '<div class="detail-card" style="margin-bottom:0.5rem">';
-            html += '<div class="detail-card-header"><strong>' + tgLabel(stemTg) + '</strong> — What This Means for You</div>';
+            html += '<div class="detail-card-header"><strong>' + tgLabel(stemTg) + '</strong> — ' + t('bazi_result.dayun_what_means') + '</div>';
             html += '<div class="detail-card-body" style="line-height:1.65">';
-            html += '<div class="detail-row" style="margin-bottom:0.4rem"><span class="detail-key">💼 Career: </span>' + kw.career + '</div>';
-            html += '<div class="detail-row" style="margin-bottom:0.4rem"><span class="detail-key">🌙 Life: </span>' + kw.life + '</div>';
-            if (extraAdvice) html += '<div class="detail-row" style="margin-bottom:0.4rem"><span class="detail-key">💡 Focus On: </span><span style="color:var(--ink)">' + extraAdvice + '</span></div>';
+            html += '<div class="detail-row" style="margin-bottom:0.4rem"><span class="detail-key">' + t('bazi_result.liunian_career') + '</span>' + kw.career + '</div>';
+            html += '<div class="detail-row" style="margin-bottom:0.4rem"><span class="detail-key">' + t('bazi_result.liunian_life') + '</span>' + kw.life + '</div>';
+            if (extraAdvice) html += '<div class="detail-row" style="margin-bottom:0.4rem"><span class="detail-key">' + t('bazi_result.liunian_focus') + '</span><span style="color:var(--ink)">' + extraAdvice + '</span></div>';
 
             // Dayun vs Liunian interaction
             if (interactionTg) {
-                var intKw = TG_KEYWORDS[interactionTg.cn] || {};
-                html += '<div class="detail-row"><span class="detail-key">🔄 vs Current Life Cycle: </span><span style="color:var(--accent)">' + intKw.life + '</span></div>';
+                var intKw = tgKw(interactionTg.cn);
+                html += '<div class="detail-row"><span class="detail-key">' + t('bazi_result.liunian_vs_cycle') + '</span><span style="color:var(--accent)">' + intKw.life + '</span></div>';
             }
             html += '</div></div>';
         }
@@ -489,13 +546,13 @@
 
     // ==================== RENDER SIDEBAR RECOMMENDATIONS ====================
     function renderSidebarRecommendations(sidebar) {
-        var html = '<h3 class="sidebar-title">Recommended Reading</h3>';
-        html += '<div id="sidebar-cards"><p style="font-size:0.78rem;color:var(--ink-3);text-align:center;padding:2rem 0">Loading articles...</p></div>';
+        var html = '<h3 class="sidebar-title">' + t('bazi_result.sidebar_title') + '</h3>';
+        html += '<div id="sidebar-cards"><p style="font-size:0.78rem;color:var(--ink-3);text-align:center;padding:2rem 0">' + t('bazi_result.sidebar_loading') + '</p></div>';
         html += '<a href="/five-elements-test" class="sidebar-card sidebar-element-cta" style="text-align:center;background:linear-gradient(135deg,rgba(212,175,55,0.06),rgba(212,175,55,0.12));border:1px solid rgba(212,175,55,0.35);margin-top:1.2rem;padding:1.2rem 1rem;">';
-        html += '<div style="font-size:0.68rem;font-weight:600;color:#D4AF37;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.6rem;">✦ Your Elemental Profile</div>';
-        html += '<h3 style="margin:0 0 0.5rem;color:var(--text-primary);font-size:0.95rem;line-height:1.4;">Your birth chart reveals a unique elemental signature.</h3>';
-        html += '<p style="margin:0 0 0.8rem;color:var(--ink-2);font-size:0.78rem;line-height:1.5;">Discover how it shapes your personality, relationships, and life path.</p>';
-        html += '<div style="font-size:0.82rem;color:#D4AF37;font-weight:600;letter-spacing:0.02em;">Take the 2-min quiz →</div>';
+        html += '<div style="font-size:0.68rem;font-weight:600;color:#D4AF37;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.6rem;">' + t('bazi_result.sidebar_element_badge') + '</div>';
+        html += '<h3 style="margin:0 0 0.5rem;color:var(--text-primary);font-size:0.95rem;line-height:1.4;">' + t('bazi_result.sidebar_element_title') + '</h3>';
+        html += '<p style="margin:0 0 0.8rem;color:var(--ink-2);font-size:0.78rem;line-height:1.5;">' + t('bazi_result.sidebar_element_desc') + '</p>';
+        html += '<div style="font-size:0.82rem;color:#D4AF37;font-weight:600;letter-spacing:0.02em;">' + t('bazi_result.sidebar_element_cta') + '</div>';
         html += '</a>';
         sidebar.innerHTML = html;
 
@@ -510,7 +567,7 @@
                     cardsHtml += '<a href="/blog/' + a.slug + '" class="sidebar-card">';
                     cardsHtml += '<div class="sidebar-card-cat">' + (a.category || '') + '</div>';
                     cardsHtml += '<h3>' + (a.title || '') + '</h3>';
-                    if (a.readTime) cardsHtml += '<div class="sidebar-card-meta">' + a.readTime + ' min read</div>';
+                    if (a.readTime) cardsHtml += '<div class="sidebar-card-meta">' + a.readTime + t('bazi_result.sidebar_min_read') + '</div>';
                     cardsHtml += '</a>';
                 }
                 var container = document.getElementById('sidebar-cards');
@@ -518,7 +575,7 @@
             })
             .catch(function() {
                 var container = document.getElementById('sidebar-cards');
-                if (container) container.innerHTML = '<p style="font-size:0.78rem;color:var(--ink-3);text-align:center;padding:1rem 0">Unable to load articles.</p>';
+                if (container) container.innerHTML = '<p style="font-size:0.78rem;color:var(--ink-3);text-align:center;padding:1rem 0">' + t('bazi_result.sidebar_load_error') + '</p>';
             });
     }
 
@@ -563,7 +620,7 @@
         var container = document.getElementById('bazi-main');
         var sidebar = document.getElementById('bazi-sidebar');
 
-        var gender = rt['xb'] === '男' ? 'Male' : 'Female';
+        var gender = rt['xb'] === '男' ? t('bazi_result.gender_male') : t('bazi_result.gender_female');
         var zodiac = ZODIAC_EN[rt['sx']] || rt['sx'];
         var dayMaster = rt['ctg'][2];
         var dmIdx = STEMS.indexOf(dayMaster);
@@ -583,7 +640,7 @@
         }
 
         // Build pillars
-        var pillarLabels = ['Year Pillar', 'Month Pillar', 'Day Pillar', 'Hour Pillar'];
+        var pillarLabels = [t('bazi_result.pillar_year'), t('bazi_result.pillar_month'), t('bazi_result.pillar_day'), t('bazi_result.pillar_hour')];
         var pillarsHTML = '';
         for (var p = 0; p < 4; p++) {
             var gan = rt['ctg'][p];
@@ -596,8 +653,8 @@
             var branchIdx = BRANCHES.indexOf(zhi);
             var cangGanList = getBranchShiShen(branchIdx, dmIdx);
 
-            var ganYin = STEM_WX[STEMS.indexOf(gan)] % 2 === 0 ? 'Yang' : 'Yin';
-            var zhiYin = BRANCH_WX[BRANCHES.indexOf(zhi)] % 2 === 0 ? 'Yang' : 'Yin';
+            var ganYin = STEM_WX[STEMS.indexOf(gan)] % 2 === 0 ? t('bazi_result.yang') : t('bazi_result.yin');
+            var zhiYin = BRANCH_WX[BRANCHES.indexOf(zhi)] % 2 === 0 ? t('bazi_result.yang') : t('bazi_result.yin');
             pillarsHTML += '<div class="pillar">';
             pillarsHTML += '<div class="pillar-label">' + pillarLabels[p] + '</div>';
             pillarsHTML += '<div class="pillar-stem">';
@@ -606,7 +663,7 @@
             if (ganTg) {
                 pillarsHTML += '<span class="pillar-tg">' + tgLabel(ganTg) + '</span>';
             } else {
-                pillarsHTML += '<span class="pillar-tg pillar-tg-self">Day Master</span>';
+                pillarsHTML += '<span class="pillar-tg pillar-tg-self">' + t('bazi_result.day_master_self') + '</span>';
             }
             pillarsHTML += '</div>';
             pillarsHTML += '<div class="pillar-branch">';
@@ -632,7 +689,7 @@
         var dyHTML = '';
         if (rt['dy'] && rt['dy'].length > 0) {
             dyHTML = '<section class="section" id="section-dayun">';
-            dyHTML += '<h2 class="section-title">Life Cycles (Da Yun)</h2>';
+            dyHTML += '<h2 class="section-title">' + t('bazi_result.section_dayun') + '</h2>';
             if (currentDayunIdx >= 0) {
                 var cdy = rt['dy'][currentDayunIdx];
                 var cdyTg = getStemShiShen(STEMS.indexOf(cdy['zfma']), dmIdx);
@@ -673,13 +730,13 @@
             // Header
             '<header class="result-header">' +
                 '<div class="header-tags">' +
-                    '<span class="tag">Chinese Zodiac: ' + zodiac + '</span>' +
+                    '<span class="tag">' + t('bazi_result.zodiac_label') + ' ' + zodiac + '</span>' +
                     '<span class="tag">' + gender + '</span>' +
                 '</div>' +
                 '<div class="header-dm-banner" style="background:var(--accent-bg);border:1px solid var(--accent-soft);border-radius:var(--radius);padding:0.5rem 1rem;margin-top:0.6rem;display:inline-block">' +
-                    '<span style="font-size:0.7rem;color:var(--accent);text-transform:uppercase;letter-spacing:0.08em">Day Master</span><br>' +
+                    '<span style="font-size:0.7rem;color:var(--accent);text-transform:uppercase;letter-spacing:0.08em">' + t('bazi_result.day_master_label') + '</span><br>' +
                     '<span style="font-family:var(--serif);font-size:1.15rem;color:var(--ink);font-weight:600">' + (dmElement ? WX_EN[dmElement] : '') + '</span>' +
-                    '<span style="font-size:0.72rem;color:var(--ink-2);margin-left:0.5rem">— ' + (DM_NATURE[dayMaster] ? DM_NATURE[dayMaster].wx : '') + '</span>' +
+                    '<span style="font-size:0.72rem;color:var(--ink-2);margin-left:0.5rem">— ' + (DM_NATURE[dayMaster] ? (isZh() ? t(DM_NATURE[dayMaster].wxZh) : DM_NATURE[dayMaster].wx) : '') + '</span>' +
                 '</div>' +
             '</header>' +
 
@@ -689,11 +746,11 @@
             // Two-column: Pillars + Elements
             '<div class="main-grid">' +
                 '<section class="section">' +
-                    '<h2 class="section-title">Four Pillars</h2>' +
+                    '<h2 class="section-title">' + t('bazi_result.section_four_pillars') + '</h2>' +
                     '<div class="pillars-grid">' + pillarsHTML + '</div>' +
                 '</section>' +
                 '<section class="section">' +
-                    '<h2 class="section-title">Five Elements</h2>' +
+                    '<h2 class="section-title">' + t('bazi_result.section_five_elements') + '</h2>' +
                     '<div class="wx-bars">' +
                         wxData.map(function(w) {
                             var pct = Math.round((w.count / 8) * 100);
@@ -716,19 +773,19 @@
 
             // CTA — Premium conversion
             '<section class="cta-box"><div class="cta-box-inner">' +
-                '<div class="cta-badge">✦ Premium Reading</div>' +
-                '<h3 class="cta-title">Unlock Your Full Life Blueprint</h3>' +
-                '<p class="cta-subtitle">This free chart reveals your core personality and elemental balance. A personalized reading decodes every dimension of your destiny.</p>' +
+                '<div class="cta-badge">' + t('bazi_result.cta_badge') + '</div>' +
+                '<h3 class="cta-title">' + t('bazi_result.cta_title') + '</h3>' +
+                '<p class="cta-subtitle">' + t('bazi_result.cta_subtitle') + '</p>' +
                 '<div class="cta-list">' +
-                    '<span>Career direction & timing</span><span>Love & relationship compatibility</span>' +
-                    '<span>Wealth peaks & valleys</span><span>Health blind spots</span>' +
-                    '<span>Family & children insights</span><span>Major life decision guidance</span>' +
+                    '<span>' + t('bazi_result.cta_feat1') + '</span><span>' + t('bazi_result.cta_feat2') + '</span>' +
+                    '<span>' + t('bazi_result.cta_feat3') + '</span><span>' + t('bazi_result.cta_feat4') + '</span>' +
+                    '<span>' + t('bazi_result.cta_feat5') + '</span><span>' + t('bazi_result.cta_feat6') + '</span>' +
                 '</div>' +
-                '<a href="#" class="cta-btn" onclick="event.preventDefault();var b=this;b.textContent=\'Creating checkout\u2026\';fetch(\'/api/create-checkout\',{method:\'POST\',headers:{\'Content-Type\':\'application/json\'},body:JSON.stringify({items:[{id:\'prod_28PqAKMEom5WGRH1w9O35n\',name:\'BaZi Reading\',price:0,quantity:1}]})}).then(function(r){return r.json()}).then(function(d){if(d.checkoutUrl)window.open(d.checkoutUrl,\'_blank\');else{b.textContent=\'Get Your All-Around Personalized Report\';alert(\'Unable to create checkout. Please try again.\')}}).catch(function(){b.textContent=\'Get Your All-Around Personalized Report\';alert(\'Network error. Please try again.\')})">Get Your All-Around Personalized Report</a>' +
+                '<a href="#" class="cta-btn" onclick="event.preventDefault();var b=this;b.textContent=\'' + t('bazi_result.cta_btn_loading') + '\';fetch(\'/api/create-checkout\',{method:\'POST\',headers:{\'Content-Type\':\'application/json\'},body:JSON.stringify({items:[{id:\'prod_28PqAKMEom5WGRH1w9O35n\',name:\'BaZi Reading\',price:0,quantity:1}]})}).then(function(r){return r.json()}).then(function(d){if(d.checkoutUrl)window.open(d.checkoutUrl,\'_blank\');else{b.textContent=\'' + t('bazi_result.cta_btn') + '\';alert(\'' + t('bazi_result.cta_btn_error_checkout') + '\')}}).catch(function(){b.textContent=\'' + t('bazi_result.cta_btn') + '\';alert(\'' + t('bazi_result.cta_btn_error_network') + '\')})">' + t('bazi_result.cta_btn') + '</a>' +
                 '<div class="cta-trust">' +
-                    '<span><span class="trust-dot"></span>Based on your exact chart</span>' +
-                    '<span><span class="trust-dot"></span>Certified practitioner</span>' +
-                    '<span><span class="trust-dot"></span>Delivered in 24h</span>' +
+                    '<span><span class="trust-dot"></span>' + t('bazi_result.cta_trust1') + '</span>' +
+                    '<span><span class="trust-dot"></span>' + t('bazi_result.cta_trust2') + '</span>' +
+                    '<span><span class="trust-dot"></span>' + t('bazi_result.cta_trust3') + '</span>' +
                 '</div>' +
             '</div></section>';
 
@@ -762,7 +819,7 @@
 
                 // Flow Years
                 if (dy['ly'] && dy['ly'].length > 0) {
-                    var lyHTML = '<h4 class="liunian-title">Yearly Breakdown</h4>';
+                    var lyHTML = '<h4 class="liunian-title">' + t('bazi_result.liunian_yearly') + '</h4>';
                     lyHTML += '<div class="liunian-grid">';
                     dy['ly'].forEach(function(ly, lyIdx) {
                         var lyGanZhi = ly['lye'] || '';
@@ -865,7 +922,7 @@
     function init() {
         var hash = window.location.hash;
         if (!hash || hash.length < 2) {
-            showError('No calculation data found. Please go back and try again.');
+            showError(t('bazi_result.error_no_data'));
             return;
         }
         try {
@@ -874,17 +931,17 @@
                 dd = parseInt(params.dd), hh = parseInt(params.hh), xb = parseInt(params.xb);
 
             if (isNaN(yy) || isNaN(mm) || isNaN(dd) || isNaN(hh) || isNaN(xb)) {
-                showError('Invalid parameters.'); return;
+                showError(t('bazi_result.error_invalid')); return;
             }
 
             var p = new paipan();
             p.pdy = true;
             var rt = p.fatemaps(xb, yy, mm, dd, hh, 0, 0);
 
-            if (!rt) { showError('Calculation failed.'); return; }
+            if (!rt) { showError(t('bazi_result.error_calc_failed')); return; }
             renderResult(rt);
         } catch (e) {
-            showError('Failed to parse data.');
+            showError(t('bazi_result.error_parse_failed'));
             console.error('BaZi error:', e);
         }
     }
@@ -893,7 +950,7 @@
         document.getElementById('bazi-loading').style.display = 'none';
         var err = document.getElementById('bazi-error');
         err.style.display = 'flex';
-        err.innerHTML = '<p>' + msg + '</p><a href="/#free-bazi">&larr; Try Again</a>';
+        err.innerHTML = '<p>' + msg + '</p><a href="/#free-bazi">' + t('bazi_result.error_try_again') + '</a>';
     }
 
     if (document.readyState === 'loading') {
@@ -901,4 +958,10 @@
     } else {
         init();
     }
+
+    // Re-render page when language is switched (reload to re-apply translations)
+    document.addEventListener('daoessence:i18n-changed', function() {
+        // Re-trigger init to rebuild all dynamic content with new language
+        try { init(); } catch(e) { console.warn('BaZi re-init error:', e); }
+    });
 })();

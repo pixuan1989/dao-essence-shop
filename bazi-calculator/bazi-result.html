@@ -10,6 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/styles.min.css">
+    <script src="/js/i18n-switcher.js" defer></script>
     <style>
         /* ============================
            DESIGN TOKENS
@@ -442,10 +443,10 @@
                     </div>
                 </a>
                 <ul class="nav-menu">
-                    <li><a href="/" class="nav-link active">Home</a></li>
-                    <li><a href="/blog/bazi-astrology" class="nav-link">Blog</a></li>
+                    <li><a href="/" class="nav-link active" data-i18n="nav.home">Home</a></li>
+                    <li><a href="/blog/bazi-astrology" class="nav-link" data-i18n="nav.blog">Blog</a></li>
                     <li>
-                        <button class="bazi-nav-save" onclick="saveAsHTML()" title="Save to view later">
+                        <button class="bazi-nav-save" onclick="saveAsHTML()" data-i18n="bazi_result.save_reading" title="Save to view later">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                             Save Reading
                         </button>
@@ -456,7 +457,7 @@
     </header>
     <div id="bazi-loading" class="bazi-loading">
         <div class="bazi-loading-spinner"></div>
-        <p>Calculating your BaZi chart…</p>
+        <p data-i18n="bazi_result.loading_text">Calculating your BaZi chart…</p>
     </div>
     <div id="bazi-error" class="bazi-error-page" style="display:none;"></div>
     <div id="bazi-result" class="bazi-page" style="display:none;">
