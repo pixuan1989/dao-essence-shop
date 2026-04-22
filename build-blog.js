@@ -1685,8 +1685,8 @@ async function main() {
     zhFiltered.sort((a, b) => new Date(b.data.date) - new Date(a.data.date));
     const zhDisplay = [
       ...zhPinned,
-      ...zhFiltered.slice(0, Math.max(0, homepageCount - zhPinned.length))
-    ].slice(0, homepageCount);
+      ...zhFiltered.slice(0, Math.max(0, 6 - zhPinned.length))
+    ].slice(0, 6);
 
     const zhCardsHtml = zhDisplay.map(post => {
       const catLabel = CATEGORY_LABELS_ZH[post.category] || post.category || '部落格';
