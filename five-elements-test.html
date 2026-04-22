@@ -941,7 +941,7 @@
         }
 
         var hourSel = document.getElementById('birthHour');
-        var hours = [
+        var hoursEn = [
             { name: '23:00 - 01:00 (Rat)', value: 23 },
             { name: '01:00 - 03:00 (Ox)', value: 1 },
             { name: '03:00 - 05:00 (Tiger)', value: 3 },
@@ -955,6 +955,21 @@
             { name: '19:00 - 21:00 (Dog)', value: 19 },
             { name: '21:00 - 23:00 (Pig)', value: 21 }
         ];
+        var hoursZh = [
+            { name: '23:00 - 01:00 (子·鼠)', value: 23 },
+            { name: '01:00 - 03:00 (丑·牛)', value: 1 },
+            { name: '03:00 - 05:00 (寅·虎)', value: 3 },
+            { name: '05:00 - 07:00 (卯·兔)', value: 5 },
+            { name: '07:00 - 09:00 (辰·龙)', value: 7 },
+            { name: '09:00 - 11:00 (巳·蛇)', value: 9 },
+            { name: '11:00 - 13:00 (午·马)', value: 11 },
+            { name: '13:00 - 15:00 (未·羊)', value: 13 },
+            { name: '15:00 - 17:00 (申·猴)', value: 15 },
+            { name: '17:00 - 19:00 (酉·鸡)', value: 17 },
+            { name: '19:00 - 21:00 (戌·狗)', value: 19 },
+            { name: '21:00 - 23:00 (亥·猪)', value: 21 }
+        ];
+        var hours = isZh ? hoursZh : hoursEn;
         hours.forEach(function(h) {
             var opt = document.createElement('option');
             opt.value = h.value; opt.textContent = h.name;

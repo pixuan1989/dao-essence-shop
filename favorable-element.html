@@ -634,12 +634,19 @@
     }
     // Populate hour
     const hourSel = document.getElementById('feHour');
-    const hourLabels = [
-        'Unknown (23:00-01:00 子)', '01:00-03:00 丑', '03:00-05:00 寅',
-        '05:00-07:00 卯', '07:00-09:00 辰', '09:00-11:00 巳',
-        '11:00-13:00 午', '13:00-15:00 未', '15:00-17:00 申',
-        '17:00-19:00 酉', '19:00-21:00 戌', '21:00-23:00 亥'
+    const hourLabelsEn = [
+        'Unknown', '01:00-03:00 (Ox)', '03:00-05:00 (Tiger)',
+        '05:00-07:00 (Rabbit)', '07:00-09:00 (Dragon)', '09:00-11:00 (Snake)',
+        '11:00-13:00 (Horse)', '13:00-15:00 (Goat)', '15:00-17:00 (Monkey)',
+        '17:00-19:00 (Rooster)', '19:00-21:00 (Dog)', '21:00-23:00 (Pig)'
     ];
+    const hourLabelsZh = [
+        '未知', '01:00-03:00 丑·牛', '03:00-05:00 寅·虎',
+        '05:00-07:00 卯·兔', '07:00-09:00 辰·龍', '09:00-11:00 巳·蛇',
+        '11:00-13:00 午·馬', '13:00-15:00 未·羊', '15:00-17:00 申·猴',
+        '17:00-19:00 酉·雞', '19:00-21:00 戌·狗', '21:00-23:00 亥·豬'
+    ];
+    const hourLabels = isZh ? hourLabelsZh : hourLabelsEn;
     for (let h = 0; h < 12; h++) {
         const opt = document.createElement('option');
         opt.value = h === 0 ? -1 : h + 1;
@@ -655,9 +662,11 @@
     }
 
     // WX class helper
+    const WX_ZH_MAP = { '木': 'Wood', '火': 'Fire', '土': 'Earth', '金': 'Metal', '水': 'Water' };
     function wxClass(element) {
+        const en = WX_ZH_MAP[element] || element;
         const map = { Wood: 'wood', Fire: 'fire', Earth: 'earth', Metal: 'metal', Water: 'water' };
-        return map[element] || 'earth';
+        return map[en] || 'earth';
     }
     function wxZh(element) {
         const map = { Wood: '木', Fire: '火', Earth: '土', Metal: '金', Water: '水' };
@@ -668,6 +677,7 @@
     const STEMS = ['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'];
     const BRANCHES = ['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];
     const STEM_WX = {'甲':'Wood','乙':'Wood','丙':'Fire','丁':'Fire','戊':'Earth','己':'Earth','庚':'Metal','辛':'Metal','壬':'Water','癸':'Water'};
+    const STEM_WX_ZH = {'甲':'木','乙':'木','丙':'火','丁':'火','戊':'土','己':'土','庚':'金','辛':'金','壬':'水','癸':'水'};
     const BRANCH_WX = {'子':'Water','丑':'Earth','寅':'Wood','卯':'Wood','辰':'Earth','巳':'Fire','午':'Fire','未':'Earth','申':'Metal','酉':'Metal','戌':'Earth','亥':'Water'};
     const BRANCH_HIDDEN = {
         '子': ['癸'], '丑': ['己','癸','辛'], '寅': ['甲','丙','戊'],
@@ -698,8 +708,8 @@
             pillars.push({
                 position: [t('fav.pillar_year'),t('fav.pillar_month'),t('fav.pillar_day'),t('fav.pillar_hour')][i],
                 stem, branch,
-                stemElement: STEM_WX[stem],
-                branchElement: BRANCH_WX[branch],
+                stemElement: isZh ? (STEM_WX_ZH[stem] || STEM_WX[stem]) : STEM_WX[stem],
+                branchElement: isZh ? ({'Water':'水','Earth':'土','Wood':'木','Fire':'火','Metal':'金'}[BRANCH_WX[branch]] || BRANCH_WX[branch]) : BRANCH_WX[branch],
                 hiddenStems: BRANCH_HIDDEN[branch]
             });
         }
@@ -720,7 +730,7 @@
         return {
             pillars,
             dayMaster,
-            dayMasterElement: STEM_WX[dayMaster],
+            dayMasterElement: isZh ? STEM_WX_ZH[dayMaster] : STEM_WX[dayMaster],
             dayMasterElementEn: STEM_WX[dayMaster],
             gender: xb,
             wxCount
@@ -779,13 +789,16 @@
 
         // Five elements bar
         const wxOrder = ['Wood', 'Fire', 'Earth', 'Metal', 'Water'];
+        const wxOrderZh = ['木', '火', '土', '金', '水'];
         const wxBgClass = { Wood: 'wx-bg-wood', Fire: 'wx-bg-fire', Earth: 'wx-bg-earth', Metal: 'wx-bg-metal', Water: 'wx-bg-water' };
         let barHtml = '';
         let labelsHtml = '';
-        for (const wx of wxOrder) {
+        for (let wi = 0; wi < wxOrder.length; wi++) {
+            const wx = wxOrder[wi];
             const pct = Math.round((chart.wxCount[wx] / total) * 100);
+            const wxLabel = isZh ? wxOrderZh[wi] : wx;
             barHtml += '<div class="fe-wx-bar-segment ' + wxBgClass[wx] + '" style="width:' + pct + '%"></div>';
-            labelsHtml += '<span class="wx-' + wxClass(wx) + '">' + wx + ' ' + chart.wxCount[wx] + '</span>';
+            labelsHtml += '<span class="wx-' + wxClass(wx) + '">' + wxLabel + ' ' + chart.wxCount[wx] + '</span>';
         }
 
         // Pillars
@@ -836,14 +849,15 @@
         });
 
         const strengthClass = analysis.strength === 'Strong' ? 'fe-strength-strong' : 'fe-strength-weak';
+        const strengthLabel = analysis.strength === 'Strong' ? (isZh ? '身強' : 'Strong') : (isZh ? '身弱' : 'Weak');
 
         document.getElementById('feResult').innerHTML =
             '<div class="fe-element-card">' +
                 '<div class="fe-element-label">' + t('fav.your_energy_element') + '</div>' +
-                '<div class="fe-element-name wx-' + favClass + '">' + fav + '</div>' +
-                '<div class="fe-element-zh">' + (analysis.favorableElementZh || '') + '</div>' +
-                '<div class="fe-day-master-info">' + t('fav.day_master_label') + ' ' + chart.dayMaster + ' (' + chart.dayMasterElementEn + ')</div>' +
-                '<div class="fe-strength-badge ' + strengthClass + '">' + (analysis.strength || '') + ' ' + t('fav.day_master_badge') + '</div>' +
+                '<div class="fe-element-name wx-' + favClass + '">' + (isZh ? (analysis.favorableElementZh || fav) : fav) + '</div>' +
+                (isZh ? '' : '<div class="fe-element-zh">' + (analysis.favorableElementZh || '') + '</div>') +
+                '<div class="fe-day-master-info">' + t('fav.day_master_label') + ' ' + chart.dayMaster + ' (' + chart.dayMasterElement + ')</div>' +
+                '<div class="fe-strength-badge ' + strengthClass + '">' + strengthLabel + ' ' + t('fav.day_master_badge') + '</div>' +
             '</div>' +
 
             '<h3 style="font-family:var(--serif);font-size:1rem;color:var(--text-muted);letter-spacing:0.12em;text-transform:uppercase;text-align:center;margin-bottom:1rem;">' + t('fav.your_four_pillars') + '</h3>' +
@@ -910,7 +924,7 @@
 
             '<div class="fe-avoid">' +
                 '<div class="fe-avoid-label">' + t('fav.element_to_avoid') + '</div>' +
-                '<div class="fe-avoid-element">' + (analysis.avoidElement || '') + ' (' + (analysis.avoidElementZh || '') + ')</div>' +
+                '<div class="fe-avoid-element">' + (isZh ? ((analysis.avoidElementZh || analysis.avoidElement) + ' (' + (analysis.avoidElement || '') + ')') : ((analysis.avoidElement || '') + ' (' + (analysis.avoidElementZh || '') + ')')) + '</div>' +
             '</div>';
     }
 
