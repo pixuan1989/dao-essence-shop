@@ -12,6 +12,7 @@
 
   var currentLang = getSavedLang() || DEFAULT_LANG;
   var translations = null;
+  var originalTexts = {}; // Cache original English text for each [data-i18n] element
 
   // ── Helpers ──
 
@@ -66,6 +67,20 @@
   }
 
   /**
+   * Cache original English text from [data-i18n] elements (before any translation)
+   */
+  function cacheOriginalTexts() {
+    var elements = document.querySelectorAll('[data-i18n]');
+    for (var i = 0; i < elements.length; i++) {
+      var el = elements[i];
+      var key = el.getAttribute('data-i18n');
+      if (!originalTexts[key]) {
+        originalTexts[key] = el.innerHTML;
+      }
+    }
+  }
+
+  /**
    * Apply translations to all [data-i18n] elements
    */
   function applyTranslations(t) {
@@ -76,6 +91,20 @@
       var value = getNestedValue(t, key);
       if (value) {
         el.innerHTML = value;
+      }
+    }
+  }
+
+  /**
+   * Restore all [data-i18n] elements to their original English text
+   */
+  function restoreOriginalTexts() {
+    var elements = document.querySelectorAll('[data-i18n]');
+    for (var i = 0; i < elements.length; i++) {
+      var el = elements[i];
+      var key = el.getAttribute('data-i18n');
+      if (originalTexts[key]) {
+        el.innerHTML = originalTexts[key];
       }
     }
   }
@@ -125,20 +154,32 @@
     currentLang = lang;
     saveLang(lang);
 
-    loadTranslations(lang).then(function (t) {
-      translations = t;
-      applyTranslations(t);
+    if (lang === DEFAULT_LANG) {
+      // Restore original English text — no network request needed
+      restoreOriginalTexts();
+      translations = null;
       updateHtmlLang(lang);
       updateSwitcherUI(lang);
       highlightActiveOption(lang);
-    }).catch(function (err) {
-      console.warn('i18n: failed to load translations for', lang, err);
-    });
+    } else {
+      loadTranslations(lang).then(function (t) {
+        translations = t;
+        applyTranslations(t);
+        updateHtmlLang(lang);
+        updateSwitcherUI(lang);
+        highlightActiveOption(lang);
+      }).catch(function (err) {
+        console.warn('i18n: failed to load translations for', lang, err);
+      });
+    }
   }
 
   // ── Init ──
 
   function init() {
+    // Cache original English text ASAP before any translation is applied
+    cacheOriginalTexts();
+
     // Determine initial language
     currentLang = getInitialLang();
 
