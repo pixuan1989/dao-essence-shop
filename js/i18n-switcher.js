@@ -409,6 +409,19 @@
     }
   }
 
+  /**
+   * Check if current URL is an English blog path that should redirect to /zh/blog/
+   * when the user's saved language is zh. This handles the case where the user
+   * switches to zh on one page, then navigates (back/forward/bookmark) to /blog/.
+   */
+  function shouldRedirectToZhBlog(pathname) {
+    if (pathname.indexOf('/zh/') === 0) return false; // already on zh
+    if (pathname === '/blog/' || pathname === '/blog' || pathname === '/blog/index.html') return true;
+    if (pathname.match(/^\/blog\/(.+\.html)?$/)) return true;
+    if (pathname.match(/^\/blog\/(bazi-astrology|zodiac-horoscope|feng-shui|daily-horoscope|lucky-tips)\/?$/)) return true;
+    return false;
+  }
+
   // ── Init ──
 
   function init() {
@@ -417,6 +430,35 @@
 
     // Determine initial language
     currentLang = getInitialLang();
+
+    // ── Auto-redirect based on saved lang vs current URL ──
+    var pathname = window.location.pathname;
+    var onZhPath = pathname.indexOf('/zh/') === 0 || pathname === '/zh';
+
+    if (currentLang === 'zh' && !onZhPath && shouldRedirectToZhBlog(pathname)) {
+      // Saved lang = zh, but on EN blog URL → redirect to /zh/blog/
+      var zhPath = '/zh' + pathname.replace(/\/index\.html$/, '').replace(/\/$/, '') + '/';
+      if (pathname === '/blog' || pathname === '/blog/' || pathname === '/blog/index.html') {
+        zhPath = '/zh/blog/';
+      }
+      window.location.href = zhPath;
+      return;
+    }
+
+    if (currentLang === 'en' && onZhPath) {
+      // Saved lang = en, but on /zh/ URL → redirect to EN version
+      var enPath = pathname.replace(/^\/zh/, '') || '/';
+      if (enPath === '/') {
+        window.location.href = '/';
+        return;
+      }
+      // Ensure proper extension for category pages
+      if (enPath.match(/^\/blog\/(bazi-astrology|zodiac-horoscope|feng-shui|daily-horoscope|lucky-tips)\/$/)) {
+        enPath = enPath.replace(/\/$/, '.html');
+      }
+      window.location.href = enPath;
+      return;
+    }
 
     // Bind dropdown events
     var trigger = document.getElementById('lang-trigger');

@@ -1236,11 +1236,28 @@ function generateBlogIndex(allArticles, options = {}) {
       const catLabel = isZh
         ? (CATEGORY_LABELS_ZH[cat] || CATEGORY_LABELS[cat] || cat)
         : (CATEGORY_LABELS[cat] || cat);
+      const catLabelZh = CATEGORY_LABELS_ZH[cat] || CATEGORY_LABELS[cat] || cat;
       let imgSrc = a.data.image || SITE_URL + '/images/og-default.jpg';
       imgSrc = imgSrc.replace(/\/feature\/blog-cms\//g, '/main/');
       if (!imgSrc || imgSrc === '""') imgSrc = SITE_URL + '/images/og-default.jpg';
       const isPinned = a.data.pinned === true;
       const pinnedBadge = isPinned ? `<span class="blog-card-pinned">${isZh ? '📌 置頂' : '📌 Pinned'}</span>` : '';
+      // For EN blog index, embed zh titles for runtime DOM translation
+      const zhPost = isZh ? a : (options.zhMap && options.zhMap[a.slug] ? options.zhMap[a.slug] : null);
+      const zhTitle = zhPost ? escapeHtml(zhPost.data.title || '') : '';
+      const zhDesc = zhPost ? escapeHtml(zhPost.data.description || '') : '';
+      const h2Tag = zhTitle
+        ? `<h2 data-zh-title="${zhTitle}">${escapeHtml(a.data.title)}</h2>`
+        : `<h2>${escapeHtml(a.data.title)}</h2>`;
+      const pTag = zhDesc
+        ? `<p data-zh-desc="${zhDesc}">${escapeHtml(a.data.description || '')}</p>`
+        : `<p>${escapeHtml(a.data.description || '')}</p>`;
+      const catTag = isZh
+        ? `<span class="blog-card-category">${catLabel}</span>`
+        : `<span class="blog-card-category" data-zh-cat="${escapeHtml(catLabelZh)}">${catLabel}</span>`;
+      const readTimeSpan = a.data.readTime
+        ? `<span>·</span><span class="read-time-label" data-zh-text="${a.data.readTime} 分鐘閱讀">${a.data.readTime} min read</span>`
+        : '';
       return `
                 <a href="${langPrefix}/blog/${a.slug}" class="blog-card${isPinned ? ' pinned' : ''}">
                     <div class="blog-card-image">
@@ -1248,12 +1265,12 @@ function generateBlogIndex(allArticles, options = {}) {
                     </div>
                     <div class="blog-card-body">
                         ${pinnedBadge}
-                        <span class="blog-card-category">${catLabel}</span>
-                        <h2>${escapeHtml(a.data.title)}</h2>
-                        <p>${escapeHtml(a.data.description || '')}</p>
+                        ${catTag}
+                        ${h2Tag}
+                        ${pTag}
                         <div class="blog-card-meta">
                             <span>${escapeHtml(normalizeAuthor(a.data.author))}</span>
-                            ${a.data.readTime ? `<span>·</span><span>${a.data.readTime} min read</span>` : ''}
+                            ${readTimeSpan}
                         </div>
                     </div>
                 </a>`;
@@ -1564,7 +1581,7 @@ async function main() {
   }
 
   // Step 6: Generate English blog index
-  const indexHtml = generateBlogIndex(allArticles, { lang: 'en' });
+  const indexHtml = generateBlogIndex(allArticles, { lang: 'en', zhMap: zhArticleMap });
   const indexPath = path.join(DIST_BLOG_DIR, 'index.html');
   fs.writeFileSync(indexPath, indexHtml);
   console.log(`  Updated: dist/blog/index.html`);
