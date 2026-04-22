@@ -18,6 +18,7 @@
     <meta name="twitter:description" content="Discover the colors, directions, and lifestyle choices that support your personal energy.">
     <meta name="twitter:image" content="https://www.daoessentia.com/images/og-default.jpg">
     <link rel="canonical" href="https://www.daoessentia.com/favorable-element">
+    <link rel="alternate" hreflang="zh" href="https://www.daoessentia.com/zh/favorable-element">
     <link rel="icon" href="/favicon.ico">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -162,6 +163,33 @@
             transition: color 0.3s;
         }
         .fe-nav-back:hover { color: var(--gold); }
+
+        /* ===== LANGUAGE SWITCHER ===== */
+        .lang-switcher { position: relative; }
+        .lang-switcher-btn {
+            display: flex; align-items: center; gap: 6px;
+            background: none; border: 1px solid var(--border);
+            border-radius: 6px; padding: 4px 10px;
+            color: var(--text-secondary); font-size: 0.85rem;
+            cursor: pointer; transition: all 0.2s;
+            font-family: var(--sans);
+        }
+        .lang-switcher-btn:hover { border-color: var(--border-hover); color: var(--text-primary); }
+        .lang-switcher-menu {
+            position: absolute; top: calc(100% + 6px); right: 0;
+            background: #1A1820; border: 1px solid var(--border);
+            border-radius: 8px; padding: 4px 0; min-width: 140px;
+            opacity: 0; visibility: hidden; transform: translateY(4px);
+            transition: all 0.2s; z-index: 200;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+        }
+        .lang-switcher.show .lang-switcher-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+        .lang-switcher-menu a {
+            display: block; padding: 8px 14px; color: var(--text-secondary);
+            text-decoration: none; font-size: 0.85rem; transition: all 0.15s;
+        }
+        .lang-switcher-menu a:hover { color: var(--gold); background: rgba(212,175,55,0.06); }
+        .lang-switcher-menu a.active { color: var(--gold); }
 
         /* Container */
         .fe-container {
@@ -497,7 +525,19 @@
             <div class="fe-logo-icon">DAO</div>
             <div class="fe-logo-text">DAO <span>Essence</span></div>
         </a>
-        <a href="/" class="fe-nav-back">Back to Home</a>
+        <div style="display:flex;align-items:center;gap:1.5rem;">
+            <div class="lang-switcher" id="lang-switcher">
+                <button class="lang-switcher-btn" id="lang-trigger" onclick="document.getElementById('lang-switcher').classList.toggle('show')">
+                    <span class="lang-flag" id="lang-flag">🇺🇸</span>
+                    <span class="lang-label" id="lang-label">EN</span>
+                </button>
+                <div class="lang-switcher-menu" id="lang-menu">
+                    <a href="#" data-lang="en" class="lang-option active"><span class="lang-flag">🇺🇸</span> English</a>
+                    <a href="#" data-lang="zh" class="lang-option"><span class="lang-flag">🇹🇼</span> 繁體中文</a>
+                </div>
+            </div>
+            <a href="/" class="fe-nav-back" data-i18n="fav.nav_back">Back to Home</a>
+        </div>
     </div>
 </nav>
 
@@ -506,45 +546,45 @@
     <!-- Step 1: Input -->
     <div class="fe-step active" id="feStep1">
         <div class="fe-hero">
-            <div class="fe-hero-badge">
+            <div class="fe-hero-badge" data-i18n="fav.hero_badge">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
                 BaZi Analysis
             </div>
-            <h1>Your Lucky Colors<br><em>& Energy Guide</em></h1>
-            <p class="fe-hero-sub">Discover the colors, directions, and lifestyle choices that support your personal energy. Based on the ancient wisdom of BaZi.</p>
+            <h1 data-i18n="fav.hero_title">Your Lucky Colors<br><em>& Energy Guide</em></h1>
+            <p class="fe-hero-sub" data-i18n="fav.hero_sub">Discover the colors, directions, and lifestyle choices that support your personal energy. Based on the ancient wisdom of BaZi.</p>
         </div>
 
         <form class="fe-form" id="feForm">
             <div class="fe-form-row">
                 <div class="fe-form-group">
-                    <label class="fe-form-label">Birth Year</label>
+                    <label class="fe-form-label" data-i18n="fav.form_year">Birth Year</label>
                     <select class="fe-form-select" id="feYear" required></select>
                 </div>
                 <div class="fe-form-group">
-                    <label class="fe-form-label">Birth Month</label>
+                    <label class="fe-form-label" data-i18n="fav.form_month">Birth Month</label>
                     <select class="fe-form-select" id="feMonth" required></select>
                 </div>
             </div>
             <div class="fe-form-row">
                 <div class="fe-form-group">
-                    <label class="fe-form-label">Birth Day</label>
+                    <label class="fe-form-label" data-i18n="fav.form_day">Birth Day</label>
                     <select class="fe-form-select" id="feDay" required></select>
                 </div>
                 <div class="fe-form-group">
-                    <label class="fe-form-label">Birth Hour</label>
+                    <label class="fe-form-label" data-i18n="fav.form_hour">Birth Hour</label>
                     <select class="fe-form-select" id="feHour" required>
-                        <option value="-1">Unknown</option>
+                        <option value="-1" data-i18n="fav.form_unknown">Unknown</option>
                     </select>
                 </div>
             </div>
             <div class="fe-form-group">
-                <label class="fe-form-label">Gender</label>
+                <label class="fe-form-label" data-i18n="fav.form_gender">Gender</label>
                 <div class="fe-form-radio">
-                    <label><input type="radio" name="feGender" value="1" checked> Male</label>
-                    <label><input type="radio" name="feGender" value="2"> Female</label>
+                    <label><input type="radio" name="feGender" value="1" checked> <span data-i18n="fav.form_male">Male</span></label>
+                    <label><input type="radio" name="feGender" value="2"> <span data-i18n="fav.form_female">Female</span></label>
                 </div>
             </div>
-            <button type="submit" class="fe-submit-btn" id="feSubmitBtn">Reveal My Element</button>
+            <button type="submit" class="fe-submit-btn" id="feSubmitBtn" data-i18n="fav.form_submit">Reveal My Element</button>
         </form>
     </div>
 
@@ -552,16 +592,16 @@
     <div class="fe-step" id="feStep2">
         <div class="fe-loading">
             <div class="fe-loading-spinner"></div>
-            <p class="fe-loading-text">Analyzing your birth chart...</p>
-            <p class="fe-loading-text" style="font-size:0.8rem;margin-top:0.5rem;color:var(--text-muted);">Calculating Four Pillars and determining favorable element</p>
+            <p class="fe-loading-text" data-i18n="fav.loading_text1">Analyzing your birth chart...</p>
+            <p class="fe-loading-text" style="font-size:0.8rem;margin-top:0.5rem;color:var(--text-muted);" data-i18n="fav.loading_text2">Calculating Four Pillars and determining favorable element</p>
         </div>
     </div>
 
     <!-- Step 3: Result -->
     <div class="fe-step" id="feStep3">
         <div class="fe-result" id="feResult"></div>
-        <a href="#" class="fe-retry" id="feRetry">Try Another Birth Chart</a>
-        <div class="fe-footer">
+        <a href="#" class="fe-retry" id="feRetry" data-i18n="fav.retry_btn">Try Another Birth Chart</a>
+        <div class="fe-footer" data-i18n="fav.footer">
             DAO Essence &mdash; Ancient Wisdom, Modern Insight
         </div>
     </div>
@@ -879,6 +919,15 @@
         showStep(1);
     });
 })();
+
+<!-- Language Switcher -->
+<script>
+document.addEventListener('click', function(e) {
+    var sw = document.getElementById('lang-switcher');
+    if (sw && !sw.contains(e.target)) sw.classList.remove('show');
+});
+</script>
+<script src="js/i18n-switcher.js" defer></script>
 </script>
 
 </body>

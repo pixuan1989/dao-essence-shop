@@ -21,6 +21,7 @@
     <meta name="twitter:image" content="https://www.daoessentia.com/images/og-default.jpg">
     <!-- Canonical -->
     <link rel="canonical" href="https://www.daoessentia.com/soulmate-calculator">
+    <link rel="alternate" hreflang="zh" href="https://www.daoessentia.com/zh/soulmate-calculator">
 
     <!-- Domain redirect -->
     <script>
@@ -146,6 +147,33 @@
             letter-spacing: 0.12em;
         }
         .sc-logo-text span { color: var(--rose-light); }
+
+        /* ===== LANGUAGE SWITCHER ===== */
+        .lang-switcher { position: relative; }
+        .lang-switcher-btn {
+            display: flex; align-items: center; gap: 6px;
+            background: none; border: 1px solid var(--border);
+            border-radius: 6px; padding: 4px 10px;
+            color: var(--text-secondary); font-size: 0.85rem;
+            cursor: pointer; transition: all 0.2s;
+            font-family: var(--sans);
+        }
+        .lang-switcher-btn:hover { border-color: var(--border-hover); color: var(--text-primary); }
+        .lang-switcher-menu {
+            position: absolute; top: calc(100% + 6px); right: 0;
+            background: #1A1820; border: 1px solid var(--border);
+            border-radius: 8px; padding: 4px 0; min-width: 140px;
+            opacity: 0; visibility: hidden; transform: translateY(4px);
+            transition: all 0.2s; z-index: 200;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+        }
+        .lang-switcher.show .lang-switcher-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+        .lang-switcher-menu a {
+            display: block; padding: 8px 14px; color: var(--text-secondary);
+            text-decoration: none; font-size: 0.85rem; transition: all 0.15s;
+        }
+        .lang-switcher-menu a:hover { color: var(--rose-light); background: rgba(196,125,125,0.06); }
+        .lang-switcher-menu a.active { color: var(--rose-light); }
 
         /* ===== MAIN CONTAINER ===== */
         .sc-container {
@@ -1045,6 +1073,16 @@
                 <div class="sc-logo-icon">&#9775;</div>
                 <div class="sc-logo-text">DAO <span>ESSENCE</span></div>
             </a>
+            <div class="lang-switcher" id="lang-switcher">
+                <button class="lang-switcher-btn" id="lang-trigger" onclick="document.getElementById('lang-switcher').classList.toggle('show')">
+                    <span class="lang-flag" id="lang-flag">🇺🇸</span>
+                    <span class="lang-label" id="lang-label">EN</span>
+                </button>
+                <div class="lang-switcher-menu" id="lang-menu">
+                    <a href="#" data-lang="en" class="lang-option active"><span class="lang-flag">🇺🇸</span> English</a>
+                    <a href="#" data-lang="zh" class="lang-option"><span class="lang-flag">🇹🇼</span> 繁體中文</a>
+                </div>
+            </div>
         </div>
     </nav>
 
@@ -1053,9 +1091,9 @@
         <!-- ====== STEP 1: HERO + FORM ====== -->
         <div class="sc-step active" id="sc-step-1">
             <div class="sc-hero">
-                <div class="sc-hero-badge">Ancient Wisdom Meets Modern Love</div>
-                <h1>Where Will You Meet<br>Your <em>Soulmate</em>?</h1>
-                <p class="sc-hero-sub">Your birth date holds the map to your most fated love encounter. Based on 2,000 years of Chinese astrology, uncover the direction, timing, and nature of your soulmate connection.</p>
+                <div class="sc-hero-badge" data-i18n="sc.hero_badge">Ancient Wisdom Meets Modern Love</div>
+                <h1 data-i18n="sc.hero_title">Where Will You Meet<br>Your <em>Soulmate</em>?</h1>
+                <p class="sc-hero-sub" data-i18n="sc.hero_sub">Your birth date holds the map to your most fated love encounter. Based on 2,000 years of Chinese astrology, uncover the direction, timing, and nature of your soulmate connection.</p>
             </div>
 
             <!-- Feature cards -->
@@ -1064,66 +1102,66 @@
                     <div class="sc-feature-icon rose-bg">
                         <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
                     </div>
-                    <h3>Direction</h3>
-                    <div class="feat-question">Where?</div>
-                    <p>The geographic direction most aligned with your soulmate's energy</p>
+                    <h3 data-i18n="sc.feat1_title">Direction</h3>
+                    <div class="feat-question" data-i18n="sc.feat1_question">Where?</div>
+                    <p data-i18n="sc.feat1_desc">The geographic direction most aligned with your soulmate's energy</p>
                 </div>
                 <div class="sc-feature-card">
                     <div class="sc-feature-icon gold-bg">
                         <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                     </div>
-                    <h3>Timing</h3>
-                    <div class="feat-question">When?</div>
-                    <p>The life phases when love energy is strongest for you</p>
+                    <h3 data-i18n="sc.feat2_title">Timing</h3>
+                    <div class="feat-question" data-i18n="sc.feat2_question">When?</div>
+                    <p data-i18n="sc.feat2_desc">The life phases when love energy is strongest for you</p>
                 </div>
                 <div class="sc-feature-card">
                     <div class="sc-feature-icon rose-bg">
                         <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
                     </div>
-                    <h3>Love Style</h3>
-                    <div class="feat-question">How?</div>
-                    <p>Your unique relationship pattern based on Five Elements</p>
+                    <h3 data-i18n="sc.feat3_title">Love Style</h3>
+                    <div class="feat-question" data-i18n="sc.feat3_question">How?</div>
+                    <p data-i18n="sc.feat3_desc">Your unique relationship pattern based on Five Elements</p>
                 </div>
             </div>
 
             <!-- Form -->
-            <div class="sc-divider"><span>Enter Your Birth Details</span></div>
+            <div class="sc-divider"><span data-i18n="sc.divider_text">Enter Your Birth Details</span></div>
 
             <div class="sc-form">
-                <h3>Your Love Blueprint Awaits</h3>
-                <p class="form-subtitle">All fields required for an accurate reading</p>
+                <h3 data-i18n="sc.form_title">Your Love Blueprint Awaits</h3>
+                <p class="form-subtitle" data-i18n="sc.form_subtitle">All fields required for an accurate reading</p>
                 <div class="sc-form-row">
                     <div class="sc-form-group">
-                        <label>Year</label>
+                        <label data-i18n="sc.form_year">Year</label>
                         <select id="sc-year"></select>
                     </div>
                     <div class="sc-form-group">
-                        <label>Month</label>
+                        <label data-i18n="sc.form_month">Month</label>
                         <select id="sc-month"></select>
                     </div>
                     <div class="sc-form-group">
-                        <label>Day</label>
+                        <label data-i18n="sc.form_day">Day</label>
                         <select id="sc-day"></select>
                     </div>
                 </div>
                 <div class="sc-form-row-2">
                     <div class="sc-form-group">
-                        <label>Birthplace (City, State/Province, Country)</label>
+                        <label data-i18n="sc.form_birthplace">Birthplace (City, State/Province, Country)</label>
                         <input type="text" id="sc-birthplace" placeholder="e.g. Los Angeles, CA, USA" autocomplete="off">
                     </div>
                     <div class="sc-form-group">
-                        <label>Gender</label>
+                        <label data-i18n="sc.form_gender">Gender</label>
                         <select id="sc-gender">
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
+                            <option value="male" data-i18n="sc.form_male">Male</option>
+                            <option value="female" data-i18n="sc.form_female">Female</option>
                         </select>
                     </div>
                 </div>
                 <div class="sc-form-row-2">
                     <div class="sc-form-group">
-                        <label>Birth Hour (optional, for deeper accuracy)</label>
+                        <label data-i18n="sc.form_hour">Birth Hour (optional, for deeper accuracy)</label>
                         <select id="sc-hour">
-                            <option value="">Unknown</option>
+                            <option value="" data-i18n="sc.form_unknown">Unknown</option>
                         </select>
                     </div>
                     <div class="sc-form-group" style="visibility:hidden;">
@@ -1131,28 +1169,28 @@
                     </div>
                 </div>
                 <button class="sc-btn-primary" id="sc-calculate-btn" onclick="scCalculate()">
-                    <span>Find My Soulmate &rarr;</span>
+                    <span data-i18n="sc.form_submit">Find My Soulmate &rarr;</span>
                 </button>
                 <label style="display:flex;align-items:center;gap:6px;margin-top:10px;font-size:0.8rem;color:rgba(255,255,255,0.6);cursor:pointer;user-select:none;line-height:1.3;">
                     <input type="checkbox" id="sc-consent" style="accent-color:#e8b4b8;flex-shrink:0;" />
-                    I agree to the <a href="/privacy" style="color:rgba(255,255,255,0.85);text-decoration:underline;">Privacy Policy</a> — my birth data will be used solely for this reading and will not be stored.
+                    <span data-i18n="sc.form_consent">I agree to the <a href="/privacy" style="color:rgba(255,255,255,0.85);text-decoration:underline;">Privacy Policy</a> — my birth data will be used solely for this reading and will not be stored.</span>
                 </label>
-                <p class="sc-form-note">Get started &middot; No sign-up &middot; Based on BaZi &amp; Five Elements astrology</p>
+                <p class="sc-form-note" data-i18n="sc.form_note">Get started &middot; No sign-up &middot; Based on BaZi &amp; Five Elements astrology</p>
             </div>
 
             <!-- Trust bar -->
             <div class="sc-trust">
                 <div class="sc-trust-item">
                     <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                    100% Private
+                    <span data-i18n="sc.trust_private">100% Private</span>
                 </div>
                 <div class="sc-trust-item">
                     <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-                    2,000+ Years of Wisdom
+                    <span data-i18n="sc.trust_wisdom">2,000+ Years of Wisdom</span>
                 </div>
                 <div class="sc-trust-item">
                     <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-                    Crafted with Care
+                    <span data-i18n="sc.trust_care">Crafted with Care</span>
                 </div>
             </div>
         </div>
@@ -1163,13 +1201,13 @@
                 <div class="sc-loading-icon">
                     <div class="sc-loading-ring"></div>
                 </div>
-                <h2>Reading Your Stars...</h2>
-                <p>Analyzing the celestial map of your love destiny</p>
+                <h2 data-i18n="sc.loading_title">Reading Your Stars...</h2>
+                <p data-i18n="sc.loading_desc">Analyzing the celestial map of your love destiny</p>
                 <div class="sc-loading-steps">
-                    <div class="sc-loading-step" id="sc-load-1"><span class="step-dot"></span> Calculating your Heavenly Stem &amp; Earthly Branch</div>
-                    <div class="sc-loading-step" id="sc-load-2"><span class="step-dot"></span> Mapping your Five Elements love profile</div>
-                    <div class="sc-loading-step" id="sc-load-3"><span class="step-dot"></span> Mapping your love direction</div>
-                    <div class="sc-loading-step" id="sc-load-4"><span class="step-dot"></span> Revealing your love timing &amp; style</div>
+                    <div class="sc-loading-step" id="sc-load-1"><span class="step-dot"></span> <span data-i18n="sc.load_step1">Calculating your Heavenly Stem &amp; Earthly Branch</span></div>
+                    <div class="sc-loading-step" id="sc-load-2"><span class="step-dot"></span> <span data-i18n="sc.load_step2">Mapping your Five Elements love profile</span></div>
+                    <div class="sc-loading-step" id="sc-load-3"><span class="step-dot"></span> <span data-i18n="sc.load_step3">Mapping your love direction</span></div>
+                    <div class="sc-loading-step" id="sc-load-4"><span class="step-dot"></span> <span data-i18n="sc.load_step4">Revealing your love timing &amp; style</span></div>
                 </div>
             </div>
         </div>
@@ -1177,8 +1215,8 @@
         <!-- ====== STEP 3: RESULTS ====== -->
         <div class="sc-step" id="sc-step-3">
             <div class="sc-result-header">
-                <div class="sc-result-badge">Your Soulmate Reading</div>
-                <h2>Your <em id="sc-result-name">Love</em> Blueprint</h2>
+                <div class="sc-result-badge" data-i18n="sc.result_badge">Your Soulmate Reading</div>
+                <h2><span data-i18n="sc.result_title_prefix">Your</span> <em id="sc-result-name">Love</em> <span data-i18n="sc.result_title_suffix">Blueprint</span></h2>
                 <p id="sc-result-summary"></p>
                 <div class="result-ref" id="sc-result-ref"></div>
             </div>
@@ -1190,8 +1228,8 @@
                         <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
                     </div>
                     <div>
-                        <div class="card-label">Love Direction</div>
-                        <h3>Where You'll Meet Your Soulmate</h3>
+                        <div class="card-label" data-i18n="sc.card_direction_label">Love Direction</div>
+                        <h3 data-i18n="sc.card_direction_title">Where You'll Meet Your Soulmate</h3>
                     </div>
                 </div>
                 <div class="sc-result-card-body" id="sc-direction-body"></div>
@@ -1204,8 +1242,8 @@
                         <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                     </div>
                     <div>
-                        <div class="card-label">Love Timing</div>
-                        <h3>When Love Finds You</h3>
+                        <div class="card-label" data-i18n="sc.card_timing_label">Love Timing</div>
+                        <h3 data-i18n="sc.card_timing_title">When Love Finds You</h3>
                     </div>
                 </div>
                 <div class="sc-result-card-body" id="sc-timing-body"></div>
@@ -1218,8 +1256,8 @@
                         <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
                     </div>
                     <div>
-                        <div class="card-label">Love Style</div>
-                        <h3>Your Relationship Blueprint</h3>
+                        <div class="card-label" data-i18n="sc.card_style_label">Love Style</div>
+                        <h3 data-i18n="sc.card_style_title">Your Relationship Blueprint</h3>
                     </div>
                 </div>
                 <div class="sc-result-card-body" id="sc-style-body"></div>
@@ -1228,10 +1266,10 @@
             <!-- CTA -->
             <div class="sc-cta">
                 <div class="sc-cta-box">
-                    <h3>Want the Full Picture?</h3>
-                    <p>Get a complete BaZi love reading with detailed compatibility analysis, yearly forecasts, and personalized relationship advice.</p>
+                    <h3 data-i18n="sc.cta_title">Want the Full Picture?</h3>
+                    <p data-i18n="sc.cta_desc">Get a complete BaZi love reading with detailed compatibility analysis, yearly forecasts, and personalized relationship advice.</p>
                     <button class="sc-btn-primary" onclick="window.location.href='/bazi-form'">
-                        <span>Get Your Full BaZi Reading &rarr;</span>
+                        <span data-i18n="sc.cta_btn">Get Your Full BaZi Reading &rarr;</span>
                     </button>
                 </div>
             </div>
@@ -1239,34 +1277,34 @@
             <!-- Pay Modal -->
             <div class="sc-pay-modal" id="scPayModal">
                 <div class="sc-pay-modal-box">
-                    <h3>Unlock Your Full Love Timeline</h3>
+                    <h3 data-i18n="sc.pay_title">Unlock Your Full Love Timeline</h3>
                     <div class="pay-price">$2.99</div>
                     <div class="pay-badges">
                         <span class="pay-badge">
                             <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-                            One-Time Payment
+                            <span data-i18n="sc.pay_badge_onetime">One-Time Payment</span>
                         </span>
                         <span class="pay-badge">
                             <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-                            Lifetime Access
+                            <span data-i18n="sc.pay_badge_lifetime">Lifetime Access</span>
                         </span>
                         <span class="pay-badge">
                             <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-                            No Subscription
+                            <span data-i18n="sc.pay_badge_nosub">No Subscription</span>
                         </span>
                     </div>
-                    <p>See all 5 years of your love timing forecast, with detailed BaZi compatibility scores for each year.</p>
+                    <p data-i18n="sc.pay_desc">See all 5 years of your love timing forecast, with detailed BaZi compatibility scores for each year.</p>
                     <button class="sc-btn-primary" id="scUnlockBtn" onclick="scUnlockAll()">
-                        <span>Unlock Now</span>
+                        <span data-i18n="sc.pay_btn">Unlock Now</span>
                     </button>
                     <br>
-                    <button class="sc-pay-modal-close" onclick="document.getElementById('scPayModal').classList.remove('visible')">Maybe later</button>
+                    <button class="sc-pay-modal-close" onclick="document.getElementById('scPayModal').classList.remove('visible')" data-i18n="sc.pay_later">Maybe later</button>
                 </div>
             </div>
 
             <!-- Share -->
             <div class="sc-share">
-                <p>Share Your Result</p>
+                <p data-i18n="sc.share_title">Share Your Result</p>
                 <div class="sc-share-icons">
                     <a class="sc-share-icon" title="Share on Twitter" onclick="scShare('twitter')" href="#">
                         <svg viewBox="0 0 24 24"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
@@ -1282,7 +1320,7 @@
             </div>
 
             <div style="text-align:center;">
-                <button class="sc-back" onclick="scRestart()">&larr; Try Another Birth Date</button>
+                <button class="sc-back" onclick="scRestart()" data-i18n="sc.back_btn">&larr; Try Another Birth Date</button>
             </div>
         </div>
 
@@ -1290,8 +1328,8 @@
 
     <!-- Footer -->
     <footer class="sc-footer">
-        <p>&copy; 2026 <a href="/">DAO Essence</a> &middot; Ancient Wisdom, Modern Clarity</p>
-        <p style="margin-top:0.4rem;">This reading is for entertainment and self-reflection purposes.</p>
+        <p data-i18n="sc.footer">&copy; 2026 <a href="/">DAO Essence</a> &middot; Ancient Wisdom, Modern Clarity</p>
+        <p style="margin-top:0.4rem;" data-i18n="sc.footer_disclaimer">This reading is for entertainment and self-reflection purposes.</p>
     </footer>
 
     <!-- BaZi Engine for precise birth chart calculation -->
@@ -1701,9 +1739,10 @@
 
     // Convert score to percentage tier
     function scoreToTier(score) {
-        if (score >= 80) return { pct: '80%', label: 'Strong potential', cls: 'high' };
-        if (score >= 50) return { pct: '50%', label: 'Moderate potential', cls: 'mid' };
-        return { pct: '30%', label: 'Low potential', cls: 'low' };
+        var t = window.DaoI18n ? window.DaoI18n.t.bind(window.DaoI18n) : function(k){return k;};
+        if (score >= 80) return { pct: '80%', label: t('sc.tier_high'), cls: 'high' };
+        if (score >= 50) return { pct: '50%', label: t('sc.tier_mid'), cls: 'mid' };
+        return { pct: '30%', label: t('sc.tier_low'), cls: 'low' };
     }
 
     // ===== MAIN CALCULATION =====
@@ -1711,7 +1750,7 @@
         // Consent check
         var consentBox = document.getElementById('sc-consent');
         if (consentBox && !consentBox.checked) {
-            alert('Please agree to the Privacy Policy before calculating.');
+            alert(window.DaoI18n ? window.DaoI18n.t('sc.alert_consent') : 'Please agree to the Privacy Policy before calculating.');
             return;
         }
 
@@ -1724,7 +1763,7 @@
         var hour = hourVal !== '' ? parseInt(hourVal) : 6; // default Wu (11-13) if unknown
 
         if (!year || !month || !day) {
-            alert('Please select your birth year, month, and day.');
+            alert(window.DaoI18n ? window.DaoI18n.t('sc.alert_select_date') : 'Please select your birth year, month, and day.');
             return;
         }
 
@@ -1743,7 +1782,7 @@
         setTimeout(function() {
             // Safety check: ensure paipan.js is loaded
             if (typeof window.p === 'undefined' || !window.p.fatemaps) {
-                document.getElementById('sc-direction-body').innerHTML = '<p style="color:#e74c3c;">Birth chart engine is still loading. Please try again in a moment.</p>';
+                document.getElementById('sc-direction-body').innerHTML = '<p style="color:#e74c3c;">' + (window.DaoI18n ? window.DaoI18n.t('sc.alert_engine_loading') : 'Birth chart engine is still loading. Please try again in a moment.') + '</p>';
                 showStep(3);
                 btn.disabled = false;
                 return;
@@ -1752,7 +1791,7 @@
             var xb = gender === 'male' ? 0 : 1;
             var pp = window.p.fatemaps(xb, year, month, day, hour, 0, 0);
             if (!pp) {
-                document.getElementById('sc-direction-body').innerHTML = '<p style="color:#e74c3c;">Invalid birth date. Please check your input.</p>';
+                document.getElementById('sc-direction-body').innerHTML = '<p style="color:#e74c3c;">' + (window.DaoI18n ? window.DaoI18n.t('sc.alert_invalid_date') : 'Invalid birth date. Please check your input.') + '</p>';
                 showStep(3);
                 btn.disabled = false;
                 return;
@@ -1765,6 +1804,7 @@
     }
 
     function renderResults(pp, dayElemEn, gender, birthplace) {
+        var t = window.DaoI18n ? window.DaoI18n.t.bind(window.DaoI18n) : function(k){return k;};
         var ei = _0x.elemIdx[dayElemEn];
         var sn = _0x.styleNames[ei];
         var tr = _0x.traits[ei];
@@ -1777,20 +1817,20 @@
         var spouseElem = dirResult.soulmateElement;
 
         var dirLogic = (gender === 'male')
-            ? 'As a ' + dayElemEn + ' Day Master, you attract a ' + spouseElem + ' partner (what you conquer). ' + spouseElem + ' resides in the <strong style="color:var(--gold)">' + dirResult.directions.join(' / ') + '</strong>.'
-            : 'As a ' + dayElemEn + ' Day Master, your partner carries ' + spouseElem + ' energy (who conquers you). ' + spouseElem + ' resides in the <strong style="color:var(--gold)">' + dirResult.directions.join(' / ') + '</strong>.';
+            ? t('sc.dir_logic_male_prefix') + ' ' + dayElemEn + ' ' + t('sc.dir_logic_day_master') + ', ' + t('sc.dir_logic_male_attract') + ' ' + spouseElem + ' ' + t('sc.dir_logic_partner') + ' (' + t('sc.dir_logic_conquer') + '). ' + spouseElem + ' ' + t('sc.dir_logic_resides') + ' <strong style="color:var(--gold)">' + dirResult.directions.join(' / ') + '</strong>.'
+            : t('sc.dir_logic_female_prefix') + ' ' + dayElemEn + ' ' + t('sc.dir_logic_day_master') + ', ' + t('sc.dir_logic_female_partner') + ' ' + spouseElem + ' ' + t('sc.dir_logic_energy') + ' (' + t('sc.dir_logic_conquer_you') + '). ' + spouseElem + ' ' + t('sc.dir_logic_resides') + ' <strong style="color:var(--gold)">' + dirResult.directions.join(' / ') + '</strong>.';
 
         // Header
         document.getElementById('sc-result-name').textContent = pp.ctg[2] + pp.cdz[2] + ' ' + pp.sx;
         document.getElementById('sc-result-summary').textContent =
-            'Based on your birth chart, here is your personalized soulmate reading.';
+            t('sc.result_summary');
 
         // Birthplace reference
         var refEl = document.getElementById('sc-result-ref');
         if (birthplace) {
-            refEl.innerHTML = 'Reference point: <strong>' + birthplace + '</strong> (birthplace)';
+            refEl.innerHTML = t('sc.ref_point_prefix') + ': <strong>' + birthplace + '</strong> (' + t('sc.ref_point_birthplace') + ')';
         } else {
-            refEl.innerHTML = 'Direction is calculated from your <strong>birthplace</strong>, not your current location.';
+            refEl.innerHTML = t('sc.ref_point_no_birthplace');
         }
 
         // Direction card
@@ -1798,12 +1838,12 @@
             '<div class="sc-direction-tags">' +
                 '<span class="sc-direction-tag primary">' + dir + '</span>' +
                 '<span class="sc-direction-tag secondary">' + subDir + '</span>' +
-                '<span class="sc-direction-tag elem">' + spouseElem + ' Element</span>' +
+                '<span class="sc-direction-tag elem">' + spouseElem + ' ' + t('sc.dir_element') + '</span>' +
             '</div>' +
             '<p style="color:var(--text-secondary);font-size:0.9rem;margin-top:0.8rem;">' +
-            dirLogic + ' From your birthplace' +
-            (birthplace ? ' (' + birthplace + ')' : '') + ', head <strong>' + dir + '</strong>. ' +
-            'Look for love in ' + env + '.' +
+            dirLogic + ' ' + t('sc.dir_from_birthplace') +
+            (birthplace ? ' (' + birthplace + ')' : '') + ', ' + t('sc.dir_head') + ' <strong>' + dir + '</strong>. ' +
+            t('sc.dir_look_for') + ' ' + env + '.' +
             '</p>';
 
         // Timing card — 12-condition scoring for next 5 years
@@ -1832,7 +1872,7 @@
                         (isLocked ? '' : '<span class="sc-ty-score ' + tier.cls + '">' + score + '</span>') +
                     '</div>' +
                     '<div class="sc-ty-bar"><div class="sc-ty-fill ' + tier.cls + '" style="width:' + barW + '%"></div></div>' +
-                    (isLocked ? '<div class="sc-ty-tier" style="text-align:center;padding:0.3rem 0;">Locked</div>' : '<div class="sc-ty-tier">' + tier.label + '</div>') +
+                    (isLocked ? '<div class="sc-ty-tier" style="text-align:center;padding:0.3rem 0;">' + t('sc.timing_locked') + '</div>' : '<div class="sc-ty-tier">' + tier.label + '</div>') +
                     (isLocked ? '<div class="lock-icon"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>' : '') +
                 '</div>';
         }
@@ -1842,16 +1882,16 @@
         if (!isUnlocked) {
             timingHtml +=
                 '<div style="text-align:center;margin-top:1.5rem;padding:1.5rem;background:linear-gradient(145deg,rgba(196,125,125,0.07),rgba(212,175,55,0.04));border:1px solid rgba(196,125,125,0.18);border-radius:16px;">' +
-                    '<p style="color:var(--text-secondary);font-size:0.9rem;margin-bottom:1rem;">Unlock all 5 years of your love timing forecast</p>' +
+                    '<p style="color:var(--text-secondary);font-size:0.9rem;margin-bottom:1rem;">' + t('sc.unlock_cta_desc') + '</p>' +
                     '<button class="sc-btn-primary" onclick="document.getElementById(\'scPayModal\').classList.add(\'visible\')" style="max-width:240px;margin:0 auto;">' +
-                        '<span>Unlock Full Timeline &mdash; $2.99</span>' +
+                        '<span>' + t('sc.unlock_cta_btn') + '</span>' +
                     '</button>' +
                 '</div>';
         }
 
         timingHtml += '<p style="color:var(--text-secondary);font-size:0.85rem;margin-top:0.8rem;">' +
-            '<strong>Best year: ' + bestYear + '</strong> (score: ' + bestScore + '/100). ' +
-            'Scores are calculated using 12 BaZi compatibility conditions including Heavenly Stem combinations, Earthly Branch harmonies, and spouse palace activation.' +
+            '<strong>' + t('sc.best_year_prefix') + ' ' + bestYear + '</strong> (' + t('sc.best_year_score') + ' ' + bestScore + '/100). ' +
+            t('sc.score_methodology') +
             '</p>';
 
         document.getElementById('sc-timing-body').innerHTML = timingHtml;
@@ -1862,7 +1902,7 @@
             traitsHtml += '<div class="sc-style-item"><span class="trait-dot"></span><span class="trait-text"><strong>' + tr[i][0] + ':</strong> ' + tr[i][1] + '</span></div>';
         }
         document.getElementById('sc-style-body').innerHTML =
-            '<p style="color:var(--text-secondary);font-size:0.9rem;">Your love archetype is <strong style="color:var(--rose-light)">' + sn + '</strong></p>' +
+            '<p style="color:var(--text-secondary);font-size:0.9rem;">' + t('sc.style_archetype_prefix') + ' <strong style="color:var(--rose-light)">' + sn + '</strong></p>' +
             '<div class="sc-style-grid">' + traitsHtml + '</div>';
 
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1899,9 +1939,10 @@
 
     // Global: unlock button in pay modal — creates Creem checkout
     window.scUnlockAll = function() {
+        var t = window.DaoI18n ? window.DaoI18n.t.bind(window.DaoI18n) : function(k){return k;};
         var btn = document.getElementById('scUnlockBtn');
         btn.disabled = true;
-        btn.querySelector('span').textContent = 'Creating checkout\u2026';
+        btn.querySelector('span').textContent = t('sc.creating_checkout');
         var baseUrl = window.location.origin;
         fetch('/api/create-checkout', {
             method: 'POST',
@@ -1916,21 +1957,22 @@
             if (d.checkoutUrl) {
                 window.location.href = d.checkoutUrl;
             } else {
-                btn.querySelector('span').textContent = 'Unlock Now';
+                btn.querySelector('span').textContent = t('sc.pay_btn');
                 btn.disabled = false;
-                alert('Unable to create checkout. Please try again.');
+                alert(t('sc.alert_checkout_fail'));
             }
         })
         .catch(function() {
-            btn.querySelector('span').textContent = 'Unlock Now';
+            btn.querySelector('span').textContent = t('sc.pay_btn');
             btn.disabled = false;
-            alert('Network error. Please try again.');
+            alert(t('sc.alert_network_error'));
         });
     };
 
     function scShare(platform) {
+        var t = window.DaoI18n ? window.DaoI18n.t.bind(window.DaoI18n) : function(k){return k;};
         var url = encodeURIComponent(window.location.href);
-        var text = encodeURIComponent('I just discovered my Soulmate with this finder! Try it based on Chinese astrology.');
+        var text = encodeURIComponent(t('sc.share_text'));
         var shareUrl = '';
         switch(platform) {
             case 'twitter': shareUrl = 'https://twitter.com/intent/tweet?url=' + url + '&text=' + text; break;
@@ -1938,11 +1980,20 @@
             case 'pinterest': shareUrl = 'https://pinterest.com/pin/create/button/?url=' + url + '&description=' + text; break;
             case 'copy':
                 navigator.clipboard.writeText(window.location.href);
-                alert('Link copied to clipboard!');
+                alert(t('sc.share_copied'));
                 return;
         }
         if (shareUrl) window.open(shareUrl, '_blank', 'width=600,height=400');
     }
     </script>
+
+    <!-- Language Switcher -->
+    <script>
+    document.addEventListener('click', function(e) {
+        var sw = document.getElementById('lang-switcher');
+        if (sw && !sw.contains(e.target)) sw.classList.remove('show');
+    });
+    </script>
+    <script src="js/i18n-switcher.js" defer></script>
 </body>
 </html>

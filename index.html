@@ -24,6 +24,7 @@
     <!-- Canonical -->
     <link rel="canonical" href="https://www.daoessentia.com/">
     <link rel="alternate" hreflang="en" href="https://www.daoessentia.com/">
+    <link rel="alternate" hreflang="zh" href="https://www.daoessentia.com/zh/">
     <link rel="alternate" hreflang="x-default" href="https://www.daoessentia.com/">
     <!-- Preload -->
     <link rel="preload" href="styles.min.css?v=202604031200" as="style">
@@ -957,22 +958,37 @@
                     </div>
                 </a>
                 <ul class="nav-menu">
-                    <li><a href="/" class="nav-link active">Home</a></li>
+                    <li><a href="/" class="nav-link active" data-i18n="common.home">Home</a></li>
                     <li class="nav-dropdown">
-                        <a href="/blog/" class="nav-dropdown-trigger">Blog <i class="nav-dropdown-arrow"></i></a>
+                        <a href="/blog/" class="nav-dropdown-trigger" data-i18n="common.blog">Blog <i class="nav-dropdown-arrow"></i></a>
                         <div class="nav-dropdown-menu">
-                            <a href="/blog/">All Articles</a>
-                            <a href="/blog/bazi-astrology">BaZi Astrology</a>
-                            <a href="/blog/zodiac-horoscope">Chinese Zodiac</a>
-                            <a href="/blog/feng-shui">Feng Shui</a>
-                            <a href="/blog/daily-horoscope">Daily Chinese Horoscope</a>
-                            <a href="/blog/lucky-tips">Lucky Tips</a>
+                            <a href="/blog/" data-i18n="nav.blog_all_articles">All Articles</a>
+                            <a href="/blog/bazi-astrology" data-i18n="nav.blog_bazi">BaZi Astrology</a>
+                            <a href="/blog/zodiac-horoscope" data-i18n="nav.blog_zodiac">Chinese Zodiac</a>
+                            <a href="/blog/feng-shui" data-i18n="nav.blog_feng_shui">Feng Shui</a>
+                            <a href="/blog/daily-horoscope" data-i18n="nav.blog_daily">Daily Chinese Horoscope</a>
+                            <a href="/blog/lucky-tips" data-i18n="nav.blog_lucky_tips">Lucky Tips</a>
                         </div>
                     </li>
-                    <li><a href="/culture" class="nav-link">Five Elements</a></li>
-                    <li><a href="/shop" class="nav-link">Shop</a></li>
+                    <li><a href="/culture" class="nav-link" data-i18n="common.five_elements">Five Elements</a></li>
+                    <li><a href="/shop" class="nav-link" data-i18n="common.shop">Shop</a></li>
 
-                    <li><a href="/about" class="nav-link">About Us</a></li>
+                    <li><a href="/about" class="nav-link" data-i18n="common.about_us">About Us</a></li>
+                    <li class="nav-dropdown">
+                        <a href="#" class="nav-dropdown-trigger lang-switcher-trigger" id="lang-trigger">
+                            <span class="lang-flag" id="lang-flag">🇺🇸</span>
+                            <span class="lang-label" id="lang-label">EN</span>
+                            <i class="nav-dropdown-arrow"></i>
+                        </a>
+                        <div class="nav-dropdown-menu" id="lang-menu">
+                            <a href="#" data-lang="en" class="lang-option active">
+                                <span class="lang-flag">🇺🇸</span> English
+                            </a>
+                            <a href="#" data-lang="zh" class="lang-option">
+                                <span class="lang-flag">🇹🇼</span> 繁體中文
+                            </a>
+                        </div>
+                    </li>
                 </ul>
                 <button class="mobile-menu-btn">
                     <span></span>
@@ -986,14 +1002,14 @@
     <!-- Hero -->
     <section class="hero">
         <div class="hero-inner">
-            <p class="hero-eyebrow">Chinese Metaphysics & Eastern Wisdom</p>
-            <h1 class="hero-heading">Navigate Life with<br><span class="highlight">Chinese Astrology</span></h1>
-            <p class="hero-question">Are You Feeling Stuck in Life?</p>
-            <p class="hero-desc">From destiny to decisions, energy to timing -- discover how Chinese metaphysics helps you navigate life with clarity and balance. Get your free BaZi reading today.</p>
+            <p class="hero-eyebrow" data-i18n="hero.eyebrow">Chinese Metaphysics & Eastern Wisdom</p>
+            <h1 class="hero-heading">Navigate Life with<br><span class="highlight" data-i18n="hero.heading_highlight">Chinese Astrology</span></h1>
+            <p class="hero-question" data-i18n="hero.question">Are You Feeling Stuck in Life?</p>
+            <p class="hero-desc" data-i18n="hero.desc">From destiny to decisions, energy to timing -- discover how Chinese metaphysics helps you navigate life with clarity and balance. Get your free BaZi reading today.</p>
             <div class="hero-actions">
-                <a href="#free-bazi" class="btn-gold" onclick="showBaziCalculator(event); return false;">Free BaZi Reading</a>
+                <a href="#free-bazi" class="btn-gold" onclick="showBaziCalculator(event); return false;" data-i18n="hero.cta">Free BaZi Reading</a>
             </div>
-            <p class="hero-note">Free report. No registration required.</p>
+            <p class="hero-note" data-i18n="hero.note">Free report. No registration required.</p>
         </div>
         <div class="scroll-indicator">
             <span></span>
@@ -1004,31 +1020,31 @@
     <section class="services section">
         <div class="container">
             <div class="section-header">
-                <h2>What We Offer</h2>
-                <p class="subtitle">Ancient Wisdom, Practical Insight</p>
-                <p>Three pillars of Chinese metaphysics to help you understand yourself and the world around you.</p>
+                <h2 data-i18n="services.title">What We Offer</h2>
+                <p class="subtitle" data-i18n="services.subtitle">Ancient Wisdom, Practical Insight</p>
+                <p data-i18n="services.desc">Three pillars of Chinese metaphysics to help you understand yourself and the world around you.</p>
             </div>
             <div class="services-grid">
                 <div class="service-card scroll-animate">
                     <div class="service-card-number">I</div>
-                    <h3>BaZi -- Your Destiny</h3>
+                    <h3 data-i18n="services.card1_title">BaZi -- Your Destiny</h3>
                     <div class="service-line"></div>
-                    <p>Reveal your strengths, challenges, and hidden potential. Your BaZi chart is a personalized map of your destiny -- helping you make smarter career moves, understand relationships, and find the path that truly suits you.</p>
-                    <a href="/blog/what-is-bazi-beginners-guide" class="service-card-link">Learn About BaZi →</a>
+                    <p data-i18n="services.card1_desc">Reveal your strengths, challenges, and hidden potential. Your BaZi chart is a personalized map of your destiny -- helping you make smarter career moves, understand relationships, and find the path that truly suits you.</p>
+                    <a href="/blog/what-is-bazi-beginners-guide" class="service-card-link" data-i18n="services.card1_link">Learn About BaZi →</a>
                 </div>
                 <div class="service-card scroll-animate">
                     <div class="service-card-number">II</div>
-                    <h3>Feng Shui -- Your Space</h3>
+                    <h3 data-i18n="services.card2_title">Feng Shui -- Your Space</h3>
                     <div class="service-line"></div>
-                    <p>How your living and working environment shapes your fortune and mindset. Learn to arrange your space to attract wealth, harmony, and health -- so your environment supports your goals instead of blocking them.</p>
-                    <a href="/blog/feng-shui" class="service-card-link">Explore Feng Shui →</a>
+                    <p data-i18n="services.card2_desc">How your living and working environment shapes your fortune and mindset. Learn to arrange your space to attract wealth, harmony, and health -- so your environment supports your goals instead of blocking them.</p>
+                    <a href="/blog/feng-shui" class="service-card-link" data-i18n="services.card2_link">Explore Feng Shui →</a>
                 </div>
                 <div class="service-card scroll-animate">
                     <div class="service-card-number">III</div>
-                    <h3>Five Elements -- Your Balance</h3>
+                    <h3 data-i18n="services.card3_title">Five Elements -- Your Balance</h3>
                     <div class="service-line"></div>
-                    <p>Wood, Fire, Earth, Metal, Water -- five fundamental forces that shape all of existence. Understand the cycle of generation and restraint, and discover the element that resonates with your life path.</p>
-                    <a href="/five-elements-test" class="service-card-link">Calculate Your Element →</a>
+                    <p data-i18n="services.card3_desc">Wood, Fire, Earth, Metal, Water -- five fundamental forces that shape all of existence. Understand the cycle of generation and restraint, and discover the element that resonates with your life path.</p>
+                    <a href="/five-elements-test" class="service-card-link" data-i18n="services.card3_link">Calculate Your Element →</a>
                 </div>
             </div>
         </div>
@@ -1038,39 +1054,39 @@
     <section class="free-bazi section" id="free-bazi">
         <div class="container">
             <div class="section-header">
-                <h2>Free BaZi Reading</h2>
-                <p class="subtitle">Discover Your Birth Chart</p>
-                <p>Enter your birth details to generate your personal BaZi chart. Your free report reveals your Five Elements profile and life path patterns.</p>
+                <h2 data-i18n="bazi.title">Free BaZi Reading</h2>
+                <p class="subtitle" data-i18n="bazi.subtitle">Discover Your Birth Chart</p>
+                <p data-i18n="bazi.desc">Enter your birth details to generate your personal BaZi chart. Your free report reveals your Five Elements profile and life path patterns.</p>
             </div>
             <!-- BaZi Calculator (powered by paipan.js) -->
             <div class="bazi-form" id="bazi-form">
                 <div class="bazi-form-group">
-                    <label for="bazi-year">Year</label>
+                    <label for="bazi-year" data-i18n="bazi.year">Year</label>
                     <select id="bazi-year"></select>
                 </div>
                 <div class="bazi-form-group">
-                    <label for="bazi-month">Month</label>
+                    <label for="bazi-month" data-i18n="bazi.month">Month</label>
                     <select id="bazi-month"></select>
                 </div>
                 <div class="bazi-form-group">
-                    <label for="bazi-day">Day</label>
+                    <label for="bazi-day" data-i18n="bazi.day">Day</label>
                     <select id="bazi-day"></select>
                 </div>
                 <div class="bazi-form-group">
-                    <label for="bazi-shichen">Shi Chen (时辰)</label>
+                    <label for="bazi-shichen" data-i18n="bazi.shichen">Shi Chen (时辰)</label>
                     <select id="bazi-shichen"></select>
                 </div>
                 <div class="bazi-form-group">
-                    <label for="bazi-gender">Gender</label>
+                    <label for="bazi-gender" data-i18n="bazi.gender">Gender</label>
                     <select id="bazi-gender"></select>
                 </div>
                 <div class="bazi-form-actions" style="flex-wrap:wrap;justify-content:center;gap:0.8rem 1.5rem;">
-                    <button type="button" class="bazi-btn bazi-btn-primary" id="bazi-calculate-btn">Calculate My BaZi</button>
-                    <button type="button" class="bazi-btn bazi-btn-secondary" id="bazi-reset-btn">Reset</button>
+                    <button type="button" class="bazi-btn bazi-btn-primary" id="bazi-calculate-btn" data-i18n="bazi.calculate">Calculate My BaZi</button>
+                    <button type="button" class="bazi-btn bazi-btn-secondary" id="bazi-reset-btn" data-i18n="bazi.reset">Reset</button>
                 </div>
                 <label style="display:flex;align-items:center;gap:6px;grid-column:1/-1;justify-content:center;font-size:0.8rem;color:rgba(26,22,18,0.65);cursor:pointer;user-select:none;line-height:1.3;margin-top:8px;">
                     <input type="checkbox" id="bazi-consent" style="accent-color:#d4af37;flex-shrink:0;" />
-                    I agree to the <a href="/privacy" style="color:rgba(26,22,18,0.8);text-decoration:underline;">Privacy Policy</a> — my birth data will be used solely for calculation and will not be stored.
+                    <span data-i18n="bazi.consent">I agree to the <a href="/privacy" style="color:rgba(26,22,18,0.8);text-decoration:underline;">Privacy Policy</a> — my birth data will be used solely for calculation and will not be stored.</span>
                 </label>
             </div>
             <!-- Calculation Result -->
@@ -1084,12 +1100,12 @@
             <div class="soulmate-story scroll-animate">
                 <!-- Centered text content -->
                 <div class="soulmate-story-text">
-                    <div class="soulmate-badge">
+                    <div class="soulmate-badge" data-i18n="soulmate.badge">
                         <span class="soulmate-badge-dot"></span>
                         Free Reading
                     </div>
-                    <h2>Discover Your <span>Soulmate Destiny</span></h2>
-                    <p class="soulmate-tagline">Written in the Stars, Revealed by the Ancients</p>
+                    <h2 data-i18n="soulmate.title">Discover Your <span>Soulmate Destiny</span></h2>
+                    <p class="soulmate-tagline" data-i18n="soulmate.tagline">Written in the Stars, Revealed by the Ancients</p>
 
                     <div class="soulmate-questions">
                         <div class="soulmate-q-item">
@@ -1097,8 +1113,8 @@
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
                             </div>
                             <div class="soulmate-q-text">
-                                <strong>Where will I meet my soulmate?</strong>
-                                <p>The geographic direction aligned with your soulmate's energy</p>
+                                <strong data-i18n="soulmate.q1_title">Where will I meet my soulmate?</strong>
+                                <p data-i18n="soulmate.q1_desc">The geographic direction aligned with your soulmate's energy</p>
                             </div>
                         </div>
                         <div class="soulmate-q-item">
@@ -1106,8 +1122,8 @@
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                             </div>
                             <div class="soulmate-q-text">
-                                <strong>When will I find love?</strong>
-                                <p>Your most favorable age range and zodiac years</p>
+                                <strong data-i18n="soulmate.q2_title">When will I find love?</strong>
+                                <p data-i18n="soulmate.q2_desc">Your most favorable age range and zodiac years</p>
                             </div>
                         </div>
                         <div class="soulmate-q-item">
@@ -1115,13 +1131,13 @@
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
                             </div>
                             <div class="soulmate-q-text">
-                                <strong>What kind of lover am I?</strong>
-                                <p>Your unique relationship archetype decoded from your birth chart</p>
+                                <strong data-i18n="soulmate.q3_title">What kind of lover am I?</strong>
+                                <p data-i18n="soulmate.q3_desc">Your unique relationship archetype decoded from your birth chart</p>
                             </div>
                         </div>
                     </div>
 
-                    <a href="/soulmate-calculator" class="soulmate-story-cta">
+                    <a href="/soulmate-calculator" class="soulmate-story-cta" data-i18n="soulmate.cta">
                         <span>Find Your Soulmate</span>
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
                     </a>
@@ -1155,9 +1171,9 @@
     <section class="recent-articles section">
         <div class="container">
             <div class="section-header">
-                <h2>Latest Articles</h2>
-                <p class="subtitle">Knowledge &amp; Insights</p>
-                <p>Deep-dive into Chinese metaphysics. From BaZi fundamentals to Feng Shui techniques, build your understanding from the ground up.</p>
+                <h2 data-i18n="articles.title">Latest Articles</h2>
+                <p class="subtitle" data-i18n="articles.subtitle">Knowledge &amp; Insights</p>
+                <p data-i18n="articles.desc">Deep-dive into Chinese metaphysics. From BaZi fundamentals to Feng Shui techniques, build your understanding from the ground up.</p>
             </div>
             <div class="articles-list">
                 <a href="/blog/how-to-read-bazi-chart" class="article-card scroll-animate">
@@ -1222,7 +1238,7 @@
                 </a>
             </div>
             <div class="articles-more">
-                <a href="/blog/" class="btn btn-primary btn-lg">Browse All Articles</a>
+                <a href="/blog/" class="btn btn-primary btn-lg" data-i18n="articles.browse_all">Browse All Articles</a>
             </div>
         </div>
     </section>
@@ -1231,24 +1247,24 @@
     <section id="contact" class="contact section">
         <div class="container">
             <div class="section-header">
-                <h2>Contact Us</h2>
-                <p class="subtitle">Get in Touch</p>
-                <p style="color: rgba(245, 240, 230, 0.6);">Have questions about your BaZi chart or want a personalized consultation? Reach out and we will get back to you within 24 hours.</p>
+                <h2 data-i18n="contact.title">Contact Us</h2>
+                <p class="subtitle" data-i18n="contact.subtitle">Get in Touch</p>
+                <p style="color: rgba(245, 240, 230, 0.6);" data-i18n="contact.desc">Have questions about your BaZi chart or want a personalized consultation? Reach out and we will get back to you within 24 hours.</p>
             </div>
             <div class="contact-grid">
                 <div class="contact-info scroll-animate">
-                    <h3>DAO Essence</h3>
-                    <p>Chinese Metaphysics &amp; Eastern Wisdom. We help you navigate life with clarity through BaZi analysis, Feng Shui consultation, and Five Elements guidance.</p>
+                    <h3 data-i18n="contact.brand_title">DAO Essence</h3>
+                    <p data-i18n="contact.brand_desc">Chinese Metaphysics &amp; Eastern Wisdom. We help you navigate life with clarity through BaZi analysis, Feng Shui consultation, and Five Elements guidance.</p>
                     <div class="contact-detail">
-                        <div class="contact-detail-label">Email</div>
+                        <div class="contact-detail-label" data-i18n="contact.label_email">Email</div>
                         <a href="mailto:support@daoessentia.com">support@daoessentia.com</a>
                     </div>
                     <div class="contact-detail">
-                        <div class="contact-detail-label">Telegram</div>
+                        <div class="contact-detail-label" data-i18n="contact.label_telegram">Telegram</div>
                         <a href="https://t.me/dingwei_123" target="_blank" rel="noopener">@dingwei_123</a>
                     </div>
                     <div class="contact-detail">
-                        <div class="contact-detail-label">Hours</div>
+                        <div class="contact-detail-label" data-i18n="contact.label_hours">Hours</div>
                         <p>Mon -- Sat: 9AM -- 9PM (CST / UTC+8)</p>
                     </div>
                     <div class="contact-social">
@@ -1262,28 +1278,28 @@
                     <div id="contact-feedback" style="display:none;padding:12px 16px;border-radius:8px;margin-bottom:16px;font-size:14px;text-align:center;"></div>
                     <form id="contact-form">
                         <div class="form-group">
-                            <label>Name</label>
+                            <label data-i18n="contact.form_name">Name</label>
                             <input type="text" name="name" placeholder="Your name" required>
                         </div>
                         <div class="form-group">
-                            <label>Email</label>
+                            <label data-i18n="contact.form_email">Email</label>
                             <input type="email" name="email" placeholder="Your email" required>
                         </div>
                         <div class="form-group">
-                            <label>Subject</label>
+                            <label data-i18n="contact.form_subject">Subject</label>
                             <select name="subject">
-                                <option value="bazi-consultation">BaZi Consultation</option>
-                                <option value="feng-shui">Feng Shui</option>
-                                <option value="five-elements">Five Elements</option>
-                                <option value="general">General Inquiry</option>
+                                <option value="bazi-consultation" data-i18n="contact.subject_bazi">BaZi Consultation</option>
+                                <option value="feng-shui" data-i18n="contact.subject_fengshui">Feng Shui</option>
+                                <option value="five-elements" data-i18n="contact.subject_five_elements">Five Elements</option>
+                                <option value="general" data-i18n="contact.subject_general">General Inquiry</option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label>Message</label>
+                            <label data-i18n="contact.form_message">Message</label>
                             <textarea name="message" placeholder="Tell us about your inquiry..." rows="4" required></textarea>
                         </div>
                         <div class="form-submit">
-                            <button type="submit" id="contact-submit-btn">Send Message</button>
+                            <button type="submit" id="contact-submit-btn" data-i18n="contact.send_message">Send Message</button>
                         </div>
                     </form>
                 </div>
@@ -1299,30 +1315,30 @@
                     <div class="logo">
                         <span class="logo-en">DAO ESSENCE</span>
                     </div>
-                    <p>Ancient Wisdom, Modern Clarity. Navigate life with structured insight through BaZi analysis, Feng Shui consultation, and Five Elements guidance.</p>
+                    <p data-i18n="footer.brand_desc">Ancient Wisdom, Modern Clarity. Navigate life with structured insight through BaZi analysis, Feng Shui consultation, and Five Elements guidance.</p>
                 </div>
                 <div>
-                    <h4 class="footer-title">Tools</h4>
+                    <h4 class="footer-title" data-i18n="footer.tools_title">Tools</h4>
                     <ul class="footer-links">
-                        <li><a href="/#free-bazi">BaZi Calculator</a></li>
-                        <li><a href="/favorable-element">Lucky Colors & Energy Guide</a></li>
-                        <li><a href="/five-elements-test">Five Elements Calculator</a></li>
-                        <li><a href="/soulmate-calculator">Soulmate Finder</a></li>
-                        <li><a href="/almanac">Auspicious Date Picker</a></li>
-                        <li><a href="/blog/zodiac-horoscope">Chinese Zodiac</a></li>
+                        <li><a href="/#free-bazi" data-i18n="footer.tool_bazi">BaZi Calculator</a></li>
+                        <li><a href="/favorable-element" data-i18n="footer.tool_lucky">Lucky Colors & Energy Guide</a></li>
+                        <li><a href="/five-elements-test" data-i18n="footer.tool_five">Five Elements Calculator</a></li>
+                        <li><a href="/soulmate-calculator" data-i18n="footer.tool_soulmate">Soulmate Finder</a></li>
+                        <li><a href="/almanac" data-i18n="footer.tool_almanac">Auspicious Date Picker</a></li>
+                        <li><a href="/blog/zodiac-horoscope" data-i18n="footer.tool_zodiac">Chinese Zodiac</a></li>
                     </ul>
                 </div>
                 <div>
-                    <h4 class="footer-title">Explore</h4>
+                    <h4 class="footer-title" data-i18n="footer.explore_title">Explore</h4>
                     <ul class="footer-links">
-                        <li><a href="/blog/">Blog</a></li>
-                        <li><a href="/culture">Five Elements</a></li>
-                        <li><a href="/shop">Shop</a></li>
-                        <li><a href="/about">About Us</a></li>
+                        <li><a href="/blog/" data-i18n="common.blog">Blog</a></li>
+                        <li><a href="/culture" data-i18n="common.five_elements">Five Elements</a></li>
+                        <li><a href="/shop" data-i18n="common.shop">Shop</a></li>
+                        <li><a href="/about" data-i18n="common.about_us">About Us</a></li>
                     </ul>
                 </div>
                 <div>
-                    <h4 class="footer-title">Links</h4>
+                    <h4 class="footer-title" data-i18n="footer.links_title">Links</h4>
                     <ul class="footer-links">
                         <li style="margin-bottom:8px;display:block !important;">
                             <div><a href="https://fatenet.cn/" target="_blank" rel="noopener">FateNet</a></div>
@@ -1331,7 +1347,7 @@
                     </ul>
                 </div>
                 <div>
-                    <h4 class="footer-title">Contact</h4>
+                    <h4 class="footer-title" data-i18n="footer.contact_title">Contact</h4>
                     <ul class="footer-links">
                         <li>
                             <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle;margin-right:6px"><path d="M3 4h14a1 1 0 011 1v10a1 1 0 01-1 1H3a1 1 0 01-1-1V5a1 1 0 011-1z"/><path d="M3 5l7 6 7-6"/></svg>
@@ -1361,11 +1377,11 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2026 DAO Essence &amp; Five Elements. All rights reserved.</p>
+                <p data-i18n="footer.copyright">&copy; 2026 DAO Essence &amp; Five Elements. All rights reserved.</p>
                 <div class="footer-legal-links">
-                    <a href="privacy">Privacy Policy</a>
+                    <a href="privacy" data-i18n="footer.privacy">Privacy Policy</a>
                     <span>|</span>
-                    <a href="terms">Terms of Service</a>
+                    <a href="terms" data-i18n="footer.terms">Terms of Service</a>
                 </div>
             </div>
         </div>
@@ -1398,22 +1414,7 @@
         }
     </script>
 
-    <script>
-        // Clear language storage
-        localStorage.removeItem('language');
-        localStorage.removeItem('lang');
-        localStorage.removeItem('preferredLanguage');
-        localStorage.removeItem('userLanguage');
-        for (let i = localStorage.length - 1; i >= 0; i--) {
-            const key = localStorage.key(i);
-            if (key && (key.toLowerCase().includes('lang') || key.toLowerCase().includes('language'))) {
-                localStorage.removeItem(key);
-            }
-        }
-        sessionStorage.removeItem('language');
-        sessionStorage.removeItem('lang');
-        sessionStorage.clear();
-    </script>
+    <script src="js/i18n-switcher.js" defer></script>
 
     <!-- Organization Schema -->
     <script type="application/ld+json">

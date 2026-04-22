@@ -13,6 +13,7 @@
     <meta property="og:url" content="https://www.daoessentia.com/almanac">
     <meta property="og:type" content="website">
     <link rel="canonical" href="https://www.daoessentia.com/almanac">
+    <link rel="alternate" hreflang="zh" href="https://www.daoessentia.com/zh/almanac">
 
     <script>
         if (window.location.hostname === 'daoessence-shop.vercel.app') {
@@ -85,6 +86,33 @@
             transition: color 0.2s;
         }
         .nav-back:hover { color: var(--gold); }
+
+        /* ===== LANGUAGE SWITCHER ===== */
+        .lang-switcher { position: relative; }
+        .lang-switcher-btn {
+            display: flex; align-items: center; gap: 6px;
+            background: none; border: 1px solid var(--border);
+            border-radius: 6px; padding: 4px 10px;
+            color: var(--text-secondary); font-size: 0.85rem;
+            cursor: pointer; transition: all 0.2s;
+            font-family: var(--sans);
+        }
+        .lang-switcher-btn:hover { border-color: var(--border-hover); color: var(--text-primary); }
+        .lang-switcher-menu {
+            position: absolute; top: calc(100% + 6px); right: 0;
+            background: #1A1820; border: 1px solid var(--border);
+            border-radius: 8px; padding: 4px 0; min-width: 140px;
+            opacity: 0; visibility: hidden; transform: translateY(4px);
+            transition: all 0.2s; z-index: 200;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+        }
+        .lang-switcher.show .lang-switcher-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+        .lang-switcher-menu a {
+            display: block; padding: 8px 14px; color: var(--text-secondary);
+            text-decoration: none; font-size: 0.85rem; transition: all 0.15s;
+        }
+        .lang-switcher-menu a:hover { color: var(--gold); background: rgba(212,175,55,0.06); }
+        .lang-switcher-menu a.active { color: var(--gold); }
 
         /* ===== HERO / TODAY SECTION ===== */
         .hero-title {
@@ -702,13 +730,25 @@
     <!-- Nav -->
     <nav class="nav">
         <a href="/" class="nav-logo">DAO Essence</a>
-        <a href="/" class="nav-back">Back to Home</a>
+        <div style="display:flex;align-items:center;gap:1.5rem;">
+            <div class="lang-switcher" id="lang-switcher">
+                <button class="lang-switcher-btn" id="lang-trigger" onclick="document.getElementById('lang-switcher').classList.toggle('show')">
+                    <span class="lang-flag" id="lang-flag">🇺🇸</span>
+                    <span class="lang-label" id="lang-label">EN</span>
+                </button>
+                <div class="lang-switcher-menu" id="lang-menu">
+                    <a href="#" data-lang="en" class="lang-option active"><span class="lang-flag">🇺🇸</span> English</a>
+                    <a href="#" data-lang="zh" class="lang-option"><span class="lang-flag">🇹🇼</span> 繁體中文</a>
+                </div>
+            </div>
+            <a href="/" class="nav-back" data-i18n="almanac.nav_back">Back to Home</a>
+        </div>
     </nav>
 
     <!-- TODAY SECTION (hero, first thing user sees) -->
     <section class="today-hero" id="todaySection">
-        <h1 class="hero-title">Auspicious Date Picker — Find Your Best Day</h1>
-        <p class="hero-subtitle">Pick the perfect date for life's big moments — weddings, moving, business, and more — guided by 2,000 years of Chinese astrological wisdom</p>
+        <h1 class="hero-title" data-i18n="almanac.hero_title">Auspicious Date Picker — Find Your Best Day</h1>
+        <p class="hero-subtitle" data-i18n="almanac.hero_subtitle">Pick the perfect date for life's big moments — weddings, moving, business, and more — guided by 2,000 years of Chinese astrological wisdom</p>
         <div class="today-date" id="todayDateLabel"></div>
         <div class="today-verdict-row">
             <div class="today-verdict" id="todayVerdict"></div>
@@ -720,25 +760,25 @@
 
     <!-- Divider -->
     <div class="section-divider">
-        <h2>Pick Your Best Day</h2>
-        <p>Select what you are planning, we will find the most auspicious dates this month</p>
+        <h2 data-i18n="almanac.divider1_title">Pick Your Best Day</h2>
+        <p data-i18n="almanac.divider1_desc">Select what you are planning, we will find the most auspicious dates this month</p>
     </div>
 
     <!-- SCENARIO SELECTOR -->
     <section class="select-section">
         <div class="select-grid" id="selectGrid">
-            <button class="select-btn" data-scenario="marry">Getting Married</button>
-            <button class="select-btn" data-scenario="business">Starting Business</button>
-            <button class="select-btn" data-scenario="moving">Moving Home</button>
-            <button class="select-btn select-btn-locked" data-scenario="contract">Signing Contract <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-left:2px;vertical-align:middle;opacity:0.6"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></button>
-            <button class="select-btn select-btn-locked" data-scenario="travel">Travel / Vacation <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-left:2px;vertical-align:middle;opacity:0.6"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></button>
-            <button class="select-btn select-btn-locked" data-scenario="purchase">Major Purchase <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-left:2px;vertical-align:middle;opacity:0.6"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></button>
-            <button class="select-btn select-btn-locked" data-scenario="medical">Medical Procedure <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-left:2px;vertical-align:middle;opacity:0.6"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></button>
-            <button class="select-btn select-btn-locked" data-scenario="housewarm">Housewarming <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-left:2px;vertical-align:middle;opacity:0.6"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></button>
-            <button class="select-btn select-btn-locked" data-scenario="engagement">Getting Engaged <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-left:2px;vertical-align:middle;opacity:0.6"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></button>
-            <button class="select-btn select-btn-locked" data-scenario="interview">Job Interview <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-left:2px;vertical-align:middle;opacity:0.6"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></button>
-            <button class="select-btn select-btn-locked" data-scenario="pet_vet">Pet Vet Visit <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-left:2px;vertical-align:middle;opacity:0.6"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></button>
-            <button class="select-btn select-btn-locked" data-scenario="date">Going on a Date <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-left:2px;vertical-align:middle;opacity:0.6"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></button>
+            <button class="select-btn" data-scenario="marry" data-i18n="almanac.scenario_marry">Getting Married</button>
+            <button class="select-btn" data-scenario="business" data-i18n="almanac.scenario_business">Starting Business</button>
+            <button class="select-btn" data-scenario="moving" data-i18n="almanac.scenario_moving">Moving Home</button>
+            <button class="select-btn select-btn-locked" data-scenario="contract"><span data-i18n="almanac.scenario_contract">Signing Contract</span> <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-left:2px;vertical-align:middle;opacity:0.6"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></button>
+            <button class="select-btn select-btn-locked" data-scenario="travel"><span data-i18n="almanac.scenario_travel">Travel / Vacation</span> <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-left:2px;vertical-align:middle;opacity:0.6"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></button>
+            <button class="select-btn select-btn-locked" data-scenario="purchase"><span data-i18n="almanac.scenario_purchase">Major Purchase</span> <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-left:2px;vertical-align:middle;opacity:0.6"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></button>
+            <button class="select-btn select-btn-locked" data-scenario="medical"><span data-i18n="almanac.scenario_medical">Medical Procedure</span> <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-left:2px;vertical-align:middle;opacity:0.6"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></button>
+            <button class="select-btn select-btn-locked" data-scenario="housewarm"><span data-i18n="almanac.scenario_housewarm">Housewarming</span> <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-left:2px;vertical-align:middle;opacity:0.6"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></button>
+            <button class="select-btn select-btn-locked" data-scenario="engagement"><span data-i18n="almanac.scenario_engagement">Getting Engaged</span> <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-left:2px;vertical-align:middle;opacity:0.6"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></button>
+            <button class="select-btn select-btn-locked" data-scenario="interview"><span data-i18n="almanac.scenario_interview">Job Interview</span> <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-left:2px;vertical-align:middle;opacity:0.6"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></button>
+            <button class="select-btn select-btn-locked" data-scenario="pet_vet"><span data-i18n="almanac.scenario_pet_vet">Pet Vet Visit</span> <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-left:2px;vertical-align:middle;opacity:0.6"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></button>
+            <button class="select-btn select-btn-locked" data-scenario="date"><span data-i18n="almanac.scenario_date">Going on a Date</span> <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-left:2px;vertical-align:middle;opacity:0.6"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></button>
         </div>
         <div class="select-result" id="selectResult">
             <h4 id="resultTitle"></h4>
@@ -748,8 +788,8 @@
 
     <!-- Divider -->
     <div class="section-divider">
-        <h2>Browse the Month</h2>
-        <p>Tap any day to see its energy profile</p>
+        <h2 data-i18n="almanac.divider2_title">Browse the Month</h2>
+        <p data-i18n="almanac.divider2_desc">Tap any day to see its energy profile</p>
     </div>
 
     <!-- CALENDAR -->
@@ -768,32 +808,32 @@
     <!-- Pay Modal -->
     <div class="pay-modal" id="payModal">
         <div class="pay-modal-box">
-            <h3>Unlock All Features</h3>
+            <h3 data-i18n="almanac.pay_title">Unlock All Features</h3>
             <div class="pay-price">$2.99</div>
             <div class="pay-badges">
                 <span class="pay-badge">
                     <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                    One-Time Payment
+                    <span data-i18n="almanac.pay_badge_onetime">One-Time Payment</span>
                 </span>
                 <span class="pay-badge">
                     <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                    Lifetime Access
+                    <span data-i18n="almanac.pay_badge_lifetime">Lifetime Access</span>
                 </span>
                 <span class="pay-badge">
                     <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                    No Subscription
+                    <span data-i18n="almanac.pay_badge_nosub">No Subscription</span>
                 </span>
             </div>
-            <p>Unlock all 12 activity planners — find your perfect day for anything, forever.</p>
-            <button class="cta-btn" onclick="unlockAll()">Unlock Now</button>
+            <p data-i18n="almanac.pay_desc">Unlock all 12 activity planners — find your perfect day for anything, forever.</p>
+            <button class="cta-btn" onclick="unlockAll()" data-i18n="almanac.pay_btn">Unlock Now</button>
             <br>
-            <button class="pay-modal-close" onclick="document.getElementById('payModal').classList.remove('visible')">Maybe later</button>
+            <button class="pay-modal-close" onclick="document.getElementById('payModal').classList.remove('visible')" data-i18n="almanac.pay_later">Maybe later</button>
         </div>
     </div>
 
     <!-- Footer -->
     <footer class="footer">
-        <p><a href="/blog/" style="color:var(--accent-color,#d4af37);text-decoration:none;">Blog</a> &middot; DAO Essence &mdash; Ancient Wisdom, Modern Guidance</p>
+        <p><a href="/blog/" style="color:var(--accent-color,#d4af37);text-decoration:none;" data-i18n="almanac.footer_blog">Blog</a> &middot; <span data-i18n="almanac.footer_tagline">DAO Essence &mdash; Ancient Wisdom, Modern Guidance</span></p>
     </footer>
 
     <!-- lunar-javascript -->
@@ -1298,5 +1338,13 @@
         }
     })();
     </script>
+    <!-- Language Switcher -->
+    <script>
+    document.addEventListener('click', function(e) {
+        var sw = document.getElementById('lang-switcher');
+        if (sw && !sw.contains(e.target)) sw.classList.remove('show');
+    });
+    </script>
+    <script src="js/i18n-switcher.js" defer></script>
 </body>
 </html>
