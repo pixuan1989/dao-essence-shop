@@ -160,6 +160,29 @@ async function fetchFromAPI(retries = 1) {
  * 转换 Creem API 返回的数据格式
  * 🔥 关键：正确映射 Creem API 返回的字段
  */
+/**
+ * 产品中文名称映射表
+ * 当 Creem API 不返回 nameCN/descriptionCN 时使用
+ */
+const PRODUCT_ZH_MAP = {
+  // 商品名映射（key 为商品 ID 或英文名的标准化形式）
+  'prod_28PqAKMEom5WGRH1w9O35n': {
+    nameCN: '八字命理解读',
+    descriptionCN: '由玄真大师提供的個人八字命理解讀服務，48小時內交付完整PDF報告。'
+  }
+};
+
+/**
+ * 获取商品的中文翻译
+ */
+function getProductZh(productId, fieldName, fallback) {
+  const mapping = PRODUCT_ZH_MAP[productId];
+  if (mapping && mapping[fieldName]) {
+    return mapping[fieldName];
+  }
+  return fallback;
+}
+
 function transformProducts(products) {
   if (!Array.isArray(products)) {
     console.warn('⚠️ 产品数据不是数组，使用备用数据');
@@ -192,9 +215,9 @@ function transformProducts(products) {
       creemId: product.id || product.creemId,
       product_id: product.id || product.creemId,
       name: product.name || product.product_name || '未知产品',
-      nameCN: product.nameCN || product.name || '未知产品',
+      nameCN: product.nameCN || getProductZh(productId, 'nameCN', product.name || '未知产品'),
       product_name: product.name || product.product_name || '未知产品',
-      descriptionCN: product.descriptionCN || product.description || product.product_description || '暂无描述',
+      descriptionCN: product.descriptionCN || getProductZh(productId, 'descriptionCN', product.description || product.product_description || '暫無描述'),
       description: product.description || product.product_description || '暂无描述',
       price: price, // ✅ 已是美元格式（由后端转换）
       originalPrice: parseFloat(product.originalPrice || product.original_price || product.price) || 0,

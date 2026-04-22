@@ -27,7 +27,7 @@
     <!-- Canonical URL -->
     <link rel="canonical" href="https://www.daoessentia.com/shop">
     <link rel="alternate" hreflang="en" href="https://www.daoessentia.com/shop">
-    <link rel="alternate" hreflang="zh" href="https://www.daoessentia.com/zh/shop">
+    <link rel="alternate" hreflang="zh-Hant" href="https://www.daoessentia.com/zh/shop">
     <link rel="alternate" hreflang="x-default" href="https://www.daoessentia.com/shop">
     
     <link rel="stylesheet" href="styles.min.css?v=202604031200">
@@ -781,7 +781,7 @@
     <div class="cart-modal" id="cartModal" onclick="if(event.target.id === 'cartModal') toggleCart()">
         <div class="cart-panel">
             <div class="cart-header">
-                <h2>Your Cart</h2>
+                <h2 data-i18n="shop.cart_title">Your Cart</h2>
                 <button class="cart-close" onclick="toggleCart()">✕</button>
             </div>
             <div class="cart-items" id="cartItems"></div>
@@ -931,10 +931,13 @@
                     return;
                 }
                 
-                cartItemsEl.innerHTML = this.items.map(item => `
+                cartItemsEl.innerHTML = this.items.map(item => {
+                    const cartIsZh = window.DaoI18n && window.DaoI18n.current() === 'zh';
+                    const cartDisplayName = (cartIsZh && item.nameCn) ? item.nameCn : item.name;
+                    return `
                     <div class="cart-item">
                         <div class="cart-item-info">
-                            <div class="cart-item-name">${item.name}</div>
+                            <div class="cart-item-name">${cartDisplayName}</div>
                             <div class="cart-item-price">$${item.price.toFixed(2)}</div>
                             <div class="cart-item-qty">
                                 <button class="qty-btn" onclick="cart.updateQty('${item.id}', ${item.quantity - 1})">−</button>
@@ -944,7 +947,8 @@
                             </div>
                         </div>
                     </div>
-                `).join('');
+                `;
+                }).join('');
                 
                 const subtotal = this.getTotal();
                 const tax = (subtotal * 0.1).toFixed(2);

@@ -145,10 +145,14 @@ window.renderShop = function() {
         const isBaziProduct = product.category === 'bazi-analysis' || product.id === 'bazi-analysis' || product.id === 'prod_28PqAKMEom5WGRH1w9O35n' || product.name.includes('BaZi') || product.name.includes('Bazi') || (product.nameCN && product.nameCN.includes('八字'));
         const productLink = isBaziProduct ? 'bazi-form.html' : `product-detail.html?id=${product.id}`;
 
-        return `
+        const isZh = window.DaoI18n && window.DaoI18n.current() === 'zh';
+    const displayName = (isZh && product.nameCN) ? product.nameCN : product.name;
+    const displayDesc = (isZh && product.descriptionCN) ? product.descriptionCN : product.description;
+
+    return `
         <a href="${productLink}" class="shop-product-card" style="text-decoration: none; color: inherit; display: block;">
             <div class="product-image-wrapper">
-                <img src="${product.image}" alt="${product.nameCN || product.name}" onerror="this.src='https://images.unsplash.com/photo-1519681393784-d120267933ba?w=600&h=600&fit=crop'">
+                <img src="${product.image}" alt="${displayName}" onerror="this.src='https://images.unsplash.com/photo-1519681393784-d120267933ba?w=600&h=600&fit=crop'">
                 <!-- 五行标签已注释掉
                 <div class="product-element">
                     <span class="element-badge">${product.element.toUpperCase()}</span>
@@ -158,8 +162,8 @@ window.renderShop = function() {
             </div>
             <div class="product-info">
                 <div class="product-category">${categoryMap[product.category] || product.category}</div>
-                <div class="product-title">${product.nameCN || product.name}</div>
-                <div class="product-desc-short" style="display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;text-overflow:ellipsis;">${product.descriptionCN || product.description}</div>
+                <div class="product-title">${displayName}</div>
+                <div class="product-desc-short" style="display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;text-overflow:ellipsis;">${displayDesc}</div>
                 <div class="product-meta">
                     ${priceDisplay}
                 </div>

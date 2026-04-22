@@ -209,11 +209,25 @@
         window.location.href = '/zh/blog/' + enMatch[1];
         return;
       }
+      // EN → ZH: /shop → /zh/shop (shop uses DOM i18n, no redirect needed)
+      // EN → ZH: other pages (e.g. /about, /privacy) → /zh/other-pages
+      // These pages use data-i18n for translation, so no redirect.
     } else {
       // ZH → EN: /zh/blog/slug → /blog/slug
       var zhMatch = pathname.match(/^\/zh\/blog\/(.+)$/);
       if (zhMatch) {
         window.location.href = '/blog/' + zhMatch[1];
+        return;
+      }
+      // ZH → EN: /zh/shop → /shop
+      if (pathname === '/zh/shop' || pathname === '/zh/shop/') {
+        window.location.href = '/shop';
+        return;
+      }
+      // ZH → EN: /zh/other → /other (general zh prefix redirect)
+      var zhPrefixMatch = pathname.match(/^\/zh\/(.+)$/);
+      if (zhPrefixMatch) {
+        window.location.href = '/' + zhPrefixMatch[1];
         return;
       }
     }
