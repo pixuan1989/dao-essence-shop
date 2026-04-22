@@ -67,7 +67,7 @@
   }
 
   /**
-   * Cache original English text from [data-i18n] elements (before any translation)
+   * Cache original English text from [data-i18n] and [data-i18n-prefix] elements
    */
   function cacheOriginalTexts() {
     var elements = document.querySelectorAll('[data-i18n]');
@@ -78,12 +78,23 @@
         originalTexts[key] = el.innerHTML;
       }
     }
+    // Also cache elements that use data-i18n-prefix/suffix
+    var prefixed = document.querySelectorAll('[data-i18n-prefix]');
+    for (var j = 0; j < prefixed.length; j++) {
+      var pel = prefixed[j];
+      var pkey = '__prefix_suffix__' + j;
+      pel.setAttribute('data-i18n-cache-key', pkey);
+      if (!originalTexts[pkey]) {
+        originalTexts[pkey] = pel.innerHTML;
+      }
+    }
   }
 
   /**
-   * Apply translations to all [data-i18n] elements
+   * Apply translations to all [data-i18n] and [data-i18n-prefix] elements
    */
   function applyTranslations(t) {
+    // Standard data-i18n
     var elements = document.querySelectorAll('[data-i18n]');
     for (var i = 0; i < elements.length; i++) {
       var el = elements[i];
@@ -93,10 +104,26 @@
         el.innerHTML = value;
       }
     }
+    // Handle data-i18n-prefix / data-i18n-suffix
+    var prefixed = document.querySelectorAll('[data-i18n-prefix]');
+    for (var j = 0; j < prefixed.length; j++) {
+      var pel = prefixed[j];
+      var prefixVal = getNestedValue(t, pel.getAttribute('data-i18n-prefix')) || '';
+      var suffixVal = getNestedValue(t, pel.getAttribute('data-i18n-suffix')) || '';
+      // Preserve child elements (like <span id="productCount">)
+      // Rebuild: prefixText + innerHTML + suffixText
+      var cacheKey = pel.getAttribute('data-i18n-cache-key');
+      if (cacheKey && originalTexts[cacheKey]) {
+        // Extract the inner HTML (the part between prefix text and suffix text)
+        var orig = originalTexts[cacheKey];
+        // Simple approach: wrap existing child nodes
+        pel.innerHTML = prefixVal + ' ' + orig + ' ' + suffixVal;
+      }
+    }
   }
 
   /**
-   * Restore all [data-i18n] elements to their original English text
+   * Restore all [data-i18n] and [data-i18n-prefix] elements to their original English text
    */
   function restoreOriginalTexts() {
     var elements = document.querySelectorAll('[data-i18n]');
@@ -105,6 +132,15 @@
       var key = el.getAttribute('data-i18n');
       if (originalTexts[key]) {
         el.innerHTML = originalTexts[key];
+      }
+    }
+    // Restore prefixed/suffixed elements
+    var prefixed = document.querySelectorAll('[data-i18n-prefix]');
+    for (var j = 0; j < prefixed.length; j++) {
+      var pel = prefixed[j];
+      var cacheKey = pel.getAttribute('data-i18n-cache-key');
+      if (cacheKey && originalTexts[cacheKey]) {
+        pel.innerHTML = originalTexts[cacheKey];
       }
     }
   }
@@ -161,6 +197,8 @@
       updateHtmlLang(lang);
       updateSwitcherUI(lang);
       highlightActiveOption(lang);
+      // Notify dynamic content to re-render
+      document.dispatchEvent(new CustomEvent('daoessence:i18n-changed', { detail: { lang: lang } }));
     } else {
       loadTranslations(lang).then(function (t) {
         translations = t;
@@ -168,6 +206,8 @@
         updateHtmlLang(lang);
         updateSwitcherUI(lang);
         highlightActiveOption(lang);
+        // Notify dynamic content to re-render
+        document.dispatchEvent(new CustomEvent('daoessence:i18n-changed', { detail: { lang: lang } }));
       }).catch(function (err) {
         console.warn('i18n: failed to load translations for', lang, err);
       });
@@ -217,12 +257,14 @@
         updateHtmlLang(currentLang);
         updateSwitcherUI(currentLang);
         highlightActiveOption(currentLang);
+        document.dispatchEvent(new CustomEvent('daoessence:i18n-changed', { detail: { lang: currentLang } }));
       }).catch(function (err) {
         console.warn('i18n: init failed for', currentLang, err);
       });
     } else {
       updateSwitcherUI(DEFAULT_LANG);
       highlightActiveOption(DEFAULT_LANG);
+      document.dispatchEvent(new CustomEvent('daoessence:i18n-changed', { detail: { lang: DEFAULT_LANG } }));
     }
   }
 

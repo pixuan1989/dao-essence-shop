@@ -111,31 +111,31 @@ const FOOTER_HTML = `
                         <div class="logo-icon"></div>
                         <span class="logo-en">DAO ESSENCE</span>
                     </div>
-                    <p class="footer-desc">Practical Chinese metaphysics for modern life. Free BaZi analysis, Feng Shui guidance, and Five Elements wisdom — no mystification, no fortune-cookie readings.</p>
+                    <p class="footer-desc" data-i18n="footer.brand_desc">Practical Chinese metaphysics for modern life. Free BaZi analysis, Feng Shui guidance, and Five Elements wisdom — no mystification, no fortune-cookie readings.</p>
                 </div>
                 <div class="footer-links">
-                    <h4>Explore</h4>
-                    <a href="/blog/">Blog</a>
-                    <a href="/culture">Five Elements</a>
-                    <a href="/shop">Shop</a>
+                    <h4 data-i18n="footer.explore_title">Explore</h4>
+                    <a href="/blog/" data-i18n="common.blog">Blog</a>
+                    <a href="/culture" data-i18n="common.five_elements">Five Elements</a>
+                    <a href="/shop" data-i18n="common.shop">Shop</a>
                 </div>
                 <div class="footer-links">
-                    <h4>Blog Categories</h4>
-                    <a href="/blog/bazi-astrology">BaZi Astrology</a>
-                    <a href="/blog/zodiac-horoscope">Chinese Zodiac</a>
-                    <a href="/blog/feng-shui">Feng Shui</a>
-                    <a href="/blog/daily-horoscope">Daily Horoscope</a>
-                    <a href="/blog/lucky-tips">Lucky Tips</a>
+                    <h4 data-i18n="footer.links_title">Blog Categories</h4>
+                    <a href="/blog/bazi-astrology" data-i18n="nav.blog_bazi">BaZi Astrology</a>
+                    <a href="/blog/zodiac-horoscope" data-i18n="nav.blog_zodiac">Chinese Zodiac</a>
+                    <a href="/blog/feng-shui" data-i18n="nav.blog_feng_shui">Feng Shui</a>
+                    <a href="/blog/daily-horoscope" data-i18n="nav.blog_daily">Daily Horoscope</a>
+                    <a href="/blog/lucky-tips" data-i18n="nav.blog_lucky_tips">Lucky Tips</a>
                 </div>
                 <div class="footer-links">
-                    <h4>Support</h4>
-                    <a href="/about">About Us</a>
-                    <a href="/privacy">Privacy Policy</a>
-                    <a href="/terms">Terms of Service</a>
+                    <h4 data-i18n="footer.links_title">Support</h4>
+                    <a href="/about" data-i18n="common.about_us">About Us</a>
+                    <a href="/privacy" data-i18n="footer.privacy">Privacy Policy</a>
+                    <a href="/terms" data-i18n="footer.terms">Terms of Service</a>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2024-2026 DAO Essence. All rights reserved.</p>
+                <p data-i18n="footer.copyright">&copy; 2024-2026 DAO Essence. All rights reserved.</p>
                 <div class="footer-social">
                     <a href="https://www.instagram.com/daoessence" target="_blank" rel="noopener" aria-label="Instagram">Instagram</a>
                     <a href="https://www.pinterest.com/daoessence" target="_blank" rel="noopener" aria-label="Pinterest">Pinterest</a>
@@ -767,7 +767,7 @@ function generateArticleHtml(post, category, allArticles, options = {}) {
     }).join('');
     return `
         <section class="related-posts">
-          <h2 class="related-posts-title">${youMayAlsoText}</h2>
+          <h2 class="related-posts-title" data-i18n="blog.you_may_also_like">${youMayAlsoText}</h2>
           <div class="related-posts-grid">${cards}
           </div>
         </section>`;
@@ -781,108 +781,108 @@ function generateArticleHtml(post, category, allArticles, options = {}) {
       case 'soulmate':
         return `
         <div class="sidebar-cta sidebar-cta--soulmate">
-            <h3>Find Your Soulmate</h3>
-            <p class="cta-sub">Your birth date holds the map to your most fated love encounter. Discover your love direction, timing, and style.</p>
+            <h3 data-i18n="blog.sidebar_soulmate_title">Find Your Soulmate</h3>
+            <p class="cta-sub" data-i18n="blog.sidebar_soulmate_desc">Your birth date holds the map to your most fated love encounter. Discover your love direction, timing, and style.</p>
             <div class="cta-features">
                 <div class="cta-feat">
                     <span class="cta-feat-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg></span>
-                    Love Direction
+                    <span data-i18n="blog.sidebar_soulmate_feat1">Love Direction</span>
                 </div>
                 <div class="cta-feat">
                     <span class="cta-feat-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></span>
-                    Love Timing
+                    <span data-i18n="blog.sidebar_soulmate_feat2">Love Timing</span>
                 </div>
                 <div class="cta-feat">
                     <span class="cta-feat-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span>
-                    Love Style
+                    <span data-i18n="blog.sidebar_soulmate_feat3">Love Style</span>
                 </div>
             </div>
-            <a href="/soulmate-calculator" class="cta-btn">Find My Soulmate</a>
+            <a href="/soulmate-calculator" class="cta-btn" data-i18n="blog.sidebar_soulmate_btn">Find My Soulmate</a>
         </div>`;
       case 'favorable-element':
         return `
         <div class="sidebar-cta sidebar-cta--favorable-element">
-            <h3>Your Lucky Colors & Energy Guide</h3>
-            <p class="cta-sub">Your birth date reveals a personal energy profile — the colors, directions, and lifestyle choices that naturally support you. Discover yours in seconds.</p>
+            <h3 data-i18n="blog.sidebar_fav_title">Your Lucky Colors & Energy Guide</h3>
+            <p class="cta-sub" data-i18n="blog.sidebar_fav_desc">Your birth date reveals a personal energy profile — the colors, directions, and lifestyle choices that naturally support you. Discover yours in seconds.</p>
             <div class="cta-features">
                 <div class="cta-feat">
                     <span class="cta-feat-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></span>
-                    Lucky Colors
+                    <span data-i18n="blog.sidebar_fav_feat1">Lucky Colors</span>
                 </div>
                 <div class="cta-feat">
                     <span class="cta-feat-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></span>
-                    Best Directions
+                    <span data-i18n="blog.sidebar_fav_feat2">Best Directions</span>
                 </div>
                 <div class="cta-feat">
                     <span class="cta-feat-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="13.5" cy="6.5" r="2.5"/><path d="M17.5 10.5l-2 5-4.5 1.5-3.5-3-2.5 4 1 3.5h5.5l1.5-2.5"/></svg></span>
-                    Personal Energy Profile
+                    <span data-i18n="blog.sidebar_fav_feat3">Personal Energy Profile</span>
                 </div>
             </div>
-            <a href="/favorable-element" class="cta-btn">Discover My Energy Guide</a>
+            <a href="/favorable-element" class="cta-btn" data-i18n="blog.sidebar_fav_btn">Discover My Energy Guide</a>
         </div>`;
       case 'almanac':
         return `
         <div class="sidebar-cta sidebar-cta--almanac">
-            <h3>Is Today a Lucky Day?</h3>
-            <p class="cta-sub">Pick the perfect date for weddings, moving, business openings, and more. 2,000 years of Chinese astrological wisdom in one click.</p>
+            <h3 data-i18n="blog.sidebar_almanac_title">Is Today a Lucky Day?</h3>
+            <p class="cta-sub" data-i18n="blog.sidebar_almanac_desc">Pick the perfect date for weddings, moving, business openings, and more. 2,000 years of Chinese astrological wisdom in one click.</p>
             <div class="cta-features">
                 <div class="cta-feat">
                     <span class="cta-feat-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>
-                    Daily Energy Rating
+                    <span data-i18n="blog.sidebar_almanac_feat1">Daily Energy Rating</span>
                 </div>
                 <div class="cta-feat">
                     <span class="cta-feat-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2 7h7l-5.5 4 2 7L12 16l-5.5 4 2-7L3 9h7z"/></svg></span>
-                    Auspicious Dates for Any Plan
+                    <span data-i18n="blog.sidebar_almanac_feat2">Auspicious Dates for Any Plan</span>
                 </div>
                 <div class="cta-feat">
                     <span class="cta-feat-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span>
-                    Do's and Don'ts
+                    <span data-i18n="blog.sidebar_almanac_feat3">Do's and Don'ts</span>
                 </div>
             </div>
-            <a href="/almanac" class="cta-btn">Pick My Auspicious Date</a>
+            <a href="/almanac" class="cta-btn" data-i18n="blog.sidebar_almanac_btn">Pick My Auspicious Date</a>
         </div>`;
       case 'five-elements':
         return `
         <div class="sidebar-cta sidebar-cta--five-elements">
-            <h3>What's Your Dominant Element?</h3>
-            <p class="cta-sub">Wood, Fire, Earth, Metal, or Water — your birth date reveals which element governs your personality, health, and relationships.</p>
+            <h3 data-i18n="blog.sidebar_five_title">What's Your Dominant Element?</h3>
+            <p class="cta-sub" data-i18n="blog.sidebar_five_desc">Wood, Fire, Earth, Metal, or Water — your birth date reveals which element governs your personality, health, and relationships.</p>
             <div class="cta-features">
                 <div class="cta-feat">
                     <span class="cta-feat-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20"/></svg></span>
-                    Element Profile
+                    <span data-i18n="blog.sidebar_five_feat1">Element Profile</span>
                 </div>
                 <div class="cta-feat">
                     <span class="cta-feat-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2 7h7l-5.5 4 2 7L12 16l-5.5 4 2-7L3 9h7z"/></svg></span>
-                    Personality Traits
+                    <span data-i18n="blog.sidebar_five_feat2">Personality Traits</span>
                 </div>
                 <div class="cta-feat">
                     <span class="cta-feat-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></span>
-                    Health Guidance
+                    <span data-i18n="blog.sidebar_five_feat3">Health Guidance</span>
                 </div>
             </div>
-            <a href="/five-elements-test" class="cta-btn">Discover Your Element</a>
+            <a href="/five-elements-test" class="cta-btn" data-i18n="blog.sidebar_five_btn">Discover Your Element</a>
         </div>`;
       case 'bazi':
       default:
         return `
         <div class="sidebar-cta sidebar-cta--bazi">
-            <h3>Discover Your True Destiny</h3>
-            <p class="cta-sub">Unlock the secrets hidden in your birth chart. Get a complete BaZi reading with Four Pillars of Destiny analysis.</p>
+            <h3 data-i18n="blog.cta_title">Discover Your True Destiny</h3>
+            <p class="cta-sub" data-i18n="blog.cta_desc">Unlock the secrets hidden in your birth chart. Get a complete BaZi reading with Four Pillars of Destiny analysis.</p>
             <div class="cta-features">
                 <div class="cta-feat">
                     <span class="cta-feat-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></span>
-                    Four Pillars Reading
+                    <span data-i18n="blog.cta_feat1">Four Pillars Reading</span>
                 </div>
                 <div class="cta-feat">
                     <span class="cta-feat-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2 7h7l-5.5 4 2 7L12 16l-5.5 4 2-7L3 9h7z"/></svg></span>
-                    Five Elements Analysis
+                    <span data-i18n="blog.cta_feat2">Five Elements Analysis</span>
                 </div>
                 <div class="cta-feat">
                     <span class="cta-feat-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
-                    Life Path Insights
+                    <span data-i18n="blog.cta_feat3">Life Path Insights</span>
                 </div>
             </div>
-            <a href="/#free-bazi" class="cta-btn">Get Your Free BaZi Reading</a>
+            <a href="/#free-bazi" class="cta-btn" data-i18n="blog.cta_btn">Get Your Free BaZi Reading</a>
         </div>`;
     }
   }
@@ -1024,9 +1024,9 @@ ${NAV_HTML}
             <h1>${escapeHtml(data.title)}</h1>
             ${data.image ? `<img src="${data.image}" alt="${escapeHtml(data.title)}" style="max-width:100%;border-radius:12px;margin:1.5rem 0;">` : ''}
             <div class="blog-meta">
-                <span>By ${escapeHtml(normalizeAuthor(data.author))}</span>
+                <span data-i18n="blog.article_by">By</span> ${escapeHtml(normalizeAuthor(data.author))}
                 ${dateFormatted ? ` · <span>${dateFormatted}</span>` : ''}
-                ${data.readTime ? ` · <span>${data.readTime} min read</span>` : ''}
+                ${data.readTime ? ` · <span>${data.readTime} <span data-i18n="blog.min_read">min read</span></span>` : ''}
             </div>
 
             ${finalBody}

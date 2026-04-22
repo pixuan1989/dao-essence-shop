@@ -422,7 +422,9 @@
     "sort_price_high": "價格：由高至低",
     "sort_newest": "最新上架",
     "showing_prefix": "顯示",
-    "showing_suffix": "項資源"
+    "showing_suffix": "項資源",
+    "get_analysis": "取得分析 →",
+    "view_details": "點擊查看詳情 →"
   },
   "blog": {
     "title": "部落格",
@@ -433,6 +435,33 @@
     "cta_feat1": "四柱命盤解讀",
     "cta_feat2": "五行分析",
     "cta_feat3": "人生道路洞察",
-    "cta_btn": "免費八字排盤"
+    "cta_btn": "免費八字排盤",
+    "article_by": "作者",
+    "min_read": "分鐘閱讀",
+    "you_may_also_like": "你可能也喜歡",
+    "sidebar_soulmate_title": "尋找你的靈魂伴侶",
+    "sidebar_soulmate_desc": "你的出生日期蘊含著命中注定愛情遇見的地圖。探索你的愛情方向、時機與風格。",
+    "sidebar_soulmate_feat1": "愛情方向",
+    "sidebar_soulmate_feat2": "愛情時機",
+    "sidebar_soulmate_feat3": "愛情風格",
+    "sidebar_soulmate_btn": "尋找我的靈魂伴侶",
+    "sidebar_fav_title": "你的幸運色彩與能量指南",
+    "sidebar_fav_desc": "你的出生日期揭示了個人能量 profile——自然支持你的色彩、方向與生活選擇。秒速發現。",
+    "sidebar_fav_feat1": "幸運色彩",
+    "sidebar_fav_feat2": "最佳方位",
+    "sidebar_fav_feat3": "個人能量 Profile",
+    "sidebar_fav_btn": "探索我的能量指南",
+    "sidebar_almanac_title": "今天是好日子嗎？",
+    "sidebar_almanac_desc": "為婚禮、搬家、開業等重大時刻挑選完美日子。兩千年中國占星智慧，一鍵搞定。",
+    "sidebar_almanac_feat1": "每日能量評級",
+    "sidebar_almanac_feat2": "任何計畫的吉日",
+    "sidebar_almanac_feat3": "宜忌指南",
+    "sidebar_almanac_btn": "挑選我的吉日",
+    "sidebar_five_title": "你的主宰元素是什麼？",
+    "sidebar_five_desc": "木、火、土、金、水——你的出生日期揭示了主宰你性格、健康和人際關係的元素。",
+    "sidebar_five_feat1": "元素 Profile",
+    "sidebar_five_feat2": "性格特質",
+    "sidebar_five_feat3": "健康指引",
+    "sidebar_five_btn": "發現你的元素"
   }
 }

@@ -112,11 +112,11 @@ window.renderShop = function() {
     const grid = document.getElementById('productGrid');
     
     const categoryMap = {
-        'bazi-analysis': 'BaZi Analysis',
-        'dao-meditation': 'Taoist Meditation',
-        'dao-readings': 'Taoist Readings',
-        'mythology-stories': 'Taoist Mythology',
-        'cultivation-novels': 'Xianxia Novels'
+        'bazi-analysis': (window.DaoI18n && window.DaoI18n.t('shop.filter_bazi')) || 'BaZi Analysis',
+        'dao-meditation': (window.DaoI18n && window.DaoI18n.t('shop.filter_meditation')) || 'Taoist Meditation',
+        'dao-readings': (window.DaoI18n && window.DaoI18n.t('shop.filter_readings')) || 'Taoist Readings',
+        'mythology-stories': (window.DaoI18n && window.DaoI18n.t('shop.filter_mythology')) || 'Taoist Mythology',
+        'cultivation-novels': (window.DaoI18n && window.DaoI18n.t('shop.filter_novels')) || 'Xianxia Novels'
     };
 
     // Update product count (only if element exists - for shop page compatibility)
@@ -162,7 +162,7 @@ window.renderShop = function() {
                 <div class="product-meta">
                     ${priceDisplay}
                 </div>
-                <div class="product-action-hint">${isBaziProduct ? 'Get Analysis →' : 'Click to view details →'}</div>
+                <div class="product-action-hint">${isBaziProduct ? ((window.DaoI18n && window.DaoI18n.t('shop.get_analysis')) || 'Get Analysis →') : ((window.DaoI18n && window.DaoI18n.t('shop.view_details')) || 'Click to view details →')}</div>
             </div>
         </a>
     `;
@@ -310,4 +310,11 @@ document.addEventListener('DOMContentLoaded', () => {
             cart.updatePrices();
         }
     }, 1500); // Wait for products to load
+
+    // Re-render products when language changes
+    document.addEventListener('daoessence:i18n-changed', () => {
+        if (typeof window.renderShop === 'function') {
+            window.renderShop();
+        }
+    });
 });
