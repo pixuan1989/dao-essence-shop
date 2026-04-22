@@ -193,46 +193,38 @@
    * Adds/removes /zh prefix for blog and bilingual pages.
    */
   var BLOG_PATHS = ['/blog/', '/blog/bazi-astrology', '/blog/zodiac-horoscope', '/blog/feng-shui', '/blog/daily-horoscope', '/blog/lucky-tips'];
-  var BILINGUAL_PATHS = ['/shop', '/about', '/bazi-form', '/five-elements-test', '/soulmate-calculator', '/favorable-element', '/almanac', '/culture', '/guide', '/destiny', '/privacy', '/terms'];
 
   function rewriteNavLinks(lang) {
+    // Only rewrite blog links to /zh/blog/* (blog articles have separate zh HTML files).
+    // Other pages (shop, about, tools, etc.) stay at their original path —
+    // i18n-switcher uses localStorage to render zh UI on the same URL.
     var links = document.querySelectorAll('header a[href], footer a[href], .nav-dropdown-menu a[href]');
-    var allPaths = BLOG_PATHS.concat(BILINGUAL_PATHS);
 
     for (var i = 0; i < links.length; i++) {
       var link = links[i];
       var href = link.getAttribute('href');
       if (!href || href.startsWith('http') || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('tel:')) continue;
 
-      // Normalize: remove trailing slash for comparison
       var normalized = href.replace(/\/$/, '');
-      var isBilingual = false;
+      var isBlog = false;
 
-      for (var j = 0; j < allPaths.length; j++) {
-        var p = allPaths[j].replace(/\/$/, '');
-        if (normalized === p || normalized === p + '.html') {
-          isBilingual = true;
+      for (var j = 0; j < BLOG_PATHS.length; j++) {
+        var p = BLOG_PATHS[j].replace(/\/$/, '');
+        if (normalized === p || normalized === p + '.html' || normalized.indexOf('/blog/') === 0) {
+          isBlog = true;
           break;
         }
       }
 
-      if (!isBilingual) continue;
+      if (!isBlog) continue;
 
       if (lang === 'zh') {
-        // EN href → ZH href: /blog/slug → /zh/blog/slug, /shop → /zh/shop
         if (normalized.indexOf('/zh') !== 0) {
-          var newHref = '/zh' + normalized;
-          // Add trailing slash for directory-style URLs
-          if (normalized.indexOf('/blog/') === 0 || normalized === '/shop' || normalized === '/about') {
-            newHref += '/';
-          }
-          link.setAttribute('href', newHref);
+          link.setAttribute('href', '/zh' + normalized);
         }
       } else {
-        // ZH href → EN href: /zh/blog/slug → /blog/slug
         if (normalized.indexOf('/zh') === 0) {
-          var enHref = normalized.substring(3); // remove /zh
-          link.setAttribute('href', enHref);
+          link.setAttribute('href', normalized.substring(3));
         }
       }
     }
