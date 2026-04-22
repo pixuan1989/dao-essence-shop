@@ -1633,6 +1633,10 @@ async function main() {
 
     const cardsHtml = displayArticles.map(post => {
       const catLabel = CATEGORY_LABELS[post.category] || post.category || 'Blog';
+      const catLabelZh = CATEGORY_LABELS_ZH[post.category] || CATEGORY_LABELS[post.category] || post.category || '部落格';
+      const zhPost = zhArticleMap[post.slug];
+      const zhTitle = zhPost ? escapeHtml(zhPost.data.title || post.data.title) : '';
+      const zhDesc = zhPost ? escapeHtml(zhPost.data.description || post.data.description || '') : '';
       let imgSrc = post.data.image || SITE_URL + '/images/og-default.jpg';
       // Fix broken image paths (e.g. feature/blog-cms branch references)
       imgSrc = imgSrc.replace(/\/feature\/blog-cms\//g, '/main/');
@@ -1644,13 +1648,13 @@ async function main() {
                         <img src="${imgSrc}" alt="${escapeHtml(post.data.title)}" loading="lazy" onerror="this.src='${SITE_URL}/images/og-default.jpg'">
                     </div>
                     <div class="article-card-body">
-                        <span class="article-card-category">${escapeHtml(catLabel)}</span>
-                        <h3>${escapeHtml(post.data.title)}</h3>
-                        <p>${escapeHtml(post.data.description || '')}</p>
+                        <span class="article-card-category" data-zh-cat="${escapeHtml(catLabelZh)}">${escapeHtml(catLabel)}</span>
+                        <h3 data-zh-title="${zhTitle}">${escapeHtml(post.data.title)}</h3>
+                        <p data-zh-desc="${zhDesc}">${escapeHtml(post.data.description || '')}</p>
                         <div class="article-card-meta">
                             <span>${escapeHtml(normalizeAuthor(post.data.author))}</span>
                             ${dateStr ? `<span>${dateStr}</span>` : ''}
-                            ${post.data.readTime ? `<span>${post.data.readTime} min read</span>` : ''}
+                            ${post.data.readTime ? `<span class="read-time-label" data-zh-text="${post.data.readTime} 分鐘閱讀">${post.data.readTime} min read</span>` : ''}
                         </div>
                     </div>
                 </a>`;

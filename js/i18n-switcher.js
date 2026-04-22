@@ -148,6 +148,37 @@
         pel.appendChild(document.createTextNode(' ' + suffixVal));
       }
     }
+    // Handle blog card category and read-time labels
+    var zhCats = document.querySelectorAll('[data-zh-cat]');
+    for (var ci = 0; ci < zhCats.length; ci++) {
+      if (!originalTexts['__zhcat__' + ci]) {
+        originalTexts['__zhcat__' + ci] = zhCats[ci].textContent;
+      }
+      zhCats[ci].textContent = zhCats[ci].getAttribute('data-zh-cat');
+    }
+    var zhTexts = document.querySelectorAll('[data-zh-text]');
+    for (var zti = 0; zti < zhTexts.length; zti++) {
+      if (!originalTexts['__zhtext__' + zti]) {
+        originalTexts['__zhtext__' + zti] = zhTexts[zti].textContent;
+      }
+      zhTexts[zti].textContent = zhTexts[zti].getAttribute('data-zh-text');
+    }
+    var zhTitles = document.querySelectorAll('[data-zh-title]');
+    for (var hti = 0; hti < zhTitles.length; hti++) {
+      var zhVal = zhTitles[hti].getAttribute('data-zh-title');
+      if (zhVal) {
+        if (!originalTexts['__zhtitle__' + hti]) originalTexts['__zhtitle__' + hti] = zhTitles[hti].textContent;
+        zhTitles[hti].textContent = zhVal;
+      }
+    }
+    var zhDescs = document.querySelectorAll('[data-zh-desc]');
+    for (var ddi = 0; ddi < zhDescs.length; ddi++) {
+      var zhDVal = zhDescs[ddi].getAttribute('data-zh-desc');
+      if (zhDVal) {
+        if (!originalTexts['__zhdesc__' + ddi]) originalTexts['__zhdesc__' + ddi] = zhDescs[ddi].textContent;
+        zhDescs[ddi].textContent = zhDVal;
+      }
+    }
   }
 
   /**
@@ -179,6 +210,27 @@
       if (originalTexts[plKey]) {
         plEl.setAttribute('placeholder', originalTexts[plKey]);
       }
+    }
+    // Restore blog card category and read-time labels
+    var rCats = document.querySelectorAll('[data-zh-cat]');
+    for (var rci = 0; rci < rCats.length; rci++) {
+      var rck = '__zhcat__' + rci;
+      if (originalTexts[rck]) { rCats[rci].textContent = originalTexts[rck]; }
+    }
+    var rTexts = document.querySelectorAll('[data-zh-text]');
+    for (var rti = 0; rti < rTexts.length; rti++) {
+      var rtk = '__zhtext__' + rti;
+      if (originalTexts[rtk]) { rTexts[rti].textContent = originalTexts[rtk]; }
+    }
+    var rTitles = document.querySelectorAll('[data-zh-title]');
+    for (var rhti = 0; rhti < rTitles.length; rhti++) {
+      var rhk = '__zhtitle__' + rhti;
+      if (originalTexts[rhk]) { rTitles[rhti].textContent = originalTexts[rhk]; }
+    }
+    var rDescs = document.querySelectorAll('[data-zh-desc]');
+    for (var rdi = 0; rdi < rDescs.length; rdi++) {
+      var rdk = '__zhdesc__' + rdi;
+      if (originalTexts[rdk]) { rDescs[rdi].textContent = originalTexts[rdk]; }
     }
   }
 
@@ -276,11 +328,8 @@
     // correct language version instead.
     var pathname = window.location.pathname;
     if (lang === 'zh') {
-      // EN → ZH: homepage redirect
-      if (pathname === '/' || pathname === '/index.html') {
-        window.location.href = '/zh/';
-        return;
-      }
+      // EN → ZH: don't redirect homepage (no /zh/index.html generated)
+      // Just translate the UI in-place
       // EN → ZH: /blog/slug → /zh/blog/slug
       var enMatch = pathname.match(/^\/blog\/(.+)$/);
       if (enMatch) {
