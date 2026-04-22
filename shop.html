@@ -647,8 +647,8 @@
     <!-- Shop Hero Section -->
     <section class="shop-hero">
         <div class="shop-hero-content">
-            <h1>Digital Resources</h1>
-            <p>Discover authentic Eastern wisdom digital resources — energy tools, meditation audio programs, and self-study wellness materials crafted by certified practitioners</p>
+            <h1 data-i18n="shop.hero_title">Digital Resources</h1>
+            <p data-i18n="shop.hero_desc">Discover authentic Eastern wisdom digital resources — energy tools, meditation audio programs, and self-study wellness materials crafted by certified practitioners</p>
         </div>
     </section>
 
@@ -658,22 +658,22 @@
             <!-- Controls & Filters -->
             <div class="shop-controls">
                 <div class="shop-filters">
-                    <button class="filter-btn active" onclick="filterProducts('all')">All Resources</button>
-                    <button class="filter-btn" onclick="filterProducts('bazi-analysis')">BaZi Analysis</button>
-                    <button class="filter-btn" onclick="filterProducts('dao-meditation')">Taoist Meditation</button>
-                    <button class="filter-btn" onclick="filterProducts('dao-readings')">Taoist Readings</button>
-                    <button class="filter-btn" onclick="filterProducts('mythology-stories')">Taoist Mythology</button>
-                    <button class="filter-btn" onclick="filterProducts('cultivation-novels')">Xianxia Novels</button>
+                    <button class="filter-btn active" onclick="filterProducts('all')" data-i18n="shop.filter_all">All Resources</button>
+                    <button class="filter-btn" onclick="filterProducts('bazi-analysis')" data-i18n="shop.filter_bazi">BaZi Analysis</button>
+                    <button class="filter-btn" onclick="filterProducts('dao-meditation')" data-i18n="shop.filter_meditation">Taoist Meditation</button>
+                    <button class="filter-btn" onclick="filterProducts('dao-readings')" data-i18n="shop.filter_readings">Taoist Readings</button>
+                    <button class="filter-btn" onclick="filterProducts('mythology-stories')" data-i18n="shop.filter_mythology">Taoist Mythology</button>
+                    <button class="filter-btn" onclick="filterProducts('cultivation-novels')" data-i18n="shop.filter_novels">Xianxia Novels</button>
                 </div>
                 <select class="sort-select" onchange="sortProducts(this.value)">
-                    <option value="featured">Featured</option>
-                    <option value="price-low">Price: Low to High</option>
-                    <option value="price-high">Price: High to Low</option>
-                    <option value="newest">Newest</option>
+                    <option value="featured" data-i18n="shop.sort_featured">Featured</option>
+                    <option value="price-low" data-i18n="shop.sort_price_low">Price: Low to High</option>
+                    <option value="price-high" data-i18n="shop.sort_price_high">Price: High to Low</option>
+                    <option value="newest" data-i18n="shop.sort_newest">Newest</option>
                 </select>
             </div>
             
-            <div class="results-count">Showing <span id="productCount">0</span> resources</div>
+            <div class="results-count" data-i18n-prefix="shop.showing_prefix" data-i18n-suffix="shop.showing_suffix">Showing <span id="productCount">0</span> resources</div>
 
             <!-- Product Grid -->
             <div class="shop-grid" id="productGrid">

@@ -622,21 +622,36 @@
                     </div>
                 </a>
                 <ul class="nav-menu">
-                    <li><a href="/" class="nav-link">Home</a></li>
+                    <li><a href="/" class="nav-link" data-i18n="common.home">Home</a></li>
                     <li class="nav-dropdown">
-                        <a href="/blog/" class="nav-dropdown-trigger">Blog <i class="nav-dropdown-arrow"></i></a>
+                        <a href="/blog/" class="nav-dropdown-trigger" data-i18n="common.blog">Blog <i class="nav-dropdown-arrow"></i></a>
                         <div class="nav-dropdown-menu">
-                            <a href="blog/">All Articles</a>
-                            <a href="blog/bazi-astrology">BaZi Astrology</a>
-                            <a href="blog/zodiac-horoscope">Chinese Zodiac</a>
-                            <a href="blog/feng-shui">Feng Shui</a>
-                            <a href="blog/daily-horoscope">Daily Chinese Horoscope</a>
-                            <a href="blog/lucky-tips">Lucky Tips</a>
+                            <a href="/blog/" data-i18n="nav.blog_all_articles">All Articles</a>
+                            <a href="/blog/bazi-astrology" data-i18n="nav.blog_bazi">BaZi Astrology</a>
+                            <a href="/blog/zodiac-horoscope" data-i18n="nav.blog_zodiac">Chinese Zodiac</a>
+                            <a href="/blog/feng-shui" data-i18n="nav.blog_feng_shui">Feng Shui</a>
+                            <a href="/blog/daily-horoscope" data-i18n="nav.blog_daily">Daily Chinese Horoscope</a>
+                            <a href="/blog/lucky-tips" data-i18n="nav.blog_lucky_tips">Lucky Tips</a>
                         </div>
                     </li>
-                    <li><a href="culture" class="nav-link">Five Elements</a></li>
-                    <li><a href="shop" class="nav-link">Shop</a></li>
-                    <li><a href="about" class="nav-link active">About Us</a></li>
+                    <li><a href="/culture" class="nav-link" data-i18n="common.five_elements">Five Elements</a></li>
+                    <li><a href="/shop" class="nav-link" data-i18n="common.shop">Shop</a></li>
+                    <li><a href="/about" class="nav-link active" data-i18n="common.about_us">About Us</a></li>
+                    <li class="nav-dropdown">
+                        <a href="#" class="nav-dropdown-trigger lang-switcher-trigger" id="lang-trigger">
+                            <span class="lang-flag" id="lang-flag">🇺🇸</span>
+                            <span class="lang-label" id="lang-label">EN</span>
+                            <i class="nav-dropdown-arrow"></i>
+                        </a>
+                        <div class="nav-dropdown-menu" id="lang-menu">
+                            <a href="#" data-lang="en" class="lang-option active">
+                                <span class="lang-flag">🇺🇸</span> English
+                            </a>
+                            <a href="#" data-lang="zh" class="lang-option">
+                                <span class="lang-flag">🇹🇼</span> 繁體中文
+                            </a>
+                        </div>
+                    </li>
                 </ul>
                 <button class="mobile-menu-btn">
                     <span></span>
@@ -673,49 +688,49 @@
         </svg>
 
         <div class="hero-content">
-            <div class="hero-eyebrow">About DAO Essence</div>
+            <div class="hero-eyebrow" data-i18n="about.hero_eyebrow">About DAO Essence</div>
             <h1 class="hero-title">
-                Ancient Wisdom,
-                <em>Modern Clarity.</em>
+                <span data-i18n="about.hero_title1">Ancient Wisdom,</span>
+                <em data-i18n="about.hero_title2">Modern Clarity.</em>
             </h1>
-            <p class="hero-sub">
+            <p class="hero-sub" data-i18n="about.hero_sub">
                 We bridge the gap between time-tested Chinese metaphysics and the questions people face today. No mystification, no fortune-cookie readings -- just structured analysis rooted in centuries of tradition.
             </p>
         </div>
 
-        <div class="scroll-hint">Scroll</div>
+        <div class="scroll-hint" data-i18n="about.scroll">Scroll</div>
     </section>
 
     <!-- MISSION -->
     <section class="mission">
         <div class="mission-inner">
-            <div class="section-label reveal">Our Mission</div>
-            <h2 class="reveal">Making Chinese Metaphysics Accessible and Practical</h2>
-            <p class="mission-text reveal">
+            <div class="section-label reveal" data-i18n="about.mission_label">Our Mission</div>
+            <h2 class="reveal" data-i18n="about.mission_title">Making Chinese Metaphysics Accessible and Practical</h2>
+            <p class="mission-text reveal" data-i18n="about.mission_p1">
                 DAO Essence was founded on a simple observation: <em>the ancient systems of Chinese metaphysics -- BaZi, Feng Shui, Five Elements -- contain genuinely useful frameworks for understanding yourself and your environment.</em> The problem has never been the systems themselves, but the barriers that keep people from accessing them -- opaque jargon, cultural distance, and an industry often clouded by sensationalism.
             </p>
-            <p class="mission-text reveal">
+            <p class="mission-text reveal" data-i18n="about.mission_p2">
                 Our approach is different. We provide <em>structured, honest analysis</em> that respects the source tradition while speaking clearly to a modern audience. Our free BaZi calculator gives anyone an instant overview of their birth chart. For those who want deeper understanding, our paid consultations offer personalized guidance from experienced practitioners.
             </p>
-            <p class="mission-text reveal">
+            <p class="mission-text reveal" data-i18n="about.mission_p3">
                 We believe the value of Chinese metaphysics lies not in predicting a fixed destiny, but in revealing <em>patterns, tendencies, and timing</em> -- so you can make more informed decisions about your career, relationships, health, and environment.
             </p>
 
             <div class="mission-services">
                 <div class="ms-item reveal">
-                    <div class="ms-num">I</div>
-                    <h3>BaZi Analysis</h3>
-                    <p>Decode your Four Pillars of Destiny -- understand your elemental composition, strength profile, and life cycles through the lens of Heavenly Stems and Earthly Branches.</p>
+                    <div class="ms-num" data-i18n="about.service1_num">I</div>
+                    <h3 data-i18n="about.service1_title">BaZi Analysis</h3>
+                    <p data-i18n="about.service1_desc">Decode your Four Pillars of Destiny -- understand your elemental composition, strength profile, and life cycles through the lens of Heavenly Stems and Earthly Branches.</p>
                 </div>
                 <div class="ms-item reveal reveal-delay-1">
-                    <div class="ms-num">II</div>
-                    <h3>Feng Shui Consultation</h3>
-                    <p>Assess how your living and working environments interact with natural energy flows. Practical recommendations grounded in classical form school and compass methods.</p>
+                    <div class="ms-num" data-i18n="about.service2_num">II</div>
+                    <h3 data-i18n="about.service2_title">Feng Shui Consultation</h3>
+                    <p data-i18n="about.service2_desc">Assess how your living and working environments interact with natural energy flows. Practical recommendations grounded in classical form school and compass methods.</p>
                 </div>
                 <div class="ms-item reveal reveal-delay-2">
-                    <div class="ms-num">III</div>
-                    <h3>Five Elements Guidance</h3>
-                    <p>Identify your dominant and deficient elements. Learn how to restore balance through daily habits, environmental adjustments, and timing strategies.</p>
+                    <div class="ms-num" data-i18n="about.service3_num">III</div>
+                    <h3 data-i18n="about.service3_title">Five Elements Guidance</h3>
+                    <p data-i18n="about.service3_desc">Identify your dominant and deficient elements. Learn how to restore balance through daily habits, environmental adjustments, and timing strategies.</p>
                 </div>
             </div>
         </div>
@@ -724,45 +739,45 @@
     <!-- VALUES -->
     <section class="values">
         <div class="values-intro reveal">
-            <div class="section-label" style="justify-content:center;">Core Values</div>
-            <h2>What we stand for</h2>
-            <p>Principles that shape every consultation and piece of content we produce</p>
+            <div class="section-label" style="justify-content:center;" data-i18n="about.values_label">Core Values</div>
+            <h2 data-i18n="about.values_title">What we stand for</h2>
+            <p data-i18n="about.values_subtitle">Principles that shape every consultation and piece of content we produce</p>
         </div>
 
         <div class="values-list">
             <div class="value-row">
                 <div class="vc featured reveal">
                     <div class="vc-num">01</div>
-                    <h3>Accuracy Over Hype</h3>
-                    <p>We present what the analysis actually shows -- not what sounds impressive. If the chart is ambiguous, we say so. No manufactured certainty, no fear-driven upselling.</p>
+                    <h3 data-i18n="about.v1_title">Accuracy Over Hype</h3>
+                    <p data-i18n="about.v1_desc">We present what the analysis actually shows -- not what sounds impressive. If the chart is ambiguous, we say so. No manufactured certainty, no fear-driven upselling.</p>
                 </div>
                 <div class="vc reveal reveal-delay-1">
                     <div class="vc-num">02</div>
-                    <h3>Full Privacy</h3>
-                    <p>Your birth data is personal. We never share, sell, or store your information beyond what is necessary to deliver your consultation. Period.</p>
+                    <h3 data-i18n="about.v2_title">Full Privacy</h3>
+                    <p data-i18n="about.v2_desc">Your birth data is personal. We never share, sell, or store your information beyond what is necessary to deliver your consultation. Period.</p>
                 </div>
                 <div class="vc reveal reveal-delay-2">
                     <div class="vc-num">03</div>
-                    <h3>Practical Insight</h3>
-                    <p>Every reading ends with actionable takeaways. Knowing your element profile means nothing if you cannot apply it to your daily decisions.</p>
+                    <h3 data-i18n="about.v3_title">Practical Insight</h3>
+                    <p data-i18n="about.v3_desc">Every reading ends with actionable takeaways. Knowing your element profile means nothing if you cannot apply it to your daily decisions.</p>
                 </div>
             </div>
 
             <div class="value-row">
                 <div class="vc reveal">
                     <div class="vc-num">04</div>
-                    <h3>Tradition With Context</h3>
-                    <p>We cite the classical frameworks we use -- the Ten Gods, the Twelve Growth Stages, the Generating and Controlling cycles -- so you understand the reasoning, not just the conclusion.</p>
+                    <h3 data-i18n="about.v4_title">Tradition With Context</h3>
+                    <p data-i18n="about.v4_desc">We cite the classical frameworks we use -- the Ten Gods, the Twelve Growth Stages, the Generating and Controlling cycles -- so you understand the reasoning, not just the conclusion.</p>
                 </div>
                 <div class="vc reveal reveal-delay-1">
                     <div class="vc-num">05</div>
-                    <h3>No Substitutes for Judgment</h3>
-                    <p>Chinese metaphysics is a tool for reflection, not a replacement for professional medical, legal, or financial advice. We are clear about what it can and cannot do.</p>
+                    <h3 data-i18n="about.v5_title">No Substitutes for Judgment</h3>
+                    <p data-i18n="about.v5_desc">Chinese metaphysics is a tool for reflection, not a replacement for professional medical, legal, or financial advice. We are clear about what it can and cannot do.</p>
                 </div>
                 <div class="vc featured reveal reveal-delay-2">
                     <div class="vc-num">06</div>
-                    <h3>Open Access</h3>
-                    <p>Our free BaZi calculator exists because everyone deserves to explore their own chart without a paywall. Education should not require commitment -- only deeper guidance does.</p>
+                    <h3 data-i18n="about.v6_title">Open Access</h3>
+                    <p data-i18n="about.v6_desc">Our free BaZi calculator exists because everyone deserves to explore their own chart without a paywall. Education should not require commitment -- only deeper guidance does.</p>
                 </div>
             </div>
         </div>
@@ -771,9 +786,9 @@
     <!-- TEAM -->
     <section class="team">
         <div class="team-header reveal">
-            <div class="section-label">The People</div>
-            <h2>Our Team</h2>
-            <p>Practitioners and communicators -- united by a shared respect for the tradition</p>
+            <div class="section-label" data-i18n="about.team_label">The People</div>
+            <h2 data-i18n="about.team_title">Our Team</h2>
+            <p data-i18n="about.team_subtitle">Practitioners and communicators -- united by a shared respect for the tradition</p>
         </div>
 
         <div class="team-grid">
@@ -782,9 +797,9 @@
                     <img src="images/111_compressed.jpg" alt="Master Xuan Zhen" loading="lazy"/>
                 </div>
                 <div class="tc-body">
-                    <div class="tc-role">Founder</div>
+                    <div class="tc-role" data-i18n="about.team1_role">Founder</div>
                     <div class="tc-name">Master Xuan Zhen</div>
-                    <p class="tc-desc">Senior practitioner of Chinese metaphysics with a focus on BaZi chart analysis and destiny reading. Bridges Eastern and Western perspectives to make traditional frameworks accessible to a global audience.</p>
+                    <p class="tc-desc" data-i18n="about.team1_desc">Senior practitioner of Chinese metaphysics with a focus on BaZi chart analysis and destiny reading. Bridges Eastern and Western perspectives to make traditional frameworks accessible to a global audience.</p>
                 </div>
             </div>
 
@@ -793,9 +808,9 @@
                     <img src="images/222_compressed.jpg" alt="Master Ding Wei" loading="lazy"/>
                 </div>
                 <div class="tc-body">
-                    <div class="tc-role">Co-Founder</div>
+                    <div class="tc-role" data-i18n="about.team2_role">Co-Founder</div>
                     <div class="tc-name">Master Ding Wei</div>
-                    <p class="tc-desc">Lineage holder of Zhengyi Taoist tradition with over 20 years of practice. Specializes in Feng Shui consultation, environmental energy assessment, and traditional ritual protocols.</p>
+                    <p class="tc-desc" data-i18n="about.team2_desc">Lineage holder of Zhengyi Taoist tradition with over 20 years of practice. Specializes in Feng Shui consultation, environmental energy assessment, and traditional ritual protocols.</p>
                 </div>
             </div>
 
@@ -804,9 +819,9 @@
                     <img src="images/333_compressed.jpg" alt="Li Huilan" loading="lazy"/>
                 </div>
                 <div class="tc-body">
-                    <div class="tc-role">Brand & Content Strategy</div>
+                    <div class="tc-role" data-i18n="about.team3_role">Brand & Content Strategy</div>
                     <div class="tc-name">Li Huilan</div>
-                    <p class="tc-desc">Cultural brand strategist with a decade of experience in Eastern philosophy communication. Responsible for translating complex metaphysical concepts into clear, engaging educational content.</p>
+                    <p class="tc-desc" data-i18n="about.team3_desc">Cultural brand strategist with a decade of experience in Eastern philosophy communication. Responsible for translating complex metaphysical concepts into clear, engaging educational content.</p>
                 </div>
             </div>
 
@@ -815,9 +830,9 @@
                     <img src="images/444_compressed.jpg" alt="Xiao Yating" loading="lazy"/>
                 </div>
                 <div class="tc-body">
-                    <div class="tc-role">Creative & Visual Design</div>
+                    <div class="tc-role" data-i18n="about.team4_role">Creative & Visual Design</div>
                     <div class="tc-name">Xiao Yating</div>
-                    <p class="tc-desc">Designer with a deep appreciation for traditional Chinese aesthetics. Creates the visual identity and illustrative content that connects DAO Essence's digital presence with its cultural roots.</p>
+                    <p class="tc-desc" data-i18n="about.team4_desc">Designer with a deep appreciation for traditional Chinese aesthetics. Creates the visual identity and illustrative content that connects DAO Essence's digital presence with its cultural roots.</p>
                 </div>
             </div>
         </div>
@@ -825,10 +840,10 @@
 
     <!-- CTA -->
     <section class="cta-banner">
-        <h2 class="reveal">Curious about your own chart?</h2>
-        <p class="reveal">Start with a free BaZi reading -- no sign-up required. See your elemental profile in seconds.</p>
+        <h2 class="reveal" data-i18n="about.cta_title">Curious about your own chart?</h2>
+        <p class="reveal" data-i18n="about.cta_desc">Start with a free BaZi reading -- no sign-up required. See your elemental profile in seconds.</p>
         <div class="reveal">
-            <a href="index.html#contact" class="btn-gold">Contact Us</a>
+            <a href="index.html#contact" class="btn-gold" data-i18n="about.cta_btn">Contact Us</a>
         </div>
     </section>
 
@@ -915,11 +930,11 @@
         </div>
     </div>
 
-    <script src="main.js"></script>
+    <script src="main.min.js?v=202604031200"></script>
     <script>
         /* ── Mobile nav ── */
         document.querySelector('.mobile-menu-btn').addEventListener('click', () => {
-            document.querySelector('.nav-links').classList.toggle('active');
+            document.querySelector('.nav-menu').classList.toggle('active');
         });
 
         /* ── Scroll reveal ── */
@@ -934,5 +949,6 @@
 
         document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
     </script>
+    <script src="/js/i18n-switcher.js" defer></script>
 </body>
 </html>

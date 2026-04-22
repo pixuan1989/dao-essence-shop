@@ -572,21 +572,36 @@
                     </div>
                 </a>
                 <ul class="nav-menu">
-                    <li><a href="/" class="nav-link">Home</a></li>
+                    <li><a href="/" class="nav-link" data-i18n="common.home">Home</a></li>
                     <li class="nav-dropdown">
-                        <a href="/blog/" class="nav-dropdown-trigger">Blog <i class="nav-dropdown-arrow"></i></a>
+                        <a href="/blog/" class="nav-dropdown-trigger" data-i18n="common.blog">Blog <i class="nav-dropdown-arrow"></i></a>
                         <div class="nav-dropdown-menu">
-                            <a href="blog/">All Articles</a>
-                            <a href="blog/bazi-astrology">BaZi Astrology</a>
-                            <a href="blog/zodiac-horoscope">Chinese Zodiac</a>
-                            <a href="blog/feng-shui">Feng Shui</a>
-                            <a href="blog/daily-horoscope">Daily Chinese Horoscope</a>
-                            <a href="blog/lucky-tips">Lucky Tips</a>
+                            <a href="/blog/" data-i18n="nav.blog_all_articles">All Articles</a>
+                            <a href="/blog/bazi-astrology" data-i18n="nav.blog_bazi">BaZi Astrology</a>
+                            <a href="/blog/zodiac-horoscope" data-i18n="nav.blog_zodiac">Chinese Zodiac</a>
+                            <a href="/blog/feng-shui" data-i18n="nav.blog_feng_shui">Feng Shui</a>
+                            <a href="/blog/daily-horoscope" data-i18n="nav.blog_daily">Daily Chinese Horoscope</a>
+                            <a href="/blog/lucky-tips" data-i18n="nav.blog_lucky_tips">Lucky Tips</a>
                         </div>
                     </li>
-                    <li><a href="culture" class="nav-link active">Five Elements</a></li>
-                    <li><a href="shop" class="nav-link">Shop</a></li>
-                    <li><a href="about" class="nav-link">About Us</a></li>
+                    <li><a href="/culture" class="nav-link active" data-i18n="common.five_elements">Five Elements</a></li>
+                    <li><a href="/shop" class="nav-link" data-i18n="common.shop">Shop</a></li>
+                    <li><a href="/about" class="nav-link" data-i18n="common.about_us">About Us</a></li>
+                    <li class="nav-dropdown">
+                        <a href="#" class="nav-dropdown-trigger lang-switcher-trigger" id="lang-trigger">
+                            <span class="lang-flag" id="lang-flag">🇺🇸</span>
+                            <span class="lang-label" id="lang-label">EN</span>
+                            <i class="nav-dropdown-arrow"></i>
+                        </a>
+                        <div class="nav-dropdown-menu" id="lang-menu">
+                            <a href="#" data-lang="en" class="lang-option active">
+                                <span class="lang-flag">🇺🇸</span> English
+                            </a>
+                            <a href="#" data-lang="zh" class="lang-option">
+                                <span class="lang-flag">🇹🇼</span> 繁體中文
+                            </a>
+                        </div>
+                    </li>
                 </ul>
                 <button class="mobile-menu-btn">
                     <span></span>
@@ -600,18 +615,18 @@
     <!-- Hero -->
     <section class="culture-hero">
         <div class="culture-hero-content">
-            <p class="subtitle">Wu Xing</p>
-            <h1>Five Elements</h1>
-            <p>The Five Elements (Wu Xing) are the building blocks of every BaZi chart. Understand them, and you hold the key to reading your own destiny.</p>
+            <p class="subtitle" data-i18n="culture.hero_subtitle">Wu Xing</p>
+            <h1 data-i18n="culture.hero_title">Five Elements</h1>
+            <p data-i18n="culture.hero_desc">The Five Elements (Wu Xing) are the building blocks of every BaZi chart. Understand them, and you hold the key to reading your own destiny.</p>
         </div>
     </section>
 
     <!-- Five Elements Theory -->
     <section class="culture-section">
         <div class="section-header">
-            <p class="subtitle">The Foundation</p>
-            <h2>How the Five Elements Work</h2>
-            <p>All things in heaven and earth are composed of five fundamental forces: Wood, Fire, Earth, Metal, and Water. They generate and control each other in endless cycles — and your BaZi chart is a snapshot of these elements at the moment you were born.</p>
+            <p class="subtitle" data-i18n="culture.section1_subtitle">The Foundation</p>
+            <h2 data-i18n="culture.section1_title">How the Five Elements Work</h2>
+            <p data-i18n="culture.section1_desc">All things in heaven and earth are composed of five fundamental forces: Wood, Fire, Earth, Metal, and Water. They generate and control each other in endless cycles — and your BaZi chart is a snapshot of these elements at the moment you were born.</p>
         </div>
 
         <div class="wuxing-circle-container">
@@ -661,17 +676,17 @@
         </div>
 
         <div class="wuxing-motto">
-            <p>Wood generates Fire, Fire generates Earth, Earth generates Metal, Metal generates Water, Water generates Wood</p>
-            <p>Wood controls Earth, Earth controls Water, Water controls Fire, Fire controls Metal, Metal controls Wood</p>
+            <p data-i18n="culture.sheng_cycle">Wood generates Fire, Fire generates Earth, Earth generates Metal, Metal generates Water, Water generates Wood</p>
+            <p data-i18n="culture.ke_cycle">Wood controls Earth, Earth controls Water, Water controls Fire, Fire controls Metal, Metal controls Wood</p>
         </div>
     </section>
 
     <!-- Five Elements Deep Dive -->
     <section class="culture-section" style="background: var(--bg-secondary);">
         <div class="section-header">
-            <p class="subtitle">Understanding Wu Xing</p>
-            <h2>The Five Elements in Your Life</h2>
-            <p>Each element governs specific organs, emotions, seasons, and personality traits. Your BaZi chart reveals which elements are strong, weak, or missing — and that profile shapes who you are.</p>
+            <p class="subtitle" data-i18n="culture.section2_subtitle">Understanding Wu Xing</p>
+            <h2 data-i18n="culture.section2_title">The Five Elements in Your Life</h2>
+            <p data-i18n="culture.section2_desc">Each element governs specific organs, emotions, seasons, and personality traits. Your BaZi chart reveals which elements are strong, weak, or missing — and that profile shapes who you are.</p>
         </div>
 
         <div class="element-grid">
@@ -683,14 +698,14 @@
                     <span class="en">Wood</span>
                 </div>
                 <div class="element-body">
-                    <h3>Wood</h3>
-                    <p class="tagline">Spring &middot; Liver &middot; Ambition &middot; Forward Motion</p>
-                    <p class="element-desc">Wood people are natural starters — visionaries who push things forward. Balanced Wood shows kindness and flexibility. Excess shows impatience and stubbornness.</p>
+                    <h3 data-i18n="culture.wood_name">Wood</h3>
+                    <p class="tagline" data-i18n="culture.wood_tagline">Spring &middot; Liver &middot; Ambition &middot; Forward Motion</p>
+                    <p class="element-desc" data-i18n="culture.wood_desc">Wood people are natural starters — visionaries who push things forward. Balanced Wood shows kindness and flexibility. Excess shows impatience and stubbornness.</p>
                     <div class="element-tips-inline">
-                        <span>Green tones in wardrobe and living space</span>
-                        <span>Morning walks in nature</span>
-                        <span>Leafy greens, sour flavors</span>
-                        <span>Peak creativity: early morning</span>
+                        <span data-i18n="culture.wood_tip1">Green tones in wardrobe and living space</span>
+                        <span data-i18n="culture.wood_tip2">Morning walks in nature</span>
+                        <span data-i18n="culture.wood_tip3">Leafy greens, sour flavors</span>
+                        <span data-i18n="culture.wood_tip4">Peak creativity: early morning</span>
                     </div>
                 </div>
             </div>
@@ -702,14 +717,14 @@
                     <span class="en">Fire</span>
                 </div>
                 <div class="element-body">
-                    <h3>Fire</h3>
-                    <p class="tagline">Summer &middot; Heart &middot; Passion &middot; Connection</p>
-                    <p class="element-desc">Fire people draw others in — charismatic, expressive, and socially magnetic. Balanced Fire brings warmth and joy. Excess brings restlessness and burnout.</p>
+                    <h3 data-i18n="culture.fire_name">Fire</h3>
+                    <p class="tagline" data-i18n="culture.fire_tagline">Summer &middot; Heart &middot; Passion &middot; Connection</p>
+                    <p class="element-desc" data-i18n="culture.fire_desc">Fire people draw others in — charismatic, expressive, and socially magnetic. Balanced Fire brings warmth and joy. Excess brings restlessness and burnout.</p>
                     <div class="element-tips-inline">
-                        <span>Warm tones — reds, oranges, purples</span>
-                        <span>Meaningful social connections</span>
-                        <span>Berries, dark chocolate</span>
-                        <span>Peak energy: midday</span>
+                        <span data-i18n="culture.fire_tip1">Warm tones — reds, oranges, purples</span>
+                        <span data-i18n="culture.fire_tip2">Meaningful social connections</span>
+                        <span data-i18n="culture.fire_tip3">Berries, dark chocolate</span>
+                        <span data-i18n="culture.fire_tip4">Peak energy: midday</span>
                     </div>
                 </div>
             </div>
@@ -721,14 +736,14 @@
                     <span class="en">Earth</span>
                 </div>
                 <div class="element-body">
-                    <h3>Earth</h3>
-                    <p class="tagline">Late Summer &middot; Spleen &middot; Stability &middot; Nourishment</p>
-                    <p class="element-desc">Earth types are the reliable center — grounding, patient, and deeply caring. They hold things together. The risk is overthinking and getting stuck in comfort zones.</p>
+                    <h3 data-i18n="culture.earth_name">Earth</h3>
+                    <p class="tagline" data-i18n="culture.earth_tagline">Late Summer &middot; Spleen &middot; Stability &middot; Nourishment</p>
+                    <p class="element-desc" data-i18n="culture.earth_desc">Earth types are the reliable center — grounding, patient, and deeply caring. They hold things together. The risk is overthinking and getting stuck in comfort zones.</p>
                     <div class="element-tips-inline">
-                        <span>Beige, brown, yellow tones</span>
-                        <span>Consistent daily routines</span>
-                        <span>Warm, cooked foods — soups and stews</span>
-                        <span>Best focus: late morning</span>
+                        <span data-i18n="culture.earth_tip1">Beige, brown, yellow tones</span>
+                        <span data-i18n="culture.earth_tip2">Consistent daily routines</span>
+                        <span data-i18n="culture.earth_tip3">Warm, cooked foods — soups and stews</span>
+                        <span data-i18n="culture.earth_tip4">Best focus: late morning</span>
                     </div>
                 </div>
             </div>
@@ -740,14 +755,14 @@
                     <span class="en">Metal</span>
                 </div>
                 <div class="element-body">
-                    <h3>Metal</h3>
-                    <p class="tagline">Autumn &middot; Lungs &middot; Structure &middot; Precision</p>
-                    <p class="element-desc">Metal people value integrity and clear boundaries. They excel at organizing complex systems and cutting through noise. The risk is becoming too rigid or detached.</p>
+                    <h3 data-i18n="culture.metal_name">Metal</h3>
+                    <p class="tagline" data-i18n="culture.metal_tagline">Autumn &middot; Lungs &middot; Structure &middot; Precision</p>
+                    <p class="element-desc" data-i18n="culture.metal_desc">Metal people value integrity and clear boundaries. They excel at organizing complex systems and cutting through noise. The risk is becoming too rigid or detached.</p>
                     <div class="element-tips-inline">
-                        <span>White, silver, and gold tones</span>
-                        <span>Breathwork and structured exercise</span>
-                        <span>Ginger, garlic, pungent flavors</span>
-                        <span>Sharpest focus: late afternoon</span>
+                        <span data-i18n="culture.metal_tip1">White, silver, and gold tones</span>
+                        <span data-i18n="culture.metal_tip2">Breathwork and structured exercise</span>
+                        <span data-i18n="culture.metal_tip3">Ginger, garlic, pungent flavors</span>
+                        <span data-i18n="culture.metal_tip4">Sharpest focus: late afternoon</span>
                     </div>
                 </div>
             </div>
@@ -759,22 +774,22 @@
                     <span class="en">Water</span>
                 </div>
                 <div class="element-body">
-                    <h3>Water</h3>
-                    <p class="tagline">Winter &middot; Kidneys &middot; Depth &middot; Intuition</p>
-                    <p class="element-desc">Water people think deeply and adapt fluidly. They carry inner wisdom that others rely on. The risk is indecision, withdrawal, and letting momentum fade.</p>
+                    <h3 data-i18n="culture.water_name">Water</h3>
+                    <p class="tagline" data-i18n="culture.water_tagline">Winter &middot; Kidneys &middot; Depth &middot; Intuition</p>
+                    <p class="element-desc" data-i18n="culture.water_desc">Water people think deeply and adapt fluidly. They carry inner wisdom that others rely on. The risk is indecision, withdrawal, and letting momentum fade.</p>
                     <div class="element-tips-inline">
-                        <span>Blue and black tones</span>
-                        <span>Time near water — oceans, rivers</span>
-                        <span>Salty foods, seafood</span>
-                        <span>Intuition peaks: evening</span>
+                        <span data-i18n="culture.water_tip1">Blue and black tones</span>
+                        <span data-i18n="culture.water_tip2">Time near water — oceans, rivers</span>
+                        <span data-i18n="culture.water_tip3">Salty foods, seafood</span>
+                        <span data-i18n="culture.water_tip4">Intuition peaks: evening</span>
                     </div>
                 </div>
             </div>
 
             <!-- Yin Yang Balance -->
             <div class="element-balance-block">
-                <h3>Yin Yang Balance</h3>
-                <p>The Five Elements exist within the broader framework of Yin and Yang — complementary forces that underpin all of Chinese philosophy. Every chart has a unique elemental mix, and no two are identical. Strength in one area often means weakness in another. A full BaZi reading maps these dynamics and reveals what your elemental profile truly means for your life path.</p>
+                <h3 data-i18n="culture.balance_title">Yin Yang Balance</h3>
+                <p data-i18n="culture.balance_desc">The Five Elements exist within the broader framework of Yin and Yang — complementary forces that underpin all of Chinese philosophy. Every chart has a unique elemental mix, and no two are identical. Strength in one area often means weakness in another. A full BaZi reading maps these dynamics and reveals what your elemental profile truly means for your life path.</p>
             </div>
 
         </div>
@@ -783,50 +798,50 @@
     <!-- FAQ Section -->
     <section style="padding: 5rem 5%; background: var(--bg-primary);">
         <div style="max-width: 800px; margin: 0 auto;">
-            <h2 style="font-family: var(--font-display); font-size: 1.8rem; color: var(--accent-color); text-align: center; margin-bottom: 2.5rem; letter-spacing: 0.1em;">Frequently Asked Questions</h2>
+            <h2 data-i18n="culture.faq_title" style="font-family: var(--font-display); font-size: 1.8rem; color: var(--accent-color); text-align: center; margin-bottom: 2.5rem; letter-spacing: 0.1em;">Frequently Asked Questions</h2>
 
             <div class="faq-item" onclick="this.classList.toggle('faq-active')">
-                <div class="faq-question">What are the Five Elements in Chinese metaphysics?</div>
-                <div class="faq-answer">The Five Elements (Wu Xing, 五行) are Wood, Fire, Earth, Metal, and Water — five fundamental forces that interact through generating and controlling cycles. In BaZi (Chinese astrology), every person has a unique elemental composition based on their birth date and time, which reveals their personality, strengths, and life patterns.</div>
+                <div class="faq-question" data-i18n="culture.faq1_q">What are the Five Elements in Chinese metaphysics?</div>
+                <div class="faq-answer" data-i18n="culture.faq1_a">The Five Elements (Wu Xing, 五行) are Wood, Fire, Earth, Metal, and Water — five fundamental forces that interact through generating and controlling cycles. In BaZi (Chinese astrology), every person has a unique elemental composition based on their birth date and time, which reveals their personality, strengths, and life patterns.</div>
             </div>
 
             <div class="faq-item" onclick="this.classList.toggle('faq-active')">
-                <div class="faq-question">How do I know which element I am in BaZi?</div>
-                <div class="faq-answer">Your primary element is determined by your Day Master — the Heavenly Stem of the day you were born. For example, if you were born on a day ruled by Jia (甲), your Day Master is Wood. You can find your Day Master instantly with our free BaZi calculator — just enter your birth date and time.</div>
+                <div class="faq-question" data-i18n="culture.faq2_q">How do I know which element I am in BaZi?</div>
+                <div class="faq-answer" data-i18n="culture.faq2_a">Your primary element is determined by your Day Master — the Heavenly Stem of the day you were born. For example, if you were born on a day ruled by Jia (甲), your Day Master is Wood. You can find your Day Master instantly with our free BaZi calculator — just enter your birth date and time.</div>
             </div>
 
             <div class="faq-item" onclick="this.classList.toggle('faq-active')">
-                <div class="faq-question">What happens if an element is missing from my BaZi chart?</div>
-                <div class="faq-answer">A missing element doesn't mean disaster — it simply means that quality is less accessible to you. For instance, missing Water might suggest difficulty with adaptability or deep reflection, while missing Fire could affect social confidence. The key is understanding which elements support or challenge your Day Master, not just counting what's present.</div>
+                <div class="faq-question" data-i18n="culture.faq3_q">What happens if an element is missing from my BaZi chart?</div>
+                <div class="faq-answer" data-i18n="culture.faq3_a">A missing element doesn't mean disaster — it simply means that quality is less accessible to you. For instance, missing Water might suggest difficulty with adaptability or deep reflection, while missing Fire could affect social confidence. The key is understanding which elements support or challenge your Day Master, not just counting what's present.</div>
             </div>
 
             <div class="faq-item" onclick="this.classList.toggle('faq-active')">
-                <div class="faq-question">How are the Five Elements related to health?</div>
-                <div class="faq-answer">In Traditional Chinese Medicine, each element governs specific organs: Wood for Liver and Gallbladder, Fire for Heart, Earth for Spleen and Stomach, Metal for Lungs, and Water for Kidneys. An imbalance in your BaZi chart may point to vulnerabilities in those areas — it's a framework for prevention, not diagnosis.</div>
+                <div class="faq-question" data-i18n="culture.faq4_q">How are the Five Elements related to health?</div>
+                <div class="faq-answer" data-i18n="culture.faq4_a">In Traditional Chinese Medicine, each element governs specific organs: Wood for Liver and Gallbladder, Fire for Heart, Earth for Spleen and Stomach, Metal for Lungs, and Water for Kidneys. An imbalance in your BaZi chart may point to vulnerabilities in those areas — it's a framework for prevention, not diagnosis.</div>
             </div>
 
             <div class="faq-item" onclick="this.classList.toggle('faq-active')">
-                <div class="faq-question">Can the Five Elements help me choose a career?</div>
-                <div class="faq-answer">Yes. Your Day Master element reveals your natural working style. Wood people thrive in creative and growth-oriented roles, Fire people excel in communication and leadership, Earth people shine in service and stability, Metal people prefer structure and precision, and Water people do well in strategy and research. A full BaZi reading maps your elemental strengths to career paths.</div>
+                <div class="faq-question" data-i18n="culture.faq5_q">Can the Five Elements help me choose a career?</div>
+                <div class="faq-answer" data-i18n="culture.faq5_a">Yes. Your Day Master element reveals your natural working style. Wood people thrive in creative and growth-oriented roles, Fire people excel in communication and leadership, Earth people shine in service and stability, Metal people prefer structure and precision, and Water people do well in strategy and research. A full BaZi reading maps your elemental strengths to career paths.</div>
             </div>
 
             <div class="faq-item" onclick="this.classList.toggle('faq-active')">
-                <div class="faq-question">What is the generating cycle (Sheng) of the Five Elements?</div>
-                <div class="faq-answer">Wood generates Fire, Fire generates Earth, Earth generates Metal, Metal generates Water, and Water generates Wood. This cycle represents nourishment, support, and growth. In BaZi, understanding which elements feed your Day Master helps identify your most supportive environments and relationships.</div>
+                <div class="faq-question" data-i18n="culture.faq6_q">What is the generating cycle (Sheng) of the Five Elements?</div>
+                <div class="faq-answer" data-i18n="culture.faq6_a">Wood generates Fire, Fire generates Earth, Earth generates Metal, Metal generates Water, and Water generates Wood. This cycle represents nourishment, support, and growth. In BaZi, understanding which elements feed your Day Master helps identify your most supportive environments and relationships.</div>
             </div>
 
             <div class="faq-item" onclick="this.classList.toggle('faq-active')">
-                <div class="faq-question">How accurate is a BaZi reading based on Five Elements?</div>
-                <div class="faq-answer">BaZi has been refined over 2,000 years and is built on precise astronomical calculations, not intuition. The accuracy depends on two things: correct birth data (date, time, and place) and a skilled interpreter. Our calculator handles the math perfectly — the insight comes from reading the patterns in your chart.</div>
+                <div class="faq-question" data-i18n="culture.faq7_q">How accurate is a BaZi reading based on Five Elements?</div>
+                <div class="faq-answer" data-i18n="culture.faq7_a">BaZi has been refined over 2,000 years and is built on precise astronomical calculations, not intuition. The accuracy depends on two things: correct birth data (date, time, and place) and a skilled interpreter. Our calculator handles the math perfectly — the insight comes from reading the patterns in your chart.</div>
             </div>
         </div>
     </section>
 
     <!-- CTA Section -->
     <section class="cta-section">
-        <h2>Discover Your Elemental Profile</h2>
-        <p>Your BaZi chart is a map of the Five Elements at your birth moment. Enter your birth details and see your elemental composition, Day Master, and what it all means — in seconds.</p>
-        <a href="/#free-bazi" class="cta-btn">Try Your Free BaZi Reading</a>
+        <h2 data-i18n="culture.cta_title">Discover Your Elemental Profile</h2>
+        <p data-i18n="culture.cta_desc">Your BaZi chart is a map of the Five Elements at your birth moment. Enter your birth details and see your elemental composition, Day Master, and what it all means — in seconds.</p>
+        <a href="/#free-bazi" class="cta-btn" data-i18n="culture.cta_btn">Try Your Free BaZi Reading</a>
     </section>
 
     <!-- Footer -->
@@ -932,5 +947,6 @@
             observer.observe(el);
         });
     </script>
+    <script src="/js/i18n-switcher.js" defer></script>
 </body>
 </html>

@@ -66,21 +66,36 @@ const NAV_HTML = `
                     <div class="logo-text"><span class="logo-en">DAO ESSENCE</span></div>
                 </a>
                 <ul class="nav-menu">
-                    <li><a href="/" class="nav-link">Home</a></li>
+                    <li><a href="/" class="nav-link" data-i18n="common.home">Home</a></li>
                     <li class="nav-dropdown">
-                        <a href="/blog/" class="nav-dropdown-trigger">Blog <i class="nav-dropdown-arrow"></i></a>
+                        <a href="/blog/" class="nav-dropdown-trigger" data-i18n="common.blog">Blog <i class="nav-dropdown-arrow"></i></a>
                         <div class="nav-dropdown-menu">
-                            <a href="/blog/">All Articles</a>
-                            <a href="/blog/bazi-astrology">BaZi Astrology</a>
-                            <a href="/blog/zodiac-horoscope">Chinese Zodiac</a>
-                            <a href="/blog/feng-shui">Feng Shui</a>
-                            <a href="/blog/daily-horoscope">Daily Horoscope</a>
-                            <a href="/blog/lucky-tips">Lucky Tips</a>
+                            <a href="/blog/" data-i18n="nav.blog_all_articles">All Articles</a>
+                            <a href="/blog/bazi-astrology" data-i18n="nav.blog_bazi">BaZi Astrology</a>
+                            <a href="/blog/zodiac-horoscope" data-i18n="nav.blog_zodiac">Chinese Zodiac</a>
+                            <a href="/blog/feng-shui" data-i18n="nav.blog_feng_shui">Feng Shui</a>
+                            <a href="/blog/daily-horoscope" data-i18n="nav.blog_daily">Daily Horoscope</a>
+                            <a href="/blog/lucky-tips" data-i18n="nav.blog_lucky_tips">Lucky Tips</a>
                         </div>
                     </li>
-                    <li><a href="/culture" class="nav-link">Five Elements</a></li>
-                    <li><a href="/shop" class="nav-link">Shop</a></li>
-                    <li><a href="/about" class="nav-link">About Us</a></li>
+                    <li><a href="/culture" class="nav-link" data-i18n="common.five_elements">Five Elements</a></li>
+                    <li><a href="/shop" class="nav-link" data-i18n="common.shop">Shop</a></li>
+                    <li><a href="/about" class="nav-link" data-i18n="common.about_us">About Us</a></li>
+                    <li class="nav-dropdown">
+                        <a href="#" class="nav-dropdown-trigger lang-switcher-trigger" id="lang-trigger">
+                            <span class="lang-flag" id="lang-flag">🇺🇸</span>
+                            <span class="lang-label" id="lang-label">EN</span>
+                            <i class="nav-dropdown-arrow"></i>
+                        </a>
+                        <div class="nav-dropdown-menu" id="lang-menu">
+                            <a href="#" data-lang="en" class="lang-option active">
+                                <span class="lang-flag">🇺🇸</span> English
+                            </a>
+                            <a href="#" data-lang="zh" class="lang-option">
+                                <span class="lang-flag">🇹🇼</span> 繁體中文
+                            </a>
+                        </div>
+                    </li>
                 </ul>
                 <button class="mobile-menu-btn"><span></span><span></span><span></span></button>
             </nav>
@@ -1026,6 +1041,7 @@ ${NAV_HTML}
     </div>
 
 ${FOOTER_HTML}
+    <script src="/js/i18n-switcher.js" defer></script>
 </body>
 </html>`;
 }
@@ -1132,6 +1148,7 @@ ${cardHtml}
     </main>
 
 ${FOOTER_HTML}
+    <script src="/js/i18n-switcher.js" defer></script>
 </body>
 </html>`;
 }
@@ -1247,14 +1264,14 @@ ${NAV_HTML}
 
     <main class="blog-home">
         <div class="blog-home-header">
-            <h1>${isZh ? '部落格' : 'Blog'}</h1>
-            <p>${isZh ? '古老智慧，現代洞察。探索八字命理、風水、冥想與五行等文章。' : 'Ancient wisdom meets modern insight. Explore articles on BaZi astrology, Feng Shui, meditation, and the Five Elements.'}</p>
+            <h1 data-i18n="blog.title">${isZh ? '部落格' : 'Blog'}</h1>
+            <p data-i18n="blog.desc">${isZh ? '古老智慧，現代洞察。探索八字命理、風水、冥想與五行等文章。' : 'Ancient wisdom meets modern insight. Explore articles on BaZi astrology, Feng Shui, meditation, and the Five Elements.'}</p>
         </div>
 
         <div class="blog-main-layout">
             <div class="blog-main-content">
                 <section class="blog-latest">
-                    <h2 class="blog-section-title">${isZh ? '最新文章' : 'Latest Articles'}</h2>
+                    <h2 class="blog-section-title" data-i18n="blog.latest_articles">${isZh ? '最新文章' : 'Latest Articles'}</h2>
                     <div class="blog-card-list">
 ${latestCards}
                     </div>
@@ -1263,20 +1280,21 @@ ${latestCards}
 
             <aside class="blog-sidebar">
                 <div class="blog-home-cta">
-                    <h3>Discover Your True Destiny</h3>
-                    <p class="cta-sub">Unlock the secrets hidden in your birth chart. Get a complete BaZi reading with Four Pillars of Destiny analysis.</p>
+                    <h3 data-i18n="blog.cta_title">Discover Your True Destiny</h3>
+                    <p class="cta-sub" data-i18n="blog.cta_desc">Unlock the secrets hidden in your birth chart. Get a complete BaZi reading with Four Pillars of Destiny analysis.</p>
                     <div class="cta-features">
-                        <div class="cta-feat"><span>\u2728</span> Four Pillars Reading</div>
-                        <div class="cta-feat"><span>\u2B50</span> Five Elements Analysis</div>
-                        <div class="cta-feat"><span>\u{1F52E}</span> Life Path Insights</div>
+                        <div class="cta-feat"><span>\u2728</span> <span data-i18n="blog.cta_feat1">Four Pillars Reading</span></div>
+                        <div class="cta-feat"><span>\u2B50</span> <span data-i18n="blog.cta_feat2">Five Elements Analysis</span></div>
+                        <div class="cta-feat"><span>\u{1F52E}</span> <span data-i18n="blog.cta_feat3">Life Path Insights</span></div>
                     </div>
-                    <a href="/#free-bazi">Get Your Free BaZi Reading</a>
+                    <a href="/#free-bazi" data-i18n="blog.cta_btn">Get Your Free BaZi Reading</a>
                 </div>
             </aside>
         </div>
     </main>
 
 ${FOOTER_HTML}
+    <script src="/js/i18n-switcher.js" defer></script>
 </body>
 </html>`;
 }
