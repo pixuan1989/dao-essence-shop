@@ -1366,6 +1366,12 @@
             resultEl.scrollIntoView({behavior:'smooth', block:'nearest'});
         }
 
+        // Re-render when i18n translations finish loading
+        document.addEventListener('daoessence:i18n-changed', function () {
+            renderToday();
+            renderCalendar();
+        });
+
         // ===== START =====
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', init);
