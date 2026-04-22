@@ -276,6 +276,11 @@
     // correct language version instead.
     var pathname = window.location.pathname;
     if (lang === 'zh') {
+      // EN → ZH: homepage redirect
+      if (pathname === '/' || pathname === '/index.html') {
+        window.location.href = '/zh/';
+        return;
+      }
       // EN → ZH: /blog/slug → /zh/blog/slug
       var enMatch = pathname.match(/^\/blog\/(.+)$/);
       if (enMatch) {
@@ -294,6 +299,11 @@
         return;
       }
     } else {
+      // ZH → EN: /zh/ homepage → /
+      if (pathname === '/zh/' || pathname === '/zh' || pathname === '/zh/index.html') {
+        window.location.href = '/';
+        return;
+      }
       // ZH → EN: /zh/blog/slug → /blog/slug
       var zhMatch = pathname.match(/^\/zh\/blog\/(.+)$/);
       if (zhMatch) {

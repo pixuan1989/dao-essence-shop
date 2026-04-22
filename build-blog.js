@@ -1663,6 +1663,72 @@ async function main() {
     console.log(`  Updated: index.html (${displayArticles.length} articles: ${pinnedArticles.length} pinned + ${displayArticles.length - pinnedArticles.length} latest)`);
   }
 
+  // Step 7b: Generate zh homepage (dist/zh/index.html) with zh article cards
+  if (zhArticles.length > 0) {
+    console.log('Generating zh homepage...');
+    const zhHomeDir = path.join(DIST_DIR, 'zh');
+    fs.mkdirSync(zhHomeDir, { recursive: true });
+    const zhHomePath = path.join(zhHomeDir, 'index.html');
+
+    // Start from the EN index.html that was just updated with article cards
+    const enHomeHtml = fs.readFileSync(homeIndexPath, 'utf-8');
+
+    // Build zh article cards using the same pinned/latest logic
+    const zhPinned = zhArticles.filter(a => a.data.pinned === true);
+    const zhRegular = zhArticles.filter(a => a.data.pinned !== true);
+    const zhPinnedSlugs = new Set(zhPinned.map(a => a.slug));
+    const zhFiltered = zhRegular.filter(a => !zhPinnedSlugs.has(a.slug));
+    zhFiltered.sort((a, b) => new Date(b.data.date) - new Date(a.data.date));
+    const zhDisplay = [
+      ...zhPinned,
+      ...zhFiltered.slice(0, Math.max(0, homepageCount - zhPinned.length))
+    ].slice(0, homepageCount);
+
+    const zhCardsHtml = zhDisplay.map(post => {
+      const catLabel = CATEGORY_LABELS_ZH[post.category] || post.category || '部落格';
+      let imgSrc = post.data.image || SITE_URL + '/images/og-default.jpg';
+      imgSrc = imgSrc.replace(/\/feature\/blog-cms\//g, '/main/');
+      if (!imgSrc || imgSrc === '""') imgSrc = SITE_URL + '/images/og-default.jpg';
+      const dateStr = formatDate(post.data.date);
+      return `                <a href="/zh/blog/${post.slug}" class="article-card scroll-animate">
+                    <div class="article-card-image">
+                        <img src="${imgSrc}" alt="${escapeHtml(post.data.title)}" loading="lazy" onerror="this.src='${SITE_URL}/images/og-default.jpg'">
+                    </div>
+                    <div class="article-card-body">
+                        <span class="article-card-category">${escapeHtml(catLabel)}</span>
+                        <h3>${escapeHtml(post.data.title)}</h3>
+                        <p>${escapeHtml(post.data.description || '')}</p>
+                        <div class="article-card-meta">
+                            <span>${escapeHtml(normalizeAuthor(post.data.author))}</span>
+                            ${dateStr ? `<span>${dateStr}</span>` : ''}
+                            ${post.data.readTime ? `<span>${post.data.readTime} 分鐘閱讀</span>` : ''}
+                        </div>
+                    </div>
+                </a>`;
+    }).join('\n');
+
+    let zhHomeHtml = enHomeHtml.replace(
+      /<div class="articles-list">[\s\S]*?<\/div>\s*(<div class="articles-more">)/,
+      `<div class="articles-list">\n${zhCardsHtml}\n            </div>\n            $1`
+    );
+
+    // Update internal links to add /zh/ prefix for blog pages
+    zhHomeHtml = zhHomeHtml.replace(/href="\/blog\//g, 'href="/zh/blog/');
+    zhHomeHtml = zhHomeHtml.replace(/href="\/(soulmate-calculator|favorable-element|almanac|five-elements-test|bazi-form|shop|about|guide|destiny|culture|privacy|terms)"/g, 'href="/$1"');
+
+    // Update "Browse All Articles" link
+    zhHomeHtml = zhHomeHtml.replace(/href="\/blog">Browse All Articles<\/a>/, 'href="/zh/blog">瀏覽所有文章</a>');
+    zhHomeHtml = zhHomeHtml.replace(/href="\/blog">.*?<\/a>/g, (match) => {
+      if (match.includes('Browse All') || match.includes('瀏覽')) {
+        return 'href="/zh/blog">瀏覽所有文章</a>';
+      }
+      return match;
+    });
+
+    fs.writeFileSync(zhHomePath, zhHomeHtml);
+    console.log(`  Generated: dist/zh/index.html (${zhDisplay.length} zh articles)`);
+  }
+
   // Step 8: Generate dynamic sitemap.xml
   console.log('Generating sitemap.xml...');
   const today = new Date().toISOString().split('T')[0];
