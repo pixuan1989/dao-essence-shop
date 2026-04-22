@@ -844,6 +844,7 @@
         'use strict';
 
         var t = function(key) { return window.DaoI18n && window.DaoI18n.t ? window.DaoI18n.t(key) : key; };
+        var isZh = function() { return window.DaoI18n && window.DaoI18n.current() === 'zh'; };
 
         // Check if library loaded
         if (typeof Solar === 'undefined') {
@@ -859,9 +860,12 @@
         const GAN_ELEMENT = {'甲':'Wood','乙':'Wood','丙':'Fire','丁':'Fire','戊':'Earth','己':'Earth','庚':'Metal','辛':'Metal','壬':'Water','癸':'Water'};
         const WUXING_COLORS = {'Wood':'Green, Sage','Fire':'Red, Orange','Earth':'Beige, Brown','Metal':'White, Silver','Water':'Blue, Black'};
         const WUXING_NUMBERS = {'Wood':'3, 8','Fire':'2, 7','Earth':'5, 0','Metal':'4, 9','Water':'1, 6'};
+        const WUXING_COLORS_ZH = {'Wood':'綠色、鼠尾草綠','Fire':'紅色、橙色','Earth':'米色、棕色','Metal':'白色、銀色','Water':'藍色、黑色'};
+        const WUXING_NUMBERS_ZH = {'Wood':'3, 8','Fire':'2, 7','Earth':'5, 0','Metal':'4, 9','Water':'1, 6'};
 
         const ZHIXING_SCORE = {'建':3,'除':3,'满':3,'平':2,'定':3,'执':2,'破':1,'危':1,'成':4,'收':2,'开':3,'闭':1};
         const ZHIXING_EN = {'建':'Establishment','除':'Removal','满':'Fullness','平':'Balance','定':'Stability','执':'Perseverance','破':'Breakthrough','危':'Danger','成':'Completion','收':'Harvest','开':'Opening','闭':'Closure'};
+        const ZHIXING_ZH = {'建':'建日','除':'除日','满':'滿日','平':'平日','定':'定日','执':'執日','破':'破日','危':'危日','成':'成日','收':'收日','开':'開日','闭':'閉日'};
         const HUANGDAO = ['青龙','明堂','金匮','天德','玉堂','司命'];
 
         const YI_MAP = {
@@ -876,6 +880,19 @@
             '安葬':'Memorial, Funeral','破土':'Burial, Grave Work',
             '冠笄':'Coming of Age','裁衣':'Tailoring, Sewing','纳畜':'Buying Livestock',
             '牧养':'Animal Husbandry','捕捉':'Hunting, Fishing','种殖':'Planting, Farming'
+        };
+        const YI_MAP_ZH = {
+            '嫁娶':'嫁娶、婚禮','纳采':'訂婚、提親','问名':'訂婚儀式',
+            '开市':'開業、開張','开仓':'開店','立券':'簽訂協議',
+            '交易':'買賣、交換','签约':'合約、交易','纳財':'收取收入',
+            '移徙':'搬遷、遷移','出行':'旅行、出門','渡水':'水路出行',
+            '入宅':'入宅、搬家','安床':'安床','修造':'裝修',
+            '动土':'動土、施工','上梁':'上樑、建築','置产':'購置房產',
+            '求医':'就醫、看診','服药':'服藥',
+            '祈福':'祈福','开光':'開光、新開始',
+            '安葬':'安葬','破土':'破土、墓地工作',
+            '冠笄':'成年禮','裁衣':'裁衣','纳畜':'購買牲畜',
+            '牧养':'畜牧','捕捉':'狩獵、捕魚','种殖':'種植、農作'
         };
         const SCENARIO_YI = {
             marry:['嫁娶','纳采','问名'],
@@ -899,12 +916,26 @@
             'Metal':'White, silver, or gold. Clean lines and minimal layers work best today.',
             'Water':'Blue, black, or deep navy. Flowing fabrics and fluid shapes carry good energy.'
         };
+        const DRESS_TIPS_ZH = {
+            'Wood':'穿綠色或大地色調。天然纖維如亞麻、棉質帶有正確能量。',
+            'Fire':'搭配紅色、橙色或暖紫色。讓你的氣場大膽而溫暖。',
+            'Earth':'選擇米色、棕色或卡其色。穩重踏實的顏色適合穩定的日子。',
+            'Metal':'白色、銀色或金色。簡潔線條與極簡層次最適合今天。',
+            'Water':'藍色、黑色或深海藍。流動的布料與飄逸的造型帶來好能量。'
+        };
         const ACTION_TIPS = {
             'Wood':'Creative energy peaks today. Start new projects, pitch ideas, and initiate conversations you have been delaying.',
             'Fire':'Social magnetism is strong. Schedule meetings, host gatherings, and let your charisma lead.',
             'Earth':'Focus on organization and stability. Follow through on promises, nurture key relationships.',
             'Metal':'Financial decisions and contracts favor you. Be decisive, cut through ambiguity.',
             'Water':'Deep thinking and research day. Trust your gut over spreadsheets. Reflection yields insights.'
+        };
+        const ACTION_TIPS_ZH = {
+            'Wood':'今日創造力巔峰。啟動新專案、提案、發起你一直拖延的對話。',
+            'Fire':'社交魅力強大。安排會議、舉辦聚會，讓你的感染力發揮作用。',
+            'Earth':'專注於整理與穩定。信守承諾、培養關鍵人際關係。',
+            'Metal':'財務決策與合約有利於你。果斷行動，擺脫模糊。',
+            'Water':'深度思考與研究日。相信直覺而非數據。反思帶來洞察。'
         };
 
         // ===== STATE =====
@@ -1048,17 +1079,20 @@
 
             // Directions (translate Chinese to English)
             const DIR_EN = {'正东':'East','正南':'South','正西':'West','正北':'North','东北':'Northeast','东南':'Southeast','西南':'Southwest','西北':'Northwest'};
-            const caiDir = DIR_EN[l.getDayPositionCaiDesc()] || l.getDayPositionCaiDesc();
-            const xiDir = DIR_EN[l.getDayPositionXiDesc()] || l.getDayPositionXiDesc();
+            const DIR_ZH = {'正东':'正東','正南':'正南','正西':'正西','正北':'正北','东北':'東北','东南':'東南','西南':'西南','西北':'西北'};
+            const caiDir = isZh() ? (DIR_ZH[l.getDayPositionCaiDesc()] || l.getDayPositionCaiDesc()) : (DIR_EN[l.getDayPositionCaiDesc()] || l.getDayPositionCaiDesc());
+            const xiDir = isZh() ? (DIR_ZH[l.getDayPositionXiDesc()] || l.getDayPositionXiDesc()) : (DIR_EN[l.getDayPositionXiDesc()] || l.getDayPositionXiDesc());
 
             // Clash
             const clashIdx = ZHI.indexOf(l.getDayChong());
-            const clashAnimal = ZODIAC_EN[clashIdx] || 'Unknown';
+            const clashAnimal = isZh()
+                ? l.getDayChong() // Chinese: show 地支 directly
+                : (ZODIAC_EN[clashIdx] || 'Unknown');
 
             return {
                 date: new Date(year, month, day),
                 dayGan, dayZhi, dayElement,
-                zhiXing, zhiXingEn: ZHIXING_EN[zhiXing] || zhiXing,
+                zhiXing, zhiXingEn: isZh() ? (ZHIXING_ZH[zhiXing] || zhiXing) : (ZHIXING_EN[zhiXing] || zhiXing),
                 tianShen, tianShenType, rating,
                 yi: yiList, ji: jiList,
                 caiDir, xiDir,
@@ -1071,7 +1105,7 @@
             const now = new Date();
             const dd = getDayData(now.getFullYear(), now.getMonth(), now.getDate());
             const opts = {weekday:'long', year:'numeric', month:'long', day:'numeric'};
-            const dateStr = now.toLocaleDateString('en-US', opts);
+            const dateStr = now.toLocaleDateString(isZh() ? 'zh-TW' : 'en-US', opts);
 
             document.getElementById('todayDateLabel').textContent = dateStr;
 
@@ -1115,7 +1149,7 @@
 
             // Lucky info
             const luckyEl = document.getElementById('todayLucky');
-            const wuxingColors = WUXING_COLORS[dd.dayElement] || 'Any';
+            const wuxingColors = isZh() ? (WUXING_COLORS_ZH[dd.dayElement] || '任何') : (WUXING_COLORS[dd.dayElement] || 'Any');
             const wuxingNumbers = WUXING_NUMBERS[dd.dayElement] || '-';
             luckyEl.innerHTML = `
                 <div class="lucky-row">
@@ -1220,7 +1254,7 @@
         function showDayDetail(dd) {
             const panel = document.getElementById('dayDetail');
             const opts = {weekday:'short', month:'short', day:'numeric'};
-            const dateStr = dd.date.toLocaleDateString('en-US', opts);
+            const dateStr = dd.date.toLocaleDateString(isZh() ? 'zh-TW' : 'en-US', opts);
 
             let starsHtml = '';
             for (let i = 0; i < 5; i++) {
@@ -1264,7 +1298,7 @@
                     </div>
                     <div class="lucky-item">
                         <div class="lucky-label">${t('almanac.colors_to_wear')}</div>
-                        <div class="lucky-value">${WUXING_COLORS[dd.dayElement] || 'Any'}</div>
+                        <div class="lucky-value">${isZh() ? (WUXING_COLORS_ZH[dd.dayElement] || '任何') : (WUXING_COLORS[dd.dayElement] || 'Any')}</div>
                     </div>
                     <div class="lucky-item">
                         <div class="lucky-label">${t('almanac.lucky_numbers')}</div>
@@ -1284,13 +1318,13 @@
             const titleEl = document.getElementById('resultTitle');
 
             const scenarioNames = {
-                marry:'Getting Married', business:'Starting Business', moving:'Moving Home',
-                contract:'Signing Contract', travel:'Travel / Vacation', purchase:'Major Purchase',
-                medical:'Medical Procedure', housewarm:'Housewarming',
-                engagement:'Getting Engaged', interview:'Job Interview',
-                pet_vet:'Pet Vet Visit', date:'Going on a Date'
+                marry: t('almanac.scenario_marry'), business: t('almanac.scenario_business'), moving: t('almanac.scenario_moving'),
+                contract: t('almanac.scenario_contract'), travel: t('almanac.scenario_travel'), purchase: t('almanac.scenario_purchase'),
+                medical: t('almanac.scenario_medical'), housewarm: t('almanac.scenario_housewarm'),
+                engagement: t('almanac.scenario_engagement'), interview: t('almanac.scenario_interview'),
+                pet_vet: t('almanac.scenario_pet_vet'), date: t('almanac.scenario_date')
             };
-            titleEl.textContent = 'Best days for ' + (scenarioNames[activeScenario] || activeScenario) + ' this month:';
+            titleEl.textContent = isZh() ? '本月最佳日期：' + (scenarioNames[activeScenario] || activeScenario) : 'Best days for ' + (scenarioNames[activeScenario] || activeScenario) + ' this month:';
 
             const needed = SCENARIO_YI[activeScenario] || [];
             const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
@@ -1309,17 +1343,17 @@
             results.sort((a, b) => b.rating - a.rating);
 
             if (results.length === 0) {
-                listEl.innerHTML = '<li style="color:var(--text-muted);justify-content:center;">No ideal dates found this month. Try next month.</li>';
+                listEl.innerHTML = '<li style="color:var(--text-muted);justify-content:center;">' + (isZh() ? '本月未找到理想日期，請嘗試下個月。' : 'No ideal dates found this month. Try next month.') + '</li>';
             } else {
                 const topCount = Math.min(results.length, 10);
                 let html = '';
                 for (let i = 0; i < topCount; i++) {
                     const r = results[i];
-                    const dateStr = r.date.toLocaleDateString('en-US', {weekday:'short', month:'short', day:'numeric'});
+                    const dateStr = r.date.toLocaleDateString(isZh() ? 'zh-TW' : 'en-US', {weekday:'short', month:'short', day:'numeric'});
                     const isTop = i < 3 && r.rating >= 4;
-                    const reason = r.rating >= 5 ? 'Best'
-                        : r.rating >= 4 ? 'Good'
-                        : 'Fair';
+                    const reason = r.rating >= 5 ? (isZh() ? '最佳' : 'Best')
+                        : r.rating >= 4 ? (isZh() ? '良好' : 'Good')
+                        : (isZh() ? '一般' : 'Fair');
                     html += `<li class="${isTop ? 'top-pick' : ''}">
                         <span class="result-date">${dateStr}</span>
                         <span class="result-reason">${reason}</span>

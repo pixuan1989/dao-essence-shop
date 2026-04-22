@@ -1421,6 +1421,51 @@
         var elements = _e.slice(22, 27);
         var styleNames = _e.slice(27, 32);
         var elemIdx = {'Wood':0,'Fire':1,'Earth':2,'Metal':3,'Water':4};
+        // Chinese parallel data for i18n
+        var animalsZh = ['鼠','牛','虎','兔','龍','蛇','馬','羊','猴','雞','狗','豬'];
+        var directionsZh = ['東','南','中','西','北'];
+        var subDirsZh = ['東南','西南','西北','東北'];
+        var elementsZh = ['木','火','土','金','水'];
+        var styleNamesZh = ['浪漫探索者','熱情火花','忠誠基石','精緻伴侶','深層直覺'];
+        var envsZh = [
+            '公園、花園、書店、大學、創意工作坊和綠意盎然的地方',
+            '節慶活動、社交聚會、表演場館、陽光沙灘和充滿活力的夜生活區',
+            '舒適的咖啡館、溫馨的家、農夫市集、安靜的餐廳和自然度假地',
+            '博物館、藝術畫廊、奢華場所、專業社交活動和現代都市空間',
+            '河邊、湖邊或海邊；寧靜的度假地、靈性中心和雨夜的聚會'
+        ];
+        var traitsZh = [
+            [
+                ['成長導向','你將愛情視為共同成長與探索的旅程'],
+                ['創意伴侶','你透過細心舉動和共同冒險來表達愛'],
+                ['社交連接者','你可能透過朋友或創意社群遇到靈魂伴侶'],
+                ['需要空間','你在尊重獨立與個人成長的關係中最能蓬勃發展']
+            ],
+            [
+                ['強烈化學反應','愛情來得快速而深刻——你瞬間就能認出靈魂伴侶的能量'],
+                ['戲劇之心','你喜歡盛大的浪漫舉動和關係中的情感深度'],
+                ['溫暖領袖','你天生以魅力和溫暖吸引人'],
+                ['急躁的戀人','你可能衝動進入——學會耐心帶來持久的愛']
+            ],
+            [
+                ['穩定追求者','你想要一種像家一樣的愛——安全、溫暖、持久'],
+                ['滋養靈魂','你透過關懷、安慰和始終如一的陪伴來展現愛'],
+                ['慢熱開放','你需要時間來信任，但一旦承諾，你的忠誠不可動搖'],
+                ['共同價值觀','財務和人生目標的契合對你來說很重要']
+            ],
+            [
+                ['高標準','你清楚知道自己想要什麼，拒絕將就'],
+                ['質量勝於數量','你偏好少而深刻的連結'],
+                ['公正持平','你重視平等、尊重和清晰的愛情溝通'],
+                ['優雅的戀人','你以精緻品味和深思熟慮的精準來表達愛']
+            ],
+            [
+                ['情感深度','你在大多數人無法表達的層面上感受愛'],
+                ['直覺連接者','你經常在理性證據出現之前就感應到靈魂伴侶能量'],
+                ['夢幻浪漫者','你需要一個理解你內心世界和敏感度的伴侶'],
+                ['適應性強的心','你能跨越差異、文化和距離去愛']
+            ]
+        ];
 
         // ===== Five Elements conquering cycle (五行相克) =====
         // 金克木、木克土、土克水、水克火、火克金
@@ -1431,11 +1476,10 @@
         // Direction mapping with 火土同宫 (fire & earth share south+local)
         // From core logic: elementDirectionMap
         var elementDirectionMap = {
-            wood: ['East'],
-            fire: ['South', 'Local'],
-            earth: ['South', 'Local'],
-            metal: ['West'],
-            water: ['North']
+            wood: ['East'], fire: ['South', 'Local'], earth: ['South', 'Local'], metal: ['West'], water: ['North']
+        };
+        var elementDirectionMapZh = {
+            wood: ['東'], fire: ['南', '本地'], earth: ['南', '本地'], metal: ['西'], water: ['北']
         };
 
         // Calculate soulmate direction dynamically (not hardcoded per element)
@@ -1457,7 +1501,9 @@
                     }
                 }
             }
-            var dirs = elementDirectionMap[soulmateElem] || ['Unknown'];
+            var dirs = (typeof isZh === 'function' && isZh())
+                ? (elementDirectionMapZh[soulmateElem] || ['未知'])
+                : (elementDirectionMap[soulmateElem] || ['Unknown']);
             return {
                 directions: dirs,
                 soulmateElement: soulmateElem.charAt(0).toUpperCase() + soulmateElem.slice(1),
@@ -1563,7 +1609,9 @@
                     ['Adaptable heart','You can love across differences, cultures, and distances']
                 ]
             ],
-            envs: _e.slice(32, 37)
+            envs: _e.slice(32, 37),
+            animalsZh: animalsZh, directionsZh: directionsZh, subDirsZh: subDirsZh,
+            elementsZh: elementsZh, styleNamesZh: styleNamesZh, traitsZh: traitsZh, envsZh: envsZh
         };
     })();
 
@@ -1805,10 +1853,11 @@
 
     function renderResults(pp, dayElemEn, gender, birthplace) {
         var t = window.DaoI18n ? window.DaoI18n.t.bind(window.DaoI18n) : function(k){return k;};
+        var isZh = window.DaoI18n && window.DaoI18n.current() === 'zh';
         var ei = _0x.elemIdx[dayElemEn];
-        var sn = _0x.styleNames[ei];
-        var tr = _0x.traits[ei];
-        var env = _0x.envs[ei];
+        var sn = isZh ? _0x.styleNamesZh[ei] : _0x.styleNames[ei];
+        var tr = isZh ? _0x.traitsZh[ei] : _0x.traits[ei];
+        var env = isZh ? _0x.envsZh[ei] : _0x.envs[ei];
 
         // Direction: dynamic via conquering cycle
         var dirResult = _0x.calcSoulmateDirection(dayElemEn, gender);
@@ -1859,7 +1908,7 @@
             var tier = scoreToTier(score);
             var yTG = (targetYear - 4) % 10;
             var yDZ = ((targetYear - 4) % 12 + 12) % 12;
-            var zodiacAnimal = _0x.animals[yDZ];
+            var zodiacAnimal = isZh ? _0x.animalsZh[yDZ] : _0x.animals[yDZ];
             var barW = Math.max(score, 8); // min visual width
             var isLocked = y > 1 && !isUnlocked;
 
