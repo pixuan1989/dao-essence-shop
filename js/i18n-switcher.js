@@ -197,26 +197,45 @@
     currentLang = lang;
     saveLang(lang);
 
-    // ── Blog article redirect ──
-    // Blog articles are built as separate EN / zh-Hant HTML files at build time.
+    // ── Blog redirect ──
+    // Blog articles/pages are built as separate EN / zh-Hant HTML files at build time.
     // Runtime DOM replacement cannot translate article body — redirect to the
     // correct language version instead.
     var pathname = window.location.pathname;
-    if (lang !== DEFAULT_LANG) {
+    if (lang === 'zh') {
       // EN → ZH: /blog/slug → /zh/blog/slug
       var enMatch = pathname.match(/^\/blog\/(.+)$/);
       if (enMatch) {
         window.location.href = '/zh/blog/' + enMatch[1];
         return;
       }
-      // EN → ZH: /shop → /zh/shop (shop uses DOM i18n, no redirect needed)
-      // EN → ZH: other pages (e.g. /about, /privacy) → /zh/other-pages
-      // These pages use data-i18n for translation, so no redirect.
+      // EN → ZH: /blog/ → /zh/blog/
+      if (pathname === '/blog/' || pathname === '/blog' || pathname === '/blog/index.html') {
+        window.location.href = '/zh/blog/';
+        return;
+      }
+      // EN → ZH: /blog/category → /zh/blog/category
+      var enCatMatch = pathname.match(/^\/blog\/(bazi-astrology|zodiac-horoscope|feng-shui|daily-horoscope|lucky-tips)(\.html)?$/);
+      if (enCatMatch) {
+        window.location.href = '/zh/blog/' + enCatMatch[1] + '/';
+        return;
+      }
     } else {
       // ZH → EN: /zh/blog/slug → /blog/slug
       var zhMatch = pathname.match(/^\/zh\/blog\/(.+)$/);
       if (zhMatch) {
         window.location.href = '/blog/' + zhMatch[1];
+        return;
+      }
+      // ZH → EN: /zh/blog/ → /blog/
+      if (pathname === '/zh/blog/' || pathname === '/zh/blog' || pathname === '/zh/blog/index.html') {
+        window.location.href = '/blog/';
+        return;
+      }
+      // ZH → EN: /zh/blog/category → /blog/category
+      var zhCatMatch = pathname.match(/^\/zh\/blog\/(bazi-astrology|zodiac-horoscope|feng-shui|daily-horoscope|lucky-tips)(\.html)?$/);
+      if (zhCatMatch) {
+        window.location.href = '/blog/' + zhCatMatch[1] + '.html';
         return;
       }
       // ZH → EN: /zh/shop → /shop
@@ -304,6 +323,7 @@
         console.warn('i18n: init failed for', currentLang, err);
       });
     } else {
+      // currentLang === DEFAULT_LANG === 'en': no redirect needed, just init UI
       updateSwitcherUI(DEFAULT_LANG);
       highlightActiveOption(DEFAULT_LANG);
       document.dispatchEvent(new CustomEvent('daoessence:i18n-changed', { detail: { lang: DEFAULT_LANG } }));

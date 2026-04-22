@@ -185,8 +185,8 @@ async function loadProductZhMap() {
   }
 }
 
-// Preload the map
-loadProductZhMap();
+// Preload the map (will be awaited in syncCreemProducts)
+var productZhMapPromise = loadProductZhMap();
 
 /**
  * 获取商品的中文翻译
@@ -264,6 +264,9 @@ async function syncCreemProducts() {
   console.log('🚀 开始 Creem 产品同步...');
   
   try {
+    // 第0步：确保 PRODUCT_ZH_MAP 已加载
+    await productZhMapPromise;
+    
     // 第1步：检查缓存
     let products = getFromCache();
     

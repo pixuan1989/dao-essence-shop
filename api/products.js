@@ -222,7 +222,7 @@ function transformCreemProduct(creemProduct, discountInfo) {
     id: creemProduct.id,
     creemId: creemProduct.id,
     name: creemProduct.name,
-    nameCN: creemProduct.name,              // Creem 后台直接用中文名
+    nameCN: '',              // Left empty — filled by frontend from product-zh-map.json
     category: creemProduct.category || 'other',
     categoryCN: creemProduct.category || 'other',
     element: creemProduct.element || 'unknown',
@@ -233,7 +233,7 @@ function transformCreemProduct(creemProduct, discountInfo) {
     discountCode: discountCode,             // 🔥 折扣码（展示用）
     currency: creemProduct.currency || 'USD',
     description: creemProduct.description || '',
-    descriptionCN: creemProduct.description || '',
+    descriptionCN: '',
     image: creemProduct.image_url || creemProduct.image || '',
     image_url: creemProduct.image_url || creemProduct.image || '',
     images: [creemProduct.image_url || creemProduct.image || ''],
