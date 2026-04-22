@@ -1359,6 +1359,20 @@ async function main() {
 
   console.log(`Found ${allArticles.length} English articles`);
 
+  // Step 3a: Auto-sync product Chinese translations (if DASHSCOPE_API_KEY is set)
+  if (process.env.DASHSCOPE_API_KEY) {
+    try {
+      console.log('Syncing product Chinese translations...');
+      const { syncProductTranslations } = await import('./scripts/sync-product-zh.mjs');
+      await syncProductTranslations();
+      console.log('Product translation sync complete.');
+    } catch (err) {
+      console.warn(`  ⚠️ Product translation sync skipped: ${err.message}`);
+    }
+  } else {
+    console.log('DASHSCOPE_API_KEY not set — skipping product translation sync.');
+  }
+
   // Step 3b: Auto-translate new articles to Traditional Chinese (if DASHSCOPE_API_KEY is set)
   let zhArticles = [];
   if (process.env.DASHSCOPE_API_KEY) {

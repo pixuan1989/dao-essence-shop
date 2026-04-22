@@ -162,15 +162,31 @@ async function fetchFromAPI(retries = 1) {
  */
 /**
  * 产品中文名称映射表
- * 当 Creem API 不返回 nameCN/descriptionCN 时使用
+ * 从 i18n/product-zh-map.json 加载，由构建脚本自动维护
+ * 构建时会自动从 Creem API 检测新商品并用 DashScope 翻译
+ * @see scripts/sync-product-zh.mjs
  */
-const PRODUCT_ZH_MAP = {
-  // 商品名映射（key 为商品 ID 或英文名的标准化形式）
-  'prod_28PqAKMEom5WGRH1w9O35n': {
-    nameCN: '八字命理解读',
-    descriptionCN: '由玄真大师提供的個人八字命理解讀服務，48小時內交付完整PDF報告。'
+let PRODUCT_ZH_MAP = {};
+
+/**
+ * 异步加载 product-zh-map.json
+ */
+async function loadProductZhMap() {
+  try {
+    const res = await fetch('/i18n/product-zh-map.json');
+    if (res.ok) {
+      const data = await res.json();
+      delete data._comment;
+      PRODUCT_ZH_MAP = data;
+      console.log('✅ Loaded product-zh-map.json (' + Object.keys(data).length + ' products)');
+    }
+  } catch (e) {
+    console.warn('⚠️ Failed to load product-zh-map.json:', e.message);
   }
-};
+}
+
+// Preload the map
+loadProductZhMap();
 
 /**
  * 获取商品的中文翻译
