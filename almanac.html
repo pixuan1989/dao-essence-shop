@@ -843,7 +843,48 @@
     (function() {
         'use strict';
 
-        var t = function(key) { return window.DaoI18n && window.DaoI18n.t ? window.DaoI18n.t(key) : key; };
+        var EN_TEXTS = {
+            'almanac.error_engine': 'Calendar engine failed to load. Please refresh.',
+            'almanac.creating_checkout': 'Creating checkout…',
+            'almanac.unlock_for_price': '$2.99 to Unlock',
+            'almanac.alert_checkout_fail': 'Could not create checkout. Please try again.',
+            'almanac.alert_network_error': 'Network error. Please try again.',
+            'almanac.verdict_excellent': '✨ Excellent Day',
+            'almanac.verdict_good': '🌟 Good Day',
+            'almanac.verdict_fair': '🌤️ Average Day',
+            'almanac.verdict_caution': '⚠️ Use Caution',
+            'almanac.verdict_not_ideal': '❌ Not Ideal',
+            'almanac.verdict_excellent_short': 'Excellent',
+            'almanac.verdict_good_short': 'Good',
+            'almanac.verdict_fair_short': 'Average',
+            'almanac.verdict_caution_short': 'Caution',
+            'almanac.verdict_not_ideal_short': 'Avoid',
+            'almanac.great_for': 'Great for',
+            'almanac.not_ideal': 'Not ideal',
+            'almanac.all_activities_supported': 'All activities supported',
+            'almanac.lucky_direction': 'Lucky Direction',
+            'almanac.colors_to_wear': 'Colors to Wear',
+            'almanac.lucky_numbers': 'Lucky Numbers',
+            'almanac.month_1': 'January','almanac.month_2': 'February','almanac.month_3': 'March','almanac.month_4': 'April',
+            'almanac.month_5': 'May','almanac.month_6': 'June','almanac.month_7': 'July','almanac.month_8': 'August',
+            'almanac.month_9': 'September','almanac.month_10': 'October','almanac.month_11': 'November','almanac.month_12': 'December',
+            'almanac.wk_sun': 'Sun','almanac.wk_mon': 'Mon','almanac.wk_tue': 'Tue','almanac.wk_wed': 'Wed',
+            'almanac.wk_thu': 'Thu','almanac.wk_fri': 'Fri','almanac.wk_sat': 'Sat',
+            'almanac.tag_best': 'Best','almanac.tag_good': 'Good','almanac.tag_avoid': 'Avoid',
+            'almanac.day_label': 'Day',
+            'almanac.scenario_marry': 'Getting Married','almanac.scenario_business': 'Starting Business','almanac.scenario_moving': 'Moving Home',
+            'almanac.scenario_contract': 'Signing Contract','almanac.scenario_travel': 'Travel / Vacation','almanac.scenario_purchase': 'Major Purchase',
+            'almanac.scenario_medical': 'Medical Procedure','almanac.scenario_housewarm': 'Housewarming',
+            'almanac.scenario_engagement': 'Getting Engaged','almanac.scenario_interview': 'Job Interview',
+            'almanac.scenario_pet_vet': 'Pet Vet Visit','almanac.scenario_date': 'Going on a Date'
+        };
+        var t = function(key) {
+            if (window.DaoI18n && window.DaoI18n.t) {
+                var val = window.DaoI18n.t(key);
+                return val !== key ? val : (EN_TEXTS[key] || key);
+            }
+            return EN_TEXTS[key] || key;
+        };
         var isZh = function() { return window.DaoI18n && window.DaoI18n.current() === 'zh'; };
 
         // Check if library loaded
@@ -1244,13 +1285,16 @@
         }
 
         // ===== DAY DETAIL (when clicking a calendar day) =====
-        const SCENARIO_LABELS = {
-            marry: t('almanac.scenario_marry'), business: t('almanac.scenario_business'), moving: t('almanac.scenario_moving'),
-            contract: t('almanac.scenario_contract'), travel: t('almanac.scenario_travel'), purchase: t('almanac.scenario_purchase'),
-            medical: t('almanac.scenario_medical'), housewarm: t('almanac.scenario_housewarm'),
-            engagement: t('almanac.scenario_engagement'), pet_vet: t('almanac.scenario_pet_vet'), interview: t('almanac.scenario_interview'),
-            date: t('almanac.scenario_date')
-        };
+        let SCENARIO_LABELS = buildScenarioLabels();
+        function buildScenarioLabels() {
+            return {
+                marry: t('almanac.scenario_marry'), business: t('almanac.scenario_business'), moving: t('almanac.scenario_moving'),
+                contract: t('almanac.scenario_contract'), travel: t('almanac.scenario_travel'), purchase: t('almanac.scenario_purchase'),
+                medical: t('almanac.scenario_medical'), housewarm: t('almanac.scenario_housewarm'),
+                engagement: t('almanac.scenario_engagement'), pet_vet: t('almanac.scenario_pet_vet'), interview: t('almanac.scenario_interview'),
+                date: t('almanac.scenario_date')
+            };
+        }
         function showDayDetail(dd) {
             const panel = document.getElementById('dayDetail');
             const opts = {weekday:'short', month:'short', day:'numeric'};
@@ -1368,6 +1412,7 @@
 
         // Re-render when i18n translations finish loading
         document.addEventListener('daoessence:i18n-changed', function () {
+            SCENARIO_LABELS = buildScenarioLabels();
             renderToday();
             renderCalendar();
         });
