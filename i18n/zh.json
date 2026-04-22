@@ -8,7 +8,8 @@
   },
   "hero": {
     "eyebrow": "中國玄學與東方智慧",
-    "heading_highlight": "中國占星術",
+    "heading_prefix": "用中國占星術",
+    "heading_highlight": "導航人生",
     "question": "你覺得人生陷入瓶頸了嗎？",
     "desc": "從命運到決策，從能量到時機——探索中國玄學如何幫助你以清晰與平衡的方式導航人生。立即獲取你的免費八字解讀。",
     "cta": "免費八字解讀",
@@ -57,7 +58,24 @@
     "title": "最新文章",
     "subtitle": "知識與洞察",
     "desc": "深入探索中國玄學。從八字基礎到風水技巧，從零開始建立你的理解。",
-    "browse_all": "瀏覽所有文章"
+    "browse_all": "瀏覽所有文章",
+    "min_read": "分鐘閱讀",
+    "card1_cat": "八字占星",
+    "card1_title": "如何解讀你的八字命盤：步驟指南",
+    "card1_desc": "學習如何逐步解讀你的八字（四柱命理）命盤。理解天干、地支、五行與十神。",
+    "card1_min": "8 分鐘閱讀",
+    "card2_cat": "八字占星",
+    "card2_title": "什麼是八字？中國占星術與數字命理入門指南",
+    "card2_desc": "什麼是八字？學習四柱命理的基礎知識——這個古老的中國占星體系能描繪你的五行命盤。",
+    "card2_min": "11 分鐘閱讀",
+    "card3_cat": "中國玄學",
+    "card3_title": "五行理論（五行）完全入門指南",
+    "card3_desc": "全面了解五行理論——木、火、土、金、水。理解相生相剋的循環，以及它們與中醫和風水的關係。",
+    "card3_min": "12 分鐘閱讀",
+    "card4_cat": "八字占星",
+    "card4_title": "仁、義、禮、智、信",
+    "card4_desc": "中華五千年文明的基石，蘊含於五常與五行的動態交互之中。",
+    "card4_min": "5 分鐘閱讀"
   },
   "contact": {
     "title": "聯絡我們",
@@ -76,7 +94,11 @@
     "subject_fengshui": "風水",
     "subject_five_elements": "五行",
     "subject_general": "一般詢問",
-    "send_message": "發送訊息"
+    "send_message": "發送訊息",
+    "hours_text": "週一至週六：上午 9 點 – 晚上 9 點（CST / UTC+8）",
+    "placeholder_name": "您的姓名",
+    "placeholder_email": "您的電子郵件",
+    "placeholder_message": "請描述您的需求..."
   },
   "almanac": {
     "nav_back": "返回首頁",
