@@ -49,7 +49,6 @@
    * Fetch translation file
    */
   function loadTranslations(lang) {
-    if (lang === 'en') return Promise.resolve(null);
     var url = '/i18n/' + lang + '.json';
     return fetch(url).then(function (r) {
       if (!r.ok) throw new Error('Failed to load ' + url);
@@ -202,7 +201,7 @@
      * Usage: window.DaoI18n.t('sc.result_badge')
      */
     t: function (key) {
-      if (currentLang === 'en' || !translations) return key;
+      if (!translations) return key;
       var value = getNestedValue(translations, key);
       return value !== null ? value : key;
     }

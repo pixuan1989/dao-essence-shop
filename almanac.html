@@ -843,9 +843,11 @@
     (function() {
         'use strict';
 
+        var t = function(key) { return window.DaoI18n && window.DaoI18n.t ? window.DaoI18n.t(key) : key; };
+
         // Check if library loaded
         if (typeof Solar === 'undefined') {
-            document.getElementById('todaySection').innerHTML = '<p style="color:#c0392b;text-align:center;padding:3rem 1rem;font-size:1rem;">Failed to load the almanac engine. Please check your network connection and refresh the page.</p>';
+            document.getElementById('todaySection').innerHTML = '<p style="color:#c0392b;text-align:center;padding:3rem 1rem;font-size:1rem;">' + t('almanac.error_engine') + '</p>';
             document.getElementById('todayDetails').style.display = 'none';
             return;
         }
@@ -973,7 +975,7 @@
         // Global function for the pay modal button — real Creem payment
         window.unlockAll = function() {
             var btn = document.querySelector('#payModal .cta-btn');
-            btn.textContent = 'Creating checkout\u2026';
+            btn.textContent = t('almanac.creating_checkout');
             btn.disabled = true;
             var baseUrl = window.location.origin;
             fetch('/api/create-checkout', {
@@ -989,15 +991,15 @@
                 if (d.checkoutUrl) {
                     window.location.href = d.checkoutUrl;
                 } else {
-                    btn.textContent = 'Unlock for $2.99';
+                    btn.textContent = t('almanac.unlock_for_price');
                     btn.disabled = false;
-                    alert('Unable to create checkout. Please try again.');
+                    alert(t('almanac.alert_checkout_fail'));
                 }
             })
             .catch(function() {
-                btn.textContent = 'Unlock for $2.99';
+                btn.textContent = t('almanac.unlock_for_price');
                 btn.disabled = false;
-                alert('Network error. Please try again.');
+                alert(t('almanac.alert_network_error'));
             });
         };
 
@@ -1079,11 +1081,11 @@
             const explainEl = document.getElementById('todayExplain');
 
             let verdictClass, verdictText;
-            if (dd.rating >= 5) { verdictClass = 'verdict-best'; verdictText = 'Excellent Day'; }
-            else if (dd.rating >= 4) { verdictClass = 'verdict-good'; verdictText = 'Good Day'; }
-            else if (dd.rating >= 3) { verdictClass = 'verdict-average'; verdictText = 'Fair Day'; }
-            else if (dd.rating >= 2) { verdictClass = 'verdict-avoid'; verdictText = 'Caution Day'; }
-            else { verdictClass = 'verdict-avoid'; verdictText = 'Not Ideal Day'; }
+            if (dd.rating >= 5) { verdictClass = 'verdict-best'; verdictText = t('almanac.verdict_excellent'); }
+            else if (dd.rating >= 4) { verdictClass = 'verdict-good'; verdictText = t('almanac.verdict_good'); }
+            else if (dd.rating >= 3) { verdictClass = 'verdict-average'; verdictText = t('almanac.verdict_fair'); }
+            else if (dd.rating >= 2) { verdictClass = 'verdict-avoid'; verdictText = t('almanac.verdict_caution'); }
+            else { verdictClass = 'verdict-avoid'; verdictText = t('almanac.verdict_not_ideal'); }
             verdictEl.className = 'today-verdict ' + verdictClass;
             verdictEl.textContent = verdictText;
 
@@ -1106,8 +1108,8 @@
             const avoidHtml = avoidScenarios.map(s => `<span class="scenario-tag tag-scenario-avoid">${s}</span>`).join('');
             explainEl.innerHTML = `
                 <div class="today-scenarios">
-                    ${goodHtml ? `<div class="ts-row"><span class="ts-label">Great for</span><div class="scenario-list">${goodHtml}</div></div>` : ''}
-                    ${avoidHtml ? `<div class="ts-row"><span class="ts-label">Not ideal</span><div class="scenario-list">${avoidHtml}</div></div>` : ''}
+                    ${goodHtml ? `<div class="ts-row"><span class="ts-label">${t('almanac.great_for')}</span><div class="scenario-list">${goodHtml}</div></div>` : ''}
+                    ${avoidHtml ? `<div class="ts-row"><span class="ts-label">${t('almanac.not_ideal')}</span><div class="scenario-list">${avoidHtml}</div></div>` : ''}
                 </div>
             `;
 
@@ -1118,15 +1120,15 @@
             luckyEl.innerHTML = `
                 <div class="lucky-row">
                     <div class="lucky-item">
-                        <div class="lucky-label">Lucky Direction</div>
+                        <div class="lucky-label">${t('almanac.lucky_direction')}</div>
                         <div class="lucky-value">${dd.caiDir}</div>
                     </div>
                     <div class="lucky-item">
-                        <div class="lucky-label">Colors to Wear</div>
+                        <div class="lucky-label">${t('almanac.colors_to_wear')}</div>
                         <div class="lucky-value">${wuxingColors}</div>
                     </div>
                     <div class="lucky-item">
-                        <div class="lucky-label">Lucky Numbers</div>
+                        <div class="lucky-label">${t('almanac.lucky_numbers')}</div>
                         <div class="lucky-value">${wuxingNumbers}</div>
                     </div>
                 </div>
@@ -1136,12 +1138,12 @@
 
         // ===== RENDER CALENDAR =====
         function renderCalendar() {
-            const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+            const months = [t('almanac.month_1'),t('almanac.month_2'),t('almanac.month_3'),t('almanac.month_4'),t('almanac.month_5'),t('almanac.month_6'),t('almanac.month_7'),t('almanac.month_8'),t('almanac.month_9'),t('almanac.month_10'),t('almanac.month_11'),t('almanac.month_12')];
             document.getElementById('calMonthLabel').textContent = months[calMonth] + ' ' + calYear;
 
             const grid = document.getElementById('calGrid');
             grid.innerHTML = '';
-            const weekdays = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+            const weekdays = [t('almanac.wk_sun'),t('almanac.wk_mon'),t('almanac.wk_tue'),t('almanac.wk_wed'),t('almanac.wk_thu'),t('almanac.wk_fri'),t('almanac.wk_sat')];
             weekdays.forEach(d => {
                 const el = document.createElement('div');
                 el.className = 'cal-wk';
@@ -1190,11 +1192,11 @@
                 } else if (isFree || cellDate > maxFreeDate) {
                     let html = `<span class="day-num">${d}</span>`;
                     if (dd.rating >= 5) {
-                        html += '<span class="day-tag tag-best">Best</span>';
+                        html += '<span class="day-tag tag-best">' + t('almanac.tag_best') + '</span>';
                     } else if (dd.rating >= 4) {
-                        html += '<span class="day-tag tag-good">Good</span>';
+                        html += '<span class="day-tag tag-good">' + t('almanac.tag_good') + '</span>';
                     } else if (dd.rating === 1) {
-                        html += '<span class="day-tag tag-avoid">Avoid</span>';
+                        html += '<span class="day-tag tag-avoid">' + t('almanac.tag_avoid') + '</span>';
                     }
                     el.innerHTML = html;
                     el.addEventListener('click', () => showDayDetail(dd));
@@ -1209,11 +1211,11 @@
 
         // ===== DAY DETAIL (when clicking a calendar day) =====
         const SCENARIO_LABELS = {
-            marry:'Getting Married', business:'Starting Business', moving:'Moving Home',
-            contract:'Signing Contract', travel:'Travel / Vacation', purchase:'Major Purchase',
-            medical:'Medical Procedure', housewarm:'Housewarming',
-            engagement:'Getting Engaged', pet_vet:'Pet Vet Visit', interview:'Job Interview',
-            date:'Going on a Date'
+            marry: t('almanac.scenario_marry'), business: t('almanac.scenario_business'), moving: t('almanac.scenario_moving'),
+            contract: t('almanac.scenario_contract'), travel: t('almanac.scenario_travel'), purchase: t('almanac.scenario_purchase'),
+            medical: t('almanac.scenario_medical'), housewarm: t('almanac.scenario_housewarm'),
+            engagement: t('almanac.scenario_engagement'), pet_vet: t('almanac.scenario_pet_vet'), interview: t('almanac.scenario_interview'),
+            date: t('almanac.scenario_date')
         };
         function showDayDetail(dd) {
             const panel = document.getElementById('dayDetail');
@@ -1240,32 +1242,32 @@
             const goodHtml = goodScenarios.map(s => `<span class="scenario-tag tag-scenario-good">${s}</span>`).join('');
             const avoidHtml = avoidScenarios.length > 0
                 ? avoidScenarios.map(s => `<span class="scenario-tag tag-scenario-avoid">${s}</span>`).join('')
-                : '<span style="color:var(--text-muted);font-size:0.75rem;">All activities supported</span>';
+                : '<span style="color:var(--text-muted);font-size:0.75rem;">' + t('almanac.all_activities_supported') + '</span>';
 
             panel.innerHTML = `
                 <div class="day-detail-header">
-                    <h4>${dateStr} — ${dd.rating >= 5 ? 'Excellent' : dd.rating >= 4 ? 'Good' : dd.rating >= 3 ? 'Fair' : dd.rating >= 2 ? 'Caution' : 'Not Ideal'} Day</h4>
+                    <h4>${dateStr} — ${dd.rating >= 5 ? t('almanac.verdict_excellent_short') : dd.rating >= 4 ? t('almanac.verdict_good_short') : dd.rating >= 3 ? t('almanac.verdict_fair_short') : dd.rating >= 2 ? t('almanac.verdict_caution_short') : t('almanac.verdict_not_ideal_short')} ${t('almanac.day_label')}</h4>
                     <div class="mini-stars">${starsHtml}</div>
                 </div>
                 <div class="detail-scenarios">
-                    <div class="dg-label">Great For</div>
+                    <div class="dg-label">${t('almanac.great_for')}</div>
                     <div class="scenario-list">${goodHtml}</div>
                 </div>
                 <div class="detail-scenarios" style="margin-top:0.8rem;">
-                    <div class="dg-label">Not Ideal</div>
+                    <div class="dg-label">${t('almanac.not_ideal')}</div>
                     <div class="scenario-list">${avoidHtml}</div>
                 </div>
                 <div class="lucky-row" style="margin-top:1rem;">
                     <div class="lucky-item">
-                        <div class="lucky-label">Lucky Direction</div>
+                        <div class="lucky-label">${t('almanac.lucky_direction')}</div>
                         <div class="lucky-value">${dd.caiDir}</div>
                     </div>
                     <div class="lucky-item">
-                        <div class="lucky-label">Colors to Wear</div>
+                        <div class="lucky-label">${t('almanac.colors_to_wear')}</div>
                         <div class="lucky-value">${WUXING_COLORS[dd.dayElement] || 'Any'}</div>
                     </div>
                     <div class="lucky-item">
-                        <div class="lucky-label">Lucky Numbers</div>
+                        <div class="lucky-label">${t('almanac.lucky_numbers')}</div>
                         <div class="lucky-value">${WUXING_NUMBERS[dd.dayElement] || '-'}</div>
                     </div>
                 </div>

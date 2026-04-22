@@ -610,6 +610,7 @@
 <script src="bazi-calculator/paipan.min.js"></script>
 <script>
 (function() {
+    var t = function(key) { return window.DaoI18n && window.DaoI18n.t ? window.DaoI18n.t(key) : key; };
     // Populate year (1940-2026)
     const yearSel = document.getElementById('feYear');
     for (let y = 2026; y >= 1940; y--) {
@@ -695,7 +696,7 @@
             const stem = rt.ctg[i];
             const branch = rt.cdz[i];
             pillars.push({
-                position: ['Year','Month','Day','Hour'][i],
+                position: [t('fav.pillar_year'),t('fav.pillar_month'),t('fav.pillar_day'),t('fav.pillar_hour')][i],
                 stem, branch,
                 stemElement: STEM_WX[stem],
                 branchElement: BRANCH_WX[branch],
@@ -756,7 +757,7 @@
             const data = await res.json();
 
             if (!res.ok || !data.success) {
-                throw new Error(data.error || 'Analysis failed. Please try again.');
+                throw new Error(data.error || t('fav.error_analysis'));
             }
 
             renderResult(data);
@@ -838,14 +839,14 @@
 
         document.getElementById('feResult').innerHTML =
             '<div class="fe-element-card">' +
-                '<div class="fe-element-label">Your Energy Element</div>' +
+                '<div class="fe-element-label">' + t('fav.your_energy_element') + '</div>' +
                 '<div class="fe-element-name wx-' + favClass + '">' + fav + '</div>' +
                 '<div class="fe-element-zh">' + (analysis.favorableElementZh || '') + '</div>' +
-                '<div class="fe-day-master-info">Day Master: ' + chart.dayMaster + ' (' + chart.dayMasterElementEn + ')</div>' +
-                '<div class="fe-strength-badge ' + strengthClass + '">' + (analysis.strength || '') + ' Day Master</div>' +
+                '<div class="fe-day-master-info">' + t('fav.day_master_label') + ' ' + chart.dayMaster + ' (' + chart.dayMasterElementEn + ')</div>' +
+                '<div class="fe-strength-badge ' + strengthClass + '">' + (analysis.strength || '') + ' ' + t('fav.day_master_badge') + '</div>' +
             '</div>' +
 
-            '<h3 style="font-family:var(--serif);font-size:1rem;color:var(--text-muted);letter-spacing:0.12em;text-transform:uppercase;text-align:center;margin-bottom:1rem;">Your Four Pillars</h3>' +
+            '<h3 style="font-family:var(--serif);font-size:1rem;color:var(--text-muted);letter-spacing:0.12em;text-transform:uppercase;text-align:center;margin-bottom:1rem;">' + t('fav.your_four_pillars') + '</h3>' +
             '<div class="fe-pillars">' + pillarsHtml + '</div>' +
 
             '<div class="fe-wx-bar">' + barHtml + '</div>' +
@@ -854,7 +855,7 @@
             '<div class="fe-section">' +
                 '<div class="fe-section-title">' +
                     '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>' +
-                    'Why ' + fav + '?' +
+                    t('fav.why_element', fav) +
                 '</div>' +
                 '<p class="fe-explanation">' + (analysis.explanation || '') + '</p>' +
             '</div>' +
@@ -862,7 +863,7 @@
             '<div class="fe-section">' +
                 '<div class="fe-section-title">' +
                     '<svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>' +
-                    'Life Advice' +
+                    t('fav.life_advice') +
                 '</div>' +
                 '<ul class="fe-advice-list">' + adviceHtml + '</ul>' +
             '</div>' +
@@ -870,7 +871,7 @@
             '<div class="fe-section">' +
                 '<div class="fe-section-title">' +
                     '<svg viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>' +
-                    'Lucky Colors' +
+                    t('fav.lucky_colors') +
                 '</div>' +
                 '<div class="fe-tags">' + colorsHtml + '</div>' +
             '</div>' +
@@ -878,7 +879,7 @@
             '<div class="fe-section">' +
                 '<div class="fe-section-title">' +
                     '<svg viewBox="0 0 24 24"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"/></svg>' +
-                    'Favorable Directions' +
+                    t('fav.favorable_directions') +
                 '</div>' +
                 '<div class="fe-tags">' + dirsHtml + '</div>' +
             '</div>' +
@@ -886,7 +887,7 @@
             '<div class="fe-section">' +
                 '<div class="fe-section-title">' +
                     '<svg viewBox="0 0 24 24"><path d="M20 7H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2zM16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="12.01"/></svg>' +
-                    'Best Career Fields' +
+                    t('fav.best_career_fields') +
                 '</div>' +
                 '<ul class="fe-advice-list">' + careersHtml + '</ul>' +
             '</div>' +
@@ -894,7 +895,7 @@
             '<div class="fe-section">' +
                 '<div class="fe-section-title">' +
                     '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 12l2 2 4-4"/></svg>' +
-                    'Lucky Accessories & Crystals' +
+                    t('fav.lucky_accessories') +
                 '</div>' +
                 '<ul class="fe-advice-list">' + accessoriesHtml + '</ul>' +
             '</div>' +
@@ -902,13 +903,13 @@
             '<div class="fe-section">' +
                 '<div class="fe-section-title">' +
                     '<svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>' +
-                    'Desktop & Home Decor Themes' +
+                    t('fav.desktop_themes') +
                 '</div>' +
                 '<ul class="fe-advice-list">' + themesHtml + '</ul>' +
             '</div>' +
 
             '<div class="fe-avoid">' +
-                '<div class="fe-avoid-label">Element to Avoid</div>' +
+                '<div class="fe-avoid-label">' + t('fav.element_to_avoid') + '</div>' +
                 '<div class="fe-avoid-element">' + (analysis.avoidElement || '') + ' (' + (analysis.avoidElementZh || '') + ')</div>' +
             '</div>';
     }

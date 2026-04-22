@@ -774,56 +774,62 @@
     var quizAnswers = {};
     var currentQuestion = 0;
 
+    // ===== i18n helper =====
+    var t = function(key) {
+        if (window.DaoI18n && window.DaoI18n.t) return window.DaoI18n.t(key);
+        return key;
+    };
+
     // ===== QUIZ DATA =====
     var QUESTIONS = [
         {
-            question: 'When you are under pressure, your first reaction is usually to...',
+            question: t('fivet.q1_title'),
             options: [
-                { key: 'A', text: 'Push through with determination — I refuse to give up', element: 'wood' },
-                { key: 'B', text: 'Channel the energy into action — movement helps me think', element: 'fire' },
-                { key: 'C', text: 'Slow down and think carefully before I act', element: 'earth' },
-                { key: 'D', text: 'Analyze the situation logically — what is the most efficient path?', element: 'metal' },
-                { key: 'E', text: 'Withdraw and reflect — I need space to process my feelings', element: 'water' }
+                { key: 'A', text: t('fivet.q1_a'), element: 'wood' },
+                { key: 'B', text: t('fivet.q1_b'), element: 'fire' },
+                { key: 'C', text: t('fivet.q1_c'), element: 'earth' },
+                { key: 'D', text: t('fivet.q1_d'), element: 'metal' },
+                { key: 'E', text: t('fivet.q1_e'), element: 'water' }
             ]
         },
         {
-            question: 'In a group setting, people naturally see you as the one who...',
+            question: t('fivet.q2_title'),
             options: [
-                { key: 'A', text: 'Takes charge and sets the direction', element: 'wood' },
-                { key: 'B', text: 'Brings energy and keeps everyone engaged', element: 'fire' },
-                { key: 'C', text: 'Mediates conflicts and makes sure everyone feels heard', element: 'earth' },
-                { key: 'D', text: 'Organizes things and keeps the group on track', element: 'metal' },
-                { key: 'E', text: 'Observes quietly and offers deep insights when asked', element: 'water' }
+                { key: 'A', text: t('fivet.q2_a'), element: 'wood' },
+                { key: 'B', text: t('fivet.q2_b'), element: 'fire' },
+                { key: 'C', text: t('fivet.q2_c'), element: 'earth' },
+                { key: 'D', text: t('fivet.q2_d'), element: 'metal' },
+                { key: 'E', text: t('fivet.q2_e'), element: 'water' }
             ]
         },
         {
-            question: 'When making a big life decision, you tend to rely on...',
+            question: t('fivet.q3_title'),
             options: [
-                { key: 'A', text: 'My gut instinct — I trust my inner compass', element: 'wood' },
-                { key: 'B', text: 'My passion — what excites me the most wins', element: 'fire' },
-                { key: 'C', text: 'Advice from people I trust and past experience', element: 'earth' },
-                { key: 'D', text: 'Data, pros/cons lists, and careful analysis', element: 'metal' },
-                { key: 'E', text: 'Intuition — I wait until I feel a sense of clarity', element: 'water' }
+                { key: 'A', text: t('fivet.q3_a'), element: 'wood' },
+                { key: 'B', text: t('fivet.q3_b'), element: 'fire' },
+                { key: 'C', text: t('fivet.q3_c'), element: 'earth' },
+                { key: 'D', text: t('fivet.q3_d'), element: 'metal' },
+                { key: 'E', text: t('fivet.q3_e'), element: 'water' }
             ]
         },
         {
-            question: 'Of these values, the one that resonates most deeply with you is...',
+            question: t('fivet.q4_title'),
             options: [
-                { key: 'A', text: 'Freedom and personal growth — I need room to expand', element: 'wood' },
-                { key: 'B', text: 'Passion and self-expression — life should be vivid', element: 'fire' },
-                { key: 'C', text: 'Stability and loyalty — a solid foundation matters most', element: 'earth' },
-                { key: 'D', text: 'Excellence and integrity — doing things right matters', element: 'metal' },
-                { key: 'E', text: 'Wisdom and understanding — truth is more important than comfort', element: 'water' }
+                { key: 'A', text: t('fivet.q4_a'), element: 'wood' },
+                { key: 'B', text: t('fivet.q4_b'), element: 'fire' },
+                { key: 'C', text: t('fivet.q4_c'), element: 'earth' },
+                { key: 'D', text: t('fivet.q4_d'), element: 'metal' },
+                { key: 'E', text: t('fivet.q4_e'), element: 'water' }
             ]
         },
         {
-            question: 'On a free day with no obligations, you are most likely to...',
+            question: t('fivet.q5_title'),
             options: [
-                { key: 'A', text: 'Start a new project or go on an adventure', element: 'wood' },
-                { key: 'B', text: 'Socialize, create something, or explore somewhere new', element: 'fire' },
-                { key: 'C', text: 'Enjoy good food, comfort, and quality time with loved ones', element: 'earth' },
-                { key: 'D', text: 'Organize my space, plan ahead, or learn a new skill', element: 'metal' },
-                { key: 'E', text: 'Read, meditate, watch documentaries, or be near water', element: 'water' }
+                { key: 'A', text: t('fivet.q5_a'), element: 'wood' },
+                { key: 'B', text: t('fivet.q5_b'), element: 'fire' },
+                { key: 'C', text: t('fivet.q5_c'), element: 'earth' },
+                { key: 'D', text: t('fivet.q5_d'), element: 'metal' },
+                { key: 'E', text: t('fivet.q5_e'), element: 'water' }
             ]
         }
     ];
@@ -831,79 +837,84 @@
     // Five element personality interpretations
     var INTERPRETATIONS = {
         wood: {
-            name: 'The Wood Personality',
+            name: t('fivet.interp_wood_name'),
             emoji: '🌲',
-            tagline: 'The Visionary & Pioneer',
-            mbti: 'ENFP / ENTJ — The Trailblazer',
-            description: 'You are driven by a deep need for growth and expansion. Like a tree reaching for sunlight, you are always pushing boundaries and seeking new horizons. Your creativity is boundless, and your resilience is your greatest asset. You are the person who sees possibilities where others see obstacles.',
-            strengths: ['Boundless creativity and vision', 'Natural leadership and initiative', 'Resilience in the face of adversity', 'Ability to inspire others'],
-            growth: 'Be mindful of impatience — not every seed grows at the same pace. Practice pausing to appreciate how far you have come, and learn to delegate rather than carrying everything alone.'
+            tagline: t('fivet.interp_wood_tagline'),
+            mbti: t('fivet.interp_wood_mbti'),
+            description: t('fivet.interp_wood_desc'),
+            strengths: [t('fivet.interp_wood_s1'), t('fivet.interp_wood_s2'), t('fivet.interp_wood_s3'), t('fivet.interp_wood_s4')],
+            growth: t('fivet.interp_wood_growth')
         },
         fire: {
-            name: 'The Fire Personality',
+            name: t('fivet.interp_fire_name'),
             emoji: '🔥',
-            tagline: 'The Charismatic Spark',
-            mbti: 'ESFJ / ENTP — The Life of the Party',
-            description: 'You are warmth, expression, and connection personified. Your emotional intelligence allows you to read a room in seconds and bring people together. When you speak, people listen — not because you demand it, but because your genuine enthusiasm is magnetic.',
-            strengths: ['Exceptional emotional intelligence', 'Natural charisma and stage presence', 'Ability to inspire and motivate', 'Deep empathy and connection skills'],
-            growth: 'Your fire is a gift, but it can also burn you out. Learn to distinguish between passion-driven action and reactivity. Protect your energy — you do not need to be "on" all the time.'
+            tagline: t('fivet.interp_fire_tagline'),
+            mbti: t('fivet.interp_fire_mbti'),
+            description: t('fivet.interp_fire_desc'),
+            strengths: [t('fivet.interp_fire_s1'), t('fivet.interp_fire_s2'), t('fivet.interp_fire_s3'), t('fivet.interp_fire_s4')],
+            growth: t('fivet.interp_fire_growth')
         },
         earth: {
-            name: 'The Earth Personality',
+            name: t('fivet.interp_earth_name'),
             emoji: '🪨',
-            tagline: 'The Grounded Nurturer',
-            mbti: 'ISFJ / ESFJ — The Rock',
-            description: 'You are the foundation that others build upon. Your reliability and deep empathy make you the person everyone turns to when things fall apart. You value loyalty, tradition, and meaningful connection above all else. You are the anchor in every storm.',
-            strengths: ['Unwavering reliability and trustworthiness', 'Deep empathy and nurturing nature', 'Ability to create stability in chaos', 'Strong sense of justice and fairness'],
-            growth: 'Your strength of holding on can become a weakness when you resist necessary change. Practice letting go — growth often requires discomfort, and the most beautiful gardens need both sun and rain.'
+            tagline: t('fivet.interp_earth_tagline'),
+            mbti: t('fivet.interp_earth_mbti'),
+            description: t('fivet.interp_earth_desc'),
+            strengths: [t('fivet.interp_earth_s1'), t('fivet.interp_earth_s2'), t('fivet.interp_earth_s3'), t('fivet.interp_earth_s4')],
+            growth: t('fivet.interp_earth_growth')
         },
         metal: {
-            name: 'The Metal Personality',
+            name: t('fivet.interp_metal_name'),
             emoji: '⚔️',
-            tagline: 'The Disciplined Achiever',
-            mbti: 'ESTJ / ISTJ — The Architect',
-            description: 'You are precision, structure, and excellence personified. Your mind works like a well-oiled machine — analyzing, categorizing, and optimizing. You have incredibly high standards because you know what is possible when things are done right. You are the person who actually reads the terms and conditions.',
-            strengths: ['Strategic thinking and flawless execution', 'Inner strength and resilience', 'High standards that elevate everyone around you', 'Ability to see through complexity to the core issue'],
-            growth: 'Perfectionism is both your superpower and your kryptonite. Not everything needs to be polished to 100% — sometimes 80% is enough. Practice self-compassion and remember that your worth is not defined by your productivity.'
+            tagline: t('fivet.interp_metal_tagline'),
+            mbti: t('fivet.interp_metal_mbti'),
+            description: t('fivet.interp_metal_desc'),
+            strengths: [t('fivet.interp_metal_s1'), t('fivet.interp_metal_s2'), t('fivet.interp_metal_s3'), t('fivet.interp_metal_s4')],
+            growth: t('fivet.interp_metal_growth')
         },
         water: {
-            name: 'The Water Personality',
+            name: t('fivet.interp_water_name'),
             emoji: '🌊',
-            tagline: 'The Adaptive Mystic',
-            mbti: 'INFP / INFJ — The Philosopher',
-            description: 'You are the deepest thinker in any room. Your intuition operates on a frequency that most people cannot access, and your ability to adapt to any situation is almost supernatural. You process the world through a deeply philosophical lens, finding meaning in places others overlook.',
-            strengths: ['Profound intuition and inner wisdom', 'Emotional adaptability and resilience', 'Ability to see hidden patterns and connections', 'Deep philosophical understanding of life'],
-            growth: 'Your tendency to overthink can create paralysis. Remember that the river does not stop to analyze every stone — it flows around them. Trust your first instinct more often and take action before you feel 100% ready.'
+            tagline: t('fivet.interp_water_tagline'),
+            mbti: t('fivet.interp_water_mbti'),
+            description: t('fivet.interp_water_desc'),
+            strengths: [t('fivet.interp_water_s1'), t('fivet.interp_water_s2'), t('fivet.interp_water_s3'), t('fivet.interp_water_s4')],
+            growth: t('fivet.interp_water_growth')
         }
     };
 
     // ===== DAY MASTER PERSONALITY PROFILES =====
     var STEMS_LIST = ['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'];
     var DM_PROFILES = {
-        '甲': { nature: 'Straightforward, ambitious, growth-oriented', symbol: 'Yang Wood — The Tall Oak', personality: 'You are a natural pioneer with an unshakeable drive to grow. Like a mighty oak, you stand tall and provide shelter for others. Your honesty is refreshing — you say what you mean and mean what you say.', career: 'Leadership, entrepreneurship, education, coaching', relationships: 'Loyal and protective. You express love through acts of service and providing stability.' },
-        '乙': { nature: 'Flexible, persistent, relationship-focused', symbol: 'Yin Wood — The Willow', personality: 'You possess remarkable resilience wrapped in gentle grace. Like a willow tree that bends in a storm but never breaks, you adapt to challenges with quiet persistence. Your emotional intelligence is extraordinary.', career: 'Counseling, diplomacy, arts, human resources, holistic health', relationships: 'Deeply empathetic and attentive. You create emotional safety in relationships.' },
-        '丙': { nature: 'Warm, charismatic, naturally generous', symbol: 'Yang Fire — The Sun', personality: 'You light up every room you enter. Like the sun itself, your warmth is genuine and far-reaching. You have an instinctive ability to make people feel seen and valued. Your optimism is a deliberate choice to focus on what is possible.', career: 'Public speaking, entertainment, sales, philanthropy, hospitality', relationships: 'Generous and enthusiastic. You bring joy and adventure to relationships.' },
-        '丁': { nature: 'Insightful, refined, quietly determined', symbol: 'Yin Fire — The Candle', personality: 'You are the quiet flame that illuminates the darkest corners. Your insight cuts through noise to find truth. Unlike the blazing sun, your light is focused and intentional — you see what others miss. You have a refined aesthetic sense and deep appreciation for beauty.', career: 'Research, psychology, writing, design, spiritual guidance, analytics', relationships: 'Intensely loyal and perceptive. You understand your partner on a profound level.' },
-        '戊': { nature: 'Steadfast, reliable, protective', symbol: 'Yang Earth — The Mountain', personality: 'You are the immovable mountain that others lean on. Your reliability is legendary — when you say you will do something, it is as good as done. You have an innate sense of justice that draws people to trust you implicitly.', career: 'Real estate, construction, banking, government, project management', relationships: 'Rock-solid and dependable. You show love through stability and protection.' },
-        '己': { nature: 'Nurturing, patient, quietly diligent', symbol: 'Yin Earth — Fertile Soil', personality: 'You are the rich soil from which everything grows. Your nurturing energy is quiet and patient — it transforms everything it touches. You see potential in people and invest in growth with patient dedication.', career: 'Healthcare, nutrition, education, social work, therapy', relationships: 'Deeply caring and patient. You nurture growth and create a warm, inviting home.' },
-        '庚': { nature: 'Decisive, righteous, bold under pressure', symbol: 'Yang Metal — Forged Steel', personality: 'You are forged steel — tempered by fire, unbreakable in conviction. Your sense of justice is ironclad, and your ability to make tough decisions under pressure is remarkable. Your mind works with military precision.', career: 'Law, military, surgery, engineering, finance, executive leadership', relationships: 'Fiercely loyal and protective. Your actions speak louder than words.' },
-        '辛': { nature: 'Elegant, detail-oriented, perfectionist', symbol: 'Yin Metal — Fine Jewelry', personality: 'You are fine jewelry — exquisite, valuable, and crafted with precision. Your attention to detail is extraordinary, and your aesthetic sense is impeccable. You find beauty in precision and satisfaction in refinement.', career: 'Jewelry, fashion, finance, quality control, editing, architecture', relationships: 'Refined and thoughtful. You express love through curated experiences and attention to detail.' },
-        '壬': { nature: 'Dynamic, resourceful, far-sighted', symbol: 'Yang Water — The Great River', personality: 'You are the great river — unstoppable, ever-flowing, and impossible to contain. Your mind works on a scale that most cannot fathom — you see the big picture, the long game. Your resourcefulness finds solutions where others find dead ends.', career: 'Technology, international business, strategy consulting, exploration', relationships: 'Independent and intellectually stimulating. You need freedom of thought and movement.' },
-        '癸': { nature: 'Intuitive, perceptive, deep-thinking', symbol: 'Yin Water — Morning Dew', personality: 'You are morning dew — subtle yet transformative. Your intuition is your superpower. You absorb information like a sponge and process it through layers of consciousness. Your perceptive nature allows you to read between the lines of every situation.', career: 'Psychology, research, art, writing, healing arts, spirituality, data science', relationships: 'Emotionally deep and intuitive. You understand unspoken needs and create profound connections.' }
+        '甲': { nature: t('fivet.dm_jia_nature'), symbol: t('fivet.dm_jia_symbol'), personality: t('fivet.dm_jia_personality'), career: t('fivet.dm_jia_career'), relationships: t('fivet.dm_jia_relations') },
+        '乙': { nature: t('fivet.dm_yi_nature'), symbol: t('fivet.dm_yi_symbol'), personality: t('fivet.dm_yi_personality'), career: t('fivet.dm_yi_career'), relationships: t('fivet.dm_yi_relations') },
+        '丙': { nature: t('fivet.dm_bing_nature'), symbol: t('fivet.dm_bing_symbol'), personality: t('fivet.dm_bing_personality'), career: t('fivet.dm_bing_career'), relationships: t('fivet.dm_bing_relations') },
+        '丁': { nature: t('fivet.dm_ding_nature'), symbol: t('fivet.dm_ding_symbol'), personality: t('fivet.dm_ding_personality'), career: t('fivet.dm_ding_career'), relationships: t('fivet.dm_ding_relations') },
+        '戊': { nature: t('fivet.dm_wu_nature'), symbol: t('fivet.dm_wu_symbol'), personality: t('fivet.dm_wu_personality'), career: t('fivet.dm_wu_career'), relationships: t('fivet.dm_wu_relations') },
+        '己': { nature: t('fivet.dm_ji_nature'), symbol: t('fivet.dm_ji_symbol'), personality: t('fivet.dm_ji_personality'), career: t('fivet.dm_ji_career'), relationships: t('fivet.dm_ji_relations') },
+        '庚': { nature: t('fivet.dm_geng_nature'), symbol: t('fivet.dm_geng_symbol'), personality: t('fivet.dm_geng_personality'), career: t('fivet.dm_geng_career'), relationships: t('fivet.dm_geng_relations') },
+        '辛': { nature: t('fivet.dm_xin_nature'), symbol: t('fivet.dm_xin_symbol'), personality: t('fivet.dm_xin_personality'), career: t('fivet.dm_xin_career'), relationships: t('fivet.dm_xin_relations') },
+        '壬': { nature: t('fivet.dm_ren_nature'), symbol: t('fivet.dm_ren_symbol'), personality: t('fivet.dm_ren_personality'), career: t('fivet.dm_ren_career'), relationships: t('fivet.dm_ren_relations') },
+        '癸': { nature: t('fivet.dm_gui_nature'), symbol: t('fivet.dm_gui_symbol'), personality: t('fivet.dm_gui_personality'), career: t('fivet.dm_gui_career'), relationships: t('fivet.dm_gui_relations') }
     };
 
     // ===== QUIZ-BASED PERSONALITY TRAITS =====
     var QUIZ_TRAITS = {
-        wood: { personality: 'Your quiz answers reveal a growth-driven pioneer. In social situations, you naturally take the lead and inspire others with your vision.', keywords: ['Pioneer', 'Leader', 'Visionary'] },
-        fire: { personality: 'Your quiz answers reveal a natural connector. People are drawn to your warmth and authenticity — you make everyone feel alive.', keywords: ['Charismatic', 'Expressive', 'Connector'] },
-        earth: { personality: 'Your quiz answers reveal a natural mediator. Your grounded presence and empathetic listening make you everyone\'s safe harbor.', keywords: ['Nurturer', 'Mediator', 'Anchor'] },
-        metal: { personality: 'Your quiz answers reveal a strategic mind. You approach life with precision and purpose — your high standards set you apart.', keywords: ['Strategist', 'Perfectionist', 'Executor'] },
-        water: { personality: 'Your quiz answers reveal a deep thinker. You navigate life with intuition and depth, seeing beneath the surface of every situation.', keywords: ['Thinker', 'Adaptive', 'Mystic'] }
+        wood: { personality: t('fivet.quiz_trait_wood'), keywords: [t('fivet.kw_pioneer'), t('fivet.kw_leader'), t('fivet.kw_visionary')] },
+        fire: { personality: t('fivet.quiz_trait_fire'), keywords: [t('fivet.kw_charismatic'), t('fivet.kw_expressive'), t('fivet.kw_connector')] },
+        earth: { personality: t('fivet.quiz_trait_earth'), keywords: [t('fivet.kw_nurturer'), t('fivet.kw_mediator'), t('fivet.kw_anchor')] },
+        metal: { personality: t('fivet.quiz_trait_metal'), keywords: [t('fivet.kw_strategist'), t('fivet.kw_perfectionist'), t('fivet.kw_executor')] },
+        water: { personality: t('fivet.quiz_trait_water'), keywords: [t('fivet.kw_thinker'), t('fivet.kw_adaptive'), t('fivet.kw_mystic')] }
     };
 
     // ===== INIT =====
     function init() {
         populateForm();
+        // Translate placeholders
+        var nameInput = document.getElementById('nameInput');
+        var emailInput = document.getElementById('emailInput');
+        if (nameInput) nameInput.placeholder = t('fivet.placeholder_name');
+        if (emailInput) emailInput.placeholder = t('fivet.placeholder_email');
     }
 
     function populateForm() {
@@ -961,7 +972,7 @@
         // Consent check
         var consentBox = document.getElementById('wx-consent');
         if (consentBox && !consentBox.checked) {
-            alert('Please agree to the Privacy Policy before starting.');
+            alert(t('fivet.alert_consent'));
             return;
         }
 
@@ -972,7 +983,7 @@
         birthData.gender = document.getElementById('gender').value;
 
         if (!birthData.year || !birthData.month || !birthData.day) {
-            alert('Please select your birth date.');
+            alert(t('fivet.alert_date'));
             return;
         }
 
@@ -987,10 +998,10 @@
         var q = QUESTIONS[currentQuestion];
         var percent = Math.round((currentQuestion / QUESTIONS.length) * 100);
         document.getElementById('progressFill').style.width = percent + '%';
-        document.getElementById('quizTitle').textContent = 'Quick Personality Check';
+        document.getElementById('quizTitle').textContent = t('fivet.quiz_title');
 
         var html = '<div class="quiz-card">';
-        html += '<div class="quiz-question">Q' + (currentQuestion + 1) + ' of ' + QUESTIONS.length + '. ' + q.question + '</div>';
+        html += '<div class="quiz-question">Q' + (currentQuestion + 1) + ' / ' + QUESTIONS.length + '. ' + q.question + '</div>';
         html += '<div class="quiz-options">';
         q.options.forEach(function(opt, i) {
             var selected = quizAnswers[currentQuestion] === i ? ' selected' : '';
@@ -1006,7 +1017,7 @@
         // Nav buttons
         document.getElementById('prevBtn').style.visibility = currentQuestion === 0 ? 'hidden' : 'visible';
         var isLast = currentQuestion === QUESTIONS.length - 1;
-        document.getElementById('nextBtn').textContent = isLast ? 'See My Results →' : 'Next →';
+        document.getElementById('nextBtn').textContent = isLast ? t('fivet.quiz_finish') : t('fivet.quiz_next');
     }
 
     window.selectOption = function(qIdx, optIdx) {
@@ -1046,7 +1057,7 @@
                 renderResults(result);
             } catch (err) {
                 console.error('Calculation error:', err);
-                document.getElementById('resultContent').innerHTML = '<p style="color:var(--wx-fire);text-align:center;">Something went wrong. Please try again.</p>';
+                document.getElementById('resultContent').innerHTML = '<p style="color:var(--wx-fire);text-align:center;">' + t('fivet.alert_error') + '</p>';
             }
             showStep('step3');
         }, 800);
@@ -1095,8 +1106,8 @@
         // Build pillars display
         var STEMS_WX = {'甲':'wood','乙':'wood','丙':'fire','丁':'fire','戊':'earth','己':'earth','庚':'metal','辛':'metal','壬':'water','癸':'water'};
         var BRANCHES_WX = {'子':'water','丑':'earth','寅':'wood','卯':'wood','辰':'earth','巳':'fire','午':'fire','未':'earth','申':'metal','酉':'metal','戌':'earth','亥':'water'};
-        var WX_EN = {'wood':'Wood','fire':'Fire','earth':'Earth','metal':'Metal','water':'Water'};
-        var labels = ['Year','Month','Day','Hour'];
+        var WX_EN = {'wood':t('fivet.element_wood'),'fire':t('fivet.element_fire'),'earth':t('fivet.element_earth'),'metal':t('fivet.element_metal'),'water':t('fivet.element_water')};
+        var labels = [t('fivet.pillar_year'), t('fivet.pillar_month'), t('fivet.pillar_day'), t('fivet.pillar_hour')];
         var pillars = [];
         for (var i = 0; i < 4; i++) {
             pillars.push({
@@ -1157,11 +1168,11 @@
         // Day Master Profile Card
         if (dmProfile.nature) {
             html += '<div class="result-interpretation" style="border-left:3px solid var(--accent);">';
-            html += '<h3>🌟 Your Day Master: ' + dm + ' — ' + dmProfile.symbol + '</h3>';
+            html += '<h3>' + t('fivet.dm_label') + ' ' + dm + ' — ' + dmProfile.symbol + '</h3>';
             html += '<p>' + dmProfile.personality + '</p>';
             html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;margin-top:0.8rem;">';
-            html += '<div style="background:rgba(255,255,255,0.04);padding:0.6rem;border-radius:8px;"><strong style="font-size:0.8rem;color:var(--text-muted);">💼 Best Career Paths</strong><br><span style="font-size:0.9rem;">' + dmProfile.career + '</span></div>';
-            html += '<div style="background:rgba(255,255,255,0.04);padding:0.6rem;border-radius:8px;"><strong style="font-size:0.8rem;color:var(--text-muted);">❤️ Relationship Style</strong><br><span style="font-size:0.9rem;">' + dmProfile.relationships + '</span></div>';
+            html += '<div style="background:rgba(255,255,255,0.04);padding:0.6rem;border-radius:8px;"><strong style="font-size:0.8rem;color:var(--text-muted);">💼 ' + t('fivet.dm_career_label') + '</strong><br><span style="font-size:0.9rem;">' + dmProfile.career + '</span></div>';
+            html += '<div style="background:rgba(255,255,255,0.04);padding:0.6rem;border-radius:8px;"><strong style="font-size:0.8rem;color:var(--text-muted);">❤️ ' + t('fivet.dm_relation_label') + '</strong><br><span style="font-size:0.9rem;">' + dmProfile.relationships + '</span></div>';
             html += '</div>';
             html += '</div>';
         }
@@ -1169,13 +1180,13 @@
         // Five Elements Distribution
         // Five Elements bars
         var total = wxCount.wood + wxCount.fire + wxCount.earth + wxCount.metal + wxCount.water;
-        html += '<div class="result-bars"><h3>Your Life Elements</h3>';
+        html += '<div class="result-bars"><h3>' + t('fivet.life_elements_title') + '</h3>';
         var elements = [
-            { key: 'wood', name: 'Wood', icon: '🌲' },
-            { key: 'fire', name: 'Fire', icon: '🔥' },
-            { key: 'earth', name: 'Earth', icon: '🏔️' },
-            { key: 'metal', name: 'Metal', icon: '⚔️' },
-            { key: 'water', name: 'Water', icon: '💧' }
+            { key: 'wood', name: t('fivet.element_wood'), icon: '🌲' },
+            { key: 'fire', name: t('fivet.element_fire'), icon: '🔥' },
+            { key: 'earth', name: t('fivet.element_earth'), icon: '🏔️' },
+            { key: 'metal', name: t('fivet.element_metal'), icon: '⚔️' },
+            { key: 'water', name: t('fivet.element_water'), icon: '💧' }
         ];
         elements.forEach(function(el) {
             var count = wxCount[el.key];
@@ -1192,18 +1203,18 @@
         html += '<div class="result-interpretation">';
         html += '<h3>' + interp.name + '</h3>';
         html += '<p>' + interp.description + '</p>';
-        html += '<p><strong>MBTI Vibe:</strong> ' + interp.mbti + '</p>';
-        html += '<p><strong>Core Strengths:</strong></p><ul style="color:var(--text-secondary);padding-left:1.2rem;margin-bottom:0.8rem;font-size:0.9rem;line-height:1.8;">';
+        html += '<p><strong>' + t('fivet.mbti_vibe') + '</strong> ' + interp.mbti + '</p>';
+        html += '<p><strong>' + t('fivet.core_strengths') + '</strong></p><ul style="color:var(--text-secondary);padding-left:1.2rem;margin-bottom:0.8rem;font-size:0.9rem;line-height:1.8;">';
         interp.strengths.forEach(function(s) { html += '<li>' + s + '</li>'; });
         html += '</ul>';
-        html += '<p><strong>Growth Area:</strong> ' + interp.growth + '</p>';
+        html += '<p><strong>' + t('fivet.growth_area') + '</strong> ' + interp.growth + '</p>';
         html += '</div>';
 
         // Quiz-based personality insight + integrated analysis
         if (quizTrait.personality) {
             var isMatch = quizDominant === d;
             html += '<div class="result-interpretation" style="border-left:3px solid ' + (isMatch ? 'var(--wx-wood)' : 'var(--wx-water)') + ';">';
-            html += '<h3>🧠 Personality Quiz Insights</h3>';
+            html += '<h3>' + t('fivet.quiz_insights_title') + '</h3>';
             html += '<p>' + quizTrait.personality + '</p>';
             html += '<div style="display:flex;flex-wrap:wrap;gap:0.4rem;margin:0.5rem 0;">';
             if (quizTrait.keywords) {
@@ -1215,18 +1226,18 @@
 
             if (isMatch) {
                 html += '<div style="background:rgba(94,130,94,0.08);border-radius:10px;padding:0.8rem;margin-top:0.6rem;">';
-                html += '<p style="margin:0;font-size:0.88rem;"><strong style="color:var(--wx-wood);">✓ Strong Alignment</strong> — Your quiz answers perfectly match your BaZi dominant element (' + d + '). This consistency across two completely different systems (birth chart calculation + personality assessment) is a powerful indicator of your authentic nature. Lean into this element\'s strengths — they are deeply ingrained in who you are.</p>';
+                html += '<p style="margin:0;font-size:0.88rem;"><strong style="color:var(--wx-wood);">' + t('fivet.strong_alignment') + '</strong> — ' + t('fivet.strong_alignment_desc', d) + '</p>';
                 html += '</div>';
             } else {
                 // Find the bridge between day master element and quiz element
                 var STEMS_WX2 = {'甲':'wood','乙':'wood','丙':'fire','丁':'fire','戊':'earth','己':'earth','庚':'metal','辛':'metal','壬':'water','癸':'water'};
                 var dmWx = STEMS_WX2[dm] || d;
-                var WX_CAP = { 'metal':'Metal', 'water':'Water', 'wood':'Wood', 'fire':'Fire', 'earth':'Earth' };
+                var WX_CAP = { 'metal':t('fivet.element_metal'), 'water':t('fivet.element_water'), 'wood':t('fivet.element_wood'), 'fire':t('fivet.element_fire'), 'earth':t('fivet.element_earth') };
                 var dmElemEn = WX_CAP[dmWx] || d;
-                var quizElemEn = quizDominant.charAt(0).toUpperCase() + quizDominant.slice(1);
-                var wxGenerate = { 'metal':'generates Water', 'water':'generates Wood', 'wood':'generates Fire', 'fire':'generates Earth', 'earth':'generates Metal' };
+                var quizElemEn = WX_CAP[quizDominant] || quizDominant;
+                var wxGenerate = { 'metal':t('fivet.gen_water'), 'water':t('fivet.gen_wood'), 'wood':t('fivet.gen_fire'), 'fire':t('fivet.gen_earth'), 'earth':t('fivet.gen_metal') };
                 html += '<div style="background:rgba(91,130,153,0.08);border-radius:10px;padding:0.8rem;margin-top:0.6rem;">';
-                html += '<p style="margin:0;font-size:0.88rem;"><strong style="color:var(--wx-water);">🔍 Dual Element Pattern</strong> — Your BaZi chart shows ' + dmElemEn + ' as dominant, but your quiz reveals ' + quizElemEn + ' tendencies. This is actually a rich pattern: your birth chart (Day Master ' + dm + ', ' + dmProfile.symbol + ') represents your innate nature, while your quiz answers reflect your current personality expression. Many successful people have this dual pattern — the contrast gives you versatility. ' + (dmWx !== quizDominant ? 'Your ' + dmElemEn + ' nature ' + wxGenerate[dmWx] + ', which naturally feeds into ' + quizElemEn + ' energy — meaning your inner nature supports your outer expression.' : '') + '</p>';
+                html += '<p style="margin:0;font-size:0.88rem;"><strong style="color:var(--wx-water);">' + t('fivet.dual_pattern') + '</strong> — ' + t('fivet.dual_pattern_desc', dm, dmProfile.symbol, dmElemEn, quizElemEn, dmWx, quizDominant) + '</p>';
                 html += '</div>';
             }
             html += '</div>';
@@ -1297,7 +1308,7 @@
         var result = {};
         try { result = calculateFiveElements(); } catch(e) {}
         var interp = INTERPRETATIONS[result.dominant || 'wood'];
-        var text = 'My dominant Five Element is ' + interp.name + ' (' + interp.tagline + ')! Take the test:';
+        var text = t('fivet.share_text', interp.name, interp.tagline);
         var url = window.location.href;
         var encodedUrl = encodeURIComponent(url);
         var encodedText = encodeURIComponent(text);
@@ -1321,7 +1332,7 @@
         navigator.clipboard.writeText(url).then(function() {
             var btn = event.target;
             var orig = btn.textContent;
-            btn.textContent = '✓ Copied!';
+            btn.textContent = t('fivet.copied');
             setTimeout(function() { btn.textContent = orig; }, 2000);
         });
     };
