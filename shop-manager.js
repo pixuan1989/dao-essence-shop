@@ -45,7 +45,7 @@ window.loadProducts = async function() {
         if (grid) {
             grid.innerHTML = `
                 <div style="color: #e74c3c; padding: 40px; text-align: center; background: var(--bg-accent); border-radius: 8px;">
-                    <h3 style="color: var(--fire-primary);">Error Loading Products</h3>
+                    <h3 style="color: var(--fire-primary);">${(window.DaoI18n && window.DaoI18n.t('shop.error_loading')) || 'Error Loading Products'}</h3>
                     <p>${error.message}</p>
                 </div>
             `;
@@ -129,7 +129,8 @@ window.renderShop = function() {
 
     grid.innerHTML = filtered.map(product => {
         const discount = SHOW_DISCOUNT && product.originalPrice ? window.calculateDiscount(product.originalPrice, product.price) : 0;
-        const discountBadge = discount > 0 ? `<span class="discount-badge">${discount}% OFF</span>` : '';
+        const discountText = discount > 0 ? ((window.DaoI18n && window.DaoI18n.t('shop.discount_off')) || 'OFF') : '';
+        const discountBadge = discount > 0 ? `<span class="discount-badge">${discount}${discountText}</span>` : '';
         
         const priceDisplay = SHOW_DISCOUNT && product.originalPrice
             ? `
@@ -141,13 +142,13 @@ window.renderShop = function() {
             : `<div class="product-price">$${product.price.toFixed(2)}</div>`;
 
         // 为八字分析产品添加特殊处理
-        const isBaziProduct = product.category === 'bazi-analysis' || product.id === 'bazi-analysis' || product.id === 'prod_28PqAKMEom5WGRH1w9O35n' || product.name.includes('BaZi') || product.name.includes('Bazi') || product.nameCN.includes('八字');
+        const isBaziProduct = product.category === 'bazi-analysis' || product.id === 'bazi-analysis' || product.id === 'prod_28PqAKMEom5WGRH1w9O35n' || product.name.includes('BaZi') || product.name.includes('Bazi') || (product.nameCN && product.nameCN.includes('八字'));
         const productLink = isBaziProduct ? 'bazi-form.html' : `product-detail.html?id=${product.id}`;
 
         return `
         <a href="${productLink}" class="shop-product-card" style="text-decoration: none; color: inherit; display: block;">
             <div class="product-image-wrapper">
-                <img src="${product.image}" alt="${product.nameCN}" onerror="this.src='https://images.unsplash.com/photo-1519681393784-d120267933ba?w=600&h=600&fit=crop'">
+                <img src="${product.image}" alt="${product.nameCN || product.name}" onerror="this.src='https://images.unsplash.com/photo-1519681393784-d120267933ba?w=600&h=600&fit=crop'">
                 <!-- 五行标签已注释掉
                 <div class="product-element">
                     <span class="element-badge">${product.element.toUpperCase()}</span>
@@ -157,8 +158,8 @@ window.renderShop = function() {
             </div>
             <div class="product-info">
                 <div class="product-category">${categoryMap[product.category] || product.category}</div>
-                <div class="product-title">${product.nameCN}</div>
-                <div class="product-desc-short" style="display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;text-overflow:ellipsis;">${product.descriptionCN}</div>
+                <div class="product-title">${product.nameCN || product.name}</div>
+                <div class="product-desc-short" style="display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;text-overflow:ellipsis;">${product.descriptionCN || product.description}</div>
                 <div class="product-meta">
                     ${priceDisplay}
                 </div>

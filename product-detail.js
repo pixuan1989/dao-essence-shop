@@ -168,11 +168,11 @@ window.loadCardData = async function() {
             // 转换 Creem API 数据格式为卡详情页需要的格式
             CARD_DATA = {
                 id: card.id,
-                title: card.name || card.product_name || 'Unknown Card',
-                titleZh: card.nameCN || card.name || 'Unknown Card',
+                title: card.name || card.product_name || (window.DaoI18n ? window.DaoI18n.t('product_detail.unknown_card') : 'Unknown Card'),
+                titleZh: card.nameCN || card.name || (window.DaoI18n ? window.DaoI18n.t('product_detail.unknown_card') : 'Unknown Card'),
                 handle: (card.name || 'card').toLowerCase().replace(/\s+/g, '-'),
-                description: card.description || card.product_description || 'No description available',
-                descriptionZh: card.descriptionCN || card.description || card.product_description || 'No description available',
+                description: card.description || card.product_description || (window.DaoI18n ? window.DaoI18n.t('product_detail.no_description') : 'No description available'),
+                descriptionZh: card.descriptionCN || card.description || card.product_description || (window.DaoI18n ? window.DaoI18n.t('product_detail.no_description') : 'No description available'),
                 price: parseFloat(card.price) || 0,
                 compareAtPrice: parseFloat(card.originalPrice || card.price) || 0,
                 currency: card.currency || 'USD',
@@ -207,7 +207,7 @@ window.loadCardData = async function() {
         // 使用默认数据结构作为 fallback
         CARD_DATA = {
             id: actualCardId,
-            title: 'Card Not Found',
+            title: window.DaoI18n ? window.DaoI18n.t('product_detail.card_not_found') : 'Card Not Found',
             titleZh: '卡未找到',
             handle: 'card-not-found',
             description: 'Card not available',
@@ -642,7 +642,7 @@ window.updateUIForVariant = function(variant) {
         // 🔥 修复：更新"节省xxx美元"文字
         const savingsTextElement = document.getElementById('savingsText');
         if (savingsTextElement) {
-            savingsTextElement.textContent = `Save $${savings.toFixed(2)}`;
+            savingsTextElement.textContent = (window.DaoI18n ? window.DaoI18n.t('product_detail.save_text') : 'Save $') + savings.toFixed(2);
             savingsTextElement.style.display = 'block';
         }
     } else {
@@ -700,7 +700,7 @@ fetch('/api/create-checkout', {
 // 立即购买函数 - 每次实时创建 checkout（保证 URL 新鲜不过期）
 window.buyNow = async function() {
     if (!CARD_DATA) {
-        alert('Product data not loaded. Please refresh the page.');
+        alert(window.DaoI18n ? window.DaoI18n.t('product_detail.alert_no_data') : 'Product data not loaded. Please refresh the page.');
         return;
     }
 
@@ -712,7 +712,7 @@ window.buyNow = async function() {
     const buyBtn = document.querySelector('.btn-buy-now');
     const btnText = buyBtn?.querySelector('.btn-text');
     if (buyBtn) buyBtn.classList.add('loading');
-    if (btnText) btnText.textContent = 'Redirecting...';
+    if (btnText) btnText.textContent = window.DaoI18n ? window.DaoI18n.t('product_detail.redirecting') : 'Redirecting...';
 
     try {
         const quantity = Math.max(1, parseInt(document.getElementById('quantity')?.value) || 1);
@@ -740,10 +740,10 @@ window.buyNow = async function() {
         }
     } catch (error) {
         console.error('❌ Buy now error:', error);
-        alert('Unable to connect to payment service. Please try again.');
+        alert(window.DaoI18n ? window.DaoI18n.t('product_detail.alert_payment_fail') : 'Unable to connect to payment service. Please try again.');
         window._buying = false;
         if (buyBtn) buyBtn.classList.remove('loading');
-        if (btnText) btnText.textContent = 'Buy Now';
+        if (btnText) btnText.textContent = window.DaoI18n ? window.DaoI18n.t('product_detail.buy_now') : 'Buy Now';
     }
 };
 
@@ -846,7 +846,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             // 🔥 Type 行：壁纸产品显示更精确的类型
             const specType = document.getElementById('specType');
             if (specType && isWallpaper) {
-                specType.textContent = 'Digital wallpaper (HD image set — phone, tablet, desktop)';
+                specType.textContent = window.DaoI18n ? window.DaoI18n.t('product_detail.spec_wallpaper_type') : 'Digital wallpaper (HD image set — phone, tablet, desktop)';
             }
         }
         
@@ -910,7 +910,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         
         const cardSku = document.getElementById('cardSku');
         if (cardSku) {
-            cardSku.textContent = 'SKU: ' + CARD_DATA.id;
+            cardSku.textContent = 'SKU: ' + CARD_DATA.id; // SKU is universal, no translation needed
         }
     }
     

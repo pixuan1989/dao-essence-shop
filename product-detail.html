@@ -1761,7 +1761,7 @@
                             <div class="swiper-pagination swiper-pagination-main"></div>
                             <div class="swiper-button-next swiper-button-next-main"></div>
                             <div class="swiper-button-prev swiper-button-prev-main"></div>
-                            <div class="image-zoom-hint">
+                            <div class="image-zoom-hint" data-i18n="product_detail.click_to_zoom">
                                 <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
                                     <circle cx="11" cy="11" r="8"></circle>
                                     <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
@@ -1806,114 +1806,114 @@
                                 <span class="discount-badge" id="discountBadge">-0%</span>
                             </div>
                             <div class="savings-text" id="savingsText" style="display:none;"></div>
-                            <div class="tax-info">Tax included. Instant digital delivery</div>
+                            <div class="tax-info" data-i18n="product_detail.tax_info">Tax included. Instant digital delivery</div>
                         </div>
 
                         <!-- 购买区域 - 直接购买模式（购物车功能已隐藏） -->
                         <div class="purchase-area">
                             <div class="action-buttons">
                                 <!-- <button class="btn-add-cart" onclick="addToCartFromDetail()">Add to Cart</button> -->
-                                <button class="btn-buy-now" onclick="buyNow()" style="width: 100%;"><span class="spinner"></span><span class="btn-text">Buy Now</span></button>
+                                <button class="btn-buy-now" onclick="buyNow()" style="width: 100%;"><span class="spinner"></span><span class="btn-text" data-i18n="product_detail.buy_now">Buy Now</span></button>
                             </div>
                         </div>
 
                         <!-- 产品描述 -->
                         <div class="card-description">
-                            <h3 class="section-title-custom">About This Digital Resource</h3>
+                            <h3 class="section-title-custom" data-i18n="product_detail.about_title">About This Digital Resource</h3>
                             <div class="description-text" id="cardDescription">
-                                <p>Loading product description...</p>
+                                <p data-i18n="product_detail.loading_desc">Loading product description...</p>
                             </div>
                         </div>
 
                         <!-- How It Works -->
                         <div class="how-to-redeem">
-                            <h3 class="section-title-custom">How It Works</h3>
+                            <h3 class="section-title-custom" data-i18n="product_detail.how_it_works">How It Works</h3>
                             <div class="redeem-steps">
                                 <div class="redeem-step">
                                     <div class="redeem-step-num">1</div>
                                     <div class="redeem-step-content">
-                                        <h4>Purchase &amp; Receive Access</h4>
-                                        <p>Complete your purchase and receive instant access to your digital content via email.</p>
+                                        <h4 data-i18n="product_detail.step1_title">Purchase &amp; Receive Access</h4>
+                                        <p data-i18n="product_detail.step1_desc">Complete your purchase and receive instant access to your digital content via email.</p>
                                     </div>
                                 </div>
                                 <div class="redeem-step">
                                     <div class="redeem-step-num">2</div>
                                     <div class="redeem-step-content">
-                                        <h4>Access Your Digital Content</h4>
-                                        <p>Check your email for download links or access codes. Contact us via <a href="mailto:support@daoessentia.com" style="color:var(--accent-color);">email</a> or WhatsApp/WeChat if you need assistance.</p>
+                                        <h4 data-i18n="product_detail.step2_title">Access Your Digital Content</h4>
+                                        <p data-i18n="product_detail.step2_desc">Check your email for download links or access codes. Contact us via <a href="mailto:support@daoessentia.com" style="color:var(--accent-color);">email</a> or WhatsApp/WeChat if you need assistance.</p>
                                     </div>
                                 </div>
                                 <div class="redeem-step">
                                     <div class="redeem-step-num">3</div>
                                     <div class="redeem-step-content">
-                                        <h4>Download &amp; Enjoy</h4>
-                                        <p>Download your digital files (audio, video, PDF, e-book, or wallpaper) to your preferred device and enjoy at your convenience.</p>
+                                        <h4 data-i18n="product_detail.step3_title">Download &amp; Enjoy</h4>
+                                        <p data-i18n="product_detail.step3_desc">Download your digital files (audio, video, PDF, e-book, or wallpaper) to your preferred device and enjoy at your convenience.</p>
                                     </div>
                                 </div>
                                 <div class="redeem-step">
                                     <div class="redeem-step-num">4</div>
                                     <div class="redeem-step-content">
-                                        <h4>Keep Forever</h4>
-                                        <p>Your digital purchase is yours to keep. Access it anytime, anywhere, with no expiration.</p>
+                                        <h4 data-i18n="product_detail.step4_title">Keep Forever</h4>
+                                        <p data-i18n="product_detail.step4_desc">Your digital purchase is yours to keep. Access it anytime, anywhere, with no expiration.</p>
                                     </div>
                                 </div>
                             </div>
                             <div class="redeem-note">
                                 <svg viewBox="0 0 20 20" width="16" height="16" fill="currentColor" style="flex-shrink:0;margin-top:2px"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
-                                <span>Digital access is valid for <strong>12 months</strong> from purchase date for re-downloads. Need help? Contact us at <a href="mailto:support@daoessentia.com" style="color:var(--accent-color);">support@daoessentia.com</a></span>
+                                <span data-i18n="product_detail.redeem_note">Digital access is valid for <strong>12 months</strong> from purchase date for re-downloads. Need help? Contact us at <a href="mailto:support@daoessentia.com" style="color:var(--accent-color);">support@daoessentia.com</a></span>
                             </div>
                         </div>
 
                         <!-- 规格参数 -->
                         <div class="specifications">
-                            <h3 class="section-title-custom">Product Details</h3>
+                            <h3 class="section-title-custom" data-i18n="product_detail.product_details">Product Details</h3>
                             <table class="spec-table">
                                 <tr>
-                                    <td class="spec-label">Type</td>
-                                    <td class="spec-value" id="specType">Digital product (audio / video / e-book / PDF / wallpaper)</td>
+                                    <td class="spec-label" data-i18n="product_detail.spec_type">Type</td>
+                                    <td class="spec-value" id="specType" data-i18n="product_detail.spec_type_value">Digital product (audio / video / e-book / PDF / wallpaper)</td>
                                 </tr>
                                 <tr>
-                                    <td class="spec-label">Delivery</td>
-                                    <td class="spec-value">Instant — download links sent to your email</td>
+                                    <td class="spec-label" data-i18n="product_detail.spec_delivery">Delivery</td>
+                                    <td class="spec-value" data-i18n="product_detail.spec_delivery_value">Instant — download links sent to your email</td>
                                 </tr>
                                 <tr>
-                                    <td class="spec-label">Access Period</td>
-                                    <td class="spec-value">12 months re-download access from purchase date</td>
+                                    <td class="spec-label" data-i18n="product_detail.spec_access_period">Access Period</td>
+                                    <td class="spec-value" data-i18n="product_detail.spec_access_period_value">12 months re-download access from purchase date</td>
                                 </tr>
                                 <tr>
-                                    <td class="spec-label">Format</td>
+                                    <td class="spec-label" data-i18n="product_detail.spec_format">Format</td>
                                     <td class="spec-value" id="specMaterial">
                                         <!-- 默认（音频/通用）格式说明 -->
-                                        <span id="formatDefault">Digital files (MP3, MP4, PDF, or EPUB)</span>
+                                        <span id="formatDefault" data-i18n="product_detail.spec_format_default">Digital files (MP3, MP4, PDF, or EPUB)</span>
 
                                         <!-- 壁纸专属尺寸说明（默认隐藏，由 JS 切换） -->
                                         <span id="formatWallpaper" style="display:none;">
-                                            <strong style="color:var(--gold-primary,#c9a84c);font-size:1.05em;">HD Wallpaper Set (3 Sizes)</strong>
+                                            <strong style="color:var(--gold-primary,#c9a84c);font-size:1.05em;" data-i18n="product_detail.spec_format_wallpaper">HD Wallpaper Set (3 Sizes)</strong>
                                             &nbsp;— covers every device you own<br>
-                                            <span style="font-size:0.88em;opacity:0.8;line-height:1.7;display:block;margin-top:4px;">
+                                            <span style="font-size:0.88em;opacity:0.8;line-height:1.7;display:block;margin-top:4px;" data-i18n="product_detail.spec_format_wallpaper_sub">
                                                 One purchase, all devices covered:
                                             </span>
                                             <span style="display:flex;flex-wrap:wrap;gap:8px 16px;margin-top:10px;align-items:center;">
                                                 <span style="display:inline-flex;align-items:center;gap:6px;">
                                                     <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="opacity:0.7"><path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/></svg>
-                                                    <span><b>Phone</b> — 1080 × 1920 px</span>
+                                                    <span data-i18n="product_detail.phone"><b>Phone</b> — 1080 × 1920 px</span>
                                                 </span>
                                                 <span style="display:inline-flex;align-items:center;gap:6px;">
                                                     <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="opacity:0.7"><path d="M3 4h18a1 1 0 011 1v14a1 1 0 01-1 1H3a1 1 0 01-1-1V5a1 1 0 011-1zm0 2v12h18V6H3zm5 3h8v1H8V9zm0 3h6v1H8v-1z"/></svg>
-                                                    <span><b>Tablet</b> — 2048 × 2732 px</span>
+                                                    <span data-i18n="product_detail.tablet"><b>Tablet</b> — 2048 × 2732 px</span>
                                                 </span>
                                                 <span style="display:inline-flex;align-items:center;gap:6px;">
                                                     <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="opacity:0.7"><path d="M20 18c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"/></svg>
-                                                    <span><b>Desktop</b> — 2560 × 1440 px</span>
+                                                    <span data-i18n="product_detail.desktop"><b>Desktop</b> — 2560 × 1440 px</span>
                                                 </span>
                                             </span>
                                         </span>
 
                                         <!-- 小说专属 EPUB 说明（默认隐藏，由 JS 切换） -->
                                         <span id="formatEpub" style="display:none;">
-                                            <strong style="color:var(--gold-primary,#c9a84c);font-size:1.05em;">EPUB</strong>
+                                            <strong style="color:var(--gold-primary,#c9a84c);font-size:1.05em;" data-i18n="product_detail.spec_format_epub">EPUB</strong>
                                             &nbsp;— the universal e-book format<br>
-                                            <span style="font-size:0.88em;opacity:0.8;line-height:1.7;display:block;margin-top:4px;">
+                                            <span style="font-size:0.88em;opacity:0.8;line-height:1.7;display:block;margin-top:4px;" data-i18n="product_detail.spec_format_epub_sub">
                                                 Works on <b>every</b> device you already own:
                                             </span>
                                             <!-- 设备兼容图标行 -->
@@ -1950,19 +1950,19 @@
                                                 </span>
 
                                             </span>
-                                            <span style="font-size:0.82em;opacity:0.65;display:block;margin-top:8px;">
+                                            <span style="font-size:0.82em;opacity:0.65;display:block;margin-top:8px;" data-i18n="product_detail.spec_format_epub_tip">
                                                 💡 Also works on Kindle via "Send to Kindle" — no app needed.
                                             </span>
                                         </span>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="spec-label">Access Method</td>
-                                    <td class="spec-value">Secure download via email or online portal</td>
+                                    <td class="spec-label" data-i18n="product_detail.spec_access_method">Access Method</td>
+                                    <td class="spec-value" data-i18n="product_detail.spec_access_method_value">Secure download via email or online portal</td>
                                 </tr>
                                 <tr>
-                                    <td class="spec-label">Support</td>
-                                    <td class="spec-value">24/7 email support for download and access inquiries</td>
+                                    <td class="spec-label" data-i18n="product_detail.spec_support">Support</td>
+                                    <td class="spec-value" data-i18n="product_detail.spec_support_value">24/7 email support for download and access inquiries</td>
                                 </tr>
                             </table>
                         </div>
@@ -1970,7 +1970,7 @@
                         <!-- 动态属性区块：根据产品类型显示不同内容 -->
                         <!-- 能量属性 - 适用于冥想/音频类产品 -->
                         <div class="energy-attributes" id="energyAttributesBlock">
-                            <h3 class="section-title-custom">Energy Attributes</h3>
+                            <h3 class="section-title-custom" data-i18n="product_detail.energy_attributes">Energy Attributes</h3>
                             <div class="attribute-grid">
                                 <div class="attribute-item">
                                     <div class="attribute-icon">
@@ -1980,8 +1980,8 @@
                                         </svg>
                                     </div>
                                     <div class="attribute-content">
-                                        <h4>Five Elements</h4>
-                                        <p>Metal — Enhances prosperity and attracts wealth energy</p>
+                                        <h4 data-i18n="product_detail.energy_five">Five Elements</h4>
+                                        <p data-i18n="product_detail.energy_metal">Metal — Enhances prosperity and attracts wealth energy</p>
                                     </div>
                                 </div>
                                 <div class="attribute-item">
@@ -1992,8 +1992,8 @@
                                         </svg>
                                     </div>
                                     <div class="attribute-content">
-                                        <h4>Energy Type</h4>
-                                        <p>Protective &amp; Abundance — shields and preserves wealth</p>
+                                        <h4 data-i18n="product_detail.energy_type">Energy Type</h4>
+                                        <p data-i18n="product_detail.energy_type_value">Protective &amp; Abundance — shields and preserves wealth</p>
                                     </div>
                                 </div>
                                 <div class="attribute-item">
@@ -2004,8 +2004,8 @@
                                         </svg>
                                     </div>
                                     <div class="attribute-content">
-                                        <h4>Auspicious Direction</h4>
-                                        <p>West &amp; Northwest — optimal placement for wealth</p>
+                                        <h4 data-i18n="product_detail.energy_direction">Auspicious Direction</h4>
+                                        <p data-i18n="product_detail.energy_direction_value">West &amp; Northwest — optimal placement for wealth</p>
                                     </div>
                                 </div>
                                 <div class="attribute-item">
@@ -2016,8 +2016,8 @@
                                         </svg>
                                     </div>
                                     <div class="attribute-content">
-                                        <h4>Best Suited For</h4>
-                                        <p>Ambitious individuals seeking financial growth &amp; stability</p>
+                                        <h4 data-i18n="product_detail.energy_best_for">Best Suited For</h4>
+                                        <p data-i18n="product_detail.energy_best_for_value">Ambitious individuals seeking financial growth &amp; stability</p>
                                     </div>
                                 </div>
                             </div>
@@ -2025,7 +2025,7 @@
 
                         <!-- 会员优势 - 适用于小说/读物类产品 -->
                         <div class="energy-attributes" id="membershipBenefitsBlock" style="display:none;">
-                            <h3 class="section-title-custom">Membership Benefits</h3>
+                            <h3 class="section-title-custom" data-i18n="product_detail.membership_benefits">Membership Benefits</h3>
                             <div class="attribute-grid">
 
                                 <!-- 1. 一次性付款，终身访问权 — 无限符号+锁（永久拥有） -->
@@ -2046,8 +2046,8 @@
                                         </svg>
                                     </div>
                                     <div class="attribute-content">
-                                        <h4>Buy Once, Keep Forever</h4>
-                                        <p>One payment = permanent ownership. No subscriptions, no renewals, no expiration. Your books are yours for life.</p>
+                                        <h4 data-i18n="product_detail.benefit1_title">Buy Once, Keep Forever</h4>
+                                        <p data-i18n="product_detail.benefit1_desc">One payment = permanent ownership. No subscriptions, no renewals, no expiration. Your books are yours for life.</p>
                                     </div>
                                 </div>
 
@@ -2068,8 +2068,8 @@
                                         </svg>
                                     </div>
                                     <div class="attribute-content">
-                                        <h4>Free Updates for Life</h4>
-                                        <p>New chapters, bonus content, and sequel releases — all included. We keep adding value, you pay nothing extra.</p>
+                                        <h4 data-i18n="product_detail.benefit2_title">Free Updates for Life</h4>
+                                        <p data-i18n="product_detail.benefit2_desc">New chapters, bonus content, and sequel releases — all included. We keep adding value, you pay nothing extra.</p>
                                     </div>
                                 </div>
 
@@ -2089,8 +2089,8 @@
                                         </svg>
                                     </div>
                                     <div class="attribute-content">
-                                        <h4>Library Keeps Growing</h4>
-                                        <p>From xianxia epics to wuxia adventures — our catalog expands monthly. Your next favorite story is already in the works.</p>
+                                        <h4 data-i18n="product_detail.benefit3_title">Library Keeps Growing</h4>
+                                        <p data-i18n="product_detail.benefit3_desc">From xianxia epics to wuxia adventures — our catalog expands monthly. Your next favorite story is already in the works.</p>
                                     </div>
                                 </div>
 
@@ -2107,8 +2107,8 @@
                                         </svg>
                                     </div>
                                     <div class="attribute-content">
-                                        <h4>Safe Downloads, Guaranteed</h4>
-                                        <p>Virus-free EPUB files, secure payment, and 30-day refund policy. Read with total peace of mind.</p>
+                                        <h4 data-i18n="product_detail.benefit4_title">Safe Downloads, Guaranteed</h4>
+                                        <p data-i18n="product_detail.benefit4_desc">Virus-free EPUB files, secure payment, and 30-day refund policy. Read with total peace of mind.</p>
                                     </div>
                                 </div>
 
@@ -2117,7 +2117,7 @@
 
                         <!-- 壁纸专属属性 - 适用于五行壁纸类产品 -->
                         <div class="energy-attributes" id="wallpaperBenefitsBlock" style="display:none;">
-                            <h3 class="section-title-custom">Wallpaper Highlights</h3>
+                            <h3 class="section-title-custom" data-i18n="product_detail.wallpaper_highlights">Wallpaper Highlights</h3>
                             <div class="attribute-grid">
 
                                 <!-- 1. 全设备覆盖 — 多设备图标 -->
@@ -2138,8 +2138,8 @@
                                         </svg>
                                     </div>
                                     <div class="attribute-content">
-                                        <h4>All Devices Covered</h4>
-                                        <p>Phone, tablet, and desktop — 3 HD sizes in every purchase. One wallpaper set fits your entire digital life.</p>
+                                        <h4 data-i18n="product_detail.wallpaper_all_devices">All Devices Covered</h4>
+                                        <p data-i18n="product_detail.wallpaper_all_devices_desc">Phone, tablet, and desktop — 3 HD sizes in every purchase. One wallpaper set fits your entire digital life.</p>
                                     </div>
                                 </div>
 
@@ -2164,8 +2164,8 @@
                                         </svg>
                                     </div>
                                     <div class="attribute-content">
-                                        <h4>Five Elements Energy</h4>
-                                        <p>Based on Wu Xing (五行) theory — each combo carries a specific generative energy. Choose the pairing that resonates with your BaZi chart.</p>
+                                        <h4 data-i18n="product_detail.wallpaper_five_elements">Five Elements Energy</h4>
+                                        <p data-i18n="product_detail.wallpaper_five_elements_desc">Based on Wu Xing (五行) theory — each combo carries a specific generative energy. Choose the pairing that resonates with your BaZi chart.</p>
                                     </div>
                                 </div>
 
@@ -2183,8 +2183,8 @@
                                         </svg>
                                     </div>
                                     <div class="attribute-content">
-                                        <h4>Crystal-Clear Resolution</h4>
-                                        <p>Up to 2560 × 1440 px — sharp on any screen, from phone Retina displays to 4K monitors. No pixelation.</p>
+                                        <h4 data-i18n="product_detail.wallpaper_hd_res">Crystal-Clear Resolution</h4>
+                                        <p data-i18n="product_detail.wallpaper_hd_res_desc">Up to 2560 × 1440 px — sharp on any screen, from phone Retina displays to 4K monitors. No pixelation.</p>
                                     </div>
                                 </div>
 
@@ -2201,8 +2201,8 @@
                                         </svg>
                                     </div>
                                     <div class="attribute-content">
-                                        <h4>Instant Download</h4>
-                                        <p>Buy now, download instantly. No waiting, no shipping. Set as your wallpaper in seconds on any device.</p>
+                                        <h4 data-i18n="product_detail.wallpaper_instant">Instant Download</h4>
+                                        <p data-i18n="product_detail.wallpaper_instant_desc">Buy now, download instantly. No waiting, no shipping. Set as your wallpaper in seconds on any device.</p>
                                     </div>
                                 </div>
 
@@ -2264,11 +2264,11 @@
                     <div class="logo">
                         <span class="logo-en">DAO ESSENCE</span>
                     </div>
-                    <p>Ancient Wisdom, Modern Clarity. Navigate life with structured insight through BaZi analysis, Feng Shui consultation, and Five Elements guidance.</p>
+                    <p data-i18n="footer.brand_desc">Ancient Wisdom, Modern Clarity. Navigate life with structured insight through BaZi analysis, Feng Shui consultation, and Five Elements guidance.</p>
 
                                         </div>
                 <div>
-                    <h4 class="footer-title">Navigation</h4>
+                    <h4 class="footer-title" data-i18n="footer.explore_title">Navigation</h4>
                     <ul class="footer-links">
                         <li><a href="/blog/">Blog</a></li>
                         <li><a href="/">Home</a></li>
@@ -2278,7 +2278,7 @@
                     </ul>
                 </div>
                 <div>
-                    <h4 class="footer-title">Links</h4>
+                    <h4 class="footer-title" data-i18n="footer.links_title">Links</h4>
                     <ul class="footer-links">
                         <li style="margin-bottom:8px;display:block !important;">
                             <div><a href="https://fatenet.cn/" target="_blank" rel="noopener">FateNet</a></div>
@@ -2287,7 +2287,7 @@
                     </ul>
                 </div>
                 <div>
-                    <h4 class="footer-title">Contact</h4>
+                    <h4 class="footer-title" data-i18n="footer.contact_title">Contact</h4>
                     <ul class="footer-links">
                         <li>
                             <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle;margin-right:6px"><path d="M3 4h14a1 1 0 011 1v10a1 1 0 01-1 1H3a1 1 0 01-1-1V5a1 1 0 011-1z"/><path d="M3 5l7 6 7-6"/></svg>
@@ -2318,11 +2318,11 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2026 DAO Essence &amp; Five Elements. All rights reserved.</p>
+                <p data-i18n="footer.copyright">&copy; 2026 DAO Essence &amp; Five Elements. All rights reserved.</p>
                 <div class="footer-legal-links">
-                    <a href="privacy">Privacy Policy</a>
+                    <a href="privacy" data-i18n="footer.privacy">Privacy Policy</a>
                     <span>|</span>
-                    <a href="terms">Terms of Service</a>
+                    <a href="terms" data-i18n="footer.terms">Terms of Service</a>
                 </div>
             </div>
         </div>

@@ -110,14 +110,21 @@
       var pel = prefixed[j];
       var prefixVal = getNestedValue(t, pel.getAttribute('data-i18n-prefix')) || '';
       var suffixVal = getNestedValue(t, pel.getAttribute('data-i18n-suffix')) || '';
-      // Preserve child elements (like <span id="productCount">)
-      // Rebuild: prefixText + innerHTML + suffixText
-      var cacheKey = pel.getAttribute('data-i18n-cache-key');
-      if (cacheKey && originalTexts[cacheKey]) {
-        // Extract the inner HTML (the part between prefix text and suffix text)
-        var orig = originalTexts[cacheKey];
-        // Simple approach: wrap existing child nodes
-        pel.innerHTML = prefixVal + ' ' + orig + ' ' + suffixVal;
+      // Preserve child element nodes (like <span id="productCount">)
+      // Clone child nodes before clearing, then re-insert with translated prefix/suffix
+      var childNodes = [];
+      for (var c = 0; c < pel.childNodes.length; c++) {
+        childNodes.push(pel.childNodes[c].cloneNode(true));
+      }
+      pel.textContent = '';
+      if (prefixVal) {
+        pel.appendChild(document.createTextNode(prefixVal + ' '));
+      }
+      for (var k = 0; k < childNodes.length; k++) {
+        pel.appendChild(childNodes[k]);
+      }
+      if (suffixVal) {
+        pel.appendChild(document.createTextNode(' ' + suffixVal));
       }
     }
   }
@@ -189,6 +196,27 @@
     if (lang === currentLang) return;
     currentLang = lang;
     saveLang(lang);
+
+    // ── Blog article redirect ──
+    // Blog articles are built as separate EN / zh-Hant HTML files at build time.
+    // Runtime DOM replacement cannot translate article body — redirect to the
+    // correct language version instead.
+    var pathname = window.location.pathname;
+    if (lang !== DEFAULT_LANG) {
+      // EN → ZH: /blog/slug → /zh/blog/slug
+      var enMatch = pathname.match(/^\/blog\/(.+)$/);
+      if (enMatch) {
+        window.location.href = '/zh/blog/' + enMatch[1];
+        return;
+      }
+    } else {
+      // ZH → EN: /zh/blog/slug → /blog/slug
+      var zhMatch = pathname.match(/^\/zh\/blog\/(.+)$/);
+      if (zhMatch) {
+        window.location.href = '/blog/' + zhMatch[1];
+        return;
+      }
+    }
 
     if (lang === DEFAULT_LANG) {
       // Restore original English text — no network request needed

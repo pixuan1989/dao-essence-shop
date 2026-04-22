@@ -761,7 +761,7 @@ function generateArticleHtml(post, category, allArticles, options = {}) {
                 </div>
                 <div class="related-card-body">
                   <span class="related-card-cat">${escapeHtml(catLabel)}</span>
-                  <h3>${escapeHtml(isZh ? p.data.title : p.data.title)}</h3>
+                  <h3>${escapeHtml(p.data.title)}</h3>
                 </div>
               </a>`;
     }).join('');
