@@ -547,13 +547,22 @@
   },
   "footer": {
     "brand_desc": "古老智慧，現代清晰。透過八字分析、風水諮詢與五行指導，以結構化洞察導航人生。",
+    "brand_desc_alt": "古老智慧，現代和諧。基於正宗東方智慧傳統，提供數位健康服務與線上能量指導。",
     "navigation": "導航",
-    "links": "連結",
+    "explore_title": "探索",
+    "tools_title": "工具",
+    "links_title": "連結",
+    "contact_title": "聯繫方式",
     "contact": "聯繫方式",
     "digital_audio": "數位音頻課程",
     "copyright": "© 2026 DAO Essence & Five Elements. 保留所有權利。",
     "privacy": "隱私權政策",
-    "terms": "服務條款"
+    "terms": "服務條款",
+    "fortune_desc": "中國算命<br>尋找靈魂伴侶",
+    "soulmate_desc": "尋找靈魂伴侶",
+    "hours": "週一至週六：上午 9 點至晚上 9 點（CST / UTC+8）",
+    "wechat": "WeChat",
+    "telegram_channel": "Telegram 頻道"
   },
   "privacy": {
     "subtitle": "法律與隱私",

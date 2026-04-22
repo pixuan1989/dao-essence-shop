@@ -506,14 +506,14 @@ const ZODIAC_LOOKUP_HTML = `
             line-height: 1.6;
         }
     </style>
-    <h3>🐍 What's Your Chinese Zodiac?</h3>
-    <p class="sub">Enter your birth year to find out</p>
+    <h3 id="zodiacLookupTitle">🐍 What's Your Chinese Zodiac?</h3>
+    <p class="sub" id="zodiacLookupSub">Enter your birth year to find out</p>
     <div class="zodiac-form">
         <select id="zodiacYear">
-            <option value="">Select Year</option>
+            <option value="" id="zodiacYearDefault">Select Year</option>
         </select>
         <select id="zodiacMonth">
-            <option value="">Month</option>
+            <option value="" id="zodiacMonthDefault">Month</option>
             <option value="1">January</option>
             <option value="2">February</option>
             <option value="3">March</option>
@@ -527,7 +527,7 @@ const ZODIAC_LOOKUP_HTML = `
             <option value="11">November</option>
             <option value="12">December</option>
         </select>
-        <button onclick="lookupZodiac()">Look Up</button>
+        <button onclick="lookupZodiac()" id="zodiacLookupBtn">Look Up</button>
     </div>
     <div class="zodiac-result" id="zodiacResult">
         <div class="zodiac-emoji" id="zodiacEmoji"></div>
@@ -569,32 +569,93 @@ const ZODIAC_LOOKUP_HTML = `
         '猴': 'Monkey', '鸡': 'Rooster', '狗': 'Dog', '猪': 'Pig'
     };
 
+    var ZODIAC_DATA_ZH = {
+        'Rat': { emoji: '🐭', desc: '機智靈活、資源豐富、多才多藝。鼠是天生解決問題的高手，直覺敏銳。' },
+        'Ox': { emoji: '🐂', desc: '勤奮可靠、堅定不移。牛象徵力量、耐心與踏實努力。' },
+        'Tiger': { emoji: '🐅', desc: '勇敢競爭、自信果敢。虎是天生的領導者，以勇氣迎接挑戰。' },
+        'Rabbit': { emoji: '🐇', desc: '溫柔優雅、機敏靈活。兔有精緻的氣質與外交天賦。' },
+        'Dragon': { emoji: '🐉', desc: '精力充沛、無畏果斷、魅力四射。龍是最受尊崇的生肖，充滿活力與野心。' },
+        'Snake': { emoji: '🐍', desc: '智慧深沈、神祕直覺。蛇擁有深刻洞察力與冷靜策略思維。' },
+        'Horse': { emoji: '🐎', desc: '活潑好動、精力充沛。馬熱愛自由，擁有冒險熱情的靈魂。' },
+        'Goat': { emoji: '🐑', desc: '溫和慈悲、富有同情心。羊是具創造力的靈魂，深愛美感與和諧。' },
+        'Monkey': { emoji: '🐒', desc: '聰明機智、好奇心強。猴是機敏的創新者，性格幽默迷人。' },
+        'Rooster': { emoji: '🐓', desc: '觀察力強、勤奮勇敢。雞是完美主義者，有強烈的時間感。' },
+        'Dog': { emoji: '🐕', desc: '忠誠正直、友善可靠。狗是堅定的伴侶，重視正義與忠誠。' },
+        'Pig': { emoji: '🐖', desc: '慈悲大方、勤懇踏實。豬有善良的心和樂觀隨和的性格。' }
+    };
+    var ZODIAC_NAME_ZH = {
+        'Rat': '鼠', 'Ox': '牛', 'Tiger': '虎', 'Rabbit': '兔',
+        'Dragon': '龍', 'Snake': '蛇', 'Horse': '馬', 'Goat': '羊',
+        'Monkey': '猴', 'Rooster': '雞', 'Dog': '狗', 'Pig': '豬'
+    };
+    var ZODIAC_MONTHS_ZH = ['','一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'];
+
+    function isZhMode() {
+        return window.DaoI18n && window.DaoI18n.current && window.DaoI18n.current() === 'zh';
+    }
+    function zt(key, enText) {
+        if (!window.DaoI18n || !window.DaoI18n.t) return enText;
+        var val = window.DaoI18n.t(key);
+        return (val && val !== key) ? val : enText;
+    }
+
+    // Auto-translate widget on load / language switch
+    function localizeZodiacWidget() {
+        var zh = isZhMode();
+        var titleEl = document.getElementById('zodiacLookupTitle');
+        var subEl = document.getElementById('zodiacLookupSub');
+        var btnEl = document.getElementById('zodiacLookupBtn');
+        var yearDefEl = document.getElementById('zodiacYearDefault');
+        var monthSel = document.getElementById('zodiacMonth');
+        if (titleEl) titleEl.innerHTML = zh ? '🐍 你的生肖是什麼？' : '🐍 What\\'s Your Chinese Zodiac?';
+        if (subEl) subEl.textContent = zh ? '輸入出生年份即可查詢' : 'Enter your birth year to find out';
+        if (btnEl) btnEl.textContent = zh ? '查詢' : 'Look Up';
+        if (yearDefEl) yearDefEl.textContent = zh ? '選擇年份' : 'Select Year';
+        if (monthSel) {
+            monthSel.options[0].textContent = zh ? '月份' : 'Month';
+            for (var i = 1; i <= 12; i++) {
+                monthSel.options[i].textContent = zh ? ZODIAC_MONTHS_ZH[i] : monthSel.options[i].getAttribute('data-en') || monthSel.options[i].textContent;
+            }
+        }
+    }
+    // Store English month texts
+    (function() {
+        var sel = document.getElementById('zodiacMonth');
+        if (sel) { for (var i = 1; i <= 12; i++) { if (sel.options[i]) sel.options[i].setAttribute('data-en', sel.options[i].textContent); } }
+    })();
+    // Run localization
+    setTimeout(localizeZodiacWidget, 100);
+    if (document.addEventListener && window.DaoI18n) {
+        document.addEventListener('daoessence:i18n-changed', localizeZodiacWidget);
+    }
+
     function lookupZodiac() {
         var year = parseInt(document.getElementById('zodiacYear').value);
         var month = parseInt(document.getElementById('zodiacMonth').value);
         if (!year || !month) {
-            alert('Please select your birth year and month.');
+            alert(isZhMode() ? '請選擇您的出生年份和月份。' : 'Please select your birth year and month.');
             return;
         }
         if (typeof window.p === 'undefined') {
-            alert('Zodiac engine is still loading. Please try again in a moment.');
+            alert(isZhMode() ? '生肖引擎正在加載，請稍後再試。' : 'Zodiac engine is still loading. Please try again in a moment.');
             return;
         }
-        // Use paipan engine: GetGZ(year, month, day, hour, min, sec)
-        // We use mid-month (15th) at noon to avoid edge cases near lichun
         var result = p.GetGZ(year, month, 15, 12, 0, 10);
         if (!result) {
-            alert('Could not calculate. Please check your input.');
+            alert(isZhMode() ? '無法計算，請檢查您的輸入。' : 'Could not calculate. Please check your input.');
             return;
         }
-        var dzIndex = result[1][0]; // year branch index
-        var sxCN = p.csx[dzIndex]; // Chinese zodiac animal name
+        var dzIndex = result[1][0];
+        var sxCN = p.csx[dzIndex];
         var sxEN = ZODIAC_CN_EN[sxCN] || sxCN;
-        var data = ZODIAC_DATA[sxEN];
+        var zh = isZhMode();
+        var data = zh ? ZODIAC_DATA_ZH[sxEN] : ZODIAC_DATA[sxEN];
         if (!data) return;
 
         document.getElementById('zodiacEmoji').textContent = data.emoji;
-        document.getElementById('zodiacName').textContent = 'You are the ' + sxEN;
+        document.getElementById('zodiacName').textContent = zh
+            ? '你是屬' + (ZODIAC_NAME_ZH[sxEN] || sxCN)
+            : 'You are the ' + sxEN;
         document.getElementById('zodiacDesc').textContent = data.desc;
         var el = document.getElementById('zodiacResult');
         el.className = 'zodiac-result show';
