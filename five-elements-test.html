@@ -779,145 +779,180 @@
         if (window.DaoI18n && window.DaoI18n.t) return window.DaoI18n.t(key);
         return key;
     };
+    var isZh = function() { return window.DaoI18n && window.DaoI18n.current() === 'zh'; };
 
-    // ===== QUIZ DATA =====
-    var QUESTIONS = [
-        {
-            question: t('fivet.q1_title'),
-            options: [
-                { key: 'A', text: t('fivet.q1_a'), element: 'wood' },
-                { key: 'B', text: t('fivet.q1_b'), element: 'fire' },
-                { key: 'C', text: t('fivet.q1_c'), element: 'earth' },
-                { key: 'D', text: t('fivet.q1_d'), element: 'metal' },
-                { key: 'E', text: t('fivet.q1_e'), element: 'water' }
-            ]
-        },
-        {
-            question: t('fivet.q2_title'),
-            options: [
-                { key: 'A', text: t('fivet.q2_a'), element: 'wood' },
-                { key: 'B', text: t('fivet.q2_b'), element: 'fire' },
-                { key: 'C', text: t('fivet.q2_c'), element: 'earth' },
-                { key: 'D', text: t('fivet.q2_d'), element: 'metal' },
-                { key: 'E', text: t('fivet.q2_e'), element: 'water' }
-            ]
-        },
-        {
-            question: t('fivet.q3_title'),
-            options: [
-                { key: 'A', text: t('fivet.q3_a'), element: 'wood' },
-                { key: 'B', text: t('fivet.q3_b'), element: 'fire' },
-                { key: 'C', text: t('fivet.q3_c'), element: 'earth' },
-                { key: 'D', text: t('fivet.q3_d'), element: 'metal' },
-                { key: 'E', text: t('fivet.q3_e'), element: 'water' }
-            ]
-        },
-        {
-            question: t('fivet.q4_title'),
-            options: [
-                { key: 'A', text: t('fivet.q4_a'), element: 'wood' },
-                { key: 'B', text: t('fivet.q4_b'), element: 'fire' },
-                { key: 'C', text: t('fivet.q4_c'), element: 'earth' },
-                { key: 'D', text: t('fivet.q4_d'), element: 'metal' },
-                { key: 'E', text: t('fivet.q4_e'), element: 'water' }
-            ]
-        },
-        {
-            question: t('fivet.q5_title'),
-            options: [
-                { key: 'A', text: t('fivet.q5_a'), element: 'wood' },
-                { key: 'B', text: t('fivet.q5_b'), element: 'fire' },
-                { key: 'C', text: t('fivet.q5_c'), element: 'earth' },
-                { key: 'D', text: t('fivet.q5_d'), element: 'metal' },
-                { key: 'E', text: t('fivet.q5_e'), element: 'water' }
-            ]
-        }
-    ];
+    // ===== QUIZ DATA (lazy-evaluated to ensure DaoI18n is ready) =====
+    var QUESTIONS;
+    var INTERPRETATIONS;
+    var DM_PROFILES;
+    var QUIZ_TRAITS;
 
-    // Five element personality interpretations
-    var INTERPRETATIONS = {
-        wood: {
-            name: t('fivet.interp_wood_name'),
-            emoji: '🌲',
-            tagline: t('fivet.interp_wood_tagline'),
-            mbti: t('fivet.interp_wood_mbti'),
-            description: t('fivet.interp_wood_desc'),
-            strengths: [t('fivet.interp_wood_s1'), t('fivet.interp_wood_s2'), t('fivet.interp_wood_s3'), t('fivet.interp_wood_s4')],
-            growth: t('fivet.interp_wood_growth')
-        },
-        fire: {
-            name: t('fivet.interp_fire_name'),
-            emoji: '🔥',
-            tagline: t('fivet.interp_fire_tagline'),
-            mbti: t('fivet.interp_fire_mbti'),
-            description: t('fivet.interp_fire_desc'),
-            strengths: [t('fivet.interp_fire_s1'), t('fivet.interp_fire_s2'), t('fivet.interp_fire_s3'), t('fivet.interp_fire_s4')],
-            growth: t('fivet.interp_fire_growth')
-        },
-        earth: {
-            name: t('fivet.interp_earth_name'),
-            emoji: '🪨',
-            tagline: t('fivet.interp_earth_tagline'),
-            mbti: t('fivet.interp_earth_mbti'),
-            description: t('fivet.interp_earth_desc'),
-            strengths: [t('fivet.interp_earth_s1'), t('fivet.interp_earth_s2'), t('fivet.interp_earth_s3'), t('fivet.interp_earth_s4')],
-            growth: t('fivet.interp_earth_growth')
-        },
-        metal: {
-            name: t('fivet.interp_metal_name'),
-            emoji: '⚔️',
-            tagline: t('fivet.interp_metal_tagline'),
-            mbti: t('fivet.interp_metal_mbti'),
-            description: t('fivet.interp_metal_desc'),
-            strengths: [t('fivet.interp_metal_s1'), t('fivet.interp_metal_s2'), t('fivet.interp_metal_s3'), t('fivet.interp_metal_s4')],
-            growth: t('fivet.interp_metal_growth')
-        },
-        water: {
-            name: t('fivet.interp_water_name'),
-            emoji: '🌊',
-            tagline: t('fivet.interp_water_tagline'),
-            mbti: t('fivet.interp_water_mbti'),
-            description: t('fivet.interp_water_desc'),
-            strengths: [t('fivet.interp_water_s1'), t('fivet.interp_water_s2'), t('fivet.interp_water_s3'), t('fivet.interp_water_s4')],
-            growth: t('fivet.interp_water_growth')
-        }
-    };
+    function buildQuizData() {
+        QUESTIONS = [
+            {
+                question: t('fivet.q1_title'),
+                options: [
+                    { key: 'A', text: t('fivet.q1_a'), element: 'wood' },
+                    { key: 'B', text: t('fivet.q1_b'), element: 'fire' },
+                    { key: 'C', text: t('fivet.q1_c'), element: 'earth' },
+                    { key: 'D', text: t('fivet.q1_d'), element: 'metal' },
+                    { key: 'E', text: t('fivet.q1_e'), element: 'water' }
+                ]
+            },
+            {
+                question: t('fivet.q2_title'),
+                options: [
+                    { key: 'A', text: t('fivet.q2_a'), element: 'wood' },
+                    { key: 'B', text: t('fivet.q2_b'), element: 'fire' },
+                    { key: 'C', text: t('fivet.q2_c'), element: 'earth' },
+                    { key: 'D', text: t('fivet.q2_d'), element: 'metal' },
+                    { key: 'E', text: t('fivet.q2_e'), element: 'water' }
+                ]
+            },
+            {
+                question: t('fivet.q3_title'),
+                options: [
+                    { key: 'A', text: t('fivet.q3_a'), element: 'wood' },
+                    { key: 'B', text: t('fivet.q3_b'), element: 'fire' },
+                    { key: 'C', text: t('fivet.q3_c'), element: 'earth' },
+                    { key: 'D', text: t('fivet.q3_d'), element: 'metal' },
+                    { key: 'E', text: t('fivet.q3_e'), element: 'water' }
+                ]
+            },
+            {
+                question: t('fivet.q4_title'),
+                options: [
+                    { key: 'A', text: t('fivet.q4_a'), element: 'wood' },
+                    { key: 'B', text: t('fivet.q4_b'), element: 'fire' },
+                    { key: 'C', text: t('fivet.q4_c'), element: 'earth' },
+                    { key: 'D', text: t('fivet.q4_d'), element: 'metal' },
+                    { key: 'E', text: t('fivet.q4_e'), element: 'water' }
+                ]
+            },
+            {
+                question: t('fivet.q5_title'),
+                options: [
+                    { key: 'A', text: t('fivet.q5_a'), element: 'wood' },
+                    { key: 'B', text: t('fivet.q5_b'), element: 'fire' },
+                    { key: 'C', text: t('fivet.q5_c'), element: 'earth' },
+                    { key: 'D', text: t('fivet.q5_d'), element: 'metal' },
+                    { key: 'E', text: t('fivet.q5_e'), element: 'water' }
+                ]
+            }
+        ];
+
+        INTERPRETATIONS = {
+            wood: {
+                name: t('fivet.interp_wood_name'),
+                emoji: '🌲',
+                tagline: t('fivet.interp_wood_tagline'),
+                mbti: t('fivet.interp_wood_mbti'),
+                description: t('fivet.interp_wood_desc'),
+                strengths: [t('fivet.interp_wood_s1'), t('fivet.interp_wood_s2'), t('fivet.interp_wood_s3'), t('fivet.interp_wood_s4')],
+                growth: t('fivet.interp_wood_growth')
+            },
+            fire: {
+                name: t('fivet.interp_fire_name'),
+                emoji: '🔥',
+                tagline: t('fivet.interp_fire_tagline'),
+                mbti: t('fivet.interp_fire_mbti'),
+                description: t('fivet.interp_fire_desc'),
+                strengths: [t('fivet.interp_fire_s1'), t('fivet.interp_fire_s2'), t('fivet.interp_fire_s3'), t('fivet.interp_fire_s4')],
+                growth: t('fivet.interp_fire_growth')
+            },
+            earth: {
+                name: t('fivet.interp_earth_name'),
+                emoji: '🪨',
+                tagline: t('fivet.interp_earth_tagline'),
+                mbti: t('fivet.interp_earth_mbti'),
+                description: t('fivet.interp_earth_desc'),
+                strengths: [t('fivet.interp_earth_s1'), t('fivet.interp_earth_s2'), t('fivet.interp_earth_s3'), t('fivet.interp_earth_s4')],
+                growth: t('fivet.interp_earth_growth')
+            },
+            metal: {
+                name: t('fivet.interp_metal_name'),
+                emoji: '⚔️',
+                tagline: t('fivet.interp_metal_tagline'),
+                mbti: t('fivet.interp_metal_mbti'),
+                description: t('fivet.interp_metal_desc'),
+                strengths: [t('fivet.interp_metal_s1'), t('fivet.interp_metal_s2'), t('fivet.interp_metal_s3'), t('fivet.interp_metal_s4')],
+                growth: t('fivet.interp_metal_growth')
+            },
+            water: {
+                name: t('fivet.interp_water_name'),
+                emoji: '🌊',
+                tagline: t('fivet.interp_water_tagline'),
+                mbti: t('fivet.interp_water_mbti'),
+                description: t('fivet.interp_water_desc'),
+                strengths: [t('fivet.interp_water_s1'), t('fivet.interp_water_s2'), t('fivet.interp_water_s3'), t('fivet.interp_water_s4')],
+                growth: t('fivet.interp_water_growth')
+            }
+        };
+
+        DM_PROFILES = {
+            '甲': { nature: t('fivet.dm_jia_nature'), symbol: t('fivet.dm_jia_symbol'), personality: t('fivet.dm_jia_personality'), career: t('fivet.dm_jia_career'), relationships: t('fivet.dm_jia_relations') },
+            '乙': { nature: t('fivet.dm_yi_nature'), symbol: t('fivet.dm_yi_symbol'), personality: t('fivet.dm_yi_personality'), career: t('fivet.dm_yi_career'), relationships: t('fivet.dm_yi_relations') },
+            '丙': { nature: t('fivet.dm_bing_nature'), symbol: t('fivet.dm_bing_symbol'), personality: t('fivet.dm_bing_personality'), career: t('fivet.dm_bing_career'), relationships: t('fivet.dm_bing_relations') },
+            '丁': { nature: t('fivet.dm_ding_nature'), symbol: t('fivet.dm_ding_symbol'), personality: t('fivet.dm_ding_personality'), career: t('fivet.dm_ding_career'), relationships: t('fivet.dm_ding_relations') },
+            '戊': { nature: t('fivet.dm_wu_nature'), symbol: t('fivet.dm_wu_symbol'), personality: t('fivet.dm_wu_personality'), career: t('fivet.dm_wu_career'), relationships: t('fivet.dm_wu_relations') },
+            '己': { nature: t('fivet.dm_ji_nature'), symbol: t('fivet.dm_ji_symbol'), personality: t('fivet.dm_ji_personality'), career: t('fivet.dm_ji_career'), relationships: t('fivet.dm_ji_relations') },
+            '庚': { nature: t('fivet.dm_geng_nature'), symbol: t('fivet.dm_geng_symbol'), personality: t('fivet.dm_geng_personality'), career: t('fivet.dm_geng_career'), relationships: t('fivet.dm_geng_relations') },
+            '辛': { nature: t('fivet.dm_xin_nature'), symbol: t('fivet.dm_xin_symbol'), personality: t('fivet.dm_xin_personality'), career: t('fivet.dm_xin_career'), relationships: t('fivet.dm_xin_relations') },
+            '壬': { nature: t('fivet.dm_ren_nature'), symbol: t('fivet.dm_ren_symbol'), personality: t('fivet.dm_ren_personality'), career: t('fivet.dm_ren_career'), relationships: t('fivet.dm_ren_relations') },
+            '癸': { nature: t('fivet.dm_gui_nature'), symbol: t('fivet.dm_gui_symbol'), personality: t('fivet.dm_gui_personality'), career: t('fivet.dm_gui_career'), relationships: t('fivet.dm_gui_relations') }
+        };
+
+        QUIZ_TRAITS = {
+            wood: { personality: t('fivet.quiz_trait_wood'), keywords: [t('fivet.kw_pioneer'), t('fivet.kw_leader'), t('fivet.kw_visionary')] },
+            fire: { personality: t('fivet.quiz_trait_fire'), keywords: [t('fivet.kw_charismatic'), t('fivet.kw_expressive'), t('fivet.kw_connector')] },
+            earth: { personality: t('fivet.quiz_trait_earth'), keywords: [t('fivet.kw_nurturer'), t('fivet.kw_mediator'), t('fivet.kw_anchor')] },
+            metal: { personality: t('fivet.quiz_trait_metal'), keywords: [t('fivet.kw_strategist'), t('fivet.kw_perfectionist'), t('fivet.kw_executor')] },
+            water: { personality: t('fivet.quiz_trait_water'), keywords: [t('fivet.kw_thinker'), t('fivet.kw_adaptive'), t('fivet.kw_mystic')] }
+        };
+    }
 
     // ===== DAY MASTER PERSONALITY PROFILES =====
     var STEMS_LIST = ['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'];
-    var DM_PROFILES = {
-        '甲': { nature: t('fivet.dm_jia_nature'), symbol: t('fivet.dm_jia_symbol'), personality: t('fivet.dm_jia_personality'), career: t('fivet.dm_jia_career'), relationships: t('fivet.dm_jia_relations') },
-        '乙': { nature: t('fivet.dm_yi_nature'), symbol: t('fivet.dm_yi_symbol'), personality: t('fivet.dm_yi_personality'), career: t('fivet.dm_yi_career'), relationships: t('fivet.dm_yi_relations') },
-        '丙': { nature: t('fivet.dm_bing_nature'), symbol: t('fivet.dm_bing_symbol'), personality: t('fivet.dm_bing_personality'), career: t('fivet.dm_bing_career'), relationships: t('fivet.dm_bing_relations') },
-        '丁': { nature: t('fivet.dm_ding_nature'), symbol: t('fivet.dm_ding_symbol'), personality: t('fivet.dm_ding_personality'), career: t('fivet.dm_ding_career'), relationships: t('fivet.dm_ding_relations') },
-        '戊': { nature: t('fivet.dm_wu_nature'), symbol: t('fivet.dm_wu_symbol'), personality: t('fivet.dm_wu_personality'), career: t('fivet.dm_wu_career'), relationships: t('fivet.dm_wu_relations') },
-        '己': { nature: t('fivet.dm_ji_nature'), symbol: t('fivet.dm_ji_symbol'), personality: t('fivet.dm_ji_personality'), career: t('fivet.dm_ji_career'), relationships: t('fivet.dm_ji_relations') },
-        '庚': { nature: t('fivet.dm_geng_nature'), symbol: t('fivet.dm_geng_symbol'), personality: t('fivet.dm_geng_personality'), career: t('fivet.dm_geng_career'), relationships: t('fivet.dm_geng_relations') },
-        '辛': { nature: t('fivet.dm_xin_nature'), symbol: t('fivet.dm_xin_symbol'), personality: t('fivet.dm_xin_personality'), career: t('fivet.dm_xin_career'), relationships: t('fivet.dm_xin_relations') },
-        '壬': { nature: t('fivet.dm_ren_nature'), symbol: t('fivet.dm_ren_symbol'), personality: t('fivet.dm_ren_personality'), career: t('fivet.dm_ren_career'), relationships: t('fivet.dm_ren_relations') },
-        '癸': { nature: t('fivet.dm_gui_nature'), symbol: t('fivet.dm_gui_symbol'), personality: t('fivet.dm_gui_personality'), career: t('fivet.dm_gui_career'), relationships: t('fivet.dm_gui_relations') }
-    };
-
-    // ===== QUIZ-BASED PERSONALITY TRAITS =====
-    var QUIZ_TRAITS = {
-        wood: { personality: t('fivet.quiz_trait_wood'), keywords: [t('fivet.kw_pioneer'), t('fivet.kw_leader'), t('fivet.kw_visionary')] },
-        fire: { personality: t('fivet.quiz_trait_fire'), keywords: [t('fivet.kw_charismatic'), t('fivet.kw_expressive'), t('fivet.kw_connector')] },
-        earth: { personality: t('fivet.quiz_trait_earth'), keywords: [t('fivet.kw_nurturer'), t('fivet.kw_mediator'), t('fivet.kw_anchor')] },
-        metal: { personality: t('fivet.quiz_trait_metal'), keywords: [t('fivet.kw_strategist'), t('fivet.kw_perfectionist'), t('fivet.kw_executor')] },
-        water: { personality: t('fivet.quiz_trait_water'), keywords: [t('fivet.kw_thinker'), t('fivet.kw_adaptive'), t('fivet.kw_mystic')] }
-    };
 
     // ===== INIT =====
     function init() {
-        populateForm();
-        // Translate placeholders
+        // If DaoI18n is ready (translations loaded), build quiz data now.
+        // Otherwise wait for the i18n-changed event (translations loaded async).
+        if (window.DaoI18n && window.DaoI18n.current() === 'zh') {
+            // ZH was requested but translations may still be loading.
+            // Defer init until translations are ready.
+            var waitForI18n = function() {
+                try {
+                    var testVal = t('fivet.quiz_title');
+                    if (testVal === 'fivet.quiz_title') {
+                        // translations not loaded yet, retry in 50ms
+                        setTimeout(waitForI18n, 50);
+                        return;
+                    }
+                } catch(e) {
+                    setTimeout(waitForI18n, 50);
+                    return;
+                }
+                buildQuizData();
+                populateForm(true);
+                setupPlaceholders();
+            };
+            waitForI18n();
+        } else {
+            buildQuizData();
+            populateForm(true);
+            setupPlaceholders();
+        }
+    }
+
+    function setupPlaceholders() {
         var nameInput = document.getElementById('nameInput');
         var emailInput = document.getElementById('emailInput');
         if (nameInput) nameInput.placeholder = t('fivet.placeholder_name');
         if (emailInput) emailInput.placeholder = t('fivet.placeholder_email');
     }
 
-    function populateForm() {
+    function populateForm(firstRun) {
         var yearSel = document.getElementById('birthYear');
         for (var y = 2026; y >= 1940; y--) {
             var opt = document.createElement('option');
@@ -941,6 +976,12 @@
         }
 
         var hourSel = document.getElementById('birthHour');
+        if (firstRun) {
+            // Keep default "Unknown" option, remove rest (for re-populate)
+        } else {
+            // Clear existing options except first (Unknown)
+            while (hourSel.options.length > 1) hourSel.remove(1);
+        }
         var hoursEn = [
             { name: '23:00 - 01:00 (Rat)', value: 23 },
             { name: '01:00 - 03:00 (Ox)', value: 1 },
@@ -960,21 +1001,24 @@
             { name: '01:00 - 03:00 (丑·牛)', value: 1 },
             { name: '03:00 - 05:00 (寅·虎)', value: 3 },
             { name: '05:00 - 07:00 (卯·兔)', value: 5 },
-            { name: '07:00 - 09:00 (辰·龙)', value: 7 },
+            { name: '07:00 - 09:00 (辰·龍)', value: 7 },
             { name: '09:00 - 11:00 (巳·蛇)', value: 9 },
-            { name: '11:00 - 13:00 (午·马)', value: 11 },
+            { name: '11:00 - 13:00 (午·馬)', value: 11 },
             { name: '13:00 - 15:00 (未·羊)', value: 13 },
             { name: '15:00 - 17:00 (申·猴)', value: 15 },
-            { name: '17:00 - 19:00 (酉·鸡)', value: 17 },
+            { name: '17:00 - 19:00 (酉·雞)', value: 17 },
             { name: '19:00 - 21:00 (戌·狗)', value: 19 },
-            { name: '21:00 - 23:00 (亥·猪)', value: 21 }
+            { name: '21:00 - 23:00 (亥·豬)', value: 21 }
         ];
-        var hours = isZh ? hoursZh : hoursEn;
+        var savedHour = hourSel.value;
+        var hours = isZh() ? hoursZh : hoursEn;
         hours.forEach(function(h) {
             var opt = document.createElement('option');
             opt.value = h.value; opt.textContent = h.name;
             hourSel.appendChild(opt);
         });
+        // Restore selected hour after re-populate
+        if (!firstRun) hourSel.value = savedHour;
     }
 
     function showStep(id) {
@@ -1323,7 +1367,8 @@
         var result = {};
         try { result = calculateFiveElements(); } catch(e) {}
         var interp = INTERPRETATIONS[result.dominant || 'wood'];
-        var text = t('fivet.share_text', interp.name, interp.tagline);
+        var shareTemplate = t('fivet.share_text');
+        var text = shareTemplate.replace('{name}', interp.name).replace('{tagline}', interp.tagline);
         var url = window.location.href;
         var encodedUrl = encodeURIComponent(url);
         var encodedText = encodeURIComponent(text);
@@ -1371,9 +1416,32 @@
 
     // ===== BOOT =====
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', init);
+        document.addEventListener('DOMContentLoaded', boot);
     } else {
+        boot();
+    }
+
+    function boot() {
         init();
+        // Listen for language change to rebuild quiz data and refresh current view
+        document.addEventListener('daoessence:i18n-changed', function() {
+            buildQuizData();
+            populateForm(false); // re-populate hour dropdown with translated labels
+            // Re-render current view if quiz or results are showing
+            var step2 = document.getElementById('step2');
+            var step3 = document.getElementById('step3');
+            if (step2 && step2.classList.contains('active')) {
+                renderQuestion();
+            }
+            if (step3 && step3.classList.contains('active')) {
+                try {
+                    var result = calculateFiveElements();
+                    renderResults(result);
+                } catch(e) {}
+            }
+            // Re-translate placeholders
+            setupPlaceholders();
+        });
     }
 })();
 </script>
