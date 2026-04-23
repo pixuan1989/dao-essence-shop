@@ -1215,11 +1215,14 @@
             };
 
             // Reset old result state
+            personalScoreMap = {};
             activeScenario = null;
             document.querySelectorAll('.select-btn').forEach(function(b) { b.classList.remove('active'); });
             document.getElementById('selectResult').classList.remove('visible');
             document.getElementById('dayDetail').classList.remove('visible');
             document.getElementById('dayDetail').innerHTML = '';
+            var resultListEl = document.getElementById('resultList');
+            if (resultListEl) resultListEl.innerHTML = '';
 
             showAlmStep(2);
 
@@ -1304,6 +1307,13 @@
                 document.getElementById('almFavorable').innerHTML = favDisplay;
                 var avoidDisplay = avoidElement ? ('<span class="' + wxClass(avoidElement) + '">' + wxZh(avoidElement) + '</span>') : '—';
                 document.getElementById('almAvoid').innerHTML = avoidDisplay;
+                // Fill form with cached data so user can see/modify
+                document.getElementById('almYear').value = userBirthData.year;
+                document.getElementById('almMonth').value = userBirthData.month;
+                document.getElementById('almDay').value = userBirthData.day;
+                document.getElementById('almHour').value = userBirthData.hour;
+                var genderRadio = document.querySelector('input[name="almGender"][value="' + userBirthData.gender + '"]');
+                if (genderRadio) genderRadio.checked = true;
                 showAlmStep(3);
                 initAlmanac();
                 return true;
