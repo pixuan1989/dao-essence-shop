@@ -473,6 +473,88 @@
             color: #C88B8B; font-weight: 500;
         }
 
+        /* Shop recommendations */
+        .fe-shop-rec {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, rgba(180,140,90,0.06), rgba(140,100,60,0.04));
+            border: 1px solid rgba(180,140,90,0.15);
+            border-radius: 16px;
+        }
+        .fe-shop-rec-title {
+            font-family: var(--serif);
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        .fe-shop-rec-desc {
+            font-size: 0.85rem;
+            color: #665;
+            text-align: center;
+            margin-bottom: 1.2rem;
+            line-height: 1.5;
+        }
+        .fe-shop-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 0.8rem;
+        }
+        .fe-shop-card {
+            background: #fff;
+            border: 1px solid rgba(0,0,0,0.06);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        .fe-shop-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+        }
+        .fe-shop-card-img {
+            width: 100%;
+            height: 100px;
+            object-fit: cover;
+            background: #f5f0eb;
+        }
+        .fe-shop-card-body {
+            padding: 0.7rem;
+        }
+        .fe-shop-card-name {
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: #2D2418;
+            margin-bottom: 0.3rem;
+            line-height: 1.3;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .fe-shop-card-price {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--fire-primary);
+        }
+        .fe-shop-link {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.6rem 1.6rem;
+            background: var(--fire-primary);
+            color: #fff;
+            border-radius: 24px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+        .fe-shop-link:hover { opacity: 0.85; }
+
         /* Try again */
         .fe-retry {
             display: block; text-align: center;
@@ -926,8 +1008,68 @@
             '<div class="fe-avoid">' +
                 '<div class="fe-avoid-label">' + t('fav.element_to_avoid') + '</div>' +
                 '<div class="fe-avoid-element">' + (isZh ? ((analysis.avoidElementZh || analysis.avoidElement) + ' (' + (analysis.avoidElement || '') + ')') : ((analysis.avoidElement || '') + ' (' + (analysis.avoidElementZh || '') + ')')) + '</div>' +
-            '</div>';
+            '</div>' +
+
+            '<div class="fe-shop-rec" id="feShopRec"></div>';
     }
+
+    // Load shop recommendations
+    (async function() {
+        try {
+            var res = await fetch('/api/products');
+            if (!res.ok) return;
+            var data = await res.json();
+            var products = (data.data || []).filter(function(p) {
+                return p.image && p.price;
+            });
+            if (products.length === 0) return;
+
+            // Load zh map for Chinese names
+            var zhMap = {};
+            try {
+                var zhRes = await fetch('/i18n/product-zh-map.json');
+                if (zhRes.ok) {
+                    var zhData = await zhRes.json();
+                    zhMap = zhData;
+                }
+            } catch(e) {}
+
+            var favEl = fav || '';
+            var favElZh = analysis.favorableElementZh || '';
+            var zh = isZh();
+
+            // Pick up to 3 products, shuffle
+            products.sort(function() { return Math.random() - 0.5; });
+            var picks = products.slice(0, 3);
+
+            var cardsHtml = '';
+            picks.forEach(function(p) {
+                var name = zh && zhMap[p.id] ? zhMap[p.id].name : p.name;
+                var imgUrl = p.image || p.image_url || '';
+                cardsHtml +=
+                    '<a href="/product-detail.html?id=' + p.id + '" class="fe-shop-card">' +
+                        '<img class="fe-shop-card-img" src="' + imgUrl + '" alt="' + name + '" loading="lazy">' +
+                        '<div class="fe-shop-card-body">' +
+                            '<div class="fe-shop-card-name">' + name + '</div>' +
+                            '<div class="fe-shop-card-price">$' + parseFloat(p.price).toFixed(2) + '</div>' +
+                        '</div>' +
+                    '</a>';
+            });
+
+            var recEl = document.getElementById('feShopRec');
+            if (recEl) {
+                recEl.innerHTML =
+                    '<div class="fe-shop-rec-title">' + t('fav.shop_rec_title') + '</div>' +
+                    '<div class="fe-shop-rec-desc">' + t('fav.shop_rec_desc', zh ? favElZh : favEl) + '</div>' +
+                    '<div class="fe-shop-cards">' + cardsHtml + '</div>' +
+                    '<div style="text-align:center;">' +
+                        '<a href="/shop.html" class="fe-shop-link">' + t('fav.shop_rec_btn') + '</a>' +
+                    '</div>';
+            }
+        } catch(e) {
+            console.warn('Failed to load shop recommendations:', e);
+        }
+    })();
 
     // Retry
     document.getElementById('feRetry').addEventListener('click', function(e) {
