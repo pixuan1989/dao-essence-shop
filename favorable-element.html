@@ -880,6 +880,19 @@
 
             renderResult(data);
             showStep(3);
+
+            // Track submission
+            if (window.DaoTrack) {
+                window.DaoTrack.pageView('favorable-element');
+                var favEls = data.analysis && (data.analysis.favorableElements || [data.analysis.favorableElement].filter(Boolean));
+                window.DaoTrack.toolSubmit('favorable-element', {
+                    gender: chart.gender === 1 ? 'M' : 'F',
+                    birthYear: parseInt(yearSel.value),
+                    day_master_element: chart.dayMasterElement,
+                    favorable_elements: favEls
+                });
+                window.DaoTrack.toolResult('favorable-element');
+            }
         } catch (err) {
             alert(err.message);
             showStep(1);
@@ -1109,6 +1122,7 @@
     // Retry
     document.getElementById('feRetry').addEventListener('click', function(e) {
         e.preventDefault();
+        if (window.DaoTrack) window.DaoTrack.toolRetry('favorable-element');
         showStep(1);
     });
 })();
@@ -1122,6 +1136,7 @@ document.addEventListener('click', function(e) {
 });
 </script>
 <script src="js/i18n-switcher.js" defer></script>
+<script src="/js/tracking.js"></script>
 
 </body>
 </html>

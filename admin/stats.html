@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics Dashboard - DAO Essence</title>
+    <style>
+        :root {
+            --bg: #F7F5F2;
+            --surface: #FFFFFF;
+            --ink: #1A1612;
+            --ink-2: #555555;
+            --ink-3: #888888;
+            --border: #E8E4DF;
+            --gold: #C9A84C;
+            --gold-soft: rgba(201,168,76,0.12);
+            --green: #2E7D32;
+            --green-soft: rgba(46,125,50,0.08);
+            --red: #C62828;
+            --red-soft: rgba(198,40,40,0.08);
+            --blue: #1565C0;
+            --blue-soft: rgba(21,101,192,0.08);
+            --purple: #6A1B9A;
+            --purple-soft: rgba(106,27,154,0.08);
+            --radius: 12px;
+            --radius-sm: 8px;
+            --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+            --shadow-lg: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--ink);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Top bar */
+        .topbar {
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            padding: 0 2rem;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow);
+        }
+        .topbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .topbar-brand svg { width: 28px; height: 28px; color: var(--gold); }
+        .topbar-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+        }
+        .topbar-title span { color: var(--ink-3); font-weight: 400; }
+        .topbar-actions { display: flex; align-items: center; gap: 0.75rem; }
+
+        /* Range selector */
+        .range-group {
+            display: flex;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+        }
+        .range-btn {
+            padding: 6px 16px;
+            font-size: 0.82rem;
+            font-weight: 500;
+            border: none;
+            background: transparent;
+            color: var(--ink-2);
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .range-btn:not(:last-child) { border-right: 1px solid var(--border); }
+        .range-btn.active {
+            background: var(--ink);
+            color: #fff;
+        }
+        .range-btn:hover:not(.active) { background: var(--gold-soft); }
+
+        .refresh-btn {
+            padding: 6px 14px;
+            font-size: 0.82rem;
+            font-weight: 500;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            background: var(--surface);
+            color: var(--ink-2);
+            cursor: pointer;
+            transition: all 0.15s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .refresh-btn:hover { background: var(--gold-soft); border-color: var(--gold); }
+        .refresh-btn svg { width: 14px; height: 14px; }
+        .refresh-btn.loading svg { animation: spin 0.8s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Main */
+        .main { max-width: 1280px; margin: 0 auto; padding: 1.5rem 2rem 3rem; }
+
+        /* KPI Cards */
+        .kpi-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .kpi-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.25rem 1.5rem;
+            box-shadow: var(--shadow);
+        }
+        .kpi-label {
+            font-size: 0.78rem;
+            font-weight: 500;
+            color: var(--ink-3);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+        .kpi-value {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+        }
+        .kpi-sub {
+            font-size: 0.78rem;
+            color: var(--ink-3);
+            margin-top: 0.35rem;
+        }
+        .kpi-sub .rate { font-weight: 600; }
+        .kpi-sub .rate.up { color: var(--green); }
+        .kpi-sub .rate.down { color: var(--red); }
+
+        /* Section */
+        .section { margin-bottom: 1.5rem; }
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+        }
+        .section-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--ink);
+        }
+        .section-badge {
+            font-size: 0.72rem;
+            font-weight: 500;
+            color: var(--ink-3);
+            background: var(--bg);
+            padding: 3px 10px;
+            border-radius: 99px;
+            border: 1px solid var(--border);
+        }
+
+        /* Card */
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+        .card-body { padding: 1.25rem 1.5rem; }
+
+        /* Two-col layout */
+        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+        /* Bar chart (pure CSS) */
+        .bar-chart { display: flex; flex-direction: column; gap: 0.6rem; }
+        .bar-row {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .bar-label {
+            font-size: 0.82rem;
+            color: var(--ink-2);
+            min-width: 140px;
+            text-align: right;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .bar-track {
+            flex: 1;
+            height: 26px;
+            background: var(--bg);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+        .bar-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+            min-width: 2px;
+        }
+        .bar-fill.gold { background: var(--gold); }
+        .bar-fill.blue { background: var(--blue); }
+        .bar-fill.green { background: var(--green); }
+        .bar-fill.purple { background: var(--purple); }
+        .bar-value {
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--ink);
+            min-width: 40px;
+            text-align: right;
+        }
+
+        /* Horizontal bars for profiles */
+        .profile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+        .profile-item .bar-row { gap: 0.5rem; }
+        .profile-item .bar-label { min-width: 80px; font-size: 0.8rem; }
+        .profile-item .bar-track { height: 22px; }
+
+        /* Trend chart (pure CSS) */
+        .trend-chart {
+            display: flex;
+            align-items: flex-end;
+            gap: 4px;
+            height: 180px;
+            padding: 0 0.5rem;
+        }
+        .trend-col {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            min-width: 0;
+        }
+        .trend-bar-wrapper {
+            width: 100%;
+            height: 140px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 2px;
+        }
+        .trend-bar {
+            width: 8px;
+            border-radius: 3px 3px 0 0;
+            transition: height 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+            min-height: 2px;
+            cursor: pointer;
+            position: relative;
+        }
+        .trend-bar.pv { background: var(--gold); }
+        .trend-bar.sub { background: var(--blue); }
+        .trend-bar.pay { background: var(--green); }
+        .trend-bar:hover { opacity: 0.75; }
+        .trend-date {
+            font-size: 0.68rem;
+            color: var(--ink-3);
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            transform: rotate(180deg);
+            max-height: 40px;
+            overflow: hidden;
+        }
+        .trend-legend {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            padding: 0.75rem 0 0;
+            border-top: 1px solid var(--border);
+            margin-top: 0.5rem;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.78rem;
+            color: var(--ink-2);
+        }
+        .legend-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 2px;
+        }
+
+        /* Tooltip */
+        .tooltip {
+            display: none;
+            position: absolute;
+            bottom: calc(100% + 8px);
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--ink);
+            color: #fff;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            z-index: 10;
+            pointer-events: none;
+        }
+        .tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 5px solid transparent;
+            border-top-color: var(--ink);
+        }
+        .trend-bar:hover .tooltip { display: block; }
+
+        /* Funnel */
+        .funnel { display: flex; flex-direction: column; align-items: center; gap: 0; }
+        .funnel-step {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            width: 100%;
+            padding: 0.8rem 1rem;
+            background: var(--bg);
+            border-radius: var(--radius-sm);
+            transition: background 0.15s;
+        }
+        .funnel-step:hover { background: var(--gold-soft); }
+        .funnel-label {
+            font-size: 0.85rem;
+            color: var(--ink-2);
+            min-width: 160px;
+        }
+        .funnel-bar {
+            flex: 1;
+            height: 28px;
+            background: var(--surface);
+            border-radius: 4px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+        .funnel-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--gold), var(--blue));
+            border-radius: 4px;
+            transition: width 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .funnel-value {
+            font-size: 0.9rem;
+            font-weight: 700;
+            min-width: 50px;
+            text-align: right;
+        }
+        .funnel-rate {
+            font-size: 0.75rem;
+            color: var(--ink-3);
+            min-width: 60px;
+            text-align: right;
+        }
+        .funnel-arrow {
+            color: var(--ink-3);
+            font-size: 0.9rem;
+            padding: 2px 0;
+        }
+
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--ink-3);
+        }
+        .empty-state svg { width: 48px; height: 48px; color: var(--border); margin-bottom: 1rem; }
+        .empty-state p { font-size: 0.9rem; }
+
+        /* Loading */
+        .loading-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 4rem 2rem;
+            color: var(--ink-3);
+        }
+        .spinner {
+            width: 32px; height: 32px;
+            border: 3px solid var(--border);
+            border-top-color: var(--gold);
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+            margin-bottom: 1rem;
+        }
+
+        /* Last updated */
+        .last-updated {
+            text-align: center;
+            padding: 1rem;
+            font-size: 0.75rem;
+            color: var(--ink-3);
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .kpi-row { grid-template-columns: repeat(2, 1fr); }
+            .two-col { grid-template-columns: 1fr; }
+            .profile-grid { grid-template-columns: 1fr; }
+            .main { padding: 1rem; }
+        }
+        @media (max-width: 600px) {
+            .kpi-row { grid-template-columns: 1fr; }
+            .topbar { padding: 0 1rem; }
+            .bar-label { min-width: 100px; font-size: 0.75rem; }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .card { animation: fadeIn 0.4s ease both; }
+        .section:nth-child(2) .card { animation-delay: 0.05s; }
+        .section:nth-child(3) .card { animation-delay: 0.1s; }
+        .section:nth-child(4) .card { animation-delay: 0.15s; }
+    </style>
+</head>
+<body>
+    <!-- Top Bar -->
+    <div class="topbar">
+        <div class="topbar-brand">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a15 15 0 0 1 4 10 15 15 0 0 1-4 10 15 15 0 0 1-4-10 15 15 0 0 1 4-10z"/></svg>
+            <div class="topbar-title">DAO Essence <span>/ Analytics</span></div>
+        </div>
+        <div class="topbar-actions">
+            <div class="range-group">
+                <button class="range-btn active" data-range="7">7D</button>
+                <button class="range-btn" data-range="30">30D</button>
+                <button class="range-btn" data-range="90">90D</button>
+            </div>
+            <button class="refresh-btn" id="refreshBtn" onclick="loadStats()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+                Refresh
+            </button>
+        </div>
+    </div>
+
+    <div class="main" id="app">
+        <div class="loading-state" id="loadingState">
+            <div class="spinner"></div>
+            <p>Loading analytics data...</p>
+        </div>
+    </div>
+
+    <script>
+    (function() {
+        'use strict';
+
+        var currentRange = 7;
+        var API = '/api/stats';
+
+        // Range buttons
+        document.querySelectorAll('.range-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.range-btn').forEach(function(b) { b.classList.remove('active'); });
+                btn.classList.add('active');
+                currentRange = parseInt(btn.dataset.range);
+                loadStats();
+            });
+        });
+
+        window.loadStats = function() {
+            var btn = document.getElementById('refreshBtn');
+            btn.classList.add('loading');
+            document.getElementById('app').innerHTML = '<div class="loading-state"><div class="spinner"></div><p>Loading analytics data...</p></div>';
+
+            fetch(API + '?range=' + currentRange)
+                .then(function(r) {
+                    if (!r.ok) throw new Error('API error ' + r.status);
+                    return r.json();
+                })
+                .then(function(data) {
+                    render(data);
+                })
+                .catch(function(err) {
+                    document.getElementById('app').innerHTML =
+                        '<div class="empty-state">' +
+                        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>' +
+                        '<p>Failed to load data. ' + err.message + '</p>' +
+                        '</div>';
+                })
+                .finally(function() {
+                    btn.classList.remove('loading');
+                });
+        };
+
+        function render(d) {
+            if (!d || d.total_days === 0) {
+                document.getElementById('app').innerHTML =
+                    '<div class="empty-state">' +
+                    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 20V10M18 20V4M6 20v-4"/></svg>' +
+                    '<p>No data available for this period. Data starts accumulating once tracking is deployed.</p>' +
+                    '</div>';
+                return;
+            }
+
+            var totalPV = d.page_views_total || 0;
+            var totalSubs = d.tool_submissions_total || 0;
+            var totalPay = d.pay_intents_total || 0;
+            var totalCheckouts = d.total_checkouts || 0;
+            var conversionRate = totalPV > 0 ? ((totalSubs / totalPV) * 100).toFixed(1) : '0.0';
+
+            var html = '';
+
+            // KPI Row
+            html += '<div class="kpi-row">';
+            html += kpiCard('Page Views', formatNum(totalPV), d.total_days + ' days tracked');
+            html += kpiCard('Tool Uses', formatNum(totalSubs), 'from ' + totalPV + ' page views (' + conversionRate + '%)');
+            html += kpiCard('Pay Intents', formatNum(totalPay), totalPay > 0 ? 'avg ' + (totalPV / totalPay).toFixed(0) + ' views per intent' : 'no payment intents yet');
+            html += kpiCard('Checkouts', formatNum(totalCheckouts), totalPay > 0 ? ((totalCheckouts / totalPay) * 100).toFixed(1) + '% completion rate' : 'Creem checkouts');
+            html += '</div>';
+
+            // Trend + Funnel
+            html += '<div class="two-col">';
+            html += '<div class="section"><div class="section-header"><div class="section-title">Daily Trend</div><div class="section-badge">' + d.range + ' days</div></div>' + '<div class="card"><div class="card-body">' + renderTrend(d.daily_trend) + '</div></div></div>';
+            html += '<div class="section"><div class="section-header"><div class="section-title">Conversion Funnel</div></div>' + '<div class="card"><div class="card-body">' + renderFunnel(totalPV, totalSubs, totalPay, totalCheckouts) + '</div></div></div>';
+            html += '</div>';
+
+            // Tools: Submissions by tool + Results/Retries
+            html += '<div class="two-col">';
+            html += '<div class="section"><div class="section-header"><div class="section-title">Tool Usage</div><div class="section-badge">submissions</div></div>' + '<div class="card"><div class="card-body">' + renderBars(d.tool_submissions_by_tool, 'gold') + '</div></div></div>';
+            html += '<div class="section"><div class="section-header"><div class="section-title">Completion & Retries</div></div>' + '<div class="card"><div class="card-body">' + renderCompletionBars(d.tool_submissions_by_tool, d.tool_results_by_tool, d.tool_retries_by_tool) + '</div></div></div>';
+            html += '</div>';
+
+            // Page Views by Page
+            html += '<div class="section"><div class="section-header"><div class="section-title">Page Views by Page</div><div class="section-badge">' + formatNum(totalPV) + ' total</div></div>' + '<div class="card"><div class="card-body">' + renderBars(d.page_views_by_page, 'blue') + '</div></div></div>';
+
+            // Payment Sources + CTA Clicks
+            if (d.pay_intents_by_source && d.pay_intents_by_source.length > 0) {
+                html += '<div class="two-col">';
+                html += '<div class="section"><div class="section-header"><div class="section-title">Payment Intent Sources</div></div>' + '<div class="card"><div class="card-body">' + renderBars(d.pay_intents_by_source, 'green') + '</div></div></div>';
+                if (d.cta_clicks_by_source && d.cta_clicks_by_source.length > 0) {
+                    html += '<div class="section"><div class="section-header"><div class="section-title">CTA Clicks</div></div>' + '<div class="card"><div class="card-body">' + renderBars(d.cta_clicks_by_source, 'purple') + '</div></div></div>';
+                } else {
+                    html += '<div class="section"><div class="section-header"><div class="section-title">CTA Clicks</div></div>' + '<div class="card"><div class="card-body"><div class="empty-state" style="padding:2rem"><p style="color:var(--ink-3)">No CTA clicks recorded yet</p></div></div></div></div>';
+                }
+                html += '</div>';
+            }
+
+            // User Profiles
+            html += '<div class="section"><div class="section-header"><div class="section-title">User Profiles</div><div class="section-badge">anonymized</div></div>';
+            html += '<div class="card"><div class="card-body">';
+            html += '<div class="profile-grid">';
+            html += '<div class="profile-item"><div style="font-size:0.82rem;font-weight:600;color:var(--ink-2);margin-bottom:0.6rem">Gender</div>' + renderBars(d.profiles.gender, 'gold', true) + '</div>';
+            html += '<div class="profile-item"><div style="font-size:0.82rem;font-weight:600;color:var(--ink-2);margin-bottom:0.6rem">Age Range</div>' + renderBars(d.profiles.age_range, 'blue', true) + '</div>';
+            html += '<div class="profile-item"><div style="font-size:0.82rem;font-weight:600;color:var(--ink-2);margin-bottom:0.6rem">Day Master Element</div>' + renderBars(d.profiles.day_master_element, 'green', true) + '</div>';
+            html += '<div class="profile-item"><div style="font-size:0.82rem;font-weight:600;color:var(--ink-2);margin-bottom:0.6rem">Favorable Elements</div>' + renderBars(d.profiles.favorable_elements, 'purple', true) + '</div>';
+            html += '</div></div></div></div>';
+
+            // Last updated
+            html += '<div class="last-updated">Last refreshed: ' + new Date().toLocaleString() + '</div>';
+
+            document.getElementById('app').innerHTML = html;
+        }
+
+        function kpiCard(label, value, sub) {
+            return '<div class="kpi-card"><div class="kpi-label">' + label + '</div><div class="kpi-value">' + value + '</div><div class="kpi-sub">' + sub + '</div></div>';
+        }
+
+        function renderTrend(daily) {
+            if (!daily || daily.length === 0) return '<div class="empty-state" style="padding:2rem"><p style="color:var(--ink-3)">No daily data</p></div>';
+
+            var maxPV = 1, maxSub = 1, maxPay = 1;
+            daily.forEach(function(d) {
+                if (d.page_views > maxPV) maxPV = d.page_views;
+                if (d.tool_submissions > maxSub) maxSub = d.tool_submissions;
+                if (d.pay_intents > maxPay) maxPay = d.pay_intents;
+            });
+
+            var html = '<div class="trend-chart">';
+            daily.forEach(function(d) {
+                var pvH = Math.max(2, (d.page_views / maxPV) * 130);
+                var subH = Math.max(2, (d.tool_submissions / maxSub) * 130);
+                var payH = Math.max(2, (d.pay_intents / maxPay) * 130);
+
+                // Short date label: MM/DD
+                var dateStr = d.date ? d.date.substring(5) : '';
+
+                html += '<div class="trend-col">';
+                html += '<div class="trend-bar-wrapper">';
+                html += '<div class="trend-bar pv" style="height:' + pvH + 'px"><div class="tooltip">' + formatNum(d.page_views) + ' views</div></div>';
+                html += '<div class="trend-bar sub" style="height:' + subH + 'px"><div class="tooltip">' + formatNum(d.tool_submissions) + ' submissions</div></div>';
+                if (d.pay_intents > 0) {
+                    html += '<div class="trend-bar pay" style="height:' + payH + 'px"><div class="tooltip">' + d.pay_intents + ' pay intents</div></div>';
+                }
+                html += '</div>';
+                html += '<div class="trend-date">' + dateStr + '</div>';
+                html += '</div>';
+            });
+            html += '</div>';
+
+            html += '<div class="trend-legend">';
+            html += '<div class="legend-item"><div class="legend-dot" style="background:var(--gold)"></div>Page Views</div>';
+            html += '<div class="legend-item"><div class="legend-dot" style="background:var(--blue)"></div>Tool Uses</div>';
+            html += '<div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div>Pay Intents</div>';
+            html += '</div>';
+
+            return html;
+        }
+
+        function renderFunnel(pv, subs, pay, checkouts) {
+            var steps = [
+                { label: 'Page Views', value: pv },
+                { label: 'Tool Submissions', value: subs },
+                { label: 'Payment Intents', value: pay },
+                { label: 'Completed Checkouts', value: checkouts }
+            ];
+            var maxVal = Math.max(1, pv);
+
+            var html = '<div class="funnel">';
+            steps.forEach(function(step, i) {
+                var pct = (step.value / maxVal * 100).toFixed(1);
+                var rate = '';
+                if (i > 0 && steps[i-1].value > 0) {
+                    rate = ((step.value / steps[i-1].value) * 100).toFixed(1) + '%';
+                }
+                html += '<div class="funnel-step">';
+                html += '<div class="funnel-label">' + step.label + '</div>';
+                html += '<div class="funnel-bar"><div class="funnel-fill" style="width:' + pct + '%"></div></div>';
+                html += '<div class="funnel-value">' + formatNum(step.value) + '</div>';
+                html += '<div class="funnel-rate">' + rate + '</div>';
+                html += '</div>';
+                if (i < steps.length - 1) {
+                    html += '<div class="funnel-arrow">|</div>';
+                }
+            });
+            html += '</div>';
+            return html;
+        }
+
+        function renderBars(data, colorClass, compact) {
+            if (!data || data.length === 0) return '<div class="empty-state" style="padding:1.5rem"><p style="color:var(--ink-3)">No data yet</p></div>';
+
+            var maxVal = 1;
+            data.forEach(function(d) { if (d[1] > maxVal) maxVal = d[1]; });
+
+            var html = '<div class="bar-chart">';
+            data.forEach(function(d) {
+                var name = d[0];
+                var count = d[1];
+                var pct = (count / maxVal * 100).toFixed(1);
+                // Friendly tool names
+                name = friendlyName(name);
+                html += '<div class="bar-row">';
+                html += '<div class="bar-label" title="' + d[0] + '">' + name + '</div>';
+                html += '<div class="bar-track"><div class="bar-fill ' + colorClass + '" style="width:' + pct + '%"></div></div>';
+                html += '<div class="bar-value">' + formatNum(count) + '</div>';
+                html += '</div>';
+            });
+            html += '</div>';
+            return html;
+        }
+
+        function renderCompletionBars(subs, results, retries) {
+            if (!subs || subs.length === 0) return '<div class="empty-state" style="padding:1.5rem"><p style="color:var(--ink-3)">No data yet</p></div>';
+
+            // Build a map: tool -> { subs, results, retries }
+            var map = {};
+            subs.forEach(function(d) { map[d[0]] = { subs: d[1], results: 0, retries: 0 }; });
+            if (results) results.forEach(function(d) { if (map[d[0]]) map[d[0]].results = d[1]; });
+            if (retries) retries.forEach(function(d) { if (map[d[0]]) map[d[0]].retries = d[1]; });
+
+            var html = '<div class="bar-chart">';
+            // Sort by subs desc
+            Object.keys(map).sort(function(a,b) { return map[b].subs - map[a].subs; }).forEach(function(tool) {
+                var m = map[tool];
+                var name = friendlyName(tool);
+                var completionRate = m.subs > 0 ? ((m.results / m.subs) * 100).toFixed(0) : 0;
+                var retryRate = m.subs > 0 ? ((m.retries / m.subs) * 100).toFixed(0) : 0;
+
+                html += '<div class="bar-row">';
+                html += '<div class="bar-label" title="' + tool + '">' + name + '</div>';
+                html += '<div class="bar-track">';
+                html += '<div class="bar-fill green" style="width:' + completionRate + '%;display:inline-block;border-radius:4px 0 0 4px" title="Completed: ' + m.results + '"></div>';
+                html += '<div class="bar-fill" style="width:' + retryRate + '%;background:var(--red);display:inline-block;border-radius:0 4px 4px 0" title="Retries: ' + m.retries + '"></div>';
+                html += '</div>';
+                html += '<div class="bar-value" style="font-size:0.75rem;color:var(--ink-3);min-width:65px;text-align:right">' + m.results + ' / ' + m.subs + ' (' + completionRate + '%)</div>';
+                html += '</div>';
+            });
+            html += '</div>';
+
+            html += '<div style="display:flex;gap:1rem;margin-top:0.5rem">';
+            html += '<div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div>Completed</div>';
+            html += '<div class="legend-item"><div class="legend-dot" style="background:var(--red)"></div>Retried</div>';
+            html += '</div>';
+
+            return html;
+        }
+
+        function friendlyName(key) {
+            var names = {
+                'bazi-calculator': 'BaZi Calculator',
+                'bazi-result': 'BaZi Result Page',
+                'favorable-element': 'Favorable Element',
+                'five-elements-test': 'Five Elements Test',
+                'five-elements': 'Five Elements Test',
+                'soulmate-calculator': 'Soulmate Finder',
+                'almanac': 'Auspicious Date Picker',
+                'soulmate-unlock-timing': 'Soulmate Unlock',
+                'almanac-unlock-full': 'Almanac Unlock',
+                'five-elements-email-report': 'Email CTA'
+            };
+            return names[key] || key;
+        }
+
+        function formatNum(n) {
+            if (n === undefined || n === null) return '0';
+            return n.toLocaleString();
+        }
+
+        // Initial load
+        loadStats();
+    })();
+    </script>
+</body>
+</html>

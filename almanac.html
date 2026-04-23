@@ -1118,6 +1118,7 @@
 
         // Retry button — go back to form
         document.getElementById('almRetry').addEventListener('click', function() {
+            if (window.DaoTrack) window.DaoTrack.toolRetry('almanac');
             showAlmStep(1);
         });
 
@@ -1250,6 +1251,18 @@
                 // Show result
                 showAlmStep(3);
                 initAlmanac();
+
+                // Track submission and result
+                if (window.DaoTrack) {
+                    window.DaoTrack.pageView('almanac');
+                    window.DaoTrack.toolSubmit('almanac', {
+                        gender: userBirthData.gender === 'male' ? 'M' : 'F',
+                        birthYear: userBirthData.year,
+                        day_master_element: chart.dayMasterElement,
+                        favorable_elements: favorableElements
+                    });
+                    window.DaoTrack.toolResult('almanac');
+                }
 
             } catch (err) {
                 alert(err.message);
@@ -1517,6 +1530,11 @@
             var btn = document.querySelector('#payModal .cta-btn');
             btn.textContent = t('almanac.creating_checkout');
             btn.disabled = true;
+
+            // Track payment intent
+            if (window.DaoTrack) {
+                window.DaoTrack.payIntent('almanac-unlock-full');
+            }
             var baseUrl = window.location.origin;
             fetch('/api/create-checkout', {
                 method: 'POST',
@@ -1935,5 +1953,6 @@
     });
     </script>
     <script src="js/i18n-switcher.js" defer></script>
+    <script src="/js/tracking.js"></script>
 </body>
 </html>

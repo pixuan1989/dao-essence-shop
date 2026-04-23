@@ -68,3 +68,24 @@ export async function redisSet(key, value) {
         return false;
     }
 }
+
+/**
+ * SCAN keys by pattern (returns all matching keys)
+ */
+export async function redisKeys(pattern) {
+    const client = getRedis();
+    if (!client) return [];
+    try {
+        const keys = [];
+        let cursor = '0';
+        do {
+            const [nextCursor, matchedKeys] = await client.scan(cursor, 'MATCH', pattern, 'COUNT', 100);
+            cursor = nextCursor;
+            keys.push(...matchedKeys);
+        } while (cursor !== '0');
+        return keys;
+    } catch (err) {
+        console.error('❌ Redis KEYS failed:', err.message);
+        return [];
+    }
+}

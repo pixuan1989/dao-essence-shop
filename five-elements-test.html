@@ -1205,6 +1205,15 @@
         birthData.hour = parseInt(document.getElementById('birthHour').value);
         birthData.gender = document.getElementById('gender').value;
 
+        // Track page view and submission start
+        if (window.DaoTrack) {
+            window.DaoTrack.pageView('five-elements-test');
+            window.DaoTrack.toolSubmit('five-elements', {
+                gender: birthData.gender === 'male' ? 'M' : 'F',
+                birthYear: birthData.year
+            });
+        }
+
         if (!birthData.year || !birthData.month || !birthData.day) {
             alert(t('fivet.alert_date'));
             return;
@@ -1278,6 +1287,11 @@
             try {
                 var result = calculateFiveElements();
                 renderResults(result);
+
+                // Track result display
+                if (window.DaoTrack) {
+                    window.DaoTrack.toolResult('five-elements');
+                }
             } catch (err) {
                 console.error('Calculation error:', err);
                 document.getElementById('resultContent').innerHTML = '<p style="color:var(--wx-fire);text-align:center;">' + t('fivet.alert_error') + '</p>';
@@ -1475,6 +1489,11 @@
         var email = document.getElementById('emailInput').value.trim();
         var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+        // Track email CTA
+        if (window.DaoTrack) {
+            window.DaoTrack.ctaClick('five-elements-email-report');
+        }
+
         if (!email || !emailRegex.test(email)) {
             document.getElementById('emailInput').style.borderColor = 'var(--wx-fire)';
             return;
@@ -1618,6 +1637,7 @@ document.addEventListener('click', function(e) {
 });
 </script>
 <script src="js/i18n-switcher.js" defer></script>
+<script src="/js/tracking.js"></script>
 
 </body>
 </html>

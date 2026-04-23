@@ -951,6 +951,12 @@
 
             if (!rt) { showError(t('bazi_result.error_calc_failed')); return; }
             renderResult(rt);
+
+            // Track result display
+            if (window.DaoTrack) {
+                window.DaoTrack.pageView('bazi-result');
+                window.DaoTrack.toolResult('bazi');
+            }
         } catch (e) {
             showError(t('bazi_result.error_parse_failed'));
             console.error('BaZi error:', e);

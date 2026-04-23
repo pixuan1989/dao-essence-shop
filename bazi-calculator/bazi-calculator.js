@@ -99,6 +99,15 @@
             return;
         }
 
+        // Track submission
+        if (window.DaoTrack) {
+            window.DaoTrack.pageView('bazi-calculator');
+            window.DaoTrack.toolSubmit('bazi', {
+                gender: xb === 0 ? 'M' : 'F',
+                birthYear: yy
+            });
+        }
+
         // Redirect to result page with params in URL hash
         var params = JSON.stringify({ yy: yy, mm: mm, dd: dd, hh: hh, xb: xb });
         window.location.href = '/bazi-calculator/bazi-result.html#' + encodeURIComponent(params);
