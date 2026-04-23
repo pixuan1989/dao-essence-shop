@@ -1023,8 +1023,12 @@
                 var res = await fetch('/api/products');
                 if (!res.ok) return;
                 var data = await res.json();
+                var HIDDEN_IDS = [
+                    'prod_3fJInBNekM9UVJwtClgUtx',  // Almanac Full Access
+                    'prod_2wj3G9PQp6ZlbD8oFJdr2X'   // Soulmate Timing Unlock
+                ];
                 var products = (data.data || []).filter(function(p) {
-                    return p.image && p.price;
+                    return p.image && p.price && HIDDEN_IDS.indexOf(p.id) === -1;
                 });
                 if (products.length === 0) return;
 
