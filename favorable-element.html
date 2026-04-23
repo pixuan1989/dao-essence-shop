@@ -692,7 +692,32 @@
 <script src="bazi-calculator/paipan.min.js"></script>
 <script>
 (function() {
-    var t = function(key) { return window.DaoI18n && window.DaoI18n.t ? window.DaoI18n.t(key) : key; };
+    var _favEnFallback = {
+        'fav.nav_back':'Back to Home','fav.hero_badge':'BaZi Analysis','fav.hero_title':'Favorable Element<br><em>Energy Guide</em>',
+        'fav.hero_sub':'Discover the colors, directions, and lifestyle choices that support your personal energy. Based on ancient BaZi wisdom.',
+        'fav.form_year':'Birth Year','fav.form_month':'Birth Month','fav.form_day':'Birth Day','fav.form_hour':'Birth Hour',
+        'fav.form_unknown':'Unknown','fav.form_gender':'Gender','fav.form_male':'Male','fav.form_female':'Female',
+        'fav.form_submit':'Reveal My Element','fav.loading_text1':'Analyzing your birth chart...','fav.loading_text2':'Calculating the Four Pillars and determining your favorable element',
+        'fav.retry_btn':'Try Another Chart','fav.footer':'DAO Essence — Ancient Wisdom, Modern Insight',
+        'fav.your_energy_element':'Your Favorable Element','fav.day_master_label':'Day Master','fav.day_master_badge':'Destiny',
+        'fav.your_four_pillars':'Your Four Pillars','fav.pillar_year':'Year Pillar','fav.pillar_month':'Month Pillar',
+        'fav.pillar_day':'Day Pillar','fav.pillar_hour':'Hour Pillar','fav.why_element':'Why is this your favorable element?',
+        'fav.life_advice':'Life Advice','fav.lucky_colors':'Lucky Colors','fav.favorable_directions':'Favorable Directions',
+        'fav.best_career_fields':'Best Career Fields','fav.lucky_accessories':'Lucky Accessories','fav.desktop_themes':'Desktop Theme Picks',
+        'fav.element_to_avoid':'Element to Avoid','fav.shop_rec_title':'✨ Recommended for You',
+        'fav.shop_rec_desc':'Spiritual items that resonate with your {0} energy, supporting your daily practice.',
+        'fav.shop_rec_btn':'Explore More','fav.error_analysis':'Analysis failed, please try again.'
+    };
+    var t = function(key, placeholder) {
+        if (window.DaoI18n && window.DaoI18n.t) {
+            var val = window.DaoI18n.t(key);
+            if (val !== key) {
+                return placeholder !== undefined ? val.replace('{0}', placeholder) : val;
+            }
+        }
+        var fallback = _favEnFallback[key] || key;
+        return placeholder !== undefined ? fallback.replace('{0}', placeholder) : fallback;
+    };
     var isZh = function() { return window.DaoI18n && window.DaoI18n.current() === 'zh'; };
     // Populate year (1940-2026)
     const yearSel = document.getElementById('feYear');
