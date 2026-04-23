@@ -242,7 +242,7 @@
     function wxRelation(wx1, wx2) {
         var gen = { '金':'水','水':'木','木':'火','火':'土','土':'金' };
         var clash = { '金':'木','木':'土','土':'水','水':'火','火':'金' };
-        var e1 = WX_EN[wx1] || wx1, e2 = WX_EN[wx2] || wx2;
+        var e1 = isZh() ? (wx1 || '') : (WX_EN[wx1] || wx1), e2 = isZh() ? (wx2 || '') : (WX_EN[wx2] || wx2);
         var same = (wx1 === wx2);
         if (same) return { type: 'same', desc: e1 + ' + ' + e2 + ' — ' + (isZh() ? t('bazi_result.wx_relation.same') : 'Same element, power amplified') };
         if (gen[wx1] === wx2) return { type: 'generate', desc: e1 + ' ' + (isZh() ? t('bazi_result.wx_relation.generate') : 'generates') + ' ' + e2 + ' — ' + (isZh() ? t('bazi_result.wx_relation.outward') : 'your energy flows outward') };
@@ -281,7 +281,7 @@
                     var w = absent[a];
                     var tipText = isZh() ? t(WX_ORGAN_TIPS_ZH[w]) : WX_ORGAN_TIPS[w];
                     html += '<div class="detail-row" style="margin-bottom:0.4rem">';
-                    html += '<div><strong style="color:' + WX_COLORS[w] + '">' + WX_EN[w] + '</strong> → ' + WX_BODY[w] + '</div>';
+                    html += '<div><strong style="color:' + WX_COLORS[w] + '">' + (isZh() ? w : WX_EN[w]) + '</strong> → ' + WX_BODY[w] + '</div>';
                     html += '<div style="color:var(--ink-2);font-size:0.7rem;line-height:1.5">' + tipText + '</div>';
                     html += '</div>';
                 }
@@ -299,7 +299,7 @@
                     var clash = { '金':'木','木':'土','土':'水','水':'火','火':'金' };
                     var target = clash[w];
                     html += '<div class="detail-row" style="margin-bottom:0.4rem">';
-                    html += '<div><strong style="color:' + WX_COLORS[w] + '">' + WX_EN[w] + '</strong> excessive → controls <strong style="color:' + WX_COLORS[target] + '">' + WX_EN[target] + '</strong> (' + WX_BODY[target] + ')</div>';
+                    html += '<div><strong style="color:' + WX_COLORS[w] + '">' + (isZh() ? w : WX_EN[w]) + (isZh() ? ' 過盛 → 克制 ' : ' excessive → controls ') + '<strong style="color:' + WX_COLORS[target] + '">' + (isZh() ? target : WX_EN[target]) + '</strong> (' + WX_BODY[target] + ')</div>';
                     html += '<div style="color:var(--ink-2);font-size:0.7rem;line-height:1.5">' + excessText + '</div>';
                     html += '</div>';
                 }
@@ -386,13 +386,13 @@
         }
         var html = '<div class="wx-summary">';
         if (dominant.length > 0 && excess.length === 0) {
-            html += '<div class="wx-summary-item wx-dominant"><span class="wx-summary-label">' + t('bazi_result.wx_strongest') + '</span> ' + dominant.map(function(w) { return '<span style="color:' + WX_COLORS[w] + '">' + WX_EN[w] + '</span>'; }).join(' ') + ' (' + maxCount + ')</div>';
+            html += '<div class="wx-summary-item wx-dominant"><span class="wx-summary-label">' + t('bazi_result.wx_strongest') + '</span> ' + dominant.map(function(w) { return '<span style="color:' + WX_COLORS[w] + '">' + (isZh() ? w : WX_EN[w]) + '</span>'; }).join(' ') + ' (' + maxCount + ')</div>';
         }
         if (excess.length > 0) {
             html += '<div class="wx-summary-item wx-excess"><span class="wx-summary-label" style="color:var(--bad)">' + t('bazi_result.wx_excessive') + '</span> ';
             html += excess.map(function(w) {
                 var excessText = isZh() ? t(WX_ORGAN_EXCESS_ZH[w]) : WX_ORGAN_EXCESS[w];
-                return '<span style="color:' + WX_COLORS[w] + '">' + WX_EN[w] + '</span> — ' + excessText;
+                return '<span style="color:' + WX_COLORS[w] + '">' + (isZh() ? w : WX_EN[w]) + '</span> — ' + excessText;
             }).join('<br>');
             html += '</div>';
         }
@@ -400,7 +400,7 @@
             html += '<div class="wx-summary-item wx-weak"><span class="wx-summary-label">' + t('bazi_result.wx_absent') + '</span> ';
             html += weak.map(function(w) {
                 var tipText = isZh() ? t(WX_ORGAN_TIPS_ZH[w]) : WX_ORGAN_TIPS[w];
-                return '<span style="color:' + WX_COLORS[w] + '">' + WX_EN[w] + '</span> — <em>' + WX_BODY[w] + '</em><br><span class="detail-key">' + t('bazi_result.wx_tip') + '</span>' + tipText;
+                return '<span style="color:' + WX_COLORS[w] + '">' + (isZh() ? w : WX_EN[w]) + '</span> — <em>' + WX_BODY[w] + '</em><br><span class="detail-key">' + t('bazi_result.wx_tip') + '</span>' + tipText;
             }).join('<br><br>');
             html += '</div>';
         }
@@ -625,7 +625,7 @@
         var sidebar = document.getElementById('bazi-sidebar');
 
         var gender = rt['xb'] === '男' ? t('bazi_result.gender_male') : t('bazi_result.gender_female');
-        var zodiac = ZODIAC_EN[rt['sx']] || rt['sx'];
+        var zodiac = isZh() ? rt['sx'] : (ZODIAC_EN[rt['sx']] || rt['sx']);
         var dayMaster = rt['ctg'][2];
         var dmIdx = STEMS.indexOf(dayMaster);
         var dmWxCode = STEM_WX[dmIdx];
@@ -663,7 +663,7 @@
             pillarsHTML += '<div class="pillar-label">' + pillarLabels[p] + '</div>';
             pillarsHTML += '<div class="pillar-stem">';
             pillarsHTML += '<span class="pillar-char">' + gan + '</span>';
-            pillarsHTML += '<span class="pillar-wx" style="color:' + WX_COLORS[ganWx] + '">' + ganYin + ' ' + WX_EN[ganWx] + '</span>';
+            pillarsHTML += '<span class="pillar-wx" style="color:' + WX_COLORS[ganWx] + '">' + ganYin + ' ' + (isZh() ? ganWx : WX_EN[ganWx]) + '</span>';
             if (ganTg) {
                 pillarsHTML += '<span class="pillar-tg">' + tgLabel(ganTg) + '</span>';
             } else {
@@ -672,7 +672,7 @@
             pillarsHTML += '</div>';
             pillarsHTML += '<div class="pillar-branch">';
             pillarsHTML += '<span class="pillar-char">' + zhi + '</span>';
-            pillarsHTML += '<span class="pillar-wx" style="color:' + WX_COLORS[zhiWx] + '">' + zhiYin + ' ' + WX_EN[zhiWx] + '</span>';
+            pillarsHTML += '<span class="pillar-wx" style="color:' + WX_COLORS[zhiWx] + '">' + zhiYin + ' ' + (isZh() ? zhiWx : WX_EN[zhiWx]) + '</span>';
             pillarsHTML += '</div>';
             pillarsHTML += '</div>';
         }
@@ -704,7 +704,7 @@
                 var dy = rt['dy'][k];
                 var dyGanIdx2 = STEMS.indexOf(dy['zfma']);
                 var dyStemTg = dyGanIdx2 >= 0 ? getStemShiShen(dyGanIdx2, dmIdx) : null;
-                var dyGanWx = dyGanIdx2 >= 0 ? WX_EN[WX_NAMES[STEM_WX[dyGanIdx2]]] : '';
+                var dyGanWx = dyGanIdx2 >= 0 ? (isZh() ? WX_NAMES[STEM_WX[dyGanIdx2]] : WX_EN[WX_NAMES[STEM_WX[dyGanIdx2]]]) : '';
                 var isCurrent = k === currentDayunIdx;
 
                 dyHTML += '<div class="dayun-card' + (isCurrent ? ' dayun-current' : '') + '" data-dy-index="' + k + '"' + (dyStemTg ? ' data-tip="' + tgTip(dyStemTg).replace(/"/g, '&quot;').replace(/\n/g, ' | ') + '"' : '') + '>';
@@ -739,7 +739,7 @@
                 '</div>' +
                 '<div class="header-dm-banner" style="background:var(--accent-bg);border:1px solid var(--accent-soft);border-radius:var(--radius);padding:0.5rem 1rem;margin-top:0.6rem;display:inline-block">' +
                     '<span style="font-size:0.7rem;color:var(--accent);text-transform:uppercase;letter-spacing:0.08em">' + t('bazi_result.day_master_label') + '</span><br>' +
-                    '<span style="font-family:var(--serif);font-size:1.15rem;color:var(--ink);font-weight:600">' + (dmElement ? WX_EN[dmElement] : '') + '</span>' +
+                    '<span style="font-family:var(--serif);font-size:1.15rem;color:var(--ink);font-weight:600">' + (dmElement ? (isZh() ? dmElement : WX_EN[dmElement]) : '') + '</span>' +
                     '<span style="font-size:0.72rem;color:var(--ink-2);margin-left:0.5rem">— ' + (DM_NATURE[dayMaster] ? (isZh() ? t(DM_NATURE[dayMaster].wxZh) : DM_NATURE[dayMaster].wx) : '') + '</span>' +
                 '</div>' +
             '</header>' +
@@ -759,7 +759,7 @@
                         wxData.map(function(w) {
                             var pct = Math.round((w.count / 8) * 100);
                             return '<div class="wx-row">' +
-                                '<span class="wx-label" style="color:' + w.color + '">' + w.en + '</span>' +
+                                '<span class="wx-label" style="color:' + w.color + '">' + (isZh() ? w.name : w.en) + '</span>' +
                                 '<div class="wx-bar-track"><div class="wx-bar-fill" style="width:' + Math.max(pct, 8) + '%;background:' + w.color + '"></div></div>' +
                                 '<span class="wx-count">' + w.count + '</span>' +
                             '</div>';
