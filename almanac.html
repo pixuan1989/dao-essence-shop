@@ -830,21 +830,6 @@
             cursor: pointer; transition: color 0.2s;
         }
         .alm-personal-bar .alm-retry-link:hover { color: var(--gold); }
-        /* Personal score tag on calendar */
-        .tag-personal-best {
-            background: rgba(212,175,55,0.2); color: var(--gold);
-            font-size: 0.45rem; font-weight: 600;
-            padding: 1px 4px; border-radius: 3px;
-            text-transform: uppercase; letter-spacing: 0.04em;
-            margin-top: 2px;
-        }
-        .tag-personal-avoid {
-            background: rgba(158,75,75,0.15); color: var(--avoid-color);
-            font-size: 0.45rem; font-weight: 600;
-            padding: 1px 4px; border-radius: 3px;
-            text-transform: uppercase; letter-spacing: 0.04em;
-            margin-top: 2px;
-        }
         .cal-cell.personal-best { outline: 2px solid var(--gold); outline-offset: -2px; }
         .cal-cell.personal-worst { outline: 2px solid var(--avoid-color); outline-offset: -2px; }
         /* Personal score in result list */
@@ -1155,6 +1140,9 @@
             document.getElementById('selectResult').classList.remove('visible');
             document.getElementById('dayDetail').classList.remove('visible');
             document.getElementById('dayDetail').innerHTML = '';
+            // Clear scenario result list
+            var resultListEl = document.getElementById('resultList');
+            if (resultListEl) resultListEl.innerHTML = '';
 
             showAlmStep(1);
         });
@@ -1777,12 +1765,10 @@
                     } else if (dd.rating === 1) {
                         html += '<span class="day-tag tag-avoid">' + t('almanac.tag_avoid') + '</span>';
                     }
-                    // Personal score tags
+                    // Personal score highlight (outline only, no icon text)
                     if (dd.personalScore > 0) {
-                        html += '<span class="tag-personal-best">★</span>';
                         el.classList.add('personal-best');
                     } else if (dd.personalScore < -20) {
-                        html += '<span class="tag-personal-avoid">✕</span>';
                         el.classList.add('personal-worst');
                     }
                     el.innerHTML = html;
@@ -1913,11 +1899,11 @@
                     var scoreHtml = '';
                     if (favorableElements.length > 0) {
                         if (r.personalScore >= 15) {
-                            scoreHtml = '<span class="result-personal-score high">★ ' + (isZh() ? '契合' : 'Match') + '</span>';
+                            scoreHtml = '<span class="result-personal-score high">' + (isZh() ? '契合' : 'Match') + '</span>';
                         } else if (r.personalScore <= -20) {
-                            scoreHtml = '<span class="result-personal-score low">✕ ' + (isZh() ? '忌沖' : 'Clash') + '</span>';
+                            scoreHtml = '<span class="result-personal-score low">' + (isZh() ? '忌沖' : 'Clash') + '</span>';
                         } else if (r.personalScore > 0) {
-                            scoreHtml = '<span class="result-personal-score mid">• ' + (isZh() ? '尚可' : 'OK') + '</span>';
+                            scoreHtml = '<span class="result-personal-score mid">' + (isZh() ? '尚可' : 'OK') + '</span>';
                         }
                     }
                     html += '<li class="' + (isTop ? 'top-pick' : '') + '"><span class="result-date">' + dateStr + '</span><span class="result-reason">' + reason + scoreHtml + '</span></li>';
