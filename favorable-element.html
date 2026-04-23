@@ -762,7 +762,7 @@
             const res = await fetch('/api/bazi-favorable-element', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ chart })
+                body: JSON.stringify({ chart, lang: isZh() ? 'zh-Hant' : 'en' })
             });
 
             const data = await res.json();

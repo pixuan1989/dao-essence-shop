@@ -63,6 +63,45 @@ function buildBaziData(chartData) {
  * LLM Prompt - 判断喜用神 + 生成白话解读
  */
 function buildPrompt(data) {
+    const lang = data.lang || 'en';
+    const isZh = lang.startsWith('zh');
+
+    if (isZh) {
+        return `你是一位擁有30年經驗的專業八字命理師。請分析以下命盤並判斷喜用神。
+
+## 命盤資料
+- 日主：${data.dayStem}（${data.dayWx}，${data.dayWxEn}）
+- 性別：${data.gender === 1 ? '男' : '女'}
+- 四柱：
+  ${data.pillars.map((p, i) => ['年柱','月柱','日柱','時柱'][i] + '：' + p.stem + p.branch + ' | 天干五行：' + p.stemWx + '，地支五行：' + p.branchWx + ' | 藏干：' + p.hidden.join('、')).join('\n  ')}
+- 五行計數（天干+地支+藏干）：${JSON.stringify(data.wxEnCount)}
+
+## 分析規則
+1. 判斷日主強弱：檢查得令、得地、得勢
+2. 檢查調候：冬生需火暖，夏生需水潤
+3. 身強：喜克、泄、耗之五行
+4. 身弱：喜生、扶之五行
+5. 若強弱調整與調候衝突，極端季節優先考慮調候
+
+## 輸出格式（嚴格 JSON）
+僅返回有效的 JSON 物件，不要有任何其他文字：
+{
+  "dayMaster": "${data.dayStem}（${data.dayWx}）",
+  "strength": "Strong 或 Weak",
+  "favorableElement": "Wood 或 Fire 或 Earth 或 Metal 或 Water",
+  "favorableElementZh": "木 或 火 或 土 或 金 或 水",
+  "explanation": "用2-3句流暢的繁體中文解釋為什麼這個元素是你的喜用神。用日常語言，不要太專業的術語。",
+  "lifeAdvice": ["3條基於喜用神的實用生活建議，每條15-25字，用繁體中文"],
+  "luckyColors": ["3種對應喜用神的幸運色彩，用繁體中文"],
+  "luckyDirections": ["2個對應喜用神的有利方位，用繁體中文"],
+  "bestCareers": ["4個適合喜用神的職業領域，具體實用，用繁體中文"],
+  "luckyAccessories": ["4種與喜用神相關的幸運配飾，包含水晶/手鍊建議，用繁體中文"],
+  "desktopThemes": ["3個融合喜用神色彩與能量的桌面主題或居家裝飾建議，用繁體中文"],
+  "avoidElement": "The element to avoid",
+  "avoidElementZh": "應避免的五行中文名"
+}`;
+    }
+
     return `You are a professional Chinese BaZi (Four Pillars of Destiny) master with 30 years of experience. Analyze the following birth chart and determine the Favorable Element (喜用神).
 
 ## Birth Chart Data
@@ -202,7 +241,9 @@ export default async function handler(req, res) {
         }
 
         // Step 1: Build structured data from frontend chart
+        const lang = req.body.lang || 'en';
         const baziData = buildBaziData(chart);
+        baziData.lang = lang;
 
         // Step 2: Call LLM for favorable element analysis
         const prompt = buildPrompt(baziData);
