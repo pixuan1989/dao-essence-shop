@@ -710,6 +710,159 @@
             position: relative; z-index: 1;
         }
 
+        /* ===== SETUP STEP (Birth Input) ===== */
+        .alm-step { display: none; animation: fadeUp 0.4s ease; }
+        .alm-step.active { display: block; }
+        .alm-setup {
+            max-width: 720px; margin: 0 auto;
+            padding: 1rem 1.5rem 3rem;
+            text-align: center; position: relative; z-index: 1;
+        }
+        .alm-setup-badge {
+            display: inline-flex; align-items: center; gap: 0.4rem;
+            padding: 0.4rem 1.3rem;
+            border: 1px solid rgba(212,175,55,0.18);
+            border-radius: 30px; font-size: 0.68rem;
+            color: var(--gold); letter-spacing: 0.18em;
+            text-transform: uppercase; margin-bottom: 1.5rem;
+            background: rgba(212,175,55,0.04);
+        }
+        .alm-setup h1 {
+            font-family: var(--serif);
+            font-size: clamp(1.6rem, 4vw, 2.4rem);
+            font-weight: 600; color: var(--gold);
+            margin: 0 0 0.8rem; line-height: 1.2;
+        }
+        .alm-setup p.alm-setup-sub {
+            color: rgba(212,175,55,0.75); font-size: 0.85rem;
+            max-width: 560px; margin: 0 auto 2rem; line-height: 1.4;
+        }
+        .alm-form {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2.5rem 2rem;
+            max-width: 480px; margin: 0 auto;
+            text-align: left;
+        }
+        .alm-form-group { margin-bottom: 1.5rem; }
+        .alm-form-label {
+            display: block; font-size: 0.75rem;
+            color: var(--text-secondary); letter-spacing: 0.1em;
+            text-transform: uppercase; margin-bottom: 0.6rem; font-weight: 500;
+        }
+        .alm-form-row {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+        }
+        .alm-form-select {
+            width: 100%; padding: 0.8rem 1rem;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(212,175,55,0.12);
+            border-radius: 10px; color: var(--text-primary);
+            font-family: var(--sans); font-size: 0.95rem;
+            transition: border-color 0.3s; outline: none;
+        }
+        .alm-form-select:focus { border-color: var(--gold); }
+        .alm-form-select option { background: #1a1a2e; color: #fff; }
+        .alm-form-radio {
+            display: flex; gap: 1.2rem; margin-top: 0.3rem;
+        }
+        .alm-form-radio label {
+            display: flex; align-items: center; gap: 0.5rem;
+            font-size: 0.95rem; color: var(--text-secondary); cursor: pointer;
+        }
+        .alm-form-radio input[type="radio"] {
+            accent-color: var(--gold); width: 16px; height: 16px;
+        }
+        .alm-submit-btn {
+            width: 100%; padding: 1rem;
+            background: linear-gradient(135deg, var(--gold-dim), var(--gold));
+            border: none; border-radius: 12px;
+            color: #0B0A0F; font-family: var(--sans);
+            font-size: 0.95rem; font-weight: 600;
+            letter-spacing: 0.08em; cursor: pointer;
+            transition: all 0.3s; margin-top: 0.5rem;
+        }
+        .alm-submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(212,175,55,0.25);
+        }
+        .alm-submit-btn:disabled {
+            opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none;
+        }
+        /* Loading step */
+        .alm-loading {
+            text-align: center; padding: 5rem 2rem;
+            position: relative; z-index: 1;
+        }
+        .alm-loading-spinner {
+            width: 48px; height: 48px;
+            border: 3px solid rgba(212,175,55,0.15);
+            border-top-color: var(--gold);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1.5rem;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .alm-loading-text {
+            color: var(--text-secondary); font-size: 0.95rem;
+        }
+        /* Personal info bar (shown in result page) */
+        .alm-personal-bar {
+            max-width: 720px; margin: 0 auto;
+            padding: 0.8rem 1.5rem;
+            position: relative; z-index: 1;
+            display: flex; align-items: center; justify-content: center;
+            flex-wrap: wrap; gap: 0.8rem;
+            font-size: 0.8rem; color: var(--text-muted);
+        }
+        .alm-personal-bar .alm-pb-item {
+            display: inline-flex; align-items: center; gap: 0.3rem;
+            padding: 0.3rem 0.8rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+        }
+        .alm-personal-bar .alm-pb-label { color: var(--text-muted); }
+        .alm-personal-bar .alm-pb-value { color: var(--gold); font-weight: 500; }
+        .alm-personal-bar .alm-retry-link {
+            color: var(--text-muted); text-decoration: none;
+            cursor: pointer; transition: color 0.2s;
+        }
+        .alm-personal-bar .alm-retry-link:hover { color: var(--gold); }
+        /* Personal score tag on calendar */
+        .tag-personal-best {
+            background: rgba(212,175,55,0.2); color: var(--gold);
+            font-size: 0.45rem; font-weight: 600;
+            padding: 1px 4px; border-radius: 3px;
+            text-transform: uppercase; letter-spacing: 0.04em;
+            margin-top: 2px;
+        }
+        .tag-personal-avoid {
+            background: rgba(158,75,75,0.15); color: var(--avoid-color);
+            font-size: 0.45rem; font-weight: 600;
+            padding: 1px 4px; border-radius: 3px;
+            text-transform: uppercase; letter-spacing: 0.04em;
+            margin-top: 2px;
+        }
+        .cal-cell.personal-best { outline: 2px solid var(--gold); outline-offset: -2px; }
+        .cal-cell.personal-worst { outline: 2px solid var(--avoid-color); outline-offset: -2px; }
+        /* Personal score in result list */
+        .result-personal-score {
+            display: inline-flex; align-items: center; gap: 0.2rem;
+            font-size: 0.72rem; font-weight: 600; padding: 2px 6px;
+            border-radius: 4px; margin-left: 0.4rem;
+        }
+        .result-personal-score.high { background: rgba(212,175,55,0.12); color: var(--gold); }
+        .result-personal-score.low { background: rgba(158,75,75,0.1); color: var(--avoid-color); }
+        .result-personal-score.mid { background: rgba(107,158,107,0.1); color: var(--good-color); }
+        /* Five element colors for personal bar */
+        .wx-wood { color: #7CB87C; }
+        .wx-fire { color: #E87C5C; }
+        .wx-earth { color: #D4AF37; }
+        .wx-metal { color: #C8C8D0; }
+        .wx-water { color: #6CA8D0; }
+
         /* ===== RESPONSIVE ===== */
         @media (max-width: 640px) {
             .nav { padding: 0.8rem 1rem; }
@@ -723,6 +876,8 @@
             .cal-cell .day-num { font-size: 0.8rem; }
             .select-grid { grid-template-columns: repeat(2, 1fr); }
             .day-detail .detail-grid { grid-template-columns: 1fr; }
+            .alm-form-row { grid-template-columns: 1fr; }
+            .alm-form { padding: 1.8rem 1.2rem; }
         }
     </style>
 </head>
@@ -745,7 +900,80 @@
         </div>
     </nav>
 
-    <!-- TODAY SECTION (hero, first thing user sees) -->
+    <!-- ===== STEP 1: Birth Input (Setup) ===== -->
+    <div class="alm-step active" id="almStep1">
+        <div class="alm-setup">
+            <div class="alm-setup-badge" data-i18n="almanac.setup_badge">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                BaZi + Almanac
+            </div>
+            <h1 data-i18n="almanac.setup_title">Personal Auspicious Date Picker</h1>
+            <p class="alm-setup-sub" data-i18n="almanac.setup_sub">Enter your birth details to get personalized auspicious date recommendations. Each person's best day is unique.</p>
+
+            <form class="alm-form" id="almForm">
+                <div class="alm-form-row">
+                    <div class="alm-form-group">
+                        <label class="alm-form-label" data-i18n="almanac.form_year">Birth Year</label>
+                        <select class="alm-form-select" id="almYear" required></select>
+                    </div>
+                    <div class="alm-form-group">
+                        <label class="alm-form-label" data-i18n="almanac.form_month">Birth Month</label>
+                        <select class="alm-form-select" id="almMonth" required></select>
+                    </div>
+                </div>
+                <div class="alm-form-row">
+                    <div class="alm-form-group">
+                        <label class="alm-form-label" data-i18n="almanac.form_day">Birth Day</label>
+                        <select class="alm-form-select" id="almDay" required></select>
+                    </div>
+                    <div class="alm-form-group">
+                        <label class="alm-form-label" data-i18n="almanac.form_hour">Birth Hour</label>
+                        <select class="alm-form-select" id="almHour" required>
+                            <option value="-1" data-i18n="almanac.form_unknown">Unknown</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="alm-form-group">
+                    <label class="alm-form-label" data-i18n="almanac.form_gender">Gender</label>
+                    <div class="alm-form-radio">
+                        <label><input type="radio" name="almGender" value="1" checked> <span data-i18n="almanac.form_male">Male</span></label>
+                        <label><input type="radio" name="almGender" value="2"> <span data-i18n="almanac.form_female">Female</span></label>
+                    </div>
+                </div>
+                <button type="submit" class="alm-submit-btn" id="almSubmitBtn" data-i18n="almanac.form_submit">Find My Best Days</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ===== STEP 2: Loading ===== -->
+    <div class="alm-step" id="almStep2">
+        <div class="alm-loading">
+            <div class="alm-loading-spinner"></div>
+            <p class="alm-loading-text" data-i18n="almanac.loading_text1">Analyzing your birth chart...</p>
+            <p class="alm-loading-text" style="font-size:0.8rem;margin-top:0.5rem;color:var(--text-muted);" data-i18n="almanac.loading_text2">Calculating favorable elements and preparing your personalized calendar</p>
+        </div>
+    </div>
+
+    <!-- ===== STEP 3: Almanac Result ===== -->
+    <div class="alm-step" id="almStep3">
+        <!-- Personal info bar -->
+        <div class="alm-personal-bar" id="almPersonalBar">
+            <div class="alm-pb-item">
+                <span class="alm-pb-label" data-i18n="almanac.pb_daymaster">Day Master:</span>
+                <span class="alm-pb-value" id="almDayMaster"></span>
+            </div>
+            <div class="alm-pb-item">
+                <span class="alm-pb-label" data-i18n="almanac.pb_favorable">Favorable:</span>
+                <span class="alm-pb-value" id="almFavorable"></span>
+            </div>
+            <div class="alm-pb-item">
+                <span class="alm-pb-label" data-i18n="almanac.pb_avoid">Avoid:</span>
+                <span class="alm-pb-value" id="almAvoid" style="color:var(--avoid-color)"></span>
+            </div>
+            <a class="alm-retry-link" id="almRetry" data-i18n="almanac.retry">Change Birth Info</a>
+        </div>
+
+        <!-- TODAY SECTION (hero, first thing user sees) -->
     <section class="today-hero" id="todaySection">
         <h1 class="hero-title" data-i18n="almanac.hero_title">Auspicious Date Picker — Find Your Best Day</h1>
         <p class="hero-subtitle" data-i18n="almanac.hero_subtitle">Pick the perfect date for life's big moments — weddings, moving, business, and more — guided by 2,000 years of Chinese astrological wisdom</p>
@@ -804,6 +1032,7 @@
         <!-- Clicked day detail -->
         <div class="day-detail" id="dayDetail"></div>
     </section>
+    </div><!-- end #almStep3 -->
 
     <!-- Pay Modal -->
     <div class="pay-modal" id="payModal">
@@ -836,12 +1065,252 @@
         <p><a href="/blog/" style="color:var(--accent-color,#d4af37);text-decoration:none;" data-i18n="almanac.footer_blog">Blog</a> &middot; <span data-i18n="almanac.footer_tagline">DAO Essence &mdash; Ancient Wisdom, Modern Guidance</span></p>
     </footer>
 
+    <!-- paipan.js for birth chart calculation -->
+    <script src="bazi-calculator/paipan.min.js"></script>
     <!-- lunar-javascript -->
     <script src="lunar.js"></script>
 
     <script>
     (function() {
         'use strict';
+
+        // ===== STEP MANAGEMENT =====
+        var userBirthData = null; // { year, month, day, hour, gender }
+        var favorableElements = []; // ['Wood', 'Fire']
+        var avoidElement = ''; // 'Water'
+        var personalScoreMap = {}; // { 'YYYY-MM-DD': score }
+
+        function showAlmStep(n) {
+            document.querySelectorAll('.alm-step').forEach(function(s) { s.classList.remove('active'); });
+            document.getElementById('almStep' + n).classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Populate form selects
+        (function() {
+            var yearSel = document.getElementById('almYear');
+            for (var y = 2026; y >= 1940; y--) {
+                var opt = document.createElement('option');
+                opt.value = y; opt.textContent = y;
+                yearSel.appendChild(opt);
+            }
+            var monthSel = document.getElementById('almMonth');
+            for (var m = 1; m <= 12; m++) {
+                var opt2 = document.createElement('option');
+                opt2.value = m; opt2.textContent = m;
+                monthSel.appendChild(opt2);
+            }
+            var daySel = document.getElementById('almDay');
+            for (var d = 1; d <= 31; d++) {
+                var opt3 = document.createElement('option');
+                opt3.value = d; opt3.textContent = d;
+                daySel.appendChild(opt3);
+            }
+            var hourSel = document.getElementById('almHour');
+            var hourLabelsEn = [
+                'Unknown', '23:00-01:00 (Rat)', '01:00-03:00 (Ox)', '03:00-05:00 (Tiger)',
+                '05:00-07:00 (Rabbit)', '07:00-09:00 (Dragon)', '09:00-11:00 (Snake)',
+                '11:00-13:00 (Horse)', '13:00-15:00 (Goat)', '15:00-17:00 (Monkey)',
+                '17:00-19:00 (Rooster)', '19:00-21:00 (Dog)', '21:00-23:00 (Pig)'
+            ];
+            var hourLabelsZh = [
+                '未知', '23:00-01:00 子·鼠', '01:00-03:00 丑·牛', '03:00-05:00 寅·虎',
+                '05:00-07:00 卯·兔', '07:00-09:00 辰·龍', '09:00-11:00 巳·蛇',
+                '11:00-13:00 午·馬', '13:00-15:00 未·羊', '15:00-17:00 申·猴',
+                '17:00-19:00 酉·雞', '19:00-21:00 戌·狗', '21:00-23:00 亥·豬'
+            ];
+            var hourLabels = isZh() ? hourLabelsZh : hourLabelsEn;
+            for (var h = 0; h < 12; h++) {
+                var opt4 = document.createElement('option');
+                opt4.value = h === 0 ? -1 : h + 1;
+                opt4.textContent = hourLabels[h];
+                hourSel.appendChild(opt4);
+            }
+        })();
+
+        // Retry button
+        document.getElementById('almRetry').addEventListener('click', function() {
+            showAlmStep(1);
+        });
+
+        // BaZi chart calculation (reused from favorable-element)
+        var STEM_WX = {'甲':'Wood','乙':'Wood','丙':'Fire','丁':'Fire','戊':'Earth','己':'Earth','庚':'Metal','辛':'Metal','壬':'Water','癸':'Water'};
+        var STEM_WX_ZH = {'甲':'木','乙':'木','丙':'火','丁':'火','戊':'土','己':'土','庚':'金','辛':'金','壬':'水','癸':'水'};
+        var BRANCH_WX = {'子':'Water','丑':'Earth','寅':'Wood','卯':'Wood','辰':'Earth','巳':'Fire','午':'Fire','未':'Earth','申':'Metal','酉':'Metal','戌':'Earth','亥':'Water'};
+        var BRANCH_HIDDEN = {
+            '子': ['癸'], '丑': ['己','癸','辛'], '寅': ['甲','丙','戊'],
+            '卯': ['乙'], '辰': ['戊','乙','癸'], '巳': ['丙','戊','庚'],
+            '午': ['丁','己'], '未': ['己','丁','乙'], '申': ['庚','壬','戊'],
+            '酉': ['辛'], '戌': ['戊','辛','丁'], '亥': ['壬','甲']
+        };
+        var wxClass = function(element) {
+            var map = { Wood: 'wx-wood', Fire: 'wx-fire', Earth: 'wx-earth', Metal: 'wx-metal', Water: 'wx-water' };
+            return map[element] || 'wx-earth';
+        };
+        var wxEn = function(zh) {
+            var map = { '木':'Wood', '火':'Fire', '土':'Earth', '金':'Metal', '水':'Water' };
+            return map[zh] || zh;
+        };
+        var wxZh = function(en) {
+            var map = { 'Wood':'木', 'Fire':'火', 'Earth':'土', 'Metal':'金', 'Water':'水' };
+            return map[en] || en;
+        };
+
+        function calculateChart(genderVal, year, month, day, hour) {
+            var xb = parseInt(genderVal);
+            var p = new paipan();
+            p.pdy = true;
+            var rt = p.fatemaps(xb, year, month, day, hour, 0, 0);
+            if (!rt) throw new Error('BaZi calculation failed');
+            var dayMaster = rt.ctg[2];
+            var pillars = [];
+            for (var i = 0; i < 4; i++) {
+                pillars.push({
+                    stem: rt.ctg[i], branch: rt.cdz[i],
+                    stemElement: isZh() ? (STEM_WX_ZH[rt.ctg[i]] || STEM_WX[rt.ctg[i]]) : STEM_WX[rt.ctg[i]],
+                    branchElement: isZh() ? wxZh(BRANCH_WX[rt.cdz[i]]) : BRANCH_WX[rt.cdz[i]],
+                    hiddenStems: BRANCH_HIDDEN[rt.cdz[i]]
+                });
+            }
+            var wxCount = { Wood: 0, Fire: 0, Earth: 0, Metal: 0, Water: 0 };
+            for (var j = 0; j < 4; j++) {
+                wxCount[STEM_WX[rt.ctg[j]]]++;
+                wxCount[BRANCH_WX[rt.cdz[j]]]++;
+            }
+            for (var k = 0; k < 4; k++) {
+                var branch = rt.cdz[k];
+                for (var hi = 0; hi < BRANCH_HIDDEN[branch].length; hi++) {
+                    wxCount[STEM_WX[BRANCH_HIDDEN[branch][hi]]]++;
+                }
+            }
+            return { pillars: pillars, dayMaster: dayMaster, dayMasterElement: STEM_WX[dayMaster], gender: xb, wxCount: wxCount };
+        }
+
+        // Form submit
+        document.getElementById('almForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            var btn = document.getElementById('almSubmitBtn');
+            btn.disabled = true;
+
+            userBirthData = {
+                year: parseInt(document.getElementById('almYear').value),
+                month: parseInt(document.getElementById('almMonth').value),
+                day: parseInt(document.getElementById('almDay').value),
+                hour: parseInt(document.getElementById('almHour').value),
+                gender: document.querySelector('input[name="almGender"]:checked').value
+            };
+
+            showAlmStep(2);
+
+            try {
+                // Step 1: Calculate BaZi chart
+                var chart = calculateChart(
+                    userBirthData.gender, userBirthData.year, userBirthData.month,
+                    userBirthData.day, userBirthData.hour
+                );
+
+                // Step 2: Get favorable/avoid elements from API
+                var res = await fetch('/api/bazi-favorable-element', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ chart: chart, lang: isZh() ? 'zh-Hant' : 'en' })
+                });
+                var data = await res.json();
+                if (!res.ok || !data.success) throw new Error(data.error || 'Analysis failed');
+
+                // Extract favorable elements (dual) and avoid element
+                var favElements = data.analysis.favorableElements || [data.analysis.favorableElement].filter(Boolean);
+                var favElementsZh = data.analysis.favorableElementsZh || [data.analysis.favorableElementZh].filter(Boolean);
+                favorableElements = favElements.map(function(el) {
+                    // Ensure English element names
+                    if (el === '木' || el === '火' || el === '土' || el === '金' || el === '水') return wxEn(el);
+                    return el;
+                });
+                avoidElement = data.analysis.avoidElement || '';
+                if (avoidElement && (avoidElement === '木' || avoidElement === '火' || avoidElement === '土' || avoidElement === '金' || avoidElement === '水')) {
+                    avoidElement = wxEn(avoidElement);
+                }
+
+                // Update personal info bar
+                var dmZh = chart.dayMaster;
+                var dmEn = chart.dayMasterElement;
+                document.getElementById('almDayMaster').textContent = dmZh + ' (' + dmEn + ')';
+
+                var favDisplay = favorableElements.map(function(el) {
+                    return '<span class="' + wxClass(el) + '">' + wxZh(el) + '</span>';
+                }).join(' & ');
+                document.getElementById('almFavorable').innerHTML = favDisplay;
+
+                var avoidDisplay = avoidElement ? ('<span class="' + wxClass(avoidElement) + '">' + wxZh(avoidElement) + '</span>') : '—';
+                document.getElementById('almAvoid').innerHTML = avoidDisplay;
+
+                // Cache birth data to localStorage
+                localStorage.setItem('almanac_birth', JSON.stringify(userBirthData));
+                localStorage.setItem('almanac_fav', JSON.stringify(favorableElements));
+                localStorage.setItem('almanac_avoid', avoidElement);
+
+                // Show result
+                showAlmStep(3);
+                initAlmanac();
+
+            } catch (err) {
+                alert(err.message);
+                showAlmStep(1);
+            } finally {
+                btn.disabled = false;
+            }
+        });
+
+        // Try to restore from localStorage on page load
+        function tryRestoreSession() {
+            var cached = localStorage.getItem('almanac_birth');
+            var cachedFav = localStorage.getItem('almanac_fav');
+            var cachedAvoid = localStorage.getItem('almanac_avoid');
+            if (cached && cachedFav) {
+                userBirthData = JSON.parse(cached);
+                favorableElements = JSON.parse(cachedFav);
+                avoidElement = cachedAvoid || '';
+                // Update personal info bar
+                var p = new paipan();
+                p.pdy = true;
+                var rt = p.fatemaps(parseInt(userBirthData.gender), userBirthData.year, userBirthData.month, userBirthData.day, userBirthData.hour, 0, 0);
+                var dmZh = rt.ctg[2];
+                var dmEn = STEM_WX[dmZh];
+                document.getElementById('almDayMaster').textContent = dmZh + ' (' + dmEn + ')';
+                var favDisplay = favorableElements.map(function(el) {
+                    return '<span class="' + wxClass(el) + '">' + wxZh(el) + '</span>';
+                }).join(' & ');
+                document.getElementById('almFavorable').innerHTML = favDisplay;
+                var avoidDisplay = avoidElement ? ('<span class="' + wxClass(avoidElement) + '">' + wxZh(avoidElement) + '</span>') : '—';
+                document.getElementById('almAvoid').innerHTML = avoidDisplay;
+                showAlmStep(3);
+                initAlmanac();
+                return true;
+            }
+            return false;
+        }
+
+        // ===== PERSONAL SCORE ENGINE =====
+        function calcPersonalScore(dayGanElement, dayZhiElement) {
+            // dayZhiElement is not directly available from GAN_ELEMENT, need BRANCH_WX
+            // This is calculated in getDayData
+            var score = 0;
+            // Check favorable elements
+            for (var i = 0; i < favorableElements.length; i++) {
+                if (dayGanElement === favorableElements[i]) score += 15;
+                if (dayZhiElement === favorableElements[i]) score += 15;
+            }
+            // Extra bonus if both gan and zhi match favorable
+            var bothFav = favorableElements.every(function(el) { return el === dayGanElement || el === dayZhiElement; });
+            if (favorableElements.length === 2 && dayGanElement === favorableElements[0] && dayZhiElement === favorableElements[1]) score += 10;
+            if (favorableElements.length === 2 && dayZhiElement === favorableElements[0] && dayGanElement === favorableElements[1]) score += 10;
+            // Check avoid element
+            if (avoidElement) {
+                if (dayGanElement === avoidElement) score -= 20;
+                if (dayZhiElement === avoidElement) score -= 20;
+            }
+            return score;
+        }
 
         var EN_TEXTS = {
             'almanac.error_engine': 'Calendar engine failed to load. Please refresh.',
@@ -887,18 +1356,12 @@
         };
         var isZh = function() { return window.DaoI18n && window.DaoI18n.current() === 'zh'; };
 
-        // Check if library loaded
-        if (typeof Solar === 'undefined') {
-            document.getElementById('todaySection').innerHTML = '<p style="color:#c0392b;text-align:center;padding:3rem 1rem;font-size:1rem;">' + t('almanac.error_engine') + '</p>';
-            document.getElementById('todayDetails').style.display = 'none';
-            return;
-        }
-
         // ===== DATA MAPS =====
         const GAN = ['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'];
         const ZHI = ['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];
         const ZODIAC_EN = ['Rat','Ox','Tiger','Rabbit','Dragon','Snake','Horse','Goat','Monkey','Rooster','Dog','Pig'];
         const GAN_ELEMENT = {'甲':'Wood','乙':'Wood','丙':'Fire','丁':'Fire','戊':'Earth','己':'Earth','庚':'Metal','辛':'Metal','壬':'Water','癸':'Water'};
+        const BRANCH_WX_MAP = {'子':'Water','丑':'Earth','寅':'Wood','卯':'Wood','辰':'Earth','巳':'Fire','午':'Fire','未':'Earth','申':'Metal','酉':'Metal','戌':'Earth','亥':'Water'};
         const WUXING_COLORS = {'Wood':'Green, Sage','Fire':'Red, Orange','Earth':'Beige, Brown','Metal':'White, Silver','Water':'Blue, Black'};
         const WUXING_NUMBERS = {'Wood':'3, 8','Fire':'2, 7','Earth':'5, 0','Metal':'4, 9','Water':'1, 6'};
         const WUXING_COLORS_ZH = {'Wood':'綠色、鼠尾草綠','Fire':'紅色、橙色','Earth':'米色、棕色','Metal':'白色、銀色','Water':'藍色、黑色'};
@@ -984,21 +1447,23 @@
         let activeScenario = null;
 
         // ===== INIT =====
-        function init() {
+        function initAlmanac() {
             const now = new Date();
             calYear = now.getFullYear();
             calMonth = now.getMonth();
-
             renderToday();
             renderCalendar();
             applyUnlockState();
-            bindEvents();
         }
 
+        // bindEvents runs once on page load (for form submit etc are already bound above)
+        var eventsBound = false;
         function bindEvents() {
-            document.getElementById('prevMonth').addEventListener('click', () => { changeMonth(-1); });
-            document.getElementById('nextMonth').addEventListener('click', () => { changeMonth(1); });
-            document.querySelectorAll('.select-btn').forEach(btn => {
+            if (eventsBound) return;
+            eventsBound = true;
+            document.getElementById('prevMonth').addEventListener('click', function() { changeMonth(-1); });
+            document.getElementById('nextMonth').addEventListener('click', function() { changeMonth(1); });
+            document.querySelectorAll('.select-btn').forEach(function(btn) {
                 btn.addEventListener('click', () => {
                     // If locked button and not unlocked, show pay modal
                     if (btn.classList.contains('select-btn-locked') && !isUnlocked()) {
@@ -1090,6 +1555,7 @@
             const dayGan = l.getDayGan();
             const dayZhi = l.getDayZhi();
             const dayElement = GAN_ELEMENT[dayGan] || 'Earth';
+            const dayZhiElement = BRANCH_WX_MAP[dayZhi] || 'Earth';
             const zhiXing = l.getZhiXing();
             const tianShen = l.getDayTianShen();
             const tianShenType = l.getDayTianShenType(); // 黄道 / 黑道
@@ -1130,14 +1596,21 @@
                 ? l.getDayChong() // Chinese: show 地支 directly
                 : (ZODIAC_EN[clashIdx] || 'Unknown');
 
+            // Personal score (based on favorable/avoid elements)
+            let personalScore = 0;
+            if (favorableElements.length > 0) {
+                personalScore = calcPersonalScore(dayElement, dayZhiElement);
+            }
+
             return {
                 date: new Date(year, month, day),
-                dayGan, dayZhi, dayElement,
+                dayGan, dayZhi, dayElement, dayZhiElement,
                 zhiXing, zhiXingEn: isZh() ? (ZHIXING_ZH[zhiXing] || zhiXing) : (ZHIXING_EN[zhiXing] || zhiXing),
                 tianShen, tianShenType, rating,
                 yi: yiList, ji: jiList,
                 caiDir, xiDir,
-                clashAnimal
+                clashAnimal,
+                personalScore
             };
         }
 
@@ -1273,10 +1746,17 @@
                     } else if (dd.rating === 1) {
                         html += '<span class="day-tag tag-avoid">' + t('almanac.tag_avoid') + '</span>';
                     }
+                    // Personal score tags
+                    if (dd.personalScore > 0) {
+                        html += '<span class="tag-personal-best">★</span>';
+                        el.classList.add('personal-best');
+                    } else if (dd.personalScore < -20) {
+                        html += '<span class="tag-personal-avoid">✕</span>';
+                        el.classList.add('personal-worst');
+                    }
                     el.innerHTML = html;
-                    el.addEventListener('click', () => showDayDetail(dd));
+                    el.addEventListener('click', function() { showDayDetail(dd); });
                 } else {
-                    // Past dates: skip entirely
                     continue;
                 }
 
@@ -1376,15 +1856,15 @@
 
             for (let d = 1; d <= daysInMonth; d++) {
                 const dd = getDayData(calYear, calMonth, d);
-                if (dd.date < new Date()) continue; // skip past days
-                const matched = needed.some(n => dd.yi.includes(n));
+                if (dd.date < new Date()) continue;
+                const matched = needed.some(function(n) { return dd.yi.includes(n); });
                 if (matched) {
                     results.push(dd);
                 }
             }
 
-            // Sort by rating desc
-            results.sort((a, b) => b.rating - a.rating);
+            // Sort by personalScore desc, then by rating desc
+            results.sort(function(a, b) { return (b.personalScore - a.personalScore) || (b.rating - a.rating); });
 
             if (results.length === 0) {
                 listEl.innerHTML = '<li style="color:var(--text-muted);justify-content:center;">' + (isZh() ? '本月未找到理想日期，請嘗試下個月。' : 'No ideal dates found this month. Try next month.') + '</li>';
@@ -1398,10 +1878,18 @@
                     const reason = r.rating >= 5 ? (isZh() ? '最佳' : 'Best')
                         : r.rating >= 4 ? (isZh() ? '良好' : 'Good')
                         : (isZh() ? '一般' : 'Fair');
-                    html += `<li class="${isTop ? 'top-pick' : ''}">
-                        <span class="result-date">${dateStr}</span>
-                        <span class="result-reason">${reason}</span>
-                    </li>`;
+                    // Personal score badge
+                    var scoreHtml = '';
+                    if (favorableElements.length > 0) {
+                        if (r.personalScore >= 15) {
+                            scoreHtml = '<span class="result-personal-score high">★ ' + (isZh() ? '契合' : 'Match') + '</span>';
+                        } else if (r.personalScore <= -20) {
+                            scoreHtml = '<span class="result-personal-score low">✕ ' + (isZh() ? '忌沖' : 'Clash') + '</span>';
+                        } else if (r.personalScore > 0) {
+                            scoreHtml = '<span class="result-personal-score mid">• ' + (isZh() ? '尚可' : 'OK') + '</span>';
+                        }
+                    }
+                    html += '<li class="' + (isTop ? 'top-pick' : '') + '"><span class="result-date">' + dateStr + '</span><span class="result-reason">' + reason + scoreHtml + '</span></li>';
                 }
                 listEl.innerHTML = html;
             }
@@ -1413,15 +1901,30 @@
         // Re-render when i18n translations finish loading
         document.addEventListener('daoessence:i18n-changed', function () {
             SCENARIO_LABELS = buildScenarioLabels();
-            renderToday();
-            renderCalendar();
+            if (document.getElementById('almStep3').classList.contains('active')) {
+                renderToday();
+                renderCalendar();
+            }
         });
 
         // ===== START =====
         if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', init);
+            document.addEventListener('DOMContentLoaded', start);
         } else {
-            init();
+            start();
+        }
+        function start() {
+            // Check if library loaded
+            if (typeof Solar === 'undefined') {
+                document.getElementById('almStep1').innerHTML = '<p style="color:#c0392b;text-align:center;padding:3rem 1rem;">' + t('almanac.error_engine') + '</p>';
+                return;
+            }
+            // Bind calendar events
+            bindEvents();
+            // Try to restore previous session
+            if (!tryRestoreSession()) {
+                showAlmStep(1);
+            }
         }
     })();
     </script>
