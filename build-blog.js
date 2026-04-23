@@ -1596,6 +1596,7 @@ async function main() {
 
   // Step 6b: Generate bazi-recommendations.json for bazi result page sidebar
   console.log('Generating bazi-recommendations.json...');
+  console.log(`  zhArticles count: ${zhArticles.length}, zhArticleMap keys: ${Object.keys(zhArticleMap).join(', ')}`);
   const recCount = Math.min(5, allArticles.length);
   // Shuffle and pick recCount articles
   const shuffled = [...allArticles].sort(() => Math.random() - 0.5);
