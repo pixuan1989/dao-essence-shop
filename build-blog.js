@@ -1596,35 +1596,124 @@ async function main() {
 
   // Step 6b: Generate bazi-recommendations.json for bazi result page sidebar
   console.log('Generating bazi-recommendations.json...');
-  console.log(`  zhArticles count: ${zhArticles.length}, zhArticleMap keys: ${Object.keys(zhArticleMap).join(', ')}`);
   const recCount = Math.min(5, allArticles.length);
   // Shuffle and pick recCount articles
   const shuffled = [...allArticles].sort(() => Math.random() - 0.5);
-  const recArticles = shuffled.slice(0, recCount).map(post => {
-    const cat = post.category || post.data.category || 'bazi-astrology';
-    const catLabel = CATEGORY_LABELS[cat] || cat;
-    const catLabelZh = CATEGORY_LABELS_ZH[cat] || cat;
-    const zhPost = zhArticleMap[post.slug];
-    const titleZh = zhPost ? (zhPost.data.title || '') : '';
-    const descZh = zhPost ? (zhPost.data.description || '') : '';
-    let imgSrc = post.data.image || SITE_URL + '/images/og-default.jpg';
-    imgSrc = imgSrc.replace(/\/feature\/blog-cms\//g, '/main/');
-    if (!imgSrc || imgSrc === '""') imgSrc = SITE_URL + '/images/og-default.jpg';
-    const dateFormatted = formatDate(post.data.date);
-    return {
-      title: post.data.title || '',
-      titleZh: titleZh,
-      category: catLabel,
-      categoryZh: catLabelZh,
-      description: post.data.description || '',
-      descriptionZh: descZh,
-      image: imgSrc,
-      readTime: post.data.readTime || 0,
-      date: dateFormatted,
-      slug: post.slug,
-      url: SITE_URL + '/blog/' + post.slug
-    };
-  });
+  const pickedPosts = shuffled.slice(0, recCount);
+  let recArticles;
+
+  // Try to get zh titles from zhArticleMap first
+  const needZhTitles = pickedPosts.filter(p => !zhArticleMap[p.slug] || !zhArticleMap[p.slug].data?.title);
+
+  if (needZhTitles.length > 0 && process.env.DASHSCOPE_API_KEY) {
+    // Fallback: translate only titles & descriptions for recommendation cards
+    console.log(`  Translating ${needZhTitles.length} recommendation titles/descriptions...`);
+    try {
+      const { buildSystemPrompt } = await import('./scripts/translate-zh-auto.mjs');
+      const terms = {};
+      const termFile = path.join(ROOT_DIR, 'i18n', 'terminology.json');
+      if (fs.existsSync(termFile)) {
+        const rawTerms = JSON.parse(fs.readFileSync(termFile, 'utf-8'));
+        for (const mappings of Object.values(rawTerms.categories)) Object.assign(terms, mappings);
+      }
+      const sysPrompt = buildSystemPrompt(terms);
+
+      async function translateText(text, maxTokens) {
+        const res = await fetch('https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${process.env.DASHSCOPE_API_KEY}` },
+          body: JSON.stringify({ model: 'qwen-plus', messages: [{ role: 'system', content: sysPrompt }, { role: 'user', content: `翻譯為繁體中文，只輸出翻譯結果：\n${text}` }], temperature: 0.3, max_tokens: maxTokens || 300 })
+        });
+        if (!res.ok) return '';
+        const data = await res.json();
+        return data.choices?.[0]?.message?.content?.trim() || '';
+      }
+
+      // Batch translate titles in one call
+      const titlesToTranslate = needZhTitles.map(p => p.data.title || '');
+      const titleBulkPrompt = '將以下文章標題翻譯為繁體中文，每行一個，保持對應順序，只輸出翻譯結果：\n\n' + titlesToTranslate.join('\n');
+      let bulkTitles = '';
+      try {
+        const res = await fetch('https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${process.env.DASHSCOPE_API_KEY}` },
+          body: JSON.stringify({ model: 'qwen-plus', messages: [{ role: 'system', content: sysPrompt }, { role: 'user', content: titleBulkPrompt }], temperature: 0.3, max_tokens: 1000 })
+        });
+        if (res.ok) {
+          const data = await res.json();
+          bulkTitles = data.choices?.[0]?.message?.content?.trim() || '';
+        }
+      } catch(e) { console.warn('  Title batch translation failed:', e.message); }
+      const titleLines = bulkTitles ? bulkTitles.split('\n').map(s => s.trim()).filter(Boolean) : [];
+
+      // Build a manual zh map for posts without translations
+      const manualZhMap = {};
+      needZhTitles.forEach((p, i) => {
+        manualZhMap[p.slug] = {
+          data: { title: titleLines[i] || '', description: '' }
+        };
+      });
+
+      recArticles = pickedPosts.map(post => {
+        const cat = post.category || post.data.category || 'bazi-astrology';
+        const catLabel = CATEGORY_LABELS[cat] || cat;
+        const catLabelZh = CATEGORY_LABELS_ZH[cat] || cat;
+        const zhPost = zhArticleMap[post.slug] || manualZhMap[post.slug];
+        const titleZh = zhPost?.data?.title || '';
+        const descZh = zhPost?.data?.description || '';
+        let imgSrc = post.data.image || SITE_URL + '/images/og-default.jpg';
+        imgSrc = imgSrc.replace(/\/feature\/blog-cms\//g, '/main/');
+        if (!imgSrc || imgSrc === '""') imgSrc = SITE_URL + '/images/og-default.jpg';
+        const dateFormatted = formatDate(post.data.date);
+        return {
+          title: post.data.title || '',
+          titleZh: titleZh,
+          category: catLabel,
+          categoryZh: catLabelZh,
+          description: post.data.description || '',
+          descriptionZh: descZh,
+          image: imgSrc,
+          readTime: post.data.readTime || 0,
+          date: dateFormatted,
+          slug: post.slug,
+          url: SITE_URL + '/blog/' + post.slug
+        };
+      });
+      console.log(`  Translated ${titleLines.length}/${needZhTitles.length} titles`);
+    } catch(err) {
+      console.warn('  Recommendation translation failed:', err.message);
+      // Fall through to non-translated version
+      recArticles = null;
+    }
+  }
+
+  if (!recArticles) {
+    recArticles = pickedPosts.map(post => {
+      const cat = post.category || post.data.category || 'bazi-astrology';
+      const catLabel = CATEGORY_LABELS[cat] || cat;
+      const catLabelZh = CATEGORY_LABELS_ZH[cat] || cat;
+      const zhPost = zhArticleMap[post.slug];
+      const titleZh = zhPost ? (zhPost.data.title || '') : '';
+      const descZh = zhPost ? (zhPost.data.description || '') : '';
+      let imgSrc = post.data.image || SITE_URL + '/images/og-default.jpg';
+      imgSrc = imgSrc.replace(/\/feature\/blog-cms\//g, '/main/');
+      if (!imgSrc || imgSrc === '""') imgSrc = SITE_URL + '/images/og-default.jpg';
+      const dateFormatted = formatDate(post.data.date);
+      return {
+        title: post.data.title || '',
+        titleZh: titleZh,
+        category: catLabel,
+        categoryZh: catLabelZh,
+        description: post.data.description || '',
+        descriptionZh: descZh,
+        image: imgSrc,
+        readTime: post.data.readTime || 0,
+        date: dateFormatted,
+        slug: post.slug,
+        url: SITE_URL + '/blog/' + post.slug
+      };
+    });
+  }
   const recJson = JSON.stringify(recArticles, null, 2);
   fs.writeFileSync(path.join(DIST_DIR, 'bazi-calculator', 'bazi-recommendations.json'), recJson);
   console.log(`  Generated: bazi-calculator/bazi-recommendations.json (${recCount} articles)`);
