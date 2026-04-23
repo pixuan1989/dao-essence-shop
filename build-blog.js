@@ -863,12 +863,12 @@ function generateArticleHtml(post, category, allArticles, options = {}) {
       case 'favorable-element':
         return `
         <div class="sidebar-cta sidebar-cta--favorable-element">
-            <h3 data-i18n="blog.sidebar_fav_title">Your Lucky Colors & Energy Guide</h3>
+            <h3 data-i18n="blog.sidebar_fav_title">Favorable Element Guide</h3>
             <p class="cta-sub" data-i18n="blog.sidebar_fav_desc">Your birth date reveals a personal energy profile — the colors, directions, and lifestyle choices that naturally support you. Discover yours in seconds.</p>
             <div class="cta-features">
                 <div class="cta-feat">
                     <span class="cta-feat-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></span>
-                    <span data-i18n="blog.sidebar_fav_feat1">Lucky Colors</span>
+                    <span data-i18n="blog.sidebar_fav_feat1">Favorable Colors</span>
                 </div>
                 <div class="cta-feat">
                     <span class="cta-feat-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></span>
@@ -879,7 +879,7 @@ function generateArticleHtml(post, category, allArticles, options = {}) {
                     <span data-i18n="blog.sidebar_fav_feat3">Personal Energy Profile</span>
                 </div>
             </div>
-            <a href="/favorable-element" class="cta-btn" data-i18n="blog.sidebar_fav_btn">Discover My Energy Guide</a>
+            <a href="/favorable-element" class="cta-btn" data-i18n="blog.sidebar_fav_btn">Discover My Element Guide</a>
         </div>`;
       case 'almanac':
         return `

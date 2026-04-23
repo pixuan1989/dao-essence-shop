@@ -145,7 +145,7 @@ Here are practical strategies based on your Day Master element. These aren’t r
 
 •Water energy flows — don’t resist changes, adapt to them
 
-For personalized color and direction guidance, try our **Lucky Colors & Energy Guide** [Your Lucky Colors & Energy Guide | Free Five Elements Birth Date Analysis](https://www.daoessentia.com/favorable-element) — it analyzes your BaZi chart and provides recommendations tailored to your Day Master.
+For personalized color and direction guidance, try our **Favorable Element Guide** [Favorable Element Guide | Free Five Elements Birth Date Analysis](https://www.daoessentia.com/favorable-element) — it analyzes your BaZi chart and provides recommendations tailored to your Day Master.
 
 **Beyond Red Underwear: Modern Ways to Work With This Energy**
 
