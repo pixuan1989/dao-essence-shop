@@ -1011,65 +1011,66 @@
             '</div>' +
 
             '<div class="fe-shop-rec" id="feShopRec"></div>';
-    }
-
-    // Load shop recommendations
-    (async function() {
-        try {
-            var res = await fetch('/api/products');
-            if (!res.ok) return;
-            var data = await res.json();
-            var products = (data.data || []).filter(function(p) {
-                return p.image && p.price;
-            });
-            if (products.length === 0) return;
-
-            // Load zh map for Chinese names
-            var zhMap = {};
-            try {
-                var zhRes = await fetch('/i18n/product-zh-map.json');
-                if (zhRes.ok) {
-                    var zhData = await zhRes.json();
-                    zhMap = zhData;
-                }
-            } catch(e) {}
-
-            var favEl = fav || '';
-            var favElZh = analysis.favorableElementZh || '';
-            var zh = isZh();
-
-            // Pick up to 3 products, shuffle
-            products.sort(function() { return Math.random() - 0.5; });
-            var picks = products.slice(0, 3);
-
-            var cardsHtml = '';
-            picks.forEach(function(p) {
-                var name = zh && zhMap[p.id] ? zhMap[p.id].name : p.name;
-                var imgUrl = p.image || p.image_url || '';
-                cardsHtml +=
-                    '<a href="/product-detail.html?id=' + p.id + '" class="fe-shop-card">' +
-                        '<img class="fe-shop-card-img" src="' + imgUrl + '" alt="' + name + '" loading="lazy">' +
-                        '<div class="fe-shop-card-body">' +
-                            '<div class="fe-shop-card-name">' + name + '</div>' +
-                            '<div class="fe-shop-card-price">$' + parseFloat(p.price).toFixed(2) + '</div>' +
-                        '</div>' +
-                    '</a>';
-            });
-
-            var recEl = document.getElementById('feShopRec');
-            if (recEl) {
-                recEl.innerHTML =
-                    '<div class="fe-shop-rec-title">' + t('fav.shop_rec_title') + '</div>' +
-                    '<div class="fe-shop-rec-desc">' + t('fav.shop_rec_desc', zh ? favElZh : favEl) + '</div>' +
-                    '<div class="fe-shop-cards">' + cardsHtml + '</div>' +
-                    '<div style="text-align:center;">' +
-                        '<a href="/shop.html" class="fe-shop-link">' + t('fav.shop_rec_btn') + '</a>' +
-                    '</div>';
-            }
-        } catch(e) {
-            console.warn('Failed to load shop recommendations:', e);
         }
-    })();
+
+        // Load shop recommendations (must be inside renderResult to access analysis & fav)
+        (async function() {
+            try {
+                var res = await fetch('/api/products');
+                if (!res.ok) return;
+                var data = await res.json();
+                var products = (data.data || []).filter(function(p) {
+                    return p.image && p.price;
+                });
+                if (products.length === 0) return;
+
+                // Load zh map for Chinese names
+                var zhMap = {};
+                try {
+                    var zhRes = await fetch('/i18n/product-zh-map.json');
+                    if (zhRes.ok) {
+                        var zhData = await zhRes.json();
+                        zhMap = zhData;
+                    }
+                } catch(e) {}
+
+                var favEl = fav || '';
+                var favElZh = analysis.favorableElementZh || '';
+                var zh = isZh();
+
+                // Pick up to 3 products, shuffle
+                products.sort(function() { return Math.random() - 0.5; });
+                var picks = products.slice(0, 3);
+
+                var cardsHtml = '';
+                picks.forEach(function(p) {
+                    var name = zh && zhMap[p.id] ? zhMap[p.id].name : p.name;
+                    var imgUrl = p.image || p.image_url || '';
+                    cardsHtml +=
+                        '<a href="/product-detail.html?id=' + p.id + '" class="fe-shop-card">' +
+                            '<img class="fe-shop-card-img" src="' + imgUrl + '" alt="' + name + '" loading="lazy">' +
+                            '<div class="fe-shop-card-body">' +
+                                '<div class="fe-shop-card-name">' + name + '</div>' +
+                                '<div class="fe-shop-card-price">$' + parseFloat(p.price).toFixed(2) + '</div>' +
+                            '</div>' +
+                        '</a>';
+                });
+
+                var recEl = document.getElementById('feShopRec');
+                if (recEl) {
+                    recEl.innerHTML =
+                        '<div class="fe-shop-rec-title">' + t('fav.shop_rec_title') + '</div>' +
+                        '<div class="fe-shop-rec-desc">' + t('fav.shop_rec_desc', zh ? favElZh : favEl) + '</div>' +
+                        '<div class="fe-shop-cards">' + cardsHtml + '</div>' +
+                        '<div style="text-align:center;">' +
+                            '<a href="/shop.html" class="fe-shop-link">' + t('fav.shop_rec_btn') + '</a>' +
+                        '</div>';
+                }
+            } catch(e) {
+                console.warn('Failed to load shop recommendations:', e);
+            }
+        })();
+    }
 
     // Retry
     document.getElementById('feRetry').addEventListener('click', function(e) {
