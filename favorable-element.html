@@ -1043,7 +1043,7 @@
 
                 var cardsHtml = '';
                 picks.forEach(function(p) {
-                    var name = zh && zhMap[p.id] ? zhMap[p.id].name : p.name;
+                    var name = zh && zhMap[p.id] ? (zhMap[p.id].nameCN || p.name) : p.name;
                     var imgUrl = p.image || p.image_url || '';
                     cardsHtml +=
                         '<a href="/product-detail.html?id=' + p.id + '" class="fe-shop-card">' +

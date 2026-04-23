@@ -1855,6 +1855,8 @@
         var t = window.DaoI18n ? window.DaoI18n.t.bind(window.DaoI18n) : function(k){return k;};
         var isZh = window.DaoI18n && window.DaoI18n.current() === 'zh';
         var ei = _0x.elemIdx[dayElemEn];
+        // Localized element names for display
+        var dayElemDisplay = isZh ? _0x.elementsZh[ei] : dayElemEn;
         var sn = isZh ? _0x.styleNamesZh[ei] : _0x.styleNames[ei];
         var tr = isZh ? _0x.traitsZh[ei] : _0x.traits[ei];
         var env = isZh ? _0x.envsZh[ei] : _0x.envs[ei];
@@ -1863,11 +1865,13 @@
         var dirResult = _0x.calcSoulmateDirection(dayElemEn, gender);
         var dir = dirResult.directions[0];
         var subDir = dirResult.directions.length > 1 ? dirResult.directions[1] : '';
-        var spouseElem = dirResult.soulmateElement;
+        // Localize spouse element for display
+        var spouseElemEn = dirResult.soulmateElement;
+        var spouseElemDisplay = isZh ? _0x.elementsZh[_0x.elemIdx[spouseElemEn] || 0] : spouseElemEn;
 
         var dirLogic = (gender === 'male')
-            ? t('sc.dir_logic_male_prefix') + ' ' + dayElemEn + ' ' + t('sc.dir_logic_day_master') + ', ' + t('sc.dir_logic_male_attract') + ' ' + spouseElem + ' ' + t('sc.dir_logic_partner') + ' (' + t('sc.dir_logic_conquer') + '). ' + spouseElem + ' ' + t('sc.dir_logic_resides') + ' <strong style="color:var(--gold)">' + dirResult.directions.join(' / ') + '</strong>.'
-            : t('sc.dir_logic_female_prefix') + ' ' + dayElemEn + ' ' + t('sc.dir_logic_day_master') + ', ' + t('sc.dir_logic_female_partner') + ' ' + spouseElem + ' ' + t('sc.dir_logic_energy') + ' (' + t('sc.dir_logic_conquer_you') + '). ' + spouseElem + ' ' + t('sc.dir_logic_resides') + ' <strong style="color:var(--gold)">' + dirResult.directions.join(' / ') + '</strong>.';
+            ? t('sc.dir_logic_male_prefix') + ' ' + dayElemDisplay + ' ' + t('sc.dir_logic_day_master') + ', ' + t('sc.dir_logic_male_attract') + ' ' + spouseElemDisplay + ' ' + t('sc.dir_logic_partner') + ' (' + t('sc.dir_logic_conquer') + '). ' + spouseElemDisplay + ' ' + t('sc.dir_logic_resides') + ' <strong style="color:var(--gold)">' + dirResult.directions.join(' / ') + '</strong>.'
+            : t('sc.dir_logic_female_prefix') + ' ' + dayElemDisplay + ' ' + t('sc.dir_logic_day_master') + ', ' + t('sc.dir_logic_female_partner') + ' ' + spouseElemDisplay + ' ' + t('sc.dir_logic_energy') + ' (' + t('sc.dir_logic_conquer_you') + '). ' + spouseElemDisplay + ' ' + t('sc.dir_logic_resides') + ' <strong style="color:var(--gold)">' + dirResult.directions.join(' / ') + '</strong>.';
 
         // Header
         document.getElementById('sc-result-name').textContent = pp.ctg[2] + pp.cdz[2] + ' ' + pp.sx;
@@ -1887,7 +1891,7 @@
             '<div class="sc-direction-tags">' +
                 '<span class="sc-direction-tag primary">' + dir + '</span>' +
                 '<span class="sc-direction-tag secondary">' + subDir + '</span>' +
-                '<span class="sc-direction-tag elem">' + spouseElem + ' ' + t('sc.dir_element') + '</span>' +
+                '<span class="sc-direction-tag elem">' + spouseElemDisplay + ' ' + t('sc.dir_element') + '</span>' +
             '</div>' +
             '<p style="color:var(--text-secondary);font-size:0.9rem;margin-top:0.8rem;">' +
             dirLogic + ' ' + t('sc.dir_from_birthplace') +
