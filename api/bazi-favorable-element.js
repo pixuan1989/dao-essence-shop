@@ -85,21 +85,28 @@ function buildPrompt(data) {
 
 ## 輸出格式（嚴格 JSON）
 僅返回有效的 JSON 物件，不要有任何其他文字：
+必須返回2個喜用五行的組合（按重要性排序），以及1個忌神。
 {
   "dayMaster": "${data.dayStem}（${data.dayWx}）",
   "strength": "Strong 或 Weak",
-  "favorableElement": "Wood 或 Fire 或 Earth 或 Metal 或 Water",
-  "favorableElementZh": "木 或 火 或 土 或 金 或 水",
-  "explanation": "用2-3句流暢的繁體中文解釋為什麼這個元素是你的喜用神。用日常語言，不要太專業的術語。",
-  "lifeAdvice": ["3條基於喜用神的實用生活建議，每條15-25字，用繁體中文"],
-  "luckyColors": ["3種對應喜用神的幸運色彩，用繁體中文"],
-  "luckyDirections": ["2個對應喜用神的有利方位，用繁體中文"],
-  "bestCareers": ["4個適合喜用神的職業領域，具體實用，用繁體中文"],
-  "luckyAccessories": ["4種與喜用神相關的幸運配飾，包含水晶/手鍊建議，用繁體中文"],
-  "desktopThemes": ["3個融合喜用神色彩與能量的桌面主題或居家裝飾建議，用繁體中文"],
-  "avoidElement": "The element to avoid",
-  "avoidElementZh": "應避免的五行中文名"
-}`;
+  "favorableElements": ["Wood", "Fire"],
+  "favorableElementsZh": ["木", "火"],
+  "explanation": "用2-3句流暢的繁體中文解釋為什麼這兩個五行是你的喜用神。用日常語言，不要太專業的術語。",
+  "lifeAdvice": ["3條基於喜用神組合的實用生活建議，每條15-25字，用繁體中文"],
+  "luckyColors": ["3-5種對應喜用神組合的幸運色彩，用繁體中文"],
+  "luckyDirections": ["2-3個對應喜用神組合的有利方位，用繁體中文"],
+  "bestCareers": ["4個適合喜用神組合的職業領域，具體實用，用繁體中文"],
+  "luckyAccessories": ["4種與喜用神組合相關的幸運配飾，包含水晶/手鍊建議，用繁體中文"],
+  "desktopThemes": ["3個融合喜用神組合色彩與能量的桌面主題或居家裝飾建議，用繁體中文"],
+  "avoidElement": "Metal",
+  "avoidElementZh": "金"
+}
+
+重要規則：
+- favorableElements 必須是長度為2的陣列，兩個不同五行
+- favorableElementsZh 是對應的中文，長度也必須為2
+- 兩個喜用神之間必須有相生或互補關係（如木火相生、金水相生）
+- 顏色、方向、職業等建議要涵蓋兩個喜用神的對應關係`;
     }
 
     return `You are a professional Chinese BaZi (Four Pillars of Destiny) master with 30 years of experience. Analyze the following birth chart and determine the Favorable Element (喜用神).
@@ -120,21 +127,28 @@ function buildPrompt(data) {
 
 ## Output Format (STRICT JSON)
 Return ONLY a valid JSON object with exactly these fields, no other text:
+MUST return 2 favorable elements as a combination (ordered by importance), plus 1 element to avoid.
 {
   "dayMaster": "${data.dayStem} (${data.dayWxEn})",
   "strength": "Strong or Weak",
-  "favorableElement": "Wood or Fire or Earth or Metal or Water",
-  "favorableElementZh": "木 or 火 or 土 or 金 or 水",
-  "explanation": "A 2-3 sentence plain English explanation of WHY this element is favorable. Use everyday language, no jargon.",
-  "lifeAdvice": ["3 practical, actionable life tips based on the favorable element, each 15-25 words"],
-  "luckyColors": ["3 colors that correspond to the favorable element in Five Elements theory"],
-  "luckyDirections": ["2 directions that correspond to the favorable element"],
-  "bestCareers": ["4 career fields or job types that align with the favorable element. Be specific and practical, e.g. 'Education & Training' not 'Wood jobs'. Use everyday English."],
-  "luckyAccessories": ["4 wearable/decorative items related to the favorable element. Include crystal/bracelet recommendations, e.g. 'Green Aventurine bracelet for Wood energy', 'Red Agate pendant for Fire energy'. Be specific with materials."],
-  "desktopThemes": ["3 desktop wallpaper or home decor style suggestions that incorporate the favorable element's colors and energy, e.g. 'Forest green nature wallpaper with morning light' for Wood"],
-  "avoidElement": "The element to avoid",
-  "avoidElementZh": "Chinese character of element to avoid"
-}`;
+  "favorableElements": ["Wood", "Fire"],
+  "favorableElementsZh": ["木", "火"],
+  "explanation": "A 2-3 sentence plain English explanation of WHY these two elements are favorable. Use everyday language, no jargon.",
+  "lifeAdvice": ["3 practical, actionable life tips based on the favorable element combination, each 15-25 words"],
+  "luckyColors": ["3-5 colors that correspond to the favorable element combination in Five Elements theory"],
+  "luckyDirections": ["2-3 directions that correspond to the favorable element combination"],
+  "bestCareers": ["4 career fields or job types that align with the favorable element combination. Be specific and practical, e.g. 'Education & Training' not 'Wood jobs'. Use everyday English."],
+  "luckyAccessories": ["4 wearable/decorative items related to the favorable element combination. Include crystal/bracelet recommendations, e.g. 'Green Aventurine bracelet for Wood energy', 'Red Agate pendant for Fire energy'. Be specific with materials."],
+  "desktopThemes": ["3 desktop wallpaper or home decor style suggestions that incorporate the favorable element combination's colors and energy, e.g. 'Forest green nature wallpaper with morning light' for Wood"],
+  "avoidElement": "Metal",
+  "avoidElementZh": "金"
+}
+
+Important rules:
+- favorableElements MUST be an array of length 2 with two different elements
+- favorableElementsZh is the Chinese equivalent, MUST also be length 2
+- The two favorable elements must have a generating or complementary relationship (e.g. Wood generates Fire, Metal generates Water)
+- Colors, directions, careers etc. should cover BOTH favorable elements' correspondences`;
 }
 
 /**
@@ -155,7 +169,7 @@ async function callLLM(prompt, retries = 2) {
                 body: JSON.stringify({
                     model: DASHSCOPE_MODEL,
                     messages: [{ role: 'user', content: prompt }],
-                    temperature: 0.3,
+                    temperature: 0,
                     max_tokens: 1000
                 }),
                 signal: controller.signal
