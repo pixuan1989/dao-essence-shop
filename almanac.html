@@ -1116,15 +1116,9 @@
             }
         })();
 
-        // Retry button — reload page to fully reset state
+        // Retry button — go back to form
         document.getElementById('almRetry').addEventListener('click', function() {
-            // Clear all almanac cached data
-            localStorage.removeItem('almanac_birth');
-            localStorage.removeItem('almanac_fav');
-            localStorage.removeItem('almanac_avoid');
-            localStorage.removeItem('almanac_unlock');
-            // Reload without cache
-            window.location.href = window.location.pathname + '?reset=1&t=' + Date.now();
+            showAlmStep(1);
         });
 
         // BaZi chart calculation (reused from favorable-element)
@@ -1928,16 +1922,8 @@
             }
             // Bind calendar events
             bindEvents();
-            // If ?reset=1, always show form (user clicked "Change Birth Info")
-            var params = new URLSearchParams(window.location.search);
-            if (params.get('reset') === '1') {
-                showAlmStep(1);
-                return;
-            }
-            // Try to restore previous session
-            if (!tryRestoreSession()) {
-                showAlmStep(1);
-            }
+            // Always show form on page load — user must explicitly submit
+            showAlmStep(1);
         }
     })();
     </script>
