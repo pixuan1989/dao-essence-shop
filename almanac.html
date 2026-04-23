@@ -1116,35 +1116,15 @@
             }
         })();
 
-        // Retry button — reset everything so user can enter a new person
+        // Retry button — reload page to fully reset state
         document.getElementById('almRetry').addEventListener('click', function() {
-            // Clear cached birth data
+            // Clear all almanac cached data
             localStorage.removeItem('almanac_birth');
             localStorage.removeItem('almanac_fav');
             localStorage.removeItem('almanac_avoid');
-            userBirthData = null;
-            favorableElements = [];
-            avoidElement = '';
-            personalScoreMap = {};
-
-            // Reset form to defaults
-            document.getElementById('almYear').selectedIndex = 0;
-            document.getElementById('almMonth').selectedIndex = 0;
-            document.getElementById('almDay').selectedIndex = 0;
-            document.getElementById('almHour').selectedIndex = 0;
-            document.querySelector('input[name="almGender"][value="1"]').checked = true;
-
-            // Clear old result state
-            activeScenario = null;
-            document.querySelectorAll('.select-btn').forEach(function(b) { b.classList.remove('active'); });
-            document.getElementById('selectResult').classList.remove('visible');
-            document.getElementById('dayDetail').classList.remove('visible');
-            document.getElementById('dayDetail').innerHTML = '';
-            // Clear scenario result list
-            var resultListEl = document.getElementById('resultList');
-            if (resultListEl) resultListEl.innerHTML = '';
-
-            showAlmStep(1);
+            localStorage.removeItem('almanac_unlock');
+            // Reload without cache
+            window.location.href = window.location.pathname + '?reset=1&t=' + Date.now();
         });
 
         // BaZi chart calculation (reused from favorable-element)
@@ -1948,6 +1928,12 @@
             }
             // Bind calendar events
             bindEvents();
+            // If ?reset=1, always show form (user clicked "Change Birth Info")
+            var params = new URLSearchParams(window.location.search);
+            if (params.get('reset') === '1') {
+                showAlmStep(1);
+                return;
+            }
             // Try to restore previous session
             if (!tryRestoreSession()) {
                 showAlmStep(1);
