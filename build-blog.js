@@ -1602,14 +1602,21 @@ async function main() {
   const recArticles = shuffled.slice(0, recCount).map(post => {
     const cat = post.category || post.data.category || 'bazi-astrology';
     const catLabel = CATEGORY_LABELS[cat] || cat;
+    const catLabelZh = CATEGORY_LABELS_ZH[cat] || cat;
+    const zhPost = zhArticleMap[post.slug];
+    const titleZh = zhPost ? (zhPost.data.title || '') : '';
+    const descZh = zhPost ? (zhPost.data.description || '') : '';
     let imgSrc = post.data.image || SITE_URL + '/images/og-default.jpg';
     imgSrc = imgSrc.replace(/\/feature\/blog-cms\//g, '/main/');
     if (!imgSrc || imgSrc === '""') imgSrc = SITE_URL + '/images/og-default.jpg';
     const dateFormatted = formatDate(post.data.date);
     return {
       title: post.data.title || '',
+      titleZh: titleZh,
       category: catLabel,
+      categoryZh: catLabelZh,
       description: post.data.description || '',
+      descriptionZh: descZh,
       image: imgSrc,
       readTime: post.data.readTime || 0,
       date: dateFormatted,

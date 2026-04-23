@@ -561,12 +561,16 @@
             .then(function(articles) {
                 // Only take 3 articles
                 var list = articles.slice(0, 3);
+                var zh = isZh();
                 var cardsHtml = '';
                 for (var i = 0; i < list.length; i++) {
                     var a = list[i];
-                    cardsHtml += '<a href="/blog/' + a.slug + '" class="sidebar-card">';
-                    cardsHtml += '<div class="sidebar-card-cat">' + (a.category || '') + '</div>';
-                    cardsHtml += '<h3>' + (a.title || '') + '</h3>';
+                    var blogPrefix = zh ? '/zh/blog/' : '/blog/';
+                    var showTitle = zh ? (a.titleZh || a.title) : a.title;
+                    var showCat = zh ? (a.categoryZh || a.category) : a.category;
+                    cardsHtml += '<a href="' + blogPrefix + a.slug + '" class="sidebar-card">';
+                    cardsHtml += '<div class="sidebar-card-cat">' + (showCat || '') + '</div>';
+                    cardsHtml += '<h3>' + (showTitle || '') + '</h3>';
                     if (a.readTime) cardsHtml += '<div class="sidebar-card-meta">' + a.readTime + t('bazi_result.sidebar_min_read') + '</div>';
                     cardsHtml += '</a>';
                 }
@@ -693,7 +697,7 @@
             if (currentDayunIdx >= 0) {
                 var cdy = rt['dy'][currentDayunIdx];
                 var cdyTg = getStemShiShen(STEMS.indexOf(cdy['zfma']), dmIdx);
-                dyHTML += '<p class="current-hint">Currently in: <strong>' + (cdyTg ? tgLabel(cdyTg) : '') + '</strong> period · Age ' + cdy['zqage'] + '–' + cdy['zboz'] + ' · ' + cdy['syear'] + '–' + cdy['eyear'] + '</p>';
+                dyHTML += '<p class="current-hint">' + t('bazi_result.dayun_currently_in') + ' <strong>' + (cdyTg ? tgLabel(cdyTg) : '') + '</strong> ' + t('bazi_result.dayun_period') + ' · ' + t('bazi_result.dayun_age') + ' ' + cdy['zqage'] + '–' + cdy['zboz'] + ' · ' + cdy['syear'] + '–' + cdy['eyear'] + '</p>';
             }
             dyHTML += '<div class="dayun-grid">';
             for (var k = 0; k < Math.min(rt['dy'].length, 8); k++) {
@@ -704,7 +708,7 @@
                 var isCurrent = k === currentDayunIdx;
 
                 dyHTML += '<div class="dayun-card' + (isCurrent ? ' dayun-current' : '') + '" data-dy-index="' + k + '"' + (dyStemTg ? ' data-tip="' + tgTip(dyStemTg).replace(/"/g, '&quot;').replace(/\n/g, ' | ') + '"' : '') + '>';
-                if (isCurrent) dyHTML += '<span class="badge-current">NOW</span>';
+                if (isCurrent) dyHTML += '<span class="badge-current">' + (isZh() ? '當前' : 'NOW') + '</span>';
                 if (dyStemTg) dyHTML += '<div class="dayun-tg">' + tgLabel(dyStemTg) + '</div>';
                 dyHTML += '<div class="dayun-age">' + dy['zqage'] + '–' + dy['zboz'] + '</div>';
                 dyHTML += '<div class="dayun-years">' + dy['syear'] + '–' + dy['eyear'] + '</div>';
@@ -814,7 +818,7 @@
                 item.classList.add('active');
                 activeItem = item;
 
-                detailTitle.textContent = 'Age ' + dy['zqage'] + '–' + dy['zboz'] + '  ·  ' + dy['syear'] + '–' + dy['eyear'];
+                detailTitle.textContent = t('bazi_result.dayun_age') + ' ' + dy['zqage'] + '–' + dy['zboz'] + '  ·  ' + dy['syear'] + '–' + dy['eyear'];
                 detailBody.innerHTML = buildDayunDetail(dy, dmIdx);
 
                 // Flow Years
@@ -830,7 +834,7 @@
                         var isCurrentYear = (lyYear === currentYear);
 
                         lyHTML += '<div class="ly-card' + (isCurrentYear ? ' ly-current' : '') + '" data-ly-index="' + lyIdx + '" data-ly-year="' + lyYear + '"' + (lyTg ? ' data-tip="' + tgTip(lyTg).replace(/"/g, '&quot;').replace(/\n/g, ' | ') + '"' : '') + '>';
-                        if (isCurrentYear) lyHTML += '<span class="badge-now">NOW</span>';
+                        if (isCurrentYear) lyHTML += '<span class="badge-now">' + (isZh() ? '當前' : 'NOW') + '</span>';
                         if (lyTg) lyHTML += '<div class="ly-tg">' + tgLabel(lyTg) + '</div>';
                         lyHTML += '<div class="ly-year">' + lyYear + '</div>';
                         lyHTML += '</div>';
@@ -920,6 +924,13 @@
 
     // ==================== INIT ====================
     function init() {
+        // Set localized page title
+        if (isZh()) {
+            document.title = t('bazi_result.page_title');
+            var metaDesc = document.querySelector('meta[name="description"]');
+            if (metaDesc) metaDesc.setAttribute('content', t('bazi_result.page_description'));
+        }
+
         var hash = window.location.hash;
         if (!hash || hash.length < 2) {
             showError(t('bazi_result.error_no_data'));
