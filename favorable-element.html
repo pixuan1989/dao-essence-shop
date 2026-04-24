@@ -882,7 +882,6 @@
 
             // Track submission
             if (window.DaoTrack) {
-                window.DaoTrack.pageView('favorable-element');
                 var favEls = data.analysis && (data.analysis.favorableElements || [data.analysis.favorableElement].filter(Boolean));
                 window.DaoTrack.toolSubmit('favorable-element', {
                     gender: chart.gender === 1 ? 'M' : 'F',

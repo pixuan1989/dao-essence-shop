@@ -101,7 +101,6 @@
 
         // Track submission
         if (window.DaoTrack) {
-            window.DaoTrack.pageView('bazi-calculator');
             window.DaoTrack.toolSubmit('bazi', {
                 gender: xb === 0 ? 'M' : 'F',
                 birthYear: yy

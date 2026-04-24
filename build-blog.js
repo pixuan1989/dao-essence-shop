@@ -1163,6 +1163,7 @@ ${FOOTER_HTML}
             <p style="color:rgba(245,240,230,0.5);font-size:12px;margin:16px 0 0;">WeChat ID: your-wechat-id</p>
         </div>
     </div>
+    <script src="/js/tracking.js"></script>
     <script src="/js/i18n-switcher.js" defer></script>
 </body>
 </html>`;
@@ -1284,6 +1285,7 @@ ${FOOTER_HTML}
             <p style="color:rgba(245,240,230,0.5);font-size:12px;margin:16px 0 0;">WeChat ID: your-wechat-id</p>
         </div>
     </div>
+    <script src="/js/tracking.js"></script>
     <script src="/js/i18n-switcher.js" defer></script>
 </body>
 </html>`;
@@ -1472,6 +1474,7 @@ ${FOOTER_HTML}
             <p style="color:rgba(245,240,230,0.5);font-size:12px;margin:16px 0 0;">WeChat ID: your-wechat-id</p>
         </div>
     </div>
+    <script src="/js/tracking.js"></script>
     <script src="/js/i18n-switcher.js" defer></script>
 </body>
 </html>`;

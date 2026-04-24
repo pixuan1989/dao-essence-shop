@@ -156,4 +156,49 @@
         ctaClick: ctaClick,
         getAgeRange: getAgeRange
     };
+
+    // ===== Auto pageView on load =====
+    (function autoTrack() {
+        var path = location.pathname.replace(/\/+$/, '') || '/';
+        var page;
+
+        if (path === '/' || path === '/index.html') {
+            page = 'home';
+        } else if (path.indexOf('/blog/') === 0) {
+            // Blog article: /blog/slug → 'blog-article'
+            page = path.indexOf('/blog/zodiac-horoscope') === 0 ? 'blog-zodiac'
+                : path.indexOf('/blog/bazi-astrology') === 0 ? 'blog-bazi'
+                : path.indexOf('/blog/feng-shui') === 0 ? 'blog-fengshui'
+                : path.indexOf('/blog/daily-horoscope') === 0 ? 'blog-daily'
+                : path.indexOf('/blog/lucky-tips') === 0 ? 'blog-tips'
+                : 'blog-article';
+        } else if (path.indexOf('/zh/blog/') === 0) {
+            page = 'blog-zh';
+        } else if (path.indexOf('/almanac') === 0) {
+            page = 'almanac';
+        } else if (path.indexOf('/soulmate-calculator') === 0) {
+            page = 'soulmate-calculator';
+        } else if (path.indexOf('/five-elements-test') === 0) {
+            page = 'five-elements-test';
+        } else if (path.indexOf('/favorable-element') === 0) {
+            page = 'favorable-element';
+        } else if (path.indexOf('/bazi-form') === 0 || path.indexOf('/bazi-calculator') === 0) {
+            page = 'bazi-calculator';
+        } else if (path.indexOf('/bazi-result') === 0) {
+            page = 'bazi-result';
+        } else if (path.indexOf('/shop') === 0) {
+            page = 'shop';
+        } else if (path.indexOf('/product') === 0) {
+            page = 'product-detail';
+        } else {
+            page = 'other';
+        }
+
+        // Track after DOM ready to avoid blocking
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', function() { pageView(page); });
+        } else {
+            pageView(page);
+        }
+    })();
 })();

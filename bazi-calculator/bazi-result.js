@@ -954,7 +954,6 @@
 
             // Track result display
             if (window.DaoTrack) {
-                window.DaoTrack.pageView('bazi-result');
                 window.DaoTrack.toolResult('bazi');
             }
         } catch (e) {
