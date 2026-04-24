@@ -1859,35 +1859,35 @@
                     var clashElement = (dd.dayElement === avoidElement) ? dd.dayElement : dd.dayZhiElement;
                     var clashElementZh = wxZh(clashElement);
                     clashReason = isZh()
-                        ? '今日五行為' + clashElementZh + '（' + clashElement + '），與您的忌神相沖'
-                        : 'Today\'s ' + clashElement + ' energy conflicts with your unfavorable element';
+                        ? '今日的' + clashElementZh + '能量與你命盤有沖'
+                        : 'Today\'s ' + clashElement + ' energy clashes with your chart';
                 } else {
                     clashReason = isZh()
-                        ? '今日五行與您的命盤不太搭配'
+                        ? '今日整體能量與你的命盤不太搭配'
                         : 'Today\'s energy doesn\'t align well with your chart';
                 }
                 personalNoticeHtml = `<div class="personal-notice personal-notice-clash">
                     <div class="pn-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
                     <div class="pn-body">
-                        <div class="pn-title">${isZh() ? '與您八字有沖' : 'Personal Clash Detected'}</div>
+                        <div class="pn-title">${isZh() ? '與您命盤有沖' : 'Clash with Your Chart'}</div>
                         <div class="pn-desc">${clashReason}</div>
-                        <div class="pn-advice">${isZh() ? '建議另擇他日，或選擇吉時進行以減輕影響' : 'Consider choosing another date, or select an auspicious time slot to soften the impact.'}</div>
+                        <div class="pn-advice">${isZh() ? '建議另擇他日，或挑選吉時進行以減輕影響' : 'Consider picking another date, or choose a lucky time to reduce the impact.'}</div>
                     </div>
                 </div>`;
             } else if (favorableElements.length > 0 && dd.personalScore >= 15) {
                 personalNoticeHtml = `<div class="personal-notice personal-notice-match">
                     <div class="pn-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
                     <div class="pn-body">
-                        <div class="pn-title">${isZh() ? '與您八字契合' : 'Matches Your Chart'}</div>
-                        <div class="pn-desc">${isZh() ? '今日五行能量與您的喜用神相合，特別有利' : 'Today\'s energy aligns with your favorable elements — especially lucky for you.'}</div>
+                        <div class="pn-title">${isZh() ? '與您命盤契合' : 'Good Match for You'}</div>
+                        <div class="pn-desc">${isZh() ? '今日的能量對你特別有利，適合推進重要事項。' : 'Today\'s energy supports your chart well. A great day to move forward with important plans.'}</div>
                     </div>
                 </div>`;
             } else if (hasNeutral && cs >= 55) {
                 personalNoticeHtml = `<div class="personal-notice personal-notice-match">
                     <div class="pn-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></div>
                     <div class="pn-body">
-                        <div class="pn-title">${isZh() ? '中性日' : 'Neutral Day'}</div>
-                        <div class="pn-desc">${isZh() ? '當日五行與您八字無明顯沖煞或契合，屬於中性日。' : "Today's elements have no strong clash or match with your chart — a neutral day."}</div>
+                        <div class="pn-title">${isZh() ? '普通日' : 'Average for You'}</div>
+                        <div class="pn-desc">${isZh() ? '今日能量與你沒有特別沖突或助力，屬於普通日。' : 'No special clash or boost for you today. An average day — nothing to worry about.'}</div>
                     </div>
                 </div>`;
             }
@@ -1905,17 +1905,17 @@
                     scenariosHtml = `<div class="today-scenarios"><div class="ts-row"><span class="ts-label">${t('almanac.great_for')}</span><div class="scenario-list">${goodHtml}</div></div></div>`;
                 } else {
                     scenariosHtml = `<div style="font-size:0.82rem;color:#888;margin-bottom:0.6rem;">${isZh()
-                        ? '今日五行能量良好，各項活動皆可進行。'
-                        : 'Good energy today. All activities are favorable.'}</div>`;
+                        ? '今日能量良好，常規事項都可放心進行。'
+                        : 'Good energy today. Routine activities are all fine to proceed.'}</div>`;
                 }
             } else if (cs >= 55) {
-                scenariosHtml = `<div style="font-size:0.85rem;color:#888;margin-bottom:0.6rem;">${isZh()
-                    ? '今日整體一般，可挑選合適吉時進行。'
-                    : 'Today is average. You may pick a suitable time if needed.'}</div>`;
+                scenariosHtml = `<div style="font-size:0.82rem;color:#888;margin-bottom:0.6rem;">${isZh()
+                    ? '今日整體一般，非緊急事項建議另擇吉日。'
+                    : 'Today is average. For non-urgent matters, consider picking a better date.'}</div>`;
             } else {
-                scenariosHtml = `<div style="font-size:0.85rem;color:#888;margin-bottom:0.6rem;">${isZh()
-                    ? '今日適宜少走動、少做決定，休息養神為佳。'
-                    : 'Best to rest and avoid major decisions or activities today.'}</div>`;
+                scenariosHtml = `<div style="font-size:0.82rem;color:#888;margin-bottom:0.6rem;">${isZh()
+                    ? '今日能量較弱，建議避免重大決定和重要活動。'
+                    : 'Low energy today. Best to avoid big decisions or important activities.'}</div>`;
             }
 
             explainEl.innerHTML = `
@@ -2077,35 +2077,35 @@
                 if (dd.dayElement === avoidElement || dd.dayZhiElement === avoidElement) {
                     var dayClashEl = (dd.dayElement === avoidElement) ? dd.dayElement : dd.dayZhiElement;
                     dayClashReason = isZh()
-                        ? '今日五行為' + wxZh(dayClashEl) + '（' + dayClashEl + '），與您的忌神相沖'
-                        : 'Today\'s ' + dayClashEl + ' energy conflicts with your unfavorable element';
+                        ? '今日的' + wxZh(dayClashEl) + '能量與你命盤有沖'
+                        : 'Today\'s ' + dayClashEl + ' energy clashes with your chart';
                 } else {
                     dayClashReason = isZh()
-                        ? '今日五行與您的命盤不太搭配'
+                        ? '今日整體能量與你的命盤不太搭配'
                         : 'Today\'s energy doesn\'t align well with your chart';
                 }
                 dayPersonalNotice = `<div class="personal-notice personal-notice-clash" style="margin-top:0.8rem;">
                     <div class="pn-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
                     <div class="pn-body">
-                        <div class="pn-title">${isZh() ? '與您八字有沖' : 'Personal Clash Detected'}</div>
+                        <div class="pn-title">${isZh() ? '與您命盤有沖' : 'Clash with Your Chart'}</div>
                         <div class="pn-desc">${dayClashReason}</div>
-                        <div class="pn-advice">${isZh() ? '建議另擇他日' : 'Consider choosing another date.'}</div>
+                        <div class="pn-advice">${isZh() ? '建議另擇他日' : 'Consider picking another date.'}</div>
                     </div>
                 </div>`;
             } else if (favorableElements.length > 0 && dd.personalScore >= 15) {
                 dayPersonalNotice = `<div class="personal-notice personal-notice-match" style="margin-top:0.8rem;">
                     <div class="pn-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
                     <div class="pn-body">
-                        <div class="pn-title">${isZh() ? '與您八字契合' : 'Matches Your Chart'}</div>
-                        <div class="pn-desc">${isZh() ? '今日五行能量與您的喜用神相合' : 'Today\'s energy aligns with your favorable elements.'}</div>
+                        <div class="pn-title">${isZh() ? '與您命盤契合' : 'Good Match for You'}</div>
+                        <div class="pn-desc">${isZh() ? '今日的能量對你特別有利，適合推進重要事項。' : 'Today\'s energy supports your chart well. A great day to move forward.'}</div>
                     </div>
                 </div>`;
             } else if (dayHasNeutral && cs >= 55) {
                 dayPersonalNotice = `<div class="personal-notice personal-notice-match" style="margin-top:0.8rem;">
                     <div class="pn-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></div>
                     <div class="pn-body">
-                        <div class="pn-title">${isZh() ? '中性日' : 'Neutral Day'}</div>
-                        <div class="pn-desc">${isZh() ? '五行與您八字無明顯沖煞或契合。' : "Elements have no strong clash or match with your chart."}</div>
+                        <div class="pn-title">${isZh() ? '普通日' : 'Average for You'}</div>
+                        <div class="pn-desc">${isZh() ? '今日能量與你沒有特別沖突或助力，屬於普通日。' : 'No special clash or boost for you. An average day.'}</div>
                     </div>
                 </div>`;
             }
@@ -2130,17 +2130,17 @@
                     </div>`;
                 } else {
                     dayScenariosHtml = `<div style="font-size:0.82rem;color:#888;margin-top:0.6rem;">${isZh()
-                        ? '此日五行能量良好，各項活動皆可進行。'
-                        : 'Good energy this day. All activities are favorable.'}</div>`;
+                        ? '此日能量良好，常規事項都可放心進行。'
+                        : 'Good energy. Routine activities are all fine to proceed.'}</div>`;
                 }
             } else if (cs >= 55) {
                 dayScenariosHtml = `<div style="font-size:0.82rem;color:#888;margin-top:0.6rem;">${isZh()
-                    ? '此日整體一般，可挑選合適吉時進行。'
-                    : 'This day is average. You may pick a suitable time if needed.'}</div>`;
+                    ? '此日整體一般，非緊急事項建議另擇吉日。'
+                    : 'This day is average. For non-urgent matters, consider a better date.'}</div>`;
             } else {
                 dayScenariosHtml = `<div style="font-size:0.82rem;color:#888;margin-top:0.6rem;">${isZh()
-                    ? '此日適宜少走動、少做決定，建議另擇吉日。'
-                    : 'Best to rest and avoid major decisions. Consider choosing another date.'}</div>`;
+                    ? '此日能量較弱，建議避免重大決定和重要活動。'
+                    : 'Low energy. Best to avoid big decisions or important activities.'}</div>`;
             }
 
             panel.innerHTML = `
