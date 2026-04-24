@@ -1456,8 +1456,8 @@
             'almanac.verdict_fair_short': 'Average',
             'almanac.verdict_caution_short': 'Caution',
             'almanac.verdict_not_ideal_short': 'Avoid',
-            'almanac.great_for': 'Great for',
-            'almanac.not_ideal': 'Not ideal',
+            'almanac.great_for': 'Suitable for',
+            'almanac.not_ideal': 'Not suitable',
             'almanac.all_activities_supported': 'All activities supported',
             'almanac.lucky_direction': 'Lucky Direction',
             'almanac.colors_to_wear': 'Colors to Wear',
@@ -1885,17 +1885,16 @@
                 </div>`;
             }
 
-            // General tip line (explains combined score breakdown)
-            var scoreHint = isZh() ? '（分數越高越好）' : ' (higher is better)';
+            // General tip line
             var generalTipHtml = '';
             if (favorableElements.length > 0) {
                 generalTipHtml = `<div style="font-size:0.82rem;color:#888;margin-bottom:0.6rem;">${isZh()
-                    ? '綜合分 = 傳統吉凶(' + dd.tradScore + ') + 八字匹配(' + dd.personalNorm + ')' + scoreHint
-                    : 'Combined = Traditional(' + dd.tradScore + ') + Personal(' + dd.personalNorm + ')' + scoreHint}</div>`;
+                    ? '1-100，分數越高越好'
+                    : '1-100, higher is better'}</div>`;
             } else {
                 generalTipHtml = `<div style="font-size:0.82rem;color:#888;margin-bottom:0.6rem;">${isZh()
-                    ? '綜合分 = 傳統吉凶(' + dd.tradScore + ')（輸入八字可獲得個人匹配分）' + scoreHint
-                    : 'Combined = Traditional(' + dd.tradScore + ') (enter your chart for personal score)' + scoreHint}</div>`;
+                    ? '1-100，分數越高越好（輸入八字可獲個人匹配分）'
+                    : '1-100, higher is better (enter your chart for personal score)'}</div>`;
             }
 
             explainEl.innerHTML = `
@@ -2027,7 +2026,6 @@
 
             // Score display
             const cs = dd.combinedScore;
-            var scoreHint = isZh() ? '（分數越高越好）' : ' (higher is better)';
 
             // Check which scenarios are good for this day
             const goodScenarios = [];
@@ -2096,11 +2094,11 @@
 
             var dayGeneralTip = favorableElements.length > 0
                 ? `<div style="font-size:0.78rem;color:#888;margin:0.4rem 0;">${isZh()
-                    ? '綜合分 = 傳統(' + dd.tradScore + ') + 八字(' + dd.personalNorm + ')' + scoreHint
-                    : 'Combined = Traditional(' + dd.tradScore + ') + Personal(' + dd.personalNorm + ')' + scoreHint}</div>`
+                    ? '1-100，分數越高越好'
+                    : '1-100, higher is better'}</div>`
                 : `<div style="font-size:0.78rem;color:#888;margin:0.4rem 0;">${isZh()
-                    ? '綜合分 = 傳統(' + dd.tradScore + ')（輸入八字可獲個人匹配分）' + scoreHint
-                    : 'Combined = Traditional(' + dd.tradScore + ') (enter chart for personal score)' + scoreHint}</div>`;
+                    ? '1-100，分數越高越好（輸入八字可獲個人匹配分）'
+                    : '1-100, higher is better (enter chart for personal score)'}</div>`;
 
             panel.innerHTML = `
                 <div class="day-detail-header">
