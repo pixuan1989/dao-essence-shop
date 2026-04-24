@@ -772,8 +772,8 @@
             border: 1px solid rgba(46,204,113,0.25);
         }
         .tag-scenario-avoid {
-            background: rgba(231,76,60,0.08); color: #c0392b;
-            border: 1px solid rgba(231,76,60,0.18);
+            background: rgba(136,136,136,0.08); color: #888;
+            border: 1px solid rgba(136,136,136,0.18);
         }
 
         /* ===== CTA ===== */
@@ -1814,6 +1814,7 @@
 
             // Build personal notice
             var personalNoticeHtml = '';
+            var hasNeutral = favorableElements.length > 0 && dd.personalScore > -20 && dd.personalScore < 15;
             if (favorableElements.length > 0 && dd.personalScore <= -20) {
                 // Clash: explain why
                 var clashReason = '';
@@ -1844,10 +1845,25 @@
                         <div class="pn-desc">${isZh() ? '今日五行能量與您的喜用神相合，特別有利' : 'Today\'s energy aligns with your favorable elements — especially lucky for you.'}</div>
                     </div>
                 </div>`;
+            } else if (hasNeutral) {
+                personalNoticeHtml = `<div class="personal-notice personal-notice-match">
+                    <div class="pn-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></div>
+                    <div class="pn-body">
+                        <div class="pn-title">${isZh() ? '中性日' : 'Neutral Day'}</div>
+                        <div class="pn-desc">${isZh() ? '當日五行與您八字無明顯沖煞或契合，屬於中性日。' : "Today's elements have no strong clash or match with your chart — a neutral day."}</div>
+                    </div>
+                </div>`;
+            }
+
+            // General tip line (explains rating vs personal)
+            var generalTipHtml = '';
+            if (favorableElements.length > 0) {
+                generalTipHtml = `<div style="font-size:0.82rem;color:#888;margin-bottom:0.6rem;">${isZh() ? '評級反映當日通用吉凶（建除十二神），下方為您八字匹配結果。' : 'Rating reflects general auspiciousness (Jian-Chu cycle). Personal match shown below.'}</div>`;
             }
 
             explainEl.innerHTML = `
                 ${personalNoticeHtml}
+                ${generalTipHtml}
                 <div class="today-scenarios">
                     ${goodHtml ? `<div class="ts-row"><span class="ts-label">${t('almanac.great_for')}</span><div class="scenario-list">${goodHtml}</div></div>` : ''}
                     ${avoidHtml ? `<div class="ts-row"><span class="ts-label">${t('almanac.not_ideal')}</span><div class="scenario-list">${avoidHtml}</div></div>` : ''}
@@ -1995,6 +2011,7 @@
 
             // Personal notice for day detail
             var dayPersonalNotice = '';
+            var dayHasNeutral = favorableElements.length > 0 && dd.personalScore > -20 && dd.personalScore < 15;
             if (favorableElements.length > 0 && dd.personalScore <= -20) {
                 var dayClashReason = '';
                 if (dd.dayElement === avoidElement || dd.dayZhiElement === avoidElement) {
@@ -2023,6 +2040,14 @@
                         <div class="pn-desc">${isZh() ? '今日五行能量與您的喜用神相合' : 'Today\'s energy aligns with your favorable elements.'}</div>
                     </div>
                 </div>`;
+            } else if (dayHasNeutral) {
+                dayPersonalNotice = `<div class="personal-notice personal-notice-match" style="margin-top:0.8rem;">
+                    <div class="pn-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></div>
+                    <div class="pn-body">
+                        <div class="pn-title">${isZh() ? '中性日' : 'Neutral Day'}</div>
+                        <div class="pn-desc">${isZh() ? '五行與您八字無明顯沖煞或契合。' : "Elements have no strong clash or match with your chart."}</div>
+                    </div>
+                </div>`;
             }
 
             // Verdict text with personal note
@@ -2032,12 +2057,17 @@
                 : dd.rating >= 2 ? t('almanac.verdict_caution_short')
                 : t('almanac.verdict_not_ideal_short');
 
+            var dayGeneralTip = favorableElements.length > 0
+                ? `<div style="font-size:0.78rem;color:#888;margin:0.4rem 0;">${isZh() ? '評級為通用吉凶，上方為您八字匹配結果' : 'Rating = general auspiciousness; personal match shown above.'}</div>`
+                : '';
+
             panel.innerHTML = `
                 <div class="day-detail-header">
                     <h4>${dateStr} — ${dayVerdictText} ${t('almanac.day_label')}</h4>
                     <div class="mini-stars">${starsHtml}</div>
                 </div>
                 ${dayPersonalNotice}
+                ${dayGeneralTip}
                 <div class="detail-scenarios" style="margin-top:0.8rem;">
                     <div class="dg-label">${t('almanac.great_for')}</div>
                     <div class="scenario-list">${goodHtml}</div>
