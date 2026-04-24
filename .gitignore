@@ -58,3 +58,13 @@ setup-remote.bat
 *.key
 credentials.txt
 .vercel
+
+# Local scripts (not for deployment)
+scripts/gen-jwt.js
+scripts/gsc-get-token.cjs
+scripts/gsc-site-verify.cjs
+scripts/test-gsc.js
+scripts/site-health-check.js
+
+# Local reports
+reports/
