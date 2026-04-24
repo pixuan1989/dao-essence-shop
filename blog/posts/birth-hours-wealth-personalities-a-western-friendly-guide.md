@@ -4,15 +4,13 @@ category: bazi-astrology
 tags:
   - 八字
   - 命理
-description: This guide uses the ancient "12 Earthly Branches" to reveal your
-  innate "Wealth Archetype"—the personality strengths that shape how you earn
-  and manage money, not a fixed fate.​
+description: Discover your Wealth Archetype through the ancient 12 Earthly Branches. Learn how your birth hour shapes your earning style and money personality.
 date: 2026-04-15
 author: DAO Essence
 readTime: 5
 image: https://raw.githubusercontent.com/pixuan1989/dao-essence-shop/main/images/blog/蒙版组-72.webp
 ---
-![](https://raw.githubusercontent.com/pixuan1989/dao-essence-shop/main/images/blog/jimeng-2026-04-15-1377-a-clear-and-neatly-formatted-table-image....png)
+![12 Earthly Branches Wealth Archetype Table](https://raw.githubusercontent.com/pixuan1989/dao-essence-shop/main/images/blog/jimeng-2026-04-15-1377-a-clear-and-neatly-formatted-table-image....png)
 
 #### **1. 11:00 PM – 12:59 AM (Hour of Zi)**
 
