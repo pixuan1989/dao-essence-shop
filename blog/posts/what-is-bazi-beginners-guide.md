@@ -1,5 +1,5 @@
 ---
-title: What Is BaZi? A Beginner's Guide to Chinese Astrology & Numerology
+title: What Is BaZi? Beginner's Guide to Chinese Astrology
 category: bazi-astrology
 tags:
   - BaZi

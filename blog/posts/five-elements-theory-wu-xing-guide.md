@@ -1,5 +1,5 @@
 ---
-title: "Complete Guide to Five Elements Theory (Wu Xing) for Beginners"
+title: "Five Elements Theory (Wu Xing): Complete Guide"
 category: "bazi-astrology"
 tags:
   - "Five Elements"

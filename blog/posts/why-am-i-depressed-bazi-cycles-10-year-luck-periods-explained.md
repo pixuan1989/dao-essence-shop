@@ -1,5 +1,5 @@
 ---
-title: Why Am I Depressed? Bazi Cycles & 10-Year Luck Periods Explained
+title: Why Am I Depressed? Bazi Cycles & 10-Year Luck Periods
 category: bazi-astrology
 tags:
   - BaZi

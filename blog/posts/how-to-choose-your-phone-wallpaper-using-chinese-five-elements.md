@@ -1,5 +1,5 @@
 ---
-title: How to Choose Your Phone Wallpaper Using Chinese Five Elements
+title: Phone Wallpaper Colors & Five Elements
 category: feng-shui
 tags:
   - Feng Shui
