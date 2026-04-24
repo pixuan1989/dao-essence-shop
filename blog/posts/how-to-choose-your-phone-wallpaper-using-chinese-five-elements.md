@@ -3,9 +3,7 @@ title: How to Choose Your Phone Wallpaper Using Chinese Five Elements
 category: feng-shui
 tags:
   - Feng Shui
-description: "Your phone wallpaper color matters more than you think. Learn how
-  Chinese Five Elements and BaZi reveal the colors that best support your
-  personal energy.\t"
+description: "Your phone wallpaper color matters more than you think. Learn how Chinese Five Elements and BaZi reveal the colors that best support your personal energy."
 date: 2026-04-20
 author: Dingwei
 readTime: 7

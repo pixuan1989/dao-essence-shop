@@ -746,8 +746,19 @@ function normalizeAuthor(author) {
 }
 
 function generateSlug(filename, data, existingSlugs) {
-  // Remove .md extension and surrounding quotes
-  let base = filename.replace(/\.md$/, '').replace(/^["'""'']+|["'""'']+$/g, '');
+  // If frontmatter has an explicit slug, use it (for Chinese-filename articles)
+  if (data.slug && /^[\w-]+$/.test(data.slug)) {
+    let finalSlug = data.slug;
+    let counter = 1;
+    while (existingSlugs.has(finalSlug)) {
+      finalSlug = `${data.slug}-${counter++}`;
+    }
+    existingSlugs.add(finalSlug);
+    return finalSlug;
+  }
+
+  // Remove .md extension and surrounding quotes (including CJK quotes)
+  let base = filename.replace(/\.md$/, '').replace(/^["'""''\u201C\u201D\u2018\u2019]+|["'""''\u201C\u201D\u2018\u2019]+$/g, '');
   
   // Replace CJK parens and special chars with dash
   base = base.replace(/[（()）\[\]【】]/g, '-');
