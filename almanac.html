@@ -1353,14 +1353,17 @@
                 // Update personal info bar
                 var dmZh = chart.dayMaster;
                 var dmEn = chart.dayMasterElement;
-                document.getElementById('almDayMaster').textContent = dmZh + ' (' + dmEn + ')';
+                document.getElementById('almDayMaster').textContent = isZh()
+                    ? dmZh + ' (' + wxZh(dmEn) + ')'
+                    : dmEn + ' ' + dmZh;
 
+                var wxLabel = function(el) { return isZh() ? wxZh(el) : el; };
                 var favDisplay = favorableElements.map(function(el) {
-                    return '<span class="' + wxClass(el) + '">' + wxZh(el) + '</span>';
+                    return '<span class="' + wxClass(el) + '">' + wxLabel(el) + '</span>';
                 }).join(' & ');
                 document.getElementById('almFavorable').innerHTML = favDisplay;
 
-                var avoidDisplay = avoidElement ? ('<span class="' + wxClass(avoidElement) + '">' + wxZh(avoidElement) + '</span>') : '—';
+                var avoidDisplay = avoidElement ? ('<span class="' + wxClass(avoidElement) + '">' + wxLabel(avoidElement) + '</span>') : '—';
                 document.getElementById('almAvoid').innerHTML = avoidDisplay;
 
                 // Cache birth data to localStorage
@@ -1409,12 +1412,15 @@
                 var rt = p.fatemaps(parseInt(userBirthData.gender), userBirthData.year, userBirthData.month, userBirthData.day, userBirthData.hour, 0, 0);
                 var dmZh = rt.ctg[2];
                 var dmEn = STEM_WX[dmZh];
-                document.getElementById('almDayMaster').textContent = dmZh + ' (' + dmEn + ')';
+                document.getElementById('almDayMaster').textContent = isZh()
+                    ? dmZh + ' (' + wxZh(dmEn) + ')'
+                    : dmEn + ' ' + dmZh;
+                var wxLabel = function(el) { return isZh() ? wxZh(el) : el; };
                 var favDisplay = favorableElements.map(function(el) {
-                    return '<span class="' + wxClass(el) + '">' + wxZh(el) + '</span>';
+                    return '<span class="' + wxClass(el) + '">' + wxLabel(el) + '</span>';
                 }).join(' & ');
                 document.getElementById('almFavorable').innerHTML = favDisplay;
-                var avoidDisplay = avoidElement ? ('<span class="' + wxClass(avoidElement) + '">' + wxZh(avoidElement) + '</span>') : '—';
+                var avoidDisplay = avoidElement ? ('<span class="' + wxClass(avoidElement) + '">' + wxLabel(avoidElement) + '</span>') : '—';
                 document.getElementById('almAvoid').innerHTML = avoidDisplay;
                 // Fill form with cached data so user can see/modify
                 document.getElementById('almYear').value = userBirthData.year;
