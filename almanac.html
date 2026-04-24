@@ -1044,6 +1044,7 @@
             <div class="alm-loading-spinner"></div>
             <p class="alm-loading-text" data-i18n="almanac.loading_text1">Analyzing your birth chart...</p>
             <p class="alm-loading-text" style="font-size:0.8rem;margin-top:0.5rem;color:var(--text-muted);" data-i18n="almanac.loading_text2">Calculating favorable elements and preparing your personalized calendar</p>
+            <p id="almLoadingTimer" style="font-size:0.75rem;color:var(--text-muted);margin-top:0.8rem;"></p>
         </div>
     </div>
 
@@ -1311,6 +1312,16 @@
 
             showAlmStep(2);
 
+            // Start loading countdown (8 seconds)
+            var loadTimerEl = document.getElementById('almLoadingTimer');
+            var loadCountdown = 8;
+            if (loadTimerEl) loadTimerEl.textContent = loadCountdown + 's';
+            var loadTimer = setInterval(function() {
+                loadCountdown--;
+                if (loadCountdown < 0) loadCountdown = 0;
+                if (loadTimerEl) loadTimerEl.textContent = loadCountdown + 's';
+            }, 1000);
+
             try {
                 // Step 1: Calculate BaZi chart
                 var chart = calculateChart(
@@ -1360,6 +1371,7 @@
 
                 // Show result
                 showAlmStep(3);
+                clearInterval(loadTimer);
                 initAlmanac();
 
                 // Track submission and result
@@ -1375,6 +1387,7 @@
                 }
 
             } catch (err) {
+                clearInterval(loadTimer);
                 alert(err.message);
                 showAlmStep(1);
             } finally {
@@ -1412,6 +1425,7 @@
                 var genderRadio = document.querySelector('input[name="almGender"][value="' + userBirthData.gender + '"]');
                 if (genderRadio) genderRadio.checked = true;
                 showAlmStep(3);
+                clearInterval(loadTimer);
                 initAlmanac();
                 return true;
             }
@@ -1493,7 +1507,7 @@
         const WUXING_COLORS_ZH = {'Wood':'綠色、鼠尾草綠','Fire':'紅色、橙色','Earth':'米色、棕色','Metal':'白色、銀色','Water':'藍色、黑色'};
         const WUXING_NUMBERS_ZH = {'Wood':'3, 8','Fire':'2, 7','Earth':'5, 0','Metal':'4, 9','Water':'1, 6'};
 
-        const ZHIXING_SCORE = {'建':60,'除':55,'满':55,'平':45,'定':55,'执':45,'破':30,'危':30,'成':70,'收':45,'开':55,'闭':30};
+        const ZHIXING_SCORE = {'建':65,'除':62,'满':62,'平':55,'定':62,'执':58,'破':40,'危':42,'成':72,'收':58,'开':62,'闭':40};
         const ZHIXING_EN = {'建':'Establishment','除':'Removal','满':'Fullness','平':'Balance','定':'Stability','执':'Perseverance','破':'Breakthrough','危':'Danger','成':'Completion','收':'Harvest','开':'Opening','闭':'Closure'};
         const ZHIXING_ZH = {'建':'建日','除':'除日','满':'滿日','平':'平日','定':'定日','执':'執日','破':'破日','危':'危日','成':'成日','收':'收日','开':'開日','闭':'閉日'};
 
@@ -1743,14 +1757,9 @@
 
             // === Personal Score ===
             // calcPersonalScore returns -40 to +50 range; normalize to 0-100
-            let personalScore = 0;
-            if (favorableElements.length > 0) {
-                personalScore = calcPersonalScore(dayElement, dayZhiElement);
-            }
+            let personalScore = calcPersonalScore(dayElement, dayZhiElement);
             // Normalize personalScore from [-40,50] to [0,100]
-            let personalNorm = favorableElements.length > 0
-                ? Math.max(0, Math.min(100, Math.round(personalScore * 1.1 + 50)))
-                : 50; // no chart = neutral 50
+            let personalNorm = Math.max(0, Math.min(100, Math.round(personalScore * 1.1 + 50)));
 
             // === Combined Score (50% traditional + 50% personal) ===
             let combinedScore = Math.round(tradScore * 0.5 + personalNorm * 0.5);
@@ -1811,11 +1820,10 @@
 
             const cs = dd.combinedScore;
             let verdictText;
-            if (cs >= 75) { verdictText = isZh() ? '上吉' : 'Excellent'; }
-            else if (cs >= 60) { verdictText = isZh() ? '吉' : 'Good'; }
-            else if (cs >= 40) { verdictText = isZh() ? '平' : 'Fair'; }
-            else if (cs >= 25) { verdictText = isZh() ? '凶' : 'Caution'; }
-            else { verdictText = isZh() ? '大凶' : 'Unfavorable'; }
+            if (cs >= 85) { verdictText = isZh() ? '大吉' : 'Excellent'; }
+            else if (cs >= 70) { verdictText = isZh() ? '吉' : 'Good'; }
+            else if (cs >= 55) { verdictText = isZh() ? '平' : 'Fair'; }
+            else { verdictText = isZh() ? '凶' : 'Caution'; }
 
             // If personal clash, override verdict
             var hasPersonalClash = favorableElements.length > 0 && dd.personalScore <= -20;
@@ -1887,22 +1895,30 @@
 
             // General tip line
             var generalTipHtml = '';
-            if (favorableElements.length > 0) {
-                generalTipHtml = `<div style="font-size:0.82rem;color:#888;margin-bottom:0.6rem;">${isZh()
-                    ? '1-100，分數越高越好'
-                    : '1-100, higher is better'}</div>`;
+            generalTipHtml = `<div style="font-size:0.82rem;color:#888;margin-bottom:0.6rem;">${isZh()
+                ? '1-100，分數越高越好'
+                : '1-100, higher is better'}</div>`;
+
+            // Scenarios: show for 吉/大吉 (>=70), caution for 平, strong caution for 凶
+            var scenariosHtml = '';
+            if (cs >= 70) {
+                scenariosHtml = goodHtml
+                    ? `<div class="today-scenarios"><div class="ts-row"><span class="ts-label">${t('almanac.great_for')}</span><div class="scenario-list">${goodHtml}</div></div></div>`
+                    : '';
+            } else if (cs >= 55) {
+                scenariosHtml = `<div style="font-size:0.85rem;color:#888;margin-bottom:0.6rem;">${isZh()
+                    ? '今日整體一般，可挑選合適吉時進行。'
+                    : 'Today is average. You may pick a suitable time if needed.'}</div>`;
             } else {
-                generalTipHtml = `<div style="font-size:0.82rem;color:#888;margin-bottom:0.6rem;">${isZh()
-                    ? '1-100，分數越高越好（輸入八字可獲個人匹配分）'
-                    : '1-100, higher is better (enter your chart for personal score)'}</div>`;
+                scenariosHtml = `<div style="font-size:0.85rem;color:#888;margin-bottom:0.6rem;">${isZh()
+                    ? '今日適宜少走動、少做決定，休息養神為佳。'
+                    : 'Best to rest and avoid major decisions or activities today.'}</div>`;
             }
 
             explainEl.innerHTML = `
                 ${personalNoticeHtml}
                 ${generalTipHtml}
-                <div class="today-scenarios">
-                    ${goodHtml ? `<div class="ts-row"><span class="ts-label">${t('almanac.great_for')}</span><div class="scenario-list">${goodHtml}</div></div>` : ''}
-                </div>
+                ${scenariosHtml}
             `;
 
             // Lucky info
@@ -1984,11 +2000,11 @@
                 } else if (isFree || cellDate > maxFreeDate) {
                     let html = `<span class="day-num">${d}</span>`;
                     const cs = dd.combinedScore;
-                    if (cs >= 75) {
+                    if (cs >= 85) {
                         html += '<span class="day-tag tag-best">' + t('almanac.tag_best') + '</span>';
-                    } else if (cs >= 60) {
+                    } else if (cs >= 70) {
                         html += '<span class="day-tag tag-good">' + t('almanac.tag_good') + '</span>';
-                    } else if (cs <= 25) {
+                    } else if (cs < 55) {
                         html += '<span class="day-tag tag-avoid">' + t('almanac.tag_avoid') + '</span>';
                     }
                     // Personal score highlight (outline only, no icon text)
@@ -2085,19 +2101,31 @@
             }
 
             // Verdict text based on combined score
-            var dayVerdictText = cs >= 75 ? (isZh() ? '上吉' : 'Excellent')
-                : cs >= 60 ? (isZh() ? '吉' : 'Good')
-                : cs >= 40 ? (isZh() ? '平' : 'Fair')
-                : cs >= 25 ? (isZh() ? '凶' : 'Caution')
-                : (isZh() ? '大凶' : 'Unfavorable');
+            var dayVerdictText = cs >= 85 ? (isZh() ? '大吉' : 'Excellent')
+                : cs >= 70 ? (isZh() ? '吉' : 'Good')
+                : cs >= 55 ? (isZh() ? '平' : 'Fair')
+                : (isZh() ? '凶' : 'Caution');
 
-            var dayGeneralTip = favorableElements.length > 0
-                ? `<div style="font-size:0.78rem;color:#888;margin:0.4rem 0;">${isZh()
-                    ? '1-100，分數越高越好'
-                    : '1-100, higher is better'}</div>`
-                : `<div style="font-size:0.78rem;color:#888;margin:0.4rem 0;">${isZh()
-                    ? '1-100，分數越高越好（輸入八字可獲個人匹配分）'
-                    : '1-100, higher is better (enter chart for personal score)'}</div>`;
+            var dayGeneralTip = `<div style="font-size:0.78rem;color:#888;margin:0.4rem 0;">${isZh()
+                ? '1-100，分數越高越好'
+                : '1-100, higher is better'}</div>`;
+
+            // Scenarios: show for 吉/大吉 (>=70), caution for 平, strong caution for 凶
+            var dayScenariosHtml = '';
+            if (cs >= 70) {
+                dayScenariosHtml = `<div class="detail-scenarios" style="margin-top:0.8rem;">
+                    <div class="dg-label">${t('almanac.great_for')}</div>
+                    <div class="scenario-list">${goodHtml}</div>
+                </div>`;
+            } else if (cs >= 55) {
+                dayScenariosHtml = `<div style="font-size:0.82rem;color:#888;margin-top:0.6rem;">${isZh()
+                    ? '此日整體一般，可挑選合適吉時進行。'
+                    : 'This day is average. You may pick a suitable time if needed.'}</div>`;
+            } else {
+                dayScenariosHtml = `<div style="font-size:0.82rem;color:#888;margin-top:0.6rem;">${isZh()
+                    ? '此日適宜少走動、少做決定，建議另擇吉日。'
+                    : 'Best to rest and avoid major decisions. Consider choosing another date.'}</div>`;
+            }
 
             panel.innerHTML = `
                 <div class="day-detail-header">
@@ -2106,10 +2134,7 @@
                 </div>
                 ${dayPersonalNotice}
                 ${dayGeneralTip}
-                <div class="detail-scenarios" style="margin-top:0.8rem;">
-                    <div class="dg-label">${t('almanac.great_for')}</div>
-                    <div class="scenario-list">${goodHtml}</div>
-                </div>
+                ${dayScenariosHtml}
                 <div class="lucky-row" style="margin-top:1rem;">
                     <div class="lucky-item">
                         <div class="lucky-label">${t('almanac.lucky_direction')}</div>
@@ -2169,9 +2194,9 @@
                 for (let i = 0; i < topCount; i++) {
                     const r = results[i];
                     const dateStr = r.date.toLocaleDateString(isZh() ? 'zh-TW' : 'en-US', {weekday:'short', month:'short', day:'numeric'});
-                    const isTop = i < 3 && r.combinedScore >= 60;
-                    const reason = r.combinedScore >= 75 ? (isZh() ? '最佳' : 'Best')
-                        : r.combinedScore >= 60 ? (isZh() ? '良好' : 'Good')
+                    const isTop = i < 3 && r.combinedScore >= 70;
+                    const reason = r.combinedScore >= 90 ? (isZh() ? '最佳' : 'Best')
+                        : r.combinedScore >= 70 ? (isZh() ? '良好' : 'Good')
                         : (isZh() ? '一般' : 'Fair');
                     // Personal score badge
                     var scoreHtml = '<span class="result-score-num" style="font-weight:600;">' + r.combinedScore + '</span>';
