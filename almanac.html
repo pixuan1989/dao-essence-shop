@@ -229,6 +229,7 @@
         .verdict-good { color: var(--good-color); }
         .verdict-average { color: var(--average-color); }
         .verdict-avoid { color: var(--avoid-color); }
+        .verdict-caution { color: #C8965A; }
         .today-explain {
             font-size: 0.8rem;
             color: var(--text-secondary);
@@ -345,6 +346,62 @@
             color: var(--avoid-color);
             font-size: 1rem;
             flex-shrink: 0;
+        }
+
+        /* Personal Notice (two-layer display) */
+        .personal-notice {
+            display: flex; gap: 0.8rem;
+            padding: 0.8rem 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            font-size: 0.82rem;
+            line-height: 1.5;
+        }
+        .personal-notice-clash {
+            background: rgba(158,75,75,0.08);
+            border: 1px solid rgba(158,75,75,0.2);
+        }
+        .personal-notice-clash .pn-icon {
+            color: var(--avoid-color);
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        .personal-notice-clash .pn-title {
+            color: var(--avoid-color);
+            font-weight: 600;
+            margin-bottom: 0.2rem;
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+        .personal-notice-clash .pn-desc {
+            color: var(--text-secondary);
+        }
+        .personal-notice-clash .pn-advice {
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            margin-top: 0.3rem;
+            font-style: italic;
+        }
+        .personal-notice-match {
+            background: rgba(212,175,55,0.06);
+            border: 1px solid rgba(212,175,55,0.15);
+        }
+        .personal-notice-match .pn-icon {
+            color: var(--best-color);
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        .personal-notice-match .pn-title {
+            color: var(--best-color);
+            font-weight: 600;
+            margin-bottom: 0.2rem;
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+        .personal-notice-match .pn-desc {
+            color: var(--text-secondary);
         }
 
         /* Tips */
@@ -1725,6 +1782,15 @@
             else if (dd.rating >= 3) { verdictClass = 'verdict-average'; verdictText = t('almanac.verdict_fair'); }
             else if (dd.rating >= 2) { verdictClass = 'verdict-avoid'; verdictText = t('almanac.verdict_caution'); }
             else { verdictClass = 'verdict-avoid'; verdictText = t('almanac.verdict_not_ideal'); }
+
+            // If personal clash, downgrade verdict display
+            var hasPersonalClash = favorableElements.length > 0 && dd.personalScore <= -20;
+            var hasPersonalMatch = favorableElements.length > 0 && dd.personalScore >= 15;
+            if (hasPersonalClash) {
+                verdictClass = 'verdict-caution';
+                verdictText = isZh() ? '通用為' + verdictText + '，但與您八字有沖' : verdictText + ', but clashes with your chart';
+            }
+
             verdictEl.className = 'today-verdict ' + verdictClass;
             verdictEl.textContent = verdictText;
 
@@ -1745,7 +1811,43 @@
             }
             const goodHtml = goodScenarios.map(s => `<span class="scenario-tag tag-scenario-good">${s}</span>`).join('');
             const avoidHtml = avoidScenarios.map(s => `<span class="scenario-tag tag-scenario-avoid">${s}</span>`).join('');
+
+            // Build personal notice
+            var personalNoticeHtml = '';
+            if (favorableElements.length > 0 && dd.personalScore <= -20) {
+                // Clash: explain why
+                var clashReason = '';
+                if (dd.dayElement === avoidElement || dd.dayZhiElement === avoidElement) {
+                    var clashElement = (dd.dayElement === avoidElement) ? dd.dayElement : dd.dayZhiElement;
+                    var clashElementZh = wxZh(clashElement);
+                    clashReason = isZh()
+                        ? '今日五行為' + clashElementZh + '（' + clashElement + '），與您的忌神相沖'
+                        : 'Today\'s ' + clashElement + ' energy conflicts with your unfavorable element';
+                } else {
+                    clashReason = isZh()
+                        ? '今日五行與您的命盤不太搭配'
+                        : 'Today\'s energy doesn\'t align well with your chart';
+                }
+                personalNoticeHtml = `<div class="personal-notice personal-notice-clash">
+                    <div class="pn-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+                    <div class="pn-body">
+                        <div class="pn-title">${isZh() ? '與您八字有沖' : 'Personal Clash Detected'}</div>
+                        <div class="pn-desc">${clashReason}</div>
+                        <div class="pn-advice">${isZh() ? '建議另擇他日，或選擇吉時進行以減輕影響' : 'Consider choosing another date, or select an auspicious time slot to soften the impact.'}</div>
+                    </div>
+                </div>`;
+            } else if (favorableElements.length > 0 && dd.personalScore >= 15) {
+                personalNoticeHtml = `<div class="personal-notice personal-notice-match">
+                    <div class="pn-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+                    <div class="pn-body">
+                        <div class="pn-title">${isZh() ? '與您八字契合' : 'Matches Your Chart'}</div>
+                        <div class="pn-desc">${isZh() ? '今日五行能量與您的喜用神相合，特別有利' : 'Today\'s energy aligns with your favorable elements — especially lucky for you.'}</div>
+                    </div>
+                </div>`;
+            }
+
             explainEl.innerHTML = `
+                ${personalNoticeHtml}
                 <div class="today-scenarios">
                     ${goodHtml ? `<div class="ts-row"><span class="ts-label">${t('almanac.great_for')}</span><div class="scenario-list">${goodHtml}</div></div>` : ''}
                     ${avoidHtml ? `<div class="ts-row"><span class="ts-label">${t('almanac.not_ideal')}</span><div class="scenario-list">${avoidHtml}</div></div>` : ''}
@@ -1891,12 +1993,52 @@
                 ? avoidScenarios.map(s => `<span class="scenario-tag tag-scenario-avoid">${s}</span>`).join('')
                 : '<span style="color:var(--text-muted);font-size:0.75rem;">' + t('almanac.all_activities_supported') + '</span>';
 
+            // Personal notice for day detail
+            var dayPersonalNotice = '';
+            if (favorableElements.length > 0 && dd.personalScore <= -20) {
+                var dayClashReason = '';
+                if (dd.dayElement === avoidElement || dd.dayZhiElement === avoidElement) {
+                    var dayClashEl = (dd.dayElement === avoidElement) ? dd.dayElement : dd.dayZhiElement;
+                    dayClashReason = isZh()
+                        ? '今日五行為' + wxZh(dayClashEl) + '（' + dayClashEl + '），與您的忌神相沖'
+                        : 'Today\'s ' + dayClashEl + ' energy conflicts with your unfavorable element';
+                } else {
+                    dayClashReason = isZh()
+                        ? '今日五行與您的命盤不太搭配'
+                        : 'Today\'s energy doesn\'t align well with your chart';
+                }
+                dayPersonalNotice = `<div class="personal-notice personal-notice-clash" style="margin-top:0.8rem;">
+                    <div class="pn-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+                    <div class="pn-body">
+                        <div class="pn-title">${isZh() ? '與您八字有沖' : 'Personal Clash Detected'}</div>
+                        <div class="pn-desc">${dayClashReason}</div>
+                        <div class="pn-advice">${isZh() ? '建議另擇他日' : 'Consider choosing another date.'}</div>
+                    </div>
+                </div>`;
+            } else if (favorableElements.length > 0 && dd.personalScore >= 15) {
+                dayPersonalNotice = `<div class="personal-notice personal-notice-match" style="margin-top:0.8rem;">
+                    <div class="pn-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+                    <div class="pn-body">
+                        <div class="pn-title">${isZh() ? '與您八字契合' : 'Matches Your Chart'}</div>
+                        <div class="pn-desc">${isZh() ? '今日五行能量與您的喜用神相合' : 'Today\'s energy aligns with your favorable elements.'}</div>
+                    </div>
+                </div>`;
+            }
+
+            // Verdict text with personal note
+            var dayVerdictText = dd.rating >= 5 ? t('almanac.verdict_excellent_short')
+                : dd.rating >= 4 ? t('almanac.verdict_good_short')
+                : dd.rating >= 3 ? t('almanac.verdict_fair_short')
+                : dd.rating >= 2 ? t('almanac.verdict_caution_short')
+                : t('almanac.verdict_not_ideal_short');
+
             panel.innerHTML = `
                 <div class="day-detail-header">
-                    <h4>${dateStr} — ${dd.rating >= 5 ? t('almanac.verdict_excellent_short') : dd.rating >= 4 ? t('almanac.verdict_good_short') : dd.rating >= 3 ? t('almanac.verdict_fair_short') : dd.rating >= 2 ? t('almanac.verdict_caution_short') : t('almanac.verdict_not_ideal_short')} ${t('almanac.day_label')}</h4>
+                    <h4>${dateStr} — ${dayVerdictText} ${t('almanac.day_label')}</h4>
                     <div class="mini-stars">${starsHtml}</div>
                 </div>
-                <div class="detail-scenarios">
+                ${dayPersonalNotice}
+                <div class="detail-scenarios" style="margin-top:0.8rem;">
                     <div class="dg-label">${t('almanac.great_for')}</div>
                     <div class="scenario-list">${goodHtml}</div>
                 </div>
