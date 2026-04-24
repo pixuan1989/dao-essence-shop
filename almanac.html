@@ -980,12 +980,11 @@
         <div style="display:flex;align-items:center;gap:1.5rem;">
             <div class="lang-switcher" id="lang-switcher">
                 <button class="lang-switcher-btn" id="lang-trigger" onclick="document.getElementById('lang-switcher').classList.toggle('show')">
-                    <span class="lang-flag" id="lang-flag">🇺🇸</span>
                     <span class="lang-label" id="lang-label">EN</span>
                 </button>
                 <div class="lang-switcher-menu" id="lang-menu">
-                    <a href="#" data-lang="en" class="lang-option active"><span class="lang-flag">🇺🇸</span> English</a>
-                    <a href="#" data-lang="zh" class="lang-option"><span class="lang-flag">🇹🇼</span> 繁體中文</a>
+                    <a href="#" data-lang="en" class="lang-option active">English</a>
+                    <a href="#" data-lang="zh" class="lang-option">繁體中文</a>
                 </div>
             </div>
             <a href="/" class="nav-back" data-i18n="almanac.nav_back">Back to Home</a>
@@ -1849,7 +1848,7 @@
             const goodHtml = goodScenarios.map(s => `<span class="scenario-tag tag-scenario-good">${s}</span>`).join('');
             const avoidHtml = avoidScenarios.map(s => `<span class="scenario-tag tag-scenario-avoid">${s}</span>`).join('');
 
-            // Build personal notice
+            // Build personal notice — only show match/clash/neutral when combined score supports it
             var personalNoticeHtml = '';
             var hasNeutral = favorableElements.length > 0 && dd.personalScore > -20 && dd.personalScore < 15;
             if (favorableElements.length > 0 && dd.personalScore <= -20) {
@@ -1883,7 +1882,7 @@
                         <div class="pn-desc">${isZh() ? '今日五行能量與您的喜用神相合，特別有利' : 'Today\'s energy aligns with your favorable elements — especially lucky for you.'}</div>
                     </div>
                 </div>`;
-            } else if (hasNeutral) {
+            } else if (hasNeutral && cs >= 55) {
                 personalNoticeHtml = `<div class="personal-notice personal-notice-match">
                     <div class="pn-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></div>
                     <div class="pn-body">
@@ -1977,12 +1976,19 @@
 
             // Day cells
             for (let d = 1; d <= daysInMonth; d++) {
-                const dd = getDayData(calYear, calMonth, d);
                 const cellDate = new Date(calYear, calMonth, d);
                 cellDate.setHours(0,0,0,0);
 
-                // Skip past dates
-                if (cellDate < now) continue;
+                // Past dates: add empty cell to keep weekday alignment
+                if (cellDate < now) {
+                    const el = document.createElement('div');
+                    el.className = 'cal-cell empty';
+                    el.innerHTML = '<span class="day-num" style="opacity:0.25;">' + d + '</span>';
+                    grid.appendChild(el);
+                    continue;
+                }
+
+                const dd = getDayData(calYear, calMonth, d);
 
                 const el = document.createElement('div');
                 el.className = 'cal-cell';
@@ -2090,7 +2096,7 @@
                         <div class="pn-desc">${isZh() ? '今日五行能量與您的喜用神相合' : 'Today\'s energy aligns with your favorable elements.'}</div>
                     </div>
                 </div>`;
-            } else if (dayHasNeutral) {
+            } else if (dayHasNeutral && cs >= 55) {
                 dayPersonalNotice = `<div class="personal-notice personal-notice-match" style="margin-top:0.8rem;">
                     <div class="pn-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></div>
                     <div class="pn-body">
@@ -2194,10 +2200,10 @@
                 for (let i = 0; i < topCount; i++) {
                     const r = results[i];
                     const dateStr = r.date.toLocaleDateString(isZh() ? 'zh-TW' : 'en-US', {weekday:'short', month:'short', day:'numeric'});
-                    const isTop = i < 3 && r.combinedScore >= 70;
-                    const reason = r.combinedScore >= 90 ? (isZh() ? '最佳' : 'Best')
-                        : r.combinedScore >= 70 ? (isZh() ? '良好' : 'Good')
-                        : (isZh() ? '一般' : 'Fair');
+                    const reason = r.combinedScore >= 85 ? (isZh() ? '大吉' : 'Excellent')
+                        : r.combinedScore >= 70 ? (isZh() ? '吉' : 'Good')
+                        : r.combinedScore >= 55 ? (isZh() ? '平' : 'Fair')
+                        : (isZh() ? '凶' : 'Avoid');
                     // Personal score badge
                     var scoreHtml = '<span class="result-score-num" style="font-weight:600;">' + r.combinedScore + '</span>';
                     if (favorableElements.length > 0) {
@@ -2209,7 +2215,7 @@
                             scoreHtml += '<span class="result-personal-score mid">' + (isZh() ? '尚可' : 'OK') + '</span>';
                         }
                     }
-                    html += '<li class="' + (isTop ? 'top-pick' : '') + '"><span class="result-date">' + dateStr + '</span><span class="result-reason">' + reason + scoreHtml + '</span></li>';
+                    html += '<li><span class="result-date">' + dateStr + '</span><span class="result-reason">' + reason + scoreHtml + '</span></li>';
                 }
                 listEl.innerHTML = html;
             }

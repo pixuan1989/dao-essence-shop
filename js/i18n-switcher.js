@@ -245,14 +245,11 @@
    * Update language switcher UI (flag + label)
    */
   function updateSwitcherUI(lang) {
-    var flag = document.getElementById('lang-flag');
     var label = document.getElementById('lang-label');
-    if (!flag || !label) return;
+    if (!label) return;
     if (lang === 'zh') {
-      flag.textContent = '🇹🇼';
       label.textContent = '繁中';
     } else {
-      flag.textContent = '🇺🇸';
       label.textContent = 'EN';
     }
   }
