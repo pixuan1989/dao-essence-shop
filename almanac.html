@@ -373,21 +373,40 @@
             margin-top: 0.2rem;
         }
         .personal-notice-match {
-            background: rgba(46,204,113,0.05);
-            border-left: 3px solid var(--text-muted);
+            background: rgba(46,204,113,0.06);
+            border-left: 3px solid #2ecc71;
         }
         .personal-notice-match .pn-icon {
-            color: var(--text-muted);
+            color: #2ecc71;
             flex-shrink: 0;
             margin-top: 1px;
         }
         .personal-notice-match .pn-title {
-            color: var(--text-primary);
+            color: #2ecc71;
             font-weight: 600;
             margin-bottom: 0.1rem;
             font-size: 0.85rem;
         }
         .personal-notice-match .pn-desc {
+            color: var(--text-secondary);
+            font-size: 0.82rem;
+        }
+        .personal-notice-neutral {
+            background: rgba(136,136,136,0.05);
+            border-left: 3px solid var(--text-muted);
+        }
+        .personal-notice-neutral .pn-icon {
+            color: var(--text-muted);
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+        .personal-notice-neutral .pn-title {
+            color: var(--text-primary);
+            font-weight: 600;
+            margin-bottom: 0.1rem;
+            font-size: 0.85rem;
+        }
+        .personal-notice-neutral .pn-desc {
             color: var(--text-secondary);
             font-size: 0.82rem;
         }
@@ -1875,24 +1894,19 @@
             const goodHtml = goodScenarios.map(s => `<span class="scenario-tag tag-scenario-good">${s}</span>`).join('');
             const avoidHtml = avoidScenarios.map(s => `<span class="scenario-tag tag-scenario-avoid">${s}</span>`).join('');
 
-            // Build personal notice — only show match/clash/neutral when combined score supports it
+            // Build personal notice — align verdict with combined score
             var personalNoticeHtml = '';
-            var hasNeutral = favorableElements.length > 0 && dd.personalScore > -20 && dd.personalScore < 15;
-            if (favorableElements.length > 0 && dd.personalScore <= -20) {
-                // Clash: show traditional score separately
-                // Clash: explain why
+            var hasClash = avoidElement && (dd.dayElement === avoidElement || dd.dayZhiElement === avoidElement);
+            var hasFavMatch = favorableElements.some(function(el) { return el === dd.dayElement || el === dd.dayZhiElement; });
+
+            if (hasClash) {
+                // Clash: show warning regardless of score
                 var clashReason = '';
-                if (dd.dayElement === avoidElement || dd.dayZhiElement === avoidElement) {
-                    var clashElement = (dd.dayElement === avoidElement) ? dd.dayElement : dd.dayZhiElement;
-                    var clashElementZh = wxZh(clashElement);
-                    clashReason = isZh()
-                        ? '今日的' + clashElementZh + '能量與你命盤有沖'
-                        : 'Today\'s ' + clashElement + ' energy clashes with your chart';
-                } else {
-                    clashReason = isZh()
-                        ? '今日整體能量與你的命盤不太搭配'
-                        : 'Today\'s energy doesn\'t align well with your chart';
-                }
+                var clashElement = (dd.dayElement === avoidElement) ? dd.dayElement : dd.dayZhiElement;
+                var clashElementZh = wxZh(clashElement);
+                clashReason = isZh()
+                    ? '今日的' + clashElementZh + '能量與你命盤有沖'
+                    : 'Today\'s ' + clashElement + ' energy clashes with your chart';
                 personalNoticeHtml = `<div class="personal-notice personal-notice-clash">
                     <div class="pn-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
                     <div class="pn-body">
@@ -1901,7 +1915,7 @@
                         <div class="pn-advice">${isZh() ? '建議另擇他日，或挑選吉時進行以減輕影響' : 'Consider picking another date, or choose a lucky time to reduce the impact.'}</div>
                     </div>
                 </div>`;
-            } else if (favorableElements.length > 0 && dd.personalScore >= 15) {
+            } else if (cs >= 70 && hasFavMatch) {
                 personalNoticeHtml = `<div class="personal-notice personal-notice-match">
                     <div class="pn-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
                     <div class="pn-body">
@@ -1909,8 +1923,8 @@
                         <div class="pn-desc">${isZh() ? '今日的能量對你特別有利，適合推進重要事項。' : 'Today\'s energy supports your chart well. A great day to move forward with important plans.'}</div>
                     </div>
                 </div>`;
-            } else if (hasNeutral && cs >= 55) {
-                personalNoticeHtml = `<div class="personal-notice personal-notice-match">
+            } else if (cs >= 55) {
+                personalNoticeHtml = `<div class="personal-notice personal-notice-neutral">
                     <div class="pn-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></div>
                     <div class="pn-body">
                         <div class="pn-title">${isZh() ? '普通日' : 'Average for You'}</div>
@@ -2066,21 +2080,17 @@
                 ? avoidScenarios.map(s => `<span class="scenario-tag tag-scenario-avoid">${s}</span>`).join('')
                 : '<span style="color:var(--text-muted);font-size:0.75rem;">' + t('almanac.all_activities_supported') + '</span>';
 
-            // Personal notice for day detail
+            // Personal notice for day detail — align verdict with combined score
             var dayPersonalNotice = '';
-            var dayHasNeutral = favorableElements.length > 0 && dd.personalScore > -20 && dd.personalScore < 15;
-            if (favorableElements.length > 0 && dd.personalScore <= -20) {
+            var dayHasClash = avoidElement && (dd.dayElement === avoidElement || dd.dayZhiElement === avoidElement);
+            var dayHasFavMatch = favorableElements.some(function(el) { return el === dd.dayElement || el === dd.dayZhiElement; });
+
+            if (dayHasClash) {
                 var dayClashReason = '';
-                if (dd.dayElement === avoidElement || dd.dayZhiElement === avoidElement) {
-                    var dayClashEl = (dd.dayElement === avoidElement) ? dd.dayElement : dd.dayZhiElement;
-                    dayClashReason = isZh()
-                        ? '今日的' + wxZh(dayClashEl) + '能量與你命盤有沖'
-                        : 'Today\'s ' + dayClashEl + ' energy clashes with your chart';
-                } else {
-                    dayClashReason = isZh()
-                        ? '今日整體能量與你的命盤不太搭配'
-                        : 'Today\'s energy doesn\'t align well with your chart';
-                }
+                var dayClashEl = (dd.dayElement === avoidElement) ? dd.dayElement : dd.dayZhiElement;
+                dayClashReason = isZh()
+                    ? '今日的' + wxZh(dayClashEl) + '能量與你命盤有沖'
+                    : 'Today\'s ' + dayClashEl + ' energy clashes with your chart';
                 dayPersonalNotice = `<div class="personal-notice personal-notice-clash" style="margin-top:0.8rem;">
                     <div class="pn-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
                     <div class="pn-body">
@@ -2089,7 +2099,7 @@
                         <div class="pn-advice">${isZh() ? '建議另擇他日' : 'Consider picking another date.'}</div>
                     </div>
                 </div>`;
-            } else if (favorableElements.length > 0 && dd.personalScore >= 15) {
+            } else if (cs >= 70 && dayHasFavMatch) {
                 dayPersonalNotice = `<div class="personal-notice personal-notice-match" style="margin-top:0.8rem;">
                     <div class="pn-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
                     <div class="pn-body">
@@ -2097,8 +2107,8 @@
                         <div class="pn-desc">${isZh() ? '今日的能量對你特別有利，適合推進重要事項。' : 'Today\'s energy supports your chart well. A great day to move forward.'}</div>
                     </div>
                 </div>`;
-            } else if (dayHasNeutral && cs >= 55) {
-                dayPersonalNotice = `<div class="personal-notice personal-notice-match" style="margin-top:0.8rem;">
+            } else if (cs >= 55) {
+                dayPersonalNotice = `<div class="personal-notice personal-notice-neutral" style="margin-top:0.8rem;">
                     <div class="pn-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></div>
                     <div class="pn-body">
                         <div class="pn-title">${isZh() ? '普通日' : 'Average for You'}</div>
