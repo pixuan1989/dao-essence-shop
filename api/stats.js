@@ -1,10 +1,106 @@
 /**
- * GET /api/stats?range=7|30|90
- * Aggregates daily stats from Redis and returns summary.
- * Auth: simple Bearer token (DAOSTATS_SECRET env var)
+ * /api/stats — Unified analytics endpoint
+ *   GET  /api/stats?range=7|30|90  — Query aggregated stats (admin dashboard)
+ *   POST /api/stats                 — Receive analytics events from frontend
+ *
+ * Auth: simple Bearer token (DAOSTATS_SECRET env var) for GET only.
+ *       POST is open (public tracking).
  */
 
-import { redisGet, redisKeys } from '../shared/redis.js';
+import { redisGet, redisSet, redisKeys } from '../shared/redis.js';
+
+// ==================== POST: Record analytics event ====================
+
+function todayKey() {
+    const d = new Date();
+    return `stats:${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+}
+
+async function handleTrack(req, res) {
+    try {
+        const body = req.body;
+        // Support both single event {event, data} and batch array [{event, data}, ...] from sendBeacon
+        const events = Array.isArray(body) ? body : [body];
+
+        const key = todayKey();
+        let dayData = await redisGet(key) || {
+            date: key.replace('stats:', ''),
+            page_views: {},
+            tool_submissions: {},
+            tool_results: {},
+            tool_retries: {},
+            pay_intents: {},
+            cta_clicks: {},
+            profiles: {
+                gender: {},
+                age_range: {},
+                day_master_element: {},
+                favorable_elements: {}
+            }
+        };
+
+        for (const { event, data = {} } of events) {
+            if (!event) continue;
+
+            switch (event) {
+                case 'page_view': {
+                    const page = data.page || 'unknown';
+                    dayData.page_views[page] = (dayData.page_views[page] || 0) + 1;
+                    break;
+                }
+                case 'tool_submit': {
+                    const tool = data.tool || 'unknown';
+                    dayData.tool_submissions[tool] = (dayData.tool_submissions[tool] || 0) + 1;
+                    if (data.gender) {
+                        dayData.profiles.gender[data.gender] = (dayData.profiles.gender[data.gender] || 0) + 1;
+                    }
+                    if (data.age_range) {
+                        dayData.profiles.age_range[data.age_range] = (dayData.profiles.age_range[data.age_range] || 0) + 1;
+                    }
+                    if (data.day_master_element) {
+                        dayData.profiles.day_master_element[data.day_master_element] = (dayData.profiles.day_master_element[data.day_master_element] || 0) + 1;
+                    }
+                    if (data.favorable_elements && Array.isArray(data.favorable_elements)) {
+                        data.favorable_elements.forEach(el => {
+                            dayData.profiles.favorable_elements[el] = (dayData.profiles.favorable_elements[el] || 0) + 1;
+                        });
+                    }
+                    break;
+                }
+                case 'tool_result': {
+                    const tool = data.tool || 'unknown';
+                    dayData.tool_results[tool] = (dayData.tool_results[tool] || 0) + 1;
+                    break;
+                }
+                case 'tool_retry': {
+                    const tool = data.tool || 'unknown';
+                    dayData.tool_retries[tool] = (dayData.tool_retries[tool] || 0) + 1;
+                    break;
+                }
+                case 'pay_intent': {
+                    const source = data.source || 'unknown';
+                    dayData.pay_intents[source] = (dayData.pay_intents[source] || 0) + 1;
+                    break;
+                }
+                case 'cta_click': {
+                    const source = data.source || 'unknown';
+                    dayData.cta_clicks[source] = (dayData.cta_clicks[source] || 0) + 1;
+                    break;
+                }
+                default:
+                    break;
+            }
+        }
+
+        await redisSet(key, dayData);
+        return res.status(200).json({ ok: true });
+    } catch (err) {
+        console.error('Track error:', err.message);
+        return res.status(500).json({ error: 'Internal error' });
+    }
+}
+
+// ==================== GET: Query aggregated stats ====================
 
 function mergeCounters(days, key) {
     const merged = {};
@@ -40,11 +136,26 @@ function sortEntries(obj) {
     return Object.entries(obj).sort((a, b) => b[1] - a[1]);
 }
 
-export default async function handler(req, res) {
-    if (req.method !== 'GET') {
-        return res.status(405).json({ error: 'Method not allowed' });
-    }
+function emptyResponse(range) {
+    return {
+        range,
+        total_days: 0,
+        page_views_total: 0,
+        tool_submissions_total: 0,
+        pay_intents_total: 0,
+        total_checkouts: 0,
+        page_views_by_page: [],
+        tool_submissions_by_tool: [],
+        tool_results_by_tool: [],
+        tool_retries_by_tool: [],
+        pay_intents_by_source: [],
+        cta_clicks_by_source: [],
+        profiles: { gender: [], age_range: [], day_master_element: [], favorable_elements: [] },
+        daily_trend: []
+    };
+}
 
+async function handleQuery(req, res) {
     // Simple auth check
     const token = req.headers['authorization']?.replace('Bearer ', '');
     if (token !== process.env.DAOSTATS_SECRET && process.env.DAOSTATS_SECRET) {
@@ -54,33 +165,14 @@ export default async function handler(req, res) {
     try {
         const range = parseInt(req.query.range) || 7;
 
-        // Get all stats keys
         const allKeys = await redisKeys('stats:*');
         if (allKeys.length === 0) {
-            return res.status(200).json({
-                range,
-                total_days: 0,
-                page_views_total: 0,
-                tool_submissions_total: 0,
-                pay_intents_total: 0,
-                page_views_by_page: [],
-                tool_submissions_by_tool: [],
-                tool_results_by_tool: [],
-                tool_retries_by_tool: [],
-                pay_intents_by_source: [],
-                cta_clicks_by_source: [],
-                profiles: { gender: [], age_range: [], day_master_element: [], favorable_elements: [] },
-                daily_trend: []
-            });
+            return res.status(200).json(emptyResponse(range));
         }
 
-        // Sort keys by date descending
         allKeys.sort().reverse();
-
-        // Take last N days (or all if fewer)
         const recentKeys = allKeys.slice(0, range);
 
-        // Fetch all day data
         const days = [];
         for (const key of recentKeys) {
             const data = await redisGet(key);
@@ -88,24 +180,9 @@ export default async function handler(req, res) {
         }
 
         if (days.length === 0) {
-            return res.status(200).json({
-                range,
-                total_days: 0,
-                page_views_total: 0,
-                tool_submissions_total: 0,
-                pay_intents_total: 0,
-                page_views_by_page: [],
-                tool_submissions_by_tool: [],
-                tool_results_by_tool: [],
-                tool_retries_by_tool: [],
-                pay_intents_by_source: [],
-                cta_clicks_by_source: [],
-                profiles: { gender: [], age_range: [], day_master_element: [], favorable_elements: [] },
-                daily_trend: []
-            });
+            return res.status(200).json(emptyResponse(range));
         }
 
-        // Aggregate
         const pageViews = mergeCounters(days, 'page_views');
         const toolSubs = mergeCounters(days, 'tool_submissions');
         const toolResults = mergeCounters(days, 'tool_results');
@@ -114,19 +191,17 @@ export default async function handler(req, res) {
         const ctaClicks = mergeCounters(days, 'cta_clicks');
         const profiles = mergeProfiles(days);
 
-        // Daily trend (page views + tool submissions per day)
         const dailyTrend = days.map(d => ({
             date: d.date,
             page_views: Object.values(d.page_views || {}).reduce((a, b) => a + b, 0),
             tool_submissions: Object.values(d.tool_submissions || {}).reduce((a, b) => a + b, 0),
             pay_intents: Object.values(d.pay_intents || {}).reduce((a, b) => a + b, 0)
-        })).reverse(); // chronological order
+        })).reverse();
 
         const totalPV = Object.values(pageViews).reduce((a, b) => a + b, 0);
         const totalToolSubs = Object.values(toolSubs).reduce((a, b) => a + b, 0);
         const totalPayIntents = Object.values(payIntents).reduce((a, b) => a + b, 0);
 
-        // Get total Creem checkout intents from existing Redis data
         let totalCheckouts = 0;
         try {
             const intentIds = await redisGet('checkout_intent_ids') || [];
@@ -154,9 +229,20 @@ export default async function handler(req, res) {
             },
             daily_trend: dailyTrend
         });
-
     } catch (err) {
         console.error('Stats error:', err.message);
         return res.status(500).json({ error: 'Internal error' });
     }
+}
+
+// ==================== Main handler ====================
+
+export default async function handler(req, res) {
+    if (req.method === 'POST') {
+        return handleTrack(req, res);
+    }
+    if (req.method === 'GET') {
+        return handleQuery(req, res);
+    }
+    return res.status(405).json({ error: 'Method not allowed' });
 }

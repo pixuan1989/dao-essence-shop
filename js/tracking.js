@@ -15,7 +15,7 @@
 (function() {
     'use strict';
 
-    var ENDPOINT = '/api/track';
+    var ENDPOINT = '/api/stats';
     var queue = [];
     var sending = false;
 

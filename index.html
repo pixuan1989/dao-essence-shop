@@ -1513,10 +1513,10 @@
                 message: formData.get('message')
             };
 
-            fetch('/api/send-contact-email', {
+            fetch('/api/marketing', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
+                body: JSON.stringify({ contactForm: true, ...data })
             })
             .then(function(response) {
                 return response.json();
