@@ -1901,9 +1901,13 @@
             // Scenarios: show for 吉/大吉 (>=70), caution for 平, strong caution for 凶
             var scenariosHtml = '';
             if (cs >= 70) {
-                scenariosHtml = goodHtml
-                    ? `<div class="today-scenarios"><div class="ts-row"><span class="ts-label">${t('almanac.great_for')}</span><div class="scenario-list">${goodHtml}</div></div></div>`
-                    : '';
+                if (goodHtml) {
+                    scenariosHtml = `<div class="today-scenarios"><div class="ts-row"><span class="ts-label">${t('almanac.great_for')}</span><div class="scenario-list">${goodHtml}</div></div></div>`;
+                } else {
+                    scenariosHtml = `<div style="font-size:0.82rem;color:#888;margin-bottom:0.6rem;">${isZh()
+                        ? '今日五行能量良好，各項活動皆可進行。'
+                        : 'Good energy today. All activities are favorable.'}</div>`;
+                }
             } else if (cs >= 55) {
                 scenariosHtml = `<div style="font-size:0.85rem;color:#888;margin-bottom:0.6rem;">${isZh()
                     ? '今日整體一般，可挑選合適吉時進行。'
@@ -2119,10 +2123,16 @@
             // Scenarios: show for 吉/大吉 (>=70), caution for 平, strong caution for 凶
             var dayScenariosHtml = '';
             if (cs >= 70) {
-                dayScenariosHtml = `<div class="detail-scenarios" style="margin-top:0.8rem;">
-                    <div class="dg-label">${t('almanac.great_for')}</div>
-                    <div class="scenario-list">${goodHtml}</div>
-                </div>`;
+                if (goodHtml) {
+                    dayScenariosHtml = `<div class="detail-scenarios" style="margin-top:0.8rem;">
+                        <div class="dg-label">${t('almanac.great_for')}</div>
+                        <div class="scenario-list">${goodHtml}</div>
+                    </div>`;
+                } else {
+                    dayScenariosHtml = `<div style="font-size:0.82rem;color:#888;margin-top:0.6rem;">${isZh()
+                        ? '此日五行能量良好，各項活動皆可進行。'
+                        : 'Good energy this day. All activities are favorable.'}</div>`;
+                }
             } else if (cs >= 55) {
                 dayScenariosHtml = `<div style="font-size:0.82rem;color:#888;margin-top:0.6rem;">${isZh()
                     ? '此日整體一般，可挑選合適吉時進行。'
