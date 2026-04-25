@@ -1960,14 +1960,14 @@ async function main() {
     { loc: '/privacy', changefreq: 'yearly', priority: '0.3' },
     { loc: '/terms', changefreq: 'yearly', priority: '0.3' },
   ];
-  // Add category pages (only those that actually have articles)
-  for (const cat of Object.keys(byCategory)) {
+  // Add ALL category pages (even empty ones) to sitemap
+  for (const cat of CATEGORY_FOLDERS) {
     staticUrls.push({ loc: `/blog/${cat}`, changefreq: 'weekly', priority: '0.7' });
   }
   // Add zh blog index and zh category pages
   if (zhArticles.length > 0) {
     staticUrls.push({ loc: '/zh/blog/', changefreq: 'weekly', priority: '1.0' });
-    for (const cat of Object.keys(zhByCategory)) {
+    for (const cat of CATEGORY_FOLDERS) {
       staticUrls.push({ loc: `/zh/blog/${cat}`, changefreq: 'weekly', priority: '0.7' });
     }
   }
@@ -2008,25 +2008,6 @@ async function main() {
         <priority>${u.priority}</priority>${hreflangTag}
     </url>\n`;
   }
-  // Add blog category pages (English)
-  for (const cat of CATEGORY_FOLDERS) {
-    sitemapXml += `    <url>
-        <loc>${SITE_URL}/blog/${cat}</loc>
-        <lastmod>${today}</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.7</priority>
-        <xhtml:link rel="alternate" hreflang="zh-Hant" href="${SITE_URL}/zh/blog/${cat}"/>
-    </url>\n`;
-  }
-  // Add blog index pages
-  sitemapXml += `    <url>
-        <loc>${SITE_URL}/blog/</loc>
-        <lastmod>${today}</lastmod>
-        <changefreq>daily</changefreq>
-        <priority>0.9</priority>
-        <xhtml:link rel="alternate" hreflang="zh-Hant" href="${SITE_URL}/zh/blog/"/>
-    </url>\n`;
-
   // Add blog articles from CMS (English)
   for (const post of allArticles) {
     const d = post.data.date instanceof Date ? post.data.date.toISOString().split('T')[0] : String(post.data.date || today);
