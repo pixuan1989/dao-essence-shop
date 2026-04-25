@@ -52,6 +52,27 @@ const CATEGORY_LABELS_ZH = {
   'lucky-tips': '運勢小貼士'
 };
 
+// Fallback zh titles for recommendation sidebar (used when no zh article exists)
+const FALLBACK_ZH_TITLES = {
+  'birth-hours-wealth-personalities-a-western-friendly-guide': '出生時辰與財富性格：西方人易懂的指南',
+  'how-to-read-bazi-chart': '如何看懂你的八字命盤：入門教學',
+  'five-elements-theory-wu-xing-guide': '五行理論（Wu Xing）完全指南',
+  'ben-ming-nian-why-your-zodiac-year-matters-in-bazi': '本命年：為什麼你的生肖年在八字中很重要',
+  'love-prediction-by-date-of-birth': '出生日期預測愛情：八字命理教你何時遇到對的人',
+  'what-is-bazi-beginners-guide': '什麼是八字？新手入門指南',
+  'when-will-i-find-love': '我什麼時候會遇到愛情？八字告訴你',
+  'where-will-i-meet-my-soulmate': '在哪裡會遇到靈魂伴侶？八字方位預測',
+  'why-am-i-depressed-bazi-cycles-10-year-luck-periods-explained': '為什麼我最近低潮？八字十年大運週期解讀',
+  'the-mbti-alternative-angle': 'MBTI 的東方替代方案：八字性格分析',
+  'how-to-choose-the-best-date-for-any-important-life-event': '如何為重要人生事件選擇最佳日子',
+  'how-to-choose-your-phone-wallpaper-using-chinese-five-elements': '用五行選擇你的手機桌布',
+  '10-home-feng-shui-hacks-that-actually-work-backed-by-energy-psychology': '10個真的有效的居家風水技巧',
+  'auspicious-date-selection-a-practical-guide': '吉日選擇實用指南',
+  'chinese-zodiac-daily-forecast-thursday-april-16-2026': '十二生肖每日運勢預測',
+  'elon-musk-bazi-yang-wood-day-master-decoded': '馬斯克八字命盤解析：陽木日主',
+  'five-virtues-five-elements': '仁義禮智信與五行：中國五千年文明的基礎密碼'
+};
+
 // CSS version for cache busting
 const CSS_VERSION = Date.now();
 const SITE_URL = 'https://www.daoessentia.com';
@@ -1753,7 +1774,7 @@ async function main() {
         const catLabel = CATEGORY_LABELS[cat] || cat;
         const catLabelZh = CATEGORY_LABELS_ZH[cat] || cat;
         const zhPost = zhArticleMap[post.slug] || manualZhMap[post.slug];
-        const titleZh = zhPost?.data?.title || '';
+        const titleZh = zhPost?.data?.title || FALLBACK_ZH_TITLES[post.slug] || '';
         const descZh = zhPost?.data?.description || '';
         let imgSrc = post.data.image || SITE_URL + '/images/og-default.jpg';
         imgSrc = imgSrc.replace(/\/feature\/blog-cms\//g, '/main/');
@@ -1787,7 +1808,7 @@ async function main() {
       const catLabel = CATEGORY_LABELS[cat] || cat;
       const catLabelZh = CATEGORY_LABELS_ZH[cat] || cat;
       const zhPost = zhArticleMap[post.slug];
-      const titleZh = zhPost ? (zhPost.data.title || '') : '';
+      const titleZh = zhPost ? (zhPost.data.title || '') : (FALLBACK_ZH_TITLES[post.slug] || '');
       const descZh = zhPost ? (zhPost.data.description || '') : '';
       let imgSrc = post.data.image || SITE_URL + '/images/og-default.jpg';
       imgSrc = imgSrc.replace(/\/feature\/blog-cms\//g, '/main/');
