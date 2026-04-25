@@ -2008,6 +2008,25 @@ async function main() {
         <priority>${u.priority}</priority>${hreflangTag}
     </url>\n`;
   }
+  // Add blog category pages (English)
+  for (const cat of CATEGORY_FOLDERS) {
+    sitemapXml += `    <url>
+        <loc>${SITE_URL}/blog/${cat}</loc>
+        <lastmod>${today}</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+        <xhtml:link rel="alternate" hreflang="zh-Hant" href="${SITE_URL}/zh/blog/${cat}"/>
+    </url>\n`;
+  }
+  // Add blog index pages
+  sitemapXml += `    <url>
+        <loc>${SITE_URL}/blog/</loc>
+        <lastmod>${today}</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.9</priority>
+        <xhtml:link rel="alternate" hreflang="zh-Hant" href="${SITE_URL}/zh/blog/"/>
+    </url>\n`;
+
   // Add blog articles from CMS (English)
   for (const post of allArticles) {
     const d = post.data.date instanceof Date ? post.data.date.toISOString().split('T')[0] : String(post.data.date || today);
