@@ -188,73 +188,150 @@
         '丑': { season: 'Late Winter', tip: 'Cold and damp in late winter — spleen weakest, warm and nourish digestion.' }
     };
 
-    // ==================== DAYUN COMPREHENSIVE INTERPRETATION DATA ====================
-    var DAYUN_INTERPRETATION = {
-        '比肩': { overall: 'Independence grows strong — a time to pioneer new paths. Competition may arise in relationships; balance cooperation with self-reliance.', favorable: 'Solo ventures, independent projects, skill building', caution: 'Partnerships, stubbornness, spreading resources thin' },
-        '劫财': { overall: 'Intense competition and financial volatility. Socially active but prone to disputes. Control impulsive spending.', favorable: 'Bold breakthroughs, showcasing abilities, short-term gains', caution: 'Gambling, borrowing, joint ventures' },
-        '食神': { overall: 'Creativity flourishes, mood lifts, quality of life improves. Talents gain recognition. Great time for learning new skills.', favorable: 'Creative work, teaching, enjoying life', caution: 'Overindulgence, laziness, complacency' },
-        '伤官': { overall: 'Sharp thinking drives innovation and change — but also invites conflicts. Good for technical breakthroughs, bad for challenging authority.', favorable: 'Tech innovation, freelancing, self-expression', caution: 'Clashes with superiors, careless speech, contract disputes' },
-        '偏财': { overall: 'Unexpected windfalls and expanding social circles. Generosity builds networks, but rational financial management is key.', favorable: 'Investments, networking, business deals', caution: 'Overspending, trusting strangers, reckless speculation' },
-        '正财': { overall: 'Stable income growth — hard work pays off. A favorable period for saving and accumulating assets.', favorable: 'Steady employment, savings, systematic progress', caution: 'Impatience, risky investments, missed opportunities' },
-        '七杀': { overall: 'Pressure and opportunity coexist — challenges contain hidden breakthroughs. Good for tackling tough problems, but guard your health.', favorable: 'Breaking bottlenecks, leadership roles, overcoming adversity', caution: 'Burnout, confrontations, impulsive decisions' },
-        '正官': { overall: 'Career advances, reputation grows. Ideal for management roles or institutional paths. Mentors appear — follow the rules.', favorable: 'Promotions, exams, compliant business', caution: 'Excessive conservatism, fear of change' },
-        '偏印': { overall: 'Intuition sharpens — excellent for deep research, but overthinking may lead to isolation.', favorable: 'Academic research, philosophy, specialized expertise', caution: 'Indecisiveness, self-isolation, over-analysis' },
-        '正印': { overall: 'Benefactors abound, studies prosper, family harmony. Ideal for certifications — elders or superiors offer strong support.', favorable: 'Exams, property matters, mentorship', caution: 'Over-dependence, lack of initiative, complacency' }
-    };
+    // ==================== AI ANALYSIS API ====================
+    var analysisCache = {};
 
-    // ==================== LIUNIAN KEY PHRASES ====================
-    var LIUNIAN_PHRASES = {
-        '比肩': 'Year of Self — Independence & Growth',
-        '劫财': 'Year of Competition — Financial Volatility',
-        '食神': 'Year of Talent — Joy & Creativity',
-        '伤官': 'Year of Change — Bold Thinking',
-        '偏财': 'Year of Windfall — Social Expansion',
-        '正财': 'Year of Wealth — Steady Accumulation',
-        '七杀': 'Year of Pressure — Challenge & Opportunity',
-        '正官': 'Year of Career — Mentor Support',
-        '偏印': 'Year of Intuition — Inner Exploration',
-        '正印': 'Year of Learning — Benefactor Guidance'
-    };
+    function buildChartPayload(rt) {
+        return {
+            dayMaster: rt['ctg'][2],
+            gender: rt['xb'] === '\u7537' ? 0 : 1,
+            pillars: [
+                { stem: rt['ctg'][0], branch: rt['cdz'][0] },
+                { stem: rt['ctg'][1], branch: rt['cdz'][1] },
+                { stem: rt['ctg'][2], branch: rt['cdz'][2] },
+                { stem: rt['ctg'][3], branch: rt['cdz'][3] }
+            ],
+            wxCount: (function() {
+                var nwx = rt['nwx'] || [0,0,0,0,0];
+                return { 'Metal': nwx[0], 'Water': nwx[1], 'Wood': nwx[2], 'Fire': nwx[3], 'Earth': nwx[4] };
+            })()
+        };
+    }
 
-    // ==================== i18n HELPERS FOR DAYUN/LIUNIAN ====================
-    var TG_ZH_KEYS = {
-        '比肩': 'friend', '劫财': 'rob_wealth', '食神': 'eating_god', '伤官': 'hurting_officer',
-        '偏财': 'indirect_wealth', '正财': 'direct_wealth', '七杀': 'seven_killings',
-        '正官': 'direct_officer', '偏印': 'indirect_resource', '正印': 'direct_resource'
-    };
-    function getDayunInterpZh(tgCn) {
-        var k = TG_ZH_KEYS[tgCn]; if (!k) return {};
-        return { overall: t('bazi_result.dayun_interp.' + k + '_overall'), favorable: t('bazi_result.dayun_interp.' + k + '_favorable'), caution: t('bazi_result.dayun_interp.' + k + '_caution') };
-    }
-    function getDayunAdviceZh(tgCn) {
-        var k = TG_ZH_KEYS[tgCn]; if (!k) return '';
-        return t('bazi_result.dayun_advice.' + k);
-    }
-    function getLiunianPhraseZh(tgCn) {
-        var k = TG_ZH_KEYS[tgCn]; if (!k) return '';
-        return t('bazi_result.liunian_phrase.' + k);
-    }
-    function getLiunianAdviceZh(tgCn) {
-        var k = TG_ZH_KEYS[tgCn]; if (!k) return '';
-        return t('bazi_result.liunian_advice.' + k);
-    }
-    function getLocalizedDayunInterp(tgCn) { return isZh() ? getDayunInterpZh(tgCn) : DAYUN_INTERPRETATION[tgCn] || {}; }
-    function getLocalizedDayunAdvice(tgCn) { return isZh() ? getDayunAdviceZh(tgCn) : getDayunAdvice(tgCn); }
-    function getLocalizedLiunianPhrase(tgCn) { return isZh() ? getLiunianPhraseZh(tgCn) : (LIUNIAN_PHRASES[tgCn] || ''); }
-    function getLocalizedLiunianAdvice(tgCn) { return isZh() ? getLiunianAdviceZh(tgCn) : getLiunianAdvice(tgCn); }
+    function fetchAnalysis(type, chart, dayun, liunian) {
+        var cacheKey = type + '_' + (dayun ? dayun.gan : '') + (dayun ? dayun.zhi : '') + (liunian ? liunian.year : '');
+        if (analysisCache[cacheKey]) {
+            return Promise.resolve(analysisCache[cacheKey]);
+        }
+        var payload = { type: type, chart: chart, lang: isZh() ? 'zh' : 'en' };
+        if (type === 'dayun') payload.dayun = dayun;
+        if (type === 'liunian') { payload.dayun = dayun; payload.liunian = liunian; }
 
-    // Wuxing generation/clash analysis helper
-    function wxRelation(wx1, wx2) {
-        var gen = { '金':'水','水':'木','木':'火','火':'土','土':'金' };
-        var clash = { '金':'木','木':'土','土':'水','水':'火','火':'金' };
-        var e1 = isZh() ? (wx1 || '') : (WX_EN[wx1] || wx1), e2 = isZh() ? (wx2 || '') : (WX_EN[wx2] || wx2);
-        var same = (wx1 === wx2);
-        if (same) return { type: 'same', desc: e1 + ' + ' + e2 + ' — ' + (isZh() ? t('bazi_result.wx_relation.same') : 'Same element, power amplified') };
-        if (gen[wx1] === wx2) return { type: 'generate', desc: e1 + ' ' + (isZh() ? t('bazi_result.wx_relation.generate') : 'generates') + ' ' + e2 + ' — ' + (isZh() ? t('bazi_result.wx_relation.outward') : 'your energy flows outward') };
-        if (clash[wx1] === wx2) return { type: 'clash', desc: e1 + ' ' + (isZh() ? t('bazi_result.wx_relation.clash') : 'controls') + ' ' + e2 + ' — ' + (isZh() ? t('bazi_result.wx_relation.suppressing') : 'suppressing force') };
-        if (gen[wx2] === wx1) return { type: 'generated', desc: e2 + ' ' + (isZh() ? t('bazi_result.wx_relation.generate') : 'generates') + ' ' + e1 + ' — ' + (isZh() ? t('bazi_result.wx_relation.support') : 'receiving support') };
-        if (clash[wx2] === wx1) return { type: 'clashed', desc: e2 + ' ' + (isZh() ? t('bazi_result.wx_relation.clash') : 'controls') + ' ' + e1 + ' — ' + (isZh() ? t('bazi_result.wx_relation.constrained') : 'being constrained') };
-        return { type: 'neutral', desc: e1 + ' & ' + e2 + ' — ' + (isZh() ? t('bazi_result.wx_relation.neutral') : 'no direct interaction') };
+        return fetch('/api/bazi-analysis', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        })
+        .then(function(r) { return r.json(); })
+        .then(function(d) {
+            if (d.success && d.result) {
+                analysisCache[cacheKey] = d.result;
+                return d.result;
+            }
+            throw new Error(d.error || 'Analysis failed');
+        });
+    }
+
+    // ==================== BUILD DAYUN DETAIL (AI-powered) ====================
+    function buildDayunDetail(dy, dmIdx, chartPayload) {
+        var dyGan = dy['zfma'] || '';
+        var dyZhi = dy['zfmb'] || '';
+        var dyGanIdx = STEMS.indexOf(dyGan);
+        var stemTg = dyGanIdx >= 0 ? getStemShiShen(dyGanIdx, dmIdx) : null;
+        var nzsc = dy['nzsc'] || '';
+
+        var loadingHTML = '<div class="detail-card" style="margin-bottom:0.5rem">';
+        loadingHTML += '<div class="detail-card-header">' + t('bazi_result.dayun_overview') + '</div>';
+        loadingHTML += '<div class="detail-card-body"><p class="ai-loading">' + (isZh() ? 'AI 分析中...' : 'Analyzing...') + '</p></div></div>';
+
+        var dayunData = {
+            gan: dyGan, zhi: dyZhi,
+            age: dy['zqage'] + '\u2013' + dy['zboz'],
+            years: dy['syear'] + '\u2013' + dy['eyear'],
+            nzsc: nzsc
+        };
+
+        fetchAnalysis('dayun', chartPayload, dayunData)
+            .then(function(result) {
+                var el = document.getElementById('dayun-detail-body');
+                if (!el) return;
+
+                var verdict = result.verdict || '';
+                var verdictColor = 'var(--accent)';
+                if (verdict === 'Good' || verdict === '\u5409') verdictColor = 'var(--good)';
+                else if (verdict === 'Challenging' || verdict === '\u51f6') verdictColor = 'var(--bad)';
+
+                var html = '<div class="detail-card" style="margin-bottom:0.5rem">';
+                html += '<div class="detail-card-header">' + t('bazi_result.dayun_overview') + '</div>';
+                html += '<div class="detail-card-body">';
+                html += '<div class="ai-verdict" style="color:' + verdictColor + ';font-weight:600;margin-bottom:0.5rem">' + verdict + '</div>';
+                if (result.summary) html += '<div class="detail-row" style="line-height:1.7;color:var(--ink)">' + result.summary + '</div>';
+                html += '</div></div>';
+
+                if (result.career || result.wealth || result.love || result.health) {
+                    html += '<div class="detail-card" style="margin-bottom:0.5rem">';
+                    html += '<div class="detail-card-body" style="line-height:1.65">';
+                    if (result.career) html += '<div class="detail-row" style="margin-bottom:0.4rem"><span class="detail-key">' + (isZh() ? '\u4e8b\u696d' : 'Career') + '</span>' + result.career + '</div>';
+                    if (result.wealth) html += '<div class="detail-row" style="margin-bottom:0.4rem"><span class="detail-key">' + (isZh() ? '\u8ca1\u904b' : 'Wealth') + '</span>' + result.wealth + '</div>';
+                    if (result.love) html += '<div class="detail-row" style="margin-bottom:0.4rem"><span class="detail-key">' + (isZh() ? '\u611f\u60c5' : 'Love') + '</span>' + result.love + '</div>';
+                    if (result.health) html += '<div class="detail-row"><span class="detail-key">' + (isZh() ? '\u5065\u5eb7' : 'Health') + '</span>' + result.health + '</div>';
+                    html += '</div></div>';
+                }
+                el.innerHTML = html;
+            })
+            .catch(function(err) {
+                var el = document.getElementById('dayun-detail-body');
+                if (el) {
+                    el.innerHTML = '<div class="detail-card"><div class="detail-card-body" style="color:var(--ink-2);text-align:center;padding:1rem">' +
+                        (isZh() ? '\u5206\u6790\u6682\u6642\u4e0d\u53ef\u7528\uff0c\u8acb\u7a0d\u5f8c\u518d\u8a66\u3002' : 'Analysis temporarily unavailable. Please try again later.') + '</div></div>';
+                }
+                console.warn('BaZi analysis error:', err);
+            });
+
+        return loadingHTML;
+    }
+
+    // ==================== BUILD LIUNIAN DETAIL (AI-powered) ====================
+    function buildLiunianDetail(ly, dmIdx, dyGan, dyZhi, chartPayload) {
+        var lyGanZhi = ly['lye'] || '';
+        var lyGan = lyGanZhi.substring(0, 1);
+        var lyZhi = lyGanZhi.substring(1, 2);
+
+        var loadingHTML = '<div class="detail-card" style="margin-bottom:0.5rem">';
+        loadingHTML += '<div class="detail-card-header">' + t('bazi_result.liunian_year_overview') + '</div>';
+        loadingHTML += '<div class="detail-card-body"><p class="ai-loading">' + (isZh() ? 'AI 分析中...' : 'Analyzing...') + '</p></div></div>';
+
+        var dayunData = { gan: dyGan, zhi: dyZhi };
+        var liunianData = { gan: lyGan, zhi: lyZhi, year: ly['year'] || 0 };
+
+        fetchAnalysis('liunian', chartPayload, dayunData, liunianData)
+            .then(function(result) {
+                var el = document.getElementById('liunian-detail-body');
+                if (!el) return;
+
+                var verdict = result.verdict || '';
+                var verdictColor = 'var(--accent)';
+                if (verdict === 'Good' || verdict === '\u5409') verdictColor = 'var(--good)';
+                else if (verdict === 'Challenging' || verdict === '\u51f6') verdictColor = 'var(--bad)';
+
+                var html = '<div class="detail-card" style="margin-bottom:0.5rem">';
+                html += '<div class="detail-card-header">' + t('bazi_result.liunian_year_overview') + '</div>';
+                html += '<div class="detail-card-body">';
+                html += '<div class="ai-verdict" style="color:' + verdictColor + ';font-weight:600;margin-bottom:0.5rem">' + verdict + '</div>';
+                if (result.summary) html += '<div class="detail-row" style="line-height:1.7;color:var(--ink)">' + result.summary + '</div>';
+                if (result.advice) html += '<div class="detail-row" style="margin-top:0.5rem;color:var(--ink)"><span class="detail-key">' + (isZh() ? '\u5efa\u8b70' : 'Advice') + '</span>' + result.advice + '</div>';
+                html += '</div></div>';
+                el.innerHTML = html;
+            })
+            .catch(function(err) {
+                var el = document.getElementById('liunian-detail-body');
+                if (el) {
+                    el.innerHTML = '<div class="detail-card"><div class="detail-card-body" style="color:var(--ink-2);text-align:center;padding:1rem">' +
+                        (isZh() ? '\u5206\u6790\u6682\u6642\u4e0d\u53ef\u7528\u3002' : 'Analysis temporarily unavailable.') + '</div></div>';
+                }
+            });
+
+        return loadingHTML;
     }
 
     // ==================== BUILD HEALTH INTERPRETATION ====================
@@ -287,7 +364,7 @@
                     var tipText = isZh() ? t(WX_ORGAN_TIPS_ZH[w]) : WX_ORGAN_TIPS[w];
                     html += '<div class="detail-row" style="margin-bottom:0.4rem">';
                     html += '<div><strong style="color:' + WX_COLORS[w] + '">' + (isZh() ? w : WX_EN[w]) + '</strong> → ' + WX_BODY[w] + '</div>';
-                    html += '<div style="color:var(--ink-2);font-size:0.7rem;line-height:1.5">' + tipText + '</div>';
+                    html += '<div style="color:var(--ink-2);font-size:0.85rem;line-height:1.6">' + tipText + '</div>';
                     html += '</div>';
                 }
                 html += '</div></div>';
@@ -305,7 +382,7 @@
                     var target = clash[w];
                     html += '<div class="detail-row" style="margin-bottom:0.4rem">';
                     html += '<div><strong style="color:' + WX_COLORS[w] + '">' + (isZh() ? w : WX_EN[w]) + (isZh() ? ' 過盛 → 克制 ' : ' excessive → controls ') + '<strong style="color:' + WX_COLORS[target] + '">' + (isZh() ? target : WX_EN[target]) + '</strong> (' + WX_BODY[target] + ')</div>';
-                    html += '<div style="color:var(--ink-2);font-size:0.7rem;line-height:1.5">' + excessText + '</div>';
+                    html += '<div style="color:var(--ink-2);font-size:0.85rem;line-height:1.6">' + excessText + '</div>';
                     html += '</div>';
                 }
                 html += '</div></div>';
@@ -373,7 +450,7 @@
         html += sorted.slice(0, 3).map(function(cn) {
             var tg = TG_NAMES[cn];
             var kw = tgKw(cn);
-            return '<strong>' + tgLabel(tg) + '</strong> (' + tgCount[cn] + 'x)<br><span style="color:var(--ink-2)">' + kw.career + '</span><br><span style="color:var(--ink-3);font-size:0.75rem">' + kw.life + '</span>';
+            return '<strong>' + tgLabel(tg) + '</strong> (' + tgCount[cn] + 'x)<br><span style="color:var(--ink-2)">' + kw.career + '</span><br><span style="color:var(--ink-3);font-size:0.88rem">' + kw.life + '</span>';
         }).join('<hr style="border:none;border-top:1px solid var(--line-light);margin:0.4rem 0">');
         html += '</span></div>';
         html += '</div>';
@@ -416,147 +493,14 @@
         return html;
     }
 
-    // ==================== BUILD DAYUN INTERPRETATION (Enhanced) ====================
-    function buildDayunDetail(dy, dmIdx) {
-        var dyGanIdx = STEMS.indexOf(dy['zfma']);
-        var dyZhiIdx = BRANCHES.indexOf(dy['zfmb']);
-        var stemTg = dyGanIdx >= 0 ? getStemShiShen(dyGanIdx, dmIdx) : null;
-        var ganWx = dyGanIdx >= 0 ? WX_NAMES[STEM_WX[dyGanIdx]] : '';
-        var dmWx = WX_NAMES[STEM_WX[dmIdx]];
-
-        var html = '';
-
-        // ---- Comprehensive Fortune Summary ----
-        html += '<div class="detail-card" style="margin-bottom:0.5rem">';
-        html += '<div class="detail-card-header">' + t('bazi_result.dayun_overview') + '</div>';
-        html += '<div class="detail-card-body">';
-        if (stemTg) {
-            var interp = getLocalizedDayunInterp(stemTg.cn);
-            html += '<div class="detail-row" style="margin-bottom:0.4rem;line-height:1.6;color:var(--ink)">' + interp.overall + '</div>';
-            if (interp.favorable) html += '<div class="detail-row"><span class="detail-key">' + t('bazi_result.dayun_favorable') + '</span>' + interp.favorable + '</div>';
-            if (interp.caution) html += '<div class="detail-row"><span class="detail-key">' + t('bazi_result.dayun_caution') + '</span>' + interp.caution + '</div>';
-        }
-        // Wuxing interaction between dayun gan & day master
-        if (stemTg) {
-            var wxRel = wxRelation(ganWx, dmWx);
-            var relColor = (wxRel.type === 'generate' || wxRel.type === 'generated' || wxRel.type === 'same') ? 'var(--good)' : (wxRel.type === 'clash' || wxRel.type === 'clashed') ? 'var(--bad)' : 'var(--accent)';
-            html += '<div class="detail-row" style="margin-top:0.3rem"><span class="detail-key">' + t('bazi_result.dayun_element_influence') + '</span><span style="color:' + relColor + '">' + wxRel.desc + '</span></div>';
-        }
-        html += '</div></div>';
-
-        // Enriched career & life reading (merged into one rich card)
-        if (stemTg) {
-            var kw = tgKw(stemTg.cn);
-            var tgEn = stemTg.en;
-            html += '<div class="detail-card" style="margin-bottom:0.5rem">';
-            html += '<div class="detail-card-header"><strong>' + tgLabel(stemTg) + '</strong> — ' + t('bazi_result.dayun_what_means') + '</div>';
-            html += '<div class="detail-card-body" style="line-height:1.65">';
-            html += '<div class="detail-row" style="margin-bottom:0.4rem"><span class="detail-key">' + t('bazi_result.dayun_career') + '</span>' + kw.career + '</div>';
-            html += '<div class="detail-row" style="margin-bottom:0.4rem"><span class="detail-key">' + t('bazi_result.dayun_life_theme') + '</span>' + kw.life + '</div>';
-            // Add actionable advice based on the ten god type
-            var extraAdvice = getLocalizedDayunAdvice(stemTg.cn);
-            if (extraAdvice) html += '<div class="detail-row"><span class="detail-key">' + t('bazi_result.dayun_practical_advice') + '</span><span style="color:var(--ink)">' + extraAdvice + '</span></div>';
-            html += '</div></div>';
-        }
-
-        return html;
-    }
-
-    // Additional practical advice per ten god for dayun period
-    function getDayunAdvice(tgCn) {
-        var advice = {
-            '比肩': 'Focus on building your personal brand and professional skills. This is a self-reliance period — invest in yourself first before seeking partnerships.',
-            '劫财': 'Protect your finances with a strict budget. Channel competitive energy into productive challenges like certifications or fitness goals rather than risky investments.',
-            '食神': 'Lean into creative projects and hobbies — they may become income sources. Teaching, writing, or artistic pursuits will feel natural and rewarding.',
-            '伤官': 'Your innovative ideas are sharp — document them. Avoid confrontations with authority figures; instead, seek environments that value bold thinking and disruption.',
-            '偏财': 'Expand your social network intentionally. Attend industry events and explore side ventures, but set clear loss limits before any speculative moves.',
-            '正财': 'Build long-term financial foundations — savings, retirement plans, skill investments. Slow and steady wins this cycle. Avoid get-rich-quick schemes.',
-            '七杀': 'Step into leadership roles despite discomfort — you will grow. Manage stress actively through exercise and meditation. Crisis management is your superpower.',
-            '正官': 'Follow established rules and build your reputation through consistency. Seek mentorship and formal credentials. Promotions are likely if you demonstrate reliability.',
-            '偏印': 'Dedicate time to deep learning — online courses, research, or esoteric studies. Avoid overthinking decisions; set deadlines and commit.',
-            '正印': 'This is your best period for education and certifications. Seek guidance from mentors, parents, or teachers. Real estate and property matters are favored.'
-        };
-        return advice[tgCn] || '';
-    }
-
-    // ==================== BUILD LIUNIAN INTERPRETATION (Enhanced) ====================
-    function buildLiunianDetail(ly, dmIdx, dyGan, dyZhi) {
-        var lyGanZhi = ly['lye'] || '';
-        var lyGan = lyGanZhi.substring(0, 1);
-        var lyGanIdx = STEMS.indexOf(lyGan);
-        var stemTg = lyGanIdx >= 0 ? getStemShiShen(lyGanIdx, dmIdx) : null;
-        var ganWx = lyGanIdx >= 0 ? WX_NAMES[STEM_WX[lyGanIdx]] : '';
-
-        // Dayun vs Liunian interaction
-        var dyGanIdx = STEMS.indexOf(dyGan);
-        var interactionTg = null;
-        if (dyGanIdx >= 0 && lyGanIdx >= 0) {
-            interactionTg = getStemShiShen(lyGanIdx, dyGanIdx);
-        }
-
-        var html = '';
-
-        // ---- Year Summary ----
-        html += '<div class="detail-card" style="margin-bottom:0.5rem">';
-        html += '<div class="detail-card-header">' + t('bazi_result.liunian_year_overview') + '</div>';
-        html += '<div class="detail-card-body">';
-        if (stemTg) {
-            var phrase = getLocalizedLiunianPhrase(stemTg.cn);
-            html += '<div class="detail-row" style="margin-bottom:0.3rem"><strong style="color:var(--accent)">' + phrase + '</strong></div>';
-            var interp = getLocalizedDayunInterp(stemTg.cn);
-            html += '<div class="detail-row" style="margin-bottom:0.3rem;line-height:1.5;color:var(--ink)">' + interp.overall + '</div>';
-            if (interp.favorable) html += '<div class="detail-row"><span class="detail-key">' + t('bazi_result.dayun_favorable') + '</span>' + interp.favorable + '</div>';
-            if (interp.caution) html += '<div class="detail-row"><span class="detail-key">' + t('bazi_result.dayun_caution') + '</span>' + interp.caution + '</div>';
-        }
-        html += '</div></div>';
-
-        // Enriched career/life/interaction card
-        if (stemTg) {
-            var kw = tgKw(stemTg.cn);
-            var extraAdvice = getLocalizedLiunianAdvice(stemTg.cn);
-            html += '<div class="detail-card" style="margin-bottom:0.5rem">';
-            html += '<div class="detail-card-header"><strong>' + tgLabel(stemTg) + '</strong> — ' + t('bazi_result.dayun_what_means') + '</div>';
-            html += '<div class="detail-card-body" style="line-height:1.65">';
-            html += '<div class="detail-row" style="margin-bottom:0.4rem"><span class="detail-key">' + t('bazi_result.liunian_career') + '</span>' + kw.career + '</div>';
-            html += '<div class="detail-row" style="margin-bottom:0.4rem"><span class="detail-key">' + t('bazi_result.liunian_life') + '</span>' + kw.life + '</div>';
-            if (extraAdvice) html += '<div class="detail-row" style="margin-bottom:0.4rem"><span class="detail-key">' + t('bazi_result.liunian_focus') + '</span><span style="color:var(--ink)">' + extraAdvice + '</span></div>';
-
-            // Dayun vs Liunian interaction
-            if (interactionTg) {
-                var intKw = tgKw(interactionTg.cn);
-                html += '<div class="detail-row"><span class="detail-key">' + t('bazi_result.liunian_vs_cycle') + '</span><span style="color:var(--accent)">' + intKw.life + '</span></div>';
-            }
-            html += '</div></div>';
-        }
-
-        return html;
-    }
-
-    // Practical advice per ten god for liunian (yearly focus)
-    function getLiunianAdvice(tgCn) {
-        var advice = {
-            '比肩': 'This year favors independent projects and self-improvement. Take on new challenges solo before teaming up.',
-            '劫财': 'Watch your spending closely. Avoid lending money or making large impulse purchases. Channel energy into competitive sports or skill-building.',
-            '食神': 'A great year for creativity and self-expression. Start that creative project you have been putting off. Social connections bring joy.',
-            '伤官': 'Your ideas will be sharp and unconventional — use them in tech, design, or entrepreneurship. Think twice before speaking critically of others.',
-            '偏财': 'Unexpected income opportunities may appear. Expand your network through social events. Set a clear budget to avoid overspending on luxuries.',
-            '正财': 'Consistent effort at work brings steady rewards. Focus on your main income source rather than chasing side ventures.',
-            '七杀': 'Challenges will test your resilience — embrace them. Take on leadership roles but prioritize sleep and stress management.',
-            '正官': 'Follow procedures and build your professional reputation. Authority figures favor you. A good year for promotions and formal recognition.',
-            '偏印': 'Deep study and research come naturally this year. Ideal for learning new skills or exploring niche interests. Avoid isolation — stay socially active.',
-            '正印': 'Seek guidance from mentors and teachers. Education, certifications, and property matters are favored. Family support is strong.'
-        };
-        return advice[tgCn] || '';
-    }
-
     // ==================== RENDER SIDEBAR RECOMMENDATIONS ====================
     function renderSidebarRecommendations(sidebar) {
         var html = '<h3 class="sidebar-title">' + t('bazi_result.sidebar_title') + '</h3>';
-        html += '<div id="sidebar-cards"><p style="font-size:0.78rem;color:var(--ink-3);text-align:center;padding:2rem 0">' + t('bazi_result.sidebar_loading') + '</p></div>';
+        html += '<div id="sidebar-cards"><p style="font-size:0.88rem;color:var(--ink-3);text-align:center;padding:2rem 0">' + t('bazi_result.sidebar_loading') + '</p></div>';
         html += '<a href="/five-elements-test" class="sidebar-card sidebar-element-cta" style="text-align:center;background:linear-gradient(135deg,rgba(212,175,55,0.06),rgba(212,175,55,0.12));border:1px solid rgba(212,175,55,0.35);margin-top:1.2rem;padding:1.2rem 1rem;">';
-        html += '<div style="font-size:0.68rem;font-weight:600;color:#D4AF37;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.6rem;">' + t('bazi_result.sidebar_element_badge') + '</div>';
+        html += '<div style="font-size:0.82rem;font-weight:600;color:#D4AF37;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.6rem;">' + t('bazi_result.sidebar_element_badge') + '</div>';
         html += '<h3 style="margin:0 0 0.5rem;color:var(--text-primary);font-size:0.95rem;line-height:1.4;">' + t('bazi_result.sidebar_element_title') + '</h3>';
-        html += '<p style="margin:0 0 0.8rem;color:var(--ink-2);font-size:0.78rem;line-height:1.5;">' + t('bazi_result.sidebar_element_desc') + '</p>';
+        html += '<p style="margin:0 0 0.8rem;color:var(--ink-2);font-size:0.88rem;line-height:1.6;">' + t('bazi_result.sidebar_element_desc') + '</p>';
         html += '<div style="font-size:0.82rem;color:#D4AF37;font-weight:600;letter-spacing:0.02em;">' + t('bazi_result.sidebar_element_cta') + '</div>';
         html += '</a>';
         sidebar.innerHTML = html;
@@ -584,7 +528,7 @@
             })
             .catch(function() {
                 var container = document.getElementById('sidebar-cards');
-                if (container) container.innerHTML = '<p style="font-size:0.78rem;color:var(--ink-3);text-align:center;padding:1rem 0">' + t('bazi_result.sidebar_load_error') + '</p>';
+                if (container) container.innerHTML = '<p style="font-size:0.88rem;color:var(--ink-3);text-align:center;padding:1rem 0">' + t('bazi_result.sidebar_load_error') + '</p>';
             });
     }
 
@@ -682,6 +626,9 @@
             pillarsHTML += '</div>';
         }
 
+        // Build chart payload for AI analysis
+        var chartPayload = buildChartPayload(rt);
+
         // Da Yun
         var qyyDesc = rt['qyy_desc'] || '';
         var currentYear = new Date().getFullYear();
@@ -743,9 +690,9 @@
                     '<span class="tag">' + gender + '</span>' +
                 '</div>' +
                 '<div class="header-dm-banner" style="background:var(--accent-bg);border:1px solid var(--accent-soft);border-radius:var(--radius);padding:0.5rem 1rem;margin-top:0.6rem;display:inline-block">' +
-                    '<span style="font-size:0.7rem;color:var(--accent);text-transform:uppercase;letter-spacing:0.08em">' + t('bazi_result.day_master_label') + '</span><br>' +
+                    '<span style="font-size:0.82rem;color:var(--accent);text-transform:uppercase;letter-spacing:0.08em">' + t('bazi_result.day_master_label') + '</span><br>' +
                     '<span style="font-family:var(--serif);font-size:1.15rem;color:var(--ink);font-weight:600">' + (dmElement ? (isZh() ? dmElement : WX_EN[dmElement]) : '') + '</span>' +
-                    '<span style="font-size:0.72rem;color:var(--ink-2);margin-left:0.5rem">— ' + (DM_NATURE[dayMaster] ? (isZh() ? t(DM_NATURE[dayMaster].wxZh) : DM_NATURE[dayMaster].wx) : '') + '</span>' +
+                    '<span style="font-size:0.88rem;color:var(--ink-2);margin-left:0.5rem">— ' + (DM_NATURE[dayMaster] ? (isZh() ? t(DM_NATURE[dayMaster].wxZh) : DM_NATURE[dayMaster].wx) : '') + '</span>' +
                 '</div>' +
             '</header>' +
 
@@ -824,7 +771,7 @@
                 activeItem = item;
 
                 detailTitle.textContent = t('bazi_result.dayun_age') + ' ' + dy['zqage'] + '–' + dy['zboz'] + '  ·  ' + dy['syear'] + '–' + dy['eyear'];
-                detailBody.innerHTML = buildDayunDetail(dy, dmIdx);
+                detailBody.innerHTML = buildDayunDetail(dy, dmIdx, chartPayload);
 
                 // Flow Years
                 if (dy['ly'] && dy['ly'].length > 0) {
@@ -880,7 +827,7 @@
                         activeLy = lyItem;
 
                         lyTitle.textContent = (isZh() ? '流年 ' : 'Year ') + lyYear;
-                        lyBody.innerHTML = buildLiunianDetail(lyData, dmIdx, dy['zfma'] || '', dy['zfmb'] || '');
+                        lyBody.innerHTML = buildLiunianDetail(lyData, dmIdx, dy['zfma'] || '', dy['zfmb'] || '', chartPayload);
                         lyDetail.classList.add('show');
                         lyDetail.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                     }

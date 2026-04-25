@@ -1,11 +1,22 @@
-// DecapCMS OAuth - Handle GitHub callback
-// GitHub redirects here with ?code=xxx (GET request)
-// We exchange code for token and return HTML that passes it to CMS via postMessage
+// DecapCMS OAuth - Handle GitHub callback & auth redirect
+// GET /api/auth - Step 1: Redirect to GitHub for authorization
+// GET /api/callback?code=xxx - Step 2: Exchange code for token
 const GITHUB_CLIENT_ID = process.env.GITHUB_OAUTH_CLIENT_ID;
 const GITHUB_CLIENT_SECRET = process.env.GITHUB_OAUTH_CLIENT_SECRET;
 
 export default async function handler(req, res) {
-  const { searchParams } = new URL(req.url || '', 'http://localhost');
+  const url = new URL(req.url || '', 'http://localhost');
+  const pathname = url.pathname.replace('/api/', '');
+
+  // /api/auth → redirect to GitHub
+  if (pathname === 'auth') {
+    const origin = 'https://www.daoessentia.com';
+    const callbackUrl = `${origin}/callback`;
+    const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}&redirect_uri=${encodeURIComponent(callbackUrl)}&scope=repo&state=${Math.random().toString(36).substring(7)}`;
+    return res.redirect(302, githubAuthUrl);
+  }
+
+  // /api/callback?code=xxx → exchange code for token
   const code = searchParams.get('code');
   const error = searchParams.get('error');
 

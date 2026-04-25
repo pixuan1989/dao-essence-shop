@@ -7,7 +7,7 @@
   "trailingSlash": false,
   "cleanUrls": true,
   "rewrites": [
-    { "source": "/auth", "destination": "/api/auth" },
+    { "source": "/auth", "destination": "/api/callback" },
     { "source": "/callback", "destination": "/api/callback" }
   ],
   "routes": [
