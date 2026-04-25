@@ -132,6 +132,66 @@ function buildDayunPrompt(chart, dayunData, lang) {
         '}';
 }
 
+function buildShishenPrompt(chart, topGods, lang) {
+    var isZh = lang && lang.startsWith('zh');
+    var chartInfo = buildChartSummary(chart, lang);
+    var dm = chart.dayMaster;
+    var dmWx = STEM_WX[dm] || '';
+    var wxCount = chart.wxCount || {};
+    var wxZh = isZh ? WX_EN_ZH : {};
+    var wxText = Object.entries(wxCount).map(function(e) { return (wxZh[e[0]] || e[0]) + ': ' + e[1]; }).join(', ');
+    var godList = topGods.map(function(g) {
+        var info = TEN_GODS_EN[g.cn] || {};
+        return g.cn + ' x' + g.count + (isZh ? '' : ' (' + info.en + ')');
+    }).join('、');
+
+    if (isZh) {
+        return '你是一位擁有30年經驗的專業八字命理師。請根據命盤的十神分佈，綜合分析此人的核心性格與人生走向。\n\n' +
+            '## 命盤資料\n' + chartInfo + '\n' +
+            '五行分佈：' + wxText + '\n\n' +
+            '## 十神統計（按數量排序）\n' + godList + '\n\n' +
+            '## 分析要求\n' +
+            '1. 從排前3的十神綜合分析此人的核心性格特質（不逐個羅列，要融會貫通）\n' +
+            '2. 根據十神組合，分析事業方向與適合的職業類型\n' +
+            '3. 分析感情婚姻的特點與潛在問題\n' +
+            '4. 分析財運模式（正財偏財）\n' +
+            '5. 健康上需要特別注意的方向\n' +
+            '6. 用2-3句話總結這個命盤的關鍵建議\n\n' +
+            '## 輸出格式（嚴格 JSON）\n' +
+            '僅返回有效 JSON，不要任何其他文字：\n' +
+            '{\n' +
+            '  "personality": "2-3句話描述核心性格，用繁體中文，30-60字",\n' +
+            '  "career": "事業方向建議，用繁體中文，20-40字",\n' +
+            '  "love": "感情婚姻特點，用繁體中文，20-40字",\n' +
+            '  "wealth": "財運模式分析，用繁體中文，20-40字",\n' +
+            '  "health": "健康提醒，用繁體中文，15-30字",\n' +
+            '  "summary": "2-3句話的總結建議，用繁體中文，30-50字"\n' +
+            '}';
+    }
+
+    return 'You are a professional Chinese BaZi (Four Pillars of Destiny) master with 30 years of experience. Analyze this person\'s core personality and life path based on their Ten Gods (十神) distribution.\n\n' +
+        '## Birth Chart\n' + chartInfo + '\n' +
+        'Five Elements: ' + wxText + '\n\n' +
+        '## Top Ten Gods (by count)\n' + godList + '\n\n' +
+        '## Analysis Requirements\n' +
+        '1. Synthesize the top 3 Ten Gods into a coherent personality profile (don\'t list them one by one)\n' +
+        '2. Analyze career direction and suitable professions\n' +
+        '3. Analyze relationship patterns and potential challenges\n' +
+        '4. Analyze wealth patterns\n' +
+        '5. Health areas to watch\n' +
+        '6. Give 2-3 sentences of key life advice\n\n' +
+        '## Output Format (STRICT JSON)\n' +
+        'Return ONLY a valid JSON object, no other text:\n' +
+        '{\n' +
+        '  "personality": "2-3 sentences about core personality, 30-60 words",\n' +
+        '  "career": "Career direction advice, 20-40 words",\n' +
+        '  "love": "Relationship patterns, 20-40 words",\n' +
+        '  "wealth": "Wealth pattern analysis, 20-40 words",\n' +
+        '  "health": "Health precautions, 15-30 words",\n' +
+        '  "summary": "2-3 sentences of key advice, 30-50 words"\n' +
+        '}';
+}
+
 function buildLiunianPrompt(chart, dayunData, liunianData, lang) {
     var isZh = lang && lang.startsWith('zh');
     var chartInfo = buildChartSummary(chart, lang);
@@ -276,8 +336,10 @@ export default async function handler(req, res) {
             prompt = buildDayunPrompt(chart, body.dayun || {}, lang);
         } else if (type === 'liunian') {
             prompt = buildLiunianPrompt(chart, body.dayun || {}, body.liunian || {}, lang);
+        } else if (type === 'shishen') {
+            prompt = buildShishenPrompt(chart, body.topGods || [], lang);
         } else {
-            return res.status(400).json({ error: 'Invalid type. Use "dayun" or "liunian".' });
+            return res.status(400).json({ error: 'Invalid type. Use "dayun", "liunian", or "shishen".' });
         }
 
         var llmText = await callLLM(prompt);

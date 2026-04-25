@@ -220,7 +220,7 @@
         };
     }
 
-    function fetchAnalysis(type, chart, dayun, liunian) {
+    function fetchAnalysis(type, chart, dayun, liunian, topGods) {
         var cacheKey = type + '_' + (dayun ? dayun.gan : '') + (dayun ? dayun.zhi : '') + (liunian ? liunian.year : '');
         if (analysisCache[cacheKey]) {
             return Promise.resolve(analysisCache[cacheKey]);
@@ -228,6 +228,7 @@
         var payload = { type: type, chart: chart, lang: isZh() ? 'zh' : 'en' };
         if (type === 'dayun') payload.dayun = dayun;
         if (type === 'liunian') { payload.dayun = dayun; payload.liunian = liunian; }
+        if (type === 'shishen') payload.topGods = topGods;
 
         return fetch('/api/bazi-analysis', {
             method: 'POST',
@@ -456,16 +457,52 @@
             }
         }
         var sorted = Object.keys(tgCount).sort(function(a, b) { return tgCount[b] - tgCount[a]; });
+        var top3 = sorted.slice(0, 3);
+
+        // Build AI interpretation
+        var topGodsData = top3.map(function(cn) { return { cn: cn, count: tgCount[cn] }; });
+        var cardId = 'shishen-ai-' + Date.now();
 
         var html = '<div class="info-card">';
         html += '<div class="info-item"><span class="info-label">' + t('bazi_result.dominant_influences') + '</span><span class="info-value">';
-        html += sorted.slice(0, 3).map(function(cn) {
+        html += top3.map(function(cn) {
             var tg = TG_NAMES[cn];
             var kw = tgKw(cn);
-            return '<strong>' + tgLabel(tg) + '</strong> (' + tgCount[cn] + 'x)<br><span style="color:var(--ink-2)">' + kw.career + '</span><br><span style="color:var(--ink-3);font-size:0.88rem">' + kw.life + '</span>';
+            return '<strong>' + tgLabel(tg) + '</strong><br><span style="color:var(--ink-2)">' + kw.career + '</span><br><span style="color:var(--ink-3);font-size:0.88rem">' + kw.life + '</span>';
         }).join('<hr style="border:none;border-top:1px solid var(--line-light);margin:0.4rem 0">');
         html += '</span></div>';
+        html += '<div id="' + cardId + '" class="info-item" style="margin-top:0.6rem;border-top:1px solid var(--line-light);padding-top:0.6rem">';
+        html += '<p class="ai-loading">' + (isZh() ? '正在解讀您的命盤...' : 'Analyzing your chart...') + '</p>';
         html += '</div>';
+        html += '</div>';
+
+        // Fetch AI shishen analysis
+        var chartPayload = { dayMaster: rt['ctg'][2], gender: rt['xb'], wxCount: rt['nwx'], pillars: [] };
+        for (var p = 0; p < 4; p++) {
+            chartPayload.pillars.push({ stem: rt['ctg'][p], branch: rt['ctb'][p] });
+        }
+        fetchAnalysis('shishen', chartPayload, null, null, topGodsData)
+            .then(function(result) {
+                var card = document.getElementById(cardId);
+                if (!card || !result) return;
+                var items = [];
+                var labels = isZh()
+                    ? { personality: '核心性格', career: '事業方向', love: '感情特點', wealth: '財運模式', health: '健康提醒', summary: '命盤總結' }
+                    : { personality: 'Core Personality', career: 'Career Direction', love: 'Relationships', wealth: 'Wealth Pattern', health: 'Health Watch', summary: 'Key Advice' };
+                var fields = ['personality', 'career', 'love', 'wealth', 'health', 'summary'];
+                for (var i = 0; i < fields.length; i++) {
+                    var f = fields[i];
+                    if (result[f]) {
+                        items.push('<span class="info-label">' + labels[f] + '</span><span class="info-value" style="color:var(--ink-2);font-size:0.88rem">' + result[f] + '</span>');
+                    }
+                }
+                card.innerHTML = items.join('');
+            })
+            .catch(function(err) {
+                var card = document.getElementById(cardId);
+                if (card) card.innerHTML = '';
+            });
+
         return html;
     }
 
