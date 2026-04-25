@@ -32,16 +32,16 @@
 
     // ==================== TEN GODS ENGINE ====================
     var TG_NAMES = {
-        '比肩': { cn: '比肩', en: 'Friend', simple: 'Peers & Competition', desc: 'Represents your friends, colleagues, and competition in the same field.' },
-        '劫财': { cn: '劫财', en: 'Rob Wealth', simple: 'Financial Leaks', desc: 'Unnecessary spending, money taken by others, or resource competition.' },
-        '食神': { cn: '食神', en: 'Eating God', simple: 'Talent & Enjoyment', desc: 'Represents natural talent, creativity, enjoyment of life, and artistic expression.' },
-        '伤官': { cn: '伤官', en: 'Hurting Officer', simple: 'Brilliance & Rebellion', desc: 'Represents sharp intelligence, innovation, and the drive to challenge conventions.' },
-        '偏财': { cn: '偏财', en: 'Indirect Wealth', simple: 'Unexpected Income', desc: 'Represents investment, side hustles, and creative gains — not salary income.' },
-        '正财': { cn: '正财', en: 'Direct Wealth', simple: 'Steady Income', desc: 'Represents your salary, main income, and stable finances.' },
-        '七杀': { cn: '七杀', en: 'Seven Killings', simple: 'Challenge & Drive', desc: 'Represents pressure, ambition, and boldness — can empower or create conflict.' },
-        '正官': { cn: '正官', en: 'Direct Officer', simple: 'Career & Reputation', desc: 'Represents your work, social status, responsibility, and rules.' },
-        '偏印': { cn: '偏印', en: 'Indirect Resource', simple: 'Intuition & Insight', desc: 'Represents inspiration, metaphysical talent, and unorthodox learning.' },
-        '正印': { cn: '正印', en: 'Direct Resource', simple: 'Knowledge & Support', desc: 'Represents education, mentors, and the protection of elders and benefactors.' }
+        '比肩': { cn: '比肩', en: 'Friend', simple: 'Peers & Competition', desc: 'Represents your friends, colleagues, and competition in the same field.', simpleZh: '同儕與競爭', descZh: '代表你的朋友、同事和同領域的競爭對手。' },
+        '劫财': { cn: '劫财', en: 'Rob Wealth', simple: 'Financial Leaks', desc: 'Unnecessary spending, money taken by others, or resource competition.', simpleZh: '財務流失', descZh: '不必要的開支、被他人奪取的資源，或資源競爭。' },
+        '食神': { cn: '食神', en: 'Eating God', simple: 'Talent & Enjoyment', desc: 'Represents natural talent, creativity, enjoyment of life, and artistic expression.', simpleZh: '才華與享受', descZh: '代表天賦才華、創造力、生活情趣和藝術表現。' },
+        '伤官': { cn: '伤官', en: 'Hurting Officer', simple: 'Brilliance & Rebellion', desc: 'Represents sharp intelligence, innovation, and the drive to challenge conventions.', simpleZh: '才華與叛逆', descZh: '代表敏銳的智慧、創新精神，以及挑戰常規的動力。' },
+        '偏财': { cn: '偏财', en: 'Indirect Wealth', simple: 'Unexpected Income', desc: 'Represents investment, side hustles, and creative gains — not salary income.', simpleZh: '意外收入', descZh: '代表投資、副業和創意收益——非薪資收入。' },
+        '正财': { cn: '正财', en: 'Direct Wealth', simple: 'Steady Income', desc: 'Represents your salary, main income, and stable finances.', simpleZh: '穩定收入', descZh: '代表你的薪資、主要收入和穩定的財務狀況。' },
+        '七杀': { cn: '七杀', en: 'Seven Killings', simple: 'Challenge & Drive', desc: 'Represents pressure, ambition, and boldness — can empower or create conflict.', simpleZh: '壓力與動力', descZh: '代表壓力、野心和果斷——可以賦予力量，也可能引發衝突。' },
+        '正官': { cn: '正官', en: 'Direct Officer', simple: 'Career & Reputation', desc: 'Represents your work, social status, responsibility, and rules.', simpleZh: '事業與聲望', descZh: '代表你的工作、社會地位、責任和規則。' },
+        '偏印': { cn: '偏印', en: 'Indirect Resource', simple: 'Intuition & Insight', desc: 'Represents inspiration, metaphysical talent, and unorthodox learning.', simpleZh: '直覺與洞察', descZh: '代表靈感、玄學天賦和非傳統學習。' },
+        '正印': { cn: '正印', en: 'Direct Resource', simple: 'Knowledge & Support', desc: 'Represents education, mentors, and the protection of elders and benefactors.', simpleZh: '知識與支持', descZh: '代表教育、導師，以及長輩和貴人的庇護。' }
     };
     // Career/life keywords per ten god (compact lookup)
     var TG_KEYWORDS = {
@@ -88,9 +88,14 @@
     function tgTip(tg) {
         if (!tg) return '';
         var parts = [];
-        if (tg.en) parts.push(tg.en);
-        if (tg.simple) parts.push(tg.simple);
-        if (tg.desc) parts.push(tg.desc);
+        if (isZh()) {
+            if (tg.simpleZh) parts.push(tg.simpleZh);
+            if (tg.descZh) parts.push(tg.descZh);
+        } else {
+            if (tg.en) parts.push(tg.en);
+            if (tg.simple) parts.push(tg.simple);
+            if (tg.desc) parts.push(tg.desc);
+        }
         return parts.join('\n');
     }
 
@@ -874,7 +879,7 @@
                         lyItem.classList.add('ly-active');
                         activeLy = lyItem;
 
-                        lyTitle.textContent = 'Year ' + lyYear;
+                        lyTitle.textContent = (isZh() ? '流年 ' : 'Year ') + lyYear;
                         lyBody.innerHTML = buildLiunianDetail(lyData, dmIdx, dy['zfma'] || '', dy['zfmb'] || '');
                         lyDetail.classList.add('show');
                         lyDetail.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
