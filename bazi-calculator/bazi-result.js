@@ -661,6 +661,7 @@
 
                 dyHTML += '<div class="dayun-card' + (isCurrent ? ' dayun-current' : '') + '" data-dy-index="' + k + '"' + (dyStemTg ? ' data-tip="' + tgTip(dyStemTg).replace(/"/g, '&quot;').replace(/\n/g, ' | ') + '"' : '') + '>';
                 if (isCurrent) dyHTML += '<span class="badge-current">' + (isZh() ? '當前' : 'NOW') + '</span>';
+                dyHTML += '<div class="dayun-ganzhi">' + (dy['zfma'] || '') + (dy['zfmb'] || '') + '</div>';
                 if (dyStemTg) dyHTML += '<div class="dayun-tg">' + tgLabel(dyStemTg) + '</div>';
                 dyHTML += '<div class="dayun-age">' + dy['zqage'] + '–' + dy['zboz'] + '</div>';
                 dyHTML += '<div class="dayun-years">' + dy['syear'] + '–' + dy['eyear'] + '</div>';
@@ -787,6 +788,7 @@
 
                         lyHTML += '<div class="ly-card' + (isCurrentYear ? ' ly-current' : '') + '" data-ly-index="' + lyIdx + '" data-ly-year="' + lyYear + '"' + (lyTg ? ' data-tip="' + tgTip(lyTg).replace(/"/g, '&quot;').replace(/\n/g, ' | ') + '"' : '') + '>';
                         if (isCurrentYear) lyHTML += '<span class="badge-now">' + (isZh() ? '當前' : 'NOW') + '</span>';
+                        lyHTML += '<div class="ly-ganzhi">' + lyGanZhi + '</div>';
                         if (lyTg) lyHTML += '<div class="ly-tg">' + tgLabel(lyTg) + '</div>';
                         lyHTML += '<div class="ly-year">' + lyYear + '</div>';
                         lyHTML += '</div>';
