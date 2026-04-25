@@ -451,8 +451,11 @@
                 var bzIdx = 3 * p + j;
                 if (rt['bzcg'] && rt['bzcg'][bzIdx] && rt['bzcg'][bzIdx] !== '') {
                     var bzName = rt['bzcg'][bzIdx];
-                    var bzFull = TG_INDEX[['印','卩','比','劫','伤','食','财','才','官','杀'].indexOf(bzName)];
-                    if (bzFull) tgCount[bzFull] = (tgCount[bzFull] || 0) + 1;
+                    var bzIdx2 = ['印','卩','比','劫','伤','食','财','才','官','杀'].indexOf(bzName);
+                    if (bzIdx2 >= 0) {
+                        var bzFull = TG_INDEX[bzIdx2];
+                        if (bzFull) tgCount[bzFull] = (tgCount[bzFull] || 0) + 1;
+                    }
                 }
             }
         }
@@ -477,31 +480,37 @@
         html += '</div>';
 
         // Fetch AI shishen analysis
-        var chartPayload = { dayMaster: rt['ctg'][2], gender: rt['xb'], wxCount: rt['nwx'], pillars: [] };
-        for (var p = 0; p < 4; p++) {
-            chartPayload.pillars.push({ stem: rt['ctg'][p], branch: rt['ctb'][p] });
-        }
-        fetchAnalysis('shishen', chartPayload, null, null, topGodsData)
-            .then(function(result) {
-                var card = document.getElementById(cardId);
-                if (!card || !result) return;
-                var items = [];
-                var labels = isZh()
-                    ? { personality: '核心性格', career: '事業方向', love: '感情特點', wealth: '財運模式', health: '健康提醒', summary: '命盤總結' }
-                    : { personality: 'Core Personality', career: 'Career Direction', love: 'Relationships', wealth: 'Wealth Pattern', health: 'Health Watch', summary: 'Key Advice' };
-                var fields = ['personality', 'career', 'love', 'wealth', 'health', 'summary'];
-                for (var i = 0; i < fields.length; i++) {
-                    var f = fields[i];
-                    if (result[f]) {
-                        items.push('<span class="info-label">' + labels[f] + '</span><span class="info-value" style="color:var(--ink-2);font-size:0.88rem">' + result[f] + '</span>');
+        try {
+            var chartPayload = { dayMaster: (rt['ctg'] || [])[2] || '', gender: rt['xb'], wxCount: rt['nwx'], pillars: [] };
+            var ctg = rt['ctg'] || [];
+            var cdz = rt['cdz'] || [];
+            for (var p = 0; p < 4; p++) {
+                chartPayload.pillars.push({ stem: ctg[p] || '', branch: cdz[p] || '' });
+            }
+            fetchAnalysis('shishen', chartPayload, null, null, topGodsData)
+                .then(function(result) {
+                    var card = document.getElementById(cardId);
+                    if (!card || !result) return;
+                    var items = [];
+                    var labels = isZh()
+                        ? { personality: '核心性格', career: '事業方向', love: '感情特點', wealth: '財運模式', health: '健康提醒', summary: '命盤總結' }
+                        : { personality: 'Core Personality', career: 'Career Direction', love: 'Relationships', wealth: 'Wealth Pattern', health: 'Health Watch', summary: 'Key Advice' };
+                    var fields = ['personality', 'career', 'love', 'wealth', 'health', 'summary'];
+                    for (var i = 0; i < fields.length; i++) {
+                        var f = fields[i];
+                        if (result[f]) {
+                            items.push('<span class="info-label">' + labels[f] + '</span><span class="info-value" style="color:var(--ink-2);font-size:0.88rem">' + result[f] + '</span>');
+                        }
                     }
-                }
-                card.innerHTML = items.join('');
-            })
-            .catch(function(err) {
-                var card = document.getElementById(cardId);
-                if (card) card.innerHTML = '';
-            });
+                    card.innerHTML = items.join('');
+                })
+                .catch(function(err) {
+                    var card = document.getElementById(cardId);
+                    if (card) card.innerHTML = '';
+                });
+        } catch (aiErr) {
+            console.warn('Shishen AI skipped:', aiErr);
+        }
 
         return html;
     }
