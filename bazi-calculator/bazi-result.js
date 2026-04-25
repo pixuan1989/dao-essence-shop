@@ -7,9 +7,21 @@
     'use strict';
 
     // ==================== i18n HELPER ====================
+    // Fallback EN strings for sidebar keys (no data-i18n, need manual fallback)
+    var EN_STRINGS = {
+        'bazi_result.sidebar_element_badge': '✦ Your Element Profile',
+        'bazi_result.sidebar_element_title': 'Discover Your Core Strengths',
+        'bazi_result.sidebar_element_desc': 'Combine your chart with a personality quiz to reveal your elemental gifts.',
+        'bazi_result.sidebar_element_cta': 'Take the 2-Min Quiz →',
+        'bazi_result.sidebar_load_error': 'Failed to load articles.',
+        'bazi_result.sidebar_min_read': ' min read'
+    };
     function t(key) {
-        if (window.DaoI18n && window.DaoI18n.t) return window.DaoI18n.t(key);
-        return key;
+        if (window.DaoI18n && window.DaoI18n.t) {
+            var val = window.DaoI18n.t(key);
+            return (val !== key) ? val : (EN_STRINGS[key] || key);
+        }
+        return EN_STRINGS[key] || key;
     }
     var isZh = function() { return window.DaoI18n && window.DaoI18n.current() === 'zh'; };
 
