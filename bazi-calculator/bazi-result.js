@@ -9,9 +9,9 @@
     // ==================== i18n HELPER ====================
     // Fallback EN strings for sidebar keys (no data-i18n, need manual fallback)
     var EN_STRINGS = {
-        'bazi_result.sidebar_element_badge': '✦ Your Element Profile',
-        'bazi_result.sidebar_element_title': 'Discover Your Core Strengths',
-        'bazi_result.sidebar_element_desc': 'Combine your chart with a personality quiz to reveal your elemental gifts.',
+        'bazi_result.sidebar_element_badge': '✦ 5-Element Personality Quiz',
+        'bazi_result.sidebar_element_title': 'Which Element Is Your Personality?',
+        'bazi_result.sidebar_element_desc': 'Your BaZi chart + 5 quick questions reveal your dominant element and the unique strengths that come with it.',
         'bazi_result.sidebar_element_cta': 'Take the 2-Min Quiz →',
         'bazi_result.sidebar_load_error': 'Failed to load articles.',
         'bazi_result.sidebar_min_read': ' min read'
