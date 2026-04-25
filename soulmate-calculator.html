@@ -1901,9 +1901,14 @@
                 '<span class="sc-direction-tag primary">' + dir + '</span>' +
             '</div>' +
             '<p style="color:var(--text-secondary);font-size:0.9rem;margin-top:0.8rem;">' +
-            dirLogic + ' ' + t('sc.dir_from_birthplace') +
-            (birthplace ? ' (' + birthplace + ')' : '') + ', ' + t('sc.dir_head') + ' <strong>' + dir + '</strong>. ' +
-            t('sc.dir_look_for') + ' ' + env + '.' +
+            dirLogic +
+            (birthplace
+                ? (isZh ? ' (' + birthplace + ')' : ' (' + birthplace + ')')
+                : '') +
+            '<br/>' +
+            (isZh
+                ? '這些地點容易尋找愛情：' + env + '。'
+                : 'Great places to find love: ' + env + '.') +
             '</p>';
 
         // Timing card — 12-condition scoring for next 5 years
