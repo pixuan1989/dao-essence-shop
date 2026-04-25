@@ -1878,9 +1878,9 @@
         var spouseElemEn = dirResult.soulmateElement;
         var spouseElemDisplay = isZh ? _0x.elementsZh[_0x.elemIdx[spouseElemEn] || 0] : spouseElemEn;
 
-        var dirLogic = (gender === 'male')
-            ? t('sc.dir_logic_male_prefix') + ' ' + dayElemDisplay + ' ' + t('sc.dir_logic_day_master') + ', ' + t('sc.dir_logic_male_attract') + ' ' + spouseElemDisplay + ' ' + t('sc.dir_logic_partner') + ' (' + t('sc.dir_logic_conquer') + '). ' + spouseElemDisplay + ' ' + t('sc.dir_logic_resides') + ' <strong style="color:var(--gold)">' + dirResult.directions.join(' / ') + '</strong>.'
-            : t('sc.dir_logic_female_prefix') + ' ' + dayElemDisplay + ' ' + t('sc.dir_logic_day_master') + ', ' + t('sc.dir_logic_female_partner') + ' ' + spouseElemDisplay + ' ' + t('sc.dir_logic_energy') + ' (' + t('sc.dir_logic_conquer_you') + '). ' + spouseElemDisplay + ' ' + t('sc.dir_logic_resides') + ' <strong style="color:var(--gold)">' + dirResult.directions.join(' / ') + '</strong>.';
+        var dirLogic = isZh
+            ? '你是' + dayElemDisplay + '日主，你的靈魂伴侶位於你出生地的<strong style="color:var(--gold)">' + dirResult.directions.join(' / ') + '</strong>。'
+            : 'As a <strong>' + dayElemEn + '</strong> Day Master, your soulmate is located in the <strong style="color:var(--gold)">' + dirResult.directions.join(' / ') + '</strong> from your birthplace.';
 
         // Header
         document.getElementById('sc-result-name').textContent = pp.ctg[2] + pp.cdz[2] + ' ' + pp.sx;
