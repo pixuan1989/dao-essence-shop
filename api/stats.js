@@ -203,9 +203,24 @@ async function handleQuery(req, res) {
         const totalPayIntents = Object.values(payIntents).reduce((a, b) => a + b, 0);
 
         let totalCheckouts = 0;
+        let totalRevenue = 0;
         try {
-            const intentIds = await redisGet('checkout_intent_ids') || [];
-            totalCheckouts = intentIds.length;
+            // Count completed paid orders (from Creem webhooks)
+            const baziIds = await redisGet('bazi_order_ids') || [];
+            const almanacIds = await redisGet('almanac_order_ids') || [];
+            const shopIds = await redisGet('shop_order_ids') || [];
+            totalCheckouts = baziIds.length + almanacIds.length + shopIds.length;
+
+            // Sum revenue
+            for (const key of baziIds) {
+                try { const o = await redisGet('bazi_order:' + key); if (o && o.amount) totalRevenue += o.amount; } catch(e) {}
+            }
+            for (const key of almanacIds) {
+                try { const o = await redisGet('almanac_order:' + key); if (o && o.amount) totalRevenue += o.amount; } catch(e) {}
+            }
+            for (const key of shopIds) {
+                try { const o = await redisGet('shop_order:' + key); if (o && o.amount) totalRevenue += o.amount; } catch(e) {}
+            }
         } catch (e) { /* ignore */ }
 
         return res.status(200).json({
@@ -215,6 +230,7 @@ async function handleQuery(req, res) {
             tool_submissions_total: totalToolSubs,
             pay_intents_total: totalPayIntents,
             total_checkouts: totalCheckouts,
+            total_revenue: Math.round(totalRevenue * 100) / 100,
             page_views_by_page: sortEntries(pageViews),
             tool_submissions_by_tool: sortEntries(toolSubs),
             tool_results_by_tool: sortEntries(toolResults),

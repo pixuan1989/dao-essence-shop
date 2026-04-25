@@ -516,6 +516,7 @@
             var totalSubs = d.tool_submissions_total || 0;
             var totalPay = d.pay_intents_total || 0;
             var totalCheckouts = d.total_checkouts || 0;
+            var totalRevenue = d.total_revenue || 0;
             var conversionRate = totalPV > 0 ? ((totalSubs / totalPV) * 100).toFixed(1) : '0.0';
 
             var html = '';
@@ -525,7 +526,7 @@
             html += kpiCard('Page Views', formatNum(totalPV), d.total_days + ' days tracked');
             html += kpiCard('Tool Uses', formatNum(totalSubs), 'from ' + totalPV + ' page views (' + conversionRate + '%)');
             html += kpiCard('Pay Intents', formatNum(totalPay), totalPay > 0 ? 'avg ' + (totalPV / totalPay).toFixed(0) + ' views per intent' : 'no payment intents yet');
-            html += kpiCard('Checkouts', formatNum(totalCheckouts), totalPay > 0 ? ((totalCheckouts / totalPay) * 100).toFixed(1) + '% completion rate' : 'Creem checkouts');
+            html += kpiCard('Completed Orders', formatNum(totalCheckouts), '$' + totalRevenue.toFixed(2) + ' revenue' + (totalPay > 0 ? ' (' + ((totalCheckouts / totalPay) * 100).toFixed(1) + '% conversion)' : ''));
             html += '</div>';
 
             // Trend + Funnel
