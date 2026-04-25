@@ -467,14 +467,7 @@
         var cardId = 'shishen-ai-' + Date.now();
 
         var html = '<div class="info-card">';
-        html += '<div class="info-item"><span class="info-label">' + t('bazi_result.dominant_influences') + '</span><span class="info-value">';
-        html += top3.map(function(cn) {
-            var tg = TG_NAMES[cn];
-            var kw = tgKw(cn);
-            return '<strong>' + tgLabel(tg) + '</strong><br><span style="color:var(--ink-2)">' + kw.career + '</span><br><span style="color:var(--ink-3);font-size:0.88rem">' + kw.life + '</span>';
-        }).join('<hr style="border:none;border-top:1px solid var(--line-light);margin:0.4rem 0">');
-        html += '</span></div>';
-        html += '<div id="' + cardId + '" class="info-item" style="margin-top:0.6rem;border-top:1px solid var(--line-light);padding-top:0.6rem">';
+        html += '<div id="' + cardId + '" class="info-item">';
         html += '<p class="ai-loading">' + (isZh() ? '正在解讀您的命盤...' : 'Analyzing your chart...') + '</p>';
         html += '</div>';
         html += '</div>';
