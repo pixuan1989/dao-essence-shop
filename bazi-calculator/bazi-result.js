@@ -776,9 +776,6 @@
             // Da Yun
             dyHTML +
 
-            // Health
-            buildHealthSection(nwx, dmIdx, rt) +
-
             // CTA — Premium conversion
             '<section class="cta-box"><div class="cta-box-inner">' +
                 '<div class="cta-badge">' + t('bazi_result.cta_badge') + '</div>' +
