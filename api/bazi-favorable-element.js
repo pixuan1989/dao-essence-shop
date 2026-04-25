@@ -7,7 +7,7 @@
  */
 
 const DASHSCOPE_API_KEY = process.env.DASHSCOPE_API_KEY;
-const DASHSCOPE_MODEL = 'qwen-turbo';
+const DASHSCOPE_MODEL = 'qwen-plus';
 
 // 天干五行
 const STEM_WX = {'甲':'Wood','乙':'Wood','丙':'Fire','丁':'Fire','戊':'Earth','己':'Earth','庚':'Metal','辛':'Metal','壬':'Water','癸':'Water'};
