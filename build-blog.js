@@ -1196,6 +1196,7 @@ function generateCategoryHtml(category, articles, options = {}) {
   const isZh = options.lang === 'zh-Hant';
   const lang = isZh ? 'zh-Hant' : 'en';
   const langPrefix = isZh ? '/zh' : '';
+  const isZodiacPage = category === 'zodiac-horoscope';
   const label = isZh
     ? (CATEGORY_LABELS_ZH[category] || CATEGORY_LABELS[category] || category)
     : (CATEGORY_LABELS[category] || category);
@@ -1248,6 +1249,41 @@ function generateCategoryHtml(category, articles, options = {}) {
     <link rel="stylesheet" href="/styles.min.css?v=${CSS_VERSION}">
     <script src="/main.min.js?v=${CSS_VERSION}" defer></script>
     <style>
+        ${isZodiacPage ? `
+        .blog-layout { display: flex; max-width: 1200px; margin: 0 auto; padding: 5rem 1.5rem; gap: 2.5rem; }
+        .blog-content { flex: 1; min-width: 0; }
+        .blog-sidebar { width: 320px; flex-shrink: 0; position: sticky; top: 100px; align-self: flex-start; max-height: calc(100vh - 120px); overflow-y: auto; }
+        .blog-sidebar::-webkit-scrollbar { width: 4px; }
+        .blog-sidebar::-webkit-scrollbar-thumb { background: rgba(212,175,55,0.3); border-radius: 2px; }
+        @media (max-width: 900px) {
+            .blog-layout { flex-direction: column; padding: 6rem 1.5rem; }
+            .blog-sidebar { width: 100%; position: relative; top: auto; max-height: none; }
+        }
+        .blog-category-header { margin-bottom: 2rem; }
+        .blog-category-header h1 { font-family: var(--font-display); font-size: clamp(1.8rem, 4vw, 2.6rem); color: var(--accent-color); letter-spacing: 0.08em; margin-bottom: 0.5rem; }
+        .blog-category-header p { color: var(--text-secondary); font-size: 1.05rem; line-height: 1.7; }
+        .blog-category-breadcrumb { font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1.5rem; }
+        .blog-category-breadcrumb a { color: var(--accent-color); text-decoration: none; }
+        .blog-category-breadcrumb a:hover { text-decoration: underline; }
+        .blog-card-list { display: flex; flex-direction: column; gap: 1.5rem; }
+        .blog-card { display: flex; flex-direction: row; background: rgba(212,175,55,0.03); border: 1px solid rgba(212,175,55,0.1); border-radius: 12px; text-decoration: none; transition: all 0.3s ease; overflow: hidden; }
+        .blog-card:hover { background: rgba(212,175,55,0.06); border-color: rgba(212,175,55,0.25); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,0,0,0.15); }
+        .blog-card-image { width: 240px; min-width: 240px; aspect-ratio: 1.9 / 1; overflow: hidden; background: var(--bg-dark); }
+        .blog-card-image img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s; }
+        .blog-card:hover .blog-card-image img { transform: scale(1.05); }
+        .blog-card-body { flex: 1; padding: 1.5rem 2rem; display: flex; flex-direction: column; justify-content: center; }
+        .blog-card h2 { font-family: var(--font-display); font-size: 1.3rem; color: #1A1612; letter-spacing: 0.05em; margin-bottom: 0.6rem; transition: color 0.3s; }
+        .blog-card:hover h2 { color: #1A1612; }
+        .blog-card p { color: #555; font-size: 0.95rem; line-height: 1.7; margin-bottom: 1rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .blog-card-meta { display: flex; gap: 1rem; font-size: 0.82rem; color: #888; opacity: 0.7; }
+        .blog-card-meta span { display: flex; align-items: center; gap: 0.3rem; }
+        @media (max-width: 640px) {
+            .blog-card { flex-direction: column; }
+            .blog-card-image { width: 100%; min-width: unset; }
+        }
+        .blog-back-link { display: inline-flex; align-items: center; gap: 0.5rem; color: var(--accent-color); text-decoration: none; font-size: 0.9rem; margin-bottom: 2rem; opacity: 0.8; transition: opacity 0.3s; }
+        .blog-back-link:hover { opacity: 1; text-decoration: underline; }
+        ` : `
         .blog-category { max-width: 900px; margin: 0 auto; padding: 5rem 5% 4rem; }
         .blog-category-header { margin-bottom: 3rem; }
         .blog-category-header h1 { font-family: var(--font-display); font-size: clamp(1.8rem, 4vw, 2.6rem); color: var(--accent-color); letter-spacing: 0.08em; margin-bottom: 0.5rem; }
@@ -1273,11 +1309,32 @@ function generateCategoryHtml(category, articles, options = {}) {
         }
         .blog-back-link { display: inline-flex; align-items: center; gap: 0.5rem; color: var(--accent-color); text-decoration: none; font-size: 0.9rem; margin-bottom: 2rem; opacity: 0.8; transition: opacity 0.3s; }
         .blog-back-link:hover { opacity: 1; text-decoration: underline; }
+        `}
     </style>
 </head>
 <body>
 ${NAV_HTML}
 
+    ${isZodiacPage ? `
+    <div class="blog-layout">
+        <div class="blog-content">
+        <a href="${langPrefix}/blog/" class="blog-back-link">${isZh ? '← 返回部落格' : '← Back to Blog'}</a>
+        <div class="blog-category-header">
+            <p class="blog-category-breadcrumb"><a href="/">${isZh ? '首頁' : 'Home'}</a> / <a href="${langPrefix}/blog/">Blog</a> / ${label}</p>
+            <h1>${label}</h1>
+            <p>${isZh ? `DaoEssence 的${label}文章與指南。` : `Articles and guides on ${label} by DAO Essence.`}</p>
+        </div>
+
+        <div class="blog-card-list">
+${cardHtml}
+        </div>
+        </div>
+
+        <aside class="blog-sidebar">
+        ${ZODIAC_LOOKUP_HTML}
+        </aside>
+    </div>
+    ` : `
     <main class="blog-category">
         <a href="${langPrefix}/blog/" class="blog-back-link">${isZh ? '← 返回部落格' : '← Back to Blog'}</a>
         <div class="blog-category-header">
@@ -1290,6 +1347,7 @@ ${NAV_HTML}
 ${cardHtml}
         </div>
     </main>
+    `}
 
 ${FOOTER_HTML}
 
@@ -1307,6 +1365,7 @@ ${FOOTER_HTML}
         </div>
     </div>
     <script src="/js/tracking.js"></script>
+    ${isZodiacPage ? '<script src="/bazi-calculator/paipan.min.js"></script>' : ''}
     <script src="/js/i18n-switcher.js" defer></script>
 </body>
 </html>`;
