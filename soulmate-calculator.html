@@ -1366,23 +1366,24 @@
             daySel.appendChild(opt);
         }
         var shiChen = [
-            { label: 'Zi (23:00-01:00)', value: 0 },
-            { label: 'Chou (01:00-03:00)', value: 1 },
-            { label: 'Yin (03:00-05:00)', value: 2 },
-            { label: 'Mao (05:00-07:00)', value: 3 },
-            { label: 'Chen (07:00-09:00)', value: 4 },
-            { label: 'Si (09:00-11:00)', value: 5 },
-            { label: 'Wu (11:00-13:00)', value: 6 },
-            { label: 'Wei (13:00-15:00)', value: 7 },
-            { label: 'Shen (15:00-17:00)', value: 8 },
-            { label: 'You (17:00-19:00)', value: 9 },
-            { label: 'Xu (19:00-21:00)', value: 10 },
-            { label: 'Hai (21:00-23:00)', value: 11 }
+            { en: 'Zi (23:00-01:00)', zh: '子時 (23:00-01:00)', value: 0 },
+            { en: 'Chou (01:00-03:00)', zh: '丑時 (01:00-03:00)', value: 1 },
+            { en: 'Yin (03:00-05:00)', zh: '寅時 (03:00-05:00)', value: 2 },
+            { en: 'Mao (05:00-07:00)', zh: '卯時 (05:00-07:00)', value: 3 },
+            { en: 'Chen (07:00-09:00)', zh: '辰時 (07:00-09:00)', value: 4 },
+            { en: 'Si (09:00-11:00)', zh: '巳時 (09:00-11:00)', value: 5 },
+            { en: 'Wu (11:00-13:00)', zh: '午時 (11:00-13:00)', value: 6 },
+            { en: 'Wei (13:00-15:00)', zh: '未時 (13:00-15:00)', value: 7 },
+            { en: 'Shen (15:00-17:00)', zh: '申時 (15:00-17:00)', value: 8 },
+            { en: 'You (17:00-19:00)', zh: '酉時 (17:00-19:00)', value: 9 },
+            { en: 'Xu (19:00-21:00)', zh: '戌時 (19:00-21:00)', value: 10 },
+            { en: 'Hai (21:00-23:00)', zh: '亥時 (21:00-23:00)', value: 11 }
         ];
+        var _isZhInit = window.DaoI18n && window.DaoI18n.current() === 'zh';
         for (var i = 0; i < shiChen.length; i++) {
             var s = shiChen[i];
             var opt = document.createElement('option');
-            opt.value = s.value; opt.textContent = s.label;
+            opt.value = s.value; opt.textContent = _isZhInit ? s.zh : s.en;
             hourSel.appendChild(opt);
         }
     })();
@@ -1500,7 +1501,8 @@
                     }
                 }
             }
-            var dirs = (typeof isZh === 'function' && isZh())
+            var _isZhMode = window.DaoI18n && window.DaoI18n.current() === 'zh';
+            var dirs = _isZhMode
                 ? (elementDirectionMapZh[soulmateElem] || ['未知'])
                 : (elementDirectionMap[soulmateElem] || ['Unknown']);
             return {
