@@ -15,6 +15,11 @@
   ],
   "redirects": [
     {
+      "source": "/(.+)\\.html",
+      "destination": "/$1",
+      "permanent": true
+    },
+    {
       "source": "/(.*)",
       "destination": "https://www.daoessentia.com/$1",
       "permanent": true,
