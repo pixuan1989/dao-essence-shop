@@ -171,7 +171,7 @@ export default async function handler(req, res) {
                 id: orderId,
                 orderId: orderId,
                 checkoutId: result.id || '',
-                productName: 'BaZi Reading',
+                productName: 'BaZi Life Guidance',
                 productId: product_id,
                 amount: 0,
                 name: name || '',

@@ -24,8 +24,8 @@ const PRODUCT_ZH_MAP_PATH = path.join(ROOT_DIR, 'i18n', 'product-zh-map.json');
 
 // Hidden product IDs (tool unlocks, not shown in /shop)
 const HIDDEN_PRODUCT_IDS = new Set([
-  'prod_3fJInBNekM9UVJwtClgUtx',  // Almanac Full Access ($2.99)
-  'prod_2wj3G9PQp6ZlbD8oFJdr2X',  // Soulmate Timing Unlock ($2.99)
+  'prod_3fJInBNekM9UVJwtClgUtx',  // Auspicious Date Unlock ($2.99)
+  'prod_2wj3G9PQp6ZlbD8oFJdr2X',  // Soulmate Direction Unlock ($2.99)
 ]);
 
 const DASHSCOPE_MODEL = 'qwen-plus';

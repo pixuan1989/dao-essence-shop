@@ -30,8 +30,8 @@ const CACHE_CONFIG = {
  * 这些产品通过特定页面直接链接到 checkout，不在 /shop 展示
  */
 const HIDDEN_PRODUCT_IDS = [
-  'prod_3fJInBNekM9UVJwtClgUtx',  // Almanac Full Access ($2.99)
-  'prod_2wj3G9PQp6ZlbD8oFJdr2X',  // Soulmate Timing Unlock ($2.99)
+  'prod_3fJInBNekM9UVJwtClgUtx',  // Auspicious Date Unlock ($2.99)
+  'prod_2wj3G9PQp6ZlbD8oFJdr2X',  // Soulmate Direction Unlock ($2.99)
 ];
 
 /**

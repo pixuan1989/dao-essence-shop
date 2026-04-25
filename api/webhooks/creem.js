@@ -158,7 +158,9 @@ export default async function handler(req, res) {
                     // 非八字订单：判断商城/黄历，分别写入 Redis
                     const isAlmanac = product.id === ALMANAC_PRODUCT_ID ||
                                       product.name?.toLowerCase().includes('almanac') ||
-                                      product.name?.includes('黄历');
+                                      product.name?.toLowerCase().includes('auspicious date') ||
+                                      product.name?.includes('黄历') ||
+                                      product.name?.includes('择日');
 
                     const orderType = isAlmanac ? 'almanac' : 'shop';
                     const orderKey = `${orderType}_order:${checkout.id}`;
