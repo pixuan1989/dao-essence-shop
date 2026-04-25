@@ -254,7 +254,7 @@
 
         var loadingHTML = '<div class="detail-card" style="margin-bottom:0.5rem">';
         loadingHTML += '<div class="detail-card-header">' + t('bazi_result.dayun_overview') + '</div>';
-        loadingHTML += '<div class="detail-card-body"><p class="ai-loading">' + (isZh() ? 'AI 分析中...' : 'Analyzing...') + '</p></div></div>';
+        loadingHTML += '<div class="detail-card-body"><p class="ai-loading">' + (isZh() ? '正在解讀您的命盤...' : 'Analyzing your chart...') + '</p></div></div>';
 
         var dayunData = {
             gan: dyGan, zhi: dyZhi,
@@ -311,7 +311,7 @@
 
         var loadingHTML = '<div class="detail-card" style="margin-bottom:0.5rem">';
         loadingHTML += '<div class="detail-card-header">' + t('bazi_result.liunian_year_overview') + '</div>';
-        loadingHTML += '<div class="detail-card-body"><p class="ai-loading">' + (isZh() ? 'AI 分析中...' : 'Analyzing...') + '</p></div></div>';
+        loadingHTML += '<div class="detail-card-body"><p class="ai-loading">' + (isZh() ? '正在解讀您的命盤...' : 'Analyzing your chart...') + '</p></div></div>';
 
         var dayunData = { gan: dyGan, zhi: dyZhi };
         var liunianData = { gan: lyGan, zhi: lyZhi, year: ly['year'] || 0 };
