@@ -18,6 +18,7 @@
     var ENDPOINT = '/api/stats';
     var queue = [];
     var sending = false;
+    var SKIP_KEY = 'daotrack_skip';
 
     // Deduplicate: only track page_view once per page load
     var _trackedPages = {};
@@ -26,7 +27,14 @@
     // Rate limit: max 1 event per type per 3 seconds
     var _lastSent = {};
 
+    function isSkipped() {
+        try { return localStorage.getItem(SKIP_KEY) === '1'; } catch(e) { return false; }
+    }
+
     function send(event, data) {
+        // Skip if user opted out
+        if (isSkipped()) return;
+
         // Rate limit check
         var now = Date.now();
         var rateKey = event + ':' + (data.tool || data.page || data.source || '');
@@ -154,7 +162,10 @@
         toolRetry: toolRetry,
         payIntent: payIntent,
         ctaClick: ctaClick,
-        getAgeRange: getAgeRange
+        getAgeRange: getAgeRange,
+        isSkipped: isSkipped,
+        skip: function() { try { localStorage.setItem(SKIP_KEY, '1'); } catch(e) {} },
+        unskip: function() { try { localStorage.removeItem(SKIP_KEY); } catch(e) {} }
     };
 
     // ===== Auto pageView on load =====
