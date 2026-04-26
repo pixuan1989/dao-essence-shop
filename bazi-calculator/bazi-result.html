@@ -101,8 +101,8 @@
            PAGE — Two-column layout
            ============================ */
         .bazi-page { max-width: 1140px; margin: 0 auto; padding: 1.5rem 1.5rem 3rem; display: grid; grid-template-columns: 1fr 300px; gap: 2.5rem; align-items: start; }
-        .bazi-main { min-width: 0; }
-        .bazi-sidebar { position: sticky; top: 56px; max-height: calc(100vh - 72px); overflow-y: auto; }
+        .bazi-main { min-width: 0; overflow: hidden; }
+        .bazi-sidebar { position: sticky; top: 56px; max-height: calc(100vh - 72px); overflow-y: auto; width: 300px; flex-shrink: 0; }
 
         /* Sidebar recommended articles */
         .sidebar-title {
@@ -156,7 +156,7 @@
         /* ============================
            SECTION
            ============================ */
-        .bazi-main .section { margin-bottom: 1.5rem; padding: 0; }
+        .bazi-main .section { margin-bottom: 1.5rem; padding: 0; min-width: 0; overflow: hidden; }
         .section-title {
             font-family: var(--serif); font-size: 1rem; color: var(--ink);
             letter-spacing: 0.03em; margin-bottom: 0.6rem;
@@ -167,20 +167,21 @@
         /* ============================
            MAIN GRID (Pillars + Elements)
            ============================ */
-        .main-grid { display: grid; grid-template-columns: 3fr 2fr; gap: 1.2rem; margin-bottom: 1.5rem; }
+        .main-grid { display: grid; grid-template-columns: 3fr 2fr; gap: 1.2rem; margin-bottom: 1.5rem; min-width: 0; }
+        .main-grid .section { min-width: 0; overflow: hidden; }
 
         /* ============================
            FOUR PILLARS
            ============================ */
-        .pillars-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem; }
+        .pillars-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem; min-width: 0; overflow-wrap: break-word; }
         .pillar {
             text-align: center; background: var(--card); border: 1px solid var(--line);
-            border-radius: var(--radius); padding: 0.5rem 0.3rem;
+            border-radius: var(--radius); padding: 0.5rem 0.3rem; min-width: 0; overflow: hidden;
         }
         .pillar-label { font-size: 0.72rem; color: var(--ink-3); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.25rem; }
         .pillar-stem { padding-bottom: 0.3rem; margin-bottom: 0.2rem; border-bottom: 1px solid var(--line-light); }
         .pillar-branch { padding-top: 0.15rem; }
-        .pillar-char { display: block; font-family: var(--serif), 'SimSun', serif; font-size: 1.3rem; line-height: 1.2; color: var(--ink); }
+        .pillar-char { display: block; font-family: var(--serif), 'SimSun', serif; font-size: 1.3rem; line-height: 1.2; color: var(--ink); overflow-wrap: break-word; word-break: break-all; }
         .pillar-wx { display: block; font-size: 0.72rem; letter-spacing: 0.04em; }
         .pillar-tg {
             display: inline-block; font-size: 0.72rem; color: var(--accent);
@@ -418,9 +419,9 @@
         /* ============================
            RESPONSIVE
            ============================ */
-        @media (max-width: 820px) {
+        @media (max-width: 960px) {
             .bazi-page { grid-template-columns: 1fr; }
-            .bazi-sidebar { position: static; max-height: none; }
+            .bazi-sidebar { position: static; max-height: none; width: 100%; }
         }
         @media (max-width: 640px) {
             .bazi-page { padding: 1.2rem 1rem 2rem; }
