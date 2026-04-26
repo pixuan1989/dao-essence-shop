@@ -107,7 +107,7 @@ function buildDayunPrompt(chart, dayunData, lang) {
             '}';
     }
 
-    return 'You are a professional Chinese BaZi (Four Pillars of Destiny) master with 30 years of experience. Analyze this Major Life Cycle (Da Yun / 大運) period.\n\n' +
+    return 'You are a professional Chinese BaZi (Four Pillars of Destiny) counselor with 30 years of experience, writing for a Western audience unfamiliar with Chinese metaphysics. Analyze this Major Life Cycle (Da Yun / 大運) period.\n\n' +
         '## Birth Chart\n' + chartInfo + '\n\n' +
         '## Da Yun (Major Cycle) Data\n' +
         '- Da Yun Stem: ' + dyGan + ' (Ten God: ' + tgInfo + ')\n' +
@@ -115,16 +115,21 @@ function buildDayunPrompt(chart, dayunData, lang) {
         '- Stem Element: ' + dyWx + ', Branch Element: ' + zhiWx + '\n' +
         '- Age Range: ' + dyAge + ' (' + dyYears + ')\n' +
         '- Twelve Life Stages: ' + nzsc + '\n\n' +
+        '## CRITICAL WRITING RULES\n' +
+        '1. Write in natural, conversational English — like a thoughtful lifestyle article, NOT academic or mystical\n' +
+        '2. NEVER use Chinese pinyin terms (no "Qi", "Yin Yang", "Shen", etc.) — translate everything into plain English\n' +
+        '3. Be specific and grounded — reference the actual chart data\n' +
+        '4. Address the reader directly as "you"\n\n' +
         '## Analysis Requirements\n' +
         '1. Judge the overall fortune of this Da Yun period (Good / Neutral / Challenging)\n' +
-        '2. Analyze the Five Elements interaction between Da Yun stem and Day Master\n' +
+        '2. Explain the Five Elements interaction between Da Yun stem and Day Master in plain language\n' +
         '3. Consider the Da Yun branch influence\n' +
-        '4. Provide specific readings for career, wealth, relationships, and health\n\n' +
+        '4. Provide specific, practical readings for career, wealth, relationships, and health\n\n' +
         '## Output Format (STRICT JSON)\n' +
         'Return ONLY a valid JSON object, no other text:\n' +
         '{\n' +
         '  "verdict": "Good" or "Neutral" or "Challenging",\n' +
-        '  "summary": "2-3 sentences summarizing this cycle\'s fortune. Be specific and grounded in the chart data. Write in plain English for a Western audience.",\n' +
+        '  "summary": "2-3 sentences summarizing this cycle\'s fortune. Be specific and grounded in the chart data. Write in natural English for a Western audience.",\n' +
         '  "career": "One sentence about career prospects, 15-30 words",\n' +
         '  "wealth": "One sentence about financial outlook, 15-30 words",\n' +
         '  "love": "One sentence about relationship prospects, 15-30 words",\n' +
@@ -169,17 +174,23 @@ function buildShishenPrompt(chart, topGods, lang) {
             '}';
     }
 
-    return 'You are a professional Chinese BaZi (Four Pillars of Destiny) master with 30 years of experience. Analyze this person\'s core personality and life path based on their Ten Gods (十神) distribution.\n\n' +
+    return 'You are a professional Chinese BaZi (Four Pillars of Destiny) counselor with 30 years of experience, writing for a Western audience unfamiliar with Chinese metaphysics. Analyze this person\'s core personality and life path based on their Ten Gods (十神) distribution.\n\n' +
         '## Birth Chart\n' + chartInfo + '\n' +
         'Five Elements: ' + wxText + '\n\n' +
         '## Top Ten Gods (by count)\n' + godList + '\n\n' +
+        '## CRITICAL WRITING RULES\n' +
+        '1. Write in natural, conversational English — like a thoughtful lifestyle article, NOT academic or mystical\n' +
+        '2. NEVER use Chinese pinyin terms (no "Qi", "Yin Yang", "Shen", etc.) — translate everything into plain English\n' +
+        '3. Use everyday language: say "inner drive" instead of "internal resource", "social influence" instead of "indirect wealth"\n' +
+        '4. Be specific and grounded — reference the actual chart data, not vague platitudes\n' +
+        '5. Address the reader directly as "you" — make it feel personal, not clinical\n\n' +
         '## Analysis Requirements\n' +
         '1. Synthesize the top 3 Ten Gods into a coherent personality profile (don\'t list them one by one)\n' +
-        '2. Analyze career direction and suitable professions\n' +
-        '3. Analyze relationship patterns and potential challenges\n' +
-        '4. Analyze wealth patterns\n' +
-        '5. Health areas to watch\n' +
-        '6. Give 2-3 sentences of key life advice\n\n' +
+        '2. Suggest career directions and suitable work environments\n' +
+        '3. Describe relationship patterns and what to watch for\n' +
+        '4. Describe their natural approach to money and financial decisions\n' +
+        '5. Highlight health areas worth paying attention to\n' +
+        '6. End with 2-3 sentences of practical, actionable life advice\n\n' +
         '## Output Format (STRICT JSON)\n' +
         'Return ONLY a valid JSON object, no other text:\n' +
         '{\n' +
@@ -232,7 +243,7 @@ function buildLiunianPrompt(chart, dayunData, liunianData, lang) {
             '}';
     }
 
-    return 'You are a professional Chinese BaZi master with 30 years of experience. Analyze this Flow Year (Liu Nian / 流年).\n\n' +
+    return 'You are a professional Chinese BaZi master with 30 years of experience, writing for a Western audience unfamiliar with Chinese metaphysics. Analyze this Flow Year (Liu Nian / 流年).\n\n' +
         '## Birth Chart\n' + chartInfo + '\n\n' +
         '## Da Yun (Major Cycle) Context\n' +
         '- Da Yun: ' + dyGan + dyZhi + ' (Element: ' + dyWx + ')\n\n' +
@@ -241,15 +252,20 @@ function buildLiunianPrompt(chart, dayunData, liunianData, lang) {
         '- Ten God vs Day Master: ' + lyTgInfo + '\n' +
         '- Year Element: Stem ' + lyWx + ', Branch ' + lyZhiWx + '\n' +
         '- Ten God vs Da Yun Stem: ' + (dyLyTg || 'N/A') + '\n\n' +
+        '## CRITICAL WRITING RULES\n' +
+        '1. Write in natural, conversational English — like a thoughtful lifestyle article, NOT academic or mystical\n' +
+        '2. NEVER use Chinese pinyin terms — translate everything into plain English\n' +
+        '3. Be specific and grounded in the chart data\n' +
+        '4. Address the reader directly as "you"\n\n' +
         '## Analysis Requirements\n' +
         '1. Judge the year\'s fortune (Good / Neutral / Challenging)\n' +
-        '2. Analyze the interaction between flow year and both the Day Master and Da Yun\n' +
-        '3. Provide a concise annual outlook\n\n' +
+        '2. Explain the interaction between flow year and both the Day Master and Da Yun in plain language\n' +
+        '3. Provide a concise, practical annual outlook with actionable advice\n\n' +
         '## Output Format (STRICT JSON)\n' +
         'Return ONLY a valid JSON object, no other text:\n' +
         '{\n' +
         '  "verdict": "Good" or "Neutral" or "Challenging",\n' +
-        '  "summary": "2-3 sentences summarizing this year\'s fortune. Be grounded in chart data. Write for a Western audience.",\n' +
+        '  "summary": "2-3 sentences summarizing this year\'s fortune. Be grounded in chart data. Write in natural English for a Western audience.",\n' +
         '  "advice": "One specific actionable piece of advice for this year, 20-40 words"\n' +
         '}';
 }
