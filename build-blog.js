@@ -1104,10 +1104,10 @@ function generateArticleHtml(post, category, allArticles, options = {}) {
     <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${seoTitle(data.title)}</title>
-    <meta name="description" content="${escapeHtml(seoDescription(data.description || ''))}">
+    <meta name="description" content="${escapeHtml(seoDescription(data.seoDescription || data.description || ''))}">
     <meta name="robots" content="index, follow">
     <meta property="og:title" content="${seoTitle(data.title)}">
-    <meta property="og:description" content="${escapeHtml(seoDescription(data.description || ''))}">
+    <meta property="og:description" content="${escapeHtml(seoDescription(data.seoDescription || data.description || ''))}">
     <meta property="og:image" content="${data.image || SITE_URL + '/images/og-default.jpg'}">
     <meta property="og:url" content="${articleUrl}">
     <meta property="og:type" content="article">
@@ -1115,7 +1115,7 @@ function generateArticleHtml(post, category, allArticles, options = {}) {
     <meta property="og:locale" content="${isZh ? 'zh_Hant' : 'en_US'}">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="${seoTitle(data.title)}">
-    <meta name="twitter:description" content="${escapeHtml(seoDescription(data.description || ''))}">
+    <meta name="twitter:description" content="${escapeHtml(seoDescription(data.seoDescription || data.description || ''))}">
     <meta name="twitter:image" content="${data.image || SITE_URL + '/images/og-default.jpg'}">
     <link rel="canonical" href="${canonicalUrl}">
     ${hreflangLinks}
