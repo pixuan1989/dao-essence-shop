@@ -237,6 +237,15 @@ const ARTICLE_STYLES = `
         .blog-article li { margin-bottom: 0.5rem; }
         .blog-article blockquote { border-left: 4px solid var(--accent-color); padding: 1rem 1.5rem; margin: 2rem 0; background: rgba(212,175,55,0.04); border-radius: 0 8px 8px 0; }
         .blog-article blockquote p { margin-bottom: 0; font-style: italic; }
+        .blog-article .faq-section { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid rgba(212,175,55,0.15); }
+        .blog-article .faq-section h2 { font-size: 1.4rem; color: var(--text-primary, #1A1612); margin-bottom: 1.5rem; }
+        .blog-article .faq-item { margin-bottom: 1.5rem; }
+        .blog-article .faq-item summary { font-weight: 600; font-size: 1.05rem; color: var(--text-primary, #1A1612); cursor: pointer; list-style: none; padding: 0.8rem 1rem; border-radius: 8px; background: rgba(212,175,55,0.04); border: 1px solid rgba(212,175,55,0.1); transition: all 0.2s; display: flex; align-items: center; gap: 0.5rem; }
+        .blog-article .faq-item summary::-webkit-details-marker { display: none; }
+        .blog-article .faq-item summary::before { content: '+'; font-size: 1.2rem; color: var(--accent-color, #D4AF37); font-weight: 700; flex-shrink: 0; transition: transform 0.2s; }
+        .blog-article .faq-item[open] summary::before { content: '\\2212'; }
+        .blog-article .faq-item summary:hover { background: rgba(212,175,55,0.08); border-color: rgba(212,175,55,0.2); }
+        .blog-article .faq-item p { margin: 0.8rem 0 0 1rem; color: var(--text-secondary, #555); line-height: 1.7; font-size: 0.97rem; }
         .blog-article table { width: 100%; border-collapse: collapse; margin: 2rem 0; }
         .blog-article th, .blog-article td { border: 1px solid rgba(212,175,55,0.15); padding: 0.8rem 1rem; text-align: left; }
         .blog-article th { background: rgba(212,175,55,0.06); color: var(--accent-color); font-family: var(--font-display); font-size: 0.9rem; letter-spacing: 0.03em; }
@@ -1157,6 +1166,16 @@ ${NAV_HTML}
             </div>
 
             ${finalBody}
+
+            ${data.faq && data.faq.length > 0 ? `
+            <div class="faq-section">
+                <h2>Frequently Asked Questions</h2>
+                ${data.faq.map(q => `
+                <details class="faq-item">
+                    <summary>${escapeHtml(q.question)}</summary>
+                    <p>${escapeHtml(q.answer)}</p>
+                </details>`).join('')}
+            </div>` : ''}
         </article>
 
         ${renderRelatedPosts()}
