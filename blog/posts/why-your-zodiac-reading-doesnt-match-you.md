@@ -17,6 +17,7 @@ author: Xuanzhen
 readTime: 9
 pinned: true
 image: https://raw.githubusercontent.com/pixuan1989/dao-essence-shop/main/images/blog/zodiac-reading-vs-bazi.webp
+imageAlt: Western zodiac wheel beside golden BaZi pillars on dark navy background, illustrating how zodiac reading differs from Chinese BaZi life timing chart
 cta_cards:
   - favorable-element
   - five-elements
