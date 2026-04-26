@@ -886,9 +886,7 @@ function generateArticleHtml(post, category, allArticles, options = {}) {
       return `
               <a href="${relatedHref}" class="related-card">
                 <div class="related-card-img">
-                  <img src="${imgSrc}" alt="${escapeHtml(p.data.title)}" loading="lazy" onerror="this.src='${SITE_URL}/images/og-default.jpg'">
-                </div>
-                <div class="related-card-body">
+                  <img src="${imgSrc}" alt="${escapeHtml(p.data.imageAlt || p.data.title)}" loading="lazy" onerror="this.src='${SITE_URL}/images/og-default.jpg'">
                   <span class="related-card-cat">${escapeHtml(catLabel)}</span>
                   <h3>${escapeHtml(p.data.title)}</h3>
                 </div>
@@ -1213,7 +1211,7 @@ function generateCategoryHtml(category, articles, options = {}) {
       return `
             <a href="${articleHref}" class="blog-card">
                 <div class="blog-card-image">
-                    <img src="${imgSrc}" alt="${escapeHtml(a.data.title)}" loading="lazy" onerror="this.src='${SITE_URL}/images/og-default.jpg'">
+                    <img src="${imgSrc}" alt="${escapeHtml(a.data.imageAlt || a.data.title)}" loading="lazy" onerror="this.src='${SITE_URL}/images/og-default.jpg'">
                 </div>
                 <div class="blog-card-body">
                     <h2>${escapeHtml(a.data.title)}</h2>
@@ -1418,7 +1416,7 @@ function generateBlogIndex(allArticles, options = {}) {
       return `
                 <a href="${langPrefix}/blog/${a.slug}" class="blog-card${isPinned ? ' pinned' : ''}">
                     <div class="blog-card-image">
-                        <img src="${imgSrc}" alt="${escapeHtml(a.data.title)}" loading="lazy" onerror="this.src='${SITE_URL}/images/og-default.jpg'">
+                        <img src="${imgSrc}" alt="${escapeHtml(a.data.imageAlt || a.data.title)}" loading="lazy" onerror="this.src='${SITE_URL}/images/og-default.jpg'">
                     </div>
                     <div class="blog-card-body">
                         ${pinnedBadge}
@@ -1933,7 +1931,7 @@ async function main() {
       const dateStr = formatDate(post.data.date);
       return `                <a href="/blog/${post.slug}" class="article-card scroll-animate">
                     <div class="article-card-image">
-                        <img src="${imgSrc}" alt="${escapeHtml(post.data.title)}" loading="lazy" onerror="this.src='${SITE_URL}/images/og-default.jpg'">
+                        <img src="${imgSrc}" alt="${escapeHtml(post.data.imageAlt || post.data.title)}" loading="lazy" onerror="this.src='${SITE_URL}/images/og-default.jpg'">
                     </div>
                     <div class="article-card-body">
                         <span class="article-card-category" data-zh-cat="${escapeHtml(catLabelZh)}">${escapeHtml(catLabel)}</span>
@@ -1984,7 +1982,7 @@ async function main() {
       const dateStr = formatDate(post.data.date);
       return `                <a href="/zh/blog/${post.slug}" class="article-card scroll-animate">
                     <div class="article-card-image">
-                        <img src="${imgSrc}" alt="${escapeHtml(post.data.title)}" loading="lazy" onerror="this.src='${SITE_URL}/images/og-default.jpg'">
+                        <img src="${imgSrc}" alt="${escapeHtml(post.data.imageAlt || post.data.title)}" loading="lazy" onerror="this.src='${SITE_URL}/images/og-default.jpg'">
                     </div>
                     <div class="article-card-body">
                         <span class="article-card-category">${escapeHtml(catLabel)}</span>
