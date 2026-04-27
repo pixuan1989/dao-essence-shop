@@ -27,6 +27,86 @@
     <link rel="alternate" hreflang="en" href="https://www.daoessentia.com/learn-bazi">
     <link rel="alternate" hreflang="zh-Hant" href="https://www.daoessentia.com/zh/learn-bazi">
     <link rel="alternate" hreflang="x-default" href="https://www.daoessentia.com/learn-bazi">
+    <!-- Structured Data: Course -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Learn BaZi — Free 6-Chapter Chinese Astrology Course",
+        "description": "Master your BaZi birth chart in 6 free chapters. Learn the Five Elements, Ten Gods, Luck Cycles, Annual Influences, and practical chart reading — from zero to confident.",
+        "provider": {
+            "@type": "Organization",
+            "name": "DAO Essence",
+            "url": "https://www.daoessentia.com"
+        },
+        "url": "https://www.daoessentia.com/learn-bazi",
+        "inLanguage": "en",
+        "isAccessibleForFree": true,
+        "educationalLevel": "Beginner",
+        "hasCourseInstance": {
+            "@type": "CourseInstance",
+            "courseMode": "online",
+            "courseWorkload": "PT6H"
+        }
+    }
+    </script>
+    <!-- Structured Data: FAQPage -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What is BaZi (Four Pillars of Destiny)?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "BaZi (八字), also known as Four Pillars of Destiny, is a Chinese metaphysical system that analyzes a person's birth date and time to reveal personality traits, life patterns, and timing of key events. It uses two sets of characters — Heavenly Stems and Earthly Branches — to construct four pillars (Year, Month, Day, Hour), each representing a dimension of your life. Unlike Western astrology's zodiac signs, BaZi provides a highly individualized reading because it's based on your exact birth moment — not just the month or season."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How long does it take to learn BaZi?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Most students can grasp the core concepts (Five Elements, Ten Gods, chart structure) in about 10–20 hours of focused study. This free 6-chapter course covers the entire foundation. You'll be able to identify your Day Master, read basic chart patterns, and find your Favorable Element after completing it. Advanced skills like Luck Cycle (Da Yun) analysis and detailed career reading come with practice and continued study."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Can I read my own BaZi chart without consulting a master?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes. This course is specifically designed for self-learners. After completing all six chapters, you'll be able to analyze your own chart for career tendencies, relationship patterns, and favorable elements. Many BaZi practitioners are self-taught. A professional reading can provide deeper insights or catch things you might overlook, but the core skills are absolutely learnable on your own."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What's the difference between BaZi and Western astrology?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "BaZi and Western astrology both use birth timing, but they work differently. Western astrology relies on planetary positions and zodiac signs, giving everyone born in the same month a similar reading. BaZi uses the Chinese calendar (Heavenly Stems and Earthly Branches) mapped to your exact birth year, month, day, and hour — making it far more individualized. Two people born on the same day but different hours will have completely different BaZi charts. BaZi also focuses heavily on practical life applications (career, marriage timing, wealth patterns) rather than personality descriptions."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Do I need my exact birth time for a BaZi reading?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Your exact birth time determines the fourth pillar (Hour Pillar), which is important for detailed readings — especially regarding career, children, and later-life patterns. However, you can still get a meaningful reading with just the year, month, and day (three pillars). Many people who don't know their exact birth time can narrow it down through life-event retrospection — a technique practitioners use to reverse-engineer the missing hour pillar. You can also start by generating a free BaZi chart with your known information."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What are the Ten Gods (Shi Shen) in BaZi?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "The Ten Gods are ten relationship categories derived from how the other elements in your chart interact with your Day Master (the stem of your day pillar). They include Resource (印, mentors and knowledge), Output (食伤, creativity and expression), Wealth (财, income and resources), Power (官杀, authority and career), and Companions (比劫, peers and competition). Each category splits into a direct (zheng) and indirect (pian) variant depending on yin-yang polarity, giving ten relationships total. The Ten Gods are the core analytical framework for interpreting any BaZi chart."
+                }
+            }
+        ]
+    }
+    </script>
     <link rel="stylesheet" href="styles.min.css?v=202604031200">
     <script src="main.min.js?v=202604031200" defer></script>
     <!-- i18n -->
@@ -431,7 +511,7 @@
         .outcomes-section {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 3rem 3rem 3rem calc(280px + 3rem);
+            padding: 3rem;
             border-top: 1px solid var(--border-light);
         }
         .outcomes-section h2 {
@@ -480,6 +560,7 @@
             .tutorial-content { padding: 1.5rem 1.2rem 3rem; }
             .page-banner { padding: 2.5rem 6% 2rem; }
             .outcomes-section { padding: 2rem 1.2rem; }
+            .faq-section { padding: 2rem 1.2rem; }
             .ch-nav { flex-direction: column; gap: 0.5rem; }
         }
 
@@ -487,6 +568,10 @@
         .tutorial-sidebar::-webkit-scrollbar { width: 4px; }
         .tutorial-sidebar::-webkit-scrollbar-track { background: transparent; }
         .tutorial-sidebar::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 4px; }
+
+        /* FAQ Accordion */
+        .faq-item.open .faq-toggle span { transform: rotate(45deg); }
+        .faq-item:hover { border-color: var(--gold) !important; }
     </style>
     <script>
         window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
@@ -669,7 +754,7 @@
 
             <p><strong>Control Cycle（相克, who restrains whom）:</strong> Wood parts Earth (roots break soil) → Earth dams Water (banks hold rivers) → Water extinguishes Fire → Fire melts Metal → Metal cuts Wood (axes fell trees). This is the system of checks and balances.</p>
 
-            <p>But these are just the basics. In practice, there are nuances: <strong>reverse control</strong> (when Wood is so abundant it overwhelms Metal instead of being cut) and <strong>failed generation</strong> (when Wood is so plentiful that Fire can't consume it all). These deeper dynamics will come up in real chart readings.</p>
+            <p>But these are just the basics. In practice, there are nuances: <strong>reverse control</strong> (when Wood is so abundant it overwhelms Metal instead of being cut) and <strong>failed generation</strong> (when Wood is so plentiful that Fire can't consume it all). These deeper dynamics will come up in real chart readings. Want to see which elements dominate your own chart? Try the <a href="/five-elements-test" style="color:var(--gold-deep);text-decoration:underline;">Five Elements Calculator</a>.</p>
 
             <p><strong>Seasonal strength matters:</strong> Each element has a different level of vitality depending on the season. In summer, Fire is at peak strength, Earth is supportive, Wood is resting, Water is imprisoned, and Metal is at its weakest. This seasonal vitality is one of the factors used to assess whether your chart is "strong" or "weak."</p>
 
@@ -849,7 +934,7 @@
 
             <h3>1.13 Finding Your Favorable Element（Xi Yong Shen 喜用神）</h3>
             <h4>What is the Favorable Element?</h4>
-            <p>Think of your chart as a room. If the room is too hot, you need air conditioning. If it's too cold, you need a heater. The Favorable Element is whatever brings your chart's "room" closer to a comfortable temperature — not necessarily the element that's most lacking, but the one that creates the most harmony.</p>
+            <p>Think of your chart as a room. If the room is too hot, you need air conditioning. If it's too cold, you need a heater. The Favorable Element is whatever brings your chart's "room" closer to a comfortable temperature — not necessarily the element that's most lacking, but the one that creates the most harmony. <a href="/favorable-element" style="color:var(--gold-deep);text-decoration:underline;">You can also look up your Favorable Element using our dedicated guide →</a></p>
 
             <p><strong>A counterintuitive example:</strong> If your chart has excessive Fire, many beginners assume you need Water to cool it down. But Water and Fire in direct conflict create steam and chaos — they fight each other. The real solution might be Damp Earth (Chen, Chou), which gently absorbs the Fire's heat without triggering a war. This is why understanding the Favorable Element requires more than just counting elements.</p>
 
@@ -1053,7 +1138,7 @@
             <p><strong>Indirect Wealth as the Useful God:</strong> This requires a strong Day Master with strong Wealth — strong enough to handle it. The method of obtaining wealth is primarily through clashes and piercings (maximum gain), secondarily combinations (substantial gain, 合), and least through direct control (still decent). These people are naturally suited for high-risk ventures — stocks, speculative investments, borderline opportunities.</p>
 
             <h3>2.5 Marriage — Marrying Well</h3>
-            <p>For a woman to marry a capable (wealthy or powerful) husband, the chart typically shows: the Power star is present and has useful work to do, it combines harmoniously with the Day Master, and they don't damage each other. When Power star and Day Master support each other, the husband has real ability.</p>
+            <p>For a woman to marry a capable (wealthy or powerful) husband, the chart typically shows: the Power star is present and has useful work to do, it combines harmoniously with the Day Master, and they don't damage each other. When Power star and Day Master support each other, the husband has real ability. Curious about your own love direction and relationship style? Check out the <a href="/soulmate-calculator" style="color:var(--gold-deep);text-decoration:underline;">Soulmate Finder</a>.</p>
 
             <div class="case-example">
                 <div class="case-label">📋 Case Study — Marrying a Powerful Husband</div>
@@ -1531,7 +1616,7 @@
             <p>You now have a comprehensive foundation in BaZi chart reading — from basic building blocks (Five Elements, Ten Gods, Branch interactions) through practical applications (career, relationships, education, timing, health, personality) to the nuances of Spirit Stars.</p>
             <p>The best way to improve is to read real charts — your own, your friends', your family's. Compare interpretations with real-life outcomes. Over time, you'll develop the pattern recognition that separates competent readers from great ones.</p>
             <p>Remember: read the whole chart, not isolated elements. Always check favorable vs. unfavorable before making judgments. Use Spirit Stars as supplements, not substitutes. And never forget that a chart shows potential — what a person does with that potential is always their own choice.</p>
-            <p><a href="/#free-bazi" style="color:var(--gold-deep);font-weight:600;">Generate your free BaZi chart →</a></p>
+            <p style="margin-top:1.5rem;">If you enjoyed this course, explore more BaZi articles on our <a href="/blog/bazi-astrology" style="color:var(--gold-deep);text-decoration:underline;">BaZi & Chinese Astrology blog</a>, or try hands-on with our <a href="/#free-bazi" style="color:var(--gold-deep);font-weight:600;">free BaZi calculator</a>.</p>
 
             <!-- Prev/Next -->
             <div class="ch-nav">
@@ -1988,6 +2073,67 @@
     </main>
 </div>
 
+<!-- ═══════════ FAQ SECTION ═══════════ -->
+<section class="faq-section" style="max-width:1200px;margin:0 auto;padding:3rem;">
+    <h2 style="font-size:1.6rem;font-weight:700;color:var(--text-primary);margin-bottom:1.8rem;">Frequently Asked Questions</h2>
+    <div class="faq-list" id="faq-list">
+        <div class="faq-item" style="border:1px solid var(--border-light);border-radius:8px;margin-bottom:0.75rem;overflow:hidden;">
+            <button class="faq-toggle" style="width:100%;text-align:left;padding:1rem 1.25rem;background:none;border:none;font-size:1rem;font-weight:600;color:var(--text-primary);cursor:pointer;display:flex;justify-content:space-between;align-items:center;">
+                What is BaZi (Four Pillars of Destiny)?
+                <span style="font-size:1.4rem;color:var(--gold-deep);transition:transform 0.3s;">+</span>
+            </button>
+            <div class="faq-body" style="max-height:0;overflow:hidden;transition:max-height 0.4s ease;padding:0 1.25rem;">
+                <p style="padding:0 0 1rem;line-height:1.7;color:var(--text-secondary);">BaZi (八字), also known as Four Pillars of Destiny, is a Chinese metaphysical system that analyzes a person's birth date and time to reveal personality traits, life patterns, and timing of key events. It uses two sets of characters — Heavenly Stems and Earthly Branches — to construct four pillars (Year, Month, Day, Hour), each representing a dimension of your life. Unlike Western astrology's zodiac signs, BaZi provides a highly individualized reading because it's based on your exact birth moment — not just the month or season. <a href="/#free-bazi" style="color:var(--gold-deep);">Generate your free BaZi chart →</a></p>
+            </div>
+        </div>
+        <div class="faq-item" style="border:1px solid var(--border-light);border-radius:8px;margin-bottom:0.75rem;overflow:hidden;">
+            <button class="faq-toggle" style="width:100%;text-align:left;padding:1rem 1.25rem;background:none;border:none;font-size:1rem;font-weight:600;color:var(--text-primary);cursor:pointer;display:flex;justify-content:space-between;align-items:center;">
+                How long does it take to learn BaZi?
+                <span style="font-size:1.4rem;color:var(--gold-deep);transition:transform 0.3s;">+</span>
+            </button>
+            <div class="faq-body" style="max-height:0;overflow:hidden;transition:max-height 0.4s ease;padding:0 1.25rem;">
+                <p style="padding:0 0 1rem;line-height:1.7;color:var(--text-secondary);">Most students can grasp the core concepts (Five Elements, Ten Gods, chart structure) in about 10–20 hours of focused study. This free 6-chapter course covers the entire foundation. You'll be able to identify your Day Master, read basic chart patterns, and find your Favorable Element after completing it. Advanced skills like Luck Cycle (Da Yun) analysis and detailed career reading come with practice and continued study.</p>
+            </div>
+        </div>
+        <div class="faq-item" style="border:1px solid var(--border-light);border-radius:8px;margin-bottom:0.75rem;overflow:hidden;">
+            <button class="faq-toggle" style="width:100%;text-align:left;padding:1rem 1.25rem;background:none;border:none;font-size:1rem;font-weight:600;color:var(--text-primary);cursor:pointer;display:flex;justify-content:space-between;align-items:center;">
+                Can I read my own BaZi chart without consulting a master?
+                <span style="font-size:1.4rem;color:var(--gold-deep);transition:transform 0.3s;">+</span>
+            </button>
+            <div class="faq-body" style="max-height:0;overflow:hidden;transition:max-height 0.4s ease;padding:0 1.25rem;">
+                <p style="padding:0 0 1rem;line-height:1.7;color:var(--text-secondary);">Yes. This course is specifically designed for self-learners. After completing all six chapters, you'll be able to analyze your own chart for career tendencies, relationship patterns, and favorable elements. Many BaZi practitioners are self-taught. A professional reading can provide deeper insights or catch things you might overlook, but the core skills are absolutely learnable on your own.</p>
+            </div>
+        </div>
+        <div class="faq-item" style="border:1px solid var(--border-light);border-radius:8px;margin-bottom:0.75rem;overflow:hidden;">
+            <button class="faq-toggle" style="width:100%;text-align:left;padding:1rem 1.25rem;background:none;border:none;font-size:1rem;font-weight:600;color:var(--text-primary);cursor:pointer;display:flex;justify-content:space-between;align-items:center;">
+                What's the difference between BaZi and Western astrology?
+                <span style="font-size:1.4rem;color:var(--gold-deep);transition:transform 0.3s;">+</span>
+            </button>
+            <div class="faq-body" style="max-height:0;overflow:hidden;transition:max-height 0.4s ease;padding:0 1.25rem;">
+                <p style="padding:0 0 1rem;line-height:1.7;color:var(--text-secondary);">BaZi and Western astrology both use birth timing, but they work differently. Western astrology relies on planetary positions and zodiac signs, giving everyone born in the same month a similar reading. BaZi uses the Chinese calendar (Heavenly Stems and Earthly Branches) mapped to your exact birth year, month, day, and hour — making it far more individualized. Two people born on the same day but different hours will have completely different BaZi charts. BaZi also focuses heavily on practical life applications (career, marriage timing, wealth patterns) rather than personality descriptions. <a href="/blog/bazi-astrology" style="color:var(--gold-deep);">Explore more on our blog →</a></p>
+            </div>
+        </div>
+        <div class="faq-item" style="border:1px solid var(--border-light);border-radius:8px;margin-bottom:0.75rem;overflow:hidden;">
+            <button class="faq-toggle" style="width:100%;text-align:left;padding:1rem 1.25rem;background:none;border:none;font-size:1rem;font-weight:600;color:var(--text-primary);cursor:pointer;display:flex;justify-content:space-between;align-items:center;">
+                Do I need my exact birth time for a BaZi reading?
+                <span style="font-size:1.4rem;color:var(--gold-deep);transition:transform 0.3s;">+</span>
+            </button>
+            <div class="faq-body" style="max-height:0;overflow:hidden;transition:max-height 0.4s ease;padding:0 1.25rem;">
+                <p style="padding:0 0 1rem;line-height:1.7;color:var(--text-secondary);">Your exact birth time determines the fourth pillar (Hour Pillar), which is important for detailed readings — especially regarding career, children, and later-life patterns. However, you can still get a meaningful reading with just the year, month, and day (three pillars). Many people who don't know their exact birth time can narrow it down through life-event retrospection — a technique practitioners use to reverse-engineer the missing hour pillar. You can also start by generating a <a href="/#free-bazi" style="color:var(--gold-deep);">free BaZi chart</a> with your known information.</p>
+            </div>
+        </div>
+        <div class="faq-item" style="border:1px solid var(--border-light);border-radius:8px;margin-bottom:0.75rem;overflow:hidden;">
+            <button class="faq-toggle" style="width:100%;text-align:left;padding:1rem 1.25rem;background:none;border:none;font-size:1rem;font-weight:600;color:var(--text-primary);cursor:pointer;display:flex;justify-content:space-between;align-items:center;">
+                What are the Ten Gods (Shi Shen) in BaZi?
+                <span style="font-size:1.4rem;color:var(--gold-deep);transition:transform 0.3s;">+</span>
+            </button>
+            <div class="faq-body" style="max-height:0;overflow:hidden;transition:max-height 0.4s ease;padding:0 1.25rem;">
+                <p style="padding:0 0 1rem;line-height:1.7;color:var(--text-secondary);">The Ten Gods are ten relationship categories derived from how the other elements in your chart interact with your Day Master (the stem of your day pillar). They include Resource (印, mentors and knowledge), Output (食伤, creativity and expression), Wealth (财, income and resources), Power (官杀, authority and career), and Companions (比劫, peers and competition). Each category splits into a direct (zheng) and indirect (pian) variant depending on yin-yang polarity, giving ten relationships total. The Ten Gods are covered in detail in <a href="/learn-bazi" style="color:var(--gold-deep);">Chapter 1 of this course</a> and form the core analytical framework for interpreting any BaZi chart.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
 <!-- ═══════════ WHAT YOU'LL LEARN (text-based, SEO-friendly) ═══════════ -->
 <section class="outcomes-section">
     <h2>What You Can Do After This Course</h2>
@@ -2142,6 +2288,38 @@
     }
     handleHash();
     window.addEventListener('hashchange', handleHash);
+})();
+
+/* ═══════════ FAQ ACCORDION ═══════════ */
+(function() {
+    document.querySelectorAll('.faq-toggle').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            var item = this.parentElement;
+            var body = item.querySelector('.faq-body');
+            var isOpen = item.classList.contains('open');
+
+            // Close all others first
+            document.querySelectorAll('.faq-item.open').forEach(function(openItem) {
+                if (openItem !== item) {
+                    openItem.classList.remove('open');
+                    var openBody = openItem.querySelector('.faq-body');
+                    openBody.style.maxHeight = '0';
+                    openBody.style.padding = '0 1.25rem';
+                }
+            });
+
+            // Toggle current
+            if (isOpen) {
+                item.classList.remove('open');
+                body.style.maxHeight = '0';
+                body.style.padding = '0 1.25rem';
+            } else {
+                item.classList.add('open');
+                body.style.maxHeight = body.scrollHeight + 'px';
+                body.style.padding = '0 1.25rem 1rem';
+            }
+        });
+    });
 })();
 
 /* ═══════════ TUTORIAL i18n SWITCH ═══════════ */
