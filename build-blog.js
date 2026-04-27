@@ -100,6 +100,7 @@ const NAV_HTML = `
                         </div>
                     </li>
                     <li><a href="/culture" class="nav-link" data-i18n="common.five_elements">Five Elements</a></li>
+                    <li><a href="/learn-bazi" class="nav-link" data-i18n="common.learn_bazi">Learn BaZi</a></li>
                     <li><a href="/shop" class="nav-link" data-i18n="common.shop">Shop</a></li>
                     <li><a href="/about" class="nav-link" data-i18n="common.about_us">About Us</a></li>
                     <li class="nav-dropdown">
@@ -147,6 +148,7 @@ const FOOTER_HTML = `
                     <h4 class="footer-title" data-i18n="footer.explore_title">Explore</h4>
                     <ul class="footer-links">
                         <li><a href="/blog/" data-i18n="common.blog">Blog</a></li>
+                        <li><a href="/learn-bazi">Learn BaZi</a></li>
                         <li><a href="/culture" data-i18n="common.five_elements">Five Elements</a></li>
                         <li><a href="/shop" data-i18n="common.shop">Shop</a></li>
                         <li><a href="/about" data-i18n="common.about_us">About Us</a></li>
