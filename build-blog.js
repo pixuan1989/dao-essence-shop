@@ -2061,6 +2061,8 @@ async function main() {
     { loc: '/learn-bazi/luck-pillars', changefreq: 'monthly', priority: '0.8' },
     { loc: '/learn-bazi/practical', changefreq: 'monthly', priority: '0.8' },
     { loc: '/learn-bazi/spirit-stars', changefreq: 'monthly', priority: '0.8' },
+    { loc: '/guide', changefreq: 'monthly', priority: '0.6' },
+    { loc: '/destiny', changefreq: 'monthly', priority: '0.6' },
     { loc: '/privacy', changefreq: 'yearly', priority: '0.3' },
     { loc: '/terms', changefreq: 'yearly', priority: '0.3' },
   ];
@@ -2075,41 +2077,18 @@ async function main() {
       staticUrls.push({ loc: `/zh/blog/${cat}`, changefreq: 'weekly', priority: '0.7' });
     }
   }
-  // Pages that have both EN and zh-Hant versions (for hreflang cross-referencing)
-  const bilingualPages = ['/shop', '/about', '/bazi-form', '/five-elements-test',
-    '/soulmate-calculator', '/favorable-element', '/almanac', '/culture',
-    '/guide', '/destiny', '/privacy', '/terms'];
-  const zhStaticPages = bilingualPages.map(p => '/zh' + p);
-
-  for (const loc of zhStaticPages) {
-    staticUrls.push({ loc, changefreq: 'monthly', priority: '0.5' });
-  }
   let sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
 `;
-  // Build a lookup for bilingual static pages
-  const bilingualSet = new Set(bilingualPages);
+  // Build a lookup — only blog articles have real zh-Hant pages
+  // Static pages (shop, about, etc.) do NOT have /zh/ counterparts, so NO hreflang for them
   for (const u of staticUrls) {
-    const enBase = u.loc.replace(/^\/zh\//, '/');
-    const isZh = u.loc.startsWith('/zh/');
-    const counterpart = isZh ? enBase : '/zh' + u.loc;
-    let hreflangTag = '';
-    if (bilingualSet.has(u.loc) || bilingualSet.has(enBase)) {
-      const enPage = isZh ? enBase : u.loc;
-      const zhPage = isZh ? u.loc : '/zh' + u.loc;
-      // Always add hreflang for bilingual pages (shop and data-i18n pages)
-      if (enPage === '/shop' || enPage === '/' || zhArticles.length > 0) {
-        hreflangTag = `
-        <xhtml:link rel="alternate" hreflang="en" href="${SITE_URL}${enPage}"/>
-        <xhtml:link rel="alternate" hreflang="zh-Hant" href="${SITE_URL}${zhPage}"/>`;
-      }
-    }
     sitemapXml += `    <url>
         <loc>${SITE_URL}${u.loc}</loc>
         <lastmod>${today}</lastmod>
         <changefreq>${u.changefreq}</changefreq>
-        <priority>${u.priority}</priority>${hreflangTag}
+        <priority>${u.priority}</priority>
     </url>\n`;
   }
   // Add blog articles from CMS (English)
