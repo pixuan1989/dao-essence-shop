@@ -32,6 +32,12 @@
       script.src = '/_vercel/insights/script.js';
       document.head.appendChild(script);
     </script>
+
+    <!-- Vercel Speed Insights -->
+    <script>
+      window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/speed-insights/script.js"></script>
     <style>
         /* guide.html — 深色背景页面，导航栏始终深色文字+浅色背景 */
         .header {
