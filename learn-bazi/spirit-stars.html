@@ -253,6 +253,39 @@
             font-style: italic;
         }
 
+        /* Shen Sha reference tables */
+        .shensha-table {
+            border-collapse: collapse;
+            margin: 0.8rem auto;
+            font-size: 0.85rem;
+            width: 100%;
+            max-width: 520px;
+        }
+        .shensha-table th {
+            background: #fef3c7;
+            color: #92400e;
+            padding: 0.45rem 0.7rem;
+            border: 1px solid #d97706;
+            font-weight: 600;
+            font-size: 0.82rem;
+            text-align: left;
+        }
+        .shensha-table td {
+            padding: 0.4rem 0.7rem;
+            border: 1px solid #e5e7eb;
+            color: var(--ink-text);
+        }
+        .shensha-table tbody tr:nth-child(even) td {
+            background: #fefce8;
+        }
+        .shensha-note {
+            font-size: 0.82rem;
+            color: var(--ink-soft);
+            font-style: italic;
+            margin-top: -0.3rem;
+            margin-bottom: 1rem;
+        }
+
         /* Chapter nav (prev/next) */
         .ch-nav {
             display: flex;
@@ -390,7 +423,17 @@
         <h3>6.2 Travel Star (Yi Ma — 驿马)</h3>
         <p>The Travel Star represents movement, change, and displacement. When it's present in your chart, it suggests a life with more than the average amount of physical movement — relocation, travel, job changes, or a restless spirit that resists staying in one place too long.</p>
 
-        <p><strong>How to find it:</strong> The Travel Star is determined by your Year Branch (or sometimes Day Branch). If your Year Branch is Shen (Monkey), Zi (Rat), or Chen (Dragon), your Travel Star is Yin (Tiger). If your Year Branch is Yin (Tiger), Wu (Horse), or Xu (Dog), your Travel Star is Shen (Monkey). If your Year Branch is Si (Snake), You (Rooster), or Chou (Ox), your Travel Star is Hai (Pig). If your Year Branch is Hai (Pig), Mao (Rabbit), or Wei (Goat), your Travel Star is Si (Snake).</p>
+        <p><strong>How to find it:</strong> Look for your Year Branch (or Day Branch) in the left column — the Travel Star is the corresponding branch on the right.</p>
+        <table class="shensha-table">
+            <thead><tr><th>If your Year Branch contains…</th><th>Travel Star (驿马) is…</th></tr></thead>
+            <tbody>
+                <tr><td>Shen 申, Zi 子, Chen 辰</td><td>Yin 寅 (Tiger)</td></tr>
+                <tr><td>Yin 寅, Wu 午, Xu 戌</td><td>Shen 申 (Monkey)</td></tr>
+                <tr><td>Si 巳, You 酉, Chou 丑</td><td>Hai 亥 (Pig)</td></tr>
+                <tr><td>Hai 亥, Mao 卯, Wei 未</td><td>Si 巳 (Snake)</td></tr>
+            </tbody>
+        </table>
+        <p class="shensha-note">Easy mnemonic: in each group of three branches, the Travel Star is the one that's four positions ahead (e.g., Shen → Zi → Chen → Yin).</p>
 
         <p><strong>What it means in practice:</strong></p>
         <ul>
@@ -402,7 +445,16 @@
         <h3>6.3 Peach Blossom (Tao Hua — 桃花)</h3>
         <p>The Peach Blossom represents charm, attractiveness, and social magnetism. It's the most famous — and most over-interpreted — of all Spirit Stars.</p>
 
-        <p><strong>How to find it:</strong> If your Year Branch or Day Branch is Shen (Monkey), Zi (Rat), or Chen (Dragon), your Peach Blossom is You (Rooster). If it's Yin (Tiger), Wu (Horse), or Xu (Dog), the Peach Blossom is Mao (Rabbit). If it's Si (Snake), You (Rooster), or Chou (Ox), the Peach Blossom is Wu (Horse). If it's Hai (Pig), Mao (Rabbit), or Wei (Goat), the Peach Blossom is Zi (Rat).</p>
+        <p><strong>How to find it:</strong> Look for your Year Branch or Day Branch in the left column.</p>
+        <table class="shensha-table">
+            <thead><tr><th>If your Year Branch contains…</th><th>Peach Blossom (桃花) is…</th></tr></thead>
+            <tbody>
+                <tr><td>Shen 申, Zi 子, Chen 辰</td><td>You 酉 (Rooster)</td></tr>
+                <tr><td>Yin 寅, Wu 午, Xu 戌</td><td>Mao 卯 (Rabbit)</td></tr>
+                <tr><td>Si 巳, You 酉, Chou 丑</td><td>Wu 午 (Horse)</td></tr>
+                <tr><td>Hai 亥, Mao 卯, Wei 未</td><td>Zi 子 (Rat)</td></tr>
+            </tbody>
+        </table>
 
         <p><strong>What it actually means:</strong></p>
         <ul>
@@ -429,14 +481,39 @@
 
         <p><strong>Tian Yi Noble Helper (天乙贵人):</strong> The most powerful of the Noble Helpers. Its presence suggests that the person tends to receive help from unexpected quarters — a stranger offers assistance at the right moment, a mentor appears, or a bureaucratic obstacle dissolves. It doesn't mean life is easy, but it does mean that when things get difficult, help tends to show up.</p>
 
-        <p><strong>How to find Tian Yi Noble Helper:</strong> Based on the Day Stem. For Jia and Yi day stems, look for Ox (Chou) and Goat (Wei). For Bing and Ding, look for Pig (Hai) and Rooster (You). For Wu and Ji, look for Rabbit (Mao) and Monkey (Shen). For Geng and Xin, look for Tiger (Yin) and Horse (Wu). For Ren and Gui, look for Snake (Si) and Dragon (Chen).</p>
+        <p><strong>How to find Tian Yi Noble Helper:</strong></p>
+        <table class="shensha-table">
+            <thead><tr><th>Day Stem</th><th>Noble Helper Branch (天乙贵人)</th></tr></thead>
+            <tbody>
+                <tr><td>Jia 甲, Yi 乙</td><td>Chou 丑 (Ox), Wei 未 (Goat)</td></tr>
+                <tr><td>Bing 丙, Ding 丁</td><td>Hai 亥 (Pig), You 酉 (Rooster)</td></tr>
+                <tr><td>Wu 戊, Ji 己</td><td>Mao 卯 (Rabbit), Shen 申 (Monkey)</td></tr>
+                <tr><td>Geng 庚, Xin 辛</td><td>Yin 寅 (Tiger), Wu 午 (Horse)</td></tr>
+                <tr><td>Ren 壬, Gui 癸</td><td>Si 巳 (Snake), Chen 辰 (Dragon)</td></tr>
+            </tbody>
+        </table>
 
         <p><strong>Tian Yue and Yue De Noble Helpers:</strong> Additional Noble Helper stars that function similarly but with slightly different calculation methods. When multiple Noble Helpers appear in the same chart, the person has an especially strong tendency to attract beneficial support.</p>
 
         <h3>6.6 Literary Star (Wen Chang — 文昌)</h3>
         <p>The Literary Star is associated with academic ability, intellectual talent, and literary or creative expression. Its presence supports the education analysis covered in Chapter 3.</p>
 
-        <p><strong>How to find it:</strong> Based on the Day Stem. For Ren (壬) day stem, the Literary Star is Yin (寅). For Gui (癸), it's Mao (卯). For Jia (甲), it's Si (巳). For Yi (乙), it's Wu (午). For Bing (丙), it's Shen (申). For Ding (丁), it's You (酉). For Wu (戊), it's Shen (申). For Ji (己), it's You (酉). For Geng (庚), it's Hai (亥). For Xin (辛), it's Zi (子).</p>
+        <p><strong>How to find it:</strong></p>
+        <table class="shensha-table">
+            <thead><tr><th>Day Stem</th><th>Literary Star (文昌)</th></tr></thead>
+            <tbody>
+                <tr><td>Jia 甲</td><td>Si 巳 (Snake)</td></tr>
+                <tr><td>Yi 乙</td><td>Wu 午 (Horse)</td></tr>
+                <tr><td>Bing 丙</td><td>Shen 申 (Monkey)</td></tr>
+                <tr><td>Ding 丁</td><td>You 酉 (Rooster)</td></tr>
+                <tr><td>Wu 戊</td><td>Shen 申 (Monkey)</td></tr>
+                <tr><td>Ji 己</td><td>You 酉 (Rooster)</td></tr>
+                <tr><td>Geng 庚</td><td>Hai 亥 (Pig)</td></tr>
+                <tr><td>Xin 辛</td><td>Zi 子 (Rat)</td></tr>
+                <tr><td>Ren 壬</td><td>Yin 寅 (Tiger)</td></tr>
+                <tr><td>Gui 癸</td><td>Mao 卯 (Rabbit)</td></tr>
+            </tbody>
+        </table>
 
         <p><strong>What it means:</strong> The Literary Star enhances the chart's natural intellectual capacity. It doesn't guarantee academic success (that still depends on the overall chart structure and Resource star strength), but it adds a layer of affinity for learning, writing, and intellectual pursuits. People with a prominent Literary Star often find joy in reading, teaching, or creative expression.</p>
 
@@ -499,7 +576,17 @@
         <h3>6.2 驛馬</h3>
         <p>驛馬代表遷移、變動和流動。當它出現在你的命盤中，意味著你的人生比一般人更有身體上的流動性——搬家、旅行、換工作，或一顆不安分的心，抗拒在同一個地方停留太久。</p>
 
-        <p><strong>查法：</strong>驛馬由年支（有時用日支）決定。申子辰年，驛馬在寅；寅午戌年，驛馬在申；巳酉丑年，驛馬在亥；亥卯未年，驛馬在巳。</p>
+        <p><strong>查法：</strong>在左列找到你的年支（或日支），對應的右列即為驛馬所在。</p>
+        <table class="shensha-table">
+            <thead><tr><th>年支含……</th><th>驛馬在……</th></tr></thead>
+            <tbody>
+                <tr><td>申、子、辰</td><td>寅（虎）</td></tr>
+                <tr><td>寅、午、戌</td><td>申（猴）</td></tr>
+                <tr><td>巳、酉、丑</td><td>亥（豬）</td></tr>
+                <tr><td>亥、卯、未</td><td>巳（蛇）</td></tr>
+            </tbody>
+        </table>
+        <p class="shensha-note">速記：每組三支中，驛馬是往前推四位的支位（如申→子→辰→寅）。</p>
 
         <p><strong>實際含義：</strong></p>
         <ul>
@@ -511,7 +598,16 @@
         <h3>6.3 桃花</h3>
         <p>桃花代表魅力、吸引力和社交磁場。它是所有神煞中最著名——也是最容易被過度解讀的。</p>
 
-        <p><strong>查法：</strong>申子辰年，桃花在酉；寅午戌年，桃花在卯；巳酉丑年，桃花在午；亥卯未年，桃花在子。</p>
+        <p><strong>查法：</strong>在左列找到你的年支或日支。</p>
+        <table class="shensha-table">
+            <thead><tr><th>年支含……</th><th>桃花在……</th></tr></thead>
+            <tbody>
+                <tr><td>申、子、辰</td><td>酉（雞）</td></tr>
+                <tr><td>寅、午、戌</td><td>卯（兔）</td></tr>
+                <tr><td>巳、酉、丑</td><td>午（馬）</td></tr>
+                <tr><td>亥、卯、未</td><td>子（鼠）</td></tr>
+            </tbody>
+        </table>
 
         <p><strong>真正含義：</strong></p>
         <ul>
@@ -538,14 +634,39 @@
 
         <p><strong>天乙貴人：</strong>最強大的貴人星。它的出現意味著此人往往能從意想不到的地方獲得幫助——陌生人在關鍵時刻伸出援手、導師出現，或官僚障礙自行消散。這不代表人生輕鬆，但確實意味著當事情變得困難時，幫助往往會出現。</p>
 
-        <p><strong>天乙貴人查法：</strong>由日干決定。甲乙日干看牛羊（丑未），丙丁日干看豬雞（亥酉），戊己日干看兔猴（卯申），庚辛日干看虎馬（寅午），壬癸日干看蛇龍（巳辰）。</p>
+        <p><strong>天乙貴人查法：</strong></p>
+        <table class="shensha-table">
+            <thead><tr><th>日干</th><th>天乙貴人所在支</th></tr></thead>
+            <tbody>
+                <tr><td>甲、乙</td><td>丑（牛）、未（羊）</td></tr>
+                <tr><td>丙、丁</td><td>亥（豬）、酉（雞）</td></tr>
+                <tr><td>戊、己</td><td>卯（兔）、申（猴）</td></tr>
+                <tr><td>庚、辛</td><td>寅（虎）、午（馬）</td></tr>
+                <tr><td>壬、癸</td><td>巳（蛇）、辰（龍）</td></tr>
+            </tbody>
+        </table>
 
         <p><strong>天月德貴人：</strong>額外的貴人星，功能類似但計算方法略有不同。當多個貴人星同時出現在同一命盤中，此人特別容易獲得有利的支援。</p>
 
         <h3>6.6 文昌</h3>
         <p>文昌與學術能力、才智和文學或創意表達相關。它的出現支持第3章涵蓋的學歷分析。</p>
 
-        <p><strong>查法：</strong>由日干決定。壬日見寅，癸日見卯，甲日見巳，乙日見午，丙日見申，丁日見酉，戊日見申，己日見酉，庚日見亥，辛日見子。</p>
+        <p><strong>查法：</strong></p>
+        <table class="shensha-table">
+            <thead><tr><th>日干</th><th>文昌</th></tr></thead>
+            <tbody>
+                <tr><td>甲</td><td>巳（蛇）</td></tr>
+                <tr><td>乙</td><td>午（馬）</td></tr>
+                <tr><td>丙</td><td>申（猴）</td></tr>
+                <tr><td>丁</td><td>酉（雞）</td></tr>
+                <tr><td>戊</td><td>申（猴）</td></tr>
+                <tr><td>己</td><td>酉（雞）</td></tr>
+                <tr><td>庚</td><td>亥（豬）</td></tr>
+                <tr><td>辛</td><td>子（鼠）</td></tr>
+                <tr><td>壬</td><td>寅（虎）</td></tr>
+                <tr><td>癸</td><td>卯（兔）</td></tr>
+            </tbody>
+        </table>
 
         <p><strong>含義：</strong>文昌增強命盤天然的智力水平。它不保證學業成功（那仍取決於整體命盤結構和印星強弱），但它增添了一層對學習、寫作和智力追求的親和力。文昌顯著的人往往在閱讀、教學或創意表達中找到樂趣。</p>
 
