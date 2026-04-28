@@ -431,10 +431,54 @@
 
   // ── Init ──
 
-  function init() {
+  function applyInitialLang() {
     // Cache original English text ASAP before any translation is applied
     cacheOriginalTexts();
 
+    // Bind dropdown events
+    var trigger = document.getElementById('lang-trigger');
+    var menu = document.getElementById('lang-menu');
+
+    if (trigger && menu) {
+      trigger.addEventListener('click', function (e) {
+        e.preventDefault();
+      });
+
+      var options = menu.querySelectorAll('.lang-option');
+      for (var i = 0; i < options.length; i++) {
+        options[i].addEventListener('click', function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          var lang = this.getAttribute('data-lang');
+          switchLanguage(lang);
+          if (menu.classList.contains('show')) {
+            menu.classList.remove('show');
+          }
+        });
+      }
+    }
+
+    // Apply initial language
+    if (currentLang !== DEFAULT_LANG) {
+      loadTranslations(currentLang).then(function (t) {
+        translations = t;
+        applyTranslations(t);
+        updateHtmlLang(currentLang);
+        updateSwitcherUI(currentLang);
+        highlightActiveOption(currentLang);
+        rewriteNavLinks(currentLang);
+        document.dispatchEvent(new CustomEvent('daoessence:i18n-changed', { detail: { lang: currentLang } }));
+      }).catch(function (err) {
+        console.warn('i18n: init failed for', currentLang, err);
+      });
+    } else {
+      updateSwitcherUI(DEFAULT_LANG);
+      highlightActiveOption(DEFAULT_LANG);
+      document.dispatchEvent(new CustomEvent('daoessence:i18n-changed', { detail: { lang: DEFAULT_LANG } }));
+    }
+  }
+
+  function init() {
     // Determine initial language
     currentLang = getInitialLang();
 
@@ -474,52 +518,9 @@
       return;
     }
 
-    function applyInitialLang() {
-      // Bind dropdown events
-      var trigger = document.getElementById('lang-trigger');
-      var menu = document.getElementById('lang-menu');
-
-      if (trigger && menu) {
-        trigger.addEventListener('click', function (e) {
-          e.preventDefault();
-        });
-
-        var options = menu.querySelectorAll('.lang-option');
-        for (var i = 0; i < options.length; i++) {
-          options[i].addEventListener('click', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-            var lang = this.getAttribute('data-lang');
-            switchLanguage(lang);
-            if (menu.classList.contains('show')) {
-              menu.classList.remove('show');
-            }
-          });
-        }
-      }
-
-      // Apply initial language
-      if (currentLang !== DEFAULT_LANG) {
-        loadTranslations(currentLang).then(function (t) {
-          translations = t;
-          applyTranslations(t);
-          updateHtmlLang(currentLang);
-          updateSwitcherUI(currentLang);
-          highlightActiveOption(currentLang);
-          rewriteNavLinks(currentLang);
-          document.dispatchEvent(new CustomEvent('daoessence:i18n-changed', { detail: { lang: currentLang } }));
-        }).catch(function (err) {
-          console.warn('i18n: init failed for', currentLang, err);
-        });
-      } else {
-        updateSwitcherUI(DEFAULT_LANG);
-        highlightActiveOption(DEFAULT_LANG);
-        document.dispatchEvent(new CustomEvent('daoessence:i18n-changed', { detail: { lang: DEFAULT_LANG } }));
-      }
-    }
-
     // Non-blog or non-zh-redirect case — apply initial language directly
     applyInitialLang();
+  }
 
   // Wait for DOM
   if (document.readyState === 'loading') {
