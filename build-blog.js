@@ -1088,12 +1088,16 @@ function generateArticleHtml(post, category, allArticles, options = {}) {
   }
 
   // hreflang links for multilingual SEO
+  // Only include zh-Hant if zh article pages actually exist (built at Step 4b)
   const articleUrl = `${SITE_URL}${langPrefix}/blog/${slug}`;
   const enUrl = `${SITE_URL}/blog/${slug}`;
+  const hasZh = options.hasZh === true;
   const zhUrl = `${SITE_URL}/zh/blog/${slug}`;
-  const hreflangLinks = `
+  const hreflangLinks = hasZh ? `
     <link rel="alternate" hreflang="en" href="${enUrl}">
     <link rel="alternate" hreflang="zh-Hant" href="${zhUrl}">
+    <link rel="alternate" hreflang="x-default" href="${enUrl}">` : `
+    <link rel="alternate" hreflang="en" href="${enUrl}">
     <link rel="alternate" hreflang="x-default" href="${enUrl}">`;
   const canonicalUrl = articleUrl;
 
@@ -1263,7 +1267,7 @@ function generateCategoryHtml(category, articles, options = {}) {
     <meta property="og:locale" content="${isZh ? 'zh_Hant' : 'en_US'}">
     <link rel="canonical" href="${canonicalUrl}">
     <link rel="alternate" hreflang="en" href="${enCatUrl}">
-    <link rel="alternate" hreflang="zh-Hant" href="${zhCatUrl}">
+    ${options.hasZh ? `<link rel="alternate" hreflang="zh-Hant" href="${zhCatUrl}">` : ''}
     <link rel="alternate" hreflang="x-default" href="${enCatUrl}">
     <link rel="stylesheet" href="/styles.min.css?v=${CSS_VERSION}">
     <script src="/main.min.js?v=${CSS_VERSION}" defer></script>
@@ -1470,7 +1474,7 @@ function generateBlogIndex(allArticles, options = {}) {
     <meta property="og:locale" content="${isZh ? 'zh_Hant' : 'en_US'}">
     <link rel="canonical" href="${SITE_URL}${langPrefix}/blog">
     <link rel="alternate" hreflang="en" href="${SITE_URL}/blog">
-    <link rel="alternate" hreflang="zh-Hant" href="${SITE_URL}/zh/blog">
+    ${options.hasZh ? `<link rel="alternate" hreflang="zh-Hant" href="${SITE_URL}/zh/blog">` : ''}
     <link rel="alternate" hreflang="x-default" href="${SITE_URL}/blog">
     <link rel="stylesheet" href="/styles.min.css?v=${CSS_VERSION}">
     <script src="/main.min.js?v=${CSS_VERSION}" defer></script>
@@ -1704,11 +1708,12 @@ async function main() {
 
   // Step 4: Generate English article HTML files in dist/blog/
   const usedSlugs = new Set();
+  const hasZhArticles = zhArticles.length > 0;
   for (const post of allArticles) {
     const slug = generateSlug(post.filename, post.data, usedSlugs);
     post.slug = slug;
 
-    const html = generateArticleHtml(post, post.category, allArticles, { lang: 'en' });
+    const html = generateArticleHtml(post, post.category, allArticles, { lang: 'en', hasZh: hasZhArticles });
     const outPath = path.join(DIST_BLOG_DIR, `${slug}.html`);
     fs.writeFileSync(outPath, html);
     console.log(`  Generated: dist/blog/${slug}.html`);
@@ -1730,7 +1735,7 @@ async function main() {
       post.slug = slug;
 
       // Use zh articles for related posts when available
-      const html = generateArticleHtml(post, post.category, zhArticles, { lang: 'zh-Hant' });
+      const html = generateArticleHtml(post, post.category, zhArticles, { lang: 'zh-Hant', hasZh: true });
       const outPath = path.join(DIST_ZH_BLOG_DIR, `${slug}.html`);
       fs.writeFileSync(outPath, html);
       console.log(`  Generated: dist/zh/blog/${slug}.html`);
@@ -1756,7 +1761,7 @@ async function main() {
   // Generate English category pages for ALL defined categories (even if empty)
   for (const cat of CATEGORY_FOLDERS) {
     const articles = byCategory[cat] || [];
-    const html = generateCategoryHtml(cat, articles, { lang: 'en' });
+    const html = generateCategoryHtml(cat, articles, { lang: 'en', hasZh: hasZhArticles });
     const outPath = path.join(DIST_BLOG_DIR, `${cat}.html`);
     fs.writeFileSync(outPath, html);
     console.log(`  Updated: dist/blog/${cat}.html (${articles.length} articles)`);
@@ -1766,7 +1771,7 @@ async function main() {
   if (zhArticles.length > 0) {
     for (const cat of CATEGORY_FOLDERS) {
       const articles = zhByCategory[cat] || [];
-      const html = generateCategoryHtml(cat, articles, { lang: 'zh-Hant' });
+      const html = generateCategoryHtml(cat, articles, { lang: 'zh-Hant', hasZh: true });
       const outPath = path.join(DIST_ZH_BLOG_DIR, `${cat}.html`);
       fs.writeFileSync(outPath, html);
       console.log(`  Generated: dist/zh/blog/${cat}.html (${articles.length} articles)`);
@@ -1774,14 +1779,14 @@ async function main() {
   }
 
   // Step 6: Generate English blog index
-  const indexHtml = generateBlogIndex(allArticles, { lang: 'en', zhMap: zhArticleMap });
+  const indexHtml = generateBlogIndex(allArticles, { lang: 'en', zhMap: zhArticleMap, hasZh: hasZhArticles });
   const indexPath = path.join(DIST_BLOG_DIR, 'index.html');
   fs.writeFileSync(indexPath, indexHtml);
   console.log(`  Updated: dist/blog/index.html`);
 
   // Step 6a: Generate Traditional Chinese blog index
   if (zhArticles.length > 0) {
-    const zhIndexHtml = generateBlogIndex(zhArticles, { lang: 'zh-Hant' });
+    const zhIndexHtml = generateBlogIndex(zhArticles, { lang: 'zh-Hant', hasZh: true });
     const zhIndexPath = path.join(DIST_ZH_BLOG_DIR, 'index.html');
     fs.writeFileSync(zhIndexPath, zhIndexHtml);
     console.log(`  Generated: dist/zh/blog/index.html`);
@@ -2094,12 +2099,14 @@ async function main() {
   // Add blog articles from CMS (English)
   for (const post of allArticles) {
     const d = post.data.date instanceof Date ? post.data.date.toISOString().split('T')[0] : String(post.data.date || today);
+    const zhAlternate = hasZhArticles
+      ? `\n        <xhtml:link rel="alternate" hreflang="zh-Hant" href="${SITE_URL}/zh/blog/${post.slug}"/>`
+      : '';
     sitemapXml += `    <url>
         <loc>${SITE_URL}/blog/${post.slug}</loc>
         <lastmod>${d}</lastmod>
         <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-        <xhtml:link rel="alternate" hreflang="zh-Hant" href="${SITE_URL}/zh/blog/${post.slug}"/>
+        <priority>0.8</priority>${zhAlternate}
     </url>\n`;
   }
   // Add translated zh articles

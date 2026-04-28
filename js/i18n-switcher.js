@@ -276,10 +276,11 @@
   var BLOG_PATHS = ['/blog/', '/blog/bazi-astrology', '/blog/zodiac-horoscope', '/blog/feng-shui', '/blog/daily-horoscope', '/blog/lucky-tips'];
 
   function rewriteNavLinks(lang) {
-    // Only rewrite blog links to /zh/blog/* (blog articles have separate zh HTML files).
-    // Other pages (shop, about, tools, etc.) stay at their original path —
-    // i18n-switcher uses localStorage to render zh UI on the same URL.
-    // Also include article card links on homepage and other content areas
+    // Only rewrite blog links to /zh/blog/* when zh pages actually exist.
+    // If /zh/ pages don't exist, keep all links at their original EN paths —
+    // i18n-switcher uses JS DOM replacement on the same URL instead.
+    if (lang === 'zh' && !hasZhPages()) return;
+
     var links = document.querySelectorAll('header a[href], footer a[href], .nav-dropdown-menu a[href], .articles-list a[href], .article-card[href]');
 
     for (var i = 0; i < links.length; i++) {
@@ -314,65 +315,55 @@
 
   // ── Switch ──
 
+  /**
+   * Check if /zh/ blog pages actually exist on the server.
+   * Uses a lightweight HEAD request with cache — runs at most once per session.
+   */
+  var _zhPagesExist = null; // null = not checked yet
+  function hasZhPages() {
+    if (_zhPagesExist !== null) return _zhPagesExist;
+    // Optimistic: assume no /zh/ pages (default state when DASHSCOPE_API_KEY is not set)
+    // The actual check is async, so for synchronous calls we default to false.
+    // The async version is used in init() for auto-redirect decisions.
+    return false;
+  }
+  function checkZhPagesAsync() {
+    if (_zhPagesExist !== null) return Promise.resolve(_zhPagesExist);
+    return fetch('/zh/blog/', { method: 'HEAD', cache: 'no-store' })
+      .then(function(r) { _zhPagesExist = r.ok; return _zhPagesExist; })
+      .catch(function() { _zhPagesExist = false; return false; });
+  }
+
   function switchLanguage(lang) {
     if (lang === currentLang) return;
     currentLang = lang;
     saveLang(lang);
 
-    // ── Blog redirect ──
-    // Blog articles/pages are built as separate EN / zh-Hant HTML files at build time.
-    // Runtime DOM replacement cannot translate article body — redirect to the
-    // correct language version instead.
+    // ── Blog redirect (only when /zh/ pages exist) ──
     var pathname = window.location.pathname;
-    if (lang === 'zh') {
-      // EN → ZH: don't redirect homepage (no /zh/index.html generated)
-      // Just translate the UI in-place
-      // EN → ZH: /blog/slug → /zh/blog/slug
-      var enMatch = pathname.match(/^\/blog\/(.+)$/);
-      if (enMatch) {
-        window.location.href = '/zh/blog/' + enMatch[1];
-        return;
-      }
-      // EN → ZH: /blog/ → /zh/blog/
-      if (pathname === '/blog/' || pathname === '/blog' || pathname === '/blog/index.html') {
-        window.location.href = '/zh/blog/';
-        return;
-      }
-      // EN → ZH: /blog/category → /zh/blog/category
-      var enCatMatch = pathname.match(/^\/blog\/(bazi-astrology|zodiac-horoscope|feng-shui|daily-horoscope|lucky-tips)(\.html)?$/);
-      if (enCatMatch) {
-        window.location.href = '/zh/blog/' + enCatMatch[1] + '/';
-        return;
-      }
-    } else {
-      // ZH → EN: /zh/ homepage → /
-      if (pathname === '/zh/' || pathname === '/zh' || pathname === '/zh/index.html') {
-        window.location.href = '/';
-        return;
-      }
-      // ZH → EN: /zh/blog/slug → /blog/slug
+    var onBlogPath = pathname.indexOf('/blog/') === 0 || pathname === '/blog/' || pathname === '/blog' || pathname === '/blog/index.html';
+    var onZhBlogPath = pathname.indexOf('/zh/blog/') === 0;
+
+    if (onZhBlogPath && lang === 'en') {
+      // Always redirect /zh/ paths back to EN (handles stale bookmarks/links)
       var zhMatch = pathname.match(/^\/zh\/blog\/(.+)$/);
       if (zhMatch) {
         window.location.href = '/blog/' + zhMatch[1];
         return;
       }
-      // ZH → EN: /zh/blog/ → /blog/
       if (pathname === '/zh/blog/' || pathname === '/zh/blog' || pathname === '/zh/blog/index.html') {
         window.location.href = '/blog/';
         return;
       }
-      // ZH → EN: /zh/blog/category → /blog/category
       var zhCatMatch = pathname.match(/^\/zh\/blog\/(bazi-astrology|zodiac-horoscope|feng-shui|daily-horoscope|lucky-tips)(\.html)?$/);
       if (zhCatMatch) {
         window.location.href = '/blog/' + zhCatMatch[1] + '.html';
         return;
       }
-      // ZH → EN: /zh/shop → /shop
       if (pathname === '/zh/shop' || pathname === '/zh/shop/') {
         window.location.href = '/shop';
         return;
       }
-      // ZH → EN: /zh/other → /other (general zh prefix redirect)
       var zhPrefixMatch = pathname.match(/^\/zh\/(.+)$/);
       if (zhPrefixMatch) {
         window.location.href = '/' + zhPrefixMatch[1];
@@ -380,6 +371,25 @@
       }
     }
 
+    // For blog EN→ZH: use async check — redirect only if /zh/ pages exist
+    if (onBlogPath && lang === 'zh' && hasZhPages()) {
+      var enMatch = pathname.match(/^\/blog\/(.+)$/);
+      if (enMatch) {
+        window.location.href = '/zh/blog/' + enMatch[1];
+        return;
+      }
+      if (pathname === '/blog/' || pathname === '/blog' || pathname === '/blog/index.html') {
+        window.location.href = '/zh/blog/';
+        return;
+      }
+      var enCatMatch = pathname.match(/^\/blog\/(bazi-astrology|zodiac-horoscope|feng-shui|daily-horoscope|lucky-tips)(\.html)?$/);
+      if (enCatMatch) {
+        window.location.href = '/zh/blog/' + enCatMatch[1] + '/';
+        return;
+      }
+    }
+
+    // ── JS DOM replacement (default for all pages) ──
     if (lang === DEFAULT_LANG) {
       // Restore original English text — no network request needed
       restoreOriginalTexts();
@@ -432,24 +442,13 @@
     var pathname = window.location.pathname;
     var onZhPath = pathname.indexOf('/zh/') === 0 || pathname === '/zh';
 
-    if (currentLang === 'zh' && !onZhPath && shouldRedirectToZhBlog(pathname)) {
-      // Saved lang = zh, but on EN blog URL → redirect to /zh/blog/
-      var zhPath = '/zh' + pathname.replace(/\/index\.html$/, '').replace(/\/$/, '') + '/';
-      if (pathname === '/blog' || pathname === '/blog/' || pathname === '/blog/index.html') {
-        zhPath = '/zh/blog/';
-      }
-      window.location.href = zhPath;
-      return;
-    }
-
+    // ZH → EN: if saved lang = en but on /zh/ URL → always redirect back
     if (currentLang === 'en' && onZhPath) {
-      // Saved lang = en, but on /zh/ URL → redirect to EN version
       var enPath = pathname.replace(/^\/zh/, '') || '/';
       if (enPath === '/') {
         window.location.href = '/';
         return;
       }
-      // Ensure proper extension for category pages
       if (enPath.match(/^\/blog\/(bazi-astrology|zodiac-horoscope|feng-shui|daily-horoscope|lucky-tips)\/$/)) {
         enPath = enPath.replace(/\/$/, '.html');
       }
@@ -457,52 +456,70 @@
       return;
     }
 
-    // Bind dropdown events
-    var trigger = document.getElementById('lang-trigger');
-    var menu = document.getElementById('lang-menu');
-
-    if (trigger && menu) {
-      // Prevent navigation
-      trigger.addEventListener('click', function (e) {
-        e.preventDefault();
-      });
-
-      // Language option clicks
-      var options = menu.querySelectorAll('.lang-option');
-      for (var i = 0; i < options.length; i++) {
-        options[i].addEventListener('click', function (e) {
-          e.preventDefault();
-          e.stopPropagation();
-          var lang = this.getAttribute('data-lang');
-          switchLanguage(lang);
-          // Close dropdown
-          if (menu.classList.contains('show')) {
-            menu.classList.remove('show');
+    // EN → ZH: only redirect if /zh/ pages actually exist
+    // Use async check to avoid redirecting to 404
+    if (currentLang === 'zh' && !onZhPath && shouldRedirectToZhBlog(pathname)) {
+      checkZhPagesAsync().then(function(zhExists) {
+        if (zhExists) {
+          var zhPath = '/zh' + pathname.replace(/\/index\.html$/, '').replace(/\/$/, '') + '/';
+          if (pathname === '/blog' || pathname === '/blog/' || pathname === '/blog/index.html') {
+            zhPath = '/zh/blog/';
           }
+          window.location.href = zhPath;
+          return;
+        }
+        // /zh/ pages don't exist — fall through to JS DOM replacement
+        applyInitialLang();
+      });
+      return;
+    }
+
+    function applyInitialLang() {
+      // Bind dropdown events
+      var trigger = document.getElementById('lang-trigger');
+      var menu = document.getElementById('lang-menu');
+
+      if (trigger && menu) {
+        trigger.addEventListener('click', function (e) {
+          e.preventDefault();
         });
+
+        var options = menu.querySelectorAll('.lang-option');
+        for (var i = 0; i < options.length; i++) {
+          options[i].addEventListener('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            var lang = this.getAttribute('data-lang');
+            switchLanguage(lang);
+            if (menu.classList.contains('show')) {
+              menu.classList.remove('show');
+            }
+          });
+        }
+      }
+
+      // Apply initial language
+      if (currentLang !== DEFAULT_LANG) {
+        loadTranslations(currentLang).then(function (t) {
+          translations = t;
+          applyTranslations(t);
+          updateHtmlLang(currentLang);
+          updateSwitcherUI(currentLang);
+          highlightActiveOption(currentLang);
+          rewriteNavLinks(currentLang);
+          document.dispatchEvent(new CustomEvent('daoessence:i18n-changed', { detail: { lang: currentLang } }));
+        }).catch(function (err) {
+          console.warn('i18n: init failed for', currentLang, err);
+        });
+      } else {
+        updateSwitcherUI(DEFAULT_LANG);
+        highlightActiveOption(DEFAULT_LANG);
+        document.dispatchEvent(new CustomEvent('daoessence:i18n-changed', { detail: { lang: DEFAULT_LANG } }));
       }
     }
 
-    // Apply initial language
-    if (currentLang !== DEFAULT_LANG) {
-      loadTranslations(currentLang).then(function (t) {
-        translations = t;
-        applyTranslations(t);
-        updateHtmlLang(currentLang);
-        updateSwitcherUI(currentLang);
-        highlightActiveOption(currentLang);
-        rewriteNavLinks(currentLang);
-        document.dispatchEvent(new CustomEvent('daoessence:i18n-changed', { detail: { lang: currentLang } }));
-      }).catch(function (err) {
-        console.warn('i18n: init failed for', currentLang, err);
-      });
-    } else {
-      // currentLang === DEFAULT_LANG === 'en': no redirect needed, just init UI
-      updateSwitcherUI(DEFAULT_LANG);
-      highlightActiveOption(DEFAULT_LANG);
-      document.dispatchEvent(new CustomEvent('daoessence:i18n-changed', { detail: { lang: DEFAULT_LANG } }));
-    }
-  }
+    // Non-blog or non-zh-redirect case — apply initial language directly
+    applyInitialLang();
 
   // Wait for DOM
   if (document.readyState === 'loading') {
