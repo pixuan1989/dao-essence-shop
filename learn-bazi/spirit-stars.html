@@ -410,10 +410,12 @@
     <div class="page-banner-bg"></div>
     <div class="page-banner-text-bg"></div>
     <div class="page-banner-content">
-        <div class="page-banner-eyebrow">Chapter 6 of 6</div>
+        <div class="page-banner-eyebrow en-eyebrow">Chapter 6 of 6</div>
+        <div class="page-banner-eyebrow zh-eyebrow" style="display:none;">第 6 章，共 6 章</div>
         <h1 class="en-banner">Ch 6: Spirit Stars (Shen Sha)</h1>
         <h1 class="zh-banner" style="display:none;">第6章：神煞查詢以及作用</h1>
-        <p class="page-banner-sub">Heavenly Nobleman, Peach Blossom, Traveling Horse, and other spirit stars — what they mean and when they matter.</p>
+        <p class="page-banner-sub en-sub">Heavenly Nobleman, Peach Blossom, Traveling Horse, and other spirit stars — what they mean and when they matter.</p>
+        <p class="page-banner-sub zh-sub" style="display:none;">天乙貴人、桃花、驛馬等神煞——它們的含義及何時有效。</p>
     </div>
 </section>
 
@@ -825,6 +827,8 @@
         zhContent.classList.add('active');
         enContent.classList.remove('active');
         var enBanners = document.querySelectorAll('.en-banner'); var zhBanners = document.querySelectorAll('.zh-banner'); for(var i=0;i<enBanners.length;i++) enBanners[i].style.display='none'; for(var i=0;i<zhBanners.length;i++) zhBanners[i].style.display='block';
+        var enEyebrows = document.querySelectorAll('.en-eyebrow'); var zhEyebrows = document.querySelectorAll('.zh-eyebrow'); for(var i=0;i<enEyebrows.length;i++) enEyebrows[i].style.display='none'; for(var i=0;i<zhEyebrows.length;i++) zhEyebrows[i].style.display='inline-flex';
+        var enSubs = document.querySelectorAll('.en-sub'); var zhSubs = document.querySelectorAll('.zh-sub'); for(var i=0;i<enSubs.length;i++) enSubs[i].style.display='none'; for(var i=0;i<zhSubs.length;i++) zhSubs[i].style.display='block';
     }
 
     function showEn() {
@@ -833,6 +837,8 @@
         enContent.classList.add('active');
         zhContent.classList.remove('active');
         var enBanners = document.querySelectorAll('.en-banner'); var zhBanners = document.querySelectorAll('.zh-banner'); for(var i=0;i<enBanners.length;i++) enBanners[i].style.display='block'; for(var i=0;i<zhBanners.length;i++) zhBanners[i].style.display='none';
+        var enEyebrows = document.querySelectorAll('.en-eyebrow'); var zhEyebrows = document.querySelectorAll('.zh-eyebrow'); for(var i=0;i<enEyebrows.length;i++) enEyebrows[i].style.display='inline-flex'; for(var i=0;i<zhEyebrows.length;i++) zhEyebrows[i].style.display='none';
+        var enSubs = document.querySelectorAll('.en-sub'); var zhSubs = document.querySelectorAll('.zh-sub'); for(var i=0;i<enSubs.length;i++) enSubs[i].style.display='block'; for(var i=0;i<zhSubs.length;i++) zhSubs[i].style.display='none';
     }
 
     if (getCurrentLang() === 'zh') showZh();
