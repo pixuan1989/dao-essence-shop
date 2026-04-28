@@ -340,6 +340,16 @@
                 <li><a href="/culture" class="nav-link" data-i18n="common.five_elements">Five Elements</a></li>
                 <li><a href="/learn-bazi" class="nav-link active" data-i18n="common.learn_bazi">Learn BaZi</a></li>
                 <li><a href="/shop" class="nav-link" data-i18n="common.shop">Shop</a></li>
+                <li class="nav-dropdown">
+                    <a href="#" class="nav-dropdown-trigger lang-switcher-trigger" id="lang-trigger">
+                        <span class="lang-label" id="lang-label">EN</span>
+                        <i class="nav-dropdown-arrow"></i>
+                    </a>
+                    <div class="nav-dropdown-menu" id="lang-menu">
+                        <a href="#" data-lang="en" class="lang-option active">English</a>
+                        <a href="#" data-lang="zh" class="lang-option">繁體中文</a>
+                    </div>
+                </li>
             </ul>
         </nav>
     </div>
@@ -351,7 +361,8 @@
     <div class="page-banner-text-bg"></div>
     <div class="page-banner-content">
         <div class="page-banner-eyebrow">Chapter 3 of 6</div>
-        <h1>Ch 3: Intermediate Skills — Education & Timing</h1>
+        <h1 class="en-banner">Ch 3: Intermediate Skills — Education & Timing</h1>
+        <h1 class="zh-banner" style="display:none;">第3章：初出茅廬</h1>
         <p class="page-banner-sub">Analyzing education level, marriage timing, and predicting key life events.</p>
     </div>
 </section>
@@ -569,6 +580,12 @@
     <div class="case-note">中等婚姻：納音相比；年柱相比；日柱相比</div>
     <div class="case-note">下等婚姻：納音刑沖剋害；年柱刑沖剋害；日柱刑沖剋害</div>
   </div>
+
+    <!-- ZH Prev/Next -->
+    <div class="ch-nav">
+        <a class="ch-nav-btn" href="/learn-bazi/career-love">← 上一篇：小試牛刀</a>
+        <a class="ch-nav-btn" href="/learn-bazi/luck-pillars">下一篇：大運流年 →</a>
+    </div>
 </div>
         </div>
 
@@ -670,11 +687,17 @@
     function showZh() {
         enContent.style.display = 'none';
         zhContent.style.display = 'block';
+        zhContent.classList.add('active');
+        enContent.classList.remove('active');
+        var enBanners = document.querySelectorAll('.en-banner'); var zhBanners = document.querySelectorAll('.zh-banner'); for(var i=0;i<enBanners.length;i++) enBanners[i].style.display='none'; for(var i=0;i<zhBanners.length;i++) zhBanners[i].style.display='block';
     }
 
     function showEn() {
         enContent.style.display = 'block';
         zhContent.style.display = 'none';
+        enContent.classList.add('active');
+        zhContent.classList.remove('active');
+        var enBanners = document.querySelectorAll('.en-banner'); var zhBanners = document.querySelectorAll('.zh-banner'); for(var i=0;i<enBanners.length;i++) enBanners[i].style.display='block'; for(var i=0;i<zhBanners.length;i++) zhBanners[i].style.display='none';
     }
 
     if (getCurrentLang() === 'zh') showZh();

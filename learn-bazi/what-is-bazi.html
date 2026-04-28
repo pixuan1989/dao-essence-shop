@@ -340,6 +340,16 @@
                 <li><a href="/culture" class="nav-link" data-i18n="common.five_elements">Five Elements</a></li>
                 <li><a href="/learn-bazi" class="nav-link active" data-i18n="common.learn_bazi">Learn BaZi</a></li>
                 <li><a href="/shop" class="nav-link" data-i18n="common.shop">Shop</a></li>
+                <li class="nav-dropdown">
+                    <a href="#" class="nav-dropdown-trigger lang-switcher-trigger" id="lang-trigger">
+                        <span class="lang-label" id="lang-label">EN</span>
+                        <i class="nav-dropdown-arrow"></i>
+                    </a>
+                    <div class="nav-dropdown-menu" id="lang-menu">
+                        <a href="#" data-lang="en" class="lang-option active">English</a>
+                        <a href="#" data-lang="zh" class="lang-option">繁體中文</a>
+                    </div>
+                </li>
             </ul>
         </nav>
     </div>
@@ -351,7 +361,8 @@
     <div class="page-banner-text-bg"></div>
     <div class="page-banner-content">
         <div class="page-banner-eyebrow">Chapter 1 of 6</div>
-        <h1>Ch 1: Getting Started — Your Birth Time Code</h1>
+        <h1 class="en-banner">Ch 1: Getting Started — Your Birth Time Code</h1>
+        <h1 class="zh-banner" style="display:none;">第1章：入門必讀</h1>
         <p class="page-banner-sub">Five Elements, Ten Gods, Heavenly Stems, Earthly Branches, chart patterns, and finding your Favorable Element.</p>
     </div>
 </section>
@@ -821,6 +832,11 @@
   <p>乙坐醜庫，醜爲金庫，也就是日主的七殺庫，七殺主權利也主男人，在看丁、己皆從未中出，未爲日主託根之地，且亥卯未三匯木局中神在卯，卯在時支也表示在家中，所有力量都匯聚於日主，掌控了卯就等於掌控了全局，由此看來全局七個字皆爲日主所用，普天之下莫非王土？所以能管得了皇帝。所以此局就是運用了十神象，換象，合象的概念來斷，根本沒用旺衰之理和干支的生剋制化以及刑衝破害來看，這就是象法的精妙和精準之處。</p>
   <h4>5.3.4.做功不明</h4>
   <p>如果一個八字日主既看不出想做啥，也沒有黨勢，又取象不明全憑生克去做功，那基本可以斷定此人格局不高，體力從業者。當然還有一些八字做功比較雜，那麼就要一一甄別找出主線，一般這類人事業比較雜，比如先上班然後再創業，甚至先進體後經商等等。</p>
+
+        <div class="ch-nav">
+            <span class="ch-nav-btn disabled">← 上一篇</span>
+            <a class="ch-nav-btn" href="/learn-bazi/career-love">下一篇：事業與感情 →</a>
+        </div>
 </div>
     </div>
 
@@ -921,11 +937,17 @@
     function showZh() {
         enContent.style.display = 'none';
         zhContent.style.display = 'block';
+        zhContent.classList.add('active');
+        enContent.classList.remove('active');
+        var enBanners = document.querySelectorAll('.en-banner'); var zhBanners = document.querySelectorAll('.zh-banner'); for(var i=0;i<enBanners.length;i++) enBanners[i].style.display='none'; for(var i=0;i<zhBanners.length;i++) zhBanners[i].style.display='block';
     }
 
     function showEn() {
         enContent.style.display = 'block';
         zhContent.style.display = 'none';
+        enContent.classList.add('active');
+        zhContent.classList.remove('active');
+        var enBanners = document.querySelectorAll('.en-banner'); var zhBanners = document.querySelectorAll('.zh-banner'); for(var i=0;i<enBanners.length;i++) enBanners[i].style.display='block'; for(var i=0;i<zhBanners.length;i++) zhBanners[i].style.display='none';
     }
 
     if (getCurrentLang() === 'zh') showZh();
