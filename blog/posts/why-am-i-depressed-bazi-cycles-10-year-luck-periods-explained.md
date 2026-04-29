@@ -1,12 +1,10 @@
 ---
-title: Why Am I Depressed? Bazi Cycles & 10-Year Luck Periods
+title: "Why Am I Depressed? BaZi & 10-Year Luck Cycles"
 category: bazi-astrology
 tags:
   - BaZi
   - Astrology
-description: Feeling down? Learn how Bazi (Chinese astrology) 10-year cycles
-  affect your emotions. Discover 7 Bazi patterns and understand that this is
-  just a temporary energy season.
+description: Feeling stuck? Learn how BaZi 10-year luck cycles affect your mood. Discover 7 energy patterns and why this phase is temporary — with actionable coping tips.
 date: 2026-04-23
 author: Xuanzhen
 readTime: 5

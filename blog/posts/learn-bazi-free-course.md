@@ -1,7 +1,7 @@
 ---
 title: "Free BaZi Course: Learn at Your Own Pace"
 slug: "learn-bazi-free-course"
-description: "Learn BaZi free with a complete 6-chapter course. Discover your Day Master, read career patterns, and understand 10-year luck cycles — at your own pace."
+description: "Learn BaZi free with a 6-chapter course. Discover your Day Master, read career patterns, and understand 10-year luck cycles — at your own pace."
 date: "2026-04-29"
 author: "Xuanzhen"
 readTime: 9

@@ -7,7 +7,7 @@ tags:
   - "Chinese Philosophy"
   - "TCM"
   - "Feng Shui"
-description: "Learn everything about the Five Elements theory (Wu Xing, 五行) — Wood, Fire, Earth, Metal, Water. Understand the generating and controlling cycles, how they relate to Chinese medicine, feng shui, personality, and health."
+description: "Learn the Five Elements theory (Wu Xing) — Wood, Fire, Earth, Metal, Water. Understand generating and controlling cycles, and how they shape personality, health, and feng shui."
 date: "2026-04-08"
 author: "DAO Essence"
 readTime: 12

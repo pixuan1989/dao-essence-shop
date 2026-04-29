@@ -1,10 +1,10 @@
 ---
-title: "Birth Hours & Wealth Personalities: A Western-Friendly Guide"
+title: "Birth Hours & Wealth: What Your Time Reveals"
 category: bazi-astrology
 tags:
   - 八字
   - 命理
-description: Discover your Wealth Archetype through the ancient 12 Earthly Branches. Learn how your birth hour shapes your earning style and money personality.
+description: Discover your Wealth Archetype through the 12 Earthly Branches. Learn how your birth hour shapes your earning style, spending habits, and money personality.
 date: 2026-04-15
 author: DAO Essence
 readTime: 5
