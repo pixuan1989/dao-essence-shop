@@ -4,7 +4,7 @@ category: zodiac-horoscope
 tags:
   - 生肖
   - 运势
-description: Today's Chinese zodiac forecast: Snake, Rat, Dragon are top lucky signs. Tiger, Rabbit, Pig — handle with care. Daily luck tips for all 12 zodiac animals.
+description: "Today's Chinese zodiac forecast: Snake, Rat, Dragon are top lucky signs. Tiger, Rabbit, Pig — handle with care. Daily luck tips for all 12 zodiac animals."
 date: 2026-04-16
 author: DAO Essence
 readTime: 5

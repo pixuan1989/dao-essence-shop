@@ -9,7 +9,7 @@ tags:
   - soulmate
   - bazi-love
   - chinese-zodiac-love
-description: Can your birth date predict when you'll find love? Learn how BaZi and the Five Elements reveal your love timing, soulmate direction, and relationship blueprint.
+description: "Can your birth date predict when you'll find love? Learn how BaZi and the Five Elements reveal your love timing, soulmate direction, and relationship blueprint."
 date: 2026-04-18
 author: DAO Essence
 readTime: 11

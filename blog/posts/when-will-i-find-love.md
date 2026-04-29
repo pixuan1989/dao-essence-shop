@@ -1,5 +1,5 @@
 ---
-title: When Will I Find Love? Your Birth Date Knows
+title: "When Will I Find Love? Your Birth Date Knows"
 category: bazi-astrology
 tags:
   - when-will-i-find-love
@@ -7,7 +7,7 @@ tags:
   - soulmate
   - chinese-zodiac-love
   - love-prediction
-description: When will I find love? Discover what Chinese astrology says about your love timing, which life phases favor romance, and how to read the signals in your birth chart.
+description: "When will I find love? Discover what Chinese astrology says about your love timing, which life phases favor romance, and how to read the signals in your birth chart."
 date: 2026-04-18
 author: DAO Essence
 readTime: 13

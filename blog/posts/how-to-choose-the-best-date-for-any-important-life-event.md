@@ -1,9 +1,9 @@
 ---
-title: Best Dates for Life Events: Chinese Calendar Guide
+title: "Best Dates for Life Events: Chinese Calendar Guide"
 category: lucky-tips
 tags:
   - PerfectTiming，ChineseCalendarWisdom，AuspiciousDates
-description: Pick the best dates for weddings, moving, business launches, and more. Free Chinese calendar tool uses 2000-year wisdom to find your lucky dates.
+description: "Pick the best dates for weddings, moving, business launches, and more. Free Chinese calendar tool uses 2000-year wisdom to find your lucky dates."
 date: 2026-04-19
 author: DAO Essence
 readTime: 5

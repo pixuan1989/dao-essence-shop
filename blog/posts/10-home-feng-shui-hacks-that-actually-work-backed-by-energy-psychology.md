@@ -1,10 +1,10 @@
 ---
-title: 10 Home Feng Shui Hacks That Actually Work
+title: "10 Home Feng Shui Hacks That Actually Work"
 category: feng-shui
 tags:
   - Feng Shui
   - Environmental Psychology
-description: Transform your home with 10 feng shui hacks backed by energy psychology. Improve flow, cleanliness, and intentionality to enhance your wealth, health, and relationships.
+description: "Transform your home with 10 feng shui hacks backed by energy psychology. Improve flow, cleanliness, and intentionality to enhance your wealth, health, and relationships."
 date: 2026-04-16
 author: DAO Essence
 readTime: 8

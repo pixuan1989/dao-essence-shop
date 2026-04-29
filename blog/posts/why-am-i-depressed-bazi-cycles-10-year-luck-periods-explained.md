@@ -4,7 +4,7 @@ category: bazi-astrology
 tags:
   - BaZi
   - Astrology
-description: Feeling stuck? Learn how BaZi 10-year luck cycles affect your mood. Discover 7 energy patterns and why this phase is temporary — with actionable coping tips.
+description: "Feeling stuck? Learn how BaZi 10-year luck cycles affect your mood. Discover 7 energy patterns and why this phase is temporary — with actionable coping tips."
 seoDescription: "Feeling stuck? BaZi's 10-year luck cycles explain why some years feel heavier than others. Discover 7 energy patterns behind emotional lows and why this phase is temporary."
 date: 2026-04-23
 author: Xuanzhen

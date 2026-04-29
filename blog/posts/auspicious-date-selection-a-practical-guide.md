@@ -3,7 +3,7 @@ title: "Auspicious Date Selection: A Practical Guide"
 category: feng-shui
 tags:
   - Feng Shui
-description: Chinese date selection (Ze Ri) aligns your life events with natural energy cycles. Learn how this 2000-year practice helps pick the best day for weddings, moving, and business.
+description: "Chinese date selection (Ze Ri) aligns your life events with natural energy cycles. Learn how this 2000-year practice helps pick the best day for weddings, moving, and business."
 seoDescription: "Pick the perfect day for weddings, moving, or business launches. Learn Chinese auspicious date selection (Ze Ri) — a 2000-year timing system that cross-references your birth chart with calendar energy."
 date: 2026-04-24
 author: Xuanzhen

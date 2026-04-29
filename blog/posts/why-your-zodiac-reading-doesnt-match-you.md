@@ -1,5 +1,5 @@
 ---
-title: Why Your Zodiac Reading Doesn't Match You
+title: "Why Your Zodiac Reading Doesn't Match You"
 slug: zodiac-reading-vs-bazi
 category: bazi-astrology
 tags:
@@ -10,7 +10,7 @@ tags:
   - what astrology can't predict
   - BaZi 10-year cycles
   - when to change careers astrology
-description: Your birth chart tells you who you are, but it can't tell you when. Discover what astrology misses about timing, life phases, and when to make your biggest moves.
+description: "Your birth chart tells you who you are, but it can't tell you when. Discover what astrology misses about timing, life phases, and when to make your biggest moves."
 seoDescription: Your birth chart tells you who you are, but not when. Discover what astrology misses about timing, life phases, and when to make your biggest moves.
 date: 2026-04-26
 author: Xuanzhen

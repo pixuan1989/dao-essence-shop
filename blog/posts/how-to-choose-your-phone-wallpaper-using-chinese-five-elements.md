@@ -1,5 +1,5 @@
 ---
-title: Phone Wallpaper Colors & Five Elements
+title: "Phone Wallpaper Colors & Five Elements"
 category: feng-shui
 tags:
   - Feng Shui

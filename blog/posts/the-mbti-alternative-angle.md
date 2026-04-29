@@ -1,10 +1,10 @@
 ---
-title: The "MBTI Alternative" Angle
+title: 'The "MBTI Alternative" Angle'
 category: bazi-astrology
 tags:
   - BaZi elements
   - Chinese astrology personality types
-description: Is your spirit animal actually a visionary Wood Dragon or a meticulous Metal Snake? Discover how BaZi's Five Elements system reveals your true personality type.
+description: "Is your spirit animal actually a visionary Wood Dragon or a meticulous Metal Snake? Discover how BaZi's Five Elements system reveals your true personality type."
 seoDescription: "Forget MBTI — BaZi's Five Elements system reveals your true personality type. Are you a visionary Wood, charismatic Fire, grounded Earth, disciplined Metal, or intuitive Water? Find out free."
 date: 2026-04-17
 author: DAO Essence

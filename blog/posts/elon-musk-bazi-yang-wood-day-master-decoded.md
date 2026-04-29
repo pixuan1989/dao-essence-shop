@@ -12,7 +12,7 @@ tags:
   - BaZi career analysis
   - Da Yun luck cycles
   - Jia Wood personality
-description: How does Elon Musk's BaZi chart explain his $400B rise? Decode his Yang Wood Day Master, Seven Killings Star, and luck cycles. Check your free chart.
+description: "How does Elon Musk's BaZi chart explain his $400B rise? Decode his Yang Wood Day Master, Seven Killings Star, and luck cycles. Check your free chart."
 date: 2026-04-25
 author: Xuanzhen
 readTime: 8

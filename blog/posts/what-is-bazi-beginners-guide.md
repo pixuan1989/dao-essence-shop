@@ -1,5 +1,5 @@
 ---
-title: What Is BaZi? A Complete Beginner's Guide
+title: "What Is BaZi? A Complete Beginner's Guide"
 category: bazi-astrology
 tags:
   - BaZi
@@ -7,7 +7,7 @@ tags:
   - Chinese Astrology
   - Heavenly Stems
   - Earthly Branches
-description: What is BaZi? Learn the Four Pillars of Destiny for free — Day Master, Five Elements, Ten Gods, and how your birth time shapes your personality and career path.
+description: "What is BaZi? Learn the Four Pillars of Destiny for free — Day Master, Five Elements, Ten Gods, and how your birth time shapes your personality and career path."
 seoDescription: "What is BaZi (Four Pillars of Destiny)? Learn the basics free — Day Master, Five Elements, Ten Gods, and how your birth time reveals your personality, career, and life patterns."
 date: 2026-04-08
 author: DAO Essence
