@@ -2066,8 +2066,6 @@ async function main() {
     { loc: '/learn-bazi/luck-pillars', changefreq: 'monthly', priority: '0.8' },
     { loc: '/learn-bazi/practical', changefreq: 'monthly', priority: '0.8' },
     { loc: '/learn-bazi/spirit-stars', changefreq: 'monthly', priority: '0.8' },
-    { loc: '/guide', changefreq: 'monthly', priority: '0.6' },
-    { loc: '/destiny', changefreq: 'monthly', priority: '0.6' },
     { loc: '/privacy', changefreq: 'yearly', priority: '0.3' },
     { loc: '/terms', changefreq: 'yearly', priority: '0.3' },
   ];
