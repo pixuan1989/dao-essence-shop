@@ -372,24 +372,38 @@
     }
 
     // For blog EN→ZH: use async check — redirect only if /zh/ pages exist
-    if (onBlogPath && lang === 'zh' && hasZhPages()) {
-      var enMatch = pathname.match(/^\/blog\/(.+)$/);
-      if (enMatch) {
-        window.location.href = '/zh/blog/' + enMatch[1];
-        return;
-      }
-      if (pathname === '/blog/' || pathname === '/blog' || pathname === '/blog/index.html') {
-        window.location.href = '/zh/blog/';
-        return;
-      }
-      var enCatMatch = pathname.match(/^\/blog\/(bazi-astrology|zodiac-horoscope|feng-shui|daily-horoscope|lucky-tips)(\.html)?$/);
-      if (enCatMatch) {
-        window.location.href = '/zh/blog/' + enCatMatch[1] + '/';
-        return;
-      }
+    if (onBlogPath && lang === 'zh') {
+      // Must use async check; sync hasZhPages() defaults to false
+      checkZhPagesAsync().then(function(zhExists) {
+        if (!zhExists) {
+          // /zh/ pages don't exist — fall through to JS DOM replacement
+          _applyLangSwitch(lang);
+          return;
+        }
+        var enMatch = pathname.match(/^\/blog\/(.+)$/);
+        if (enMatch) {
+          window.location.href = '/zh/blog/' + enMatch[1];
+          return;
+        }
+        if (pathname === '/blog/' || pathname === '/blog' || pathname === '/blog/index.html') {
+          window.location.href = '/zh/blog/';
+          return;
+        }
+        var enCatMatch = pathname.match(/^\/blog\/(bazi-astrology|zodiac-horoscope|feng-shui|daily-horoscope|lucky-tips)(\.html)?$/);
+        if (enCatMatch) {
+          window.location.href = '/zh/blog/' + enCatMatch[1] + '/';
+          return;
+        }
+        _applyLangSwitch(lang);
+      });
+      return;
     }
 
     // ── JS DOM replacement (default for all pages) ──
+    _applyLangSwitch(lang);
+  }
+
+  function _applyLangSwitch(lang) {
     if (lang === DEFAULT_LANG) {
       // Restore original English text — no network request needed
       restoreOriginalTexts();
