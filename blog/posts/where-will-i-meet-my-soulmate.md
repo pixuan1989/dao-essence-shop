@@ -38,6 +38,8 @@ faq:
       constant. However, your Da Yun (major life cycles) can temporarily
       activate certain directions more strongly during specific 10-year periods.
 ---
+**Your soulmate direction is the geographic compass point most aligned with your birth energy — and Chinese astrology can calculate it from your birth date alone.** In BaZi, your Day Master (the Heavenly Stem of your birth day) belongs to one of the Five Elements, each corresponding to a direction: Wood → East, Fire → South, Earth → Center/Southwest, Metal → West, Water → North. Traveling in your soulmate direction during favorable years increases your chances of encountering a meaningful connection. [Find your soulmate direction for free](/soulmate-calculator) — 30 seconds, no sign-up required.
+
 # Where Will I Meet My Soulmate? 
 
 *"The person you're meant to find might be closer than you think — just in a direction you haven't considered."*

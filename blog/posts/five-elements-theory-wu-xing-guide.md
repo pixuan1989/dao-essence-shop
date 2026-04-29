@@ -8,6 +8,7 @@ tags:
   - "TCM"
   - "Feng Shui"
 description: "Learn the Five Elements theory (Wu Xing) — Wood, Fire, Earth, Metal, Water. Understand generating and controlling cycles, and how they shape personality, health, and feng shui."
+seoDescription: "Five Elements theory (Wu Xing): Wood, Fire, Earth, Metal, Water — how they generate, control, and balance each other. A complete guide to the foundation of Chinese metaphysics."
 date: "2026-04-08"
 author: "DAO Essence"
 readTime: 12

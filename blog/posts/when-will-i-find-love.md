@@ -38,6 +38,8 @@ faq:
       especially during favorable Da Yun (major life cycles). Love timing is
       influenced by multiple factors, not just age.
 ---
+**Chinese astrology won't give you an exact date, but it can tell you which years and life phases favor romance for your specific elemental type.** Every person has a 'love season' based on their Day Master — Wood types peak between 24-28, Fire between 22-27, Earth between 26-32, Metal between 27-33, and Water between 23-29. Beyond age, your BaZi chart reveals favorable zodiac years and 10-year luck cycles that amplify love energy. [Check your love timing for free](/soulmate-calculator) — it takes 30 seconds.
+
 # When Will I Find Love? 
 
 *"Love doesn't arrive on a schedule — but the universe does have seasons."*

@@ -36,6 +36,8 @@ faq:
       additional precision but is optional for a general reading.
 ---
 
+**Chinese astrology doesn't 'predict' a specific date, but it does reveal something more useful: the seasons of your love life.** Based on your BaZi birth chart, you can identify your love archetype, your peak romantic years, and even the geographic direction where you're most likely to meet your soulmate. The system has been refined over 2,000 years and works entirely from your birth date. [Get your free love reading](/soulmate-calculator) — it takes 30 seconds and reveals your soulmate direction, timing, and love style.
+
 # Love Prediction by Date of Birth: How Chinese Astrology Reveals Your Love Timing
 
 *"Your birthday tells a story about more than just your age — it maps the energy patterns that shape your love life."*

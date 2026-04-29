@@ -10,7 +10,18 @@ author: DAO Essence
 readTime: 8
 pinned: true
 image: https://raw.githubusercontent.com/pixuan1989/dao-essence-shop/main/images/blog/13.webp
+faq:
+  - question: "Is feng shui scientifically proven?"
+    answer: "Feng shui isn't a science in the Western sense — it's a 3,000-year-old environmental design system. However, many of its principles align with modern environmental psychology: clean spaces reduce stress, natural light improves mood, and decluttering boosts focus. These hacks work because they optimize your physical environment, not because of mystical forces."
+  - question: "Which feng shui hack makes the biggest difference?"
+    answer: "Start with the entryway and the bed. The entryway controls how energy enters your home — keep it clean and bright. Your bed area directly affects sleep quality and romantic energy. These two areas have the most immediate, noticeable impact on daily life."
+  - question: "Do I need to buy expensive feng shui items?"
+    answer: "No. These hacks use what you already have — proper cleaning, rearranging furniture, and intentional placement of everyday items like lamps and plants. No crystals, bagua mirrors, or expensive consultations required."
+  - question: "How quickly does feng shui work?"
+    answer: "Environmental changes affect you immediately — better sleep the first night, improved mood within days. The 'energy' effects are more subtle and build over weeks. Think of it like organizing your desk: you feel better instantly, and the productivity benefits compound over time."
 ---
+**Yes, most effective feng shui comes down to three things that have nothing to do with mystical objects: keeping your space clean, arranging it with intention, and paying attention to how it makes you feel.** The 10 hacks below are grounded in energy psychology — the study of how physical environments influence mood and behavior. They won't require crystals, wind chimes, or a consultation. They will require about 30 minutes of your time and a willingness to treat your home as the system it already is — one that either supports you or works against you, whether you believe in qi or not.
+
 **1. The Toilet: Your "Wealth Vault"**
 
 Treat your toilet as a symbolic vault of wealth. Keep it spotless—every corner matters. Just as you wouldn't leave money lying around in the dirt, ensure this area is free of grime to prevent "leaking" your financial energy.
@@ -68,3 +79,7 @@ Your bedside is a power source. Place a pair of matching warm-toned lamps on eit
 **10. Furniture: Stability & Grounding**
 
 Choose sofas and dining tables made of solid wood. Wood carries stable, grounding energy. Avoid furniture with sharp edges or flimsy metal frames, as they can create restless energy in the home.
+
+---
+
+**Want to understand how your personal energy connects to your space?** Your BaZi birth chart reveals your favorable colors, directions, and elements — making it much easier to apply these hacks specifically for you. [Get your free BaZi chart](/#free-bazi) and start personalizing your space today.
