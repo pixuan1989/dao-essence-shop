@@ -873,11 +873,22 @@ function generateArticleHtml(post, category, allArticles, options = {}) {
       .slice(0, 3);
   }
   if (relatedPosts.length === 0 && Array.isArray(allArticles)) {
-    // Auto: same category, exclude current, pick up to 3 most recent
-    relatedPosts = allArticles
-      .filter(p => p.category === category && p.slug !== slug)
-      .sort((a, b) => new Date(b.data.date || 0) - new Date(a.data.date || 0))
-      .slice(0, 3);
+    // Auto: same category first, then other categories to fill, shuffled for variety
+    const sameCategory = allArticles.filter(p => p.category === category && p.slug !== slug);
+    const otherCategory = allArticles.filter(p => p.category !== category && p.slug !== slug);
+    // Shuffle both arrays deterministically by date to add variety
+    const shuffleByDate = (arr) => {
+      // Use article date as seed for consistent per-build randomization
+      const seed = new Date(data.date || 0).getTime() || slug.length;
+      return [...arr].sort((a, b) => {
+        const ha = Math.abs(((seed * 31 + a.slug.charCodeAt(0)) * 17) % 1000);
+        const hb = Math.abs(((seed * 31 + b.slug.charCodeAt(0)) * 17) % 1000);
+        return ha - hb;
+      });
+    };
+    const shuffledSame = shuffleByDate(sameCategory);
+    const shuffledOther = shuffleByDate(otherCategory);
+    relatedPosts = [...shuffledSame.slice(0, 2), ...shuffledOther.slice(0, 1)].slice(0, 3);
   }
 
 
@@ -898,6 +909,8 @@ function generateArticleHtml(post, category, allArticles, options = {}) {
               <a href="${relatedHref}" class="related-card">
                 <div class="related-card-img">
                   <img src="${imgSrc}" alt="${escapeHtml(p.data.imageAlt || p.data.title)}" loading="lazy" onerror="this.src='${SITE_URL}/images/og-default.jpg'">
+                </div>
+                <div class="related-card-body">
                   <span class="related-card-cat">${escapeHtml(catLabel)}</span>
                   <h3>${escapeHtml(p.data.title)}</h3>
                 </div>
