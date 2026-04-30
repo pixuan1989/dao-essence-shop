@@ -1730,7 +1730,8 @@ async function main() {
     const slug = generateSlug(post.filename, post.data, usedSlugs);
     post.slug = slug;
 
-    const html = generateArticleHtml(post, post.category, allArticles, { lang: 'en', hasZh: hasZhArticles });
+    const hasZhVersion = !!zhArticleMap[slug]; // only true if this specific article has a zh counterpart
+    const html = generateArticleHtml(post, post.category, allArticles, { lang: 'en', hasZh: hasZhVersion });
     const outPath = path.join(DIST_BLOG_DIR, `${slug}.html`);
     fs.writeFileSync(outPath, html);
     console.log(`  Generated: dist/blog/${slug}.html`);
@@ -2114,7 +2115,8 @@ async function main() {
   // Add blog articles from CMS (English)
   for (const post of allArticles) {
     const d = post.data.date instanceof Date ? post.data.date.toISOString().split('T')[0] : String(post.data.date || today);
-    const zhAlternate = hasZhArticles
+    const hasZhVer = !!zhArticleMap[post.slug];
+    const zhAlternate = hasZhVer
       ? `\n        <xhtml:link rel="alternate" hreflang="zh-Hant" href="${SITE_URL}/zh/blog/${post.slug}"/>`
       : '';
     sitemapXml += `    <url>
