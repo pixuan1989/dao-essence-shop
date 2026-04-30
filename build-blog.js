@@ -1188,7 +1188,7 @@ ${NAV_HTML}
 
             ${data.faq && data.faq.length > 0 ? `
             <div class="faq-section">
-                <h2>Frequently Asked Questions</h2>
+                <h2 ${isZh ? '' : 'data-i18n="blog_faq_title"'}>${isZh ? '常見問題' : 'Frequently Asked Questions'}</h2>
                 ${data.faq.map(q => `
                 <details class="faq-item">
                     <summary>${escapeHtml(q.question)}</summary>
