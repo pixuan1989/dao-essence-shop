@@ -1168,6 +1168,14 @@ function generateArticleHtml(post, category, allArticles, options = {}) {
     }
     </script>${faqJsonLd}
     <style>${ARTICLE_STYLES}</style>
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-FX0T6YB6DE"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-FX0T6YB6DE');
+    </script>
 </head>
 <body>
 ${NAV_HTML}
@@ -1351,6 +1359,14 @@ function generateCategoryHtml(category, articles, options = {}) {
         .blog-back-link:hover { opacity: 1; text-decoration: underline; }
         `}
     </style>
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-FX0T6YB6DE"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-FX0T6YB6DE');
+    </script>
 </head>
 <body>
 ${NAV_HTML}
@@ -1544,6 +1560,14 @@ function generateBlogIndex(allArticles, options = {}) {
             .blog-card-image { width: 100%; min-width: unset; }
         }
     </style>
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-FX0T6YB6DE"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-FX0T6YB6DE');
+    </script>
 </head>
 <body>
 ${NAV_HTML}
