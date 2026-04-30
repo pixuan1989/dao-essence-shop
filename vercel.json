@@ -15,6 +15,11 @@
   ],
   "redirects": [
     {
+      "source": "/zh/(?!blog/)(.*)",
+      "destination": "/$1",
+      "permanent": true
+    },
+    {
       "source": "/(.+)\\.html",
       "destination": "/$1",
       "permanent": true
@@ -37,7 +42,7 @@
       "has": [
         {
           "type": "host",
-          "value": "daoessentia.com"
+          "value": "daoessence.com"
         }
       ]
     }
