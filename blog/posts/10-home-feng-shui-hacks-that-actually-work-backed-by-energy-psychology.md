@@ -19,6 +19,15 @@ faq:
     answer: "No. These hacks use what you already have — proper cleaning, rearranging furniture, and intentional placement of everyday items like lamps and plants. No crystals, bagua mirrors, or expensive consultations required."
   - question: "How quickly does feng shui work?"
     answer: "Environmental changes affect you immediately — better sleep the first night, improved mood within days. The 'energy' effects are more subtle and build over weeks. Think of it like organizing your desk: you feel better instantly, and the productivity benefits compound over time."
+faq_zh:
+  - question: "風水有科學依據嗎？"
+    answer: "風水不是西方意義上的科學——它是一個有3000年歷史的環境設計系統。然而，它的許多原則與現代環境心理學一致：整潔的空間減少壓力，自然光改善心情，斷捨離提升專注力。這些技巧有效，是因為它們優化了你的物理環境，而不是因為神秘力量。"
+  - question: "哪個風水技巧效果最顯著？"
+    answer: "從玄關和床開始。玄關控制能量如何進入你家——保持整潔明亮。你的床區直接影響睡眠品質和感情能量。這兩個區域對日常生活的影響最直接、最明顯。"
+  - question: "需要購買昂貴的風水物品嗎？"
+    answer: "不需要。這些技巧用的是你已有的東西——適當的清潔、重新擺放家具、有目的地放置日常物品如燈具和植物。不需要水晶、八卦鏡或昂貴的諮詢。"
+  - question: "風水多久能見效？"
+    answer: "環境改變對你的影響是即時的——第一晚就能睡得更好，幾天內心情就會改善。「能量」效果則更微妙，需要幾週時間逐漸累積。就像整理辦公桌：你立刻感覺更好，而生產力效益會隨時間複利增長。"
 ---
 **Yes, most effective feng shui comes down to three things that have nothing to do with mystical objects: keeping your space clean, arranging it with intention, and paying attention to how it makes you feel.** The 10 hacks below are grounded in energy psychology — the study of how physical environments influence mood and behavior. They won't require crystals, wind chimes, or a consultation. They will require about 30 minutes of your time and a willingness to treat your home as the system it already is — one that either supports you or works against you, whether you believe in qi or not.
 

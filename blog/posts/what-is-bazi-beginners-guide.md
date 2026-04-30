@@ -30,6 +30,13 @@ faq:
       life to numbers. BaZi maps the Chinese calendar system to the Five
       Elements framework, providing a comprehensive energetic profile covering
       personality, health, relationships, career, and life cycles.
+faq_zh:
+  - question: "八字和中國生肖一樣嗎？"
+    answer: "不一樣。中國生肖只用出生年份對應的12種動物。八字精細得多——它使用出生的年、月、日、時（四柱），結合10個天干和12個地支，映射到五行框架中進行分析。"
+  - question: "八字能看事業嗎？"
+    answer: "可以。你的八字命盤透過日主五行、特定五行元素暗示的有利行業，以及大運指示的事業轉換最佳時機，來揭示與事業相關的資訊。"
+  - question: "八字和西方占星或生命靈數有什麼不同？"
+    answer: "西方占星映射出生時的行星位置；生命靈數將人生還原為數字。八字將中國曆法系統映射到五行框架，提供一個涵蓋性格、健康、人際關係、事業和人生週期的全面能量畫像。"
 ---
 **BaZi (八字), also called the Four Pillars of Destiny, is a 3,000-year-old Chinese system that maps the Five Elements present at your exact moment of birth to create a detailed personal energy profile.** Unlike Western astrology which primarily uses planetary positions, BaZi uses your birth year, month, day, and hour — producing four 'pillars' that reveal your core personality, career aptitudes, relationship patterns, and life timing. The most important piece is your **Day Master** — the Heavenly Stem of your birth day — which represents your fundamental nature. [Generate your free BaZi chart](/#free-bazi) to see yours in seconds, or [start the free 6-chapter course](/learn-bazi) to learn how to read charts yourself.
 

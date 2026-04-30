@@ -19,6 +19,15 @@ faq:
     answer: "Your birth chart stays the same, but your 10-year luck cycles (Da Yun) shift which energies are emphasized. A natural saver in one decade might find themselves in a wealth-building phase in the next. Your archetype is your baseline — the cycles determine how it expresses."
   - question: "Which birth hour is best for wealth?"
     answer: "There's no single 'best' hour. Each archetype has its own wealth path — some build slowly (Chou, the Steady Accumulator), some find fortune through movement (Zi, the Mobile Strategist). The key is understanding your type and playing to its strengths rather than fighting against it."
+faq_zh:
+  - question: "出生時辰真的會影響我的財務嗎？"
+    answer: "在八字中，你的時柱揭示你的內在驅動力和隱藏才能。不同的地支攜帶不同的五行能量，影響你對金錢的態度——無論你是儲蓄型、冒險型，還是介於兩者之間。它是更大系統中的一層，不是獨立的預測。"
+  - question: "不知道確切出生時間怎麼辦？"
+    answer: "很多人不知道。你仍然可以看三柱（年、月、日），涵蓋你的社會背景、事業環境和核心性格。我們的免費八字排盤可以接受你提供的任何出生時間資訊——即使是大概的時間也能將時柱縮小到兩種可能。"
+  - question: "我的財富原型會隨時間改變嗎？"
+    answer: "你的出生命盤不變，但你的十年大運會改變哪些能量被強調。一個天生的儲蓄者在某個十年可能進入財富累積階段。你的原型是基線——大運決定它如何表達。"
+  - question: "哪個出生時辰最利財富？"
+    answer: "沒有單一的「最佳」時辰。每個原型都有自己的財富路徑——有些慢慢累積（丑，穩健累積者），有些通過行動致富（子，機動策略家）。關鍵是理解你的類型並發揮其優勢，而不是對抗它。"
 ---
 **Your birth hour shapes more than your sleep schedule — in Chinese astrology, it reveals your Wealth Archetype.** The 12 Earthly Branches each carry a distinct elemental energy that influences how you earn, spend, and think about money. A midnight birth (Zi, Water) produces the Mobile Strategist who thrives on movement and change. A late-night birth (Chou, Metal treasury) produces the Steady Accumulator who builds wealth through patience. [Generate your free BaZi chart](/#free-bazi) to find your Hour Pillar and discover which archetype matches your birth time.
 

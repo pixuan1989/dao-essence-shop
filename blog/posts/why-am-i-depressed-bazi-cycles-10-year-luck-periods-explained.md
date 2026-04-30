@@ -27,6 +27,15 @@ faq:
     answer: "You can't force energy cycles to change, but you can prepare. Rest well, learn new skills, process unresolved emotions. When the next cycle arrives, those with prepared foundations benefit most."
   - question: "Does everyone experience challenging luck cycles?"
     answer: "Yes. According to BaZi theory, almost everyone has at least one major challenging 10-year period in their lifetime, plus annual fluctuations. Even highly successful people describe similar 'dark periods' — the difference is understanding that it's part of a cycle, not a permanent state."
+faq_zh:
+  - question: "八字情緒低谷期持續多久？"
+    answer: "具挑戰性的大運（十年週期）通常持續7-10年，但最激烈的階段通常集中在中間3-4年。在每年中，觸發月份更短。關鍵見解：沒有什麼是永恆的。"
+  - question: "八字能取代心理治療或藥物嗎？"
+    answer: "完全不能。把八字週期想像成「天氣系統」，心理治療是「學會在雨中行走」，藥物是「雨具」。它們協同工作。八字增加了對時機的理解——知道你是否處於情緒的「冬天」有助於設定現實預期並減少自責。"
+  - question: "我能加速一個困難的運勢週期嗎？"
+    answer: "你無法強迫能量週期改變，但你可以準備。好好休息、學習新技能、處理未解決的情緒。當下一個週期到來時，有準備基礎的人受益最多。"
+  - question: "每個人都會經歷具挑戰性的運勢週期嗎？"
+    answer: "是的。根據八字理論，幾乎每個人一生中至少有一個主要的具挑戰性十年期，加上年度波動。即使是高度成功的人也描述了類似的「黑暗期」——區別在於理解它是週期的一部分，而不是永久的狀態。"
 ---
 **What you're experiencing may be a completely normal part of your life's natural energy cycles — not a permanent state.** In BaZi, everyone goes through Da Yun (10-year luck periods) and Liu Nian (yearly influences). Just as nature has four seasons, your life has spring, summer, autumn, and winter. The emotional low you're feeling now might simply be your personal winter — temporary, purposeful, and followed by spring. Understanding which energy cycle you're currently in can reduce self-blame and help you set better expectations. [Check your element balance](/favorable-element) to see where your energy stands.
 Do you often feel stuck in emotional lows? Like sadness finds you more easily than others? As if anxiety has become your uninvited, permanent companion?First, understand this: **What you're experiencing may be a completely normal part of your life's natural cycles.**In Bazi (Four Pillars of Destiny), each of us goes through "Da Yun" (10-year life cycles) and "Liu Nian" (yearly energy influences). Just as nature has four seasons, your life has its spring, summer, autumn, and winter. The depression you're feeling now might simply be a temporary season in your personal winter.

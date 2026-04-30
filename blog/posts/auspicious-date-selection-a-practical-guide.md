@@ -23,6 +23,17 @@ faq:
     answer: "The system was developed within Chinese cosmology, but the underlying logic — aligning actions with favorable cycles — appears in many cultures. Indian Muhurta, Western electional astrology, and military timing traditions all share similar thinking."
   - question: "How far in advance should I check dates?"
     answer: "For weddings and business launches, 2-3 months ahead gives you enough flexibility. For moving, a month is usually sufficient. The Chinese Almanac cycles repeat, so you won't run out of options."
+faq_zh:
+  - question: "擇日和算命一樣嗎？"
+    answer: "不一樣。擇日是一個基於天文週期和能量模式的時機系統。它找出在哪些日子裡，能量環境對特定活動更有利。它不預測具體結果——它識別有利條件。"
+  - question: "不會看八字也能用擇日嗎？"
+    answer: "可以——中國通書（黃曆）會給出任何一天的一般建議。但結合個人命盤來交叉參考，結果會精確得多。就像天氣預報一樣：一般預報適用所有人，但知道你的具體位置會更有用。"
+  - question: "如果必須在「凶日」行事怎麼辦？"
+    answer: "有時候截止日期不等人的。這種情況下，建議選擇當天最有利的時辰，或者調整你面對的方向。雖然不能完全抵消當天的能量，但可以減輕影響。"
+  - question: "擇日適用於非中國文化活動嗎？"
+    answer: "這套系統是在中國宇宙觀中發展的，但底層邏輯——將行動與有利週期對齊——在許多文化中都存在。印度的穆胡爾塔、西方的擇日占星、軍事時機傳統都有類似的思維。"
+  - question: "應該提前多久查看日期？"
+    answer: "婚禮和商業開幕，提前2-3個月查看就足夠靈活了。搬遷的話，通常提前一個月就夠了。中國通書的週期是循環的，所以你永遠有選擇。"
 ---
 **Chinese auspicious date selection (Ze Ri) is not about finding a 'lucky day.'** It's a decision-making framework that weighs multiple energy variables at once — the day's Five Phase signature, the rotating Daily Officers, and your personal birth chart — to identify dates where the conditions are more supportive for your specific activity. Whether you're planning a wedding, a business launch, or a move, the system helps you stack the odds in your favor. Our free [Auspicious Date Picker](/almanac) automates this process by cross-referencing the Chinese Almanac with your zodiac sign.
 

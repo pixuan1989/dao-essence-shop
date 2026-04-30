@@ -11,6 +11,20 @@ pinned: true
 image: https://raw.githubusercontent.com/pixuan1989/dao-essence-shop/main/images/blog/12222131241241.webp
 cta_cards:
   - almanac
+faq:
+  - question: "What is the Chinese calendar date selection system?"
+    answer: "It is a 2,000-year-old system that analyzes the Five Elements energy of specific days to identify favorable timing for important activities like weddings, moving, and business launches."
+  - question: "Do I need to know my birth chart to use it?"
+    answer: "No — the Chinese Almanac provides general recommendations for everyone. But combining it with your personal BaZi chart gives more precise results."
+  - question: "Is this the same as feng shui?"
+    answer: "No. Feng shui deals with spatial energy (your environment). Date selection deals with temporal energy (when to act). They are complementary systems."
+faq_zh:
+  - question: "什麼是中國曆法擇日系統？"
+    answer: "這是一個有2000年歷史的系統，分析特定日子的五行能量，識別對婚禮、搬遷、商業開幕等重要活動有利的時機。"
+  - question: "需要會看八字才能使用嗎？"
+    answer: "不需要——中國通書（黃曆）為每個人提供一般建議。但結合你個人的八字命盤，結果會更精確。"
+  - question: "這和風水一樣嗎？"
+    answer: "不一樣。風水處理的是空間能量（你的環境）。擇日處理的是時間能量（何時行動）。它們是互補的系統。"
 ---
 Have an important event coming up? Whether it's a wedding, business launch, or major purchase, the date you choose could be working for you—or against you.
 

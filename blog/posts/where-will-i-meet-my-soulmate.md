@@ -37,6 +37,15 @@ faq:
     answer: Your core soulmate direction is based on your birth chart and remains
       constant. However, your Da Yun (major life cycles) can temporarily
       activate certain directions more strongly during specific 10-year periods.
+faq_zh:
+  - question: "什麼是靈魂伴侶方向？"
+    answer: "在中國占星術中，你的靈魂伴侶方向是與你日主五行能量最契合的地理方向。根據你的八字命盤，這個方向指示你最可能遇到靈魂伴侶的地方——無論是東、西、南、北或其他方向。"
+  - question: "如何找到我的靈魂伴侶方向？"
+    answer: "你的靈魂伴侶方向是根據你八字命盤中的日主（你出生日的天干）來計算的。五行（木、火、土、金、水）各對應一個方向。靈魂伴侶方向計算器可以根據你的出生日期即時計算出來。"
+  - question: "靈魂伴侶方向和風水愛情方向一樣嗎？"
+    answer: "它們是基於同一五行理論的相關概念，但用途不同。風水愛情方向專注於安排你的物理空間以吸引愛情，而八字的靈魂伴侶方向揭示你最可能遇到靈魂伴侶的地理方向。"
+  - question: "我的靈魂伴侶方向會隨時間改變嗎？"
+    answer: "你的核心靈魂伴侶方向基於你的出生命盤，保持不變。然而，你的大運（主要人生週期）可以在特定的十年期間暫時更強地激活某些方向。"
 ---
 **Your soulmate direction is the geographic compass point most aligned with your birth energy — and Chinese astrology can calculate it from your birth date alone.** In BaZi, your Day Master (the Heavenly Stem of your birth day) belongs to one of the Five Elements, each corresponding to a direction: Wood → East, Fire → South, Earth → Center/Southwest, Metal → West, Water → North. Traveling in your soulmate direction during favorable years increases your chances of encountering a meaningful connection. [Find your soulmate direction for free](/soulmate-calculator) — 30 seconds, no sign-up required.
 

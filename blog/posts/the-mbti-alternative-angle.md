@@ -18,6 +18,13 @@ faq:
     answer: "Yes — everyone has all five elements in their chart in varying degrees. One or two usually dominate. Think of it like a color palette: you might be primarily blue (Water) with strong green (Wood) undertones. Our free Five Elements test identifies your dominant element."
   - question: "Does my element change over time?"
     answer: "Your birth chart is fixed, but your dominant expression can shift. During different 10-year luck cycles, different elements get amplified. A Fire-dominant person might enter a Water-heavy cycle that dampens their natural expressiveness for a decade."
+faq_zh:
+  - question: "八字和MBTI有什麼不同？"
+    answer: "MBTI根據自我報告的偏好將你歸入16種類型。八字根據你的出生日期和時間映射你的五行組成——不需要問卷。兩個系統都能揭示性格模式，但八字增加了時機維度：它可以顯示某些特質會在何時被放大或挑戰。"
+  - question: "我可以同時是多種五行嗎？"
+    answer: "可以——每個人的命盤中都包含全部五行，只是程度不同。通常一兩個佔主導。把它想像成調色板：你可能主要是藍色（水），帶有強烈的綠色（木）底調。我們的免費五行測試可以識別你的主導五行。"
+  - question: "我的五行會隨時間改變嗎？"
+    answer: "你的出生命盤是固定的，但你的主導表現可以轉移。在不同的十年大運期間，不同的五行會被放大。一個火主導的人可能進入一個水氣重的週期，在十年間減弱他們天生的表現力。"
 ---
 **There's an ancient Chinese personality system that predates MBTI by about 3,000 years — and unlike MBTI, it doesn't require a questionnaire.** BaZi (Eight Characters) maps your birth date and time into a Five Elements profile: Wood, Fire, Earth, Metal, or Water. Each element carries a distinct personality archetype with real strengths and real blind spots. Steve Jobs was Wood. Oprah is Fire. Michelle Obama is Earth. Which element are you? [Take the free Five Elements test](/five-elements-test) to find out., you've probably taken the MBTI test more times than you'd like to admit. We love putting ourselves into boxes—it helps us understand why we act the way we do. But what if I told you there's an ancient Chinese system that predates modern psychology by thousands of years, offering an even deeper dive into your subconscious?Welcome to the world of **BaZi (The Eight Characters)**. Instead of letters (INTJ, ESFP), BaZi uses the five elements—Wood, Fire, Earth, Metal, and Water—derived from your exact birth date and time.Forget the vague daily horoscopes. This is a practical blueprint of your inherent energy. Let's decode your "Elemental Personality" and see which historical icons share your cosmic DNA.
 

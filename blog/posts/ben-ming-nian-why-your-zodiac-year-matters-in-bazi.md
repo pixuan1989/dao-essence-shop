@@ -28,6 +28,17 @@ faq:
     answer: "A favorable Ben Ming Nian is absolutely possible. If the annual energy supports your Day Master, you may find the year particularly productive. The key is awareness — favorable energy doesn't mean zero challenges, just better conditions overall."
   - question: "Can I start something new during my Ben Ming Nian?"
     answer: "Yes. Whether it's advisable depends on your Day Master strength, not on a blanket rule. Strong Day Masters often find their zodiac year to be an excellent time for new beginnings. Weak Day Masters may benefit from completing existing projects first."
+faq_zh:
+  - question: "本命年就等於運勢不好嗎？"
+    answer: "不是。「本命年帶來厄運」是一個流行的簡化說法。在八字中，你的生肖年是一個能量密集的時期——它可能帶來挑戰，但也可能帶來突破。結果取決於你的具體命盤，特別是你的日主強弱和當年活躍的十神關係。"
+  - question: "需要確切的出生時辰才能運作嗎？"
+    answer: "僅憑出生年份就能知道你的本命年何時出現。但要理解它對你的個人影響，你至少需要出生月份和日期來確定日主。我們的免費八字排盤接受你的出生時辰為可選項——越精確，洞察越深。"
+  - question: "本命年和土星回歸有什麼不同？"
+    answer: "兩者都是週期性的人生轉折。土星回歸大約每29.5年出現一次（西方占星）。本命年每12年出現一次（基於中國生肖週期）。它們運作在完全不同的框架中——這是一個幫助理解概念的類比，而非等價關係。"
+  - question: "如果我的八字命盤顯示有利的生肖年呢？"
+    answer: "有利的本命年是完全可能的。如果當年能量支持你的日主，你可能會發現這一年特別有生產力。關鍵在於覺察——有利的能量不等於零挑戰，只是整體條件更好。"
+  - question: "本命年可以開始新事物嗎？"
+    answer: "可以。是否適合取決於你的日主強弱，而不是一條固定規則。身強日主通常會發現生肖年是開始新事物的好時機。身弱日主可能更適合先完成現有項目。"
 ---
 **Ben Ming Nian (本命年) — your zodiac year of birth — returns every 12 years.** In BaZi, it's not a 'bad luck curse' but an energy reset: a period where two identical frequencies amplify each other, creating intensified conditions for change. Whether that change feels like a breakthrough or a challenge depends on your Day Master strength. [Generate your free BaZi chart](/#free-bazi) to find your Day Master and understand how your next zodiac year will affect you.
 

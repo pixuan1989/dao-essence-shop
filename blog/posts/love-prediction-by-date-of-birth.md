@@ -34,6 +34,15 @@ faq:
   - question: What information do I need for a love prediction?
     answer: At minimum, your birth year, month, and day. Your birth hour provides
       additional precision but is optional for a general reading.
+faq_zh:
+  - question: "出生日期真的能預測我的愛情生活嗎？"
+    answer: "中國占星術不以算命的方式「預測」。相反，它根據你的出生日期映射能量模式——你的五行組成、有利的人生階段和方向傾向。把它想像成你愛情生活的性格藍圖，而不是水晶球。"
+  - question: "什麼是八字愛情解讀？"
+    answer: "八字愛情解讀分析你的四柱（出生年、月、日、時），揭示你的愛情原型、有利感情時期和相容性模式。它考慮你的日主五行、與愛情相關的十神，以及你的大運。"
+  - question: "中國占星術對愛情預測有多準確？"
+    answer: "中國占星術已經過2000多年的精煉，在東亞被廣泛使用。雖然沒有系統是100%準確的，但許多人發現其模式與他們的生活經驗高度一致。它作為指導工具比作為絕對預測更有價值。"
+  - question: "做愛情預測需要什麼資訊？"
+    answer: "至少需要你的出生年、月、日。出生時辰提供額外精度，但對一般性解讀是可選的。"
 ---
 
 **Chinese astrology doesn't 'predict' a specific date, but it does reveal something more useful: the seasons of your love life.** Based on your BaZi birth chart, you can identify your love archetype, your peak romantic years, and even the geographic direction where you're most likely to meet your soulmate. The system has been refined over 2,000 years and works entirely from your birth date. [Get your free love reading](/soulmate-calculator) — it takes 30 seconds and reveals your soulmate direction, timing, and love style.

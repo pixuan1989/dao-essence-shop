@@ -31,6 +31,17 @@ faq:
     answer: "Having all Five Phases present is relatively balanced in BaZi theory, suggesting versatility across domains like tech, finance, and aerospace. Charts missing phases tend to show more extreme strengths and weaknesses."
   - question: "What is the Seven Killings Star in BaZi?"
     answer: "The Seven Killings Star (七杀, Qi Sha) represents extreme pressure, authority, and life-or-death stakes. It produces extraordinary results under pressure but can also burn through relationships and resources if unbalanced."
+faq_zh:
+  - question: "八字和中國生肖一樣嗎？"
+    answer: "不一樣。中國生肖根據你的出生年份分配十二種動物之一，而八字使用你的確切出生日期和時間（四柱，包含十天干和十二地支）。八字遠更精細和個人化。"
+  - question: "八字能預測某人的成功嗎？"
+    answer: "八字揭示能量模式和傾向，不是具體結果。許多成功人士分享某些命盤配置，但環境、選擇和時機同樣重要。"
+  - question: "八字命盤中的陽木是什麼意思？"
+    answer: "陽木（甲）代表一棵高大挺拔的樹的能量——成長、向上動力和抗砍伐能力。作為日主，它用堅韌和野心來著色你對生活的核心態度。"
+  - question: "為什麼馬斯克的命盤包含了全部五行？"
+    answer: "在八字理論中，擁有全部五行是相對平衡的，暗示跨科技、金融和航空等領域的多面性。缺少五行的命盤往往表現出更極端的優勢和弱點。"
+  - question: "八字中的七殺星是什麼？"
+    answer: "七殺星代表極端壓力、權威和生死攸關的風險。它在壓力下產生非凡結果，但如果失衡也可能消耗人際關係和資源。"
 ---
 
 How does a BaZi chart explain Elon Musk's rise from near-bankruptcy to the world's richest person? We break down his Yang Wood Day Master and Five Phases.

@@ -10,6 +10,20 @@ author: DAO Essence
 readTime: 5
 pinned: false
 image: https://raw.githubusercontent.com/pixuan1989/dao-essence-shop/main/images/blog/蒙版组-71.webp
+faq:
+  - question: "How accurate are daily Chinese zodiac forecasts?"
+    answer: "Daily forecasts are general energy readings based on the day's Heavenly Stem and Earthly Branch combination. For personalized insights, cross-reference with your birth chart."
+  - question: "What does it mean if my sign is listed as 'handle with care'?"
+    answer: "It means the day's energy may create friction for your zodiac sign. This doesn't predict disaster — it suggests being more cautious and deliberate in your decisions."
+  - question: "Where can I get my personalized Chinese zodiac reading?"
+    answer: "Use our free BaZi calculator to generate your complete birth chart, which reveals your Day Master, Five Elements balance, and long-term energy patterns."
+faq_zh:
+  - question: "每日中國生肖運勢有多準確？"
+    answer: "每日運勢是根據當日天干地支組合的一般能量讀測。要獲得個人化洞察，需要結合你的命盤來交叉參考。"
+  - question: "我的生肖被列為「注意」是什麼意思？"
+    answer: "這意味著當天能量可能對你的生肖造成摩擦。這不代表災難——只是建議你在做決定時更加謹慎和審慎。"
+  - question: "在哪裡可以獲得個人化的中國生肖解讀？"
+    answer: "使用我們的免費八字排盤來生成你的完整命盤，它會揭示你的日主、五行平衡和長期能量模式。"
 ---
 ![]()
 

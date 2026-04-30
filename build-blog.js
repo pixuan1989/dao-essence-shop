@@ -1189,11 +1189,15 @@ ${NAV_HTML}
             ${data.faq && data.faq.length > 0 ? `
             <div class="faq-section">
                 <h2 ${isZh ? '' : 'data-i18n="blog_faq_title"'}>${isZh ? '常見問題' : 'Frequently Asked Questions'}</h2>
-                ${data.faq.map(q => `
+                ${data.faq.map((q, i) => {
+                  const zhQ = (data.faq_zh && data.faq_zh[i]) ? data.faq_zh[i].question : '';
+                  const zhA = (data.faq_zh && data.faq_zh[i]) ? data.faq_zh[i].answer : '';
+                  return `
                 <details class="faq-item">
-                    <summary>${escapeHtml(q.question)}</summary>
-                    <p>${escapeHtml(q.answer)}</p>
-                </details>`).join('')}
+                    <summary${isZh ? '' : (' data-zh-faq="' + escapeHtml(zhQ).replace(/"/g, '&quot;') + '"')}>${escapeHtml(q.question)}</summary>
+                    <p${isZh ? '' : (' data-zh-faq-a="' + escapeHtml(zhA).replace(/"/g, '&quot;') + '"')}>${escapeHtml(q.answer)}</p>
+                </details>`;
+                }).join('')}
             </div>` : ''}
         </article>
 

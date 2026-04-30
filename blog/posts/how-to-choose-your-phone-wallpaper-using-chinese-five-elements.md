@@ -11,6 +11,20 @@ pinned: true
 image: https://raw.githubusercontent.com/pixuan1989/dao-essence-shop/main/images/blog/金生水.webp
 cta_cards:
   - favorable-element
+faq:
+  - question: "Does my phone wallpaper color really matter?"
+    answer: "Color psychology research shows that colors you see repeatedly influence mood and decision-making. Since you check your phone over 100 times a day, your wallpaper color has a cumulative effect on your energy state."
+  - question: "How do I know which color suits my Five Element?"
+    answer: "Each of the Five Elements (Wood, Fire, Earth, Metal, Water) has colors that support it and colors that drain it. Our free Favorable Element Guide analyzes your birth data to identify your element and its best colors."
+  - question: "Can I change my wallpaper based on the season?"
+    answer: "Yes — some practitioners adjust their environment colors to match seasonal energy shifts. Wood benefits from green tones in spring, Fire from warm tones in summer, and so on."
+faq_zh:
+  - question: "手機壁紙顏色真的有影響嗎？"
+    answer: "色彩心理學研究顯示，反覆看到的顏色會影響情緒和決策。既然你每天看手機超過100次，壁紙顏色對你的能量狀態有累積影響。"
+  - question: "如何知道哪種顏色適合我的五行？"
+    answer: "五行（木、火、土、金、水）各有支持它和消耗它的顏色。我們的免費有利元素指南分析你的出生數據，識別你的五行和最佳顏色。"
+  - question: "可以根據季節更換壁紙嗎？"
+    answer: "可以——一些實踐者會根據季節能量變化調整環境顏色。木在春天受益於綠色調，火在夏天受益於暖色調，以此類推。"
 ---
 **How to Choose Your Phone Wallpaper Using Chinese Five Elements: A Practical Guide**
 

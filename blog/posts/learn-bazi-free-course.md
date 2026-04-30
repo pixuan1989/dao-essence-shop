@@ -21,6 +21,17 @@ faq:
     answer: "No. Quality English-language BaZi resources transliterate key terms like Day Master, Ten Gods, and Luck Cycles, and explain concepts through natural analogies. You'll encounter some pinyin terms (Wu Xing, Shen Sha), but these are quickly learned in context."
   - question: "What if I don't know my exact birth hour?"
     answer: "You can still read three pillars — Year, Month, and Day — which cover your social background, career environment, and core personality. The Hour Pillar adds detail about hidden talents and children, but is not essential for beginners."
+faq_zh:
+  - question: "真的可以自己學八字嗎？不需要老師？"
+    answer: "可以，基礎讀盤沒問題。免費的結構化教材足以讓你在基本層面上解讀自己的命盤——辨識日主、理解五行平衡、辨識主要的十神格局。老師在高階時機分析、複雜命盤互動和專業級解讀時才會發揮關鍵作用。"
+  - question: "八字比西方占星更準嗎？"
+    answer: "八字和西方占星測量不同的東西，所以「更準」不是正確的比較。八字精確到出生時辰，產生超過50萬種可能的命盤組合，而西方占星只有12個太陽星座。這讓八字在個人解讀上有更細緻的粒度，但兩套系統各有擅長。"
+  - question: "學八字基礎需要多久？"
+    answer: "多數人每天花30分鐘，1到2週就能掌握基礎概念。看懂自己的命盤大約需要3到4週。一套結構化的六章免費課程，總閱讀時間約6到8小時。"
+  - question: "學八字需要會中文嗎？"
+    answer: "不需要。優質的英文八字資源會用拼音標註關鍵術語，如日主、十神、大運，並用自然類比來解釋概念。你會遇到一些拼音術語（如五行、神煞），但很快就能在上下文中掌握。"
+  - question: "不知道確切出生時辰怎麼辦？"
+    answer: "仍然可以看三柱——年柱、月柱、日柱，涵蓋社會背景、事業環境和核心性格。時柱補充隱藏才能和子女方面的資訊，但對初學者來說不是必須的。"
 ---
 
 **Yes, you can learn the fundamentals of BaZi (Four Pillars of Destiny) on your own, for free, in about two to three weeks of casual study.** A structured beginner course that covers the Day Master, Five Elements, and Ten Gods gives you enough to read your own chart at a basic level. What makes self-study realistic today is the availability of free calculators that generate your chart instantly — so you spend your time learning interpretation, not manual calculation. DAO Essence offers a complete free 6-chapter course that walks you from zero to reading career patterns, relationship timing, and luck cycles, with your own chart as the textbook. You won't become a professional consultant from free resources alone, but you'll gain a genuinely useful framework for understanding your own energy patterns.

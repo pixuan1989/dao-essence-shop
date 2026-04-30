@@ -179,6 +179,24 @@
         zhDescs[ddi].textContent = zhDVal;
       }
     }
+    // FAQ question translations (summary elements)
+    var zhFaqQs = document.querySelectorAll('[data-zh-faq]');
+    for (var fqi = 0; fqi < zhFaqQs.length; fqi++) {
+      var fqVal = zhFaqQs[fqi].getAttribute('data-zh-faq');
+      if (fqVal) {
+        if (!originalTexts['__zhfaq__' + fqi]) originalTexts['__zhfaq__' + fqi] = zhFaqQs[fqi].textContent;
+        zhFaqQs[fqi].textContent = fqVal;
+      }
+    }
+    // FAQ answer translations (p elements inside details)
+    var zhFaqAs = document.querySelectorAll('[data-zh-faq-a]');
+    for (var fai = 0; fai < zhFaqAs.length; fai++) {
+      var faVal = zhFaqAs[fai].getAttribute('data-zh-faq-a');
+      if (faVal) {
+        if (!originalTexts['__zhfqa__' + fai]) originalTexts['__zhfqa__' + fai] = zhFaqAs[fai].textContent;
+        zhFaqAs[fai].textContent = faVal;
+      }
+    }
   }
 
   /**
@@ -231,6 +249,16 @@
     for (var rdi = 0; rdi < rDescs.length; rdi++) {
       var rdk = '__zhdesc__' + rdi;
       if (originalTexts[rdk]) { rDescs[rdi].textContent = originalTexts[rdk]; }
+    }
+    var rFaqQs = document.querySelectorAll('[data-zh-faq]');
+    for (var rfqi = 0; rfqi < rFaqQs.length; rfqi++) {
+      var rfqk = '__zhfaq__' + rfqi;
+      if (originalTexts[rfqk]) { rFaqQs[rfqi].textContent = originalTexts[rfqk]; }
+    }
+    var rFaqAs = document.querySelectorAll('[data-zh-faq-a]');
+    for (var rfai = 0; rfai < rFaqAs.length; rfai++) {
+      var rfak = '__zhfqa__' + rfai;
+      if (originalTexts[rfak]) { rFaqAs[rfai].textContent = originalTexts[rfak]; }
     }
   }
 

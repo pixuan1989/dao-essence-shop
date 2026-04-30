@@ -37,6 +37,15 @@ faq:
       deadlines. Many people find love well outside their "peak" range,
       especially during favorable Da Yun (major life cycles). Love timing is
       influenced by multiple factors, not just age.
+faq_zh:
+  - question: "占星術真的能告訴我何時會找到愛情嗎？"
+    answer: "占星術——包括中國占星術——不會給出確切日期。相反，它根據你的命盤揭示能量模式和有利時期。把它想像成你愛情生活的天氣預報：它告訴你何時條件最有利，而不是確切何時會下雨。"
+  - question: "根據中國占星術，找到愛情的最佳年齡是什麼？"
+    answer: "沒有通用的「最佳年齡」。它完全取決於你八字命盤中的日主五行。木型在24-28年左右達到巔峰，火型在22-27年，土型在26-32年，金型在27-33年，水型在23-29年。這些是傾向，不是規則。"
+  - question: "中國生肖年如何影響我的愛情生活？"
+    answer: "每個中國生肖年攜帶特定的五行能量。當年的五行滋養或支持你的日主五行時，你的愛情能量被放大。例如，木日主受益於水年（水生木）和木年（同五行強化）。"
+  - question: "如果我已經超過了「理想」的戀愛年齡範圍怎麼辦？"
+    answer: "不用擔心。八字中的年齡範圍是統計傾向，不是截止日期。許多人在「巔峰」範圍之外找到了愛情，尤其是在有利的大運期間。愛情時機受多種因素影響，不只是年齡。"
 ---
 **Chinese astrology won't give you an exact date, but it can tell you which years and life phases favor romance for your specific elemental type.** Every person has a 'love season' based on their Day Master — Wood types peak between 24-28, Fire between 22-27, Earth between 26-32, Metal between 27-33, and Water between 23-29. Beyond age, your BaZi chart reveals favorable zodiac years and 10-year luck cycles that amplify love energy. [Check your love timing for free](/soulmate-calculator) — it takes 30 seconds.
 

@@ -121,6 +121,17 @@ body: |
   ## Conclusion
 
   The **Five Elements theory** is not just ancient philosophy — it is a practical, living system for understanding yourself and the world around you. Whether applied to health through Traditional Chinese Medicine, to your environment through feng shui, or to self-understanding through BaZi analysis, the Five Elements provide a timeless framework for achieving harmony and balance in all aspects of life.
+faq_zh:
+  - question: "中國哲學中的五行是什麼？"
+    answer: "五行（Wu Xing）是木、火、土、金、水——中國哲學認為構成宇宙中所有現象的五種基本力量。"
+  - question: "如何找出我的主導五行？"
+    answer: "你的主導五行可以通過八字（四柱八字）分析來確定，它使用你的出生年、月、日、時來計算你的五行組成。"
+  - question: "五行在中医中如何運用？"
+    answer: "在中醫中，每個五行對應一對器官：木（肝／膽）、火（心／小腸）、土（脾／胃）、金（肺／大腸）、水（腎／膀胱）。"
+  - question: "相生循環和相剋循環有什麼不同？"
+    answer: "相生循環（Sheng）代表滋養：木→火→土→金→水→木。相剋循環（Ke）代表制約：木→土→水→火→金→木。"
+  - question: "五行能幫助風水嗎？"
+    answer: "可以。風水使用五行來分析和調和空間能量。每個方向、材質、顏色和形狀都對應一個五行。"
 faq:
   - question: "What are the Five Elements in Chinese philosophy?"
     answer: "The Five Elements (Wu Xing) are Wood, Fire, Earth, Metal, and Water — five fundamental forces that Chinese philosophy believes constitute all phenomena in the universe."

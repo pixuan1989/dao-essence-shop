@@ -35,6 +35,17 @@ faq:
     answer: "It helps — your birth hour determines one of the four pillars in a BaZi chart, and that pillar carries information about your inner self, children, and later life. But even with just your birth year, month, and day, BaZi can reveal significant patterns about your energy phases and element balance. You can try our free BaZi calculator with whatever birth time information you have."
   - question: "Why do so many people feel their zodiac reading doesn't match them?"
     answer: "According to a 2025 Pew Research study, about 30% of American adults use astrology — but only 1% rely on it for major life decisions. That 27-point gap tells the real story. Sun sign horoscopes apply to roughly 1/12 of the population. Even detailed birth chart readings describe personality patterns well but go silent on timing — 'when should I change jobs?' or 'is this a good financial year?' — which is what people actually need help with."
+faq_zh:
+  - question: "八字比西方占星更準確嗎？"
+    answer: "它們測量不同的東西。西方占星擅長性格分析和心理模式——你的太陽、月亮和上升星座創建了一幅多層次的自我畫像。八字專注於時機和人生階段——事業能量何時達到巔峰，何時該耐心等待財務，哪些年份有利於感情。沒有「更準確」的說法。它們回答不同的問題：占星說「你是誰」，八字說「何時行動」。"
+  - question: "占星能告訴你何時做重大人生決定嗎？"
+    answer: "不能可靠地做到。即使是最受尊敬的西方占星師 Steven Forrest 也說過，占星師能預見未來的觀點「對占星術造成了不可計量的傷害」。行運時機可以建議主題窗口，但沒有跨事業、財富、健康和人際關係的逐年指導框架。那個時機維度正是中國八字所擅長的。"
+  - question: "八字能看出什麼是我的出生盤做不到的？"
+    answer: "三件你的本命盤無法涵蓋的事：第一，十年人生能量階段，逐十年映射你的事業、財富和感情週期。第二，按人生領域細分的逐年預測——不是模糊的「轉型期」，而是具體指導哪些領域會轉變以及何時轉變。第三，五行平衡分析配合可行的生活方式調整——如果你的命盤顯示火能量弱，在挑戰年份有實際步驟可以恢復。"
+  - question: "八字需要確切的出生時辰才能運作嗎？"
+    answer: "有幫助——你的出生時辰決定八字命盤四柱中的一柱，那個柱攜帶關於你的內在自我、子女和晚年的資訊。但即使只有出生年、月、日，八字也能揭示關於你能量階段和五行平衡的重要模式。你可以用任何出生時間資訊來試用我們的免費八字排盤。"
+  - question: "為什麼這麼多人覺得生肖讀測不準？"
+    answer: "根據2025年皮尤研究中心的調查，約30%的美國成年人使用占星術——但只有1%依賴它做重大人生決定。這27個百分點的差距揭示了真正的問題。太陽星座運勢大約適用於1/12的人口。即使詳細的出生盤解讀在描述性格模式方面做得很好，但在時機方面卻保持沉默——「我該何時換工作？」或「今年財運好不好？」——這才是人們真正需要幫助的。"
 ---
 
 Your zodiac reading probably told you who you are. The question it didn't answer — and the one that actually keeps people up at night — is *when*. When to change careers. When your finances will shift. When love becomes more or less likely. That timing gap between what astrology describes and what people actually need is wider than most realize.
