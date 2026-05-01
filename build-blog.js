@@ -1200,10 +1200,12 @@ ${NAV_HTML}
                 ${data.faq.map((q, i) => {
                   const zhQ = (data.faq_zh && data.faq_zh[i]) ? data.faq_zh[i].question : '';
                   const zhA = (data.faq_zh && data.faq_zh[i]) ? data.faq_zh[i].answer : '';
+                  const faqQ = isZh && zhQ ? zhQ : q.question;
+                  const faqA = isZh && zhA ? zhA : q.answer;
                   return `
                 <details class="faq-item">
-                    <summary${isZh ? '' : (' data-zh-faq="' + escapeHtml(zhQ).replace(/"/g, '&quot;') + '"')}>${escapeHtml(q.question)}</summary>
-                    <p${isZh ? '' : (' data-zh-faq-a="' + escapeHtml(zhA).replace(/"/g, '&quot;') + '"')}>${escapeHtml(q.answer)}</p>
+                    <summary${isZh ? '' : (' data-zh-faq="' + escapeHtml(zhQ).replace(/"/g, '&quot;') + '"')}>${escapeHtml(faqQ)}</summary>
+                    <p${isZh ? '' : (' data-zh-faq-a="' + escapeHtml(zhA).replace(/"/g, '&quot;') + '"')}>${escapeHtml(faqA)}</p>
                 </details>`;
                 }).join('')}
             </div>` : ''}
@@ -1775,6 +1777,14 @@ async function main() {
       const enSlug = enSlugMap[post.filename];
       const slug = enSlug || generateSlug(post.filename, post.data, new Set());
       post.slug = slug;
+
+      // If zh article has no faq_zh, try to inherit from the EN article's faq_zh
+      if ((!post.data.faq_zh || post.data.faq_zh.length === 0) && enSlug) {
+        const enPost = allArticles.find(a => a.slug === enSlug);
+        if (enPost && enPost.data.faq_zh && enPost.data.faq_zh.length > 0) {
+          post.data.faq_zh = enPost.data.faq_zh;
+        }
+      }
 
       // Use zh articles for related posts when available
       const html = generateArticleHtml(post, post.category, zhArticles, { lang: 'zh-Hant', hasZh: true });

@@ -130,6 +130,64 @@ async function translateArticle(systemPrompt, data, content, filename, retryCoun
   if (translatedDescription) zhData.description = translatedDescription;
   zhData.lang = 'zh-Hant';
 
+  // Translate FAQ if present
+  if (data.faq && data.faq.length > 0 && data.faq_zh && data.faq_zh.length > 0) {
+    // English article has faq_zh, copy it to zh article (both as faq_zh)
+    zhData.faq = data.faq_zh; // zh page shows faq field directly
+    zhData.faq_zh = data.faq_zh;
+  } else if (data.faq && data.faq.length > 0) {
+    // No faq_zh available — auto-translate FAQ
+    try {
+      const faqText = data.faq.map((item, idx) => `Q${idx + 1}: ${item.question}\nA${idx + 1}: ${item.answer}`).join('\n\n');
+      const translatedFaq = await callDashScope([
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: `翻譯以下 FAQ 為繁體中文，保持 Q/A 格式對應：\n\n${faqText}` }
+      ], 2000);
+
+      if (translatedFaq) {
+        // Parse translated FAQ back into structured format
+        const faqLines = translatedFaq.split('\n').filter(l => l.trim());
+        const zhFaq = [];
+        let currentQ = null, currentA = null;
+        for (const line of faqLines) {
+          const qMatch = line.match(/^[QA]\d+\s*[:：]\s*(.*)/);
+          if (qMatch) {
+            if (currentQ && currentA) {
+              zhFaq.push({ question: currentQ, answer: currentA });
+            }
+            if (line.match(/^Q/)) {
+              currentQ = qMatch[1].trim();
+              currentA = null;
+            } else if (line.match(/^A/) && currentQ) {
+              currentA = qMatch[1].trim();
+            }
+          } else if (currentQ && !currentA && line.trim()) {
+            currentQ += ' ' + line.trim();
+          } else if (currentA) {
+            currentA += ' ' + line.trim();
+          }
+        }
+        if (currentQ && currentA) {
+          zhFaq.push({ question: currentQ, answer: currentA });
+        }
+
+        if (zhFaq.length === data.faq.length) {
+          zhData.faq = zhFaq;
+          zhData.faq_zh = zhFaq;
+          console.log(`    FAQ: ${zhFaq.length} items translated`);
+        } else {
+          console.warn(`    ⚠️ FAQ translation count mismatch (expected ${data.faq.length}, got ${zhFaq.length}), keeping original`);
+          zhData.faq = data.faq;
+          zhData.faq_zh = data.faq_zh || [];
+        }
+      }
+    } catch (err) {
+      console.warn(`    ⚠️ FAQ translation failed: ${err.message}`);
+      zhData.faq = data.faq;
+      zhData.faq_zh = data.faq_zh || [];
+    }
+  }
+
   // Output
   const zhContent = matter.stringify(translatedBody, zhData);
   return { zhContent, title: zhData.title, description: zhData.description };
