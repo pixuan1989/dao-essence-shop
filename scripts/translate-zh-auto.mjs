@@ -195,6 +195,7 @@ async function translateArticle(systemPrompt, data, content, filename, retryCoun
 
 export async function autoTranslateIfNeeded(englishArticles, postsZhDir) {
   const rootDir = postsZhDir.replace(/[\\/]blog[\\/]posts-zh$/, '');
+  const ROOT_DIR = rootDir; // 兼容可能的旧代码引用
   const terms = loadTerminology(rootDir);
   console.log(`  Loaded ${Object.keys(terms).length} translation terms`);
 
