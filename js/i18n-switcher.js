@@ -370,7 +370,7 @@
     // ── Blog redirect (only when /zh/ pages exist) ──
     var pathname = window.location.pathname;
     var onBlogPath = pathname.indexOf('/blog/') === 0 || pathname === '/blog/' || pathname === '/blog' || pathname === '/blog/index.html';
-    var onZhBlogPath = pathname.indexOf('/zh/blog/') === 0;
+    var onZhBlogPath = pathname === '/zh/blog' || pathname.indexOf('/zh/blog/') === 0;
 
     if (onZhBlogPath && lang === 'en') {
       // Always redirect /zh/ paths back to EN (handles stale bookmarks/links)
@@ -383,18 +383,18 @@
         window.location.href = '/blog/';
         return;
       }
-      var zhCatMatch = pathname.match(/^\/zh\/blog\/(bazi-astrology|zodiac-horoscope|feng-shui|daily-horoscope|lucky-tips)(\.html)?$/);
+      var zhCatMatch = pathname.match(/^\/zh\/blog\/(bazi-astrology|zodiac-horoscope|feng-shui|daily-horoscope|lucky-tips)\/?$/);
       if (zhCatMatch) {
-        window.location.href = '/blog/' + zhCatMatch[1] + '.html';
+        window.location.href = '/blog/' + zhCatMatch[1] + '/';
         return;
       }
       if (pathname === '/zh/shop' || pathname === '/zh/shop/') {
         window.location.href = '/shop';
         return;
       }
-      var zhPrefixMatch = pathname.match(/^\/zh\/(.+)$/);
+      var zhPrefixMatch = pathname.match(/^\/zh\/(.+?)\/?$/);
       if (zhPrefixMatch) {
-        window.location.href = '/' + zhPrefixMatch[1];
+        window.location.href = '/' + zhPrefixMatch[1] + '/';
         return;
       }
     }
@@ -408,7 +408,7 @@
           _applyLangSwitch(lang);
           return;
         }
-        var enMatch = pathname.match(/^\/blog\/(.+)$/);
+        var enMatch = pathname.match(/^\/blog\/(.+?)(\/)?$/);
         if (enMatch) {
           window.location.href = '/zh/blog/' + enMatch[1];
           return;
@@ -417,7 +417,7 @@
           window.location.href = '/zh/blog/';
           return;
         }
-        var enCatMatch = pathname.match(/^\/blog\/(bazi-astrology|zodiac-horoscope|feng-shui|daily-horoscope|lucky-tips)(\.html)?$/);
+        var enCatMatch = pathname.match(/^\/blog\/(bazi-astrology|zodiac-horoscope|feng-shui|daily-horoscope|lucky-tips)\/?$/);
         if (enCatMatch) {
           window.location.href = '/zh/blog/' + enCatMatch[1] + '/';
           return;
