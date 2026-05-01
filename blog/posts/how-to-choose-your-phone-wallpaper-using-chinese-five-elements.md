@@ -18,6 +18,16 @@ faq:
     answer: "Each of the Five Elements (Wood, Fire, Earth, Metal, Water) has colors that support it and colors that drain it. Our free Favorable Element Guide analyzes your birth data to identify your element and its best colors."
   - question: "Can I change my wallpaper based on the season?"
     answer: "Yes — some practitioners adjust their environment colors to match seasonal energy shifts. Wood benefits from green tones in spring, Fire from warm tones in summer, and so on."
+  - question: "Is choosing wallpaper based on Five Elements just superstition?"
+    answer: "Wu Xing is a 3,000-year-old system of pattern recognition, not superstition. The color associations are consistent with modern color psychology — green calms, red energizes, blue promotes focus. BaZi simply helps you identify which of these effects your personal energy profile benefits from most."
+  - question: "Can my Favorable Element change over time?"
+    answer: "Your birth chart (the four pillars) stays the same throughout your life. However, as you move through different Major Luck Cycles (Da Yun, roughly 10-year periods), the emphasis among your favorable elements can shift."
+  - question: "Can I use colors from more than one element?"
+    answer: "Absolutely. Many people have two favorable elements, and even if you have one primary element, the others aren't 'bad' — they're just not your primary support. A wallpaper that blends your favorable color as the dominant tone with secondary colors from other phases can look more natural."
+  - question: "Will changing my wallpaper actually affect my daily energy?"
+    answer: "The effect is subtle, not magical. Seeing a color that aligns with your energy profile dozens of times per day creates a consistent environmental cue — similar to how a well-organized desk supports productivity or a calming bedroom supports sleep."
+  - question: "How do I get started?"
+    answer: "The fastest path: visit DaoEssence's free BaZi calculator, enter your birth details, and note your Favorable Element from the results. Then use the color guide above to pick a wallpaper that matches."
 faq_zh:
   - question: "手機壁紙顏色真的有影響嗎？"
     answer: "色彩心理學研究顯示，反覆看到的顏色會影響情緒和決策。既然你每天看手機超過100次，壁紙顏色對你的能量狀態有累積影響。"
@@ -25,6 +35,16 @@ faq_zh:
     answer: "五行（木、火、土、金、水）各有支持它和消耗它的顏色。我們的免費有利元素指南分析你的出生數據，識別你的五行和最佳顏色。"
   - question: "可以根據季節更換壁紙嗎？"
     answer: "可以——一些實踐者會根據季節能量變化調整環境顏色。木在春天受益於綠色調，火在夏天受益於暖色調，以此類推。"
+  - question: "根據五行選壁紙只是迷信嗎？"
+    answer: "五行是一個3000年歷史的模式識別系統，不是迷信。顏色關聯與現代色彩心理學一致——綠色令人平靜，紅色激發能量，藍色提升專注力。八字只是幫助你找出你的個人能量畫像最受益於哪種效果。"
+  - question: "我的有利五行會隨時間改變嗎？"
+    answer: "你的出生命盤（四柱）一生不變。然而，當你經歷不同的十年大運時，有利五行的側重可能會轉移。"
+  - question: "可以使用多種五行的顏色嗎？"
+    answer: "當然可以。許多人有兩個有利五行，即使你只有一個主要五行，其他五行也不是「不好的」——只是不是你的主要支持。以你的有利顏色為主調、混合其他五行的次要顏色，看起來會更自然。"
+  - question: "更換壁紙真的會影響日常能量嗎？"
+    answer: "效果是微妙的，不是魔法的。每天看到與你能量畫像一致的顏色幾十次，會創造一個一致的環境提示——就像整潔的辦公桌支持生產力，安靜的臥室支持睡眠一樣。"
+  - question: "我怎麼開始？"
+    answer: "最快的方式：造訪 DaoEssence 的免費八字排盤，輸入你的出生資料，從結果中記下你的有利五行。然後使用上面的顏色指南選擇匹配的壁紙。"
 ---
 **How to Choose Your Phone Wallpaper Using Chinese Five Elements: A Practical Guide**
 
@@ -313,47 +333,3 @@ Your energy thrives on flow and depth. Look for:
 
 
 \---
-
-
-
-**Frequently Asked Questions**
-
-
-
-Q: Is choosing wallpaper based on Five Elements just superstition?
-
-
-
-A: Wu Xing is a 3,000-year-old system of pattern recognition, not superstition. The color associations are consistent with modern color psychology — green calms, red energizes, blue promotes focus. BaZi simply helps you identify which of these effects your personal energy profile benefits from most. Think of it as personalized color therapy informed by an ancient framework.
-
-
-
-Q: Can my Favorable Element change over time?
-
-
-
-A: Your birth chart (the four pillars) stays the same throughout your life. However, as you move through different Major Luck Cycles (Da Yun 大运, roughly 10-year periods), the emphasis among your favorable elements can shift. Some practitioners recommend adjusting your environment — including wallpaper colors — when you enter a new luck cycle. If you're curious about your current cycle, a full BaZi reading can provide that detail.
-
-
-
-Q: Can I use colors from more than one element?
-
-
-
-A: Absolutely. Many people have two favorable elements, and even if you have one primary element, the others aren't "bad" — they're just not your primary support. A wallpaper that blends your favorable color as the dominant tone with secondary colors from other phases can look more natural and aesthetically pleasing.
-
-
-
-Q: Will changing my wallpaper actually affect my daily energy?
-
-
-
-A: The effect is subtle, not magical. Seeing a color that aligns with your energy profile dozens of times per day creates a consistent environmental cue — similar to how a well-organized desk supports productivity or a calming bedroom supports sleep. It's one piece of a larger picture, not a standalone solution. But since you're already looking at your device all day anyway, choosing an aligned color costs nothing and may contribute to a more balanced daily experience.
-
-
-
-Q: How do I get started?
-
-
-
-A: The fastest path: visit DaoEssence's free BaZi calculator, enter your birth details, and note your Favorable Element from the results. Then use the color guide above to pick a wallpaper that matches. If you want something more personalized — a design crafted specifically around your element with proper composition and symbolism — explore DaoEssence's energy wallpaper collection.

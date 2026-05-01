@@ -18,6 +18,16 @@ faq:
     answer: "No — the Chinese Almanac provides general recommendations for everyone. But combining it with your personal BaZi chart gives more precise results."
   - question: "Is this the same as feng shui?"
     answer: "No. Feng shui deals with spatial energy (your environment). Date selection deals with temporal energy (when to act). They are complementary systems."
+  - question: "How accurate is this?"
+    answer: "The system uses the same calculations traditional Chinese calendar masters have used for centuries. It's a time-tested methodology."
+  - question: "Do I need any special information?"
+    answer: "Just your event type and preferred timeframe. No birth dates or personal details required."
+  - question: "What if my venue isn't available on a recommended date?"
+    answer: "We provide multiple options. Your second choice will still have good energy."
+  - question: "Is this culturally appropriate for non-Chinese users?"
+    answer: "Absolutely. The calendar tracks natural cycles that affect everyone, regardless of culture."
+  - question: "How is this different from astrology?"
+    answer: "Astrology focuses on personal birth charts. This focuses on the energy of time itself — what's supportive for everyone on a given day."
 faq_zh:
   - question: "什麼是中國曆法擇日系統？"
     answer: "這是一個有2000年歷史的系統，分析特定日子的五行能量，識別對婚禮、搬遷、商業開幕等重要活動有利的時機。"
@@ -25,6 +35,16 @@ faq_zh:
     answer: "不需要——中國通書（黃曆）為每個人提供一般建議。但結合你個人的八字命盤，結果會更精確。"
   - question: "這和風水一樣嗎？"
     answer: "不一樣。風水處理的是空間能量（你的環境）。擇日處理的是時間能量（何時行動）。它們是互補的系統。"
+  - question: "這有多準確？"
+    answer: "這套系統使用的是中國曆法師傅世代傳承的相同計算方法。這是一個經過時間考驗的方法論。"
+  - question: "需要提供什麼特殊資訊嗎？"
+    answer: "只需你的活動類型和偏好時間範圍。不需要出生日期或個人資料。"
+  - question: "如果推薦的日期場地不可用怎麼辦？"
+    answer: "我們提供多個選項。你的第二選擇仍然會有良好的能量。"
+  - question: "這對非中國文化背景的用戶適用嗎？"
+    answer: "當然適用。曆法追蹤的是影響每個人的自然週期，與文化無關。"
+  - question: "這和占星術有什麼不同？"
+    answer: "占星術專注於個人出生盤。這專注於時間本身的能量——在特定日子裡什麼對每個人都最有利。"
 ---
 Have an important event coming up? Whether it's a wedding, business launch, or major purchase, the date you choose could be working for you—or against you.
 
@@ -213,28 +233,6 @@ Select days with healing, supportive energy.
 Starting a New Job?
 
 Opt for days with confident, successful energy.
-
-Common Questions
-
-Q: How accurate is this?
-
-A: The system uses the same calculations traditional Chinese calendar masters have used for centuries. It's a time-tested methodology.
-
-Q: Do I need any special information?
-
-A: Just your event type and preferred timeframe. No birth dates or personal details required.
-
-Q: What if my venue isn't available?
-
-A: We provide multiple options. Your second choice will still have good energy.
-
-Q: Is this culturally appropriate for non-Chinese users?
-
-A: Absolutely. The calendar tracks natural cycles that affect everyone, regardless of culture.
-
-Q: How is this different from astrology?
-
-A: Astrology focuses on personal birth charts. This focuses on the energy of time itself—what's supportive for everyone on a given day.
 
 The Smart Approach to Important Dates
 

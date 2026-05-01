@@ -163,19 +163,4 @@ No subscription required. No upsell. Just your Four Pillars, decoded.
 
 **Disclaimer**: This analysis is for cultural education and entertainment purposes. BaZi is a traditional Chinese framework — not a scientific instrument. Individual outcomes depend on countless factors beyond birth data.
 
-## Frequently Asked Questions
 
-**Q: Is BaZi the same as Chinese Zodiac?**
-A: Not exactly. Chinese Zodiac assigns one of twelve animals based on your birth year, while BaZi uses your exact birth date and time (Four Pillars with 10 Heavenly Stems and 12 Earthly Branches). BaZi is far more detailed and personalized.
-
-**Q: Can BaZi predict someone's success?**
-A: BaZi reveals energy patterns and tendencies, not specific outcomes. Many successful people share certain configurations, but environment, choices, and timing all matter equally. BaZi is one lens, not the whole picture.
-
-**Q: What does "Yang Wood" actually mean?**
-A: Yang Wood (Jia / 甲) represents the energy of a large, upright tree — growth, upward momentum, and resistance to being cut down. As a Day Master, it colors your core approach to life with persistence and ambition.
-
-**Q: Why does Musk's chart have all Five Phases?**
-A: Having all Five Phases present is relatively balanced in BaZi theory, suggesting versatility across domains like tech, finance, and aerospace. Charts missing phases tend to show more extreme strengths and weaknesses.
-
-**Q: Can I use BaZi to make career decisions?**
-A: BaZi can reveal whether you're wired for stability or risk, collaboration or independence, creativity or execution. Use it as one input alongside skills, interests, and market conditions.

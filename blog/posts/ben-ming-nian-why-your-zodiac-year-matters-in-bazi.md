@@ -184,24 +184,4 @@ For a deeper, personalized analysis, consider our **BaZi Life Guidance reading**
 
 Want to learn how to read your own chart? Our [free 6-chapter BaZi course](/learn-bazi) covers everything from Day Master basics to Luck Cycle interpretation.
 
-**Frequently Asked Questions**
 
-**1. Is Ben Ming Nian the same as bad luck?** 
-
-No. The idea that your zodiac year brings bad luck is a popular simplification. In BaZi, your zodiac year is an energy-intensive period — it can bring challenges, but it can also bring breakthroughs. The outcome depends on your specific chart, particularly your Day Master strength and the Ten God relationships active that year.
-
-**2. Do I need my exact birth time for this to work?** 
-
-Your birth year alone tells you when your Ben Ming Nian occurs. But to understand how it affects you personally, you need at least your birth month and day (for the Day Master), and ideally your birth hour (for the complete Four Pillars). Our BaZi calculator accepts your birth time as optional, but more precision gives more insight.
-
-**3. How is Ben Ming Nian different from Saturn Return?** 
-
-Both are cyclical life transitions. Saturn Return occurs roughly every 29.5 years in Western astrology and involves the planet Saturn returning to its natal position. Ben Ming Nian occurs every 12 years based on the Chinese zodiac cycle. They operate within entirely different frameworks — this is an analogy for understanding the concept, not an equivalence.
-
-**4. What if my BaZi chart shows a favorable zodiac year?** 
-
-A favorable Ben Ming Nian is absolutely possible. If the annual energy supports your Day Master (for example, the year's element generates or is the same as your Day Master element), you may find the year particularly productive. The key is still awareness — favorable energy doesn't mean zero challenges, just better conditions overall.
-
-**5. Can I start something new during my Ben Ming Nian?** 
-
-Yes. Whether it's advisable depends on your Day Master strength, not on a blanket rule. Strong Day Masters often find their zodiac year to be an excellent time for new beginnings. Weak Day Masters may benefit from completing existing projects first. The specific advice varies from person to person — which is exactly why a personalized BaZi reading is more useful than general zodiac year advice.

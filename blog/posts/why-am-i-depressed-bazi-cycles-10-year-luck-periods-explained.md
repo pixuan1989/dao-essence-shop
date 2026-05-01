@@ -199,20 +199,6 @@ Winter never asks the tree why it sheds its leaves; it silently completes the ch
 
 ---
 
-## Frequently Asked Questions
-
-**Q: How long will this last?**  
-A: Energy cycles have their timing. Challenging Da Yun typically last 7-10 years, but the most difficult phases often concentrate in the middle years. Triggering patterns are strongest for months within triggering years. The key: **Nothing is permanent.**
-
-**Q: Can I speed this up?**  
-A: Just as you can't hurry spring's arrival, you can't force energy cycles to change. But you can: **Prepare for the transition.** Rest well, learn new skills, process unresolved emotions. When spring comes, those with prepared seeds harvest most.
-
-**Q: Does this negate therapy or medication?**  
-A: Not at all. Think of BaZi cycles as the "weather system," therapy as "learning to walk in rain," medication as "rain gear." They work together to help you weather the storm better.
-
-**Q: How do I know when to "cultivate heart" vs "take action"?**  
-A: In low-energy cycles, focus on "heart cultivation" — acceptance, observation, self-compassion. In rising-energy cycles, focus on "action" — implementing plans, making changes, pursuing goals. **Learn to feel the natural energy flow, cooperate rather than fight it.**
-
 Where you are now, however dark it feels, isn't your story's end. It might be your most important chapter — where the protagonist faces deepest fears, releases heaviest burdens, discovers true strength.
 
 **Accepting this season is accepting your whole self.** Heart cultivation isn't passive endurance — it's active choice: choosing not to sail in storms, choosing to rest well in winter, choosing to trust spring will come.

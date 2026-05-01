@@ -127,27 +127,7 @@ Direction matters too. Each day has a "clash direction" (the compass direction t
 
 ***Key Takeaway: Moving in favors Cheng days. Renovations require checking the specific Dong Tu (ground-breaking) designation. Also check directional clashes with your property's facing direction.***
 
-## **Frequently Asked Questions**
 
-**Q: Is Ze Ri the same thing as fortune telling?**
-
-A: No. Ze Ri is a timing system based on astronomical cycles and energy patterns — specifically the interactions between Heavenly Stems, Earthly Branches, and Five Phases. It doesn't predict specific outcomes. It identifies dates where the energy environment is more supportive for certain types of activities.
-
-**Q: Can I use Ze Ri without knowing my BaZi chart?**
-
-A: You can — the Chinese Almanac gives general recommendations for any given day. But the results are much more accurate when cross-referenced with your personal chart. Think of it like weather forecasting: a general forecast covers everyone, but knowing your location makes it more useful.
-
-**Q: What if I absolutely must act on an "inauspicious" day?**
-
-A: It happens. Sometimes deadlines don't wait for the stars. In that case, practitioners suggest choosing the most favorable time slot within that day, or adjusting the direction you face when performing the activity. It won't cancel out the day's energy, but it can soften the edges.
-
-**Q: Does Ze Ri work for non-Chinese cultural events?**
-
-A: The system was developed within Chinese cosmology, but the underlying logic — aligning actions with favorable cycles — appears in many cultures. Indian Muhurta, Western electional astrology, and even military timing traditions all share similar thinking.
-
-**Q: How far in advance should I check dates?**
-
-A: For weddings and business launches, 2-3 months ahead gives you enough flexibility. For moving, a month is usually sufficient. The Chinese Almanac cycles repeat, so you won't run out of options — but popular dates fill up fast in real life regardless of what the calendar says.
 
  
 

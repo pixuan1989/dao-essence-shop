@@ -20,16 +20,16 @@ related_posts:
   - The "MBTI Alternative" Angle
   - Complete Guide to Five Elements Theory (Wu Xing) for Beginners
 faq:
-  - question: "How long do BaZi emotional low periods last?"
-    answer: "Challenging Da Yun (10-year cycles) typically last 7-10 years, but the most intense phases usually concentrate in the middle 3-4 years. Within each year, triggering months are shorter still. The key insight: nothing is permanent."
-  - question: "Does BaZi replace therapy or medication?"
-    answer: "Not at all. Think of BaZi cycles as the 'weather system,' therapy as 'learning to walk in rain,' and medication as 'rain gear.' They work together. BaZi adds an understanding of timing — knowing whether you're in an emotional 'winter' helps set realistic expectations and reduces self-blame."
-  - question: "Can I speed up a difficult luck cycle?"
-    answer: "You can't force energy cycles to change, but you can prepare. Rest well, learn new skills, process unresolved emotions. When the next cycle arrives, those with prepared foundations benefit most."
-  - question: "Does everyone experience challenging luck cycles?"
-    answer: "Yes. According to BaZi theory, almost everyone has at least one major challenging 10-year period in their lifetime, plus annual fluctuations. Even highly successful people describe similar 'dark periods' — the difference is understanding that it's part of a cycle, not a permanent state."
-  - question: "How do I know if I'm in a low-energy cycle?"
-    answer: "Common signs: waking with unexplained heaviness, loss of interest in things you usually enjoy, mental fog, inner criticism becomes louder, feeling emotionally 'frayed' without clear reason. A BaZi reading can confirm which cycle you're in and when energy naturally shifts."
+  - question: "八字情緒低谷期持續多久？"
+    answer: "具挑戰性的大運（十年週期）通常持續7-10年，但最激烈的階段通常集中在中間3-4年。在每年中，觸發月份更短。關鍵見解：沒有什麼是永恆的。"
+  - question: "八字能取代心理治療或藥物嗎？"
+    answer: "完全不能。把八字週期想像成「天氣系統」，心理治療是「學會在雨中行走」，藥物是「雨具」。它們協同工作。八字增加了對時機的理解——知道你是否處於情緒的「冬天」有助於設定現實預期並減少自責。"
+  - question: "我能加速一個困難的運勢週期嗎？"
+    answer: "你無法強迫能量週期改變，但你可以準備。好好休息、學習新技能、處理未解決的情緒。當下一個週期到來時，有準備基礎的人受益最多。"
+  - question: "每個人都會經歷具挑戰性的運勢週期嗎？"
+    answer: "是的。根據八字理論，幾乎每個人一生中至少有一個主要的具挑戰性十年期，加上年度波動。即使是高度成功的人也描述了類似的「黑暗期」——區別在於理解它是週期的一部分，而不是永久的狀態。"
+  - question: "我怎麼知道是否處於低能量週期？"
+    answer: "常見跡象：醒來時有莫名的沉重感、對平常喜歡的事物失去興趣、腦霧、內在批評聲音變大、在沒有明確原因的情況下感到情緒「磨損」。八字解讀可以確認你處於哪個週期以及能量何時自然轉變。"
 faq_zh:
   - question: "八字情緒低谷期持續多久？"
     answer: "具挑戰性的大運（十年週期）通常持續7-10年，但最激烈的階段通常集中在中間3-4年。在每年中，觸發月份更短。關鍵見解：沒有什麼是永恆的。"
@@ -194,20 +194,6 @@ faq_zh:
 *注意：本資訊結合了傳統智慧與現代理解，提供一個額外的視角。如果經歷顯著的抑鬱，請尋求專業心理健康支持。八字視角是補充，而不是取代傳統治療。*
 
 ---
-
-## 常見問題
-
-**問：這會持續多久？**  
-答：能量週期有其時機。具挑戰性的大運通常持續7-10年，但最困難的階段往往集中在中間幾年。觸發模式在觸發年份內最強，持續月份更短。關鍵：沒有什麼是永恆的。
-
-**問：我能加速這個過程嗎？**  
-答：正如你無法催促春天到來，你無法強迫能量週期改變。但你可以：**為過渡做準備。** 好好休息、學習新技能、處理未解決的情緒。當春天來臨，有準備的種子收穫最多。
-
-**問：這是否否定了心理治療或藥物？**  
-答：完全不是。把八字週期想像成「天氣系統」，心理治療是「學會在雨中行走」，藥物是「雨具」。它們協同工作，幫助你更好地度過風暴。
-
-**問：我怎麼知道何時該「修心」vs「採取行動」？**  
-答：在低能量週期中，專注於「修心」——接納、觀察、自我慈悲。在上升能量週期中，專注於「行動」——執行計劃、做出改變、追求目標。**學會感受自然的能量流動，合作而不是對抗它。**
 
 你現在所處的地方，無論感覺多麼黑暗，都不是你故事的結尾。它可能是你最重要的章節——主角在那裡面對最深的恐懼，釋放最重的負擔，發現真實的力量。
 
