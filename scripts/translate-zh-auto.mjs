@@ -240,11 +240,13 @@ export async function autoTranslateIfNeeded(englishArticles, postsZhDir) {
       const outputPath = path.join(postsZhDir, post.filename);
       fs.writeFileSync(outputPath, result.zhContent, 'utf-8');
       console.log(`    ✅ Saved: posts-zh/${post.filename}`);
+      // Read back from saved file to get correct frontmatter (including translated FAQ)
+      const savedRaw = matter(result.zhContent);
       zhArticles.push({
         filename: post.filename,
         slug: post.slug,
-        data: { ...post.data, title: result.title, description: result.description, lang: 'zh-Hant' },
-        content: matter(result.zhContent).content,
+        data: savedRaw.data,
+        content: savedRaw.content,
         category: post.category
       });
     }

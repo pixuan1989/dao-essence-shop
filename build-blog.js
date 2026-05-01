@@ -1085,7 +1085,8 @@ function generateArticleHtml(post, category, allArticles, options = {}) {
   // FAQ structured data
   let faqJsonLd = '';
   if (data.faq && data.faq.length > 0) {
-    const faqItems = data.faq.map(q => ({
+    const faqSource = isZh && data.faq_zh && data.faq_zh.length > 0 ? data.faq_zh : data.faq;
+    const faqItems = faqSource.map(q => ({
       '@type': 'Question',
       'name': q.question,
       'acceptedAnswer': { '@type': 'Answer', 'text': q.answer }
