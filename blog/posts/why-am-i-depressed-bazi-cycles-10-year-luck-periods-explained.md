@@ -51,8 +51,6 @@ Before drawing conclusions, consider a different lens. It comes from an ancient 
 
 Just as nature has seasons, our lives are believed to have energetic seasons. In BaZi, these are your **"Da Yun" (大运)**, the 10-year chapters of your life, and your **"Liu Nian" (流年)**, the annual energy "weather." This framework suggests nearly **40% of people are in an emotional low tide** governed by these cycles at any time. You are not strange. You are not alone.
 
-[![Seasonal energy cycles in BaZi — understanding your emotional winter](https://raw.githubusercontent.com/pixuan1989/dao-essence-shop/main/images/blog/stressed-winter-bazi.webp)](https://raw.githubusercontent.com/pixuan1989/dao-essence-shop/main/images/blog/stressed-winter-bazi.webp)
-
 ## Understanding Energy Cycles: The Natural Flow
 
 ### What Are Da Yun (10-Year Cycles)?
