@@ -682,8 +682,14 @@
             <div class="fe-loading-spinner"></div>
             <p class="fe-loading-text" data-i18n="fav.loading_text1">Analyzing your birth chart...</p>
             <p class="fe-loading-text" style="font-size:0.8rem;margin-top:0.5rem;color:var(--text-muted);" data-i18n="fav.loading_text2">命理逻辑分析需要时间，请耐心等待</p>
-            <div id="fe-loading-timer" style="margin-top:1.5rem;font-size:0.9rem;color:var(--gold);display:none;"><span id="fe-loading-countdown" style="font-weight:600;font-size:1.1rem;">12</span>s</div>
-            <button id="fe-loading-cancel" style="display:none;..."></button>
+            <div id="fe-loading-progress" style="margin-top:1.5rem;width:220px;max-width:80vw;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+                    <span id="fe-loading-pct" style="font-size:0.82rem;color:var(--gold);font-weight:600;">0%</span>
+                </div>
+                <div style="height:4px;background:rgba(212,175,55,0.15);border-radius:4px;overflow:hidden;">
+                    <div id="fe-loading-bar" style="height:100%;width:0%;background:linear-gradient(90deg,#D4AF37,#E8C84A);border-radius:4px;transition:width 0.3s ease;"></div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -873,21 +879,23 @@
                 parseInt(hourSel.value)
             );
 
-            // Show waiting indicator (no timeout)
-            var countdownEl = document.getElementById('fe-loading-countdown');
-            var timerEl = document.getElementById('fe-loading-timer');
-            var cancelBtn = document.getElementById('fe-loading-cancel');
-            var countdown = 12;
-            timerEl.style.display = 'block';
-            cancelBtn.style.display = 'none';
-            countdownEl.textContent = countdown;
+            // Show progress bar (no timeout)
+            var progressBox = document.getElementById('fe-loading-progress');
+            var progressBar = document.getElementById('fe-loading-bar');
+            var pctEl = document.getElementById('fe-loading-pct');
+            var progress = 0;
+            progressBox.style.display = 'block';
 
-            var countdownInterval = setInterval(function() {
-                countdown--;
-                countdownEl.textContent = countdown;
-                if (countdown <= 0) {
-                    clearInterval(countdownInterval);
+            var progressInterval = setInterval(function() {
+                if (progress < 90) {
+                    // 0→90%: finish in ~8s (increment ~11.25 per second)
+                    progress += 11.25;
+                    if (progress > 90) progress = 90;
                 }
+                // 90→100%: wait for API response
+                var pct = Math.min(Math.round(progress), 99);
+                progressBar.style.width = pct + '%';
+                pctEl.textContent = pct + '%';
             }, 1000);
 
             // Step 2: Send chart to API for LLM analysis (no timeout)
@@ -897,8 +905,10 @@
                 body: JSON.stringify({ chart, lang: isZh() ? 'zh-Hant' : 'en' })
             });
 
-            clearInterval(countdownInterval);
-            timerEl.style.display = 'none';
+            clearInterval(progressInterval);
+            progressBar.style.width = '100%';
+            pctEl.textContent = '100%';
+            setTimeout(function() { progressBox.style.display = 'none'; }, 300);
 
             const data = await res.json();
 

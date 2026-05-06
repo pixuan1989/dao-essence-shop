@@ -1080,7 +1080,14 @@
             <p class="alm-loading-text" data-i18n="almanac.loading_text1">Analyzing your birth chart...</p>
             <p class="alm-loading-text" style="font-size:0.8rem;margin-top:0.5rem;color:var(--text-muted);" data-i18n="almanac.loading_text2">Calculating favorable elements and preparing your personalized calendar</p>
             <p id="almLoadingWait" style="font-size:0.78rem;color:var(--text-muted);margin-top:0.5rem;"></p>
-            <p id="almLoadingTimer" style="font-size:0.75rem;color:var(--gold);margin-top:0.4rem;"></p>
+            <div id="almLoadingProgress" style="margin-top:1rem;width:220px;max-width:80vw;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+                    <span id="almLoadingPct" style="font-size:0.82rem;color:var(--gold);font-weight:600;">0%</span>
+                </div>
+                <div style="height:4px;background:rgba(212,175,55,0.15);border-radius:4px;overflow:hidden;">
+                    <div id="almLoadingBar" style="height:100%;width:0%;background:linear-gradient(90deg,#D4AF37,#E8C84A);border-radius:4px;transition:width 0.3s ease;"></div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -1351,14 +1358,18 @@
             var loadWaitEl = document.getElementById('almLoadingWait');
             if (loadWaitEl) loadWaitEl.textContent = isZh() ? '命理邏輯分析需要時間，請耐心等待' : 'BaZi logic analysis takes time, please wait patiently';
 
-            // Start loading countdown (12 seconds)
-            var loadTimerEl = document.getElementById('almLoadingTimer');
-            var loadCountdown = 12;
-            if (loadTimerEl) loadTimerEl.textContent = loadCountdown + 's';
-            var loadTimer = setInterval(function() {
-                loadCountdown--;
-                if (loadCountdown < 0) loadCountdown = 0;
-                if (loadTimerEl) loadTimerEl.textContent = loadCountdown + 's';
+            // Start progress bar
+            var almProgressBar = document.getElementById('almLoadingBar');
+            var almPctEl = document.getElementById('almLoadingPct');
+            var almProgress = 0;
+            var almTimer = setInterval(function() {
+                if (almProgress < 90) {
+                    almProgress += 11.25;
+                    if (almProgress > 90) almProgress = 90;
+                }
+                var pct = Math.min(Math.round(almProgress), 99);
+                if (almProgressBar) almProgressBar.style.width = pct + '%';
+                if (almPctEl) almPctEl.textContent = pct + '%';
             }, 1000);
 
             try {
@@ -1375,6 +1386,9 @@
                     body: JSON.stringify({ chart: chart, lang: isZh() ? 'zh-Hant' : 'en' })
                 });
                 var data = await res.json();
+                clearInterval(almTimer);
+                if (almProgressBar) almProgressBar.style.width = '100%';
+                if (almPctEl) almPctEl.textContent = '100%';
                 if (!res.ok || !data.success) throw new Error(data.error || 'Analysis failed');
 
                 // Extract favorable elements (dual) and avoid element
