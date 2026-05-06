@@ -681,9 +681,9 @@
         <div class="fe-loading">
             <div class="fe-loading-spinner"></div>
             <p class="fe-loading-text" data-i18n="fav.loading_text1">Analyzing your birth chart...</p>
-            <p class="fe-loading-text" style="font-size:0.8rem;margin-top:0.5rem;color:var(--text-muted);" data-i18n="fav.loading_text2">Character analysis takes time, please wait patiently</p>
+            <p class="fe-loading-text" style="font-size:0.8rem;margin-top:0.5rem;color:var(--text-muted);" data-i18n="fav.loading_text2">命理逻辑分析需要时间，请耐心等待</p>
             <div id="fe-loading-timer" style="margin-top:1.5rem;font-size:0.9rem;color:var(--gold);display:none;"><span id="fe-loading-countdown" style="font-weight:600;font-size:1.1rem;">12</span>s</div>
-            <button id="fe-loading-cancel" style="display:none;margin-top:1rem;padding:0.5rem 1.5rem;background:none;border:1px solid var(--border);border-radius:8px;color:var(--text-secondary);font-size:0.82rem;cursor:pointer;font-family:var(--sans);transition:all 0.2s;" data-i18n="fav.loading_cancel">Cancel</button>
+            <button id="fe-loading-cancel" style="display:none;..."></button>
         </div>
     </div>
 
@@ -705,7 +705,7 @@
         'fav.hero_sub':'Enter your birth time to discover the element your chart needs most. Get personalized recommendations for lucky colors, directions, careers, crystals, and everyday feng shui tips.',
         'fav.form_year':'Birth Year','fav.form_month':'Birth Month','fav.form_day':'Birth Day','fav.form_hour':'Birth Hour',
         'fav.form_unknown':'Unknown','fav.form_gender':'Gender','fav.form_male':'Male','fav.form_female':'Female',
-        'fav.form_submit':'Reveal My Element','fav.loading_text1':'Analyzing your birth chart...','fav.loading_text2':'Character analysis takes time, please wait patiently','fav.loading_cancel':'Cancel',
+        'fav.form_submit':'Reveal My Element','fav.loading_text1':'Analyzing your birth chart...','fav.loading_text2':'BaZi logic analysis takes time, please wait patiently','fav.loading_cancel':'Cancel',
         'fav.retry_btn':'Try Another Chart','fav.footer':'DAO Essence — Ancient Wisdom, Modern Insight',
         'fav.your_energy_element':'Your Favorable Element','fav.day_master_label':'Day Master','fav.day_master_badge':'Destiny',
         'fav.your_four_pillars':'Your Four Pillars','fav.pillar_year':'Year Pillar','fav.pillar_month':'Month Pillar',
@@ -885,6 +885,9 @@
             var countdownInterval = setInterval(function() {
                 countdown--;
                 countdownEl.textContent = countdown;
+                if (countdown <= 0) {
+                    clearInterval(countdownInterval);
+                }
             }, 1000);
 
             // Step 2: Send chart to API for LLM analysis (no timeout)
