@@ -1425,7 +1425,7 @@
 
                 // Show result
                 showAlmStep(3);
-                clearInterval(loadTimer);
+                clearInterval(almTimer);
                 initAlmanac();
 
                 // Track submission and result
@@ -1481,7 +1481,7 @@
                 var genderRadio = document.querySelector('input[name="almGender"][value="' + userBirthData.gender + '"]');
                 if (genderRadio) genderRadio.checked = true;
                 showAlmStep(3);
-                clearInterval(loadTimer);
+                clearInterval(almTimer);
                 initAlmanac();
                 return true;
             }
