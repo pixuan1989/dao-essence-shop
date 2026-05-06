@@ -1016,10 +1016,12 @@
                     lyItems.forEach(function(lyItem) {
                         lyItem.addEventListener('click', function() { openLy(this); });
                     });
-                    lyClose.addEventListener('click', function() {
-                        lyDetail.classList.remove('show');
-                        if (activeLy) { activeLy.classList.remove('ly-active'); activeLy = null; }
-                    });
+                    if (lyClose) {
+                        lyClose.addEventListener('click', function() {
+                            lyDetail.classList.remove('show');
+                            if (activeLy) { activeLy.classList.remove('ly-active'); activeLy = null; }
+                        });
+                    } // end if (lyClose)
 
                     // Auto-open current year
                     var currentLyItem = liunianContainer.querySelector('.ly-card.ly-current');
@@ -1037,10 +1039,12 @@
             items.forEach(function(item) {
                 item.addEventListener('click', function() { openDayun(this); });
             });
-            closeBtn.addEventListener('click', function() {
-                detailPanel.classList.remove('show');
-                if (activeItem) { activeItem.classList.remove('active'); activeItem = null; }
-            });
+            if (closeBtn) {
+                closeBtn.addEventListener('click', function() {
+                    detailPanel.classList.remove('show');
+                    if (activeItem) { activeItem.classList.remove('active'); activeItem = null; }
+                });
+            }
 
             // Auto-open current dayun
             if (currentDayunIdx >= 0) {
