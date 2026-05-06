@@ -1078,10 +1078,8 @@
         <div class="alm-loading">
             <div class="alm-loading-spinner"></div>
             <p class="alm-loading-text" data-i18n="almanac.loading_text1">Analyzing your birth chart...</p>
-            <p class="alm-loading-text" style="font-size:0.8rem;margin-top:0.5rem;color:var(--text-muted);" data-i18n="almanac.loading_text2">Calculating favorable elements and preparing your personalized calendar</p>
-            <p id="almLoadingWait" style="font-size:0.78rem;color:var(--text-muted);margin-top:0.5rem;"></p>
-            <div id="almLoadingProgress" style="margin-top:1rem;width:220px;max-width:80vw;">
-                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+            <div id="almLoadingProgress" style="margin:1rem auto 0;width:220px;max-width:80vw;">
+                <div style="display:flex;justify-content:center;align-items:center;margin-bottom:6px;">
                     <span id="almLoadingPct" style="font-size:0.82rem;color:var(--gold);font-weight:600;">0%</span>
                 </div>
                 <div style="height:4px;background:rgba(212,175,55,0.15);border-radius:4px;overflow:hidden;">
@@ -1442,7 +1440,7 @@
                 }
 
             } catch (err) {
-                clearInterval(loadTimer);
+                clearInterval(almTimer);
                 alert(err.message);
                 showAlmStep(1);
             } finally {
