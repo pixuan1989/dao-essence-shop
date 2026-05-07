@@ -17,8 +17,8 @@ export default async function handler(req, res) {
   }
 
   // /api/callback?code=xxx → exchange code for token
-  const code = searchParams.get('code');
-  const error = searchParams.get('error');
+  const code = url.searchParams.get('code');
+  const error = url.searchParams.get('error');
 
   if (error) {
     res.status(400).send(`GitHub authorization failed: ${error}`);
