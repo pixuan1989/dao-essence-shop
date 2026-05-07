@@ -1646,7 +1646,8 @@ async function main() {
     '.git', 'node_modules', 'dist', '.vercel',
     'build-blog.js', 'build-blog.cjs', 'package.json', 'package-lock.json',
     '.env', '.env.local', '.env.example', '.env.*.local',
-    'docs', 'scripts'
+    'docs', 'scripts',
+    'api'
   ]);
 
   // Step 2b: Copy almanac dependency (lunar-javascript) to dist/
