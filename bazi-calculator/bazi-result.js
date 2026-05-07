@@ -428,29 +428,33 @@
                 finishProgress('dayun-loading');
                 var el = document.getElementById('dayun-detail-body');
                 if (!el) return;
+                if (!result) return;
+                try {
+                    var verdict = result.verdict || '';
+                    var verdictColor = 'var(--accent)';
+                    if (verdict === 'Good' || verdict === '\u5409') verdictColor = 'var(--good)';
+                    else if (verdict === 'Challenging' || verdict === '\u51f6') verdictColor = 'var(--bad)';
 
-                var verdict = result.verdict || '';
-                var verdictColor = 'var(--accent)';
-                if (verdict === 'Good' || verdict === '\u5409') verdictColor = 'var(--good)';
-                else if (verdict === 'Challenging' || verdict === '\u51f6') verdictColor = 'var(--bad)';
-
-                var html = '<div class="detail-card" style="margin-bottom:0.5rem">';
-                html += '<div class="detail-card-header">' + t('bazi_result.dayun_overview') + '</div>';
-                html += '<div class="detail-card-body">';
-                html += '<div class="ai-verdict" style="color:' + verdictColor + ';font-weight:600;margin-bottom:0.5rem">' + verdict + '</div>';
-                if (result.summary) html += '<div class="detail-row" style="line-height:1.7;color:var(--ink)">' + result.summary + '</div>';
-                html += '</div></div>';
-
-                if (result.career || result.wealth || result.love || result.health) {
-                    html += '<div class="detail-card" style="margin-bottom:0.5rem">';
-                    html += '<div class="detail-card-body" style="line-height:1.65">';
-                    if (result.career) html += '<div class="detail-row" style="margin-bottom:0.4rem"><span class="detail-key">' + (isZh() ? '\u4e8b\u696d' : 'Career') + '</span>' + result.career + '</div>';
-                    if (result.wealth) html += '<div class="detail-row" style="margin-bottom:0.4rem"><span class="detail-key">' + (isZh() ? '\u8ca1\u904b' : 'Wealth') + '</span>' + result.wealth + '</div>';
-                    if (result.love) html += '<div class="detail-row" style="margin-bottom:0.4rem"><span class="detail-key">' + (isZh() ? '\u611f\u60c5' : 'Love') + '</span>' + result.love + '</div>';
-                    if (result.health) html += '<div class="detail-row"><span class="detail-key">' + (isZh() ? '\u5065\u5eb7' : 'Health') + '</span>' + result.health + '</div>';
+                    var html = '<div class="detail-card" style="margin-bottom:0.5rem">';
+                    html += '<div class="detail-card-header">' + t('bazi_result.dayun_overview') + '</div>';
+                    html += '<div class="detail-card-body">';
+                    html += '<div class="ai-verdict" style="color:' + verdictColor + ';font-weight:600;margin-bottom:0.5rem">' + verdict + '</div>';
+                    if (result.summary) html += '<div class="detail-row" style="line-height:1.7;color:var(--ink)">' + result.summary + '</div>';
                     html += '</div></div>';
+
+                    if (result.career || result.wealth || result.love || result.health) {
+                        html += '<div class="detail-card" style="margin-bottom:0.5rem">';
+                        html += '<div class="detail-card-body" style="line-height:1.65">';
+                        if (result.career) html += '<div class="detail-row" style="margin-bottom:0.4rem"><span class="detail-key">' + (isZh() ? '\u4e8b\u696d' : 'Career') + '</span>' + result.career + '</div>';
+                        if (result.wealth) html += '<div class="detail-row" style="margin-bottom:0.4rem"><span class="detail-key">' + (isZh() ? '\u8ca1\u904b' : 'Wealth') + '</span>' + result.wealth + '</div>';
+                        if (result.love) html += '<div class="detail-row" style="margin-bottom:0.4rem"><span class="detail-key">' + (isZh() ? '\u611f\u60c5' : 'Love') + '</span>' + result.love + '</div>';
+                        if (result.health) html += '<div class="detail-row"><span class="detail-key">' + (isZh() ? '\u5065\u5eb7' : 'Health') + '</span>' + result.health + '</div>';
+                        html += '</div></div>';
+                    }
+                    el.innerHTML = html;
+                } catch (renderErr) {
+                    console.warn('BaZi render error:', renderErr);
                 }
-                el.innerHTML = html;
             })
             .catch(function(err) {
                 var el = document.getElementById('dayun-detail-body');
@@ -483,21 +487,24 @@
             .then(function(result) {
                 finishProgress('liunian-loading');
                 var el = document.getElementById('liunian-detail-body');
-                if (!el) return;
+                if (!el || !result) return;
+                try {
+                    var verdict = result.verdict || '';
+                    var verdictColor = 'var(--accent)';
+                    if (verdict === 'Good' || verdict === '\u5409') verdictColor = 'var(--good)';
+                    else if (verdict === 'Challenging' || verdict === '\u51f6') verdictColor = 'var(--bad)';
 
-                var verdict = result.verdict || '';
-                var verdictColor = 'var(--accent)';
-                if (verdict === 'Good' || verdict === '\u5409') verdictColor = 'var(--good)';
-                else if (verdict === 'Challenging' || verdict === '\u51f6') verdictColor = 'var(--bad)';
-
-                var html = '<div class="detail-card" style="margin-bottom:0.5rem">';
-                html += '<div class="detail-card-header">' + t('bazi_result.liunian_year_overview') + '</div>';
-                html += '<div class="detail-card-body">';
-                html += '<div class="ai-verdict" style="color:' + verdictColor + ';font-weight:600;margin-bottom:0.5rem">' + verdict + '</div>';
-                if (result.summary) html += '<div class="detail-row" style="line-height:1.7;color:var(--ink)">' + result.summary + '</div>';
-                if (result.advice) html += '<div class="detail-row" style="margin-top:0.5rem;color:var(--ink)"><span class="detail-key">' + (isZh() ? '\u5efa\u8b70' : 'Advice') + '</span>' + result.advice + '</div>';
-                html += '</div></div>';
-                el.innerHTML = html;
+                    var html = '<div class="detail-card" style="margin-bottom:0.5rem">';
+                    html += '<div class="detail-card-header">' + t('bazi_result.liunian_year_overview') + '</div>';
+                    html += '<div class="detail-card-body">';
+                    html += '<div class="ai-verdict" style="color:' + verdictColor + ';font-weight:600;margin-bottom:0.5rem">' + verdict + '</div>';
+                    if (result.summary) html += '<div class="detail-row" style="line-height:1.7;color:var(--ink)">' + result.summary + '</div>';
+                    if (result.advice) html += '<div class="detail-row" style="margin-top:0.5rem;color:var(--ink)"><span class="detail-key">' + (isZh() ? '\u5efa\u8b70' : 'Advice') + '</span>' + result.advice + '</div>';
+                    html += '</div></div>';
+                    el.innerHTML = html;
+                } catch (renderErr) {
+                    console.warn('BaZi render error:', renderErr);
+                }
             })
             .catch(function(err) {
                 var el = document.getElementById('liunian-detail-body');
@@ -649,18 +656,22 @@
                     finishProgress(cardId);
                     var card = document.getElementById(cardId);
                     if (!card || !result) return;
-                    var items = [];
-                    var labels = isZh()
-                        ? { personality: '核心性格', career: '事業方向', love: '感情特點', wealth: '財運模式', health: '健康提醒', summary: '命盤總結' }
-                        : { personality: 'Core Personality', career: 'Career Direction', love: 'Relationships', wealth: 'Wealth Pattern', health: 'Health Watch', summary: 'Key Advice' };
-                    var fields = ['personality', 'career', 'love', 'wealth', 'health', 'summary'];
-                    for (var i = 0; i < fields.length; i++) {
-                        var f = fields[i];
-                        if (result[f]) {
-                            items.push('<span class="info-label">' + labels[f] + '</span><span class="info-value" style="color:var(--ink-2);font-size:0.88rem">' + result[f] + '</span>');
+                    try {
+                        var items = [];
+                        var labels = isZh()
+                            ? { personality: '核心性格', career: '事業方向', love: '感情特點', wealth: '財運模式', health: '健康提醒', summary: '命盤總結' }
+                            : { personality: 'Core Personality', career: 'Career Direction', love: 'Relationships', wealth: 'Wealth Pattern', health: 'Health Watch', summary: 'Key Advice' };
+                        var fields = ['personality', 'career', 'love', 'wealth', 'health', 'summary'];
+                        for (var i = 0; i < fields.length; i++) {
+                            var f = fields[i];
+                            if (result[f]) {
+                                items.push('<span class="info-label">' + labels[f] + '</span><span class="info-value" style="color:var(--ink-2);font-size:0.88rem">' + result[f] + '</span>');
+                            }
                         }
+                        card.innerHTML = items.join('');
+                    } catch (renderErr) {
+                        console.warn('Shishen render error:', renderErr);
                     }
-                    card.innerHTML = items.join('');
                 })
                 .catch(function(err) {
                     var card = document.getElementById(cardId);
