@@ -2,12 +2,20 @@
 const GITHUB_CLIENT_ID = process.env.GITHUB_OAUTH_CLIENT_ID;
 
 export default async function handler(req, res) {
-  // Always use the production domain for OAuth callback
-  // (popup windows don't send referer, so we can't rely on it)
+  if (!GITHUB_CLIENT_ID) {
+    return res.status(500).send('Missing GITHUB_OAUTH_CLIENT_ID env var');
+  }
+
   const origin = 'https://www.daoessentia.com';
+  const callbackUrl = `${origin}/api/callback`;
+  const state = Math.random().toString(36).substring(7);
 
-  const callbackUrl = `${origin}/callback`;
-  const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}&redirect_uri=${encodeURIComponent(callbackUrl)}&scope=repo&state=${Math.random().toString(36).substring(7)}`;
+  const githubAuthUrl =
+    `https://github.com/login/oauth/authorize` +
+    `?client_id=${encodeURIComponent(GITHUB_CLIENT_ID)}` +
+    `&redirect_uri=${encodeURIComponent(callbackUrl)}` +
+    `&scope=repo` +
+    `&state=${encodeURIComponent(state)}`;
 
-  res.redirect(302, githubAuthUrl);
+  return res.redirect(302, githubAuthUrl);
 }
