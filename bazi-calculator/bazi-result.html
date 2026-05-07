@@ -292,9 +292,9 @@
         .ai-loading { color: var(--ink-3); text-align: center; padding: 1.2rem 0 0.5rem; }
         .ai-loading-text { font-size: 0.88rem; margin-bottom: 0.75rem; }
         .ai-progress { width: 80%; max-width: 280px; height: 6px; background: var(--line); border-radius: 3px; margin: 0 auto; overflow: hidden; position: relative; }
-        .ai-progress-bar { height: 100%; width: 30%; background: var(--accent); border-radius: 3px; animation: ai-progress-slide 1.8s ease-in-out infinite; }
-        @keyframes ai-progress-slide { 0% { width: 5%; margin-left: 0; } 50% { width: 50%; margin-left: 25%; } 100% { width: 5%; margin-left: 95%; } }
-        .ai-loading-hint { font-size: 0.78rem; color: var(--ink-4); margin-top: 0.6rem; }
+        .ai-progress-bar { height: 100%; width: 0%; background: var(--accent); border-radius: 3px; transition: width 0.3s ease-out; }
+        .ai-loading-pct { font-size: 0.82rem; color: var(--ink-3); margin-top: 0.4rem; font-variant-numeric: tabular-nums; }
+        .ai-loading-hint { font-size: 0.78rem; color: var(--ink-4); margin-top: 0.4rem; }
         .ai-verdict { font-size: 1rem; }
 
         /* NZSC badge */

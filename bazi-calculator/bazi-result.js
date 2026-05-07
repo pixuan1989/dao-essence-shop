@@ -333,6 +333,32 @@
 
     // ==================== AI ANALYSIS API ====================
     var analysisCache = {};
+    var progressTimers = {};
+
+    function startFakeProgress(containerId) {
+        var bar = document.querySelector('#' + containerId + ' .ai-progress-bar');
+        var pctEl = document.querySelector('#' + containerId + ' .ai-loading-pct');
+        if (!bar) return null;
+        var pct = 0;
+        var target = 90;
+        var step = 3;
+        var timer = setInterval(function() {
+            pct += step;
+            if (pct >= target) { pct = target; step = 0; }
+            bar.style.width = pct + '%';
+            if (pctEl) pctEl.textContent = pct + '%';
+            if (pct >= target) clearInterval(timer);
+        }, 100);
+        return timer;
+    }
+
+    function finishProgress(containerId) {
+        if (progressTimers[containerId]) { clearInterval(progressTimers[containerId]); }
+        var bar = document.querySelector('#' + containerId + ' .ai-progress-bar');
+        var pctEl = document.querySelector('#' + containerId + ' .ai-loading-pct');
+        if (bar) bar.style.width = '100%';
+        if (pctEl) pctEl.textContent = '100%';
+    }
 
     function buildChartPayload(rt) {
         return {
@@ -386,7 +412,7 @@
 
         var loadingHTML = '<div class="detail-card" style="margin-bottom:0.5rem">';
         loadingHTML += '<div class="detail-card-header">' + t('bazi_result.dayun_overview') + '</div>';
-        loadingHTML += '<div class="detail-card-body"><div class="ai-loading"><div class="ai-loading-text">' + (isZh() ? '正在解讀您的命盤...' : 'Analyzing your chart...') + '</div><div class="ai-progress"><div class="ai-progress-bar"></div></div><div class="ai-loading-hint">' + (isZh() ? '正在生成個性化解讀，通常需要 10-20 秒' : 'Generating your personalized reading, usually 10-20 seconds') + '</div></div></div></div>';
+        loadingHTML += '<div class="detail-card-body" id="dayun-loading"><div class="ai-loading"><div class="ai-loading-text">' + (isZh() ? '正在解讀您的命盤...' : 'Analyzing your chart...') + '</div><div class="ai-progress"><div class="ai-progress-bar"></div></div><div class="ai-loading-pct">0%</div><div class="ai-loading-hint">' + (isZh() ? '正在生成個性化解讀，通常需要 10-20 秒' : 'Generating your personalized reading, usually 10-20 seconds') + '</div></div></div></div>';
 
         var dayunData = {
             gan: dyGan, zhi: dyZhi,
@@ -395,8 +421,11 @@
             nzsc: nzsc
         };
 
+        setTimeout(function() { progressTimers['dayun-loading'] = startFakeProgress('dayun-loading'); }, 50);
+
         fetchAnalysis('dayun', chartPayload, dayunData)
             .then(function(result) {
+                finishProgress('dayun-loading');
                 var el = document.getElementById('dayun-detail-body');
                 if (!el) return;
 
@@ -443,13 +472,16 @@
 
         var loadingHTML = '<div class="detail-card" style="margin-bottom:0.5rem">';
         loadingHTML += '<div class="detail-card-header">' + t('bazi_result.liunian_year_overview') + '</div>';
-        loadingHTML += '<div class="detail-card-body"><div class="ai-loading"><div class="ai-loading-text">' + (isZh() ? '正在解讀您的命盤...' : 'Analyzing your chart...') + '</div><div class="ai-progress"><div class="ai-progress-bar"></div></div><div class="ai-loading-hint">' + (isZh() ? '正在生成個性化解讀，通常需要 10-20 秒' : 'Generating your personalized reading, usually 10-20 seconds') + '</div></div></div></div>';
+        loadingHTML += '<div class="detail-card-body" id="liunian-loading"><div class="ai-loading"><div class="ai-loading-text">' + (isZh() ? '正在解讀您的命盤...' : 'Analyzing your chart...') + '</div><div class="ai-progress"><div class="ai-progress-bar"></div></div><div class="ai-loading-pct">0%</div><div class="ai-loading-hint">' + (isZh() ? '正在生成個性化解讀，通常需要 10-20 秒' : 'Generating your personalized reading, usually 10-20 seconds') + '</div></div></div></div>';
 
         var dayunData = { gan: dyGan, zhi: dyZhi };
         var liunianData = { gan: lyGan, zhi: lyZhi, year: ly['year'] || 0 };
 
+        setTimeout(function() { progressTimers['liunian-loading'] = startFakeProgress('liunian-loading'); }, 50);
+
         fetchAnalysis('liunian', chartPayload, dayunData, liunianData)
             .then(function(result) {
+                finishProgress('liunian-loading');
                 var el = document.getElementById('liunian-detail-body');
                 if (!el) return;
 
@@ -599,7 +631,7 @@
 
         var html = '<div class="info-card">';
         html += '<div id="' + cardId + '" class="info-item">';
-        html += '<div class="ai-loading"><div class="ai-loading-text">' + (isZh() ? '正在解讀您的命盤...' : 'Analyzing your chart...') + '</div><div class="ai-progress"><div class="ai-progress-bar"></div></div><div class="ai-loading-hint">' + (isZh() ? '正在生成個性化解讀，通常需要 10-20 秒' : 'Generating your personalized reading, usually 10-20 seconds') + '</div></div>';
+        html += '<div class="ai-loading"><div class="ai-loading-text">' + (isZh() ? '正在解讀您的命盤...' : 'Analyzing your chart...') + '</div><div class="ai-progress"><div class="ai-progress-bar"></div></div><div class="ai-loading-pct">0%</div><div class="ai-loading-hint">' + (isZh() ? '正在生成個性化解讀，通常需要 10-20 秒' : 'Generating your personalized reading, usually 10-20 seconds') + '</div></div>';
         html += '</div>';
         html += '</div>';
 
@@ -611,8 +643,10 @@
             for (var p = 0; p < 4; p++) {
                 chartPayload.pillars.push({ stem: ctg[p] || '', branch: cdz[p] || '' });
             }
+            setTimeout(function() { progressTimers[cardId] = startFakeProgress(cardId); }, 50);
             fetchAnalysis('shishen', chartPayload, null, null, topGodsData)
                 .then(function(result) {
+                    finishProgress(cardId);
                     var card = document.getElementById(cardId);
                     if (!card || !result) return;
                     var items = [];
