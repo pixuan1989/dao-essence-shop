@@ -6,7 +6,7 @@ slug: "yi-wood-may-2026-gui-si-month"
 category: "bazi-astrology"
 tags: ["Yi Wood", "Yin Wood", "BaZi monthly forecast", "Gui Si month 2026", "May 2026 Chinese astrology", "Hurting Officer star", "day master month reading", "Yi Wood day pillars"]
 author: "Dingwei"
-image: "/images/blog/yi-wood-may-2026-gui-si-month.webp"
+image: "/images/blog/yi-wood-yin-wood-may-2026-gui-si-month-forecast.webp"
 imageAlt: "Yin Wood vine with water drops and fire glow on dark navy, Yi Wood Gui Si May 2026"
 seoDescription: "Yi Wood (Yin Wood) May 2026: career, money, love & health guidance for all 6 day pillars. Free BaZi chart included."
 summary: "Gui Si month (May 5–June 4, 2026) brings fire-outside-water-inside energy for Yi Wood. Creative peaks, career visibility, plus all 6 day pillars."

@@ -6,7 +6,7 @@ slug: "yi-wood-may-2026-gui-si-month"
 category: "bazi-astrology"
 tags: ["乙木", "陰木", "八字月運", "癸巳月2026", "2026年5月中國占星", "傷官星", "日主月運", "乙木日柱"]
 author: "Dingwei"
-image: "/images/blog/yi-wood-may-2026-gui-si-month.webp"
+image: "/images/blog/yi-wood-yin-wood-may-2026-gui-si-month-forecast.webp"
 imageAlt: "陰木藤蔓與水滴和火光在深藍背景上，乙木癸巳月2026年5月"
 seoDescription: "乙木（陰木）日主2026年5月：事業、金錢、愛情、健康全面指導，六大日柱專屬分析。免費八字排盤。"
 summary: "癸巳月（5月5日–6月4日）為乙木帶來外火內水能量。創意巔峰、事業能見度提升，加上六大日柱專屬指導。"
