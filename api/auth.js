@@ -7,7 +7,7 @@ export default async function handler(req, res) {
   }
 
   const origin = 'https://www.daoessentia.com';
-  const callbackUrl = `${origin}/api/callback`;
+  const callbackUrl = `${origin}/callback`;
   const state = Math.random().toString(36).substring(7);
 
   const githubAuthUrl =
