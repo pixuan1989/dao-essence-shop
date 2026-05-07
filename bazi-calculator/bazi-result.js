@@ -386,7 +386,7 @@
 
         var loadingHTML = '<div class="detail-card" style="margin-bottom:0.5rem">';
         loadingHTML += '<div class="detail-card-header">' + t('bazi_result.dayun_overview') + '</div>';
-        loadingHTML += '<div class="detail-card-body"><p class="ai-loading">' + (isZh() ? '正在解讀您的命盤...' : 'Analyzing your chart...') + '</p></div></div>';
+        loadingHTML += '<div class="detail-card-body"><div class="ai-loading"><div class="ai-loading-text">' + (isZh() ? '正在解讀您的命盤...' : 'Analyzing your chart...') + '</div><div class="ai-progress"><div class="ai-progress-bar"></div></div><div class="ai-loading-hint">' + (isZh() ? 'AI 正在生成個性化解讀，通常需要 10-20 秒' : 'AI is generating your personalized reading, usually 10-20 seconds') + '</div></div></div></div>';
 
         var dayunData = {
             gan: dyGan, zhi: dyZhi,
@@ -443,7 +443,7 @@
 
         var loadingHTML = '<div class="detail-card" style="margin-bottom:0.5rem">';
         loadingHTML += '<div class="detail-card-header">' + t('bazi_result.liunian_year_overview') + '</div>';
-        loadingHTML += '<div class="detail-card-body"><p class="ai-loading">' + (isZh() ? '正在解讀您的命盤...' : 'Analyzing your chart...') + '</p></div></div>';
+        loadingHTML += '<div class="detail-card-body"><div class="ai-loading"><div class="ai-loading-text">' + (isZh() ? '正在解讀您的命盤...' : 'Analyzing your chart...') + '</div><div class="ai-progress"><div class="ai-progress-bar"></div></div><div class="ai-loading-hint">' + (isZh() ? 'AI 正在生成個性化解讀，通常需要 10-20 秒' : 'AI is generating your personalized reading, usually 10-20 seconds') + '</div></div></div></div>';
 
         var dayunData = { gan: dyGan, zhi: dyZhi };
         var liunianData = { gan: lyGan, zhi: lyZhi, year: ly['year'] || 0 };
@@ -599,7 +599,7 @@
 
         var html = '<div class="info-card">';
         html += '<div id="' + cardId + '" class="info-item">';
-        html += '<p class="ai-loading">' + (isZh() ? '正在解讀您的命盤...' : 'Analyzing your chart...') + '</p>';
+        html += '<div class="ai-loading"><div class="ai-loading-text">' + (isZh() ? '正在解讀您的命盤...' : 'Analyzing your chart...') + '</div><div class="ai-progress"><div class="ai-progress-bar"></div></div><div class="ai-loading-hint">' + (isZh() ? 'AI 正在生成個性化解讀，通常需要 10-20 秒' : 'AI is generating your personalized reading, usually 10-20 seconds') + '</div></div>';
         html += '</div>';
         html += '</div>';
 
