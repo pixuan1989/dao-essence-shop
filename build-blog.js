@@ -924,8 +924,15 @@ function generateArticleHtml(post, category, allArticles, options = {}) {
         </section>`;
   }
 
-  // CTA cards: read from frontmatter, fallback to bazi for old articles
-  const ctaCards = Array.isArray(data.cta_cards) ? data.cta_cards : ['bazi'];
+  // CTA cards: read from frontmatter, fallback to category-based defaults
+  const CTA_DEFAULTS_BY_CATEGORY = {
+    'feng-shui': ['almanac', 'five-elements'],
+    'zodiac-horoscope': ['zodiac-lookup', 'five-elements'],
+    'daily-horoscope': ['almanac', 'bazi'],
+    'lucky-tips': ['almanac', 'favorable-element'],
+    'bazi-astrology': ['bazi']
+  };
+  const ctaCards = Array.isArray(data.cta_cards) ? data.cta_cards : (CTA_DEFAULTS_BY_CATEGORY[category] || ['bazi']);
 
   function renderCtaCard(type) {
     switch (type) {
