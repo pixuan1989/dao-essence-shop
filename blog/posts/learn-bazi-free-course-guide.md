@@ -9,8 +9,8 @@ date: "2026-05-09"
 author: "Xuanzhen"
 readTime: "9"
 pinned: false
-image: "/images/blog/learn-bazi-free-course.webp"
-imageAlt: "Open book with golden BaZi chart elements floating above on dark background, free self-learning concept, warm amber lighting, no text"
+image: "/images/blog/learn-bazi-free-course-guide.webp"
+imageAlt: "Person learning BaZi Four Pillars of Destiny on laptop, free online course, Chinese astrology self-study guide, warm golden light, desktop setup"
 faq:
   - question: "How long does it take to learn basic BaZi reading?"
     answer: "Most people can grasp the core framework — the Five Phases, Day Master, Ten Gods, and Luck Cycles — in about two to three weeks of casual study (30-60 minutes per day). After a month, you should be able to look at your own chart and identify the major patterns: your dominant element, what your Favorable Element is, and what your current Luck Cycle suggests. You won't be giving professional readings, but you'll have a genuinely useful self-understanding tool."

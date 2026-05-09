@@ -10,8 +10,8 @@ date: "2026-05-09"
 author: "玄真"
 readTime: "9"
 pinned: false
-image: "/images/blog/learn-bazi-free-course.webp"
-imageAlt: "攤開的書籍上方漂浮著金色八字元素，深色背景，免費自學概念，溫暖琥珀色光線，無文字"
+image: "/images/blog/learn-bazi-free-course-guide.webp"
+imageAlt: "Person learning BaZi Four Pillars of Destiny on laptop, free online course, Chinese astrology self-study guide, warm golden light, desktop setup"
 faq:
   - question: "學基礎八字需要多長時間？"
     answer: "大多數人每天花30到60分鐘隨意學習，大約兩到三週就能掌握核心框架——五行、日主、十神和大運。一個月後，你應該能看著自己的命盤辨認出主要格局：你的主導五行是什麼、喜用神是什麼、當前大運暗示了什麼。你還不夠資格做專業解讀，但你會擁有一個真正有用的自我認識工具。"

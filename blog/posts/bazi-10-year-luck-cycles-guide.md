@@ -10,7 +10,7 @@ author: "Xuanzhen"
 readTime: "9"
 pinned: false
 image: "/images/blog/bazi-10-year-luck-cycles.webp"
-imageAlt: "Ten ascending golden pillars each glowing with different elemental colors on dark background, representing BaZi 10-year Major Luck Cycles, cinematic lighting"
+imageAlt: "Ten Year Luck Cycle BaZi pillar diagram, Major Luck shifting every decade in Chinese astrology, five elements energy flow visualization, golden cosmic background"
 faq:
   - question: "What age do BaZi Luck Cycles usually start?"
     answer: "It depends on your birth data. Most people's Luck Cycles begin between ages 3 and 10, calculated by the distance between your birth date and the nearest solar term. In BaZi, this is called the 'starting age' — and yes, it's different for everyone. Some people enter their first Luck Cycle at age 2, others not until age 9. Our free BaZi calculator shows your exact starting age automatically."
