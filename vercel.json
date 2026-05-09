@@ -11,7 +11,9 @@
     { "source": "/callback", "destination": "/api/callback" }
   ],
   "routes": [
-    { "src": "/contact(.*)", "status": 410 }
+    { "src": "/contact(.*)", "status": 410 },
+    { "src": "/blog/learn-bazi-free-course-guide", "status": 410 },
+    { "src": "/zh/blog/learn-bazi-free-course-guide", "status": 410 }
   ],
   "redirects": [
     {
@@ -78,14 +80,6 @@
       "source": "/zh/terms",
       "destination": "/terms",
       "permanent": true
-    },
-    {
-      "source": "/blog/learn-bazi-free-course-guide",
-      "status": 410
-    },
-    {
-      "source": "/zh/blog/learn-bazi-free-course-guide",
-      "status": 410
     },
     {
       "source": "/(.+)\\.html",
