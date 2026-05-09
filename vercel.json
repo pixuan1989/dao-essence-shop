@@ -81,13 +81,11 @@
     },
     {
       "source": "/blog/learn-bazi-free-course-guide",
-      "destination": "/blog/teach-yourself-bazi-guide",
-      "permanent": true
+      "status": 410
     },
     {
       "source": "/zh/blog/learn-bazi-free-course-guide",
-      "destination": "/zh/blog/teach-yourself-bazi-guide",
-      "permanent": true
+      "status": 410
     },
     {
       "source": "/(.+)\\.html",
