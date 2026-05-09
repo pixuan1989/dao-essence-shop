@@ -80,6 +80,16 @@
       "permanent": true
     },
     {
+      "source": "/blog/learn-bazi-free-course-guide",
+      "destination": "/blog/teach-yourself-bazi-guide",
+      "permanent": true
+    },
+    {
+      "source": "/zh/blog/learn-bazi-free-course-guide",
+      "destination": "/zh/blog/teach-yourself-bazi-guide",
+      "permanent": true
+    },
+    {
       "source": "/(.+)\\.html",
       "destination": "/$1",
       "permanent": true
