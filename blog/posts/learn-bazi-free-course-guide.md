@@ -41,7 +41,7 @@ She still doesn't know what her Day Master is.
 
 That experience isn't unusual. The BaZi consulting industry has no standardized certification, no quality control and no accountability. Prices range from $50 to $500+ for a single session, and quality varies just as wildly.
 
-Here's the thing: the basic framework behind BaZi isn't that complicated. You can learn it yourself — for free — in about two weeks. And once you know how to read your own chart, you have a skill that lasts a lifetime.
+Here's the thing: the problem isn't BaZi — it's that most practitioners don't go deep enough. The basic framework is learnable, and once you know how to read your own chart, you'll quickly realize just how much a surface-level reading leaves out. You can learn it yourself — for free — in about two weeks. And once you know how to read your own chart, you have a skill that lasts a lifetime.
 
 ## Why Most Paid Readings Leave You Unsatisfied
 
@@ -49,7 +49,7 @@ The core problem isn't that BaZi practitioners are dishonest. Many are genuinely
 
 A 45-minute session has to cover your personality, career direction, relationship patterns, health tendencies, financial outlook, and timing — all from eight characters. That's not a reading. That's a speed run.
 
-What usually happens: the practitioner identifies 2-3 notable patterns in your chart, delivers them in vague enough language to feel accurate (the classic cold reading problem), and runs out of time before getting to anything actionable.
+What usually happens: the practitioner identifies 2-3 notable patterns in your chart, delivers them in vague enough language to feel accurate, and runs out of time before getting to anything actionable. This isn't how BaZi is supposed to work — a proper reading cross-references your Day Master, Ten Gods, Luck Cycles, and Annual Pillars to deliver specific, timed insights. But that level of analysis takes real skill, and not every practitioner has it.
 
 You walk away with impressions, not understanding.
 
