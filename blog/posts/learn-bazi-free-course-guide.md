@@ -1,6 +1,6 @@
 ---
 title: "Stop Paying $200 — Learn to Read BaZi"
-slug: "learn-bazi-free-course-guide"
+slug: "teach-yourself-bazi-guide"
 description: "Most BaZi readings cost $100-300 and leave you with more questions than answers. You can learn to read your own birth chart for free in about two weeks of casual study."
 seoDescription: "Why pay $200 for a BaZi reading when you can learn to read your own chart free? Our 6-chapter course takes you from zero to confident. Start today — no sign-up needed."
 category: "bazi-astrology"

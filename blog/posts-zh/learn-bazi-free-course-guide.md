@@ -1,6 +1,6 @@
 ---
 title: "別再花$200了——學會自己讀八字"
-slug: "learn-bazi-free-course-guide"
+slug: "teach-yourself-bazi-guide"
 description: "大多數八字解讀收費$100-300，卻讓你帶著更多疑問而非答案離開。你可以在約兩週的隨意學習中，免費學會讀自己的出生命盤。"
 seoDescription: "既然可以免費學會讀自己的命盤，為什麼還要花$200做一次八字解讀？我們的六章課程帶你從零到有信心。今天就開始——不需要註冊。"
 lang: "zh-Hant"
