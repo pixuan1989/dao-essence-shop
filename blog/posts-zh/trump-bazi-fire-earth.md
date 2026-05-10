@@ -1,5 +1,5 @@
 ---
-title: "川普八字：火土燥烈與濕土調候"
+title: "為什麼川普能贏兩次？八字命盤揭露答案"
 slug: "trump-bazi-fire-earth"
 lang: "zh-Hant"
 category: "bazi-astrology"

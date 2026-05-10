@@ -1,5 +1,5 @@
 ---
-title: "Trump BaZi Chart: Why Moist Earth Decided Two Presidential Wins"
+title: "Why Trump Won Twice: BaZi Reveals the Pattern"
 slug: "trump-bazi-fire-earth"
 category: "bazi-astrology"
 tags:
