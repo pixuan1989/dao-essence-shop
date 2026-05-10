@@ -1,5 +1,5 @@
 ---
-title: "Why Do I Feel Depressed? BaZi's 10-Year Cycle Explains It"
+title: "Why You Feel Stuck Every 10 Years (It's Not Depression)"
 category: bazi-astrology
 tags:
   - BaZi

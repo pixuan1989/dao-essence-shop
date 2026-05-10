@@ -1,5 +1,5 @@
 ---
-title: "為什麼我會憂鬱？八字的十年大運週期解釋了原因"
+title: "為什麼你每10年感到停滯不前？（這不是憂鬱症）"
 category: bazi-astrology
 tags:
   - 八字

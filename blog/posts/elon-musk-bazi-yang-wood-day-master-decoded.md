@@ -1,5 +1,5 @@
 ---
-title: "Elon Musk's BaZi Chart: Why He Takes Extreme Risks"
+title: "Elon Musk's $400B Secret: What His BaZi Chart Reveals"
 category: bazi-astrology
 tags:
   - Elon Musk BaZi
