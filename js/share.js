@@ -27,6 +27,15 @@ document.addEventListener('DOMContentLoaded', function() {
         case 'pinterest':
           window.open('https://pinterest.com/pin/create/button/?url=' + u + '&description=' + t, '_blank', 'width=750,height=600');
           break;
+        case 'instagram':
+          navigator.clipboard.writeText(location.href).then(function() {
+            var toast = document.createElement('div');
+            toast.textContent = 'Link copied! Paste it in your Instagram post or story.';
+            toast.style.cssText = 'position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#333;color:#fff;padding:8px 16px;border-radius:6px;font-size:13px;z-index:9999;';
+            document.body.appendChild(toast);
+            setTimeout(function() { toast.remove(); }, 3000);
+          });
+          break;
         case 'copy':
           var self = this;
           navigator.clipboard.writeText(location.href).then(function() {
