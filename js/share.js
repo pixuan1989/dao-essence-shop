@@ -21,9 +21,11 @@ document.addEventListener('DOMContentLoaded', function() {
         case 'whatsapp':
           window.open('https://wa.me/?text=' + t + '%20' + u, '_blank');
           break;
-        case 'wechat':
-          var m = document.getElementById('wechat-modal');
-          if (m) m.style.display = 'flex';
+        case 'reddit':
+          window.open('https://reddit.com/submit?url=' + u + '&title=' + t, '_blank', 'width=800,height=600');
+          break;
+        case 'pinterest':
+          window.open('https://pinterest.com/pin/create/button/?url=' + u + '&description=' + t, '_blank', 'width=750,height=600');
           break;
         case 'copy':
           var self = this;
