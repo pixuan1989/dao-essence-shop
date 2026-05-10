@@ -52,7 +52,7 @@ Yes. In Feng Shui (Fēng Shuǐ 風水), your home's energy field (qi / chī 氣)
 
 ## Why "Stability" Beats "Freshness" in Feng Shui
 
-Walk into a hotel room and you'll sleep adequately. Walk into your own bedroom after 5 years, and you sleep deeply. That's qi field stabilization at work.
+Walk into a hotel room and you'll sleep adequately. Walk into your own bedroom after 5 years, and you sleep deeply. In Feng Shui, that's qi field stabilization at work.
 
 Feng Shui isn't about decorating. It's about **energy field management**. Your home is a living system that develops a "memory" through consistent, stable inputs. When you replace items frequently, you're essentially hitting the reset button on that memory every time.
 
