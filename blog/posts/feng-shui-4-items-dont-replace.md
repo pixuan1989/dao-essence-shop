@@ -148,25 +148,6 @@ Check your free BaZi chart to understand your personal energy profile — it cha
 
 ---
 
-## FAQ
-
-**Q: I'm renting. What if the previous tenant replaced everything?**  
-A: Renters have less control, but you can still stabilize energy. Add a mattress topper to the bed (creates a buffer between your energy and the previous tenant's). Don't move the cabinets. Wash all curtains thoroughly before using.
-
-**Q: What if I already replaced all 4 items? Is my luck ruined?**  
-A: No. Energy fields need time to restabilize — typically 3-6 months. During this period, spend more time at home to help your qi merge with the new items.
-
-**Q: How often should I replace wallpaper in Feng Shui?**  
-A: Feng Shui suggests keeping wallpaper for at least 5-8 years. If it's not damaged or moldy, repair local areas instead of rewrapping the entire room.
-
-**Q: Can I move my bed to a different position?**  
-A: In Feng Shui, the bed is where you spend one-third of your life rebuilding your energy. Once your qi has merged with a specific bed position, moving it can cause sleep instability. If you must move it, sleep in the new position for 7 consecutive nights.
-
-**Q: Do I need to replace curtains frequently for a fresh look?**  
-A: No. Curtains control light and privacy — two pillars of home energy stability. Clean your curtains regularly instead of replacing them.
-
----
-
 ## The Bottom Line
 
 Feng Shui prioritizes **stable qi field** over "fresh decor." These four items — wallpaper, cabinets, bed, and curtains — are worth choosing carefully once and then leaving alone.
