@@ -1,12 +1,12 @@
 ---
-title: "Feeling Stressed? You Might Just Be in Your Energetic 'Winter'"
+title: "Why Do I Feel Depressed? BaZi's 10-Year Cycle Explains It"
 category: bazi-astrology
 tags:
   - BaZi
   - Mental Health
   - Energy Cycles
-description: "Feeling stuck or anxious? In BaZi, nearly 40% of people are in an emotional low tide. Learn why this phase is temporary — with 7 energy patterns and coping tips."
-seoDescription: "Feeling stressed or depressed? BaZi's 10-year luck cycles and yearly influences explain emotional lows. Discover 7 energy patterns and why your 'winter' is temporary."
+description: "Why do you feel depressed or stuck? BaZi's 10-year luck cycles and yearly influences explain emotional lows. Discover which energy phase you're in and why it's temporary."
+seoDescription: "Feeling depressed or emotionally stuck? BaZi explains it through 10-year luck cycles and yearly energy shifts. Not a substitute for professional care — but a framework to understand your timing."
 date: 2026-04-23
 author: Xuanzhen
 readTime: 7

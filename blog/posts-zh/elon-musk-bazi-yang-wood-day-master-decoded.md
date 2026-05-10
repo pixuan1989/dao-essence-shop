@@ -1,5 +1,5 @@
 ---
-title: 伊隆·馬斯克八字：陽木日主深度解讀
+title: 伊隆·馬斯克的八字命盤：為什麼他敢冒極端風險
 category: bazi-astrology
 tags:
   - Elon Musk BaZi
@@ -12,7 +12,7 @@ tags:
   - BaZi career analysis
   - Da Yun luck cycles
   - Jia Wood personality
-description: 伊隆·馬斯克的八字命盤如何解讀他4000億美元的崛起？剖析其陽木日主、七殺星與大運流年。立即免費查看你的八字命盤！
+description: 為什麼伊隆·馬斯克敢冒極端風險？他的八字命盤揭露了陽木日主與七殺星的組合——這是支撐他4000億美元身價背後的配置。查看你的命盤。
 date: 2026-04-25T00:00:00.000Z
 author: Xuanzhen
 readTime: 8
