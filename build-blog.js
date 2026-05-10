@@ -1224,7 +1224,7 @@ ${NAV_HTML}
                     <img src="/images/whatapp.svg" alt="WhatsApp" style="width:16px;height:16px;">
                 </button>
                 <button class="share-btn" data-platform="reddit" title="Share on Reddit">
-                    <img src="/images/reddi.svg" alt="Reddit" style="width:16px;height:16px;">
+                    <img src="/images/reddit.svg" alt="Reddit" style="width:16px;height:16px;">
                 </button>
                 <button class="share-btn" data-platform="pinterest" title="Share on Pinterest">
                     <img src="/images/Pinterest.png" alt="Pinterest" style="width:16px;height:16px;">
