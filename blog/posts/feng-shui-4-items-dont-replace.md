@@ -13,7 +13,7 @@ author: "Xuanzhen"
 date: "2026-05-10"
 readTime: "8 min read"
 pinned: false
-image: "/images/blog/feng-shui-4-items-dont-replace.webp"
+image: "/images/blog/feng-shui-4-items-dont-replace-hero.webp"
 imageAlt: "Four home items wallpaper cabinet bed curtains arranged on wooden table with Feng Shui symbols, warm natural lighting"
 slug: "feng-shui-4-items-dont-replace"
 faq:
