@@ -202,6 +202,7 @@ const FOOTER_HTML = `
                 </div>
             </div>
         </div>
+        <script src="/js/share.js" defer></script>
     </footer>`;
 
 const ARTICLE_STYLES = `
@@ -1175,7 +1176,15 @@ function generateArticleHtml(post, category, allArticles, options = {}) {
         "inLanguage": "${lang}"
     }
     </script>${faqJsonLd}
-    <style>${ARTICLE_STYLES}</style>
+    <style>${ARTICLE_STYLES}
+        /* ── Share Buttons ── */
+        .share-buttons { display: flex; gap: 0.75rem; margin: -1.5rem 0 2rem; align-items: center; }
+        .share-btn { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 50%; border: 1px solid rgba(212,175,55,0.3); background: transparent; color: #666; cursor: pointer; transition: all 0.2s; text-decoration: none; }
+        .share-btn:hover { border-color: #D4AF37; color: #D4AF37; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(212,175,55,0.2); }
+        .share-btn svg { width: 16px; height: 16px; fill: currentColor; }
+        .share-label { font-size: 0.8rem; color: #999; margin-right: 0.25rem; letter-spacing: 0.05em; }
+        @media (max-width: 540px) { .share-buttons { gap: 0.5rem; } .share-btn { width: 32px; height: 32px; } .share-btn svg { width: 14px; height: 14px; } }
+    </style>
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-FX0T6YB6DE"></script>
     <script>
@@ -1198,6 +1207,28 @@ ${NAV_HTML}
                 <span data-i18n="blog.article_by">By</span> ${escapeHtml(normalizeAuthor(data.author))}
                 ${dateFormatted ? ` · <span>${dateFormatted}</span>` : ''}
                 ${data.readTime ? ` · <span>${data.readTime} <span data-i18n="blog.min_read">min read</span></span>` : ''}
+            </div>
+
+            <div class="share-buttons">
+                <span class="share-label">Share:</span>
+                <button class="share-btn" data-platform="twitter" title="Share on X (Twitter)">
+                    <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.408-7.07L9.91 21.49H6.603l7.556-8.68L6.258 2.25H9.11l4.704 6.22 3.18 4.13z"/></svg>
+                </button>
+                <button class="share-btn" data-platform="facebook" title="Share on Facebook">
+                    <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.301c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.236 2.686.236v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                </button>
+                <button class="share-btn" data-platform="linkedin" title="Share on LinkedIn">
+                    <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                </button>
+                <button class="share-btn" data-platform="whatsapp" title="Share on WhatsApp">
+                    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.758-1.653-2.056-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.262.49 1.694.625.712.227 1.872.195 1.872.118.057-.078.298-.97.298-1.664 0-.694-.074-1.289-.298-1.774zM12.004 21.27c-1.917 0-3.798-.504-5.454-1.454l-.393-.233-3.715 1.006 1.01-3.653-.256-.407C1.605 14.324 1.01 12.46 1.01 10.525 1.01 5.69 5.322 1.75 12.004 1.75c2.61 0 5.063.982 6.931 2.727 1.868 1.745 2.909 4.098 2.909 6.524 0 5.835-4.312 9.27-9.85 9.27zm8.413-18.272C18.791 1.83 15.468.98 12.004.98c-7.132 0-12.94 5.656-12.94 12.608 0 2.963 1.06 5.68 2.798 7.616L1.29 23.16l4.25-1.11c1.777.978 3.785 1.494 5.464 1.494h.001c7.132 0 12.94-5.656 12.94-12.608 0-3.364-1.307-6.525-3.685-8.904z"/></svg>
+                </button>
+                <button class="share-btn" data-platform="wechat" title="Share on WeChat">
+                    <svg viewBox="0 0 24 24"><path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 0 0 .167-.054l1.903-1.114a.864.864 0 0 1 .717-.098 10.16 10.16 0 0 0 2.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348zM5.785 5.991c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178A1.17 1.17 0 0 1 4.623 7.17c0-.651.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178A1.17 1.17 0 0 1 4.623 7.17c0-.651.52-1.18 1.162-1.18z"/></svg>
+                </button>
+                <button class="share-btn" data-platform="copy" title="Copy link">
+                    <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                </button>
             </div>
 
             ${finalBody}
