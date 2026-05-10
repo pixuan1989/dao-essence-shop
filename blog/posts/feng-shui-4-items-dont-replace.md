@@ -124,6 +124,8 @@ Not "never replace" — that would be unrealistic. Here's the practical framewor
 | Moving to a new home | ✅ Must | Allow 7 days for energy to settle |
 | Responding to a feng shui audit | ✅ Yes | Only if master is experienced |
 
+![Decision guide: when to replace vs. keep home items for Feng Shui and health](/images/blog/when-to-replace-items-decision-guide.webp)
+
 ---
 
 ## How to Stabilize Your Home's Qi Field
