@@ -7,11 +7,23 @@
 
 const PAGEVIEW_API = '/api/pageview';
 
-// 从 URL 路径提取 slug（如 /blog/slug-name → slug-name）
+// 从 URL 路径提取 slug
+// 支持: /blog/slug-name → slug-name
+//       /learn-bazi/chapter → learn-bazi/chapter
+//       /zh/blog/slug-name → zh/slug-name
+//       /zh/learn-bazi/chapter → zh/learn-bazi/chapter
 function getSlugFromPath() {
-  const path = window.location.pathname;
-  const m = path.match(/\/blog\/([^/?#]+)/);
-  return m ? m[1] : null;
+  const path = window.location.pathname.replace(/\/index\.html$/, '').replace(/\/$/, '');
+  // /learn-bazi/ 路径
+  const lbm = path.match(/^(\/zh)?(\/learn-bazi\/[^/?#]+)/);
+  if (lbm) return lbm[1] + lbm[2];
+  // /blog/ 路径
+  const bm = path.match(/\/blog\/([^/?#]+)/);
+  if (bm) {
+    const zhPrefix = path.indexOf('/zh/blog/') === 0 ? 'zh/' : '';
+    return zhPrefix + bm[1];
+  }
+  return null;
 }
 
 // 格式化数字（1234 → 1.2K）
