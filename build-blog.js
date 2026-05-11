@@ -557,6 +557,35 @@ const ZODIAC_LOOKUP_HTML = `
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
+        /* 图片骨架屏加载动效 */
+        @keyframes img-shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        .blog-card-image, .related-card-img, .article-card-image, .blog-cover-wrapper {
+            position: relative;
+        }
+        .blog-card-image::before, .related-card-img::before, .article-card-image::before, .blog-cover-wrapper::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(110deg, rgba(212,175,55,0.05) 30%, rgba(212,175,55,0.15) 50%, rgba(212,175,55,0.05) 70%);
+            background-size: 200% 100%;
+            animation: img-shimmer 1.5s ease-in-out infinite;
+            z-index: 1;
+            transition: opacity 0.4s ease;
+        }
+        .blog-card-image.loaded::before, .related-card-img.loaded::before, .article-card-image.loaded::before, .blog-cover-wrapper.loaded::before {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .blog-card-image img, .related-card-img img, .article-card-image img, .blog-cover-wrapper img {
+            opacity: 0;
+            transition: transform 0.4s, opacity 0.4s;
+        }
+        .blog-card-image.loaded img, .related-card-img.loaded img, .article-card-image.loaded img, .blog-cover-wrapper.loaded img {
+            opacity: 1;
+        }
         .zodiac-result .zodiac-emoji {
             font-size: 3.5rem;
             line-height: 1;
@@ -909,7 +938,7 @@ function generateArticleHtml(post, category, allArticles, options = {}) {
       return `
               <a href="${relatedHref}" class="related-card">
                 <div class="related-card-img">
-                  <img src="${imgSrc}" alt="${escapeHtml(p.data.imageAlt || p.data.title)}" loading="lazy" onerror="this.src='${SITE_URL}/images/og-default.jpg'">
+                  <img src="${imgSrc}" alt="${escapeHtml(p.data.imageAlt || p.data.title)}" loading="lazy" onload="this.parentElement.classList.add('loaded')" onerror="this.parentElement.classList.add('loaded');this.src='${SITE_URL}/images/og-default.jpg'">
                 </div>
                 <div class="related-card-body">
                   <span class="related-card-cat">${escapeHtml(catLabel)}</span>
@@ -1202,7 +1231,7 @@ ${NAV_HTML}
         <article class="blog-article">
             <p style="font-size: 0.8rem; color: var(--accent-color); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 0.5rem;">${escapeHtml(categoryLabel)}</p>
             <h1>${escapeHtml(data.title)}</h1>
-            ${data.image ? `<img src="${data.image}" alt="${escapeHtml(data.imageAlt || data.title)}" loading="lazy" decoding="async" style="max-width:100%;border-radius:12px;margin:1.5rem 0;">` : ''}
+            ${data.image ? `<div class="blog-cover-wrapper"><img src="${data.image}" alt="${escapeHtml(data.imageAlt || data.title)}" loading="lazy" decoding="async" style="max-width:100%;border-radius:12px;margin:1.5rem 0;" onload="this.parentElement.classList.add('loaded')" onerror="this.parentElement.classList.add('loaded');this.src='${SITE_URL}/images/og-default.jpg'"></div>` : ''}
             <div class="blog-meta">
                 <span data-i18n="blog.article_by">By</span> ${escapeHtml(normalizeAuthor(data.author))}
                 ${dateFormatted ? ` · <span>${dateFormatted}</span>` : ''}
@@ -1310,7 +1339,7 @@ function generateCategoryHtml(category, articles, options = {}) {
       return `
             <a href="${articleHref}" class="blog-card">
                 <div class="blog-card-image">
-                    <img src="${imgSrc}" alt="${escapeHtml(a.data.imageAlt || a.data.title)}" loading="lazy" onerror="this.src='${SITE_URL}/images/og-default.jpg'">
+                    <img src="${imgSrc}" alt="${escapeHtml(a.data.imageAlt || a.data.title)}" loading="lazy" onload="this.parentElement.classList.add('loaded')" onerror="this.parentElement.classList.add('loaded');this.src='${SITE_URL}/images/og-default.jpg'">
                 </div>
                 <div class="blog-card-body">
                     <h2>${escapeHtml(a.data.title)}</h2>
@@ -1524,7 +1553,7 @@ function generateBlogIndex(allArticles, options = {}) {
       return `
                 <a href="${langPrefix}/blog/${a.slug}" class="blog-card${isPinned ? ' pinned' : ''}">
                     <div class="blog-card-image">
-                        <img src="${imgSrc}" alt="${escapeHtml(a.data.imageAlt || a.data.title)}" loading="lazy" onerror="this.src='${SITE_URL}/images/og-default.jpg'">
+                        <img src="${imgSrc}" alt="${escapeHtml(a.data.imageAlt || a.data.title)}" loading="lazy" onload="this.parentElement.classList.add('loaded')" onerror="this.parentElement.classList.add('loaded');this.src='${SITE_URL}/images/og-default.jpg'">
                     </div>
                     <div class="blog-card-body">
                         ${pinnedBadge}
@@ -2075,7 +2104,7 @@ async function main() {
       const dateStr = formatDate(post.data.date);
       return `                <a href="/blog/${post.slug}" class="article-card scroll-animate">
                     <div class="article-card-image">
-                        <img src="${imgSrc}" alt="${escapeHtml(post.data.imageAlt || post.data.title)}" loading="lazy" onerror="this.src='${SITE_URL}/images/og-default.jpg'">
+                        <img src="${imgSrc}" alt="${escapeHtml(post.data.imageAlt || post.data.title)}" loading="lazy" onload="this.parentElement.classList.add('loaded')" onerror="this.parentElement.classList.add('loaded');this.src='${SITE_URL}/images/og-default.jpg'">
                     </div>
                     <div class="article-card-body">
                         <span class="article-card-category" data-zh-cat="${escapeHtml(catLabelZh)}">${escapeHtml(catLabel)}</span>
@@ -2126,7 +2155,7 @@ async function main() {
       const dateStr = formatDate(post.data.date);
       return `                <a href="/zh/blog/${post.slug}" class="article-card scroll-animate">
                     <div class="article-card-image">
-                        <img src="${imgSrc}" alt="${escapeHtml(post.data.imageAlt || post.data.title)}" loading="lazy" onerror="this.src='${SITE_URL}/images/og-default.jpg'">
+                        <img src="${imgSrc}" alt="${escapeHtml(post.data.imageAlt || post.data.title)}" loading="lazy" onload="this.parentElement.classList.add('loaded')" onerror="this.parentElement.classList.add('loaded');this.src='${SITE_URL}/images/og-default.jpg'">
                     </div>
                     <div class="article-card-body">
                         <span class="article-card-category">${escapeHtml(catLabel)}</span>
