@@ -140,3 +140,6 @@ document.addEventListener('DOMContentLoaded', runPageview);
 window.addEventListener('pageshow', function(e) {
   if (e.persisted) runPageview();
 });
+
+// 语言切换时重新获取浏览量（英文和繁中 slug 不同）
+document.addEventListener('daoessence:i18n-changed', runPageview);
