@@ -10,17 +10,30 @@
 const KV_URL  = process.env.KV_REST_API_URL;
 const KV_TOKEN = process.env.KV_REST_API_TOKEN;
 
-async function kvFetch(command) {
-  // Upstash REST API: POST / with body = Redis command
+async function kvIncr(key) {
   const res = await fetch(KV_URL, {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${KV_TOKEN}`,
-      'Content-Type': 'text/plain',
+      'Content-Type': 'application/json',
     },
-    body: command,
+    body: JSON.stringify(['INCR', key]),
   });
-  return res.json();
+  const data = await res.json();
+  return data.result || 0;
+}
+
+async function kvSetNX(key, ttl) {
+  const res = await fetch(KV_URL, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${KV_TOKEN}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(['SET', key, '1', 'EX', ttl, 'NX']),
+  });
+  const data = await res.json();
+  return data.result === 'OK';
 }
 
 async function kvGet(key) {
@@ -71,16 +84,15 @@ export default async function handler(req, res) {
 
     // 去重 key，24小时过期
     const dedupKey = `visited:${slug}:${ip}`;
-    const already = await kvFetch(`SET ${dedupKey} 1 EX 86400 NX`);
-    if (already.result !== 'OK') {
+    const isNew = await kvSetNX(dedupKey, 86400);
+    if (!isNew) {
       // 24小时内已访问，只返回当前计数，不 +1
       const count = await kvGet(`pv:${slug}`);
       return res.status(200).json({ slug, count: parseInt(count) || 0, newVisit: false });
     }
 
     // 首次访问 → INCR pv:<slug>
-    const incrRes = await kvFetch(`INCR pv:${slug}`);
-    const count = incrRes.result || 0;
+    const count = await kvIncr(`pv:${slug}`);
 
     return res.status(200).json({ slug, count, newVisit: true });
   }

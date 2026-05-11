@@ -44,18 +44,19 @@ async function trackAndShowPageview() {
 }
 
 function showPageviewInArticle(slug, count) {
-  // 在分享按钮旁边插入阅读量（或替换占位符）
-  const shareDiv = document.querySelector('.share-buttons');
-  if (!shareDiv) return;
-
+  // 在 .blog-meta 行内显示阅读量（author · date · reads）
   let el = document.getElementById('pageview-count');
   if (!el) {
+    // 没有占位符则插入到 .blog-meta 末尾
+    const meta = document.querySelector('.blog-meta');
+    if (!meta) return;
     el = document.createElement('span');
     el.id = 'pageview-count';
-    el.style.cssText = 'font-size:13px;color:rgba(245,240,230,0.6);margin-left:12px;display:inline-flex;align-items:center;gap:4px;';
-    shareDiv.insertAdjacentElement('afterend', el);
+    el.className = 'blog-meta-views';
+    meta.appendChild(el);
   }
-  el.innerHTML = `👁️ ${formatCount(count)}`;
+  el.innerHTML = ` · ${formatCount(count)} views`;
+  el.style.cssText = 'font-size:0.85rem;color:rgba(245,240,230,0.55);';
 }
 
 // ── 文章列表页：批量查询并显示 ──
@@ -96,11 +97,16 @@ function displayPageviewsInListing(data) {
     if (!el) {
       el = document.createElement('span');
       el.className = 'pageview-badge';
-      el.style.cssText = 'font-size:12px;color:rgba(245,240,230,0.5);margin-left:8px;';
-      const titleEl = container.querySelector('h2, h3');
-      if (titleEl) titleEl.insertAdjacentElement('afterend', el);
+      el.style.cssText = 'font-size:11px;color:rgba(245,240,230,0.45);margin-left:6px;';
+      const metaEl = container.querySelector('.article-card-meta, .blog-card-body .read-time-label');
+      if (metaEl) {
+        metaEl.parentElement.insertBefore(el, metaEl.nextSibling);
+      } else {
+        const titleEl = container.querySelector('h2, h3');
+        if (titleEl) titleEl.insertAdjacentElement('afterend', el);
+      }
     }
-    if (el) el.innerHTML = `👁️ ${formatCount(count)}`;
+    if (el) el.innerHTML = `${formatCount(count)} views`;
   });
 }
 

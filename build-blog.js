@@ -1207,6 +1207,7 @@ ${NAV_HTML}
                 <span data-i18n="blog.article_by">By</span> ${escapeHtml(normalizeAuthor(data.author))}
                 ${dateFormatted ? ` · <span>${dateFormatted}</span>` : ''}
                 ${data.readTime ? ` · <span>${data.readTime} <span data-i18n="blog.min_read">min read</span></span>` : ''}
+                <span id="pageview-count" class="blog-meta-views"></span>
             </div>
 
             <div class="share-buttons">
@@ -1236,7 +1237,6 @@ ${NAV_HTML}
                     <svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:currentColor"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
                 </button>
             </div>
-            <span id="pageview-count" style="font-size:13px;color:rgba(245,240,230,0.6);margin-left:16px;display:inline-flex;align-items:center;gap:4px;"></span>
 
             ${finalBody}
 
