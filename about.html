@@ -964,10 +964,7 @@
 
     <script src="main.min.js?v=202604031200"></script>
     <script>
-        /* ── Mobile nav ── */
-        document.querySelector('.mobile-menu-btn').addEventListener('click', () => {
-            document.querySelector('.nav-menu').classList.toggle('active');
-        });
+        /* ── Mobile nav 由 main.min.js 统一处理，不再重复绑定 ── */
 
         /* ── Scroll reveal ── */
         const revealObserver = new IntersectionObserver((entries) => {
