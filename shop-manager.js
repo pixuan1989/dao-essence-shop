@@ -152,7 +152,7 @@ window.renderShop = function() {
     return `
         <a href="${productLink}" class="shop-product-card" style="text-decoration: none; color: inherit; display: block;">
             <div class="product-image-wrapper">
-                <img src="${product.image}" alt="${displayName}" onerror="this.src='https://images.unsplash.com/photo-1519681393784-d120267933ba?w=600&h=600&fit=crop'">
+                <img src="${product.image}" alt="${displayName}" loading="lazy" decoding="async" style="background:var(--bg-card,#1a1a1a);min-height:200px;" onerror="this.src='https://images.unsplash.com/photo-1519681393784-d120267933ba?w=600&h=600&fit=crop'">
                 <!-- 五行标签已注释掉
                 <div class="product-element">
                     <span class="element-badge">${product.element.toUpperCase()}</span>
