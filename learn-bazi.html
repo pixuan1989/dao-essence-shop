@@ -617,45 +617,57 @@
     function getViewsText(lang, count) {
         return lang === 'zh' ? count + '人已學習' : count + ' learners';
     }
-
     function getCurrentLang() {
         try { return localStorage.getItem('daoessence_lang') || 'en'; } catch(e) { return 'en'; }
     }
+    function getSlugFromCard(el) {
+        var card = el.closest ? el.closest('.ch-card') : null;
+        if (!card) card = el.parentElement;
+        if (!card) return null;
+        var link = card.querySelector('a[href*="/learn-bazi/"]') || card;
+        var m = link.getAttribute('href').match(/\/learn-bazi\/([^/?#]+)/);
+        return m ? 'learn-bazi/' + m[1] : null;
+    }
 
     function updateViews() {
-        var viewEls = document.querySelectorAll('.ch-views[data-slug]');
-        if (viewEls.length === 0) return;
+        // 用卡片链接提取 slug，不依赖 data-slug（i18n 会销毁它）
+        var cards = document.querySelectorAll('.ch-card');
+        if (cards.length === 0) return;
+        var slugToEl = [];
         var slugs = [];
-        viewEls.forEach(function(el) { slugs.push(el.getAttribute('data-slug')); });
+        cards.forEach(function(card) {
+            var viewsEl = card.querySelector('.ch-views');
+            if (!viewsEl) return;
+            var link = card.querySelector('a[href*="/learn-bazi/"]') || card;
+            var m = link.getAttribute('href').match(/\/learn-bazi\/([^/?#]+)/);
+            if (!m) return;
+            var slug = 'learn-bazi/' + m[1];
+            slugToEl.push({ slug: slug, el: viewsEl });
+            slugs.push(slug);
+        });
+        if (slugs.length === 0) return;
+
         fetch('/api/pageview?slugs=' + encodeURIComponent(slugs.join(',')))
             .then(function(r) { return r.json(); })
             .then(function(data) {
                 var lang = getCurrentLang();
-                viewEls.forEach(function(el) {
-                    var slug = el.getAttribute('data-slug');
-                    var count = data[slug] || 0;
-                    el.textContent = getViewsText(lang, count);
+                slugToEl.forEach(function(item) {
+                    var count = data[item.slug] || 0;
+                    item.el.textContent = getViewsText(lang, count);
                 });
             })
-            .catch(function() { /* 静默失败 */ });
+            .catch(function() {});
     }
 
-    // 初始加载
-    updateViews();
+    // 等 DOM 完全加载后再执行（i18n 可能在 DOMContentLoaded 时改 DOM）
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function() { setTimeout(updateViews, 500); });
+    } else {
+        setTimeout(updateViews, 500);
+    }
 
-    // 语言切换时更新文案
-    document.addEventListener('daoessence:i18n-changed', function(e) {
-        var viewEls = document.querySelectorAll('.ch-views[data-slug]');
-        var lang = e.detail.lang || 'en';
-        viewEls.forEach(function(el) {
-            var text = el.textContent;
-            var match = text.match(/^[\d,]+/);
-            if (match) {
-                var count = parseInt(match[0].replace(/,/g, '')) || 0;
-                el.textContent = getViewsText(lang, count);
-            }
-        });
-    });
+    // 语言切换时重新获取数据
+    document.addEventListener('daoessence:i18n-changed', function() { setTimeout(updateViews, 300); });
 })();
 </script>
 
