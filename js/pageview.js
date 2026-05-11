@@ -16,7 +16,7 @@ function getSlugFromPath() {
   const path = window.location.pathname.replace(/\/index\.html$/, '').replace(/\/$/, '');
   // /learn-bazi/ 路径（去掉前导 /，与 data-slug 保持一致）
   const lbm = path.match(/^(\/zh)?(\/learn-bazi\/[^/?#]+)/);
-  if (lbm) return (lbm[1] + lbm[2]).replace(/^\//, '');
+  if (lbm) return (lbm[1] || '') + lbm[2].replace(/^\//, '');
   // /blog/ 路径
   const bm = path.match(/\/blog\/([^/?#]+)/);
   if (bm) {
