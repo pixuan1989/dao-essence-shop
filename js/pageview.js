@@ -84,10 +84,22 @@ async function loadPageviewsForListing() {
   const slugs = [...slugSet];
   if (slugs.length === 0) return;
 
+  // 如果当前是繁中，加上 zh/ 前缀查询繁中计数
+  let lang = 'en';
+  try { lang = localStorage.getItem('daoessence_lang') || 'en'; } catch(e) {}
+  const querySlugs = lang === 'zh' ? slugs.map(s => 'zh/' + s) : slugs;
+
   try {
-    const res = await fetch(`${PAGEVIEW_API}?slugs=${encodeURIComponent(slugs.join(','))}`);
+    const res = await fetch(`${PAGEVIEW_API}?slugs=${encodeURIComponent(querySlugs.join(','))}`);
     const data = await res.json();
-    displayPageviewsInListing(data);
+    // 将 zh/slug 映射回 slug 用于显示
+    const displayData = {};
+    if (lang === 'zh') {
+      slugs.forEach(s => { displayData[s] = data['zh/' + s] || 0; });
+    } else {
+      Object.assign(displayData, data);
+    }
+    displayPageviewsInListing(displayData);
   } catch (e) { /* 静默失败 */ }
 }
 
