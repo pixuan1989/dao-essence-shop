@@ -1,28 +1,20 @@
 /**
  * pageview.js - 阅读量显示
- * 功能：
- *   1. 文章页面：自动 +1 并展示阅读量
- *   2. 文章列表页：批量查询所有文章阅读量并展示
+ * 中英文共享同一个计数，不分语言统计
  */
 
 const PAGEVIEW_API = '/api/pageview';
 
-// 从 URL 路径提取 slug
-// 支持: /blog/slug-name → slug-name
-//       /learn-bazi/chapter → learn-bazi/chapter
-//       /zh/blog/slug-name → zh/slug-name
-//       /zh/learn-bazi/chapter → zh/learn-bazi/chapter
+// 从 URL 路径提取 slug（统一去掉 /zh 前缀，中英文共享计数）
 function getSlugFromPath() {
   const path = window.location.pathname.replace(/\/index\.html$/, '').replace(/\/$/, '');
-  // /learn-bazi/ 路径（去掉前导 /，与 data-slug 保持一致）
-  const lbm = path.match(/^(\/zh)?(\/learn-bazi\/[^/?#]+)/);
-  if (lbm) return (lbm[1] || '') + lbm[2].replace(/^\//, '');
+  const stripped = path.replace(/^\/zh/, '');
+  // /learn-bazi/ 路径
+  const lbm = stripped.match(/^(\/learn-bazi\/[^/?#]+)/);
+  if (lbm) return lbm[1].replace(/^\//, '');
   // /blog/ 路径
-  const bm = path.match(/\/blog\/([^/?#]+)/);
-  if (bm) {
-    const zhPrefix = path.indexOf('/zh/blog/') === 0 ? 'zh/' : '';
-    return zhPrefix + bm[1];
-  }
+  const bm = stripped.match(/\/blog\/([^/?#]+)/);
+  if (bm) return bm[1];
   return null;
 }
 
@@ -38,28 +30,24 @@ async function trackAndShowPageview() {
   if (!slug) return;
 
   try {
-    // POST：阅读量 +1
     await fetch(PAGEVIEW_API, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ slug }),
     });
-  } catch (e) { /* 静默失败，不影响用户体验 */ }
+  } catch (e) {}
 
-  // GET：获取最新阅读量（含本次+1）
   try {
     const res = await fetch(`${PAGEVIEW_API}?slugs=${encodeURIComponent(slug)}`);
     const data = await res.json();
     const count = data[slug] || 0;
-    showPageviewInArticle(slug, count);
-  } catch (e) { /* 静默失败 */ }
+    showPageviewInArticle(count);
+  } catch (e) {}
 }
 
-function showPageviewInArticle(slug, count) {
-  // 在 .blog-meta 行内显示阅读量（author · date · reads）
+function showPageviewInArticle(count) {
   let el = document.getElementById('pageview-count');
   if (!el) {
-    // 没有占位符则插入到 .blog-meta 末尾
     const meta = document.querySelector('.blog-meta');
     if (!meta) return;
     el = document.createElement('span');
@@ -73,7 +61,6 @@ function showPageviewInArticle(slug, count) {
 
 // ── 文章列表页：批量查询并显示 ──
 async function loadPageviewsForListing() {
-  // 找到所有文章卡片中的 slug（从链接提取）
   const cards = document.querySelectorAll('a[href*="/blog/"]');
   const slugSet = new Set();
   cards.forEach(a => {
@@ -84,27 +71,14 @@ async function loadPageviewsForListing() {
   const slugs = [...slugSet];
   if (slugs.length === 0) return;
 
-  // 如果当前是繁中，加上 zh/ 前缀查询繁中计数
-  let lang = 'en';
-  try { lang = localStorage.getItem('daoessence_lang') || 'en'; } catch(e) {}
-  const querySlugs = lang === 'zh' ? slugs.map(s => 'zh/' + s) : slugs;
-
   try {
-    const res = await fetch(`${PAGEVIEW_API}?slugs=${encodeURIComponent(querySlugs.join(','))}`);
+    const res = await fetch(`${PAGEVIEW_API}?slugs=${encodeURIComponent(slugs.join(','))}`);
     const data = await res.json();
-    // 将 zh/slug 映射回 slug 用于显示
-    const displayData = {};
-    if (lang === 'zh') {
-      slugs.forEach(s => { displayData[s] = data['zh/' + s] || 0; });
-    } else {
-      Object.assign(displayData, data);
-    }
-    displayPageviewsInListing(displayData);
-  } catch (e) { /* 静默失败 */ }
+    displayPageviewsInListing(data);
+  } catch (e) {}
 }
 
 function displayPageviewsInListing(data) {
-  // 在每个文章卡片标题后插入阅读量
   const cards = document.querySelectorAll('a[href*="/blog/"]');
   cards.forEach(a => {
     const m = a.getAttribute('href').match(/\/blog\/([^/?#]+)/);
@@ -112,7 +86,6 @@ function displayPageviewsInListing(data) {
     const slug = m[1];
     const count = data[slug] || 0;
 
-    // 找到标题元素（通常在 a 内或父级内）
     let container = a.closest('article, .blog-card, .post-card');
     if (!container) container = a.parentElement;
     if (!container) return;
@@ -138,20 +111,14 @@ function displayPageviewsInListing(data) {
 function runPageview() {
   const slug = getSlugFromPath();
   if (slug) {
-    // 文章页面
     trackAndShowPageview();
   } else {
-    // 列表页
     loadPageviewsForListing();
   }
 }
 
 document.addEventListener('DOMContentLoaded', runPageview);
-
-// 后退缓存(bfcache)恢复时重新加载
 window.addEventListener('pageshow', function(e) {
   if (e.persisted) runPageview();
 });
-
-// 语言切换时重新获取浏览量（英文和繁中 slug 不同）
 document.addEventListener('daoessence:i18n-changed', function() { setTimeout(runPageview, 500); });

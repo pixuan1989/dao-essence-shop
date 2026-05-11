@@ -77,14 +77,14 @@ export default async function handler(req, res) {
 
     await Promise.all(
       slugList.map(async (slug) => {
+        // 查新 key
         let val = await kvGet(`pv:${slug}`);
-        // 兼容旧 key（带前导 / 的历史数据）
-        if (!val) val = await kvGet(`pv:/${slug}`);
-        // 如果旧 key 有数据，迁移到新 key
-        if (val && val !== '0') {
-          await kvSet(`pv:${slug}`, val);
-        }
-        result[slug] = parseInt(val) || 0;
+        // 兼容旧 key（带前导 / 或 zh/ 的历史数据）
+        let oldVal1 = await kvGet(`pv:/${slug}`);
+        let oldVal2 = await kvGet(`pv:zh/${slug}`);
+        // 取最大值，确保不丢失历史数据
+        val = Math.max(parseInt(val) || 0, parseInt(oldVal1) || 0, parseInt(oldVal2) || 0);
+        result[slug] = val;
       })
     );
 
