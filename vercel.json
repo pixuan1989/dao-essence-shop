@@ -15,8 +15,15 @@
     { "src": "/blog/learn-bazi-free-course-guide", "status": 410 },
     { "src": "/zh/blog/learn-bazi-free-course-guide", "status": 410 }
   ],
-  "redirects": [
+  "headers": [
     {
+      "source": "/js/pageview.js",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }
+      ]
+    }
+  ],
+  "redirects": [
       "source": "/zh/culture",
       "destination": "/culture",
       "permanent": true
