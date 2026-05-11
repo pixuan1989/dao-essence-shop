@@ -661,11 +661,16 @@
     }
 
     // 等 DOM 完全加载后再执行（i18n 可能在 DOMContentLoaded 时改 DOM）
+    function doUpdate() { setTimeout(updateViews, 300); }
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', function() { setTimeout(updateViews, 500); });
+        document.addEventListener('DOMContentLoaded', doUpdate);
     } else {
-        setTimeout(updateViews, 500);
+        doUpdate();
     }
+    // 后退时也刷新数据（bfcache 恢复不会重新触发 DOMContentLoaded）
+    window.addEventListener('pageshow', function(e) {
+        if (e.persisted) doUpdate();
+    });
 
     // 语言切换时重新获取数据
     document.addEventListener('daoessence:i18n-changed', function() { setTimeout(updateViews, 300); });
