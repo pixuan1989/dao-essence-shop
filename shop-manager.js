@@ -6,6 +6,22 @@ window.allProducts = [];
 let currentFilter = 'all';
 let currentSort = 'featured';
 
+// 移动端图片优化：根据屏幕宽度返回合适的图片URL
+function getOptimizedImageUrl(url, maxWidth) {
+  if (!url || url.startsWith('/')) return url; // 本地图片不处理
+  const separator = url.includes('?') ? '&' : '?';
+  return `${url}${separator}width=${maxWidth}&quality=80`;
+}
+
+function getShopImageSize() {
+  const w = window.innerWidth;
+  if (w <= 480) return 400;   // 手机
+  if (w <= 768) return 600;   // 平板
+  return 800;                  // PC
+}
+
+// ============================================
+
 // ============================================
 // ⚙️ 折扣开关配置
 // ============================================
@@ -152,7 +168,7 @@ window.renderShop = function() {
     return `
         <a href="${productLink}" class="shop-product-card" style="text-decoration: none; color: inherit; display: block; animation-delay: ${index * 60}ms;">
             <div class="product-image-wrapper">
-                <img src="${product.image}" alt="${displayName}" loading="${index < 6 ? 'eager' : 'lazy'}" decoding="async" onload="this.parentElement.classList.add('loaded')" style="min-height:200px;" onerror="this.src='https://images.unsplash.com/photo-1519681393784-d120267933ba?w=600&h=600&fit=crop';this.parentElement.classList.add('loaded')">
+                <img src="${getOptimizedImageUrl(product.image, getShopImageSize())}" alt="${displayName}" loading="${index < 6 ? 'eager' : 'lazy'}" decoding="async" onload="this.parentElement.classList.add('loaded')" style="min-height:200px;" onerror="this.src='https://images.unsplash.com/photo-1519681393784-d120267933ba?w=600&h=600&fit=crop';this.parentElement.classList.add('loaded')">
                 <!-- 五行标签已注释掉
                 <div class="product-element">
                     <span class="element-badge">${product.element.toUpperCase()}</span>
