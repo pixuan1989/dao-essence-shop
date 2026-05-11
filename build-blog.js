@@ -263,7 +263,7 @@ const ARTICLE_STYLES = `
         .related-posts-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; }
         .related-card { display: flex; flex-direction: column; text-decoration: none; border-radius: 10px; overflow: hidden; background: rgba(212,175,55,0.03); border: 1px solid rgba(212,175,55,0.1); transition: all 0.3s ease; }
         .related-card:hover { background: rgba(212,175,55,0.06); border-color: rgba(212,175,55,0.25); transform: translateY(-2px); box-shadow: 0 6px 24px rgba(0,0,0,0.1); }
-        .related-card-img { aspect-ratio: 16/9; overflow: hidden; background: var(--bg-dark); }
+        .related-card-img { aspect-ratio: 16/9; overflow: hidden; background: rgba(212,175,55,0.06); }
         .related-card-img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s; }
         .related-card:hover .related-card-img img { transform: scale(1.05); }
         .related-card-body { padding: 1rem; display: flex; flex-direction: column; gap: 0.3rem; }
@@ -564,27 +564,21 @@ const ZODIAC_LOOKUP_HTML = `
         }
         .blog-card-image, .related-card-img, .article-card-image, .blog-cover-wrapper {
             position: relative;
+            background: rgba(212,175,55,0.06) !important;
         }
         .blog-card-image::before, .related-card-img::before, .article-card-image::before, .blog-cover-wrapper::before {
             content: '';
             position: absolute;
             inset: 0;
-            background: linear-gradient(110deg, rgba(212,175,55,0.05) 30%, rgba(212,175,55,0.15) 50%, rgba(212,175,55,0.05) 70%);
+            background: linear-gradient(110deg, rgba(212,175,55,0.04) 25%, rgba(212,175,55,0.18) 50%, rgba(212,175,55,0.04) 75%);
             background-size: 200% 100%;
             animation: img-shimmer 1.5s ease-in-out infinite;
             z-index: 1;
-            transition: opacity 0.4s ease;
+            transition: opacity 0.5s ease;
         }
         .blog-card-image.loaded::before, .related-card-img.loaded::before, .article-card-image.loaded::before, .blog-cover-wrapper.loaded::before {
             opacity: 0;
             pointer-events: none;
-        }
-        .blog-card-image img, .related-card-img img, .article-card-image img, .blog-cover-wrapper img {
-            opacity: 0;
-            transition: transform 0.4s, opacity 0.4s;
-        }
-        .blog-card-image.loaded img, .related-card-img.loaded img, .article-card-image.loaded img, .blog-cover-wrapper.loaded img {
-            opacity: 1;
         }
         .zodiac-result .zodiac-emoji {
             font-size: 3.5rem;
@@ -1375,6 +1369,10 @@ function generateCategoryHtml(category, articles, options = {}) {
     <link rel="stylesheet" href="/styles.min.css?v=${CSS_VERSION}">
     <script src="/main.min.js?v=${CSS_VERSION}" defer></script>
     <style>
+        @keyframes img-shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
         ${isZodiacPage ? `
         .blog-layout { display: flex; max-width: 1200px; margin: 0 auto; padding: 5rem 1.5rem; gap: 2.5rem; }
         .blog-content { flex: 1; min-width: 0; }
@@ -1394,7 +1392,9 @@ function generateCategoryHtml(category, articles, options = {}) {
         .blog-card-list { display: flex; flex-direction: column; gap: 1.5rem; }
         .blog-card { display: flex; flex-direction: row; background: rgba(212,175,55,0.03); border: 1px solid rgba(212,175,55,0.1); border-radius: 12px; text-decoration: none; transition: all 0.3s ease; overflow: hidden; }
         .blog-card:hover { background: rgba(212,175,55,0.06); border-color: rgba(212,175,55,0.25); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,0,0,0.15); }
-        .blog-card-image { width: 240px; min-width: 240px; aspect-ratio: 1.9 / 1; overflow: hidden; background: var(--bg-dark); }
+        .blog-card-image { width: 240px; min-width: 240px; aspect-ratio: 1.9 / 1; overflow: hidden; background: rgba(212,175,55,0.06); position: relative; }
+        .blog-card-image::before { content: ''; position: absolute; inset: 0; background: linear-gradient(110deg, rgba(212,175,55,0.04) 25%, rgba(212,175,55,0.18) 50%, rgba(212,175,55,0.04) 75%); background-size: 200% 100%; animation: img-shimmer 1.5s ease-in-out infinite; z-index: 1; transition: opacity 0.5s ease; }
+        .blog-card-image.loaded::before { opacity: 0; pointer-events: none; }
         .blog-card-image img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s; }
         .blog-card:hover .blog-card-image img { transform: scale(1.05); }
         .blog-card-body { flex: 1; padding: 1.5rem 2rem; display: flex; flex-direction: column; justify-content: center; }
@@ -1420,7 +1420,9 @@ function generateCategoryHtml(category, articles, options = {}) {
         .blog-card-list { display: flex; flex-direction: column; gap: 1.5rem; }
         .blog-card { display: flex; flex-direction: row; background: rgba(212,175,55,0.03); border: 1px solid rgba(212,175,55,0.1); border-radius: 12px; text-decoration: none; transition: all 0.3s ease; overflow: hidden; }
         .blog-card:hover { background: rgba(212,175,55,0.06); border-color: rgba(212,175,55,0.25); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,0,0,0.15); }
-        .blog-card-image { width: 240px; min-width: 240px; aspect-ratio: 1.9 / 1; overflow: hidden; background: var(--bg-dark); }
+        .blog-card-image { width: 240px; min-width: 240px; aspect-ratio: 1.9 / 1; overflow: hidden; background: rgba(212,175,55,0.06); position: relative; }
+        .blog-card-image::before { content: ''; position: absolute; inset: 0; background: linear-gradient(110deg, rgba(212,175,55,0.04) 25%, rgba(212,175,55,0.18) 50%, rgba(212,175,55,0.04) 75%); background-size: 200% 100%; animation: img-shimmer 1.5s ease-in-out infinite; z-index: 1; transition: opacity 0.5s ease; }
+        .blog-card-image.loaded::before { opacity: 0; pointer-events: none; }
         .blog-card-image img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s; }
         .blog-card:hover .blog-card-image img { transform: scale(1.05); }
         .blog-card-body { flex: 1; padding: 1.5rem 2rem; display: flex; flex-direction: column; justify-content: center; }
@@ -1591,6 +1593,10 @@ function generateBlogIndex(allArticles, options = {}) {
     <link rel="stylesheet" href="/styles.min.css?v=${CSS_VERSION}">
     <script src="/main.min.js?v=${CSS_VERSION}" defer></script>
     <style>
+        @keyframes img-shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
         .blog-home { max-width: 1200px; margin: 0 auto; padding: 7rem 2rem 4rem; }
         .blog-home-header { text-align: center; margin-bottom: 3.5rem; }
         .blog-home-header h1 { font-family: var(--font-display); font-size: clamp(2rem, 5vw, 2.8rem); color: var(--accent-color); letter-spacing: 0.1em; margin-bottom: 0.8rem; }
@@ -1602,7 +1608,9 @@ function generateBlogIndex(allArticles, options = {}) {
         .blog-card-list { display: flex; flex-direction: column; gap: 1.5rem; }
         .blog-card { display: flex; flex-direction: row; background: rgba(212,175,55,0.03); border: 1px solid rgba(212,175,55,0.1); border-radius: 12px; text-decoration: none; transition: all 0.3s ease; overflow: hidden; }
         .blog-card:hover { background: rgba(212,175,55,0.06); border-color: rgba(212,175,55,0.25); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,0,0,0.15); }
-        .blog-card-image { width: 220px; min-width: 220px; aspect-ratio: 1.9 / 1; overflow: hidden; background: var(--bg-dark); }
+        .blog-card-image { width: 220px; min-width: 220px; aspect-ratio: 1.9 / 1; overflow: hidden; background: rgba(212,175,55,0.06); position: relative; }
+        .blog-card-image::before { content: ''; position: absolute; inset: 0; background: linear-gradient(110deg, rgba(212,175,55,0.04) 25%, rgba(212,175,55,0.18) 50%, rgba(212,175,55,0.04) 75%); background-size: 200% 100%; animation: img-shimmer 1.5s ease-in-out infinite; z-index: 1; transition: opacity 0.5s ease; }
+        .blog-card-image.loaded::before { opacity: 0; pointer-events: none; }
         .blog-card-image img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s; }
         .blog-card:hover .blog-card-image img { transform: scale(1.05); }
         .blog-card-body { flex: 1; padding: 1.5rem 2rem; display: flex; flex-direction: column; justify-content: center; }
