@@ -49,6 +49,17 @@ async function kvGet(key) {
   return data.result || 0;
 }
 
+async function kvSet(key, value) {
+  await fetch(KV_URL, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${KV_TOKEN}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(['SET', key, String(value)]),
+  });
+}
+
 export default async function handler(req, res) {
   // CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -66,7 +77,13 @@ export default async function handler(req, res) {
 
     await Promise.all(
       slugList.map(async (slug) => {
-        const val = await kvGet(`pv:${slug}`);
+        let val = await kvGet(`pv:${slug}`);
+        // 兼容旧 key（带前导 / 的历史数据）
+        if (!val) val = await kvGet(`pv:/${slug}`);
+        // 如果旧 key 有数据，迁移到新 key
+        if (val && val !== '0') {
+          await kvSet(`pv:${slug}`, val);
+        }
         result[slug] = parseInt(val) || 0;
       })
     );
