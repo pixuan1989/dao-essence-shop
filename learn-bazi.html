@@ -620,12 +620,8 @@
     function getCurrentLang() {
         try { return localStorage.getItem('daoessence_lang') || 'en'; } catch(e) { return 'en'; }
     }
-    function getSlugFromCard(el) {
-        var card = el.closest ? el.closest('.ch-card') : null;
-        if (!card) card = el.parentElement;
-        if (!card) return null;
-        var link = card.querySelector('a[href*="/learn-bazi/"]') || card;
-        var m = link.getAttribute('href').match(/\/learn-bazi\/([^/?#]+)/);
+    function getSlugFromHref(href) {
+        var m = href && href.match(/\/learn-bazi\/([^/?#]+)/);
         return m ? 'learn-bazi/' + m[1] : null;
     }
 
@@ -638,10 +634,15 @@
         cards.forEach(function(card) {
             var viewsEl = card.querySelector('.ch-views');
             if (!viewsEl) return;
-            var link = card.querySelector('a[href*="/learn-bazi/"]') || card;
-            var m = link.getAttribute('href').match(/\/learn-bazi\/([^/?#]+)/);
-            if (!m) return;
-            var slug = 'learn-bazi/' + m[1];
+            // 卡片本身可能就是 <a>，也可能内部有 <a>
+            var slug = null;
+            if (card.tagName === 'A' && card.getAttribute('href')) {
+                slug = getSlugFromHref(card.getAttribute('href'));
+            } else {
+                var link = card.querySelector('a[href*="/learn-bazi/"]');
+                if (link) slug = getSlugFromHref(link.getAttribute('href'));
+            }
+            if (!slug) return;
             slugToEl.push({ slug: slug, el: viewsEl });
             slugs.push(slug);
         });
