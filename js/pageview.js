@@ -56,7 +56,7 @@ function showPageviewInArticle(slug, count) {
     meta.appendChild(el);
   }
   el.innerHTML = ` · ${formatCount(count)} views`;
-  el.style.cssText = 'font-size:0.85rem;color:rgba(200,190,170,0.85);';
+  el.style.cssText = 'font-size:0.85rem;';
 }
 
 // ── 文章列表页：批量查询并显示 ──
@@ -97,7 +97,7 @@ function displayPageviewsInListing(data) {
     if (!el) {
       el = document.createElement('span');
       el.className = 'pageview-badge';
-      el.style.cssText = 'font-size:11px;color:rgba(200,190,170,0.85);margin-left:6px;';
+      el.style.cssText = 'font-size:11px;margin-left:6px;';
       const metaEl = container.querySelector('.article-card-meta, .blog-card-body .read-time-label');
       if (metaEl) {
         metaEl.parentElement.insertBefore(el, metaEl.nextSibling);
