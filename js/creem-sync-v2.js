@@ -280,6 +280,7 @@ async function syncCreemProducts() {
     
     // 第3步：更新全局数据
     window.allProducts = products;
+    window.__CREEM_PRODUCTS_READY__ = true; // 标记完成
     console.log('✅ window.allProducts 已更新，共 ' + products.length + ' 个产品');
     
     // 第4步：触发自定义事件，通知页面脚本更新 DOM
