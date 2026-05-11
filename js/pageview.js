@@ -123,7 +123,7 @@ function displayPageviewsInListing(data) {
 }
 
 // ── 自动执行 ──
-document.addEventListener('DOMContentLoaded', () => {
+function runPageview() {
   const slug = getSlugFromPath();
   if (slug) {
     // 文章页面
@@ -132,4 +132,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // 列表页
     loadPageviewsForListing();
   }
+}
+
+document.addEventListener('DOMContentLoaded', runPageview);
+
+// 后退缓存(bfcache)恢复时重新加载
+window.addEventListener('pageshow', function(e) {
+  if (e.persisted) runPageview();
 });
