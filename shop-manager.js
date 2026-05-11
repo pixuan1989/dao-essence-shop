@@ -301,14 +301,7 @@ style.textContent = `
 document.head.appendChild(style);
 
 // Initialize on page load
-document.addEventListener('DOMContentLoaded', () => {
-    console.log('shop-manager.js loaded');
-    // Wait a bit for creem-sync-v2.js to load
-    setTimeout(() => {
-        window.loadProducts();
-    }, 500);
-    
-    // Update cart prices with latest product prices
+// 产品渲染由 shop.html 中的 initializeShop() 统一触发，避免重复加载
     setTimeout(() => {
         if (typeof cart !== 'undefined' && typeof cart.updatePrices === 'function') {
             console.log('Updating cart prices...');
