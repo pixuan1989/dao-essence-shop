@@ -56,16 +56,33 @@ export default async function handler(req, res) {
     return res.status(200).json(result);
   }
 
-  // ── POST：阅读量 +1 ──
+  // ── POST：阅读量 +1（同一 IP 24小时内只计一次）──
   if (req.method === 'POST') {
     const { slug } = req.body || {};
     if (!slug) return res.status(400).json({ error: 'Missing slug' });
 
-    // INCR pv:<slug>
+    // 获取真实 IP（Vercel 部署时从 CF-Connecting-IP / X-Forwarded-For 取）
+    const ip = (
+      req.headers['cf-connecting-ip'] ||
+      req.headers['x-forwarded-for']?.split(',')[0]?.trim() ||
+      req.socket?.remoteAddress ||
+      'unknown'
+    );
+
+    // 去重 key，24小时过期
+    const dedupKey = `visited:${slug}:${ip}`;
+    const already = await kvFetch(`SET ${dedupKey} 1 EX 86400 NX`);
+    if (already.result !== 'OK') {
+      // 24小时内已访问，只返回当前计数，不 +1
+      const count = await kvGet(`pv:${slug}`);
+      return res.status(200).json({ slug, count: parseInt(count) || 0, newVisit: false });
+    }
+
+    // 首次访问 → INCR pv:<slug>
     const incrRes = await kvFetch(`INCR pv:${slug}`);
     const count = incrRes.result || 0;
 
-    return res.status(200).json({ slug, count });
+    return res.status(200).json({ slug, count, newVisit: true });
   }
 
   return res.status(405).json({ error: 'Method not allowed' });
