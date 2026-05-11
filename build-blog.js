@@ -1236,6 +1236,7 @@ ${NAV_HTML}
                     <svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:currentColor"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
                 </button>
             </div>
+            <span id="pageview-count" style="font-size:13px;color:rgba(245,240,230,0.6);margin-left:16px;display:inline-flex;align-items:center;gap:4px;"></span>
 
             ${finalBody}
 
@@ -1279,6 +1280,7 @@ ${FOOTER_HTML}
             <p style="color:rgba(245,240,230,0.5);font-size:12px;margin:16px 0 0;">WeChat ID: your-wechat-id</p>
         </div>
     </div>
+    <script src="/js/pageview.js" defer></script>
     <script src="/js/tracking.js"></script>
     <script src="/js/i18n-switcher.js" defer></script>
 </body>
@@ -1467,6 +1469,7 @@ ${FOOTER_HTML}
             <p style="color:rgba(245,240,230,0.5);font-size:12px;margin:16px 0 0;">WeChat ID: your-wechat-id</p>
         </div>
     </div>
+    <script src="/js/pageview.js" defer></script>
     <script src="/js/tracking.js"></script>
     ${isZodiacPage ? '<script src="/bazi-calculator/paipan.min.js"></script>' : ''}
     <script src="/js/i18n-switcher.js" defer></script>
@@ -1665,6 +1668,7 @@ ${FOOTER_HTML}
             <p style="color:rgba(245,240,230,0.5);font-size:12px;margin:16px 0 0;">WeChat ID: your-wechat-id</p>
         </div>
     </div>
+    <script src="/js/pageview.js" defer></script>
     <script src="/js/tracking.js"></script>
     <script src="/js/i18n-switcher.js" defer></script>
 </body>
