@@ -1698,7 +1698,23 @@ async function main() {
     'api'
   ]);
 
-  // Step 2b: Copy almanac dependency (lunar-javascript) to dist/
+  // Step 2b: Inject pageview.js into learn-bazi chapter pages
+  const lbDir = path.join(DIST_DIR, 'learn-bazi');
+  if (fs.existsSync(lbDir)) {
+    const lbFiles = fs.readdirSync(lbDir).filter(f => f.endsWith('.html'));
+    const pvTag = '<script src="../js/pageview.js" defer></script>';
+    for (const f of lbFiles) {
+      const fp = path.join(lbDir, f);
+      let html = fs.readFileSync(fp, 'utf-8');
+      if (!html.includes('pageview.js')) {
+        html = html.replace('</body>', pvTag + '\n</body>');
+        fs.writeFileSync(fp, html, 'utf-8');
+        console.log('  Injected pageview.js → dist/learn-bazi/' + f);
+      }
+    }
+  }
+
+  // Step 2c: Copy almanac dependency (lunar-javascript) to dist/
   const lunarSrc = path.join(SRC_DIR, 'node_modules', 'lunar-javascript', 'lunar.js');
   const lunarDest = path.join(DIST_DIR, 'lunar.js');
   if (fs.existsSync(lunarSrc)) {
