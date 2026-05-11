@@ -37,8 +37,13 @@ async function kvSetNX(key, ttl) {
 }
 
 async function kvGet(key) {
-  const res = await fetch(`${KV_URL}/get/${key}`, {
-    headers: { Authorization: `Bearer ${KV_TOKEN}` },
+  const res = await fetch(KV_URL, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${KV_TOKEN}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(['GET', key]),
   });
   const data = await res.json();
   return data.result || 0;
