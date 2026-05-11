@@ -124,6 +124,11 @@ window.calculateDiscount = function(original, current) {
 
 // Render shop products
 window.renderShop = function() {
+    // 防重入：短时间内不重复渲染
+    const now = Date.now();
+    if (window._renderShopLock && now - window._renderShopLock < 300) return;
+    window._renderShopLock = now;
+
     const filtered = window.getFilteredProducts();
     const grid = document.getElementById('productGrid');
     
