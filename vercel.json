@@ -24,6 +24,7 @@
     }
   ],
   "redirects": [
+    {
       "source": "/zh/culture",
       "destination": "/culture",
       "permanent": true
