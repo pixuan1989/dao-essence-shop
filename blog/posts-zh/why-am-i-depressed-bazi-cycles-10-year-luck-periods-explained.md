@@ -11,7 +11,7 @@ date: 2026-04-23
 author: Xuanzhen
 readTime: 7
 lang: "zh-Hant"
-image: https://raw.githubusercontent.com/pixuan1989/dao-essence-shop/main/images/blog/stressed-winter-bazi.jpg
+image: /images/blog/stressed-winter-bazi.jpg
 cta_cards:
   - favorable-element
   - five-elements
@@ -49,7 +49,7 @@ faq_zh:
 
 正如大自然有四季，我們的人生也被認為擁有能量上的四季。在八字中，這就是你的 **「大運」**，人生十年的章節，以及你的 **「流年」**，每年的能量「天氣」。這個框架顯示，在任何時候，近 **40% 的人正處於由這些週期主導的情緒低潮期**。你不奇怪，也不孤獨。
 
-[![八字中的季節能量週期——理解你的情緒冬天](https://raw.githubusercontent.com/pixuan1989/dao-essence-shop/main/images/blog/stressed-winter-bazi.webp)](https://raw.githubusercontent.com/pixuan1989/dao-essence-shop/main/images/blog/stressed-winter-bazi.webp)
+[![八字中的季節能量週期——理解你的情緒冬天](/images/blog/stressed-winter-bazi.webp)](/images/blog/stressed-winter-bazi.webp)
 
 ## 理解能量週期：自然的流動
 

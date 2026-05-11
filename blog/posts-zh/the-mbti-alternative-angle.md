@@ -14,7 +14,7 @@ author: DAO Essence
 readTime: 10
 pinned: true
 image: >-
-  https://raw.githubusercontent.com/pixuan1989/dao-essence-shop/main/images/blog/蒙版组-75-1x.webp
+  /images/blog/蒙版组-75-1x.webp
 faq: &ref_0
   - question: 八字和MBTI有什麼不同？
     answer: >-

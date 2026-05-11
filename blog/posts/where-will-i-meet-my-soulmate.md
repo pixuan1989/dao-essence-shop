@@ -14,7 +14,7 @@ date: 2026-04-18
 author: DAO Essence
 readTime: 12
 pinned: true
-image: https://raw.githubusercontent.com/pixuan1989/dao-essence-shop/main/images/blog/88-1x.webp
+image: /images/blog/88-1x.webp
 faq:
   - question: What is a soulmate direction?
     answer: In Chinese astrology, your soulmate direction is the geographic

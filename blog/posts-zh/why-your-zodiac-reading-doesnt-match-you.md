@@ -20,7 +20,7 @@ author: Xuanzhen
 readTime: 9
 pinned: true
 image: >-
-  https://raw.githubusercontent.com/pixuan1989/dao-essence-shop/main/images/blog/zodiac-reading-vs-bazi.webp
+  /images/blog/zodiac-reading-vs-bazi.webp
 imageAlt: >-
   西方星座輪盤與金色八字四柱並列於深藍色背景上，呈現生肖命理分析與中國八字時機圖的差異
 cta_cards:

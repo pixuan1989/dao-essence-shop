@@ -10,7 +10,7 @@ author: DAO Essence
 readTime: 8
 pinned: true
 image: >-
-  https://raw.githubusercontent.com/pixuan1989/dao-essence-shop/main/images/blog/13.webp
+  /images/blog/13.webp
 faq: &ref_0
   - question: 風水有科學依據嗎？
     answer: >-

@@ -9,7 +9,7 @@ date: 2026-04-16
 author: DAO Essence
 readTime: 5
 pinned: false
-image: https://raw.githubusercontent.com/pixuan1989/dao-essence-shop/main/images/blog/蒙版组-71.webp
+image: /images/blog/蒙版组-71.webp
 faq:
   - question: "How accurate are daily Chinese zodiac forecasts?"
     answer: "Daily forecasts are general energy readings based on the day's Heavenly Stem and Earthly Branch combination. For personalized insights, cross-reference with your birth chart."

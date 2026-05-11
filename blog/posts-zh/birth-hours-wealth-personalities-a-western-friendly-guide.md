@@ -13,7 +13,7 @@ date: 2026-04-15T00:00:00.000Z
 author: DAO Essence
 readTime: 5
 image: >-
-  https://raw.githubusercontent.com/pixuan1989/dao-essence-shop/main/images/blog/蒙版组-72.webp
+  /images/blog/蒙版组-72.webp
 faq: &ref_0
   - question: 出生時辰真的會影響我的財務嗎？
     answer: >-
@@ -32,7 +32,7 @@ lang: zh-Hant
 **你的出生時辰，影響的不只是睡眠習慣——在中國占星術中，它更揭示了你的「財富原型」。**  
 十二地支各自承載獨特的五行能量，深刻影響你賺錢、花錢與看待金錢的方式。子時（午夜）出生者屬「水」，是擅於應變的「流動策略家」；丑時（深夜）出生者則坐擁「金庫」之象，是沉穩務實的「穩健累積者」。[立即免費生成你的八字命盤](/#free-bazi)，找出你的「時柱」，確認哪一種財富原型最貼近你的出生時辰！
 
-![十二地支財富原型對照表](https://raw.githubusercontent.com/pixuan1989/dao-essence-shop/main/images/blog/jimeng-2026-04-15-1377-a-clear-and-neatly-formatted-table-image....png)
+![十二地支財富原型對照表](/images/blog/jimeng-2026-04-15-1377-a-clear-and-neatly-formatted-table-image....png)
 
 #### **1. 晚上11:00 – 凌晨00:59（子時）**
 

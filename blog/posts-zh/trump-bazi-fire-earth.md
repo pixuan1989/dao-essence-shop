@@ -16,7 +16,7 @@ date: 2026-05-07
 author: 玄真
 readTime: 8
 pinned: false
-image: https://raw.githubusercontent.com/pixuan1989/dao-essence-shop/main/images/blog/trump-portrait-bazi-fire-earth-analysis.webp
+image: /images/blog/trump-portrait-bazi-fire-earth-analysis.webp
 imageAlt: "川普人像與八字火土命盤分析，玄學四柱解碼"
 faq:
   - question: "八字命盤分析有真正的證據支持嗎？"

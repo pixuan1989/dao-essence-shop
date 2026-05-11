@@ -14,7 +14,7 @@ date: 2026-05-07
 author: DAO Essence
 readTime: 7
 pinned: false
-image: https://raw.githubusercontent.com/pixuan1989/dao-essence-shop/main/images/blog/feng-shui-headboard-placement.webp
+image: /images/blog/feng-shui-headboard-placement.webp
 imageAlt: "極簡臥室，深色牆面上實木床頭板，溫暖氛圍燈光，風水床位擺放示意圖"
 lang: "zh-Hant"
 faq:

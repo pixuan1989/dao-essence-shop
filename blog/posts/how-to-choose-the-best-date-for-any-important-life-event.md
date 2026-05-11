@@ -8,7 +8,7 @@ date: 2026-04-19
 author: DAO Essence
 readTime: 5
 pinned: true
-image: https://raw.githubusercontent.com/pixuan1989/dao-essence-shop/main/images/blog/12222131241241.webp
+image: /images/blog/12222131241241.webp
 cta_cards:
   - almanac
 faq:

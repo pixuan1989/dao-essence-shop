@@ -9,7 +9,7 @@ author: Dingwei
 readTime: 7
 pinned: true
 image: >-
-  https://raw.githubusercontent.com/pixuan1989/dao-essence-shop/main/images/blog/金生水.webp
+  /images/blog/金生水.webp
 cta_cards:
   - favorable-element
 faq: &ref_0

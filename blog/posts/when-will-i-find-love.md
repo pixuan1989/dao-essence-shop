@@ -12,7 +12,7 @@ date: 2026-04-18
 author: DAO Essence
 readTime: 13
 pinned: true
-image: https://raw.githubusercontent.com/pixuan1989/dao-essence-shop/main/images/blog/211243434554.webp
+image: /images/blog/211243434554.webp
 cta_cards:
   - soulmate
 faq:

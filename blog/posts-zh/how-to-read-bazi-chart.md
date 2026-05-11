@@ -14,7 +14,7 @@ date: 2026-04-18T00:00:00.000Z
 author: DAO Essence
 readTime: 8
 image: >-
-  https://raw.githubusercontent.com/pixuan1989/dao-essence-shop/main/images/blog/1222-1x.webp
+  /images/blog/1222-1x.webp
 faq: &ref_0
   - question: 什麼是八字命盤？
     answer: 八字命盤是基於你出生年、月、日、時的中國占星出生圖。它由四柱組成，每柱有一個天干和一個地支，揭示你的五行組成和人生模式。

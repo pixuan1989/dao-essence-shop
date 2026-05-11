@@ -15,7 +15,7 @@ date: 2026-05-07
 author: Xuanzhen
 readTime: 8
 pinned: false
-image: https://raw.githubusercontent.com/pixuan1989/dao-essence-shop/main/images/blog/trump-portrait-bazi-fire-earth-analysis.webp
+image: /images/blog/trump-portrait-bazi-fire-earth-analysis.webp
 imageAlt: "Donald Trump portrait with BaZi fire-earth chart analysis, Chinese metaphysics four pillars decoding"
 faq:
   - question: "Is BaZi chart analysis backed by any real evidence?"

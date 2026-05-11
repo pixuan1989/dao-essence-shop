@@ -9,7 +9,7 @@ date: 2026-04-16
 author: DAO Essence
 readTime: 8
 pinned: true
-image: https://raw.githubusercontent.com/pixuan1989/dao-essence-shop/main/images/blog/13.webp
+image: /images/blog/13.webp
 faq:
   - question: "Is feng shui scientifically proven?"
     answer: "Feng shui isn't a science in the Western sense — it's a 3,000-year-old environmental design system. However, many of its principles align with modern environmental psychology: clean spaces reduce stress, natural light improves mood, and decluttering boosts focus. These hacks work because they optimize your physical environment, not because of mystical forces."

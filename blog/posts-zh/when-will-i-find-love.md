@@ -13,7 +13,7 @@ author: DAO Essence
 readTime: 13
 pinned: true
 image: >-
-  https://raw.githubusercontent.com/pixuan1989/dao-essence-shop/main/images/blog/211243434554.webp
+  /images/blog/211243434554.webp
 cta_cards:
   - soulmate
 faq: &ref_0

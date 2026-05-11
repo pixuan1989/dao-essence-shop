@@ -10,7 +10,7 @@ date: 2026-04-17
 author: DAO Essence
 readTime: 10
 pinned: true
-image: https://raw.githubusercontent.com/pixuan1989/dao-essence-shop/main/images/blog/蒙版组-75-1x.webp
+image: /images/blog/蒙版组-75-1x.webp
 faq:
   - question: "How is BaZi different from MBTI?"
     answer: "MBTI sorts you into 16 types based on self-reported preferences. BaZi maps your elemental composition from your birth date and time — no questionnaire needed. Both systems reveal personality patterns, but BaZi adds timing: it can show when certain traits will be amplified or challenged through 10-year luck cycles."

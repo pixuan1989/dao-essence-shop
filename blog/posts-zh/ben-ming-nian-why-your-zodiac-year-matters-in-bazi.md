@@ -13,7 +13,7 @@ author: Xuanzhen
 readTime: 8
 pinned: true
 image: >-
-  https://raw.githubusercontent.com/pixuan1989/dao-essence-shop/main/images/blog/生肖.webp
+  /images/blog/生肖.webp
 cta_cards:
   - bazi
   - zodiac-lookup

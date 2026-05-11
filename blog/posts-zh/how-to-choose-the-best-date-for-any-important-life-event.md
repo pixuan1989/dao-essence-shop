@@ -9,7 +9,7 @@ author: DAO Essence
 readTime: 5
 pinned: true
 image: >-
-  https://raw.githubusercontent.com/pixuan1989/dao-essence-shop/main/images/blog/12222131241241.webp
+  /images/blog/12222131241241.webp
 cta_cards:
   - almanac
 faq: &ref_0

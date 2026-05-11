@@ -14,7 +14,7 @@ date: 2026-04-18T00:00:00.000Z
 author: DAO Essence
 readTime: 11
 image: >-
-  https://raw.githubusercontent.com/pixuan1989/dao-essence-shop/main/images/blog/777777.webp
+  /images/blog/777777.webp
 faq: &ref_0
   - question: 出生日期真的能預測我的愛情生活嗎？
     answer: >-

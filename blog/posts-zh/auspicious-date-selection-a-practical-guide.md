@@ -13,7 +13,7 @@ author: Xuanzhen
 readTime: 8
 pinned: false
 image: >-
-  https://raw.githubusercontent.com/pixuan1989/dao-essence-shop/main/images/blog/择日.webp
+  /images/blog/择日.webp
 cta_cards:
   - almanac
 faq: &ref_0

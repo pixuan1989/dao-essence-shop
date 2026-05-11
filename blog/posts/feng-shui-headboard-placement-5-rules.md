@@ -14,7 +14,7 @@ date: 2026-05-07
 author: DAO Essence
 readTime: 7
 pinned: false
-image: https://raw.githubusercontent.com/pixuan1989/dao-essence-shop/main/images/blog/feng-shui-headboard-placement.webp
+image: /images/blog/feng-shui-headboard-placement.webp
 imageAlt: "Minimalist bedroom with solid wood headboard against a dark wall, warm ambient lighting, feng shui bed placement illustration"
 faq:
   - question: "Does feng shui headboard placement actually work?"

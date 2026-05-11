@@ -11,7 +11,7 @@ date: 2026-04-23
 author: Xuanzhen
 readTime: 7
 pinned: true
-image: https://raw.githubusercontent.com/pixuan1989/dao-essence-shop/main/images/blog/stressed-winter-bazi.webp
+image: /images/blog/stressed-winter-bazi.webp
 cta_cards:
   - favorable-element
   - five-elements

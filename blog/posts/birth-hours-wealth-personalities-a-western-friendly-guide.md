@@ -9,7 +9,7 @@ seoDescription: "Your birth hour reveals your Wealth Archetype — from the Mobi
 date: 2026-04-15
 author: DAO Essence
 readTime: 5
-image: https://raw.githubusercontent.com/pixuan1989/dao-essence-shop/main/images/blog/蒙版组-72.webp
+image: /images/blog/蒙版组-72.webp
 faq:
   - question: "Does my birth hour really affect my finances?"
     answer: "In BaZi, your Hour Pillar reveals your inner drives and hidden talents. Different Earthly Branches carry different elemental energies that influence how you approach money — whether you're a saver, a risk-taker, or somewhere in between. It's one layer of a larger system, not a standalone prediction."
@@ -31,7 +31,7 @@ faq_zh:
 ---
 **Your birth hour shapes more than your sleep schedule — in Chinese astrology, it reveals your Wealth Archetype.** The 12 Earthly Branches each carry a distinct elemental energy that influences how you earn, spend, and think about money. A midnight birth (Zi, Water) produces the Mobile Strategist who thrives on movement and change. A late-night birth (Chou, Metal treasury) produces the Steady Accumulator who builds wealth through patience. [Generate your free BaZi chart](/#free-bazi) to find your Hour Pillar and discover which archetype matches your birth time.
 
-![12 Earthly Branches Wealth Archetype Table](https://raw.githubusercontent.com/pixuan1989/dao-essence-shop/main/images/blog/jimeng-2026-04-15-1377-a-clear-and-neatly-formatted-table-image....png)
+![12 Earthly Branches Wealth Archetype Table](/images/blog/jimeng-2026-04-15-1377-a-clear-and-neatly-formatted-table-image....png)
 
 #### **1. 11:00 PM – 12:59 AM (Hour of Zi)**
 
