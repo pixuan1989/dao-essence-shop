@@ -1202,7 +1202,7 @@ ${NAV_HTML}
         <article class="blog-article">
             <p style="font-size: 0.8rem; color: var(--accent-color); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 0.5rem;">${escapeHtml(categoryLabel)}</p>
             <h1>${escapeHtml(data.title)}</h1>
-            ${data.image ? `<img src="${data.image}" alt="${escapeHtml(data.imageAlt || data.title)}" style="max-width:100%;border-radius:12px;margin:1.5rem 0;">` : ''}
+            ${data.image ? `<img src="${data.image}" alt="${escapeHtml(data.imageAlt || data.title)}" loading="lazy" decoding="async" style="max-width:100%;border-radius:12px;margin:1.5rem 0;">` : ''}
             <div class="blog-meta">
                 <span data-i18n="blog.article_by">By</span> ${escapeHtml(normalizeAuthor(data.author))}
                 ${dateFormatted ? ` · <span>${dateFormatted}</span>` : ''}
