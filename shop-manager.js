@@ -302,17 +302,16 @@ document.head.appendChild(style);
 
 // Initialize on page load
 // 产品渲染由 shop.html 中的 initializeShop() 统一触发，避免重复加载
-    setTimeout(() => {
-        if (typeof cart !== 'undefined' && typeof cart.updatePrices === 'function') {
-            console.log('Updating cart prices...');
-            cart.updatePrices();
-        }
-    }, 1500); // Wait for products to load
+setTimeout(() => {
+    if (typeof cart !== 'undefined' && typeof cart.updatePrices === 'function') {
+        console.log('Updating cart prices...');
+        cart.updatePrices();
+    }
+}, 1500); // Wait for products to load
 
-    // Re-render products when language changes
-    document.addEventListener('daoessence:i18n-changed', () => {
-        if (typeof window.renderShop === 'function') {
-            window.renderShop();
-        }
-    });
+// Re-render products when language changes
+document.addEventListener('daoessence:i18n-changed', () => {
+    if (typeof window.renderShop === 'function') {
+        window.renderShop();
+    }
 });
