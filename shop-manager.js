@@ -7,6 +7,17 @@ let currentFilter = 'all';
 let currentSort = 'featured';
 
 // 移动端图片优化：根据屏幕宽度返回合适的图片URL
+// ============================================
+// i18n helper: fallback when translation key not found
+// DaoI18n.t() returns the key itself when translation is missing,
+// so `||` fallback never triggers. This helper checks explicitly.
+// ============================================
+function _t(key, fallback) {
+  if (!window.DaoI18n) return fallback;
+  var val = window.DaoI18n.t(key);
+  return (val !== null && val !== key) ? val : fallback;
+}
+
 function getOptimizedImageUrl(url, maxWidth) {
   if (!url || url.startsWith('/')) return url; // 本地图片不处理
   const separator = url.includes('?') ? '&' : '?';
@@ -61,7 +72,7 @@ window.loadProducts = async function() {
         if (grid) {
             grid.innerHTML = `
                 <div style="color: #e74c3c; padding: 40px; text-align: center; background: var(--bg-accent); border-radius: 8px;">
-                    <h3 style="color: var(--fire-primary);">${(window.DaoI18n && window.DaoI18n.t('shop.error_loading')) || 'Error Loading Products'}</h3>
+                    <h3 style="color: var(--fire-primary);">${_t('shop.error_loading', 'Error Loading Products')}</h3>
                     <p>${error.message}</p>
                 </div>
             `;
@@ -141,11 +152,11 @@ function _doRenderShop() {
     const grid = document.getElementById('productGrid');
     
     const categoryMap = {
-        'bazi-analysis': (window.DaoI18n && window.DaoI18n.t('shop.filter_bazi')) || 'BaZi Analysis',
-        'dao-meditation': (window.DaoI18n && window.DaoI18n.t('shop.filter_meditation')) || 'Taoist Meditation',
-        'dao-readings': (window.DaoI18n && window.DaoI18n.t('shop.filter_readings')) || 'Taoist Readings',
-        'mythology-stories': (window.DaoI18n && window.DaoI18n.t('shop.filter_mythology')) || 'Taoist Mythology',
-        'cultivation-novels': (window.DaoI18n && window.DaoI18n.t('shop.filter_novels')) || 'Xianxia Novels'
+        'bazi-analysis': _t('shop.filter_bazi', 'BaZi Analysis'),
+        'dao-meditation': _t('shop.filter_meditation', 'Taoist Meditation'),
+        'dao-readings': _t('shop.filter_readings', 'Taoist Readings'),
+        'mythology-stories': _t('shop.filter_mythology', 'Taoist Mythology'),
+        'cultivation-novels': _t('shop.filter_novels', 'Xianxia Novels')
     };
 
     // Update product count (only if element exists - for shop page compatibility)
@@ -158,7 +169,7 @@ function _doRenderShop() {
 
     grid.innerHTML = filtered.map((product, index) => {
         const discount = SHOW_DISCOUNT && product.originalPrice ? window.calculateDiscount(product.originalPrice, product.price) : 0;
-        const discountText = discount > 0 ? ((window.DaoI18n && window.DaoI18n.t('shop.discount_off')) || 'OFF') : '';
+        const discountText = discount > 0 ? _t('shop.discount_off', 'OFF') : '';
         const discountBadge = discount > 0 ? `<span class="discount-badge">${discount}${discountText}</span>` : '';
         
         const priceDisplay = SHOW_DISCOUNT && product.originalPrice
@@ -196,7 +207,7 @@ function _doRenderShop() {
                 <div class="product-meta">
                     ${priceDisplay}
                 </div>
-                <div class="product-action-hint">${isBaziProduct ? ((window.DaoI18n && window.DaoI18n.t('shop.get_analysis')) || 'Get Analysis →') : ((window.DaoI18n && window.DaoI18n.t('shop.view_details')) || 'Click to view details →')}</div>
+                <div class="product-action-hint">${isBaziProduct ? _t('shop.get_analysis', 'Get Analysis →') : _t('shop.view_details', 'Click to view details →')}</div>
             </div>
         </a>
     `;
