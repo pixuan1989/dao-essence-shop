@@ -124,10 +124,16 @@ window.calculateDiscount = function(original, current) {
 
 // Render shop products
 window.renderShop = function() {
-    // 防重入：短时间内不重复渲染
-    const now = Date.now();
-    if (window._renderShopLock && now - window._renderShopLock < 300) return;
-    window._renderShopLock = now;
+    // 防重入：同帧内不重复渲染（RAIC 风格，只防微任务重复，不防事件触发）
+    if (window._renderShopPending) return;
+    window._renderShopPending = true;
+    requestAnimationFrame(function() {
+        window._renderShopPending = false;
+        _doRenderShop();
+    });
+};
+
+function _doRenderShop() {
 
     const filtered = window.getFilteredProducts();
     const grid = document.getElementById('productGrid');

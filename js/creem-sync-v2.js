@@ -127,12 +127,18 @@ async function fetchFromAPI(retries = 1) {
       const apiUrl = isTestMode ? '/api/test-products' : '/api/products';
       console.log(`🔗 使用 API 端点: ${apiUrl}`);
       
+      // 10秒超时，防止无限等待（Vercel 冷启动 + Creem API 可能很慢）
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000);
+      
       const response = await fetch(apiUrl, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'
-        }
+        },
+        signal: controller.signal
       });
+      clearTimeout(timeoutId);
 
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}: ${response.statusText}`);
@@ -264,18 +270,28 @@ async function syncCreemProducts() {
   console.log('🚀 开始 Creem 产品同步...');
   
   try {
-    // 第0步：确保 PRODUCT_ZH_MAP 已加载
-    await productZhMapPromise;
-    
-    // 第1步：检查缓存
+    // 第1步：先检查缓存（不等翻译，加速缓存命中路径）
     let products = getFromCache();
     
     // 第2步：如果无缓存，从 API 拉取
     if (!products) {
+      // API 拉取前确保 PRODUCT_ZH_MAP 已加载（翻译在 transform 时需要）
+      await productZhMapPromise;
       console.log('📡 从 API 拉取新数据...');
       const apiProducts = await fetchFromAPI();
       products = transformProducts(apiProducts);
       saveToCache(products);
+    } else {
+      // 缓存命中：后台异步加载翻译，不阻塞渲染
+      productZhMapPromise.then(function() {
+        // 翻译加载完后静默更新 allProducts 中的中文名
+        if (window.allProducts && window.allProducts.length > 0) {
+          window.allProducts.forEach(function(p) {
+            p.nameCN = getProductZh(p.id, 'nameCN', p.nameCN || p.name);
+            p.descriptionCN = getProductZh(p.id, 'descriptionCN', p.descriptionCN || p.description);
+          });
+        }
+      });
     }
     
     // 第3步：更新全局数据
