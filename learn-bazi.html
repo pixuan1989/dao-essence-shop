@@ -709,5 +709,40 @@
 </script>
 
 <script src="/js/share.js" defer></script>
+
+<!-- ═══════════ FURTHER READING i18n LINK SWITCH ═══════════ -->
+<script>
+(function() {
+    var blogLinks = document.querySelectorAll('a[href^="/blog/"][data-i18n^="lb.fr_"]');
+    var blogPaths = ['/blog/what-is-bazi-beginners-guide', '/blog/how-to-read-bazi-chart', '/blog/five-elements-theory-wu-xing-guide', '/blog/bazi-10-year-luck-cycles-guide'];
+
+    function switchBlogLinks(lang) {
+        blogLinks.forEach(function(a) {
+            blogPaths.forEach(function(path) {
+                if (a.href.endsWith(path) || a.getAttribute('href') === path) {
+                    if (lang === 'zh') {
+                        a.setAttribute('href', '/zh' + path);
+                    } else {
+                        a.setAttribute('href', path);
+                    }
+                }
+            });
+        });
+    }
+
+    function getCurrentLang() {
+        try { return localStorage.getItem('daoessence_lang') || 'en'; } catch(e) { return 'en'; }
+    }
+
+    // Initial state
+    switchBlogLinks(getCurrentLang());
+
+    // Listen for language changes
+    document.addEventListener('daoessence:i18n-changed', function(e) {
+        var lang = e.detail && e.detail.lang;
+        if (lang) switchBlogLinks(lang);
+    });
+})();
+</script>
 </body>
 </html>
