@@ -163,26 +163,26 @@ export default async function handler(req, res) {
         }
 
         console.log(`✅ Checkout 创建成功: ${result.id}`);
-        console.log(`   回调URL: ${result.checkout_url}`);
 
-        // 记录付费意向（用于后台"未处理"标记）
+        // 先返回响应给前端，Redis 写入放到后台
+        const responseData = {
+            success: true,
+            checkoutUrl: result.checkout_url,
+            checkoutId: result.id,
+            orderId: orderId
+        };
+
+        // 非阻塞：返回响应后异步写入 Redis
+        res.status(200).json(responseData);
         try {
             const intentData = {
-                id: orderId,
-                orderId: orderId,
-                checkoutId: result.id || '',
-                productName: 'BaZi Life Guidance',
-                productId: product_id,
-                amount: 0,
-                name: name || '',
-                email: email || '',
-                birthYear: String(birth_year),
-                birthMonth: String(birth_month),
-                birthDay: String(birth_day),
-                birthHour: String(birth_hour),
+                id: orderId, orderId, checkoutId: result.id || '',
+                productName: 'BaZi Life Guidance', productId: product_id, amount: 0,
+                name: name || '', email: email || '',
+                birthYear: String(birth_year), birthMonth: String(birth_month),
+                birthDay: String(birth_day), birthHour: String(birth_hour),
                 gender: gender,
-                createdAt: new Date().toISOString(),
-                status: 'pending'
+                createdAt: new Date().toISOString(), status: 'pending'
             };
             await redisSet(`checkout_intent:${orderId}`, intentData);
             let intentIds = await redisGet('checkout_intent_ids') || [];
@@ -198,10 +198,8 @@ export default async function handler(req, res) {
                 const exists = subscribers.some(s => s.email && s.email.toLowerCase() === normalizedEmail);
                 if (!exists) {
                     subscribers.unshift({
-                        email: normalizedEmail,
-                        name: name || '',
-                        source: 'bazi_intent',
-                        subscribedAt: new Date().toISOString()
+                        email: normalizedEmail, name: name || '',
+                        source: 'bazi_intent', subscribedAt: new Date().toISOString()
                     });
                     await redisSet('marketing_subscribers', subscribers);
                     console.log(`📬 Added ${normalizedEmail} to marketing pool (bazi intent), total: ${subscribers.length}`);
@@ -210,13 +208,7 @@ export default async function handler(req, res) {
         } catch (intentErr) {
             console.error('⚠️ 记录付费意向失败（非致命）:', intentErr.message);
         }
-
-        return res.status(200).json({
-            success: true,
-            checkoutUrl: result.checkout_url,
-            checkoutId: result.id,
-            orderId: orderId
-        });
+        return;
 
     } catch (error) {
         console.error('创建八字Checkout错误:', error);
