@@ -771,33 +771,37 @@ document.addEventListener('DOMContentLoaded', async function() {
     window.initState();
     window.renderImages();
     
-    // 3.5 更新所有卡信息到 HTML
+    // 3.5 更新所有卡信息到 HTML（根据当前语言显示对应版本）
     if (CARD_DATA) {
+        const isZh = window.DaoI18n && window.DaoI18n.current() === 'zh';
+        
         const cardNameCn = document.getElementById('cardNameCn');
         if (cardNameCn) {
             cardNameCn.textContent = CARD_DATA.titleZh || CARD_DATA.title || 'Card Name';
+            cardNameCn.style.display = isZh ? '' : 'none';
         }
         
         const cardNameEn = document.getElementById('cardNameEn');
         if (cardNameEn) {
             cardNameEn.textContent = CARD_DATA.title || 'Card Name';
+            cardNameEn.style.display = isZh ? 'none' : '';
         }
         
         // 更新页面头部标题
         const pageTitleLarge = document.getElementById('pageTitleLarge');
         if (pageTitleLarge) {
-            pageTitleLarge.textContent = CARD_DATA.titleZh || CARD_DATA.title || 'Card';
+            pageTitleLarge.textContent = isZh ? (CARD_DATA.titleZh || CARD_DATA.title || 'Card') : (CARD_DATA.title || 'Card');
         }
         
         const pageTitleEn = document.getElementById('pageTitleEn');
         if (pageTitleEn) {
-            pageTitleEn.textContent = CARD_DATA.title || 'Card Title';
+            pageTitleEn.style.display = 'none';
         }
         
         // 更新面包屑
         const breadcrumbCard = document.getElementById('breadcrumbCard');
         if (breadcrumbCard) {
-            breadcrumbCard.textContent = CARD_DATA.titleZh || CARD_DATA.title || 'Card';
+            breadcrumbCard.textContent = isZh ? (CARD_DATA.titleZh || CARD_DATA.title || 'Card') : (CARD_DATA.title || 'Card');
         }
         
         const breadcrumbCategory = document.getElementById('breadcrumbCategory');
@@ -808,7 +812,8 @@ document.addEventListener('DOMContentLoaded', async function() {
         // 更新卡描述
         const cardDescription = document.getElementById('cardDescription');
         if (cardDescription) {
-            cardDescription.innerHTML = '<p>' + (CARD_DATA.descriptionZh || CARD_DATA.description || 'No description available') + '</p>';
+            const desc = isZh ? (CARD_DATA.descriptionZh || CARD_DATA.description || 'No description available') : (CARD_DATA.description || 'No description available');
+            cardDescription.innerHTML = '<p>' + desc + '</p>';
         }
         
         const cardCategoryTag = document.getElementById('cardCategoryTag');
@@ -924,5 +929,29 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     // 5. 绑定事件监听器
     // button onclick 属性已在 HTML 中绑定，无需这里再绑定
+
+    // 6. 监听语言切换，动态更新商品标题和描述
+    function updateProductLang(lang) {
+        if (!CARD_DATA) return;
+        var isZh = lang === 'zh';
+        
+        var el;
+        el = document.getElementById('cardNameCn');
+        if (el) { el.textContent = CARD_DATA.titleZh || CARD_DATA.title || 'Card Name'; el.style.display = isZh ? '' : 'none'; }
+        el = document.getElementById('cardNameEn');
+        if (el) { el.textContent = CARD_DATA.title || 'Card Name'; el.style.display = isZh ? 'none' : ''; }
+        el = document.getElementById('pageTitleLarge');
+        if (el) { el.textContent = isZh ? (CARD_DATA.titleZh || CARD_DATA.title) : (CARD_DATA.title || 'Card'); }
+        el = document.getElementById('pageTitleEn');
+        if (el) { el.style.display = 'none'; }
+        el = document.getElementById('breadcrumbCard');
+        if (el) { el.textContent = isZh ? (CARD_DATA.titleZh || CARD_DATA.title) : (CARD_DATA.title || 'Card'); }
+        el = document.getElementById('cardDescription');
+        if (el) {
+            var desc = isZh ? (CARD_DATA.descriptionZh || CARD_DATA.description) : (CARD_DATA.description || CARD_DATA.descriptionZh);
+            el.innerHTML = '<p>' + desc + '</p>';
+        }
+    }
+    document.addEventListener('daoessence:i18n-changed', function(e) { updateProductLang(e.detail.lang); });
 
 });
