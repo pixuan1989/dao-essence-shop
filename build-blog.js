@@ -566,6 +566,18 @@ const ZODIAC_LOOKUP_HTML = `
             position: relative;
             background: rgba(212,175,55,0.06) !important;
         }
+        .blog-cover-wrapper {
+            aspect-ratio: 16 / 9;
+            overflow: hidden;
+            border-radius: 12px;
+            margin: 1.5rem 0;
+        }
+        .blog-cover-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
         .blog-card-image::before, .related-card-img::before, .article-card-image::before, .blog-cover-wrapper::before {
             content: '';
             position: absolute;
@@ -1225,7 +1237,7 @@ ${NAV_HTML}
         <article class="blog-article">
             <p style="font-size: 0.8rem; color: var(--accent-color); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 0.5rem;">${escapeHtml(categoryLabel)}</p>
             <h1>${escapeHtml(data.title)}</h1>
-            ${data.image ? `<div class="blog-cover-wrapper"><img src="${data.image}" alt="${escapeHtml(data.imageAlt || data.title)}" loading="lazy" decoding="async" style="max-width:100%;border-radius:12px;margin:1.5rem 0;" onload="this.parentElement.classList.add('loaded')" onerror="this.parentElement.classList.add('loaded');this.src='${SITE_URL}/images/og-default.jpg'"></div>` : ''}
+            ${data.image ? `<div class="blog-cover-wrapper"><img src="${data.image}" alt="${escapeHtml(data.imageAlt || data.title)}" onload="this.parentElement.classList.add('loaded')" onerror="this.parentElement.classList.add('loaded');this.src='${SITE_URL}/images/og-default.jpg'"></div>` : ''}
             <div class="blog-meta">
                 <span data-i18n="blog.article_by">By</span> ${escapeHtml(normalizeAuthor(data.author))}
                 ${dateFormatted ? ` · <span>${dateFormatted}</span>` : ''}
