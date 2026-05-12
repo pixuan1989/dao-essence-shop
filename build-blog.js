@@ -1205,7 +1205,7 @@ function generateArticleHtml(post, category, allArticles, options = {}) {
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
-        "@type": "Article",
+        "@type": "BlogPosting",
         "headline": "${escapeHtml(data.title)}",
         "description": "${escapeHtml(data.description || '')}",
         "image": "${data.image || SITE_URL + '/images/og-default.jpg'}",
