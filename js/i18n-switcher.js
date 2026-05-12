@@ -433,15 +433,25 @@
 
   function _applyLangSwitch(lang) {
     if (lang === DEFAULT_LANG) {
-      // Restore original English text — no network request needed
-      restoreOriginalTexts();
-      translations = null;
-      updateHtmlLang(lang);
-      updateSwitcherUI(lang);
-      highlightActiveOption(lang);
-      rewriteNavLinks(lang);
-      // Notify dynamic content to re-render
-      document.dispatchEvent(new CustomEvent('daoessence:i18n-changed', { detail: { lang: lang } }));
+      // Load English translations so that t('sc.result_summary') etc. resolve correctly
+      loadTranslations(lang).then(function (t) {
+        translations = t;
+        restoreOriginalTexts();
+        updateHtmlLang(lang);
+        updateSwitcherUI(lang);
+        highlightActiveOption(lang);
+        rewriteNavLinks(lang);
+        document.dispatchEvent(new CustomEvent('daoessence:i18n-changed', { detail: { lang: lang } }));
+      }).catch(function () {
+        // Fallback: restore without translations (en.json missing or network error)
+        translations = null;
+        restoreOriginalTexts();
+        updateHtmlLang(lang);
+        updateSwitcherUI(lang);
+        highlightActiveOption(lang);
+        rewriteNavLinks(lang);
+        document.dispatchEvent(new CustomEvent('daoessence:i18n-changed', { detail: { lang: lang } }));
+      });
     } else {
       loadTranslations(lang).then(function (t) {
         translations = t;
@@ -514,9 +524,18 @@
         console.warn('i18n: init failed for', currentLang, err);
       });
     } else {
-      updateSwitcherUI(DEFAULT_LANG);
-      highlightActiveOption(DEFAULT_LANG);
-      document.dispatchEvent(new CustomEvent('daoessence:i18n-changed', { detail: { lang: DEFAULT_LANG } }));
+      // Load English translations so t() resolves keys correctly for dynamic content
+      loadTranslations(currentLang).then(function (t) {
+        translations = t;
+        updateSwitcherUI(DEFAULT_LANG);
+        highlightActiveOption(DEFAULT_LANG);
+        document.dispatchEvent(new CustomEvent('daoessence:i18n-changed', { detail: { lang: DEFAULT_LANG } }));
+      }).catch(function () {
+        // en.json missing or network error — proceed without translations
+        updateSwitcherUI(DEFAULT_LANG);
+        highlightActiveOption(DEFAULT_LANG);
+        document.dispatchEvent(new CustomEvent('daoessence:i18n-changed', { detail: { lang: DEFAULT_LANG } }));
+      });
     }
   }
 
