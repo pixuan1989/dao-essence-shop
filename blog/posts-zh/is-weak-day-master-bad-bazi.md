@@ -4,8 +4,8 @@ date: "2026-05-13"
 author: "Xuanzhen"
 tags: ["八字", "日主強弱", "身弱", "四柱命理"]
 categories: ["bazi-astrology"]
-coverImage: "/images/blog/weak-day-master-bazi-truth.webp"
-coverImageAlt: "繁體中文八字身弱概念資訊圖：左側顯示枯萎樹木標註「誤解：身弱=命不好」；右側顯示精密瑞士手表標註「真相：身弱=高靈敏度策略型」。中央有金色毛筆字「身」。 "
+image: "/images/blog/weak-day-master-bazi-truth.webp"
+imageAlt: "繁體中文八字身弱概念資訊圖：左側顯示枯萎樹木標註「誤解：身弱=命不好」；右側顯示精密瑞士手表標註「真相：身弱=高靈敏度策略型」。中央有金色毛筆字「身」。 "
 seoTitle: "身弱是命不好嗎？八字身弱的真實含義（完整指南）"
 seoDescription: "擔心你的八字命盤顯示「身弱」？發現為什麼古典文獻從未說身弱=命不好。加上：身弱格的真實成功路徑。 "
 faq_zh:

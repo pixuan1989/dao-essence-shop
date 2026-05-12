@@ -4,8 +4,8 @@ date: "2026-05-13"
 author: "Xuanzhen"
 tags: ["Bazi", "Day Master", "Shen Ruo", "Four Pillars"]
 categories: ["bazi-astrology"]
-coverImage: "/images/blog/weak-day-master-bazi-truth.webp"
-coverImageAlt: "Split-screen infographic: left side shows a withered tree labeled 'Misconception: Weak = Bad'; right side shows a precision Swiss watch labeled 'Reality: Weak = Sensitive & Strategic'. Center has the Chinese character 身 (Shen) in gold brushstroke."
+image: "/images/blog/weak-day-master-bazi-truth.webp"
+imageAlt: "Split-screen infographic: left side shows a withered tree labeled 'Misconception: Weak = Bad'; right side shows a precision Swiss watch labeled 'Reality: Weak = Sensitive & Strategic'. Center has the Chinese character 身 (Shen) in gold brushstroke."
 seoTitle: "Is a Weak Day Master Bad? Bazi Strength Explained (No BS Guide)"
 seoDescription: "Worried because your Bazi chart says 'Weak Day Master' (身弱)? Discover why classical texts NEVER said weak = doomed. Plus: the real success path for weak charts."
 faq:
