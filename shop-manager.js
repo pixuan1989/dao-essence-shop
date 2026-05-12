@@ -134,6 +134,8 @@ window.renderShop = function() {
 };
 
 function _doRenderShop() {
+    // 如果产品还没加载完，跳过渲染（保留骨架屏）
+    if (!window.__CREEM_PRODUCTS_READY__ && window.allProducts.length === 0) return;
 
     const filtered = window.getFilteredProducts();
     const grid = document.getElementById('productGrid');
@@ -336,9 +338,9 @@ setTimeout(() => {
     }
 }, 1500); // Wait for products to load
 
-// Re-render products when language changes
+// Re-render products when language changes (only if products are already loaded)
 document.addEventListener('daoessence:i18n-changed', () => {
-    if (typeof window.renderShop === 'function') {
+    if (typeof window.renderShop === 'function' && window.__CREEM_PRODUCTS_READY__) {
         window.renderShop();
     }
 });
