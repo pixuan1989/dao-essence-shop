@@ -1254,21 +1254,7 @@
             </div>
 
             <!-- Share -->
-            <div class="sc-share">
-                <p data-i18n="sc.share_title">Share Your Result</p>
-                <div class="sc-share-icons">
-                    <a class="sc-share-icon" title="Share on Twitter" onclick="scShare('twitter')" href="#">
-                        <svg viewBox="0 0 24 24"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
-                    </a>
-                    <a class="sc-share-icon" title="Share on Facebook" onclick="scShare('facebook')" href="#">
-                        <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
-                    </a>
-                    <a class="sc-share-icon" title="Share on Pinterest" onclick="scShare('pinterest')" href="#">P</a>
-                    <a class="sc-share-icon" title="Copy Link" onclick="scShare('copy')" href="#">
-                        <svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
-                    </a>
-                </div>
-            </div>
+            <div id="sc-share-container"></div>
 
             <div style="text-align:center;">
                 <button class="sc-back" onclick="scRestart()" data-i18n="sc.back_btn">&larr; Try Another Birth Date</button>
@@ -1947,6 +1933,11 @@
             '<p style="color:var(--text-secondary);font-size:0.9rem;">' + t('sc.style_archetype_prefix') + ' <strong style="color:var(--rose-light)">' + sn + '</strong></p>' +
             '<div class="sc-style-grid">' + traitsHtml + '</div>';
 
+        // Render share bar
+        if (window.ToolShare) {
+            window.ToolShare.render('sc-share-container', { text: t('sc.share_text') });
+        }
+
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
@@ -2017,20 +2008,11 @@
     };
 
     function scShare(platform) {
-        var t = window.DaoI18n ? window.DaoI18n.t.bind(window.DaoI18n) : function(k){return k;};
-        var url = encodeURIComponent(window.location.href);
-        var text = encodeURIComponent(t('sc.share_text'));
-        var shareUrl = '';
-        switch(platform) {
-            case 'twitter': shareUrl = 'https://twitter.com/intent/tweet?url=' + url + '&text=' + text; break;
-            case 'facebook': shareUrl = 'https://www.facebook.com/sharer/sharer.php?u=' + url; break;
-            case 'pinterest': shareUrl = 'https://pinterest.com/pin/create/button/?url=' + url + '&description=' + text; break;
-            case 'copy':
-                navigator.clipboard.writeText(window.location.href);
-                alert(t('sc.share_copied'));
-                return;
+        // Replaced by ToolShare component — legacy redirect
+        if (window.ToolShare) {
+            var t = window.DaoI18n ? window.DaoI18n.t.bind(window.DaoI18n) : function(k){return k;};
+            window.ToolShare.render('sc-share-container', { text: t('sc.share_text') });
         }
-        if (shareUrl) window.open(shareUrl, '_blank', 'width=600,height=400');
     }
     </script>
 
@@ -2043,5 +2025,6 @@
     </script>
     <script src="js/i18n-switcher.js" defer></script>
     <script src="/js/tracking.js"></script>
+    <script src="/js/tool-share.js"></script>
 </body>
 </html>

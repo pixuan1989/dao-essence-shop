@@ -696,6 +696,7 @@
     <!-- Step 3: Result -->
     <div class="fe-step" id="feStep3">
         <div class="fe-result" id="feResult"></div>
+        <div id="fe-share-container"></div>
         <a href="#" class="fe-retry" id="feRetry" data-i18n="fav.retry_btn">Try Another Birth Chart</a>
         <div class="fe-footer" data-i18n="fav.footer">
             DAO Essence &mdash; Ancient Wisdom, Modern Insight
@@ -704,6 +705,7 @@
 </div>
 
 <script src="bazi-calculator/paipan.min.js"></script>
+<script src="/js/tool-share.js"></script>
 <script>
 (function() {
     var _favEnFallback = {
@@ -941,6 +943,13 @@
 
             renderResult(data);
             window._feLastData = data; // Cache for language-switch re-render
+            // Render share bar
+            if (window.ToolShare) {
+                var shareText = (window.DaoI18n && window.DaoI18n.current() === 'zh')
+                    ? '我的喜用神查詢結果 — DaoEssence'
+                    : 'My Favorable Element Result — DaoEssence';
+                window.ToolShare.render('fe-share-container', { text: shareText });
+            }
             showStep(3);
 
             // Track submission

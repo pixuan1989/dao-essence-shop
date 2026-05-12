@@ -975,6 +975,16 @@
                 '</div>' +
             '</div></section>';
 
+        // Render share bar
+        var shareContainer = document.getElementById('bazi-share-container');
+        if (shareContainer && window.ToolShare) {
+            shareContainer.style.display = 'block';
+            var shareText = isZh()
+                ? '我的八字排盤 — ' + (DM_NATURE[dayMaster] ? DM_NATURE[dayMaster].wxZh : dmElement) + '日主 | DaoEssence'
+                : 'My BaZi Chart — ' + dmElement + ' Day Master | DaoEssence';
+            window.ToolShare.render(shareContainer, { text: shareText });
+        }
+
         // Bind dayun events
         if (rt['dy'] && rt['dy'].length > 0) {
             var items = container.querySelectorAll('.dayun-card');

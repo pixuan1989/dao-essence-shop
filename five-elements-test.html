@@ -799,15 +799,7 @@
         <div id="resultContent"></div>
 
         <!-- Share / Social proof before email -->
-        <div style="text-align:center; margin: 2rem 0 0.5rem;">
-            <p style="color:var(--text-muted); font-size:0.82rem;" data-i18n="fivet.share_prompt">Enjoyed this? Share your element with friends.</p>
-            <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:0.6rem; margin-top:0.8rem;">
-                <button onclick="shareResult('twitter')" style="background:none; border:1px solid var(--border); border-radius:8px; color:var(--text-secondary); padding:0.5rem 0.8rem; cursor:pointer; font-size:0.82rem;" data-i18n="fivet.share_twitter">X Twitter</button>
-                <button onclick="shareResult('facebook')" style="background:none; border:1px solid var(--border); border-radius:8px; color:var(--text-secondary); padding:0.5rem 0.8rem; cursor:pointer; font-size:0.82rem;" data-i18n="fivet.share_facebook">Facebook</button>
-                <button onclick="shareResult('whatsapp')" style="background:none; border:1px solid var(--border); border-radius:8px; color:var(--text-secondary); padding:0.5rem 0.8rem; cursor:pointer; font-size:0.82rem;" data-i18n="fivet.share_whatsapp">WhatsApp</button>
-                <button onclick="copyResultLink()" style="background:none; border:1px solid var(--border); border-radius:8px; color:var(--text-secondary); padding:0.5rem 0.8rem; cursor:pointer; font-size:0.82rem;" data-i18n="fivet.share_copy">Copy Link</button>
-            </div>
-        </div>
+        <div id="fet-share-container"></div>
 
         <!-- Email CTA (positioned after all results, as a "next step") -->
         <div class="email-cta" id="emailCta">
@@ -836,6 +828,7 @@
 
 <!-- BaZi Engine -->
 <script src="/bazi-calculator/paipan.min.js"></script>
+<script src="/js/tool-share.js"></script>
 
 <script>
 (function() {
@@ -1367,6 +1360,19 @@
                 console.error('Calculation error:', err);
                 document.getElementById('resultContent').innerHTML = '<p style="color:var(--wx-fire);text-align:center;">' + t('fivet.alert_error') + '</p>';
             }
+            // Render share bar
+            if (window.ToolShare) {
+                var shareText = '';
+                try {
+                    var _result = calculateFiveElements();
+                    var _interp = INTERPRETATIONS[_result.dominant || 'wood'];
+                    shareText = t('fivet.share_text').replace('{name}', _interp.name).replace('{tagline}', _interp.tagline);
+                } catch(e) {
+                    shareText = document.title;
+                }
+                window.ToolShare.render('fet-share-container', { text: shareText });
+            }
+
             showStep('step3');
         }, 800);
     }
@@ -1616,40 +1622,10 @@
         });
     };
 
-    // ===== SHARE =====
-    window.shareResult = function(platform) {
-        var result = {};
-        try { result = calculateFiveElements(); } catch(e) {}
-        var interp = INTERPRETATIONS[result.dominant || 'wood'];
-        var shareTemplate = t('fivet.share_text');
-        var text = shareTemplate.replace('{name}', interp.name).replace('{tagline}', interp.tagline);
-        var url = window.location.href;
-        var encodedUrl = encodeURIComponent(url);
-        var encodedText = encodeURIComponent(text);
-        if (platform === 'twitter') {
-            window.open('https://twitter.com/intent/tweet?text=' + encodedText + '&url=' + encodedUrl, '_blank');
-        } else if (platform === 'facebook') {
-            window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodedUrl, '_blank');
-        } else if (platform === 'whatsapp') {
-            window.open('https://wa.me/?text=' + encodedText + '%20' + encodedUrl, '_blank');
-        } else if (platform === 'telegram') {
-            window.open('https://t.me/share/url?url=' + encodedUrl + '&text=' + encodedText, '_blank');
-        } else if (platform === 'reddit') {
-            window.open('https://www.reddit.com/submit?url=' + encodedUrl + '&title=' + encodedText, '_blank');
-        } else if (platform === 'pinterest') {
-            window.open('https://pinterest.com/pin/create/button/?url=' + encodedUrl + '&description=' + encodedText, '_blank');
-        }
-    };
-
-    window.copyResultLink = function() {
-        var url = window.location.href;
-        navigator.clipboard.writeText(url).then(function() {
-            var btn = event.target;
-            var orig = btn.textContent;
-            btn.textContent = t('fivet.copied');
-            setTimeout(function() { btn.textContent = orig; }, 2000);
-        });
-    };
+    // ===== SHARE (handled by tool-share.js) =====
+    // Legacy functions kept as no-ops for safety
+    window.shareResult = function(platform) {};
+    window.copyResultLink = function() {};
 
     // ===== KEYBOARD SHORTCUTS =====
     document.addEventListener('keydown', function(e) {
