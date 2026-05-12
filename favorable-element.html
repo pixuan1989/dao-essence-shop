@@ -859,6 +859,29 @@
         };
     }
 
+    // Re-render on language switch
+    document.addEventListener('daoessence:i18n-changed', function() {
+        // Re-populate hour select with correct language
+        const hourSel = document.getElementById('feHour');
+        if (hourSel) {
+            const currentVal = hourSel.value;
+            hourSel.innerHTML = '';
+            const _zhNow = isZh();
+            const labels = _zhNow ? hourLabelsZh : hourLabelsEn;
+            for (let h = 0; h < 12; h++) {
+                const opt = document.createElement('option');
+                opt.value = h === 0 ? -1 : h + 1;
+                opt.textContent = labels[h];
+                hourSel.appendChild(opt);
+            }
+            hourSel.value = currentVal;
+        }
+        // Re-render result if step 3 is visible (re-applies t() translations to UI labels)
+        if (document.getElementById('feStep3') && document.getElementById('feStep3').classList.contains('active') && window._feLastData) {
+            renderResult(window._feLastData);
+        }
+    });
+
     // Form submit
     document.getElementById('feForm').addEventListener('submit', async function(e) {
         e.preventDefault();
@@ -917,6 +940,7 @@
             }
 
             renderResult(data);
+            window._feLastData = data; // Cache for language-switch re-render
             showStep(3);
 
             // Track submission

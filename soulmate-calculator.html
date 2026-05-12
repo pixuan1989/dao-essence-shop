@@ -1746,6 +1746,31 @@
         return { pct: '30%', label: t('sc.tier_low'), cls: 'low' };
     }
 
+    // Cache last result for re-render on language switch
+    var scLastResult = null;
+
+    // Re-render results in the current language (called on i18n change)
+    function scReRenderResults() {
+        if (!scLastResult || !document.getElementById('sc-step-3').classList.contains('active')) return;
+        // Re-populate hour select with correct language
+        var hourSel = document.getElementById('sc-hour');
+        if (hourSel) {
+            var currentHour = hourSel.value;
+            hourSel.innerHTML = '';
+            var _zhNow = window.DaoI18n && window.DaoI18n.current() === 'zh';
+            for (var i = 0; i < shiChen.length; i++) {
+                var s = shiChen[i];
+                var opt = document.createElement('option');
+                opt.value = s.value; opt.textContent = _zhNow ? s.zh : s.en;
+                hourSel.appendChild(opt);
+            }
+            hourSel.value = currentHour;
+        }
+        renderResults(scLastResult.pp, scLastResult.dayElemEn, scLastResult.gender, scLastResult.birthplace);
+    }
+
+    document.addEventListener('daoessence:i18n-changed', scReRenderResults);
+
     // ===== MAIN CALCULATION =====
     function scCalculate() {
         // Consent check
@@ -1798,6 +1823,8 @@
                 return;
             }
             var dayElemEn = getDayElementEn(pp);
+            // Cache result for language-switch re-render
+            scLastResult = { pp: pp, dayElemEn: dayElemEn, gender: gender, birthplace: birthplace };
             renderResults(pp, dayElemEn, gender, birthplace);
             showStep(3);
             btn.disabled = false;

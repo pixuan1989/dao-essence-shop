@@ -285,7 +285,12 @@
     };
 
     // ==================== FIVE ELEMENTS BODY MAP ====================
-    var WX_BODY = { '金': 'Lungs & Large Intestine', '水': 'Kidneys & Bladder', '木': 'Liver & Gallbladder', '火': 'Heart & Small Intestine', '土': 'Spleen & Stomach' };
+    // Chinese organ body map for zh mode
+    var WX_BODY_ZH = { '金': '肺與大腸', '水': '腎與膀胱', '木': '肝與膽囊', '火': '心與小腸', '土': '脾與胃' };
+
+    function wxBody(w) {
+        return isZh() ? (WX_BODY_ZH[w] || w) : ({ '金':'Lungs & Large Intestine','水':'Kidneys & Bladder','木':'Liver & Gallbladder','火':'Heart & Small Intestine','土':'Spleen & Stomach' })[w];
+    }
     var WX_BODY_EN = { '金': 'Lungs & Large Intestine', '水': 'Kidneys & Bladder', '木': 'Liver & Gallbladder', '火': 'Heart & Small Intestine', '土': 'Spleen & Stomach' };
     var WX_ORGAN_TIPS = {
         '金': 'Metal governs lungs & large intestine. Weak Metal may cause respiratory issues, constipation, dry skin. Protect against cold in autumn/winter, eat white foods like pear, lily bulb.',
@@ -315,20 +320,20 @@
         '火': 'bazi_result.organ_excess.fire',
         '土': 'bazi_result.organ_excess.earth'
     };
-    // Tiao Hou (seasonal regulation) - month branch mapping
+    // Tiao Hou (seasonal regulation) - month branch mapping, translatable
     var TIAOHOU = {
-        '寅': { season: 'Early Spring', tip: 'Wood rises in early spring — focus on liver health, gentle exercise, emotional balance.' },
-        '卯': { season: 'Mid Spring', tip: 'Yang energy peaks in mid spring — wake early, stretch, avoid overwork.' },
-        '辰': { season: 'Late Spring', tip: 'Earth awakens in late spring — improve digestion, reduce sour, increase sweet foods.' },
-        '巳': { season: 'Early Summer', tip: 'Fire begins in early summer — eat light, nourish the heart, stay calm.' },
-        '午': { season: 'Mid Summer', tip: 'Fire peaks in mid summer — rest at midday, avoid heat, eat bitter foods for heart health.' },
-        '未': { season: 'Late Summer', tip: 'Dampness heavy in late summer — strengthen spleen, avoid cold/raw foods.' },
-        '申': { season: 'Early Autumn', tip: 'Metal rises in early autumn — moisten lungs, sleep early, wake early.' },
-        '酉': { season: 'Mid Autumn', tip: 'Dryness peaks in mid autumn — lungs are vulnerable, eat pears and lily bulb.' },
-        '戌': { season: 'Late Autumn', tip: 'Metal recedes, fire hides — stay warm, prevent dryness, conserve energy for winter.' },
-        '亥': { season: 'Early Winter', tip: 'Water begins in early winter — kidney time, sleep early and rise late, stay warm.' },
-        '子': { season: 'Mid Winter', tip: 'Water peaks in mid winter — coldest time, protect kidneys, avoid cold exposure.' },
-        '丑': { season: 'Late Winter', tip: 'Cold and damp in late winter — spleen weakest, warm and nourish digestion.' }
+        '寅': { seasonKey: 'bazi_result.tiaohou.yin_season', tipKey: 'bazi_result.tiaohou.yin_tip' },
+        '卯': { seasonKey: 'bazi_result.tiaohou.mao_season', tipKey: 'bazi_result.tiaohou.mao_tip' },
+        '辰': { seasonKey: 'bazi_result.tiaohou.chen_season', tipKey: 'bazi_result.tiaohou.chen_tip' },
+        '巳': { seasonKey: 'bazi_result.tiaohou.si_season', tipKey: 'bazi_result.tiaohou.si_tip' },
+        '午': { seasonKey: 'bazi_result.tiaohou.wu_season', tipKey: 'bazi_result.tiaohou.wu_tip' },
+        '未': { seasonKey: 'bazi_result.tiaohou.wei_season', tipKey: 'bazi_result.tiaohou.wei_tip' },
+        '申': { seasonKey: 'bazi_result.tiaohou.shen_season', tipKey: 'bazi_result.tiaohou.shen_tip' },
+        '酉': { seasonKey: 'bazi_result.tiaohou.you_season', tipKey: 'bazi_result.tiaohou.you_tip' },
+        '戌': { seasonKey: 'bazi_result.tiaohou.xu_season', tipKey: 'bazi_result.tiaohou.xu_tip' },
+        '亥': { seasonKey: 'bazi_result.tiaohou.hai_season', tipKey: 'bazi_result.tiaohou.hai_tip' },
+        '子': { seasonKey: 'bazi_result.tiaohou.zi_season', tipKey: 'bazi_result.tiaohou.zi_tip' },
+        '丑': { seasonKey: 'bazi_result.tiaohou.chou_season', tipKey: 'bazi_result.tiaohou.chou_tip' }
     };
 
     // ==================== AI ANALYSIS API ====================
@@ -546,7 +551,7 @@
                     var w = absent[a];
                     var tipText = isZh() ? t(WX_ORGAN_TIPS_ZH[w]) : WX_ORGAN_TIPS[w];
                     html += '<div class="detail-row" style="margin-bottom:0.4rem">';
-                    html += '<div><strong style="color:' + WX_COLORS[w] + '">' + (isZh() ? w : WX_EN[w]) + '</strong> → ' + WX_BODY[w] + '</div>';
+                    html += '<div><strong style="color:' + WX_COLORS[w] + '">' + (isZh() ? w : WX_EN[w]) + '</strong> → ' + wxBody(w) + '</div>';
                     html += '<div style="color:var(--ink-2);font-size:0.85rem;line-height:1.6">' + tipText + '</div>';
                     html += '</div>';
                 }
@@ -564,7 +569,7 @@
                     var clash = { '金':'木','木':'土','土':'水','水':'火','火':'金' };
                     var target = clash[w];
                     html += '<div class="detail-row" style="margin-bottom:0.4rem">';
-                    html += '<div><strong style="color:' + WX_COLORS[w] + '">' + (isZh() ? w : WX_EN[w]) + (isZh() ? ' 過盛 → 克制 ' : ' excessive → controls ') + '<strong style="color:' + WX_COLORS[target] + '">' + (isZh() ? target : WX_EN[target]) + '</strong> (' + WX_BODY[target] + ')</div>';
+                    html += '<div><strong style="color:' + WX_COLORS[w] + '">' + (isZh() ? w : WX_EN[w]) + (isZh() ? ' 過盛 → 克制 ' : ' excessive → controls ') + '<strong style="color:' + WX_COLORS[target] + '">' + (isZh() ? target : WX_EN[target]) + '</strong> (' + wxBody(target) + ')</div>';
                     html += '<div style="color:var(--ink-2);font-size:0.85rem;line-height:1.6">' + excessText + '</div>';
                     html += '</div>';
                 }
@@ -709,7 +714,7 @@
             html += '<div class="wx-summary-item wx-weak"><span class="wx-summary-label">' + t('bazi_result.wx_absent') + '</span> ';
             html += weak.map(function(w) {
                 var tipText = isZh() ? t(WX_ORGAN_TIPS_ZH[w]) : WX_ORGAN_TIPS[w];
-                return '<span style="color:' + WX_COLORS[w] + '">' + (isZh() ? w : WX_EN[w]) + '</span> — <em>' + WX_BODY[w] + '</em><br><span class="detail-key">' + t('bazi_result.wx_tip') + '</span>' + tipText;
+                return '<span style="color:' + WX_COLORS[w] + '">' + (isZh() ? w : WX_EN[w]) + '</span> — <em>' + wxBody(w) + '</em><br><span class="detail-key">' + t('bazi_result.wx_tip') + '</span>' + tipText;
             }).join('<br><br>');
             html += '</div>';
         }
