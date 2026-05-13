@@ -1348,6 +1348,7 @@ function generateCategoryHtml(category, articles, options = {}) {
       if (!imgSrc || imgSrc === '""') imgSrc = SITE_URL + '/images/og-default.jpg';
       const articleHref = `${langPrefix}/blog/${a.slug}`;
       const minReadText = a.data.readTime ? `${a.data.readTime} min read` : '';
+      const dateStr = formatDate(a.data.date);
       return `
             <a href="${articleHref}" class="blog-card">
                 <div class="blog-card-image">
@@ -1358,6 +1359,7 @@ function generateCategoryHtml(category, articles, options = {}) {
                     <p>${escapeHtml(a.data.description || '')}</p>
                     <div class="blog-card-meta">
                         <span>${escapeHtml(normalizeAuthor(a.data.author))}</span>
+                        ${dateStr ? `<span>·</span><span>${dateStr}</span>` : ''}
                         ${a.data.readTime ? `<span>·</span><span>${minReadText}</span>` : ''}
                     </div>
                 </div>
@@ -1567,6 +1569,7 @@ function generateBlogIndex(allArticles, options = {}) {
       const catTag = isZh
         ? `<span class="blog-card-category">${catLabel}</span>`
         : `<span class="blog-card-category" data-zh-cat="${escapeHtml(catLabelZh)}">${catLabel}</span>`;
+      const dateStr = formatDate(a.data.date);
       const readTimeSpan = a.data.readTime
         ? `<span>·</span><span class="read-time-label" data-zh-text="${a.data.readTime} 分鐘閱讀">${a.data.readTime} min read</span>`
         : '';
@@ -1582,6 +1585,7 @@ function generateBlogIndex(allArticles, options = {}) {
                         ${pTag}
                         <div class="blog-card-meta">
                             <span>${escapeHtml(normalizeAuthor(a.data.author))}</span>
+                            ${dateStr ? `<span>·</span><span>${dateStr}</span>` : ''}
                             ${readTimeSpan}
                         </div>
                     </div>
