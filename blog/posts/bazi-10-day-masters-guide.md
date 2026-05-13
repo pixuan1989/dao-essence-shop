@@ -13,7 +13,7 @@ seoDescription: "10 BaZi Day Masters decoded as modern archetypes. Are you the u
 date: 2026-05-12
 author: Xuanzhen
 readTime: 18
-pinned: false
+pinned: true
 image: /images/blog/bazi-10-day-masters-modern-characters.webp
 imageAlt: "10 BaZi Day Masters as modern archetypes — minimalist line icons arranged in two rows of five circles: tree, bamboo, sun, candle, mountain, garden soil, sword, crystal, water drop, and ocean wave. Each icon is labeled with its Chinese character, pinyin, and elemental type (Yang/Yin Wood, Fire, Earth, Metal, Water). Clean white background with subtle elemental color accents."
 slug: bazi-10-day-masters-guide

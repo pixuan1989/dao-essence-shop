@@ -15,7 +15,7 @@ seoDescription: Your birth chart tells you who you are, but not when. Discover w
 date: 2026-04-26
 author: Xuanzhen
 readTime: 9
-pinned: false
+pinned: true
 image: /images/blog/zodiac-reading-vs-bazi.webp
 imageAlt: Western zodiac wheel beside golden BaZi pillars on dark navy background, illustrating how zodiac reading differs from Chinese BaZi life timing chart
 cta_cards:

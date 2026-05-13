@@ -16,7 +16,7 @@ keywords: "居家辦公風水, 辦公桌風水擺放, 命令位, WFH辦公桌佈
 date: 2026-05-11
 author: DAO Essence
 readTime: 12
-pinned: false
+pinned: true
 image: /images/blog/feng-shui-home-office-desk.webp
 imageAlt: "居家辦公風水書房，辦公桌背靠實墙處於命令位，桌面左側放有金錢樹，明亮溫暖的自然光線"
 faq:

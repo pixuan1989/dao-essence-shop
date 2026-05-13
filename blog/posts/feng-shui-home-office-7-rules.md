@@ -16,7 +16,7 @@ keywords: "feng shui home office, desk placement feng shui, commanding position 
 date: 2026-05-11
 author: DAO Essence
 readTime: 12
-pinned: false
+pinned: true
 image: /images/blog/feng-shui-home-office-desk.webp
 imageAlt: "Feng shui home office desk in commanding position with solid wall behind, Money Tree on left, golden light on dark background"
 faq:
