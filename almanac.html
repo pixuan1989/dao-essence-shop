@@ -1368,10 +1368,6 @@
 
             showAlmStep(2);
 
-            // Set waiting text based on language
-            var loadWaitEl = document.getElementById('almLoadingWait');
-            if (loadWaitEl) loadWaitEl.textContent = isZh() ? '命理邏輯分析需要時間，請耐心等待' : 'BaZi logic analysis takes time, please wait patiently';
-
             // Start progress bar
             var almProgressBar = document.getElementById('almLoadingBar');
             var almPctEl = document.getElementById('almLoadingPct');
@@ -1386,6 +1382,9 @@
                 if (almPctEl) almPctEl.textContent = pct + '%';
             }, 1000);
 
+            // Yield to browser so loading animation actually renders before sync work
+            await new Promise(function(r) { setTimeout(r, 150); });
+
             try {
                 // Step 1: Calculate BaZi chart (local, instant)
                 var chart = calculateChart(
@@ -1393,34 +1392,24 @@
                     userBirthData.day, userBirthData.hour
                 );
 
-                // Step 2: Immediately show Step 3 with local data + skeleton for API parts
-                // Clear old data so calendar renders WITHOUT personal scores until API returns
+                // Step 2: Keep showing loading animation while calling API
                 favorableElements = [];
                 avoidElement = '';
 
-                var dmZh = chart.dayMaster;
-                var dmEn = chart.dayMasterElement;
-                document.getElementById('almDayMaster').textContent = isZh()
-                    ? dmZh + ' (' + wxZh(dmEn) + ')'
-                    : dmEn + ' ' + dmZh;
-                document.getElementById('almFavorable').innerHTML = '<span class="alm-skeleton"></span>';
-                document.getElementById('almAvoid').innerHTML = '<span class="alm-skeleton"></span>';
-
-                showAlmStep(3);
-                // Render calendar with only traditional scores (personalScore will be 0)
-                initAlmanac();
-                clearInterval(almTimer);
-
-                // Step 3: Get favorable/avoid elements from API (async)
+                // Get favorable/avoid elements from API
                 var res = await fetch('/api/bazi-favorable-element', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ chart: chart, lang: isZh() ? 'zh-Hant' : 'en' })
                 });
                 var data = await res.json();
+                clearInterval(almTimer);
                 if (almProgressBar) almProgressBar.style.width = '100%';
                 if (almPctEl) almPctEl.textContent = '100%';
                 if (!res.ok || !data.success) throw new Error(data.error || 'Analysis failed');
+
+                // Short delay so user sees 100% before transition
+                await new Promise(function(r) { setTimeout(r, 300); });
 
                 // Extract favorable elements (dual) and avoid element
                 var favElements = data.analysis.favorableElements || [data.analysis.favorableElement].filter(Boolean);
@@ -1435,7 +1424,12 @@
                     avoidElement = wxEn(avoidElement);
                 }
 
-                // Update personal info bar (replace skeleton with real data)
+                // Fill personal info bar
+                var dmZh = chart.dayMaster;
+                var dmEn = chart.dayMasterElement;
+                document.getElementById('almDayMaster').textContent = isZh()
+                    ? dmZh + ' (' + wxZh(dmEn) + ')'
+                    : dmEn + ' ' + dmZh;
                 var wxLabel = function(el) { return isZh() ? wxZh(el) : el; };
                 var favDisplay = favorableElements.map(function(el) {
                     return '<span class="' + wxClass(el) + '">' + wxLabel(el) + '</span>';
@@ -1450,9 +1444,9 @@
                 localStorage.setItem('almanac_fav', JSON.stringify(favorableElements));
                 localStorage.setItem('almanac_avoid', avoidElement);
 
-                // Re-render calendar with personal scores now available
-                renderToday();
-                renderCalendar();
+                // NOW show Step 3 — all data is ready, no skeleton needed
+                showAlmStep(3);
+                initAlmanac();
 
 
                 // Track submission and result
