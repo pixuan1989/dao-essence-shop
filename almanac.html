@@ -1478,28 +1478,8 @@
         // Try to restore from localStorage on page load
         function tryRestoreSession() {
             var cached = localStorage.getItem('almanac_birth');
-            var cachedFav = localStorage.getItem('almanac_fav');
-            var cachedAvoid = localStorage.getItem('almanac_avoid');
-            if (cached && cachedFav) {
+            if (cached) {
                 userBirthData = JSON.parse(cached);
-                favorableElements = JSON.parse(cachedFav);
-                avoidElement = cachedAvoid || '';
-                // Update personal info bar
-                var p = new paipan();
-                p.pdy = true;
-                var rt = p.fatemaps(parseInt(userBirthData.gender), userBirthData.year, userBirthData.month, userBirthData.day, userBirthData.hour, 0, 0);
-                var dmZh = rt.ctg[2];
-                var dmEn = STEM_WX[dmZh];
-                document.getElementById('almDayMaster').textContent = isZh()
-                    ? dmZh + ' (' + wxZh(dmEn) + ')'
-                    : dmEn + ' ' + dmZh;
-                var wxLabel = function(el) { return isZh() ? wxZh(el) : el; };
-                var favDisplay = favorableElements.map(function(el) {
-                    return '<span class="' + wxClass(el) + '">' + wxLabel(el) + '</span>';
-                }).join(' & ');
-                document.getElementById('almFavorable').innerHTML = favDisplay;
-                var avoidDisplay = avoidElement ? ('<span class="' + wxClass(avoidElement) + '">' + wxLabel(avoidElement) + '</span>') : '—';
-                document.getElementById('almAvoid').innerHTML = avoidDisplay;
                 // Fill form with cached data so user can see/modify
                 document.getElementById('almYear').value = userBirthData.year;
                 document.getElementById('almMonth').value = userBirthData.month;
@@ -1507,9 +1487,10 @@
                 document.getElementById('almHour').value = userBirthData.hour;
                 var genderRadio = document.querySelector('input[name="almGender"][value="' + userBirthData.gender + '"]');
                 if (genderRadio) genderRadio.checked = true;
-                showAlmStep(3);
-                clearInterval(almTimer);
-                initAlmanac();
+                // Auto-submit to get fresh API results instead of using stale cache
+                setTimeout(function() {
+                    document.getElementById('almForm').dispatchEvent(new Event('submit'));
+                }, 300);
                 return true;
             }
             return false;
