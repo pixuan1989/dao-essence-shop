@@ -1,5 +1,5 @@
 ---
-title: "Five Elements Theory (Wu Xing): Complete Guide"
+title: "Five Elements Personality Test: Are You Wood, Fire, Earth, Metal or Water?"
 category: "bazi-astrology"
 tags:
   - "Five Elements"
@@ -8,7 +8,7 @@ tags:
   - "TCM"
   - "Feng Shui"
 description: "Learn the Five Elements theory (Wu Xing) — Wood, Fire, Earth, Metal, Water. Understand generating and controlling cycles, and how they shape personality, health, and feng shui."
-seoDescription: "Five Elements theory (Wu Xing): Wood, Fire, Earth, Metal, Water — how they generate, control, and balance each other. A complete guide to the foundation of Chinese metaphysics."
+seoDescription: "Take the free 5 Elements personality test. Discover which element dominates your chart and how it shapes your personality, health, and relationships."
 date: "2026-04-08"
 author: "DAO Essence"
 readTime: 12

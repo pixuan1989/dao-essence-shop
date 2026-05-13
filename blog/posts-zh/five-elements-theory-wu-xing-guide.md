@@ -1,5 +1,5 @@
 ---
-title: 五行理論（五行）：完整指南
+title: 五行性格測試：你是木、火、土、金還是水？
 category: bazi-astrology
 tags:
   - Five Elements
@@ -9,9 +9,7 @@ tags:
   - Feng Shui
 description: 認識五行理論（木、火、土、金、水），掌握相生與相剋循環，深入理解其對性格、健康及風水的影響。
 seoDescription: >-
-  Five Elements theory (Wu Xing): Wood, Fire, Earth, Metal, Water — how they
-  generate, control, and balance each other. A complete guide to the foundation
-  of Chinese metaphysics.
+  免費五行性格測試。發現主導你命盤的元素，以及它如何塑造你的性格、健康和人際關係。
 date: '2026-04-08'
 author: DAO Essence
 readTime: 12

@@ -1,7 +1,8 @@
 ---
-title: "什麼是八字？四柱八字入門指南"
+title: "如何解讀你的八字命盤：新手逐步指南"
 slug: "what-is-bazi-beginners-guide"
-description: "什麼是八字？學習四柱八字的基礎知識。了解天干、地支、日主，以及八字如何揭示你的性格、事業和人生軌跡。"
+description: "5 分鐘學會解讀你的八字（四柱命理）命盤。免費新手指南，附帶實例，無需任何基礎知識。"
+seoDescription: "5 分鐘學會解讀你的八字（四柱命理）命盤。免費新手指南，附帶實例，無需任何基礎知識。"
 date: "2026-04-08"
 author: "DAO Essence"
 readTime: 11
