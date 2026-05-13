@@ -1475,27 +1475,6 @@
             }
         });
 
-        // Try to restore from localStorage on page load
-        function tryRestoreSession() {
-            var cached = localStorage.getItem('almanac_birth');
-            if (cached) {
-                userBirthData = JSON.parse(cached);
-                // Fill form with cached data so user can see/modify
-                document.getElementById('almYear').value = userBirthData.year;
-                document.getElementById('almMonth').value = userBirthData.month;
-                document.getElementById('almDay').value = userBirthData.day;
-                document.getElementById('almHour').value = userBirthData.hour;
-                var genderRadio = document.querySelector('input[name="almGender"][value="' + userBirthData.gender + '"]');
-                if (genderRadio) genderRadio.checked = true;
-                // Auto-submit to get fresh API results instead of using stale cache
-                setTimeout(function() {
-                    document.getElementById('almForm').dispatchEvent(new Event('submit'));
-                }, 300);
-                return true;
-            }
-            return false;
-        }
-
         // ===== PERSONAL SCORE ENGINE =====
         function calcPersonalScore(dayGanElement, dayZhiElement) {
             // dayZhiElement is not directly available from GAN_ELEMENT, need BRANCH_WX
@@ -2278,6 +2257,9 @@
                 document.getElementById('almStep1').innerHTML = '<p style="color:#c0392b;text-align:center;padding:3rem 1rem;">' + t('almanac.error_engine') + '</p>';
                 return;
             }
+            // Clear stale localStorage cache to force fresh API call
+            localStorage.removeItem('almanac_fav');
+            localStorage.removeItem('almanac_avoid');
             // Bind calendar events
             bindEvents();
             // Always show form on page load — user must explicitly submit
