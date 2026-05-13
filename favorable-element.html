@@ -1070,6 +1070,14 @@
         const fav2 = favElements[1] || '';
         const fav2Class = fav2 ? wxClass(fav2) : '';
 
+        // Fill element label (title)
+        var labelEl = document.querySelector('.fe-element-label');
+        if (labelEl) {
+            labelEl.className = 'fe-element-label';
+            labelEl.textContent = t('fav.your_energy_element');
+            labelEl.style = '';
+        }
+
         // Fill favorite element name
         var favNameEl = document.getElementById('feFavElementName');
         if (favNameEl) {
