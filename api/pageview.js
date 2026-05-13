@@ -163,7 +163,7 @@ async function handleFeedback(req, res) {
     id,
     email,
     message: message.trim(),
-    page: page || window?.location?.href || '',
+    page: page || '',
     ip: ip === 'unknown' ? '' : ip,
     createdAt: new Date().toISOString()
   };
