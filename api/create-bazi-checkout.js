@@ -164,16 +164,7 @@ export default async function handler(req, res) {
 
         console.log(`✅ Checkout 创建成功: ${result.id}`);
 
-        // 先返回响应给前端，Redis 写入放到后台
-        const responseData = {
-            success: true,
-            checkoutUrl: result.checkout_url,
-            checkoutId: result.id,
-            orderId: orderId
-        };
-
-        // 非阻塞：返回响应后异步写入 Redis
-        res.status(200).json(responseData);
+        // 先写入 Redis（确保数据不丢失），再返回响应
         try {
             const intentData = {
                 id: orderId, orderId, checkoutId: result.id || '',
@@ -208,7 +199,15 @@ export default async function handler(req, res) {
         } catch (intentErr) {
             console.error('⚠️ 记录付费意向失败（非致命）:', intentErr.message);
         }
-        return;
+
+        const responseData = {
+            success: true,
+            checkoutUrl: result.checkout_url,
+            checkoutId: result.id,
+            orderId: orderId
+        };
+
+        return res.status(200).json(responseData);
 
     } catch (error) {
         console.error('创建八字Checkout错误:', error);
