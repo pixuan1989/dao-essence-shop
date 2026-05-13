@@ -9,7 +9,7 @@ seoDescription: "Forget MBTI — BaZi's Five Elements system reveals your true p
 date: 2026-04-17
 author: DAO Essence
 readTime: 10
-pinned: true
+pinned: false
 image: /images/blog/蒙版组-75-1x.webp
 faq:
   - question: "How is BaZi different from MBTI?"

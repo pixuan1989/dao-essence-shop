@@ -8,7 +8,7 @@ seoDescription: "Ben Ming Nian (本命年) returns every 12 years. Learn why you
 date: 2026-04-21
 author: Xuanzhen
 readTime: 8
-pinned: true
+pinned: false
 image: /images/blog/生肖.webp
 cta_cards:
   - bazi

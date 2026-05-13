@@ -8,7 +8,7 @@ description: "Transform your home with 10 feng shui hacks backed by energy psych
 date: 2026-04-16
 author: DAO Essence
 readTime: 8
-pinned: true
+pinned: false
 image: /images/blog/13.webp
 faq:
   - question: "Is feng shui scientifically proven?"

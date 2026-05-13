@@ -7,7 +7,7 @@ description: "Your phone wallpaper color matters more than you think. Learn how 
 date: 2026-04-20
 author: Dingwei
 readTime: 7
-pinned: true
+pinned: false
 image: /images/blog/金生水.webp
 cta_cards:
   - favorable-element

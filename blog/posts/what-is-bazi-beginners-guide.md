@@ -12,7 +12,7 @@ seoDescription: "What is BaZi (Four Pillars of Destiny)? Learn the basics free â
 date: 2026-04-08
 author: DAO Essence
 readTime: 11
-pinned: true
+pinned: false
 image: /images/blog/22.webp
 faq:
   - question: Is BaZi the same as Chinese zodiac?

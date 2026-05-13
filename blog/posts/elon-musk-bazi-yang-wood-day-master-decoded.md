@@ -16,7 +16,7 @@ description: "Why does Elon Musk take extreme risks? His BaZi chart reveals a Ya
 date: 2026-04-25
 author: Xuanzhen
 readTime: 8
-pinned: true
+pinned: false
 image: /images/blog/elon-musk-bazi-yang-wood-chart.webp
 slug: elon-musk-bazi-chart-analysis
 seoDescription: "Elon Musk's BaZi chart decoded — Yang Wood Day Master, Seven Killings Star, and 10-year luck cycles. Get your free BaZi chart and compare."

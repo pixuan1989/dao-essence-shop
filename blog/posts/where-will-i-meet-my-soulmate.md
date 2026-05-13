@@ -13,7 +13,7 @@ description: "Where will you meet your soulmate? Discover how Chinese astrology 
 date: 2026-04-18
 author: DAO Essence
 readTime: 12
-pinned: true
+pinned: false
 image: /images/blog/88-1x.webp
 faq:
   - question: What is a soulmate direction?

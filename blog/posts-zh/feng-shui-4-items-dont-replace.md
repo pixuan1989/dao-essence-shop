@@ -11,7 +11,7 @@ tags:
 lang: "zh-Hant"
 author: "Xuanzhen"
 date: "2026-05-10"
-readTime: "8 min read"
+readTime: "8"
 pinned: false
 image: "/images/blog/feng-shui-4-items-dont-replace-hero.webp"
 imageAlt: "四樣家居物品：牆紙、櫃子、睡床、窗簾排列在木桌上，旁邊有風水符號裝飾，溫暖自然光線"
