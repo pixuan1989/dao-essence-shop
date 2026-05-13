@@ -91,8 +91,15 @@ export default async function handler(req, res) {
     return res.status(200).json(result);
   }
 
-  // ── POST：阅读量 +1（同一 IP 24小时内只计一次）──
+  // ── POST：反馈提交 或 阅读量 +1 ──
   if (req.method === 'POST') {
+    const { action } = req.body || {};
+
+    // 反馈提交
+    if (action === 'feedback') {
+      return handleFeedback(req, res);
+    }
+
     const { slug } = req.body || {};
     if (!slug) return res.status(400).json({ error: 'Missing slug' });
 
@@ -120,4 +127,86 @@ export default async function handler(req, res) {
   }
 
   return res.status(405).json({ error: 'Method not allowed' });
+}
+
+// ── 反馈提交 ──
+async function handleFeedback(req, res) {
+  const { email, message, page } = req.body || {};
+
+  // 基础验证
+  if (!email || !message) {
+    return res.status(400).json({ error: 'Email and message are required' });
+  }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return res.status(400).json({ error: 'Invalid email format' });
+  }
+  if (message.length > 2000) {
+    return res.status(400).json({ error: 'Message too long (max 2000 characters)' });
+  }
+
+  // IP 频率限制：同一 IP 60 秒内只能提交 1 次
+  const ip = (
+    req.headers['cf-connecting-ip'] ||
+    req.headers['x-forwarded-for']?.split(',')[0]?.trim() ||
+    req.socket?.remoteAddress ||
+    'unknown'
+  );
+  const rateLimitKey = `feedback_rate:${ip}`;
+  const existing = await kvGet(rateLimitKey);
+  if (existing) {
+    return res.status(429).json({ error: 'Please wait a moment before submitting again' });
+  }
+
+  // 生成唯一 ID
+  const id = `fb_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+  const feedbackData = {
+    id,
+    email,
+    message: message.trim(),
+    page: page || window?.location?.href || '',
+    ip: ip === 'unknown' ? '' : ip,
+    createdAt: new Date().toISOString()
+  };
+
+  // 存入 KV
+  await kvSetJSON(`feedback:${id}`, feedbackData);
+
+  // 更新索引列表
+  const idsJson = await kvGet('feedback_ids');
+  const ids = idsJson ? JSON.parse(idsJson) : [];
+  ids.unshift(id);
+  // 最多保留 500 条
+  if (ids.length > 500) ids.length = 500;
+  await kvSet('feedback_ids', JSON.stringify(ids));
+
+  // 设置频率限制（60 秒）
+  await kvSetNX(rateLimitKey, 60);
+
+  return res.status(200).json({ success: true, id });
+}
+
+// ── KV GET (返回原始字符串) ──
+async function kvGetRaw(key) {
+  const res = await fetch(KV_URL, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${KV_TOKEN}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(['GET', key]),
+  });
+  const data = await res.json();
+  return data.result || null;
+}
+
+// ── KV SET JSON ──
+async function kvSetJSON(key, value) {
+  await fetch(KV_URL, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${KV_TOKEN}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(['SET', key, JSON.stringify(value)]),
+  });
 }

@@ -714,6 +714,7 @@
                 <button class="tab-btn" onclick="switchTab('almanac')">📅 黄历订单</button>
                 <button class="tab-btn" onclick="switchTab('leads')">💬 留资线索</button>
                 <button class="tab-btn" onclick="switchTab('marketing')">📧 营销邮件</button>
+                <button class="tab-btn" onclick="switchTab('feedback')">💬 用户反馈</button>
             </div>
 
             <!-- Tab 1: 订单管理（原有内容包裹） -->
@@ -858,6 +859,25 @@
             <!-- Tab 5: 营销邮件 -->
             <div class="tab-content" id="marketingTabContent"></div>
 
+            <!-- Tab 6: 用户反馈 -->
+            <div class="tab-content" id="feedbackTabContent">
+                <div style="padding-top: 20px;">
+                    <div class="stats-bar">
+                        <div class="stat-card"><h3 id="feedbackTotal">0</h3><p>反馈总数</p></div>
+                        <div style="flex:1"></div>
+                        <button class="btn btn-primary" onclick="loadFeedback()">🔄 刷新</button>
+                        <button class="btn btn-primary" onclick="exportFeedback()">📥 导出</button>
+                    </div>
+                    <div class="orders-table">
+                        <table>
+                            <thead><tr><th>时间</th><th>邮箱</th><th>内容</th><th>页面</th><th>操作</th></tr></thead>
+                            <tbody id="feedbackBody"></tbody>
+                        </table>
+                    </div>
+                    <div class="empty-state" id="feedbackEmptyState" style="display:none;"><h3>暂无反馈</h3><p>用户提交的问题反馈将显示在这里</p></div>
+                </div>
+            </div>
+
         </div><!-- /container -->
     </div><!-- /admin-panel -->
 
@@ -898,7 +918,8 @@
                 'shop': 1,
                 'almanac': 2,
                 'leads': 3,
-                'marketing': 4
+                'marketing': 4,
+                'feedback': 5
             };
             const idx = tabMap[tabName];
             if (idx !== undefined) {
@@ -910,7 +931,8 @@
                 'shop': 'shopTabContent',
                 'almanac': 'almanacTabContent',
                 'leads': 'leadsTabContent',
-                'marketing': 'marketingTabContent'
+                'marketing': 'marketingTabContent',
+                'feedback': 'feedbackTabContent'
             };
             const el = document.getElementById(contentMap[tabName]);
             if (el) el.classList.add('active');
@@ -922,6 +944,7 @@
             if (tabName === 'marketing' && typeof MP !== 'undefined') {
                 MP.loadSubscribers();
             }
+            if (tabName === 'feedback') loadFeedback();
         }
 
         let orders = [];
@@ -1723,6 +1746,81 @@
             } catch (e) {
                 console.error('轮询未读计数失败:', e);
             }
+        }
+    </script>
+
+    <script>
+        // ========== 用户反馈 ==========
+        let feedbackData = [];
+        async function loadFeedback() {
+            if (!window.adminKey) return;
+            showLoading(true);
+            try {
+                const res = await fetch('/api/get-bazi-orders?type=feedback', {
+                    headers: { 'Authorization': 'Bearer ' + window.adminKey }
+                });
+                const data = await res.json();
+                if (data.success) {
+                    feedbackData = data.feedbacks || [];
+                    document.getElementById('feedbackTotal').textContent = feedbackData.length;
+                    renderFeedback();
+                }
+            } catch (err) {
+                console.error('加载反馈失败:', err);
+            }
+            showLoading(false);
+        }
+
+        function renderFeedback() {
+            const tbody = document.getElementById('feedbackBody');
+            const empty = document.getElementById('feedbackEmptyState');
+            if (!feedbackData.length) {
+                tbody.innerHTML = '';
+                empty.style.display = 'block';
+                return;
+            }
+            empty.style.display = 'none';
+            tbody.innerHTML = feedbackData.map(fb => {
+                const time = fb.createdAt ? new Date(fb.createdAt).toLocaleString('zh-CN') : '-';
+                const page = fb.page || '-';
+                const shortPage = page.length > 40 ? page.substring(0, 40) + '...' : page;
+                const shortMsg = (fb.message || '').length > 80 ? (fb.message || '').substring(0, 80) + '...' : (fb.message || '');
+                return `<tr>
+                    <td style="white-space:nowrap">${time}</td>
+                    <td>${fb.email || '-'}</td>
+                    <td title="${(fb.message||'').replace(/"/g,'&quot;')}">${shortMsg}</td>
+                    <td><a href="${page}" target="_blank" style="color:#d4af37;font-size:0.8rem">${shortPage}</a></td>
+                    <td><button class="btn btn-danger" onclick="deleteFeedback('${fb.id}')">🗑️</button></td>
+                </tr>`;
+            }).join('');
+        }
+
+        async function deleteFeedback(id) {
+            if (!confirm('确定删除这条反馈吗？')) return;
+            if (!window.adminKey) return;
+            try {
+                await fetch('/api/get-bazi-orders', {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': 'Bearer ' + window.adminKey,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ type: 'feedback', id })
+                });
+                feedbackData = feedbackData.filter(f => f.id !== id);
+                document.getElementById('feedbackTotal').textContent = feedbackData.length;
+                renderFeedback();
+            } catch (err) {
+                alert('删除失败: ' + err.message);
+            }
+        }
+
+        function exportFeedback() {
+            if (!feedbackData.length) { alert('暂无数据'); return; }
+            const csv = ['Time,Email,Message,Page'] + feedbackData.map(fb =>
+                `"${(fb.createdAt||'').replace(/"/g,'""')}","${(fb.email||'').replace(/"/g,'""')}","${(fb.message||'').replace(/"/g,'""')}","${(fb.page||'').replace(/"/g,'""')}"`
+            ).join('\n');
+            downloadCSV(csv, 'daoessence-feedback');
         }
     </script>
 

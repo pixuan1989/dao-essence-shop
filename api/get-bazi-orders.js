@@ -51,6 +51,11 @@ export default async function handler(req, res) {
             return handleLeadsQuery(res);
         }
 
+        // ===== 反馈查询 =====
+        if (type === 'feedback') {
+            return handleFeedbackQuery(res);
+        }
+
         // ===== 默认：八字订单 + 付费意向 =====
         return handleBaziOrders(res);
 
@@ -96,6 +101,10 @@ async function handleDelete(req, res) {
             // 联系表单是数组存储在 contact_subscribers
             keysToDelete = [];
             indexKey = 'contact_subscribers';
+            break;
+        case 'feedback':
+            keysToDelete = [`feedback:${id}`];
+            indexKey = 'feedback_ids';
             break;
         default:
             return res.status(400).json({ error: '未知类型: ' + type });
@@ -467,4 +476,23 @@ async function backfillFromCreem() {
 
     console.log(`📦 回填完成: ${allOrders.length} 笔八字订单`);
     return allOrders;
+}
+
+// ========== 反馈查询 ==========
+async function handleFeedbackQuery(res) {
+    try {
+        const ids = await redisGet('feedback_ids') || [];
+        const feedbacks = [];
+        for (const id of ids) {
+            try {
+                const fb = await redisGet('feedback:' + id);
+                if (fb) feedbacks.push(fb);
+            } catch (err) { /* skip */ }
+        }
+        console.log(`💬 反馈: ${feedbacks.length} 条`);
+        return res.status(200).json({ success: true, feedbacks: feedbacks, total: feedbacks.length });
+    } catch (err) {
+        console.error('❌ 查询反馈失败:', err.message);
+        return res.status(500).json({ error: '查询失败', detail: err.message });
+    }
 }
