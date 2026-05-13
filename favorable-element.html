@@ -311,6 +311,42 @@
             margin: 0 auto 1.5rem;
         }
         @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Skeleton shimmer */
+        @keyframes feShimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        .fe-skeleton {
+            background: linear-gradient(90deg, rgba(212,175,55,0.06) 25%, rgba(212,175,55,0.12) 50%, rgba(212,175,55,0.06) 75%);
+            background-size: 200% 100%;
+            animation: feShimmer 1.5s ease-in-out infinite;
+            border-radius: 6px;
+            color: transparent !important;
+        }
+        .fe-skeleton-text {
+            height: 1em;
+            margin: 0.5rem 0;
+            display: block;
+        }
+        .fe-skeleton-text.w60 { width: 60%; }
+        .fe-skeleton-text.w80 { width: 80%; }
+        .fe-skeleton-text.w40 { width: 40%; }
+        .fe-skeleton-box {
+            height: 3rem;
+            margin: 0.5rem 0;
+        }
+        .fe-skeleton-tag {
+            display: inline-block;
+            width: 5rem;
+            height: 1.8rem;
+            margin: 0.3rem 0.2rem;
+            border-radius: 2rem;
+        }
+        .fe-skeleton-item {
+            height: 2rem;
+            margin: 0.4rem 0;
+        }
         .fe-loading-text {
             color: var(--text-secondary); font-size: 0.95rem;
         }
@@ -878,9 +914,12 @@
             }
             hourSel.value = currentVal;
         }
-        // Re-render result if step 3 is visible (re-applies t() translations to UI labels)
-        if (document.getElementById('feStep3') && document.getElementById('feStep3').classList.contains('active') && window._feLastData) {
-            renderResult(window._feLastData);
+        // Re-render result if step 3 is visible
+        if (document.getElementById('feStep3') && document.getElementById('feStep3').classList.contains('active')) {
+            if (window._feLastChart && window._feLastData) {
+                renderChartAndSkeleton(window._feLastChart);
+                fillAnalysis(window._feLastChart, window._feLastData.analysis);
+            }
         }
     });
 
@@ -904,36 +943,16 @@
                 parseInt(hourSel.value)
             );
 
-            // Show progress bar (no timeout)
-            var progressBox = document.getElementById('fe-loading-progress');
-            var progressBar = document.getElementById('fe-loading-bar');
-            var pctEl = document.getElementById('fe-loading-pct');
-            var progress = 0;
-            progressBox.style.display = 'block';
+            // Step 2: Show result page immediately with chart + skeleton
+            renderChartAndSkeleton(chart);
+            showStep(3);
 
-            var progressInterval = setInterval(function() {
-                if (progress < 90) {
-                    // 0→90%: finish in ~5s (increment ~18 per second)
-                    progress += 18;
-                    if (progress > 90) progress = 90;
-                }
-                // 90→100%: wait for API response
-                var pct = Math.min(Math.round(progress), 99);
-                progressBar.style.width = pct + '%';
-                pctEl.textContent = pct + '%';
-            }, 1000);
-
-            // Step 2: Send chart to API for LLM analysis (no timeout)
+            // Step 3: Send chart to API for LLM analysis (background)
             var res = await fetch('/api/bazi-favorable-element', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ chart, lang: isZh() ? 'zh-Hant' : 'en' })
             });
-
-            clearInterval(progressInterval);
-            progressBar.style.width = '100%';
-            pctEl.textContent = '100%';
-            setTimeout(function() { progressBox.style.display = 'none'; }, 300);
 
             const data = await res.json();
 
@@ -941,8 +960,10 @@
                 throw new Error(data.error || t('fav.error_analysis'));
             }
 
-            renderResult(data);
-            window._feLastData = data; // Cache for language-switch re-render
+            // Fill in analysis data, replacing skeleton
+            window._feLastChart = chart;
+            window._feLastData = data;
+            fillAnalysis(chart, data.analysis);
             // Render share bar
             if (window.ToolShare) {
                 var shareText = (window.DaoI18n && window.DaoI18n.current() === 'zh')
@@ -950,15 +971,14 @@
                     : 'My Favorable Element Result — DaoEssence';
                 window.ToolShare.render('fe-share-container', { text: shareText });
             }
-            showStep(3);
 
             // Track submission
             if (window.DaoTrack) {
                 var favEls = data.analysis && (data.analysis.favorableElements || [data.analysis.favorableElement].filter(Boolean));
                 window.DaoTrack.toolSubmit('favorable-element', {
-                    gender: chart.gender === 1 ? 'M' : 'F',
-                    birthYear: parseInt(yearSel.value),
-                    day_master_element: chart.dayMasterElement,
+                    gender: window._feLastChart ? window._feLastChart.gender === 1 ? 'M' : 'F' : '',
+                    birthYear: window._feLastChart ? parseInt(yearSel.value) : '',
+                    day_master_element: window._feLastChart ? window._feLastChart.dayMasterElement : '',
                     favorable_elements: favEls
                 });
                 window.DaoTrack.toolResult('favorable-element');
@@ -977,7 +997,258 @@
         }
     });
 
-    // Render result
+    // Render chart + skeleton (called immediately after local calculation)
+    function renderChartAndSkeleton(chart) {
+        const total = Object.values(chart.wxCount).reduce((a, b) => a + b, 0);
+        const wxOrder = ['Wood', 'Fire', 'Earth', 'Metal', 'Water'];
+        const wxOrderZh = ['木', '火', '土', '金', '水'];
+        const wxBgClass = { Wood: 'wx-bg-wood', Fire: 'wx-bg-fire', Earth: 'wx-bg-earth', Metal: 'wx-bg-metal', Water: 'wx-bg-water' };
+        let barHtml = '', labelsHtml = '';
+        for (let wi = 0; wi < wxOrder.length; wi++) {
+            const wx = wxOrder[wi];
+            const pct = Math.round((chart.wxCount[wx] / total) * 100);
+            const wxLabel = isZh ? wxOrderZh[wi] : wx;
+            barHtml += '<div class="fe-wx-bar-segment ' + wxBgClass[wx] + '" style="width:' + pct + '%"></div>';
+            labelsHtml += '<span class="wx-' + wxClass(wx) + '">' + wxLabel + ' ' + chart.wxCount[wx] + '</span>';
+        }
+        let pillarsHtml = '';
+        chart.pillars.forEach(function(p) {
+            pillarsHtml += '<div class="fe-pillar">' +
+                '<div class="fe-pillar-pos">' + p.position + '</div>' +
+                '<div class="fe-pillar-stem wx-' + wxClass(p.stemElement) + '">' + p.stem + '</div>' +
+                '<div class="fe-pillar-branch wx-' + wxClass(p.branchElement) + '">' + p.branch + '</div>' +
+                '<div class="fe-pillar-wx">' + p.stemElement + ' / ' + p.branchElement + '</div>' +
+                '</div>';
+        });
+
+        document.getElementById('feResult').innerHTML =
+            // Day Master + Strength (real data)
+            '<div class="fe-element-card">' +
+                '<div class="fe-element-label">' + t('fav.your_energy_element') + '</div>' +
+                '<div id="feFavElementName" class="fe-element-card"><span class="fe-skeleton fe-skeleton-box"></span></div>' +
+                '<div class="fe-day-master-info">' + t('fav.day_master_label') + ' ' + chart.dayMaster + ' (' + chart.dayMasterElement + ')</div>' +
+                '<div id="feStrengthBadge" class="fe-skeleton fe-skeleton-tag"></div>' +
+            '</div>' +
+
+            // Four Pillars (real data)
+            '<h3 style="font-family:var(--serif);font-size:1rem;color:var(--text-muted);letter-spacing:0.12em;text-transform:uppercase;text-align:center;margin-bottom:1rem;">' + t('fav.your_four_pillars') + '</h3>' +
+            '<div class="fe-pillars">' + pillarsHtml + '</div>' +
+
+            // Five Elements bar (real data)
+            '<div class="fe-wx-bar">' + barHtml + '</div>' +
+            '<div class="fe-wx-bar-labels">' + labelsHtml + '</div>' +
+
+            // Skeleton sections for analysis
+            '<div id="feAnalysisSkeleton">' +
+                // Why element
+                '<div class="fe-section"><div class="fe-section-title"><span class="fe-skeleton fe-skeleton-text w60"></span></div><span class="fe-skeleton fe-skeleton-text w80"></span><span class="fe-skeleton fe-skeleton-text w60"></span></div>' +
+                // Life advice
+                '<div class="fe-section"><div class="fe-section-title"><span class="fe-skeleton fe-skeleton-text w40"></span></div><span class="fe-skeleton fe-skeleton-item"></span><span class="fe-skeleton fe-skeleton-item"></span><span class="fe-skeleton fe-skeleton-item"></span></div>' +
+                // Lucky colors
+                '<div class="fe-section"><div class="fe-section-title"><span class="fe-skeleton fe-skeleton-text w40"></span></div><span class="fe-skeleton fe-skeleton-tag"></span><span class="fe-skeleton fe-skeleton-tag"></span><span class="fe-skeleton fe-skeleton-tag"></span><span class="fe-skeleton fe-skeleton-tag"></span></div>' +
+                // Directions
+                '<div class="fe-section"><div class="fe-section-title"><span class="fe-skeleton fe-skeleton-text w60"></span></div><span class="fe-skeleton fe-skeleton-tag"></span><span class="fe-skeleton fe-skeleton-tag"></span></div>' +
+                // Careers
+                '<div class="fe-section"><div class="fe-section-title"><span class="fe-skeleton fe-skeleton-text w60"></span></div><span class="fe-skeleton fe-skeleton-item"></span><span class="fe-skeleton fe-skeleton-item"></span><span class="fe-skeleton fe-skeleton-item"></span><span class="fe-skeleton fe-skeleton-item"></span></div>' +
+                // Accessories
+                '<div class="fe-section"><div class="fe-section-title"><span class="fe-skeleton fe-skeleton-text w40"></span></div><span class="fe-skeleton fe-skeleton-item"></span><span class="fe-skeleton fe-skeleton-item"></span><span class="fe-skeleton fe-skeleton-item"></span><span class="fe-skeleton fe-skeleton-item"></span></div>' +
+                // Desktop themes
+                '<div class="fe-section"><div class="fe-section-title"><span class="fe-skeleton fe-skeleton-text w40"></span></div><span class="fe-skeleton fe-skeleton-item"></span><span class="fe-skeleton fe-skeleton-item"></span><span class="fe-skeleton fe-skeleton-item"></span></div>' +
+                // Avoid element
+                '<div class="fe-avoid"><div class="fe-avoid-label"><span class="fe-skeleton fe-skeleton-text w60"></span></div><span class="fe-skeleton fe-skeleton-tag"></span></div>' +
+            '</div>' +
+
+            '<div class="fe-shop-rec" id="feShopRec"></div>';
+    }
+
+    // Fill analysis data (called after API returns)
+    function fillAnalysis(chart, analysis) {
+        const favElements = analysis.favorableElements || [analysis.favorableElement].filter(Boolean);
+        const favElementsZh = analysis.favorableElementsZh || [analysis.favorableElementZh].filter(Boolean);
+        const fav = favElements[0] || '';
+        const favClass = wxClass(fav);
+        const fav2 = favElements[1] || '';
+        const fav2Class = fav2 ? wxClass(fav2) : '';
+
+        // Fill favorite element name
+        var favNameEl = document.getElementById('feFavElementName');
+        if (favNameEl) {
+            favNameEl.className = 'fe-element-name wx-' + favClass;
+            favNameEl.innerHTML = (isZh ? (favElementsZh[0] || fav) : fav) + (fav2 ? ' <span style="margin:0 0.3em;font-weight:300;opacity:0.6;">&</span> <span class="wx-' + fav2Class + '">' + (isZh ? (favElementsZh[1] || fav2) : fav2) + '</span>' : '');
+        }
+
+        // Fill strength badge
+        var strengthEl = document.getElementById('feStrengthBadge');
+        if (strengthEl) {
+            var strengthClass = analysis.strength === 'Strong' ? 'fe-strength-strong' : 'fe-strength-weak';
+            var strengthLabel = analysis.strength === 'Strong' ? (isZh ? '身強' : 'Strong') : (isZh ? '身弱' : 'Weak');
+            strengthEl.className = 'fe-strength-badge ' + strengthClass;
+            strengthEl.textContent = strengthLabel + ' ' + t('fav.day_master_badge');
+        }
+
+        // Build full analysis HTML
+        let adviceHtml = '';
+        (analysis.lifeAdvice || []).forEach(function(a, i) {
+            adviceHtml += '<li class="fe-advice-item"><span class="fe-advice-num">' + (i + 1) + '</span><span>' + a + '</span></li>';
+        });
+        let colorsHtml = '';
+        (analysis.luckyColors || []).forEach(function(c) {
+            colorsHtml += '<span class="fe-tag">' + c + '</span>';
+        });
+        let dirsHtml = '';
+        (analysis.luckyDirections || []).forEach(function(d) {
+            dirsHtml += '<span class="fe-tag">' + d + '</span>';
+        });
+        let careersHtml = '';
+        (analysis.bestCareers || []).forEach(function(c) {
+            careersHtml += '<li class="fe-advice-item"><span class="fe-advice-num">' + (analysis.bestCareers.indexOf(c) + 1) + '</span><span>' + c + '</span></li>';
+        });
+        let accessoriesHtml = '';
+        (analysis.luckyAccessories || []).forEach(function(a) {
+            accessoriesHtml += '<li class="fe-advice-item"><span class="fe-advice-num">' + (analysis.luckyAccessories.indexOf(a) + 1) + '</span><span>' + a + '</span></li>';
+        });
+        let themesHtml = '';
+        (analysis.desktopThemes || []).forEach(function(th) {
+            themesHtml += '<li class="fe-advice-item"><span class="fe-advice-num">' + (analysis.desktopThemes.indexOf(th) + 1) + '</span><span>' + th + '</span></li>';
+        });
+
+        var analysisHtml =
+            '<div class="fe-section">' +
+                '<div class="fe-section-title">' +
+                    '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>' +
+                    t('fav.why_element', fav + (fav2 ? ' & ' + fav2 : '')) +
+                '</div>' +
+                '<p class="fe-explanation">' + (analysis.explanation || '') + '</p>' +
+            '</div>' +
+
+            '<div class="fe-section">' +
+                '<div class="fe-section-title">' +
+                    '<svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>' +
+                    t('fav.life_advice') +
+                '</div>' +
+                '<ul class="fe-advice-list">' + adviceHtml + '</ul>' +
+            '</div>' +
+
+            '<div class="fe-section">' +
+                '<div class="fe-section-title">' +
+                    '<svg viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>' +
+                    t('fav.lucky_colors') +
+                '</div>' +
+                '<div class="fe-tags">' + colorsHtml + '</div>' +
+            '</div>' +
+
+            '<div class="fe-section">' +
+                '<div class="fe-section-title">' +
+                    '<svg viewBox="0 0 24 24"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"/></svg>' +
+                    t('fav.favorable_directions') +
+                '</div>' +
+                '<div class="fe-tags">' + dirsHtml + '</div>' +
+            '</div>' +
+
+            '<div class="fe-section">' +
+                '<div class="fe-section-title">' +
+                    '<svg viewBox="0 0 24 24"><path d="M20 7H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2zM16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="12.01"/></svg>' +
+                    t('fav.best_career_fields') +
+                '</div>' +
+                '<ul class="fe-advice-list">' + careersHtml + '</ul>' +
+            '</div>' +
+
+            '<div class="fe-section">' +
+                '<div class="fe-section-title">' +
+                    '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 12l2 2 4-4"/></svg>' +
+                    t('fav.lucky_accessories') +
+                '</div>' +
+                '<ul class="fe-advice-list">' + accessoriesHtml + '</ul>' +
+            '</div>' +
+
+            '<div class="fe-section">' +
+                '<div class="fe-section-title">' +
+                    '<svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>' +
+                    t('fav.desktop_themes') +
+                '</div>' +
+                '<ul class="fe-advice-list">' + themesHtml + '</ul>' +
+            '</div>' +
+
+            '<div class="fe-avoid">' +
+                '<div class="fe-avoid-label">' + t('fav.element_to_avoid') + '</div>' +
+                '<div class="fe-avoid-element">' + (isZh ? ((analysis.avoidElementZh || analysis.avoidElement) + ' (' + (analysis.avoidElement || '') + ')') : ((analysis.avoidElement || '') + ' (' + (analysis.avoidElementZh || '') + ')')) + '</div>' +
+            '</div>';
+
+        // Replace skeleton with real analysis
+        var skeletonEl = document.getElementById('feAnalysisSkeleton');
+        if (skeletonEl) {
+            var tempDiv = document.createElement('div');
+            tempDiv.innerHTML = analysisHtml;
+            // Fade in
+            tempDiv.style.opacity = '0';
+            tempDiv.style.transition = 'opacity 0.4s ease';
+            skeletonEl.parentNode.replaceChild(tempDiv, skeletonEl);
+            requestAnimationFrame(function() { tempDiv.style.opacity = '1'; });
+        }
+
+        // Load shop recommendations
+        loadShopRecommendations(analysis);
+    }
+
+    // Shop recommendations (extracted from renderResult)
+    function loadShopRecommendations(analysis) {
+        (async function() {
+            try {
+                var res = await fetch('/api/products');
+                if (!res.ok) return;
+                var data = await res.json();
+                var HIDDEN_IDS = [
+                    'prod_3fJInBNekM9UVJwtClgUtx',
+                    'prod_2wj3G9PQp6ZlbD8oFJdr2X'
+                ];
+                var products = (data.data || []).filter(function(p) {
+                    return p.image && p.price && HIDDEN_IDS.indexOf(p.id) === -1;
+                });
+                if (products.length === 0) return;
+                var zhMap = {};
+                try {
+                    var zhRes = await fetch('/i18n/product-zh-map.json');
+                    if (zhRes.ok) { var zhData = await zhRes.json(); zhMap = zhData; }
+                } catch(e) {}
+                var favElements = analysis.favorableElements || [analysis.favorableElement].filter(Boolean);
+                var favKeywords = favElements.map(function(e) { return e.toLowerCase(); });
+                function matchScore(p) {
+                    var name = (zhMap[p.id] || p.name || p.title || '').toLowerCase();
+                    var score = 0;
+                    favKeywords.forEach(function(kw) {
+                        if (name.indexOf(kw) >= 0) score += 2;
+                    });
+                    ['crystal','bracelet','pendant','lucky','feng shui','風水','水晶','手鍊','吊墜','幸運'].forEach(function(kw) {
+                        if (name.indexOf(kw) >= 0) score += 1;
+                    });
+                    return score;
+                }
+                products.sort(function(a, b) { return matchScore(b) - matchScore(a); });
+                var show = products.slice(0, 4);
+                var recEl = document.getElementById('feShopRec');
+                if (!recEl || show.length === 0) return;
+                var isZh = (window.DaoI18n && window.DaoI18n.current() === 'zh');
+                var cardsHtml = '<div style="text-align:center;margin-bottom:1rem;font-family:var(--serif);font-size:1rem;color:var(--text-muted);letter-spacing:0.12em;text-transform:uppercase;">' +
+                    (isZh ? '推薦商品' : 'Recommended For You') + '</div><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:0.75rem;">';
+                show.forEach(function(p) {
+                    var name = isZh ? (zhMap[p.id] || p.name || p.title) : (p.name || p.title);
+                    var imgUrl = p.image || p.image_url || '';
+                    cardsHtml +=
+                        '<a href="/product-detail.html?id=' + p.id + '" class="fe-shop-card">' +
+                            '<img class="fe-shop-card-img" src="' + imgUrl + '" alt="' + name + '" loading="lazy">' +
+                            '<div class="fe-shop-card-body">' +
+                                '<div class="fe-shop-card-name">' + name + '</div>' +
+                                '<div class="fe-shop-card-price">$' + parseFloat(p.price).toFixed(2) + '</div>' +
+                            '</div>' +
+                        '</a>';
+                });
+                cardsHtml += '</div>';
+                recEl.innerHTML = cardsHtml;
+            } catch(e) {}
+        })();
+    }
+
+    // Render result (kept for language-switch re-render with full data)
     function renderResult(data) {
         const { chart, analysis } = data;
         // Support both old (single) and new (dual) favorable elements
