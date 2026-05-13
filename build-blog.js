@@ -1323,7 +1323,6 @@ ${FOOTER_HTML}
     </div>
     <script src="/js/pageview.js" defer></script>
     <script src="/js/tracking.js"></script>
-    <script src="/js/feedback.js" async></script>
     <script src="/js/i18n-switcher.js" defer></script>
 </body>
 </html>`;
