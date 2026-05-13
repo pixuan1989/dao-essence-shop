@@ -10,7 +10,7 @@ author: DAO Essence
 readTime: 5
 pinned: false
 image: >-
-  /images/blog/蒙版组-71.webp
+  /images/blog/chinese-zodiac-daily-forecast.webp
 faq: &ref_0
   - question: 每日中國生肖運勢有多準確？
     answer: 每日運勢是根據當日天干地支組合的一般能量讀測。要獲得個人化洞察，需要結合你的命盤來交叉參考。

@@ -11,7 +11,7 @@ seoDescription: Learn how to read your BaZi chart step by step — understand He
 date: 2026-04-18
 author: DAO Essence
 readTime: 8
-image: /images/blog/1222-1x.webp
+image: /images/blog/how-to-read-bazi-chart.webp
 faq:
   - question: What is a BaZi chart?
     answer: A BaZi chart is a Chinese astrological birth chart based on your birth

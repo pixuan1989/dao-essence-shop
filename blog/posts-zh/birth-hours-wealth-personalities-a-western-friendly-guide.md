@@ -13,7 +13,7 @@ date: 2026-04-15T00:00:00.000Z
 author: DAO Essence
 readTime: 5
 image: >-
-  /images/blog/蒙版组-72.webp
+  /images/blog/birth-hours-wealth-guide.webp
 faq: &ref_0
   - question: 出生時辰真的會影響我的財務嗎？
     answer: >-

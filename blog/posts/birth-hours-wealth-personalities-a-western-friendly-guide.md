@@ -9,7 +9,7 @@ seoDescription: "Your birth hour reveals your Wealth Archetype — from the Mobi
 date: 2026-04-15
 author: DAO Essence
 readTime: 5
-image: /images/blog/蒙版组-72.webp
+image: /images/blog/birth-hours-wealth-guide.webp
 faq:
   - question: "Does my birth hour really affect my finances?"
     answer: "In BaZi, your Hour Pillar reveals your inner drives and hidden talents. Different Earthly Branches carry different elemental energies that influence how you approach money — whether you're a saver, a risk-taker, or somewhere in between. It's one layer of a larger system, not a standalone prediction."

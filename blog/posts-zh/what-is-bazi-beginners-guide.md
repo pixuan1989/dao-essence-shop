@@ -13,7 +13,7 @@ tags:
   - Heavenly Stems
   - Earthly Branches
 pinned: true
-image: /images/blog/22.webp
+image: /images/blog/what-is-bazi-beginners-guide.webp
 imageAlt: "四柱八字命盤圖示，金色天干地支在深色背景上發光"
 lang: "zh-Hant"
 faq:

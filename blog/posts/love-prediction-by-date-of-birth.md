@@ -13,7 +13,7 @@ description: "Can your birth date predict when you'll find love? Learn how BaZi 
 date: 2026-04-18
 author: DAO Essence
 readTime: 11
-image: /images/blog/777777.webp
+image: /images/blog/love-prediction-by-birth-date.webp
 faq:
   - question: Can my birth date really predict my love life?
     answer: Chinese astrology doesn't "predict" in the fortune-telling sense.
