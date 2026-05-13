@@ -18,7 +18,7 @@ cta_cards:
 related_posts:
   - "Ben Ming Nian: Why Your Zodiac Year Matters in BaZi"
   - The "MBTI Alternative" Angle
-  - Complete Guide to Five Elements Theory (Wu Xing) for Beginners
+  - Five Elements Personality Test
 faq:
   - question: "How long do BaZi emotional low periods last?"
     answer: "Challenging Da Yun (10-year cycles) typically last 7-10 years, but the most intense phases usually concentrate in the middle 3-4 years. Within each year, triggering months are shorter still. The key insight: nothing is permanent."

@@ -240,9 +240,9 @@ Below is a research-backed breakdown of each Day Master — grounded in classica
 
 **Related Reading**:
 
-- [What Is BaZi? A Complete Beginner's Guide](/blog/what-is-bazi-beginners-guide) — New to BaZi? Start here.
+- [How to Read Your BaZi Chart: Beginner's Guide](/blog/what-is-bazi-beginners-guide) — New to BaZi? Start here.
 - [How to Read a BaZi Chart (Step by Step)](/blog/how-to-read-bazi-chart) — Learn to decode your own chart.
-- [Five Elements Theory (Wu Xing): Complete Guide](/blog/five-elements-theory-wu-xing-guide) — The foundation behind every Day Master.
+- [Five Elements Personality Test: Wood, Fire, Earth, Metal or Water?](/blog/five-elements-theory-wu-xing-guide) — The foundation behind every Day Master.
 - [The "MBTI Alternative" Angle](/blog/the-mbti-alternative-angle) — See how BaZi's element system compares to MBTI.
 - [Is a Weak Day Master Bad? The Truth About Shen Ruo](/blog/is-weak-day-master-bad-bazi) — Worried about your chart's strength? Here's what classical texts actually say.
 

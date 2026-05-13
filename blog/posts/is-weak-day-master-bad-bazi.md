@@ -161,8 +161,8 @@ Your chart doesn't determine how high you can climb — it only suggests which p
 
 - [Bazi Archetypes: The 10 Day Masters as Modern Characters](/blog/bazi-10-day-masters-guide) — Understand your Day Master's personality archetype.
 - [How to Calculate Your Bazi Chart (Step-by-Step)](/blog/how-to-read-bazi-chart) — Learn to read your own chart.
-- [The Five Elements: Your Complete Guide to Wood, Fire, Earth, Metal & Water](/blog/five-elements-theory-wu-xing-guide) — The foundation behind every Bazi analysis.
-- [What Is Bazi? A Complete Beginner's Guide](/blog/what-is-bazi-beginners-guide) — New to Bazi? Start here.
+- [Five Elements Personality Test: Discover Your Dominant Element](/blog/five-elements-theory-wu-xing-guide) — The foundation behind every Bazi analysis.
+- [How to Read Your BaZi Chart: Beginner's Guide](/blog/what-is-bazi-beginners-guide) — New to Bazi? Start here.
 
 ---
 

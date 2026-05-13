@@ -18,7 +18,7 @@ cta_cards:
 related_posts:
   - "Ben Ming Nian: Why Your Zodiac Year Matters in BaZi"
   - The "MBTI Alternative" Angle
-  - Complete Guide to Five Elements Theory (Wu Xing) for Beginners
+  - 五行性格測試
 faq:
   - question: "八字情緒低谷期持續多久？"
     answer: "具挑戰性的大運（十年週期）通常持續7-10年，但最激烈的階段通常集中在中間3-4年。在每年中，觸發月份更短。關鍵見解：沒有什麼是永恆的。"
