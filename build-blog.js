@@ -1177,7 +1177,7 @@ function generateArticleHtml(post, category, allArticles, options = {}) {
     <meta name="robots" content="index, follow">
     <meta property="og:title" content="${seoTitle(data.title)}">
     <meta property="og:description" content="${escapeHtml(seoDescription(data.seoDescription || data.description || ''))}">
-    <meta property="og:image" content="${data.image || SITE_URL + '/images/og-default.jpg'}">
+    <meta property="og:image" content="${SITE_URL + (data.image || '/images/og-default.jpg')}">
     <meta property="og:url" content="${articleUrl}">
     <meta property="og:type" content="article">
     <meta property="og:site_name" content="DAO Essence">
@@ -1185,7 +1185,7 @@ function generateArticleHtml(post, category, allArticles, options = {}) {
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="${seoTitle(data.title)}">
     <meta name="twitter:description" content="${escapeHtml(seoDescription(data.seoDescription || data.description || ''))}">
-    <meta name="twitter:image" content="${data.image || SITE_URL + '/images/og-default.jpg'}">
+    <meta name="twitter:image" content="${SITE_URL + (data.image || '/images/og-default.jpg')}">
     <link rel="canonical" href="${canonicalUrl}">
     ${hreflangLinks}
     <link rel="stylesheet" href="/styles.min.css?v=${CSS_VERSION}">
@@ -1208,7 +1208,7 @@ function generateArticleHtml(post, category, allArticles, options = {}) {
         "@type": "BlogPosting",
         "headline": "${escapeHtml(data.title)}",
         "description": "${escapeHtml(data.description || '')}",
-        "image": "${data.image || SITE_URL + '/images/og-default.jpg'}",
+        "image": "${SITE_URL + (data.image || '/images/og-default.jpg')}",
         "author": {"@type": "Person", "name": "${escapeHtml(normalizeAuthor(data.author))}"},
         "publisher": {"@type": "Organization", "name": "DAO Essence", "logo": {"@type": "ImageObject", "url": "${SITE_URL}/images/og-default.jpg"}},
         "datePublished": "${data.date || ''}",
