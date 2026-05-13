@@ -1394,6 +1394,10 @@
                 );
 
                 // Step 2: Immediately show Step 3 with local data + skeleton for API parts
+                // Clear old data so calendar renders WITHOUT personal scores until API returns
+                favorableElements = [];
+                avoidElement = '';
+
                 var dmZh = chart.dayMaster;
                 var dmEn = chart.dayMasterElement;
                 document.getElementById('almDayMaster').textContent = isZh()
