@@ -913,8 +913,8 @@
 
             var progressInterval = setInterval(function() {
                 if (progress < 90) {
-                    // 0→90%: finish in ~8s (increment ~11.25 per second)
-                    progress += 11.25;
+                    // 0→90%: finish in ~5s (increment ~18 per second)
+                    progress += 18;
                     if (progress > 90) progress = 90;
                 }
                 // 90→100%: wait for API response
