@@ -939,6 +939,21 @@
             margin: 0 auto 1.5rem;
         }
         @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Skeleton shimmer for almanac */
+        @keyframes almShimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        .alm-skeleton {
+            background: linear-gradient(90deg, rgba(212,175,55,0.06) 25%, rgba(212,175,55,0.12) 50%, rgba(212,175,55,0.06) 75%);
+            background-size: 200% 100%;
+            animation: almShimmer 1.5s ease-in-out infinite;
+            border-radius: 6px;
+            color: transparent !important;
+            min-height: 1.2rem;
+            min-width: 3rem;
+        }
         .alm-loading-text {
             color: var(--text-secondary); font-size: 0.95rem;
         }
@@ -1372,20 +1387,33 @@
             }, 1000);
 
             try {
-                // Step 1: Calculate BaZi chart
+                // Step 1: Calculate BaZi chart (local, instant)
                 var chart = calculateChart(
                     userBirthData.gender, userBirthData.year, userBirthData.month,
                     userBirthData.day, userBirthData.hour
                 );
 
-                // Step 2: Get favorable/avoid elements from API
+                // Step 2: Immediately show Step 3 with local data + skeleton for API parts
+                var dmZh = chart.dayMaster;
+                var dmEn = chart.dayMasterElement;
+                document.getElementById('almDayMaster').textContent = isZh()
+                    ? dmZh + ' (' + wxZh(dmEn) + ')'
+                    : dmEn + ' ' + dmZh;
+                document.getElementById('almFavorable').innerHTML = '<span class="alm-skeleton"></span>';
+                document.getElementById('almAvoid').innerHTML = '<span class="alm-skeleton"></span>';
+
+                showAlmStep(3);
+                // Render calendar with only traditional scores (personalScore will be 0)
+                initAlmanac();
+                clearInterval(almTimer);
+
+                // Step 3: Get favorable/avoid elements from API (async)
                 var res = await fetch('/api/bazi-favorable-element', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ chart: chart, lang: isZh() ? 'zh-Hant' : 'en' })
                 });
                 var data = await res.json();
-                clearInterval(almTimer);
                 if (almProgressBar) almProgressBar.style.width = '100%';
                 if (almPctEl) almPctEl.textContent = '100%';
                 if (!res.ok || !data.success) throw new Error(data.error || 'Analysis failed');
@@ -1403,13 +1431,7 @@
                     avoidElement = wxEn(avoidElement);
                 }
 
-                // Update personal info bar
-                var dmZh = chart.dayMaster;
-                var dmEn = chart.dayMasterElement;
-                document.getElementById('almDayMaster').textContent = isZh()
-                    ? dmZh + ' (' + wxZh(dmEn) + ')'
-                    : dmEn + ' ' + dmZh;
-
+                // Update personal info bar (replace skeleton with real data)
                 var wxLabel = function(el) { return isZh() ? wxZh(el) : el; };
                 var favDisplay = favorableElements.map(function(el) {
                     return '<span class="' + wxClass(el) + '">' + wxLabel(el) + '</span>';
@@ -1424,10 +1446,10 @@
                 localStorage.setItem('almanac_fav', JSON.stringify(favorableElements));
                 localStorage.setItem('almanac_avoid', avoidElement);
 
-                // Show result
-                showAlmStep(3);
-                clearInterval(almTimer);
-                initAlmanac();
+                // Re-render calendar with personal scores now available
+                renderToday();
+                renderCalendar();
+
 
                 // Track submission and result
                 if (window.DaoTrack) {
