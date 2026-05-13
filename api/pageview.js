@@ -2,10 +2,13 @@
  * Pageview API - 阅读量统计
  * GET  /api/pageview?slugs=slug1,slug2  → 批量查询阅读量
  * POST /api/pageview + body { slug }      → 该文章阅读量 +1
+ * POST /api/pageview + body { action: 'feedback', email, message, page } → 提交反馈
  *
- * 使用 Vercel KV (Upstash Redis) 存储
- * 环境变量: KV_REST_API_URL, KV_REST_API_TOKEN
+ * 阅读量使用 Vercel KV (Upstash Redis) 存储 (KV_REST_API_URL)
+ * 反馈使用 shared/redis.js (REDIS_URL) 存储，与管理后台同库
  */
+
+import { redisGet, redisSet } from '../shared/redis.js';
 
 const KV_URL  = process.env.KV_REST_API_URL;
 const KV_TOKEN = process.env.KV_REST_API_TOKEN;
@@ -129,7 +132,7 @@ export default async function handler(req, res) {
   return res.status(405).json({ error: 'Method not allowed' });
 }
 
-// ── 反馈提交 ──
+// ── 反馈提交（写入 shared/redis，与管理后台同库） ──
 async function handleFeedback(req, res) {
   const { email, message, page } = req.body || {};
 
@@ -144,7 +147,7 @@ async function handleFeedback(req, res) {
     return res.status(400).json({ error: 'Message too long (max 2000 characters)' });
   }
 
-  // IP 频率限制：同一 IP 60 秒内只能提交 1 次
+  // IP 频率限制：同一 IP 60 秒内只能提交 1 次（用 KV REST API 做限流）
   const ip = (
     req.headers['cf-connecting-ip'] ||
     req.headers['x-forwarded-for']?.split(',')[0]?.trim() ||
@@ -164,49 +167,21 @@ async function handleFeedback(req, res) {
     email,
     message: message.trim(),
     page: page || '',
-    ip: ip === 'unknown' ? '' : ip,
     createdAt: new Date().toISOString()
   };
 
-  // 存入 KV
-  await kvSetJSON(`feedback:${id}`, feedbackData);
+  // 存入 shared/redis（与管理后台同库）
+  await redisSet(`feedback:${id}`, feedbackData);
 
   // 更新索引列表
-  const idsJson = await kvGet('feedback_ids');
-  const ids = idsJson ? JSON.parse(idsJson) : [];
+  const ids = await redisGet('feedback_ids') || [];
   ids.unshift(id);
   // 最多保留 500 条
   if (ids.length > 500) ids.length = 500;
-  await kvSet('feedback_ids', JSON.stringify(ids));
+  await redisSet('feedback_ids', ids);
 
-  // 设置频率限制（60 秒）
+  // 设置频率限制（60 秒，用 KV REST API）
   await kvSetNX(rateLimitKey, 60);
 
   return res.status(200).json({ success: true, id });
-}
-
-// ── KV GET (返回原始字符串) ──
-async function kvGetRaw(key) {
-  const res = await fetch(KV_URL, {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${KV_TOKEN}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(['GET', key]),
-  });
-  const data = await res.json();
-  return data.result || null;
-}
-
-// ── KV SET JSON ──
-async function kvSetJSON(key, value) {
-  await fetch(KV_URL, {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${KV_TOKEN}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(['SET', key, JSON.stringify(value)]),
-  });
 }
