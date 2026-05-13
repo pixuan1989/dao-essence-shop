@@ -149,8 +149,8 @@ lang: "zh-Hant"
 
 - [八字十日主完整指南：現代性格原型](/zh/blog/bazi-10-day-masters-guide) — 了解你的日主性格原型。
 - [如何排八字命盤（逐步教學）](/zh/blog/how-to-read-bazi-chart) — 學會讀懂自己的命盤。
-- [五行性格測試：發現你的主導元素](/zh/blog/five-elements-theory-wu-xing-guide) — 每個八字分析的基礎。
-- [如何解讀你的八字命盤：新手指南](/zh/blog/what-is-bazi-beginners-guide) — 第一次接觸八字？從這裡開始。
+- [五行性格測試](/zh/blog/five-elements-theory-wu-xing-guide) — 每個八字分析的基礎。
+- [如何解讀你的八字命盤](/zh/blog/what-is-bazi-beginners-guide) — 第一次接觸八字？從這裡開始。
 
 ---
 
