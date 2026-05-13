@@ -1318,7 +1318,7 @@ ${FOOTER_HTML}
             <div style="width:160px;height:160px;margin:0 auto;">
                 <img src="/images/微信图片_20260324143206_59_9.jpg" alt="WeChat QR Code" loading="lazy" decoding="async" style="width:100%;height:100%;border-radius:8px;object-fit:cover;">
             </div>
-            <p style="color:rgba(245,240,230,0.5);font-size:12px;margin:16px 0 0;">WeChat ID: your-wechat-id</p>
+            <p style="color:rgba(245,240,230,0.5);font-size:12px;margin:16px 0 0;">WeChat ID: pixuan1989</p>
         </div>
     </div>
     <script src="/js/pageview.js" defer></script>
@@ -1517,7 +1517,7 @@ ${FOOTER_HTML}
             <div style="width:160px;height:160px;margin:0 auto;">
                 <img src="/images/微信图片_20260324143206_59_9.jpg" alt="WeChat QR Code" loading="lazy" decoding="async" style="width:100%;height:100%;border-radius:8px;object-fit:cover;">
             </div>
-            <p style="color:rgba(245,240,230,0.5);font-size:12px;margin:16px 0 0;">WeChat ID: your-wechat-id</p>
+            <p style="color:rgba(245,240,230,0.5);font-size:12px;margin:16px 0 0;">WeChat ID: pixuan1989</p>
         </div>
     </div>
     <script src="/js/pageview.js" defer></script>
@@ -1724,7 +1724,7 @@ ${FOOTER_HTML}
             <div style="width:160px;height:160px;margin:0 auto;">
                 <img src="/images/微信图片_20260324143206_59_9.jpg" alt="WeChat QR Code" loading="lazy" decoding="async" style="width:100%;height:100%;border-radius:8px;object-fit:cover;">
             </div>
-            <p style="color:rgba(245,240,230,0.5);font-size:12px;margin:16px 0 0;">WeChat ID: your-wechat-id</p>
+            <p style="color:rgba(245,240,230,0.5);font-size:12px;margin:16px 0 0;">WeChat ID: pixuan1989</p>
         </div>
     </div>
     <script src="/js/pageview.js" defer></script>
