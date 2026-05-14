@@ -1100,6 +1100,7 @@
                 <div style="height:4px;background:rgba(212,175,55,0.15);border-radius:4px;overflow:hidden;">
                     <div id="almLoadingBar" style="height:100%;width:0%;background:linear-gradient(90deg,#D4AF37,#E8C84A);border-radius:4px;transition:width 0.3s ease;"></div>
                 </div>
+                <p id="almLoadingHint" style="font-size:0.75rem;color:rgba(212,175,55,0.7);margin-top:0.5rem;text-align:center;"></p>
             </div>
         </div>
     </div>
@@ -1371,16 +1372,31 @@
             // Start progress bar
             var almProgressBar = document.getElementById('almLoadingBar');
             var almPctEl = document.getElementById('almLoadingPct');
+            var almHintEl = document.getElementById('almLoadingHint');
             var almProgress = 0;
-            var almTimer = setInterval(function() {
+            function almTick() {
                 if (almProgress < 90) {
-                    almProgress += 18;
+                    almProgress += 15;
                     if (almProgress > 90) almProgress = 90;
                 }
                 var pct = Math.min(Math.round(almProgress), 99);
                 if (almProgressBar) almProgressBar.style.width = pct + '%';
                 if (almPctEl) almPctEl.textContent = pct + '%';
-            }, 1000);
+                // Update hint text based on progress
+                if (almHintEl) {
+                    var isZh = document.documentElement.lang === 'zh-Hant' || navigator.language.startsWith('zh');
+                    if (pct < 40) {
+                        almHintEl.textContent = isZh ? '正在计算您的生辰八字...' : 'Calculating your birth chart...';
+                    } else if (pct < 80) {
+                        almHintEl.textContent = isZh ? '正在个性化分析五行喜忌，通常需要 8–15 秒...' : 'Personalizing your element analysis, usually takes 8–15s...';
+                    } else {
+                        almHintEl.textContent = isZh ? '即将完成，正在生成您的专属日历...' : 'Almost done, generating your personal calendar...';
+                    }
+                }
+            }
+            var almTimer = setInterval(almTick, 1000);
+            // Trigger immediately so hint shows right away
+            almTick();
 
             // Yield to browser so loading animation actually renders before sync work
             await new Promise(function(r) { setTimeout(r, 150); });
@@ -1388,8 +1404,11 @@
             try {
                 // Step 1: Calculate BaZi chart (local, instant)
                 var chart = calculateChart(
-                    userBirthData.gender, userBirthData.year, userBirthData.month,
-                    userBirthData.day, userBirthData.hour
+                    userBirthData.gender,
+                    userBirthData.year,
+                    userBirthData.month,
+                    userBirthData.day,
+                    userBirthData.hour
                 );
 
                 // Step 2: Keep showing loading animation while calling API
