@@ -1384,13 +1384,12 @@
                 if (almPctEl) almPctEl.textContent = pct + '%';
                 // Update hint text based on progress
                 if (almHintEl) {
-                    var isZh = document.documentElement.lang === 'zh-Hant' || navigator.language.startsWith('zh');
                     if (pct < 40) {
-                        almHintEl.textContent = isZh ? '正在计算您的生辰八字...' : 'Calculating your birth chart...';
+                        almHintEl.textContent = isZh() ? '正在计算您的生辰八字...' : 'Calculating your birth chart...';
                     } else if (pct < 80) {
-                        almHintEl.textContent = isZh ? '正在个性化分析五行喜忌，通常需要 8–15 秒...' : 'Personalizing your element analysis, usually takes 8–15s...';
+                        almHintEl.textContent = isZh() ? '正在为您挑选最匹配的吉日，通常需要 8–15 秒...' : 'Finding your most auspicious dates, usually takes 8–15s...';
                     } else {
-                        almHintEl.textContent = isZh ? '即将完成，正在生成您的专属日历...' : 'Almost done, generating your personal calendar...';
+                        almHintEl.textContent = isZh() ? '即将完成，正在为您生成专属择日日历...' : 'Almost done, generating your personal auspicious calendar...';
                     }
                 }
             }
