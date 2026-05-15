@@ -143,3 +143,9 @@ faq:
     answer: "The generating cycle (Sheng) represents nourishment: Wood→Fire→Earth→Metal→Water→Wood. The controlling cycle (Ke) represents regulation: Wood→Earth→Water→Fire→Metal→Wood."
   - question: "Can the Five Elements help with feng shui?"
     answer: "Yes. Feng shui uses the Five Elements to analyze and harmonize spatial energy. Each direction, material, color, and shape corresponds to an element."
+
+## Related Reading
+
+- [10 BaZi Day Masters as Modern Characters](/blog/bazi-10-day-masters-guide) — which Day Master are you?
+- [BaZi Ten Gods: What Your Chart Says About Friendships](/blog/bazi-ten-gods-friendship-patterns) — discover which Ten Gods dominate your social archetype.
+- [Is a Weak Day Master Bad in BaZi?](/blog/is-weak-day-master-bad-bazi) — why "weak" doesn't mean "unlucky"

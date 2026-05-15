@@ -243,7 +243,7 @@ Below is a research-backed breakdown of each Day Master — grounded in classica
 - [How to Read Your BaZi Chart](/blog/what-is-bazi-beginners-guide) — New to BaZi? Start here.
 - [How to Read a BaZi Chart (Step by Step)](/blog/how-to-read-bazi-chart) — Learn to decode your own chart.
 - [Five Elements Personality Test](/blog/five-elements-theory-wu-xing-guide) — The foundation behind every Day Master.
-- [The "MBTI Alternative" Angle](/blog/the-mbti-alternative-angle) — See how BaZi's element system compares to MBTI.
+- [BaZi Ten Gods: What Your Chart Says About Friendships](/blog/bazi-ten-gods-friendship-patterns) — Discover which Ten Gods dominate your social archetype.
 - [Is a Weak Day Master Bad? The Truth About Shen Ruo](/blog/is-weak-day-master-bad-bazi) — Worried about your chart's strength? Here's what classical texts actually say.
 
 ---
