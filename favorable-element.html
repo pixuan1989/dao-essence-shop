@@ -1082,8 +1082,9 @@
         var favNameEl = document.getElementById('feFavElementName');
         if (favNameEl) {
             favNameEl.className = 'fe-element-name wx-' + favClass;
-            var favDisplay = isZh ? (favElementsZh[0] || fav) : (WX_ZH_MAP[fav] || fav);
-            var fav2Display = fav2 ? (isZh ? (favElementsZh[1] || fav2) : (WX_ZH_MAP[fav2] || fav2)) : '';
+            var zh = isZh();
+            var favDisplay = zh ? (favElementsZh[0] || fav) : (WX_ZH_MAP[fav] || fav);
+            var fav2Display = fav2 ? (zh ? (favElementsZh[1] || fav2) : (WX_ZH_MAP[fav2] || fav2)) : '';
             favNameEl.innerHTML = favDisplay + (fav2 ? ' <span style="margin:0 0.3em;font-weight:300;opacity:0.6;">&</span> <span class="wx-' + fav2Class + '">' + fav2Display + '</span>' : '');
         }
 
@@ -1261,6 +1262,7 @@
     // Render result (kept for language-switch re-render with full data)
     function renderResult(data) {
         const { chart, analysis } = data;
+        const zh = isZh();
         // Support both old (single) and new (dual) favorable elements
         const favElements = analysis.favorableElements || [analysis.favorableElement].filter(Boolean);
         const favElementsZh = analysis.favorableElementsZh || [analysis.favorableElementZh].filter(Boolean);
@@ -1279,7 +1281,7 @@
         for (let wi = 0; wi < wxOrder.length; wi++) {
             const wx = wxOrder[wi];
             const pct = Math.round((chart.wxCount[wx] / total) * 100);
-            const wxLabel = isZh ? wxOrderZh[wi] : wx;
+            const wxLabel = zh ? wxOrderZh[wi] : wx;
             barHtml += '<div class="fe-wx-bar-segment ' + wxBgClass[wx] + '" style="width:' + pct + '%"></div>';
             labelsHtml += '<span class="wx-' + wxClass(wx) + '">' + wxLabel + ' ' + chart.wxCount[wx] + '</span>';
         }
@@ -1332,12 +1334,12 @@
         });
 
         const strengthClass = analysis.strength === 'Strong' ? 'fe-strength-strong' : 'fe-strength-weak';
-        const strengthLabel = analysis.strength === 'Strong' ? (isZh ? '身強' : 'Strong') : (isZh ? '身弱' : 'Weak');
+        const strengthLabel = analysis.strength === 'Strong' ? (zh ? '身強' : 'Strong') : (zh ? '身弱' : 'Weak');
 
         document.getElementById('feResult').innerHTML =
             '<div class="fe-element-card">' +
                 '<div class="fe-element-label">' + t('fav.your_energy_element') + '</div>' +
-                '<div class="fe-element-name wx-' + favClass + '">' + (isZh ? (favElementsZh[0] || fav) : (WX_ZH_MAP[fav] || fav)) + (fav2 ? ' <span style="margin:0 0.3em;font-weight:300;opacity:0.6;">&</span> <span class="wx-' + fav2Class + '">' + (isZh ? (favElementsZh[1] || fav2) : (WX_ZH_MAP[fav2] || fav2)) + '</span>' : '') + '</div>' +
+                '<div class="fe-element-name wx-' + favClass + '">' + (zh ? (favElementsZh[0] || fav) : (WX_ZH_MAP[fav] || fav)) + (fav2 ? ' <span style="margin:0 0.3em;font-weight:300;opacity:0.6;">&</span> <span class="wx-' + fav2Class + '">' + (zh ? (favElementsZh[1] || fav2) : (WX_ZH_MAP[fav2] || fav2)) + '</span>' : '') + '</div>' +
                 (isZh ? '' : '<div class="fe-element-zh">' + favElementsZh.join(' & ') + '</div>') +
                 '<div class="fe-day-master-info">' + t('fav.day_master_label') + ' ' + chart.dayMaster + ' (' + chart.dayMasterElement + ')</div>' +
                 '<div class="fe-strength-badge ' + strengthClass + '">' + strengthLabel + ' ' + t('fav.day_master_badge') + '</div>' +
