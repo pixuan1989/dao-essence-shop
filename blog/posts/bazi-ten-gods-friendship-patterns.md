@@ -197,25 +197,25 @@ The chart doesn't predict your future. But it does explain your patterns — and
 
 ## Frequently Asked Questions
 
-**Can BaZi tell me if someone is a toxic friend?**
+**What does "Peer Stars overcoming Wealth" mean — and why are friends always connected to money?**
 
-BaZi doesn't label people as "toxic" — it reveals energetic dynamics. If your chart shows a Peer Star (比劫) in an unfavorable position, you may attract people who compete with you or drain your resources. But this is a pattern, not a prediction about any specific person. The value is awareness: once you recognize the dynamic, you can choose how to respond rather than repeating the cycle.
+"Peer Stars overcoming Wealth" (比劫夺财) is a classic BaZi pattern where Peer Stars (same-element energy) are strong relative to Wealth Stars. In practical terms, you tend to lose money through social situations — lending to friends, going in on partnerships that don't pan out, or being too generous for your own good. It doesn't mean your friends are bad people — it means your chart organizes social bonding through sharing, and sometimes that overshoots. If you have this pattern, the most practical fix is setting conscious financial boundaries.
 
-**What if I have no Wealth Stars in my chart — does that mean I'll have no friends?**
+**Why do some friendships just fade away?**
 
-No. Having no Wealth Stars simply means relationships aren't primarily organized around resource exchange for you. Your friendships may be based more on shared values, intellectual connection, or emotional support. Every chart has a social signature — the absence of one element doesn't create a void, it shifts the emphasis elsewhere.
+This often aligns with Luck Cycle transitions. Every decade, your chart's energetic emphasis shifts, which naturally changes the type of people you attract and resonate with. A friendship that felt deeply aligned under one Luck Pillar may feel distant under the next — not because of conflict, but because your growth trajectories are no longer parallel. It's not anyone's fault — it's the natural rhythm of your chart recalibrating.
 
-**Can two people with incompatible Ten Gods still be friends?**
+**Does having strong Mentor Stars make someone too dependent?**
 
-Absolutely. Ten Gods describe tendencies, not rules. Two people whose dominant Gods might "clash" on paper can have deep, lasting friendships — especially if their Luck Cycles are aligned during the period they meet. Compatibility frameworks are lenses, not verdicts. Many of the strongest friendships exist precisely because they challenge each other's patterns.
+Not necessarily. Strong Mentor Stars mean you have no shortage of guidance, mentors, and protective figures in your life — but "dependence" and "leveraging resources wisely" are different things. The key is whether the Mentor Star is favorable or unfavorable in your chart. Favorable Mentor energy helps you naturally attract wise supporters and use resources efficiently. Unfavorable Mentor energy can make you indecisive, overly reliant on others' opinions, or paralyzed by too many options. The former is strategic; the latter is a trap.
 
-**Do my Ten Gods change over time?**
+**Is it normal to have strong Expression Stars but hate socializing?**
 
-Your birth chart never changes — the Ten Gods in your natal chart are fixed. But your Luck Cycles (大运) overlay new elements every decade, which can strengthen or weaken specific Gods. Someone with weak Mentor Stars in their birth chart might enter a Luck Pillar dominated by Mentor energy and suddenly find mentors appearing. The pattern shifts, but the foundation stays.
+Completely normal. Expression Stars govern your ability to express yourself — not your desire to socialize. Someone with strong Shi Shen or Shang Guan might channel their expression through writing, art, or solo work rather than parties and small talk. They're not bad at socializing — they're wired for depth over breadth. If this is you, there's no need to force yourself to be outgoing. Your friendships will just look different: fewer people, deeper conversations.
 
-**Is this related to MBTI or personality typing?**
+**How can I use BaZi to improve my existing friendships?**
 
-There are interesting parallels — Peer Stars share traits with certain MBTI dimensions, Expression Stars map loosely onto extraversion, and Authority Stars relate to conscientiousness. But the frameworks operate differently: MBTI measures behavioral preferences, while Ten Gods describe elemental relationships in your chart. They can complement each other, but they're not interchangeable.
+The most practical approach is identifying your "challenging Gods" — the patterns that cause you to lose energy — and consciously adjusting. If Jie Cai is unfavorable, practice pausing before lending money or making commitments. If Qi Sha is overwhelming, work on boundary-setting in relationships. If Wealth is weak and Mentor is also lacking, practice receiving help without guilt. BaZi isn't about changing your friends — it's about understanding your own blind spots in relationships.
 
 ---
 
