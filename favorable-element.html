@@ -1082,7 +1082,9 @@
         var favNameEl = document.getElementById('feFavElementName');
         if (favNameEl) {
             favNameEl.className = 'fe-element-name wx-' + favClass;
-            favNameEl.innerHTML = (isZh ? (favElementsZh[0] || fav) : fav) + (fav2 ? ' <span style="margin:0 0.3em;font-weight:300;opacity:0.6;">&</span> <span class="wx-' + fav2Class + '">' + (isZh ? (favElementsZh[1] || fav2) : fav2) + '</span>' : '');
+            var favDisplay = isZh ? (favElementsZh[0] || fav) : (WX_ZH_MAP[fav] || fav);
+            var fav2Display = fav2 ? (isZh ? (favElementsZh[1] || fav2) : (WX_ZH_MAP[fav2] || fav2)) : '';
+            favNameEl.innerHTML = favDisplay + (fav2 ? ' <span style="margin:0 0.3em;font-weight:300;opacity:0.6;">&</span> <span class="wx-' + fav2Class + '">' + fav2Display + '</span>' : '');
         }
 
         // Fill strength badge
@@ -1335,7 +1337,7 @@
         document.getElementById('feResult').innerHTML =
             '<div class="fe-element-card">' +
                 '<div class="fe-element-label">' + t('fav.your_energy_element') + '</div>' +
-                '<div class="fe-element-name wx-' + favClass + '">' + (isZh ? (favElementsZh[0] || fav) : fav) + (fav2 ? ' <span style="margin:0 0.3em;font-weight:300;opacity:0.6;">&</span> <span class="wx-' + fav2Class + '">' + (isZh ? (favElementsZh[1] || fav2) : fav2) + '</span>' : '') + '</div>' +
+                '<div class="fe-element-name wx-' + favClass + '">' + (isZh ? (favElementsZh[0] || fav) : (WX_ZH_MAP[fav] || fav)) + (fav2 ? ' <span style="margin:0 0.3em;font-weight:300;opacity:0.6;">&</span> <span class="wx-' + fav2Class + '">' + (isZh ? (favElementsZh[1] || fav2) : (WX_ZH_MAP[fav2] || fav2)) + '</span>' : '') + '</div>' +
                 (isZh ? '' : '<div class="fe-element-zh">' + favElementsZh.join(' & ') + '</div>') +
                 '<div class="fe-day-master-info">' + t('fav.day_master_label') + ' ' + chart.dayMaster + ' (' + chart.dayMasterElement + ')</div>' +
                 '<div class="fe-strength-badge ' + strengthClass + '">' + strengthLabel + ' ' + t('fav.day_master_badge') + '</div>' +
