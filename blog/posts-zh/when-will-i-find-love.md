@@ -175,5 +175,6 @@ lang: zh-Hant
 **延伸閱讀：**  
 * [我在哪裡會遇見靈魂伴侶？](/blog/where-will-i-meet-my-soulmate) — 中國占星術中關於靈魂伴侶方位的完整指南  
 * [依出生日期預測愛情運勢](/blog/love-prediction-by-date-of-birth) — 你的生日如何揭示戀愛時機與靈魂伴侶特質  
+* [36歲離婚女遇29歲男 — 八字姐弟戀真實故事 | Dao Essentia](/blog/she-was-36-divorced-bazi-love-story) — 一個真實八字諮詢故事，關於時機、愛情，以及當你的十年大運改變時會發生什麼  
 
 [立刻查看愛情何時找上你 →](/soulmate-calculator)

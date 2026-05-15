@@ -19,6 +19,7 @@ related_posts:
   - "Ben Ming Nian: Why Your Zodiac Year Matters in BaZi"
   - The "MBTI Alternative" Angle
   - Five Elements Personality Test
+  - "36F Divorced, Met 29M — BaZi Love Story | Dao Essentia"
 faq:
   - question: "How long do BaZi emotional low periods last?"
     answer: "Challenging Da Yun (10-year cycles) typically last 7-10 years, but the most intense phases usually concentrate in the middle 3-4 years. Within each year, triggering months are shorter still. The key insight: nothing is permanent."

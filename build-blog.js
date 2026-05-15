@@ -1242,7 +1242,7 @@ ${NAV_HTML}
         <div class="blog-content">
         <article class="blog-article">
             <p style="font-size: 0.8rem; color: var(--accent-color); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 0.5rem;">${escapeHtml(categoryLabel)}</p>
-            <h1>${escapeHtml(data.title)}</h1>
+            <h1>${escapeHtml(data.h1Title || data.title)}</h1>
             ${data.image ? `<div class="blog-cover-wrapper"><img src="${data.image}" alt="${escapeHtml(data.imageAlt || data.title)}" onload="this.parentElement.classList.add('loaded')" onerror="this.parentElement.classList.add('loaded');this.src='${SITE_URL}/images/og-default.jpg'"></div>` : ''}
             <div class="blog-meta">
                 <span data-i18n="blog.article_by">By</span> ${escapeHtml(normalizeAuthor(data.author))}
