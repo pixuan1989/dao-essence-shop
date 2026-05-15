@@ -937,23 +937,36 @@ function generateArticleHtml(post, category, allArticles, options = {}) {
 
 
   function renderAffiliateCta() {
+    const baguaSvg = `<svg class="dao-aff-bagua" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="52" height="52" aria-hidden="true">
+      <circle cx="50" cy="50" r="46" fill="none" stroke="currentColor" stroke-width="1" opacity="0.25"/>
+      <circle cx="50" cy="50" r="38" fill="none" stroke="currentColor" stroke-width="0.5" opacity="0.15"/>
+      <!-- yin-yang -->
+      <path d="M50 4 A46 46 0 0 1 50 96 A23 23 0 0 1 50 50 A23 23 0 0 0 50 4Z" fill="currentColor" opacity="0.18"/>
+      <circle cx="50" cy="27" r="5" fill="#18181b" opacity="0.6"/>
+      <circle cx="50" cy="73" r="5" fill="currentColor" opacity="0.18"/>
+      <!-- trigram marks -->
+      <line x1="50" y1="4" x2="50" y2="12" stroke="currentColor" stroke-width="1.2" opacity="0.2"/>
+      <line x1="50" y1="88" x2="50" y2="96" stroke="currentColor" stroke-width="1.2" opacity="0.2"/>
+      <line x1="4" y1="50" x2="12" y2="50" stroke="currentColor" stroke-width="1.2" opacity="0.2"/>
+      <line x1="88" y1="50" x2="96" y2="50" stroke="currentColor" stroke-width="1.2" opacity="0.2"/>
+    </svg>`;
     if (isZh) {
       return `
         <section class="dao-aff-cta" aria-label="聯盟推廣計畫">
-          <div class="dao-aff-icon"><svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 17c.6 0 1-.4 1-1v-5c0-.6-.4-1-1-1H4c-.6 0-1 .4-1 1v5c0 .6.4 1 1 1"/><path d="m9 14 3-3 3 3"/><path d="M12 11V4"/><path d="m6 7-2 2"/><path d="m18 7 2 2"/></svg></div>
+          <div class="dao-aff-icon">${baguaSvg}</div>
           <span class="dao-aff-badge">✨ 合作機會</span>
-          <h3 class="dao-aff-headline">每次推薦即可賺取 25% 佣金</h3>
-          <p class="dao-aff-desc">喜歡我們的內容？加入 Dao Essentia 聯盟推廣計畫。每次成功推薦即可獲得 25% 佣金。無月費、即時追蹤、透過 Creem 直接領款。</p>
+          <h3 class="dao-aff-headline">傳承千年智慧，獲得 25% 回報</h3>
+          <p class="dao-aff-desc">喜歡我們的命理內容？加入 Dao Essentia 聯盟計畫，每次成功推薦即可賺取 25% 佣金。免費加入，即時追蹤，透過 Creem 直接領款。</p>
           <a href="https://affiliates.creem.io/join/dao-essentia" target="_blank" rel="noopener noreferrer" class="dao-aff-btn">免費加入計畫</a>
           <p class="dao-aff-footer">*已與 0+ 位合作夥伴共同成長中</p>
         </section>`;
     }
     return `
         <section class="dao-aff-cta" aria-label="Affiliate Program">
-          <div class="dao-aff-icon"><svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 17c.6 0 1-.4 1-1v-5c0-.6-.4-1-1-1H4c-.6 0-1 .4-1 1v5c0 .6.4 1 1 1"/><path d="m9 14 3-3 3 3"/><path d="M12 11V4"/><path d="m6 7-2 2"/><path d="m18 7 2 2"/></svg></div>
+          <div class="dao-aff-icon">${baguaSvg}</div>
           <span class="dao-aff-badge">✨ Partner Opportunity</span>
-          <h3 class="dao-aff-headline">Earn 25% Commission with Every Referral</h3>
-          <p class="dao-aff-desc">Love our content? Join the Dao Essentia Affiliate Program. You earn 25% on every sale you refer. No monthly fees, instant tracking, and payouts via Creem.</p>
+          <h3 class="dao-aff-headline">Share Ancient Wisdom, Earn 25% Per Referral</h3>
+          <p class="dao-aff-desc">Love our content? Join the Dao Essentia Affiliate Program and earn a <strong>25% commission</strong> on every sale you refer. Free to join, instant tracking, payouts via Creem.</p>
           <a href="https://affiliates.creem.io/join/dao-essentia" target="_blank" rel="noopener noreferrer" class="dao-aff-btn">Join the Program (Free)</a>
           <p class="dao-aff-footer">*Join 0+ active partners earning with us today.</p>
         </section>`;
@@ -1250,16 +1263,16 @@ function generateArticleHtml(post, category, allArticles, options = {}) {
         @media (max-width: 540px) { .share-buttons { gap: 0.5rem; } .share-btn { width: 32px; height: 32px; } .share-btn svg { width: 14px; height: 14px; } }
 
         /* ── Affiliate CTA (scoped: dao-aff-) ── */
-        .dao-aff-cta { background: #18181b; border-radius: 12px; border: 1px solid #3f3f46; padding: 2rem; margin: 2.5rem 0; text-align: center; }
-        .dao-aff-badge { display: inline-block; font-size: 0.75rem; letter-spacing: 0.06em; color: #f59e0b; background: rgba(245,158,11,0.1); padding: 0.3rem 0.9rem; border-radius: 999px; margin-bottom: 1rem; }
-        .dao-aff-icon { margin-bottom: 0.75rem; color: #f59e0b; }
-        .dao-aff-icon svg { width: 36px; height: 36px; }
-        .dao-aff-headline { font-size: 1.25rem; font-weight: 700; color: #fff; margin: 0 0 0.6rem; line-height: 1.4; }
-        .dao-aff-desc { font-size: 0.9rem; color: #a1a1aa; line-height: 1.6; margin: 0 0 1.25rem; max-width: 480px; margin-left: auto; margin-right: auto; }
-        .dao-aff-btn { display: inline-block; background: #f59e0b; color: #000; font-weight: 700; font-size: 0.95rem; padding: 0.75rem 1.5rem; border-radius: 8px; text-decoration: none; transition: background 0.2s, transform 0.15s; }
-        .dao-aff-btn:hover { background: #fbbf24; transform: translateY(-1px); }
-        .dao-aff-footer { font-size: 0.75rem; color: #71717a; margin-top: 1rem; }
-        @media (max-width: 540px) { .dao-aff-cta { padding: 1.5rem; } .dao-aff-headline { font-size: 1.1rem; } .dao-aff-btn { display: block; width: 100%; text-align: center; } }
+        .dao-aff-cta { background: #18181b; border-radius: 12px; border: 1px solid #3f3f46; padding: 2.5rem 2rem; margin: 2.5rem 0; text-align: center; }
+        .dao-aff-badge { display: inline-block; font-size: 0.75rem; letter-spacing: 0.06em; color: #d97706; background: rgba(217,119,6,0.1); padding: 0.3rem 0.9rem; border-radius: 999px; margin-bottom: 1rem; }
+        .dao-aff-icon { margin-bottom: 0.75rem; color: #d97706; }
+        .dao-aff-bagua { display: block; margin: 0 auto; }
+        .dao-aff-headline { font-family: var(--font-display); font-size: 1.25rem; font-weight: 700; color: #fff; margin: 0 0 0.6rem; line-height: 1.4; letter-spacing: 0.03em; }
+        .dao-aff-desc { font-family: 'Inter', system-ui, sans-serif; font-size: 0.9rem; color: #a1a1aa; line-height: 1.7; margin: 0 0 1.5rem; max-width: 480px; margin-left: auto; margin-right: auto; }
+        .dao-aff-btn { display: inline-block; background: #d97706; color: #fff; font-weight: 700; font-size: 0.95rem; padding: 0.75rem 1.5rem; border-radius: 8px; text-decoration: none; transition: background 0.2s, transform 0.15s; }
+        .dao-aff-btn:hover { background: #b45309; transform: translateY(-1px); }
+        .dao-aff-footer { font-family: 'Inter', system-ui, sans-serif; font-size: 0.75rem; color: #71717a; margin-top: 1.25rem; }
+        @media (max-width: 540px) { .dao-aff-cta { padding: 2rem 1.25rem; } .dao-aff-headline { font-size: 1.1rem; } .dao-aff-btn { display: block; width: 100%; text-align: center; } }
     </style>
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-FX0T6YB6DE"></script>
