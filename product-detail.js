@@ -753,11 +753,25 @@ window.buyNow = async function() {
 
 document.addEventListener('DOMContentLoaded', async function() {
     
+    // 0. 加载期间禁用购买按钮，防止用户在数据未就绪时点击
+    const buyBtn = document.querySelector('.btn-buy-now');
+    const btnText = buyBtn?.querySelector('.btn-text');
+    if (buyBtn) {
+        buyBtn.disabled = true;
+        buyBtn.style.opacity = '0.5';
+        buyBtn.style.pointerEvents = 'none';
+        if (btnText) btnText.textContent = window.DaoI18n ? window.DaoI18n.t('product_detail.loading') : 'Loading...';
+    }
+
     // 1. 加载卡数据（必须在其他操作之前）
     const cardLoaded = await window.loadCardData();
 
-    if (!cardLoaded) {
-        console.warn('⚠️ Failed to load card data, but continuing...');
+    // 1.5 数据加载完成，启用购买按钮
+    if (buyBtn) {
+        buyBtn.disabled = false;
+        buyBtn.style.opacity = '';
+        buyBtn.style.pointerEvents = '';
+        if (btnText) btnText.textContent = window.DaoI18n ? window.DaoI18n.t('product_detail.buy_now') : 'Buy Now';
     }
 
     // 2. 初始化购物车数据
