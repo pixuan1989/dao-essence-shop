@@ -2327,7 +2327,7 @@ async function main() {
   const today = new Date().toISOString().split('T')[0];
   const staticUrls = [
     { loc: '/', changefreq: 'weekly', priority: '1.0' },
-    { loc: '/blog/', changefreq: 'weekly', priority: '1.0' },
+    { loc: '/blog', changefreq: 'weekly', priority: '1.0' },
     { loc: '/bazi-form', changefreq: 'weekly', priority: '1.0' },
     { loc: '/five-elements-test', changefreq: 'weekly', priority: '1.0' },
     { loc: '/soulmate-calculator', changefreq: 'weekly', priority: '1.0' },
@@ -2353,7 +2353,7 @@ async function main() {
   }
   // Add zh blog index and zh category pages
   if (zhArticles.length > 0) {
-    staticUrls.push({ loc: '/zh/blog/', changefreq: 'weekly', priority: '1.0' });
+    staticUrls.push({ loc: '/zh/blog', changefreq: 'weekly', priority: '1.0' });
     for (const cat of CATEGORY_FOLDERS) {
       if ((zhByCategory[cat] || []).length === 0) continue;
       staticUrls.push({ loc: `/zh/blog/${cat}`, changefreq: 'weekly', priority: '0.7' });
