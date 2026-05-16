@@ -1,8 +1,10 @@
 ---
-title: "Elon Musk's $400B Secret: What His BaZi Chart Reveals"
+title: "Elon Musk Birth Chart: BaZi Four Pillars Revealed"
 category: bazi-astrology
 tags:
   - Elon Musk BaZi
+  - elon musk birth chart
+  - elon musk chinese zodiac
   - celebrity BaZi chart
   - Yang Wood Day Master
   - Seven Killings Star
@@ -19,7 +21,8 @@ readTime: 8
 pinned: false
 image: /images/blog/elon-musk-bazi-yang-wood-chart.webp
 slug: elon-musk-bazi-chart-analysis
-seoDescription: "Elon Musk's BaZi chart decoded — Yang Wood Day Master, Seven Killings Star, and 10-year luck cycles. Get your free BaZi chart and compare."
+h1Title: "Elon Musk Birth Chart: What BaZi and Four Pillars Reveal"
+seoDescription: "Elon Musk's BaZi birth chart reveals a Jia Wood Day Master born in the Year of the Metal Pig. Discover what his Chinese zodiac and Four Pillars say."
 faq:
   - question: "Is BaZi the same as Chinese Zodiac?"
     answer: "No. Chinese Zodiac assigns one of twelve animals based on your birth year, while BaZi uses your exact birth date and time (Four Pillars with 10 Heavenly Stems and 12 Earthly Branches). BaZi is far more detailed and personalized."
@@ -31,6 +34,10 @@ faq:
     answer: "Having all Five Phases present is relatively balanced in BaZi theory, suggesting versatility across domains like tech, finance, and aerospace. Charts missing phases tend to show more extreme strengths and weaknesses."
   - question: "What is the Seven Killings Star in BaZi?"
     answer: "The Seven Killings Star (七杀, Qi Sha) represents extreme pressure, authority, and life-or-death stakes. It produces extraordinary results under pressure but can also burn through relationships and resources if unbalanced."
+  - question: "What is Elon Musk's Chinese zodiac?"
+    answer: "Born on June 28, 1971, Elon Musk's Chinese zodiac is the Metal Pig (辛亥). The Pig is his Earthly Branch, while Metal is the Heavenly Stem of his birth year — a water-rich sign associated with depth, adaptability, and quiet ambition."
+  - question: "How accurate is Elon Musk's birth time for BaZi?"
+    answer: "Musk's birth date (June 28, 1971) and location (Pretoria, South Africa) are well-documented, but the exact minute of birth remains debated. BaZi requires precise birth time to determine the Hour Pillar, which represents your inner world and life direction. Our analysis uses 07:30 as the commonly cited time."
 faq_zh:
   - question: "八字和中國生肖一樣嗎？"
     answer: "不一樣。中國生肖根據你的出生年份分配十二種動物之一，而八字使用你的確切出生日期和時間（四柱，包含十天干和十二地支）。八字遠更精細和個人化。"
@@ -42,6 +49,10 @@ faq_zh:
     answer: "在八字理論中，擁有全部五行是相對平衡的，暗示跨科技、金融和航空等領域的多面性。缺少五行的命盤往往表現出更極端的優勢和弱點。"
   - question: "八字中的七殺星是什麼？"
     answer: "七殺星代表極端壓力、權威和生死攸關的風險。它在壓力下產生非凡結果，但如果失衡也可能消耗人際關係和資源。"
+  - question: "Elon Musk 的中國生肖是什麼？"
+    answer: "馬斯克出生於 1971 年 6 月 28 日，對應辛亥年，即「金豬」。豬是他的出生年地支，金是年柱天干——水氣豐沛的生肖，象徵深度、適應力與沉穩的野心。"
+  - question: "Elon Musk 的出生時間對八字排盤準確嗎？"
+    answer: "馬斯克的出生日期（1971 年 6 月 28 日）和地點（南非比勒陀利亞）已有明確記載，但確切的出生分鐘仍有爭議。八字需要精確出生時間才能確定時柱，而時柱代表一個人的內在世界和人生方向。本分析採用廣泛引用的 07:30。"
 ---
 
 How does a BaZi chart explain Elon Musk's rise from near-bankruptcy to the world's richest person? We break down his Yang Wood Day Master and Five Phases.
