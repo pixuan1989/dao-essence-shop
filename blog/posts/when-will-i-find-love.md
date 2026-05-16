@@ -186,6 +186,6 @@ No sign-up required. Takes 30 seconds. Completely free.
 
 * [Where Will I Meet My Soulmate?](/blog/where-will-i-meet-my-soulmate) — Your complete guide to soulmate direction in Chinese astrology
 * [Love Prediction by Date of Birth](/blog/love-prediction-by-date-of-birth) — How your birth date reveals your love timing and soulmate
-* [36F Divorced, Met 29M — BaZi Love Story | Dao Essentia](/blog/she-was-36-divorced-bazi-love-story) — A real BaZi consultation story about timing, love, and what happens when your 10-year cycle shifts
+* [Toxic Relationship Energy: BaZi Compatibility Guide](/blog/toxic-relationship-energy-bazi-compatibility) — How to spot energy drain vs nourishment using Chinese astrology
 
 [Find out when love finds you →](/soulmate-calculator)

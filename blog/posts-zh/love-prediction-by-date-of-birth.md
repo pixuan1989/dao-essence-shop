@@ -128,6 +128,7 @@ lang: zh-Hant
 **延伸閱讀：**  
 - [我會在哪裡遇見靈魂伴侶？](/blog/where-will-i-meet-my-soulmate) —— 中國玄學中關於靈魂伴侶方位的完整指南  
 - [我何時才會找到愛情？](/blog/when-will-i-find-love) —— 中國占星術對你戀愛時機的深度解析  
+- [有毒關係能量：八字合婚指南](/blog/toxic-relationship-energy-bazi-compatibility) —— 透過中國占星辨識能量消耗與滋養
 
 準備好揭開你出生日期背後的愛情密碼了嗎？  
 [立即取得你的愛情預測 →](/soulmate-calculator)

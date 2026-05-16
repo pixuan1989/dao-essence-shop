@@ -134,5 +134,6 @@ That's the real power of love prediction by birth date — not knowing the futur
 **Related Reading:**
 - [Where Will I Meet My Soulmate?](/blog/where-will-i-meet-my-soulmate) — Your complete guide to soulmate direction in Chinese astrology
 - [When Will I Find Love?](/blog/when-will-i-find-love) — What Chinese astrology says about your love timing
+- [Toxic Relationship Energy: BaZi Compatibility Guide](/blog/toxic-relationship-energy-bazi-compatibility) — How to spot energy drain vs nourishment using Chinese astrology
 
 Ready to see what your birth date reveals? [Get your love prediction →](/soulmate-calculator)
