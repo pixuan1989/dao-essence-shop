@@ -1,12 +1,12 @@
 ---
-title: "Why You Feel Stuck Every 10 Years — Chinese astrology Luck Cycles Explained"
+title: "Feel Stuck Every 10 Years? BaZi Luck Cycles Explained"
 category: bazi-astrology
 tags:
   - BaZi
   - Mental Health
   - Energy Cycles
 description: "Why do you feel depressed or stuck? BaZi's 10-year luck cycles and yearly influences explain emotional lows. Discover which energy phase you're in and why it's temporary."
-seoDescription: "Feeling depressed or emotionally stuck? BaZi explains it through 10-year luck cycles and yearly energy shifts. Not a substitute for professional care — but a framework to understand your timing."
+seoDescription: "Feeling stuck? BaZi explains it through 10-year luck cycles and yearly energy shifts. A framework to understand timing — not a substitute for professional care."
 date: 2026-04-23
 author: Xuanzhen
 readTime: 7

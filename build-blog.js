@@ -58,7 +58,7 @@ const CATEGORY_DESCRIPTIONS = {
   'feng-shui': 'Transform your space with Feng Shui principles for home, office, and relationships. Learn Five Elements theory, energy flow tips, and room-by-room guides.',
   'daily-horoscope': 'Get your daily Chinese horoscope based on BaZi astrology and Five Elements energy. Discover today\'s luck cycle, favorable directions, and actionable tips.',
   'zodiac-horoscope': 'Explore your Chinese zodiac sign personality, compatibility, and fortune. Discover how the 12 animal signs and Five Elements shape your life path.',
-  'lucky-tips': 'Practical luck-boosting tips from Chinese metaphysics: Feng Shui adjustments, Five Elements rituals, auspicious dates, and daily habits rooted in ancient wisdom.'
+  'lucky-tips': 'Practical luck tips from Chinese metaphysics: Feng Shui adjustments, Five Elements rituals, auspicious dates, and daily habits rooted in ancient wisdom.'
 };
 
 // Category page meta descriptions (Traditional Chinese)
@@ -1670,7 +1670,7 @@ function generateBlogIndex(allArticles, options = {}) {
     <link rel="icon" type="image/png" href="/images/favicon.png">
     <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${isZh ? '八字命理部落格' : 'Chinese Astrology Blog'} | DAO Essence — ${isZh ? '中國玄學與道家智慧' : 'Chinese Metaphysics & Taoist Wisdom'}</title>
+    <title>${isZh ? '八字命理部落格' : 'BaZi & Feng Shui Blog'} | DAO Essence</title>
     <meta name="description" content="${isZh ? '探索八字命理、風水、五行理論、道家冥想、十二生肖及每日生肖運勢等文章。' : 'Explore articles on BaZi astrology, Feng Shui, Five Elements theory, Taoist meditation, Chinese zodiac, and daily Chinese horoscopes.'}">
     <meta name="robots" content="index, follow">
     <meta property="og:title" content="${isZh ? '部落格' : 'Blog'} | DAO Essence">
