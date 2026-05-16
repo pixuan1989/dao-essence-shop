@@ -2301,7 +2301,7 @@ async function main() {
     // Fix SEO tags for zh homepage
     zhHomeHtml = zhHomeHtml.replace('<html lang="en">', '<html lang="zh-Hant">');
     zhHomeHtml = zhHomeHtml.replace(
-      '<title>Free BaZi Reading & Chart Calculator | DAO Essence</title>',
+      '<title>DAO Essence | Chinese Astrology & BaZi Chart Calculator</title>',
       '<title>免費八字排盤與五行分析 | DAO Essence 道本</title>'
     );
     zhHomeHtml = zhHomeHtml.replace(
