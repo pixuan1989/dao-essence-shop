@@ -102,6 +102,11 @@ async function handleDelete(req, res) {
             keysToDelete = [];
             indexKey = 'contact_subscribers';
             break;
+        case 'marketing':
+            // 支付订阅是数组存储在 marketing_subscribers
+            keysToDelete = [];
+            indexKey = 'marketing_subscribers';
+            break;
         case 'feedback':
             keysToDelete = [`feedback:${id}`];
             indexKey = 'feedback_ids';
@@ -120,10 +125,12 @@ async function handleDelete(req, res) {
 
     // 从索引列表中移除
     if (indexKey) {
-        if (type === 'contact') {
-            // 联系表单: contact_subscribers 是数组，按 date 匹配删除
+        if (type === 'contact' || type === 'marketing') {
+            // 联系表单/支付订阅: 数组存储，按 date/email 匹配删除
             const subscribers = await redisGet(indexKey) || [];
-            const idx = subscribers.findIndex(s => s.date === id || s.createdAt === id);
+            const idx = subscribers.findIndex(s =>
+                s.date === id || s.createdAt === id || s.email === id
+            );
             if (idx !== -1) {
                 subscribers.splice(idx, 1);
                 const ok = await redisSet(indexKey, subscribers);
@@ -191,6 +198,13 @@ async function handleUnreadCount(res) {
     const contacts = await redisGet('contact_subscribers') || [];
     for (const c of contacts) {
         const t = new Date(c.createdAt || c.date || 0).getTime();
+        if (t > lastRead) newLeads++;
+    }
+
+    // 支付订阅留资
+    const marketingSubs = await redisGet('marketing_subscribers') || [];
+    for (const s of marketingSubs) {
+        const t = new Date(s.subscribedAt || 0).getTime();
         if (t > lastRead) newLeads++;
     }
 
@@ -311,7 +325,7 @@ async function handleTypeQuery(res, idsKey, prefix) {
     }
 }
 
-// ========== 留资线索查询（联系表单 + 五行测试） ==========
+// ========== 留资线索查询（联系表单 + 五行测试 + 支付订阅） ==========
 async function handleLeadsQuery(res) {
     try {
         const leads = [];
@@ -329,6 +343,21 @@ async function handleLeadsQuery(res) {
             if (lead) leads.push({ ...lead, source: 'wuxing_quiz' });
         }
 
+        // 支付订阅留资（来自 Creem webhook 的 marketing_subscribers）
+        const marketingSubscribers = await redisGet('marketing_subscribers') || [];
+        for (const sub of marketingSubscribers) {
+            if (sub.email) {
+                leads.push({
+                    id: 'MKT_' + sub.email,
+                    email: sub.email,
+                    name: sub.name || '',
+                    source: 'marketing',
+                    createdAt: sub.subscribedAt || new Date().toISOString(),
+                    notes: '来源：支付完成订阅'
+                });
+            }
+        }
+
         // 按时间倒序
         leads.sort((a, b) => {
             const ta = new Date(a.createdAt || a.date || 0).getTime();
@@ -336,7 +365,7 @@ async function handleLeadsQuery(res) {
             return tb - ta;
         });
 
-        console.log(`💬 留资线索: 联系表单 ${contacts.length} + 五行测试 ${quizIds.length} = ${leads.length}`);
+        console.log(`💬 留资线索: 联系表单 ${contacts.length} + 五行测试 ${quizIds.length} + 支付订阅 ${marketingSubscribers.length} = ${leads.length}`);
         return res.status(200).json({ success: true, leads: leads, total: leads.length });
     } catch (err) {
         console.error('❌ 查询留资线索失败:', err.message);
