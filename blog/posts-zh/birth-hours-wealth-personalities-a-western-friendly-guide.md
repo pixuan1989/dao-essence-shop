@@ -1,14 +1,12 @@
 ---
-title: 出生時辰與財富：你的出生時間揭示了什麼
+title: 出生時辰與財富：八字命理揭示你的理財性格
 category: bazi-astrology
 tags:
   - 八字
   - 命理
 description: 透過十二地支探索你的「財富原型」！了解出生時辰如何影響你的理財風格、消費習慣與金錢性格。
 seoDescription: >-
-  Your birth hour reveals your Wealth Archetype — from the Mobile Strategist to
-  the Blessed One. Discover how your time of birth shapes your earning style and
-  money personality.
+  你的出生時辰揭示了你的財富原型——從流動策略型到福報型。了解出生時間如何影響你的理財風格和金錢性格。免費八字排盤。
 date: 2026-04-15T00:00:00.000Z
 author: DAO Essence
 readTime: 5

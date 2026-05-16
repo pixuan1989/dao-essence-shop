@@ -1,5 +1,5 @@
 ---
-title: 人生重要事項的吉日選擇：中國曆法指南
+title: 八字擇日指南：如何為人生大事選擇吉日
 category: lucky-tips
 tags:
   - PerfectTiming，ChineseCalendarWisdom，AuspiciousDates

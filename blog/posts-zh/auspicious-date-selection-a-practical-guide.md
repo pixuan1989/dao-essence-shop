@@ -1,13 +1,11 @@
 ---
-title: 吉日選取：實用指南
+title: 風水擇日：如何選擇人生大事的吉日（實用指南）
 category: feng-shui
 tags:
   - Feng Shui
 description: 中國擇日（Ze Ri）將人生大事與自然能量週期同步。了解這項延續兩千年的古老智慧，如何助你挑選婚禮、搬遷、開業等吉日。
 seoDescription: >-
-  Pick the perfect day for weddings, moving, or business launches. Learn Chinese
-  auspicious date selection (Ze Ri) — a 2000-year timing system that
-  cross-references your birth chart with calendar energy.
+  如何為婚禮、搬遷、開業選擇吉日？中國擇日（擇吉）系統將你的八字命盤與曆法能量交叉比對，找出最旺運的時機。免費工具。
 date: 2026-04-24T00:00:00.000Z
 author: Xuanzhen
 readTime: 8

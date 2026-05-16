@@ -8,8 +8,7 @@ tags:
   - destiny
 description: 逐步學習解讀你的八字命盤：剖析天干、地支、五行與十神，深入理解你出生時的先天能量格局。
 seoDescription: >-
-  Learn how to read your BaZi chart step by step — understand Heavenly Stems,
-  Earthly Branches, Five Elements, and Ten Gods to decode your birth energy.
+  逐步學會解讀你的八字命盤——認識天干、地支、五行與十神，解碼你出生時的先天能量格局。免費新手指南，附實例說明。
 date: 2026-04-18T00:00:00.000Z
 author: DAO Essence
 readTime: 8

@@ -1,14 +1,12 @@
 ---
-title: 「MBTI 替代方案」視角
+title: 五行性格分析：比 MBTI 更深層的性格測試
 category: bazi-astrology
 tags:
   - BaZi elements
   - Chinese astrology personality types
 description: 你的守護動物究竟是富遠見的木龍，還是重細節的金蛇？透過八字五行系統，揭開你真實的性格類型！
 seoDescription: >-
-  Forget MBTI — BaZi's Five Elements system reveals your true personality type.
-  Are you a visionary Wood, charismatic Fire, grounded Earth, disciplined Metal,
-  or intuitive Water? Find out free.
+  別再看 MBTI 了——八字五行系統揭示你真正的性格類型。你是遠見型的木、魅力型的火、穩重型的土、自律型的金，還是直覺型的水？免費測試。
 date: 2026-04-17T00:00:00.000Z
 author: DAO Essence
 readTime: 10
