@@ -1,5 +1,5 @@
 ---
-title: "Elon Musk 八字命盤解析：四柱五行揭示他的人生密碼"
+title: "Elon Musk 4000億美元八字命盤：四柱五行揭示他的人生密碼"
 category: bazi-astrology
 tags:
   - Elon Musk BaZi
@@ -21,7 +21,7 @@ readTime: 8
 pinned: true
 image: /images/blog/elon-musk-bazi-yang-wood-chart.webp
 slug: elon-musk-bazi-chart-analysis
-h1Title: "Elon Musk 八字命盤：四柱五行如何解析他的人生軌跡"
+h1Title: "Elon Musk 4000億美元八字命盤：四柱五行如何解析他的人生軌跡"
 seoDescription: "Elon Musk 的八字命盤揭示了他作為甲木日主、出生於辛亥金豬年的能量結構。深入了解他的中國生肖與四柱五行分析。"
 faq:
   - question: "八字和中國生肖一樣嗎？"

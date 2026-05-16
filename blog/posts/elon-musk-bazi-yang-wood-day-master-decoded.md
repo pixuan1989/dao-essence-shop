@@ -1,5 +1,5 @@
 ---
-title: "Elon Musk Birth Chart: BaZi Four Pillars Revealed"
+title: "Elon Musk's $400B Birth Chart: BaZi Four Pillars Revealed"
 category: bazi-astrology
 tags:
   - Elon Musk BaZi
@@ -21,7 +21,7 @@ readTime: 8
 pinned: false
 image: /images/blog/elon-musk-bazi-yang-wood-chart.webp
 slug: elon-musk-bazi-chart-analysis
-h1Title: "Elon Musk Birth Chart: What BaZi and Four Pillars Reveal"
+h1Title: "Elon Musk's $400B Birth Chart: What BaZi and Four Pillars Reveal"
 seoDescription: "Elon Musk's BaZi birth chart reveals a Jia Wood Day Master born in the Year of the Metal Pig. Discover what his Chinese zodiac and Four Pillars say."
 faq:
   - question: "Is BaZi the same as Chinese Zodiac?"
