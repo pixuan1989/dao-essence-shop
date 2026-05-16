@@ -52,6 +52,24 @@ const CATEGORY_LABELS_ZH = {
   'lucky-tips': '運勢小貼士'
 };
 
+// Category page meta descriptions (SEO-optimized, 150-160 chars)
+const CATEGORY_DESCRIPTIONS = {
+  'bazi-astrology': 'Discover your BaZi birth chart and what Chinese astrology reveals about your personality, career path, and relationships. Explore expert guides and free tools.',
+  'feng-shui': 'Transform your space with Feng Shui principles for home, office, and relationships. Learn Five Elements theory, energy flow tips, and room-by-room guides.',
+  'daily-horoscope': 'Get your daily Chinese horoscope based on BaZi astrology and Five Elements energy. Discover today\'s luck cycle, favorable directions, and actionable tips.',
+  'zodiac-horoscope': 'Explore your Chinese zodiac sign personality, compatibility, and fortune. Discover how the 12 animal signs and Five Elements shape your life path.',
+  'lucky-tips': 'Practical luck-boosting tips from Chinese metaphysics: Feng Shui adjustments, Five Elements rituals, auspicious dates, and daily habits rooted in ancient wisdom.'
+};
+
+// Category page meta descriptions (Traditional Chinese)
+const CATEGORY_DESCRIPTIONS_ZH = {
+  'bazi-astrology': '探索你的八字命盤，了解中國命理如何揭示你的性格、事業與感情。專業指南與免費工具。',
+  'feng-shui': '用風水原則改善家居、辦公室與人際關係。學習五行理論、能量流動技巧與空間佈局指南。',
+  'daily-horoscope': '基於八字與五行能量的每日生肖運勢。了解今日幸運週期、吉利方位與實用建議。',
+  'zodiac-horoscope': '探索你的生肖性格、配對與運勢。了解十二生肖與五行如何影響你的人生道路。',
+  'lucky-tips': '中國玄學實用開運技巧：風水調整、五行儀式、吉日選擇與日常生活習慣。'
+};
+
 // Fallback zh titles for recommendation sidebar (used when no zh article exists)
 const FALLBACK_ZH_TITLES = {
   'birth-hours-wealth-personalities-a-western-friendly-guide': '出生時辰與財富性格：西方人易懂的指南',
@@ -1424,9 +1442,10 @@ function generateCategoryHtml(category, articles, options = {}) {
     <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${label} ${isZh ? '部落格' : 'Blog'} | DAO Essence</title>
-    <meta name="description" content="${isZh ? `探索 DaoEssence 的${label}文章 — 中國玄學、八字、風水等。` : `Explore our ${label} articles — Chinese metaphysics, BaZi, Feng Shui, and more.`}">
+    <meta name="description" content="${isZh ? (CATEGORY_DESCRIPTIONS_ZH[category] || `探索 DaoEssence 的${label}文章 — 中國玄學、八字、風水等。`) : (CATEGORY_DESCRIPTIONS[category] || `Explore our ${label} articles — Chinese metaphysics, BaZi, Feng Shui, and more.`)}">
     <meta name="robots" content="index, follow">
     <meta property="og:title" content="${label} ${isZh ? '部落格' : 'Blog'} | DAO Essence">
+    <meta property="og:description" content="${isZh ? (CATEGORY_DESCRIPTIONS_ZH[category] || `探索 DaoEssence 的${label}文章 — 中國玄學、八字、風水等。`) : (CATEGORY_DESCRIPTIONS[category] || `Explore our ${label} articles — Chinese metaphysics, BaZi, Feng Shui, and more.`)}">
     <meta property="og:url" content="${catUrl}">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="DAO Essence">
