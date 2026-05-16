@@ -9,7 +9,7 @@ tags:
   - Personality Types
   - Five Elements
 description: "The 10 BaZi Day Masters explained as modern characters you'd recognize from your own life. From Jia Wood CEOs to Gui Water mystics — find your archetype."
-seoDescription: "10 BaZi Day Masters decoded as modern archetypes. Are you the unshakeable Jia Wood leader or the restless Ren Water explorer? Find your Day Master free."
+seoDescription: "10 BaZi Day Masters decoded as modern archetypes in Chinese astrology. Are you the unshakeable Jia Wood leader or the restless Ren Water explorer?"
 date: 2026-05-12
 author: Xuanzhen
 readTime: 18

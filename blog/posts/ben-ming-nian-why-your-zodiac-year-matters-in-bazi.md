@@ -4,7 +4,7 @@ category: bazi-astrology
 tags:
   - BaZi
 description: "Your zodiac year returns every 12 years. Learn what Ben Ming Nian means in BaZi — why it's unlucky, how long it lasts, and how to navigate this energy cycle safely."
-seoDescription: "Ben Ming Nian (本命年) returns every 12 years. Learn why your zodiac year matters in BaZi and practical strategies for this energy reset."
+seoDescription: "Ben Ming Nian (本命年) returns every 12 years. Learn why your zodiac year matters in Chinese astrology and practical strategies for this energy reset."
 date: 2026-04-21
 author: Xuanzhen
 readTime: 8

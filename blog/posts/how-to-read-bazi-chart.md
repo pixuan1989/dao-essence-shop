@@ -7,7 +7,7 @@ tags:
   - chinese-astrology
   - destiny
 description: "Learn how to read your BaZi chart step by step. Decode the Heavenly Stems, Earthly Branches, Five Elements, and Ten Gods to understand your birth energy."
-seoDescription: Learn how to read your BaZi chart step by step — understand Heavenly Stems, Earthly Branches, Five Elements, and Ten Gods to decode your birth energy.
+seoDescription: "Learn how to read your BaZi chart step by step — the core of Chinese astrology. Understand Heavenly Stems, Earthly Branches, Five Elements, and Ten Gods."
 date: 2026-04-18
 author: DAO Essence
 readTime: 8

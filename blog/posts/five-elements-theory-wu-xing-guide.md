@@ -8,7 +8,7 @@ tags:
   - "TCM"
   - "Feng Shui"
 description: "Learn the Five Elements theory (Wu Xing) — Wood, Fire, Earth, Metal, Water. Understand generating and controlling cycles, and how they shape personality, health, and feng shui."
-seoDescription: "Take the free 5 Elements personality test. Discover which element dominates your chart and how it shapes your personality, health, and relationships."
+seoDescription: "Take the free Five Elements personality test — a core concept in Chinese astrology. Discover which element dominates your chart and shapes your personality."
 date: "2026-04-08"
 author: "DAO Essence"
 readTime: 12

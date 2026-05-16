@@ -8,7 +8,7 @@ tags:
   - Heavenly Stems
   - Earthly Branches
 description: "What is BaZi? Learn the Four Pillars of Destiny for free — Day Master, Five Elements, Ten Gods, and how your birth time shapes your personality and career path."
-seoDescription: "Learn how to read your BaZi (Four Pillars of Destiny) chart in 5 minutes. Free beginner's guide with examples, no prior knowledge needed."
+seoDescription: "Learn how to read your BaZi (Four Pillars of Destiny) chart in 5 minutes. A free Chinese astrology beginner's guide with examples, no prior knowledge needed."
 date: 2026-04-08
 author: DAO Essence
 readTime: 11

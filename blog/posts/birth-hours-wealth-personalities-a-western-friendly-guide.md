@@ -5,7 +5,7 @@ tags:
   - 八字
   - 命理
 description: "Discover your Wealth Archetype through the 12 Earthly Branches. Learn how your birth hour shapes your earning style, spending habits, and money personality."
-seoDescription: "Your birth hour reveals your Wealth Archetype — from strategist to the blessed one. Discover how your time of birth shapes your earning style."
+seoDescription: "Your birth hour reveals your Wealth Archetype in Chinese astrology — from strategist to the blessed one. Discover how your time of birth shapes your earning style."
 date: 2026-04-15
 author: DAO Essence
 readTime: 5

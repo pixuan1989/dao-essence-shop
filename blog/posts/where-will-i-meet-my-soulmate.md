@@ -10,6 +10,7 @@ tags:
   - bazi
   - love-prediction
 description: "Where will you meet your soulmate? Discover how Chinese astrology and BaZi reveal your soulmate direction — the feng shui compass point where love is most likely to find you."
+seoDescription: "Where will you meet your soulmate? Discover how Chinese astrology and BaZi reveal your soulmate direction — the feng shui compass point where love finds you."
 date: 2026-04-18
 author: DAO Essence
 readTime: 12
