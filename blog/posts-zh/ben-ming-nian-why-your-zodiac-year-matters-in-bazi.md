@@ -1,5 +1,5 @@
 ---
-title: 本命年：你的生肖年詳解
+title: 命理詳解：本命年你的生肖年要注意什麼
 category: bazi-astrology
 tags:
   - BaZi

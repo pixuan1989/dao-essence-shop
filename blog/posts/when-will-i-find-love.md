@@ -1,5 +1,5 @@
 ---
-title: "When Will I Find Love? Your Birth Date Knows"
+title: "When Will I Find Love? What Your Chinese astrology Birth Chart Says"
 category: bazi-astrology
 tags:
   - when-will-i-find-love

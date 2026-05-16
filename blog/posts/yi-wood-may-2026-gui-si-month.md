@@ -1,5 +1,5 @@
 ---
-title: "Yi Wood (Yin Wood) May 2026 Forecast"
+title: "BaZi Day Master Forecast: Yi Wood (Yin Wood) May 2026"
 description: "The Gui Si Water Snake month (May 5 – June 4, 2026) creates a \"fire outside, water inside\" pattern for Yi Wood Day Masters. Your Hurting Officer star activates creative breakthroughs and career visibility, while Gui Water nourishes and grounds you. Covers career, wealth, relationships, health, plus specific guidance for all six Yi Wood Day Pillars."
 date: "2026-05-07"
 slug: "yi-wood-may-2026-gui-si-month"

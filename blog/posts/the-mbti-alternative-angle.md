@@ -1,5 +1,5 @@
 ---
-title: 'The "MBTI Alternative" Angle'
+title: 'Five Elements Personality Test: The "MBTI Alternative" Angle'
 category: bazi-astrology
 tags:
   - BaZi elements

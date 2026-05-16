@@ -1,5 +1,5 @@
 ---
-title: "Why You Feel Stuck Every 10 Years (It's Not Depression)"
+title: "Why You Feel Stuck Every 10 Years — Chinese astrology Luck Cycles Explained"
 category: bazi-astrology
 tags:
   - BaZi

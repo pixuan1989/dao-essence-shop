@@ -1,5 +1,5 @@
 ---
-title: "Birth Hours & Wealth: What Your Time Reveals"
+title: "Birth Hours & Wealth: What Your Chinese astrology Birth Chart Reveals"
 category: bazi-astrology
 tags:
   - 八字

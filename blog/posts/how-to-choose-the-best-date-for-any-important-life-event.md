@@ -1,5 +1,5 @@
 ---
-title: "Best Dates for Life Events: Chinese Calendar Guide"
+title: "Chinese Astrology Calendar: Best Dates for Life Events"
 category: lucky-tips
 tags:
   - PerfectTiming，ChineseCalendarWisdom，AuspiciousDates

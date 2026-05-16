@@ -1,5 +1,5 @@
 ---
-title: "Auspicious Date Selection: A Practical Guide"
+title: "Chinese Almanac: Auspicious Date Selection Guide"
 category: feng-shui
 tags:
   - Feng Shui

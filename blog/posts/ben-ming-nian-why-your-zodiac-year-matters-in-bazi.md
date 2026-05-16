@@ -1,5 +1,5 @@
 ---
-title: "Ben Ming Nian: Your Zodiac Year Explained"
+title: "Chinese Zodiac: Ben Ming Nian — Your Zodiac Year Explained"
 category: bazi-astrology
 tags:
   - BaZi

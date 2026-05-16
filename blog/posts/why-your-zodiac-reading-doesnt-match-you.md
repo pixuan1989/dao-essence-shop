@@ -1,5 +1,5 @@
 ---
-title: "Why Your Zodiac Reading Doesn't Match You"
+title: "Chinese Astrology vs Zodiac: Why Your Reading Doesn't Match You"
 slug: zodiac-reading-vs-bazi
 category: bazi-astrology
 tags:

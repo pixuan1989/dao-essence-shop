@@ -1,5 +1,5 @@
 ---
-title: 十二生肖每日運勢預報：2026年4月16日（星期四）
+title: 生肖運勢：十二生肖每日預報2026年4月16日（星期四）
 category: zodiac-horoscope
 tags:
   - 生肖
