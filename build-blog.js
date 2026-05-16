@@ -2010,6 +2010,10 @@ async function main() {
   // Generate English category pages for ALL defined categories (even if empty)
   for (const cat of CATEGORY_FOLDERS) {
     const articles = byCategory[cat] || [];
+    if (articles.length === 0) {
+      console.log(`  Skipped: dist/blog/${cat}.html (0 articles)`);
+      continue;
+    }
     const html = generateCategoryHtml(cat, articles, { lang: 'en', hasZh: hasZhArticles });
     const outPath = path.join(DIST_BLOG_DIR, `${cat}.html`);
     fs.writeFileSync(outPath, html);
@@ -2020,6 +2024,10 @@ async function main() {
   if (zhArticles.length > 0) {
     for (const cat of CATEGORY_FOLDERS) {
       const articles = zhByCategory[cat] || [];
+      if (articles.length === 0) {
+        console.log(`  Skipped: dist/zh/blog/${cat}.html (0 articles)`);
+        continue;
+      }
       const html = generateCategoryHtml(cat, articles, { lang: 'zh-Hant', hasZh: true });
       const outPath = path.join(DIST_ZH_BLOG_DIR, `${cat}.html`);
       fs.writeFileSync(outPath, html);
@@ -2338,14 +2346,16 @@ async function main() {
     { loc: '/privacy', changefreq: 'yearly', priority: '0.3' },
     { loc: '/terms', changefreq: 'yearly', priority: '0.3' },
   ];
-  // Add ALL category pages (even empty ones) to sitemap
+  // Add category pages to sitemap (skip empty categories)
   for (const cat of CATEGORY_FOLDERS) {
+    if ((byCategory[cat] || []).length === 0) continue;
     staticUrls.push({ loc: `/blog/${cat}`, changefreq: 'weekly', priority: '0.7' });
   }
   // Add zh blog index and zh category pages
   if (zhArticles.length > 0) {
     staticUrls.push({ loc: '/zh/blog/', changefreq: 'weekly', priority: '1.0' });
     for (const cat of CATEGORY_FOLDERS) {
+      if ((zhByCategory[cat] || []).length === 0) continue;
       staticUrls.push({ loc: `/zh/blog/${cat}`, changefreq: 'weekly', priority: '0.7' });
     }
   }
