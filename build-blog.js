@@ -1448,6 +1448,7 @@ function generateCategoryHtml(category, articles, options = {}) {
     <meta property="og:description" content="${isZh ? (CATEGORY_DESCRIPTIONS_ZH[category] || `探索 DaoEssence 的${label}文章 — 中國玄學、八字、風水等。`) : (CATEGORY_DESCRIPTIONS[category] || `Explore our ${label} articles — Chinese metaphysics, BaZi, Feng Shui, and more.`)}">
     <meta property="og:url" content="${catUrl}">
     <meta property="og:type" content="website">
+    <meta property="og:image" content="${SITE_URL}/images/og-default.jpg">
     <meta property="og:site_name" content="DAO Essence">
     <meta property="og:locale" content="${isZh ? 'zh_Hant' : 'en_US'}">
     <link rel="canonical" href="${canonicalUrl}">
@@ -1675,6 +1676,7 @@ function generateBlogIndex(allArticles, options = {}) {
     <meta property="og:title" content="${isZh ? '部落格' : 'Blog'} | DAO Essence">
     <meta property="og:url" content="${SITE_URL}${langPrefix}/blog">
     <meta property="og:type" content="website">
+    <meta property="og:image" content="${SITE_URL}/images/og-default.jpg">
     <meta property="og:site_name" content="DAO Essence">
     <meta property="og:locale" content="${isZh ? 'zh_Hant' : 'en_US'}">
     <link rel="canonical" href="${SITE_URL}${langPrefix}/blog">
