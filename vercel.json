@@ -25,6 +25,16 @@
   ],
   "redirects": [
     {
+      "source": "/bazi-calculator",
+      "destination": "/bazi-form",
+      "permanent": true
+    },
+    {
+      "source": "/zh/bazi-calculator",
+      "destination": "/zh/bazi-form",
+      "permanent": true
+    },
+    {
       "source": "/zh/culture",
       "destination": "/culture",
       "permanent": true

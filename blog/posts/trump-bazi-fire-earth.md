@@ -138,7 +138,7 @@ Celebrity chart analysis is entertaining, but BaZi's real value is practical. Tr
 
 **Step 5: Read the Luck Pillars and Annual Pillars.** The natal chart is the foundation. The Luck Pillar is the ten-year environment. The Annual Pillar is the current year's climate. Even the best natal chart cannot express without supportive luck cycles. The Annual Pillar determines which specific year events manifest.
 
-You don't need to calculate any of this manually. Our free [BaZi calculator](/bazi-calculator) generates your complete four pillars, identifies Day Master strength, maps Wealth/Officer distribution, and shows your current luck cycle — in about 30 seconds. No sign-up required.
+You don't need to calculate any of this manually. Our free [BaZi calculator](/bazi-form) generates your complete four pillars, identifies Day Master strength, maps Wealth/Officer distribution, and shows your current luck cycle — in about 30 seconds. No sign-up required.
 
 For a systematic learning path, our [free 6-chapter BaZi course](/learn-bazi) uses your own chart as the textbook, guiding you step by step from identifying the Day Master to reading annual pillars.
 
