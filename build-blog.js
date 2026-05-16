@@ -1208,10 +1208,10 @@ function generateArticleHtml(post, category, allArticles, options = {}) {
     <link rel="icon" type="image/png" href="/images/favicon.png">
     <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${seoTitle(data.title)}</title>
+    <title>${seoTitle(data.seoTitle || data.title)}</title>
     <meta name="description" content="${escapeHtml(seoDescription(data.seoDescription || data.description || ''))}">
     <meta name="robots" content="index, follow">
-    <meta property="og:title" content="${seoTitle(data.title)}">
+    <meta property="og:title" content="${seoTitle(data.seoTitle || data.title)}">
     <meta property="og:description" content="${escapeHtml(seoDescription(data.seoDescription || data.description || ''))}">
     <meta property="og:image" content="${SITE_URL + (data.image || '/images/og-default.jpg')}">
     <meta property="og:url" content="${articleUrl}">
@@ -1219,7 +1219,7 @@ function generateArticleHtml(post, category, allArticles, options = {}) {
     <meta property="og:site_name" content="DAO Essence">
     <meta property="og:locale" content="${isZh ? 'zh_Hant' : 'en_US'}">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="${seoTitle(data.title)}">
+    <meta name="twitter:title" content="${seoTitle(data.seoTitle || data.title)}">
     <meta name="twitter:description" content="${escapeHtml(seoDescription(data.seoDescription || data.description || ''))}">
     <meta name="twitter:image" content="${SITE_URL + (data.image || '/images/og-default.jpg')}">
     <link rel="canonical" href="${canonicalUrl}">
@@ -2268,6 +2268,26 @@ async function main() {
       }
       return match;
     });
+
+    // Fix SEO tags for zh homepage
+    zhHomeHtml = zhHomeHtml.replace('<html lang="en">', '<html lang="zh-Hant">');
+    zhHomeHtml = zhHomeHtml.replace(
+      '<title>Free BaZi Reading & Chart Calculator | DAO Essence</title>',
+      '<title>免費八字排盤與五行分析 | DAO Essence 道本</title>'
+    );
+    zhHomeHtml = zhHomeHtml.replace(
+      '<meta name="description" content="Get a free BaZi reading — instant Four Pillars chart, Five Elements analysis, and Soulmate Finder. Explore Chinese astrology tools with real results, no sign-up required.">',
+      '<meta name="description" content="免費八字排盤、五行分析、姻緣配對。即時產生四柱八字命盤，探索中國命理工具，無需註冊。DAO Essence 道本。">'
+    );
+    zhHomeHtml = zhHomeHtml.replace(
+      '<link rel="canonical" href="https://www.daoessentia.com/">',
+      '<link rel="canonical" href="https://www.daoessentia.com/zh/">'
+    );
+    // Add zh-Hant hreflang self-reference (after existing x-default hreflang)
+    zhHomeHtml = zhHomeHtml.replace(
+      '<link rel="alternate" hreflang="x-default" href="https://www.daoessentia.com/">',
+      '<link rel="alternate" hreflang="x-default" href="https://www.daoessentia.com/">\n    <link rel="alternate" hreflang="zh-Hant" href="https://www.daoessentia.com/zh/">'
+    );
 
     fs.writeFileSync(zhHomePath, zhHomeHtml);
     console.log(`  Generated: dist/zh/index.html (${zhDisplay.length} zh articles)`);
