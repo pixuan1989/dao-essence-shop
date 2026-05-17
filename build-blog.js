@@ -147,7 +147,7 @@ const FOOTER_HTML = `
                         <li><a href="/five-elements-test" data-i18n="footer.tool_five">Five Elements Personality Test</a></li>
                         <li><a href="/soulmate-calculator" data-i18n="footer.tool_soulmate">Soulmate Compatibility Finder</a></li>
                         <li><a href="/almanac" data-i18n="footer.tool_almanac">Auspicious Date Picker</a></li>
-                        <li><a href="/blog/zodiac-horoscope" data-i18n="footer.tool_zodiac">Zodiac Sign Personality</a></li>
+                        <li><a href="/blog/zodiac-horoscope" data-i18n="footer.tool_zodiac">Chinese Zodiac Sign Personality</a></li>
                     </ul>
                 </div>
                 <div>
