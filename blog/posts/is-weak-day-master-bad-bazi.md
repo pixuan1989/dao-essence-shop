@@ -166,6 +166,6 @@ Your chart doesn't determine how high you can climb — it only suggests which p
 
 ---
 
-*Written by Xuanzhen for Dao Essentia. Use our [free Bazi chart calculator](/bazi-form) to check your Day Master strength, or read our [10 Day Masters guide](/blog/bazi-10-day-masters-guide) for deeper structural analysis.*
+*Written by Xuanzhen for Dao Essentia. Use our [free Bazi chart calculator](/#free-bazi) to check your Day Master strength, or read our [10 Day Masters guide](/blog/bazi-10-day-masters-guide) for deeper structural analysis.*
 
 **Disclaimer:** Bazi (Four Pillars of Destiny) is a traditional Chinese metaphysical system rooted in centuries of cultural practice. This article is for educational and self-reflection purposes. It is not a substitute for professional medical, psychological, or financial advice. Your Day Master strength is one lens for understanding yourself — not a deterministic label.

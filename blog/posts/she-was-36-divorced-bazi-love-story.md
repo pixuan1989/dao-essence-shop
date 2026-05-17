@@ -199,7 +199,7 @@ BaZi is a cultural tradition and analytical framework — a way of mapping human
 
 ## If You Want to Explore Your Own Chart
 
-If this story resonated with you — whether you're in a difficult cycle right now or feeling the first signs of an upward turn — start with your chart. The [Free BaZi Calculator](/bazi-form) generates your full four-pillar reading in 30 seconds. No registration required.
+If this story resonated with you — whether you're in a difficult cycle right now or feeling the first signs of an upward turn — start with your chart. The [Free BaZi Calculator](/#free-bazi) generates your full four-pillar reading in 30 seconds. No registration required.
 
 ## Frequently Asked Questions
 

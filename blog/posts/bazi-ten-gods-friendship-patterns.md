@@ -189,7 +189,7 @@ This creates a transactional social style: relationships are evaluated for their
 
 ## How to Read Your Own Chart
 
-If this framework resonated with you — if you've recognized patterns in your friendships that you couldn't previously explain — the next step is straightforward. [Get your free BaZi chart](/bazi-form) to see which Ten Gods dominate your profile. Then check your [favorable element](/favorable-element) to understand whether those Gods work for you or against you.
+If this framework resonated with you — if you've recognized patterns in your friendships that you couldn't previously explain — the next step is straightforward. [Get your free BaZi chart](/#free-bazi) to see which Ten Gods dominate your profile. Then check your [favorable element](/favorable-element) to understand whether those Gods work for you or against you.
 
 The chart doesn't predict your future. But it does explain your patterns — and once you see the pattern, you can work with it.
 

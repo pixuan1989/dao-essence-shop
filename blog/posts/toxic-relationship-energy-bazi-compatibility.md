@@ -108,7 +108,7 @@ Want to see what your chart reveals about your relationship patterns?
 
 Use our **Free BaZi Chart Calculator** → Enter your birth date and time to discover your Day Master (日主), elemental balance, and Ten Gods profile. It takes 30 seconds and gives you insights no Western zodiac quiz can match.
 
-→ [Free BaZi Calculator](/bazi-form)
+→ [Free BaZi Calculator](/#free-bazi)
 
 You can also explore our Soulmate Calculator tool to discover what your chart says about ideal partner timing and compatibility patterns.
 
