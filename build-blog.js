@@ -111,7 +111,7 @@ const NAV_HTML = `
                         <div class="nav-dropdown-menu">
                             <a href="/blog/" data-i18n="nav.blog_all_articles">All Articles</a>
                             <a href="/blog/bazi-astrology" data-i18n="nav.blog_bazi">BaZi Astrology</a>
-                            <a href="/blog/zodiac-horoscope" data-i18n="nav.blog_zodiac">Chinese Zodiac</a>
+                            <a href="/blog/zodiac-horoscope" data-i18n="nav.blog_zodiac">Zodiac Sign Personality</a>
                             <a href="/blog/feng-shui" data-i18n="nav.blog_feng_shui">Feng Shui</a>
                             <a href="/blog/daily-horoscope" data-i18n="nav.blog_daily">Daily Horoscope</a>
                             <a href="/blog/lucky-tips" data-i18n="nav.blog_lucky_tips">Lucky Tips</a>
@@ -154,12 +154,12 @@ const FOOTER_HTML = `
                 <div>
                     <h4 class="footer-title" data-i18n="footer.tools_title">Tools</h4>
                     <ul class="footer-links">
-                        <li><a href="/#free-bazi" data-i18n="footer.tool_bazi">BaZi Calculator</a></li>
-                        <li><a href="/favorable-element" data-i18n="footer.tool_lucky">Favorable Element Guide</a></li>
-                        <li><a href="/five-elements-test" data-i18n="footer.tool_five">Five Elements Calculator</a></li>
-                        <li><a href="/soulmate-calculator" data-i18n="footer.tool_soulmate">Soulmate Finder</a></li>
+                        <li><a href="/#free-bazi" data-i18n="footer.tool_bazi">BaZi Birth Chart Calculator</a></li>
+                        <li><a href="/favorable-element" data-i18n="footer.tool_lucky">Five Elements Favorable Guide</a></li>
+                        <li><a href="/five-elements-test" data-i18n="footer.tool_five">Five Elements Personality Test</a></li>
+                        <li><a href="/soulmate-calculator" data-i18n="footer.tool_soulmate">Soulmate Compatibility Finder</a></li>
                         <li><a href="/almanac" data-i18n="footer.tool_almanac">Auspicious Date Picker</a></li>
-                        <li><a href="/blog/zodiac-horoscope" data-i18n="footer.tool_zodiac">Chinese Zodiac</a></li>
+                        <li><a href="/blog/zodiac-horoscope" data-i18n="footer.tool_zodiac">Zodiac Sign Personality</a></li>
                     </ul>
                 </div>
                 <div>
@@ -1056,7 +1056,7 @@ function generateArticleHtml(post, category, allArticles, options = {}) {
       case 'favorable-element':
         return `
         <div class="sidebar-cta sidebar-cta--favorable-element">
-            <h3 data-i18n="blog.sidebar_fav_title">Favorable Element Guide</h3>
+            <h3 data-i18n="blog.sidebar_fav_title">Five Elements Favorable Guide</h3>
             <p class="cta-sub" data-i18n="blog.sidebar_fav_desc">Your birth date reveals a personal energy profile — the colors, directions, and lifestyle choices that naturally support you. Discover yours in seconds.</p>
             <div class="cta-features">
                 <div class="cta-feat">
