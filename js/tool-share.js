@@ -12,7 +12,7 @@
     '.tool-share-label{font-size:0.78rem;color:rgba(255,255,255,0.6);text-transform:uppercase;letter-spacing:0.1em;margin-right:0.5rem;white-space:nowrap}',
     '.tool-share-btn{width:34px;height:34px;border-radius:50%;border:1px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.05);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;color:rgba(255,255,255,0.7);text-decoration:none;padding:0}',
     '.tool-share-btn:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,0.1)}',
-    '.tool-share-btn svg{width:18px;height:18px;pointer-events:none}',
+    '.tool-share-btn svg{width:18px;height:18px;pointer-events:none;fill:currentColor}',
     '.tool-share-btn img{width:18px;height:18px;pointer-events:none;filter:brightness(0) invert(1)}',
     '.tool-share-btn[data-platform="twitter"]:hover{background:#1DA1F2;border-color:#1DA1F2;color:#fff}',
     '.tool-share-btn[data-platform="twitter"]:hover svg{fill:#fff}',
