@@ -180,8 +180,6 @@
             page = path.indexOf('/blog/zodiac-horoscope') === 0 ? 'blog-zodiac'
                 : path.indexOf('/blog/bazi-astrology') === 0 ? 'blog-bazi'
                 : path.indexOf('/blog/feng-shui') === 0 ? 'blog-fengshui'
-                : path.indexOf('/blog/daily-horoscope') === 0 ? 'blog-daily'
-                : path.indexOf('/blog/lucky-tips') === 0 ? 'blog-tips'
                 : 'blog-article';
         } else if (path.indexOf('/zh/blog/') === 0) {
             page = 'blog-zh';

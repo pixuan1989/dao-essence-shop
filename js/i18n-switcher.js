@@ -301,7 +301,7 @@
    * Rewrite internal navigation links when switching language.
    * Adds/removes /zh prefix for blog and bilingual pages.
    */
-  var BLOG_PATHS = ['/blog/', '/blog/bazi-astrology', '/blog/zodiac-horoscope', '/blog/feng-shui', '/blog/daily-horoscope', '/blog/lucky-tips'];
+  var BLOG_PATHS = ['/blog/', '/blog/bazi-astrology', '/blog/zodiac-horoscope', '/blog/feng-shui'];
 
   function rewriteNavLinks(lang) {
     // Only rewrite blog links to /zh/blog/* when zh pages actually exist.
@@ -383,7 +383,7 @@
         window.location.href = '/blog/';
         return;
       }
-      var zhCatMatch = pathname.match(/^\/zh\/blog\/(bazi-astrology|zodiac-horoscope|feng-shui|daily-horoscope|lucky-tips)\/?$/);
+      var zhCatMatch = pathname.match(/^\/zh\/blog\/(bazi-astrology|zodiac-horoscope|feng-shui)\/?$/);
       if (zhCatMatch) {
         window.location.href = '/blog/' + zhCatMatch[1] + '/';
         return;
@@ -417,7 +417,7 @@
           window.location.href = '/zh/blog/';
           return;
         }
-        var enCatMatch = pathname.match(/^\/blog\/(bazi-astrology|zodiac-horoscope|feng-shui|daily-horoscope|lucky-tips)\/?$/);
+        var enCatMatch = pathname.match(/^\/blog\/(bazi-astrology|zodiac-horoscope|feng-shui)\/?$/);
         if (enCatMatch) {
           window.location.href = '/zh/blog/' + enCatMatch[1] + '/';
           return;
@@ -477,7 +477,7 @@
     if (pathname.indexOf('/zh/') === 0) return false; // already on zh
     if (pathname === '/blog/' || pathname === '/blog' || pathname === '/blog/index.html') return true;
     if (pathname.match(/^\/blog\/(.+\.html)?$/)) return true;
-    if (pathname.match(/^\/blog\/(bazi-astrology|zodiac-horoscope|feng-shui|daily-horoscope|lucky-tips)\/?$/)) return true;
+    if (pathname.match(/^\/blog\/(bazi-astrology|zodiac-horoscope|feng-shui)\/?$/)) return true;
     return false;
   }
 
@@ -554,7 +554,7 @@
         window.location.href = '/';
         return;
       }
-      if (enPath.match(/^\/blog\/(bazi-astrology|zodiac-horoscope|feng-shui|daily-horoscope|lucky-tips)\/$/)) {
+      if (enPath.match(/^\/blog\/(bazi-astrology|zodiac-horoscope|feng-shui)\/$/)) {
         enPath = enPath.replace(/\/$/, '.html');
       }
       window.location.href = enPath;
