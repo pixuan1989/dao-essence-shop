@@ -1407,7 +1407,8 @@
             earth: nwx[4]
         };
 
-        // Find dominant
+        // Find dominant — use Day Master element as tiebreaker when counts are equal
+        var DM_WX = {'甲':'wood','乙':'wood','丙':'fire','丁':'fire','戊':'earth','己':'earth','庚':'metal','辛':'metal','壬':'water','癸':'water'};
         var dominant = 'wood';
         var maxCount = 0;
         for (var key in wxCount) {
@@ -1415,6 +1416,11 @@
                 maxCount = wxCount[key];
                 dominant = key;
             }
+        }
+        // Tiebreaker: if multiple elements share maxCount, prefer Day Master's element
+        var dmElem = DM_WX[stems[2]];
+        if (dmElem && wxCount[dmElem] === maxCount) {
+            dominant = dmElem;
         }
 
         // Build pillars display
