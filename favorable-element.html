@@ -509,7 +509,9 @@
         }
 
         /* Shop recommendations */
-        .fe-shop-rec {
+        .fe-shop-rec { display:none; }
+        .fe-shop-rec:not(:empty) {
+            display:block;
             margin-top: 2rem;
             padding: 1.5rem;
             background: linear-gradient(135deg, rgba(180,140,90,0.06), rgba(140,100,60,0.04));
@@ -1040,6 +1042,7 @@
             '<div class="fe-wx-bar-labels">' + labelsHtml + '</div>' +
 
             // Skeleton sections for analysis
+            '<p style="text-align:center;color:rgba(255,255,255,0.6);font-size:0.9rem;margin:1rem 0 0.5rem;">' + (isZh() ? '正在为您个性化分析，通常需要 8-12 秒…' : 'Personalizing your analysis, usually takes 8-12 seconds...') + '</p>' +
             '<div id="feAnalysisSkeleton">' +
                 // Why element
                 '<div class="fe-section"><div class="fe-section-title"><span class="fe-skeleton fe-skeleton-text w60"></span></div><span class="fe-skeleton fe-skeleton-text w80"></span><span class="fe-skeleton fe-skeleton-text w60"></span></div>' +
