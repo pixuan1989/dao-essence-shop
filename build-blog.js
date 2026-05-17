@@ -1146,11 +1146,14 @@ function generateArticleHtml(post, category, allArticles, options = {}) {
   const sidebarCtaHtml = sidebarCards.length > 0 ? sidebarCards.map(renderCtaCard).join('\n') : renderCtaCard('bazi');
 
   // Replace zodiac-lookup: either from Markdown marker or from cta_cards field
-  const hasMarkdownMarker = content.includes('<!--zodiac-lookup-->');
+  // If article has body written inside frontmatter (data.body), merge it with content (after ---)
+  // This handles legacy articles where the main text was stored in a body: field
+  const rawContent = data.body ? (data.body + '\n\n' + content) : content;
+  const hasMarkdownMarker = rawContent.includes('<!--zodiac-lookup-->');
   const hasZodiacLookup = hasMarkdownMarker || hasZodiacCta;
   const processedContent = hasMarkdownMarker
-    ? content.replace('<!--zodiac-lookup-->', '<!--ZODIAC_LOOKUP_PLACEHOLDER-->')
-    : content;
+    ? rawContent.replace('<!--zodiac-lookup-->', '<!--ZODIAC_LOOKUP_PLACEHOLDER-->')
+    : rawContent;
   const htmlBody = marked.parse(processedContent);
   // Fix: promote body <h1> to <h2> so only article title is the sole H1
   const fixedBody = htmlBody.replace(/<h1(.*?)>(.*?)<\/h1>/gi, '<h2$1>$2</h2>');
@@ -1984,7 +1987,18 @@ async function main() {
       }
 
       // Use zh articles for related posts when available
-      const html = generateArticleHtml(post, post.category, zhArticles, { lang: 'zh-Hant', hasZh: true });
+      let html = generateArticleHtml(post, post.category, zhArticles, { lang: 'zh-Hant', hasZh: true });
+
+      // Fix zh internal links: /blog/ → /zh/blog/ (body links only, Related Posts already use langPrefix)
+      html = html.replace(/href="\/blog\//g, 'href="/zh/blog/');
+
+      // Fix zh tool/page links with boundary matching to avoid partial matches
+      const zhToolPaths = ['/five-elements-test', '/favorable-element', '/bazi-form', '/soulmate-calculator', '/learn-bazi', '/shop'];
+      zhToolPaths.forEach(p => {
+        html = html.replace(new RegExp(`href="${p}(["/?#"])`, 'g'), `href="/zh${p}$1`);
+        html = html.replace(new RegExp(`href="${p}"`, 'g'), `href="/zh${p}"`);
+      });
+
       const outPath = path.join(DIST_ZH_BLOG_DIR, `${slug}.html`);
       fs.writeFileSync(outPath, html);
       console.log(`  Generated: dist/zh/blog/${slug}.html`);

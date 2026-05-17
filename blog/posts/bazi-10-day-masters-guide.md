@@ -27,7 +27,7 @@ faq:
   - question: "Which Day Master makes the best leader?"
     answer: "No single Day Master is universally the best leader — it depends on context. Jia Wood and Geng Metal tend to be decisive and commanding, which suits high-pressure leadership. Bing Fire excels at inspiring teams. Wu Earth provides rock-solid reliability. But effective leadership also depends on your chart's overall balance and your current luck cycle. A 'weak' Day Master can be an outstanding leader during a supportive cycle."
   - question: "How do I find out my Day Master?"
-    answer: "The easiest way is to use a BaZi calculator — enter your birth date, time, and gender, and it will generate your Four Pillars chart. The top character of the Day Pillar (center column) is your Day Master. DaoEssence offers a free BaZi calculator at daoessentia.com/tools that shows your Day Master, element balance, and more. No sign-up required."
+    answer: "The easiest way is to use a BaZi calculator — enter your birth date, time, and gender, and it will generate your Four Pillars chart. The top character of the Day Pillar (center column) is your Day Master. DaoEssence offers a free BaZi calculator at daoessentia.com/bazi-form that shows your Day Master, element balance, and more. No sign-up required."
 faq_zh:
   - question: "什麼是八字中的日主？"
     answer: "日主是你八字命盤中出生日柱的天干，代表你性格的核心——可以把它想像成中國占星術中的太陽星座，但更加精細。共有10個日主，分別對應五行（木、火、土、金、水）的陰陽兩種形態。使用免費八字排盤工具只需30秒就能找到你的日主。"
@@ -41,7 +41,7 @@ faq_zh:
     answer: "最簡單的方法是使用八字排盤工具——輸入你的出生日期、時間和性別，它會生成你的四柱命盤。日柱（中間那一柱）最上面的字就是你的日主。DaoEssence 提供免費的八字排盤工具，可以顯示你的日主、五行平衡等資訊，無需註冊。"
 ---
 
-Your Day Master (日主, Rì Zhǔ) is the Heavenly Stem of your birth day in a BaZi (Four Pillars) chart. It sits at the center of your cosmic blueprint — eight characters that map the energy present at your exact moment of birth. Think of it as your Chinese astrological fingerprint, but with far more texture than a single zodiac animal. There are 10 Day Masters: five elements (Wood, Fire, Earth, Metal, Water), each in yin or yang form. Your Day Master represents your core tendency — how you naturally approach problems, relationships, and decisions. In a 2024 survey of approximately 500 Chinese metaphysics practitioners, over 70% identified the Day Master as the single most important reference point in chart analysis. To find yours, [check our free BaZi calculator](https://www.daoessentia.com/tools) — it takes 30 seconds.
+Your Day Master (日主, Rì Zhǔ) is the Heavenly Stem of your birth day in a BaZi (Four Pillars) chart. It sits at the center of your cosmic blueprint — eight characters that map the energy present at your exact moment of birth. Think of it as your Chinese astrological fingerprint, but with far more texture than a single zodiac animal. There are 10 Day Masters: five elements (Wood, Fire, Earth, Metal, Water), each in yin or yang form. Your Day Master represents your core tendency — how you naturally approach problems, relationships, and decisions. In a 2024 survey of approximately 500 Chinese metaphysics practitioners, over 70% identified the Day Master as the single most important reference point in chart analysis. To find yours, [check our free BaZi calculator](https://www.daoessentia.com/bazi-form) — it takes 30 seconds.
 
 If you've ever read your BaZi chart and thought, "Wait, my Day Master is Jia Wood... what does that even mean?" — you're not alone. The classical texts describe the 10 Day Masters in poetic, metaphorical language that can feel alien to modern readers.
 
@@ -231,7 +231,7 @@ Below is a research-backed breakdown of each Day Master — grounded in classica
 
 ## 🧭 How to Use This Guide
 
-1. **Find Your Day Master**: [Use our free BaZi calculator](https://www.daoessentia.com/tools) to determine your Day Master from your birth date and time. No sign-up required.
+1. **Find Your Day Master**: [Use our free BaZi calculator](https://www.daoessentia.com/bazi-form) to determine your Day Master from your birth date and time. No sign-up required.
 2. **Read Your Archetype**: Start with your Day Master section above. Notice what resonates — and what irritates you (that's usually your blind spot talking).
 3. **Check Your Chart's Balance**: Your Day Master is just one piece. The other 7 characters in your chart modify and shape how these traits express. [Our free BaZi course](/learn-bazi) covers this in depth.
 4. **Use It for Growth, Not Labels**: These archetypes are mirrors, not cages. The goal isn't to say, "I'm a Jia Wood, so I'm stubborn." It's to say, "I'm a Jia Wood — how can I learn to bend without breaking?"
@@ -252,4 +252,4 @@ Below is a research-backed breakdown of each Day Master — grounded in classica
 
 ---
 
-Written by Xuanzhen for Dao Essentia. Have questions about your Day Master? Drop a comment below or [explore our free BaZi tools](https://www.daoessentia.com/tools).
+Written by Xuanzhen for Dao Essentia. Have questions about your Day Master? Drop a comment below or [explore our free BaZi tools](https://www.daoessentia.com/bazi-form).
