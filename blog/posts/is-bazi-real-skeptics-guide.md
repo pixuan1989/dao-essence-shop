@@ -136,4 +136,4 @@ Our free [6-chapter BaZi course](/learn-bazi) walks through the complete beginne
 
 If you're skeptical about BaZi, learning to read your own chart is actually the best way to test it. You'll be able to verify whether the patterns in your chart match what you've actually experienced — and once you see it working with your own data, the skepticism tends to resolve itself. The best way to build confidence in BaZi is to see it in action on your own life.
 
-For more on why zodiac horoscopes often feel inaccurate — and how BaZi takes a fundamentally different approach to individual timing — [check out our guide on why zodiac readings don't match you](/blog/why-your-zodiac-reading-doesnt-match-you).
+For more on why zodiac horoscopes often feel inaccurate — and how BaZi takes a fundamentally different approach to individual timing — [check out our guide on why zodiac readings don't match you](/blog/zodiac-reading-vs-bazi).

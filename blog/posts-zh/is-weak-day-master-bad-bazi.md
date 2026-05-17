@@ -154,6 +154,6 @@ lang: "zh-Hant"
 
 ---
 
-*Written by Xuanzhen for Dao Essentia. 使用我們的[免費八字排盤工具](/tools/bazi) 驗證你的日主強弱，或閱讀[十日主完整指南](/zh/blog/bazi-10-day-masters-guide) 獲取更深度的結構解析。*
+*Written by Xuanzhen for Dao Essentia. 使用我們的[免費八字排盤工具](/bazi-form) 驗證你的日主強弱，或閱讀[十日主完整指南](/zh/blog/bazi-10-day-masters-guide) 獲取更深度的結構解析。*
 
 **免責聲明：** 八字（四柱命理）是源自中國傳統文化的經驗總結體系，本文僅供文化研究與自我反思參考，不構成心理、醫療或財務建議。人生軌跡受教育、環境、選擇等多重變量影響，命理僅提供一種觀察視角。

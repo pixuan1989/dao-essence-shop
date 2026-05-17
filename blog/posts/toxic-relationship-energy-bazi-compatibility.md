@@ -78,7 +78,7 @@ The question isn't "does he treat me well?" The question is: after six months, a
 In BaZi terms, a compatible partner brings Direct Resource nourishing the Self (正印合身 / zhèng yìn hé shēn) or Output Star generating Wealth (食神生财 / shí shén shēng cái). These aren't mystical concepts. They describe observable dynamics:
 
 - **Elemental balance**: Does one person's excess complement the other's need? Or do two similar people amplify each other's blind spots?
-- **Ten Gods interaction**: The [Ten Gods](/learn-bazi/10-gods) (十神) describe how you relate to others. Two "Control" types will clash. A "Resource" type and an "Output" type may nourish each other beautifully.
+- **Ten Gods interaction**: The [Ten Gods](/blog/bazi-ten-gods-friendship-patterns) (十神) describe how you relate to others. Two "Control" types will clash. A "Resource" type and an "Output" type may nourish each other beautifully.
 - **Luck cycle alignment**: Even compatible people can struggle if their current life phases are clashing. Timing matters as much as personality.
 
 ## Zodiac Compatibility vs BaZi Compatibility
