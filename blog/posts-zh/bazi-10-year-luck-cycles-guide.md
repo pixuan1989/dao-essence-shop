@@ -4,7 +4,7 @@ slug: "bazi-10-year-luck-cycles-guide"
 description: "你的人生以十年為章節推進。八字稱之為大運（Da Yun）——了解你的大運，就能解釋為什麼事業、金錢和感情在每個十年之間發生劇烈變化。"
 seoDescription: "為什麼人生每十年感覺都不一樣？探索八字大運（Da Yun）——它們如何運作、如何找到你的大運，以及每個十年可能帶來什麼。免費排盤工具。"
 lang: "zh-Hant"
-category: "bazi-astrology"
+category: bazi-astrology
 tags: "八字大運, 大運, 十年大運, 大運柱, 八字十年變化, 人生每十年轉變, 八字時機, 大運解讀"
 date: "2026-05-09"
 author: "玄真"

@@ -2,7 +2,7 @@
 title: "居家辦公風水：7條實用規則"
 slug: "feng-shui-home-office-7-rules"
 lang: "zh-Hant"
-category: "feng-shui"
+category: feng-shui
 tags:
   - 風水
   - 居家辦公

@@ -6,7 +6,7 @@ seoDescription: "5 分鐘學會解讀你的八字（四柱命理）命盤。免�
 date: "2026-04-08"
 author: "DAO Essence"
 readTime: 11
-category: "bazi-astrology"
+category: bazi-astrology
 tags:
   - BaZi
   - Four Pillars of Destiny

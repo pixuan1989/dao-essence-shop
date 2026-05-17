@@ -29,45 +29,35 @@ const DIST_ZH_BLOG_DIR = path.join(DIST_DIR, 'zh', 'blog');
 const CATEGORY_FOLDERS = [
   'bazi-astrology',
   'zodiac-horoscope',
-  'feng-shui',
-  'daily-horoscope',
-  'lucky-tips'
+  'feng-shui'
 ];
 
 // Category labels (English)
 const CATEGORY_LABELS = {
   'bazi-astrology': 'BaZi Astrology',
-  'zodiac-horoscope': 'Chinese Zodiac',
-  'feng-shui': 'Feng Shui',
-  'daily-horoscope': 'Daily Chinese Horoscope',
-  'lucky-tips': 'Feng Shui Lucky Tips'
+  'zodiac-horoscope': 'Chinese Zodiac Horoscope',
+  'feng-shui': 'Home Feng Shui'
 };
 
 // Category labels (Traditional Chinese)
 const CATEGORY_LABELS_ZH = {
   'bazi-astrology': '八字命理',
-  'zodiac-horoscope': '十二生肖',
-  'feng-shui': '風水',
-  'daily-horoscope': '每日生肖運勢',
-  'lucky-tips': '風水開運小貼士'
+  'zodiac-horoscope': '十二生肖運勢',
+  'feng-shui': '家居風水'
 };
 
 // Category page meta descriptions (SEO-optimized, 150-160 chars)
 const CATEGORY_DESCRIPTIONS = {
   'bazi-astrology': 'Discover your BaZi birth chart and what Chinese astrology reveals about your personality, career path, and relationships. Explore expert guides and free tools.',
-  'feng-shui': 'Transform your space with Feng Shui principles for home, office, and relationships. Learn Five Elements theory, energy flow tips, and room-by-room guides.',
-  'daily-horoscope': 'Get your daily Chinese horoscope based on BaZi astrology and Five Elements energy. Discover today\'s luck cycle, favorable directions, and actionable tips.',
-  'zodiac-horoscope': 'Explore your Chinese zodiac sign personality, compatibility, and fortune. Discover how the 12 animal signs and Five Elements shape your life path.',
-  'lucky-tips': 'Practical luck tips from Chinese metaphysics: Feng Shui adjustments, Five Elements rituals, auspicious dates, and daily habits rooted in ancient wisdom.'
+  'feng-shui': 'Transform your home with Feng Shui principles. Learn room-by-room layout, Five Elements energy flow, and practical tips for a harmonious living space.',
+  'zodiac-horoscope': 'Explore Chinese zodiac sign personality, compatibility, and daily fortune. Discover how the 12 animal signs and Five Elements shape your life.'
 };
 
 // Category page meta descriptions (Traditional Chinese)
 const CATEGORY_DESCRIPTIONS_ZH = {
   'bazi-astrology': '探索你的八字命盤，了解中國命理如何揭示你的性格、事業與感情。專業指南與免費工具。',
-  'feng-shui': '用風水原則改善家居、辦公室與人際關係。學習五行理論、能量流動技巧與空間佈局指南。',
-  'daily-horoscope': '基於八字與五行能量的每日生肖運勢。了解今日幸運週期、吉利方位與實用建議。',
-  'zodiac-horoscope': '探索你的生肖性格、配對與運勢。了解十二生肖與五行如何影響你的人生道路。',
-  'lucky-tips': '中國玄學實用開運技巧：風水調整、五行儀式、吉日選擇與日常生活習慣。'
+  'feng-shui': '用風水原則改善家居環境。學習空間佈局、五行能量流動與實用家居風水技巧。',
+  'zodiac-horoscope': '探索生肖性格、配對與每日運勢。了解十二生肖與五行如何影響你的人生。'
 };
 
 // Fallback zh titles for recommendation sidebar (used when no zh article exists)
@@ -111,10 +101,8 @@ const NAV_HTML = `
                         <div class="nav-dropdown-menu">
                             <a href="/blog/" data-i18n="nav.blog_all_articles">All Articles</a>
                             <a href="/blog/bazi-astrology" data-i18n="nav.blog_bazi">BaZi Astrology</a>
-                            <a href="/blog/zodiac-horoscope" data-i18n="nav.blog_zodiac">Zodiac Sign Personality</a>
-                            <a href="/blog/feng-shui" data-i18n="nav.blog_feng_shui">Feng Shui</a>
-                            <a href="/blog/daily-horoscope" data-i18n="nav.blog_daily">Daily Horoscope</a>
-                            <a href="/blog/lucky-tips" data-i18n="nav.blog_lucky_tips">Lucky Tips</a>
+                            <a href="/blog/zodiac-horoscope" data-i18n="nav.blog_zodiac">Chinese Zodiac Horoscope</a>
+                            <a href="/blog/feng-shui" data-i18n="nav.blog_feng_shui">Home Feng Shui</a>
                         </div>
                     </li>
                     <li><a href="/culture" class="nav-link" data-i18n="common.five_elements">Five Elements</a></li>
@@ -1024,8 +1012,6 @@ function generateArticleHtml(post, category, allArticles, options = {}) {
   const CTA_DEFAULTS_BY_CATEGORY = {
     'feng-shui': ['almanac', 'five-elements'],
     'zodiac-horoscope': ['zodiac-lookup', 'five-elements'],
-    'daily-horoscope': ['almanac', 'bazi'],
-    'lucky-tips': ['almanac', 'favorable-element'],
     'bazi-astrology': ['bazi']
   };
   const ctaCards = Array.isArray(data.cta_cards) ? data.cta_cards : (CTA_DEFAULTS_BY_CATEGORY[category] || ['bazi']);

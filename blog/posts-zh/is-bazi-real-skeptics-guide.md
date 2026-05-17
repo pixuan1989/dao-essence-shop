@@ -4,7 +4,7 @@ slug: "is-bazi-real-skeptics-guide"
 description: "八字常被說成迷信——通常有充分理由。這篇誠實的指南把四柱真正測量的是什麼，與神秘包裝分開，並清楚回答準確性問題。"
 seoDescription: "八字是真的還是迷信？誠實拆解中國占星術真正測量的是什麼、做不到什麼，以及解讀時要注意的警訊。"
 lang: "zh-Hant"
-category: "bazi-astrology"
+category: bazi-astrology
 tags: "八字是真的嗎, 八字準確性, 四柱命理, 中國占星術真假, 八字解讀可信度, 八字懷疑論"
 date: "2026-05-09"
 author: "玄真"

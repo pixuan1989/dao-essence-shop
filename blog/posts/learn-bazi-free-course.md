@@ -6,7 +6,7 @@ seoDescription: "Learn Chinese astrology free — 6-chapter BaZi course covering
 date: "2026-04-29"
 author: "Xuanzhen"
 readTime: 9
-category: "bazi-astrology"
+category: bazi-astrology
 tags: ["learn ba zi free", "four pillars of destiny course", "bazi tutorial", "free bazi learning", "ba zi beginner course", "learn chinese astrology free"]
 image: "/images/blog/learn-bazi-free-course.webp"
 imageAlt: "Open book with golden BaZi chart pillars glowing on dark navy background, representing a free self-study course for Chinese Four Pillars of Destiny"

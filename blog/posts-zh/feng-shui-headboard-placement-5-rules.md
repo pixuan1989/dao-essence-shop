@@ -1,7 +1,7 @@
 ---
 title: "風水床頭擺放：5大鐵律"
 slug: "feng-shui-headboard-placement-5-rules"
-category: "feng-shui"
+category: feng-shui
 tags:
   - 風水
   - 臥室佈局

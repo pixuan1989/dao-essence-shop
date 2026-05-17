@@ -3,7 +3,7 @@ title: "八字靈魂伴侶預測：在哪裡遇見命中注定的人"
 seoTitle: "用八字看你和靈魂伴侶的相遇地點與方式"
 description: "想知道會在哪裡遇到命中注定的那個人？用你的八字，解鎖與靈魂伴侶相遇的地點、時機與方式。"
 date: "2026-04-18"
-category: "bazi-astrology"
+category: bazi-astrology
 tags:
   - soulmate
   - love-direction

@@ -6,7 +6,7 @@ seoDescription: "你的八字命盤「十神」揭示了你的友誼模式、社
 date: "2026-05-15"
 author: "Xuanzhen"
 readTime: 14
-category: "bazi-astrology"
+category: bazi-astrology
 tags:
   - 八字十神
   - 八字友誼模式

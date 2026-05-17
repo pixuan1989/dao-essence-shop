@@ -4,7 +4,7 @@ slug: "toxic-relationship-energy-bazi-compatibility"
 description: "你的關係是否在消耗你的能量？透過中國占星和八字命盤分析，學會辨識有毒關係與滋養關係的差異。"
 seoDescription: "你的關係是否在消耗你的能量？透過中國占星和八字命盤分析，學會辨識有毒關係與滋養關係的差異。"
 h1Title: "有毒關係的跡象：如何判斷某人是否適合你 — 八字指南"
-category: "bazi-astrology"
+category: bazi-astrology
 lang: "zh-Hant"
 tags: "有毒關係能量, 如何判斷某人是否適合你, 滋養與有毒關係, 星座配對, 五行感情合婚, 八字合婚, 中國占星感情, 十神愛情, 八字靈魂伴侶, 關係能量"
 date: "2026-05-16"

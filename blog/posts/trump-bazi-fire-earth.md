@@ -1,7 +1,7 @@
 ---
 title: "Why Trump Won Twice: BaZi Reveals the Pattern"
 slug: "trump-bazi-fire-earth"
-category: "bazi-astrology"
+category: bazi-astrology
 tags:
   - BaZi
   - Trump BaZi

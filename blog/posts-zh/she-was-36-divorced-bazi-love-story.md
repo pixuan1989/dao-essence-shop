@@ -7,7 +7,7 @@ h1Title: "她36歲離婚獨自撐起三家店，然後一個29歲的男孩走進
 date: "2026-05-15"
 author: "Xuanzhen"
 readTime: 12
-category: "bazi-astrology"
+category: bazi-astrology
 tags:
   - 八字愛情故事
   - 姐弟戀

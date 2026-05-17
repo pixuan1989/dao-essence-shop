@@ -2,7 +2,7 @@
 title: "為什麼川普能贏兩次？八字命盤揭露答案"
 slug: "trump-bazi-fire-earth"
 lang: "zh-Hant"
-category: "bazi-astrology"
+category: bazi-astrology
 tags:
   - 八字
   - 川普八字

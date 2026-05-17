@@ -4,7 +4,7 @@ slug: "she-was-36-divorced-bazi-love-story"
 description: "A divorced business owner met a man 7 years younger. Her BaZi chart revealed why the timing was perfect — and why their energies complemented each other."
 seoDescription: "A divorced business owner met a man 7 years younger. Her BaZi chart revealed why the timing was perfect — and why their energies complemented each other."
 h1Title: "She Was 36, Divorced, and Running Three Stores. Then a 29-Year-Old Walked Into Her Life — What Her BaZi Chart Revealed Surprised Them Both"
-category: "bazi-astrology"
+category: bazi-astrology
 tags: "bazi love story, older woman younger man chinese astrology, baiz romance, luck cycle love, snake rat compatibility, real bazi consultation, bazi relationship analysis, ten year luck cycle romance, soulmate bazi chart, chinese name change transformation"
 date: "2026-05-15"
 author: "Xuanzhen"

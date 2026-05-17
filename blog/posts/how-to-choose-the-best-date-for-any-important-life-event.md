@@ -1,6 +1,6 @@
 ---
 title: "Feng Shui Calendar: Best Dates for Life Events"
-category: lucky-tips
+category: feng-shui
 tags:
   - PerfectTiming，ChineseCalendarWisdom，AuspiciousDates
 description: "Pick the best dates for weddings, moving, business launches, and more. Free Chinese calendar tool uses 2000-year wisdom to find your lucky dates."

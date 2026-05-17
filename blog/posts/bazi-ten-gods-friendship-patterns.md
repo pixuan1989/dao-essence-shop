@@ -6,7 +6,7 @@ seoDescription: "Your BaZi chart's Ten Gods reveal your friendship patterns in C
 date: "2026-05-15"
 author: "Xuanzhen"
 readTime: 14
-category: "bazi-astrology"
+category: bazi-astrology
 tags:
   - baZi ten gods
   - baZi friendship patterns

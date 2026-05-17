@@ -1,7 +1,7 @@
 ---
 title: "Feng Shui Home Office: 7 Rules"
 slug: "feng-shui-home-office-7-rules"
-category: "feng-shui"
+category: feng-shui
 tags:
   - Feng Shui
   - Home Office

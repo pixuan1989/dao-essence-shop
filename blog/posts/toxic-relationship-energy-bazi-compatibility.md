@@ -4,7 +4,7 @@ slug: "toxic-relationship-energy-bazi-compatibility"
 description: "Is your relationship draining your energy? Learn the signs of toxic vs nourishing zodiac compatibility through Chinese astrology and BaZi chart analysis."
 seoDescription: "Is your relationship draining your energy? Learn the signs of toxic vs nourishing zodiac compatibility through Chinese astrology and BaZi chart analysis."
 h1Title: "Toxic Relationship Signs: How to Know If Someone Is Right for You — A BaZi Guide"
-category: "bazi-astrology"
+category: bazi-astrology
 tags: "toxic relationship energy, how to know if someone is right for you, nourishing vs toxic relationships, zodiac compatibility, Five Elements relationship compatibility, baiz compatibility, chinese astrology relationships, ten gods love, bazi soulmate, relationship energy"
 date: "2026-05-16"
 author: "Xuanzhen"

@@ -24,6 +24,10 @@
     }
   ],
   "redirects": [
+    { "source": "/blog/daily-horoscope", "destination": "/blog/zodiac-horoscope", "permanent": true },
+    { "source": "/blog/lucky-tips", "destination": "/blog/feng-shui", "permanent": true },
+    { "source": "/zh/blog/daily-horoscope", "destination": "/zh/blog/zodiac-horoscope", "permanent": true },
+    { "source": "/zh/blog/lucky-tips", "destination": "/zh/blog/feng-shui", "permanent": true },
     {
       "source": "/bazi-calculator",
       "destination": "/bazi-form",

@@ -1,7 +1,7 @@
 ---
 title: "Feng Shui Headboard Placement: 5 Rules"
 slug: "feng-shui-headboard-placement-5-rules"
-category: "feng-shui"
+category: feng-shui
 tags:
   - Feng Shui
   - Bedroom Layout

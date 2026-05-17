@@ -1,6 +1,6 @@
 ---
 title: "Five Elements Personality Test: Are You Wood, Fire, Earth, Metal or Water?"
-category: "bazi-astrology"
+category: bazi-astrology
 tags:
   - "Five Elements"
   - "Wu Xing"

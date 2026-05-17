@@ -3,7 +3,7 @@ title: "Why Your Luck Shifts Every Decade in BaZi"
 slug: "bazi-10-year-luck-cycles-guide"
 description: "Your life moves in 10-year chapters. BaZi calls them Major Luck Cycles (Da Yun) — and understanding yours explains why career, money, and relationships shift sharply between decades."
 seoDescription: "Why does life feel different every 10 years? Chinese astrology's Major Luck Cycles (Da Yun) reveal how to find yours and what each decade brings."
-category: "bazi-astrology"
+category: bazi-astrology
 tags: "bazi luck cycles, da yun, 10 year luck cycle, major luck pillars, bazi decade change, life shifts every decade, bazi timing, luck pillar reading"
 date: "2026-05-09"
 author: "Xuanzhen"

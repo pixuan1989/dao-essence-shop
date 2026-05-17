@@ -3,7 +3,7 @@ title: "乙木日主2026年5月八字月運預測"
 description: "癸巳月（2026年5月5日至6月4日）為乙木日主帶來「外火內水」的能量格局。傷官星激活創意突破與事業能見度，癸水則滋養並穩固你。涵蓋事業、財富、感情、健康，以及六大乙木日柱的專屬指導。"
 date: "2026-05-07"
 slug: "yi-wood-may-2026-gui-si-month"
-category: "bazi-astrology"
+category: bazi-astrology
 tags: ["乙木", "陰木", "八字月運", "癸巳月2026", "2026年5月中國占星", "傷官星", "日主月運", "乙木日柱"]
 author: "Dingwei"
 image: "/images/blog/yi-wood-yin-wood-may-2026-gui-si-month-forecast.webp"

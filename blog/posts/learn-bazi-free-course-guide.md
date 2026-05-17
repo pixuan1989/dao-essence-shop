@@ -3,7 +3,7 @@ title: "Stop Paying $200 — Learn to Read BaZi"
 slug: "teach-yourself-bazi-guide"
 description: "Most BaZi readings cost $100-300 and leave you with more questions than answers. You can learn to read your own birth chart for free in about two weeks of casual study."
 seoDescription: "Why pay $200 for a Chinese astrology reading? Learn BaZi free — our 6-chapter course takes you from zero to confident in 2 weeks."
-category: "bazi-astrology"
+category: bazi-astrology
 tags: "learn bazi yourself, free bazi course, read your own birth chart, teach yourself chinese astrology, bazi for beginners, bazi reading cost, free bazi tutorial, four pillars course"
 date: "2026-05-09"
 author: "Xuanzhen"

@@ -1,6 +1,6 @@
 ---
 title: 八字擇日指南：如何為人生大事選擇吉日
-category: lucky-tips
+category: feng-shui
 tags:
   - PerfectTiming，ChineseCalendarWisdom，AuspiciousDates
 description: 精選婚禮、搬遷、開業等吉日！免費中式曆法工具，運用兩千年傳統智慧，為您找出最旺運的黃道吉日。
