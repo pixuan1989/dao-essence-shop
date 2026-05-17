@@ -15,11 +15,11 @@ function detectProductType(card) {
     // 优先使用明确的分类字段
     const explicitCategory = card.categoryCN || card.category || '';
     
-    // 小说类关键词（中英文）
+    // 小说类关键词（仅保留强特征词，移除 book/story/author 等通用词防误判）
     const novelKeywords = [
-        'novel', 'book', 'fiction', 'story', 'cultivation', 'wuxia', 'xianxia',
-        '小说', '书籍', '故事', '读物', '修仙', '武侠', '玄幻', '神话',
-        'mysteries', 'lord', '卷', '章', 'author', 'writer'
+        'novel', 'fiction', 'cultivation', 'wuxia', 'xianxia',
+        '小说', '修仙', '武侠', '玄幻', '神话',
+        'mysteries', 'lord', '卷', '章'
     ];
     
     // 冥想/音频类关键词
@@ -34,6 +34,12 @@ function detectProductType(card) {
         '壁纸', '桌面', '锁屏', '手机壁纸', '电脑壁纸'
     ];
     
+    // 哲学/经典类关键词（2026-05-17 新增，区分道家经典与小说）
+    const philosophyKeywords = [
+        'philosophy', 'classic', 'wisdom', 'teaching', 'scripture',
+        '经典', '哲学', '道德经', '论语', '易经', '诗经', '道家', '国学'
+    ];
+    
     // 检查产品名称
     const name = (card.name || card.product_name || '').toLowerCase();
     const nameCN = (card.nameCN || '').toLowerCase();
@@ -43,11 +49,12 @@ function detectProductType(card) {
     let novelScore = 0;
     let meditationScore = 0;
     let wallpaperScore = 0;
+    let philosophyScore = 0;
     
     // 检查显式分类
     if (explicitCategory) {
         const cat = explicitCategory.toLowerCase();
-        if (cat.includes('小说') || cat.includes('novel') || cat.includes('book') || cat.includes('读物')) {
+        if (cat.includes('小说') || cat.includes('novel') || cat.includes('读物')) {
             novelScore += 10;
         }
         if (cat.includes('冥想') || cat.includes('meditation') || cat.includes('音频')) {
@@ -55,6 +62,9 @@ function detectProductType(card) {
         }
         if (cat.includes('壁纸') || cat.includes('wallpaper') || cat.includes('background')) {
             wallpaperScore += 10;
+        }
+        if (cat.includes('哲学') || cat.includes('经典') || cat.includes('philosophy') || cat.includes('国学')) {
+            philosophyScore += 10;
         }
     }
     
@@ -77,6 +87,12 @@ function detectProductType(card) {
         }
     });
     
+    philosophyKeywords.forEach(keyword => {
+        if (name.includes(keyword) || nameCN.includes(keyword)) {
+            philosophyScore += 2;
+        }
+    });
+    
     // 检查描述关键词
     novelKeywords.forEach(keyword => {
         if (description.includes(keyword)) {
@@ -96,6 +112,12 @@ function detectProductType(card) {
         }
     });
     
+    philosophyKeywords.forEach(keyword => {
+        if (description.includes(keyword)) {
+            philosophyScore += 1;
+        }
+    });
+    
     // 特殊规则：知名小说作品
     const knownNovels = [
         'mysteries', 'cuttlefish', '诡秘', '之主', 'lord',
@@ -111,10 +133,12 @@ function detectProductType(card) {
     // 返回判断结果 - 优先使用检测结果，而不是原始分类
     if (wallpaperScore > novelScore && wallpaperScore > meditationScore) {
         return 'Five Elements Wallpaper';
-    } else if (novelScore > meditationScore) {
-        return 'Xianxia Novels';
+    } else if (philosophyScore > novelScore && philosophyScore > meditationScore) {
+        return 'Taoist Philosophy';
     } else if (meditationScore > novelScore) {
         return 'Taoist Meditation';
+    } else if (novelScore > meditationScore) {
+        return 'Xianxia Novels';
     }
     
     // 默认返回原始分类或其他
