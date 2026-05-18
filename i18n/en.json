@@ -96,5 +96,20 @@
     "alert_network_error": "Network error. Please try again.",
     "share_text": "I just discovered my soulmate direction with this finder! Try it based on Chinese astrology.",
     "share_copied": "Link copied to clipboard!"
+  },
+  "common": {
+    "home": "Home",
+    "blog": "Blog",
+    "five_elements": "Five Elements",
+    "learn_bazi": "Learn BaZi",
+    "shop": "Shop",
+    "about_us": "About Us"
+  },
+  "nav": {
+    "zodiac_daily": "Chinese Zodiac",
+    "zodiac_daily_top": "Daily Horoscope"
+  },
+  "footer": {
+    "tool_zodiac": "Daily Horoscope"
   }
 }

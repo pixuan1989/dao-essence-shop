@@ -302,6 +302,7 @@
    * Adds/removes /zh prefix for blog and bilingual pages.
    */
   var BLOG_PATHS = ['/blog/', '/blog/bazi-astrology', '/blog/zodiac-horoscope', '/blog/feng-shui'];
+  var ZODIAC_PATHS = ['/zodiac/daily'];
 
   function rewriteNavLinks(lang) {
     // Only rewrite blog links to /zh/blog/* when zh pages actually exist.
@@ -325,6 +326,10 @@
           isBlog = true;
           break;
         }
+      }
+      // Also rewrite /zodiac/ links
+      if (!isBlog && normalized.indexOf('/zodiac/') === 0) {
+        isBlog = true;
       }
 
       if (!isBlog) continue;

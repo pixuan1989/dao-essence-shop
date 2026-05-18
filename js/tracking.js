@@ -175,6 +175,8 @@
 
         if (path === '/' || path === '/index.html') {
             page = 'home';
+        } else if (path.indexOf('/zodiac/') === 0) {
+            page = 'zodiac-daily';
         } else if (path.indexOf('/blog/') === 0) {
             // Blog article: /blog/slug → 'blog-article'
             page = path.indexOf('/blog/zodiac-horoscope') === 0 ? 'blog-zodiac'
