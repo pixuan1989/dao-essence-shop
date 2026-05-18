@@ -21,7 +21,7 @@
   <link rel="icon" type="image/png" href="/images/favicon.png">
   <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
 </head>
-<body>
+<body class="zodiac-dark-page">
 
   <!-- Site Header -->
   <header class="header">
@@ -318,6 +318,22 @@
           </div>
       </div>
   </footer>
+
+  <script>
+    // 覆盖 main.min.js 强制的 .scrolled：深色页保持透明+白字，真正滚动后才加背景
+    (function() {
+      var header = document.querySelector('.header');
+      function onScroll() {
+        if (window.scrollY > 50) {
+          header.classList.add('really-scrolled');
+        } else {
+          header.classList.remove('really-scrolled');
+        }
+      }
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll(); // init
+    })();
+  </script>
 
 </body>
 </html>

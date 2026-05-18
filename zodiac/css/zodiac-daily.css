@@ -35,6 +35,12 @@ body {
   color: var(--zodiac-text);
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;
+  padding-bottom: 80px; /* 卡片与 footer 间距 */
+}
+
+/* 去掉标题背后的"道"字装饰 */
+.page-header::before {
+  content: none !important;
 }
 
 /* ════════════════════════════════════
@@ -1026,22 +1032,78 @@ body.detail-page-body { overflow-x: hidden; }
 
 /* ═══ Site Header & Footer overrides for dark page ═══ */
 
-/* Header scrolled state: force dark text on light background */
-.header.scrolled .nav-link,
-.header.scrolled .nav-dropdown-trigger,
-.header.scrolled .logo-en,
-.header.scrolled .logo-cn {
-  color: #2C2416 !important;
+/*
+  main.min.js 强制给非首页 header 加 .scrolled（浅色背景）。
+  本页是深色背景，需要覆盖为：初始透明+白字，真正滚动后才出现背景。
+  通过 .zodiac-dark-page 限定作用域。
+*/
+
+/* 1. 覆盖 main.min.js 强制的 .scrolled → 恢复透明+白字 */
+.zodiac-dark-page .header.scrolled {
+  background: transparent !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
 }
-.header.scrolled .nav-link::after,
-.header.scrolled .nav-dropdown-trigger::after {
-  background: #2C2416 !important;
+.zodiac-dark-page .header.scrolled .nav-link,
+.zodiac-dark-page .header.scrolled .nav-dropdown-trigger {
+  color: var(--bg-primary) !important;
 }
-.header.scrolled .nav-dropdown-arrow {
-  border-top-color: #2C2416 !important;
+.zodiac-dark-page .header.scrolled .logo-en {
+  color: rgba(245, 240, 230, 0.7) !important;
 }
-.header.scrolled .mobile-menu-btn span {
-  background: #2C2416 !important;
+.zodiac-dark-page .header.scrolled .nav-link::after,
+.zodiac-dark-page .header.scrolled .nav-dropdown-trigger::after {
+  background: var(--bg-primary) !important;
+}
+.zodiac-dark-page .header.scrolled .nav-link:hover,
+.zodiac-dark-page .header.scrolled .nav-link.active,
+.zodiac-dark-page .header.scrolled .nav-dropdown:hover > .nav-dropdown-trigger {
+  color: var(--accent-color) !important;
+}
+.zodiac-dark-page .header.scrolled .nav-link:hover::after,
+.zodiac-dark-page .header.scrolled .nav-link.active::after,
+.zodiac-dark-page .header.scrolled .nav-dropdown:hover > .nav-dropdown-trigger::after {
+  background: var(--accent-color) !important;
+}
+.zodiac-dark-page .header.scrolled .mobile-menu-btn span {
+  background: var(--bg-primary) !important;
+}
+.zodiac-dark-page .header.scrolled .nav-dropdown-arrow {
+  border-top-color: var(--bg-primary) !important;
+}
+
+/* 2. 真正滚动后 (>50px) 才出现浅色背景+深色文字 */
+.zodiac-dark-page .header.really-scrolled {
+  background: rgba(245, 240, 230, 0.95) !important;
+  backdrop-filter: blur(10px) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;
+}
+.zodiac-dark-page .header.really-scrolled .nav-link,
+.zodiac-dark-page .header.really-scrolled .nav-dropdown-trigger {
+  color: var(--text-primary) !important;
+}
+.zodiac-dark-page .header.really-scrolled .logo-en {
+  color: var(--text-secondary) !important;
+}
+.zodiac-dark-page .header.really-scrolled .nav-link::after,
+.zodiac-dark-page .header.really-scrolled .nav-dropdown-trigger::after {
+  background: var(--accent-color) !important;
+}
+.zodiac-dark-page .header.really-scrolled .nav-link:hover,
+.zodiac-dark-page .header.really-scrolled .nav-link.active,
+.zodiac-dark-page .header.really-scrolled .nav-dropdown:hover > .nav-dropdown-trigger {
+  color: var(--accent-color) !important;
+}
+.zodiac-dark-page .header.really-scrolled .nav-link:hover::after,
+.zodiac-dark-page .header.really-scrolled .nav-link.active::after,
+.zodiac-dark-page .header.really-scrolled .nav-dropdown:hover > .nav-dropdown-trigger::after {
+  background: var(--accent-color) !important;
+}
+.zodiac-dark-page .header.really-scrolled .mobile-menu-btn span {
+  background: var(--text-primary) !important;
+}
+.zodiac-dark-page .header.really-scrolled .nav-dropdown-arrow {
+  border-top-color: var(--text-primary) !important;
 }
 
 /* Footer visibility on dark background */
