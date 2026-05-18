@@ -1020,3 +1020,42 @@ body.detail-page-body { overflow-x: hidden; }
     grid-template-columns: 1fr;
   }
 }
+
+/* ═══ Site Header & Footer overrides for dark page ═══ */
+
+/* Header scrolled state: force dark text on light background */
+.header.scrolled .nav-link,
+.header.scrolled .nav-dropdown-trigger,
+.header.scrolled .logo-en,
+.header.scrolled .logo-cn {
+  color: #2C2416 !important;
+}
+.header.scrolled .nav-link::after,
+.header.scrolled .nav-dropdown-trigger::after {
+  background: #2C2416 !important;
+}
+.header.scrolled .nav-dropdown-arrow {
+  border-top-color: #2C2416 !important;
+}
+.header.scrolled .mobile-menu-btn span {
+  background: #2C2416 !important;
+}
+
+/* Footer visibility on dark background */
+.footer {
+  position: relative;
+  z-index: 2;
+  border-top: 1px solid rgba(212, 175, 55, 0.25);
+}
+.footer .footer-title {
+  color: #D4AF37 !important;
+}
+.footer a,
+.footer p,
+.footer span,
+.footer .logo-en {
+  color: rgba(232, 228, 220, 0.8) !important;
+}
+.footer-bottom {
+  color: rgba(232, 228, 220, 0.5) !important;
+}
