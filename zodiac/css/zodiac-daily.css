@@ -163,7 +163,7 @@ body {
 .page-wrapper {
   position: relative; z-index: 2;
   max-width: 960px; margin: 0 auto;
-  padding: 40px 16px 64px;
+  padding-top: 100px; /* 预留固定 header 高度 */
 }
 
 /* ════════════════════════════════════
