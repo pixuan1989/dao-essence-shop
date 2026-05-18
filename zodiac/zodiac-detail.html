@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+  <title>生肖运势 · DaoEssentia</title>
+  <meta property="og:type" content="website">
+
+  <!--
+    ★ 生肖每日运势 · 详情页 v6 — 左右分栏布局（无emoji）
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    项目代号：zodiac-daily
+    如需回滚删除整个项目：删除 zodiac/ 目录即可
+  -->
+  <link rel="stylesheet" href="css/zodiac-daily.css">
+
+  <!-- 12 生肖渐变背景（JS 根据 sign 设置） -->
+  <script>
+    var ZODIAC_BG = {
+      rat:     'linear-gradient(165deg, #0a1628, #102a43, #163e5f, #1a4a6b)',
+      ox:      'linear-gradient(160deg, #071a12, #0d2818, #143d26, #1a5035)',
+      tiger:   'linear-gradient(155deg, #1a0c08, #2d1408, #401808, #551c08)',
+      rabbit:  'linear-gradient(170deg, #180a14, #280e20, #38122c, #481638)',
+      dragon:  'linear-gradient(150deg, #1a1400, #332200, #4d3000, #663e00)',
+      snake:   'linear-gradient(160deg, #12081a, #1c0c30, #261046, #30145c)',
+      horse:   'linear-gradient(155deg, #1a0608, #33090c, #4c0c10, #650f14)',
+      goat:    'linear-gradient(175deg, #14141a, #20202c, #2c2c3e, #383850)',
+      monkey:  'linear-gradient(162deg, #061418, #0c242c, #123440, #184454)',
+      rooster: 'linear-gradient(168deg, #1a1008, #331c10, #4d2818, #663420)',
+      dog:     'linear-gradient(172deg, #121210, #1e201c, #2a2e28, #363c34)',
+      pig:     'linear-gradient(158deg, #14081a, #240e30, #341446, #441a5c)'
+    };
+    var ZODIACCOLORS = {
+      rat:'#D4AF37', ox:'#5B8299', tiger:'#B8665E', rabbit:'#5E825E', dragon:'#FFD54F',
+      snake:'#8B5CF6', horse:'#B8665E', goat:'#FFFFFF', monkey:'#00E5FF',
+      rooster:'#C084FC', dog:'#9E8E6E', pig:'#5B8299'
+    };
+
+    (function(){
+      var params = new URLSearchParams(location.search);
+      var s = params.get('sign') || 'dragon';
+      var el = document.createElement('style');
+      el.textContent = '.detail-bg{background:'+(ZODIAC_BG[s]||ZODIAC_BG.dragon)+'}';
+      document.head.appendChild(el);
+    })();
+  </script>
+</head>
+
+<body class="detail-page-body">
+
+  <!-- 背景 -->
+  <div class="detail-bg"></div>
+
+  <!-- ═══ 顶栏 ═══ -->
+  <header class="detail-nav">
+    <a class="detail-nav__back" href="zodiac-daily.html">← 返回运势首页</a>
+  </header>
+
+  <!-- ═══ 内容层 ═══ -->
+  <main class="detail-content-v5">
+
+    <!-- 日期 -->
+    <div class="detail-date-badge" id="dateBadge"></div>
+
+    <!-- ━━━━ 左右布局 ━━━━ -->
+    <div class="detail-layout">
+
+      <!-- 左侧：插图 -->
+      <div class="detail-layout__left">
+        <div class="detail-card-left">
+          <img class="detail-card-left__img" id="cardImg" alt="">
+          <div class="detail-card-left__glow"></div>
+        </div>
+      </div>
+
+      <!-- 右侧：信息 -->
+      <div class="detail-layout__right">
+        <div class="detail-header">
+          <h1 class="detail-header__name" id="cardName"></h1>
+          <div class="detail-header__score">
+            <span class="detail-header__score-num" id="cardScore"></span>
+            <span class="detail-header__stars" id="cardStars"></span>
+          </div>
+        </div>
+
+        <!-- ━━━━ 关键信息 ━━━━ -->
+        <div class="detail-info-row" id="infoRow"></div>
+
+        <!-- ━━━━ 宜忌 ━━━━ -->
+        <div class="detail-yiji" id="yijiRow"></div>
+
+        <!-- ━━━━ 金句 ━━━━ -->
+        <blockquote class="detail-quote">
+          <p id="quoteText"></p>
+        </blockquote>
+      </div>
+    </div>
+
+    <!-- ━━━━ 分享栏 ━━━━ -->
+    <div class="share-bar-v5" id="shareBarV5">
+      <span class="share-bar-v5__label">SHARE YOUR RESULT</span>
+      <div class="share-bar-v5__icons" id="shareIcons"></div>
+    </div>
+
+    <!-- ━━━━ 分割线 + SEO 文本区 ━━━━ -->
+    <div class="seo-divider">
+      <span class="seo-divider__line"></span>
+      <span class="seo-divider__text">今日运势解读</span>
+      <span class="seo-divider__line"></span>
+    </div>
+
+    <article class="seo-content" id="seoContent">
+      <h2>今日<span id="seoSignName"></span>运势详解</h2>
+      <p id="seoText">运势解读内容将由每日引擎生成，此处为占位文本。每次更新可自动生成独立页面内容，提升搜索引擎收录权重。</p>
+    </article>
+
+    <!-- ━━━━ FAQ 模块 ━━━━ -->
+    <script type="application/ld+json" id="faqJsonLd"></script>
+    <section class="faq-section" id="faqSection">
+      <div class="faq-section__header">
+        <h2 class="faq-section__title">Frequently Asked Questions</h2>
+        <p class="faq-section__subtitle">关于<span id="faqSignName"></span>今日运势的常见问题</p>
+      </div>
+      <div class="faq-list" id="faqList"></div>
+    </section>
+
+    <!-- ━━━━ 博客导流 ━━━━ -->
+    <section class="blog-links-section" id="blogLinksSection">
+      <div class="blog-links-section__header">
+        <h2 class="blog-links-section__title">相关阅读</h2>
+        <p class="blog-links-section__subtitle">深入了解更多命理知识</p>
+      </div>
+      <div class="blog-links-list" id="blogLinksList"></div>
+    </section>
+
+  </main>
+
+  <script src="js/zodiac-data.js"></script>
+  <script>
+    (function() {
+      var params = new URLSearchParams(location.search);
+      var sign   = params.get('sign') || 'dragon';
+      var dateStr = params.get('date') || new Date().toISOString().split('T')[0];
+
+      var dayData = getDayData(dateStr);
+      var data = dayData[sign];
+      if (!data) { alert('暂无该生肖数据'); location.href='zodiac-daily.html'; return; }
+
+      var meta = null;
+      for (var i=0;i<ZODIAC_SIGNS.length;i++) { if(ZODIAC_SIGNS[i].key===sign){meta=ZODIAC_SIGNS[i];break;} }
+      if (!meta) return;
+
+      var accent = ZODIACCOLORS[sign] || '#D4AF37';
+
+      // 日期
+      var d = dateStr.split('-');
+      var wk = ['周日','周一','周二','周三','周四','周五','周六'];
+      var dt = new Date(parseInt(d[0]),parseInt(d[1])-1,parseInt(d[2]));
+      document.getElementById('dateBadge').textContent = d[0]+'年'+d[1]+'月'+d[2]+'日 · '+wk[dt.getDay()];
+
+      // 卡片插图
+      var img = document.getElementById('cardImg');
+      img.src = 'images/' + sign + '.webp';
+      img.alt = meta.name;
+      img.onerror = function() { this.style.display='none'; };
+
+      // 卡片文字（无 emoji）
+      document.getElementById('cardName').textContent = meta.name;
+      document.getElementById('cardScore').textContent = data.score;
+      document.getElementById('cardStars').textContent = renderStars(data.score);
+      document.getElementById('cardScore').style.color = accent;
+
+      // 关键信息
+      document.getElementById('infoRow').innerHTML =
+        '<div class="info-chip"><span class="dot" style="background:'+data.color+'"></span>幸运色 <strong>'+data.colorName+'</strong></div>' +
+        '<div class="info-chip">幸运数 <strong>'+data.number+'</strong></div>' +
+        '<div class="info-chip">方位 <strong>'+data.direction+'</strong></div>';
+
+      // 宜忌
+      var goodTags='', badTags='';
+      data.good.forEach(function(g){ goodTags+='<span class="y-tag y-tag--good">'+g+'</span>'; });
+      data.avoid.forEach(function(a){ badTags+='<span class="y-tag y-tag--bad">'+a+'</span>'; });
+      document.getElementById('yijiRow').innerHTML =
+        '<div class="yiji-block yiji-block--good"><div class="yiji-block__hdr">宜</div><div class="yiji-block__tags">'+goodTags+'</div></div>' +
+        '<div class="yiji-block yiji-block--bad"><div class="yiji-block__hdr">忌</div><div class="yiji-block__tags">'+badTags+'</div></div>';
+
+      // 金句
+      document.getElementById('quoteText').textContent = data.quote;
+
+      // SEO 占位
+      document.getElementById('seoSignName').textContent = meta.name;
+
+      // 分享栏图标
+      var shareUrl = encodeURIComponent(location.href);
+      var shareText = encodeURIComponent(meta.name + '今日运势 ' + data.score + '分 ' + data.quote);
+      var icons = [
+        { name:'X',        href:'https://twitter.com/intent/tweet?text='+shareText+'&url='+shareUrl, icon:'<path d="M18.36 2H21L14.49 10.5 22 20h-6.66l-5.06-6.6-5.79 6.6H2l7.16-8.94L2 2h6.84l4.55 5.94L18.36 2z"/>' },
+        { name:'Facebook', href:'https://www.facebook.com/sharer/sharer.php?u='+shareUrl, icon:'<path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/>' },
+        { name:'WhatsApp', href:'https://wa.me/?text='+shareText+'%20'+shareUrl, icon:'<path d="M17.5 14.1c-.3-.1-.5-.2-.7-.1-.2.1-.4.4-.6.6-.1.2-.3.3-.5.3-.2-.1-.5-.2-.8-.4-.3-.2-.6-.4-.9-.7-.3-.3-.5-.6-.7-.9-.2-.3-.3-.6-.4-.8 0-.2.1-.4.3-.5.2-.1.4-.3.6-.6.1-.2.1-.4 0-.6-.1-.2-.2-.4-.3-.6-.2-.4-.4-.9-.7-1.3-.2-.4-.5-.7-.9-.9-.4-.2-.8-.2-1.2 0-.4.2-.7.5-.9.9-.2.4-.3.9-.3 1.3 0 .5.1 1 .4 1.5.3.5.6 1 1 1.4.5.5 1 .9 1.6 1.2.6.3 1.1.5 1.7.5.6.1 1.1-.1 1.5-.4.4-.3.7-.7.9-1.1.2-.4.2-.8.1-1.2z"/>' },
+        { name:'LinkedIn', href:'https://www.linkedin.com/sharing/share-offsite/?url='+shareUrl, icon:'<path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/>' },
+        { name:'Reddit',   href:'https://reddit.com/submit?title='+shareText+'&url='+shareUrl, icon:'<circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/>' },
+        { name:'Pinterest',href:'https://pinterest.com/pin/create/button/?url='+shareUrl+'&description='+shareText, icon:'<circle cx="12" cy="12" r="10"/><line x1="8" y1="20" x2="12" y2="9"/><path d="M12 9l-2 5"/>' },
+        { name:'Copy',     href:'#', action:'copy', icon:'<rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>' }
+      ];
+      var iconsHTML = '';
+      icons.forEach(function(ic){
+        var onclick = ic.action==='copy' ? 'onclick="doCopyShare(event)"' : 'target="_blank" rel="noopener"';
+        iconsHTML += '<a href="'+ic.href+'" class="share-icon-btn" title="分享到 '+ic.name+'" '+onclick+' aria-label="分享到'+ic.name+'">' +
+          '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+ic.icon+'</svg>' +
+        '</a>';
+      });
+      document.getElementById('shareIcons').innerHTML = iconsHTML;
+
+      // 分享数据全局
+      window.shareText = meta.name + '今日运势 ' + data.score + '分\n幸运色：'+data.colorName+' | 数：'+data.number+'\n「'+data.quote+'」';
+      window.shareURL = location.href;
+
+      // ── 渲染 FAQ 模块 ──
+      var faqSignNameEl = document.getElementById('faqSignName');
+      if (faqSignNameEl) faqSignNameEl.textContent = meta.name;
+
+      // FAQ 数据模板（基于当日 fortune 数据填充）
+      var verdictMapCN = {
+        '上升': '运势上升',
+        '降低': '运势降低',
+        '一般': '运势一般',
+        '喜忧参半': '喜忧参半',
+        '稳定': '运势稳定',
+      };
+      var faqData = [
+        {
+          q: meta.name + '今日运势如何？',
+          a: meta.name + '今日运势' + (verdictMapCN[data.verdict] || data.verdict) + '，综合评分 ' + data.score + '/100。幸运数字 ' + data.number + '，幸运方位 ' + data.direction + '，幸运色 ' + data.colorName + '。宜' + data.good.join('、') + '，忌' + data.avoid.join('、') + '。'
+        },
+        {
+          q: meta.name + '今日事业工作运势好吗？',
+          a: '根据天干地支五行推算，今日' + meta.name + '的工作运势受' + (data.verdict === '上升' ? '吉星扶助，适合主动出击' : data.verdict === '降低' ? '不利因素较多，宜静不宜动' : '平稳推进，按计划行事') + '。建议' + (data.good[0] ? '今日宜' + data.good[0] : '保持专注') + '。'
+        },
+        {
+          q: meta.name + '今日财运/爱情运势如何？',
+          a: '今日' + meta.name + '的整体能量' + (verdictMapCN[data.verdict] || data.verdict) + '，具体运势详见上方详细解读。综合建议：' + data.quote + '。配合幸运数字 ' + data.number + ' 和幸运方位 ' + data.direction + ' 行动，效果更佳。'
+        }
+      ];
+
+      // JSON-LD Schema
+      var jsonLd = {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        'mainEntity': faqData.map(function(f) {
+          return {
+            '@type': 'Question',
+            'name': f.q,
+            'acceptedAnswer': {
+              '@type': 'Answer',
+              'text': f.a
+            }
+          };
+        })
+      };
+      var ldEl = document.getElementById('faqJsonLd');
+      if (ldEl) ldEl.textContent = JSON.stringify(jsonLd);
+
+      // 可见 FAQ 内容
+      var faqListEl = document.getElementById('faqList');
+      if (faqListEl) {
+        var html = '';
+        faqData.forEach(function(faq) {
+          html += '<details class="faq-item">' +
+            '<summary class="faq-item__q">' + faq.q + '</summary>' +
+            '<div class="faq-item__a">' + faq.a + '</div>' +
+          '</details>';
+        });
+        faqListEl.innerHTML = html;
+      }
+
+      // ── 渲染博客导流（根据页面语言自动切换中英文）──
+      var pageLang = document.documentElement.lang || 'zh-Hant';
+      var blogLinks = pageLang.startsWith('zh') ? (data.blogLinksCN || []) : (data.blogLinksEN || []);
+      var blogLinksEl = document.getElementById('blogLinksList');
+      if (blogLinksEl && blogLinks.length > 0) {
+        var blogHtml = '';
+        blogLinks.forEach(function(link) {
+          blogHtml += '<a href="' + link.url + '" class="blog-link-card">' +
+            '<div class="blog-link-card__icon">📖</div>' +
+            '<div class="blog-link-card__content">' +
+              '<div class="blog-link-card__title">' + link.title + '</div>' +
+              '<div class="blog-link-card__arrow">→</div>' +
+            '</div>' +
+          '</a>';
+        });
+        blogLinksEl.innerHTML = blogHtml;
+        var blogSection = document.getElementById('blogLinksSection');
+        if (blogSection) blogSection.style.display = 'block';
+      } else if (blogLinksEl) {
+        var blogSection = document.getElementById('blogLinksSection');
+        if (blogSection) blogSection.style.display = 'none';
+      }
+    })();
+
+    function doCopyShare(e) {
+      e.preventDefault();
+      var text = window.shareText + '\n' + window.shareURL;
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(text).then(function(){ showCopyOk(); });
+      } else {
+        var ta = document.createElement('textarea'); ta.value=text;
+        document.body.appendChild(ta); ta.select();
+        document.execCommand('copy'); ta.remove(); showCopyOk();
+      }
+    }
+    function showCopyOk() {
+      var t = document.createElement('div');
+      t.className = 'copy-toast';
+      t.textContent = '链接已复制';
+      document.body.appendChild(t);
+      setTimeout(function(){ t.classList.add('show'); }, 10);
+      setTimeout(function(){ t.classList.remove('show'); setTimeout(function(){ t.remove(); }, 300); }, 1800);
+    }
+  </script>
+
+</body>
+</html>
