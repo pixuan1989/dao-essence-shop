@@ -13,7 +13,7 @@
     如需回滚删除整个项目：删除 zodiac/ 目录即可
   -->
   <link rel="stylesheet" href="css/zodiac-daily.css">
-  <script src="../js/tool-share.js" defer></script>
+  <script src="../js/tool-share.js"></script>
 
   <!-- 12 生肖渐变背景（JS 根据 sign 设置） -->
   <script>
@@ -150,6 +150,9 @@
 
       var accent = ZODIACCOLORS[sign] || '#D4AF37';
 
+      // 运势判定（根据分数）
+      var verdict = data.score >= 80 ? '上升' : data.score >= 60 ? '稳定' : data.score >= 50 ? '一般' : '降低';
+
       // 日期
       var d = dateStr.split('-');
       var wk = ['周日','周一','周二','周三','周四','周五','周六'];
@@ -212,15 +215,15 @@
       var faqData = [
         {
           q: meta.name + '今日运势如何？',
-          a: meta.name + '今日运势' + (verdictMapCN[data.verdict] || data.verdict) + '，综合评分 ' + data.score + '/100。幸运数字 ' + data.number + '，幸运方位 ' + data.direction + '，幸运色 ' + data.colorName + '。宜' + data.good.join('、') + '，忌' + data.avoid.join('、') + '。'
+          a: meta.name + '今日运势' + (verdictMapCN[verdict] || verdict) + '，综合评分 ' + data.score + '/100。幸运数字 ' + data.number + '，幸运方位 ' + data.direction + '，幸运色 ' + data.colorName + '。宜' + data.good.join('、') + '，忌' + data.avoid.join('、') + '。'
         },
         {
           q: meta.name + '今日事业工作运势好吗？',
-          a: '根据天干地支五行推算，今日' + meta.name + '的工作运势受' + (data.verdict === '上升' ? '吉星扶助，适合主动出击' : data.verdict === '降低' ? '不利因素较多，宜静不宜动' : '平稳推进，按计划行事') + '。建议' + (data.good[0] ? '今日宜' + data.good[0] : '保持专注') + '。'
+          a: '根据天干地支五行推算，今日' + meta.name + '的工作运势' + (verdict === '上升' ? '受吉星扶助，适合主动出击' : verdict === '降低' ? '不利因素较多，宜静不宜动' : '平稳推进，按计划行事') + '。建议' + (data.good[0] ? '今日宜' + data.good[0] : '保持专注') + '。'
         },
         {
           q: meta.name + '今日财运/爱情运势如何？',
-          a: '今日' + meta.name + '的整体能量' + (verdictMapCN[data.verdict] || data.verdict) + '，具体运势详见上方详细解读。综合建议：' + data.quote + '。配合幸运数字 ' + data.number + ' 和幸运方位 ' + data.direction + ' 行动，效果更佳。'
+          a: '今日' + meta.name + '的整体能量' + (verdictMapCN[verdict] || verdict) + '，具体运势详见上方详细解读。综合建议：' + data.quote + '。配合幸运数字 ' + data.number + ' 和幸运方位 ' + data.direction + ' 行动，效果更佳。'
         }
       ];
 
