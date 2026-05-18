@@ -737,10 +737,25 @@ function updateDataFile(date, fortunes) {
     }
     content = content.slice(0, start) + newBlock.trim() + content.slice(end);
   } else {
-    // 在 "default" 块后插入
-    const insertAfter = content.indexOf('"default": {');
-    if (insertAfter !== -1) {
-      content = content.slice(0, insertAfter + 11) + newBlock + content.slice(insertAfter + 11);
+    // 在 "default" 块结束后插入
+    const defaultRegex = /"default":\s*\{/g;
+    const defaultMatch = defaultRegex.exec(content);
+    if (defaultMatch) {
+      const defaultStart = defaultMatch.index;
+      let braceCount = 0, defaultEnd = defaultStart;
+      for (let i = defaultStart; i < content.length; i++) {
+        if (content[i] === '{') braceCount++;
+        if (content[i] === '}') braceCount--;
+        if (braceCount === 0 && i > defaultStart) {
+          defaultEnd = i + 1; // 包含 '}'
+          break;
+        }
+      }
+      // 跳过 default 块后面的逗号和空白
+      while (defaultEnd < content.length && /[,\s]/.test(content[defaultEnd])) {
+        defaultEnd++;
+      }
+      content = content.slice(0, defaultEnd) + newBlock + content.slice(defaultEnd);
     }
   }
 

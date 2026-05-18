@@ -708,7 +708,14 @@ const ZODIAC_LOOKUP_HTML = `
     var ZODIAC_MONTHS_ZH = ['','一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'];
 
     function isZhMode() {
-        return window.DaoI18n && window.DaoI18n.current && window.DaoI18n.current() === 'zh';
+        if (window.DaoI18n && window.DaoI18n.current) {
+            return window.DaoI18n.current() === 'zh';
+        }
+        // Fallback: static pages where DaoI18n may not be loaded
+        var path = (window.location && window.location.pathname) || '';
+        if (path.startsWith('/zh/')) return true;
+        var htmlLang = document.documentElement && document.documentElement.lang;
+        return htmlLang === 'zh' || htmlLang === 'zh-Hant' || htmlLang === 'zh-TW';
     }
     function zt(key, enText) {
         if (!window.DaoI18n || !window.DaoI18n.t) return enText;
@@ -779,6 +786,29 @@ const ZODIAC_LOOKUP_HTML = `
     }
     <\/script>
 </div>`;
+
+// ─── Localize zodiac lookup widget at build time ────────────
+function localizeZodiacWidgetHtml(html, isZh) {
+  if (!isZh) return html;
+  return html
+    .replace("What's Your Chinese Zodiac?", '你的生肖是什麼？')
+    .replace('Enter your birth year to find out', '輸入出生年份即可查詢')
+    .replace('Select Year', '選擇年份')
+    .replace('>Month<', '>月份<')
+    .replace('>Look Up<', '>查詢<')
+    .replace('>January<', '>一月<')
+    .replace('>February<', '>二月<')
+    .replace('>March<', '>三月<')
+    .replace('>April<', '>四月<')
+    .replace('>May<', '>五月<')
+    .replace('>June<', '>六月<')
+    .replace('>July<', '>七月<')
+    .replace('>August<', '>八月<')
+    .replace('>September<', '>九月<')
+    .replace('>October<', '>十月<')
+    .replace('>November<', '>十一月<')
+    .replace('>December<', '>十二月<');
+}
 
 // ─── Helpers ────────────────────────────────────────────────
 
@@ -1147,10 +1177,10 @@ function generateArticleHtml(post, category, allArticles, options = {}) {
   let finalBody;
   if (hasMarkdownMarker) {
     // Replace inline placeholder
-    finalBody = fixedBody.replace('<!--ZODIAC_LOOKUP_PLACEHOLDER-->', ZODIAC_LOOKUP_HTML);
+    finalBody = fixedBody.replace('<!--ZODIAC_LOOKUP_PLACEHOLDER-->', localizeZodiacWidgetHtml(ZODIAC_LOOKUP_HTML, isZh));
   } else if (hasZodiacCta) {
     // Append widget at end of article content (will be placed before </article>)
-    finalBody = fixedBody + '\n' + ZODIAC_LOOKUP_HTML;
+    finalBody = fixedBody + '\n' + localizeZodiacWidgetHtml(ZODIAC_LOOKUP_HTML, isZh);
   } else {
     finalBody = fixedBody;
   }
@@ -1535,7 +1565,7 @@ ${NAV_HTML}
         <div class="blog-content">
         <a href="${langPrefix}/blog/" class="blog-back-link">${isZh ? '← 返回部落格' : '← Back to Blog'}</a>
         <div class="blog-category-header">
-            <p class="blog-category-breadcrumb"><a href="/">${isZh ? '首頁' : 'Home'}</a> / <a href="${langPrefix}/blog/">Blog</a> / ${label}</p>
+            <p class="blog-category-breadcrumb"><a href="/">${isZh ? '首頁' : 'Home'}</a> / <a href="${langPrefix}/blog/">${isZh ? '部落格' : 'Blog'}</a> / ${label}</p>
             <h1>${label}</h1>
             <p>${isZh ? `DaoEssence 的${label}文章與指南。` : `Articles and guides on ${label} by DAO Essence.`}</p>
         </div>
@@ -1546,14 +1576,14 @@ ${cardHtml}
         </div>
 
         <aside class="blog-sidebar">
-        ${ZODIAC_LOOKUP_HTML}
+        ${localizeZodiacWidgetHtml(ZODIAC_LOOKUP_HTML, isZh)}
         </aside>
     </div>
     ` : `
     <main class="blog-category">
         <a href="${langPrefix}/blog/" class="blog-back-link">${isZh ? '← 返回部落格' : '← Back to Blog'}</a>
         <div class="blog-category-header">
-            <p class="blog-category-breadcrumb"><a href="/">${isZh ? '首頁' : 'Home'}</a> / <a href="${langPrefix}/blog/">Blog</a> / ${label}</p>
+            <p class="blog-category-breadcrumb"><a href="/">${isZh ? '首頁' : 'Home'}</a> / <a href="${langPrefix}/blog/">${isZh ? '部落格' : 'Blog'}</a> / ${label}</p>
             <h1>${label}</h1>
             <p>${isZh ? `DaoEssence 的${label}文章與指南。` : `Articles and guides on ${label} by DAO Essence.`}</p>
         </div>
