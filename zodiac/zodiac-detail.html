@@ -13,6 +13,7 @@
     如需回滚删除整个项目：删除 zodiac/ 目录即可
   -->
   <link rel="stylesheet" href="css/zodiac-daily.css">
+  <script src="../js/tool-share.js" defer></script>
 
   <!-- 12 生肖渐变背景（JS 根据 sign 设置） -->
   <script>
@@ -97,10 +98,7 @@
     </div>
 
     <!-- ━━━━ 分享栏 ━━━━ -->
-    <div class="share-bar-v5" id="shareBarV5">
-      <span class="share-bar-v5__label">分享你的运势</span>
-      <div class="share-bar-v5__icons" id="shareIcons"></div>
-    </div>
+    <div id="zodiac-share"></div>
 
     <!-- ━━━━ 分割线 + SEO 文本区 ━━━━ -->
     <div class="seo-divider">
@@ -190,30 +188,14 @@
       // SEO 占位
       document.getElementById('seoSignName').textContent = meta.name;
 
-      // 分享栏图标
-      var shareUrl = encodeURIComponent(location.href);
-      var shareText = encodeURIComponent(meta.name + '今日运势 ' + data.score + '分 ' + data.quote);
-      var icons = [
-        { name:'X',        href:'https://twitter.com/intent/tweet?text='+shareText+'&url='+shareUrl, icon:'<path d="M18.36 2H21L14.49 10.5 22 20h-6.66l-5.06-6.6-5.79 6.6H2l7.16-8.94L2 2h6.84l4.55 5.94L18.36 2z"/>' },
-        { name:'Facebook', href:'https://www.facebook.com/sharer/sharer.php?u='+shareUrl, icon:'<path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/>' },
-        { name:'WhatsApp', href:'https://wa.me/?text='+shareText+'%20'+shareUrl, icon:'<path d="M17.5 14.1c-.3-.1-.5-.2-.7-.1-.2.1-.4.4-.6.6-.1.2-.3.3-.5.3-.2-.1-.5-.2-.8-.4-.3-.2-.6-.4-.9-.7-.3-.3-.5-.6-.7-.9-.2-.3-.3-.6-.4-.8 0-.2.1-.4.3-.5.2-.1.4-.3.6-.6.1-.2.1-.4 0-.6-.1-.2-.2-.4-.3-.6-.2-.4-.4-.9-.7-1.3-.2-.4-.5-.7-.9-.9-.4-.2-.8-.2-1.2 0-.4.2-.7.5-.9.9-.2.4-.3.9-.3 1.3 0 .5.1 1 .4 1.5.3.5.6 1 1 1.4.5.5 1 .9 1.6 1.2.6.3 1.1.5 1.7.5.6.1 1.1-.1 1.5-.4.4-.3.7-.7.9-1.1.2-.4.2-.8.1-1.2z"/>' },
-        { name:'LinkedIn', href:'https://www.linkedin.com/sharing/share-offsite/?url='+shareUrl, icon:'<path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/>' },
-        { name:'Reddit',   href:'https://reddit.com/submit?title='+shareText+'&url='+shareUrl, icon:'<circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/>' },
-        { name:'Pinterest',href:'https://pinterest.com/pin/create/button/?url='+shareUrl+'&description='+shareText, icon:'<circle cx="12" cy="12" r="10"/><line x1="8" y1="20" x2="12" y2="9"/><path d="M12 9l-2 5"/>' },
-        { name:'Copy',     href:'#', action:'copy', icon:'<rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>' }
-      ];
-      var iconsHTML = '';
-      icons.forEach(function(ic){
-        var onclick = ic.action==='copy' ? 'onclick="doCopyShare(event)"' : 'target="_blank" rel="noopener"';
-        iconsHTML += '<a href="'+ic.href+'" class="share-icon-btn" title="分享到 '+ic.name+'" '+onclick+' aria-label="分享到'+ic.name+'">' +
-          '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+ic.icon+'</svg>' +
-        '</a>';
-      });
-      document.getElementById('shareIcons').innerHTML = iconsHTML;
-
-      // 分享数据全局
-      window.shareText = meta.name + '今日运势 ' + data.score + '分\n幸运色：'+data.colorName+' | 数：'+data.number+'\n「'+data.quote+'」';
-      window.shareURL = location.href;
+      // 分享栏（统一使用 tool-share.js）
+      var shareText = meta.name + '今日运势 ' + data.score + '分 — ' + data.quote;
+      if (window.ToolShare) {
+        window.ToolShare.render('zodiac-share', {
+          label: '分享你的运势',
+          text: shareText
+        });
+      }
 
       // ── 渲染 FAQ 模块 ──
       var faqSignNameEl = document.getElementById('faqSignName');
@@ -308,25 +290,7 @@
         .catch(function() { /* 静默失败，保留占位文本 */ });
     })();
 
-    function doCopyShare(e) {
-      e.preventDefault();
-      var text = window.shareText + '\n' + window.shareURL;
-      if (navigator.clipboard) {
-        navigator.clipboard.writeText(text).then(function(){ showCopyOk(); });
-      } else {
-        var ta = document.createElement('textarea'); ta.value=text;
-        document.body.appendChild(ta); ta.select();
-        document.execCommand('copy'); ta.remove(); showCopyOk();
-      }
-    }
-    function showCopyOk() {
-      var t = document.createElement('div');
-      t.className = 'copy-toast';
-      t.textContent = '链接已复制';
-      document.body.appendChild(t);
-      setTimeout(function(){ t.classList.add('show'); }, 10);
-      setTimeout(function(){ t.classList.remove('show'); setTimeout(function(){ t.remove(); }, 300); }, 1800);
-    }
+
   </script>
 
 </body>

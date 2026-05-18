@@ -656,40 +656,6 @@ body.detail-page-body { overflow-x: hidden; }
   line-height: 1.8; font-style: italic;
 }
 
-/* ─── 分享栏 ─── */
-.share-bar-v5 {
-  display: flex; align-items: center; gap: 16px;
-  padding: 16px 0; margin-bottom: 20px;
-  border-top: 1px solid rgba(255,255,255,0.06);
-  border-bottom: 1px solid rgba(255,255,255,0.06);
-}
-.share-bar-v5__label {
-  font-size: 0.58rem; letter-spacing: 0.25em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.3);
-  white-space: nowrap;
-  font-weight: 500;
-}
-.share-bar-v5__icons {
-  display: flex; gap: 6px; flex-wrap: wrap; flex: 1; justify-content: flex-end;
-}
-.share-icon-btn {
-  display: inline-flex; align-items: center; justify-content: center;
-  width: 36px; height: 36px; border-radius: 50%;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.08);
-  color: rgba(255,255,255,0.45);
-  text-decoration: none;
-  transition: all 0.2s ease;
-}
-.share-icon-btn:hover {
-  background: rgba(255,255,255,0.1);
-  border-color: rgba(255,255,255,0.2);
-  color: #fff;
-  transform: translateY(-2px);
-}
-.share-icon-btn svg { flex-shrink: 0; }
-
 /* ─── 分割线 ─── */
 .seo-divider {
   display: flex; align-items: center; gap: 12px;
@@ -844,22 +810,6 @@ body.detail-page-body { overflow-x: hidden; }
   flex-shrink: 0;
 }
 .info-chip strong { color: #fff; margin-left: 2px; font-weight: 500; }
-
-/* ─── 复制提示 Toast ─── */
-.copy-toast {
-  position: fixed; bottom: 40px; left: 50%;
-  transform: translateX(-50%) translateY(20px);
-  background: rgba(0,0,0,0.8);
-  border: 1px solid rgba(255,255,255,0.1);
-  color: #fff; font-size: 0.78rem;
-  padding: 10px 24px; border-radius: 30px;
-  backdrop-filter: blur(14px);
-  opacity: 0; transition: all 0.3s ease;
-  pointer-events: none; z-index: 100;
-}
-.copy-toast.show {
-  opacity: 1; transform: translateX(-50%) translateY(0);
-}
 
 /* ═══ FAQ 模块 ═══ */
 .faq-section {
