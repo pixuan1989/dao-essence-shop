@@ -19,6 +19,8 @@ faq:
     answer: "No. These hacks use what you already have — proper cleaning, rearranging furniture, and intentional placement of everyday items like lamps and plants. No crystals, bagua mirrors, or expensive consultations required."
   - question: "How quickly does feng shui work?"
     answer: "Environmental changes affect you immediately — better sleep the first night, improved mood within days. The 'energy' effects are more subtle and build over weeks. Think of it like organizing your desk: you feel better instantly, and the productivity benefits compound over time."
+related_posts:
+  - "Bad Luck? 3 Places That Shift Your Energy"
 faq_zh:
   - question: "風水有科學依據嗎？"
     answer: "風水不是西方意義上的科學——它是一個有3000年歷史的環境設計系統。然而，它的許多原則與現代環境心理學一致：整潔的空間減少壓力，自然光改善心情，斷捨離提升專注力。這些技巧有效，是因為它們優化了你的物理環境，而不是因為神秘力量。"
