@@ -166,6 +166,60 @@
         '一般': 'Steady progress—follow your plan.',
         '稳定': 'Stable energy—maintain your current pace.'
       };
+      var YIJI_MAP = {
+        '祈福':'Prayer', '祭祀':'Worship',
+        '出行':'Travel', '会友':'Socializing',
+        '求职':'Job Hunting', '签约':'Signing Contracts',
+        '修身':'Self-Cultivation', '学习':'Study',
+        '开业':'Business Opening', '表白':'Express Love',
+        '文艺':'Arts & Culture', '创作':'Creation',
+        '求财':'Wealth', '拜访':'Visiting',
+        '嫁娶':'Marriage', '创新':'Innovation',
+        '变革':'Transformation', '理财':'Finance',
+        '储蓄':'Saving', '社交':'Socializing',
+        '聚会':'Gathering', '休养':'Rest',
+        '家庭':'Family', '搬家':'Moving',
+        '沐浴':'Bathing', '动土':'Groundbreaking',
+        '安葬':'Funeral', '借贷':'Borrowing',
+        '谈判':'Negotiation', '投资':'Investment',
+        '合伙':'Partnership', '诉讼':'Litigation',
+        '迁徙':'Relocation', '争斗':'Quarrel',
+        '口舌':'Gossip', '安床':'Bed Placement',
+        '投机':'Speculation', '赌博':'Gambling',
+        '冒进':'Recklessness', '变动':'Major Changes',
+        '消费':'Spending', '扩张':'Expansion',
+        '争执':'Dispute', '冲突':'Conflict'
+      };
+      var QUOTE_MAP = {
+        '静待时机，贵人暗助。':'Patience rewards; unseen allies help.',
+        '稳中求进，忌急躁。':'Advance steadily; avoid impatience.',
+        '机遇临门，乘势而上。':'Opportunity arrives; ride the wave.',
+        '韬光养晦，厚积薄发。':'Nurture your light; burst forth when ready.',
+        '龙腾四海，气势如虹。':'Dragon soars the world; unstoppable force.',
+        '灵蛇蜕皮，焕然一新。':'Shed old skin like a snake; emerge renewed.',
+        '马到成功，势不可挡。':'Victory comes swiftly; nothing can stop you.',
+        '温顺待机，贵人相助。':'Stay gentle and wait; benefactors appear.',
+        '猴王智慧，灵活制胜。':'Monkey King wisdom; flexibility wins.',
+        '守成为上，稳扎稳打。':'Hold your ground; steady wins the race.',
+        '忠诚待人，福报自来。':'Loyalty to others brings its own blessings.',
+        '猪拱福门，平安是福。':'Peace and safety are life\'s greatest fortune.',
+        '虎啸山林，王者归来。':'Tiger roars in the forest; the king returns.',
+        '贵人相扶，小有斩获。':'Benefactors assist; small gains come.',
+        '稳中带进，时来运转。':'Steady progress; fortune turns your way.',
+        '静待时机，蓄势待发。':'Wait for the right moment; gather strength.',
+        '桃花运佳，感情得意。':'Peach blossom luck is strong; love flourishes.',
+        '龙行虎步，一路顺风。':'Walk like dragon and tiger; smooth sailing ahead.',
+        '静心养性，稳步前行。':'Cultivate inner peace; advance steadily.',
+        '马有远志，循序渐进。':'The horse has great ambition; advance step by step.',
+        '三合吉星，诸事顺遂。':'Triple harmony stars shine; all goes well.',
+        '灵活变通，化解阻碍。':'Stay flexible; dissolve obstacles.',
+        '精打细算，积少成多。':'Count every penny; small sums grow great.',
+        '狗年大旺，人缘爆棚。':'Dog year brings great fortune; popularity soars.',
+        '平安是福，知足常乐。':'Peace is a blessing; contentment brings joy.',
+        '风雨过后见彩虹。':'After the storm comes the rainbow.'
+      };
+      function trYi(tag) { return isEn ? (YIJI_MAP[tag] || tag) : tag; }
+      function trQuote(q) { return isEn ? (QUOTE_MAP[q] || q) : q; }
 
       // 运势判定（根据分数）
       var verdict = data.score >= 80 ? '上升' : data.score >= 60 ? '稳定' : data.score >= 50 ? '一般' : '降低';
@@ -207,22 +261,22 @@
       var yiLabel = isEn ? 'Good for' : '宜';
       var jiLabel = isEn ? 'Avoid' : '忌';
       var goodTags='', badTags='';
-      data.good.forEach(function(g){ goodTags+='<span class="y-tag y-tag--good">'+g+'</span>'; });
-      data.avoid.forEach(function(a){ badTags+='<span class="y-tag y-tag--bad">'+a+'</span>'; });
+      data.good.forEach(function(g){ goodTags+='<span class="y-tag y-tag--good">'+trYi(g)+'</span>'; });
+      data.avoid.forEach(function(a){ badTags+='<span class="y-tag y-tag--bad">'+trYi(a)+'</span>'; });
       document.getElementById('yijiRow').innerHTML =
         '<div class="yiji-block yiji-block--good"><div class="yiji-block__hdr">'+yiLabel+'</div><div class="yiji-block__tags">'+goodTags+'</div></div>' +
         '<div class="yiji-block yiji-block--bad"><div class="yiji-block__hdr">'+jiLabel+'</div><div class="yiji-block__tags">'+badTags+'</div></div>';
 
       // 金句
-      document.getElementById('quoteText').textContent = data.quote;
+      document.getElementById('quoteText').textContent = trQuote(data.quote);
 
       // SEO 占位
       document.getElementById('seoSignName').textContent = isEn ? SIGN_NAMES_EN[sign] : meta.name;
 
       // 分享栏（统一使用 tool-share.js）
-      var shareText = meta.name + '今日运势 ' + data.score + '分 — ' + data.quote;
+      var shareText = meta.name + '今日运势 ' + data.score + '分 — ' + trQuote(data.quote);
       if (isEn) {
-        shareText = 'Today\'s ' + (SIGN_NAMES_EN[sign] || sign) + ' Chinese zodiac horoscope: ' + data.score + '/100. Lucky number ' + data.number + ', direction ' + (DIRECTION_EN[data.direction]||data.direction) + ', lucky color ' + (COLOR_EN[data.colorName]||data.colorName) + '. Good for ' + data.good.join(', ') + '. Avoid ' + data.avoid.join(', ') + '.';
+        shareText = 'Today\'s ' + (SIGN_NAMES_EN[sign] || sign) + ' Chinese zodiac horoscope: ' + data.score + '/100. Lucky number ' + data.number + ', direction ' + (DIRECTION_EN[data.direction]||data.direction) + ', lucky color ' + (COLOR_EN[data.colorName]||data.colorName) + '. Good for ' + data.good.map(trYi).join(', ') + '. Avoid ' + data.avoid.map(trYi).join(', ') + '.';
       }
       if (window.ToolShare) {
         window.ToolShare.render('zodiac-share', {
@@ -241,15 +295,15 @@
         faqData = [
           {
             q: 'How is ' + SIGN_NAMES_EN[sign] + '\'s horoscope today?',
-            a: 'Today\'s energy for ' + SIGN_NAMES_EN[sign] + ' is ' + (VERDICT_EN[verdict]||verdict).toLowerCase() + ', with an overall score of ' + data.score + '/100. Lucky number: ' + data.number + ', direction: ' + (DIRECTION_EN[data.direction]||data.direction) + ', lucky color: ' + (COLOR_EN[data.colorName]||data.colorName) + '. Good for ' + data.good.join(', ') + ', avoid ' + data.avoid.join(', ') + '.'
+            a: 'Today\'s energy for ' + SIGN_NAMES_EN[sign] + ' is ' + (VERDICT_EN[verdict]||verdict).toLowerCase() + ', with an overall score of ' + data.score + '/100. Lucky number: ' + data.number + ', direction: ' + (DIRECTION_EN[data.direction]||data.direction) + ', lucky color: ' + (COLOR_EN[data.colorName]||data.colorName) + '. Good for ' + data.good.map(trYi).join(', ') + ', avoid ' + data.avoid.map(trYi).join(', ') + '.'
           },
           {
             q: 'How is ' + SIGN_NAMES_EN[sign] + '\'s career luck today?',
-            a: 'Based on the Chinese zodiac analysis, ' + SIGN_NAMES_EN[sign] + '\'s work energy today: ' + (VERDICT_DESC_EN[verdict]||'') + ' Best approach: ' + (data.good[0] ? data.good[0] + ' is favored today.' : 'stay focused on routine tasks.') + '.'
+            a: 'Based on the Chinese zodiac analysis, ' + SIGN_NAMES_EN[sign] + '\'s work energy today: ' + (VERDICT_DESC_EN[verdict]||'') + ' Best approach: ' + (data.good[0] ? trYi(data.good[0]) + ' is favored today.' : 'stay focused on routine tasks.') + '.'
           },
           {
             q: 'How is ' + SIGN_NAMES_EN[sign] + '\'s love and money luck today?',
-            a: 'The overall energy for ' + SIGN_NAMES_EN[sign] + ' today is ' + (VERDICT_EN[verdict]||verdict).toLowerCase() + '. Detailed reading above. Key advice: "' + data.quote + '". Lucky number ' + data.number + ' and direction ' + (DIRECTION_EN[data.direction]||data.direction) + ' can enhance your day.'
+            a: 'The overall energy for ' + SIGN_NAMES_EN[sign] + ' today is ' + (VERDICT_EN[verdict]||verdict).toLowerCase() + '. Detailed reading above. Key advice: "' + trQuote(data.quote) + '". Lucky number ' + data.number + ' and direction ' + (DIRECTION_EN[data.direction]||data.direction) + ' can enhance your day.'
           }
         ];
       } else {

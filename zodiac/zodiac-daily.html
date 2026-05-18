@@ -121,7 +121,6 @@
   <div class="page-wrapper">
 
     <header class="page-header">
-      <div class="page-header__lang" id="langSwitch"></div>
       <h1 class="page-header__title" id="pageTitle">今日生肖运势</h1>
       <div class="header-date" id="headerDate"></div>
     </header>
@@ -139,14 +138,6 @@
       var SIGN_NAMES_EN = { rat:'Rat', ox:'Ox', tiger:'Tiger', rabbit:'Rabbit', dragon:'Dragon', snake:'Snake', horse:'Horse', goat:'Goat', monkey:'Monkey', rooster:'Rooster', dog:'Dog', pig:'Pig' };
       var WEEKS_EN = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
       var MONTHS_EN = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-
-      // ── 语言切换按钮 ──
-      var langSwitchEl = document.getElementById('langSwitch');
-      if (langSwitchEl) {
-        langSwitchEl.innerHTML =
-          '<a href="javascript:void(0)" onclick="switchLang(\'zh\')" style="color:' + (isEn?'rgba(255,255,255,0.4)':'#D4AF37') + ';text-decoration:none;margin-right:10px;font-size:0.8rem;font-weight:' + (isEn?'400':'600') + ';">中</a>' +
-          '<a href="javascript:void(0)" onclick="switchLang(\'en\')" style="color:' + (isEn?'#D4AF37':'rgba(255,255,255,0.4)') + ';text-decoration:none;font-size:0.8rem;font-weight:' + (isEn?'600':'400') + ';">EN</a>';
-      }
 
       // ── 日期 ──
       var today = new Date();
