@@ -70,15 +70,6 @@
 
     <div class="card-grid" id="cardGrid"></div>
 
-    <!-- ══ 工具卡片轮换区 ══ -->
-    <div class="tools-section" id="toolsSection">
-      <div class="tools-section__header">
-        <span class="tools-section__label">今日推荐</span>
-        <span class="tools-section__divider"></span>
-      </div>
-      <div class="tools-grid" id="toolsGrid"></div>
-    </div>
-
   </div>
 
   <script src="js/zodiac-data.js"></script>
@@ -150,56 +141,6 @@
 
         grid.appendChild(el);
       });
-
-      // ── 工具卡片轮换（7天一批，4批循环，28天一轮）──
-      var TOOL_BATCHES = [
-        // 第1批：第1-7天
-        [
-          { name: '八字命盘分析', url: '/bazi-astrology', icon: '🧬', desc: '四柱八字，解读命运密码' },
-          { name: '五行查询工具', url: '/favorable-element', icon: '⚗️', desc: '发现你的五行属性' },
-          { name: '择日工具', url: '/auspicious-date', icon: '📅', desc: '大事必选好日子' },
-        ],
-        // 第2批：第8-14天
-        [
-          { name: '生肖配对', url: '/zodiac-horoscope', icon: '💕', desc: '查看生肖相合相冲' },
-          { name: '姓名分析', url: '/blog/how-to-choose-name', icon: '✍️', desc: '姓名蕴含的命运玄机' },
-          { name: '风水布局', url: '/feng-shui', icon: '🏠', desc: '家居环境能量调整' },
-        ],
-        // 第3批：第15-21天
-        [
-          { name: '面相分析', url: '/blog/face-reading-guide', icon: '👤', desc: '面部特征揭示性格' },
-          { name: '紫微斗数', url: '/blog/ziwei-basics', icon: '⭐', desc: '星曜排列看命运' },
-          { name: '塔罗占卜', url: '/blog/tarot-basics', icon: '🔮', desc: '牌阵指引当下抉择' },
-        ],
-        // 第4批：第22-28天
-        [
-          { name: '星座配对', url: '/zodiac-horoscope', icon: '🌟', desc: '中西方星座综合分析' },
-          { name: '梦境解析', url: '/blog/dream-interpretation', icon: '💭', desc: '梦中意象的玄学解读' },
-          { name: '数字命理', url: '/blog/numerology-basics', icon: '🔢', desc: '生命灵数揭示命运' },
-        ],
-      ];
-      // 计算当前批次（每7天换一批）
-      var epoch = new Date('2026-01-01');
-      var daysSinceEpoch = Math.floor((today - epoch) / (24 * 60 * 60 * 1000));
-      var batchIndex = Math.floor((daysSinceEpoch % 28) / 7);
-      var currentTools = TOOL_BATCHES[batchIndex] || TOOL_BATCHES[0];
-
-      var toolsGrid = document.getElementById('toolsGrid');
-      if (toolsGrid) {
-        currentTools.forEach(function(tool) {
-          var el = document.createElement('a');
-          el.className = 'tool-card';
-          el.href = tool.url;
-          el.innerHTML =
-            '<div class="tool-card__icon">' + tool.icon + '</div>' +
-            '<div class="tool-card__info">' +
-              '<div class="tool-card__name">' + tool.name + '</div>' +
-              '<div class="tool-card__desc">' + tool.desc + '</div>' +
-            '</div>' +
-            '<div class="tool-card__arrow">→</div>';
-          toolsGrid.appendChild(el);
-        });
-      }
 
       // ── 星空粒子 ──
       var sf = document.getElementById('starfield');

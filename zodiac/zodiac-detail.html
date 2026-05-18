@@ -295,6 +295,17 @@
         var blogSection = document.getElementById('blogLinksSection');
         if (blogSection) blogSection.style.display = 'none';
       }
+
+      // ── 加载SEO解读内容 ──
+      fetch('seo-content/' + dateStr + '.json')
+        .then(function(r) { return r.json(); })
+        .then(function(json) {
+          var fc = json.fortunes && json.fortunes[sign];
+          if (fc && fc.content) {
+            document.getElementById('seoText').textContent = fc.content;
+          }
+        })
+        .catch(function() { /* 静默失败，保留占位文本 */ });
     })();
 
     function doCopyShare(e) {
