@@ -54,8 +54,8 @@
 
   <!-- ═══ 顶栏 ═══ -->
   <header class="detail-nav">
-    <a class="detail-nav__back" href="zodiac-daily.html">← 返回运势首页</a>
-    <div class="detail-lang-switch" id="langSwitch" style="margin-left:auto;"></div>
+    <a class="detail-nav__back" href="zodiac-daily.html" id="backLink">← 返回运势首页</a>
+    <div class="detail-lang-switch" id="langSwitch"></div>
   </header>
 
   <!-- ═══ 内容层 ═══ -->
@@ -104,12 +104,12 @@
     <!-- ━━━━ 分割线 + SEO 文本区 ━━━━ -->
     <div class="seo-divider">
       <span class="seo-divider__line"></span>
-      <span class="seo-divider__text">今日运势解读</span>
+      <span class="seo-divider__text" id="dividerText">今日运势解读</span>
       <span class="seo-divider__line"></span>
     </div>
 
     <article class="seo-content" id="seoContent">
-      <h2>今日<span id="seoSignName"></span>运势详解</h2>
+      <h2 id="seoTitle">今日<span id="seoSignName"></span>运势详解</h2>
       <p id="seoText">运势解读内容将由每日引擎生成，此处为占位文本。每次更新可自动生成独立页面内容，提升搜索引擎收录权重。</p>
     </article>
 
@@ -117,8 +117,8 @@
     <script type="application/ld+json" id="faqJsonLd"></script>
     <section class="faq-section" id="faqSection">
       <div class="faq-section__header">
-        <h2 class="faq-section__title">常见问题</h2>
-        <p class="faq-section__subtitle">关于<span id="faqSignName"></span>今日运势的常见问题</p>
+        <h2 class="faq-section__title" id="faqTitle">常见问题</h2>
+        <p class="faq-section__subtitle" id="faqSubtitle">关于<span id="faqSignName"></span>今日运势的常见问题</p>
       </div>
       <div class="faq-list" id="faqList"></div>
     </section>
@@ -126,8 +126,8 @@
     <!-- ━━━━ 博客导流 ━━━━ -->
     <section class="blog-links-section" id="blogLinksSection">
       <div class="blog-links-section__header">
-        <h2 class="blog-links-section__title">相关阅读</h2>
-        <p class="blog-links-section__subtitle">深入了解更多命理知识</p>
+        <h2 class="blog-links-section__title" id="blogTitle">相关阅读</h2>
+        <p class="blog-links-section__subtitle" id="blogSubtitle">深入了解更多命理知识</p>
       </div>
       <div class="blog-links-list" id="blogLinksList"></div>
     </section>
@@ -151,87 +151,130 @@
       if (!meta) return;
 
       var accent = ZODIACCOLORS[sign] || '#D4AF37';
+      var isEn = pageLang === 'en';
+
+      // ── 中英文映射表 ──
+      var SIGN_NAMES_EN = {rat:'Rat',ox:'Ox',tiger:'Tiger',rabbit:'Rabbit',dragon:'Dragon',snake:'Snake',horse:'Horse',goat:'Goat',monkey:'Monkey',rooster:'Rooster',dog:'Dog',pig:'Pig'};
+      var WEEKDAYS_EN = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+      var MONTHS_EN = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+      var DIRECTION_EN = {正南:'South',正北:'North',正东:'East',正西:'West',东南:'Southeast',东北:'Northeast',西南:'Southwest',西北:'Northwest'};
+      var COLOR_EN = {红色:'Red',绿色:'Green',蓝色:'Blue',黄色:'Yellow',紫色:'Purple',橙色:'Orange',白色:'White',黑色:'Black',粉色:'Pink',金色:'Gold',银色:'Silver',棕色:'Brown'};
+      var VERDICT_EN = {'上升':'Rising','稳定':'Stable','一般':'Neutral','降低':'Declining'};
+      var VERDICT_DESC_EN = {
+        '上升': 'Blessed by auspicious stars—take the initiative.',
+        '降低': 'Multiple unfavorable factors—stay low and avoid risks.',
+        '一般': 'Steady progress—follow your plan.',
+        '稳定': 'Stable energy—maintain your current pace.'
+      };
 
       // 运势判定（根据分数）
       var verdict = data.score >= 80 ? '上升' : data.score >= 60 ? '稳定' : data.score >= 50 ? '一般' : '降低';
 
       // 日期
       var d = dateStr.split('-');
-      var wk = ['周日','周一','周二','周三','周四','周五','周六'];
       var dt = new Date(parseInt(d[0]),parseInt(d[1])-1,parseInt(d[2]));
-      document.getElementById('dateBadge').textContent = d[0]+'年'+d[1]+'月'+d[2]+'日 · '+wk[dt.getDay()];
+      if (isEn) {
+        document.getElementById('dateBadge').textContent = MONTHS_EN[dt.getMonth()] + ' ' + dt.getDate() + ', ' + d[0] + ' · ' + WEEKDAYS_EN[dt.getDay()];
+      } else {
+        var wk = ['周日','周一','周二','周三','周四','周五','周六'];
+        document.getElementById('dateBadge').textContent = d[0]+'年'+d[1]+'月'+d[2]+'日 · '+wk[dt.getDay()];
+      }
 
       // 卡片插图
       var img = document.getElementById('cardImg');
       img.src = 'images/' + sign + '.webp';
-      img.alt = meta.name;
+      img.alt = isEn ? SIGN_NAMES_EN[sign] : meta.name;
       img.onerror = function() { this.style.display='none'; };
 
       // 卡片文字（无 emoji）
-      document.getElementById('cardName').textContent = meta.name;
+      document.getElementById('cardName').textContent = isEn ? SIGN_NAMES_EN[sign] : meta.name;
       document.getElementById('cardScore').textContent = data.score;
       document.getElementById('cardStars').textContent = renderStars(data.score);
       document.getElementById('cardScore').style.color = accent;
 
       // 关键信息
+      var colorLabel = isEn ? 'Lucky Color' : '幸运色';
+      var numLabel   = isEn ? 'Lucky Number' : '幸运数';
+      var dirLabel   = isEn ? 'Direction' : '方位';
+      var colorEn = COLOR_EN[data.colorName] || data.colorName;
+      var dirEn = DIRECTION_EN[data.direction] || data.direction;
       document.getElementById('infoRow').innerHTML =
-        '<div class="info-chip"><span class="dot" style="background:'+data.color+'"></span>幸运色 <strong>'+data.colorName+'</strong></div>' +
-        '<div class="info-chip">幸运数 <strong>'+data.number+'</strong></div>' +
-        '<div class="info-chip">方位 <strong>'+data.direction+'</strong></div>';
+        '<div class="info-chip"><span class="dot" style="background:'+data.color+'"></span>'+colorLabel+' <strong>'+(isEn?colorEn:data.colorName)+'</strong></div>' +
+        '<div class="info-chip">'+numLabel+' <strong>'+data.number+'</strong></div>' +
+        '<div class="info-chip">'+dirLabel+' <strong>'+(isEn?dirEn:data.direction)+'</strong></div>';
 
       // 宜忌
+      var yiLabel = isEn ? 'Good for' : '宜';
+      var jiLabel = isEn ? 'Avoid' : '忌';
       var goodTags='', badTags='';
       data.good.forEach(function(g){ goodTags+='<span class="y-tag y-tag--good">'+g+'</span>'; });
       data.avoid.forEach(function(a){ badTags+='<span class="y-tag y-tag--bad">'+a+'</span>'; });
       document.getElementById('yijiRow').innerHTML =
-        '<div class="yiji-block yiji-block--good"><div class="yiji-block__hdr">宜</div><div class="yiji-block__tags">'+goodTags+'</div></div>' +
-        '<div class="yiji-block yiji-block--bad"><div class="yiji-block__hdr">忌</div><div class="yiji-block__tags">'+badTags+'</div></div>';
+        '<div class="yiji-block yiji-block--good"><div class="yiji-block__hdr">'+yiLabel+'</div><div class="yiji-block__tags">'+goodTags+'</div></div>' +
+        '<div class="yiji-block yiji-block--bad"><div class="yiji-block__hdr">'+jiLabel+'</div><div class="yiji-block__tags">'+badTags+'</div></div>';
 
       // 金句
       document.getElementById('quoteText').textContent = data.quote;
 
       // SEO 占位
-      document.getElementById('seoSignName').textContent = meta.name;
+      document.getElementById('seoSignName').textContent = isEn ? SIGN_NAMES_EN[sign] : meta.name;
 
       // 分享栏（统一使用 tool-share.js）
-      var SIGN_NAMES_EN = {rat:'Rat',ox:'Ox',tiger:'Tiger',rabbit:'Rabbit',dragon:'Dragon',snake:'Snake',horse:'Horse',goat:'Goat',monkey:'Monkey',rooster:'Rooster',dog:'Dog',pig:'Pig'};
       var shareText = meta.name + '今日运势 ' + data.score + '分 — ' + data.quote;
-      if (pageLang === 'en') {
-        shareText = 'Today\'s ' + (SIGN_NAMES_EN[sign] || sign) + ' Chinese zodiac horoscope: ' + data.score + '/100. Lucky number ' + data.number + ', direction ' + data.direction + ', lucky color ' + data.colorName + '. Good for ' + data.good.join(', ') + '. Avoid ' + data.avoid.join(', ') + '.';
+      if (isEn) {
+        shareText = 'Today\'s ' + (SIGN_NAMES_EN[sign] || sign) + ' Chinese zodiac horoscope: ' + data.score + '/100. Lucky number ' + data.number + ', direction ' + (DIRECTION_EN[data.direction]||data.direction) + ', lucky color ' + (COLOR_EN[data.colorName]||data.colorName) + '. Good for ' + data.good.join(', ') + '. Avoid ' + data.avoid.join(', ') + '.';
       }
       if (window.ToolShare) {
         window.ToolShare.render('zodiac-share', {
-          label: pageLang === 'en' ? 'Share Your Horoscope' : '分享你的运势',
+          label: isEn ? 'Share Your Horoscope' : '分享你的运势',
           text: shareText
         });
       }
 
       // ── 渲染 FAQ 模块 ──
       var faqSignNameEl = document.getElementById('faqSignName');
-      if (faqSignNameEl) faqSignNameEl.textContent = meta.name;
+      if (faqSignNameEl) faqSignNameEl.textContent = isEn ? SIGN_NAMES_EN[sign] : meta.name;
 
       // FAQ 数据模板（基于当日 fortune 数据填充）
-      var verdictMapCN = {
-        '上升': '运势上升',
-        '降低': '运势降低',
-        '一般': '运势一般',
-        '喜忧参半': '喜忧参半',
-        '稳定': '运势稳定',
-      };
-      var faqData = [
-        {
-          q: meta.name + '今日运势如何？',
-          a: meta.name + '今日运势' + (verdictMapCN[verdict] || verdict) + '，综合评分 ' + data.score + '/100。幸运数字 ' + data.number + '，幸运方位 ' + data.direction + '，幸运色 ' + data.colorName + '。宜' + data.good.join('、') + '，忌' + data.avoid.join('、') + '。'
-        },
-        {
-          q: meta.name + '今日事业工作运势好吗？',
-          a: '根据天干地支五行推算，今日' + meta.name + '的工作运势' + (verdict === '上升' ? '受吉星扶助，适合主动出击' : verdict === '降低' ? '不利因素较多，宜静不宜动' : '平稳推进，按计划行事') + '。建议' + (data.good[0] ? '今日宜' + data.good[0] : '保持专注') + '。'
-        },
-        {
-          q: meta.name + '今日财运/爱情运势如何？',
-          a: '今日' + meta.name + '的整体能量' + (verdictMapCN[verdict] || verdict) + '，具体运势详见上方详细解读。综合建议：' + data.quote + '。配合幸运数字 ' + data.number + ' 和幸运方位 ' + data.direction + ' 行动，效果更佳。'
-        }
-      ];
+      var faqData;
+      if (isEn) {
+        faqData = [
+          {
+            q: 'How is ' + SIGN_NAMES_EN[sign] + '\'s horoscope today?',
+            a: 'Today\'s energy for ' + SIGN_NAMES_EN[sign] + ' is ' + (VERDICT_EN[verdict]||verdict).toLowerCase() + ', with an overall score of ' + data.score + '/100. Lucky number: ' + data.number + ', direction: ' + (DIRECTION_EN[data.direction]||data.direction) + ', lucky color: ' + (COLOR_EN[data.colorName]||data.colorName) + '. Good for ' + data.good.join(', ') + ', avoid ' + data.avoid.join(', ') + '.'
+          },
+          {
+            q: 'How is ' + SIGN_NAMES_EN[sign] + '\'s career luck today?',
+            a: 'Based on the Chinese zodiac analysis, ' + SIGN_NAMES_EN[sign] + '\'s work energy today: ' + (VERDICT_DESC_EN[verdict]||'') + ' Best approach: ' + (data.good[0] ? data.good[0] + ' is favored today.' : 'stay focused on routine tasks.') + '.'
+          },
+          {
+            q: 'How is ' + SIGN_NAMES_EN[sign] + '\'s love and money luck today?',
+            a: 'The overall energy for ' + SIGN_NAMES_EN[sign] + ' today is ' + (VERDICT_EN[verdict]||verdict).toLowerCase() + '. Detailed reading above. Key advice: "' + data.quote + '". Lucky number ' + data.number + ' and direction ' + (DIRECTION_EN[data.direction]||data.direction) + ' can enhance your day.'
+          }
+        ];
+      } else {
+        var verdictMapCN = {
+          '上升': '运势上升',
+          '降低': '运势降低',
+          '一般': '运势一般',
+          '喜忧参半': '喜忧参半',
+          '稳定': '运势稳定',
+        };
+        faqData = [
+          {
+            q: meta.name + '今日运势如何？',
+            a: meta.name + '今日运势' + (verdictMapCN[verdict] || verdict) + '，综合评分 ' + data.score + '/100。幸运数字 ' + data.number + '，幸运方位 ' + data.direction + '，幸运色 ' + data.colorName + '。宜' + data.good.join('、') + '，忌' + data.avoid.join('、') + '。'
+          },
+          {
+            q: meta.name + '今日事业工作运势好吗？',
+            a: '根据天干地支五行推算，今日' + meta.name + '的工作运势' + (verdict === '上升' ? '受吉星扶助，适合主动出击' : verdict === '降低' ? '不利因素较多，宜静不宜动' : '平稳推进，按计划行事') + '。建议' + (data.good[0] ? '今日宜' + data.good[0] : '保持专注') + '。'
+          },
+          {
+            q: meta.name + '今日财运/爱情运势如何？',
+            a: '今日' + meta.name + '的整体能量' + (verdictMapCN[verdict] || verdict) + '，具体运势详见上方详细解读。综合建议：' + data.quote + '。配合幸运数字 ' + data.number + ' 和幸运方位 ' + data.direction + ' 行动，效果更佳。'
+          }
+        ];
+      }
 
       // JSON-LD Schema
       var jsonLd = {
@@ -265,8 +308,7 @@
       }
 
       // ── 渲染博客导流（根据页面语言自动切换中英文）──
-      var pageLang = document.documentElement.lang || 'zh-Hant';
-      var blogLinks = pageLang.startsWith('zh') ? (data.blogLinksCN || []) : (data.blogLinksEN || []);
+      var blogLinks = isEn ? (data.blogLinksEN || []) : (data.blogLinksCN || []);
       var blogLinksEl = document.getElementById('blogLinksList');
       if (blogLinksEl && blogLinks.length > 0) {
         var blogHtml = '';
@@ -287,13 +329,25 @@
         if (blogSection) blogSection.style.display = 'none';
       }
 
+      // ── 切换静态文本（英文模式）──
+      if (isEn) {
+        document.getElementById('backLink').textContent = '← Back to Horoscopes';
+        document.getElementById('dividerText').textContent = 'Daily Horoscope Reading';
+        document.getElementById('seoTitle').innerHTML = 'Today\'s ' + SIGN_NAMES_EN[sign] + ' Horoscope';
+        document.getElementById('seoText').textContent = 'Loading today\'s horoscope reading...';
+        document.getElementById('faqTitle').textContent = 'Frequently Asked Questions';
+        document.getElementById('faqSubtitle').innerHTML = 'Common questions about ' + SIGN_NAMES_EN[sign] + '\'s horoscope today';
+        document.getElementById('blogTitle').textContent = 'Related Reading';
+        document.getElementById('blogSubtitle').textContent = 'Explore more Chinese astrology insights';
+      }
+
       // ── 加载SEO解读内容 ──
       fetch('seo-content/' + dateStr + '.json')
         .then(function(r) { return r.json(); })
         .then(function(json) {
           var fc = json.fortunes && json.fortunes[sign];
           if (fc) {
-            var content = (pageLang === 'en' && fc.contentEN) ? fc.contentEN : fc.content;
+            var content = (isEn && fc.contentEN) ? fc.contentEN : fc.content;
             if (content) {
               document.getElementById('seoText').textContent = content;
             }

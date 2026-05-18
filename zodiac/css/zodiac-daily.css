@@ -161,6 +161,7 @@ body {
   text-align: center;
   padding-bottom: 36px;
   position: relative;
+  background: transparent !important;
 }
 .page-header__title {
   font-size: clamp(1.6rem, 4vw, 2.2rem);
@@ -507,6 +508,9 @@ body.detail-page-body { overflow-x: hidden; }
   position: relative; z-index: 5;
   padding: 16px 20px 10px;
   max-width: 720px; margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 .detail-nav__back {
   font-size: 0.8rem; color: rgba(255,255,255,0.5);
@@ -514,6 +518,12 @@ body.detail-page-body { overflow-x: hidden; }
   letter-spacing: 0.05em;
 }
 .detail-nav__back:hover { color: #fff; }
+.detail-lang-switch {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  margin-left: auto;
+}
 
 /* ─── 内容容器 ─── */
 .detail-content-v5 {
