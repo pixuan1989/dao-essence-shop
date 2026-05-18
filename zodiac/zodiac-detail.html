@@ -55,6 +55,7 @@
   <!-- ═══ 顶栏 ═══ -->
   <header class="detail-nav">
     <a class="detail-nav__back" href="zodiac-daily.html">← 返回运势首页</a>
+    <div class="detail-lang-switch" id="langSwitch" style="margin-left:auto;"></div>
   </header>
 
   <!-- ═══ 内容层 ═══ -->
@@ -139,6 +140,7 @@
       var params = new URLSearchParams(location.search);
       var sign   = params.get('sign') || 'dragon';
       var dateStr = params.get('date') || new Date().toISOString().split('T')[0];
+      var pageLang = params.get('lang') || localStorage.getItem('daoessence_lang') || 'zh';
 
       var dayData = getDayData(dateStr);
       var data = dayData[sign];
@@ -192,10 +194,14 @@
       document.getElementById('seoSignName').textContent = meta.name;
 
       // 分享栏（统一使用 tool-share.js）
+      var SIGN_NAMES_EN = {rat:'Rat',ox:'Ox',tiger:'Tiger',rabbit:'Rabbit',dragon:'Dragon',snake:'Snake',horse:'Horse',goat:'Goat',monkey:'Monkey',rooster:'Rooster',dog:'Dog',pig:'Pig'};
       var shareText = meta.name + '今日运势 ' + data.score + '分 — ' + data.quote;
+      if (pageLang === 'en') {
+        shareText = 'Today\'s ' + (SIGN_NAMES_EN[sign] || sign) + ' Chinese zodiac horoscope: ' + data.score + '/100. Lucky number ' + data.number + ', direction ' + data.direction + ', lucky color ' + data.colorName + '. Good for ' + data.good.join(', ') + '. Avoid ' + data.avoid.join(', ') + '.';
+      }
       if (window.ToolShare) {
         window.ToolShare.render('zodiac-share', {
-          label: '分享你的运势',
+          label: pageLang === 'en' ? 'Share Your Horoscope' : '分享你的运势',
           text: shareText
         });
       }
@@ -286,14 +292,29 @@
         .then(function(r) { return r.json(); })
         .then(function(json) {
           var fc = json.fortunes && json.fortunes[sign];
-          if (fc && fc.content) {
-            document.getElementById('seoText').textContent = fc.content;
+          if (fc) {
+            var content = (pageLang === 'en' && fc.contentEN) ? fc.contentEN : fc.content;
+            if (content) {
+              document.getElementById('seoText').textContent = content;
+            }
           }
         })
         .catch(function() { /* 静默失败，保留占位文本 */ });
+      // 渲染语言切换按钮
+      var langSwitchEl = document.getElementById('langSwitch');
+      if (langSwitchEl) {
+        langSwitchEl.innerHTML = 
+          '<a href="javascript:void(0)" onclick="switchLang(\'zh\')" style="color:' + (pageLang==='zh'?'#D4AF37':'rgba(255,255,255,0.5)') + ';text-decoration:none;margin-right:12px;font-size:0.85rem;font-weight:' + (pageLang==='zh'?'600':'400') + ';">中</a>' +
+          '<a href="javascript:void(0)" onclick="switchLang(\'en\')" style="color:' + (pageLang==='en'?'#D4AF37':'rgba(255,255,255,0.5)') + ';text-decoration:none;font-size:0.85rem;font-weight:' + (pageLang==='en'?'600':'400') + ';">EN</a>';
+      }
     })();
 
-
+    window.switchLang = function(lang) {
+      localStorage.setItem('daoessence_lang', lang);
+      var url = new URL(location.href);
+      url.searchParams.set('lang', lang);
+      location.href = url.toString();
+    };
   </script>
 
 </body>
