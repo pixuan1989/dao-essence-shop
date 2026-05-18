@@ -13,24 +13,27 @@
 :root {
   --font-serif: 'Noto Serif SC', 'Songti SC', Georgia, serif;
   --font-en: 'Cormorant Garamond', Georgia, serif;
-  --gold: #D4AF37;
-  --gold-light: #F0D060;
-  --text-primary: #E8E4DC;
-  --text-dim: rgba(232, 228, 220, 0.45);
-  --bg-deep: #05070d;
+  --zodiac-gold: #D4AF37;
+  --zodiac-gold-light: #F0D060;
+  --zodiac-text: #E8E4DC;
+  --zodiac-text-dim: rgba(232, 228, 220, 0.45);
+  --zodiac-bg: #05070d;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
-html { font-size: 15px; scroll-behavior: smooth; }
+html { scroll-behavior: smooth; }
 
 body {
-  font-family: var(--font-serif);
-  background: var(--bg-deep);
-  color: var(--text-primary);
+  background: var(--zodiac-bg);
   min-height: 100vh;
-  line-height: 1.7;
   overflow-x: hidden;
+}
+
+.page-wrapper {
+  font-family: var(--font-serif);
+  color: var(--zodiac-text);
+  line-height: 1.7;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -313,7 +316,7 @@ body {
   font-size: 0.62rem;
   color: rgba(255,255,255,0.55);
 }
-.card-stars { color: var(--gold); letter-spacing: 0; font-size: 0.6rem; }
+.card-stars { color: var(--zodiac-gold); letter-spacing: 0; font-size: 0.6rem; }
 .card-color-dot {
   width: 12px; height: 12px; border-radius: 50%;
   border: 1px solid rgba(255,255,255,0.15);
@@ -357,7 +360,7 @@ body {
   text-decoration: none; letter-spacing: 0.1em;
   transition: color 0.2s; margin-bottom: 24px;
 }
-.detail-back-link:hover { color: var(--gold); }
+.detail-back-link:hover { color: var(--zodiac-gold); }
 
 .detail-topbar { text-align: center; margin-bottom: 28px; }
 .detail-topbar__icon {
