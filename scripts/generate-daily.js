@@ -1207,8 +1207,8 @@ function buildDetailHTML(ctx, isEn) {
   }
 
   const active = isEn ? fe : fc;
-  const goodTags = active.yi.map(g => `<span class="y-tag y-tag--good">${trYi(g)}</span>`).join('');
-  const badTags = active.ji.map(a => `<span class="y-tag y-tag--bad">${trYi(a)}</span>`).join('');
+  const goodTags = active.yi.map(g => `<span class="y-tag y-tag--good">${isEn ? trYi(g) : g}</span>`).join('');
+  const badTags = active.ji.map(a => `<span class="y-tag y-tag--bad">${isEn ? trYi(a) : a}</span>`).join('');
   const shareTextEn = `${signNameEn} Chinese zodiac horoscope: ${fc.score}/100. Lucky number ${fc.luckyNum}, direction ${dirEn}, lucky color ${colorEn}. Good for ${active.yi.map(trYi).join(', ')}. Avoid ${active.ji.map(trYi).join(', ')}.`;
   const shareTextZh = `${signName}今日运势 ${fc.score}分 — ${trQuote(fc.quote)}`;
 

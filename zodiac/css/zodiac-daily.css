@@ -12,6 +12,7 @@
 
 :root {
   --font-serif: 'Noto Serif SC', 'Songti SC', Georgia, serif;
+  --font-sc: 'Noto Serif SC', 'Songti SC', Georgia, serif;
   --font-en: 'Cormorant Garamond', Georgia, serif;
   --zodiac-gold: #D4AF37;
   --zodiac-gold-light: #F0D060;
@@ -632,6 +633,7 @@ body.detail-page-body { overflow-x: hidden; }
 .yiji-block--bad .yiji-block__hdr  { color: #EF5350; }
 .yiji-block__tags { display: flex; flex-wrap: wrap; gap: 5px; }
 .y-tag {
+  font-family: var(--font-sc);
   font-size: 0.72rem; padding: 4px 10px; border-radius: 16px;
 }
 .y-tag--good {
