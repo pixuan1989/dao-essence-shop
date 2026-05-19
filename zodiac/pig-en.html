@@ -15,6 +15,7 @@
   <link rel="alternate" hreflang="x-default" href="https://www.daoessentia.com/zodiac/pig-en">
   <link rel="stylesheet" href="css/zodiac-daily.css">
   <script src="../js/tool-share.js"></script>
+  <script src="js/share-card.js"></script>
   <script>
     var ZODIAC_BG = {
       rat:'linear-gradient(165deg,#0a1628,#102a43,#163e5f,#1a4a6b)',
@@ -104,6 +105,17 @@
       window.ToolShare.render('zodiac-share', {
         label: 'Share Your Horoscope',
         text: shareText
+      });
+      window.ToolShare.renderDownloadBtn('zodiac-share', {
+        label: 'Download Card',
+        sign: 'pig',
+        data: {
+          score: FORTUNE_DATA.en.score,
+          number: FORTUNE_DATA.en.luckyNum,
+          colorName: FORTUNE_DATA.en.colorName,
+          direction: FORTUNE_DATA.en.direction,
+          quote: FORTUNE_DATA.en.quote
+        }
       });
     }
     // 背景渐变

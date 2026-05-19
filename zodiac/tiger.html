@@ -15,6 +15,7 @@
   <link rel="alternate" hreflang="x-default" href="https://www.daoessentia.com/zodiac/tiger-en">
   <link rel="stylesheet" href="css/zodiac-daily.css">
   <script src="../js/tool-share.js"></script>
+  <script src="js/share-card.js"></script>
   <script>
     var ZODIAC_BG = {
       rat:'linear-gradient(165deg,#0a1628,#102a43,#163e5f,#1a4a6b)',
@@ -112,6 +113,17 @@
       window.ToolShare.render('zodiac-share', {
         label: '分享你的运势',
         text: shareText
+      });
+      window.ToolShare.renderDownloadBtn('zodiac-share', {
+        label: '下载海报',
+        sign: 'tiger',
+        data: {
+          score: FORTUNE_DATA.cn.score,
+          number: FORTUNE_DATA.cn.luckyNum,
+          colorName: FORTUNE_DATA.cn.colorName,
+          direction: FORTUNE_DATA.cn.direction,
+          quote: FORTUNE_DATA.cn.quote
+        }
       });
     }
     // 背景渐变
