@@ -1169,12 +1169,12 @@ function generateStaticDetailPages(dateStr, fortunesCN, fortunesEN, ganzhi) {
     const zhPath = path.join(STATIC_DIR, `${z.key}.html`);
     const enPath = path.join(STATIC_DIR, `${z.key}-en.html`);
 
-    // zh 版：canonical=rat.html, hreflang=en→rat-en.html, zh-Hant→rat.html
-    const zhHead = buildSeoHead(z, fc, fe, dateStr, dateZh, dateEn, verdictEn, dirEn, colorEn, `${z.key}.html`, `${z.key}-en.html`, false);
+    // zh 版：canonical=rat（无.html，Vercel cleanUrls 访问路径），hreflang=en→rat-en, zh-Hant→rat
+    const zhHead = buildSeoHead(z, fc, fe, dateStr, dateZh, dateEn, verdictEn, dirEn, colorEn, z.key, `${z.key}-en`, false);
     fs.writeFileSync(zhPath, injectHead(zhContent, zhHead), 'utf8');
 
-    // en 版：canonical=rat-en.html, hreflang=zh-Hant→rat.html, x-default→rat.html
-    const enHead = buildSeoHead(z, fc, fe, dateStr, dateZh, dateEn, verdictEn, dirEn, colorEn, `${z.key}-en.html`, `${z.key}.html`, true);
+    // en 版：canonical=rat-en（无.html），hreflang=zh-Hant→rat, x-default→rat-en
+    const enHead = buildSeoHead(z, fc, fe, dateStr, dateZh, dateEn, verdictEn, dirEn, colorEn, `${z.key}-en`, z.key, true);
     fs.writeFileSync(enPath, injectHead(enContent, enHead), 'utf8');
 
     console.log(`   ✅ ${z.name} / ${z.en}: ${z.key}.html + ${z.key}-en.html`);
@@ -1284,7 +1284,7 @@ function buildDetailHTML(ctx, isEn) {
       </div>
       <div class="detail-layout__right">
         <div class="detail-header">
-          <h1 class="detail-header__name" id="cardName">${isEn ? signNameEn : signName}</h1>
+          <h1 class="detail-header__name" id="cardName">${isEn ? signNameEn + ' Daily Horoscope — ' + dateEn : signName + '今日运势 — ' + dateZh}</h1>
           <div class="detail-header__score">
             <span class="detail-header__score-num" id="cardScore" style="color:${accent}">${fc.score}</span>
             <span class="detail-header__stars" id="cardStars">${renderStars(fc.score)}</span>
