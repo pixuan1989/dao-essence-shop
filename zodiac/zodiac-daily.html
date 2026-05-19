@@ -17,6 +17,8 @@
   <meta property="og:description" content="Daily horoscope for all 12 Chinese zodiac signs. Rat, Ox, Tiger, Rabbit, Dragon, Snake, Horse, Goat, Monkey, Rooster, Dog, Pig — updated every day.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://www.daoessentia.com/zodiac/zodiac-daily">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="zh_TW">
   <link rel="canonical" href="https://www.daoessentia.com/zodiac/zodiac-daily">
   <link rel="alternate" hreflang="en" href="https://www.daoessentia.com/zodiac/zodiac-daily?lang=en">
   <link rel="alternate" hreflang="zh-Hant" href="https://www.daoessentia.com/zodiac/zodiac-daily?lang=zh">
@@ -223,8 +225,9 @@
 
       ZODIAC_SIGNS.forEach(function(meta) {
         var data = dayData[meta.key];
-        var el = document.createElement('div');
+        var el = document.createElement('a');
         el.className = 'zodiac-card';
+        el.href = meta.key + (isEn ? '-en' : '') + '.html';
 
         var isBest = meta.key === bestSign;
         var signName = isEn ? SIGN_NAMES_EN[meta.key] : meta.name;
@@ -256,11 +259,6 @@
             '<div class="card-line"></div>',
           '</div>'
         ].join('');
-
-        el.addEventListener('click', function() {
-          var url = meta.key + (isEn ? '-en' : '') + '.html';
-          window.location.href = url;
-        });
 
         grid.appendChild(el);
       });
