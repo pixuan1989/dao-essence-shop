@@ -133,17 +133,20 @@
             } catch (e) { /* Web Share 失败，走下方降级 */ }
         }
 
-        // 降级方案：所有平台统一下载海报
-        var win = window.open(cardUrl, '_blank');
-        if (!win) {
+        // 降级方案：转换为 Blob URL（Pinterest 扩展无法处理 data URL）
+        var blob = await dataUrlToBlob(cardUrl);
+        var blobUrl = URL.createObjectURL(blob);
+        var win = window.open(blobUrl, '_blank');
+        if (!win || win.closed) {
             var a = document.createElement('a');
-            a.href = cardUrl;
+            a.href = blobUrl;
             a.download = sign + '-horoscope.jpg';
             document.body.appendChild(a);
             a.click();
             a.remove();
         }
-        showToast('Image saved!');
+        showToast('Card opened!');
+        setTimeout(function() { URL.revokeObjectURL(blobUrl); }, 30000);
     } catch (err) {
         console.error('[ToolShare] share error:', err);
         navigator.clipboard.writeText(location.href);
