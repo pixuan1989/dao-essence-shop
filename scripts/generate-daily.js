@@ -956,11 +956,10 @@ function generateStaticDetailPages(dateStr, fortunesCN, fortunesEN, quote, ganzh
     return '降低';
   }
 
-  // 生成星级
+  // 生成星级（四舍五入到最近整数，避免 ½ 符号在某些字体下显示异常）
   function renderStars(score) {
-    const full = Math.floor(score / 20);
-    const half = (score % 20) >= 10 ? 1 : 0;
-    return '★'.repeat(full) + (half ? '½' : '') + '☆'.repeat(5 - full - half);
+    const stars = Math.round(score / 20);
+    return '★'.repeat(stars) + '☆'.repeat(5 - stars);
   }
 
   ZODIAC_LIST.forEach(z => {
@@ -1126,8 +1125,8 @@ function buildDetailHTML(ctx, isEn) {
   <header class="detail-nav">
     <a class="detail-nav__back" href="zodiac-daily.html" id="backLink">← 返回运势首页</a>
     <div class="detail-lang-switch">
-      <a href="${sign}.html" style="color:#D4AF37;text-decoration:none;font-weight:600;font-size:0.85rem;">中</a>
-      <a href="${sign}-en.html" style="color:rgba(255,255,255,0.5);text-decoration:none;font-weight:400;font-size:0.85rem;margin-left:12px;">EN</a>
+      <a href="${sign}.html" style="color:${isEn ? 'rgba(255,255,255,0.5)' : '#D4AF37'};text-decoration:none;font-weight:${isEn ? '400' : '600'};font-size:0.85rem;">中</a>
+      <a href="${sign}-en.html" style="color:${isEn ? '#D4AF37' : 'rgba(255,255,255,0.5)'};text-decoration:none;font-weight:${isEn ? '600' : '400'};font-size:0.85rem;margin-left:12px;">EN</a>
     </div>
   </header>
   <main class="detail-content-v5">
@@ -1156,7 +1155,7 @@ function buildDetailHTML(ctx, isEn) {
           <div class="yiji-block yiji-block--good"><div class="yiji-block__hdr">${isEn ? 'Good for' : '宜'}</div><div class="yiji-block__tags">${goodTags}</div></div>
           <div class="yiji-block yiji-block--bad"><div class="yiji-block__hdr">${isEn ? 'Avoid' : '忌'}</div><div class="yiji-block__tags">${badTags}</div></div>
         </div>
-        <blockquote class="detail-quote"><p id="quoteText">${isEn ? fe.quote : trQuote(fc.quote)}</p></blockquote>
+        <blockquote class="detail-quote"><p id="quoteText">${isEn ? trQuote(fc.quote) : fc.quote}</p></blockquote>
       </div>
     </div>
     <div id="zodiac-share"></div>
