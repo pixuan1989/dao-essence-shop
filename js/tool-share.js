@@ -133,78 +133,46 @@
       bar.appendChild(btn);
     });
 
-    container.appendChild(bar);
-  }
-
-  /**
-   * Render download horoscope card button (zodiac page only).
-   * @param {string|HTMLElement} target - Container element ID or DOM element
-   * @param {object} [opts]
-   * @param {string} [opts.sign] - Zodiac sign key (e.g. "dog")
-   * @param {object} [opts.data] - { score, number, colorName, direction, quote }
-   */
-  function renderDownloadBtn(target, opts) {
-    opts = opts || {};
-    injectCSS();
-
-    var container = typeof target === 'string' ? document.getElementById(target) : target;
-    if (!container) return;
-    if (container.querySelector('.tool-share-download')) return;
-
-    var bar = document.createElement('div');
-    bar.className = 'tool-share-bar tool-share-download';
-
-    var label = document.createElement('span');
-    label.className = 'tool-share-label';
-    label.textContent = opts.label || 'Download Horoscope Card';
-    bar.appendChild(label);
-
-    var btn = document.createElement('button');
-    btn.className = 'tool-share-btn';
-    btn.setAttribute('data-platform', 'download');
-    btn.title = 'Download Horoscope Card';
-    btn.innerHTML = SVG_ICONS['download'] || '';
-    btn.addEventListener('click', async function() {
-      if (!opts.sign || !opts.data || !window.ZodiacShareCard) {
-        showToast('Card generation failed.');
-        return;
-      }
-      try {
-        var img = new Image();
-        img.crossOrigin = 'anonymous';
-        img.src = '/zodiac/images/' + opts.sign + '.webp';
-        await new Promise(function(resolve, reject) {
-          img.onload = resolve;
-          img.onerror = reject;
-        });
-
-        var cardUrl = await window.ZodiacShareCard.generate(opts.sign.toUpperCase(), opts.data, img);
-        var blob = await dataUrlToBlob(cardUrl);
-        var blobUrl = URL.createObjectURL(blob);
-
-        // Try window.open first, fallback to a.click
-        var win = window.open(blobUrl, '_blank');
-        if (!win || win.closed) {
+    // 下载海报按钮（zodiac 页面，与分享按钮同行）
+    if (opts.download && opts.download.sign && window.ZodiacShareCard) {
+      var dlBtn = document.createElement('button');
+      dlBtn.className = 'tool-share-btn';
+      dlBtn.setAttribute('data-platform', 'download');
+      dlBtn.title = 'Download Horoscope Card';
+      dlBtn.innerHTML = SVG_ICONS['download'] || '';
+      dlBtn.addEventListener('click', async function() {
+        try {
+          var d = opts.download;
+          var img = new Image();
+          img.crossOrigin = 'anonymous';
+          img.src = '/zodiac/images/' + d.sign + '.webp';
+          await new Promise(function(resolve, reject) {
+            img.onload = resolve;
+            img.onerror = reject;
+          });
+          var cardUrl = await window.ZodiacShareCard.generate(d.sign.toUpperCase(), d.data, img);
+          var blob = await dataUrlToBlob(cardUrl);
+          var blobUrl = URL.createObjectURL(blob);
           var a = document.createElement('a');
           a.href = blobUrl;
-          a.download = opts.sign + '-horoscope.jpg';
+          a.download = d.sign + '-horoscope.jpg';
           document.body.appendChild(a);
           a.click();
           a.remove();
+          setTimeout(function() { URL.revokeObjectURL(blobUrl); }, 5000);
+          showToast('Card downloaded!');
+        } catch (err) {
+          console.error('[ToolShare] download error:', err);
+          showToast('Card generation failed, link copied.');
+          navigator.clipboard.writeText(location.href);
         }
-        showToast('Card downloaded!');
-        setTimeout(function() { URL.revokeObjectURL(blobUrl); }, 5000);
-      } catch (err) {
-        console.error('[ToolShare] download error:', err);
-        showToast('Card generation failed, link copied.');
-        navigator.clipboard.writeText(location.href);
-      }
-    });
+      });
+      bar.appendChild(dlBtn);
+    }
 
-    bar.appendChild(btn);
     container.appendChild(bar);
   }
 
   // Expose globally
-  window.ToolShare = { render: render, renderDownloadBtn: renderDownloadBtn };
+  window.ToolShare = { render: render };
 })();

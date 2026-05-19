@@ -402,21 +402,18 @@
         shareText = 'Today\'s ' + (SIGN_NAMES_EN[sign] || sign) + ' Chinese zodiac horoscope: ' + data.score + '/100. Lucky number ' + data.number + ', direction ' + (DIRECTION_EN[data.direction]||data.direction) + ', lucky color ' + (COLOR_EN[data.colorName]||data.colorName) + '. Good for ' + data.good.map(trYi).join(', ') + '. Avoid ' + data.avoid.map(trYi).join(', ') + '.';
       }
       if (window.ToolShare) {
-        // 1. 纯文本分享栏
         window.ToolShare.render('zodiac-share', {
           label: isEn ? 'Share Your Horoscope' : '分享你的运势',
-          text: shareText
-        });
-        // 2. 下载海报按钮
-        window.ToolShare.renderDownloadBtn('zodiac-share', {
-          label: isEn ? 'Download Card' : '下载海报',
-          sign: sign,
-          data: {
-            score: data.score,
-            number: data.number,
-            colorName: isEn ? (COLOR_EN[data.colorName] || data.colorName) : data.colorName,
-            direction: isEn ? (DIRECTION_EN[data.direction] || data.direction) : data.direction,
-            quote: trQuote(data.quote)
+          text: shareText,
+          download: {
+            sign: sign,
+            data: {
+              score: data.score,
+              number: data.number,
+              colorName: isEn ? (COLOR_EN[data.colorName] || data.colorName) : data.colorName,
+              direction: isEn ? (DIRECTION_EN[data.direction] || data.direction) : data.direction,
+              quote: trQuote(data.quote)
+            }
           }
         });
       }

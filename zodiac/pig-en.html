@@ -48,7 +48,8 @@
     <div class="detail-layout">
       <div class="detail-layout__left">
         <div class="detail-card-left">
-          <img class="detail-card-left__img" id="cardImg" src="images/pig.webp" alt="Pig">
+          <img class="detail-card-left__img" id="cardImg" src="images/pig.webp" alt="Pig" draggable="false">
+          <div class="detail-card-left__overlay"></div>
           <div class="detail-card-left__glow"></div>
         </div>
       </div>
@@ -104,23 +105,28 @@
     if (window.ToolShare) {
       window.ToolShare.render('zodiac-share', {
         label: 'Share Your Horoscope',
-        text: shareText
-      });
-      window.ToolShare.renderDownloadBtn('zodiac-share', {
-        label: 'Download Card',
-        sign: 'pig',
-        data: {
-          score: FORTUNE_DATA.en.score,
+        text: shareText,
+        download: {
+          sign: 'pig',
+          data: {score: FORTUNE_DATA.en.score,
           number: FORTUNE_DATA.en.luckyNum,
           colorName: FORTUNE_DATA.en.colorName,
           direction: FORTUNE_DATA.en.direction,
-          quote: FORTUNE_DATA.en.quote
+          quote: FORTUNE_DATA.en.quote}
         }
       });
     }
     // 背景渐变
     var bg = ZODIAC_BG['pig'] || ZODIAC_BG.rat;
     document.querySelector('.detail-bg').style.background = bg;
-  </script>
+  
+    // 防盗图
+    document.addEventListener('contextmenu', function(e) {
+      if (e.target.tagName === 'IMG') { e.preventDefault(); return false; }
+    });
+    document.addEventListener('dragstart', function(e) {
+      if (e.target.tagName === 'IMG') { e.preventDefault(); return false; }
+    });
+</script>
 </body>
 </html>
