@@ -252,7 +252,7 @@
 
           var imageArea;
           if (haveImages.indexOf(meta.key) !== -1) {
-            imageArea = '<img class="card-img" src="/zodiac/images/' + meta.key + '.webp" alt="' + signName + '" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">';
+            imageArea = '<img class="card-img" src="/zodiac/images/' + meta.key + '.webp" alt="' + signName + '" draggable="false" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">';
             imageArea += '<div class="card-placeholder" style="display:none">' + meta.emoji + '</div>';
           } else {
             imageArea = '<div class="card-placeholder">' + meta.emoji + '</div>';
@@ -280,6 +280,20 @@
 
       // 初始渲染
       renderZodiacDaily(pageLang);
+
+      // ── 防盗图：拦截所有图片的右键/拖拽/长按 ──
+      document.addEventListener('contextmenu', function(e) {
+        if (e.target.tagName === 'IMG') { e.preventDefault(); return false; }
+      });
+      document.addEventListener('dragstart', function(e) {
+        if (e.target.tagName === 'IMG') { e.preventDefault(); return false; }
+      });
+      document.addEventListener('touchstart', function(e) {
+        if (e.target.tagName === 'IMG' && e.touches.length === 1) {
+          var t = e.target; t.style.pointerEvents = 'none';
+          setTimeout(function() { t.style.pointerEvents = ''; }, 500);
+        }
+      }, { passive: true });
 
       // 监听导航栏语言切换事件（i18n-switcher.js 派发）
       document.addEventListener('daoessence:i18n-changed', function(e) {

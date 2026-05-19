@@ -271,6 +271,10 @@ body {
   object-fit: cover;
   object-position: center top;
   display: block;
+  pointer-events: none !important;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
 }
 
 /* 占位块：深色玻璃态，等图填满后删 */
