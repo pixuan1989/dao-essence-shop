@@ -154,6 +154,11 @@
     var bar = document.createElement('div');
     bar.className = 'tool-share-bar tool-share-download';
 
+    var label = document.createElement('span');
+    label.className = 'tool-share-label';
+    label.textContent = opts.label || 'Download Horoscope Card';
+    bar.appendChild(label);
+
     var btn = document.createElement('button');
     btn.className = 'tool-share-btn';
     btn.setAttribute('data-platform', 'download');
