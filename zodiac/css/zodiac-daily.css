@@ -733,12 +733,22 @@ body.detail-page-body { overflow-x: hidden; }
   }
 }
 
+/* Fallback: 不支持 aspect-ratio 的旧浏览器（iOS Safari < 15、微信 WebView 等）用 padding-top 撑高 */
 .detail-card-left {
   position: relative;
   border-radius: 20px;
   overflow: hidden;
-  aspect-ratio: 3 / 4;
+  height: 0;
+  padding-top: 133.33%;  /* 4/3 */
   box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+/* 支持 aspect-ratio 的现代浏览器：去掉 padding-top 回退，用原生属性 */
+@supports (aspect-ratio: 3 / 4) {
+  .detail-card-left {
+    height: auto;
+    padding-top: 0;
+    aspect-ratio: 3 / 4;
+  }
 }
 
 .detail-card-left__img {

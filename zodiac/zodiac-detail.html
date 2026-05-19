@@ -355,7 +355,11 @@
       var img = document.getElementById('cardImg');
       img.src = 'images/' + sign + '.webp';
       img.alt = isEn ? SIGN_NAMES_EN[sign] : meta.name;
-      img.onerror = function() { this.style.display='none'; };
+      img.onerror = function() {
+        this.style.display='none';
+        this.parentElement.style.background = 'linear-gradient(135deg, rgba(212,175,55,0.1), rgba(0,0,0,0.3))';
+        this.parentElement.style.minHeight = '200px';
+      };
 
       // 卡片文字（无 emoji）
       document.getElementById('cardName').textContent = isEn ? SIGN_NAMES_EN[sign] : meta.name;
