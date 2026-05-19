@@ -1,17 +1,18 @@
 /**
- * 生肖运势分享卡片生成器
+ * 生肖运势分享卡片生成器 — 优化版（中英文自适应）
  * 全局暴露: window.ZodiacShareCard.generate(signName, data, image)
  */
 window.ZodiacShareCard = (function() {
     'use strict';
 
-    // 字体加载缓存
     var fontsLoaded = false;
     var FONTS = [
         { family: 'Cinzel', weight: 'bold', url: '/zodiac/fonts/Cinzel-Bold.woff2' },
         { family: 'Inter', weight: 'normal', url: '/zodiac/fonts/Inter-Regular.woff2' },
         { family: 'Inter', weight: 'bold', url: '/zodiac/fonts/Inter-Bold.woff2' },
+        { family: 'Inter', weight: '500', url: '/zodiac/fonts/Inter-Medium.woff2' },
         { family: 'Playfair Display', style: 'italic', url: '/zodiac/fonts/PlayfairDisplay-Italic.woff2' },
+        { family: 'Noto Serif SC', weight: '400', url: '/zodiac/fonts/NotoSerifSC-Regular.woff2' },
     ];
 
     async function ensureFonts() {
@@ -27,20 +28,28 @@ window.ZodiacShareCard = (function() {
         } catch (e) { fontsLoaded = true; }
     }
 
+    // 检测文本是否包含中文
+    function hasChinese(text) {
+        return /[\u4e00-\u9fff]/.test(text || '');
+    }
+
     function renderStars(score) {
         var filled = Math.round(score / 20);
-        return '\u2605'.repeat(filled) + '\u2606'.repeat(5 - filled);
+        var stars = '';
+        for (var i = 0; i < 5; i++) {
+            stars += i < filled ? '\u2605' : '\u2606';
+        }
+        return stars;
     }
 
     function wrapText(ctx, text, maxWidth) {
-        var words = text.split(' ');
         var lines = [], currentLine = '';
-        for (var i = 0; i < words.length; i++) {
-            var word = words[i];
-            var testLine = currentLine ? currentLine + ' ' + word : word;
+        for (var i = 0; i < text.length; i++) {
+            var char = text[i];
+            var testLine = currentLine + char;
             if (ctx.measureText(testLine).width > maxWidth && currentLine) {
                 lines.push(currentLine);
-                currentLine = word;
+                currentLine = char;
             } else {
                 currentLine = testLine;
             }
@@ -49,13 +58,6 @@ window.ZodiacShareCard = (function() {
         return lines;
     }
 
-    /**
-     * 生成分享卡片
-     * @param {string} signName - 生肖名（英文大写，如 'DOG'）
-     * @param {object} data - { score, number, colorName, direction, quote }
-     * @param {HTMLImageElement} image - 生肖插图
-     * @returns {Promise<string>} dataUrl (image/jpeg)
-     */
     async function generate(signName, data, image) {
         await ensureFonts();
         var W = 1080, H = 1920;
@@ -64,10 +66,16 @@ window.ZodiacShareCard = (function() {
         canvas.height = H;
         var ctx = canvas.getContext('2d');
 
+        // 检测内容语言
+        var colorName = data.colorName || '';
+        var direction = data.direction || '';
+        var quoteText = data.quote || '';
+        var isChinese = hasChinese(colorName) || hasChinese(direction) || hasChinese(quoteText);
+
         // 1. 背景
         var bg = ctx.createLinearGradient(0, 0, 0, H);
-        bg.addColorStop(0, '#0f0f23');
-        bg.addColorStop(1, '#1a1a2e');
+        bg.addColorStop(0, '#0a0a1a');
+        bg.addColorStop(1, '#161630');
         ctx.fillStyle = bg;
         ctx.fillRect(0, 0, W, H);
 
@@ -75,70 +83,115 @@ window.ZodiacShareCard = (function() {
         if (image && image.complete && image.naturalWidth > 0) {
             var scale = Math.max(W / image.width, H / image.height);
             ctx.drawImage(image, (W - image.width * scale) / 2, (H - image.height * scale) / 2, image.width * scale, image.height * scale);
-            var mask = ctx.createLinearGradient(0, 1000, 0, H);
+            var mask = ctx.createLinearGradient(0, 900, 0, H);
             mask.addColorStop(0, 'rgba(10,10,26,0)');
-            mask.addColorStop(1, 'rgba(10,10,26,0.95)');
+            mask.addColorStop(0.6, 'rgba(10,10,26,0.6)');
+            mask.addColorStop(1, 'rgba(10,10,26,0.97)');
             ctx.fillStyle = mask;
             ctx.fillRect(0, 0, W, H);
         }
 
         // 3. 品牌头
-        ctx.fillStyle = '#D4AF37';
-        ctx.font = '500 24px "Inter", sans-serif';
+        ctx.fillStyle = 'rgba(212, 175, 55, 0.9)';
+        ctx.font = '500 28px "Inter", sans-serif';
         ctx.textAlign = 'center';
-        ctx.fillText('D A O   E S S E N T I A', W / 2, 50);
+        ctx.fillText('D A O   E S S E N T I A', W / 2, 55);
 
-        // 4. 数据卡片（固定高度 520px）
-        var cx = 90, cw = 900, cy = 1100, ch = 520;
-        ctx.fillStyle = 'rgba(10, 10, 26, 0.85)';
-        ctx.strokeStyle = 'rgba(212, 175, 55, 0.3)';
-        ctx.lineWidth = 2;
+        // 4. 数据卡片（下移至底部 + 毛玻璃质感）
+        var cx = 70, cw = 940, cy = 1420, ch = 420, radius = 24;
+        
+        // 毛玻璃背景（低透明度 + 稍微亮一点）
+        ctx.fillStyle = 'rgba(20, 20, 40, 0.5)';
         ctx.beginPath();
-        ctx.moveTo(cx + 24, cy);
-        ctx.lineTo(cx + cw - 24, cy);
-        ctx.quadraticCurveTo(cx + cw, cy, cx + cw, cy + 24);
-        ctx.lineTo(cx + cw, cy + ch - 24);
-        ctx.quadraticCurveTo(cx + cw, cy + ch, cx + cw - 24, cy + ch);
-        ctx.lineTo(cx + 24, cy + ch);
-        ctx.quadraticCurveTo(cx, cy + ch, cx, cy + ch - 24);
-        ctx.lineTo(cx, cy + 24);
-        ctx.quadraticCurveTo(cx, cy, cx + 24, cy);
+        ctx.moveTo(cx + radius, cy);
+        ctx.lineTo(cx + cw - radius, cy);
+        ctx.quadraticCurveTo(cx + cw, cy, cx + cw, cy + radius);
+        ctx.lineTo(cx + cw, cy + ch - radius);
+        ctx.quadraticCurveTo(cx + cw, cy + ch, cx + cw - radius, cy + ch);
+        ctx.lineTo(cx + radius, cy + ch);
+        ctx.quadraticCurveTo(cx, cy + ch, cx, cy + ch - radius);
+        ctx.lineTo(cx, cy + radius);
+        ctx.quadraticCurveTo(cx, cy, cx + radius, cy);
         ctx.closePath();
         ctx.fill();
+        
+        // 玻璃反光边框（亮色细线）
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.25)';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(cx + radius, cy);
+        ctx.lineTo(cx + cw - radius, cy);
+        ctx.quadraticCurveTo(cx + cw, cy, cx + cw, cy + radius);
+        ctx.lineTo(cx + cw, cy + ch - radius);
+        ctx.quadraticCurveTo(cx + cw, cy + ch, cx + cw - radius, cy + ch);
+        ctx.lineTo(cx + radius, cy + ch);
+        ctx.quadraticCurveTo(cx, cy + ch, cx, cy + ch - radius);
+        ctx.lineTo(cx, cy + radius);
+        ctx.quadraticCurveTo(cx, cy, cx + radius, cy);
+        ctx.closePath();
         ctx.stroke();
 
-        var y = cy + 50;
+        // 分割线
+        var dividerY = cy + 80;
+        var dividerGrad = ctx.createLinearGradient(cx + 100, 0, cx + cw - 100, 0);
+        dividerGrad.addColorStop(0, 'rgba(212, 175, 55, 0)');
+        dividerGrad.addColorStop(0.5, 'rgba(212, 175, 55, 0.6)');
+        dividerGrad.addColorStop(1, 'rgba(212, 175, 55, 0)');
+        ctx.strokeStyle = dividerGrad;
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(cx + 100, dividerY);
+        ctx.lineTo(cx + cw - 100, dividerY);
+        ctx.stroke();
+
+        // 生肖名
+        var y = cy + 55;
         ctx.fillStyle = '#D4AF37';
-        ctx.font = 'bold 64px "Cinzel", serif';
+        ctx.font = 'bold 56px "Cinzel", serif';
+        ctx.textAlign = 'center';
         ctx.fillText(signName, W / 2, y);
-        y += 60;
+        
+        // 装饰线
+        ctx.strokeStyle = 'rgba(212, 175, 55, 0.4)';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(W / 2 - 40, y + 12);
+        ctx.lineTo(W / 2 + 40, y + 12);
+        ctx.stroke();
 
-        ctx.fillStyle = '#fff';
-        ctx.font = 'bold 48px "Inter", sans-serif';
-        ctx.fillText(renderStars(data.score) + ' ' + data.score + '/100', W / 2, y);
-        y += 60;
+        // 星星 + 分数（分行）
+        y += 55;
+        ctx.fillStyle = '#D4AF37';
+        ctx.font = '34px "Inter", sans-serif';
+        ctx.fillText(renderStars(data.score), W / 2, y);
+        y += 48;
+        ctx.fillStyle = '#ffffff';
+        ctx.font = 'bold 42px "Inter", sans-serif';
+        ctx.fillText(data.score + ' / 100', W / 2, y);
 
-        ctx.fillStyle = 'rgba(255,255,255,0.8)';
-        ctx.font = '28px "Inter", sans-serif';
-        ctx.fillText('Lucky: ' + data.number + ' \u00B7 ' + (data.colorName || ''), W / 2, y);
-        y += 40;
-        ctx.fillText('Direction: ' + (data.direction || ''), W / 2, y);
-        y += 60;
+        // 幸运信息（自动中英文）
+        y += 55;
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
+        ctx.font = '26px "Inter", sans-serif';
+        var luckyNum = data.number || '';
+        ctx.fillText('\u{1F308} ' + colorName + '    ' + '\u{1F522} ' + luckyNum + '    ' + '\u{1F9ED} ' + direction, W / 2, y);
 
-        ctx.fillStyle = 'rgba(255,255,255,0.6)';
-        ctx.font = 'italic 32px "Playfair Display", serif';
-        var quoteText = data.quote || '';
-        var lines = wrapText(ctx, '\u201C' + quoteText + '\u201D', cw - 80);
-        lines.forEach(function(l) {
+        // 金句（自动中英文字体）
+        y += 60;
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.75)';
+        ctx.font = isChinese ? '28px "Noto Serif SC", serif' : 'italic 30px "Playfair Display", serif';
+        var quoteLines = wrapText(ctx, '"' + quoteText + '"', cw - 120);
+        quoteLines.forEach(function(l) {
             ctx.fillText(l, W / 2, y);
-            y += 45;
+            y += 42;
         });
 
-        ctx.fillStyle = 'rgba(255,255,255,0.4)';
-        ctx.font = '20px "Inter", sans-serif';
-        ctx.fillText('daoessentia.com/zodiac', W / 2, H - 40);
+        // 底部引流 URL
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.35)';
+        ctx.font = '22px "Inter", sans-serif';
+        ctx.fillText('daoessentia.com/zodiac', W / 2, H - 45);
 
-        return canvas.toDataURL('image/jpeg', 0.9);
+        return canvas.toDataURL('image/jpeg', 0.92);
     }
 
     return { generate: generate };
