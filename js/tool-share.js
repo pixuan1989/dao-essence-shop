@@ -75,39 +75,87 @@
     setTimeout(function() { toast.remove(); }, 2500);
   }
 
-  function doShare(platform, text) {
-    var url = encodeURIComponent(location.href);
-    var t = encodeURIComponent(text || document.title);
+  // --- 辅助函数 (zodiac 分享卡片) ---
 
-    switch (platform) {
-      case 'twitter':
-        window.open('https://twitter.com/intent/tweet?url=' + url + '&text=' + t, '_blank', 'width=600,height=400');
-        break;
-      case 'facebook':
-        window.open('https://www.facebook.com/sharer/sharer.php?u=' + url, '_blank', 'width=600,height=600');
-        break;
-      case 'linkedin':
-        window.open('https://www.linkedin.com/sharing/share-offsite/?url=' + url, '_blank', 'width=600,height=600');
-        break;
-      case 'whatsapp':
-        window.open('https://wa.me/?text=' + t + '%20' + url, '_blank');
-        break;
-      case 'reddit':
-        window.open('https://reddit.com/submit?url=' + url + '&title=' + t, '_blank', 'width=800,height=600');
-        break;
-      case 'pinterest':
-        window.open('https://pinterest.com/pin/create/button/?url=' + url + '&description=' + t, '_blank', 'width=750,height=600');
-        break;
-      case 'instagram':
-        navigator.clipboard.writeText(location.href).then(function() {
-          showToast('Link copied! Paste it in your Instagram post or story.');
+  function dataUrlToBlob(dataUrl) {
+    return new Promise(function(resolve, reject) {
+        fetch(dataUrl).then(function(r) { return r.blob(); }).then(resolve).catch(reject);
+    });
+  }
+
+  function doShareFallback(platform, text) {
+    var t = encodeURIComponent(text || document.title);
+    var u = encodeURIComponent(location.href);
+    var urls = {
+        twitter:   'https://twitter.com/intent/tweet?url=' + u + '&text=' + t,
+        facebook:  'https://www.facebook.com/sharer/sharer.php?u=' + u,
+        linkedin:  'https://www.linkedin.com/sharing/share-offsite/?url=' + u,
+        whatsapp:  'https://wa.me/?text=' + t + '%20' + u,
+        reddit:    'https://reddit.com/submit?url=' + u + '&title=' + t,
+        pinterest: 'https://pinterest.com/pin/create/button/?url=' + u + '&description=' + t
+    };
+    if (urls[platform]) {
+        window.open(urls[platform], '_blank');
+    } else {
+        navigator.clipboard.writeText(location.href);
+        showToast('Link copied!');
+    }
+  }
+
+  async function doShare(platform, sign, data) {
+    try {
+        // 加载生肖插图
+        var img = new Image();
+        img.crossOrigin = 'anonymous';
+        img.src = '/zodiac/images/' + sign + '.webp';
+        await new Promise(function(resolve, reject) {
+            img.onload = resolve;
+            img.onerror = reject;
         });
-        break;
-      case 'copy':
-        navigator.clipboard.writeText(location.href).then(function() {
-          showToast('Link copied to clipboard!');
-        });
-        break;
+
+        // 生成分享卡片
+        var cardUrl = await window.ZodiacShareCard.generate(sign.toUpperCase(), data, img);
+
+        // Web Share API（移动端优先）
+        if (navigator.share) {
+            try {
+                var blob = await dataUrlToBlob(cardUrl);
+                var file = new File([blob], sign + '-horoscope.jpg', { type: 'image/jpeg' });
+                if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                    await navigator.share({
+                        title: sign.toUpperCase() + ' Horoscope',
+                        text: 'Score: ' + data.score + '/100. ' + (data.quote || ''),
+                        url: location.href,
+                        files: [file]
+                    });
+                    return;
+                }
+            } catch (e) { /* Web Share 失败，走下方降级 */ }
+        }
+
+        // 降级方案
+        switch (platform) {
+            case 'instagram':
+            case 'pinterest':
+                // iOS Safari: window.open 优先，a.click 降级
+                var win = window.open(cardUrl, '_blank');
+                if (!win) {
+                    var a = document.createElement('a');
+                    a.href = cardUrl;
+                    a.download = sign + '-horoscope.jpg';
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                }
+                showToast('Image saved!');
+                break;
+            default:
+                doShareFallback(platform, sign.toUpperCase() + ' Horoscope: ' + data.score + '/100.');
+        }
+    } catch (err) {
+        console.error('[ToolShare] share error:', err);
+        navigator.clipboard.writeText(location.href);
+        showToast('Image failed, link copied.');
     }
   }
 
@@ -116,7 +164,10 @@
    * @param {string|HTMLElement} target - Container element ID or DOM element
    * @param {object} [opts]
    * @param {string} [opts.label] - Label text (default: "Share Your Result")
-   * @param {string} [opts.text] - Custom share text (default: document.title)
+   * @param {string} [opts.labelKey] - i18n key (default: "tool_share.label")
+   * @param {string} [opts.text] - Custom share text (for fallback mode)
+   * @param {string} [opts.sign] - Zodiac sign key (e.g. "dog") — triggers card generation
+   * @param {object} [opts.data] - { score, number, colorName, direction, quote }
    */
   function render(target, opts) {
     opts = opts || {};
@@ -138,19 +189,27 @@
     bar.appendChild(label);
 
     PLATFORMS.forEach(function(p) {
-      var btn = document.createElement('button');
-      btn.className = 'tool-share-btn';
-      btn.setAttribute('data-platform', p.id);
-      btn.title = p.title;
-      btn.innerHTML = SVG_ICONS[p.id] || '';
-      btn.addEventListener('click', function() {
-        doShare(p.id, opts.text);
-        if (p.id === 'copy') {
-          btn.classList.add('copied');
-          setTimeout(function() { btn.classList.remove('copied'); }, 2000);
-        }
-      });
-      bar.appendChild(btn);
+        var btn = document.createElement('button');
+        btn.className = 'tool-share-btn';
+        btn.setAttribute('data-platform', p.id);
+        btn.title = p.title;
+        btn.innerHTML = SVG_ICONS[p.id] || '';
+
+        btn.addEventListener('click', function() {
+            // 分支：有 sign/data 走卡片生成，否则走 fallback
+            if (opts.sign && opts.data && window.ZodiacShareCard) {
+                doShare(p.id, opts.sign, opts.data);
+            } else {
+                doShareFallback(p.id, opts.text);
+            }
+
+            // copy 按钮绿色反馈
+            if (p.id === 'copy') {
+                btn.classList.add('copied');
+                setTimeout(function() { btn.classList.remove('copied'); }, 2000);
+            }
+        });
+        bar.appendChild(btn);
     });
 
     container.appendChild(bar);

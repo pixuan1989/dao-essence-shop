@@ -14,6 +14,7 @@
   -->
   <link rel="stylesheet" href="css/zodiac-daily.css">
   <script src="/js/tool-share.js"></script>
+  <script src="/zodiac/js/share-card.js"></script>
 
   <!-- 12 生肖渐变背景（JS 根据 sign 设置） -->
   <script>
@@ -402,6 +403,14 @@
       if (window.ToolShare) {
         window.ToolShare.render('zodiac-share', {
           label: isEn ? 'Share Your Horoscope' : '分享你的运势',
+          sign: sign,
+          data: {
+            score: data.score,
+            number: data.number,
+            colorName: isEn ? (COLOR_EN[data.colorName] || data.colorName) : data.colorName,
+            direction: isEn ? (DIRECTION_EN[data.direction] || data.direction) : data.direction,
+            quote: trQuote(data.quote)
+          },
           text: shareText
         });
       }
