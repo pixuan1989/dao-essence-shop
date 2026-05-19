@@ -445,36 +445,41 @@ async function generateFortuneCN(zodiac, ganzhi, relations, fourPillars) {
       const fp = fourPillars;
       const wxStr = fp.wuxingCount.map(w => `${w.element}×${w.count}`).join(' | ');
 
-      const systemPrompt = `你是一位资深八字命理师，精通五行生克、天干地支、十二长生、神煞等传统命理理论。
+      const systemPrompt = `你是一位通俗命理作者，为读者写每日生肖运势解读。
 
-## 你拥有的信息
-【今日四柱】
-- 年柱：${fp.year.ganzhi}（${fp.year.stem}${fp.year.wuxing} | 年支${fp.year.branch}藏${fp.year.hiddenStems?.join(', ') || '本气'})
-- 月柱：${fp.month.ganzhi}（${fp.month.stem}${fp.month.wuxing} | 月支${fp.month.branch}藏${fp.month.hiddenStems?.join(', ') || '本气'})
-- 日柱：${fp.day.ganzhi}（${fp.day.stem}${fp.day.wuxing} | 日支${fp.day.branch}藏${fp.day.hiddenStems?.join(', ') || '本气'})
-- 时柱：${fp.hour.ganzhi}（${fp.hour.stem}${fp.hour.wuxing} | 时支${fp.hour.branch}藏${fp.hour.hiddenStems?.join(', ') || '本气'}）
+## 今日四柱信息（仅供分析参考）
+- 日柱干支：${fp.day.ganzhi}（${fp.day.stem}${fp.day.wuxing}）
+- 年柱：${fp.year.ganzhi} | 月柱：${fp.month.ganzhi} | 时柱：${fp.hour.ganzhi}
+- 五行分布：${wxStr}
+- 属${sign}者，与日支${fp.day.branch}${relations.he ? '六合' : ''}${relations.chong ? '相冲' : ''}${relations.hai ? '相害' : ''}${relations.xing ? '相刑' : ''}
 
-【五行分布】
-${wxStr}
-日主${fp.day.stem}为${fp.day.wuxing}性
+## 今日运势判断
+- 综合评分：${score}/100
+- 运势判断：${verdict}
 
-## 分析任务
-请为属【${name}】（${sign}）之人解读今日运势，结合：
-1. 今日四柱干支生克关系
-2. 属${name}（${sign}）与日柱${fp.day.ganzhi}的刑冲合害关系
-3. 今日五行能量分布
+## 写作风格（严格遵守）
+- 用简洁直白的白话文写，像老朋友发微信给你
+- 不要学术腔，不要用"三癸透干"、"双巳伏吟"这类术语
+- 每个生肖的运势独立成段，不要分【事业】【财运】【爱情】【健康】这种条目
+- 直接告诉读者：今日运势如何、需要注意什么、适合做什么、不适合做什么
+- 段与段之间用空行分隔
+- 全文200-300字
+
+## 格式示例（参考）
+生肖鼠今日运势一般，冲日犯渐，人际关系易出现问题，易与人产生误会，需要谨防陷入他人的是非纠缠，宜佩戴黄金饰品，宜明哲保身，感情上女性更多是付出者。
+
+生肖牛今日运势上吉凶参半，有比较好的领导关照，虽然压力略大但还是能顺利完成工作，身体注意身体皮肤方面可能有一些不舒服，外出注意交通安全。
+
+生肖虎今日运势呈上升，财运持续可求财，有很多想法，桃花旺今日适合出门游玩，增进感情。身体上要认真对待自己的身体合理的锻炼。
 
 ## 输出要求
-用中文输出，300-400字，分以下段落：
-1. 【今日总评】整体运势判断和核心建议
-2. 【事业工作】今日工作运势和行动建议
-3. 【财运投资】正财偏财运势和理财建议
-4. 【感情姻缘】单身/有伴分别的建议
-5. 【健康养生】今日健康注意事项
+- 只输出属【${name}】的运势内容
+- **禁止使用任何 # 符号（###、##、####）**
+- **禁止用【】框住段落标题**，直接以"生肖${name}今日运势"开头
+- 每段用空行分隔
+- 内容要具体、有针对性，不要套话`;
 
-语气：专业但不晦涩，亲切自然，让读者感受到命理的温度。`;
-
-      const userPrompt = `请分析属${name}之人在${ganzhi.ganzhi}年 ${fp.month.ganzhi}月 ${fp.day.ganzhi}日的运势，日主为${fp.day.stem}（${fp.day.wuxing}性），生肖为${sign}。`;
+      const userPrompt = `请为属${name}（${sign}）之人写今日运势解读。`;
 
       const res = await fetch(`${DASHSCOPE_BASE_URL}/chat/completions`, {
         method: 'POST',
@@ -688,32 +693,32 @@ async function translateToEnglish(cnText, zodiacEn, verdict, zodiacKey) {
 - NO Chinese pinyin. Ever. No "Guǐ", "Sì", "Zǐ", "Wú Xíng", "Yì Mǎ". Zero.
 - NO italicized Chinese terms. If you need to reference a concept, use plain English.
 
-## How to Handle Chinese Astrology Concepts (for Western readers)
-- 天干地支 → just say "today's energy" or "today's astrological setup"
-- 五行 → say "element" (Wood, Fire, Earth, Metal, Water)—these are recognizable in Western wellness/astrology circles
-- 冲/合/害 → say "clashing with", "in harmony with", "under tension with"
-- 宜忌 → say "good day for..." / "better to avoid..."
-- 地支关系 → describe the practical effect, not the technical term
-- Example: instead of "Sì Fire clashing with Zǐ Water", say "Fire energy is running high today, which can feel overwhelming for you—pace yourself"
+## How to Handle Chinese Astrology Concepts
+- 五行 → say "Wood, Fire, Earth, Metal, Water element" naturally in context
+- Chinese zodiac animals: use their English names (Rat, Ox, Tiger, Rabbit, Dragon, Snake, Horse, Goat, Monkey, Rooster, Dog, Pig)
+- 冲日犯渐/相冲相刑 → say "energy conflict" or "a challenging day" in plain English
+- 贵人/桃花/小人 → say "helpful people" / "romance luck" / "watch out for tricky people"
+- 宜做什么 → "good day for..." / "ideal for..."
+- 忌做什么 → "better to avoid..." / "skip..."
 
-## Structure (loose, not rigid)
-1. A warm opening—acknowledge today's vibe in 1-2 sentences
-2. Career/Work—practical, specific advice (2-3 sentences)
-3. Money/Finances—honest, grounded (2-3 sentences)
-4. Love/Dating—warm, human, non-judgmental (2-3 sentences)
-5. Health—simple, body-based (1-2 sentences)
-6. A closing sentence that feels like encouragement from a friend
+## Formatting (CRITICAL - No Markdown, No Symbols)
+- NO asterisks (*). No **bold**, *italic*, ***anything***
+- NO # symbols. No ##, ###, or #### headers
+- NO emojis. Zero.
+- Paragraphs separated by ONE BLANK LINE.
+- If the Chinese text has labels like "事业" or "财运", translate them freely into natural English section headers like "Work" or "Money"—don't just copy the Chinese label.
 
-## Length
-250-350 words total. Not a long article. A substantial text message.
+## Voice (Western, Natural)
+- Write like a horoscope from a popular Western astrology site (think Cosmopolitan, Prevention, or Thought Catalog astrology sections)
+- Warm, friendly, readable. Short sentences mixed with slightly longer ones.
+- No academic tone, no preachy advice, no "your wisdom lies in..." or "this configuration requires nuanced interpretation"
+- Keep it punchy: 200-300 words total
 
-## SEO Keywords (blend them in NATURALLY—never force)
-- Head term: "${seo.head}" — weave into the opening sentence or first paragraph naturally
-- Long-tail: "${seo.longTail}" — let 1-2 of these appear organically, no more
-- If a keyword feels forced, skip it. Natural reading > keyword density.
-- Don't repeat the same keyword multiple times. Once is enough.
+## SEO (subtle, natural)
+- Integrate: "${seo.head}" — mention it once naturally in the intro or first paragraph
+- If it feels forced, skip it. Natural beats SEO every time.
 
-Translate the following Chinese horoscope for ${zodiacEn} into English following ALL the above rules. Return ONLY the translated horoscope text, nothing else:`;
+Translate the Chinese horoscope for ${zodiacEn} into natural, Western-friendly English. Return ONLY the translated text, nothing else:`;
 
       const res = await fetch(`${DASHSCOPE_BASE_URL}/chat/completions`, {
         method: 'POST',
@@ -937,32 +942,46 @@ function saveSeoContent(date, fortunesCN, fortunesEN, ganzhi) {
  * - \n\n → 分段 <p>
  */
 function markdownToHtml(text) {
-  // Strip emojis (comprehensive ranges)
+  // 1. 预处理：清理残留 Markdown 符号
+  // Strip emojis
   text = text.replace(/[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F000}-\u{1F02F}\u{1F0A0}-\u{1F0FF}\u{1F100}-\u{1F64F}\u{1F680}-\u{1F6FF}\u{1F1E0}-\u{1F1FF}]/gu, '');
-
-  // Markdown hard line break: two spaces + newline
-  text = text.replace(/  \n/g, '<br>');
-
+  // Remove leading # symbols (####, ###, ##, #) at start of line
+  text = text.replace(/^#+\s*/gm, '');
+  // Remove markdown asterisks for bold/italic (**text**, *text*, ***)
+  text = text.replace(/\*{1,3}([^*]+?)\*{1,3}/g, '$1');
+  // Remove remaining asterisks that are just loose symbols
+  text = text.replace(/(?<!\w)\*+\s*/g, '');
+  // Remove HTML tags that might slip through (unlikely but safe)
+  text = text.replace(/<[^>]+>/g, '');
+  // Clean up multiple spaces
+  text = text.replace(/ {2,}/g, ' ');
   // Remove trailing whitespace from lines
   text = text.replace(/[ \t]+$/gm, '');
 
-  // Split into blocks by double newline
+  // 2. 统一换行格式：单换行→空格，多换行→双换行（便于split）
+  // Collapse single newlines within a paragraph to space
+  text = text.replace(/([^\n])\n([^\n])/g, '$1 $2');
+  // Collapse triple+ newlines to double newline
+  text = text.replace(/\n{3,}/g, '\n\n');
+
+  // 3. Split into blocks by double newline
   const blocks = text.split(/\n\s*\n/).filter(b => b.trim());
 
   const htmlBlocks = blocks.map(block => {
     block = block.trim();
+    if (!block) return '';
 
-    // h3 heading
-    if (block.startsWith('### ')) {
-      return `<h3>${inlineMd(block.slice(4).trim())}</h3>`;
-    }
-    // h2 heading
-    if (block.startsWith('## ')) {
-      return `<h2>${inlineMd(block.slice(3).trim())}</h2>`;
+    // Section header detection: "Career:" or "Career / Work:" style (plain text, no asterisks)
+    const headerMatch = block.match(/^([A-Z][A-Za-z\s\/\-]+?):\s*(.*)$/s);
+    if (headerMatch && headerMatch[2].length < 300) {
+      // Likely a header + content
+      const header = headerMatch[1].trim();
+      const content = headerMatch[2].trim();
+      return `<h3>${header}</h3><p>${content}</p>`;
     }
 
     // Regular paragraph
-    return `<p>${inlineMd(block)}</p>`;
+    return `<p>${block}</p>`;
   });
 
   return htmlBlocks.join('\n');
@@ -1171,8 +1190,21 @@ function buildDetailHTML(ctx, isEn) {
   const { sign, signName, signNameEn, pageLang, dateStr, dateZh, dateEn, fc, fe, verdict, verdictEn, dirEn, colorEn, YIJI_MAP, QUOTE_MAP, trYi, trQuote, renderStars, DIRECTION_EN, COLOR_EN } = ctx;
   const accent = '#D4AF37'; // 默认金色
   const rawContent = isEn ? fe.content : fc.content;
-  // EN 内容做 Markdown→HTML 转换（去 emoji、分段、加粗斜体）；CN 直接包 <p>
-  const htmlContent = isEn ? markdownToHtml(rawContent) : `<p>${rawContent}</p>`;
+  // EN 内容走 markdownToHtml；CN 按【】分段落渲染
+  let htmlContent;
+  if (isEn) {
+    htmlContent = markdownToHtml(rawContent);
+  } else {
+    // 按【段落标题】分割，每个段落：标题 → h3，内容 → p
+    const cnBlocks = rawContent.split(/(?=【)/).filter(b => b.trim());
+    htmlContent = cnBlocks.map(block => {
+      const titleMatch = block.match(/^【([^】]+)】(.*)$/s);
+      if (titleMatch) {
+        return `<h3>${titleMatch[1]}</h3><p>${titleMatch[2].trim()}</p>`;
+      }
+      return `<p>${block.trim()}</p>`;
+    }).join('\n');
+  }
 
   const active = isEn ? fe : fc;
   const goodTags = active.yi.map(g => `<span class="y-tag y-tag--good">${trYi(g)}</span>`).join('');
