@@ -8,9 +8,15 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { createRequire } from 'module';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const require = createRequire(import.meta.url);
+
+// ─── 加载排盘引擎 ───
+const paipanHelperPath = path.join(__dirname, 'paipan-helper.cjs');
+const { getDailyFourPillars } = require(paipanHelperPath);
 
 // ─── 加载 .env.local（用于本地开发时读取 API Key）───
 const ENV_FILE = path.join(__dirname, '..', '.env.local');
@@ -418,10 +424,98 @@ function generateYiJi(wuxing) {
 /**
  * 生成单条中文运势（目标300-500字）
  */
-function generateFortuneCN(zodiac, ganzhi, relations) {
+/**
+ * 生成中文运势（AI推理版：喂完整四柱给AI做命理解读）
+ */
+async function generateFortuneCN(zodiac, ganzhi, relations, fourPillars) {
   const { name, sign } = zodiac;
+  // 保留算法评分/判定（AI内容用，评分不影响内容）
   const score = calculateScore(zodiac, ganzhi, relations, ganzhi.wuxing);
   const verdict = getVerdict(score, relations, sign);
+
+  // 五行名称映射
+  const WX_CN = ['木', '火', '土', '金', '水'];
+
+  // 用AI推理（DashScope API）
+  const DASHSCOPE_API_KEY = process.env.DASHSCOPE_API_KEY;
+  const DASHSCOPE_BASE_URL = 'https://dashscope.aliyuncs.com/compatible-mode/v1';
+
+  if (DASHSCOPE_API_KEY) {
+    try {
+      const fp = fourPillars;
+      const wxStr = fp.wuxingCount.map(w => `${w.element}×${w.count}`).join(' | ');
+
+      const systemPrompt = `你是一位资深八字命理师，精通五行生克、天干地支、十二长生、神煞等传统命理理论。
+
+## 你拥有的信息
+【今日四柱】
+- 年柱：${fp.year.ganzhi}（${fp.year.stem}${fp.year.wuxing} | 年支${fp.year.branch}藏${fp.year.hiddenStems?.join(', ') || '本气'})
+- 月柱：${fp.month.ganzhi}（${fp.month.stem}${fp.month.wuxing} | 月支${fp.month.branch}藏${fp.month.hiddenStems?.join(', ') || '本气'})
+- 日柱：${fp.day.ganzhi}（${fp.day.stem}${fp.day.wuxing} | 日支${fp.day.branch}藏${fp.day.hiddenStems?.join(', ') || '本气'})
+- 时柱：${fp.hour.ganzhi}（${fp.hour.stem}${fp.hour.wuxing} | 时支${fp.hour.branch}藏${fp.hour.hiddenStems?.join(', ') || '本气'}）
+
+【五行分布】
+${wxStr}
+日主${fp.day.stem}为${fp.day.wuxing}性
+
+## 分析任务
+请为属【${name}】（${sign}）之人解读今日运势，结合：
+1. 今日四柱干支生克关系
+2. 属${name}（${sign}）与日柱${fp.day.ganzhi}的刑冲合害关系
+3. 今日五行能量分布
+
+## 输出要求
+用中文输出，300-400字，分以下段落：
+1. 【今日总评】整体运势判断和核心建议
+2. 【事业工作】今日工作运势和行动建议
+3. 【财运投资】正财偏财运势和理财建议
+4. 【感情姻缘】单身/有伴分别的建议
+5. 【健康养生】今日健康注意事项
+
+语气：专业但不晦涩，亲切自然，让读者感受到命理的温度。`;
+
+      const userPrompt = `请分析属${name}之人在${ganzhi.ganzhi}年 ${fp.month.ganzhi}月 ${fp.day.ganzhi}日的运势，日主为${fp.day.stem}（${fp.day.wuxing}性），生肖为${sign}。`;
+
+      const res = await fetch(`${DASHSCOPE_BASE_URL}/chat/completions`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${DASHSCOPE_API_KEY}`
+        },
+        body: JSON.stringify({
+          model: 'qwen-plus',
+          messages: [
+            { role: 'system', content: systemPrompt },
+            { role: 'user', content: userPrompt }
+          ],
+          temperature: 0.7,
+          max_tokens: 1500
+        })
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        const content = data.choices?.[0]?.message?.content;
+        if (content) {
+          console.log(`   🌟 AI生成运势成功 (${content.length}字)`);
+          return {
+            score,
+            verdict,
+            content,
+            yi: ['出行', '搬家', '沐浴'], // AI生成内容里包含，这里只用于标签
+            ji: ['开业', '安葬'],
+          };
+        }
+      } else {
+        console.warn(`   ⚠️ AI运势生成失败: ${res.status}`);
+      }
+    } catch (err) {
+      console.warn(`   ⚠️ AI运势异常: ${err.message}`);
+    }
+  }
+
+  // Fallback：使用模板（无API时）
+  console.log(`   📝 使用模板运势（无AI）`);
 
   const workText = generateWorkText(name, verdict, relations, sign);
   const moneyText = generateMoneyText(verdict, score);
@@ -583,33 +677,43 @@ async function translateToEnglish(cnText, zodiacEn, verdict, zodiacKey) {
   if (DASHSCOPE_API_KEY) {
     try {
       const seo = seoTerms[zodiacKey] || seoTerms.rat;
-      const systemPrompt = `You are a professional Chinese metaphysics content expert, specializing in translating Chinese astrology content into natural English for Western audiences.
+      const systemPrompt = `You are a warm, wise friend who knows Chinese astrology and is texting the user their daily horoscope. Write like a real person—casual, supportive, never academic.
 
-## Translation Requirements
-1. **SEO Optimization**: Include key phrases like "Chinese zodiac [Animal]", "[Animal] daily horoscope", "[Animal] fortune today" in titles and first paragraph
-2. **Wu Xing Terminology**: Use proper Five Elements terminology - Wood, Fire, Earth, Metal, Water
-3. **Tone**: Natural Western astrology website style, conversational but professional
-4. **Length**: 400-500 words per fortune, detailed but engaging
-5. **Structure**: Title → Overview → Career → Finance → Love → Health → Summary
+## Voice & Tone (CRITICAL)
+- Write like a friend sending a thoughtful text or DM—not a website, not a professor
+- Use contractions (you're, today's, don't, it's)
+- Keep sentences short. Vary length for rhythm.
+- Sound supportive, not preachy. No "your wisdom lies in..." or "this configuration requires nuanced interpretation"
+- If giving advice, phrase it like: "Honestly? Take it slow today." or "Here's the thing—don't force it."
+- NO Chinese pinyin. Ever. No "Guǐ", "Sì", "Zǐ", "Wú Xíng", "Yì Mǎ". Zero.
+- NO italicized Chinese terms. If you need to reference a concept, use plain English.
 
-## SEO Keywords to Naturally Integrate
-### Head Terms (use in title and first paragraph):
-${seo.head}
+## How to Handle Chinese Astrology Concepts (for Western readers)
+- 天干地支 → just say "today's energy" or "today's astrological setup"
+- 五行 → say "element" (Wood, Fire, Earth, Metal, Water)—these are recognizable in Western wellness/astrology circles
+- 冲/合/害 → say "clashing with", "in harmony with", "under tension with"
+- 宜忌 → say "good day for..." / "better to avoid..."
+- 地支关系 → describe the practical effect, not the technical term
+- Example: instead of "Sì Fire clashing with Zǐ Water", say "Fire energy is running high today, which can feel overwhelming for you—pace yourself"
 
-### Long-tail Keywords (distribute naturally in body paragraphs, 3-5 times):
-${seo.longTail}
+## Structure (loose, not rigid)
+1. A warm opening—acknowledge today's vibe in 1-2 sentences
+2. Career/Work—practical, specific advice (2-3 sentences)
+3. Money/Finances—honest, grounded (2-3 sentences)
+4. Love/Dating—warm, human, non-judgmental (2-3 sentences)
+5. Health—simple, body-based (1-2 sentences)
+6. A closing sentence that feels like encouragement from a friend
 
-### Semantic Terms (use for content depth and FAQ section):
-${seo.semantic}
+## Length
+250-350 words total. Not a long article. A substantial text message.
 
-## Verdict Translation
-- 上升 → "Rising luck" / "Excellent day ahead"
-- 降低 → "Challenging day" / "Proceed with caution"
-- 一般 → "Balanced day" / "Steady progress"
-- 喜忧参半 → "Mixed fortune" / "Opportunities with challenges"
-- 稳定 → "Stable energy" / "Consistent day"
+## SEO Keywords (blend them in NATURALLY—never force)
+- Head term: "${seo.head}" — weave into the opening sentence or first paragraph naturally
+- Long-tail: "${seo.longTail}" — let 1-2 of these appear organically, no more
+- If a keyword feels forced, skip it. Natural reading > keyword density.
+- Don't repeat the same keyword multiple times. Once is enough.
 
-Translate the following ${zodiacEn} daily horoscope from Chinese to English, maintaining the SEO keywords and professional tone:`;
+Translate the following Chinese horoscope for ${zodiacEn} into English following ALL the above rules. Return ONLY the translated horoscope text, nothing else:`;
 
       const res = await fetch(`${DASHSCOPE_BASE_URL}/chat/completions`, {
         method: 'POST',
@@ -1266,9 +1370,13 @@ async function main() {
   const ganzhi = calculateGanzhi(date);
   const relations = getRelations(ganzhi.dizhi);
 
+  // ①b 获取完整四柱（含藏干、五行分布）用于AI推理
+  const fourPillars = getDailyFourPillars(date);
+
   console.log('📅 今日黄历:');
   console.log(`   干支: ${ganzhi.ganzhi}（${ganzhi.wuxing}）`);
   console.log(`   冲: ${relations.chong}  |  六合: ${relations.he}  |  害: ${relations.hai}  |  三合: ${relations.sanhe.join(',')}`);
+  console.log(`   四柱: ${fourPillars.year.ganzhi} ${fourPillars.month.ganzhi} ${fourPillars.day.ganzhi} ${fourPillars.hour.ganzhi}`);
 
   // ② 生成金句（节日/节气共享；金句池按生肖错开，每生肖不同）
   const solarTerm = getSolarTerm(dateStr);
@@ -1279,8 +1387,8 @@ async function main() {
   // ③ 生成12生肖运势
   console.log('\n✍️  生成中文运势:');
   const fortunesCN = {};
-  ZODIAC_LIST.forEach(z => {
-    const f = generateFortuneCN(z, ganzhi, relations);
+  for (const z of ZODIAC_LIST) {
+    const f = await generateFortuneCN(z, ganzhi, relations, fourPillars);
     const luckyNum = generateLuckyNumber(dateStr, z.key);
     const direction = generateLuckyDirection(ganzhi.dizhi);
     const pair = generatePairSign(z.sign);
@@ -1310,7 +1418,7 @@ async function main() {
     };
 
     console.log(`   ${z.name} ${z.sign}: ${f.verdict} | 幸运数${luckyNum} | ${direction} | ${pair} | 金句"${quote}" | ${f.content.length}字`);
-  });
+  }
 
   // ④ 生成英文运势
   console.log('\n🌐 生成英文运势:');
