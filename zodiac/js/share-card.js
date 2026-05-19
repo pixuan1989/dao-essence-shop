@@ -97,9 +97,28 @@ window.ZodiacShareCard = (function() {
             ctx.fillRect(0, 0, W, H);
         }
 
-        // 3. 品牌头（增加黑色半透明衬底）
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.35)';
-        ctx.fillRect(W/2 - 150, 15, 300, 55);
+        // 3. 品牌头（圆角半透明毛玻璃）
+        var bx = W/2 - 150, by = 15, bw = 300, bh = 55, br = 16;
+
+        // 毛玻璃背景
+        ctx.fillStyle = 'rgba(10, 10, 26, 0.4)';
+        ctx.beginPath();
+        ctx.moveTo(bx + br, by);
+        ctx.lineTo(bx + bw - br, by);
+        ctx.quadraticCurveTo(bx + bw, by, bx + bw, by + br);
+        ctx.lineTo(bx + bw, by + bh - br);
+        ctx.quadraticCurveTo(bx + bw, by + bh, bx + bw - br, by + bh);
+        ctx.lineTo(bx + br, by + bh);
+        ctx.quadraticCurveTo(bx, by + bh, bx, by + bh - br);
+        ctx.lineTo(bx, by + br);
+        ctx.quadraticCurveTo(bx, by, bx + br, by);
+        ctx.closePath();
+        ctx.fill();
+
+        // 毛玻璃边框（细白线）
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+        ctx.lineWidth = 1;
+        ctx.stroke();
         
         ctx.fillStyle = 'rgba(212, 175, 55, 0.95)';
         ctx.font = '500 28px "Inter", sans-serif';
