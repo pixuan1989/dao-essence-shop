@@ -160,33 +160,33 @@ window.ZodiacShareCard = (function() {
         var displaySign = (isChinese && SIGN_NAMES_ZH[signName.toLowerCase()]) ? SIGN_NAMES_ZH[signName.toLowerCase()] : signName.toUpperCase();
         ctx.fillStyle = '#D4AF37';
         ctx.font = 'bold 56px "Cinzel", serif';
-        ctx.textAlign = 'center';
-        ctx.fillText(displaySign, W / 2, y);
-        
+        ctx.textAlign = 'left';
+        ctx.fillText(displaySign, cx + 40, y);
+
         // 装饰线
         ctx.strokeStyle = 'rgba(212, 175, 55, 0.4)';
         ctx.lineWidth = 1;
         ctx.beginPath();
-        ctx.moveTo(W / 2 - 40, y + 12);
-        ctx.lineTo(W / 2 + 40, y + 12);
+        ctx.moveTo(cx + 40, y + 12);
+        ctx.lineTo(cx + 220, y + 12);
         ctx.stroke();
 
         // 星星 + 分数（分行）
         y += 55;
         ctx.fillStyle = '#D4AF37';
         ctx.font = '34px "Inter", sans-serif';
-        ctx.fillText(renderStars(data.score), W / 2, y);
+        ctx.fillText(renderStars(data.score), cx + 40, y);
         y += 48;
         ctx.fillStyle = '#ffffff';
         ctx.font = 'bold 42px "Inter", sans-serif';
-        ctx.fillText(data.score + ' / 100', W / 2, y);
+        ctx.fillText(data.score + ' / 100', cx + 40, y);
 
         // 幸运信息（自动中英文）
         y += 55;
         ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
         ctx.font = '26px "Inter", sans-serif';
         var luckyNum = data.number || '';
-        ctx.fillText('\u{1F308} ' + colorName + '    ' + '\u{1F522} ' + luckyNum + '    ' + '\u{1F9ED} ' + direction, W / 2, y);
+        ctx.fillText('\u{1F308} ' + colorName + '    ' + '\u{1F522} ' + luckyNum + '    ' + '\u{1F9ED} ' + direction, cx + 40, y);
 
         // 金句（自动中英文字体）
         y += 60;
@@ -194,11 +194,12 @@ window.ZodiacShareCard = (function() {
         ctx.font = isChinese ? '28px "Noto Serif SC", serif' : 'italic 30px "Playfair Display", serif';
         var quoteLines = wrapText(ctx, '"' + quoteText + '"', cw - 120);
         quoteLines.forEach(function(l) {
-            ctx.fillText(l, W / 2, y);
+            ctx.fillText(l, cx + 40, y);
             y += 42;
         });
 
         // 底部引流 URL
+        ctx.textAlign = 'center';
         ctx.fillStyle = 'rgba(255, 255, 255, 0.35)';
         ctx.font = '22px "Inter", sans-serif';
         ctx.fillText('daoessentia.com/zodiac', W / 2, H - 45);
