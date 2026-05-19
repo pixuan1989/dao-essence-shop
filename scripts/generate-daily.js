@@ -714,9 +714,9 @@ async function translateToEnglish(cnText, zodiacEn, verdict, zodiacKey) {
 - No academic tone, no preachy advice, no "your wisdom lies in..." or "this configuration requires nuanced interpretation"
 - Keep it punchy: 200-300 words total
 
-## SEO (subtle, natural)
-- Integrate: "${seo.head}" — mention it once naturally in the intro or first paragraph
-- If it feels forced, skip it. Natural beats SEO every time.
+## SEO (REQUIRED — never skip)
+- The phrase "Chinese zodiac ${zodiacEn}" MUST appear in the first sentence of the translation — no exceptions. This is a hard rule for search engine optimization.
+- Beyond that, naturally weave in 1-2 terms from: ${seo.head}. Do NOT stuff; keep it conversational.
 
 Translate the Chinese horoscope for ${zodiacEn} into natural, Western-friendly English. Return ONLY the translated text, nothing else:`;
 
