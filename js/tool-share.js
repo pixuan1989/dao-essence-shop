@@ -133,17 +133,32 @@
             } catch (e) { /* Web Share 失败，走下方降级 */ }
         }
 
-        // 降级方案：转换为 Blob URL（Pinterest 扩展无法处理 data URL）
+        // 降级方案：转换为 Blob URL
         var blob = await dataUrlToBlob(cardUrl);
         var blobUrl = URL.createObjectURL(blob);
-        var win = window.open(blobUrl, '_blank');
-        if (!win || win.closed) {
+
+        // Pinterest / Instagram 特殊处理：下载 + 提示手动上传
+        if (platform === 'pinterest' || platform === 'instagram') {
             var a = document.createElement('a');
             a.href = blobUrl;
             a.download = sign + '-horoscope.jpg';
             document.body.appendChild(a);
             a.click();
             a.remove();
+            showToast('Card saved! Upload it to ' + (platform === 'pinterest' ? 'Pinterest' : 'Instagram') + ' manually.');
+            setTimeout(function() { URL.revokeObjectURL(blobUrl); }, 5000);
+            return;
+        }
+
+        // 其他平台：新窗口打开海报
+        var win = window.open(blobUrl, '_blank');
+        if (!win || win.closed) {
+            var a2 = document.createElement('a');
+            a2.href = blobUrl;
+            a2.download = sign + '-horoscope.jpg';
+            document.body.appendChild(a2);
+            a2.click();
+            a2.remove();
         }
         showToast('Card opened!');
         setTimeout(function() { URL.revokeObjectURL(blobUrl); }, 30000);
