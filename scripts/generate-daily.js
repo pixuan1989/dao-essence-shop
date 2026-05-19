@@ -477,7 +477,10 @@ async function generateFortuneEN(zodiac, cnData, ganzhi) {
     '稳定': 'Stable energy - consistent and predictable day',
   };
 
-  const enContent = await translateToEnglish(content, en, verdict, key);
+
+  const rawEn = await translateToEnglish(content, en, verdict, key);
+  // 清理 AI 翻译中残留的零星中文词，防止「偏财运」等中文词混入英文
+  const enContent = rawEn.replace(/[\u4e00-\u9fa5]+/g, '').replace(/\s{2,}/g, ' ').trim();
 
   return {
     keywords: null,
@@ -815,6 +818,54 @@ function saveSeoContent(date, fortunesCN, fortunesEN, quote, ganzhi) {
  * 生成12个静态详情页（永久URL，数据内嵌，无date参数）
  * v3.0 新增 — 解决日期参数URL导致SEO权重分散问题
  */
+/**
+ * 将 Markdown 转为 HTML（用于 EN 内容排版）
+ * - 去掉 emoji
+ * - ### → <h3>, ** → <strong>, * → <em>
+ * - \n\n → 分段 <p>
+ */
+function markdownToHtml(text) {
+  // Strip emojis (comprehensive ranges)
+  text = text.replace(/[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F000}-\u{1F02F}\u{1F0A0}-\u{1F0FF}\u{1F100}-\u{1F64F}\u{1F680}-\u{1F6FF}\u{1F1E0}-\u{1F1FF}]/gu, '');
+
+  // Markdown hard line break: two spaces + newline
+  text = text.replace(/  \n/g, '<br>');
+
+  // Remove trailing whitespace from lines
+  text = text.replace(/[ \t]+$/gm, '');
+
+  // Split into blocks by double newline
+  const blocks = text.split(/\n\s*\n/).filter(b => b.trim());
+
+  const htmlBlocks = blocks.map(block => {
+    block = block.trim();
+
+    // h3 heading
+    if (block.startsWith('### ')) {
+      return `<h3>${inlineMd(block.slice(4).trim())}</h3>`;
+    }
+    // h2 heading
+    if (block.startsWith('## ')) {
+      return `<h2>${inlineMd(block.slice(3).trim())}</h2>`;
+    }
+
+    // Regular paragraph
+    return `<p>${inlineMd(block)}</p>`;
+  });
+
+  return htmlBlocks.join('\n');
+}
+
+function inlineMd(text) {
+  // Bold: **text**
+  text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  // Italic: *text* (single asterisk, avoid ** leftovers)
+  text = text.replace(/(^|[^*])\*([^*]+?)\*([^*]|$)/g, '$1<em>$2</em>$3');
+  // Single newlines within block → <br>
+  text = text.replace(/\n/g, '<br>');
+  return text;
+}
+
 function generateStaticDetailPages(dateStr, fortunesCN, fortunesEN, quote, ganzhi) {
   const STATIC_DIR = path.join(PROJECT_ROOT, 'zodiac');
 
@@ -887,12 +938,15 @@ function generateStaticDetailPages(dateStr, fortunesCN, fortunesEN, quote, ganzh
     '平安是福，知足常乐。':'Contentment is its own kind of wealth.',
     '风雨过后见彩虹。':'After every storm, the colors return.',
     '破茧才能成蝶。':"Break through to become who you're meant to be.",
-    '涅槃重生。':'Out of the ashes, rise again.',
+    '涅槃重生':'Out of the ashes, rise again.',    '涅槃重生。':'Out of the ashes, rise again.',
     '日拱一卒无有尽。':'Every small step forward counts.',
     '功不唐捐终入海。':'Nothing you do is ever truly wasted.',
   };
   function trYi(tag) { return YIJI_MAP[tag] || tag; }
-  function trQuote(q) { return QUOTE_MAP[q] || q; }
+  function trQuote(q) {
+    // 优先直接匹配；其次去掉末尾的。后再匹配；兜底原样返回
+    return QUOTE_MAP[q] || QUOTE_MAP[q.replace(/。$/, '')] || q;
+  }
 
   // 评分→判定
   function getVerdict(score) {
@@ -946,6 +1000,14 @@ function generateStaticDetailPages(dateStr, fortunesCN, fortunesEN, quote, ganzh
       dateEn,
     }, false);
 
+    // 英文版 FORTUNE_DATA：yi/ji/quote 全部翻译为英文（嵌入 HTML）
+    const feTr = {
+      ...fe,
+      yi: fe.yi.map(trYi),
+      ji: fe.ji.map(trYi),
+      quote: trQuote(fe.quote),
+    };
+
     // 英文版页面内容
     const enContent = buildDetailHTML({
       sign: z.key,
@@ -956,7 +1018,7 @@ function generateStaticDetailPages(dateStr, fortunesCN, fortunesEN, quote, ganzh
       dateZh,
       dateEn,
       fc,
-      fe,
+      fe: feTr,
       verdict,
       verdictEn,
       dirEn,
@@ -982,7 +1044,7 @@ function generateStaticDetailPages(dateStr, fortunesCN, fortunesEN, quote, ganzh
     fs.writeFileSync(zhPath, injectHead(zhContent, zhHead), 'utf8');
 
     // en 版：canonical=rat-en.html, hreflang=zh-Hant→rat.html, x-default→rat.html
-    const enHead = buildSeoHead(z, fc, fe, dateStr, dateZh, dateEn, verdictEn, dirEn, colorEn, `${z.key}-en.html`, z.key, true);
+    const enHead = buildSeoHead(z, fc, fe, dateStr, dateZh, dateEn, verdictEn, dirEn, colorEn, `${z.key}-en.html`, `${z.key}.html`, true);
     fs.writeFileSync(enPath, injectHead(enContent, enHead), 'utf8');
 
     console.log(`   ✅ ${z.name} / ${z.en}: ${z.key}.html + ${z.key}-en.html`);
@@ -997,11 +1059,14 @@ function generateStaticDetailPages(dateStr, fortunesCN, fortunesEN, quote, ganzh
 function buildDetailHTML(ctx, isEn) {
   const { sign, signName, signNameEn, pageLang, dateStr, dateZh, dateEn, fc, fe, verdict, verdictEn, dirEn, colorEn, YIJI_MAP, QUOTE_MAP, trYi, trQuote, renderStars, DIRECTION_EN, COLOR_EN } = ctx;
   const accent = '#D4AF37'; // 默认金色
-  const content = isEn ? fe.content : fc.content;
+  const rawContent = isEn ? fe.content : fc.content;
+  // EN 内容做 Markdown→HTML 转换（去 emoji、分段、加粗斜体）；CN 直接包 <p>
+  const htmlContent = isEn ? markdownToHtml(rawContent) : `<p>${rawContent}</p>`;
 
-  const goodTags = fc.yi.map(g => `<span class="y-tag y-tag--good">${trYi(g)}</span>`).join('');
-  const badTags = fc.ji.map(a => `<span class="y-tag y-tag--bad">${trYi(a)}</span>`).join('');
-  const shareTextEn = `${signNameEn} Chinese zodiac horoscope: ${fc.score}/100. Lucky number ${fc.luckyNum}, direction ${dirEn}, lucky color ${colorEn}. Good for ${fc.yi.map(trYi).join(', ')}. Avoid ${fc.ji.map(trYi).join(', ')}.`;
+  const active = isEn ? fe : fc;
+  const goodTags = active.yi.map(g => `<span class="y-tag y-tag--good">${trYi(g)}</span>`).join('');
+  const badTags = active.ji.map(a => `<span class="y-tag y-tag--bad">${trYi(a)}</span>`).join('');
+  const shareTextEn = `${signNameEn} Chinese zodiac horoscope: ${fc.score}/100. Lucky number ${fc.luckyNum}, direction ${dirEn}, lucky color ${colorEn}. Good for ${active.yi.map(trYi).join(', ')}. Avoid ${active.ji.map(trYi).join(', ')}.`;
   const shareTextZh = `${signName}今日运势 ${fc.score}分 — ${trQuote(fc.quote)}`;
 
   // FAQ 数据
@@ -1028,7 +1093,7 @@ function buildDetailHTML(ctx, isEn) {
   });
 
   const blogLinks = isEn ? (fc.blogLinksEN || []) : (fc.blogLinksCN || []);
-  const blogCards = blogLinks.map(b => `<a href="${b.url}" class="blog-link-card"><div class="blog-link-card__icon">📖</div><div class="blog-link-card__content"><div class="blog-link-card__title">${b.title}</div><div class="blog-link-card__arrow">→</div></div></a>`).join('');
+  const blogCards = blogLinks.map(b => `<a href="${b.url}" class="blog-link-card"><div class="blog-link-card__icon">&#9654;</div><div class="blog-link-card__content"><div class="blog-link-card__title">${b.title}</div><div class="blog-link-card__arrow">→</div></div></a>`).join('');
 
   return `<!DOCTYPE html>
 <html lang="${isEn ? 'en' : 'zh-Hant'}">
@@ -1091,7 +1156,7 @@ function buildDetailHTML(ctx, isEn) {
           <div class="yiji-block yiji-block--good"><div class="yiji-block__hdr">${isEn ? 'Good for' : '宜'}</div><div class="yiji-block__tags">${goodTags}</div></div>
           <div class="yiji-block yiji-block--bad"><div class="yiji-block__hdr">${isEn ? 'Avoid' : '忌'}</div><div class="yiji-block__tags">${badTags}</div></div>
         </div>
-        <blockquote class="detail-quote"><p id="quoteText">${trQuote(fc.quote)}</p></blockquote>
+        <blockquote class="detail-quote"><p id="quoteText">${isEn ? fe.quote : trQuote(fc.quote)}</p></blockquote>
       </div>
     </div>
     <div id="zodiac-share"></div>
@@ -1102,7 +1167,7 @@ function buildDetailHTML(ctx, isEn) {
     </div>
     <article class="seo-content" id="seoContent">
       <h2 id="seoTitle">${isEn ? "Today's " + signNameEn + ' Horoscope' : '今日' + signName + '运势详解'}</h2>
-      <p id="seoText">${content}</p>
+      <div id="seoText">${htmlContent}</div>
     </article>
     <script type="application/ld+json">${jsonLd}</script>
     <section class="faq-section" id="faqSection">
@@ -1160,7 +1225,7 @@ function buildSeoHead(z, fc, fe, dateStr, dateZh, dateEn, verdictEn, dirEn, colo
   <link rel="canonical" href="${canonicalUrl}">
   <link rel="alternate" hreflang="en" href="${isEn ? canonicalUrl : alternateUrl}">
   <link rel="alternate" hreflang="zh-Hant" href="${isEn ? alternateUrl : canonicalUrl}">
-  <link rel="alternate" hreflang="x-default" href="${canonicalUrl}">`;
+  <link rel="alternate" hreflang="x-default" href="${isEn ? canonicalUrl : alternateUrl}">`;
 }
 
 /**
