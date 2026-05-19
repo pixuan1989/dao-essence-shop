@@ -7,7 +7,7 @@
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 -->
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,10 +25,11 @@
   <link rel="stylesheet" href="css/zodiac-daily.css">
   <script>
     var urlParams = new URLSearchParams(location.search);
-    var pageLang = urlParams.get('lang') || localStorage.getItem('daoessence_lang') || 'zh';
+    var pageLang = urlParams.get('lang') || localStorage.getItem('daoessence_lang') || 'en';
     if (pageLang === 'en') {
       document.documentElement.lang = 'en';
-      document.title = "Today's Zodiac Horoscope | DaoEssentia";
+    } else {
+      document.documentElement.lang = 'zh-Hant';
     }
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
