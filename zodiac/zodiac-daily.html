@@ -252,7 +252,7 @@
         var imageArea;
         if (haveImages.indexOf(meta.key) !== -1) {
           // 真实插图
-          imageArea = '<img class="card-img" src="images/' + meta.key + '.webp" alt="' + signName + '" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">';
+          imageArea = '<img class="card-img" src="/zodiac/images/' + meta.key + '.webp" alt="' + signName + '" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">';
           imageArea += '<div class="card-placeholder" style="display:none">' + meta.emoji + '</div>';
         } else {
           // 色块占位（等插图补齐后加入 images/）

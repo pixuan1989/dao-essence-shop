@@ -54,7 +54,7 @@
 
   <!-- ═══ 顶栏 ═══ -->
   <header class="detail-nav">
-    <a class="detail-nav__back" href="zodiac-daily.html" id="backLink">← 返回运势首页</a>
+    <a class="detail-nav__back" href="/zodiac/zodiac-daily" id="backLink">← 返回运势首页</a>
     <div class="detail-lang-switch" id="langSwitch"></div>
   </header>
 
@@ -353,7 +353,7 @@
 
       // 卡片插图
       var img = document.getElementById('cardImg');
-      img.src = 'images/' + sign + '.webp';
+      img.src = '/zodiac/images/' + sign + '.webp';
       img.alt = isEn ? SIGN_NAMES_EN[sign] : meta.name;
       img.onerror = function() {
         this.style.display='none';
@@ -517,7 +517,7 @@
       }
 
       // ── 加载SEO解读内容 ──
-      fetch('seo-content/' + dateStr + '.json')
+      fetch('/zodiac/seo-content/' + dateStr + '.json')
         .then(function(r) { return r.json(); })
         .then(function(json) {
           var fe = isEn ? (json.fortunesEn && json.fortunesEn[sign]) : (json.fortunes && json.fortunes[sign]);
