@@ -1143,3 +1143,16 @@ body.detail-page-body { overflow-x: hidden; }
 .footer-bottom {
   color: rgba(232, 228, 220, 0.5) !important;
 }
+
+/* 防盗图：透明覆盖层 */
+.detail-card-left__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: transparent;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.detail-card-left__img { z-index: 1; position: relative; }
+.detail-card-left__glow { z-index: 3; }

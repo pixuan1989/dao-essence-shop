@@ -17,18 +17,14 @@
     '.tool-share-btn[data-platform="twitter"]:hover{background:#1DA1F2;border-color:#1DA1F2;color:#fff}',
     '.tool-share-btn[data-platform="twitter"]:hover svg{fill:#fff}',
     '.tool-share-btn[data-platform="facebook"]:hover{background:#1877F2;border-color:#1877F2;color:#fff}',
-    '.tool-share-btn[data-platform="facebook"]:hover svg{fill:#fff}',
     '.tool-share-btn[data-platform="linkedin"]:hover{background:#0A66C2;border-color:#0A66C2;color:#fff}',
-    '.tool-share-btn[data-platform="linkedin"]:hover svg{fill:#fff}',
     '.tool-share-btn[data-platform="whatsapp"]:hover{background:#25D366;border-color:#25D366;color:#fff}',
     '.tool-share-btn[data-platform="reddit"]:hover{background:#FF4500;border-color:#FF4500;color:#fff}',
-    '.tool-share-btn[data-platform="pinterest"]:hover{background:#E60023;border-color:#E60023;color:#fff}',
-    '.tool-share-btn[data-platform="pinterest"]:hover svg{fill:#fff}',
-    '.tool-share-btn[data-platform="instagram"]:hover{background:#E4405F;border-color:#E4405F;color:#fff}',
-    '.tool-share-btn[data-platform="instagram"]:hover svg{fill:#fff}',
     '.tool-share-btn[data-platform="copy"]:hover{background:#374151;border-color:#374151;color:#fff}',
     '.tool-share-btn[data-platform="copy"]:hover svg{fill:#fff}',
     '.tool-share-btn[data-platform="copy"].copied{background:#22c55e;border-color:#22c55e;color:#fff}',
+    '.tool-share-btn[data-platform="download"]:hover{background:#D4AF37;border-color:#D4AF37;color:#0f0f23}',
+    '.tool-share-btn[data-platform="download"]:hover svg{fill:#0f0f23}',
     '@media(max-width:480px){.tool-share-bar{gap:0.4rem}.tool-share-btn{width:30px;height:30px}.tool-share-btn svg{width:16px;height:16px}.tool-share-label{font-size:0.72rem}}'
   ].join('\n');
 
@@ -39,9 +35,8 @@
     linkedin:  '<svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 012.063-2.065 2.064 2.064 0 012.063 2.065 2.062 2.062 0 01-2.063 2.065zM6.835 20.452H3.842V9h2.993zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>',
     whatsapp:  '<img src="/images/whatapp.svg" alt="WhatsApp">',
     reddit:    '<img src="/images/reddit.svg" alt="Reddit">',
-    pinterest: '<svg viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.903 1.407-5.903s-.359-.72-.359-1.781c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.011-.644 2.528-.978 3.936-.277 1.176.59 2.134 1.746 2.134 2.094 0 3.697-2.208 3.697-5.396 0-2.823-2.028-4.795-4.926-4.795-3.357 0-5.328 2.52-5.328 5.126 0 1.015.39 2.105.877 2.696a.54.54 0 01.098.518c-.107.446-.346 1.397-.394 1.592-.062.251-.195.304-.451.181-1.683-.784-2.733-3.248-2.733-5.23 0-4.268 3.103-8.192 8.946-8.192 4.697 0 8.346 3.348 8.346 7.815 0 4.607-2.903 8.314-6.934 8.314-1.353 0-2.623-.704-3.057-1.53l-.83 3.168c-.3 1.145-1.128 2.575-1.679 3.444C9.801 23.865 10.893 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/></svg>',
-    instagram: '<svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24s3.667-.014 4.947-.072c4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>',
-    copy:      '<svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>'
+    copy:      '<svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>',
+    download:  '<svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>'
   };
 
   var PLATFORMS = [
@@ -50,8 +45,6 @@
     { id: 'linkedin',  title: 'Share on LinkedIn' },
     { id: 'whatsapp',  title: 'Share on WhatsApp' },
     { id: 'reddit',    title: 'Share on Reddit' },
-    { id: 'pinterest', title: 'Pin on Pinterest' },
-    { id: 'instagram', title: 'Copy link for Instagram' },
     { id: 'copy',      title: 'Copy Link' }
   ];
 
@@ -75,98 +68,28 @@
     setTimeout(function() { toast.remove(); }, 2500);
   }
 
-  // --- 辅助函数 (zodiac 分享卡片) ---
-
-  function dataUrlToBlob(dataUrl) {
-    return new Promise(function(resolve, reject) {
-        fetch(dataUrl).then(function(r) { return r.blob(); }).then(resolve).catch(reject);
-    });
-  }
-
   function doShareFallback(platform, text) {
     var t = encodeURIComponent(text || document.title);
     var u = encodeURIComponent(location.href);
     var urls = {
-        twitter:   'https://twitter.com/intent/tweet?url=' + u + '&text=' + t,
-        facebook:  'https://www.facebook.com/sharer/sharer.php?u=' + u,
-        linkedin:  'https://www.linkedin.com/sharing/share-offsite/?url=' + u,
-        whatsapp:  'https://wa.me/?text=' + t + '%20' + u,
-        reddit:    'https://reddit.com/submit?url=' + u + '&title=' + t,
-        pinterest: 'https://pinterest.com/pin/create/button/?url=' + u + '&description=' + t
+      twitter:   'https://twitter.com/intent/tweet?url=' + u + '&text=' + t,
+      facebook:  'https://www.facebook.com/sharer/sharer.php?u=' + u,
+      linkedin:  'https://www.linkedin.com/sharing/share-offsite/?url=' + u,
+      whatsapp:  'https://wa.me/?text=' + t + '%20' + u,
+      reddit:    'https://reddit.com/submit?url=' + u + '&title=' + t
     };
     if (urls[platform]) {
-        window.open(urls[platform], '_blank');
+      window.open(urls[platform], '_blank');
     } else {
-        navigator.clipboard.writeText(location.href);
-        showToast('Link copied!');
+      navigator.clipboard.writeText(location.href);
+      showToast('Link copied!');
     }
   }
 
-  async function doShare(platform, sign, data) {
-    try {
-        // 加载生肖插图
-        var img = new Image();
-        img.crossOrigin = 'anonymous';
-        img.src = '/zodiac/images/' + sign + '.webp';
-        await new Promise(function(resolve, reject) {
-            img.onload = resolve;
-            img.onerror = reject;
-        });
-
-        // 生成分享卡片
-        var cardUrl = await window.ZodiacShareCard.generate(sign.toUpperCase(), data, img);
-
-        // Web Share API（移动端优先）
-        if (navigator.share) {
-            try {
-                var blob = await dataUrlToBlob(cardUrl);
-                var file = new File([blob], sign + '-horoscope.jpg', { type: 'image/jpeg' });
-                if (navigator.canShare && navigator.canShare({ files: [file] })) {
-                    await navigator.share({
-                        title: sign.toUpperCase() + ' Horoscope',
-                        text: 'Score: ' + data.score + '/100. ' + (data.quote || ''),
-                        url: location.href,
-                        files: [file]
-                    });
-                    return;
-                }
-            } catch (e) { /* Web Share 失败，走下方降级 */ }
-        }
-
-        // 降级方案：转换为 Blob URL
-        var blob = await dataUrlToBlob(cardUrl);
-        var blobUrl = URL.createObjectURL(blob);
-
-        // Pinterest / Instagram 特殊处理：下载 + 提示手动上传
-        if (platform === 'pinterest' || platform === 'instagram') {
-            var a = document.createElement('a');
-            a.href = blobUrl;
-            a.download = sign + '-horoscope.jpg';
-            document.body.appendChild(a);
-            a.click();
-            a.remove();
-            showToast('Card saved! Upload it to ' + (platform === 'pinterest' ? 'Pinterest' : 'Instagram') + ' manually.');
-            setTimeout(function() { URL.revokeObjectURL(blobUrl); }, 5000);
-            return;
-        }
-
-        // 其他平台：新窗口打开海报
-        var win = window.open(blobUrl, '_blank');
-        if (!win || win.closed) {
-            var a2 = document.createElement('a');
-            a2.href = blobUrl;
-            a2.download = sign + '-horoscope.jpg';
-            document.body.appendChild(a2);
-            a2.click();
-            a2.remove();
-        }
-        showToast('Card opened!');
-        setTimeout(function() { URL.revokeObjectURL(blobUrl); }, 30000);
-    } catch (err) {
-        console.error('[ToolShare] share error:', err);
-        navigator.clipboard.writeText(location.href);
-        showToast('Image failed, link copied.');
-    }
+  function dataUrlToBlob(dataUrl) {
+    return new Promise(function(resolve, reject) {
+      fetch(dataUrl).then(function(r) { return r.blob(); }).then(resolve).catch(reject);
+    });
   }
 
   /**
@@ -175,9 +98,7 @@
    * @param {object} [opts]
    * @param {string} [opts.label] - Label text (default: "Share Your Result")
    * @param {string} [opts.labelKey] - i18n key (default: "tool_share.label")
-   * @param {string} [opts.text] - Custom share text (for fallback mode)
-   * @param {string} [opts.sign] - Zodiac sign key (e.g. "dog") — triggers card generation
-   * @param {object} [opts.data] - { score, number, colorName, direction, quote }
+   * @param {string} [opts.text] - Custom share text (for text sharing)
    */
   function render(target, opts) {
     opts = opts || {};
@@ -185,8 +106,6 @@
 
     var container = typeof target === 'string' ? document.getElementById(target) : target;
     if (!container) return;
-
-    // Avoid double render
     if (container.querySelector('.tool-share-bar')) return;
 
     var bar = document.createElement('div');
@@ -199,32 +118,88 @@
     bar.appendChild(label);
 
     PLATFORMS.forEach(function(p) {
-        var btn = document.createElement('button');
-        btn.className = 'tool-share-btn';
-        btn.setAttribute('data-platform', p.id);
-        btn.title = p.title;
-        btn.innerHTML = SVG_ICONS[p.id] || '';
-
-        btn.addEventListener('click', function() {
-            // 分支：有 sign/data 走卡片生成，否则走 fallback
-            if (opts.sign && opts.data && window.ZodiacShareCard) {
-                doShare(p.id, opts.sign, opts.data);
-            } else {
-                doShareFallback(p.id, opts.text);
-            }
-
-            // copy 按钮绿色反馈
-            if (p.id === 'copy') {
-                btn.classList.add('copied');
-                setTimeout(function() { btn.classList.remove('copied'); }, 2000);
-            }
-        });
-        bar.appendChild(btn);
+      var btn = document.createElement('button');
+      btn.className = 'tool-share-btn';
+      btn.setAttribute('data-platform', p.id);
+      btn.title = p.title;
+      btn.innerHTML = SVG_ICONS[p.id] || '';
+      btn.addEventListener('click', function() {
+        doShareFallback(p.id, opts.text);
+        if (p.id === 'copy') {
+          btn.classList.add('copied');
+          setTimeout(function() { btn.classList.remove('copied'); }, 2000);
+        }
+      });
+      bar.appendChild(btn);
     });
 
     container.appendChild(bar);
   }
 
+  /**
+   * Render download horoscope card button (zodiac page only).
+   * @param {string|HTMLElement} target - Container element ID or DOM element
+   * @param {object} [opts]
+   * @param {string} [opts.sign] - Zodiac sign key (e.g. "dog")
+   * @param {object} [opts.data] - { score, number, colorName, direction, quote }
+   */
+  function renderDownloadBtn(target, opts) {
+    opts = opts || {};
+    injectCSS();
+
+    var container = typeof target === 'string' ? document.getElementById(target) : target;
+    if (!container) return;
+    if (container.querySelector('.tool-share-download')) return;
+
+    var bar = document.createElement('div');
+    bar.className = 'tool-share-bar tool-share-download';
+
+    var btn = document.createElement('button');
+    btn.className = 'tool-share-btn';
+    btn.setAttribute('data-platform', 'download');
+    btn.title = 'Download Horoscope Card';
+    btn.innerHTML = SVG_ICONS['download'] || '';
+    btn.addEventListener('click', async function() {
+      if (!opts.sign || !opts.data || !window.ZodiacShareCard) {
+        showToast('Card generation failed.');
+        return;
+      }
+      try {
+        var img = new Image();
+        img.crossOrigin = 'anonymous';
+        img.src = '/zodiac/images/' + opts.sign + '.webp';
+        await new Promise(function(resolve, reject) {
+          img.onload = resolve;
+          img.onerror = reject;
+        });
+
+        var cardUrl = await window.ZodiacShareCard.generate(opts.sign.toUpperCase(), opts.data, img);
+        var blob = await dataUrlToBlob(cardUrl);
+        var blobUrl = URL.createObjectURL(blob);
+
+        // Try window.open first, fallback to a.click
+        var win = window.open(blobUrl, '_blank');
+        if (!win || win.closed) {
+          var a = document.createElement('a');
+          a.href = blobUrl;
+          a.download = opts.sign + '-horoscope.jpg';
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+        }
+        showToast('Card downloaded!');
+        setTimeout(function() { URL.revokeObjectURL(blobUrl); }, 5000);
+      } catch (err) {
+        console.error('[ToolShare] download error:', err);
+        showToast('Card generation failed, link copied.');
+        navigator.clipboard.writeText(location.href);
+      }
+    });
+
+    bar.appendChild(btn);
+    container.appendChild(bar);
+  }
+
   // Expose globally
-  window.ToolShare = { render: render };
+  window.ToolShare = { render: render, renderDownloadBtn: renderDownloadBtn };
 })();

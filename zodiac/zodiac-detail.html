@@ -68,11 +68,12 @@
     <!-- ━━━━ 左右布局 ━━━━ -->
     <div class="detail-layout">
 
-      <!-- 左侧：插图 -->
+      <!-- 左侧：插图（防盗图：draggable + 透明 overlay + 禁用右键/拖拽） -->
       <div class="detail-layout__left">
-        <div class="detail-card-left">
-          <img class="detail-card-left__img" id="cardImg" alt="">
+        <div class="detail-card-left" style="position:relative;">
+          <img class="detail-card-left__img" id="cardImg" alt="" draggable="false">
           <div class="detail-card-left__glow"></div>
+          <div class="detail-card-left__overlay"></div>
         </div>
       </div>
 
@@ -401,8 +402,13 @@
         shareText = 'Today\'s ' + (SIGN_NAMES_EN[sign] || sign) + ' Chinese zodiac horoscope: ' + data.score + '/100. Lucky number ' + data.number + ', direction ' + (DIRECTION_EN[data.direction]||data.direction) + ', lucky color ' + (COLOR_EN[data.colorName]||data.colorName) + '. Good for ' + data.good.map(trYi).join(', ') + '. Avoid ' + data.avoid.map(trYi).join(', ') + '.';
       }
       if (window.ToolShare) {
+        // 1. 纯文本分享栏
         window.ToolShare.render('zodiac-share', {
           label: isEn ? 'Share Your Horoscope' : '分享你的运势',
+          text: shareText
+        });
+        // 2. 下载海报按钮
+        window.ToolShare.renderDownloadBtn('zodiac-share', {
           sign: sign,
           data: {
             score: data.score,
@@ -410,8 +416,7 @@
             colorName: isEn ? (COLOR_EN[data.colorName] || data.colorName) : data.colorName,
             direction: isEn ? (DIRECTION_EN[data.direction] || data.direction) : data.direction,
             quote: trQuote(data.quote)
-          },
-          text: shareText
+          }
         });
       }
 
@@ -550,6 +555,16 @@
       url.searchParams.set('lang', lang);
       location.href = url.toString();
     };
+  </script>
+
+  <!-- 防盗图：禁用右键和拖拽 -->
+  <script>
+    document.addEventListener('contextmenu', function(e) {
+      if (e.target.tagName === 'IMG') { e.preventDefault(); return false; }
+    });
+    document.addEventListener('dragstart', function(e) {
+      if (e.target.tagName === 'IMG') { e.preventDefault(); return false; }
+    });
   </script>
 
 </body>
