@@ -658,6 +658,7 @@ body.detail-page-body { overflow-x: hidden; }
   margin: 0;
   font-size: 0.88rem; color: rgba(255,255,255,0.75);
   line-height: 1.8; font-style: italic;
+  font-family: var(--font-sc);
 }
 
 /* ─── 分割线 ─── */
@@ -684,12 +685,13 @@ body.detail-page-body { overflow-x: hidden; }
 }
 .seo-content h3 {
   font-size: 0.95rem; color: #D4AF37; font-weight: 600;
-  margin: 24px 0 10px; font-family: var(--font-en);
+  margin: 24px 0 10px; font-family: var(--font-sc);
   letter-spacing: 0.02em;
 }
 .seo-content p {
   font-size: 0.85rem; color: rgba(255,255,255,0.6);
   line-height: 1.8; margin: 0 0 14px;
+  font-family: var(--font-sc);
 }
 .seo-content p:last-child { margin-bottom: 0; }
 .seo-content strong {
