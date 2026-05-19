@@ -403,12 +403,9 @@
       fetch('seo-content/' + dateStr + '.json')
         .then(function(r) { return r.json(); })
         .then(function(json) {
-          var fc = json.fortunes && json.fortunes[sign];
-          if (fc) {
-            var content = (isEn && fc.contentEN) ? fc.contentEN : fc.content;
-            if (content) {
-              document.getElementById('seoText').textContent = content;
-            }
+          var fe = isEn ? (json.fortunesEn && json.fortunesEn[sign]) : (json.fortunes && json.fortunes[sign]);
+          if (fe && fe.content) {
+            document.getElementById('seoText').textContent = fe.content;
           }
         })
         .catch(function() { /* 静默失败，保留占位文本 */ });
