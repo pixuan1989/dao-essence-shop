@@ -11,7 +11,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>今日生肖运势 | DaoEssentia</title>
+  <title>Chinese Zodiac Daily Horoscope — Today's Luck for All 12 Signs | DaoEssentia</title>
+  <meta name="description" content="Get today's Chinese zodiac horoscope for all 12 signs. Daily luck forecast, lucky numbers, colors, directions, and Five Elements energy analysis updated daily.">
+  <meta property="og:title" content="Chinese Zodiac Daily Horoscope — Today's Luck for 12 Signs">
+  <meta property="og:description" content="Daily horoscope for all 12 Chinese zodiac signs. Rat, Ox, Tiger, Rabbit, Dragon, Snake, Horse, Goat, Monkey, Rooster, Dog, Pig — updated every day.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.daoessentia.com/zodiac/zodiac-daily">
+  <link rel="canonical" href="https://www.daoessentia.com/zodiac/zodiac-daily">
+  <link rel="alternate" hreflang="en" href="https://www.daoessentia.com/zodiac/zodiac-daily?lang=en">
+  <link rel="alternate" hreflang="zh-Hant" href="https://www.daoessentia.com/zodiac/zodiac-daily?lang=zh">
+  <link rel="alternate" hreflang="x-default" href="https://www.daoessentia.com/zodiac/zodiac-daily">
   <link rel="stylesheet" href="/styles.min.css?v=202604231440">
   <link rel="stylesheet" href="css/zodiac-daily.css">
   <script>
@@ -235,8 +244,37 @@
 
     })();
 
+    // EN 和 ZH 两套 meta 标签内容
+    var META_EN = {
+      title: "Chinese Zodiac Daily Horoscope — Today's Luck for All 12 Signs | DaoEssentia",
+      desc: "Get today's Chinese zodiac horoscope for all 12 signs. Daily luck forecast, lucky numbers, colors, directions, and Five Elements energy analysis updated daily.",
+      ogTitle: "Chinese Zodiac Daily Horoscope — Today's Luck for 12 Signs",
+      ogDesc: "Daily horoscope for all 12 Chinese zodiac signs. Rat, Ox, Tiger, Rabbit, Dragon, Snake, Horse, Goat, Monkey, Rooster, Dog, Pig — updated every day."
+    };
+    var META_ZH = {
+      title: "今日生肖运势 | DaoEssentia",
+      desc: "获取今日十二生肖运势，包含幸运数字、幸运方位、幸运色、五行能量分析，每日更新。",
+      ogTitle: "今日生肖运势 — 十二生肖今日运气",
+      ogDesc: "每日更新十二生肖运势：鼠、牛、虎、兔、龙、蛇、马、羊、猴、鸡、狗、猪。含幸运数字、方位、颜色及五行能量分析。"
+    };
+
     window.switchLang = function(lang) {
       localStorage.setItem('daoessence_lang', lang);
+      var meta = lang === 'en' ? META_EN : META_ZH;
+      // 同步更新所有 SEO meta 标签
+      document.title = meta.title;
+      var descEl = document.querySelector('meta[name="description"]');
+      if (descEl) descEl.content = meta.desc;
+      var ogTitleEl = document.querySelector('meta[property="og:title"]');
+      if (ogTitleEl) ogTitleEl.content = meta.ogTitle;
+      var ogDescEl = document.querySelector('meta[property="og:description"]');
+      if (ogDescEl) ogDescEl.content = meta.ogDesc;
+      // 切换 hreflang
+      var linkEl = document.querySelector('link[rel="alternate"][hreflang="en"]');
+      if (linkEl) linkEl.href = 'https://www.daoessentia.com/zodiac/zodiac-daily' + (lang === 'en' ? '?lang=en' : '');
+      var linkZhEl = document.querySelector('link[rel="alternate"][hreflang="zh-Hant"]');
+      if (linkZhEl) linkZhEl.href = 'https://www.daoessentia.com/zodiac/zodiac-daily' + (lang === 'zh' ? '?lang=zh' : '');
+      // 跳转到对应语言 URL
       var url = new URL(location.href);
       if (lang === 'zh') {
         url.searchParams.delete('lang');

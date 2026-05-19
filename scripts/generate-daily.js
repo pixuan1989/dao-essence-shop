@@ -1212,15 +1212,15 @@ function buildDetailHTML(ctx, isEn) {
   const shareTextEn = `${signNameEn} Chinese zodiac horoscope: ${fc.score}/100. Lucky number ${fc.luckyNum}, direction ${dirEn}, lucky color ${colorEn}. Good for ${active.yi.map(trYi).join(', ')}. Avoid ${active.ji.map(trYi).join(', ')}.`;
   const shareTextZh = `${signName}今日运势 ${fc.score}分 — ${trQuote(fc.quote)}`;
 
-  // FAQ 数据
+  // FAQ 数据（搜索意图导向，无日期）
   const faqData = isEn ? [
-    { q: `How is ${signNameEn}'s horoscope today?`, a: `Today's energy for ${signNameEn} is ${verdictEn.toLowerCase()}, with an overall score of ${fc.score}/100. Lucky number: ${fc.luckyNum}, direction: ${dirEn}, lucky color: ${colorEn}. Good for ${fc.yi.map(trYi).join(', ')}, avoid ${fc.ji.map(trYi).join(', ')}.` },
-    { q: `How is ${signNameEn}'s career luck today?`, a: `Based on the Chinese zodiac analysis, ${signNameEn}'s work energy today is ${verdict === '上升' ? 'highly favorable—take initiative.' : verdict === '降低' ? 'challenging—stay conservative.' : 'steady—follow your plan.'} Best approach: ${fc.yi[0] ? trYi(fc.yi[0]) + ' is favored.' : 'stay focused on routine tasks.'}` },
-    { q: `How is ${signNameEn}'s love and money luck today?`, a: `Overall energy for ${signNameEn} today is ${verdictEn.toLowerCase()}. Key advice: "${trQuote(fc.quote)}". Lucky number ${fc.luckyNum} and direction ${dirEn} can enhance your day.` }
+    { q: `What is the Chinese zodiac horoscope for ${signNameEn} today?`, a: `${signNameEn}'s horoscope today shows ${verdictEn.toLowerCase()}, with an overall score of ${fc.score}/100. Lucky number: ${fc.luckyNum}, direction: ${dirEn}, lucky color: ${colorEn}. Good for ${fc.yi.map(trYi).join(', ')}, avoid ${fc.ji.map(trYi).join(', ')}.` },
+    { q: `Is today a good day for ${signNameEn} in career and work?`, a: `Based on the Chinese zodiac analysis, ${signNameEn}'s work energy today is ${verdict === '上升' ? 'highly favorable—take initiative.' : verdict === '降低' ? 'challenging—stay conservative.' : 'steady—follow your plan.'} Best approach: ${fc.yi[0] ? trYi(fc.yi[0]) + ' is favored.' : 'stay focused on routine tasks.'}` },
+    { q: `What should ${signNameEn} avoid today according to Chinese astrology?`, a: `Overall energy for ${signNameEn} today is ${verdictEn.toLowerCase()}. Key advice: "${trQuote(fc.quote)}". Lucky number ${fc.luckyNum} and direction ${dirEn} can enhance your day. Avoid: ${fc.ji.map(trYi).join(', ')}.` }
   ] : [
-    { q: `${signName}今日运势如何？`, a: `${signName}今日运势${verdict === '上升' ? '上升' : verdict === '降低' ? '降低' : '平稳'}，综合评分 ${fc.score}/100。幸运数字 ${fc.luckyNum}，幸运方位 ${fc.direction}，幸运色 ${fc.colorName}。宜${fc.yi.join('、')}，忌${fc.ji.join('、')}。` },
-    { q: `${signName}今日事业工作运势好吗？`, a: `根据天干地支五行推算，今日${signName}的工作运势${verdict === '上升' ? '受吉星扶助，适合主动出击' : verdict === '降低' ? '不利因素较多，宜静不宜动' : '平稳推进，按计划行事'}。建议${fc.yi[0] ? '今日宜' + fc.yi[0] : '保持专注'}。` },
-    { q: `${signName}今日财运/爱情运势如何？`, a: `今日${signName}的整体能量${verdict === '上升' ? '上升' : verdict === '降低' ? '降低' : '稳定'}，具体运势详见上方详细解读。综合建议：${fc.quote}。配合幸运数字 ${fc.luckyNum} 和幸运方位 ${fc.direction} 行动，效果更佳。` }
+    { q: `生肖${signName}今日运势如何？`, a: `生肖${signName}今日运势${verdict === '上升' ? '上升' : verdict === '降低' ? '降低' : '平稳'}，综合评分 ${fc.score}/100。幸运数字 ${fc.luckyNum}，幸运方位 ${fc.direction}，幸运色 ${fc.colorName}。宜${fc.yi.join('、')}，忌${fc.ji.join('、')}。` },
+    { q: `生肖${signName}今日事业工作运势好吗？`, a: `根据天干地支五行推算，今日生肖${signName}的工作运势${verdict === '上升' ? '受吉星扶助，适合主动出击' : verdict === '降低' ? '不利因素较多，宜静不宜动' : '平稳推进，按计划行事'}。建议${fc.yi[0] ? '今日宜' + fc.yi[0] : '保持专注'}。` },
+    { q: `生肖${signName}今日财运爱情运势如何？`, a: `今日生肖${signName}的整体能量${verdict === '上升' ? '上升' : verdict === '降低' ? '降低' : '稳定'}，具体运势详见上方详细解读。综合建议：${fc.quote}。配合幸运数字 ${fc.luckyNum} 和幸运方位 ${fc.direction} 行动，效果更佳。` }
   ];
 
   const faqItems = faqData.map(f => `<details class="faq-item"><summary class="faq-item__q">${f.q}</summary><div class="faq-item__a">${f.a}</div></details>`).join('');
@@ -1309,7 +1309,7 @@ function buildDetailHTML(ctx, isEn) {
       <span class="seo-divider__line"></span>
     </div>
     <article class="seo-content" id="seoContent">
-      <h2 id="seoTitle">${isEn ? "Today's " + signNameEn + ' Horoscope' : '今日' + signName + '运势详解'}</h2>
+      <h2 id="seoTitle">${isEn ? signNameEn + ' Daily Horoscope — ' + verdictEn : '今日' + signName + '运势详解'}</h2>
       <div id="seoText">${htmlContent}</div>
     </article>
     <script type="application/ld+json">${jsonLd}</script>
@@ -1350,8 +1350,8 @@ function buildDetailHTML(ctx, isEn) {
  */
 function buildSeoHead(z, fc, fe, dateStr, dateZh, dateEn, verdictEn, dirEn, colorEn, canonicalPath, alternatePath, isEn) {
   const title = isEn
-    ? `${z.en} Daily Horoscope (${dateEn}) - ${verdictEn} - DaoEssentia`
-    : `${dateZh} ${z.name}今日运势详解 - DaoEssentia`;
+    ? `${z.en} Daily Horoscope — ${verdictEn} — DaoEssentia`
+    : `${z.name}今日运势详解 - DaoEssentia`;
   const firstYiEn = fc.yi.length > 0 ? trYi(fc.yi[0]) : 'various activities';
   const descEn = `${z.en} horoscope for ${dateEn}: ${verdictEn}, score ${fc.score}/100. Lucky number ${fc.luckyNum}, direction ${dirEn}, color ${colorEn}. Good for ${firstYiEn} and more.`;
   const descZh = `${z.name}今日运势：${fc.score}分，幸运数字${fc.luckyNum}，幸运方位${fc.direction}，幸运色${fc.colorName}。宜${fc.yi.join('、')}，忌${fc.ji.join('、')}。`;
