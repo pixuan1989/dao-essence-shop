@@ -150,7 +150,7 @@
             img.onload = resolve;
             img.onerror = reject;
           });
-          var cardUrl = await window.ZodiacShareCard.generate(d.sign.toUpperCase(), d.data, img);
+          var cardUrl = await window.ZodiacShareCard.generate(d.sign.toUpperCase(), d.data, img, d.lang || '');
           var blob = await dataUrlToBlob(cardUrl);
           var blobUrl = URL.createObjectURL(blob);
           var a = document.createElement('a');

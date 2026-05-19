@@ -58,7 +58,7 @@ window.ZodiacShareCard = (function() {
         return lines;
     }
 
-    async function generate(signName, data, image) {
+    async function generate(signName, data, image, lang) {
         await ensureFonts();
         var W = 1080, H = 1920;
         var canvas = document.createElement('canvas');
@@ -66,11 +66,11 @@ window.ZodiacShareCard = (function() {
         canvas.height = H;
         var ctx = canvas.getContext('2d');
 
-        // 检测内容语言
+        // 检测内容语言（显式 lang 优先，否则自动检测）
         var colorName = data.colorName || '';
         var direction = data.direction || '';
         var quoteText = data.quote || '';
-        var isChinese = hasChinese(colorName) || hasChinese(direction) || hasChinese(quoteText);
+        var isChinese = lang ? (lang === 'zh') : (hasChinese(colorName) || hasChinese(direction) || hasChinese(quoteText));
 
         // 1. 背景
         var bg = ctx.createLinearGradient(0, 0, 0, H);
