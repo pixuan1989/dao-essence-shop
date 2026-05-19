@@ -30,7 +30,8 @@ if (fs.existsSync(ENV_FILE)) {
 }
 
 // ─── 参数解析 ─────────────────────────────────────────────
-const DATE = process.argv[2] || new Date().toISOString().split('T')[0];
+// 使用东八区日期，避免 UTC 跨天问题
+const DATE = process.argv[2] || new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Shanghai' });
 const PROJECT_ROOT = path.join(__dirname, '..');
 const GENERATE_SCRIPT = path.join(__dirname, 'generate-daily.js');
 

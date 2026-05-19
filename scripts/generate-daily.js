@@ -807,7 +807,8 @@ function saveSeoContent(date, fortunesCN, fortunesEN, quote, ganzhi) {
 // ════════════════════════════════════════════════════════════
 
 async function main() {
-  const dateStr = process.argv[2] || new Date().toISOString().split('T')[0];
+  // 使用东八区日期，避免 UTC 跨天问题
+  const dateStr = process.argv[2] || new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Shanghai' });
   console.log(`\n🚀 开始生成 ${dateStr} 生肖运势...\n`);
 
   // ① 计算天干地支

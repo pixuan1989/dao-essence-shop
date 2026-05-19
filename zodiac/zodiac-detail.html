@@ -139,7 +139,11 @@
     (function() {
       var params = new URLSearchParams(location.search);
       var sign   = params.get('sign') || 'dragon';
-      var dateStr = params.get('date') || new Date().toISOString().split('T')[0];
+      var today = new Date();
+      var y = today.getFullYear();
+      var m = String(today.getMonth() + 1).padStart(2, '0');
+      var d = String(today.getDate()).padStart(2, '0');
+      var dateStr = params.get('date') || (y + '-' + m + '-' + d);
       var pageLang = params.get('lang') || localStorage.getItem('daoessence_lang') || 'zh';
 
       var dayData = getDayData(dateStr);
