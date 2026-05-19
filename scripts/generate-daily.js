@@ -700,10 +700,11 @@ function generatePairSign(sign) {
 
 /**
  * 生成金句
- * 优先级：节日 > 节气 > 顺序循环（100条）
- * 顺序循环：以2026-01-01为起点，每过一天序号+1，循环周期100天
+ * 优先级：节日 > 节气 > 顺序循环（100条，每生肖按索引错开）
+ * @param {string} dateStr - 日期 YYYY-MM-DD
+ * @param {string} [zodiacKey] - 可选生肖key；有则按生肖错开选金句，无则返回共享金句
  */
-function generateDailyQuote(dateStr) {
+function generateDailyQuote(dateStr, zodiacKey) {
   const solarTerm = getSolarTerm(dateStr);
   const festival = getFestival(dateStr);
 
@@ -718,7 +719,15 @@ function generateDailyQuote(dateStr) {
   const epoch = new Date('2026-01-01');
   const current = new Date(dateStr);
   const daysSinceEpoch = Math.floor((current - epoch) / (24 * 60 * 60 * 1000));
-  return BASE_QUOTES[Math.abs(daysSinceEpoch) % BASE_QUOTES.length];
+  let idx = Math.abs(daysSinceEpoch) % BASE_QUOTES.length;
+
+  // 有生肖key时，用生肖在列表中的索引做偏移，使每生肖金句不同
+  if (zodiacKey) {
+    const zodiacIndex = ZODIAC_LIST.findIndex(z => z.key === zodiacKey);
+    idx = (idx + zodiacIndex) % BASE_QUOTES.length;
+  }
+
+  return BASE_QUOTES[idx];
 }
 
 /**
@@ -787,7 +796,7 @@ function updateDataFile(date, fortunes) {
 /**
  * 保存SEO内容JSON
  */
-function saveSeoContent(date, fortunesCN, fortunesEN, quote, ganzhi) {
+function saveSeoContent(date, fortunesCN, fortunesEN, ganzhi) {
   if (!fs.existsSync(SEO_DIR)) {
     fs.mkdirSync(SEO_DIR, { recursive: true });
   }
@@ -803,7 +812,6 @@ function saveSeoContent(date, fortunesCN, fortunesEN, quote, ganzhi) {
     },
     fortunes: fortunesCN,
     fortunesEn: fortunesEN,
-    quote,
   };
 
   fs.writeFileSync(
@@ -866,7 +874,7 @@ function inlineMd(text) {
   return text;
 }
 
-function generateStaticDetailPages(dateStr, fortunesCN, fortunesEN, quote, ganzhi) {
+function generateStaticDetailPages(dateStr, fortunesCN, fortunesEN, ganzhi) {
   const STATIC_DIR = path.join(PROJECT_ROOT, 'zodiac');
 
   // 中英文映射
@@ -1262,11 +1270,11 @@ async function main() {
   console.log(`   干支: ${ganzhi.ganzhi}（${ganzhi.wuxing}）`);
   console.log(`   冲: ${relations.chong}  |  六合: ${relations.he}  |  害: ${relations.hai}  |  三合: ${relations.sanhe.join(',')}`);
 
-  // ② 生成金句
-  const quote = generateDailyQuote(dateStr);
+  // ② 生成金句（节日/节气共享；金句池按生肖错开，每生肖不同）
   const solarTerm = getSolarTerm(dateStr);
   const festival = getFestival(dateStr);
-  console.log(`\n✨ 今日金句: ${quote}${solarTerm ? ` [${solarTerm}]` : festival ? ' [节日]' : ''}`);
+  const sharedQuote = generateDailyQuote(dateStr); // 节日/节气共享
+  console.log(`\n✨ 今日金句: ${solarTerm ? `[${solarTerm}] ${sharedQuote}` : festival ? `[节日] ${sharedQuote}` : sharedQuote}`);
 
   // ③ 生成12生肖运势
   console.log('\n✍️  生成中文运势:');
@@ -1276,6 +1284,7 @@ async function main() {
     const luckyNum = generateLuckyNumber(dateStr, z.key);
     const direction = generateLuckyDirection(ganzhi.dizhi);
     const pair = generatePairSign(z.sign);
+    const quote = generateDailyQuote(dateStr, z.key); // 每生肖单独金句
 
     // 获取生肖对应的五行颜色
     const wuxingColor = WUXING_COLORS[z.element] || { hex: '#D4AF37', name: '金色' };
@@ -1300,7 +1309,7 @@ async function main() {
       })),
     };
 
-    console.log(`   ${z.name} ${z.sign}: ${f.verdict} | 幸运数${luckyNum} | ${direction} | ${pair} | ${f.content.length}字`);
+    console.log(`   ${z.name} ${z.sign}: ${f.verdict} | 幸运数${luckyNum} | ${direction} | ${pair} | 金句"${quote}" | ${f.content.length}字`);
   });
 
   // ④ 生成英文运势
@@ -1319,12 +1328,12 @@ async function main() {
 
   // ⑤ 保存文件
   console.log('\n💾 保存文件...');
-  saveSeoContent(dateStr, fortunesCN, fortunesEN, quote, ganzhi);
+  saveSeoContent(dateStr, fortunesCN, fortunesEN, ganzhi);
   updateDataFile(dateStr, fortunesCN);
 
   // ⑥ 生成12个静态详情页（永久URL + SEO优化）— v3.0 新增
   console.log('\n🏗️  生成静态详情页（永久URL）...');
-  generateStaticDetailPages(dateStr, fortunesCN, fortunesEN, quote, ganzhi);
+  generateStaticDetailPages(dateStr, fortunesCN, fortunesEN, ganzhi);
 
   // ⑦ Git指令
   console.log('\n📦 Git 提交指令:');

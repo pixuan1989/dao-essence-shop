@@ -55,19 +55,20 @@ var ZODIAC_DATA = {
 
 
 
+
   "2026-05-19": {
     "rat":     { score: 60, color: "#5B8299", colorName: "蓝色", number: 8, direction: "西南", pair: "丑",     good: ["出行","搬家","沐浴"],        avoid: ["开业","安葬"],       quote: "涅槃重生" },
-    "ox":     { score: 55, color: "#9E8E6E", colorName: "棕色", number: 7, direction: "西南", pair: "子",     good: ["出行","搬家","沐浴"],        avoid: ["开业","安葬"],       quote: "涅槃重生" },
-    "tiger":     { score: 70, color: "#5E825E", colorName: "绿色", number: 1, direction: "西南", pair: "亥",     good: ["出行","搬家","沐浴"],        avoid: ["开业","安葬"],       quote: "涅槃重生" },
-    "rabbit":     { score: 80, color: "#5E825E", colorName: "绿色", number: 2, direction: "西南", pair: "戌",     good: ["出行","搬家","沐浴"],        avoid: ["开业","安葬"],       quote: "涅槃重生" },
-    "dragon":     { score: 70, color: "#9E8E6E", colorName: "棕色", number: 2, direction: "西南", pair: "酉",     good: ["出行","搬家","沐浴"],        avoid: ["开业","安葬"],       quote: "涅槃重生" },
-    "snake":     { score: 70, color: "#B8665E", colorName: "红色", number: 1, direction: "西南", pair: "申",     good: ["出行","搬家","沐浴"],        avoid: ["开业","安葬"],       quote: "涅槃重生" },
-    "horse":     { score: 85, color: "#B8665E", colorName: "红色", number: 1, direction: "西南", pair: "未",     good: ["出行","搬家","沐浴"],        avoid: ["开业","安葬"],       quote: "涅槃重生" },
-    "goat":     { score: 55, color: "#9E8E6E", colorName: "棕色", number: 9, direction: "西南", pair: "午",     good: ["出行","搬家","沐浴"],        avoid: ["开业","安葬"],       quote: "涅槃重生" },
-    "monkey":     { score: 80, color: "#D4AF37", colorName: "金色", number: 2, direction: "西南", pair: "巳",     good: ["出行","搬家","沐浴"],        avoid: ["开业","安葬"],       quote: "涅槃重生" },
-    "rooster":     { score: 80, color: "#D4AF37", colorName: "金色", number: 3, direction: "西南", pair: "辰",     good: ["出行","搬家","沐浴"],        avoid: ["开业","安葬"],       quote: "涅槃重生" },
-    "dog":     { score: 70, color: "#9E8E6E", colorName: "棕色", number: 8, direction: "西南", pair: "卯",     good: ["出行","搬家","沐浴"],        avoid: ["开业","安葬"],       quote: "涅槃重生" },
-    "pig":     { score: 80, color: "#5B8299", colorName: "蓝色", number: 8, direction: "西南", pair: "寅",     good: ["出行","搬家","沐浴"],        avoid: ["开业","安葬"],       quote: "涅槃重生" }
+    "ox":     { score: 55, color: "#9E8E6E", colorName: "棕色", number: 7, direction: "西南", pair: "子",     good: ["出行","搬家","沐浴"],        avoid: ["开业","安葬"],       quote: "风雨过后见彩虹" },
+    "tiger":     { score: 70, color: "#5E825E", colorName: "绿色", number: 1, direction: "西南", pair: "亥",     good: ["出行","搬家","沐浴"],        avoid: ["开业","安葬"],       quote: "心宽路就宽" },
+    "rabbit":     { score: 80, color: "#5E825E", colorName: "绿色", number: 2, direction: "西南", pair: "戌",     good: ["出行","搬家","沐浴"],        avoid: ["开业","安葬"],       quote: "放下便是拥有" },
+    "dragon":     { score: 70, color: "#9E8E6E", colorName: "棕色", number: 2, direction: "西南", pair: "酉",     good: ["出行","搬家","沐浴"],        avoid: ["开业","安葬"],       quote: "随缘自在" },
+    "snake":     { score: 70, color: "#B8665E", colorName: "红色", number: 1, direction: "西南", pair: "申",     good: ["出行","搬家","沐浴"],        avoid: ["开业","安葬"],       quote: "心静自然凉" },
+    "horse":     { score: 85, color: "#B8665E", colorName: "红色", number: 1, direction: "西南", pair: "未",     good: ["出行","搬家","沐浴"],        avoid: ["开业","安葬"],       quote: "知足常乐" },
+    "goat":     { score: 55, color: "#9E8E6E", colorName: "棕色", number: 9, direction: "西南", pair: "午",     good: ["出行","搬家","沐浴"],        avoid: ["开业","安葬"],       quote: "平常心是道" },
+    "monkey":     { score: 80, color: "#D4AF37", colorName: "金色", number: 2, direction: "西南", pair: "巳",     good: ["出行","搬家","沐浴"],        avoid: ["开业","安葬"],       quote: "一切都是最好的安排" },
+    "rooster":     { score: 80, color: "#D4AF37", colorName: "金色", number: 3, direction: "西南", pair: "辰",     good: ["出行","搬家","沐浴"],        avoid: ["开业","安葬"],       quote: "顺其自然" },
+    "dog":     { score: 70, color: "#9E8E6E", colorName: "棕色", number: 8, direction: "西南", pair: "卯",     good: ["出行","搬家","沐浴"],        avoid: ["开业","安葬"],       quote: "心安即是归处" },
+    "pig":     { score: 80, color: "#5B8299", colorName: "蓝色", number: 8, direction: "西南", pair: "寅",     good: ["出行","搬家","沐浴"],        avoid: ["开业","安葬"],       quote: "从容面对一切" }
   },
 
 };
