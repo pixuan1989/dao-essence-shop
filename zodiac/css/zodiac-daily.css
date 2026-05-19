@@ -1154,5 +1154,5 @@ body.detail-page-body { overflow-x: hidden; }
   user-select: none;
   -webkit-tap-highlight-color: transparent;
 }
-.detail-card-left__img { z-index: 1; position: relative; }
+.detail-card-left__img { z-index: 1; position: relative; pointer-events: none !important; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
 .detail-card-left__glow { z-index: 3; }
