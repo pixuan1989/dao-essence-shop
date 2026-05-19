@@ -723,19 +723,14 @@ function updateDataFile(date, fortunes) {
 
   const newBlock = `\n  "${date}": {\n${blockLines.join(',\n')}\n  },\n`;
 
-  // 检查是否已有该日期数据
-  const dateRegex = new RegExp(`"${date}":\\s*\\{`);
-  if (dateRegex.test(content)) {
-    // 替换已有数据
-    const startMatch = content.match(dateRegex);
-    const start = content.indexOf(startMatch[0]);
-    let braceCount = 0, end = start;
-    for (let i = start; i < content.length; i++) {
-      if (content[i] === '{') braceCount++;
-      if (content[i] === '}') braceCount--;
-      if (braceCount === 0) { end = i + 1; break; }
-    }
-    content = content.slice(0, start) + newBlock.trim() + content.slice(end);
+  // 检查是否已有该日期数据 —— 用更精确的正则匹配整个日期键值块
+  const escapedDate = date.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const dateBlockRegex = new RegExp(`  "${escapedDate}":\\s*\\{[\\s\\S]*?\\n  \\},?\\n?`);
+  const match = content.match(dateBlockRegex);
+
+  if (match) {
+    // 替换已有数据块
+    content = content.replace(match[0], newBlock);
   } else {
     // 在 "default" 块结束后插入
     const defaultRegex = /"default":\s*\{/g;
@@ -760,7 +755,21 @@ function updateDataFile(date, fortunes) {
   }
 
   fs.writeFileSync(DATA_FILE, content, 'utf8');
-  console.log('✅ zodiac-data.js 已更新');
+
+  // 验证：确保文件仍是合法的 JS（检查 ZODIAC_DATA 对象能否被解析）
+  try {
+    new Function(content);
+    // 额外检查：确保目标日期键确实存在于输出中
+    if (!content.includes(`"${date}"`) || !content.includes(`"${date}": {`)) {
+      throw new Error(`日期 ${date} 未正确写入 zodiac-data.js`);
+    }
+    console.log('✅ zodiac-data.js 已更新并验证通过');
+  } catch (err) {
+    console.error(`❌ zodiac-data.js 写入后验证失败: ${err.message}`);
+    console.error('   从 git 恢复原始文件...');
+    execSync('git checkout zodiac/js/zodiac-data.js', { cwd: PROJECT_ROOT });
+    throw new Error('zodiac-data.js 验证失败，已从 git 恢复');
+  }
 }
 
 /**
