@@ -466,7 +466,7 @@ function generateFortuneCN(zodiac, ganzhi, relations) {
  */
 async function generateFortuneEN(zodiac, cnData, ganzhi) {
   const { key, name, en } = zodiac;
-  const { verdict, content, score } = cnData;
+  const { verdict, content, score, yi, ji, quote, luckyNum, direction, pair, blogLinksEN } = cnData;
 
   const verdictMap = {
     '上升': 'Rising luck - an excellent day for all endeavors',
@@ -484,6 +484,14 @@ async function generateFortuneEN(zodiac, cnData, ganzhi) {
     content: enContent,
     score,
     length: enContent.length,
+    // 补全前端可能用到的字段
+    yi,
+    ji,
+    quote,
+    luckyNum,
+    direction,
+    pair,
+    blogLinksEN,
   };
 }
 
