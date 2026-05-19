@@ -1,11 +1,17 @@
 /**
- * 生肖运势分享卡片生成器 — 优化版（中英文自适应）
- * 全局暴露: window.ZodiacShareCard.generate(signName, data, image)
+ * 生肖运势分享卡片生成器 — 优化版 v2
+ * 全局暴露: window.ZodiacShareCard.generate(signName, data, image, lang)
+ * 优化点：品牌头衬底、生肖名中英文适配、卡片下移毛玻璃
  */
 window.ZodiacShareCard = (function() {
     'use strict';
 
     var fontsLoaded = false;
+    // 中英文生肖映射
+    var SIGN_NAMES_ZH = {
+        rat:'鼠', ox:'牛', tiger:'虎', rabbit:'兔', dragon:'龙', snake:'蛇',
+        horse:'马', goat:'羊', monkey:'猴', rooster:'鸡', dog:'狗', pig:'猪'
+    };
     var FONTS = [
         { family: 'Cinzel', weight: 'bold', url: '/zodiac/fonts/Cinzel-Bold.woff2' },
         { family: 'Inter', weight: 'normal', url: '/zodiac/fonts/Inter-Regular.woff2' },
@@ -91,11 +97,16 @@ window.ZodiacShareCard = (function() {
             ctx.fillRect(0, 0, W, H);
         }
 
-        // 3. 品牌头
-        ctx.fillStyle = 'rgba(212, 175, 55, 0.9)';
+        // 3. 品牌头（增加黑色半透明衬底）
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.35)';
+        ctx.fillRect(W/2 - 150, 15, 300, 55);
+        
+        ctx.fillStyle = 'rgba(212, 175, 55, 0.95)';
         ctx.font = '500 28px "Inter", sans-serif';
         ctx.textAlign = 'center';
-        ctx.fillText('D A O   E S S E N T I A', W / 2, 55);
+        ctx.textBaseline = 'middle';
+        ctx.fillText('D A O   E S S E N T I A', W / 2, 42);
+        ctx.textBaseline = 'alphabetic';
 
         // 4. 数据卡片（下移至底部 + 毛玻璃质感）
         var cx = 70, cw = 940, cy = 1420, ch = 420, radius = 24;
@@ -144,12 +155,13 @@ window.ZodiacShareCard = (function() {
         ctx.lineTo(cx + cw - 100, dividerY);
         ctx.stroke();
 
-        // 生肖名
+        // 5. 生肖名称（自动匹配中英文）
         var y = cy + 55;
+        var displaySign = (isChinese && SIGN_NAMES_ZH[signName.toLowerCase()]) ? SIGN_NAMES_ZH[signName.toLowerCase()] : signName.toUpperCase();
         ctx.fillStyle = '#D4AF37';
         ctx.font = 'bold 56px "Cinzel", serif';
         ctx.textAlign = 'center';
-        ctx.fillText(signName, W / 2, y);
+        ctx.fillText(displaySign, W / 2, y);
         
         // 装饰线
         ctx.strokeStyle = 'rgba(212, 175, 55, 0.4)';
