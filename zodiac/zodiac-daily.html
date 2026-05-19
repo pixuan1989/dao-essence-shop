@@ -209,8 +209,7 @@
         ].join('');
 
         el.addEventListener('click', function() {
-          var url = 'zodiac-detail.html?sign=' + meta.key + '&date=' + dateStr;
-          if (isEn) url += '&lang=en';
+          var url = meta.key + (isEn ? '-en' : '') + '.html';
           window.location.href = url;
         });
 

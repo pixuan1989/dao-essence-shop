@@ -1,6 +1,7 @@
 /**
- * 生肖每日运势生成器 v2.0
+ * 生肖每日运势生成器 v3.0 [2026-05-19]
  * 功能：基于天干地支五行计算，生成每日12生肖运势
+ * v3.0: 新增12个静态详情页（永久URL + 嵌入数据 + canonical/hreflang SEO优化）
  * 用法：node scripts/generate-daily.js [日期 YYYY-MM-DD]
  */
 
@@ -810,6 +811,375 @@ function saveSeoContent(date, fortunesCN, fortunesEN, quote, ganzhi) {
   console.log(`✅ SEO内容已保存: zodiac/seo-content/${date}.json`);
 }
 
+/**
+ * 生成12个静态详情页（永久URL，数据内嵌，无date参数）
+ * v3.0 新增 — 解决日期参数URL导致SEO权重分散问题
+ */
+function generateStaticDetailPages(dateStr, fortunesCN, fortunesEN, quote, ganzhi) {
+  const STATIC_DIR = path.join(PROJECT_ROOT, 'zodiac');
+
+  // 中英文映射
+  const SIGN_NAMES_ZH = { rat:'鼠', ox:'牛', tiger:'虎', rabbit:'兔', dragon:'龙', snake:'蛇', horse:'马', goat:'羊', monkey:'猴', rooster:'鸡', dog:'狗', pig:'猪' };
+  const DIRECTION_EN = { '正南':'South', '正北':'North', '正东':'East', '正西':'West', '东南':'Southeast', '东北':'Northeast', '西南':'Southwest', '西北':'Northwest' };
+  const COLOR_EN = { '红色':'Red', '绿色':'Green', '蓝色':'Blue', '黄色':'Yellow', '紫色':'Purple', '橙色':'Orange', '白色':'White', '黑色':'Black', '粉色':'Pink', '金色':'Gold', '银色':'Silver', '棕色':'Brown' };
+  const VERDICT_EN = { '上升':'Rising luck', '降低':'Challenging day', '一般':'Balanced day', '喜忧参半':'Mixed fortune', '稳定':'Stable energy' };
+
+  // 格式化日期
+  const [y, m, d] = dateStr.split('-');
+  const dt = new Date(parseInt(y), parseInt(m) - 1, parseInt(d));
+  const WEEKDAYS_CN = ['周日','周一','周二','周三','周四','周五','周六'];
+  const WEEKDAYS_EN = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const MONTHS_EN = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const dateZh = `${y}年${parseInt(m)}月${parseInt(d)}日 · ${WEEKDAYS_CN[dt.getDay()]}`;
+  const dateEn = `${MONTHS_EN[dt.getMonth()]} ${parseInt(d)}, ${y} · ${WEEKDAYS_EN[dt.getDay()]}`;
+
+  // YIJI_MAP 和 QUOTE_MAP（同 zodiac-detail.html，保持一致）
+  const YIJI_MAP = {
+    '祈福':'Receive Blessings',   '祭祀':'Honor Ancestors',
+    '出行':'Going Out',            '会友':'Meet Friends',
+    '栽种':'Plant & Garden',      '入学':'Start Learning',
+    '求职':'Job Search',           '签约':'Sign Agreements',
+    '开业':'Launch Projects',      '交易':'Make Deals',
+    '修身':'Self-Improvement',     '表白':'Express Feelings',
+    '文艺':'Creative Arts',        '创作':'Creative Work',
+    '求财':'Money Opportunities',  '拜访':'Visit Others',
+    '嫁娶':'Relationships',        '创新':'Innovation',
+    '变革':'Embrace Change',       '理财':'Financial Planning',
+    '储蓄':'Save & Accumulate',    '社交':'Social Connections',
+    '聚会':'Gatherings',           '休养':'Rest & Recharge',
+    '家庭':'Home & Family',        '搬家':'Move & Rearrange',
+    '沐浴':'Refresh Yourself',     '动土':'Construction',
+    '修造':'Renovation',          '安床':'Bedroom Setup',
+    '纳财':'Accumulate Wealth',    '借贷':'Loans & Debt',
+    '安葬':'Let Go & Release',     '诉讼':'Legal Matters',
+    '谈判':'Negotiations',         '投资':'Investments',
+    '合伙':'Partnerships',        '迁徙':'Relocation',
+    '争斗':'Conflict',             '口舌':'Gossip & Missteps',
+    '投机':'Speculation',          '赌博':'Gambling',
+    '冒进':'Reckless Moves',       '变动':'Major Changes',
+    '消费':'Spending',             '扩张':'Expansion',
+    '争执':'Arguments',            '冲突':'Conflict',
+  };
+  const QUOTE_MAP = {
+    '静待时机，贵人暗助。':'Patience rewards; hidden allies step forward.',
+    '稳中求进，忌急躁。':'Advance steadily; resist the urge to rush.',
+    '机遇临门，乘势而上。':'An opportunity lands at your door—seize it.',
+    '韬光养晦，厚积薄发。':'Gather your strength quietly; breakthrough is near.',
+    '龙腾四海，气势如虹。':'Power and momentum build; success is inevitable.',
+    '灵蛇蜕皮，焕然一新。':'Shed the old; emerge renewed and transformed.',
+    '马到成功，势不可挡。':'Victory charges in; nothing can stand in your way.',
+    '温顺待机，贵人相助。':'Stay gentle and patient; benefactors will come.',
+    '猴王智慧，灵活制胜。':'Be clever and adaptable; flexibility outwits rigidity.',
+    '忠诚待人，福报自来。':'Loyalty to others returns as unexpected blessings.',
+    '猪拱福门，平安是福。':'Fortune nudges the door; peace is its own reward.',
+    '虎啸山林，王者归来。':'Regain your authority and command respect.',
+    '贵人相扶，小有斩获。':'Your supporters bring meaningful wins today.',
+    '稳中带进，时来运转。':'Steady momentum builds; fortune is turning your way.',
+    '静待时机，蓄势待发。':'Wait for the right moment; your time is coming.',
+    '桃花运佳，感情得意。':'Romantic energy peaks; connections deepen.',
+    '龙行虎步，一路顺风。':'Walk with purpose and grace; things fall into place.',
+    '静心养性，稳步前行。':'Center yourself; steady progress follows.',
+    '马有远志，循序渐进。':'Think long-term; progress step by step.',
+    '三合吉星，诸事顺遂。':'Harmonious celestial energy favors all you do.',
+    '灵活变通，化解阻碍。':'Adapt and pivot; obstacles dissolve.',
+    '精打细算，积少成多。':'Small, careful choices accumulate into big gains.',
+    '狗年大旺，人缘爆棚。':'Social energy peaks; connections multiply.',
+    '平安是福，知足常乐。':'Contentment is its own kind of wealth.',
+    '风雨过后见彩虹。':'After every storm, the colors return.',
+    '破茧才能成蝶。':"Break through to become who you're meant to be.",
+    '涅槃重生。':'Out of the ashes, rise again.',
+    '日拱一卒无有尽。':'Every small step forward counts.',
+    '功不唐捐终入海。':'Nothing you do is ever truly wasted.',
+  };
+  function trYi(tag) { return YIJI_MAP[tag] || tag; }
+  function trQuote(q) { return QUOTE_MAP[q] || q; }
+
+  // 评分→判定
+  function getVerdict(score) {
+    if (score >= 80) return '上升';
+    if (score >= 60) return '稳定';
+    if (score >= 50) return '一般';
+    return '降低';
+  }
+
+  // 生成星级
+  function renderStars(score) {
+    const full = Math.floor(score / 20);
+    const half = (score % 20) >= 10 ? 1 : 0;
+    return '★'.repeat(full) + (half ? '½' : '') + '☆'.repeat(5 - full - half);
+  }
+
+  ZODIAC_LIST.forEach(z => {
+    const fc = fortunesCN[z.key];
+    const fe = fortunesEN[z.key];
+    if (!fc || !fe) return;
+
+    const verdict = getVerdict(fc.score);
+    const verdictEn = VERDICT_EN[verdict] || verdict;
+    const dirEn = DIRECTION_EN[fc.direction] || fc.direction;
+    const colorEn = COLOR_EN[fc.colorName] || fc.colorName;
+
+    // 中文版页面内容
+    const zhContent = buildDetailHTML({
+      sign: z.key,
+      signName: z.name,
+      signNameEn: z.en,
+      pageLang: 'zh',
+      dateStr,
+      dateZh,
+      dateEn,
+      fc,
+      fe,
+      verdict,
+      verdictEn,
+      dirEn,
+      colorEn,
+      dateZh,
+      YIJI_MAP,
+      QUOTE_MAP,
+      trYi,
+      trQuote,
+      renderStars,
+      DIRECTION_EN,
+      COLOR_EN,
+      dateStr,
+      dateEn,
+    }, false);
+
+    // 英文版页面内容
+    const enContent = buildDetailHTML({
+      sign: z.key,
+      signName: z.name,
+      signNameEn: z.en,
+      pageLang: 'en',
+      dateStr,
+      dateZh,
+      dateEn,
+      fc,
+      fe,
+      verdict,
+      verdictEn,
+      dirEn,
+      colorEn,
+      dateZh,
+      YIJI_MAP,
+      QUOTE_MAP,
+      trYi,
+      trQuote,
+      renderStars,
+      DIRECTION_EN,
+      COLOR_EN,
+      dateStr,
+      dateEn,
+    }, true);
+
+    // 写文件：rat.html (中文) 和 rat-en.html (英文)
+    const zhPath = path.join(STATIC_DIR, `${z.key}.html`);
+    const enPath = path.join(STATIC_DIR, `${z.key}-en.html`);
+
+    // zh 版：canonical=rat.html, hreflang=en→rat-en.html, zh-Hant→rat.html
+    const zhHead = buildSeoHead(z, fc, fe, dateStr, dateZh, dateEn, verdictEn, dirEn, colorEn, `${z.key}.html`, `${z.key}-en.html`, false);
+    fs.writeFileSync(zhPath, injectHead(zhContent, zhHead), 'utf8');
+
+    // en 版：canonical=rat-en.html, hreflang=zh-Hant→rat.html, x-default→rat.html
+    const enHead = buildSeoHead(z, fc, fe, dateStr, dateZh, dateEn, verdictEn, dirEn, colorEn, `${z.key}-en.html`, z.key, true);
+    fs.writeFileSync(enPath, injectHead(enContent, enHead), 'utf8');
+
+    console.log(`   ✅ ${z.name} / ${z.en}: ${z.key}.html + ${z.key}-en.html`);
+  });
+
+  console.log(`✅ 12个静态详情页已生成（永久URL，无date参数）`);
+}
+
+/**
+ * 构建详情页 HTML 内容（不含 <head> SEO 标签）
+ */
+function buildDetailHTML(ctx, isEn) {
+  const { sign, signName, signNameEn, pageLang, dateStr, dateZh, dateEn, fc, fe, verdict, verdictEn, dirEn, colorEn, YIJI_MAP, QUOTE_MAP, trYi, trQuote, renderStars, DIRECTION_EN, COLOR_EN } = ctx;
+  const accent = '#D4AF37'; // 默认金色
+  const content = isEn ? fe.content : fc.content;
+
+  const goodTags = fc.yi.map(g => `<span class="y-tag y-tag--good">${trYi(g)}</span>`).join('');
+  const badTags = fc.ji.map(a => `<span class="y-tag y-tag--bad">${trYi(a)}</span>`).join('');
+  const shareTextEn = `${signNameEn} Chinese zodiac horoscope: ${fc.score}/100. Lucky number ${fc.luckyNum}, direction ${dirEn}, lucky color ${colorEn}. Good for ${fc.yi.map(trYi).join(', ')}. Avoid ${fc.ji.map(trYi).join(', ')}.`;
+  const shareTextZh = `${signName}今日运势 ${fc.score}分 — ${trQuote(fc.quote)}`;
+
+  // FAQ 数据
+  const faqData = isEn ? [
+    { q: `How is ${signNameEn}'s horoscope today?`, a: `Today's energy for ${signNameEn} is ${verdictEn.toLowerCase()}, with an overall score of ${fc.score}/100. Lucky number: ${fc.luckyNum}, direction: ${dirEn}, lucky color: ${colorEn}. Good for ${fc.yi.map(trYi).join(', ')}, avoid ${fc.ji.map(trYi).join(', ')}.` },
+    { q: `How is ${signNameEn}'s career luck today?`, a: `Based on the Chinese zodiac analysis, ${signNameEn}'s work energy today is ${verdict === '上升' ? 'highly favorable—take initiative.' : verdict === '降低' ? 'challenging—stay conservative.' : 'steady—follow your plan.'} Best approach: ${fc.yi[0] ? trYi(fc.yi[0]) + ' is favored.' : 'stay focused on routine tasks.'}` },
+    { q: `How is ${signNameEn}'s love and money luck today?`, a: `Overall energy for ${signNameEn} today is ${verdictEn.toLowerCase()}. Key advice: "${trQuote(fc.quote)}". Lucky number ${fc.luckyNum} and direction ${dirEn} can enhance your day.` }
+  ] : [
+    { q: `${signName}今日运势如何？`, a: `${signName}今日运势${verdict === '上升' ? '上升' : verdict === '降低' ? '降低' : '平稳'}，综合评分 ${fc.score}/100。幸运数字 ${fc.luckyNum}，幸运方位 ${fc.direction}，幸运色 ${fc.colorName}。宜${fc.yi.join('、')}，忌${fc.ji.join('、')}。` },
+    { q: `${signName}今日事业工作运势好吗？`, a: `根据天干地支五行推算，今日${signName}的工作运势${verdict === '上升' ? '受吉星扶助，适合主动出击' : verdict === '降低' ? '不利因素较多，宜静不宜动' : '平稳推进，按计划行事'}。建议${fc.yi[0] ? '今日宜' + fc.yi[0] : '保持专注'}。` },
+    { q: `${signName}今日财运/爱情运势如何？`, a: `今日${signName}的整体能量${verdict === '上升' ? '上升' : verdict === '降低' ? '降低' : '稳定'}，具体运势详见上方详细解读。综合建议：${fc.quote}。配合幸运数字 ${fc.luckyNum} 和幸运方位 ${fc.direction} 行动，效果更佳。` }
+  ];
+
+  const faqItems = faqData.map(f => `<details class="faq-item"><summary class="faq-item__q">${f.q}</summary><div class="faq-item__a">${f.a}</div></details>`).join('');
+
+  const jsonLd = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqData.map(f => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a }
+    }))
+  });
+
+  const blogLinks = isEn ? (fc.blogLinksEN || []) : (fc.blogLinksCN || []);
+  const blogCards = blogLinks.map(b => `<a href="${b.url}" class="blog-link-card"><div class="blog-link-card__icon">📖</div><div class="blog-link-card__content"><div class="blog-link-card__title">${b.title}</div><div class="blog-link-card__arrow">→</div></div></a>`).join('');
+
+  return `<!DOCTYPE html>
+<html lang="${isEn ? 'en' : 'zh-Hant'}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+  <!-- SEO 标签由 generateStaticDetailPages 动态注入 -->
+  <link rel="stylesheet" href="css/zodiac-daily.css">
+  <script src="../js/tool-share.js"></script>
+  <script>
+    var ZODIAC_BG = {
+      rat:'linear-gradient(165deg,#0a1628,#102a43,#163e5f,#1a4a6b)',
+      ox:'linear-gradient(160deg,#071a12,#0d2818,#143d26,#1a5035)',
+      tiger:'linear-gradient(155deg,#1a0c08,#2d1408,#401808,#551c08)',
+      rabbit:'linear-gradient(170deg,#180a14,#280e20,#38122c,#481638)',
+      dragon:'linear-gradient(150deg,#1a1400,#332200,#4d3000,#663e00)',
+      snake:'linear-gradient(160deg,#12081a,#1c0c30,#261046,#30145c)',
+      horse:'linear-gradient(155deg,#1a0608,#33090c,#4c0c10,#650f14)',
+      goat:'linear-gradient(175deg,#14141a,#20202c,#2c2c3e,#383850)',
+      monkey:'linear-gradient(162deg,#061418,#0c242c,#123440,#184454)',
+      rooster:'linear-gradient(168deg,#1a1008,#331c10,#4d2818,#663420)',
+      dog:'linear-gradient(163deg,#1a1400,#2d2000,#403000,#533e00)',
+      pig:'linear-gradient(170deg,#0a0a14,#10102a,#1a1a40,#242454)',
+    };
+    var FORTUNE_DATA = ${JSON.stringify({ sign, cn: fc, en: fe, quote: fc.quote })};
+  </script>
+</head>
+<body class="detail-page-body">
+  <div class="detail-bg"></div>
+  <header class="detail-nav">
+    <a class="detail-nav__back" href="zodiac-daily.html" id="backLink">← 返回运势首页</a>
+    <div class="detail-lang-switch">
+      <a href="${sign}.html" style="color:#D4AF37;text-decoration:none;font-weight:600;font-size:0.85rem;">中</a>
+      <a href="${sign}-en.html" style="color:rgba(255,255,255,0.5);text-decoration:none;font-weight:400;font-size:0.85rem;margin-left:12px;">EN</a>
+    </div>
+  </header>
+  <main class="detail-content-v5">
+    <div class="detail-date-badge" id="dateBadge">${isEn ? dateEn : dateZh}</div>
+    <div class="detail-layout">
+      <div class="detail-layout__left">
+        <div class="detail-card-left">
+          <img class="detail-card-left__img" id="cardImg" src="images/${sign}.webp" alt="${isEn ? signNameEn : signName}">
+          <div class="detail-card-left__glow"></div>
+        </div>
+      </div>
+      <div class="detail-layout__right">
+        <div class="detail-header">
+          <h1 class="detail-header__name" id="cardName">${isEn ? signNameEn : signName}</h1>
+          <div class="detail-header__score">
+            <span class="detail-header__score-num" id="cardScore" style="color:${accent}">${fc.score}</span>
+            <span class="detail-header__stars" id="cardStars">${renderStars(fc.score)}</span>
+          </div>
+        </div>
+        <div class="detail-info-row" id="infoRow">
+          <div class="info-chip"><span class="dot" style="background:${fc.color}"></span>${isEn ? 'Lucky Color' : '幸运色'} <strong>${isEn ? colorEn : fc.colorName}</strong></div>
+          <div class="info-chip">${isEn ? 'Lucky Number' : '幸运数'} <strong>${fc.luckyNum}</strong></div>
+          <div class="info-chip">${isEn ? 'Direction' : '方位'} <strong>${isEn ? dirEn : fc.direction}</strong></div>
+        </div>
+        <div class="detail-yiji" id="yijiRow">
+          <div class="yiji-block yiji-block--good"><div class="yiji-block__hdr">${isEn ? 'Good for' : '宜'}</div><div class="yiji-block__tags">${goodTags}</div></div>
+          <div class="yiji-block yiji-block--bad"><div class="yiji-block__hdr">${isEn ? 'Avoid' : '忌'}</div><div class="yiji-block__tags">${badTags}</div></div>
+        </div>
+        <blockquote class="detail-quote"><p id="quoteText">${trQuote(fc.quote)}</p></blockquote>
+      </div>
+    </div>
+    <div id="zodiac-share"></div>
+    <div class="seo-divider">
+      <span class="seo-divider__line"></span>
+      <span class="seo-divider__text" id="dividerText">${isEn ? 'Daily Horoscope Reading' : '今日运势解读'}</span>
+      <span class="seo-divider__line"></span>
+    </div>
+    <article class="seo-content" id="seoContent">
+      <h2 id="seoTitle">${isEn ? "Today's " + signNameEn + ' Horoscope' : '今日' + signName + '运势详解'}</h2>
+      <p id="seoText">${content}</p>
+    </article>
+    <script type="application/ld+json">${jsonLd}</script>
+    <section class="faq-section" id="faqSection">
+      <div class="faq-section__header">
+        <h2 class="faq-section__title">${isEn ? 'Frequently Asked Questions' : '常见问题'}</h2>
+        <p class="faq-section__subtitle">${isEn ? 'Common questions about ' + signNameEn + "'s horoscope today" : '关于' + signName + '今日运势的常见问题'}</p>
+      </div>
+      <div class="faq-list" id="faqList">${faqItems}</div>
+    </section>
+    ${blogCards ? `
+    <section class="blog-links-section" id="blogLinksSection">
+      <div class="blog-links-section__header">
+        <h2 class="blog-links-section__title">${isEn ? 'Related Reading' : '相关阅读'}</h2>
+        <p class="blog-links-section__subtitle">${isEn ? 'Explore more Chinese astrology insights' : '深入了解更多命理知识'}</p>
+      </div>
+      <div class="blog-links-list" id="blogLinksList">${blogCards}</div>
+    </section>` : ''}
+  </main>
+  <script>
+    var shareText = '${isEn ? shareTextEn.replace(/'/g, "\\'") : shareTextZh.replace(/'/g, "\\'")}';
+    if (window.ToolShare) {
+      window.ToolShare.render('zodiac-share', {
+        label: '${isEn ? 'Share Your Horoscope' : '分享你的运势'}',
+        text: shareText
+      });
+    }
+    // 背景渐变
+    var bg = ZODIAC_BG['${sign}'] || ZODIAC_BG.rat;
+    document.querySelector('.detail-bg').style.background = bg;
+  </script>
+</body>
+</html>`;
+}
+
+/**
+ * 构建 <head> SEO 标签
+ */
+function buildSeoHead(z, fc, fe, dateStr, dateZh, dateEn, verdictEn, dirEn, colorEn, canonicalPath, alternatePath, isEn) {
+  const title = isEn
+    ? `${z.en} Daily Horoscope (${dateEn}) - ${verdictEn} - DaoEssentia`
+    : `${dateZh} ${z.name}今日运势详解 - DaoEssentia`;
+  const firstYiEn = fc.yi.length > 0 ? trYi(fc.yi[0]) : 'various activities';
+  const descEn = `${z.en} horoscope for ${dateEn}: ${verdictEn}, score ${fc.score}/100. Lucky number ${fc.luckyNum}, direction ${dirEn}, color ${colorEn}. Good for ${firstYiEn} and more.`;
+  const descZh = `${z.name}今日运势：${fc.score}分，幸运数字${fc.luckyNum}，幸运方位${fc.direction}，幸运色${fc.colorName}。宜${fc.yi.join('、')}，忌${fc.ji.join('、')}。`;
+  const desc = isEn ? descEn : descZh;
+
+  const canonicalUrl = `https://www.daoessentia.com/zodiac/${canonicalPath}`;
+  const alternateUrl = `https://www.daoessentia.com/zodiac/${alternatePath}`;
+  return `<title>${title}</title>
+  <meta name="description" content="${desc}">
+  <meta property="og:title" content="${title}">
+  <meta property="og:description" content="${desc}">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="${canonicalUrl}">
+  <link rel="canonical" href="${canonicalUrl}">
+  <link rel="alternate" hreflang="en" href="${isEn ? canonicalUrl : alternateUrl}">
+  <link rel="alternate" hreflang="zh-Hant" href="${isEn ? alternateUrl : canonicalUrl}">
+  <link rel="alternate" hreflang="x-default" href="${canonicalUrl}">`;
+}
+
+/**
+ * 将 SEO <head> 内容注入到 HTML 模板中（替换占位符）
+ */
+function injectHead(html, seoHead) {
+  // 替换 <!-- SEO 标签由 generateStaticDetailPages 动态注入 -->
+  return html.replace(
+    '<!-- SEO 标签由 generateStaticDetailPages 动态注入 -->',
+    seoHead
+  );
+}
+
+// 辅助：trYi 和 trQuote 需要在 buildSeoHead 之前定义（延迟引用）
+function trYi(tag) {
+  const M = {'祈福':'Receive Blessings','祭祀':'Honor Ancestors','出行':'Going Out','会友':'Meet Friends','栽种':'Plant & Garden','入学':'Start Learning','求职':'Job Search','签约':'Sign Agreements','开业':'Launch Projects','交易':'Make Deals','修身':'Self-Improvement','表白':'Express Feelings','文艺':'Creative Arts','创作':'Creative Work','求财':'Money Opportunities','拜访':'Visit Others','嫁娶':'Relationships','创新':'Innovation','变革':'Embrace Change','理财':'Financial Planning','储蓄':'Save & Accumulate','社交':'Social Connections','聚会':'Gatherings','休养':'Rest & Recharge','家庭':'Home & Family','搬家':'Move & Rearrange','沐浴':'Refresh Yourself','动土':'Construction','修造':'Renovation','安床':'Bedroom Setup','纳财':'Accumulate Wealth','借贷':'Loans & Debt','安葬':'Let Go & Release','诉讼':'Legal Matters','谈判':'Negotiations','投资':'Investments','合伙':'Partnerships','迁徙':'Relocation'};
+  return M[tag] || tag;
+}
+
 // ════════════════════════════════════════════════════════════
 // 主流程
 // ════════════════════════════════════════════════════════════
@@ -843,6 +1213,8 @@ async function main() {
     const direction = generateLuckyDirection(ganzhi.dizhi);
     const pair = generatePairSign(z.sign);
 
+    // 获取生肖对应的五行颜色
+    const wuxingColor = WUXING_COLORS[z.element] || { hex: '#D4AF37', name: '金色' };
     fortunesCN[z.key] = {
       ...f,
       luckyNum,
@@ -851,6 +1223,8 @@ async function main() {
       quote,
       yi: f.yi,
       ji: f.ji,
+      color: wuxingColor.hex,
+      colorName: wuxingColor.name,
       // 博客导流（中文：/zh/blog/，英文：/blog/）
       blogLinksCN: (BLOG_RECOMMENDATIONS[z.key] || []).map(b => ({
         url: `/zh/blog/${b.slug}`,
@@ -884,10 +1258,14 @@ async function main() {
   saveSeoContent(dateStr, fortunesCN, fortunesEN, quote, ganzhi);
   updateDataFile(dateStr, fortunesCN);
 
-  // ⑥ Git指令
+  // ⑥ 生成12个静态详情页（永久URL + SEO优化）— v3.0 新增
+  console.log('\n🏗️  生成静态详情页（永久URL）...');
+  generateStaticDetailPages(dateStr, fortunesCN, fortunesEN, quote, ganzhi);
+
+  // ⑦ Git指令
   console.log('\n📦 Git 提交指令:');
-  console.log(`   git add zodiac/js/zodiac-data.js zodiac/seo-content/${dateStr}.json`);
-  console.log(`   git commit -m "chore: ${dateStr} daily horoscope update"`);
+  console.log(`   git add zodiac/js/zodiac-data.js zodiac/seo-content/${dateStr}.json zodiac/rat.html zodiac/rat-en.html ... zodiac/pig-en.html`);
+  console.log(`   git commit -m "chore: ${dateStr} daily horoscope + 12 static detail pages"`);
   console.log(`   git push`);
   console.log('\n✅ 生成完成！\n');
 }
