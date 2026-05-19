@@ -133,25 +133,17 @@
             } catch (e) { /* Web Share 失败，走下方降级 */ }
         }
 
-        // 降级方案
-        switch (platform) {
-            case 'instagram':
-            case 'pinterest':
-                // iOS Safari: window.open 优先，a.click 降级
-                var win = window.open(cardUrl, '_blank');
-                if (!win) {
-                    var a = document.createElement('a');
-                    a.href = cardUrl;
-                    a.download = sign + '-horoscope.jpg';
-                    document.body.appendChild(a);
-                    a.click();
-                    a.remove();
-                }
-                showToast('Image saved!');
-                break;
-            default:
-                doShareFallback(platform, sign.toUpperCase() + ' Horoscope: ' + data.score + '/100.');
+        // 降级方案：所有平台统一下载海报
+        var win = window.open(cardUrl, '_blank');
+        if (!win) {
+            var a = document.createElement('a');
+            a.href = cardUrl;
+            a.download = sign + '-horoscope.jpg';
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
         }
+        showToast('Image saved!');
     } catch (err) {
         console.error('[ToolShare] share error:', err);
         navigator.clipboard.writeText(location.href);
