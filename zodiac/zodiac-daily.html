@@ -197,34 +197,22 @@
   <script src="js/zodiac-data.js"></script>
   <script>
     (function() {
-      var isEn = pageLang === 'en';
-
-      // ── 英文映射表 ──
+      // ── 常量 ──
       var SIGN_NAMES_EN = { rat:'Rat', ox:'Ox', tiger:'Tiger', rabbit:'Rabbit', dragon:'Dragon', snake:'Snake', horse:'Horse', goat:'Goat', monkey:'Monkey', rooster:'Rooster', dog:'Dog', pig:'Pig' };
       var WEEKS_EN = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
       var MONTHS_EN = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+      var WEEKS_ZH = ['周日','周一','周二','周三','周四','周五','周六'];
+      var haveImages = ['rat','ox','tiger','rabbit','dragon','snake','horse','goat','monkey','rooster','dog','pig'];
 
-      // ── 日期 ──
       var today = new Date();
       var y = today.getFullYear();
       var m = String(today.getMonth() + 1).padStart(2, '0');
       var d = String(today.getDate()).padStart(2, '0');
       var dateStr = y + '-' + m + '-' + d;
-      if (isEn) {
-        document.getElementById('headerDate').textContent =
-          MONTHS_EN[today.getMonth()] + ' ' + today.getDate() + ', ' + y + ' · ' + WEEKS_EN[today.getDay()];
-        document.getElementById('pageTitle').textContent = "Today's Zodiac Horoscope";
-      } else {
-        var wk = ['周日','周一','周二','周三','周四','周五','周六'];
-        document.getElementById('headerDate').textContent =
-          y + '年' + m + '月' + d + '日 · ' + wk[today.getDay()];
-        document.getElementById('pageTitle').textContent = '今日生肖运势';
-      }
-
-      // ── 找出当日运势最佳生肖 ──
       var dayData = getDayData(dateStr);
-      var bestSign = '';
-      var bestScore = -1;
+
+      // 找出当日运势最佳生肖
+      var bestSign = '', bestScore = -1;
       ZODIAC_SIGNS.forEach(function(meta) {
         if (dayData[meta.key].score > bestScore) {
           bestScore = dayData[meta.key].score;
@@ -232,54 +220,76 @@
         }
       });
 
-      // ── 渲染 12 卡片 ──
-      var grid = document.getElementById('cardGrid');
-      grid.innerHTML = ''; // clear pre-rendered SEO cards
+      // ── 可复用的渲染函数 ──
+      function renderZodiacDaily(lang) {
+        var isEn = lang === 'en';
 
-      // ── 已有插图的生肖（插图补齐后统一更新这里）──
-      var haveImages = ['rat','ox','tiger','rabbit','dragon','snake','horse','goat','monkey','rooster','dog','pig'];
-
-      ZODIAC_SIGNS.forEach(function(meta) {
-        var data = dayData[meta.key];
-        var el = document.createElement('a');
-        el.className = 'zodiac-card';
-        el.href = '/zodiac/' + meta.key + (isEn ? '-en' : '');
-
-        var isBest = meta.key === bestSign;
-        var signName = isEn ? SIGN_NAMES_EN[meta.key] : meta.name;
-        var scoreUnit = isEn ? 'pts' : '分';
-        var bestLabel = isEn ? '✦ Best Luck Today ✦' : '✦ 运势最佳 ✦';
-
-        var imageArea;
-        if (haveImages.indexOf(meta.key) !== -1) {
-          // 真实插图
-          imageArea = '<img class="card-img" src="/zodiac/images/' + meta.key + '.webp" alt="' + signName + '" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">';
-          imageArea += '<div class="card-placeholder" style="display:none">' + meta.emoji + '</div>';
+        // 1. 标题 + 日期
+        if (isEn) {
+          document.getElementById('headerDate').textContent =
+            MONTHS_EN[today.getMonth()] + ' ' + today.getDate() + ', ' + y + ' · ' + WEEKS_EN[today.getDay()];
+          document.getElementById('pageTitle').textContent = "Today's Zodiac Horoscope";
         } else {
-          // 色块占位（等插图补齐后加入 images/）
-          imageArea = '<div class="card-placeholder">' + meta.emoji + '</div>';
+          document.getElementById('headerDate').textContent =
+            y + '年' + m + '月' + d + '日 · ' + WEEKS_ZH[today.getDay()];
+          document.getElementById('pageTitle').textContent = '今日生肖运势';
         }
 
-        el.innerHTML = [
-          isBest ? '<span class="zodiac-badge">' + bestLabel + '</span>' : '',
-          '<div class="card-image-area">',
-            imageArea,
-          '</div>',
-          '<div class="card-info">',
-            '<div class="card-name">' + signName + '</div>',
-            '<div class="card-meta">',
-              '<span class="card-stars">' + renderStars(data.score) + '</span>',
-              '<span class="card-color-dot" style="background:' + data.color + ';box-shadow:0 0 6px ' + data.color + '"></span>',
-              '<span class="card-score">' + data.score + scoreUnit + '</span>',
-            '</div>',
-            '<div class="card-line"></div>',
-          '</div>'
-        ].join('');
+        // 2. 渲染 12 卡片
+        var grid = document.getElementById('cardGrid');
+        grid.innerHTML = '';
 
-        grid.appendChild(el);
+        ZODIAC_SIGNS.forEach(function(meta) {
+          var data = dayData[meta.key];
+          var el = document.createElement('a');
+          el.className = 'zodiac-card';
+          el.href = '/zodiac/' + meta.key + (isEn ? '-en' : '');
+
+          var isBest = meta.key === bestSign;
+          var signName = isEn ? SIGN_NAMES_EN[meta.key] : meta.name;
+          var scoreUnit = isEn ? 'pts' : '分';
+          var bestLabel = isEn ? '✦ Best Luck Today ✦' : '✦ 运势最佳 ✦';
+
+          var imageArea;
+          if (haveImages.indexOf(meta.key) !== -1) {
+            imageArea = '<img class="card-img" src="/zodiac/images/' + meta.key + '.webp" alt="' + signName + '" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">';
+            imageArea += '<div class="card-placeholder" style="display:none">' + meta.emoji + '</div>';
+          } else {
+            imageArea = '<div class="card-placeholder">' + meta.emoji + '</div>';
+          }
+
+          el.innerHTML = [
+            isBest ? '<span class="zodiac-badge">' + bestLabel + '</span>' : '',
+            '<div class="card-image-area">',
+              imageArea,
+            '</div>',
+            '<div class="card-info">',
+              '<div class="card-name">' + signName + '</div>',
+              '<div class="card-meta">',
+                '<span class="card-stars">' + renderStars(data.score) + '</span>',
+                '<span class="card-color-dot" style="background:' + data.color + ';box-shadow:0 0 6px ' + data.color + '"></span>',
+                '<span class="card-score">' + data.score + scoreUnit + '</span>',
+              '</div>',
+              '<div class="card-line"></div>',
+            '</div>'
+          ].join('');
+
+          grid.appendChild(el);
+        });
+      }
+
+      // 初始渲染
+      renderZodiacDaily(pageLang);
+
+      // 监听导航栏语言切换事件（i18n-switcher.js 派发）
+      document.addEventListener('daoessence:i18n-changed', function(e) {
+        var newLang = e.detail && e.detail.lang;
+        if (newLang && (newLang === 'en' || newLang === 'zh')) {
+          renderZodiacDaily(newLang === 'zh' ? 'zh' : 'en');
+        }
       });
 
-      // ── 星空粒子 ──
+      // ── 星空粒子（只生成一次）──
       var sf = document.getElementById('starfield');
       for (var i = 0; i < 110; i++) {
         var s = document.createElement('div');
@@ -295,7 +305,6 @@
         ].join('');
         sf.appendChild(s);
       }
-
     })();
 
     // EN 和 ZH 两套 meta 标签内容
@@ -313,9 +322,14 @@
     };
 
     window.switchLang = function(lang) {
+      // 优先走 i18n-switcher 的无刷新流程（统一体验）
+      if (window.DaoI18n && window.DaoI18n.switchTo) {
+        window.DaoI18n.switchTo(lang);
+        return;
+      }
+      // 降级：刷新页面（旧行为兼容）
       localStorage.setItem('daoessence_lang', lang);
       var meta = lang === 'en' ? META_EN : META_ZH;
-      // 同步更新所有 SEO meta 标签
       document.title = meta.title;
       var descEl = document.querySelector('meta[name="description"]');
       if (descEl) descEl.content = meta.desc;
@@ -323,12 +337,6 @@
       if (ogTitleEl) ogTitleEl.content = meta.ogTitle;
       var ogDescEl = document.querySelector('meta[property="og:description"]');
       if (ogDescEl) ogDescEl.content = meta.ogDesc;
-      // 切换 hreflang
-      var linkEl = document.querySelector('link[rel="alternate"][hreflang="en"]');
-      if (linkEl) linkEl.href = 'https://www.daoessentia.com/zodiac/zodiac-daily' + (lang === 'en' ? '?lang=en' : '');
-      var linkZhEl = document.querySelector('link[rel="alternate"][hreflang="zh-Hant"]');
-      if (linkZhEl) linkZhEl.href = 'https://www.daoessentia.com/zodiac/zodiac-daily' + (lang === 'zh' ? '?lang=zh' : '');
-      // 跳转到对应语言 URL
       var url = new URL(location.href);
       if (lang === 'zh') {
         url.searchParams.delete('lang');
