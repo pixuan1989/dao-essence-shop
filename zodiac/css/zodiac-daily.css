@@ -1012,32 +1012,32 @@ body.detail-page-body { overflow-x: hidden; }
   transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
 }
 /* Card 1: BaZi — Deep Space Blue-Purple */
-.tool-card--bazi {
-  background: linear-gradient(135deg, #1a237e 0%, #311b92 100%);
-  border: 1px solid rgba(100,130,255,0.4);
+.tool-card.tool-card--bazi {
+  background: linear-gradient(135deg, #283593 0%, #4527a0 100%);
+  border: 1px solid rgba(140,158,255,0.45);
 }
-.tool-card--bazi:hover {
-  border-color: rgba(100,130,255,0.7);
+.tool-card.tool-card--bazi:hover {
+  border-color: rgba(140,158,255,0.75);
   box-shadow: 0 8px 32px rgba(0,0,0,0.35), 0 0 28px rgba(100,130,255,0.25);
   transform: translateY(-3px);
 }
 /* Card 2: Five Elements — Deep Forest Green */
-.tool-card--wuxing {
-  background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 100%);
-  border: 1px solid rgba(105,240,174,0.4);
+.tool-card.tool-card--wuxing {
+  background: linear-gradient(135deg, #2e7d32 0%, #1b5e20 100%);
+  border: 1px solid rgba(129,199,132,0.45);
 }
-.tool-card--wuxing:hover {
-  border-color: rgba(105,240,174,0.7);
+.tool-card.tool-card--wuxing:hover {
+  border-color: rgba(129,199,132,0.75);
   box-shadow: 0 8px 32px rgba(0,0,0,0.35), 0 0 28px rgba(105,240,174,0.25);
   transform: translateY(-3px);
 }
 /* Card 3: Soulmate — Deep Crimson Purple */
-.tool-card--love {
-  background: linear-gradient(135deg, #880e4f 0%, #ad1457 100%);
-  border: 1px solid rgba(236,72,153,0.4);
+.tool-card.tool-card--love {
+  background: linear-gradient(135deg, #c2185b 0%, #880e4f 100%);
+  border: 1px solid rgba(244,143,177,0.45);
 }
-.tool-card--love:hover {
-  border-color: rgba(236,72,153,0.7);
+.tool-card.tool-card--love:hover {
+  border-color: rgba(244,143,177,0.75);
   box-shadow: 0 8px 32px rgba(0,0,0,0.35), 0 0 28px rgba(236,72,153,0.25);
   transform: translateY(-3px);
 }
