@@ -1353,6 +1353,7 @@ function buildDetailHTML(ctx, isEn) {
   <!-- SEO 标签由 generateStaticDetailPages 动态注入 -->
   <link rel="stylesheet" href="css/zodiac-daily.css">
   <script src="../js/tool-share.js"></script>
+  <script src="js/share-card.js"></script>
   <script>
     var ZODIAC_BG = {
       rat:'linear-gradient(165deg,#0a1628,#102a43,#163e5f,#1a4a6b)',
@@ -1385,7 +1386,8 @@ function buildDetailHTML(ctx, isEn) {
     <div class="detail-layout">
       <div class="detail-layout__left">
         <div class="detail-card-left">
-          <img class="detail-card-left__img" id="cardImg" src="images/${sign}.webp" alt="${isEn ? signNameEn : signName}">
+          <img class="detail-card-left__img" id="cardImg" src="images/${sign}.webp" alt="${isEn ? signNameEn : signName}" draggable="false">
+          <div class="detail-card-left__overlay"></div>
           <div class="detail-card-left__glow"></div>
         </div>
       </div>
@@ -1441,12 +1443,30 @@ function buildDetailHTML(ctx, isEn) {
     if (window.ToolShare) {
       window.ToolShare.render('zodiac-share', {
         label: '${isEn ? 'Share Your Horoscope' : '分享你的运势'}',
-        text: shareText
+        text: shareText,
+        download: {
+          sign: '${sign}',
+          lang: '${isEn ? 'en' : 'zh'}',
+          data: {score: ${fc.score}, number: ${fc.luckyNum}, colorName: '${fc.colorName}', direction: '${fc.direction}', quote: '${(fc.quote || '').replace(/'/g, "\\'")}'}
+        }
       });
     }
     // 背景渐变
     var bg = ZODIAC_BG['${sign}'] || ZODIAC_BG.rat;
     document.querySelector('.detail-bg').style.background = bg;
+    // 防盗图
+    document.addEventListener('contextmenu', function(e) {
+      if (e.target.tagName === 'IMG') { e.preventDefault(); return false; }
+    });
+    document.addEventListener('dragstart', function(e) {
+      if (e.target.tagName === 'IMG') { e.preventDefault(); return false; }
+    });
+    document.addEventListener('touchstart', function(e) {
+      if (e.target.tagName === 'IMG' && e.touches.length === 1) {
+        var t = e.target; t.style.pointerEvents = 'none';
+        setTimeout(function() { t.style.pointerEvents = ''; }, 500);
+      }
+    }, { passive: true });
   </script>
 </body>
 </html>`;
