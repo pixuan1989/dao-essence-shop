@@ -1440,10 +1440,10 @@ function buildDetailHTML(ctx, isEn) {
     var meta = ZODIAC_LIST.find(function(z) { return z.key === signKey; });
     var name = isEn ? meta.en : meta.name;
     var scoreClass = score >= 80 ? 'pair-good' : score >= 50 ? 'pair-mid' : 'pair-bad';
-    return '<a href="/soulmate-calculator" class="pair-card ' + scoreClass + '">' +
+    return '<div class="pair-card ' + scoreClass + '">' +
       '<span class="pair-card__name">' + name + '</span>' +
       '<span class="pair-card__score">' + score + '%</span>' +
-    '</a>';
+    '</div>';
   }
 
   var bestMatches = {
@@ -1463,25 +1463,31 @@ function buildDetailHTML(ctx, isEn) {
     dog: ['dragon', 'rooster', 'ox'], pig: ['snake', 'monkey', 'pig'],
   };
 
-  var pairCardsHtml = '';
+  var bestCards = '', worstCards = '';
   var bestList = bestMatches[sign] || [];
   var worstList = worstMatches[sign] || [];
 
-  if (bestList.length) {
-    pairCardsHtml += '<div class="pair-group__label">' + (isEn ? 'BEST MATCHES' : '最佳配对') + '</div>';
-    bestList.forEach(function(s) {
-      var key = [sign, s].sort().join('-');
-      var sc = pairScores[key] || 85;
-      pairCardsHtml += buildPairCard(s, sc);
-    });
-  }
-  if (worstList.length) {
-    pairCardsHtml += '<div class="pair-group__label">' + (isEn ? 'PROCEED WITH CAUTION' : '需留意') + '</div>';
-    worstList.forEach(function(s) {
-      var key = [sign, s].sort().join('-');
-      var sc = pairScores[key] || 35;
-      pairCardsHtml += buildPairCard(s, sc);
-    });
+  bestList.forEach(function(s) {
+    var key = [sign, s].sort().join('-');
+    var sc = pairScores[key] || 85;
+    bestCards += buildPairCard(s, sc);
+  });
+  worstList.forEach(function(s) {
+    var key = [sign, s].sort().join('-');
+    var sc = pairScores[key] || 35;
+    worstCards += buildPairCard(s, sc);
+  });
+
+  var pairCardsHtml = '';
+  if (bestList.length || worstList.length) {
+    pairCardsHtml += '<div class="pair-row">';
+    if (bestList.length) {
+      pairCardsHtml += '<div class="pair-col"><div class="pair-group__label">' + (isEn ? 'BEST MATCHES' : '最佳配对') + '</div><div class="pair-col__cards">' + bestCards + '</div></div>';
+    }
+    if (worstList.length) {
+      pairCardsHtml += '<div class="pair-col"><div class="pair-group__label">' + (isEn ? 'PROCEED WITH CAUTION' : '需留意') + '</div><div class="pair-col__cards">' + worstCards + '</div></div>';
+    }
+    pairCardsHtml += '</div>';
   }
 
   var pairSection = '\
@@ -1562,7 +1568,6 @@ function buildDetailHTML(ctx, isEn) {
       </div>
     </div>
     <div id="zodiac-share"></div>
-    ${pairSection}
     <div class="seo-divider">
       <span class="seo-divider__line"></span>
       <span class="seo-divider__text" id="dividerText">${isEn ? 'Daily Horoscope Reading' : '今日运势解读'}</span>
@@ -1580,6 +1585,8 @@ function buildDetailHTML(ctx, isEn) {
       </div>
       <div class="faq-list" id="faqList">${faqItems}</div>
     </section>
+
+    ${pairSection}
 
 ${toolsSection}
 
