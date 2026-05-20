@@ -1578,13 +1578,6 @@ function buildDetailHTML(ctx, isEn) {
       <div id="seoText">${htmlContent}</div>
     </article>
     <script type="application/ld+json">${jsonLd}</script>
-    <section class="faq-section" id="faqSection">
-      <div class="faq-section__header">
-        <h2 class="faq-section__title">${isEn ? 'Frequently Asked Questions' : '常见问题'}</h2>
-        <p class="faq-section__subtitle">${isEn ? 'Common questions about ' + signNameEn + "'s horoscope today" : '关于' + signName + '今日运势的常见问题'}</p>
-      </div>
-      <div class="faq-list" id="faqList">${faqItems}</div>
-    </section>
 
     ${pairSection}
 
@@ -1598,6 +1591,14 @@ ${toolsSection}
       </div>
       <div class="blog-links-list" id="blogLinksList">${blogCards}</div>
     </section>` : ''}
+
+    <section class="faq-section" id="faqSection">
+      <div class="faq-section__header">
+        <h2 class="faq-section__title">${isEn ? 'Frequently Asked Questions' : '常见问题'}</h2>
+        <p class="faq-section__subtitle">${isEn ? 'Common questions about ' + signNameEn + "'s horoscope today" : '关于' + signName + '今日运势的常见问题'}</p>
+      </div>
+      <div class="faq-list" id="faqList">${faqItems}</div>
+    </section>
   </main>
   <script>
     var shareText = '${isEn ? shareTextEn.replace(/'/g, "\\'") : shareTextZh.replace(/'/g, "\\'")}';
