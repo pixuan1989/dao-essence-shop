@@ -999,53 +999,96 @@ body.detail-page-body { overflow-x: hidden; }
   gap: 14px;
 }
 .tool-card {
+  position: relative;
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 16px;
+  gap: 16px;
+  padding: 20px 22px;
+  border-radius: 16px;
+  text-decoration: none;
+  overflow: hidden;
   background: rgba(255,255,255,0.04);
   border: 1px solid rgba(212,175,55,0.15);
-  border-radius: 12px;
-  text-decoration: none;
-  transition: all 0.25s ease;
+  transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
 }
-.tool-card:hover {
-  background: rgba(212,175,55,0.08);
-  border-color: rgba(212,175,55,0.35);
-  transform: translateY(-2px);
+/* Card 1: BaZi — Deep Space Blue-Purple */
+.tool-card--bazi {
+  background: linear-gradient(135deg, rgba(10,14,45,0.92) 0%, rgba(26,20,65,0.88) 100%);
+  border: 1px solid rgba(100,130,255,0.18);
 }
+.tool-card--bazi:hover {
+  border-color: rgba(100,130,255,0.45);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.35), 0 0 28px rgba(100,130,255,0.12);
+  transform: translateY(-3px);
+}
+/* Card 2: Five Elements — Deep Forest Green */
+.tool-card--wuxing {
+  background: linear-gradient(135deg, rgba(8,28,22,0.92) 0%, rgba(16,48,36,0.88) 100%);
+  border: 1px solid rgba(105,240,174,0.18);
+}
+.tool-card--wuxing:hover {
+  border-color: rgba(105,240,174,0.45);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.35), 0 0 28px rgba(105,240,174,0.12);
+  transform: translateY(-3px);
+}
+/* Card 3: Soulmate — Deep Crimson Purple */
+.tool-card--love {
+  background: linear-gradient(135deg, rgba(30,10,25,0.92) 0%, rgba(50,18,40,0.88) 100%);
+  border: 1px solid rgba(236,72,153,0.18);
+}
+.tool-card--love:hover {
+  border-color: rgba(236,72,153,0.45);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.35), 0 0 28px rgba(236,72,153,0.12);
+  transform: translateY(-3px);
+}
+/* Icon Area */
 .tool-card__icon {
-  font-size: 1.6rem;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
-  line-height: 1;
+  font-size: 1.5rem;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  transition: all 0.3s ease;
+}
+.tool-card:hover .tool-card__icon {
+  transform: scale(1.08);
+  background: rgba(255,255,255,0.1);
 }
 .tool-card__info {
   flex: 1;
   min-width: 0;
 }
 .tool-card__name {
-  font-size: 0.82rem;
+  font-size: 0.86rem;
   font-weight: 600;
-  color: rgba(255,255,255,0.88);
-  margin-bottom: 3px;
+  color: rgba(255,255,255,0.9);
+  margin-bottom: 4px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 .tool-card__desc {
-  font-size: 0.7rem;
-  color: rgba(255,255,255,0.4);
+  font-size: 0.72rem;
+  color: rgba(255,255,255,0.45);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 .tool-card__arrow {
-  font-size: 0.9rem;
-  color: rgba(212,175,55,0.6);
+  font-size: 0.95rem;
+  color: rgba(255,255,255,0.35);
   flex-shrink: 0;
-  transition: color 0.2s;
+  transition: all 0.3s ease;
 }
-.tool-card:hover .tool-card__arrow { color: #D4AF37; }
+.tool-card:hover .tool-card__arrow {
+  color: rgba(255,255,255,0.7);
+  transform: translateX(3px);
+}
 
 @media (max-width: 600px) {
   .tools-grid {
