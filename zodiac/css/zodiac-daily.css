@@ -969,8 +969,8 @@ body.detail-page-body { overflow-x: hidden; }
 
 /* ═══ 工具卡片轮换区 ═══ */
 .tools-section {
-  max-width: 780px;
-  margin: 0 auto 80px;
+  max-width: 960px;
+  margin: 40px auto 80px;
   padding: 0 24px;
 }
 .tools-section__header {
@@ -1231,3 +1231,9 @@ body.detail-page-body { overflow-x: hidden; }
 .pair-good .pair-card__score { color: #69F0AE; }
 .pair-bad .pair-card__score { color: #EF5350; }
 .pair-mid .pair-card__score { color: rgba(255,255,255,0.5); }
+
+/* 工具区连续排列时的间距（详情页 pairSection 移到分享栏下方后首个 tools-section 无上边距） */
+.tools-section + .tools-section {
+  margin-top: 40px;
+}
+

@@ -1354,7 +1354,7 @@ function buildDetailHTML(ctx, isEn) {
   const goodTags = active.yi.map(g => `<span class="y-tag y-tag--good">${isEn ? trYi(g) : g}</span>`).join('');
   const badTags = active.ji.map(a => `<span class="y-tag y-tag--bad">${isEn ? trYi(a) : a}</span>`).join('');
   const shareTextEn = `${signNameEn} Chinese zodiac horoscope: ${fc.score}/100. Lucky number ${fc.luckyNum}, direction ${dirEn}, lucky color ${colorEn}. Good for ${active.yi.map(trYi).join(', ')}. Avoid ${active.ji.map(trYi).join(', ')}.`;
-  const shareTextZh = `${signName}今日运势 ${fc.score}分 — ${trQuote(fc.quote)}`;
+  const shareTextZh = `${signName}今日运势 ${fc.score}分 — ${fc.quote}`;
 
   // FAQ 数据（搜索意图导向，无日期）
   const faqData = isEn ? [
@@ -1364,7 +1364,7 @@ function buildDetailHTML(ctx, isEn) {
   ] : [
     { q: `${signName}今日运势怎么样？`, a: `生肖${signName}今日运势${verdict === '上升' ? '上升' : verdict === '降低' ? '降低' : '平稳'}，综合评分 ${fc.score}/100。幸运数字 ${fc.luckyNum}，幸运方位 ${fc.direction}，幸运色 ${fc.colorName}。宜${fc.yi.join('、')}，忌${fc.ji.join('、')}。` },
     { q: `属${signName}今天适合做什么？`, a: `根据天干地支五行推算，今日生肖${signName}的工作运势${verdict === '上升' ? '受吉星扶助，适合主动出击' : verdict === '降低' ? '不利因素较多，宜静不宜动' : '平稳推进，按计划行事'}。建议${fc.yi[0] ? '今日宜' + fc.yi[0] : '保持专注'}。` },
-    { q: `${signName}今日财运和感情运势分析`, a: `今日生肖${signName}的整体能量${verdict === '上升' ? '上升' : verdict === '降低' ? '降低' : '稳定'}，具体运势详见上方详细解读。综合建议：${trQuote(fc.quote)}。配合幸运数字 ${fc.luckyNum} 和幸运方位 ${fc.direction} 行动，效果更佳。` }
+    { q: `${signName}今日财运和感情运势分析`, a: `今日生肖${signName}的整体能量${verdict === '上升' ? '上升' : verdict === '降低' ? '降低' : '稳定'}，具体运势详见上方详细解读。综合建议：${fc.quote}。配合幸运数字 ${fc.luckyNum} 和幸运方位 ${fc.direction} 行动，效果更佳。` }
   ];
 
   const faqItems = faqData.map(f => `<details class="faq-item"><summary class="faq-item__q">${f.q}</summary><div class="faq-item__a">${f.a}</div></details>`).join('');
@@ -1409,7 +1409,7 @@ function buildDetailHTML(ctx, isEn) {
         <a href="/soulmate-calculator" class="tool-card">
           <span class="tool-card__icon"></span>
           <div class="tool-card__info">
-            <div class="tool-card__name">${isEn ? 'Soulmate Compatibility' : '生肖配对'}</div>
+            <div class="tool-card__name">${isEn ? 'Soulmate Compatibility' : '爱情配对'}</div>
             <div class="tool-card__desc">${isEn ? 'Check your zodiac love match' : '查看你的爱情配对'}</div>
           </div>
           <span class="tool-card__arrow">→</span>
@@ -1565,6 +1565,7 @@ function buildDetailHTML(ctx, isEn) {
       </div>
     </div>
     <div id="zodiac-share"></div>
+    ${pairSection}
     <div class="seo-divider">
       <span class="seo-divider__line"></span>
       <span class="seo-divider__text" id="dividerText">${isEn ? 'Daily Horoscope Reading' : '今日运势解读'}</span>
@@ -1584,7 +1585,6 @@ function buildDetailHTML(ctx, isEn) {
     </section>
 
 ${toolsSection}
-${pairSection}
 
     ${blogCards ? `
     <section class="blog-links-section" id="blogLinksSection">
