@@ -1493,9 +1493,6 @@ function buildDetailHTML(ctx, isEn) {
       <div class="tools-grid pair-grid">\
         ' + pairCardsHtml + '\
       </div>\
-      <div style="text-align:center;margin-top:20px;">\
-        <a href="/soulmate-calculator" style="display:inline-flex;align-items:center;gap:6px;padding:10px 28px;background:linear-gradient(135deg,#D4AF37,#FFAB40);color:#000;border-radius:30px;text-decoration:none;font-size:0.82rem;font-weight:600;">' + (isEn ? 'Get Full Compatibility Report →' : '查看完整配对报告 →') + '</a>\
-      </div>\
     </section>';
 
   return `<!DOCTYPE html>
