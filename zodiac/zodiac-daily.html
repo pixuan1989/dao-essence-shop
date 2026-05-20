@@ -233,7 +233,7 @@
     <div class="tools-section__divider"></div>
   </div>
   <div class="tools-grid">
-    <a href="/blog/how-to-read-bazi-chart" class="tool-card">
+    <a href="/blog/how-to-read-bazi-chart" data-href-cn="/zh/blog/how-to-read-bazi-chart" class="tool-card">
       <span class="tool-card__icon"></span>
       <div class="tool-card__info">
         <div class="tool-card__name" id="articleName1">How to Read Your BaZi Birth Chart</div>
@@ -241,7 +241,7 @@
       </div>
       <span class="tool-card__arrow">→</span>
     </a>
-    <a href="/blog/feng-shui-home-office-7-rules" class="tool-card">
+    <a href="/blog/feng-shui-home-office-7-rules" data-href-cn="/zh/blog/feng-shui-home-office-7-rules" class="tool-card">
       <span class="tool-card__icon"></span>
       <div class="tool-card__info">
         <div class="tool-card__name" id="articleName2">Feng Shui Tips for Your Home Office</div>
@@ -249,7 +249,7 @@
       </div>
       <span class="tool-card__arrow">→</span>
     </a>
-    <a href="/blog/five-elements-theory-wu-xing-guide" class="tool-card">
+    <a href="/blog/five-elements-theory-wu-xing-guide" data-href-cn="/zh/blog/five-elements-theory-wu-xing-guide" class="tool-card">
       <span class="tool-card__icon"></span>
       <div class="tool-card__info">
         <div class="tool-card__name" id="articleName3">Five Elements Personality Test Guide</div>
@@ -362,6 +362,10 @@
             document.getElementById('articleDesc2').textContent = 'Feng Shui · 6 min read';
             document.getElementById('articleName3').textContent = 'Five Elements Personality Test Guide';
             document.getElementById('articleDesc3').textContent = 'Five Elements · 7 min read';
+            // 热门阅读切回英文链接
+            document.querySelectorAll('[data-href-cn]').forEach(function(el) {
+              el.href = el.getAttribute('href');
+            });
           } else {
             document.getElementById('toolsLabel').textContent = '探索你的命运';
             document.getElementById('toolName1').textContent = '八字命盘';
@@ -377,6 +381,10 @@
             document.getElementById('articleDesc2').textContent = '风水指南 · 6 分钟阅读';
             document.getElementById('articleName3').textContent = '五行性格测试指南';
             document.getElementById('articleDesc3').textContent = '五行理论 · 7 分钟阅读';
+            // 热门阅读切中文链接
+            document.querySelectorAll('[data-href-cn]').forEach(function(el) {
+              el.href = el.getAttribute('data-href-cn');
+            });
           }
         }
       }
