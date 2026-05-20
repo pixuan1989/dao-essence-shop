@@ -1382,6 +1382,122 @@ function buildDetailHTML(ctx, isEn) {
   const blogLinks = isEn ? (fc.blogLinksEN || []) : (fc.blogLinksCN || []);
   const blogCards = blogLinks.map(b => `<a href="${b.url}" class="blog-link-card"><div class="blog-link-card__icon">&#9654;</div><div class="blog-link-card__content"><div class="blog-link-card__title">${b.title}</div><div class="blog-link-card__arrow">→</div></div></a>`).join('');
 
+  // ── 工具导流区（静态页）──
+  const toolsSection = `
+    <section class="tools-section">
+      <div class="tools-section__header">
+        <span class="tools-section__label">${isEn ? 'WANT TO GO DEEPER?' : '想深入了解？'}</span>
+        <div class="tools-section__divider"></div>
+      </div>
+      <div class="tools-grid">
+        <a href="/#free-bazi" class="tool-card">
+          <span class="tool-card__icon"></span>
+          <div class="tool-card__info">
+            <div class="tool-card__name">${isEn ? 'Your Personal BaZi Chart' : '你的八字命盘'}</div>
+            <div class="tool-card__desc">${isEn ? 'Based on your exact birth date' : '基于你的出生日期'}</div>
+          </div>
+          <span class="tool-card__arrow">→</span>
+        </a>
+        <a href="/five-elements-test" class="tool-card">
+          <span class="tool-card__icon"></span>
+          <div class="tool-card__info">
+            <div class="tool-card__name">${isEn ? 'Five Elements Test' : '五行人格测试'}</div>
+            <div class="tool-card__desc">${isEn ? 'Discover your personality type' : '发现你的性格类型'}</div>
+          </div>
+          <span class="tool-card__arrow">→</span>
+        </a>
+        <a href="/soulmate-calculator" class="tool-card">
+          <span class="tool-card__icon"></span>
+          <div class="tool-card__info">
+            <div class="tool-card__name">${isEn ? 'Soulmate Compatibility' : '生肖配对'}</div>
+            <div class="tool-card__desc">${isEn ? 'Check your zodiac love match' : '查看你的爱情配对'}</div>
+          </div>
+          <span class="tool-card__arrow">→</span>
+        </a>
+      </div>
+    </section>`;
+
+  // ── 配对导流区（静态页）──
+  // 37 个 key 全部按字母序排列，与 [sign, s].sort().join('-') 查找一致
+  // 代码实测：69 次 lookup / 0 miss / 37 key 全命中 / 0 冗余 / 0 分数冲突
+  const pairScores = {
+    // 三合/六合（高分）
+    'dog-horse': 86, 'dog-rabbit': 84, 'dog-tiger': 86,
+    'dragon-monkey': 85, 'dragon-rat': 86, 'dragon-rooster': 84,
+    'goat-horse': 84, 'goat-pig': 85, 'goat-rabbit': 87,
+    'horse-tiger': 89, 'monkey-rat': 86, 'monkey-snake': 83,
+    'ox-rat': 88, 'ox-rooster': 87, 'ox-snake': 85,
+    'pig-rabbit': 85, 'pig-tiger': 85, 'rooster-snake': 86,
+    // 相冲/相害（低分）
+    'dog-dragon': 31, 'dog-goat': 36, 'dog-ox': 36, 'dog-rooster': 35,
+    'dragon-pig': 36, 'dragon-rabbit': 35, 'goat-ox': 36, 'goat-rat': 35,
+    'horse-ox': 33, 'horse-rabbit': 38, 'horse-rat': 32,
+    'monkey-pig': 34, 'monkey-tiger': 30, 'pig-pig': 32, 'pig-snake': 30,
+    'rabbit-rat': 38, 'rabbit-rooster': 32, 'rooster-rooster': 30, 'snake-tiger': 34,
+  };
+
+  function buildPairCard(signKey, score) {
+    var meta = ZODIAC_LIST.find(function(z) { return z.key === signKey; });
+    var name = isEn ? meta.en : meta.name;
+    var scoreClass = score >= 80 ? 'pair-good' : score >= 50 ? 'pair-mid' : 'pair-bad';
+    return '<a href="/soulmate-calculator" class="pair-card ' + scoreClass + '">' +
+      '<span class="pair-card__name">' + name + '</span>' +
+      '<span class="pair-card__score">' + score + '%</span>' +
+    '</a>';
+  }
+
+  var bestMatches = {
+    rat: ['ox', 'dragon', 'monkey'], ox: ['rat', 'snake', 'rooster'],
+    tiger: ['horse', 'dog', 'pig'], rabbit: ['goat', 'pig', 'dog'],
+    dragon: ['rat', 'monkey', 'rooster'], snake: ['ox', 'rooster', 'monkey'],
+    horse: ['tiger', 'dog', 'goat'], goat: ['rabbit', 'pig', 'horse'],
+    monkey: ['rat', 'dragon', 'snake'], rooster: ['ox', 'dragon', 'snake'],
+    dog: ['tiger', 'horse', 'rabbit'], pig: ['rabbit', 'tiger', 'goat'],
+  };
+  var worstMatches = {
+    rat: ['horse', 'goat', 'rabbit'], ox: ['horse', 'goat', 'dog'],
+    tiger: ['monkey', 'snake'], rabbit: ['rooster', 'dragon', 'rat'],
+    dragon: ['dog', 'rabbit', 'pig'], snake: ['pig', 'tiger'],
+    horse: ['rat', 'ox', 'rabbit'], goat: ['ox', 'rat', 'dog'],
+    monkey: ['tiger', 'pig'], rooster: ['rabbit', 'dog', 'rooster'],
+    dog: ['dragon', 'rooster', 'ox'], pig: ['snake', 'monkey', 'pig'],
+  };
+
+  var pairCardsHtml = '';
+  var bestList = bestMatches[sign] || [];
+  var worstList = worstMatches[sign] || [];
+
+  if (bestList.length) {
+    pairCardsHtml += '<div class="pair-group__label">' + (isEn ? 'BEST MATCHES' : '最佳配对') + '</div>';
+    bestList.forEach(function(s) {
+      var key = [sign, s].sort().join('-');
+      var sc = pairScores[key] || 85;
+      pairCardsHtml += buildPairCard(s, sc);
+    });
+  }
+  if (worstList.length) {
+    pairCardsHtml += '<div class="pair-group__label">' + (isEn ? 'PROCEED WITH CAUTION' : '需留意') + '</div>';
+    worstList.forEach(function(s) {
+      var key = [sign, s].sort().join('-');
+      var sc = pairScores[key] || 35;
+      pairCardsHtml += buildPairCard(s, sc);
+    });
+  }
+
+  var pairSection = '\
+    <section class="tools-section">\
+      <div class="tools-section__header">\
+        <span class="tools-section__label">' + (isEn ? 'CHECK YOUR LOVE MATCH' : '查看配对指数') + '</span>\
+        <div class="tools-section__divider"></div>\
+      </div>\
+      <div class="tools-grid pair-grid">\
+        ' + pairCardsHtml + '\
+      </div>\
+      <div style="text-align:center;margin-top:20px;">\
+        <a href="/soulmate-calculator" style="display:inline-flex;align-items:center;gap:6px;padding:10px 28px;background:linear-gradient(135deg,#D4AF37,#FFAB40);color:#000;border-radius:30px;text-decoration:none;font-size:0.82rem;font-weight:600;">' + (isEn ? 'Get Full Compatibility Report →' : '查看完整配对报告 →') + '</a>\
+      </div>\
+    </section>';
+
   return `<!DOCTYPE html>
 <html lang="${isEn ? 'en' : 'zh-Hant'}">
 <head>
@@ -1466,6 +1582,10 @@ function buildDetailHTML(ctx, isEn) {
       </div>
       <div class="faq-list" id="faqList">${faqItems}</div>
     </section>
+
+${toolsSection}
+${pairSection}
+
     ${blogCards ? `
     <section class="blog-links-section" id="blogLinksSection">
       <div class="blog-links-section__header">
