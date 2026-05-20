@@ -460,10 +460,17 @@ async function generateFortuneCN(zodiac, ganzhi, relations, fourPillars) {
 ## 写作风格（严格遵守）
 - 用简洁直白的白话文写，像老朋友发微信给你
 - 不要学术腔，不要用"三癸透干"、"双巳伏吟"这类术语
-- 每个生肖的运势独立成段，不要分【事业】【财运】【爱情】【健康】这种条目
+- 不要分【事业】【财运】【爱情】【健康】这种条目
+- 每段控制在 80-120 字，最多不超过 150 字
+- 段与段之间必须用空行分隔（\n\n）
+- 建议结构（5-6 段）：
+  1. 开头：总体运势 + 分数感觉
+  2. 事业/工作
+  3. 感情/人际
+  4. 健康/生活小贴士（如需提交通出行，一句话带过，归入本段，不单独展开）
+  5. 宜/忌总结
+- 全文 400-550 字
 - 直接告诉读者：今日运势如何、需要注意什么、适合做什么、不适合做什么
-- 段与段之间用空行分隔
-- 全文450-550字
 
 ## 格式示例（参考）
 生肖鼠今日运势一般，冲日犯渐，人际关系易出现问题，易与人产生误会，需要谨防陷入他人的是非纠缠，宜佩戴黄金饰品，宜明哲保身，感情上女性更多是付出者。
@@ -579,7 +586,8 @@ async function generateFortuneEN(zodiac, cnData, ganzhi) {
 
   const rawEn = await translateToEnglish(content, en, verdict, key);
   // 清理 AI 翻译中残留的零星中文词，防止「偏财运」等中文词混入英文
-  const enContent = rawEn.replace(/[\u4e00-\u9fa5]+/g, '').replace(/\s{2,}/g, ' ').trim();
+  // 注意：只用 /[ ]{2,}/ 清理多余空格，不用 /\s{2,}/（会把 \n\n 段落分隔也干掉）
+  const enContent = rawEn.replace(/[\u4e00-\u9fa5]+/g, '').replace(/[ ]{2,}/g, ' ').trim();
 
   return {
     keywords: null,
@@ -705,14 +713,20 @@ async function translateToEnglish(cnText, zodiacEn, verdict, zodiacKey) {
 - NO asterisks (*). No **bold**, *italic*, ***anything***
 - NO # symbols. No ##, ###, or #### headers
 - NO emojis. Zero.
-- Paragraphs separated by ONE BLANK LINE.
-- If the Chinese text has labels like "事业" or "财运", translate them freely into natural English section headers like "Work" or "Money"—don't just copy the Chinese label.
+- MUST output 4-6 paragraphs, separated by TWO newlines (\n\n).
+- Paragraph structure:
+  1. Opening (energy overview + score context)
+  2. Work/career advice
+  3. Love/relationships
+  4. Health/well-being (if travel/transportation is mentioned, keep it to one brief sentence within this section—do not separate)
+  5. Good to do / Better to avoid
+- Each paragraph should be 3-5 sentences max, 40-75 words. Never exceed 80 words per paragraph.
 
 ## Voice (Western, Natural)
 - Write like a horoscope from a popular Western astrology site (think Cosmopolitan, Prevention, or Thought Catalog astrology sections)
 - Warm, friendly, readable. Short sentences mixed with slightly longer ones.
 - No academic tone, no preachy advice, no "your wisdom lies in..." or "this configuration requires nuanced interpretation"
-- Keep it punchy: 200-300 words total
+- Keep it punchy: 250-400 words total, spread across 4-6 paragraphs
 
 ## SEO (REQUIRED — never skip)
 - The phrase "Chinese zodiac ${zodiacEn}" MUST appear in the first sentence of the translation — no exceptions. This is a hard rule for search engine optimization.
@@ -741,8 +755,10 @@ Translate the Chinese horoscope for ${zodiacEn} into natural, Western-friendly E
         const data = await res.json();
         const translated = data.choices?.[0]?.message?.content;
         if (translated) {
-          console.log(`   🌐 AI翻译成功 (${translated.length} chars)`);
-          return translated;
+          // 兜底：AI 翻译未分段时，按句子强制分为 4-6 段
+          const cleaned = forceEnglishParagraphs(translated);
+          console.log(`   🌐 AI翻译成功 (${cleaned.length} chars)`);
+          return cleaned;
         }
       } else {
         console.warn(`   ⚠️ DashScope API error: ${res.status}`);
@@ -985,6 +1001,27 @@ function markdownToHtml(text) {
   });
 
   return htmlBlocks.join('\n');
+}
+
+/**
+ * 强制将连续英文文本按句子分组为 4-6 段
+ * 用于 AI 翻译输出不分段时的兜底处理
+ */
+function forceEnglishParagraphs(text, targetParagraphs = 5) {
+  // 已经有段落分隔的直接返回
+  if (/\n\s*\n/.test(text)) return text.trim();
+
+  // 按句子边界切分（. ! ? 后跟空格或大写字母或结尾）
+  const sentences = text.match(/[^.!?]*[.!?]+[\s]*/g) || [text];
+  if (sentences.length <= targetParagraphs) return text.trim();
+
+  // 按 targetParagraphs 均匀分组
+  const perGroup = Math.ceil(sentences.length / targetParagraphs);
+  const paragraphs = [];
+  for (let i = 0; i < sentences.length; i += perGroup) {
+    paragraphs.push(sentences.slice(i, i + perGroup).join(' ').trim());
+  }
+  return paragraphs.join('\n\n');
 }
 
 function inlineMd(text) {
@@ -1302,14 +1339,14 @@ function buildDetailHTML(ctx, isEn) {
   if (isEn) {
     htmlContent = markdownToHtml(rawContent);
   } else {
-    // 按【段落标题】分割，每个段落：标题 → h3，内容 → p
-    const cnBlocks = rawContent.split(/(?=【)/).filter(b => b.trim());
+    // 按【段落标题】或 \n\n 分割，兼容两种分段方式
+    const cnBlocks = rawContent.split(/(?=【)|\n\n/).filter(b => b.trim());
     htmlContent = cnBlocks.map(block => {
       const titleMatch = block.match(/^【([^】]+)】(.*)$/s);
       if (titleMatch) {
         return `<h3>${titleMatch[1]}</h3><p>${titleMatch[2].trim()}</p>`;
       }
-      return `<p>${block.trim()}</p>`;
+      return `<p>${block.trim().replace(/\n/g, '<br>')}</p>`;
     }).join('\n');
   }
 
