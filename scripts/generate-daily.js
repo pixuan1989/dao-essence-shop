@@ -1527,10 +1527,12 @@ async function main() {
   // ① 计算天干地支
   const date = new Date(dateStr + 'T00:00:00+08:00');
   const ganzhi = calculateGanzhi(date);
-  const relations = getRelations(ganzhi.dizhi);
 
   // ①b 获取完整四柱（含藏干、五行分布）用于AI推理
   const fourPillars = getDailyFourPillars(date);
+
+  // ①c 用 paipan 精确日支算冲合害刑（不再用 calculateGanzhi 的简化日支，避免打分与AI内容矛盾）
+  const relations = getRelations(fourPillars.day.branch);
 
   console.log('📅 今日黄历:');
   console.log(`   干支: ${ganzhi.ganzhi}（${ganzhi.wuxing}）`);
