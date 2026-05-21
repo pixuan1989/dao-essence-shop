@@ -15,6 +15,8 @@
   <link rel="alternate" hreflang="x-default" href="https://www.daoessentia.com/zodiac/rabbit-en">
   <link rel="stylesheet" href="css/zodiac-daily.css">
   <script src="js/zodiac-data.js"></script>
+  <script src="../js/tool-share.js"></script>
+  <script src="js/share-card.js"></script>
   <script>
     var ZODIAC_BG = {
       rat:'linear-gradient(165deg,#0a1628,#102a43,#163e5f,#1a4a6b)',
@@ -102,7 +104,7 @@
       var infoEl = document.getElementById('infoRow');
       if (infoEl) infoEl.innerHTML =
         '<div class="info-chip"><span class="dot" style="background:' + display.color + '"></span>' + colorLabel + ' <strong>' + colorVal + '</strong></div>' +
-        '<div class="info-chip">' + numLabel + ' <strong>' + display.luckyNum + '</strong></div>' +
+        '<div class="info-chip">' + numLabel + ' <strong>' + display.number + '</strong></div>' +
         '<div class="info-chip">' + dirLabel + ' <strong>' + dirVal + '</strong></div>';
 
       // 宜忌
@@ -118,7 +120,7 @@
 
       // 金句
       var qtEl = document.getElementById('quoteText');
-      if (qtEl) qtEl.textContent = display.quote;
+      if (qtEl) qtEl.textContent = isEn ? (display.quoteEn || display.quote) : display.quote;
 
       // SEO 内容
       var seoTextEl = document.getElementById('seoText');
@@ -131,15 +133,17 @@
 
       // 分享
       var shareText = isEn
-        ? SIGN_NAMES_EN[sign] + ' Chinese zodiac horoscope: ' + display.score + '/100. Lucky number ' + display.luckyNum + ', direction ' + dirVal + ', lucky color ' + colorVal + '.'
+        ? SIGN_NAMES_EN[sign] + ' Chinese zodiac horoscope: ' + display.score + '/100. Lucky number ' + display.number + ', direction ' + dirVal + ', lucky color ' + colorVal + '.'
         : SIGN_NAMES_ZH[sign] + '今日运势 ' + display.score + '分 — ' + display.quote;
-      if (window.ToolShare) {
-        window.ToolShare.render('zodiac-share', {
-          label: isEn ? 'Share Your Horoscope' : '分享你的运势',
-          text: shareText,
-          download: { sign: sign, lang: isEn ? 'en' : 'zh', data: { score: display.score, number: display.luckyNum, colorName: colorVal, direction: dirVal, quote: display.quote } }
-        });
-      }
+      window.addEventListener('DOMContentLoaded', function() {
+        if (window.ToolShare) {
+          window.ToolShare.render('zodiac-share', {
+            label: isEn ? 'Share Your Horoscope' : '分享你的运势',
+            text: shareText,
+            download: { sign: sign, lang: isEn ? 'en' : 'zh', data: { score: display.score, number: display.number, colorName: colorVal, direction: dirVal, quote: display.quote } }
+          });
+        }
+      });
 
       // 图片路径
       var imgEl = document.getElementById('cardImg');

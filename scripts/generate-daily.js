@@ -586,9 +586,12 @@ async function generateFortuneEN(zodiac, cnData, ganzhi) {
 
 
   const rawEn = await translateToEnglish(content, en, verdict, key);
+  // 提取英文金句
+  const quoteEnMatch = rawEn.match(/QUOTE_EN:\s*(.+)/);
+  const quoteEn = quoteEnMatch ? quoteEnMatch[1].trim() : quote;
   // 清理 AI 翻译中残留的零星中文词，防止「偏财运」等中文词混入英文
   // 注意：只用 /[ ]{2,}/ 清理多余空格，不用 /\s{2,}/（会把 \n\n 段落分隔也干掉）
-  const enContent = rawEn.replace(/[\u4e00-\u9fa5]+/g, '').replace(/[ ]{2,}/g, ' ').trim();
+  const enContent = rawEn.replace(/QUOTE_EN:\s*.+/g, '').replace(/[\u4e00-\u9fa5]+/g, '').replace(/[ ]{2,}/g, ' ').trim();
 
   return {
     keywords: null,
@@ -600,6 +603,7 @@ async function generateFortuneEN(zodiac, cnData, ganzhi) {
     yi,
     ji,
     quote,
+    quoteEn,
     luckyNum,
     direction,
     pair,
@@ -733,7 +737,10 @@ async function translateToEnglish(cnText, zodiacEn, verdict, zodiacKey) {
 - The phrase "Chinese zodiac ${zodiacEn}" MUST appear in the first sentence of the translation — no exceptions. This is a hard rule for search engine optimization.
 - Beyond that, naturally weave in 1-2 terms from: ${seo.head}. Do NOT stuff; keep it conversational.
 
-Translate the Chinese horoscope for ${zodiacEn} into natural, Western-friendly English. Return ONLY the translated text, nothing else:`;
+Translate the Chinese horoscope for ${zodiacEn} into natural, Western-friendly English. Return ONLY the translated text, nothing else.
+
+Also translate the daily quote into a short poetic English phrase (max 15 words). At the very end of your response, add this exact line on its own line:
+QUOTE_EN: [English translation of the daily quote]`;
 
       const res = await fetch(`${DASHSCOPE_BASE_URL}/chat/completions`, {
         method: 'POST',
@@ -867,7 +874,8 @@ function updateDataFile(date, fortunes) {
     const f = fortunes[z.key];
     // 安全转义 quote 字段中的特殊字符（双引号、反斜杠等）
     const safeQuote = (f.quote || '').replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\n/g, '\\n');
-    return `    "${z.key}":     { score: ${f.score}, color: "${WUXING_COLORS[z.element]?.hex || '#D4AF37'}", colorName: "${WUXING_COLORS[z.element]?.name || '金色'}", number: ${f.luckyNum}, direction: "${f.direction}", pair: "${f.pair}",     good: ${JSON.stringify(f.yi)},        avoid: ${JSON.stringify(f.ji)},       quote: "${safeQuote}" }`;
+    const safeQuoteEn = (f.quoteEn || '').replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\n/g, '\\n');
+    return `    "${z.key}":     { score: ${f.score}, color: "${WUXING_COLORS[z.element]?.hex || '#D4AF37'}", colorName: "${WUXING_COLORS[z.element]?.name || '金色'}", number: ${f.luckyNum}, direction: "${f.direction}", pair: "${f.pair}",     good: ${JSON.stringify(f.yi)},        avoid: ${JSON.stringify(f.ji)},       quote: "${safeQuote}", quoteEn: "${safeQuoteEn}" }`;
   });
 
   const newBlock = `\n  "${date}": {\n${blockLines.join(',\n')}\n  },\n`;

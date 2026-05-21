@@ -107,26 +107,9 @@ if (fs.existsSync(SEO_FILE) && fs.existsSync(DATA_FILE)) {
       execSync(`git commit -m "chore: ${DATE} daily horoscope update + rebuild"`, { cwd: PROJECT_ROOT });
       console.log(`✅ 已提交本地`);
 
-      // 3. Push（最多重试3次）
-      const MAX_RETRIES = 3;
-      let pushed = false;
-      for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
-        try {
-          execSync('git push', { cwd: PROJECT_ROOT });
-          pushed = true;
-          break;
-        } catch (pushErr) {
-          if (attempt < MAX_RETRIES) {
-            console.warn(`⚠️  Push 第${attempt}次失败，5秒后重试...`);
-            execSync('timeout /t 5 /nobreak > nul', { cwd: PROJECT_ROOT, stdio: 'ignore', shell: true });
-          } else {
-            console.error(`\n❌ Push 全部失败（已重试${MAX_RETRIES}次）: ${pushErr.message}`);
-          }
-        }
-      }
-      if (pushed) {
-        console.log('✅ 已推送到远程，Vercel 将自动部署');
-      }
+      // 3. Push 由用户手动执行（符合项目规则：AI不自动push）
+      console.log('\n⚠️  本地commit已完成，请手动执行 git push 以触发Vercel部署');
+      console.log(`   cd ${PROJECT_ROOT} && git push`);
     }
   } catch (err) {
     console.warn(`⚠️  Git 操作失败: ${err.message}`);
