@@ -1844,12 +1844,11 @@ function buildDetailHTML(ctx, isEn) {
 ${toolsSection}
 
     <!-- 生肖百科（Evergreen Content，永远不变，SEO 锚定） -->
-    <div class="seo-divider">
-      <span class="seo-divider__line"></span>
-      <span class="seo-divider__text" id="evergreenDivider">${isEn ? 'ZODIAC ENCYCLOPEDIA' : '生肖百科'}</span>
-      <span class="seo-divider__line"></span>
-    </div>
-    <section class="zodiac-evergreen" id="evergreenSection">
+    <section class="tools-section zodiac-evergreen-section">
+      <div class="tools-section__header">
+        <span class="tools-section__label">${isEn ? 'ZODIAC ENCYCLOPEDIA' : '生肖百科'}</span>
+        <div class="tools-section__divider"></div>
+      </div>
       ${isEn ? ZODIAC_EVERGREEN[sign].en : ZODIAC_EVERGREEN[sign].zh}
     </section>
 
