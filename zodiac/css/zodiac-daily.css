@@ -706,10 +706,10 @@ body.detail-page-body { overflow-x: hidden; }
 }
 
 /* ─── 生肖百科（Evergreen Content）─── */
-.zodiac-evergreen-section {
+.zodiac-evergreen {
   margin-bottom: 24px;
 }
-.zodiac-evergreen-section h2 {
+.zodiac-evergreen h2 {
   font-family: 'Cormorant Garamond', serif;
   font-size: 1.5rem;
   font-weight: 600;
@@ -717,13 +717,13 @@ body.detail-page-body { overflow-x: hidden; }
   letter-spacing: 0.04em;
   margin: 0 0 8px;
 }
-.zodiac-evergreen-section > p:first-of-type {
+.zodiac-evergreen > p:first-of-type {
   font-size: 0.88rem;
   color: rgba(255,255,255,0.55);
   margin: 0 0 20px;
   font-style: italic;
 }
-.zodiac-evergreen-section h3 {
+.zodiac-evergreen h3 {
   font-family: 'Noto Serif SC', serif;
   font-size: 1rem;
   font-weight: 600;
@@ -731,15 +731,15 @@ body.detail-page-body { overflow-x: hidden; }
   margin: 28px 0 10px;
   letter-spacing: 0.02em;
 }
-.zodiac-evergreen-section p {
+.zodiac-evergreen p {
   font-family: 'Noto Serif SC', serif;
   font-size: 0.85rem;
   color: rgba(255,255,255,0.6);
   line-height: 1.8;
   margin: 0 0 14px;
 }
-.zodiac-evergreen-section p:last-child { margin-bottom: 0; }
-.zodiac-evergreen-section strong {
+.zodiac-evergreen p:last-child { margin-bottom: 0; }
+.zodiac-evergreen strong {
   color: rgba(255,255,255,0.82); font-weight: 600;
 }
 
