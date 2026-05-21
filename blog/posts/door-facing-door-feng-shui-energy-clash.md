@@ -1,21 +1,23 @@
 ---
-title: "Door Facing Door Feng Shui: How to Fix Energy Clash Between Neighbors"
+title: "Door Facing Door Feng Shui: 4 Fixes for Bad Energy Between Neighbors"
 slug: "door-facing-door-feng-shui-energy-clash"
 category: feng-shui
 tags:
   - Feng Shui
-  - Apartment Living
+  - Home Décor
+  - Interior Design
   - Energy Flow
-  - Home Harmony
   - Door Placement
 description: "Doors facing each other in apartments create feng shui energy clash. Learn 4 simple fixes — screens, plants, door habits — to protect your home's qi."
 seoDescription: "Door facing door feng shui: understand why two opposing entrances create energy clash, and learn 4 practical remedies to protect your home's energy without major renovations."
-keywords: "door facing door feng shui, feng shui apartment problems, how to fix bad feng shui, energy clash neighbors, feng shui remedies entrance"
+keywords: "door facing door feng shui, door facing door bad luck, feng shui door placement, feng shui apartment problems, how to fix bad feng shui, feng shui remedies entrance"
 date: 2026-05-21
 author: DAO Essence
 readTime: 7
 pinned: false
 image: /images/blog/door-facing-door-feng-shui-hero.webp
+cta_cards:
+  - five-elements
 imageAlt: "Two apartment doors facing each other in hallway with blue wall, feng shui energy clash illustration"
 faq:
   - question: "Is door facing door really bad feng shui?"
