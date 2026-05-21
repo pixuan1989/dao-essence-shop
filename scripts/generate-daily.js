@@ -106,6 +106,226 @@ const BLOG_RECOMMENDATIONS = {
   ],
 };
 
+// ─── 生肖百科（Evergreen Content，永远不变，用于 SEO 锚定）───
+const ZODIAC_EVERGREEN = {
+  rat: {
+    en: `<h2>Rat Chinese Zodiac — Personality, Fortune &amp; Traits</h2>
+<p>The Rat (鼠) is the first sign of the Chinese zodiac. People born in the Year of the Rat are known for their intelligence, quick wit, and resourcefulness. In Chinese culture, the Rat symbolizes wealth, surplus, and prosperity.</p>
+<h3>Rat Personality Traits</h3>
+<p>Rat individuals are clever, adaptable, and excellent problem-solvers. They have a natural ability to spot opportunities and make the most of any situation. Rats are social and charming, with a keen sense of humor that makes them popular in any group.</p>
+<h3>Five Elements &amp; Lucky Elements</h3>
+<p>The Rat is associated with the Water element. Lucky colors include blue, gold, and green. Lucky numbers are 2, 3, and numbers containing 6. The Rat's compatible signs are Ox, Dragon, and Monkey, while the Horse is considered the least compatible.</p>
+<h3>Rat in Love &amp; Relationships</h3>
+<p>In relationships, Rats are devoted, generous, and highly attentive to their partner's needs. They value family above all else and will work tirelessly to ensure their loved ones are happy and secure.</p>`,
+    zh: `<h2>生肖鼠 — 性格、运势与特质详解</h2>
+<p>鼠是十二生肖中的第一位。属鼠的人以聪明、机智和足智多谋著称。在中国文化中，鼠象征着财富、富余和繁荣。</p>
+<h3>属鼠人的性格特点</h3>
+<p>属鼠的人聪明、适应力强，是出色的问题解决者。他们天生具有发现机会并充分利用任何情况的能力。鼠善于社交且富有魅力，具有敏锐的幽默感，使他们在任何群体中都受欢迎。</p>
+<h3>五行与幸运元素</h3>
+<p>鼠在五行中属水。幸运颜色为蓝色、金色和绿色。幸运数字是 2、3 和含 6 的数字。鼠的六合生肖是牛、龙和猴，而马被认为是最不配的生肖。</p>
+<h3>属鼠人的爱情与人际关系</h3>
+<p>在感情方面，属鼠的人忠诚、慷慨且对伴侣的需求高度关注。他们最重视家庭，会不懈努力确保所爱之人幸福安康。</p>`
+  },
+  ox: {
+    en: `<h2>Ox Chinese Zodiac — Personality, Fortune &amp; Traits</h2>
+<p>The Ox (牛) is the second sign of the Chinese zodiac. People born in the Year of the Ox are known for their diligence, dependability, and strength. In Chinese culture, the Ox symbolizes hard work, honesty, and perseverance.</p>
+<h3>Ox Personality Traits</h3>
+<p>Ox individuals are patient, methodical, and incredibly hardworking. They believe in steady progress and are willing to put in the effort to achieve their goals. Oxes are known for their integrity and strong sense of responsibility, making them trusted colleagues and reliable friends.</p>
+<h3>Five Elements &amp; Lucky Elements</h3>
+<p>The Ox is associated with the Earth element. Lucky colors include white, yellow, and green. Lucky numbers are 1, 4, and numbers containing 9. The Ox's compatible signs are Rat, Snake, and Rooster, while the Goat is considered the least compatible.</p>
+<h3>Ox in Love &amp; Relationships</h3>
+<p>In relationships, Oxes are loyal, devoted, and protective. They may not be the most romantic, but they express love through actions and commitment. Oxes value stability and long-term partnership above all else.</p>`,
+    zh: `<h2>生肖牛 — 性格、运势与特质详解</h2>
+<p>牛是十二生肖中的第二位。属牛的人以勤奋、可靠和坚韧著称。在中国文化中，牛象征着勤劳、诚实和毅力。</p>
+<h3>属牛人的性格特点</h3>
+<p>属牛的人耐心、有条理、极其勤奋。他们相信稳步前进，愿意为实现目标付出努力。属牛的人以诚信和强烈的责任感著称，是值得信赖的同事和可靠的朋友。</p>
+<h3>五行与幸运元素</h3>
+<p>牛在五行中属土。幸运颜色为白色、黄色和绿色。幸运数字是 1、4 和含 9 的数字。牛的六合生肖是鼠、蛇和鸡，而羊被认为是最不配的生肖。</p>
+<h3>属牛人的爱情与人际关系</h3>
+<p>在感情方面，属牛的人忠诚、专一且保护欲强。他们可能不是最浪漫的，但会通过行动和承诺来表达爱意。属牛的人最看重稳定性和长期的伴侣关系。</p>`
+  },
+  tiger: {
+    en: `<h2>Tiger Chinese Zodiac — Personality, Fortune &amp; Traits</h2>
+<p>The Tiger (虎) is the third sign of the Chinese zodiac. People born in the Year of the Tiger are known for their courage, competitiveness, and confidence. In Chinese culture, the Tiger symbolizes power, bravery, and royalty.</p>
+<h3>Tiger Personality Traits</h3>
+<p>Tiger individuals are natural leaders with a strong sense of justice. They are adventurous, independent, and unafraid to take risks. Tigers have a magnetic personality that inspires others, and they thrive in challenging environments where they can showcase their abilities.</p>
+<h3>Five Elements &amp; Lucky Elements</h3>
+<p>The Tiger is associated with the Wood element. Lucky colors include blue, grey, and orange. Lucky numbers are 1, 3, and 4. The Tiger's compatible signs are Horse, Dog, and Pig, while the Monkey is considered the least compatible.</p>
+<h3>Tiger in Love &amp; Relationships</h3>
+<p>In relationships, Tigers are passionate, protective, and generous. They love grand gestures and enjoy keeping the spark alive. Tigers need a partner who can match their energy and appreciate their adventurous spirit.</p>`,
+    zh: `<h2>生肖虎 — 性格、运势与特质详解</h2>
+<p>虎是十二生肖中的第三位。属虎的人以勇气、竞争力和自信著称。在中国文化中，虎象征着力量、勇敢和王权。</p>
+<h3>属虎人的性格特点</h3>
+<p>属虎的人是天生的领导者，具有强烈的正义感。他们冒险、独立、不怕风险。虎具有磁性的人格魅力，能激励他人，在充满挑战的环境中茁壮成长。</p>
+<h3>五行与幸运元素</h3>
+<p>虎在五行中属木。幸运颜色为蓝色、灰色和橙色。幸运数字是 1、3 和 4。虎的六合生肖是马、狗和猪，而猴被认为是最不配的生肖。</p>
+<h3>属虎人的爱情与人际关系</h3>
+<p>在感情方面，属虎的人热情、保护欲强且大方。他们喜欢浪漫的举动，享受保持激情的火花。虎需要一个能匹配他们能量并欣赏他们冒险精神的伴侣。</p>`
+  },
+  rabbit: {
+    en: `<h2>Rabbit Chinese Zodiac — Personality, Fortune &amp; Traits</h2>
+<p>The Rabbit (兔) is the fourth sign of the Chinese zodiac. People born in the Year of the Rabbit are known for their gentleness, elegance, and compassion. In Chinese culture, the Rabbit symbolizes longevity, peace, and prosperity.</p>
+<h3>Rabbit Personality Traits</h3>
+<p>Rabbit individuals are diplomatic, refined, and deeply empathetic. They have a natural ability to create harmony in their surroundings and avoid conflict whenever possible. Rabbits are artistic, creative, and have excellent taste in all aspects of life.</p>
+<h3>Five Elements &amp; Lucky Elements</h3>
+<p>The Rabbit is associated with the Wood element. Lucky colors include red, pink, purple, and blue. Lucky numbers are 3, 4, and 6. The Rabbit's compatible signs are Goat, Pig, and Dog, while the Rooster is considered the least compatible.</p>
+<h3>Rabbit in Love &amp; Relationships</h3>
+<p>In relationships, Rabbits are tender, caring, and attentive. They create a warm and loving home environment and are deeply devoted to their partners. Rabbits value emotional security and seek partners who appreciate their gentle nature.</p>`,
+    zh: `<h2>生肖兔 — 性格、运势与特质详解</h2>
+<p>兔是十二生肖中的第四位。属兔的人以温和、优雅和同情心著称。在中国文化中，兔象征着长寿、和平与繁荣。</p>
+<h3>属兔人的性格特点</h3>
+<p>属兔的人善于外交、优雅且极具同理心。他们天生有能力在周围创造和谐，并尽可能避免冲突。属兔的人具有艺术天赋、创造力，在生活的各个方面都有出色的品味。</p>
+<h3>五行与幸运元素</h3>
+<p>兔在五行中属木。幸运颜色为红色、粉色、紫色和蓝色。幸运数字是 3、4 和 6。兔的六合生肖是羊、猪和狗，而鸡被认为是最不配的生肖。</p>
+<h3>属兔人的爱情与人际关系</h3>
+<p>在感情方面，属兔的人温柔、体贴且细心。他们创造温暖 loving 的家庭环境，对伴侣 deeply devoted。属兔的人重视情感安全感，寻找能欣赏他们温柔天性的伴侣。</p>`
+  },
+  dragon: {
+    en: `<h2>Dragon Chinese Zodiac — Personality, Fortune &amp; Traits</h2>
+<p>The Dragon (龙) is the fifth sign of the Chinese zodiac and the only mythical creature. People born in the Year of the Dragon are known for their charisma, ambition, and vitality. In Chinese culture, the Dragon symbolizes power, excellence, and good fortune.</p>
+<h3>Dragon Personality Traits</h3>
+<p>Dragon individuals are energetic, confident, and naturally charismatic. They are ambitious achievers who set high standards for themselves and others. Dragons are innovative thinkers who thrive in leadership roles and are not afraid to challenge the status quo.</p>
+<h3>Five Elements &amp; Lucky Elements</h3>
+<p>The Dragon is associated with the Earth element. Lucky colors include gold, silver, and hoary. Lucky numbers are 1, 6, and 7. The Dragon's compatible signs are Rat, Monkey, and Rooster, while the Dog is considered the least compatible.</p>
+<h3>Dragon in Love &amp; Relationships</h3>
+<p>In relationships, Dragons are passionate, generous, and protective. They expect their partners to be equally driven and ambitious. Dragons value loyalty and seek relationships that elevate both partners to new heights.</p>`,
+    zh: `<h2>生肖龙 — 性格、运势与特质详解</h2>
+<p>龙是十二生肖中的第五位，也是唯一的神话生物。属龙的人以魅力、雄心和活力著称。在中国文化中，龙象征着力量、卓越和好运。</p>
+<h3>属龙人的性格特点</h3>
+<p>属龙的人精力充沛、自信且天生具有魅力。他们是雄心勃勃的成就者，对自己和他人都有高标准。属龙的人是创新思想家，在领导角色中茁壮成长，不怕挑战现状。</p>
+<h3>五行与幸运元素</h3>
+<p>龙在五行中属土。幸运颜色为金色、银色和灰白色。幸运数字是 1、6 和 7。龙的六合生肖是鼠、猴和鸡，而狗被认为是最不配的生肖。</p>
+<h3>属龙人的爱情与人际关系</h3>
+<p>在感情方面，属龙的人热情、大方且保护欲强。他们期望伴侣同样有驱动力和雄心。龙重视忠诚，寻找能让双方都提升到新高度的关系。</p>`
+  },
+  snake: {
+    en: `<h2>Snake Chinese Zodiac — Personality, Fortune &amp; Traits</h2>
+<p>The Snake (蛇) is the sixth sign of the Chinese zodiac. People born in the Year of the Snake are known for their wisdom, intuition, and elegance. In Chinese culture, the Snake symbolizes mystery, grace, and deep thinking.</p>
+<h3>Snake Personality Traits</h3>
+<p>Snake individuals are calm, collected, and analytical. They possess a natural charm that draws others to them, yet they value their privacy. Snakes are excellent planners and strategists, making them natural problem-solvers who think several steps ahead.</p>
+<h3>Five Elements &amp; Lucky Elements</h3>
+<p>The Snake is associated with the Fire element. Lucky colors include red, black, and gold. Lucky numbers are 2, 8, and 9. The Snake's compatible signs are Ox, Rooster, and Monkey, while the Pig is considered the least compatible.</p>
+<h3>Snake in Love &amp; Relationships</h3>
+<p>In relationships, Snakes are loyal, passionate, and deeply committed. They may appear reserved at first, but once they trust someone, they give their whole heart. Snakes value emotional depth and intellectual connection.</p>`,
+    zh: `<h2>生肖蛇 — 性格、运势与特质详解</h2>
+<p>蛇是十二生肖中的第六位。属蛇的人以智慧、直觉力和优雅著称。在中国文化中，蛇象征着神秘、优雅和深邃的思考。</p>
+<h3>属蛇人的性格特点</h3>
+<p>属蛇的人冷静、沉着、善于分析。他们天生具有吸引力，但注重隐私。属蛇的人是出色的规划者和策略家，是天然的问题解决者，总是领先几步思考。</p>
+<h3>五行与幸运元素</h3>
+<p>蛇在五行中属火。幸运颜色为红色、黑色和金色。幸运数字是 2、8 和 9。蛇的六合生肖是牛、鸡和猴，而猪被认为是最不配的生肖。</p>
+<h3>属蛇人的爱情与人际关系</h3>
+<p>在感情方面，属蛇的人忠诚、热情且全心投入。他们可能起初显得矜持，但一旦信任对方，便会全心付出。蛇重视情感深度和精神契合。</p>`
+  },
+  horse: {
+    en: `<h2>Horse Chinese Zodiac — Personality, Fortune &amp; Traits</h2>
+<p>The Horse (马) is the seventh sign of the Chinese zodiac. People born in the Year of the Horse are known for their energy, enthusiasm, and independence. In Chinese culture, the Horse symbolizes freedom, speed, and noble spirit.</p>
+<h3>Horse Personality Traits</h3>
+<p>Horse individuals are animated, active, and energetic. They love being in the spotlight and have a natural ability to inspire others. Horses are independent thinkers who value their freedom and resist being tied down by routines or restrictions.</p>
+<h3>Five Elements &amp; Lucky Elements</h3>
+<p>The Horse is associated with the Fire element. Lucky colors include yellow, green, and purple. Lucky numbers are 2, 3, and 7. The Horse's compatible signs are Tiger, Dog, and Goat, while the Rat is considered the least compatible.</p>
+<h3>Horse in Love &amp; Relationships</h3>
+<p>In relationships, Horses are passionate, adventurous, and generous. They need a partner who respects their need for independence while sharing their love of excitement. Horses are loyal but require space to breathe and explore.</p>`,
+    zh: `<h2>生肖马 — 性格、运势与特质详解</h2>
+<p>马是十二生肖中的第七位。属马的人以活力、热情和独立著称。在中国文化中，马象征着自由、速度和高贵的精神。</p>
+<h3>属马人的性格特点</h3>
+<p>属马的人活泼、积极且精力充沛。他们喜欢成为焦点，天生具有激励他人的能力。马是独立思考者，重视自由，抗拒被常规或限制束缚。</p>
+<h3>五行与幸运元素</h3>
+<p>马在五行中属火。幸运颜色为黄色、绿色和紫色。幸运数字是 2、3 和 7。马的六合生肖是虎、狗和羊，而鼠被认为是最不配的生肖。</p>
+<h3>属马人的爱情与人际关系</h3>
+<p>在感情方面，属马的人热情、冒险且大方。他们需要一个尊重他们独立需求、同时分享他们对兴奋热爱的伴侣。马是忠诚的，但需要空间呼吸和探索。</p>`
+  },
+  goat: {
+    en: `<h2>Goat Chinese Zodiac — Personality, Fortune &amp; Traits</h2>
+<p>The Goat (羊) is the eighth sign of the Chinese zodiac. People born in the Year of the Goat are known for their gentleness, creativity, and compassion. In Chinese culture, the Goat symbolizes harmony, artistry, and filial piety.</p>
+<h3>Goat Personality Traits</h3>
+<p>Goat individuals are mild-mannered, creative, and deeply empathetic. They have a strong appreciation for beauty and the arts, and they strive to create harmony in all areas of their lives. Goats are generous and always willing to help those in need.</p>
+<h3>Five Elements &amp; Lucky Elements</h3>
+<p>The Goat is associated with the Earth element. Lucky colors include green, red, and purple. Lucky numbers are 2, 7, and 8. The Goat's compatible signs are Rabbit, Horse, and Pig, while the Ox is considered the least compatible.</p>
+<h3>Goat in Love &amp; Relationships</h3>
+<p>In relationships, Goats are caring, nurturing, and deeply romantic. They create a warm and loving home and are devoted partners who prioritize their loved ones' happiness above all else.</p>`,
+    zh: `<h2>生肖羊 — 性格、运势与特质详解</h2>
+<p>羊是十二生肖中的第八位。属羊的人以温和、创造力和同情心著称。在中国文化中，羊象征着和谐、艺术和孝顺。</p>
+<h3>属羊人的性格特点</h3>
+<p>属羊的人温文尔雅、富有创造力且极具同理心。他们对美和艺术有强烈的欣赏，努力在生活的各个领域创造和谐。属羊的人慷慨大方，总是愿意帮助有需要的人。</p>
+<h3>五行与幸运元素</h3>
+<p>羊在五行中属土。幸运颜色为绿色、红色和紫色。幸运数字是 2、7 和 8。羊的六合生肖是兔、马和猪，而牛被认为是最不配的生肖。</p>
+<h3>属羊人的爱情与人际关系</h3>
+<p>在感情方面，属羊的人体贴、 nurturing 且 deeply romantic。他们创造温暖 loving 的家庭，是 devoted 的伴侣，将所爱之人的幸福置于一切之上。</p>`
+  },
+  monkey: {
+    en: `<h2>Monkey Chinese Zodiac — Personality, Fortune &amp; Traits</h2>
+<p>The Monkey (猴) is the ninth sign of the Chinese zodiac. People born in the Year of the Monkey are known for their wit, intelligence, and versatility. In Chinese culture, the Monkey symbolizes cleverness, curiosity, and mischief.</p>
+<h3>Monkey Personality Traits</h3>
+<p>Monkey individuals are sharp, innovative, and endlessly curious. They are natural problem-solvers who can think outside the box and find creative solutions to complex challenges. Monkeys are social butterflies who thrive in dynamic, stimulating environments.</p>
+<h3>Five Elements &amp; Lucky Elements</h3>
+<p>The Monkey is associated with the Metal element. Lucky colors include white, blue, and gold. Lucky numbers are 4, 9, and numbers containing 7 and 8. The Monkey's compatible signs are Rat, Dragon, and Snake, while the Tiger is considered the least compatible.</p>
+<h3>Monkey in Love &amp; Relationships</h3>
+<p>In relationships, Monkeys are playful, charming, and intellectually stimulating. They need a partner who can keep up with their wit and share their love of adventure. Monkeys are loyal but require mental stimulation to stay engaged.</p>`,
+    zh: `<h2>生肖猴 — 性格、运势与特质详解</h2>
+<p>猴是十二生肖中的第九位。属猴的人以机智、聪明和多才多艺著称。在中国文化中，猴象征着聪明、好奇和调皮。</p>
+<h3>属猴人的性格特点</h3>
+<p>属猴的人敏锐、创新且充满好奇心。他们是天然的问题解决者，能够跳出框框思考，为复杂挑战找到创造性的解决方案。猴是社交达人，在动态、刺激的环境中茁壮成长。</p>
+<h3>五行与幸运元素</h3>
+<p>猴在五行中属金。幸运颜色为白色、蓝色和金色。幸运数字是 4、9 和含 7、8 的数字。猴的六合生肖是鼠、龙和蛇，而虎被认为是最不配的生肖。</p>
+<h3>属猴人的爱情与人际关系</h3>
+<p>在感情方面，属猴的人 playful、迷人且 intellectually stimulating。他们需要一个能跟上他们机智、分享他们对冒险热爱的伴侣。猴是忠诚的，但需要精神刺激来保持投入。</p>`
+  },
+  rooster: {
+    en: `<h2>Rooster Chinese Zodiac — Personality, Fortune &amp; Traits</h2>
+<p>The Rooster (鸡) is the tenth sign of the Chinese zodiac. People born in the Year of the Rooster are known for their observant nature, hard work, and courage. In Chinese culture, the Rooster symbolizes punctuality, honesty, and flamboyance.</p>
+<h3>Rooster Personality Traits</h3>
+<p>Rooster individuals are honest, energetic, and confident. They have a keen eye for detail and take pride in their appearance and accomplishments. Roosters are natural organizers who excel at managing projects and people with precision and efficiency.</p>
+<h3>Five Elements &amp; Lucky Elements</h3>
+<p>The Rooster is associated with the Metal element. Lucky colors include gold, brown, and yellow. Lucky numbers are 5, 7, and 8. The Rooster's compatible signs are Ox, Dragon, and Snake, while the Rabbit is considered the least compatible.</p>
+<h3>Rooster in Love &amp; Relationships</h3>
+<p>In relationships, Roosters are loyal, supportive, and expressive. They show love through acts of service and enjoy creating beautiful experiences for their partners. Roosters value honesty and open communication in their relationships.</p>`,
+    zh: `<h2>生肖鸡 — 性格、运势与特质详解</h2>
+<p>鸡是十二生肖中的第十位。属鸡的人以善于观察、勤奋和勇敢著称。在中国文化中，鸡象征着守时、诚实和华丽。</p>
+<h3>属鸡人的性格特点</h3>
+<p>属鸡的人诚实、精力充沛且自信。他们对细节有敏锐的眼光，为自己的外表和成就感到自豪。鸡是天然的组织者，擅长以精确和高效管理项目和人员。</p>
+<h3>五行与幸运元素</h3>
+<p>鸡在五行中属金。幸运颜色为金色、棕色和黄色。幸运数字是 5、7 和 8。鸡的六合生肖是牛、龙和蛇，而兔被认为是最不配的生肖。</p>
+<h3>属鸡人的爱情与人际关系</h3>
+<p>在感情方面，属鸡的人忠诚、支持性强且善于表达。他们通过服务行为表达爱意，享受为伴侣创造美好体验。鸡在关系中重视诚实和开放的沟通。</p>`
+  },
+  dog: {
+    en: `<h2>Dog Chinese Zodiac — Personality, Fortune &amp; Traits</h2>
+<p>The Dog (狗) is the eleventh sign of the Chinese zodiac. People born in the Year of the Dog are known for their loyalty, honesty, and sense of justice. In Chinese culture, the Dog symbolizes fidelity, kindness, and vigilance.</p>
+<h3>Dog Personality Traits</h3>
+<p>Dog individuals are loyal, faithful, and incredibly reliable. They have a strong sense of right and wrong and will stand up for what they believe in. Dogs are empathetic listeners who genuinely care about the well-being of others.</p>
+<h3>Five Elements &amp; Lucky Elements</h3>
+<p>The Dog is associated with the Earth element. Lucky colors include red, green, and purple. Lucky numbers are 3, 4, and 9. The Dog's compatible signs are Tiger, Horse, and Rabbit, while the Dragon is considered the least compatible.</p>
+<h3>Dog in Love &amp; Relationships</h3>
+<p>In relationships, Dogs are devoted, protective, and incredibly loyal. They are the type of partner who will always have your back. Dogs value trust and sincerity above all else and seek relationships built on mutual respect and understanding.</p>`,
+    zh: `<h2>生肖狗 — 性格、运势与特质详解</h2>
+<p>狗是十二生肖中的第十一位。属狗的人以忠诚、诚实和正义感著称。在中国文化中，狗象征着忠实、善良和警觉。</p>
+<h3>属狗人的性格特点</h3>
+<p>属狗的人忠诚、可靠且极其值得信赖。他们有强烈的是非观，会为自己相信的事挺身而出。狗是具有同理心的倾听者，真正关心他人的福祉。</p>
+<h3>五行与幸运元素</h3>
+<p>狗在五行中属土。幸运颜色为红色、绿色和紫色。幸运数字是 3、4 和 9。狗的六合生肖是虎、马和兔，而龙被认为是最不配的生肖。</p>
+<h3>属狗人的爱情与人际关系</h3>
+<p>在感情方面，属狗的人 devoted、保护欲强且极其忠诚。他们是那种永远支持你的伴侣。狗最重视信任和真诚，寻找建立在相互尊重和理解基础上的关系。</p>`
+  },
+  pig: {
+    en: `<h2>Pig Chinese Zodiac — Personality, Fortune &amp; Traits</h2>
+<p>The Pig (猪) is the twelfth and final sign of the Chinese zodiac. People born in the Year of the Pig are known for their generosity, diligence, and compassion. In Chinese culture, the Pig symbolizes wealth, prosperity, and good fortune.</p>
+<h3>Pig Personality Traits</h3>
+<p>Pig individuals are generous, honest, and warm-hearted. They enjoy the finer things in life and work hard to provide comfort for themselves and their loved ones. Pigs are optimists who see the best in people and situations, making them wonderful companions.</p>
+<h3>Five Elements &amp; Lucky Elements</h3>
+<p>The Pig is associated with the Water element. Lucky colors include yellow, grey, and brown. Lucky numbers are 2, 5, and 8. The Pig's compatible signs are Rabbit, Tiger, and Goat, while the Snake is considered the least compatible.</p>
+<h3>Pig in Love &amp; Relationships</h3>
+<p>In relationships, Pigs are loving, generous, and deeply committed. They enjoy pampering their partners and creating a comfortable, happy home. Pigs value harmony and will go to great lengths to ensure their loved ones feel cherished.</p>`,
+    zh: `<h2>生肖猪 — 性格、运势与特质详解</h2>
+<p>猪是十二生肖中的第十二位，也是最后一位。属猪的人以慷慨、勤奋和同情心著称。在中国文化中，猪象征着财富、繁荣和好运。</p>
+<h3>属猪人的性格特点</h3>
+<p>属猪的人慷慨、诚实且热心。他们享受生活中的美好事物，努力工作为自己和所爱之人提供舒适。猪是乐观主义者，看到人和情况最好的一面，是极好的伴侣。</p>
+<h3>五行与幸运元素</h3>
+<p>猪在五行中属水。幸运颜色为黄色、灰色和棕色。幸运数字是 2、5 和 8。猪的六合生肖是兔、虎和羊，而蛇被认为是最不配的生肖。</p>
+<h3>属猪人的爱情与人际关系</h3>
+<p>在感情方面，属猪的人 loving、慷慨且 deeply committed。他们喜欢 pampering 伴侣，创造舒适、幸福的家。猪重视和谐，会竭尽全力确保所爱之人感到被珍惜。</p>`
+  }
+};
+
 // ─── 天干 ───
 const TIANGAN = ['甲', '乙', '丙', '丁', '戊', '己', '庚', '辛', '壬', '癸'];
 const TIANGAN_WUXING = ['木', '木', '火', '火', '土', '土', '金', '金', '水', '水'];
@@ -1589,7 +1809,7 @@ function buildDetailHTML(ctx, isEn) {
       </div>
       <div class="detail-layout__right">
         <div class="detail-header">
-          <h1 class="detail-header__name" id="cardName">${isEn ? signNameEn + ' Daily Horoscope — ' + dateEn : signName + '今日运势 — ' + dateZh}</h1>
+          <h1 class="detail-header__name" id="cardName">${isEn ? signNameEn + ' Chinese Zodiac Horoscope' : signName + '生肖运势详解'}</h1>
           <div class="detail-header__score">
             <span class="detail-header__score-num" id="cardScore" style="color:${accent}">${fc.score}</span>
             <span class="detail-header__stars" id="cardStars">${renderStars(fc.score)}</span>
@@ -1623,6 +1843,19 @@ function buildDetailHTML(ctx, isEn) {
 
 ${toolsSection}
 
+    <!-- 生肖百科（Evergreen Content，永远不变，SEO 锚定） -->
+    <section class="zodiac-evergreen" id="evergreenSection">
+      ${isEn ? ZODIAC_EVERGREEN[sign].en : ZODIAC_EVERGREEN[sign].zh}
+    </section>
+
+    <section class="faq-section" id="faqSection">
+      <div class="faq-section__header">
+        <h2 class="faq-section__title">${isEn ? 'Frequently Asked Questions' : '常见问题'}</h2>
+        <p class="faq-section__subtitle">${isEn ? 'Common questions about ' + signNameEn + "'s horoscope today" : '关于' + signName + '今日运势的常见问题'}</p>
+      </div>
+      <div class="faq-list" id="faqList">${faqItems}</div>
+    </section>
+
     ${blogCards ? `
     <section class="blog-links-section" id="blogLinksSection">
       <div class="blog-links-section__header">
@@ -1632,13 +1865,6 @@ ${toolsSection}
       <div class="blog-links-list" id="blogLinksList">${blogCards}</div>
     </section>` : ''}
 
-    <section class="faq-section" id="faqSection">
-      <div class="faq-section__header">
-        <h2 class="faq-section__title">${isEn ? 'Frequently Asked Questions' : '常见问题'}</h2>
-        <p class="faq-section__subtitle">${isEn ? 'Common questions about ' + signNameEn + "'s horoscope today" : '关于' + signName + '今日运势的常见问题'}</p>
-      </div>
-      <div class="faq-list" id="faqList">${faqItems}</div>
-    </section>
   </main>
   <script>
     var shareText = '${isEn ? shareTextEn.replace(/'/g, "\\'") : shareTextZh.replace(/'/g, "\\'")}';
@@ -1679,11 +1905,11 @@ ${toolsSection}
  */
 function buildSeoHead(z, fc, fe, dateStr, dateZh, dateEn, verdictEn, dirEn, colorEn, canonicalPath, alternatePath, isEn) {
   const title = isEn
-    ? `${z.en} Daily Horoscope — ${verdictEn} — DaoEssentia`
-    : `${z.name}今日运势详解 - DaoEssentia`;
+    ? `${z.en} Chinese Zodiac — Personality, Fortune & Traits — DaoEssentia`
+    : `生肖${z.name}运势详解 - 性格、幸运与特质 - DaoEssentia`;
   const firstYiEn = fc.yi.length > 0 ? trYi(fc.yi[0]) : 'various activities';
-  const descEn = `${z.en} horoscope for ${dateEn}: ${verdictEn}, score ${fc.score}/100. Lucky number ${fc.luckyNum}, direction ${dirEn}, color ${colorEn}. Good for ${firstYiEn} and more.`;
-  const descZh = `${z.name}今日运势：${fc.score}分，幸运数字${fc.luckyNum}，幸运方位${fc.direction}，幸运色${fc.colorName}。宜${fc.yi.join('、')}，忌${fc.ji.join('、')}。`;
+  const descEn = `Complete guide to ${z.en} Chinese zodiac. Check daily horoscope, lucky elements, personality traits, and compatibility. Updated daily.`;
+  const descZh = `生肖${z.name}运势详解：综合指南，包含每日运势、幸运元素、性格特点和配对分析。每日更新。`;
   const desc = isEn ? descEn : descZh;
 
   const canonicalUrl = `https://www.daoessentia.com/zodiac/${canonicalPath}`;
