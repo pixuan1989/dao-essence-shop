@@ -889,8 +889,8 @@ function updateDataFile(date, fortunes) {
     // 替换已有数据块
     content = content.replace(match[0], newBlock);
   } else {
-    // 在 "default" 块结束后插入
-    const defaultRegex = /"default":\s*\{/g;
+    // 在 "default" 块结束后插入新日期数据
+    const defaultRegex = /"default"\s*:\s*\{/g;
     const defaultMatch = defaultRegex.exec(content);
     if (defaultMatch) {
       const defaultStart = defaultMatch.index;
@@ -903,11 +903,23 @@ function updateDataFile(date, fortunes) {
           break;
         }
       }
-      // 跳过 default 块后面的逗号和空白
-      while (defaultEnd < content.length && /[,\s]/.test(content[defaultEnd])) {
-        defaultEnd++;
+      // 找到 default 块结束后下一个日期块或注释的起始位置
+      let insertPos = defaultEnd;
+      // 跳过 default 块后的逗号、空白、和可能的注释行
+      while (insertPos < content.length) {
+        const ch = content[insertPos];
+        if (ch === ',' || ch === ' ' || ch === '\n' || ch === '\r' || ch === '\t') {
+          insertPos++;
+        } else if (content[insertPos] === '/' && content[insertPos + 1] === '/') {
+          // 跳过单行注释直到行尾
+          while (insertPos < content.length && content[insertPos] !== '\n') {
+            insertPos++;
+          }
+        } else {
+          break;
+        }
       }
-      content = content.slice(0, defaultEnd) + newBlock + content.slice(defaultEnd);
+      content = content.slice(0, insertPos) + newBlock + content.slice(insertPos);
     }
   }
 
@@ -1236,11 +1248,23 @@ function generateStaticDetailPages(dateStr, fortunesCN, fortunesEN, ganzhi) {
     '涅槃重生。':'Out of the ashes, rise again.',
     '日拱一卒无有尽。':'Every small step forward counts.',
     '功不唐捐终入海。':'Nothing you do is ever truly wasted.',
+    // 节气金句
+    '小满未满，盈而不溢。':'Small gains, not yet full — abundance without overflow.',
   };
   function trYi(tag) { return YIJI_MAP[tag] || tag; }
   function trQuote(q) {
-    // 优先直接匹配；其次去掉末尾的。后再匹配；兜底原样返回
-    return QUOTE_MAP[q] || QUOTE_MAP[q.replace(/。$/, '')] || q;
+    // 1. 精确匹配
+    if (QUOTE_MAP[q]) return QUOTE_MAP[q];
+    // 2. 去掉末尾句号匹配
+    const noPeriod = q.replace(/[。\.]$/, '');
+    if (QUOTE_MAP[noPeriod]) return QUOTE_MAP[noPeriod];
+    // 3. 去掉首尾空白匹配
+    const trimmed = q.trim();
+    if (QUOTE_MAP[trimmed]) return QUOTE_MAP[trimmed];
+    // 4. 节气金句特殊处理（小满等）
+    if (q.includes('小满')) return 'Small gains, not yet full — abundance without overflow.';
+    // 5. 兜底返回原文
+    return q;
   }
 
   // 评分→判定
@@ -1551,7 +1575,7 @@ function buildDetailHTML(ctx, isEn) {
 <body class="detail-page-body">
   <div class="detail-bg"></div>
   <header class="detail-nav">
-    <a class="detail-nav__back" href="zodiac-daily.html" id="backLink">← 返回运势首页</a>
+    <a class="detail-nav__back" href="zodiac-daily.html" id="backLink">${isEn ? '← Back to Horoscope' : '← 返回运势首页'}</a>
     <div class="detail-lang-switch">
       <a href="${sign}.html" style="color:${isEn ? 'rgba(255,255,255,0.5)' : '#D4AF37'};text-decoration:none;font-weight:${isEn ? '400' : '600'};font-size:0.85rem;">中</a>
       <a href="${sign}-en.html" style="color:${isEn ? '#D4AF37' : 'rgba(255,255,255,0.5)'};text-decoration:none;font-weight:${isEn ? '600' : '400'};font-size:0.85rem;margin-left:12px;">EN</a>

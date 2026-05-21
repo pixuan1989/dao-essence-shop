@@ -14,7 +14,6 @@
   <link rel="alternate" hreflang="zh-Hant" href="https://www.daoessentia.com/zodiac/horse">
   <link rel="alternate" hreflang="x-default" href="https://www.daoessentia.com/zodiac/horse-en">
   <link rel="stylesheet" href="css/zodiac-daily.css">
-  <script src="js/zodiac-data.js"></script>
   <script src="../js/tool-share.js"></script>
   <script src="js/share-card.js"></script>
   <script>
@@ -32,127 +31,7 @@
       dog:'linear-gradient(163deg,#1a1400,#2d2000,#403000,#533e00)',
       pig:'linear-gradient(170deg,#0a0a14,#10102a,#1a1a40,#242454)',
     };
-    var ZODIACCOLORS = {
-      rat:'#D4AF37', ox:'#5B8299', tiger:'#B8665E', rabbit:'#5E825E', dragon:'#FFD54F',
-      snake:'#8B5CF6', horse:'#B8665E', goat:'#FFFFFF', monkey:'#00E5FF',
-      rooster:'#C084FC', dog:'#9E8E6E', pig:'#5B8299'
-    };
-    var SIGN_NAMES_EN = {rat:'Rat',ox:'Ox',tiger:'Tiger',rabbit:'Rabbit',dragon:'Dragon',snake:'Snake',horse:'Horse',goat:'Goat',monkey:'Monkey',rooster:'Rooster',dog:'Dog',pig:'Pig'};
-    var SIGN_NAMES_ZH = {rat:'鼠',ox:'牛',tiger:'虎',rabbit:'兔',dragon:'龙',snake:'蛇',horse:'马',goat:'羊',monkey:'猴',rooster:'鸡',dog:'狗',pig:'猪'};
-    var MONTHS_EN = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-    var WEEKDAYS_EN = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-    var WEEKDAYS_ZH = ['周日','周一','周二','周三','周四','周五','周六'];
-    var DIRECTION_EN = {正南:'South',正北:'North',正东:'East',正西:'West',东南:'Southeast',东北:'Northeast',西南:'Southwest',西北:'Northwest'};
-    var COLOR_EN = {红色:'Red',绿色:'Green',蓝色:'Blue',黄色:'Yellow',紫色:'Purple',橙色:'Orange',白色:'White',黑色:'Black',粉色:'Pink',金色:'Gold',银色:'Silver',棕色:'Brown'};
-    var YIJI_MAP = {
-      '出行':'Going Out','搬家':'Move & Rearrange','沐浴':'Refresh Yourself',
-      '开业':'Launch Projects','安葬':'Let Go & Release','栽种':'Plant & Garden',
-      '会友':'Meet Friends','表白':'Express Feelings','交易':'Make Deals',
-      '签约':'Sign Agreements','会亲友':'Gatherings','求财':'Money Opportunities',
-      '祈福':'Receive Blessings','祭祀':'Honor Ancestors','入学':'Start Learning',
-      '纳财':'Accumulate Wealth','安床':'Bedroom Setup','动土':'Construction',
-      '修造':'Renovation','诸事不宜':'All Not Suitable'
-    };
-    function trYi(t) { return YIJI_MAP[t] || t; }
-
-    (function() {
-      var today = new Date();
-      var y = today.getFullYear();
-      var m = String(today.getMonth() + 1).padStart(2, '0');
-      var d = String(today.getDate()).padStart(2, '0');
-      var dateStr = y + '-' + m + '-' + d;
-      var isEn = false;
-      var sign = 'horse';
-      var dayData = getDayData(dateStr);
-      var data = dayData[sign];
-      if (!data) { console.error('No data for', sign, dateStr); return; }
-
-      var display = isEn ? (data.en || data) : (data.cn || data);
-      var accent = ZODIACCOLORS[sign] || '#D4AF37';
-
-      // 背景
-      var bgEl = document.querySelector('.detail-bg');
-      if (bgEl) bgEl.style.background = ZODIAC_BG[sign] || '#0a1628';
-
-      // 日期
-      var dt = new Date(parseInt(y), parseInt(m)-1, parseInt(d));
-      var dateStrDisplay = isEn
-        ? MONTHS_EN[dt.getMonth()] + ' ' + dt.getDate() + ', ' + y + ' · ' + WEEKDAYS_EN[dt.getDay()]
-        : y + '年' + m + '月' + d + '日 · ' + WEEKDAYS_ZH[dt.getDay()];
-      var dbEl = document.getElementById('dateBadge');
-      if (dbEl) dbEl.textContent = dateStrDisplay;
-
-      // 标题
-      var cnEl = document.getElementById('cardName');
-      if (cnEl) cnEl.textContent = isEn ? SIGN_NAMES_EN[sign] : SIGN_NAMES_ZH[sign];
-
-      // 分数 + 星星
-      var scEl = document.getElementById('cardScore');
-      if (scEl) { scEl.textContent = display.score; scEl.style.color = accent; }
-      var stEl = document.getElementById('cardStars');
-      if (stEl) {
-        var stars = Math.round(display.score / 20);
-        stEl.textContent = '★'.repeat(stars) + '☆'.repeat(5-stars);
-      }
-
-      // 关键信息
-      var colorLabel = isEn ? 'Lucky Color' : '幸运色';
-      var numLabel = isEn ? 'Lucky Number' : '幸运数';
-      var dirLabel = isEn ? 'Direction' : '方位';
-      var colorVal = isEn ? (COLOR_EN[display.colorName] || display.colorName) : display.colorName;
-      var dirVal = isEn ? (DIRECTION_EN[display.direction] || display.direction) : display.direction;
-      var infoEl = document.getElementById('infoRow');
-      if (infoEl) infoEl.innerHTML =
-        '<div class="info-chip"><span class="dot" style="background:' + display.color + '"></span>' + colorLabel + ' <strong>' + colorVal + '</strong></div>' +
-        '<div class="info-chip">' + numLabel + ' <strong>' + display.number + '</strong></div>' +
-        '<div class="info-chip">' + dirLabel + ' <strong>' + dirVal + '</strong></div>';
-
-      // 宜忌
-      var yiLabel = isEn ? 'Good for' : '宜';
-      var jiLabel = isEn ? 'Avoid' : '忌';
-      var goodTags = '', badTags = '';
-      (display.yi || []).forEach(function(g) { goodTags += '<span class="y-tag y-tag--good">' + trYi(g) + '</span>'; });
-      (display.ji || []).forEach(function(a) { badTags += '<span class="y-tag y-tag--bad">' + trYi(a) + '</span>'; });
-      var yjEl = document.getElementById('yijiRow');
-      if (yjEl) yjEl.innerHTML =
-        '<div class="yiji-block yiji-block--good"><div class="yiji-block__hdr">' + yiLabel + '</div><div class="yiji-block__tags">' + goodTags + '</div></div>' +
-        '<div class="yiji-block yiji-block--bad"><div class="yiji-block__hdr">' + jiLabel + '</div><div class="yiji-block__tags">' + badTags + '</div></div>';
-
-      // 金句
-      var qtEl = document.getElementById('quoteText');
-      if (qtEl) qtEl.textContent = isEn ? (display.quoteEn || display.quote) : display.quote;
-
-      // SEO 内容
-      var seoTextEl = document.getElementById('seoText');
-      if (seoTextEl) seoTextEl.innerHTML = '<p>' + display.content.replace(/
-/g, '</p><p>') + '</p>';
-      var seoTitleEl = document.getElementById('seoTitle');
-      if (seoTitleEl) seoTitleEl.textContent = (isEn ? SIGN_NAMES_EN[sign] : SIGN_NAMES_ZH[sign]) + ' Daily Horoscope';
-      var signNameEl = document.getElementById('seoSignName');
-      if (signNameEl) signNameEl.textContent = isEn ? SIGN_NAMES_EN[sign] : SIGN_NAMES_ZH[sign];
-
-      // 分享
-      var shareText = isEn
-        ? SIGN_NAMES_EN[sign] + ' Chinese zodiac horoscope: ' + display.score + '/100. Lucky number ' + display.number + ', direction ' + dirVal + ', lucky color ' + colorVal + '.'
-        : SIGN_NAMES_ZH[sign] + '今日运势 ' + display.score + '分 — ' + display.quote;
-      window.addEventListener('DOMContentLoaded', function() {
-        if (window.ToolShare) {
-          window.ToolShare.render('zodiac-share', {
-            label: isEn ? 'Share Your Horoscope' : '分享你的运势',
-            text: shareText,
-            download: { sign: sign, lang: isEn ? 'en' : 'zh', data: { score: display.score, number: display.number, colorName: colorVal, direction: dirVal, quote: display.quote } }
-          });
-        }
-      });
-
-      // 图片路径
-      var imgEl = document.getElementById('cardImg');
-      if (imgEl) { imgEl.src = 'images/' + sign + '.webp'; imgEl.alt = isEn ? SIGN_NAMES_EN[sign] : SIGN_NAMES_ZH[sign]; }
-
-      // 底部导航
-      var backEl = document.getElementById('backLink');
-      if (backEl) backEl.href = isEn ? 'zodiac-daily.html?lang=en' : 'zodiac-daily.html';
-    })();
+    var FORTUNE_DATA = {"sign":"horse","cn":{"score":85,"verdict":"上升","content":"生肖马今日运势挺旺的，85分，像一杯温热的奶茶，甜度刚好、后劲足，做事有冲劲也有分寸。日支未土和你相害又相合，表面看有点拧巴，实际是暗中帮你把关，小波折反而筛掉不靠谱的人和事。\n\n工作上容易遇到贵人提点，尤其下午三点前后，可能突然接到一个电话、一条消息，带来新机会或关键信息。别嫌临时加活麻烦，这次配合度越高，后续资源越稳。要是自己创业或带团队，今天适合定个小目标，比如敲定合作细节、优化一个流程，落地性很强。\n\n感情里有点“欲说还休”的感觉，单身的马儿今天容易被老朋友牵线，对方条件不错但话不多，别急着下判断，多聊两次再看；有伴侣的，晚饭时一起收拾厨房、散个短步，比刻意制造浪漫更暖心。人际上少卷闲话，尤其别接别人吐槽同事的茬。\n\n身体状态整体在线，但午火太旺，容易口干舌燥、眼睛发酸，记得每小时喝几口温水，别硬扛。开车或骑车的朋友，午后两点到四点阳光刺眼，提前调好遮阳板，别戴反光太强的墨镜。\n\n宜：穿浅蓝或米白衣服、约人喝下午茶、处理合同类文书、给绿植浇水  \n忌：熬夜刷手机、跟人争口头输赢、吃太多烧烤油炸、临时改重要行程","yi":["出行","搬家","沐浴"],"ji":["开业","安葬"],"luckyNum":3,"direction":"正西","pair":"未","quote":"小满未满，盈而不溢。","color":"#B8665E","colorName":"红色","blogLinksCN":[{"url":"/zh/blog/feng-shui-headboard-placement-5-rules","title":"風水床頭擺放：5大法則"},{"url":"/zh/blog/five-elements-theory-wu-xing-guide","title":"五行性格測試：你是木、火、土、金還是水？"}],"blogLinksEN":[{"url":"/blog/feng-shui-headboard-placement-5-rules","title":"Feng Shui Bed Headboard Placement: 5 Essential Rules"},{"url":"/blog/five-elements-theory-wu-xing-guide","title":"Five Elements Personality Test: Are You Wood, Fire, Earth, Metal or Water?"}]},"en":{"keywords":null,"verdict":"Rising luck - an excellent day for all endeavors","content":"Chinese zodiac Horse, your Horse fortune today is genuinely strong—85 out of 100. Think of it like a perfectly balanced warm: sweet but not cloying, energizing without the crash. You’ve got drive and clarity in equal measure. That slight inner tension you’re feeling? It’s not confusion—it’s your intuition quietly filtering out what doesn’t serve you.\n\nWork feels unexpectedly supportive today. A helpful person—maybe someone you haven’t spoken to in a while—could reach out around 3 p.m. with useful intel or an opening you didn’t see coming. Even if it feels like extra work, lean in. Your willingness to collaborate now builds real trust and opens doors later. If you’re leading a team or running your own thing, lock in one small, concrete win—like finalizing terms or streamlining a routine task.\n\nRomance has a soft, low-key vibe. Singles might get introduced to someone through a mutual friend—someone steady and grounded, even if they’re quiet at first. Give it space to unfold. For those in relationships, cozy little moments hit hardest: washing dishes together, stepping outside for five minutes after dinner. Skip the grand gestures—authenticity wins today.\n\nYou’re feeling mostly good physically, but watch for afternoon fatigue—dry mouth, tired eyes, that midday mental fog. Sip warm water regularly, not just when you’re parched. If you’re driving or biking between 2–4 p.m., glare is no joke. Adjust your visor early and skip flashy sunglasses—they’ll backfire.\n\nGood to do: wear light blue or cream, meet a friend for tea, sign or review paperwork, water your plants. Better to avoid: late-night scrolling, arguing just to be right, heavy fried meals, or shifting big plans last minute.","score":85,"length":1704,"yi":["出行","搬家","沐浴"],"ji":["开业","安葬"],"quote":"小满未满，盈而不溢。","quoteEn":"Clarity comes not from rushing forward, but from pausing long enough to let the right things rise.","luckyNum":3,"direction":"正西","pair":"未","blogLinksEN":[{"url":"/blog/feng-shui-headboard-placement-5-rules","title":"Feng Shui Bed Headboard Placement: 5 Essential Rules"},{"url":"/blog/five-elements-theory-wu-xing-guide","title":"Five Elements Personality Test: Are You Wood, Fire, Earth, Metal or Water?"}]},"quote":"小满未满，盈而不溢。"};
   </script>
 </head>
 <body class="detail-page-body">
@@ -202,11 +81,11 @@
     </div>
     <article class="seo-content" id="seoContent">
       <h2 id="seoTitle">今日马运势详解</h2>
-      <div id="seoText"><p>生肖马今日运势挺旺的，85分，像一杯温热的奶茶，甜度刚好、后劲十足。今天整体气场往上走，做事有劲头也有贵人暗中托一把，别太谦虚，该接的机会就接住。</p>
-<p>工作上容易遇到临时加码的任务，但别皱眉——恰恰是展现你应变力和执行力的好机会。领导可能突然点名让你牵头一个小项目，或者同事甩来一个棘手问题，你三两下就理出头绪，反而让人刮目相看。记得留个心眼：别替别人扛太多责任，功劳要落得清清楚楚。</p>
-<p>感情上有点“热中带躁”，单身的马今天容易心动，比如在咖啡馆多看了谁一眼，或微信聊天突然聊嗨了，但提醒一句：别急着表白，先看看对方是不是真对你有回应。有伴侣的注意说话别带火药味，尤其别翻旧账，一句“你上次也这样”可能把好气氛烧成灰。</p>
-<p>身体方面，午火旺，容易口干、心浮、眼皮跳，下午三点左右最明显。建议喝点菊花枸杞茶，别硬撑着熬夜，晚上十一点前躺下，手机调成灰度模式。开车或骑车的朋友，今天路感略飘，过路口多等两秒，别抢那几秒钟。</p>
-<p>宜：穿红/橙色衣服提神气，约人谈合作、推进拖延已久的事、整理书桌或办公桌（动一动，运就活了）。  <br>忌：借钱给人、签模糊条款的合同、跟家人争对错、吃太多烧烤油炸。</p></div>
+      <div id="seoText"><p>生肖马今日运势挺旺的，85分，像一杯温热的奶茶，甜度刚好、后劲足，做事有冲劲也有分寸。日支未土和你相害又相合，表面看有点拧巴，实际是暗中帮你把关，小波折反而筛掉不靠谱的人和事。</p>
+<p>工作上容易遇到贵人提点，尤其下午三点前后，可能突然接到一个电话、一条消息，带来新机会或关键信息。别嫌临时加活麻烦，这次配合度越高，后续资源越稳。要是自己创业或带团队，今天适合定个小目标，比如敲定合作细节、优化一个流程，落地性很强。</p>
+<p>感情里有点“欲说还休”的感觉，单身的马儿今天容易被老朋友牵线，对方条件不错但话不多，别急着下判断，多聊两次再看；有伴侣的，晚饭时一起收拾厨房、散个短步，比刻意制造浪漫更暖心。人际上少卷闲话，尤其别接别人吐槽同事的茬。</p>
+<p>身体状态整体在线，但午火太旺，容易口干舌燥、眼睛发酸，记得每小时喝几口温水，别硬扛。开车或骑车的朋友，午后两点到四点阳光刺眼，提前调好遮阳板，别戴反光太强的墨镜。</p>
+<p>宜：穿浅蓝或米白衣服、约人喝下午茶、处理合同类文书、给绿植浇水  <br>忌：熬夜刷手机、跟人争口头输赢、吃太多烧烤油炸、临时改重要行程</p></div>
     </article>
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"马今日运势怎么样？","acceptedAnswer":{"@type":"Answer","text":"生肖马今日运势上升，综合评分 85/100。幸运数字 3，幸运方位 正西，幸运色 红色。宜出行、搬家、沐浴，忌开业、安葬。"}},{"@type":"Question","name":"属马今天适合做什么？","acceptedAnswer":{"@type":"Answer","text":"根据天干地支五行推算，今日生肖马的工作运势受吉星扶助，适合主动出击。建议今日宜出行。"}},{"@type":"Question","name":"马今日财运和感情运势分析","acceptedAnswer":{"@type":"Answer","text":"今日生肖马的整体能量上升，具体运势详见上方详细解读。综合建议：小满未满，盈而不溢。。配合幸运数字 3 和幸运方位 正西 行动，效果更佳。"}}]}</script>
 
@@ -264,7 +143,34 @@
     </section>
   </main>
   <script>
-    // Share config set by dynamic render above
-</script>
+    var shareText = '马今日运势 85分 — 小满未满，盈而不溢。';
+    if (window.ToolShare) {
+      window.ToolShare.render('zodiac-share', {
+        label: '分享你的运势',
+        text: shareText,
+        download: {
+          sign: 'horse',
+          lang: 'zh',
+          data: {score: 85, number: 3, colorName: '红色', direction: '正西', quote: '小满未满，盈而不溢。'}
+        }
+      });
+    }
+    // 背景渐变
+    var bg = ZODIAC_BG['horse'] || ZODIAC_BG.rat;
+    document.querySelector('.detail-bg').style.background = bg;
+    // 防盗图
+    document.addEventListener('contextmenu', function(e) {
+      if (e.target.tagName === 'IMG') { e.preventDefault(); return false; }
+    });
+    document.addEventListener('dragstart', function(e) {
+      if (e.target.tagName === 'IMG') { e.preventDefault(); return false; }
+    });
+    document.addEventListener('touchstart', function(e) {
+      if (e.target.tagName === 'IMG' && e.touches.length === 1) {
+        var t = e.target; t.style.pointerEvents = 'none';
+        setTimeout(function() { t.style.pointerEvents = ''; }, 500);
+      }
+    }, { passive: true });
+  </script>
 </body>
 </html>

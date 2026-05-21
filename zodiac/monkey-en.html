@@ -14,7 +14,6 @@
   <link rel="alternate" hreflang="zh-Hant" href="https://www.daoessentia.com/zodiac/monkey">
   <link rel="alternate" hreflang="x-default" href="https://www.daoessentia.com/zodiac/monkey-en">
   <link rel="stylesheet" href="css/zodiac-daily.css">
-  <script src="js/zodiac-data.js"></script>
   <script src="../js/tool-share.js"></script>
   <script src="js/share-card.js"></script>
   <script>
@@ -32,133 +31,13 @@
       dog:'linear-gradient(163deg,#1a1400,#2d2000,#403000,#533e00)',
       pig:'linear-gradient(170deg,#0a0a14,#10102a,#1a1a40,#242454)',
     };
-    var ZODIACCOLORS = {
-      rat:'#D4AF37', ox:'#5B8299', tiger:'#B8665E', rabbit:'#5E825E', dragon:'#FFD54F',
-      snake:'#8B5CF6', horse:'#B8665E', goat:'#FFFFFF', monkey:'#00E5FF',
-      rooster:'#C084FC', dog:'#9E8E6E', pig:'#5B8299'
-    };
-    var SIGN_NAMES_EN = {rat:'Rat',ox:'Ox',tiger:'Tiger',rabbit:'Rabbit',dragon:'Dragon',snake:'Snake',horse:'Horse',goat:'Goat',monkey:'Monkey',rooster:'Rooster',dog:'Dog',pig:'Pig'};
-    var SIGN_NAMES_ZH = {rat:'鼠',ox:'牛',tiger:'虎',rabbit:'兔',dragon:'龙',snake:'蛇',horse:'马',goat:'羊',monkey:'猴',rooster:'鸡',dog:'狗',pig:'猪'};
-    var MONTHS_EN = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-    var WEEKDAYS_EN = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-    var WEEKDAYS_ZH = ['周日','周一','周二','周三','周四','周五','周六'];
-    var DIRECTION_EN = {正南:'South',正北:'North',正东:'East',正西:'West',东南:'Southeast',东北:'Northeast',西南:'Southwest',西北:'Northwest'};
-    var COLOR_EN = {红色:'Red',绿色:'Green',蓝色:'Blue',黄色:'Yellow',紫色:'Purple',橙色:'Orange',白色:'White',黑色:'Black',粉色:'Pink',金色:'Gold',银色:'Silver',棕色:'Brown'};
-    var YIJI_MAP = {
-      '出行':'Going Out','搬家':'Move & Rearrange','沐浴':'Refresh Yourself',
-      '开业':'Launch Projects','安葬':'Let Go & Release','栽种':'Plant & Garden',
-      '会友':'Meet Friends','表白':'Express Feelings','交易':'Make Deals',
-      '签约':'Sign Agreements','会亲友':'Gatherings','求财':'Money Opportunities',
-      '祈福':'Receive Blessings','祭祀':'Honor Ancestors','入学':'Start Learning',
-      '纳财':'Accumulate Wealth','安床':'Bedroom Setup','动土':'Construction',
-      '修造':'Renovation','诸事不宜':'All Not Suitable'
-    };
-    function trYi(t) { return YIJI_MAP[t] || t; }
-
-    (function() {
-      var today = new Date();
-      var y = today.getFullYear();
-      var m = String(today.getMonth() + 1).padStart(2, '0');
-      var d = String(today.getDate()).padStart(2, '0');
-      var dateStr = y + '-' + m + '-' + d;
-      var isEn = true;
-      var sign = 'monkey';
-      var dayData = getDayData(dateStr);
-      var data = dayData[sign];
-      if (!data) { console.error('No data for', sign, dateStr); return; }
-
-      var display = isEn ? (data.en || data) : (data.cn || data);
-      var accent = ZODIACCOLORS[sign] || '#D4AF37';
-
-      // 背景
-      var bgEl = document.querySelector('.detail-bg');
-      if (bgEl) bgEl.style.background = ZODIAC_BG[sign] || '#0a1628';
-
-      // 日期
-      var dt = new Date(parseInt(y), parseInt(m)-1, parseInt(d));
-      var dateStrDisplay = isEn
-        ? MONTHS_EN[dt.getMonth()] + ' ' + dt.getDate() + ', ' + y + ' · ' + WEEKDAYS_EN[dt.getDay()]
-        : y + '年' + m + '月' + d + '日 · ' + WEEKDAYS_ZH[dt.getDay()];
-      var dbEl = document.getElementById('dateBadge');
-      if (dbEl) dbEl.textContent = dateStrDisplay;
-
-      // 标题
-      var cnEl = document.getElementById('cardName');
-      if (cnEl) cnEl.textContent = isEn ? SIGN_NAMES_EN[sign] : SIGN_NAMES_ZH[sign];
-
-      // 分数 + 星星
-      var scEl = document.getElementById('cardScore');
-      if (scEl) { scEl.textContent = display.score; scEl.style.color = accent; }
-      var stEl = document.getElementById('cardStars');
-      if (stEl) {
-        var stars = Math.round(display.score / 20);
-        stEl.textContent = '★'.repeat(stars) + '☆'.repeat(5-stars);
-      }
-
-      // 关键信息
-      var colorLabel = isEn ? 'Lucky Color' : '幸运色';
-      var numLabel = isEn ? 'Lucky Number' : '幸运数';
-      var dirLabel = isEn ? 'Direction' : '方位';
-      var colorVal = isEn ? (COLOR_EN[display.colorName] || display.colorName) : display.colorName;
-      var dirVal = isEn ? (DIRECTION_EN[display.direction] || display.direction) : display.direction;
-      var infoEl = document.getElementById('infoRow');
-      if (infoEl) infoEl.innerHTML =
-        '<div class="info-chip"><span class="dot" style="background:' + display.color + '"></span>' + colorLabel + ' <strong>' + colorVal + '</strong></div>' +
-        '<div class="info-chip">' + numLabel + ' <strong>' + display.number + '</strong></div>' +
-        '<div class="info-chip">' + dirLabel + ' <strong>' + dirVal + '</strong></div>';
-
-      // 宜忌
-      var yiLabel = isEn ? 'Good for' : '宜';
-      var jiLabel = isEn ? 'Avoid' : '忌';
-      var goodTags = '', badTags = '';
-      (display.yi || []).forEach(function(g) { goodTags += '<span class="y-tag y-tag--good">' + trYi(g) + '</span>'; });
-      (display.ji || []).forEach(function(a) { badTags += '<span class="y-tag y-tag--bad">' + trYi(a) + '</span>'; });
-      var yjEl = document.getElementById('yijiRow');
-      if (yjEl) yjEl.innerHTML =
-        '<div class="yiji-block yiji-block--good"><div class="yiji-block__hdr">' + yiLabel + '</div><div class="yiji-block__tags">' + goodTags + '</div></div>' +
-        '<div class="yiji-block yiji-block--bad"><div class="yiji-block__hdr">' + jiLabel + '</div><div class="yiji-block__tags">' + badTags + '</div></div>';
-
-      // 金句
-      var qtEl = document.getElementById('quoteText');
-      if (qtEl) qtEl.textContent = isEn ? (display.quoteEn || display.quote) : display.quote;
-
-      // SEO 内容
-      var seoTextEl = document.getElementById('seoText');
-      if (seoTextEl) seoTextEl.innerHTML = '<p>' + display.content.replace(/
-/g, '</p><p>') + '</p>';
-      var seoTitleEl = document.getElementById('seoTitle');
-      if (seoTitleEl) seoTitleEl.textContent = (isEn ? SIGN_NAMES_EN[sign] : SIGN_NAMES_ZH[sign]) + ' Daily Horoscope';
-      var signNameEl = document.getElementById('seoSignName');
-      if (signNameEl) signNameEl.textContent = isEn ? SIGN_NAMES_EN[sign] : SIGN_NAMES_ZH[sign];
-
-      // 分享
-      var shareText = isEn
-        ? SIGN_NAMES_EN[sign] + ' Chinese zodiac horoscope: ' + display.score + '/100. Lucky number ' + display.number + ', direction ' + dirVal + ', lucky color ' + colorVal + '.'
-        : SIGN_NAMES_ZH[sign] + '今日运势 ' + display.score + '分 — ' + display.quote;
-      window.addEventListener('DOMContentLoaded', function() {
-        if (window.ToolShare) {
-          window.ToolShare.render('zodiac-share', {
-            label: isEn ? 'Share Your Horoscope' : '分享你的运势',
-            text: shareText,
-            download: { sign: sign, lang: isEn ? 'en' : 'zh', data: { score: display.score, number: display.number, colorName: colorVal, direction: dirVal, quote: display.quote } }
-          });
-        }
-      });
-
-      // 图片路径
-      var imgEl = document.getElementById('cardImg');
-      if (imgEl) { imgEl.src = 'images/' + sign + '.webp'; imgEl.alt = isEn ? SIGN_NAMES_EN[sign] : SIGN_NAMES_ZH[sign]; }
-
-      // 底部导航
-      var backEl = document.getElementById('backLink');
-      if (backEl) backEl.href = isEn ? 'zodiac-daily.html?lang=en' : 'zodiac-daily.html';
-    })();
+    var FORTUNE_DATA = {"sign":"monkey","cn":{"score":70,"verdict":"一般","content":"生肖猴今日运势一般，70分，像一杯温吞的茶——不烫嘴也不解渴。申金遇上未土，表面看着是六合，实则暗中较劲，容易有“答应了又想反悔”“计划好了又临时变卦”的感觉，别硬撑，该放就放。\n\n工作上容易遇到反复修改、来回拉扯的事，比如方案被推翻重来、客户临时改需求、合作方沟通不畅。别急着争对错，先稳住情绪，把能定下的细节尽快敲死，剩下的留到明天再掰扯。今天不适合签重要合同或做重大决定。\n\n感情里有点“想靠近又怕受伤”的拧巴劲儿，单身的猴可能遇到让你心动的人，但对方态度模糊，别急着表白；有伴的容易为小事较真，比如一句玩笑话听出弦外之音，或翻旧账翻出火气。多笑笑，少分析，今晚一起煮顿饭比聊三小时更管用。\n\n身体上注意喉咙干痒、眼睛发涩，空调房待久了容易鼻塞，出门记得带薄外套和润喉糖。开车或骑车时特别留神，今天反应略慢半拍，过马路别低头刷手机。\n\n宜：整理旧物、修剪指甲、喝温蜂蜜水、戴银饰、发条轻松朋友圈  \n忌：借钱给人、冲动下单、跟人抬杠、熬夜、吃太辣或太冰的东西","yi":["出行","搬家","沐浴"],"ji":["开业","安葬"],"luckyNum":4,"direction":"正西","pair":"巳","quote":"小满未满，盈而不溢。","color":"#D4AF37","colorName":"金色","blogLinksCN":[{"url":"/zh/blog/five-elements-theory-wu-xing-guide","title":"五行性格測試：你是木、火、土、金還是水？"},{"url":"/zh/blog/feng-shui-home-office-7-rules","title":"居家辦公風水：7條實用規則"}],"blogLinksEN":[{"url":"/blog/five-elements-theory-wu-xing-guide","title":"Five Elements Personality Test: Are You Wood, Fire, Earth, Metal or Water?"},{"url":"/blog/feng-shui-home-office-7-rules","title":"Feng Shui Home Office: 7 Rules"}]},"en":{"keywords":null,"verdict":"Balanced day - steady progress without major fluctuations","content":"Chinese zodiac Monkey, your daily horoscope today lands at a solid 70 — think of it as lukewarm tea: comforting enough, but not exactly energizing. There’s a quiet tension beneath the surface, like things are lined up neatly but don’t quite click. You might catch yourself agreeing to something then second-guessing it five minutes later. That’s not indecisiveness — it’s your intuition nudging you to pause and reset. Trust that feeling instead of pushing through.\n\nWork feels like wading through soft mud — everything moves slower than expected. A proposal gets revised twice before lunch, a client changes their mind mid-call, or a teammate misreads your message and replies with three paragraphs of confusion. Don’t waste energy defending your original idea. Just lock in what’s concrete, write it down, and let the rest wait until tomorrow. Today isn’t for big wins — it’s for damage control and gentle course correction.\n\nRomance has a little push-pull rhythm going on. If you’re single, someone might catch your eye — charming, interesting, maybe even flirty — but their signals are faint or inconsistent. Hold off on diving in; curiosity is fine, commitment isn’t urgent. If you’re in a relationship, tiny things can spark disproportionate reactions: a throwaway comment reads like criticism, or an old disagreement suddenly feels fresh again. Skip the deep analysis tonight. Cook together, share dessert, laugh at something silly — connection doesn’t need a thesis.\n\nYour body’s asking for gentle care. Throat feels scratchy, eyes tired, nose stuffy if you’ve been under AC all day. Keep a light sweater handy and sip warm honey water instead of coffee. And seriously — slow down on the road. Your reflexes aren’t as sharp, so put the phone away when crossing streets or driving. A little extra space and attention goes a long way.\n\nGood to do: clear out a drawer, trim your nails, wear silver jewelry, post something lighthearted online, soothe your throat with warm tea. \nBetter to avoid: lending money, clicking “buy now,” arguing just to be right, staying up past midnight, or eating anything that’s extremely spicy or icy cold.","score":70,"length":2141,"yi":["Going Out","Move & Rearrange","Refresh Yourself"],"ji":["Launch Projects","Let Go & Release"],"quote":"Small gains, not yet full — abundance without overflow.","quoteEn":"Let go where you cannot hold, and trust the warmth that remains","luckyNum":4,"direction":"正西","pair":"巳","blogLinksEN":[{"url":"/blog/five-elements-theory-wu-xing-guide","title":"Five Elements Personality Test: Are You Wood, Fire, Earth, Metal or Water?"},{"url":"/blog/feng-shui-home-office-7-rules","title":"Feng Shui Home Office: 7 Rules"}]},"quote":"小满未满，盈而不溢。"};
   </script>
 </head>
 <body class="detail-page-body">
   <div class="detail-bg"></div>
   <header class="detail-nav">
-    <a class="detail-nav__back" href="zodiac-daily.html" id="backLink">← 返回运势首页</a>
+    <a class="detail-nav__back" href="zodiac-daily.html" id="backLink">← Back to Horoscope</a>
     <div class="detail-lang-switch">
       <a href="monkey.html" style="color:rgba(255,255,255,0.5);text-decoration:none;font-weight:400;font-size:0.85rem;">中</a>
       <a href="monkey-en.html" style="color:#D4AF37;text-decoration:none;font-weight:600;font-size:0.85rem;margin-left:12px;">EN</a>
@@ -191,7 +70,7 @@
           <div class="yiji-block yiji-block--good"><div class="yiji-block__hdr">Good for</div><div class="yiji-block__tags"><span class="y-tag y-tag--good">Going Out</span><span class="y-tag y-tag--good">Move & Rearrange</span><span class="y-tag y-tag--good">Refresh Yourself</span></div></div>
           <div class="yiji-block yiji-block--bad"><div class="yiji-block__hdr">Avoid</div><div class="yiji-block__tags"><span class="y-tag y-tag--bad">Launch Projects</span><span class="y-tag y-tag--bad">Let Go & Release</span></div></div>
         </div>
-        <blockquote class="detail-quote"><p id="quoteText">小满未满，盈而不溢。</p></blockquote>
+        <blockquote class="detail-quote"><p id="quoteText">Small gains, not yet full — abundance without overflow.</p></blockquote>
       </div>
     </div>
     <div id="zodiac-share"></div>
@@ -202,13 +81,13 @@
     </div>
     <article class="seo-content" id="seoContent">
       <h2 id="seoTitle">Monkey Daily Horoscope — Stable energy</h2>
-      <div id="seoText"><p>Chinese zodiac Monkey, your daily horoscope today lands around 70 points — think of it like a cup of tea that’s neither too hot nor too cold. Nothing dramatic is brewing, but nothing’s going sideways either. You might feel stuck in the middle: not quite energized to dive in, not quite ready to fully unplug. That’s okay. Let go of the pressure to push or perform. Just breathe and stay gently present.</p>
-<p>Work feels a little slippery today — expect last-minute tweaks, repeated clarifications, or small miscommunications, especially with teammates or bosses. It’s not about anyone being careless; it’s just one of those days where words don’t quite stick on first pass. If something matters, say it out loud and follow up with a quick text or message. A little extra clarity now saves big headaches later.</p>
-<p>Love energy is quiet today. If you’re single, don’t read too much into a canceled plan or a slow reply — it’s not about you, and real connection won’t hinge on today’s timing. If you’re in a relationship, ease up on the “I’m just checking” energy. Avoid snooping, over-questioning, or turning light comments into heavy conversations. Give space, and trust that warmth grows when it’s not forced.</p>
-<p>You might feel sluggish by mid-afternoon, with tired eyes and a foggy head. Skip the third espresso — instead, step away for two minutes, stretch, and look out a window. If you’re driving or biking, stay extra aware at intersections. A half-second pause could make all the difference. Your body’s asking for gentle care, not caffeine or willpower.</p>
-<h3>Good to do today</h3><p>tidy a drawer, reply to old messages, bake something simple, or fold laundry while listening to music. Better to avoid: signing anything binding, buying on impulse, arguing to “win,” or scrolling late into the night. Be soft, be patient, be quietly observant — that’s how good things find you today.</p></div>
+      <div id="seoText"><p>Chinese zodiac Monkey, your daily horoscope today lands at a solid 70 — think of it as lukewarm tea: comforting enough, but not exactly energizing. There’s a quiet tension beneath the surface, like things are lined up neatly but don’t quite click. You might catch yourself agreeing to something then second-guessing it five minutes later. That’s not indecisiveness — it’s your intuition nudging you to pause and reset. Trust that feeling instead of pushing through.</p>
+<p>Work feels like wading through soft mud — everything moves slower than expected. A proposal gets revised twice before lunch, a client changes their mind mid-call, or a teammate misreads your message and replies with three paragraphs of confusion. Don’t waste energy defending your original idea. Just lock in what’s concrete, write it down, and let the rest wait until tomorrow. Today isn’t for big wins — it’s for damage control and gentle course correction.</p>
+<p>Romance has a little push-pull rhythm going on. If you’re single, someone might catch your eye — charming, interesting, maybe even flirty — but their signals are faint or inconsistent. Hold off on diving in; curiosity is fine, commitment isn’t urgent. If you’re in a relationship, tiny things can spark disproportionate reactions: a throwaway comment reads like criticism, or an old disagreement suddenly feels fresh again. Skip the deep analysis tonight. Cook together, share dessert, laugh at something silly — connection doesn’t need a thesis.</p>
+<p>Your body’s asking for gentle care. Throat feels scratchy, eyes tired, nose stuffy if you’ve been under AC all day. Keep a light sweater handy and sip warm honey water instead of coffee. And seriously — slow down on the road. Your reflexes aren’t as sharp, so put the phone away when crossing streets or driving. A little extra space and attention goes a long way.</p>
+<h3>Good to do</h3><p>clear out a drawer, trim your nails, wear silver jewelry, post something lighthearted online, soothe your throat with warm tea. Better to avoid: lending money, clicking “buy now,” arguing just to be right, staying up past midnight, or eating anything that’s extremely spicy or icy cold.</p></div>
     </article>
-    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is the Chinese zodiac horoscope for Monkey today?","acceptedAnswer":{"@type":"Answer","text":"Monkey's horoscope today shows stable energy, with an overall score of 70/100. Lucky number: 4, direction: West, lucky color: Gold. Good for Going Out, Move & Rearrange, Refresh Yourself, avoid Launch Projects, Let Go & Release."}},{"@type":"Question","name":"Is today a good day for Monkey in career and work?","acceptedAnswer":{"@type":"Answer","text":"Based on the Chinese zodiac analysis, Monkey's work energy today is steady—follow your plan. Best approach: Going Out is favored."}},{"@type":"Question","name":"What should Monkey avoid today according to Chinese astrology?","acceptedAnswer":{"@type":"Answer","text":"Overall energy for Monkey today is stable energy. Key advice: \"小满未满，盈而不溢。\". Lucky number 4 and direction West can enhance your day. Avoid: Launch Projects, Let Go & Release."}}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is the Chinese zodiac horoscope for Monkey today?","acceptedAnswer":{"@type":"Answer","text":"Monkey's horoscope today shows stable energy, with an overall score of 70/100. Lucky number: 4, direction: West, lucky color: Gold. Good for Going Out, Move & Rearrange, Refresh Yourself, avoid Launch Projects, Let Go & Release."}},{"@type":"Question","name":"Is today a good day for Monkey in career and work?","acceptedAnswer":{"@type":"Answer","text":"Based on the Chinese zodiac analysis, Monkey's work energy today is steady—follow your plan. Best approach: Going Out is favored."}},{"@type":"Question","name":"What should Monkey avoid today according to Chinese astrology?","acceptedAnswer":{"@type":"Answer","text":"Overall energy for Monkey today is stable energy. Key advice: \"Small gains, not yet full — abundance without overflow.\". Lucky number 4 and direction West can enhance your day. Avoid: Launch Projects, Let Go & Release."}}]}</script>
 
         <section class="tools-section">      <div class="tools-section__header">        <span class="tools-section__label">CHECK YOUR LOVE MATCH</span>        <div class="tools-section__divider"></div>      </div>      <div class="tools-grid pair-grid">        <div class="pair-row"><div class="pair-col"><div class="pair-group__label">BEST MATCHES</div><div class="pair-col__cards"><div class="pair-card pair-good"><span class="pair-card__name">Rat</span><span class="pair-card__score">86%</span></div><div class="pair-card pair-good"><span class="pair-card__name">Dragon</span><span class="pair-card__score">85%</span></div><div class="pair-card pair-good"><span class="pair-card__name">Snake</span><span class="pair-card__score">83%</span></div></div></div><div class="pair-col"><div class="pair-group__label">PROCEED WITH CAUTION</div><div class="pair-col__cards"><div class="pair-card pair-bad"><span class="pair-card__name">Tiger</span><span class="pair-card__score">30%</span></div><div class="pair-card pair-bad"><span class="pair-card__name">Pig</span><span class="pair-card__score">34%</span></div></div></div></div>      </div>    </section>
 
@@ -260,11 +139,38 @@
         <h2 class="faq-section__title">Frequently Asked Questions</h2>
         <p class="faq-section__subtitle">Common questions about Monkey's horoscope today</p>
       </div>
-      <div class="faq-list" id="faqList"><details class="faq-item"><summary class="faq-item__q">What is the Chinese zodiac horoscope for Monkey today?</summary><div class="faq-item__a">Monkey's horoscope today shows stable energy, with an overall score of 70/100. Lucky number: 4, direction: West, lucky color: Gold. Good for Going Out, Move & Rearrange, Refresh Yourself, avoid Launch Projects, Let Go & Release.</div></details><details class="faq-item"><summary class="faq-item__q">Is today a good day for Monkey in career and work?</summary><div class="faq-item__a">Based on the Chinese zodiac analysis, Monkey's work energy today is steady—follow your plan. Best approach: Going Out is favored.</div></details><details class="faq-item"><summary class="faq-item__q">What should Monkey avoid today according to Chinese astrology?</summary><div class="faq-item__a">Overall energy for Monkey today is stable energy. Key advice: "小满未满，盈而不溢。". Lucky number 4 and direction West can enhance your day. Avoid: Launch Projects, Let Go & Release.</div></details></div>
+      <div class="faq-list" id="faqList"><details class="faq-item"><summary class="faq-item__q">What is the Chinese zodiac horoscope for Monkey today?</summary><div class="faq-item__a">Monkey's horoscope today shows stable energy, with an overall score of 70/100. Lucky number: 4, direction: West, lucky color: Gold. Good for Going Out, Move & Rearrange, Refresh Yourself, avoid Launch Projects, Let Go & Release.</div></details><details class="faq-item"><summary class="faq-item__q">Is today a good day for Monkey in career and work?</summary><div class="faq-item__a">Based on the Chinese zodiac analysis, Monkey's work energy today is steady—follow your plan. Best approach: Going Out is favored.</div></details><details class="faq-item"><summary class="faq-item__q">What should Monkey avoid today according to Chinese astrology?</summary><div class="faq-item__a">Overall energy for Monkey today is stable energy. Key advice: "Small gains, not yet full — abundance without overflow.". Lucky number 4 and direction West can enhance your day. Avoid: Launch Projects, Let Go & Release.</div></details></div>
     </section>
   </main>
   <script>
-    // Share config set by dynamic render above
-</script>
+    var shareText = 'Monkey Chinese zodiac horoscope: 70/100. Lucky number 4, direction West, lucky color Gold. Good for Going Out, Move & Rearrange, Refresh Yourself. Avoid Launch Projects, Let Go & Release.';
+    if (window.ToolShare) {
+      window.ToolShare.render('zodiac-share', {
+        label: 'Share Your Horoscope',
+        text: shareText,
+        download: {
+          sign: 'monkey',
+          lang: 'en',
+          data: {score: 70, number: 4, colorName: '金色', direction: '正西', quote: '小满未满，盈而不溢。'}
+        }
+      });
+    }
+    // 背景渐变
+    var bg = ZODIAC_BG['monkey'] || ZODIAC_BG.rat;
+    document.querySelector('.detail-bg').style.background = bg;
+    // 防盗图
+    document.addEventListener('contextmenu', function(e) {
+      if (e.target.tagName === 'IMG') { e.preventDefault(); return false; }
+    });
+    document.addEventListener('dragstart', function(e) {
+      if (e.target.tagName === 'IMG') { e.preventDefault(); return false; }
+    });
+    document.addEventListener('touchstart', function(e) {
+      if (e.target.tagName === 'IMG' && e.touches.length === 1) {
+        var t = e.target; t.style.pointerEvents = 'none';
+        setTimeout(function() { t.style.pointerEvents = ''; }, 500);
+      }
+    }, { passive: true });
+  </script>
 </body>
 </html>
