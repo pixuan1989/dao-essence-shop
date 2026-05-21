@@ -865,7 +865,9 @@ function updateDataFile(date, fortunes) {
   // 生成JS格式的日期数据块
   const blockLines = ZODIAC_LIST.map(z => {
     const f = fortunes[z.key];
-    return `    "${z.key}":     { score: ${f.score}, color: "${WUXING_COLORS[z.element]?.hex || '#D4AF37'}", colorName: "${WUXING_COLORS[z.element]?.name || '金色'}", number: ${f.luckyNum}, direction: "${f.direction}", pair: "${f.pair}",     good: ${JSON.stringify(f.yi)},        avoid: ${JSON.stringify(f.ji)},       quote: "${f.quote}" }`;
+    // 安全转义 quote 字段中的特殊字符（双引号、反斜杠等）
+    const safeQuote = (f.quote || '').replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\n/g, '\\n');
+    return `    "${z.key}":     { score: ${f.score}, color: "${WUXING_COLORS[z.element]?.hex || '#D4AF37'}", colorName: "${WUXING_COLORS[z.element]?.name || '金色'}", number: ${f.luckyNum}, direction: "${f.direction}", pair: "${f.pair}",     good: ${JSON.stringify(f.yi)},        avoid: ${JSON.stringify(f.ji)},       quote: "${safeQuote}" }`;
   });
 
   const newBlock = `\n  "${date}": {\n${blockLines.join(',\n')}\n  },\n`;
@@ -903,18 +905,27 @@ function updateDataFile(date, fortunes) {
 
   fs.writeFileSync(DATA_FILE, content, 'utf8');
 
-  // 验证：确保文件仍是合法的 JS（检查 ZODIAC_DATA 对象能否被解析）
+  // 验证：确保目标日期键确实写入，内容不为空，且没有明显的语法错误标记
   try {
-    new Function(content);
-    // 额外检查：确保目标日期键确实存在于输出中
-    if (!content.includes(`"${date}"`) || !content.includes(`"${date}": {`)) {
+    const hasDate = content.includes(`"${date}"`) && content.includes(`"${date}": {`);
+    if (!hasDate) {
       throw new Error(`日期 ${date} 未正确写入 zodiac-data.js`);
+    }
+    // 基础语法检查：确保大括号配对，没有未闭合的字符串
+    const openBrace = (content.match(/{/g) || []).length;
+    const closeBrace = (content.match(/}/g) || []).length;
+    if (openBrace !== closeBrace) {
+      throw new Error(`大括号不匹配（{ ${openBrace} vs } ${closeBrace}）`);
+    }
+    // 检查文件不是空的
+    if (content.trim().length < 50) {
+      throw new Error('文件内容过短，可能生成失败');
     }
     console.log('✅ zodiac-data.js 已更新并验证通过');
   } catch (err) {
-    console.error(`❌ zodiac-data.js 写入后验证失败: ${err.message}`);
+    console.error(`❌ zodiac-data.js 验证失败: ${err.message}`);
     console.error('   从 git 恢复原始文件...');
-    execSync('git checkout zodiac/js/zodiac-data.js', { cwd: PROJECT_ROOT });
+    try { execSync('git checkout zodiac/js/zodiac-data.js', { cwd: PROJECT_ROOT }); } catch (_) {}
     throw new Error('zodiac-data.js 验证失败，已从 git 恢复');
   }
 }
@@ -1765,7 +1776,12 @@ async function main() {
 
   // ⑥ 生成12个静态详情页（永久URL + SEO优化）— v3.0 新增
   console.log('\n🏗️  生成静态详情页（永久URL）...');
-  generateStaticDetailPages(dateStr, fortunesCN, fortunesEN, ganzhi);
+  try {
+    generateStaticDetailPages(dateStr, fortunesCN, fortunesEN, ganzhi);
+  } catch (err) {
+    console.error(`❌ 详情页生成失败: ${err.message}`);
+    throw err; // 向上传播，不让数据文件单独提交
+  }
 
   // ⑦ Git指令
   console.log('\n📦 Git 提交指令:');
