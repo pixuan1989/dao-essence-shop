@@ -338,6 +338,7 @@
         '功不唐捐终入海。':'Nothing you do is ever truly wasted.',
       };
       function trYi(tag) { return isEn ? (YIJI_MAP[tag] || tag) : tag; }
+      function renderStars(score) { var n = Math.round(score / 20); return '★'.repeat(n) + '☆'.repeat(5 - n); }
       function trQuote(q) { return isEn ? (QUOTE_MAP[q] || q) : q; }
 
       // 运势判定（根据分数）

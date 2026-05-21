@@ -31,6 +31,7 @@ var ZODIAC_DATA = {
   },
 
   "d
+
   "2026-05-21": {
     "rat":     { score: 70, color: "#5B8299", colorName: "蓝色", number: 1, direction: "正西", pair: "丑",     good: ["出行","搬家","沐浴"],        avoid: ["开业","安葬"],       quote: "小满未满，盈而不溢。" },
     "ox":     { score: 55, color: "#9E8E6E", colorName: "棕色", number: 9, direction: "正西", pair: "子",     good: ["出行","搬家","沐浴"],        avoid: ["开业","安葬"],       quote: "小满未满，盈而不溢。" },
@@ -45,6 +46,7 @@ var ZODIAC_DATA = {
     "dog":     { score: 70, color: "#9E8E6E", colorName: "棕色", number: 1, direction: "正西", pair: "卯",     good: ["出行","搬家","沐浴"],        avoid: ["开业","安葬"],       quote: "小满未满，盈而不溢。" },
     "pig":     { score: 90, color: "#5B8299", colorName: "蓝色", number: 1, direction: "正西", pair: "寅",     good: ["出行","搬家","沐浴"],        avoid: ["开业","安葬"],       quote: "小满未满，盈而不溢。" }
   },
+
 efault": {
     "rat":     { score: 78, color: "#D4AF37", colorName: "金色", number: 7, direction: "东北", pair: "龙",     good: ["祈福", "祭祀"],        avoid: ["开业", "搬家"],       quote: "静待时机，贵人暗助。" },
     "ox":      { score: 72, color: "#5B8299", colorName: "蓝色", number: 3, direction: "西南", pair: "蛇",     good: ["出行", "会友"],        avoid: ["动土", "安葬"],       quote: "稳中求进，忌急躁。" },
