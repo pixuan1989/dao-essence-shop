@@ -6,8 +6,9 @@
  * 工作流:
  *   1. 读取 .env.local 加载 DASHSCOPE_API_KEY
  *   2. 运行 generate-daily.js 生成运势
- *   3. 运行 build-blog.js 重建博客页（可选，失败不阻断）
- *   4. git add + git commit + git push（全自动部署）
+ *   3. 更新聚合页版本号（缓存防刷）
+ *   4. 运行 build-blog.js 重建博客页（可选，失败不阻断）
+ *   5. git add + git commit + git push（全自动部署）
  */
 
 import { execSync } from 'child_process';
@@ -36,9 +37,12 @@ const DATE = process.argv[2] || new Date().toLocaleDateString('en-CA', { timeZon
 const PROJECT_ROOT = path.join(__dirname, '..');
 const GENERATE_SCRIPT = path.join(__dirname, 'generate-daily.js');
 
+// 缓存 bust 版本：YYYYMMDD 格式
+const CACHE_VERSION = DATE.replace(/-/g, '');
+
 // ─── 1. 生成运势 ───────────────────────────────────────────
 console.log(`\n [${new Date().toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' })}] 启动每日运势生成`);
-console.log(` 生成日期: ${DATE}\n`);
+console.log(` 生成日期: ${DATE}  缓存版本: ${CACHE_VERSION}\n`);
 
 try {
   console.log('--- 运行 generate-daily.js ---');
@@ -51,14 +55,32 @@ try {
   process.exit(1);
 }
 
-// ─── 2. Build + Git 提交 + Push（全自动部署） ──────────────
+// ─── 2. 缓存防刷：更新聚合页版本号 ─────────────────────────
+const AGG_PAGE = path.join(PROJECT_ROOT, 'zodiac', 'zodiac-daily.html');
+if (fs.existsSync(AGG_PAGE)) {
+  let html = fs.readFileSync(AGG_PAGE, 'utf8');
+  const updated = html.replace(
+    /(<script src="js\/zodiac-data\.js)(\?v=\d+)?(">)/,
+    `$1?v=${CACHE_VERSION}$3`
+  );
+  if (updated !== html) {
+    fs.writeFileSync(AGG_PAGE, updated, 'utf8');
+    console.log(`✅ 聚合页缓存版本已更新: ?v=${CACHE_VERSION}`);
+  } else {
+    console.log(`⚠️  聚合页无变化，跳过写入`);
+  }
+} else {
+  console.warn(`⚠️  聚合页不存在: ${AGG_PAGE}`);
+}
+
+// ─── 3. Build + Git 提交 + Push（全自动部署） ──────────────
 const SEO_FILE = path.join(PROJECT_ROOT, 'zodiac', 'seo-content', `${DATE}.json`);
 const DATA_FILE = path.join(PROJECT_ROOT, 'zodiac', 'js', 'zodiac-data.js');
 
 if (fs.existsSync(SEO_FILE) && fs.existsSync(DATA_FILE)) {
   console.log('\n--- 构建 + Git 提交 + 推送 ---');
 
-  // ── 2a: 重建博客页（可选，失败不阻断主流程） ──
+  // ── 3a: 重建博客页（可选，失败不阻断主流程） ──
   try {
     console.log('\n🔨 运行 build-blog.js 重建博客页...');
     execSync('node build-blog.js', {
@@ -71,7 +93,7 @@ if (fs.existsSync(SEO_FILE) && fs.existsSync(DATA_FILE)) {
     console.warn('   继续运势部署流程...');
   }
 
-  // ── 2b: Git 提交 + 推送（独立于 build-blog，不受其失败影响） ──
+  // ── 3b: Git 提交 + 推送（独立于 build-blog，不受其失败影响） ──
   try {
     // 1. 检查是否有变更
     const status = execSync('git status --porcelain', { cwd: PROJECT_ROOT, encoding: 'utf8' });
@@ -80,14 +102,31 @@ if (fs.existsSync(SEO_FILE) && fs.existsSync(DATA_FILE)) {
     } else {
       console.log(`变更文件:\n${status}`);
 
-      // 2. Git add 所有变更（含新生成的 HTML）
-      execSync('git add zodiac/js/zodiac-data.js zodiac/seo-content/*.json zodiac/*.html', { cwd: PROJECT_ROOT });
+      // 2. Git add 所有变更（含聚合页 + 详情页）
+      execSync('git add zodiac/zodiac-daily.html zodiac/js/zodiac-data.js zodiac/seo-content/*.json zodiac/*.html', { cwd: PROJECT_ROOT });
       execSync(`git commit -m "chore: ${DATE} daily horoscope update + rebuild"`, { cwd: PROJECT_ROOT });
       console.log(`✅ 已提交本地`);
 
-      // 3. Push 触发 Vercel 部署
-      execSync('git push', { cwd: PROJECT_ROOT });
-      console.log('✅ 已推送到远程，Vercel 将自动部署');
+      // 3. Push（最多重试3次）
+      const MAX_RETRIES = 3;
+      let pushed = false;
+      for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
+        try {
+          execSync('git push', { cwd: PROJECT_ROOT });
+          pushed = true;
+          break;
+        } catch (pushErr) {
+          if (attempt < MAX_RETRIES) {
+            console.warn(`⚠️  Push 第${attempt}次失败，5秒后重试...`);
+            execSync('timeout /t 5 /nobreak > nul', { cwd: PROJECT_ROOT, stdio: 'ignore', shell: true });
+          } else {
+            console.error(`\n❌ Push 全部失败（已重试${MAX_RETRIES}次）: ${pushErr.message}`);
+          }
+        }
+      }
+      if (pushed) {
+        console.log('✅ 已推送到远程，Vercel 将自动部署');
+      }
     }
   } catch (err) {
     console.warn(`⚠️  Git 操作失败: ${err.message}`);
@@ -97,5 +136,19 @@ if (fs.existsSync(SEO_FILE) && fs.existsSync(DATA_FILE)) {
   if (!fs.existsSync(SEO_FILE)) console.warn(`   缺失: ${SEO_FILE}`);
   if (!fs.existsSync(DATA_FILE)) console.warn(`   缺失: ${DATA_FILE}`);
 }
+
+// ─── 4. 部署后验证提示 ────────────────────────────────────
+console.log(`\n═══════════════════════════════════════`);
+console.log(`📋 部署验证清单（上线后请检查）`);
+console.log(`═══════════════════════════════════════`);
+console.log(`  ① 聚合页: https://www.daoessentia.com/zodiac/zodiac-daily`);
+console.log(`     → 12张卡片是否全部显示插图（无emoji占位符）？`);
+console.log(`     → 标题上方是否显示今日日期？`);
+console.log(`     → 每张卡片是否有星星评分？`);
+console.log(`  ② 详情页: https://www.daoessentia.com/zodiac/rat-en`);
+console.log(`     → 日期是否为今日（${DATE}）？`);
+console.log(`     → 分数是否为当日运势分数？`);
+console.log(`  ③ 聚合页和详情页数据是否一致？`);
+console.log(`═══════════════════════════════════════\n`);
 
 console.log(`\n✅ [${DATE}] 每日运势全自动部署完成！\n`);
