@@ -3,12 +3,16 @@
  * 由 WorkBuddy 定时任务每日 02:00 调用
  * 用法: node scripts/daily-run.js [日期 YYYY-MM-DD]
  *
+ * 环境变量 AUTO_DEPLOY=true 时自动完成 git push 部署
+ * （自动化任务通过此变量触发自动部署；手动运行时不设置该变量，
+ *  符合项目规则：AI 手动提交的代码由用户手动 push）
+ *
  * 工作流:
  *   1. 读取 .env.local 加载 DASHSCOPE_API_KEY
  *   2. 运行 generate-daily.js 生成运势
  *   3. 更新聚合页版本号（缓存防刷）
  *   4. 运行 build-blog.js 重建博客页（可选，失败不阻断）
- *   5. git add + git commit + git push（全自动部署）
+ *   5. git add + git commit + [AUTO_DEPLOY=true] git push
  */
 
 import { execSync } from 'child_process';
@@ -107,9 +111,29 @@ if (fs.existsSync(SEO_FILE) && fs.existsSync(DATA_FILE)) {
       execSync(`git commit -m "chore: ${DATE} daily horoscope update + rebuild"`, { cwd: PROJECT_ROOT });
       console.log(`✅ 已提交本地`);
 
-      // 3. Push 由用户手动执行（符合项目规则：AI不自动push）
-      console.log('\n⚠️  本地commit已完成，请手动执行 git push 以触发Vercel部署');
-      console.log(`   cd ${PROJECT_ROOT} && git push`);
+      // 3. AUTO_DEPLOY=true 时自动 push（自动化任务设置此变量；手动运行不设置，由用户手动 push）
+      if (process.env.AUTO_DEPLOY === 'true') {
+        const MAX_RETRIES = 3;
+        let pushed = false;
+        for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
+          try {
+            execSync('git push', { cwd: PROJECT_ROOT });
+            pushed = true;
+            break;
+          } catch (pushErr) {
+            if (attempt < MAX_RETRIES) {
+              console.warn(`⚠️  Push 第${attempt}次失败，5秒后重试...`);
+              execSync('timeout /t 5 /nobreak > nul', { cwd: PROJECT_ROOT, stdio: 'ignore', shell: true });
+            } else {
+              console.error(`\n❌ Push 全部失败（已重试${MAX_RETRIES}次）: ${pushErr.message}`);
+            }
+          }
+        }
+        if (pushed) console.log('✅ 已推送到远程，Vercel 将自动部署');
+      } else {
+        console.log('\n⚠️  本地commit已完成，请手动执行 git push 以触发Vercel部署');
+        console.log(`   cd ${PROJECT_ROOT} && git push`);
+      }
     }
   } catch (err) {
     console.warn(`⚠️  Git 操作失败: ${err.message}`);
