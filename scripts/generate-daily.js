@@ -460,32 +460,27 @@ async function generateFortuneCN(zodiac, ganzhi, relations, fourPillars) {
 
 ## 写作风格（严格遵守）
 - 用简洁直白的白话文写，像老朋友发微信给你
-- 不要学术腔，不要用"三癸透干"、"双巳伏吟"这类术语
+- 不要学术腔，不要用"三透干"、"双巳伏吟"这类术语
 - 不要分【事业】【财运】【爱情】【健康】这种条目
 - 每段控制在 80-120 字，最多不超过 150 字
 - 段与段之间必须用空行分隔（\n\n）
 - 建议结构（5-6 段）：
-  1. 开头：总体运势 + 分数感觉
+  1. 开头：总体运势感觉（不要重复"生肖 X 今日运势 XX，XX 分"，换个说法引入）
   2. 事业/工作
   3. 感情/人际
   4. 健康/生活小贴士（如需提交通出行，一句话带过，归入本段，不单独展开）
   5. 宜/忌总结
 - 全文 400-550 字
 - 直接告诉读者：今日运势如何、需要注意什么、适合做什么、不适合做什么
-
-## 格式示例（参考）
-生肖鼠今日运势一般，冲日犯渐，人际关系易出现问题，易与人产生误会，需要谨防陷入他人的是非纠缠，宜佩戴黄金饰品，宜明哲保身，感情上女性更多是付出者。
-
-生肖牛今日运势上吉凶参半，有比较好的领导关照，虽然压力略大但还是能顺利完成工作，身体注意身体皮肤方面可能有一些不舒服，外出注意交通安全。
-
-生肖虎今日运势呈上升，财运持续可求财，有很多想法，桃花旺今日适合出门游玩，增进感情。身体上要认真对待自己的身体合理的锻炼。
+- **开头段落要多样化**：可以用心情比喻、可以用天气比喻、可以用生活场景引入，不要每个生肖都用同一个句式
 
 ## 输出要求
 - 只输出属【${name}】的运势内容
 - **禁止使用任何 # 符号（###、##、####）**
-- **禁止用【】框住段落标题**，直接以"生肖${name}今日运势"开头
+- **禁止用【】框住段落标题**，直接以段落内容开头，不要用"生肖${name}今日运势"作为开头句
 - 每段用空行分隔
-- 内容要具体、有针对性，不要套话`;
+- 内容要具体、有针对性，不要套话
+- **禁止以"生肖${name}今日运势"开头的句式**，直接切入内容`;
 
       const userPrompt = `请为属${name}（${sign}）之人写今日运势解读。`;
 
@@ -734,10 +729,11 @@ async function translateToEnglish(cnText, zodiacEn, verdict, zodiacKey) {
 - Keep it punchy: 250-400 words total, spread across 4-6 paragraphs
 
 ## SEO (REQUIRED — never skip)
-- The phrase "Chinese zodiac ${zodiacEn}" MUST appear in the first sentence of the translation — no exceptions. This is a hard rule for search engine optimization.
+- The phrase "Chinese zodiac ${zodiacEn}" MUST appear naturally within the first 2-3 sentences of the translation. This is a hard rule for search engine optimization.
 - Beyond that, naturally weave in 1-2 terms from: ${seo.head}. Do NOT stuff; keep it conversational.
 
 Translate the Chinese horoscope for ${zodiacEn} into natural, Western-friendly English. Return ONLY the translated text, nothing else.
+- Do NOT start every translation with the same phrase like "Chinese zodiac ${zodiacEn}, your energy feels..." — vary your openings. You can start with a mood, a metaphor, or a situation, and fit the keyword in naturally within the first few sentences.
 
 Also translate the daily quote into a short poetic English phrase (max 15 words). At the very end of your response, add this exact line on its own line:
 QUOTE_EN: [English translation of the daily quote]`;
