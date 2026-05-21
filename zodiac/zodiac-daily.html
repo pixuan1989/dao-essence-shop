@@ -334,7 +334,7 @@
           var data = dayData[meta.key];
           var el = document.createElement('a');
           el.className = 'zodiac-card';
-          el.href = '/zodiac/' + meta.key + (isEn ? '-en' : '') + '?date=' + dateStr;
+          el.href = '/zodiac/' + meta.key + (isEn ? '-en' : '');
 
           var isBest = meta.key === bestSign;
           var signName = isEn ? SIGN_NAMES_EN[meta.key] : meta.name;
