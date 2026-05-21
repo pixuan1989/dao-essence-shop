@@ -34,6 +34,7 @@ var ZODIAC_DATA = {
 
 
 
+
   "2026-05-21": {
     "rat":     { score: 70, color: "#5B8299", colorName: "蓝色", number: 1, direction: "正西", pair: "丑",     good: ["出行","搬家","沐浴"],        avoid: ["开业","安葬"],       quote: "小满未满，盈而不溢。", quoteEn: "" },
     "ox":     { score: 55, color: "#9E8E6E", colorName: "棕色", number: 9, direction: "正西", pair: "子",     good: ["出行","搬家","沐浴"],        avoid: ["开业","安葬"],       quote: "小满未满，盈而不溢。", quoteEn: "" },
