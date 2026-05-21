@@ -1644,11 +1644,12 @@ function buildDetailHTML(ctx, isEn) {
 
   // ── 工具导流区（静态页）──
   const toolsSection = `
-    <section class="tools-section">
-      <div class="tools-section__header">
-        <span class="tools-section__label">${isEn ? 'WANT TO GO DEEPER?' : '想深入了解？'}</span>
-        <div class="tools-section__divider"></div>
-      </div>
+    <div class="seo-divider">
+      <span class="seo-divider__line"></span>
+      <span class="seo-divider__text">${isEn ? 'WANT TO GO DEEPER?' : '想深入了解？'}</span>
+      <span class="seo-divider__line"></span>
+    </div>
+    <section class="content-section">
       <div class="tools-grid">
         <a href="/#free-bazi" class="tool-card">
           <span class="tool-card__icon"></span>
@@ -1751,11 +1752,12 @@ function buildDetailHTML(ctx, isEn) {
   }
 
   var pairSection = '\
-    <section class="tools-section">\
-      <div class="tools-section__header">\
-        <span class="tools-section__label">' + (isEn ? 'CHECK YOUR LOVE MATCH' : '查看配对指数') + '</span>\
-        <div class="tools-section__divider"></div>\
-      </div>\
+    <div class="seo-divider">\
+      <span class="seo-divider__line"></span>\
+      <span class="seo-divider__text">' + (isEn ? 'CHECK YOUR LOVE MATCH' : '查看配对指数') + '</span>\
+      <span class="seo-divider__line"></span>\
+    </div>\
+    <section class="content-section">\
       <div class="tools-grid pair-grid">\
         ' + pairCardsHtml + '\
       </div>\
@@ -1844,13 +1846,12 @@ function buildDetailHTML(ctx, isEn) {
 ${toolsSection}
 
     <!-- 生肖百科（Evergreen Content，永远不变，SEO 锚定） -->
-    <div class="tools-section">
-      <div class="tools-section__header">
-        <span class="tools-section__label">${isEn ? 'ZODIAC ENCYCLOPEDIA' : '生肖百科'}</span>
-        <div class="tools-section__divider"></div>
-      </div>
+    <div class="seo-divider">
+      <span class="seo-divider__line"></span>
+      <span class="seo-divider__text">${isEn ? 'ZODIAC ENCYCLOPEDIA' : '生肖百科'}</span>
+      <span class="seo-divider__line"></span>
     </div>
-    <section class="zodiac-evergreen">
+    <section class="content-section zodiac-evergreen">
       ${isEn ? ZODIAC_EVERGREEN[sign].en : ZODIAC_EVERGREEN[sign].zh}
     </section>
 
