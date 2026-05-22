@@ -2,7 +2,10 @@
 title: "Feng Shui Calendar: Best Dates for Life Events"
 category: feng-shui
 tags:
-  - PerfectTiming，ChineseCalendarWisdom，AuspiciousDates
+  - Feng Shui
+  - Date Selection
+  - Chinese Calendar
+  - Auspicious Dates
 description: "Pick the best dates for weddings, moving, business launches, and more. Free Chinese calendar tool uses 2000-year wisdom to find your lucky dates."
 date: 2026-04-19
 author: DAO Essence
@@ -45,6 +48,7 @@ faq_zh:
     answer: "當然適用。曆法追蹤的是影響每個人的自然週期，與文化無關。"
   - question: "這和占星術有什麼不同？"
     answer: "占星術專注於個人出生盤。這專注於時間本身的能量——在特定日子裡什麼對每個人都最有利。"
+keywords: "chinese calendar best dates, auspicious date wedding, chinese almanac date selection, feng shui calendar, best date for moving, chinese zodiac lucky dates"
 ---
 Have an important event coming up? Whether it's a wedding, business launch, or major purchase, the date you choose could be working for you—or against you.
 

@@ -5,7 +5,11 @@ description: "Is your relationship draining your energy? Learn the signs of toxi
 seoDescription: "Is your relationship draining your energy? Learn the signs of toxic vs nourishing zodiac compatibility through Chinese astrology and BaZi chart analysis."
 h1Title: "Toxic Relationship Signs: How to Know If Someone Is Right for You — A BaZi Guide"
 category: bazi-astrology
-tags: "toxic relationship energy, how to know if someone is right for you, nourishing vs toxic relationships, zodiac compatibility, Five Elements relationship compatibility, baiz compatibility, chinese astrology relationships, ten gods love, bazi soulmate, relationship energy"
+tags:
+  - Relationship Advice
+  - BaZi Compatibility
+  - Chinese Astrology
+  - Self-Improvement
 date: "2026-05-16"
 author: "Xuanzhen"
 readTime: "7"
@@ -35,6 +39,7 @@ faq_zh:
     answer: "在滋養關係中，你不費力就感到放鬆，困難的對話讓你更清晰（而非焦慮），你的自信隨時間增長，你變得更加真實。在有毒關係中，即使「沒事」你也感到緊張，對話讓你反覆懷疑自己，你的自信萎縮，你變成自己不認識的樣子。關鍵問題：和這個人相處一年後，你是更像自己，還是更像別人？"
   - question: "八字中的十神是什麼？"
     answer: "十神描述你的日主（核心五行）如何與命盤中其他元素以及他人命盤中的元素產生關係。在感情中，最相關的是配偶星（男性看正財/偏財，女性看正官/七殺）和夫妻宮（日柱的地支）。它們共同描繪了你的感情模式——你傾向吸引什麼樣的人，以及潛在的挑戰在哪裡。"
+keywords: "toxic relationship signs, bazi compatibility guide, chinese astrology relationships, five elements compatibility, zodiac compatibility bazi, bazi soulmate reading"
 ---
 
 Toxic relationship energy is one of the hardest things to spot — because it rarely looks like abuse at first. It looks like kindness. It looks like attention. It looks like someone who "does everything for you."

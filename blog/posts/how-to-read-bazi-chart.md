@@ -33,6 +33,7 @@ faq_zh:
     answer: "可以！掌握天干、地支、五行和十神的基本知識，你就可以開始解讀自己的命盤。本指南逐步引導你完成整個過程。"
   - question: "八字中的四柱是什麼？"
     answer: "四柱是年柱、月柱、日柱和時柱。每柱有一個天干（上方）和一個地支（下方），共八個字——因此得名八字（八個字）。"
+keywords: "how to read bazi chart, bazi chart reading guide, four pillars of destiny explained, heavenly stems earthly branches, bazi chart interpretation, read chinese birth chart"
 ---
 
 **Yes, you can learn to read your own BaZi chart.** The process follows a clear sequence: find your Day Master (the Heavenly Stem of your birth day), determine whether it's strong or weak based on birth season and supporting elements, then identify the Ten Gods relationships to understand your career direction, relationship style, and wealth patterns. The tricky part isn't the concepts — it's having a real chart to practice on. [Generate your free BaZi chart](/#free-bazi) in seconds, then use this guide to start reading it. For a complete structured learning path, our [free 6-chapter course](/learn-bazi) covers everything from Day Master basics to luck cycle interpretation.

@@ -38,6 +38,7 @@ faq_zh:
     answer: "租房族控制權較少，但仍可穩定能量。在床墊上加一層床墊保護墊（在你氣場和前房客氣場之間建立緩衝）。不要移動櫃子。所有窗簾在使用前徹底清洗。原則是「減少變動」——讓你的氣至少沈澱3個月再做任何調整。"
   - question: "我已經把這4樣都換了怎麼辦？運勢毀了嗎？"
     answer: "沒有。氣場需要時間重新穩定——通常是3-6個月。這段期間多待在家裡，幫助你的氣與新物品磨合。在家宅中央放置一個穩定象徵物（如重石頭或陶瓷擺件）。大多數人在一個農曆月後就會感覺能量重新穩定。耐心比完美更重要。"
+keywords: "feng shui items not to replace, feng shui home stability, qi field stability, feng shui wallpaper bed curtains, feng shui home rules, protect home energy feng shui"
 ---
 
 <!-- Part 0: Article Summary (≤150 chars) -->

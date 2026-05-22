@@ -10,7 +10,7 @@ tags:
   - Fire Earth BaZi
 description: "Donald Trump's BaZi chart is a fire-earth desert. Learn why moist Earth (Chen and Chou) appeared at both presidential wins, what his 2019–2029 luck period reveals, and how the 2026 Water-Fire clash explains the White House dinner shooting."
 seoDescription: "Trump's BaZi chart reveals why he won twice. The same element appeared at both victories. Check your free birth chart and see the pattern yourself."
-keywords: "trump bazi, donald trump four pillars, trump ba zi chart, bazi fire earth, moist earth bazi, celebrity bazi reading, bazi luck cycles, trump presidential baZi"
+keywords: "trump bazi, donald trump four pillars, trump ba zi chart, bazi fire earth, moist earth bazi, celebrity bazi reading, bazi luck cycles"
 date: 2026-05-07
 author: Xuanzhen
 readTime: 8
@@ -40,8 +40,7 @@ faq_zh:
   - question: "八字中的七殺是什麼，為什麼影響了川普的第二任期？"
     answer: "七殺是十神之一——當它出現在流年天干時，代表壓力、對手和障礙。乙巳年天干乙（木）對川普的己（土）日主構成七殺，這通常暗示健康挑戰或對抗性壓力。但若命盤有控制或轉化這種壓力的機制（如羊刃合殺），則可能轉化為正面結果。"
   - question: "我可以自己分析八字命盤嗎？"
-    answer: "可以。先確認你的日主（出生日的天干），然後檢查命盤是否被一兩種元素主導。命盤最缺乏或最需要的元素就是你的用神。我們的免費八字計算器可以在幾秒內生成完整命盤——無需專業知識。如需系統學習，可免費試用我們的六章課程。"
----
+    answer: "可以。先確認你的日主（出生日的天干），然後檢查命盤是否被一兩種元素主導。命盤最缺乏或最需要的元素就是你的用神。我們的免費八字計算器可以在幾秒內生成完整命盤——無需專業知識。如需系統學習，可免費試用我們的六章課程。"---
 
 Donald Trump's BaZi (四柱八字, Four Pillars of Destiny) chart is one of the most debated in modern Chinese metaphysics — not because the birth data is uncertain (it is verified, AA-rated), but because the chart itself is extreme. Born June 14, 1946, at 10:54 AM in Queens, New York, his four pillars read: **Bing Xu (丙戌) — Jia Wu (甲午) — Ji Wei (己未) — Ji Si (己巳)**. That is an enormous concentration of Fire and Earth energy, and understanding what it *needs* to function well reveals something remarkable: the same elemental condition appeared at both of his presidential victories.
 

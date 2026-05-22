@@ -39,6 +39,7 @@ faq_zh:
     answer: "有利的本命年是完全可能的。如果當年能量支持你的日主，你可能會發現這一年特別有生產力。關鍵在於覺察——有利的能量不等於零挑戰，只是整體條件更好。"
   - question: "本命年可以開始新事物嗎？"
     answer: "可以。是否適合取決於你的日主強弱，而不是一條固定規則。身強日主通常會發現生肖年是開始新事物的好時機。身弱日主可能更適合先完成現有項目。"
+keywords: "ben ming nian, zodiac year bad luck, chinese zodiac year explained, zodiac year every 12 years, bazi zodiac year meaning, survive your zodiac year"
 ---
 **Ben Ming Nian (本命年) — your zodiac year of birth — returns every 12 years.** In BaZi, it's not a 'bad luck curse' but an energy reset: a period where two identical frequencies amplify each other, creating intensified conditions for change. Whether that change feels like a breakthrough or a challenge depends on your Day Master strength. [Generate your free BaZi chart](/#free-bazi) to find your Day Master and understand how your next zodiac year will affect you.
 

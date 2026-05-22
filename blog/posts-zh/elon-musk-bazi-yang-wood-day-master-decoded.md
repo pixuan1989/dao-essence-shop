@@ -2,18 +2,12 @@
 title: "Elon Musk 4000億美元八字命盤：四柱五行揭示他的人生密碼"
 category: bazi-astrology
 tags:
-  - Elon Musk BaZi
-  - elon musk birth chart
-  - elon musk chinese zodiac
-  - celebrity BaZi chart
-  - Yang Wood Day Master
-  - Seven Killings Star
-  - BaZi case study
-  - Four Pillars of Destiny
-  - Chinese astrology famous people
-  - BaZi career analysis
-  - Da Yun luck cycles
-  - Jia Wood personality
+  - 馬斯克八字
+  - 名人命盤
+  - 陽木日主
+  - 八字個案
+  - 中國占星
+  - 八字事業分析
 description: 為什麼伊隆·馬斯克敢冒極端風險？他的八字命盤揭露了陽木日主與七殺星的組合——這是支撐他4000億美元身價背後的配置。查看你的命盤。
 date: 2026-04-25T00:00:00.000Z
 author: Xuanzhen
@@ -21,6 +15,7 @@ readTime: 8
 pinned: true
 image: /images/blog/elon-musk-bazi-yang-wood-chart.webp
 slug: elon-musk-bazi-chart-analysis
+keywords: "馬斯克八字, 名人八字, 陽木日主, 八字個案分析, 八字名人解讀, 四柱名人"
 h1Title: "Elon Musk 4000億美元八字命盤：四柱五行如何解析他的人生軌跡"
 seoDescription: "Elon Musk 的八字命盤揭示了他作為甲木日主、出生於辛亥金豬年的能量結構。深入了解他的中國生肖與四柱五行分析。"
 faq:

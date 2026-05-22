@@ -5,11 +5,7 @@ tags:
   - Feng Shui
   - Bad Luck
   - Five Elements
-  - Qi Stagnation
-  - Chinese Metaphysics
-  - Yin Yang
   - Nature Healing
-  - Stress Relief
 description: "Feng shui says stuck Qi causes bad luck. 3 places reset your Five Elements energy and shift luck. Backed by science. Try free BaZi chart."
 seoDescription: "Feng shui reset: 3 places shift bad luck by restarting Qi. Chinese metaphysics + science. Discover why. Try free BaZi chart."
 date: 2026-05-18
@@ -41,6 +37,7 @@ faq_zh:
     answer: "運動在20分鐘內就能產生提升情緒的內啡肽。專注閱讀30-60分鐘可以重新框架一個問題。大自然對皮質醇的鎮靜效果在戶外15分鐘內就開始。不過，持久的能量轉變需要堅持——持續2-3週定期去這些地方，通常會帶來明顯的感受變化和機會察覺。"
   - question: "這能取代困難時期的專業幫助嗎？"
     answer: "不能。這些是根植於中國傳統養生哲學的輔助方法，不是心理治療或醫療的替代。如果你正經歷持續的抑鬱、焦慮或危機，請尋求專業支持。把這三個地方當作補充習慣——就像健康飲食或充足睡眠——來支持整體能量和韌性。"
+keywords: "feng shui bad luck reset, places to visit when stressed, five elements energy reset, qi stagnation relief, feng shui nature healing, shift bad luck feng shui"
 ---
 
 Bad luck has a weight to it. You wake up heavy, things go wrong in clusters, and even small decisions feel overwhelming. In **feng shui** and Chinese astrology, this isn't random — it often signals that your **Qi (气)**, or personal energy field, has gone stagnant.

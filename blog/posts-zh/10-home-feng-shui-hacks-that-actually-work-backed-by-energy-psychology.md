@@ -2,9 +2,10 @@
 title: 10 個真正有效的家居風水小技巧
 category: feng-shui
 tags:
-  - Feng Shui
-  - Environmental Psychology
+  - 風水
+  - 環境心理學
 description: 運用10個結合能量心理學的風水技巧，全面改造居家環境！提升氣流、整潔度與意圖力，助你增進財富、健康與人際關係。
+keywords: "家居風水小技巧, 風水寵門, 家居風水保障, 能量流動, 環境心理學, 空間整理"
 date: 2026-04-16T00:00:00.000Z
 author: DAO Essence
 readTime: 8

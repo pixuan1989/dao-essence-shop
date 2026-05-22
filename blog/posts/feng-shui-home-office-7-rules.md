@@ -7,8 +7,6 @@ tags:
   - Home Office
   - Desk Placement
   - WFH Setup
-  - Commanding Position
-  - BaZi
   - Five Elements
 description: "7 actionable feng shui rules for your home office setup — from desk placement and commanding position to colors, plants, and lighting. Apply each rule in under 15 minutes."
 seoDescription: "Feng shui home office: 7 rules to set up your desk for focus and wealth. Find your commanding position, match colors to your BaZi, and start today."

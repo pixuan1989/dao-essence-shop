@@ -1,6 +1,7 @@
 ---
 title: "八字十神：你的命盤如何揭示友誼模式 | Dao Essentia"
 slug: "bazi-ten-gods-friendship-patterns"
+keywords: "八字十神, 八字友誕, 人際關係八字, 十神社交, 八字人際關係, 八字合律"
 description: "你的八字命盤中的十神揭示了你的友誼模式、社交圈，以及為什麼有些人讓你充滿能量，而有些人卻讓你感到消耗。"
 seoDescription: "你的八字命盤「十神」揭示了你的友誼模式、社交圈，以及為什麼有些人讓你充滿能量而有些人卻讓你感到消耗。發現你的社交原型。"
 date: "2026-05-15"
@@ -9,15 +10,9 @@ readTime: 14
 category: bazi-astrology
 tags:
   - 八字十神
-  - 八字友誼模式
-  - 中國占星人際關係
-  - 十神社交動態
-  - 八字社交圈
-  - 過度付出友誼
-  - 八字性格類型
-  - 友誼相性八字
-  - 比劫
-  - 印星
+  - 友誕合律
+  - 中國占星
+  - 個性類型
 pinned: false
 image: /images/blog/bazi-ten-gods-friendship-patterns.webp
 imageAlt: "溫暖色調的插畫，五個不同的人物圍繞一個圓形八字命盤，周圍有發光的五行符號——木、火、土、金、水——每個人之間用金色線條連接，代表不同的友誼原型"

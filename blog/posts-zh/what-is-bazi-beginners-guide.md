@@ -1,6 +1,7 @@
 ---
 title: "如何解讀你的八字命盤：新手逐步指南"
 slug: "what-is-bazi-beginners-guide"
+keywords: "什麼是八字, 八字入門, 四柱推命, 中國占星基礎, 八字解說, 學習中國占星"
 description: "5 分鐘學會解讀你的八字（四柱命理）命盤。免費新手指南，附帶實例，無需任何基礎知識。"
 seoDescription: "5 分鐘學會解讀你的八字（四柱命理）命盤。免費新手指南，附帶實例，無需任何基礎知識。"
 date: "2026-04-08"
@@ -8,11 +9,10 @@ author: "DAO Essence"
 readTime: 11
 category: bazi-astrology
 tags:
-  - BaZi
-  - Four Pillars of Destiny
-  - Chinese Astrology
-  - Heavenly Stems
-  - Earthly Branches
+  - 八字
+  - 四柱命理
+  - 中國占星
+  - 天干地支
 pinned: true
 image: /images/blog/what-is-bazi-beginners-guide.webp
 imageAlt: "四柱八字命盤圖示，金色天干地支在深色背景上發光"

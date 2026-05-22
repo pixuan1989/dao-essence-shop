@@ -47,6 +47,7 @@ faq_zh:
     answer: "它們是基於同一五行理論的相關概念，但用途不同。風水愛情方向專注於安排你的物理空間以吸引愛情，而八字的靈魂伴侶方向揭示你最可能遇到靈魂伴侶的地理方向。"
   - question: "我的靈魂伴侶方向會隨時間改變嗎？"
     answer: "你的核心靈魂伴侶方向基於你的出生命盤，保持不變。然而，你的大運（主要人生週期）可以在特定的十年期間暫時更強地激活某些方向。"
+keywords: "soulmate direction bazi, where to meet soulmate, bazi soulmate direction, feng shui love direction, chinese astrology love compass, find soulmate direction"
 ---
 **Your soulmate direction is the geographic compass point most aligned with your birth energy — and Chinese astrology can calculate it from your birth date alone.** In BaZi, your Day Master (the Heavenly Stem of your birth day) belongs to one of the Five Elements, each corresponding to a direction: Wood → East, Fire → South, Earth → Center/Southwest, Metal → West, Water → North. Traveling in your soulmate direction during favorable years increases your chances of encountering a meaningful connection. [Find your soulmate direction for free](/soulmate-calculator) — 30 seconds, no sign-up required.
 

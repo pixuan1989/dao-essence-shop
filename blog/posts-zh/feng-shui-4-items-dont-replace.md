@@ -16,6 +16,7 @@ pinned: false
 image: "/images/blog/feng-shui-4-items-dont-replace-hero.webp"
 imageAlt: "四樣家居物品：牆紙、櫃子、睡床、窗簾排列在木桌上，旁邊有風水符號裝飾，溫暖自然光線"
 slug: "feng-shui-4-items-dont-replace-zh"
+keywords: "風水不宜更換, 家居風水穩定, 氣場穩定, 風水家居規則, 保護家居能量, 風水家具"
 faq:
   - question: "牆紙多久換一次才合適？"
     answer: "風水建議牆紙至少使用5-8年再考慮更換。頻繁更換會擾動氣場，且新牆紙的膠水含甲醛，對健康不利。如果牆紙沒破損、沒發霉，建議只做清潔修補，不整體更換。"

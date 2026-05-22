@@ -47,6 +47,7 @@ faq_zh:
     answer: "每個中國生肖年攜帶特定的五行能量。當年的五行滋養或支持你的日主五行時，你的愛情能量被放大。例如，木日主受益於水年（水生木）和木年（同五行強化）。"
   - question: "如果我已經超過了「理想」的戀愛年齡範圍怎麼辦？"
     answer: "不用擔心。八字中的年齡範圍是統計傾向，不是截止日期。許多人在「巔峰」範圍之外找到了愛情，尤其是在有利的大運期間。愛情時機受多種因素影響，不只是年齡。"
+keywords: "when will i find love, love timing chinese astrology, bazi love prediction, find love birth chart, chinese astrology romance timing, soulmate timing bazi"
 ---
 **Chinese astrology won't give you an exact date, but it can tell you which years and life phases favor romance for your specific elemental type.** Every person has a 'love season' based on their Day Master — Wood types peak between 24-28, Fire between 22-27, Earth between 26-32, Metal between 27-33, and Water between 23-29. Beyond age, your BaZi chart reveals favorable zodiac years and 10-year luck cycles that amplify love energy. [Check your love timing for free](/soulmate-calculator) — it takes 30 seconds.
 

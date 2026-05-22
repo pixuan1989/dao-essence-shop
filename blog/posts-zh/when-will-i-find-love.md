@@ -2,12 +2,12 @@
 title: 八字姻緣預測：你的出生日期揭示何時遇見真愛
 category: bazi-astrology
 tags:
-  - when-will-i-find-love
-  - love-timing
-  - soulmate
-  - chinese-zodiac-love
-  - love-prediction
+  - 感情運勢
+  - 命中注定
+  - 中國生肖感情
+  - 感情預測
 description: 我何時會遇到真愛？透過中國占星術，解讀你的戀愛時機、有利感情的階段，以及八字命盤中隱藏的情感訊號。
+keywords: "什麼時候會有愛情, 感情運勢八字, 八字感情預測, 出生命盤愛情, 中國占星感情, 感情運期"
 date: 2026-04-18T00:00:00.000Z
 author: DAO Essence
 readTime: 13

@@ -3,17 +3,10 @@ title: "Elon Musk's $400B Birth Chart: BaZi Four Pillars Revealed"
 category: bazi-astrology
 tags:
   - Elon Musk BaZi
-  - elon musk birth chart
-  - elon musk chinese zodiac
-  - celebrity BaZi chart
-  - Yang Wood Day Master
-  - Seven Killings Star
-  - BaZi case study
-  - Four Pillars of Destiny
-  - Chinese astrology famous people
-  - BaZi career analysis
-  - Da Yun luck cycles
-  - Jia Wood personality
+  - Celebrity Chart
+  - Yang Wood
+  - BaZi Case Study
+  - Chinese Astrology
 description: "Why does Elon Musk take extreme risks? His BaZi chart reveals a Yang Wood Day Master with Seven Killings Star — the configuration behind his $400B rise. Check your chart."
 date: 2026-04-25
 author: Xuanzhen
@@ -53,6 +46,7 @@ faq_zh:
     answer: "馬斯克出生於 1971 年 6 月 28 日，對應辛亥年，即「金豬」。豬是他的出生年地支，金是年柱天干——水氣豐沛的生肖，象徵深度、適應力與沉穩的野心。"
   - question: "Elon Musk 的出生時間對八字排盤準確嗎？"
     answer: "馬斯克的出生日期（1971 年 6 月 28 日）和地點（南非比勒陀利亞）已有明確記載，但確切的出生分鐘仍有爭議。八字需要精確出生時間才能確定時柱，而時柱代表一個人的內在世界和人生方向。本分析採用廣泛引用的 07:30。"
+keywords: "elon musk bazi chart, celebrity bazi reading, yang wood day master, elon musk chinese astrology, bazi case study famous, four pillars celebrity analysis"
 ---
 
 How does a BaZi chart explain Elon Musk's rise from near-bankruptcy to the world's richest person? We break down his Yang Wood Day Master and Five Phases.

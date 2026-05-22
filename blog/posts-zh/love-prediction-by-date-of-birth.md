@@ -4,12 +4,13 @@ category: bazi-astrology
 cta_cards:
   - soulmate
 tags:
-  - love-prediction
-  - birth-date-astrology
-  - soulmate
-  - bazi-love
-  - chinese-zodiac-love
+  - 感情預測
+  - 出生日占星
+  - 命中注定
+  - 八字感情
+  - 生肖合律
 description: 你的出生日期能預測何時遇見真愛嗎？透過八字與五行，解讀你的戀愛時機、靈魂伴侶方位，以及感情發展藍圖。
+keywords: "感情預測八字, 八字感情解讀, 中國占星姻緣, 出生日合律, 八字感情運, 尋找真愛"
 date: 2026-04-18T00:00:00.000Z
 author: DAO Essence
 readTime: 11

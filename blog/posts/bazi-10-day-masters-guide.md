@@ -39,6 +39,7 @@ faq_zh:
     answer: "沒有哪個日主是萬能的最佳領導者——取決於情境。甲木和庚金通常果斷而有威嚴，適合高壓環境。丙火擅長激勵團隊。戊土提供穩如磐石的可信賴感。但有效的領導力也取決於命盤的整體平衡和當前的大運。身弱的日主在順運中也能成為出色的領導者。"
   - question: "怎麼查我的日主？"
     answer: "最簡單的方法是使用八字排盤工具——輸入你的出生日期、時間和性別，它會生成你的四柱命盤。日柱（中間那一柱）最上面的字就是你的日主。DaoEssence 提供免費的八字排盤工具，可以顯示你的日主、五行平衡等資訊，無需註冊。"
+keywords: "bazi day master, 10 day masters chinese astrology, heavenly stems personality, five elements personality types, jia wood personality, bazi archetypes explained"
 ---
 
 Your Day Master (日主, Rì Zhǔ) is the Heavenly Stem of your birth day in a BaZi (Four Pillars) chart. It sits at the center of your cosmic blueprint — eight characters that map the energy present at your exact moment of birth. Think of it as your Chinese astrological fingerprint, but with far more texture than a single zodiac animal. There are 10 Day Masters: five elements (Wood, Fire, Earth, Metal, Water), each in yin or yang form. Your Day Master represents your core tendency — how you naturally approach problems, relationships, and decisions. In a 2024 survey of approximately 500 Chinese metaphysics practitioners, over 70% identified the Day Master as the single most important reference point in chart analysis. To find yours, [check our free BaZi calculator](https://www.daoessentia.com/#free-bazi) — it takes 30 seconds.

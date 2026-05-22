@@ -2,7 +2,11 @@
 title: "Is a Weak Day Master Bad? The Truth About Shen Ruo in Bazi"
 date: "2026-05-13"
 author: "Xuanzhen"
-tags: ["Bazi", "Day Master", "Shen Ruo", "Four Pillars"]
+tags:
+  - BaZi
+  - Day Master
+  - Chinese Astrology
+  - Four Pillars
 category: bazi-astrology
 readTime: 10
 image: "/images/blog/weak-day-master-bazi-truth.webp"
@@ -31,6 +35,7 @@ faq_zh:
     answer: "身弱日主在知識密集型、團隊合作型、或平台支持型角色中表現出色：諮詢、學術、醫療、建築、合規，或任何專業知識和資歷比激進冒險更重要的領域。避免單人高槓桿賭注——你會過度透支。"
   - question: "怎麼知道我是真的「身弱」，還是只是運勢不好？"
     answer: "許多免費排盤工具過度簡化。真正的身弱判定取決於：(1) 月令五行，(2) 地支藏干，(3) 命盤中的支持星。此外，你的大運（10年運勢週期）會暫時增強或減弱你。身弱格在遇到印星大運時也會覺得無可阻擋。請用多個工具交叉驗證，或諮詢有經驗的命理師。"
+keywords: "weak day master bazi, is weak day master bad, shen ruo bazi explained, bazi strength weakness, weak bazi chart success, day master strength guide"
 ---
 
 # Is a Weak Day Master Bad? The Truth About *Shen Ruo* in Bazi

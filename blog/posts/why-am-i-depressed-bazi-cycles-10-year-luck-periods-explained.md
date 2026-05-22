@@ -43,6 +43,7 @@ faq_zh:
     answer: "是的。根據八字理論，幾乎每個人一生中至少有一個主要的具挑戰性十年期，加上年度波動。即使是高度成功的人也描述了類似的「黑暗期」——區別在於理解它是週期的一部分，而不是永久的狀態。"
   - question: "我怎麼知道是否處於低能量週期？"
     answer: "常見跡象：醒來時有莫名的沉重感、對平常喜歡的事物失去興趣、腦霧、內在批評聲音變大、在沒有明確原因的情況下感到情緒「磨損」。八字解讀可以確認你處於哪個週期以及能量何時自然轉變。"
+keywords: "bazi luck cycles depression, feel stuck every 10 years, bazi emotional cycles, ten year luck period explained, bazi mental health timing, understand life cycles bazi"
 ---
 
 Do you know that feeling? Waking with a stone on your chest, weary for no reason, unable to muster motivation. Or a voice in your head that won't stop — criticizing, picking apart every move, leaving you tangled in anxiety. You might even wonder: "Have I fallen ill?"

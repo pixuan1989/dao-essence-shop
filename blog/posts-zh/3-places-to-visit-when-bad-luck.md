@@ -3,13 +3,9 @@ title: "運氣差？去這3個地方，轉換你的氣場"
 category: feng-shui
 tags:
   - 風水
-  - 運氣差
+  - 化解壞運
   - 五行
-  - 氣場停滯
-  - 中國玄學
-  - 陰陽
-  - 自然療癒
-  - 減壓養生
+  - 自然治療
 description: "風水認為氣場停滯導致運氣差。運動場、圖書館、大自然——3個地方能重置五行能量、打破氣場停滯、轉換運勢。現代科學佐證，中國玄學原理解析。免費八字命盤，查看你的大運。"
 seoDescription: "風水氣場重置：3個地方轉換壞運，重啟你的氣。中國玄學與科學雙重支持。免費八字命盤。"
 date: 2026-05-18
@@ -19,6 +15,7 @@ pinned: false
 image: /images/blog/3-places-shift-energy-bad-luck.webp
 imageAlt: "人站在山巒與森林之間的大自然中，金色陽光穿透雲層，象徵能量重置與運勢轉變"
 slug: 3-places-to-visit-when-bad-luck
+keywords: "風水轉運, 化解壞運氣, 五行能量補充, 氣滑紓解, 風水自然治療, 開運地方"
 lang: zh-Hant
 faq:
   - question: "去特定地方真的能改變運氣嗎？風水怎麼看？"

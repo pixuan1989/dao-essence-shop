@@ -17,6 +17,7 @@ pinned: true
 image: /images/blog/bazi-10-day-masters-modern-characters.webp
 imageAlt: "十個八字日主的現代性格原型——兩排各五個簡約線條圖標：松樹、竹藤、太陽、燭火、高山、花園土壤、寶劍、水晶、水滴和海浪。每個圖標標有中文字、拼音及五行屬性（陽陰木、火、土、金、水）。白色背景搭配淡淡的元素色調點綴。"
 slug: bazi-10-day-masters-guide
+keywords: "十天干, 八字日主, 天干個性, 五行個性類型, 甲木個性, 八字原型"
 lang: zh-Hant
 faq:
   - question: "什麼是八字中的日主？"

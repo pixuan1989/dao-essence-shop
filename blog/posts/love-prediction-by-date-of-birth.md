@@ -44,6 +44,7 @@ faq_zh:
     answer: "中國占星術已經過2000多年的精煉，在東亞被廣泛使用。雖然沒有系統是100%準確的，但許多人發現其模式與他們的生活經驗高度一致。它作為指導工具比作為絕對預測更有價值。"
   - question: "做愛情預測需要什麼資訊？"
     answer: "至少需要你的出生年、月、日。出生時辰提供額外精度，但對一般性解讀是可選的。"
+keywords: "love prediction by birth date, bazi love reading, chinese astrology soulmate, birth date compatibility, bazi relationship prediction, find love chinese astrology"
 ---
 
 **Chinese astrology doesn't 'predict' a specific date, but it does reveal something more useful: the seasons of your love life.** Based on your BaZi birth chart, you can identify your love archetype, your peak romantic years, and even the geographic direction where you're most likely to meet your soulmate. The system has been refined over 2,000 years and works entirely from your birth date. [Get your free love reading](/soulmate-calculator) — it takes 30 seconds and reveals your soulmate direction, timing, and love style.

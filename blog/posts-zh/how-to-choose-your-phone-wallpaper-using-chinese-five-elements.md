@@ -2,8 +2,9 @@
 title: 手機桌布顏色與五行
 category: feng-shui
 tags:
-  - Feng Shui
+  - 風水
 description: 你手機桌布的顏色，比你想像中更重要！透過中國五行與八字，了解最能支持你個人能量的幸運色。
+keywords: "手機壁紙五行, 五行顏色, 風水壁紙, 八字喜用神顏色, 六合壁紙, 風水顏色學"
 date: 2026-04-20T00:00:00.000Z
 author: Dingwei
 readTime: 7

@@ -8,16 +8,10 @@ author: "Xuanzhen"
 readTime: 14
 category: bazi-astrology
 tags:
-  - baZi ten gods
-  - baZi friendship patterns
-  - chinese astrology relationships
-  - ten gods social dynamics
-  - baZi social circle
-  - over-giver friendship
-  - baZi personality types
-  - friendship compatibility baZi
-  - peer stars bi jie
-  - mentor stars yin xing
+  - BaZi Ten Gods
+  - Friendship Compatibility
+  - Chinese Astrology
+  - Personality Types
 pinned: false
 image: /images/blog/bazi-ten-gods-friendship-patterns.webp
 imageAlt: "A warm illustration of five diverse figures around a circular BaZi chart with glowing elemental symbols — wood, fire, earth, metal, water — each connected by golden threads representing different friendship archetypes"
@@ -40,6 +34,7 @@ faq:
     answer: "Your birth chart never changes — the Ten Gods in your natal chart are fixed. But your Luck Cycles (大运) overlay new elements every decade, which can strengthen or weaken specific Gods. Someone with weak Mentor Stars in their birth chart might enter a Luck Pillar dominated by Mentor energy and suddenly find mentors appearing. The pattern shifts, but the foundation stays."
   - question: "Is this related to MBTI or personality typing?"
     answer: "There are interesting parallels — Peer Stars share traits with certain MBTI dimensions, Expression Stars map loosely onto extraversion, and Authority Stars relate to conscientiousness. But the frameworks operate differently: MBTI measures behavioral preferences, while Ten Gods describe elemental relationships in your chart. They can complement each other, but they're not interchangeable."
+keywords: "bazi ten gods friendship, bazi social compatibility, chinese astrology relationships, ten gods social dynamics, friendship patterns bazi, bazi personality types"
 ---
 
 Have you ever noticed that some people energize you just by being around them — while others leave you feeling drained, even if they mean well?

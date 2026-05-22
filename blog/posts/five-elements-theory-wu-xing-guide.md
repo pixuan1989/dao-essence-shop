@@ -143,6 +143,7 @@ faq:
     answer: "The generating cycle (Sheng) represents nourishment: Wood→Fire→Earth→Metal→Water→Wood. The controlling cycle (Ke) represents regulation: Wood→Earth→Water→Fire→Metal→Wood."
   - question: "Can the Five Elements help with feng shui?"
     answer: "Yes. Feng shui uses the Five Elements to analyze and harmonize spatial energy. Each direction, material, color, and shape corresponds to an element."
+keywords: "five elements theory, wu xing chinese philosophy, five elements personality test, wood fire earth metal water, chinese five elements explained, five elements generating cycle"
 ---
 
 ## Related Reading

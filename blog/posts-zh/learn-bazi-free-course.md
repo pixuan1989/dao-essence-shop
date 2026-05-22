@@ -1,12 +1,18 @@
 ---
 title: "免費八字課程：按自己的節奏學習"
 slug: "learn-bazi-free-course"
+keywords: "免費學八字, 八字免費課程, 八字入門, 學習中國占星, 八字自學, 四柱入門"
 description: "透過完整的六章免費課程學習八字（四柱八字）。發現你的日主、讀懂事業格局、理解十年大運——按照自己的節奏。"
 date: "2026-04-29"
 author: "Xuanzhen"
 readTime: 9
 category: bazi-astrology
-tags: ["learn ba zi free", "four pillars of destiny course", "bazi tutorial", "free bazi learning", "ba zi beginner course", "learn chinese astrology free"]
+tags:
+  - 學習八字
+  - 四柱課程
+  - 八字入門
+  - 免費學習
+  - 中國占星
 image: "/images/blog/learn-bazi-free-course.webp"
 imageAlt: "深色背景上攤開的書本與金色八字四柱發光效果，代表免費自學四柱八字課程"
 pinned: false

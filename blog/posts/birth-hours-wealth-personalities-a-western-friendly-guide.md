@@ -2,8 +2,11 @@
 title: "Birth Hours & Wealth: What Your Birth Chart Reveals"
 category: bazi-astrology
 tags:
-  - 八字
-  - 命理
+  - Chinese Astrology
+  - BaZi
+  - Wealth
+  - Personality Types
+  - Birth Chart
 description: "Discover your Wealth Archetype through the 12 Earthly Branches. Learn how your birth hour shapes your earning style, spending habits, and money personality."
 seoDescription: "Your birth hour reveals your Wealth Archetype in Chinese astrology — from strategist to the blessed one. Discover how your time of birth shapes your earning style."
 date: 2026-04-15
@@ -28,6 +31,7 @@ faq_zh:
     answer: "你的出生命盤不變，但你的十年大運會改變哪些能量被強調。一個天生的儲蓄者在某個十年可能進入財富累積階段。你的原型是基線——大運決定它如何表達。"
   - question: "哪個出生時辰最利財富？"
     answer: "沒有單一的「最佳」時辰。每個原型都有自己的財富路徑——有些慢慢累積（丑，穩健累積者），有些通過行動致富（子，機動策略家）。關鍵是理解你的類型並發揮其優勢，而不是對抗它。"
+keywords: "birth hours wealth bazi, wealth archetype chinese astrology, birth chart money personality, earthly branches wealth, bazi earning style, time of birth and wealth"
 ---
 **Your birth hour shapes more than your sleep schedule — in Chinese astrology, it reveals your Wealth Archetype.** The 12 Earthly Branches each carry a distinct elemental energy that influences how you earn, spend, and think about money. A midnight birth (Zi, Water) produces the Mobile Strategist who thrives on movement and change. A late-night birth (Chou, Metal treasury) produces the Steady Accumulator who builds wealth through patience. [Generate your free BaZi chart](/#free-bazi) to find your Hour Pillar and discover which archetype matches your birth time.
 

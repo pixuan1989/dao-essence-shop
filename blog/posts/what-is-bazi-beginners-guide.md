@@ -37,6 +37,7 @@ faq_zh:
     answer: "可以。你的八字命盤透過日主五行、特定五行元素暗示的有利行業，以及大運指示的事業轉換最佳時機，來揭示與事業相關的資訊。"
   - question: "八字和西方占星或生命靈數有什麼不同？"
     answer: "西方占星映射出生時的行星位置；生命靈數將人生還原為數字。八字將中國曆法系統映射到五行框架，提供一個涵蓋性格、健康、人際關係、事業和人生週期的全面能量畫像。"
+keywords: "what is bazi, bazi beginner guide, four pillars of destiny, chinese astrology basics, bazi chart explained, learn chinese astrology"
 ---
 **BaZi (八字), also called the Four Pillars of Destiny, is a 3,000-year-old Chinese system that maps the Five Elements present at your exact moment of birth to create a detailed personal energy profile.** Unlike Western astrology which primarily uses planetary positions, BaZi uses your birth year, month, day, and hour — producing four 'pillars' that reveal your core personality, career aptitudes, relationship patterns, and life timing. The most important piece is your **Day Master** — the Heavenly Stem of your birth day — which represents your fundamental nature. [Generate your free BaZi chart](/#free-bazi) to see yours in seconds, or [start the free 6-chapter course](/learn-bazi) to learn how to read charts yourself.
 

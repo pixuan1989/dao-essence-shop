@@ -1,6 +1,7 @@
 ---
 title: "36歲離婚女遇29歲男 — 八字姐弟戀真實故事 | Dao Essentia"
 slug: "she-was-36-divorced-bazi-love-story"
+keywords: "八字愛情故事, 八字姻緣個案, 中國占星愛情, 姐弟戀八字, 八字合律個案, 大運感情"
 description: "一位離婚的女企業家遇到了一個比她小七歲的男人。她的八字命盤揭示了為什麼時機恰到好處——以及為什麼他們的能量互補。"
 seoDescription: "一位離婚的女企業家遇到了一個比她小七歲的男人。她的八字命盤揭示了為什麼時機恰到好處——以及為什麼他們的能量互補。"
 h1Title: "她36歲離婚獨自撐起三家店，然後一個29歲的男孩走進了她的生命——八字命盤揭示的真相讓兩人都吃驚了"
@@ -10,15 +11,9 @@ readTime: 12
 category: bazi-astrology
 tags:
   - 八字愛情故事
-  - 姐弟戀
+  - 姻緣合律
+  - 中國占星
   - 大運
-  - 五行相生
-  - 夫妻宮
-  - 生肖蛇
-  - 生肖鼠
-  - 感情時機
-  - 身弱
-  - 命理諮詢
 pinned: false
 image: /images/blog/she-was-36-divorced-bazi-love-story.webp
 imageAlt: "溫暖色調的插畫，一位女性坐在中式茶桌前，面前是金色字體的八字命盤，柔和的燭光，背景有隱約的水墨蛇與鼠的意象"

@@ -5,7 +5,11 @@ description: "A divorced business owner met a man 7 years younger. Her BaZi char
 seoDescription: "A divorced business owner met a man 7 years younger. Her BaZi chart revealed why the timing was perfect — and why their energies complemented each other."
 h1Title: "She Was 36, Divorced, and Running Three Stores. Then a 29-Year-Old Walked Into Her Life — What Her BaZi Chart Revealed Surprised Them Both"
 category: bazi-astrology
-tags: "bazi love story, older woman younger man chinese astrology, baiz romance, luck cycle love, snake rat compatibility, real bazi consultation, bazi relationship analysis, ten year luck cycle romance, soulmate bazi chart, chinese name change transformation"
+tags:
+  - BaZi Love Story
+  - Relationship Compatibility
+  - Chinese Astrology
+  - Luck Cycles
 date: "2026-05-15"
 author: "Xuanzhen"
 readTime: "10"
@@ -35,6 +39,7 @@ faq_zh:
     answer: "傳統合婚主要看三個層面：一是雙方日主的五行是否相生或相合（關係基礎）；二是雙方夫妻宮的互動（相處模式）；三是雙方當前大運是否同步（時機是否合適）。不過現代實踐中，合婚更多是參考而非決定——很多五行並非「完美搭配」的伴侶依然幸福，關鍵在於雙方是否有覺知地經營關係。"
   - question: "這篇文章的故事是真的嗎？"
     answer: "基於真實諮詢，但所有可識別資訊已做隱私處理——姓名、出生日期、地點和行業細節均已修改。故事的目的是說明八字分析中反覆出現的模式，而非保證類似結果。每個人的命盤和人生軌跡都是獨特的。"
+keywords: "bazi love story, bazi relationship case study, chinese astrology romance, older woman younger man bazi, bazi compatibility real story, luck cycle love bazi"
 ---
 
 Mei Lin walked into my consultation room wearing a wide-brimmed hat — indoors, in the middle of winter. She kept her head down. Her shoulders slumped forward as if carrying invisible weight. Two years earlier, she had been the kind of woman who commanded a room: sharp-eyed, decisive, running three retail stores across the city while raising a young son on her own.

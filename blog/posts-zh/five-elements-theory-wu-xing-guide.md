@@ -2,13 +2,14 @@
 title: 五行性格測試：你是木、火、土、金還是水？
 category: bazi-astrology
 tags:
-  - Five Elements
-  - Wu Xing
-  - Chinese Philosophy
-  - TCM
-  - Feng Shui
+  - 五行
+  - 無極
+  - 中國哲學
+  - 中醫學
+  - 風水
 description: 認識五行理論（木、火、土、金、水），掌握相生與相剋循環，深入理解其對性格、健康及風水的影響。
 seoDescription: >-
+keywords: "五行理論, 五行個性測試, 金木水火土, 中國五行學, 五行相生相克, 五行解說"
   免費五行性格測試。發現主導你命盤的元素，以及它如何塑造你的性格、健康和人際關係。
 date: '2026-04-08'
 author: DAO Essence

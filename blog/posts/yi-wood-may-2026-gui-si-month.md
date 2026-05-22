@@ -4,7 +4,11 @@ description: "The Gui Si Water Snake month (May 5 – June 4, 2026) creates a \"
 date: "2026-05-07"
 slug: "yi-wood-may-2026-gui-si-month"
 category: bazi-astrology
-tags: ["Yi Wood", "Yin Wood", "BaZi monthly forecast", "Gui Si month 2026", "May 2026 Chinese astrology", "Hurting Officer star", "day master month reading", "Yi Wood day pillars"]
+tags:
+  - BaZi Forecast
+  - Yi Wood
+  - Monthly Horoscope
+  - Chinese Astrology
 author: "Dingwei"
 image: "/images/blog/yi-wood-yin-wood-may-2026-gui-si-month-forecast.webp"
 imageAlt: "Yin Wood vine with water drops and fire glow on dark navy, Yi Wood Gui Si May 2026"
@@ -34,6 +38,7 @@ faq_zh:
     answer: "乙巳被認為是本月最強的乙木日柱，因為月支巳與日支相同，形成「伏吟」格局，火能量加倍，創造力和事業動力顯著提升。但也需注意血壓和上火等健康風險。"
   - question: "如何查自己的乙木日柱？"
     answer: "日柱由出生日期和時間（農曆）決定。使用免費八字排盤工具，輸入出生信息後查看日柱。如果天干顯示乙，你就是乙木日主。地支為丑、卯、巳、未、酉或亥，決定了你的乙木具體類型。"
+keywords: "yi wood may 2026 forecast, yin wood bazi monthly, gui si month 2026, bazi monthly forecast, yi wood day master forecast, chinese astrology may 2026"
 ---
 
 The Gui Si (癸巳) Water Snake month (May 5 – June 4, 2026) brings an unusual energy mix for Yi Wood (Yin Wood) Day Masters. Yi Wood, sometimes called Yin Wood in English-language BaZi texts, represents the flexible, adaptable vine-like quality among the Ten Heavenly Stems. This month: outward Fire from the month branch and inward Water from the heavenly stem. This "fire outside, water inside" pattern triggers strong creative expression and career visibility, but also drains your energy reserves. Here's what to expect across career, money, relationships, and health — plus specific guidance for all six Yi Wood Day Pillars.

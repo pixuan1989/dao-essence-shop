@@ -34,6 +34,7 @@ faq_zh:
     answer: "這套系統是在中國宇宙觀中發展的，但底層邏輯——將行動與有利週期對齊——在許多文化中都存在。印度的穆胡爾塔、西方的擇日占星、軍事時機傳統都有類似的思維。"
   - question: "應該提前多久查看日期？"
     answer: "婚禮和商業開幕，提前2-3個月查看就足夠靈活了。搬遷的話，通常提前一個月就夠了。中國通書的週期是循環的，所以你永遠有選擇。"
+keywords: "auspicious date selection, chinese calendar wedding date, ze ri date picking, feng shui date selection, best date for moving house, chinese almanac lucky dates"
 ---
 **Chinese auspicious date selection (Ze Ri) is not about finding a 'lucky day.'** It's a decision-making framework that weighs multiple energy variables at once — the day's Five Phase signature, the rotating Daily Officers, and your personal birth chart — to identify dates where the conditions are more supportive for your specific activity. Whether you're planning a wedding, a business launch, or a move, the system helps you stack the odds in your favor. Our free [Auspicious Date Picker](/almanac) automates this process by cross-referencing the Chinese Almanac with your zodiac sign.
 

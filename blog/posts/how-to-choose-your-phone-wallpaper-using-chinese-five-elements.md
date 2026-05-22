@@ -45,6 +45,7 @@ faq_zh:
     answer: "效果是微妙的，不是魔法的。每天看到與你能量畫像一致的顏色幾十次，會創造一個一致的環境提示——就像整潔的辦公桌支持生產力，安靜的臥室支持睡眠一樣。"
   - question: "我怎麼開始？"
     answer: "最快的方式：造訪 DaoEssence 的免費八字排盤，輸入你的出生資料，從結果中記下你的有利五行。然後使用上面的顏色指南選擇匹配的壁紙。"
+keywords: "phone wallpaper five elements, wallpaper color bazi, feng shui phone wallpaper, five elements colors, favorable element wallpaper, chinese astrology colors"
 ---
 **How to Choose Your Phone Wallpaper Using Chinese Five Elements: A Practical Guide**
 
