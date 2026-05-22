@@ -277,6 +277,136 @@
         });
     });
 
+    // ==================== FAVORABLE ELEMENT TOOLTIP ENGINE ====================
+
+    // Get the Five Element code (0-4) of a ten god given the Day Master stem and ten god name
+    // Reverses the DGS_TABLE lookup: finds which stem produces this ten god for the given DM
+    function getTenGodElement(dmStem, tgCn) {
+        var dmIdx = STEMS.indexOf(dmStem);
+        if (dmIdx < 0) return null;
+        var tgIdx = TG_INDEX.indexOf(tgCn);
+        if (tgIdx < 0) return null;
+        var row = DGS_TABLE[dmIdx];
+        for (var s = 0; s < 10; s++) {
+            if (row[s] === tgIdx) {
+                return STEM_WX[s]; // 0=Metal, 1=Water, 2=Wood, 3=Fire, 4=Earth
+            }
+        }
+        return null;
+    }
+
+    // Determine verdict for a ten god based on its element vs favorable/avoid elements
+    function tgVerdictFromFav(tgCn, dmStem, favElements, avoidElement) {
+        var elCode = getTenGodElement(dmStem, tgCn);
+        if (elCode === null) return null;
+        var elName = WX_NAMES[elCode];
+        if (favElements && favElements.indexOf(elName) >= 0) return isZh() ? '吉' : 'Good';
+        if (avoidElement === elName) return isZh() ? '凶' : 'Challenging';
+        return null;
+    }
+
+    // Fetch favorable element analysis and update all tooltips
+    function fetchAndUpdateFavorableElement(rt, dmIdx) {
+        var ctg = rt['ctg'] || [];
+        var cdz = rt['cdz'] || [];
+        var nwx = rt['nwx'] || [0, 0, 0, 0, 0];
+        var payload = {
+            chart: {
+                pillars: [
+                    { stem: ctg[0] || '', branch: cdz[0] || '' },
+                    { stem: ctg[1] || '', branch: cdz[1] || '' },
+                    { stem: ctg[2] || '', branch: cdz[2] || '' },
+                    { stem: ctg[3] || '', branch: cdz[3] || '' }
+                ],
+                dayMaster: ctg[2] || '',
+                gender: rt['xb'],
+                wxCount: { 'Metal': nwx[0], 'Water': nwx[1], 'Wood': nwx[2], 'Fire': nwx[3], 'Earth': nwx[4] }
+            },
+            lang: isZh() ? 'zh-Hant' : 'en'
+        };
+
+        fetch('/api/bazi-favorable-element', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        })
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+            if (!data.success || !data.analysis) return;
+            var favElements = data.analysis.favorableElementsZh || data.analysis.favorableElements || [];
+            var avoidElement = data.analysis.avoidElementZh || data.analysis.avoidElement || '';
+            var dmStem = ctg[2];
+
+            updateAllPillarTooltips(rt, dmIdx, dmStem, favElements, avoidElement);
+            updateAllDayunTooltips(rt, dmIdx, dmStem, favElements, avoidElement);
+        })
+        .catch(function(err) {
+            console.warn('Favorable element API failed:', err);
+        });
+    }
+
+    // Update all four pillar ten god tooltips with verdict-aware text
+    function updateAllPillarTooltips(rt, dmIdx, dmStem, favElements, avoidElement) {
+        var pillars = document.querySelectorAll('.pillar');
+        if (!pillars) return;
+
+        pillars.forEach(function(pillar, pIdx) {
+            // Stem ten god (skip Day pillar which has no stem ten god)
+            if (pIdx !== 2) {
+                var stemEl = pillar.querySelector('.pillar-stem .pillar-tg:not(.pillar-tg-self)');
+                if (stemEl) {
+                    var gan = rt['ctg'][pIdx];
+                    var ganTg = getStemShiShen(STEMS.indexOf(gan), dmIdx);
+                    if (ganTg && ganTg.cn) {
+                        var verdict = tgVerdictFromFav(ganTg.cn, dmStem, favElements, avoidElement);
+                        if (verdict) {
+                            var tip = tgTip(ganTg, verdict).replace(/"/g, '&quot;').replace(/\n/g, ' | ');
+                            stemEl.setAttribute('data-tip', tip);
+                        }
+                    }
+                }
+            }
+
+            // Branch ten god (main hidden stem / 藏干主气)
+            var branchEl = pillar.querySelector('.pillar-branch .pillar-tg');
+            if (branchEl) {
+                var zhi = rt['cdz'][pIdx];
+                var branchIdx = BRANCHES.indexOf(zhi);
+                var cangGanList = getBranchShiShen(branchIdx, dmIdx);
+                if (cangGanList.length > 0 && cangGanList[0].tg && cangGanList[0].tg.cn) {
+                    var zhiTg = cangGanList[0].tg;
+                    var verdict = tgVerdictFromFav(zhiTg.cn, dmStem, favElements, avoidElement);
+                    if (verdict) {
+                        var tip = tgTip(zhiTg, verdict).replace(/"/g, '&quot;').replace(/\n/g, ' | ');
+                        branchEl.setAttribute('data-tip', tip);
+                    }
+                }
+            }
+        });
+    }
+
+    // Update all dayun card tooltips with verdict-aware text
+    function updateAllDayunTooltips(rt, dmIdx, dmStem, favElements, avoidElement) {
+        var cards = document.querySelectorAll('.dayun-card');
+        if (!cards) return;
+
+        cards.forEach(function(card) {
+            var idx = parseInt(card.getAttribute('data-dy-index'));
+            if (isNaN(idx) || !rt['dy'] || !rt['dy'][idx]) return;
+            var dy = rt['dy'][idx];
+            var dyGanIdx = STEMS.indexOf(dy['zfma']);
+            if (dyGanIdx < 0) return;
+            var dyStemTg = getStemShiShen(dyGanIdx, dmIdx);
+            if (!dyStemTg || !dyStemTg.cn) return;
+
+            var verdict = tgVerdictFromFav(dyStemTg.cn, dmStem, favElements, avoidElement);
+            if (verdict) {
+                var tip = tgTip(dyStemTg, verdict).replace(/"/g, '&quot;').replace(/\n/g, ' | ');
+                card.setAttribute('data-tip', tip);
+            }
+        });
+    }
+
     function getBranchShiShen(branchIdx, dmIdx) {
         var cg = ZCG_TABLE[branchIdx];
         var result = [];
@@ -842,6 +972,10 @@
         var zodiac = isZh() ? rt['sx'] : (ZODIAC_EN[rt['sx']] || rt['sx']);
         var dayMaster = rt['ctg'][2];
         var dmIdx = STEMS.indexOf(dayMaster);
+
+        // Start fetching favorable element analysis (async, updates tooltips when ready)
+        fetchAndUpdateFavorableElement(rt, dmIdx);
+
         var dmWxCode = STEM_WX[dmIdx];
         var dmElement = WX_NAMES[dmWxCode];
 
