@@ -2390,6 +2390,8 @@ async function main() {
     { loc: '/learn-bazi/spirit-stars', changefreq: 'monthly', priority: '0.8' },
     { loc: '/privacy', changefreq: 'yearly', priority: '0.3' },
     { loc: '/terms', changefreq: 'yearly', priority: '0.3' },
+    { loc: '/destiny', changefreq: 'monthly', priority: '0.6' },
+    { loc: '/guide', changefreq: 'monthly', priority: '0.7' },
   ];
   // Add category pages to sitemap (skip empty categories)
   for (const cat of CATEGORY_FOLDERS) {

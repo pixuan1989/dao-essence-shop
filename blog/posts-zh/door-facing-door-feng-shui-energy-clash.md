@@ -10,9 +10,7 @@ tags:
   - 門口佈置
 description: 公寓對門易引發風水能量衝突。本文提供 4 種簡易化解法：屏風、綠植、開關門習慣等，助你守護居家之氣。
 seoDescription: >-
-  Door facing door feng shui: understand why two opposing entrances create
-  energy clash, and learn 4 practical remedies to protect your home's energy
-  without major renovations.
+  門對門風水：了解為什麼兩扇相對的門會產生氣場對沖，以及 4 種不需大裝修就能化解居家煞氣的實用方法。
 keywords: "大門對大門風水, 對門風水禁忌, 風水門對門化解, 公寓風水問題, 風水門口佈置, 鄰居對門風水"
 date: 2026-05-21T00:00:00.000Z
 author: DAO Essence
