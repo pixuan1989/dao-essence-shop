@@ -1168,7 +1168,7 @@
                         var lyYear = ly['year'] || 0;
                         var isCurrentYear = (lyYear === currentYear);
 
-                        lyHTML += '<div class="ly-card' + (isCurrentYear ? ' ly-current' : '') + '" data-ly-index="' + lyIdx + '" data-ly-year="' + lyYear + '"' + (lyTg ? ' data-tip="' + tgTip(lyTg, null).replace(/"/g, '&quot;').replace(/\n/g, ' | ') + '"' : '') + '>';
+                        lyHTML += '<div class="ly-card' + (isCurrentYear ? ' ly-current' : '') + '" data-ly-index="' + lyIdx + '" data-ly-year="' + lyYear + '">';
                         if (isCurrentYear) lyHTML += '<span class="badge-now">' + (isZh() ? '當前' : 'NOW') + '</span>';
                         lyHTML += '<div class="ly-ganzhi">' + lyGanZhi + '</div>';
                         if (lyTg) lyHTML += '<div class="ly-tg ly-tg-stem">' + tgLabel(lyTg) + '</div>';
