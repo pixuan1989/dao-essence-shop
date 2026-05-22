@@ -111,6 +111,8 @@ const ZODIAC_EVERGREEN = {
   rat: {
     en: `<h2>Rat Chinese Zodiac — Personality, Fortune &amp; Traits</h2>
 <p>The Rat (鼠) is the first sign of the Chinese zodiac. People born in the Year of the Rat are known for their intelligence, quick wit, and resourcefulness. In Chinese culture, the Rat symbolizes wealth, surplus, and prosperity.</p>
+<h3>Birth Years</h3>
+<p>If you were born in any of these years, your Chinese zodiac sign is <strong>Rat</strong>: 2020, 2008, 1996, 1984, 1972, 1960, 1948, 1936, 1924.</p>
 <h3>Rat Personality Traits</h3>
 <p>Rat individuals are clever, adaptable, and excellent problem-solvers. They have a natural ability to spot opportunities and make the most of any situation. Rats are social and charming, with a keen sense of humor that makes them popular in any group.</p>
 <h3>Five Elements &amp; Lucky Elements</h3>
@@ -119,6 +121,8 @@ const ZODIAC_EVERGREEN = {
 <p>In relationships, Rats are devoted, generous, and highly attentive to their partner's needs. They value family above all else and will work tirelessly to ensure their loved ones are happy and secure.</p>`,
     zh: `<h2>生肖鼠 — 性格、运势与特质详解</h2>
 <p>鼠是十二生肖中的第一位。属鼠的人以聪明、机智和足智多谋著称。在中国文化中，鼠象征着财富、富余和繁荣。</p>
+<h3>出生年份</h3>
+<p>如果你出生于以下年份，你的生肖是<strong>鼠</strong>：2020、2008、1996、1984、1972、1960、1948、1936、1924。</p>
 <h3>属鼠人的性格特点</h3>
 <p>属鼠的人聪明、适应力强，是出色的问题解决者。他们天生具有发现机会并充分利用任何情况的能力。鼠善于社交且富有魅力，具有敏锐的幽默感，使他们在任何群体中都受欢迎。</p>
 <h3>五行与幸运元素</h3>
@@ -129,6 +133,8 @@ const ZODIAC_EVERGREEN = {
   ox: {
     en: `<h2>Ox Chinese Zodiac — Personality, Fortune &amp; Traits</h2>
 <p>The Ox (牛) is the second sign of the Chinese zodiac. People born in the Year of the Ox are known for their diligence, dependability, and strength. In Chinese culture, the Ox symbolizes hard work, honesty, and perseverance.</p>
+<h3>Birth Years</h3>
+<p>If you were born in any of these years, your Chinese zodiac sign is <strong>Ox</strong>: 2021, 2009, 1997, 1985, 1973, 1961, 1949, 1937, 1925.</p>
 <h3>Ox Personality Traits</h3>
 <p>Ox individuals are patient, methodical, and incredibly hardworking. They believe in steady progress and are willing to put in the effort to achieve their goals. Oxes are known for their integrity and strong sense of responsibility, making them trusted colleagues and reliable friends.</p>
 <h3>Five Elements &amp; Lucky Elements</h3>
@@ -137,6 +143,8 @@ const ZODIAC_EVERGREEN = {
 <p>In relationships, Oxes are loyal, devoted, and protective. They may not be the most romantic, but they express love through actions and commitment. Oxes value stability and long-term partnership above all else.</p>`,
     zh: `<h2>生肖牛 — 性格、运势与特质详解</h2>
 <p>牛是十二生肖中的第二位。属牛的人以勤奋、可靠和坚韧著称。在中国文化中，牛象征着勤劳、诚实和毅力。</p>
+<h3>出生年份</h3>
+<p>如果你出生于以下年份，你的生肖是<strong>牛</strong>：2021、2009、1997、1985、1973、1961、1949、1937、1925。</p>
 <h3>属牛人的性格特点</h3>
 <p>属牛的人耐心、有条理、极其勤奋。他们相信稳步前进，愿意为实现目标付出努力。属牛的人以诚信和强烈的责任感著称，是值得信赖的同事和可靠的朋友。</p>
 <h3>五行与幸运元素</h3>
@@ -147,6 +155,8 @@ const ZODIAC_EVERGREEN = {
   tiger: {
     en: `<h2>Tiger Chinese Zodiac — Personality, Fortune &amp; Traits</h2>
 <p>The Tiger (虎) is the third sign of the Chinese zodiac. People born in the Year of the Tiger are known for their courage, competitiveness, and confidence. In Chinese culture, the Tiger symbolizes power, bravery, and royalty.</p>
+<h3>Birth Years</h3>
+<p>If you were born in any of these years, your Chinese zodiac sign is <strong>Tiger</strong>: 2022, 2010, 1998, 1986, 1974, 1962, 1950, 1938, 1926.</p>
 <h3>Tiger Personality Traits</h3>
 <p>Tiger individuals are natural leaders with a strong sense of justice. They are adventurous, independent, and unafraid to take risks. Tigers have a magnetic personality that inspires others, and they thrive in challenging environments where they can showcase their abilities.</p>
 <h3>Five Elements &amp; Lucky Elements</h3>
@@ -155,6 +165,8 @@ const ZODIAC_EVERGREEN = {
 <p>In relationships, Tigers are passionate, protective, and generous. They love grand gestures and enjoy keeping the spark alive. Tigers need a partner who can match their energy and appreciate their adventurous spirit.</p>`,
     zh: `<h2>生肖虎 — 性格、运势与特质详解</h2>
 <p>虎是十二生肖中的第三位。属虎的人以勇气、竞争力和自信著称。在中国文化中，虎象征着力量、勇敢和王权。</p>
+<h3>出生年份</h3>
+<p>如果你出生于以下年份，你的生肖是<strong>虎</strong>：2022、2010、1998、1986、1974、1962、1950、1938、1926。</p>
 <h3>属虎人的性格特点</h3>
 <p>属虎的人是天生的领导者，具有强烈的正义感。他们冒险、独立、不怕风险。虎具有磁性的人格魅力，能激励他人，在充满挑战的环境中茁壮成长。</p>
 <h3>五行与幸运元素</h3>
@@ -165,6 +177,8 @@ const ZODIAC_EVERGREEN = {
   rabbit: {
     en: `<h2>Rabbit Chinese Zodiac — Personality, Fortune &amp; Traits</h2>
 <p>The Rabbit (兔) is the fourth sign of the Chinese zodiac. People born in the Year of the Rabbit are known for their gentleness, elegance, and compassion. In Chinese culture, the Rabbit symbolizes longevity, peace, and prosperity.</p>
+<h3>Birth Years</h3>
+<p>If you were born in any of these years, your Chinese zodiac sign is <strong>Rabbit</strong>: 2023, 2011, 1999, 1987, 1975, 1963, 1951, 1939, 1927.</p>
 <h3>Rabbit Personality Traits</h3>
 <p>Rabbit individuals are diplomatic, refined, and deeply empathetic. They have a natural ability to create harmony in their surroundings and avoid conflict whenever possible. Rabbits are artistic, creative, and have excellent taste in all aspects of life.</p>
 <h3>Five Elements &amp; Lucky Elements</h3>
@@ -173,6 +187,8 @@ const ZODIAC_EVERGREEN = {
 <p>In relationships, Rabbits are tender, caring, and attentive. They create a warm and loving home environment and are deeply devoted to their partners. Rabbits value emotional security and seek partners who appreciate their gentle nature.</p>`,
     zh: `<h2>生肖兔 — 性格、运势与特质详解</h2>
 <p>兔是十二生肖中的第四位。属兔的人以温和、优雅和同情心著称。在中国文化中，兔象征着长寿、和平与繁荣。</p>
+<h3>出生年份</h3>
+<p>如果你出生于以下年份，你的生肖是<strong>兔</strong>：2023、2011、1999、1987、1975、1963、1951、1939、1927。</p>
 <h3>属兔人的性格特点</h3>
 <p>属兔的人善于外交、优雅且极具同理心。他们天生有能力在周围创造和谐，并尽可能避免冲突。属兔的人具有艺术天赋、创造力，在生活的各个方面都有出色的品味。</p>
 <h3>五行与幸运元素</h3>
@@ -183,6 +199,8 @@ const ZODIAC_EVERGREEN = {
   dragon: {
     en: `<h2>Dragon Chinese Zodiac — Personality, Fortune &amp; Traits</h2>
 <p>The Dragon (龙) is the fifth sign of the Chinese zodiac and the only mythical creature. People born in the Year of the Dragon are known for their charisma, ambition, and vitality. In Chinese culture, the Dragon symbolizes power, excellence, and good fortune.</p>
+<h3>Birth Years</h3>
+<p>If you were born in any of these years, your Chinese zodiac sign is <strong>Dragon</strong>: 2024, 2012, 2000, 1988, 1976, 1964, 1952, 1940, 1928.</p>
 <h3>Dragon Personality Traits</h3>
 <p>Dragon individuals are energetic, confident, and naturally charismatic. They are ambitious achievers who set high standards for themselves and others. Dragons are innovative thinkers who thrive in leadership roles and are not afraid to challenge the status quo.</p>
 <h3>Five Elements &amp; Lucky Elements</h3>
@@ -191,6 +209,8 @@ const ZODIAC_EVERGREEN = {
 <p>In relationships, Dragons are passionate, generous, and protective. They expect their partners to be equally driven and ambitious. Dragons value loyalty and seek relationships that elevate both partners to new heights.</p>`,
     zh: `<h2>生肖龙 — 性格、运势与特质详解</h2>
 <p>龙是十二生肖中的第五位，也是唯一的神话生物。属龙的人以魅力、雄心和活力著称。在中国文化中，龙象征着力量、卓越和好运。</p>
+<h3>出生年份</h3>
+<p>如果你出生于以下年份，你的生肖是<strong>龙</strong>：2024、2012、2000、1988、1976、1964、1952、1940、1928。</p>
 <h3>属龙人的性格特点</h3>
 <p>属龙的人精力充沛、自信且天生具有魅力。他们是雄心勃勃的成就者，对自己和他人都有高标准。属龙的人是创新思想家，在领导角色中茁壮成长，不怕挑战现状。</p>
 <h3>五行与幸运元素</h3>
@@ -201,6 +221,8 @@ const ZODIAC_EVERGREEN = {
   snake: {
     en: `<h2>Snake Chinese Zodiac — Personality, Fortune &amp; Traits</h2>
 <p>The Snake (蛇) is the sixth sign of the Chinese zodiac. People born in the Year of the Snake are known for their wisdom, intuition, and elegance. In Chinese culture, the Snake symbolizes mystery, grace, and deep thinking.</p>
+<h3>Birth Years</h3>
+<p>If you were born in any of these years, your Chinese zodiac sign is <strong>Snake</strong>: 2025, 2013, 2001, 1989, 1977, 1965, 1953, 1941, 1929.</p>
 <h3>Snake Personality Traits</h3>
 <p>Snake individuals are calm, collected, and analytical. They possess a natural charm that draws others to them, yet they value their privacy. Snakes are excellent planners and strategists, making them natural problem-solvers who think several steps ahead.</p>
 <h3>Five Elements &amp; Lucky Elements</h3>
@@ -209,6 +231,8 @@ const ZODIAC_EVERGREEN = {
 <p>In relationships, Snakes are loyal, passionate, and deeply committed. They may appear reserved at first, but once they trust someone, they give their whole heart. Snakes value emotional depth and intellectual connection.</p>`,
     zh: `<h2>生肖蛇 — 性格、运势与特质详解</h2>
 <p>蛇是十二生肖中的第六位。属蛇的人以智慧、直觉力和优雅著称。在中国文化中，蛇象征着神秘、优雅和深邃的思考。</p>
+<h3>出生年份</h3>
+<p>如果你出生于以下年份，你的生肖是<strong>蛇</strong>：2025、2013、2001、1989、1977、1965、1953、1941、1929。</p>
 <h3>属蛇人的性格特点</h3>
 <p>属蛇的人冷静、沉着、善于分析。他们天生具有吸引力，但注重隐私。属蛇的人是出色的规划者和策略家，是天然的问题解决者，总是领先几步思考。</p>
 <h3>五行与幸运元素</h3>
@@ -219,6 +243,8 @@ const ZODIAC_EVERGREEN = {
   horse: {
     en: `<h2>Horse Chinese Zodiac — Personality, Fortune &amp; Traits</h2>
 <p>The Horse (马) is the seventh sign of the Chinese zodiac. People born in the Year of the Horse are known for their energy, enthusiasm, and independence. In Chinese culture, the Horse symbolizes freedom, speed, and noble spirit.</p>
+<h3>Birth Years</h3>
+<p>If you were born in any of these years, your Chinese zodiac sign is <strong>Horse</strong>: 2026, 2014, 2002, 1990, 1978, 1966, 1954, 1942, 1930.</p>
 <h3>Horse Personality Traits</h3>
 <p>Horse individuals are animated, active, and energetic. They love being in the spotlight and have a natural ability to inspire others. Horses are independent thinkers who value their freedom and resist being tied down by routines or restrictions.</p>
 <h3>Five Elements &amp; Lucky Elements</h3>
@@ -227,6 +253,8 @@ const ZODIAC_EVERGREEN = {
 <p>In relationships, Horses are passionate, adventurous, and generous. They need a partner who respects their need for independence while sharing their love of excitement. Horses are loyal but require space to breathe and explore.</p>`,
     zh: `<h2>生肖马 — 性格、运势与特质详解</h2>
 <p>马是十二生肖中的第七位。属马的人以活力、热情和独立著称。在中国文化中，马象征着自由、速度和高贵的精神。</p>
+<h3>出生年份</h3>
+<p>如果你出生于以下年份，你的生肖是<strong>马</strong>：2026、2014、2002、1990、1978、1966、1954、1942、1930。</p>
 <h3>属马人的性格特点</h3>
 <p>属马的人活泼、积极且精力充沛。他们喜欢成为焦点，天生具有激励他人的能力。马是独立思考者，重视自由，抗拒被常规或限制束缚。</p>
 <h3>五行与幸运元素</h3>
@@ -237,6 +265,8 @@ const ZODIAC_EVERGREEN = {
   goat: {
     en: `<h2>Goat Chinese Zodiac — Personality, Fortune &amp; Traits</h2>
 <p>The Goat (羊) is the eighth sign of the Chinese zodiac. People born in the Year of the Goat are known for their gentleness, creativity, and compassion. In Chinese culture, the Goat symbolizes harmony, artistry, and filial piety.</p>
+<h3>Birth Years</h3>
+<p>If you were born in any of these years, your Chinese zodiac sign is <strong>Goat</strong>: 2027, 2015, 2003, 1991, 1979, 1967, 1955, 1943, 1931.</p>
 <h3>Goat Personality Traits</h3>
 <p>Goat individuals are mild-mannered, creative, and deeply empathetic. They have a strong appreciation for beauty and the arts, and they strive to create harmony in all areas of their lives. Goats are generous and always willing to help those in need.</p>
 <h3>Five Elements &amp; Lucky Elements</h3>
@@ -245,6 +275,8 @@ const ZODIAC_EVERGREEN = {
 <p>In relationships, Goats are caring, nurturing, and deeply romantic. They create a warm and loving home and are devoted partners who prioritize their loved ones' happiness above all else.</p>`,
     zh: `<h2>生肖羊 — 性格、运势与特质详解</h2>
 <p>羊是十二生肖中的第八位。属羊的人以温和、创造力和同情心著称。在中国文化中，羊象征着和谐、艺术和孝顺。</p>
+<h3>出生年份</h3>
+<p>如果你出生于以下年份，你的生肖是<strong>羊</strong>：2027、2015、2003、1991、1979、1967、1955、1943、1931。</p>
 <h3>属羊人的性格特点</h3>
 <p>属羊的人温文尔雅、富有创造力且极具同理心。他们对美和艺术有强烈的欣赏，努力在生活的各个领域创造和谐。属羊的人慷慨大方，总是愿意帮助有需要的人。</p>
 <h3>五行与幸运元素</h3>
@@ -255,6 +287,8 @@ const ZODIAC_EVERGREEN = {
   monkey: {
     en: `<h2>Monkey Chinese Zodiac — Personality, Fortune &amp; Traits</h2>
 <p>The Monkey (猴) is the ninth sign of the Chinese zodiac. People born in the Year of the Monkey are known for their wit, intelligence, and versatility. In Chinese culture, the Monkey symbolizes cleverness, curiosity, and mischief.</p>
+<h3>Birth Years</h3>
+<p>If you were born in any of these years, your Chinese zodiac sign is <strong>Monkey</strong>: 2028, 2016, 2004, 1992, 1980, 1968, 1956, 1944, 1932.</p>
 <h3>Monkey Personality Traits</h3>
 <p>Monkey individuals are sharp, innovative, and endlessly curious. They are natural problem-solvers who can think outside the box and find creative solutions to complex challenges. Monkeys are social butterflies who thrive in dynamic, stimulating environments.</p>
 <h3>Five Elements &amp; Lucky Elements</h3>
@@ -263,6 +297,8 @@ const ZODIAC_EVERGREEN = {
 <p>In relationships, Monkeys are playful, charming, and intellectually stimulating. They need a partner who can keep up with their wit and share their love of adventure. Monkeys are loyal but require mental stimulation to stay engaged.</p>`,
     zh: `<h2>生肖猴 — 性格、运势与特质详解</h2>
 <p>猴是十二生肖中的第九位。属猴的人以机智、聪明和多才多艺著称。在中国文化中，猴象征着聪明、好奇和调皮。</p>
+<h3>出生年份</h3>
+<p>如果你出生于以下年份，你的生肖是<strong>猴</strong>：2028、2016、2004、1992、1980、1968、1956、1944、1932。</p>
 <h3>属猴人的性格特点</h3>
 <p>属猴的人敏锐、创新且充满好奇心。他们是天然的问题解决者，能够跳出框框思考，为复杂挑战找到创造性的解决方案。猴是社交达人，在动态、刺激的环境中茁壮成长。</p>
 <h3>五行与幸运元素</h3>
@@ -273,6 +309,8 @@ const ZODIAC_EVERGREEN = {
   rooster: {
     en: `<h2>Rooster Chinese Zodiac — Personality, Fortune &amp; Traits</h2>
 <p>The Rooster (鸡) is the tenth sign of the Chinese zodiac. People born in the Year of the Rooster are known for their observant nature, hard work, and courage. In Chinese culture, the Rooster symbolizes punctuality, honesty, and flamboyance.</p>
+<h3>Birth Years</h3>
+<p>If you were born in any of these years, your Chinese zodiac sign is <strong>Rooster</strong>: 2029, 2017, 2005, 1993, 1981, 1969, 1957, 1945, 1933.</p>
 <h3>Rooster Personality Traits</h3>
 <p>Rooster individuals are honest, energetic, and confident. They have a keen eye for detail and take pride in their appearance and accomplishments. Roosters are natural organizers who excel at managing projects and people with precision and efficiency.</p>
 <h3>Five Elements &amp; Lucky Elements</h3>
@@ -281,6 +319,8 @@ const ZODIAC_EVERGREEN = {
 <p>In relationships, Roosters are loyal, supportive, and expressive. They show love through acts of service and enjoy creating beautiful experiences for their partners. Roosters value honesty and open communication in their relationships.</p>`,
     zh: `<h2>生肖鸡 — 性格、运势与特质详解</h2>
 <p>鸡是十二生肖中的第十位。属鸡的人以善于观察、勤奋和勇敢著称。在中国文化中，鸡象征着守时、诚实和华丽。</p>
+<h3>出生年份</h3>
+<p>如果你出生于以下年份，你的生肖是<strong>鸡</strong>：2029、2017、2005、1993、1981、1969、1957、1945、1933。</p>
 <h3>属鸡人的性格特点</h3>
 <p>属鸡的人诚实、精力充沛且自信。他们对细节有敏锐的眼光，为自己的外表和成就感到自豪。鸡是天然的组织者，擅长以精确和高效管理项目和人员。</p>
 <h3>五行与幸运元素</h3>
@@ -291,6 +331,8 @@ const ZODIAC_EVERGREEN = {
   dog: {
     en: `<h2>Dog Chinese Zodiac — Personality, Fortune &amp; Traits</h2>
 <p>The Dog (狗) is the eleventh sign of the Chinese zodiac. People born in the Year of the Dog are known for their loyalty, honesty, and sense of justice. In Chinese culture, the Dog symbolizes fidelity, kindness, and vigilance.</p>
+<h3>Birth Years</h3>
+<p>If you were born in any of these years, your Chinese zodiac sign is <strong>Dog</strong>: 2030, 2018, 2006, 1994, 1982, 1970, 1958, 1946, 1934.</p>
 <h3>Dog Personality Traits</h3>
 <p>Dog individuals are loyal, faithful, and incredibly reliable. They have a strong sense of right and wrong and will stand up for what they believe in. Dogs are empathetic listeners who genuinely care about the well-being of others.</p>
 <h3>Five Elements &amp; Lucky Elements</h3>
@@ -299,6 +341,8 @@ const ZODIAC_EVERGREEN = {
 <p>In relationships, Dogs are devoted, protective, and incredibly loyal. They are the type of partner who will always have your back. Dogs value trust and sincerity above all else and seek relationships built on mutual respect and understanding.</p>`,
     zh: `<h2>生肖狗 — 性格、运势与特质详解</h2>
 <p>狗是十二生肖中的第十一位。属狗的人以忠诚、诚实和正义感著称。在中国文化中，狗象征着忠实、善良和警觉。</p>
+<h3>出生年份</h3>
+<p>如果你出生于以下年份，你的生肖是<strong>狗</strong>：2030、2018、2006、1994、1982、1970、1958、1946、1934。</p>
 <h3>属狗人的性格特点</h3>
 <p>属狗的人忠诚、可靠且极其值得信赖。他们有强烈的是非观，会为自己相信的事挺身而出。狗是具有同理心的倾听者，真正关心他人的福祉。</p>
 <h3>五行与幸运元素</h3>
@@ -309,6 +353,8 @@ const ZODIAC_EVERGREEN = {
   pig: {
     en: `<h2>Pig Chinese Zodiac — Personality, Fortune &amp; Traits</h2>
 <p>The Pig (猪) is the twelfth and final sign of the Chinese zodiac. People born in the Year of the Pig are known for their generosity, diligence, and compassion. In Chinese culture, the Pig symbolizes wealth, prosperity, and good fortune.</p>
+<h3>Birth Years</h3>
+<p>If you were born in any of these years, your Chinese zodiac sign is <strong>Pig</strong>: 2031, 2019, 2007, 1995, 1983, 1971, 1959, 1947, 1935.</p>
 <h3>Pig Personality Traits</h3>
 <p>Pig individuals are generous, honest, and warm-hearted. They enjoy the finer things in life and work hard to provide comfort for themselves and their loved ones. Pigs are optimists who see the best in people and situations, making them wonderful companions.</p>
 <h3>Five Elements &amp; Lucky Elements</h3>
@@ -317,6 +363,8 @@ const ZODIAC_EVERGREEN = {
 <p>In relationships, Pigs are loving, generous, and deeply committed. They enjoy pampering their partners and creating a comfortable, happy home. Pigs value harmony and will go to great lengths to ensure their loved ones feel cherished.</p>`,
     zh: `<h2>生肖猪 — 性格、运势与特质详解</h2>
 <p>猪是十二生肖中的第十二位，也是最后一位。属猪的人以慷慨、勤奋和同情心著称。在中国文化中，猪象征着财富、繁荣和好运。</p>
+<h3>出生年份</h3>
+<p>如果你出生于以下年份，你的生肖是<strong>猪</strong>：2031、2019、2007、1995、1983、1971、1959、1947、1935。</p>
 <h3>属猪人的性格特点</h3>
 <p>属猪的人慷慨、诚实且热心。他们享受生活中的美好事物，努力工作为自己和所爱之人提供舒适。猪是乐观主义者，看到人和情况最好的一面，是极好的伴侣。</p>
 <h3>五行与幸运元素</h3>
