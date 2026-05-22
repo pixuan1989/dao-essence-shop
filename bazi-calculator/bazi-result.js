@@ -839,12 +839,14 @@
             var cangGanList = getBranchShiShen(branchIdx, dmIdx);
 
             var ganYin = STEM_WX[STEMS.indexOf(gan)] % 2 === 0 ? t('bazi_result.yang') : t('bazi_result.yin');
-            var zhiYin = BRANCH_WX[BRANCHES.indexOf(zhi)] % 2 === 0 ? t('bazi_result.yang') : t('bazi_result.yin');
+            var zhiWxOnly = isZh() ? zhiWx : WX_EN[zhiWx];
+            // 地支十神：取藏干主气（primary）
+            var zhiTg = cangGanList.length > 0 ? cangGanList[0].tg : null;
             pillarsHTML += '<div class="pillar">';
             pillarsHTML += '<div class="pillar-label">' + pillarLabels[p] + '</div>';
             pillarsHTML += '<div class="pillar-stem">';
             pillarsHTML += '<span class="pillar-char">' + gan + '</span>';
-            pillarsHTML += '<span class="pillar-wx" style="color:' + WX_COLORS[ganWx] + '">' + ganYin + ' ' + (isZh() ? ganWx : WX_EN[ganWx]) + '</span>';
+            pillarsHTML += '<span class="pillar-wx" style="color:' + WX_COLORS[ganWx] + '">' + (isZh() ? ganWx : WX_EN[ganWx]) + '</span>';
             if (ganTg) {
                 pillarsHTML += '<span class="pillar-tg">' + tgLabel(ganTg) + '</span>';
             } else {
@@ -853,7 +855,10 @@
             pillarsHTML += '</div>';
             pillarsHTML += '<div class="pillar-branch">';
             pillarsHTML += '<span class="pillar-char">' + zhi + '</span>';
-            pillarsHTML += '<span class="pillar-wx" style="color:' + WX_COLORS[zhiWx] + '">' + zhiYin + ' ' + (isZh() ? zhiWx : WX_EN[zhiWx]) + '</span>';
+            pillarsHTML += '<span class="pillar-wx" style="color:' + WX_COLORS[zhiWx] + '">' + zhiWxOnly + '</span>';
+            if (zhiTg) {
+                pillarsHTML += '<span class="pillar-tg">' + tgLabel(zhiTg) + '</span>';
+            }
             pillarsHTML += '</div>';
             pillarsHTML += '</div>';
         }
@@ -889,12 +894,17 @@
                 var dyGanIdx2 = STEMS.indexOf(dy['zfma']);
                 var dyStemTg = dyGanIdx2 >= 0 ? getStemShiShen(dyGanIdx2, dmIdx) : null;
                 var dyGanWx = dyGanIdx2 >= 0 ? (isZh() ? WX_NAMES[STEM_WX[dyGanIdx2]] : WX_EN[WX_NAMES[STEM_WX[dyGanIdx2]]]) : '';
+                // 大运地支十神
+                var dyBranchIdx = BRANCHES.indexOf(dy['zfmb']);
+                var dyBranchCg = dyBranchIdx >= 0 ? getBranchShiShen(dyBranchIdx, dmIdx) : [];
+                var dyBranchTg = dyBranchCg.length > 0 ? dyBranchCg[0].tg : null;
                 var isCurrent = k === currentDayunIdx;
 
                 dyHTML += '<div class="dayun-card' + (isCurrent ? ' dayun-current' : '') + '" data-dy-index="' + k + '"' + (dyStemTg ? ' data-tip="' + tgTip(dyStemTg).replace(/"/g, '&quot;').replace(/\n/g, ' | ') + '"' : '') + '>';
                 if (isCurrent) dyHTML += '<span class="badge-current">' + (isZh() ? '當前' : 'NOW') + '</span>';
                 dyHTML += '<div class="dayun-ganzhi">' + (dy['zfma'] || '') + (dy['zfmb'] || '') + '</div>';
-                if (dyStemTg) dyHTML += '<div class="dayun-tg">' + tgLabel(dyStemTg) + '</div>';
+                if (dyStemTg) dyHTML += '<div class="dayun-tg dayun-tg-stem">' + tgLabel(dyStemTg) + '</div>';
+                if (dyBranchTg) dyHTML += '<div class="dayun-tg dayun-tg-branch">' + tgLabel(dyBranchTg) + '</div>';
                 dyHTML += '<div class="dayun-age">' + dy['zqage'] + '–' + dy['zboz'] + '</div>';
                 dyHTML += '<div class="dayun-years">' + dy['syear'] + '–' + dy['eyear'] + '</div>';
                 dyHTML += '</div>';
@@ -1020,15 +1030,21 @@
                     dy['ly'].forEach(function(ly, lyIdx) {
                         var lyGanZhi = ly['lye'] || '';
                         var lyGan = lyGanZhi.substring(0, 1);
+                        var lyZhi = lyGanZhi.substring(1, 2);
                         var lyGanIdx = STEMS.indexOf(lyGan);
                         var lyTg = lyGanIdx >= 0 ? getStemShiShen(lyGanIdx, dmIdx) : null;
+                        // 流年地支十神
+                        var lyBranchIdx = BRANCHES.indexOf(lyZhi);
+                        var lyBranchCg = lyBranchIdx >= 0 ? getBranchShiShen(lyBranchIdx, dmIdx) : [];
+                        var lyBranchTg = lyBranchCg.length > 0 ? lyBranchCg[0].tg : null;
                         var lyYear = ly['year'] || 0;
                         var isCurrentYear = (lyYear === currentYear);
 
                         lyHTML += '<div class="ly-card' + (isCurrentYear ? ' ly-current' : '') + '" data-ly-index="' + lyIdx + '" data-ly-year="' + lyYear + '"' + (lyTg ? ' data-tip="' + tgTip(lyTg).replace(/"/g, '&quot;').replace(/\n/g, ' | ') + '"' : '') + '>';
                         if (isCurrentYear) lyHTML += '<span class="badge-now">' + (isZh() ? '當前' : 'NOW') + '</span>';
                         lyHTML += '<div class="ly-ganzhi">' + lyGanZhi + '</div>';
-                        if (lyTg) lyHTML += '<div class="ly-tg">' + tgLabel(lyTg) + '</div>';
+                        if (lyTg) lyHTML += '<div class="ly-tg ly-tg-stem">' + tgLabel(lyTg) + '</div>';
+                        if (lyBranchTg) lyHTML += '<div class="ly-tg ly-tg-branch">' + tgLabel(lyBranchTg) + '</div>';
                         lyHTML += '<div class="ly-year">' + lyYear + '</div>';
                         lyHTML += '</div>';
                     });
