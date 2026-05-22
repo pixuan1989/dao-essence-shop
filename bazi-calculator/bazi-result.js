@@ -338,7 +338,6 @@
             var dmStem = ctg[2];
 
             updateAllPillarTooltips(rt, dmIdx, dmStem, favElements, avoidElement);
-            updateAllDayunTooltips(rt, dmIdx, dmStem, favElements, avoidElement);
         })
         .catch(function(err) {
             console.warn('Favorable element API failed:', err);
@@ -381,28 +380,6 @@
                         branchEl.setAttribute('data-tip', tip);
                     }
                 }
-            }
-        });
-    }
-
-    // Update all dayun card tooltips with verdict-aware text
-    function updateAllDayunTooltips(rt, dmIdx, dmStem, favElements, avoidElement) {
-        var cards = document.querySelectorAll('.dayun-card');
-        if (!cards) return;
-
-        cards.forEach(function(card) {
-            var idx = parseInt(card.getAttribute('data-dy-index'));
-            if (isNaN(idx) || !rt['dy'] || !rt['dy'][idx]) return;
-            var dy = rt['dy'][idx];
-            var dyGanIdx = STEMS.indexOf(dy['zfma']);
-            if (dyGanIdx < 0) return;
-            var dyStemTg = getStemShiShen(dyGanIdx, dmIdx);
-            if (!dyStemTg || !dyStemTg.cn) return;
-
-            var verdict = tgVerdictFromFav(dyStemTg.cn, dmStem, favElements, avoidElement);
-            if (verdict) {
-                var tip = tgTip(dyStemTg, verdict).replace(/"/g, '&quot;').replace(/\n/g, ' | ');
-                card.setAttribute('data-tip', tip);
             }
         });
     }
@@ -604,14 +581,6 @@
                         html += '</div></div>';
                     }
                     el.innerHTML = html;
-                    // Update card tooltip with verdict-aware interpretation
-                    if (cardIdx !== undefined && stemTg) {
-                        var cardEl = document.querySelector('.dayun-card[data-dy-index="' + cardIdx + '"]');
-                        if (cardEl) {
-                            var newTip = tgTip(stemTg, verdict).replace(/"/g, '&quot;').replace(/\n/g, ' | ');
-                            cardEl.setAttribute('data-tip', newTip);
-                        }
-                    }
                 } catch (renderErr) {
                     console.warn('BaZi render error:', renderErr);
                 }
@@ -662,14 +631,6 @@
                     if (result.advice) html += '<div class="detail-row" style="margin-top:0.5rem;color:var(--ink)"><span class="detail-key">' + (isZh() ? '\u5efa\u8b70' : 'Advice') + '</span>' + result.advice + '</div>';
                     html += '</div></div>';
                     el.innerHTML = html;
-                    // Update liunian card tooltip with verdict-aware interpretation
-                    if (cardIdx !== undefined && stemTg) {
-                        var lyCardEl = document.querySelector('.ly-card[data-ly-index="' + cardIdx + '"]');
-                        if (lyCardEl) {
-                            var newLyTip = tgTip(stemTg, verdict).replace(/"/g, '&quot;').replace(/\n/g, ' | ');
-                            lyCardEl.setAttribute('data-tip', newLyTip);
-                        }
-                    }
                 } catch (renderErr) {
                     console.warn('BaZi render error:', renderErr);
                 }
@@ -1052,8 +1013,7 @@
             dyHTML += '<h2 class="section-title">' + t('bazi_result.section_dayun') + '</h2>';
             if (currentDayunIdx >= 0) {
                 var cdy = rt['dy'][currentDayunIdx];
-                var cdyTg = getStemShiShen(STEMS.indexOf(cdy['zfma']), dmIdx);
-                dyHTML += '<p class="current-hint">' + t('bazi_result.dayun_currently_in') + ' <strong>' + (cdyTg ? tgLabel(cdyTg) : '') + '</strong> ' + t('bazi_result.dayun_period') + ' · ' + t('bazi_result.dayun_age') + ' ' + cdy['zqage'] + '–' + cdy['zboz'] + ' · ' + cdy['syear'] + '–' + cdy['eyear'] + '</p>';
+                dyHTML += '<p class="current-hint">' + t('bazi_result.dayun_currently_in') + ' <strong>' + (cdy['zfma'] || '') + (cdy['zfmb'] || '') + '</strong> ' + t('bazi_result.dayun_period') + ' · ' + t('bazi_result.dayun_age') + ' ' + cdy['zqage'] + '–' + cdy['zboz'] + ' · ' + cdy['syear'] + '–' + cdy['eyear'] + '</p>';
             }
             dyHTML += '<div class="dayun-grid">';
             for (var k = 0; k < Math.min(rt['dy'].length, 8); k++) {
@@ -1067,7 +1027,7 @@
                 var dyBranchTg = dyBranchCg.length > 0 ? dyBranchCg[0].tg : null;
                 var isCurrent = k === currentDayunIdx;
 
-                dyHTML += '<div class="dayun-card' + (isCurrent ? ' dayun-current' : '') + '" data-dy-index="' + k + '"' + (dyStemTg ? ' data-tip="' + tgTip(dyStemTg, null).replace(/"/g, '&quot;').replace(/\n/g, ' | ') + '"' : '') + '>';
+                dyHTML += '<div class="dayun-card' + (isCurrent ? ' dayun-current' : '') + '" data-dy-index="' + k + '">';
                 if (isCurrent) dyHTML += '<span class="badge-current">' + (isZh() ? '當前' : 'NOW') + '</span>';
                 dyHTML += '<div class="dayun-ganzhi">' + (dy['zfma'] || '') + (dy['zfmb'] || '') + '</div>';
                 if (dyStemTg) dyHTML += '<div class="dayun-tg dayun-tg-stem">' + tgLabel(dyStemTg) + '</div>';
