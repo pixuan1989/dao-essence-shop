@@ -26,8 +26,10 @@
     // ==================== INIT ====================
     function init() {
         populateForm();
-        document.getElementById('bazi-calculate-btn').addEventListener('click', calculate);
-        document.getElementById('bazi-reset-btn').addEventListener('click', resetForm);
+        var calcBtn = document.getElementById('bazi-calculate-btn');
+        var resetBtn = document.getElementById('bazi-reset-btn');
+        if (calcBtn) calcBtn.addEventListener('click', calculate);
+        if (resetBtn) resetBtn.addEventListener('click', resetForm);
     }
 
     function populateForm() {
