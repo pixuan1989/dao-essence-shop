@@ -1081,6 +1081,7 @@ function generateDailyQuote(dateStr, zodiacKey) {
 
 /**
  * 更新 zodiac-data.js
+ * 修复：在 "default" 块之前插入新日期数据，避免大括号计数 bug 导致 default 键名截断
  */
 function updateDataFile(date, fortunes) {
   let content = fs.readFileSync(DATA_FILE, 'utf8');
@@ -1094,7 +1095,7 @@ function updateDataFile(date, fortunes) {
     return `    "${z.key}":     { score: ${f.score}, color: "${WUXING_COLORS[z.element]?.hex || '#D4AF37'}", colorName: "${WUXING_COLORS[z.element]?.name || '金色'}", number: ${f.luckyNum}, direction: "${f.direction}", pair: "${f.pair}",     good: ${JSON.stringify(f.yi)},        avoid: ${JSON.stringify(f.ji)},       quote: "${safeQuote}", quoteEn: "${safeQuoteEn}" }`;
   });
 
-  const newBlock = `\n  "${date}": {\n${blockLines.join(',\n')}\n  },\n`;
+  const newBlock = `  "${date}": {\n${blockLines.join(',\n')}\n  },\n`;
 
   // 检查是否已有该日期数据 —— 用更精确的正则匹配整个日期键值块
   const escapedDate = date.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -1105,37 +1106,19 @@ function updateDataFile(date, fortunes) {
     // 替换已有数据块
     content = content.replace(match[0], newBlock);
   } else {
-    // 在 "default" 块结束后插入新日期数据
-    const defaultRegex = /"default"\s*:\s*\{/g;
-    const defaultMatch = defaultRegex.exec(content);
-    if (defaultMatch) {
-      const defaultStart = defaultMatch.index;
-      let braceCount = 0, defaultEnd = defaultStart;
-      for (let i = defaultStart; i < content.length; i++) {
-        if (content[i] === '{') braceCount++;
-        if (content[i] === '}') braceCount--;
-        if (braceCount === 0 && i > defaultStart) {
-          defaultEnd = i + 1; // 包含 '}'
-          break;
-        }
+    // 修复：在 "default" 块之前插入新日期数据（不再遍历 default 块内部，彻底避开大括号计数 bug）
+    const defaultPos = content.indexOf('"default"');
+    if (defaultPos > 0) {
+      // 找到 default 之前的最后一个 }, 在其后插入
+      const beforeDefault = content.slice(0, defaultPos);
+      const lastBrace = beforeDefault.lastIndexOf('},');
+      if (lastBrace > 0) {
+        const insertPos = lastBrace + 2; // 跳过 },
+        content = content.slice(0, insertPos) + '\n\n' + newBlock + content.slice(insertPos);
+      } else {
+        // 降级：直接在 default 之前插入
+        content = content.slice(0, defaultPos) + '\n' + newBlock + '\n  ' + content.slice(defaultPos);
       }
-      // 找到 default 块结束后下一个日期块或注释的起始位置
-      let insertPos = defaultEnd;
-      // 跳过 default 块后的逗号、空白、和可能的注释行
-      while (insertPos < content.length) {
-        const ch = content[insertPos];
-        if (ch === ',' || ch === ' ' || ch === '\n' || ch === '\r' || ch === '\t') {
-          insertPos++;
-        } else if (content[insertPos] === '/' && content[insertPos + 1] === '/') {
-          // 跳过单行注释直到行尾
-          while (insertPos < content.length && content[insertPos] !== '\n') {
-            insertPos++;
-          }
-        } else {
-          break;
-        }
-      }
-      content = content.slice(0, insertPos) + newBlock + content.slice(insertPos);
     }
   }
 
@@ -1147,11 +1130,15 @@ function updateDataFile(date, fortunes) {
     if (!hasDate) {
       throw new Error(`日期 ${date} 未正确写入 zodiac-data.js`);
     }
-    // 基础语法检查：确保大括号配对，没有未闭合的字符串
+    // 基础语法检查：确保大括号配对
     const openBrace = (content.match(/{/g) || []).length;
     const closeBrace = (content.match(/}/g) || []).length;
     if (openBrace !== closeBrace) {
       throw new Error(`大括号不匹配（{ ${openBrace} vs } ${closeBrace}）`);
+    }
+    // 新增：检查 "default" 键名完整性
+    if (!content.includes('"default":')) {
+      throw new Error('"default" 键名被截断');
     }
     // 检查文件不是空的
     if (content.trim().length < 50) {

@@ -470,9 +470,12 @@
     };
 
     window.switchLang = function(lang) {
+      var newLang = lang === 'zh' ? 'zh' : 'en';
       // 优先走 i18n-switcher 的无刷新流程（统一体验）
       if (window.DaoI18n && window.DaoI18n.switchTo) {
         window.DaoI18n.switchTo(lang);
+        // 关键修复：i18n 只翻静态文本，卡片需重新渲染
+        renderZodiacDaily(newLang);
         return;
       }
       // 降级：刷新页面（旧行为兼容）
