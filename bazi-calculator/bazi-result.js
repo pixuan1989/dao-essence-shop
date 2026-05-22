@@ -175,16 +175,16 @@
 
     // ==================== TEN GODS ENGINE ====================
     var TG_NAMES = {
-        '比肩': { cn: '比肩', en: 'Friend', simple: 'Peers & Competition', desc: 'Represents your friends, colleagues, and competition in the same field.', simpleZh: '同儕與競爭', descZh: '代表你的朋友、同事和同領域的競爭對手。' },
-        '劫财': { cn: '劫财', en: 'Rob Wealth', simple: 'Financial Leaks', desc: 'Unnecessary spending, money taken by others, or resource competition.', simpleZh: '財務流失', descZh: '不必要的開支、被他人奪取的資源，或資源競爭。' },
-        '食神': { cn: '食神', en: 'Eating God', simple: 'Talent & Enjoyment', desc: 'Represents natural talent, creativity, enjoyment of life, and artistic expression.', simpleZh: '才華與享受', descZh: '代表天賦才華、創造力、生活情趣和藝術表現。' },
-        '伤官': { cn: '伤官', en: 'Hurting Officer', simple: 'Brilliance & Rebellion', desc: 'Represents sharp intelligence, innovation, and the drive to challenge conventions.', simpleZh: '才華與叛逆', descZh: '代表敏銳的智慧、創新精神，以及挑戰常規的動力。' },
-        '偏财': { cn: '偏财', en: 'Indirect Wealth', simple: 'Unexpected Income', desc: 'Represents investment, side hustles, and creative gains — not salary income.', simpleZh: '意外收入', descZh: '代表投資、副業和創意收益——非薪資收入。' },
-        '正财': { cn: '正财', en: 'Direct Wealth', simple: 'Steady Income', desc: 'Represents your salary, main income, and stable finances.', simpleZh: '穩定收入', descZh: '代表你的薪資、主要收入和穩定的財務狀況。' },
-        '七杀': { cn: '七杀', en: 'Seven Killings', simple: 'Challenge & Drive', desc: 'Represents pressure, ambition, and boldness — can empower or create conflict.', simpleZh: '壓力與動力', descZh: '代表壓力、野心和果斷——可以賦予力量，也可能引發衝突。' },
-        '正官': { cn: '正官', en: 'Direct Officer', simple: 'Career & Reputation', desc: 'Represents your work, social status, responsibility, and rules.', simpleZh: '事業與聲望', descZh: '代表你的工作、社會地位、責任和規則。' },
-        '偏印': { cn: '偏印', en: 'Indirect Resource', simple: 'Intuition & Insight', desc: 'Represents inspiration, metaphysical talent, and unorthodox learning.', simpleZh: '直覺與洞察', descZh: '代表靈感、玄學天賦和非傳統學習。' },
-        '正印': { cn: '正印', en: 'Direct Resource', simple: 'Knowledge & Support', desc: 'Represents education, mentors, and the protection of elders and benefactors.', simpleZh: '知識與支持', descZh: '代表教育、導師，以及長輩和貴人的庇護。' }
+        '比肩': { cn: '比肩', en: 'Friend', simple: 'Peers & Competition', desc: 'Represents your friends, colleagues, and competition in the same field.', simpleZh: '同儕與競爭', descZh: '代表你的朋友、同事和同領域的競爭對手。', simpleFavZh: '獨立自主 · 朋友多 · 意志力強', descFavZh: '獨立自主，朋友多，意志力強，適合把握人脈與合作機會。', simpleUnfavZh: '固執己見 · 競爭激烈 · 破財風險', descUnfavZh: '固執己見，競爭激烈，小心人際衝突與破財。', simpleFav: 'Self-reliant, strong network of peers, clear direction', descFav: 'Self-reliant, strong network of peers, clear direction — great for collaboration.', simpleUnfav: 'Stubborn streak, fierce competition, watch your spending', descUnfav: 'Stubborn streak, fierce competition, watch your spending and avoid clashes.' },
+        '劫财': { cn: '劫财', en: 'Rob Wealth', simple: 'Financial Leaks', desc: 'Unnecessary spending, money taken by others, or resource competition.', simpleZh: '財務流失', descZh: '不必要的開支、被他人奪取的資源，或資源競爭。', simpleFavZh: '社交能力強 · 敢於冒險 · 行動力', descFavZh: '社交能力強，敢於冒險，行動力足，適合拓展人脈。', simpleUnfavZh: '破財損友 · 衝動行事 · 被人劫財', descUnfavZh: '破財損友，衝動行事，小心被人劫財或過度支出。', simpleFav: 'Bold moves, social magnet, great at networking', descFav: 'Bold moves, social magnet — great at networking and taking initiative.', simpleUnfav: 'Financial leaks, impulsive decisions, people borrowing from you', descUnfav: 'Financial leaks, impulsive decisions — watch who you lend to.' },
+        '食神': { cn: '食神', en: 'Eating God', simple: 'Talent & Enjoyment', desc: 'Represents natural talent, creativity, enjoyment of life, and artistic expression.', simpleZh: '才華與享受', descZh: '代表天賦才華、創造力、生活情趣和藝術表現。', simpleFavZh: '才華橫溢 · 口福好 · 生活享受', descFavZh: '才華橫溢，口福好，生活享受，適合發揮創意與才華。', simpleUnfavZh: '懶散懈怠 · 好逸惡勞 · 不切實際', descUnfavZh: '懶散懈怠，好逸惡勞，容易不切實際、逃避責任。', simpleFav: 'Creative flow, life enjoyment, talents shine', descFav: 'Creative flow, life enjoyment — your talents naturally shine.', simpleUnfav: 'Lazy tendencies, escapist habits, avoiding responsibility', descUnfav: 'Lazy tendencies, escapist habits — avoid drifting away from goals.' },
+        '伤官': { cn: '伤官', en: 'Hurting Officer', simple: 'Brilliance & Rebellion', desc: 'Represents sharp intelligence, innovation, and the drive to challenge conventions.', simpleZh: '才華與叛逆', descZh: '代表敏銳的智慧、創新精神，以及挑戰常規的動力。', simpleFavZh: '才華出眾 · 創新力強 · 口才好', descFavZh: '才華出眾，創新力強，口才好，適合表達與突破。', simpleUnfavZh: '口舌是非 · 叛逆衝動 · 得罪貴人', descUnfavZh: '口舌是非，叛逆衝動，容易得罪貴人，謹言慎行為上。', simpleFav: 'Brilliant ideas, innovative edge, persuasive speaker', descFav: 'Brilliant ideas, innovative edge — persuasive and bold.', simpleUnfav: 'Sharp tongue, rebellious streak, burning bridges', descUnfav: 'Sharp tongue, rebellious streak — careful not to burn bridges.' },
+        '偏财': { cn: '偏财', en: 'Indirect Wealth', simple: 'Unexpected Income', desc: 'Represents investment, side hustles, and creative gains — not salary income.', simpleZh: '意外收入', descZh: '代表投資、副業和創意收益——非薪資收入。', simpleFavZh: '偏財運佳 · 投資獲利 · 社交廣泛', descFavZh: '偏財運佳，投資獲利，社交廣泛，適合把握副業與投資機會。', simpleUnfavZh: '揮霍浪費 · 投機失敗 · 財務不穩', descUnfavZh: '揮霍浪費，投機失敗，財務不穩，小心過度冒險。', simpleFav: 'Side income streams, investment luck, social expansion', descFav: 'Side income streams, investment luck — social connections bring gains.', simpleUnfav: 'Splurge risk, speculative losses, money slips through fingers', descUnfav: 'Splurge risk, speculative losses — money slips through your fingers.' },
+        '正财': { cn: '正财', en: 'Direct Wealth', simple: 'Steady Income', desc: 'Represents your salary, main income, and stable finances.', simpleZh: '穩定收入', descZh: '代表你的薪資、主要收入和穩定的財務狀況。', simpleFavZh: '收入穩定 · 理財有方 · 踏實致富', descFavZh: '收入穩定，理財有方，踏實致富，適合穩健累積財富。', simpleUnfavZh: '守財奴傾向 · 斤斤計較 · 錯失機會', descUnfavZh: '守財奴傾向，斤斤計較，容易錯失投資與發展機會。', simpleFav: 'Steady income growth, financial discipline, smart savings', descFav: 'Steady income growth, financial discipline — smart savings compound.', simpleUnfav: 'Overly frugal, missing opportunities, tunnel vision on money', descUnfav: 'Overly frugal, missing opportunities — don\'t let caution become paralysis.' },
+        '七杀': { cn: '七杀', en: 'Seven Killings', simple: 'Challenge & Drive', desc: 'Represents pressure, ambition, and boldness — can empower or create conflict.', simpleZh: '壓力與動力', descZh: '代表壓力、野心和果斷——可以賦予力量，也可能引發衝突。', simpleFavZh: '魄力出眾 · 果斷有力 · 有領導力', descFavZh: '魄力出眾，果斷有力，有領導力，適合把握挑戰與機遇。', simpleUnfavZh: '小人衝突 · 意外官非 · 身心疲憊', descUnfavZh: '小人衝突，意外官非，身心疲憊，注意情緒與健康。', simpleFav: 'Natural leader, decisive under pressure, bold action', descFav: 'Natural leader, decisive under pressure — bold action brings results.', simpleUnfav: 'Conflict-prone, authority clashes, stress overload', descUnfav: 'Conflict-prone, authority clashes — manage stress before it manages you.' },
+        '正官': { cn: '正官', en: 'Direct Officer', simple: 'Career & Reputation', desc: 'Represents your work, social status, responsibility, and rules.', simpleZh: '事業與聲望', descZh: '代表你的工作、社會地位、責任和規則。', simpleFavZh: '事業順遂 · 貴人提拔 · 名聲地位上升', descFavZh: '事業順遂，有貴人提拔，名聲地位上升，適合把握升遷機會。', simpleUnfavZh: '壓力與約束 · 被管束 · 小心小人', descUnfavZh: '壓力較大，感覺被管束，注意職場人際關係，謹防小人。', simpleFav: 'Career advancement, noble people helping, reputation rises', descFav: 'Career advancement, noble people helping — reputation rises steadily.', simpleUnfav: 'Pressure from above, feeling restricted, office politics', descUnfav: 'Pressure from above, feeling restricted — navigate office politics carefully.' },
+        '偏印': { cn: '偏印', en: 'Indirect Resource', simple: 'Intuition & Insight', desc: 'Represents inspiration, metaphysical talent, and unorthodox learning.', simpleZh: '直覺與洞察', descZh: '代表靈感、玄學天賦和非傳統學習。', simpleFavZh: '直覺敏銳 · 玄學天賦 · 創意獨特', descFavZh: '直覺敏銳，玄學天賦，創意獨特，適合深入研究与靈感發揮。', simpleUnfavZh: '孤僻多疑 · 精神內耗 · 思維偏執', descUnfavZh: '孤僻多疑，精神內耗，容易思維偏執、鑽牛角尖。', simpleFav: 'Sharp intuition, unconventional insights, creative genius', descFav: 'Sharp intuition, unconventional insights — your inner world is a goldmine.', simpleUnfav: 'Overthinking, isolation tendency, analysis paralysis', descUnfav: 'Overthinking, isolation tendency — don\'t let analysis become paralysis.' },
+        '正印': { cn: '正印', en: 'Direct Resource', simple: 'Knowledge & Support', desc: 'Represents education, mentors, and the protection of elders and benefactors.', simpleZh: '知識與支持', descZh: '代表教育、導師，以及長輩和貴人的庇護。', simpleFavZh: '學業有成 · 貴人扶持 · 內心安定', descFavZh: '學業有成，有貴人扶持，內心安定，適合學習與進修。', simpleUnfavZh: '依賴心重 · 缺乏獨立 · 優柔寡斷', descUnfavZh: '依賴心重，缺乏獨立，容易優柔寡斷、難以下決定。', simpleFav: 'Mentors appear, learning flows, inner peace', descFav: 'Mentors appear, learning flows — inner peace and steady growth.', simpleUnfav: 'Over-dependent, avoiding independence, comfort zone trap', descUnfav: 'Over-dependent, avoiding independence — break out of the comfort zone.' }
     };
     // Career/life keywords per ten god (compact lookup)
     var TG_KEYWORDS = {
@@ -227,17 +227,35 @@
         return { career: isZh() ? t(kw.careerZh) : kw.career, life: isZh() ? t(kw.lifeZh) : kw.life };
     }
 
-    // Build tooltip text for a ten god
-    function tgTip(tg) {
+    // Build tooltip text for a ten god — verdict: "吉"/"Good"=favorable, "凶"/"Challenging"=unfavorable
+    function tgTip(tg, verdict) {
         if (!tg) return '';
         var parts = [];
+        var isFav = verdict === '吉' || verdict === 'Good';
+        var isUnfav = verdict === '凶' || verdict === 'Challenging';
         if (isZh()) {
-            if (tg.simpleZh) parts.push(tg.simpleZh);
-            if (tg.descZh) parts.push(tg.descZh);
+            if (isFav && tg.simpleFavZh) {
+                parts.push(tg.simpleFavZh);
+                if (tg.descFavZh) parts.push(tg.descFavZh);
+            } else if (isUnfav && tg.simpleUnfavZh) {
+                parts.push(tg.simpleUnfavZh);
+                if (tg.descUnfavZh) parts.push(tg.descUnfavZh);
+            } else {
+                if (tg.simpleZh) parts.push(tg.simpleZh);
+                if (tg.descZh) parts.push(tg.descZh);
+            }
         } else {
-            if (tg.en) parts.push(tg.en);
-            if (tg.simple) parts.push(tg.simple);
-            if (tg.desc) parts.push(tg.desc);
+            if (isFav && tg.simpleFav) {
+                parts.push(tg.en + ' — favorable');
+                if (tg.descFav) parts.push(tg.descFav);
+            } else if (isUnfav && tg.simpleUnfav) {
+                parts.push(tg.en + ' — challenging');
+                if (tg.descUnfav) parts.push(tg.descUnfav);
+            } else {
+                if (tg.en) parts.push(tg.en);
+                if (tg.simple) parts.push(tg.simple);
+                if (tg.desc) parts.push(tg.desc);
+            }
         }
         return parts.join('\n');
     }
@@ -408,11 +426,10 @@
     }
 
     // ==================== BUILD DAYUN DETAIL (AI-powered) ====================
-    function buildDayunDetail(dy, dmIdx, chartPayload) {
+    function buildDayunDetail(dy, dmIdx, chartPayload, cardIdx, stemTg) {
         var dyGan = dy['zfma'] || '';
         var dyZhi = dy['zfmb'] || '';
         var dyGanIdx = STEMS.indexOf(dyGan);
-        var stemTg = dyGanIdx >= 0 ? getStemShiShen(dyGanIdx, dmIdx) : null;
         var nzsc = dy['nzsc'] || '';
 
         var loadingHTML = '<div class="detail-card" style="margin-bottom:0.5rem">';
@@ -457,6 +474,14 @@
                         html += '</div></div>';
                     }
                     el.innerHTML = html;
+                    // Update card tooltip with verdict-aware interpretation
+                    if (cardIdx !== undefined && stemTg) {
+                        var cardEl = document.querySelector('.dayun-card[data-dy-index="' + cardIdx + '"]');
+                        if (cardEl) {
+                            var newTip = tgTip(stemTg, verdict).replace(/"/g, '&quot;').replace(/\n/g, ' | ');
+                            cardEl.setAttribute('data-tip', newTip);
+                        }
+                    }
                 } catch (renderErr) {
                     console.warn('BaZi render error:', renderErr);
                 }
@@ -474,7 +499,7 @@
     }
 
     // ==================== BUILD LIUNIAN DETAIL (AI-powered) ====================
-    function buildLiunianDetail(ly, dmIdx, dyGan, dyZhi, chartPayload) {
+    function buildLiunianDetail(ly, dmIdx, dyGan, dyZhi, chartPayload, cardIdx, stemTg) {
         var lyGanZhi = ly['lye'] || '';
         var lyGan = lyGanZhi.substring(0, 1);
         var lyZhi = lyGanZhi.substring(1, 2);
@@ -507,6 +532,14 @@
                     if (result.advice) html += '<div class="detail-row" style="margin-top:0.5rem;color:var(--ink)"><span class="detail-key">' + (isZh() ? '\u5efa\u8b70' : 'Advice') + '</span>' + result.advice + '</div>';
                     html += '</div></div>';
                     el.innerHTML = html;
+                    // Update liunian card tooltip with verdict-aware interpretation
+                    if (cardIdx !== undefined && stemTg) {
+                        var lyCardEl = document.querySelector('.ly-card[data-ly-index="' + cardIdx + '"]');
+                        if (lyCardEl) {
+                            var newLyTip = tgTip(stemTg, verdict).replace(/"/g, '&quot;').replace(/\n/g, ' | ');
+                            lyCardEl.setAttribute('data-tip', newLyTip);
+                        }
+                    }
                 } catch (renderErr) {
                     console.warn('BaZi render error:', renderErr);
                 }
@@ -900,7 +933,7 @@
                 var dyBranchTg = dyBranchCg.length > 0 ? dyBranchCg[0].tg : null;
                 var isCurrent = k === currentDayunIdx;
 
-                dyHTML += '<div class="dayun-card' + (isCurrent ? ' dayun-current' : '') + '" data-dy-index="' + k + '"' + (dyStemTg ? ' data-tip="' + tgTip(dyStemTg).replace(/"/g, '&quot;').replace(/\n/g, ' | ') + '"' : '') + '>';
+                dyHTML += '<div class="dayun-card' + (isCurrent ? ' dayun-current' : '') + '" data-dy-index="' + k + '"' + (dyStemTg ? ' data-tip="' + tgTip(dyStemTg, null).replace(/"/g, '&quot;').replace(/\n/g, ' | ') + '"' : '') + '>';
                 if (isCurrent) dyHTML += '<span class="badge-current">' + (isZh() ? '當前' : 'NOW') + '</span>';
                 dyHTML += '<div class="dayun-ganzhi">' + (dy['zfma'] || '') + (dy['zfmb'] || '') + '</div>';
                 if (dyStemTg) dyHTML += '<div class="dayun-tg dayun-tg-stem">' + tgLabel(dyStemTg) + '</div>';
@@ -1021,7 +1054,8 @@
                 activeItem = item;
 
                 detailTitle.textContent = t('bazi_result.dayun_age') + ' ' + dy['zqage'] + '–' + dy['zboz'] + '  ·  ' + dy['syear'] + '–' + dy['eyear'];
-                detailBody.innerHTML = buildDayunDetail(dy, dmIdx, chartPayload);
+                var dyStemTgLocal = getStemShiShen(STEMS.indexOf(dy['zfma']), dmIdx);
+                detailBody.innerHTML = buildDayunDetail(dy, dmIdx, chartPayload, idx, dyStemTgLocal);
 
                 // Flow Years
                 if (dy['ly'] && dy['ly'].length > 0) {
@@ -1040,7 +1074,7 @@
                         var lyYear = ly['year'] || 0;
                         var isCurrentYear = (lyYear === currentYear);
 
-                        lyHTML += '<div class="ly-card' + (isCurrentYear ? ' ly-current' : '') + '" data-ly-index="' + lyIdx + '" data-ly-year="' + lyYear + '"' + (lyTg ? ' data-tip="' + tgTip(lyTg).replace(/"/g, '&quot;').replace(/\n/g, ' | ') + '"' : '') + '>';
+                        lyHTML += '<div class="ly-card' + (isCurrentYear ? ' ly-current' : '') + '" data-ly-index="' + lyIdx + '" data-ly-year="' + lyYear + '"' + (lyTg ? ' data-tip="' + tgTip(lyTg, null).replace(/"/g, '&quot;').replace(/\n/g, ' | ') + '"' : '') + '>';
                         if (isCurrentYear) lyHTML += '<span class="badge-now">' + (isZh() ? '當前' : 'NOW') + '</span>';
                         lyHTML += '<div class="ly-ganzhi">' + lyGanZhi + '</div>';
                         if (lyTg) lyHTML += '<div class="ly-tg ly-tg-stem">' + tgLabel(lyTg) + '</div>';
@@ -1084,7 +1118,8 @@
                         activeLy = lyItem;
 
                         lyTitle.textContent = (isZh() ? '流年 ' : 'Year ') + lyYear;
-                        lyBody.innerHTML = buildLiunianDetail(lyData, dmIdx, dy['zfma'] || '', dy['zfmb'] || '', chartPayload);
+                        var lyTgLocal = getStemShiShen(STEMS.indexOf(lyData['lye'].substring(0, 1)), dmIdx);
+                        lyBody.innerHTML = buildLiunianDetail(lyData, dmIdx, dy['zfma'] || '', dy['zfmb'] || '', chartPayload, lyIdx, lyTgLocal);
                         lyDetail.classList.add('show');
                         lyDetail.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                     }
