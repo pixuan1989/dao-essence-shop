@@ -55,10 +55,10 @@
         "mainEntity": [
             {
                 "@type": "Question",
-                "name": "What is the Chinese Almanac (é»????)?",
+                "name": "What is the Chinese Almanac (ï¿½????)?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "The Chinese Almanac, also known as Huang Li (é»????), is a traditional calendar system that rates each day based on cosmic energy. It identifies auspicious (favorable) and inauspicious (unfavorable) days for specific activities like weddings, moving, business launches, and travel. The system is based on Chinese astrology, the Five Elements, and the Heavenly Stems and Earthly Branches."
+                    "text": "The Chinese Almanac, also known as Huang Li (ï¿½????), is a traditional calendar system that rates each day based on cosmic energy. It identifies auspicious (favorable) and inauspicious (unfavorable) days for specific activities like weddings, moving, business launches, and travel. The system is based on Chinese astrology, the Five Elements, and the Heavenly Stems and Earthly Branches."
                 }
             },
             {
@@ -1097,7 +1097,7 @@
                 </button>
                 <div class="lang-switcher-menu" id="lang-menu">
                     <a href="#" data-lang="en" class="lang-option active">English</a>
-                    <a href="#" data-lang="zh" class="lang-option">ç¹?é«”ä¸­???</a>
+                    <a href="#" data-lang="zh" class="lang-option">ï¿½?é«”ä¸­???</a>
                 </div>
             </div>
             <a href="/" class="nav-back" data-i18n="almanac.nav_back">Back to Home</a>
@@ -1332,10 +1332,10 @@
                 '17:00-19:00 (Rooster)', '19:00-21:00 (Dog)', '21:00-23:00 (Pig)'
             ];
             var hourLabelsZh = [
-                '?œª?Ÿ¥', '23:00-01:00 å­Â·é??', '01:00-03:00 ä¸‘Â·ç??', '03:00-05:00 å¯?Â·???',
-                '05:00-07:00 ?¯Â·???', '07:00-09:00 è¾°Â·é??', '09:00-11:00 å·³Â·è??',
-                '11:00-13:00 ???Â·é¦?', '13:00-15:00 ?œªÂ·ç¾?', '15:00-17:00 ?”³Â·?Œ´',
-                '17:00-19:00 ??‰Â·é??', '19:00-21:00 ??ŒÂ·ç??', '21:00-23:00 äº¥Â·è±¬'
+                'æœªçŸ¥', '23:00-01:00 å­Â·é¼ ', '01:00-03:00 ä¸‘Â·ç‰›', '03:00-05:00 å¯…Â·è™',
+                '05:00-07:00 å¯Â·å…”', '07:00-09:00 è¾°Â·é¾™', '09:00-11:00 å·³Â·è›‡',
+                '11:00-13:00 åˆÂ·é©¬', '13:00-15:00 æœªÂ·ç¾Š', '15:00-17:00 ç”³Â·çŒ´',
+                '17:00-19:00 é…‰Â·é¸¡', '19:00-21:00 æˆŒÂ·ç‹—', '21:00-23:00 äº¥Â·çŒª'
             ];
             var hourLabels = isZh() ? hourLabelsZh : hourLabelsEn;
             for (var h = 0; h < 12; h++) {
@@ -1353,25 +1353,25 @@
         });
 
         // BaZi chart calculation (reused from favorable-element)
-        var STEM_WX = {'???:'Wood','ä¹?:'Wood','ä¸?:'Fire','ä¸?:'Fire','???:'Earth','å·?:'Earth','åº?:'Metal','è¾?:'Metal','å£?:'Water','???:'Water'};
-        var STEM_WX_ZH = {'???:'???,'ä¹?:'???,'ä¸?:'???,'ä¸?:'???,'???:'???,'å·?:'???,'åº?:'???,'è¾?:'???,'å£?:'æ°?,'???:'æ°?};
-        var BRANCH_WX = {'å­?:'Water','ä¸?:'Earth','å¯?:'Wood','???:'Wood','è¾?:'Earth','å·?:'Fire','???:'Fire','???:'Earth','???:'Metal','???:'Metal','???:'Earth','äº?:'Water'};
+        var STEM_WX = {'???:'Wood','ï¿½?:'Wood','ï¿½?:'Fire','ï¿½?:'Fire','???:'Earth','ï¿½?:'Earth','ï¿½?:'Metal','ï¿½?:'Metal','ï¿½?:'Water','???:'Water'};
+        var STEM_WX_ZH = {'???:'???,'ï¿½?:'???,'ï¿½?:'???,'ï¿½?:'???,'???:'???,'ï¿½?:'???,'ï¿½?:'???,'ï¿½?:'???,'ï¿½?:'ï¿½?,'???:'ï¿½?};
+        var BRANCH_WX = {'ï¿½?:'Water','ï¿½?:'Earth','ï¿½?:'Wood','???:'Wood','ï¿½?:'Earth','ï¿½?:'Fire','???:'Fire','???:'Earth','???:'Metal','???:'Metal','???:'Earth','ï¿½?:'Water'};
         var BRANCH_HIDDEN = {
-            'å­?: ['???], 'ä¸?: ['å·?,'???,'è¾?], 'å¯?: ['???,'ä¸?,'???],
-            '???: ['ä¹?], 'è¾?: ['???,'ä¹?,'???], 'å·?: ['ä¸?,'???,'åº?],
-            '???: ['ä¸?,'å·?], '???: ['å·?,'ä¸?,'ä¹?], '???: ['åº?,'å£?,'???],
-            '???: ['è¾?], '???: ['???,'è¾?,'ä¸?], 'äº?: ['å£?,'???]
+            'ï¿½?: ['???], 'ï¿½?: ['ï¿½?,'???,'ï¿½?], 'ï¿½?: ['???,'ï¿½?,'???],
+            '???: ['ï¿½?], 'ï¿½?: ['???,'ï¿½?,'???], 'ï¿½?: ['ï¿½?,'???,'ï¿½?],
+            '???: ['ï¿½?,'ï¿½?], '???: ['ï¿½?,'ï¿½?,'ï¿½?], '???: ['ï¿½?,'ï¿½?,'???],
+            '???: ['ï¿½?], '???: ['???,'ï¿½?,'ï¿½?], 'ï¿½?: ['ï¿½?,'???]
         };
         var wxClass = function(element) {
             var map = { Wood: 'wx-wood', Fire: 'wx-fire', Earth: 'wx-earth', Metal: 'wx-metal', Water: 'wx-water' };
             return map[element] || 'wx-earth';
         };
         var wxEn = function(zh) {
-            var map = { '???:'Wood', '???:'Fire', '???:'Earth', '???:'Metal', 'æ°?:'Water' };
+            var map = { '???:'Wood', '???:'Fire', '???:'Earth', '???:'Metal', 'ï¿½?:'Water' };
             return map[zh] || zh;
         };
         var wxZh = function(en) {
-            var map = { 'Wood':'???, 'Fire':'???, 'Earth':'???, 'Metal':'???, 'Water':'æ°? };
+            var map = { 'Wood':'???, 'Fire':'???, 'Earth':'???, 'Metal':'???, 'Water':'ï¿½? };
             return map[en] || en;
         };
 
@@ -1446,7 +1446,7 @@
                 if (almPctEl) almPctEl.textContent = pct + '%';
                 // Update hint text
                 if (almHintEl) {
-                    almHintEl.textContent = isZh() ? 'æ­??œ¨ä¸ºæ?¨æ?‘é?‰æ???Œ¹??ç????‰æ—¥ï¼Œé?šå¸¸???è¦?8???5 ç§?..' : 'Finding your most auspicious dates, usually takes 8???5s...';
+                    almHintEl.textContent = isZh() ? 'ï¿½??ï¿½ï¿½ä¸ºï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½???ï¿½ï¿½??ï¿½ï¿½????ï¿½æ—¥ï¼Œï¿½?ï¿½å¸¸???ï¿½?8???5 ï¿½?..' : 'Finding your most auspicious dates, usually takes 8???5s...';
                 }
             }
             var almTimer = setInterval(almTick, 1000);
@@ -1490,11 +1490,11 @@
                 var favElementsZh = data.analysis.favorableElementsZh || [data.analysis.favorableElementZh].filter(Boolean);
                 favorableElements = favElements.map(function(el) {
                     // Ensure English element names
-                    if (el === '??? || el === '??? || el === '??? || el === '??? || el === 'æ°?) return wxEn(el);
+                    if (el === '??? || el === '??? || el === '??? || el === '??? || el === 'ï¿½?) return wxEn(el);
                     return el;
                 });
                 avoidElement = data.analysis.avoidElement || '';
-                if (avoidElement && (avoidElement === '??? || avoidElement === '??? || avoidElement === '??? || avoidElement === '??? || avoidElement === 'æ°?)) {
+                if (avoidElement && (avoidElement === '??? || avoidElement === '??? || avoidElement === '??? || avoidElement === '??? || avoidElement === 'ï¿½?)) {
                     avoidElement = wxEn(avoidElement);
                 }
 
@@ -1608,66 +1608,66 @@
             return EN_TEXTS[key] || key;
         };
         // ===== DATA MAPS =====
-        const GAN = ['???,'ä¹?,'ä¸?,'ä¸?,'???,'å·?,'åº?,'è¾?,'å£?,'???];
-        const ZHI = ['å­?,'ä¸?,'å¯?,'???,'è¾?,'å·?,'???,'???,'???,'???,'???,'äº?];
+        const GAN = ['???,'ï¿½?,'ï¿½?,'ï¿½?,'???,'ï¿½?,'ï¿½?,'ï¿½?,'ï¿½?,'???];
+        const ZHI = ['ï¿½?,'ï¿½?,'ï¿½?,'???,'ï¿½?,'ï¿½?,'???,'???,'???,'???,'???,'ï¿½?];
         const ZODIAC_EN = ['Rat','Ox','Tiger','Rabbit','Dragon','Snake','Horse','Goat','Monkey','Rooster','Dog','Pig'];
-        const GAN_ELEMENT = {'???:'Wood','ä¹?:'Wood','ä¸?:'Fire','ä¸?:'Fire','???:'Earth','å·?:'Earth','åº?:'Metal','è¾?:'Metal','å£?:'Water','???:'Water'};
-        const BRANCH_WX_MAP = {'å­?:'Water','ä¸?:'Earth','å¯?:'Wood','???:'Wood','è¾?:'Earth','å·?:'Fire','???:'Fire','???:'Earth','???:'Metal','???:'Metal','???:'Earth','äº?:'Water'};
+        const GAN_ELEMENT = {'???:'Wood','ï¿½?:'Wood','ï¿½?:'Fire','ï¿½?:'Fire','???:'Earth','ï¿½?:'Earth','ï¿½?:'Metal','ï¿½?:'Metal','ï¿½?:'Water','???:'Water'};
+        const BRANCH_WX_MAP = {'ï¿½?:'Water','ï¿½?:'Earth','ï¿½?:'Wood','???:'Wood','ï¿½?:'Earth','ï¿½?:'Fire','???:'Fire','???:'Earth','???:'Metal','???:'Metal','???:'Earth','ï¿½?:'Water'};
         const WUXING_COLORS = {'Wood':'Green, Sage','Fire':'Red, Orange','Earth':'Beige, Brown','Metal':'White, Silver','Water':'Blue, Black'};
         const WUXING_NUMBERS = {'Wood':'3, 8','Fire':'2, 7','Earth':'5, 0','Metal':'4, 9','Water':'1, 6'};
-        const WUXING_COLORS_ZH = {'Wood':'ç¶ è‰²???é¼ å°¾??‰ç??,'Fire':'ç´??‰²???æ©™è??,'Earth':'ç±³è‰²???æ£•è??,'Metal':'?™½?‰²?????????,'Water':'??è‰²???é»‘è??};
+        const WUXING_COLORS_ZH = {'Wood':'ç¶ è‰²???é¼ å°¾??ï¿½ï¿½??,'Fire':'ï¿½??ï¿½ï¿½???æ©™ï¿½??,'Earth':'ç±³è‰²???æ£•ï¿½??,'Metal':'?ï¿½ï¿½?ï¿½ï¿½?????????,'Water':'??ï¿½è‰²???é»‘ï¿½??};
         const WUXING_NUMBERS_ZH = {'Wood':'3, 8','Fire':'2, 7','Earth':'5, 0','Metal':'4, 9','Water':'1, 6'};
 
-        const ZHIXING_SCORE = {'å»?:65,'???:62,'æ»?:62,'å¹?:55,'å®?:62,'???:58,'???:40,'???:42,'???:72,'???:58,'å¼?':62,'???:40};
-        const ZHIXING_EN = {'å»?:'Establishment','???:'Removal','æ»?:'Fullness','å¹?:'Balance','å®?:'Stability','???:'Perseverance','???:'Breakthrough','???:'Danger','???:'Completion','???:'Harvest','å¼?':'Opening','???:'Closure'};
-        const ZHIXING_ZH = {'å»?:'å»ºæ—¥','???:'?™¤?—¥','æ»?:'æ»¿æ—¥','å¹?:'å¹³æ—¥','å®?:'å®šæ—¥','???:'?Ÿ·?—¥','???:'? ´?—¥','???:'?±?—¥','???:'??æ—¥','???:'?”¶?—¥','å¼?':'??‹æ—¥','???:'??‰æ—¥'};
+        const ZHIXING_SCORE = {'ï¿½?:65,'???:62,'ï¿½?:62,'ï¿½?:55,'ï¿½?:62,'???:58,'???:40,'???:42,'???:72,'???:58,'ï¿½?':62,'???:40};
+        const ZHIXING_EN = {'ï¿½?:'Establishment','???:'Removal','ï¿½?:'Fullness','ï¿½?:'Balance','ï¿½?:'Stability','???:'Perseverance','???:'Breakthrough','???:'Danger','???:'Completion','???:'Harvest','ï¿½?':'Opening','???:'Closure'};
+        const ZHIXING_ZH = {'ï¿½?:'å»ºæ—¥','???:'?ï¿½ï¿½?ï¿½ï¿½','ï¿½?:'æ»¿æ—¥','ï¿½?:'å¹³æ—¥','ï¿½?:'å®šæ—¥','???:'?ï¿½ï¿½?ï¿½ï¿½','???:'?ï¿½ï¿½?ï¿½ï¿½','???:'?ï¿½ï¿½?ï¿½ï¿½','???:'??ï¿½æ—¥','???:'?ï¿½ï¿½?ï¿½ï¿½','ï¿½?':'??ï¿½æ—¥','???:'??ï¿½æ—¥'};
 
         // Auspicious / inauspicious spirits (match by template key or translated name)
         // lunar.js getDayJiShen/getDayXiongSha may return template keys or translated names
         const AUSPICIOUS_KEYS = ['{sn.tianEn}','{sn.yueDe}','{sn.tianXi}','{sn.tianYi}','{sn.liuHe}','{sn.sanHe}'];
-        const AUSPICIOUS_ZH = ['å¤©æ??','???å¾?','å¤©å??','å¤©åŒ»','??­å??','ä¸‰å??'];
+        const AUSPICIOUS_ZH = ['å¤©ï¿½??','???ï¿½?','å¤©ï¿½??','å¤©åŒ»','??ï¿½ï¿½??','ä¸‰ï¿½??'];
         const INAUSPICIOUS_KEYS = ['{sn.baiHu}','{sn.tianLao}','{sn.yuePo}','{sn.daHao}','{sn.wuXu}','{sn.tianHuo}'];
-        const INAUSPICIOUS_ZH = ['?™½???','å¤©ç‰¢','???? ´','å¤§è??,'äº”è??','å¤©ç??'];
+        const INAUSPICIOUS_ZH = ['?ï¿½ï¿½???','å¤©ç‰¢','????ï¿½ï¿½','å¤§ï¿½??,'äº”ï¿½??','å¤©ï¿½??'];
 
         const YI_MAP = {
-            'å«?å¨?':'Relationships, Weddings','çº³é??':'Engagement, Proposals','?—®???':'Engagement Formalities',
-            'å¼?å¸?:'Business Launch, Opening','å¼?ä»?:'Store Opening','ç«‹å??':'Sign Agreements',
-            'äº¤æ??':'Trading, Exchanges','ç­¾çº¦':'Contracts, Deals','çº³è´¢':'Collect Income',
-            'ç§»å??':'Moving, Relocating','?‡ºè¡?':'Travel, Trips','æ¸¡æ°´':'Water Travel',
-            '??¥å??':'Housewarming, Moving In','å®‰å??':'Setup Bedroom','ä¿®é??:'Renovations',
-            '?Š¨???':'Groundbreaking, Digging','ä¸Šæ??':'Roof Beam, Construction','ç½®äº§':'Property Purchase',
-            'æ±??Œ»':'Medical Consultation','??è¯':'Medication',
-            'ç¥?ç¦?':'Spiritual Practice','å¼????:'New Beginnings, Blessing',
-            'å®‰è‘¬':'Memorial, Funeral','? ´???':'Burial, Grave Work',
-            '?? ç??':'Coming of Age','è£?è¡?':'Tailoring, Sewing','çº³ç??':'Buying Livestock',
-            '??§å??':'Animal Husbandry','??•æ??':'Hunting, Fishing','ç§æ??':'Planting, Farming'
+            'ï¿½?ï¿½?':'Relationships, Weddings','çº³ï¿½??':'Engagement, Proposals','?ï¿½ï¿½???':'Engagement Formalities',
+            'ï¿½?ï¿½?:'Business Launch, Opening','ï¿½?ï¿½?:'Store Opening','ç«‹ï¿½??':'Sign Agreements',
+            'äº¤ï¿½??':'Trading, Exchanges','ç­¾çº¦':'Contracts, Deals','çº³è´¢':'Collect Income',
+            'ç§»ï¿½??':'Moving, Relocating','?ï¿½ï¿½ï¿½?':'Travel, Trips','æ¸¡æ°´':'Water Travel',
+            '??ï¿½ï¿½??':'Housewarming, Moving In','å®‰ï¿½??':'Setup Bedroom','ä¿®ï¿½??:'Renovations',
+            '?ï¿½ï¿½???':'Groundbreaking, Digging','ä¸Šï¿½??':'Roof Beam, Construction','ç½®äº§':'Property Purchase',
+            'ï¿½??ï¿½ï¿½':'Medical Consultation','??ï¿½è¯':'Medication',
+            'ï¿½?ï¿½?':'Spiritual Practice','ï¿½????:'New Beginnings, Blessing',
+            'å®‰è‘¬':'Memorial, Funeral','?ï¿½ï¿½???':'Burial, Grave Work',
+            '??ï¿½ï¿½??':'Coming of Age','ï¿½?ï¿½?':'Tailoring, Sewing','çº³ï¿½??':'Buying Livestock',
+            '??ï¿½ï¿½??':'Animal Husbandry','??ï¿½ï¿½??':'Hunting, Fishing','ç§ï¿½??':'Planting, Farming'
         };
         const YI_MAP_ZH = {
-            'å«?å¨?':'å«?å¨¶ã??å©šç??,'çº³é??':'è¨?å©šã????è??,'?—®???':'è¨?å©šå??å¼?,
-            'å¼?å¸?:'??‹æ¥­?????‹å??,'å¼?ä»?:'??‹å??','ç«‹å??':'ç°½è????”è­°',
-            'äº¤æ??':'è²·è³£???äº¤æ??,'ç­¾çº¦':'???ç´????äº¤æ??,'çº³è²¡':'?”¶??–æ”¶???',
-            'ç§»å??':'?¬??·ã????·ç??,'?‡ºè¡?':'???è¡Œã???‡º???','æ¸¡æ°´':'æ°´è·¯?‡ºè¡?',
-            '??¥å??':'??¥å??????¬å®?,'å®‰å??':'å®‰å??','ä¿®é??:'è£ä¿®',
-            '?Š¨???':'??•å?Ÿã???–½å·?,'ä¸Šæ??':'ä¸Šæ?‘ã??å»ºç??,'ç½®äº§':'è³¼ç½®??¿ç”¢',
-            'æ±??Œ»':'å°±é?«ã????‹è??,'??è¯':'??è—¥',
-            'ç¥?ç¦?':'ç¥?ç¦?','å¼????:'??‹å?‰ã???–°??‹å??',
-            'å®‰è‘¬':'å®‰è‘¬','? ´???':'? ´??Ÿã??å¢“åœ°å·¥ä??,
-            '?? ç??':'??å¹´ç¦?,'è£?è¡?':'è£?è¡?','çº³ç??':'è³¼è²·?‰²???',
-            '??§å??':'??œç??','??•æ??':'?‹©?µ?????•é??,'ç§æ??':'ç¨®æ?ã??è¾²ä??
+            'ï¿½?ï¿½?':'ï¿½?å¨¶ï¿½??å©šï¿½??,'çº³ï¿½??':'ï¿½?å©šï¿½????ï¿½ï¿½??,'?ï¿½ï¿½???':'ï¿½?å©šï¿½??ï¿½?,
+            'ï¿½?ï¿½?:'??ï¿½æ¥­?????ï¿½ï¿½??,'ï¿½?ï¿½?:'??ï¿½ï¿½??','ç«‹ï¿½??':'ç°½ï¿½????ï¿½è­°',
+            'äº¤ï¿½??':'è²·è³£???äº¤ï¿½??,'ç­¾çº¦':'???ï¿½????äº¤ï¿½??,'çº³è²¡':'?ï¿½ï¿½??ï¿½æ”¶???',
+            'ç§»ï¿½??':'?ï¿½ï¿½??ï¿½ï¿½????ï¿½ï¿½??,'?ï¿½ï¿½ï¿½?':'???è¡Œï¿½???ï¿½ï¿½???','æ¸¡æ°´':'æ°´è·¯?ï¿½ï¿½ï¿½?',
+            '??ï¿½ï¿½??':'??ï¿½ï¿½??????ï¿½ï¿½ï¿½?,'å®‰ï¿½??':'å®‰ï¿½??','ä¿®ï¿½??:'è£ä¿®',
+            '?ï¿½ï¿½???':'??ï¿½ï¿½?ï¿½ï¿½???ï¿½ï¿½ï¿½?,'ä¸Šï¿½??':'ä¸Šï¿½?ï¿½ï¿½??å»ºï¿½??,'ç½®äº§':'è³¼ç½®??ï¿½ç”¢',
+            'ï¿½??ï¿½ï¿½':'å°±ï¿½?ï¿½ï¿½????ï¿½ï¿½??,'??ï¿½è¯':'??ï¿½è—¥',
+            'ï¿½?ï¿½?':'ï¿½?ï¿½?','ï¿½????:'??ï¿½ï¿½?ï¿½ï¿½???ï¿½ï¿½??ï¿½ï¿½??',
+            'å®‰è‘¬':'å®‰è‘¬','?ï¿½ï¿½???':'?ï¿½ï¿½??ï¿½ï¿½??å¢“åœ°å·¥ï¿½??,
+            '??ï¿½ï¿½??':'??ï¿½å¹´ï¿½?,'ï¿½?ï¿½?':'ï¿½?ï¿½?','çº³ï¿½??':'è³¼è²·?ï¿½ï¿½???',
+            '??ï¿½ï¿½??':'??ï¿½ï¿½??','??ï¿½ï¿½??':'?ï¿½ï¿½?ï¿½ï¿½?????ï¿½ï¿½??,'ç§ï¿½??':'ç¨®ï¿½?ï¿½ï¿½??è¾²ï¿½??
         };
         const SCENARIO_YI = {
-            marry:['å«?å¨?','çº³é??','?—®???'],
-            business:['å¼?å¸?,'å¼?ä»?,'ç«‹å??','äº¤æ??','çº³è´¢'],
-            moving:['ç§»å??','??¥å??','å®‰å??'],
-            contract:['ç­¾çº¦','ç«‹å??','çº³è´¢','äº¤æ??'],
-            travel:['?‡ºè¡?','æ¸¡æ°´'],
-            purchase:['ç½®äº§','äº¤æ??','çº³è´¢'],
-            medical:['æ±??Œ»','??è¯'],
-            housewarm:['??¥å??','å®‰å??'],
-            engagement:['çº³é??','è®¢ç??','?—®???'],
-            pet_vet:['æ±??Œ»','æ²»ç??','çº³ç??','??§å??'],
-            date:['ç»“å?šå??,'å«?å¨?','çº¦ä??','??šä??','ä¼šäº²???],
-            interview:['å¼?å¸?,'ä¼šäº²???,'ç«‹å??']
+            marry:['ï¿½?ï¿½?','çº³ï¿½??','?ï¿½ï¿½???'],
+            business:['ï¿½?ï¿½?,'ï¿½?ï¿½?,'ç«‹ï¿½??','äº¤ï¿½??','çº³è´¢'],
+            moving:['ç§»ï¿½??','??ï¿½ï¿½??','å®‰ï¿½??'],
+            contract:['ç­¾çº¦','ç«‹ï¿½??','çº³è´¢','äº¤ï¿½??'],
+            travel:['?ï¿½ï¿½ï¿½?','æ¸¡æ°´'],
+            purchase:['ç½®äº§','äº¤ï¿½??','çº³è´¢'],
+            medical:['ï¿½??ï¿½ï¿½','??ï¿½è¯'],
+            housewarm:['??ï¿½ï¿½??','å®‰ï¿½??'],
+            engagement:['çº³ï¿½??','è®¢ï¿½??','?ï¿½ï¿½???'],
+            pet_vet:['ï¿½??ï¿½ï¿½','æ²»ï¿½??','çº³ï¿½??','??ï¿½ï¿½??'],
+            date:['ç»“ï¿½?ï¿½ï¿½??,'ï¿½?ï¿½?','çº¦ï¿½??','??ï¿½ï¿½??','ä¼šäº²???],
+            interview:['ï¿½?ï¿½?,'ä¼šäº²???,'ç«‹ï¿½??']
         };
 
         const DRESS_TIPS = {
@@ -1678,11 +1678,11 @@
             'Water':'Blue, black, or deep navy. Flowing fabrics and fluid shapes carry good energy.'
         };
         const DRESS_TIPS_ZH = {
-            'Wood':'ç©¿ç? è‰²??–å¤§?œ°?‰²èª¿ã??å¤©ç?¶ç?–ç¶­å¦?äºéº»???æ£‰è³ªå¸¶æ?‰æ­£ç¢ºè?½é?ã??,
-            'Fire':'?­??ç???‰²???æ©™è‰²??–æ?–ç´«?‰²???è®“ä? ç??æ°?? ´å¤§è?½è?Œæº«??–ã??,
-            'Earth':'??¸æ??ç±³è‰²???æ£•è‰²??–å¡??¶è‰²???ç©©é?è?å¯¦???é¡è‰²??©å??ç©©å?šç???—¥å­ã??,
-            'Metal':'?™½?‰²???????‰²??–é?‘è‰²???ç°¡æ?”ç?šæ?è??æ¥µç°¡å±¤æ¬¡?????©å??ä»Šå¤©???,
-            'Water':'??è‰²???é»‘è‰²??–æ·±æµ·è?ã??æµ???•ç??å¸???™è??é£???¸ç???? å?‹å¸¶ä¾?å¥½è?½é?ã??
+            'Wood':'ç©¿ï¿½?ï¿½è‰²??ï¿½å¤§?ï¿½ï¿½?ï¿½ï¿½èª¿ï¿½??å¤©ï¿½?ï¿½ï¿½?ï¿½ç¶­ï¿½?äºéº»???æ£‰è³ªå¸¶ï¿½?ï¿½æ­£ç¢ºï¿½?ï¿½ï¿½?ï¿½ï¿½??,
+            'Fire':'?ï¿½ï¿½??ï¿½ï¿½???ï¿½ï¿½???æ©™è‰²??ï¿½ï¿½?ï¿½ç´«?ï¿½ï¿½???è®“ï¿½?ï¿½ï¿½??ï¿½??ï¿½ï¿½å¤§ï¿½?ï¿½ï¿½?ï¿½æº«??ï¿½ï¿½??,
+            'Earth':'??ï¿½ï¿½??ç±³è‰²???æ£•è‰²??ï¿½å¡??ï¿½è‰²???ç©©ï¿½?ï¿½ï¿½?ï¿½å¯¦???é¡è‰²??ï¿½ï¿½??ç©©ï¿½?ï¿½ï¿½???ï¿½ï¿½å­ï¿½??,
+            'Metal':'?ï¿½ï¿½?ï¿½ï¿½???????ï¿½ï¿½??ï¿½ï¿½?ï¿½è‰²???ç°¡ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½??æ¥µç°¡å±¤æ¬¡?????ï¿½ï¿½??ä»Šå¤©???,
+            'Water':'??ï¿½è‰²???é»‘è‰²??ï¿½æ·±æµ·ï¿½?ï¿½ï¿½??ï¿½???ï¿½ï¿½??ï¿½???ï¿½ï¿½??ï¿½???ï¿½ï¿½????ï¿½ï¿½?ï¿½å¸¶ï¿½?å¥½ï¿½?ï¿½ï¿½?ï¿½ï¿½??
         };
         const ACTION_TIPS = {
             'Wood':'Creative energy peaks today. Start new projects, pitch ideas, and initiate conversations you have been delaying.',
@@ -1692,11 +1692,11 @@
             'Water':'Deep thinking and research day. Trust your gut over spreadsheets. Reflection yields insights.'
         };
         const ACTION_TIPS_ZH = {
-            'Wood':'ä»Šæ—¥?‰µ?? å?›å?”å³°?????Ÿå?•æ–°å°?æ¡??????æ??????™¼èµ·ä?”U???›´??–å»¶???å°è©±???,
-            'Fire':'ç¤¾äº¤é­???›å¼·å¤§ã??å®‰æ?’æ??è­°ã????‰è¾¦??šæ??ï¼Œè?“ä? ç???????“å?›ç™¼?®ä½œç”¨???,
-            'Earth':'å°?æ³¨æ–¼?•´??????ç©©å?šã??ä¿¡å???‰¿è«¾ã???Ÿ¹é¤Šé?œéµäººé?›é?œä?????,
-            'Metal':'è²¡å?™æ±ºç­–è?????ç´???‰åˆ©?–¼ä½ ã????œæ–·è¡???•ï?Œæ“º??«æ¨¡ç³Šã??,
-            'Water':'æ·±åº¦??è???????”ç©¶?—¥????›¸ä¿¡ç›´è¦ºè?Œé?æ•¸??šã????æ?å¸¶ä¾?æ´å?Ÿã??
+            'Wood':'ä»Šæ—¥?ï¿½ï¿½??ï¿½ï¿½?ï¿½ï¿½?ï¿½å³°?????ï¿½ï¿½?ï¿½æ–°ï¿½?ï¿½??????ï¿½ï¿½??????ï¿½ï¿½èµ·ï¿½?ï¿½U???ï¿½ï¿½??ï¿½å»¶???å°è©±???,
+            'Fire':'ç¤¾äº¤ï¿½???ï¿½å¼·å¤§ï¿½??å®‰ï¿½?ï¿½ï¿½??è­°ï¿½????ï¿½è¾¦??ï¿½ï¿½??ï¼Œï¿½?ï¿½ï¿½?ï¿½ï¿½???????ï¿½ï¿½?ï¿½ç™¼?ï¿½ï¿½ä½œç”¨???,
+            'Earth':'ï¿½?æ³¨æ–¼?ï¿½ï¿½??????ç©©ï¿½?ï¿½ï¿½??ä¿¡ï¿½???ï¿½ï¿½è«¾ï¿½???ï¿½ï¿½é¤Šï¿½?ï¿½éµäººï¿½?ï¿½ï¿½?ï¿½ï¿½?????,
+            'Metal':'è²¡ï¿½?ï¿½æ±ºç­–ï¿½?????ï¿½???ï¿½åˆ©?ï¿½ï¿½ä½ ï¿½????ï¿½æ–·ï¿½???ï¿½ï¿½?ï¿½æ“º??ï¿½æ¨¡ç³Šï¿½??,
+            'Water':'æ·±åº¦??ï¿½ï¿½???????ï¿½ç©¶?ï¿½ï¿½????ï¿½ï¿½ä¿¡ç›´è¦ºï¿½?ï¿½ï¿½?ï¿½æ•¸??ï¿½ï¿½????ï¿½ï¿½?ï¿½å¸¶ï¿½?æ´ï¿½?ï¿½ï¿½??
         };
 
         // ===== STATE =====
@@ -1832,14 +1832,14 @@
             const dayZhiElement = BRANCH_WX_MAP[dayZhi] || 'Earth';
             const zhiXing = l.getZhiXing();
             const tianShen = l.getDayTianShen();
-            const tianShenType = l.getDayTianShenType(); // é»???? / é»‘é??
+            const tianShenType = l.getDayTianShenType(); // ï¿½???? / é»‘ï¿½??
 
             // === Traditional Score (0-100) ===
             // Base from å»ºé™¤ (30-70)
             let tradScore = ZHIXING_SCORE[zhiXing] || 45;
-            // é»????/é»‘é?? adjustment (Â±10)
-            if (tianShenType === 'é»????') tradScore += 10;
-            else if (tianShenType === 'é»‘é??') tradScore -= 10;
+            // ï¿½????/é»‘ï¿½?? adjustment (Â±10)
+            if (tianShenType === 'ï¿½????') tradScore += 10;
+            else if (tianShenType === 'é»‘ï¿½??') tradScore -= 10;
 
             // Auspicious / inauspicious spirits (from getDayJiShen / getDayXiongSha)
             const jiShen = l.getDayJiShen() || [];
@@ -1891,7 +1891,7 @@
             // Yi/Ji (getDayYi/getDayJi return arrays) ???only for scenario matching
             const yiRaw = l.getDayYi() || [];
             const jiRaw = l.getDayJi() || [];
-            const genericTerms = ['é¦?äº‹å‹¿???,'è¯¸ä?‹ä?å??','ä¸Šè¡¨ç«?,'ä¸Šè¡¨','æ²æµ´','?? ç??','ç»“ç??','??–æ??','??‹ç??','?‰«???','å¡ç©´','å¹³æ²»??“æ??','ä¿®é¥°?£å¢?'];
+            const genericTerms = ['ï¿½?äº‹å‹¿???,'è¯¸ï¿½?ï¿½ï¿½?ï¿½ï¿½??','ä¸Šè¡¨ï¿½?,'ä¸Šè¡¨','æ²æµ´','??ï¿½ï¿½??','ç»“ï¿½??','??ï¿½ï¿½??','??ï¿½ï¿½??','?ï¿½ï¿½???','å¡ç©´','å¹³æ²»??ï¿½ï¿½??','ä¿®é¥°?ï¿½ï¿½ï¿½?'];
             const yiList = (Array.isArray(yiRaw) ? yiRaw : String(yiRaw).split(',')).map(s=>String(s).trim()).filter(Boolean).filter(y=>!genericTerms.includes(y));
             const jiList = (Array.isArray(jiRaw) ? jiRaw : String(jiRaw).split(',')).map(s=>String(s).trim()).filter(Boolean).filter(j=>!genericTerms.includes(j));
 
@@ -1900,15 +1900,15 @@
             const hitInauspiciousNames = hitInauspicious.map(shenDisplayName);
 
             // Directions (translate Chinese to English)
-            const DIR_EN = {'æ­?ä¸?':'East','æ­????':'South','æ­?è¥?':'West','æ­????':'North','ä¸œå??':'Northeast','ä¸œå??':'Southeast','è¥¿å??':'Southwest','è¥¿å??':'Northwest'};
-            const DIR_ZH = {'æ­?ä¸?':'æ­??±','æ­????':'æ­????','æ­?è¥?':'æ­?è¥?','æ­????':'æ­????','ä¸œå??':'?±???','ä¸œå??':'?±???','è¥¿å??':'è¥¿å??','è¥¿å??':'è¥¿å??'};
+            const DIR_EN = {'ï¿½?ï¿½?':'East','ï¿½????':'South','ï¿½?ï¿½?':'West','ï¿½????':'North','ä¸œï¿½??':'Northeast','ä¸œï¿½??':'Southeast','è¥¿ï¿½??':'Southwest','è¥¿ï¿½??':'Northwest'};
+            const DIR_ZH = {'ï¿½?ï¿½?':'ï¿½??ï¿½ï¿½','ï¿½????':'ï¿½????','ï¿½?ï¿½?':'ï¿½?ï¿½?','ï¿½????':'ï¿½????','ä¸œï¿½??':'?ï¿½ï¿½???','ä¸œï¿½??':'?ï¿½ï¿½???','è¥¿ï¿½??':'è¥¿ï¿½??','è¥¿ï¿½??':'è¥¿ï¿½??'};
             const caiDir = isZh() ? (DIR_ZH[l.getDayPositionCaiDesc()] || l.getDayPositionCaiDesc()) : (DIR_EN[l.getDayPositionCaiDesc()] || l.getDayPositionCaiDesc());
             const xiDir = isZh() ? (DIR_ZH[l.getDayPositionXiDesc()] || l.getDayPositionXiDesc()) : (DIR_EN[l.getDayPositionXiDesc()] || l.getDayPositionXiDesc());
 
             // Clash
             const clashIdx = ZHI.indexOf(l.getDayChong());
             const clashAnimal = isZh()
-                ? l.getDayChong() // Chinese: show ?œ°?”¯ directly
+                ? l.getDayChong() // Chinese: show ?ï¿½ï¿½?ï¿½ï¿½ directly
                 : (ZODIAC_EN[clashIdx] || 'Unknown');
 
             // Personal score (raw, for detail display)
@@ -1943,23 +1943,23 @@
 
             const cs = dd.combinedScore;
             let verdictText;
-            if (cs >= 85) { verdictText = isZh() ? 'å¤§å??' : 'Excellent'; }
+            if (cs >= 85) { verdictText = isZh() ? 'å¤§ï¿½??' : 'Excellent'; }
             else if (cs >= 70) { verdictText = isZh() ? '??? : 'Good'; }
-            else if (cs >= 55) { verdictText = isZh() ? 'å¹? : 'Fair'; }
+            else if (cs >= 55) { verdictText = isZh() ? 'ï¿½? : 'Fair'; }
             else { verdictText = isZh() ? '??? : 'Caution'; }
 
             // If personal clash, override verdict
             var hasPersonalClash = favorableElements.length > 0 && dd.personalScore <= -20;
             var hasPersonalMatch = favorableElements.length > 0 && dd.personalScore >= 15;
             if (hasPersonalClash) {
-                verdictText = isZh() ? '??šç”¨??? + verdictText + 'ï¼Œä???????¨å?«å?—æ?‰æ??' : verdictText + ', but clashes with your chart';
+                verdictText = isZh() ? '??ï¿½ç”¨??? + verdictText + 'ï¼Œï¿½???????ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½??' : verdictText + ', but clashes with your chart';
             }
 
             // verdict is now shown inline next to score, clear the old element
             verdictEl.textContent = '';
 
             // Score + verdict + hint
-            var scoreHint = isZh() ? '  1-100ï¼?????•¸è¶Šé?˜è?Šå?? : '  1-100, higher is better';
+            var scoreHint = isZh() ? '  1-100ï¿½?????ï¿½ï¿½è¶Šï¿½?ï¿½ï¿½?ï¿½ï¿½?? : '  1-100, higher is better';
             starsEl.innerHTML = `<span class="score-number" style="font-size:1.6rem;font-weight:700;">${cs}</span><span style="font-size:0.85rem;color:#888;margin-left:0.4rem;">${verdictText}</span><span style="font-size:0.75rem;color:#888;">${scoreHint}</span>`;
 
             // Good / Not ideal scenarios
@@ -1984,37 +1984,37 @@
                 var clashElement = (dd.dayElement === avoidElement) ? dd.dayElement : dd.dayZhiElement;
                 var clashElementZh = wxZh(clashElement);
                 clashReason = isZh()
-                    ? 'ä»Šæ—¥??? + clashElementZh + '??½é?è??ä½ å‘½?›¤??‰æ??'
+                    ? 'ä»Šæ—¥??? + clashElementZh + '??ï¿½ï¿½?ï¿½ï¿½??ä½ å‘½?ï¿½ï¿½??ï¿½ï¿½??'
                     : 'Today\'s ' + clashElement + ' energy clashes with your chart';
                 personalNoticeHtml = `<div class="personal-notice personal-notice-clash">
                     <div class="pn-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
                     <div class="pn-body">
-                        <div class="pn-title">${isZh() ? '?????¨å‘½?›¤??‰æ??' : 'Clash with Your Chart'}</div>
+                        <div class="pn-title">${isZh() ? '?????ï¿½å‘½?ï¿½ï¿½??ï¿½ï¿½??' : 'Clash with Your Chart'}</div>
                         <div class="pn-desc">${clashReason}</div>
-                        <div class="pn-advice">${isZh() ? 'å»ºè­°?¦???ä»–æ—¥ï¼Œæ?–æ?‘é?¸å?‰æ????²è?Œä»¥æ¸›è?•å½±??? : 'Consider picking another date, or choose a lucky time to reduce the impact.'}</div>
+                        <div class="pn-advice">${isZh() ? 'å»ºè­°?ï¿½ï¿½???ä»–æ—¥ï¼Œï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½????ï¿½ï¿½?ï¿½ä»¥æ¸›ï¿½?ï¿½å½±??? : 'Consider picking another date, or choose a lucky time to reduce the impact.'}</div>
                     </div>
                 </div>`;
             } else if (cs >= 70 && hasFavMatch) {
                 personalNoticeHtml = `<div class="personal-notice personal-notice-match">
                     <div class="pn-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
                     <div class="pn-body">
-                        <div class="pn-title">${isZh() ? '?????¨å‘½?›¤å¥‘å??' : 'Good Match for You'}</div>
-                        <div class="pn-desc">${isZh() ? 'ä»Šæ—¥?????½é?å?ä? ç‰¹?ˆ¥??‰åˆ©ï¼Œé?©å???¨??²é?è??äº‹é????? : 'Today\'s energy supports your chart well. A great day to move forward with important plans.'}</div>
+                        <div class="pn-title">${isZh() ? '?????ï¿½å‘½?ï¿½ï¿½å¥‘ï¿½??' : 'Good Match for You'}</div>
+                        <div class="pn-desc">${isZh() ? 'ä»Šæ—¥?????ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ç‰¹?ï¿½ï¿½??ï¿½åˆ©ï¼Œï¿½?ï¿½ï¿½???ï¿½ï¿½??ï¿½ï¿½?ï¿½ï¿½??äº‹ï¿½????? : 'Today\'s energy supports your chart well. A great day to move forward with important plans.'}</div>
                     </div>
                 </div>`;
             } else if (cs >= 55) {
                 personalNoticeHtml = `<div class="personal-notice personal-notice-neutral">
                     <div class="pn-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></div>
                     <div class="pn-body">
-                        <div class="pn-title">${isZh() ? '?™®??šæ—¥' : 'Average for You'}</div>
-                        <div class="pn-desc">${isZh() ? 'ä»Šæ—¥??½é?è??ä½ æ?’æ?‰ç‰¹?ˆ¥æ²–ç????–åŠ©??›ï??å±¬æ–¼?™®??šæ—¥??? : 'No special clash or boost for you today. An average day ???nothing to worry about.'}</div>
+                        <div class="pn-title">${isZh() ? '?ï¿½ï¿½??ï¿½æ—¥' : 'Average for You'}</div>
+                        <div class="pn-desc">${isZh() ? 'ä»Šæ—¥??ï¿½ï¿½?ï¿½ï¿½??ä½ ï¿½?ï¿½ï¿½?ï¿½ç‰¹?ï¿½ï¿½æ²–ï¿½????ï¿½åŠ©??ï¿½ï¿½??å±¬æ–¼?ï¿½ï¿½??ï¿½æ—¥??? : 'No special clash or boost for you today. An average day ???nothing to worry about.'}</div>
                     </div>
                 </div>`;
             }
 
             // No separate score hint ???it's already shown next to the score number
 
-            // Scenarios: show for ???å¤§å?? (>=70), caution for å¹? strong caution for ???
+            // Scenarios: show for ???å¤§ï¿½?? (>=70), caution for ï¿½? strong caution for ???
             var scenariosHtml = '';
             if (cs >= 70) {
                 if (goodHtml) {
@@ -2022,11 +2022,11 @@
                 }
             } else if (cs >= 55) {
                 scenariosHtml = `<div style="font-size:0.82rem;color:#888;margin-bottom:0.6rem;">${isZh()
-                    ? 'ä»Šæ—¥?•´é«”ä????¬ï?Œé?ç?Šæ?¥ä?‹é??å»ºè­°?¦?????‰æ—¥???
+                    ? 'ä»Šæ—¥?ï¿½ï¿½é«”ï¿½????ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½??å»ºè­°?ï¿½ï¿½?????ï¿½æ—¥???
                     : 'Today is average. For non-urgent matters, consider picking a better date.'}</div>`;
             } else {
                 scenariosHtml = `<div style="font-size:0.82rem;color:#888;margin-bottom:0.6rem;">${isZh()
-                    ? 'ä»Šæ—¥??½é?è??å¼±ï??å»ºè­°??¿å?é?å¤§æ±ºå?šå?Œé?è??æ´»å?•ã??
+                    ? 'ä»Šæ—¥??ï¿½ï¿½?ï¿½ï¿½??å¼±ï¿½??å»ºè­°??ï¿½ï¿½?ï¿½ï¿½?ï¿½å¤§æ±ºï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½??æ´»ï¿½?ï¿½ï¿½??
                     : 'Low energy today. Best to avoid big decisions or important activities.'}</div>`;
             }
 
@@ -2168,41 +2168,41 @@
                 var dayClashReason = '';
                 var dayClashEl = (dd.dayElement === avoidElement) ? dd.dayElement : dd.dayZhiElement;
                 dayClashReason = isZh()
-                    ? 'ä»Šæ—¥??? + wxZh(dayClashEl) + '??½é?è??ä½ å‘½?›¤??‰æ??'
+                    ? 'ä»Šæ—¥??? + wxZh(dayClashEl) + '??ï¿½ï¿½?ï¿½ï¿½??ä½ å‘½?ï¿½ï¿½??ï¿½ï¿½??'
                     : 'Today\'s ' + dayClashEl + ' energy clashes with your chart';
                 dayPersonalNotice = `<div class="personal-notice personal-notice-clash" style="margin-top:0.8rem;">
                     <div class="pn-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
                     <div class="pn-body">
-                        <div class="pn-title">${isZh() ? '?????¨å‘½?›¤??‰æ??' : 'Clash with Your Chart'}</div>
+                        <div class="pn-title">${isZh() ? '?????ï¿½å‘½?ï¿½ï¿½??ï¿½ï¿½??' : 'Clash with Your Chart'}</div>
                         <div class="pn-desc">${dayClashReason}</div>
-                        <div class="pn-advice">${isZh() ? 'å»ºè­°?¦???ä»–æ—¥' : 'Consider picking another date.'}</div>
+                        <div class="pn-advice">${isZh() ? 'å»ºè­°?ï¿½ï¿½???ä»–æ—¥' : 'Consider picking another date.'}</div>
                     </div>
                 </div>`;
             } else if (cs >= 70 && dayHasFavMatch) {
                 dayPersonalNotice = `<div class="personal-notice personal-notice-match" style="margin-top:0.8rem;">
                     <div class="pn-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
                     <div class="pn-body">
-                        <div class="pn-title">${isZh() ? '?????¨å‘½?›¤å¥‘å??' : 'Good Match for You'}</div>
-                        <div class="pn-desc">${isZh() ? 'ä»Šæ—¥?????½é?å?ä? ç‰¹?ˆ¥??‰åˆ©ï¼Œé?©å???¨??²é?è??äº‹é????? : 'Today\'s energy supports your chart well. A great day to move forward.'}</div>
+                        <div class="pn-title">${isZh() ? '?????ï¿½å‘½?ï¿½ï¿½å¥‘ï¿½??' : 'Good Match for You'}</div>
+                        <div class="pn-desc">${isZh() ? 'ä»Šæ—¥?????ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ç‰¹?ï¿½ï¿½??ï¿½åˆ©ï¼Œï¿½?ï¿½ï¿½???ï¿½ï¿½??ï¿½ï¿½?ï¿½ï¿½??äº‹ï¿½????? : 'Today\'s energy supports your chart well. A great day to move forward.'}</div>
                     </div>
                 </div>`;
             } else if (cs >= 55) {
                 dayPersonalNotice = `<div class="personal-notice personal-notice-neutral" style="margin-top:0.8rem;">
                     <div class="pn-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></div>
                     <div class="pn-body">
-                        <div class="pn-title">${isZh() ? '?™®??šæ—¥' : 'Average for You'}</div>
-                        <div class="pn-desc">${isZh() ? 'ä»Šæ—¥??½é?è??ä½ æ?’æ?‰ç‰¹?ˆ¥æ²–ç????–åŠ©??›ï??å±¬æ–¼?™®??šæ—¥??? : 'No special clash or boost for you. An average day.'}</div>
+                        <div class="pn-title">${isZh() ? '?ï¿½ï¿½??ï¿½æ—¥' : 'Average for You'}</div>
+                        <div class="pn-desc">${isZh() ? 'ä»Šæ—¥??ï¿½ï¿½?ï¿½ï¿½??ä½ ï¿½?ï¿½ï¿½?ï¿½ç‰¹?ï¿½ï¿½æ²–ï¿½????ï¿½åŠ©??ï¿½ï¿½??å±¬æ–¼?ï¿½ï¿½??ï¿½æ—¥??? : 'No special clash or boost for you. An average day.'}</div>
                     </div>
                 </div>`;
             }
 
             // Verdict text based on combined score
-            var dayVerdictText = cs >= 85 ? (isZh() ? 'å¤§å??' : 'Excellent')
+            var dayVerdictText = cs >= 85 ? (isZh() ? 'å¤§ï¿½??' : 'Excellent')
                 : cs >= 70 ? (isZh() ? '??? : 'Good')
-                : cs >= 55 ? (isZh() ? 'å¹? : 'Fair')
+                : cs >= 55 ? (isZh() ? 'ï¿½? : 'Fair')
                 : (isZh() ? '??? : 'Caution');
 
-            // Scenarios: show for ???å¤§å?? (>=70), caution for å¹? strong caution for ???
+            // Scenarios: show for ???å¤§ï¿½?? (>=70), caution for ï¿½? strong caution for ???
             var dayScenariosHtml = '';
             if (cs >= 70) {
                 if (goodHtml) {
@@ -2213,11 +2213,11 @@
                 }
             } else if (cs >= 55) {
                 dayScenariosHtml = `<div style="font-size:0.82rem;color:#888;margin-top:0.6rem;">${isZh()
-                    ? 'æ­¤æ—¥?•´é«”ä????¬ï?Œé?ç?Šæ?¥ä?‹é??å»ºè­°?¦?????‰æ—¥???
+                    ? 'æ­¤æ—¥?ï¿½ï¿½é«”ï¿½????ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½??å»ºè­°?ï¿½ï¿½?????ï¿½æ—¥???
                     : 'This day is average. For non-urgent matters, consider a better date.'}</div>`;
             } else {
                 dayScenariosHtml = `<div style="font-size:0.82rem;color:#888;margin-top:0.6rem;">${isZh()
-                    ? 'æ­¤æ—¥??½é?è??å¼±ï??å»ºè­°??¿å?é?å¤§æ±ºå?šå?Œé?è??æ´»å?•ã??
+                    ? 'æ­¤æ—¥??ï¿½ï¿½?ï¿½ï¿½??å¼±ï¿½??å»ºè­°??ï¿½ï¿½?ï¿½ï¿½?ï¿½å¤§æ±ºï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½??æ´»ï¿½?ï¿½ï¿½??
                     : 'Low energy. Best to avoid big decisions or important activities.'}</div>`;
             }
 
@@ -2247,7 +2247,7 @@
                 engagement: t('almanac.scenario_engagement'), interview: t('almanac.scenario_interview'),
                 pet_vet: t('almanac.scenario_pet_vet'), date: t('almanac.scenario_date')
             };
-            titleEl.textContent = isZh() ? '?œ¬??????ä½³æ—¥???ï¼?' + (scenarioNames[activeScenario] || activeScenario) : 'Best days for ' + (scenarioNames[activeScenario] || activeScenario) + ' this month:';
+            titleEl.textContent = isZh() ? '?ï¿½ï¿½??????ä½³æ—¥???ï¿½?' + (scenarioNames[activeScenario] || activeScenario) : 'Best days for ' + (scenarioNames[activeScenario] || activeScenario) + ' this month:';
 
             const needed = SCENARIO_YI[activeScenario] || [];
             const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
@@ -2266,7 +2266,7 @@
             results.sort(function(a, b) { return b.combinedScore - a.combinedScore; });
 
             if (results.length === 0) {
-                listEl.innerHTML = '<li style="color:var(--text-muted);justify-content:center;">' + (isZh() ? '?œ¬????œª?‰¾??°ç????³æ—¥???ï¼Œè?‹å?—è©¦ä¸‹å?‹æ????? : 'No ideal dates found this month. Try next month.') + '</li>';
+                listEl.innerHTML = '<li style="color:var(--text-muted);justify-content:center;">' + (isZh() ? '?ï¿½ï¿½????ï¿½ï¿½?ï¿½ï¿½??ï¿½ï¿½????ï¿½æ—¥???ï¼Œï¿½?ï¿½ï¿½?ï¿½è©¦ä¸‹ï¿½?ï¿½ï¿½????? : 'No ideal dates found this month. Try next month.') + '</li>';
             } else {
                 const topCount = Math.min(results.length, 10);
                 let html = '';
@@ -2279,12 +2279,12 @@
                     if (r.personalScore <= -20) {
                         // Personal clash overrides everything
                         verdictClass = 'verdict-clash';
-                        verdictText = isZh() ? 'æ²? : 'Clash';
+                        verdictText = isZh() ? 'ï¿½? : 'Clash';
                         verdictIcon = '???;
                     } else if (r.personalScore >= 15 && r.combinedScore >= 70) {
                         // Both good
                         verdictClass = 'verdict-best';
-                        verdictText = isZh() ? 'å¤§å??' : 'Excellent';
+                        verdictText = isZh() ? 'å¤§ï¿½??' : 'Excellent';
                         verdictIcon = '';
                     } else if (r.personalScore >= 15 && r.combinedScore >= 55) {
                         // Personal good but day is fair
@@ -2299,7 +2299,7 @@
                             verdictIcon = '???;
                         } else if (r.combinedScore >= 55) {
                             verdictClass = 'verdict-fair';
-                            verdictText = isZh() ? 'å¹? : 'Fair';
+                            verdictText = isZh() ? 'ï¿½? : 'Fair';
                             verdictIcon = '???;
                         } else {
                             verdictClass = 'verdict-avoid';
@@ -2308,9 +2308,9 @@
                         }
                     } else {
                         // Fallback to combined score only
-                        if (r.combinedScore >= 85) { verdictClass = 'verdict-best'; verdictText = isZh() ? 'å¤§å??' : 'Excellent'; verdictIcon = '???; }
+                        if (r.combinedScore >= 85) { verdictClass = 'verdict-best'; verdictText = isZh() ? 'å¤§ï¿½??' : 'Excellent'; verdictIcon = '???; }
                         else if (r.combinedScore >= 70) { verdictClass = 'verdict-good'; verdictText = isZh() ? '??? : 'Good'; verdictIcon = '???; }
-                        else if (r.combinedScore >= 55) { verdictClass = 'verdict-fair'; verdictText = isZh() ? 'å¹? : 'Fair'; verdictIcon = '???; }
+                        else if (r.combinedScore >= 55) { verdictClass = 'verdict-fair'; verdictText = isZh() ? 'ï¿½? : 'Fair'; verdictIcon = '???; }
                         else { verdictClass = 'verdict-avoid'; verdictText = isZh() ? '??? : 'Avoid'; verdictIcon = '???; }
                     }
 
@@ -2323,7 +2323,7 @@
             // Render share bar
             if (window.ToolShare) {
                 var shareText = isZh()
-                    ? 'é»????????—¥çµæ?? ???' + document.getElementById('resultTitle').textContent + ' | DaoEssence'
+                    ? 'ï¿½????????ï¿½ï¿½çµï¿½?? ???' + document.getElementById('resultTitle').textContent + ' | DaoEssence'
                     : 'Chinese Almanac Results ???' + document.getElementById('resultTitle').textContent + ' | DaoEssence';
                 window.ToolShare.render('alm-share-container', { text: shareText });
             }
