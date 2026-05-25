@@ -666,35 +666,52 @@
         .select-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 0.6rem;
+            gap: 0.5rem;
         }
         .select-btn {
-            padding: 0.7rem 0.5rem;
+            position: relative;
+            padding: 0.65rem 0.5rem;
             border: 1px solid var(--border);
             border-radius: 8px;
             background: var(--bg-card);
             color: var(--text-secondary);
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             font-family: var(--sans);
             cursor: pointer;
             transition: all 0.2s;
             text-align: center;
             line-height: 1.3;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
         }
-        .select-btn:hover { border-color: var(--border-hover); color: var(--gold); }
+        .select-btn:hover { border-color: var(--border-hover); color: var(--gold); background: var(--bg-card-hover); }
         .select-btn.active {
-            background: rgba(212,175,55,0.1);
+            background: rgba(212,175,55,0.12);
             border-color: var(--gold);
             color: var(--gold);
+            box-shadow: 0 0 12px rgba(212,175,55,0.08);
+        }
+        .select-btn .btn-icon {
+            font-size: 1rem;
+            line-height: 1;
         }
         .select-btn.select-btn-locked {
-            opacity: 0.55;
+            opacity: 0.4;
             cursor: pointer;
+        }
+        .select-btn.select-btn-locked .lock-icon {
+            position: absolute;
+            top: 4px;
+            right: 6px;
+            font-size: 0.6rem;
+            color: var(--text-muted);
         }
         .select-btn.select-btn-locked.unlocked {
             opacity: 1;
         }
-        .select-btn.select-btn-locked.unlocked svg {
+        .select-btn.select-btn-locked.unlocked .lock-icon {
             display: none;
         }
         .select-result {
@@ -712,28 +729,69 @@
         .result-list {
             list-style: none;
         }
-        .result-list li {
+        .result-list li.result-item {
             display: flex; align-items: center; justify-content: space-between;
-            padding: 0.6rem 1rem;
-            border-radius: 8px;
+            padding: 0.8rem 1.2rem;
+            border-radius: 10px;
             background: var(--bg-card);
             border: 1px solid var(--border);
-            margin-bottom: 0.4rem;
-            font-size: 0.88rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.92rem;
+            transition: all 0.2s;
+        }
+        .result-list li.result-item:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--border-hover);
+        }
+        .result-list li.result-item:first-child {
+            border-color: var(--gold);
+            background: rgba(212,175,55,0.04);
         }
         .result-list li .result-date {
             color: var(--text-primary);
             font-weight: 500;
         }
-        .result-list li .result-reason {
-            color: var(--text-muted);
+        /* Unified verdict badges */
+        .result-verdict {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 12px;
+            border-radius: 100px;
             font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
         }
-        .result-list li.top-pick {
-            border-color: var(--border);
-            background: var(--bg-card);
+        .result-verdict.verdict-best {
+            background: rgba(212,175,55,0.12);
+            color: var(--gold);
+            border: 1px solid rgba(212,175,55,0.25);
         }
-        .result-list li.top-pick .result-reason { color: var(--text-muted); }
+        .result-verdict.verdict-good {
+            background: rgba(46,204,113,0.08);
+            color: #6B9E6B;
+            border: 1px solid rgba(46,204,113,0.15);
+        }
+        .result-verdict.verdict-fair {
+            background: rgba(136,136,136,0.06);
+            color: var(--text-secondary);
+            border: 1px solid rgba(136,136,136,0.12);
+        }
+        .result-verdict.verdict-avoid {
+            background: rgba(158,75,75,0.08);
+            color: #9E4B4B;
+            border: 1px solid rgba(158,75,75,0.15);
+        }
+        .result-verdict.verdict-clash {
+            background: rgba(158,75,75,0.12);
+            color: #C0392B;
+            border: 1px solid rgba(158,75,75,0.25);
+            animation: pulse-clash 2s infinite;
+        }
+        @keyframes pulse-clash {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
 
         /* ===== CLICKED DAY DETAIL (in calendar section) ===== */
         .day-detail {
@@ -1153,18 +1211,18 @@
     <!-- SCENARIO SELECTOR -->
     <section class="select-section">
         <div class="select-grid" id="selectGrid">
-            <button class="select-btn" data-scenario="marry" data-i18n="almanac.scenario_marry">Getting Married</button>
-            <button class="select-btn" data-scenario="business" data-i18n="almanac.scenario_business">Starting Business</button>
-            <button class="select-btn" data-scenario="moving" data-i18n="almanac.scenario_moving">Moving Home</button>
-            <button class="select-btn select-btn-locked" data-scenario="contract"><span data-i18n="almanac.scenario_contract">Signing Contract</span> <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-left:2px;vertical-align:middle;opacity:0.6"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></button>
-            <button class="select-btn select-btn-locked" data-scenario="travel"><span data-i18n="almanac.scenario_travel">Travel / Vacation</span> <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-left:2px;vertical-align:middle;opacity:0.6"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></button>
-            <button class="select-btn select-btn-locked" data-scenario="purchase"><span data-i18n="almanac.scenario_purchase">Major Purchase</span> <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-left:2px;vertical-align:middle;opacity:0.6"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></button>
-            <button class="select-btn select-btn-locked" data-scenario="medical"><span data-i18n="almanac.scenario_medical">Medical Procedure</span> <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-left:2px;vertical-align:middle;opacity:0.6"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></button>
-            <button class="select-btn select-btn-locked" data-scenario="housewarm"><span data-i18n="almanac.scenario_housewarm">Housewarming</span> <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-left:2px;vertical-align:middle;opacity:0.6"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></button>
-            <button class="select-btn select-btn-locked" data-scenario="engagement"><span data-i18n="almanac.scenario_engagement">Getting Engaged</span> <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-left:2px;vertical-align:middle;opacity:0.6"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></button>
-            <button class="select-btn select-btn-locked" data-scenario="interview"><span data-i18n="almanac.scenario_interview">Job Interview</span> <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-left:2px;vertical-align:middle;opacity:0.6"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></button>
-            <button class="select-btn select-btn-locked" data-scenario="pet_vet"><span data-i18n="almanac.scenario_pet_vet">Pet Vet Visit</span> <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-left:2px;vertical-align:middle;opacity:0.6"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></button>
-            <button class="select-btn select-btn-locked" data-scenario="date"><span data-i18n="almanac.scenario_date">Going on a Date</span> <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-left:2px;vertical-align:middle;opacity:0.6"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></button>
+            <button class="select-btn" data-scenario="marry"><span class="btn-icon">💍</span><span data-i18n="almanac.scenario_marry">Getting Married</span></button>
+            <button class="select-btn" data-scenario="business"><span class="btn-icon">💼</span><span data-i18n="almanac.scenario_business">Starting Business</span></button>
+            <button class="select-btn" data-scenario="moving"><span class="btn-icon">🏠</span><span data-i18n="almanac.scenario_moving">Moving Home</span></button>
+            <button class="select-btn select-btn-locked" data-scenario="contract"><span class="lock-icon">🔒</span><span class="btn-icon"></span><span data-i18n="almanac.scenario_contract">Signing Contract</span></button>
+            <button class="select-btn select-btn-locked" data-scenario="travel"><span class="lock-icon">🔒</span><span class="btn-icon">✈️</span><span data-i18n="almanac.scenario_travel">Travel / Vacation</span></button>
+            <button class="select-btn select-btn-locked" data-scenario="purchase"><span class="lock-icon"></span><span class="btn-icon"></span><span data-i18n="almanac.scenario_purchase">Major Purchase</span></button>
+            <button class="select-btn select-btn-locked" data-scenario="medical"><span class="lock-icon">🔒</span><span class="btn-icon">🏥</span><span data-i18n="almanac.scenario_medical">Medical Procedure</span></button>
+            <button class="select-btn select-btn-locked" data-scenario="housewarm"><span class="lock-icon"></span><span class="btn-icon"></span><span data-i18n="almanac.scenario_housewarm">Housewarming</span></button>
+            <button class="select-btn select-btn-locked" data-scenario="engagement"><span class="lock-icon">🔒</span><span class="btn-icon">💎</span><span data-i18n="almanac.scenario_engagement">Getting Engaged</span></button>
+            <button class="select-btn select-btn-locked" data-scenario="interview"><span class="lock-icon">🔒</span><span class="btn-icon">🎤</span><span data-i18n="almanac.scenario_interview">Job Interview</span></button>
+            <button class="select-btn select-btn-locked" data-scenario="pet_vet"><span class="lock-icon">🔒</span><span class="btn-icon">🐾</span><span data-i18n="almanac.scenario_pet_vet">Pet Vet Visit</span></button>
+            <button class="select-btn select-btn-locked" data-scenario="date"><span class="lock-icon">🔒</span><span class="btn-icon">❤️</span><span data-i18n="almanac.scenario_date">Going on a Date</span></button>
         </div>
         <div class="select-result" id="selectResult">
             <h4 id="resultTitle"></h4>
@@ -2219,22 +2277,48 @@
                 for (let i = 0; i < topCount; i++) {
                     const r = results[i];
                     const dateStr = r.date.toLocaleDateString(isZh() ? 'zh-TW' : 'en-US', {weekday:'short', month:'short', day:'numeric'});
-                    const reason = r.combinedScore >= 85 ? (isZh() ? '大吉' : 'Excellent')
-                        : r.combinedScore >= 70 ? (isZh() ? '吉' : 'Good')
-                        : r.combinedScore >= 55 ? (isZh() ? '平' : 'Fair')
-                        : (isZh() ? '凶' : 'Avoid');
-                    // Personal score badge
-                    var scoreHtml = '<span class="result-score-num" style="font-weight:600;">' + r.combinedScore + '</span>';
-                    if (favorableElements.length > 0) {
-                        if (r.personalScore >= 15) {
-                            scoreHtml += '<span class="result-personal-score high">' + (isZh() ? '契合' : 'Match') + '</span>';
-                        } else if (r.personalScore <= -20) {
-                            scoreHtml += '<span class="result-personal-score low">' + (isZh() ? '忌沖' : 'Clash') + '</span>';
-                        } else if (r.personalScore > 0) {
-                            scoreHtml += '<span class="result-personal-score mid">' + (isZh() ? '尚可' : 'OK') + '</span>';
+
+                    // Unified verdict: combine score + personal alignment
+                    let verdictClass, verdictText, verdictIcon;
+                    if (r.personalScore <= -20) {
+                        // Personal clash overrides everything
+                        verdictClass = 'verdict-clash';
+                        verdictText = isZh() ? '沖' : 'Clash';
+                        verdictIcon = '⚠';
+                    } else if (r.personalScore >= 15 && r.combinedScore >= 70) {
+                        // Both good
+                        verdictClass = 'verdict-best';
+                        verdictText = isZh() ? '大吉' : 'Excellent';
+                        verdictIcon = '';
+                    } else if (r.personalScore >= 15 && r.combinedScore >= 55) {
+                        // Personal good but day is fair
+                        verdictClass = 'verdict-good';
+                        verdictText = isZh() ? '吉' : 'Good';
+                        verdictIcon = '✓';
+                    } else if (r.personalScore <= 0 && r.personalScore > -20) {
+                        // Neutral personal
+                        if (r.combinedScore >= 70) {
+                            verdictClass = 'verdict-good';
+                            verdictText = isZh() ? '吉' : 'Good';
+                            verdictIcon = '✓';
+                        } else if (r.combinedScore >= 55) {
+                            verdictClass = 'verdict-fair';
+                            verdictText = isZh() ? '平' : 'Fair';
+                            verdictIcon = '–';
+                        } else {
+                            verdictClass = 'verdict-avoid';
+                            verdictText = isZh() ? '凶' : 'Avoid';
+                            verdictIcon = '✗';
                         }
+                    } else {
+                        // Fallback to combined score only
+                        if (r.combinedScore >= 85) { verdictClass = 'verdict-best'; verdictText = isZh() ? '大吉' : 'Excellent'; verdictIcon = '✦'; }
+                        else if (r.combinedScore >= 70) { verdictClass = 'verdict-good'; verdictText = isZh() ? '吉' : 'Good'; verdictIcon = '✓'; }
+                        else if (r.combinedScore >= 55) { verdictClass = 'verdict-fair'; verdictText = isZh() ? '平' : 'Fair'; verdictIcon = '–'; }
+                        else { verdictClass = 'verdict-avoid'; verdictText = isZh() ? '凶' : 'Avoid'; verdictIcon = '✗'; }
                     }
-                    html += '<li><span class="result-date">' + dateStr + '</span><span class="result-reason">' + reason + scoreHtml + '</span></li>';
+
+                    html += '<li class="result-item"><span class="result-date">' + dateStr + '</span><span class="result-verdict ' + verdictClass + '">' + verdictIcon + ' ' + r.combinedScore + ' ' + verdictText + '</span></li>';
                 }
                 listEl.innerHTML = html;
             }
