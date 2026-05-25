@@ -694,13 +694,34 @@ function generateYiJi(wuxing) {
  * 生成单条中文运势（目标300-500字）
  */
 /**
+ * 生肖开头维度映射（12 生肖各不相同）
+ */
+const OPENING_DIMENSIONS = {
+  rat: '物件细节（手机/键盘/手表/钥匙等日常物件异常，如"手机今天可能比平时卡顿..."或类似物件异常，不要照搬示例）',
+  ox: '时间节奏（时间感知/节奏变化，如"下午两点到四点之间，事情会突然变得顺畅..."或类似时间提示，不要照搬示例）',
+  tiger: '人际互动（人际场景/对话契机，如"同事今天可能会突然问你一个你没想到过的问题..."或类似人际切入，不要照搬示例）',
+  rabbit: '身体感受（身体感知/肌肉紧张，如"今天肩膀可能有点沉，像是背了什么看不见的东西..."或类似身体信号，不要照搬示例）',
+  dragon: '空间感知（空间选择/位置偏好，如"今天待在靠窗的位置，运气会好一些..."或类似空间建议，不要照搬示例）',
+  snake: '声音感知（听觉体验/声音变化，如"今天周围的声音可能比平时嘈杂..."或类似声音提示，不要照搬示例）',
+  horse: '数字暗示（数字信号/数量感知，如"今天遇到带 3 或 7 的事情，多留意一下..."或类似数字提示，不要照搬示例）',
+  goat: '具体动作场景（动作引导/身体指令，如"早上出门时别急着按电梯，先深呼吸三次..."或类似动作建议，不要照搬示例）',
+  monkey: '天气/光线感知（光线变化/天气提示，如"今天阳光的角度有点特别，别急着拉窗帘..."或类似光线/天气切入，不要照搬示例）',
+  rooster: '味道/气味感知（嗅觉体验/气味提示，如"今天空气里有股说不清的味道，像是刚下过雨..."或类似气味切入，不要照搬示例）',
+  dog: '触感/温度感知（触觉感受/温度变化，如"今天手心有点凉，握笔时别太用力..."或类似触觉切入，不要照搬示例）',
+  pig: '节奏/速度感知（节奏建议/速度提示，如"今天走路时别急着超车，跟在后面反而更快..."或类似节奏切入，不要照搬示例）',
+};
+
+/**
  * 生成中文运势（AI推理版：喂完整四柱给AI做命理解读）
  */
 async function generateFortuneCN(zodiac, ganzhi, relations, fourPillars) {
-  const { name, sign } = zodiac;
+  const { key, name, sign } = zodiac;
   // 保留算法评分/判定（AI内容用，评分不影响内容）
   const score = calculateScore(zodiac, ganzhi, relations, ganzhi.wuxing);
   const verdict = getVerdict(score, relations, sign);
+
+  // 当前生肖的指定开头维度
+  const openingDim = OPENING_DIMENSIONS[key] || '物件细节';
 
   // 五行名称映射
   const WX_CN = ['木', '火', '土', '金', '水'];
@@ -726,6 +747,13 @@ async function generateFortuneCN(zodiac, ganzhi, relations, fourPillars) {
 - 综合评分：${score}/100
 - 运势判断：${verdict}
 
+## 开头段落要求（最重要）
+- **你当前写的是属【${name}】（${sign}）的运势，必须使用以下维度开头**：
+  ${openingDim}
+- 开头段落控制在 60-90 字，不要超过 100 字
+- 开头段落不要出现"运势"、"评分"、"生肖"、"今日"这些词，直接切入场景
+- **不要照搬示例原文，要换具体的场景和物件，但保持同样的感知维度**
+
 ## 写作风格（严格遵守）
 - 用简洁直白的白话文写，像老朋友发微信给你
 - 不要学术腔，不要用"三透干"、"双巳伏吟"这类术语
@@ -733,14 +761,13 @@ async function generateFortuneCN(zodiac, ganzhi, relations, fourPillars) {
 - 每段控制在 80-120 字，最多不超过 150 字
 - 段与段之间必须用空行分隔（\n\n）
 - 建议结构（5-6 段）：
-  1. 开头：总体运势感觉（不要重复"生肖 X 今日运势 XX，XX 分"，换个说法引入）
+  1. 开头：已在上文指定维度中给出，按维度写
   2. 事业/工作
   3. 感情/人际
   4. 健康/生活小贴士（如需提交通出行，一句话带过，归入本段，不单独展开）
   5. 宜/忌总结
 - 全文 400-550 字
 - 直接告诉读者：今日运势如何、需要注意什么、适合做什么、不适合做什么
-- **开头段落要多样化**：可以用心情比喻、可以用天气比喻、可以用生活场景引入，不要每个生肖都用同一个句式
 
 ## 输出要求
 - 只输出属【${name}】的运势内容
@@ -1846,7 +1873,7 @@ function buildDetailHTML(ctx, isEn) {
       </div>
       <div class="detail-layout__right">
         <div class="detail-header">
-          <h1 class="detail-header__name" id="cardName">${isEn ? signNameEn + ' Chinese Zodiac Horoscope' : signName + '生肖运势详解'}</h1>
+          <h1 class="detail-header__name" id="cardName">${isEn ? signNameEn + ' Daily Horoscope — ' + dateStr : signName + '今日运势详解 — ' + dateStr}</h1>
           <div class="detail-header__score">
             <span class="detail-header__score-num" id="cardScore" style="color:${accent}">${fc.score}</span>
             <span class="detail-header__stars" id="cardStars">${renderStars(fc.score)}</span>
