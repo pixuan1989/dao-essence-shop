@@ -55,10 +55,10 @@
         "mainEntity": [
             {
                 "@type": "Question",
-                "name": "What is the Chinese Almanac (é»„å†)?",
+                "name": "What is the Chinese Almanac (é»????)?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "The Chinese Almanac, also known as Huang Li (é»„å†), is a traditional calendar system that rates each day based on cosmic energy. It identifies auspicious (favorable) and inauspicious (unfavorable) days for specific activities like weddings, moving, business launches, and travel. The system is based on Chinese astrology, the Five Elements, and the Heavenly Stems and Earthly Branches."
+                    "text": "The Chinese Almanac, also known as Huang Li (é»????), is a traditional calendar system that rates each day based on cosmic energy. It identifies auspicious (favorable) and inauspicious (unfavorable) days for specific activities like weddings, moving, business launches, and travel. The system is based on Chinese astrology, the Five Elements, and the Heavenly Stems and Earthly Branches."
                 }
             },
             {
@@ -693,10 +693,6 @@
             color: var(--gold);
             box-shadow: 0 0 12px rgba(212,175,55,0.08);
         }
-        .select-btn .btn-icon {
-            font-size: 1rem;
-            line-height: 1;
-        }
         .select-btn.select-btn-locked {
             opacity: 0.4;
             cursor: pointer;
@@ -1101,7 +1097,7 @@
                 </button>
                 <div class="lang-switcher-menu" id="lang-menu">
                     <a href="#" data-lang="en" class="lang-option active">English</a>
-                    <a href="#" data-lang="zh" class="lang-option">ç¹é«”ä¸­æ–‡</a>
+                    <a href="#" data-lang="zh" class="lang-option">ç¹?é«”ä¸­???</a>
                 </div>
             </div>
             <a href="/" class="nav-back" data-i18n="almanac.nav_back">Back to Home</a>
@@ -1192,8 +1188,8 @@
 
         <!-- TODAY SECTION (hero, first thing user sees) -->
     <section class="today-hero" id="todaySection">
-        <h1 class="hero-title" data-i18n="almanac.hero_title">Auspicious Date Picker â€” Find Your Best Day</h1>
-        <p class="hero-subtitle" data-i18n="almanac.hero_subtitle">Pick the perfect date for life's big moments â€” weddings, moving, business, and more â€” guided by 2,000 years of Chinese astrological wisdom</p>
+        <h1 class="hero-title" data-i18n="almanac.hero_title">Auspicious Date Picker ???Find Your Best Day</h1>
+        <p class="hero-subtitle" data-i18n="almanac.hero_subtitle">Pick the perfect date for life's big moments ???weddings, moving, business, and more ???guided by 2,000 years of Chinese astrological wisdom</p>
         <div class="today-date" id="todayDateLabel"></div>
         <div class="today-verdict-row">
             <div class="today-verdict" id="todayVerdict"></div>
@@ -1211,18 +1207,18 @@
     <!-- SCENARIO SELECTOR -->
     <section class="select-section">
         <div class="select-grid" id="selectGrid">
-            <button class="select-btn" data-scenario="marry"><span class="btn-icon">ğŸ’</span><span data-i18n="almanac.scenario_marry">Getting Married</span></button>
-            <button class="select-btn" data-scenario="business"><span class="btn-icon">ğŸ’¼</span><span data-i18n="almanac.scenario_business">Starting Business</span></button>
-            <button class="select-btn" data-scenario="moving"><span class="btn-icon">ğŸ </span><span data-i18n="almanac.scenario_moving">Moving Home</span></button>
-            <button class="select-btn select-btn-locked" data-scenario="contract"><span class="lock-icon">ğŸ”’</span><span class="btn-icon"></span><span data-i18n="almanac.scenario_contract">Signing Contract</span></button>
-            <button class="select-btn select-btn-locked" data-scenario="travel"><span class="lock-icon">ğŸ”’</span><span class="btn-icon">âœˆï¸</span><span data-i18n="almanac.scenario_travel">Travel / Vacation</span></button>
-            <button class="select-btn select-btn-locked" data-scenario="purchase"><span class="lock-icon"></span><span class="btn-icon"></span><span data-i18n="almanac.scenario_purchase">Major Purchase</span></button>
-            <button class="select-btn select-btn-locked" data-scenario="medical"><span class="lock-icon">ğŸ”’</span><span class="btn-icon">ğŸ¥</span><span data-i18n="almanac.scenario_medical">Medical Procedure</span></button>
-            <button class="select-btn select-btn-locked" data-scenario="housewarm"><span class="lock-icon"></span><span class="btn-icon"></span><span data-i18n="almanac.scenario_housewarm">Housewarming</span></button>
-            <button class="select-btn select-btn-locked" data-scenario="engagement"><span class="lock-icon">ğŸ”’</span><span class="btn-icon">ğŸ’</span><span data-i18n="almanac.scenario_engagement">Getting Engaged</span></button>
-            <button class="select-btn select-btn-locked" data-scenario="interview"><span class="lock-icon">ğŸ”’</span><span class="btn-icon">ğŸ¤</span><span data-i18n="almanac.scenario_interview">Job Interview</span></button>
-            <button class="select-btn select-btn-locked" data-scenario="pet_vet"><span class="lock-icon">ğŸ”’</span><span class="btn-icon">ğŸ¾</span><span data-i18n="almanac.scenario_pet_vet">Pet Vet Visit</span></button>
-            <button class="select-btn select-btn-locked" data-scenario="date"><span class="lock-icon">ğŸ”’</span><span class="btn-icon">â¤ï¸</span><span data-i18n="almanac.scenario_date">Going on a Date</span></button>
+            <button class="select-btn" data-scenario="marry"><span data-i18n="almanac.scenario_marry">Getting Married</span></button>
+            <button class="select-btn" data-scenario="business"><span data-i18n="almanac.scenario_business">Starting Business</span></button>
+            <button class="select-btn" data-scenario="moving"><span data-i18n="almanac.scenario_moving">Moving Home</span></button>
+            <button class="select-btn select-btn-locked" data-scenario="contract"><span class="lock-icon"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span><span data-i18n="almanac.scenario_contract">Signing Contract</span></button>
+            <button class="select-btn select-btn-locked" data-scenario="travel"><span class="lock-icon"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span><span data-i18n="almanac.scenario_travel">Travel / Vacation</span></button>
+            <button class="select-btn select-btn-locked" data-scenario="purchase"><span class="lock-icon"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span><span data-i18n="almanac.scenario_purchase">Major Purchase</span></button>
+            <button class="select-btn select-btn-locked" data-scenario="medical"><span class="lock-icon"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span><span data-i18n="almanac.scenario_medical">Medical Procedure</span></button>
+            <button class="select-btn select-btn-locked" data-scenario="housewarm"><span class="lock-icon"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span><span data-i18n="almanac.scenario_housewarm">Housewarming</span></button>
+            <button class="select-btn select-btn-locked" data-scenario="engagement"><span class="lock-icon"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span><span data-i18n="almanac.scenario_engagement">Getting Engaged</span></button>
+            <button class="select-btn select-btn-locked" data-scenario="interview"><span class="lock-icon"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span><span data-i18n="almanac.scenario_interview">Job Interview</span></button>
+            <button class="select-btn select-btn-locked" data-scenario="pet_vet"><span class="lock-icon"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span><span data-i18n="almanac.scenario_pet_vet">Pet Vet Visit</span></button>
+            <button class="select-btn select-btn-locked" data-scenario="date"><span class="lock-icon"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span><span data-i18n="almanac.scenario_date">Going on a Date</span></button>
         </div>
         <div class="select-result" id="selectResult">
             <h4 id="resultTitle"></h4>
@@ -1270,7 +1266,7 @@
                     <span data-i18n="almanac.pay_badge_nosub">No Subscription</span>
                 </span>
             </div>
-            <p data-i18n="almanac.pay_desc">Unlock all 12 activity planners â€” find your perfect day for anything, forever.</p>
+            <p data-i18n="almanac.pay_desc">Unlock all 12 activity planners ???find your perfect day for anything, forever.</p>
             <button class="cta-btn" onclick="unlockAll()" data-i18n="almanac.pay_btn">Unlock Now</button>
             <br>
             <button class="pay-modal-close" onclick="document.getElementById('payModal').classList.remove('visible')" data-i18n="almanac.pay_later">Maybe later</button>
@@ -1336,10 +1332,10 @@
                 '17:00-19:00 (Rooster)', '19:00-21:00 (Dog)', '21:00-23:00 (Pig)'
             ];
             var hourLabelsZh = [
-                'æœªçŸ¥', '23:00-01:00 å­Â·é¼ ', '01:00-03:00 ä¸‘Â·ç‰›', '03:00-05:00 å¯…Â·è™',
-                '05:00-07:00 å¯Â·å…”', '07:00-09:00 è¾°Â·é¾', '09:00-11:00 å·³Â·è›‡',
-                '11:00-13:00 åˆÂ·é¦¬', '13:00-15:00 æœªÂ·ç¾Š', '15:00-17:00 ç”³Â·çŒ´',
-                '17:00-19:00 é…‰Â·é›', '19:00-21:00 æˆŒÂ·ç‹—', '21:00-23:00 äº¥Â·è±¬'
+                '?œª?Ÿ¥', '23:00-01:00 å­Â·é??', '01:00-03:00 ä¸‘Â·ç??', '03:00-05:00 å¯?Â·???',
+                '05:00-07:00 ?¯Â·???', '07:00-09:00 è¾°Â·é??', '09:00-11:00 å·³Â·è??',
+                '11:00-13:00 ???Â·é¦?', '13:00-15:00 ?œªÂ·ç¾?', '15:00-17:00 ?”³Â·?Œ´',
+                '17:00-19:00 ??‰Â·é??', '19:00-21:00 ??ŒÂ·ç??', '21:00-23:00 äº¥Â·è±¬'
             ];
             var hourLabels = isZh() ? hourLabelsZh : hourLabelsEn;
             for (var h = 0; h < 12; h++) {
@@ -1350,32 +1346,32 @@
             }
         })();
 
-        // Retry button â€” go back to form
+        // Retry button ???go back to form
         document.getElementById('almRetry').addEventListener('click', function() {
             if (window.DaoTrack) window.DaoTrack.toolRetry('almanac');
             showAlmStep(1);
         });
 
         // BaZi chart calculation (reused from favorable-element)
-        var STEM_WX = {'ç”²':'Wood','ä¹™':'Wood','ä¸™':'Fire','ä¸':'Fire','æˆŠ':'Earth','å·±':'Earth','åºš':'Metal','è¾›':'Metal','å£¬':'Water','ç™¸':'Water'};
-        var STEM_WX_ZH = {'ç”²':'æœ¨','ä¹™':'æœ¨','ä¸™':'ç«','ä¸':'ç«','æˆŠ':'åœŸ','å·±':'åœŸ','åºš':'é‡‘','è¾›':'é‡‘','å£¬':'æ°´','ç™¸':'æ°´'};
-        var BRANCH_WX = {'å­':'Water','ä¸‘':'Earth','å¯…':'Wood','å¯':'Wood','è¾°':'Earth','å·³':'Fire','åˆ':'Fire','æœª':'Earth','ç”³':'Metal','é…‰':'Metal','æˆŒ':'Earth','äº¥':'Water'};
+        var STEM_WX = {'???:'Wood','ä¹?:'Wood','ä¸?:'Fire','ä¸?:'Fire','???:'Earth','å·?:'Earth','åº?:'Metal','è¾?:'Metal','å£?:'Water','???:'Water'};
+        var STEM_WX_ZH = {'???:'???,'ä¹?:'???,'ä¸?:'???,'ä¸?:'???,'???:'???,'å·?:'???,'åº?:'???,'è¾?:'???,'å£?:'æ°?,'???:'æ°?};
+        var BRANCH_WX = {'å­?:'Water','ä¸?:'Earth','å¯?:'Wood','???:'Wood','è¾?:'Earth','å·?:'Fire','???:'Fire','???:'Earth','???:'Metal','???:'Metal','???:'Earth','äº?:'Water'};
         var BRANCH_HIDDEN = {
-            'å­': ['ç™¸'], 'ä¸‘': ['å·±','ç™¸','è¾›'], 'å¯…': ['ç”²','ä¸™','æˆŠ'],
-            'å¯': ['ä¹™'], 'è¾°': ['æˆŠ','ä¹™','ç™¸'], 'å·³': ['ä¸™','æˆŠ','åºš'],
-            'åˆ': ['ä¸','å·±'], 'æœª': ['å·±','ä¸','ä¹™'], 'ç”³': ['åºš','å£¬','æˆŠ'],
-            'é…‰': ['è¾›'], 'æˆŒ': ['æˆŠ','è¾›','ä¸'], 'äº¥': ['å£¬','ç”²']
+            'å­?: ['???], 'ä¸?: ['å·?,'???,'è¾?], 'å¯?: ['???,'ä¸?,'???],
+            '???: ['ä¹?], 'è¾?: ['???,'ä¹?,'???], 'å·?: ['ä¸?,'???,'åº?],
+            '???: ['ä¸?,'å·?], '???: ['å·?,'ä¸?,'ä¹?], '???: ['åº?,'å£?,'???],
+            '???: ['è¾?], '???: ['???,'è¾?,'ä¸?], 'äº?: ['å£?,'???]
         };
         var wxClass = function(element) {
             var map = { Wood: 'wx-wood', Fire: 'wx-fire', Earth: 'wx-earth', Metal: 'wx-metal', Water: 'wx-water' };
             return map[element] || 'wx-earth';
         };
         var wxEn = function(zh) {
-            var map = { 'æœ¨':'Wood', 'ç«':'Fire', 'åœŸ':'Earth', 'é‡‘':'Metal', 'æ°´':'Water' };
+            var map = { '???:'Wood', '???:'Fire', '???:'Earth', '???:'Metal', 'æ°?:'Water' };
             return map[zh] || zh;
         };
         var wxZh = function(en) {
-            var map = { 'Wood':'æœ¨', 'Fire':'ç«', 'Earth':'åœŸ', 'Metal':'é‡‘', 'Water':'æ°´' };
+            var map = { 'Wood':'???, 'Fire':'???, 'Earth':'???, 'Metal':'???, 'Water':'æ°? };
             return map[en] || en;
         };
 
@@ -1450,7 +1446,7 @@
                 if (almPctEl) almPctEl.textContent = pct + '%';
                 // Update hint text
                 if (almHintEl) {
-                    almHintEl.textContent = isZh() ? 'æ­£åœ¨ä¸ºæ‚¨æŒ‘é€‰æœ€åŒ¹é…çš„å‰æ—¥ï¼Œé€šå¸¸éœ€è¦ 8â€“15 ç§’...' : 'Finding your most auspicious dates, usually takes 8â€“15s...';
+                    almHintEl.textContent = isZh() ? 'æ­??œ¨ä¸ºæ?¨æ?‘é?‰æ???Œ¹??ç????‰æ—¥ï¼Œé?šå¸¸???è¦?8???5 ç§?..' : 'Finding your most auspicious dates, usually takes 8???5s...';
                 }
             }
             var almTimer = setInterval(almTick, 1000);
@@ -1494,11 +1490,11 @@
                 var favElementsZh = data.analysis.favorableElementsZh || [data.analysis.favorableElementZh].filter(Boolean);
                 favorableElements = favElements.map(function(el) {
                     // Ensure English element names
-                    if (el === 'æœ¨' || el === 'ç«' || el === 'åœŸ' || el === 'é‡‘' || el === 'æ°´') return wxEn(el);
+                    if (el === '??? || el === '??? || el === '??? || el === '??? || el === 'æ°?) return wxEn(el);
                     return el;
                 });
                 avoidElement = data.analysis.avoidElement || '';
-                if (avoidElement && (avoidElement === 'æœ¨' || avoidElement === 'ç«' || avoidElement === 'åœŸ' || avoidElement === 'é‡‘' || avoidElement === 'æ°´')) {
+                if (avoidElement && (avoidElement === '??? || avoidElement === '??? || avoidElement === '??? || avoidElement === '??? || avoidElement === 'æ°?)) {
                     avoidElement = wxEn(avoidElement);
                 }
 
@@ -1514,7 +1510,7 @@
                 }).join(' & ');
                 document.getElementById('almFavorable').innerHTML = favDisplay;
 
-                var avoidDisplay = avoidElement ? ('<span class="' + wxClass(avoidElement) + '">' + wxLabel(avoidElement) + '</span>') : 'â€”';
+                var avoidDisplay = avoidElement ? ('<span class="' + wxClass(avoidElement) + '">' + wxLabel(avoidElement) + '</span>') : '???;
                 document.getElementById('almAvoid').innerHTML = avoidDisplay;
 
                 // Cache birth data to localStorage
@@ -1522,7 +1518,7 @@
                 localStorage.setItem('almanac_fav', JSON.stringify(favorableElements));
                 localStorage.setItem('almanac_avoid', avoidElement);
 
-                // NOW show Step 3 â€” all data is ready, no skeleton needed
+                // NOW show Step 3 ???all data is ready, no skeleton needed
                 showAlmStep(3);
                 initAlmanac();
 
@@ -1571,7 +1567,7 @@
 
         var EN_TEXTS = {
             'almanac.error_engine': 'Calendar engine failed to load. Please refresh.',
-            'almanac.creating_checkout': 'Creating checkoutâ€¦',
+            'almanac.creating_checkout': 'Creating checkout???,
             'almanac.unlock_for_price': '$2.99 to Unlock',
             'almanac.alert_checkout_fail': 'Could not create checkout. Please try again.',
             'almanac.alert_network_error': 'Network error. Please try again.',
@@ -1612,66 +1608,66 @@
             return EN_TEXTS[key] || key;
         };
         // ===== DATA MAPS =====
-        const GAN = ['ç”²','ä¹™','ä¸™','ä¸','æˆŠ','å·±','åºš','è¾›','å£¬','ç™¸'];
-        const ZHI = ['å­','ä¸‘','å¯…','å¯','è¾°','å·³','åˆ','æœª','ç”³','é…‰','æˆŒ','äº¥'];
+        const GAN = ['???,'ä¹?,'ä¸?,'ä¸?,'???,'å·?,'åº?,'è¾?,'å£?,'???];
+        const ZHI = ['å­?,'ä¸?,'å¯?,'???,'è¾?,'å·?,'???,'???,'???,'???,'???,'äº?];
         const ZODIAC_EN = ['Rat','Ox','Tiger','Rabbit','Dragon','Snake','Horse','Goat','Monkey','Rooster','Dog','Pig'];
-        const GAN_ELEMENT = {'ç”²':'Wood','ä¹™':'Wood','ä¸™':'Fire','ä¸':'Fire','æˆŠ':'Earth','å·±':'Earth','åºš':'Metal','è¾›':'Metal','å£¬':'Water','ç™¸':'Water'};
-        const BRANCH_WX_MAP = {'å­':'Water','ä¸‘':'Earth','å¯…':'Wood','å¯':'Wood','è¾°':'Earth','å·³':'Fire','åˆ':'Fire','æœª':'Earth','ç”³':'Metal','é…‰':'Metal','æˆŒ':'Earth','äº¥':'Water'};
+        const GAN_ELEMENT = {'???:'Wood','ä¹?:'Wood','ä¸?:'Fire','ä¸?:'Fire','???:'Earth','å·?:'Earth','åº?:'Metal','è¾?:'Metal','å£?:'Water','???:'Water'};
+        const BRANCH_WX_MAP = {'å­?:'Water','ä¸?:'Earth','å¯?:'Wood','???:'Wood','è¾?:'Earth','å·?:'Fire','???:'Fire','???:'Earth','???:'Metal','???:'Metal','???:'Earth','äº?:'Water'};
         const WUXING_COLORS = {'Wood':'Green, Sage','Fire':'Red, Orange','Earth':'Beige, Brown','Metal':'White, Silver','Water':'Blue, Black'};
         const WUXING_NUMBERS = {'Wood':'3, 8','Fire':'2, 7','Earth':'5, 0','Metal':'4, 9','Water':'1, 6'};
-        const WUXING_COLORS_ZH = {'Wood':'ç¶ è‰²ã€é¼ å°¾è‰ç¶ ','Fire':'ç´…è‰²ã€æ©™è‰²','Earth':'ç±³è‰²ã€æ£•è‰²','Metal':'ç™½è‰²ã€éŠ€è‰²','Water':'è—è‰²ã€é»‘è‰²'};
+        const WUXING_COLORS_ZH = {'Wood':'ç¶ è‰²???é¼ å°¾??‰ç??,'Fire':'ç´??‰²???æ©™è??,'Earth':'ç±³è‰²???æ£•è??,'Metal':'?™½?‰²?????????,'Water':'??è‰²???é»‘è??};
         const WUXING_NUMBERS_ZH = {'Wood':'3, 8','Fire':'2, 7','Earth':'5, 0','Metal':'4, 9','Water':'1, 6'};
 
-        const ZHIXING_SCORE = {'å»º':65,'é™¤':62,'æ»¡':62,'å¹³':55,'å®š':62,'æ‰§':58,'ç ´':40,'å±':42,'æˆ':72,'æ”¶':58,'å¼€':62,'é—­':40};
-        const ZHIXING_EN = {'å»º':'Establishment','é™¤':'Removal','æ»¡':'Fullness','å¹³':'Balance','å®š':'Stability','æ‰§':'Perseverance','ç ´':'Breakthrough','å±':'Danger','æˆ':'Completion','æ”¶':'Harvest','å¼€':'Opening','é—­':'Closure'};
-        const ZHIXING_ZH = {'å»º':'å»ºæ—¥','é™¤':'é™¤æ—¥','æ»¡':'æ»¿æ—¥','å¹³':'å¹³æ—¥','å®š':'å®šæ—¥','æ‰§':'åŸ·æ—¥','ç ´':'ç ´æ—¥','å±':'å±æ—¥','æˆ':'æˆæ—¥','æ”¶':'æ”¶æ—¥','å¼€':'é–‹æ—¥','é—­':'é–‰æ—¥'};
+        const ZHIXING_SCORE = {'å»?:65,'???:62,'æ»?:62,'å¹?:55,'å®?:62,'???:58,'???:40,'???:42,'???:72,'???:58,'å¼?':62,'???:40};
+        const ZHIXING_EN = {'å»?:'Establishment','???:'Removal','æ»?:'Fullness','å¹?:'Balance','å®?:'Stability','???:'Perseverance','???:'Breakthrough','???:'Danger','???:'Completion','???:'Harvest','å¼?':'Opening','???:'Closure'};
+        const ZHIXING_ZH = {'å»?:'å»ºæ—¥','???:'?™¤?—¥','æ»?:'æ»¿æ—¥','å¹?:'å¹³æ—¥','å®?:'å®šæ—¥','???:'?Ÿ·?—¥','???:'? ´?—¥','???:'?±?—¥','???:'??æ—¥','???:'?”¶?—¥','å¼?':'??‹æ—¥','???:'??‰æ—¥'};
 
         // Auspicious / inauspicious spirits (match by template key or translated name)
         // lunar.js getDayJiShen/getDayXiongSha may return template keys or translated names
         const AUSPICIOUS_KEYS = ['{sn.tianEn}','{sn.yueDe}','{sn.tianXi}','{sn.tianYi}','{sn.liuHe}','{sn.sanHe}'];
-        const AUSPICIOUS_ZH = ['å¤©æ©','æœˆå¾·','å¤©å–œ','å¤©åŒ»','å…­åˆ','ä¸‰åˆ'];
+        const AUSPICIOUS_ZH = ['å¤©æ??','???å¾?','å¤©å??','å¤©åŒ»','??­å??','ä¸‰å??'];
         const INAUSPICIOUS_KEYS = ['{sn.baiHu}','{sn.tianLao}','{sn.yuePo}','{sn.daHao}','{sn.wuXu}','{sn.tianHuo}'];
-        const INAUSPICIOUS_ZH = ['ç™½è™','å¤©ç‰¢','æœˆç ´','å¤§è€—','äº”è™š','å¤©ç«'];
+        const INAUSPICIOUS_ZH = ['?™½???','å¤©ç‰¢','???? ´','å¤§è??,'äº”è??','å¤©ç??'];
 
         const YI_MAP = {
-            'å«å¨¶':'Relationships, Weddings','çº³é‡‡':'Engagement, Proposals','é—®å':'Engagement Formalities',
-            'å¼€å¸‚':'Business Launch, Opening','å¼€ä»“':'Store Opening','ç«‹åˆ¸':'Sign Agreements',
-            'äº¤æ˜“':'Trading, Exchanges','ç­¾çº¦':'Contracts, Deals','çº³è´¢':'Collect Income',
-            'ç§»å¾™':'Moving, Relocating','å‡ºè¡Œ':'Travel, Trips','æ¸¡æ°´':'Water Travel',
-            'å…¥å®…':'Housewarming, Moving In','å®‰åºŠ':'Setup Bedroom','ä¿®é€ ':'Renovations',
-            'åŠ¨åœŸ':'Groundbreaking, Digging','ä¸Šæ¢':'Roof Beam, Construction','ç½®äº§':'Property Purchase',
-            'æ±‚åŒ»':'Medical Consultation','æœè¯':'Medication',
-            'ç¥ˆç¦':'Spiritual Practice','å¼€å…‰':'New Beginnings, Blessing',
-            'å®‰è‘¬':'Memorial, Funeral','ç ´åœŸ':'Burial, Grave Work',
-            'å† ç¬„':'Coming of Age','è£è¡£':'Tailoring, Sewing','çº³ç•œ':'Buying Livestock',
-            'ç‰§å…»':'Animal Husbandry','æ•æ‰':'Hunting, Fishing','ç§æ®–':'Planting, Farming'
+            'å«?å¨?':'Relationships, Weddings','çº³é??':'Engagement, Proposals','?—®???':'Engagement Formalities',
+            'å¼?å¸?:'Business Launch, Opening','å¼?ä»?:'Store Opening','ç«‹å??':'Sign Agreements',
+            'äº¤æ??':'Trading, Exchanges','ç­¾çº¦':'Contracts, Deals','çº³è´¢':'Collect Income',
+            'ç§»å??':'Moving, Relocating','?‡ºè¡?':'Travel, Trips','æ¸¡æ°´':'Water Travel',
+            '??¥å??':'Housewarming, Moving In','å®‰å??':'Setup Bedroom','ä¿®é??:'Renovations',
+            '?Š¨???':'Groundbreaking, Digging','ä¸Šæ??':'Roof Beam, Construction','ç½®äº§':'Property Purchase',
+            'æ±??Œ»':'Medical Consultation','??è¯':'Medication',
+            'ç¥?ç¦?':'Spiritual Practice','å¼????:'New Beginnings, Blessing',
+            'å®‰è‘¬':'Memorial, Funeral','? ´???':'Burial, Grave Work',
+            '?? ç??':'Coming of Age','è£?è¡?':'Tailoring, Sewing','çº³ç??':'Buying Livestock',
+            '??§å??':'Animal Husbandry','??•æ??':'Hunting, Fishing','ç§æ??':'Planting, Farming'
         };
         const YI_MAP_ZH = {
-            'å«å¨¶':'å«å¨¶ã€å©šç¦®','çº³é‡‡':'è¨‚å©šã€æè¦ª','é—®å':'è¨‚å©šå„€å¼',
-            'å¼€å¸‚':'é–‹æ¥­ã€é–‹å¼µ','å¼€ä»“':'é–‹åº—','ç«‹åˆ¸':'ç°½è¨‚å”è­°',
-            'äº¤æ˜“':'è²·è³£ã€äº¤æ›','ç­¾çº¦':'åˆç´„ã€äº¤æ˜“','çº³è²¡':'æ”¶å–æ”¶å…¥',
-            'ç§»å¾™':'æ¬é·ã€é·ç§»','å‡ºè¡Œ':'æ—…è¡Œã€å‡ºé–€','æ¸¡æ°´':'æ°´è·¯å‡ºè¡Œ',
-            'å…¥å®…':'å…¥å®…ã€æ¬å®¶','å®‰åºŠ':'å®‰åºŠ','ä¿®é€ ':'è£ä¿®',
-            'åŠ¨åœŸ':'å‹•åœŸã€æ–½å·¥','ä¸Šæ¢':'ä¸Šæ¨‘ã€å»ºç¯‰','ç½®äº§':'è³¼ç½®æˆ¿ç”¢',
-            'æ±‚åŒ»':'å°±é†«ã€çœ‹è¨º','æœè¯':'æœè—¥',
-            'ç¥ˆç¦':'ç¥ˆç¦','å¼€å…‰':'é–‹å…‰ã€æ–°é–‹å§‹',
-            'å®‰è‘¬':'å®‰è‘¬','ç ´åœŸ':'ç ´åœŸã€å¢“åœ°å·¥ä½œ',
-            'å† ç¬„':'æˆå¹´ç¦®','è£è¡£':'è£è¡£','çº³ç•œ':'è³¼è²·ç‰²ç•œ',
-            'ç‰§å…»':'ç•œç‰§','æ•æ‰':'ç‹©çµã€æ•é­š','ç§æ®–':'ç¨®æ¤ã€è¾²ä½œ'
+            'å«?å¨?':'å«?å¨¶ã??å©šç??,'çº³é??':'è¨?å©šã????è??,'?—®???':'è¨?å©šå??å¼?,
+            'å¼?å¸?:'??‹æ¥­?????‹å??,'å¼?ä»?:'??‹å??','ç«‹å??':'ç°½è????”è­°',
+            'äº¤æ??':'è²·è³£???äº¤æ??,'ç­¾çº¦':'???ç´????äº¤æ??,'çº³è²¡':'?”¶??–æ”¶???',
+            'ç§»å??':'?¬??·ã????·ç??,'?‡ºè¡?':'???è¡Œã???‡º???','æ¸¡æ°´':'æ°´è·¯?‡ºè¡?',
+            '??¥å??':'??¥å??????¬å®?,'å®‰å??':'å®‰å??','ä¿®é??:'è£ä¿®',
+            '?Š¨???':'??•å?Ÿã???–½å·?,'ä¸Šæ??':'ä¸Šæ?‘ã??å»ºç??,'ç½®äº§':'è³¼ç½®??¿ç”¢',
+            'æ±??Œ»':'å°±é?«ã????‹è??,'??è¯':'??è—¥',
+            'ç¥?ç¦?':'ç¥?ç¦?','å¼????:'??‹å?‰ã???–°??‹å??',
+            'å®‰è‘¬':'å®‰è‘¬','? ´???':'? ´??Ÿã??å¢“åœ°å·¥ä??,
+            '?? ç??':'??å¹´ç¦?,'è£?è¡?':'è£?è¡?','çº³ç??':'è³¼è²·?‰²???',
+            '??§å??':'??œç??','??•æ??':'?‹©?µ?????•é??,'ç§æ??':'ç¨®æ?ã??è¾²ä??
         };
         const SCENARIO_YI = {
-            marry:['å«å¨¶','çº³é‡‡','é—®å'],
-            business:['å¼€å¸‚','å¼€ä»“','ç«‹åˆ¸','äº¤æ˜“','çº³è´¢'],
-            moving:['ç§»å¾™','å…¥å®…','å®‰åºŠ'],
-            contract:['ç­¾çº¦','ç«‹åˆ¸','çº³è´¢','äº¤æ˜“'],
-            travel:['å‡ºè¡Œ','æ¸¡æ°´'],
-            purchase:['ç½®äº§','äº¤æ˜“','çº³è´¢'],
-            medical:['æ±‚åŒ»','æœè¯'],
-            housewarm:['å…¥å®…','å®‰åºŠ'],
-            engagement:['çº³é‡‡','è®¢ç›Ÿ','é—®å'],
-            pet_vet:['æ±‚åŒ»','æ²»ç—…','çº³ç•œ','ç‰§å…»'],
-            date:['ç»“å©šå§»','å«å¨¶','çº¦ä¼š','èšä¼š','ä¼šäº²å‹'],
-            interview:['å¼€å¸‚','ä¼šäº²å‹','ç«‹åˆ¸']
+            marry:['å«?å¨?','çº³é??','?—®???'],
+            business:['å¼?å¸?,'å¼?ä»?,'ç«‹å??','äº¤æ??','çº³è´¢'],
+            moving:['ç§»å??','??¥å??','å®‰å??'],
+            contract:['ç­¾çº¦','ç«‹å??','çº³è´¢','äº¤æ??'],
+            travel:['?‡ºè¡?','æ¸¡æ°´'],
+            purchase:['ç½®äº§','äº¤æ??','çº³è´¢'],
+            medical:['æ±??Œ»','??è¯'],
+            housewarm:['??¥å??','å®‰å??'],
+            engagement:['çº³é??','è®¢ç??','?—®???'],
+            pet_vet:['æ±??Œ»','æ²»ç??','çº³ç??','??§å??'],
+            date:['ç»“å?šå??,'å«?å¨?','çº¦ä??','??šä??','ä¼šäº²???],
+            interview:['å¼?å¸?,'ä¼šäº²???,'ç«‹å??']
         };
 
         const DRESS_TIPS = {
@@ -1682,11 +1678,11 @@
             'Water':'Blue, black, or deep navy. Flowing fabrics and fluid shapes carry good energy.'
         };
         const DRESS_TIPS_ZH = {
-            'Wood':'ç©¿ç¶ è‰²æˆ–å¤§åœ°è‰²èª¿ã€‚å¤©ç„¶çº–ç¶­å¦‚äºéº»ã€æ£‰è³ªå¸¶æœ‰æ­£ç¢ºèƒ½é‡ã€‚',
-            'Fire':'æ­é…ç´…è‰²ã€æ©™è‰²æˆ–æš–ç´«è‰²ã€‚è®“ä½ çš„æ°£å ´å¤§è†½è€Œæº«æš–ã€‚',
-            'Earth':'é¸æ“‡ç±³è‰²ã€æ£•è‰²æˆ–å¡å…¶è‰²ã€‚ç©©é‡è¸å¯¦çš„é¡è‰²é©åˆç©©å®šçš„æ—¥å­ã€‚',
-            'Metal':'ç™½è‰²ã€éŠ€è‰²æˆ–é‡‘è‰²ã€‚ç°¡æ½”ç·šæ¢èˆ‡æ¥µç°¡å±¤æ¬¡æœ€é©åˆä»Šå¤©ã€‚',
-            'Water':'è—è‰²ã€é»‘è‰²æˆ–æ·±æµ·è—ã€‚æµå‹•çš„å¸ƒæ–™èˆ‡é£„é€¸çš„é€ å‹å¸¶ä¾†å¥½èƒ½é‡ã€‚'
+            'Wood':'ç©¿ç? è‰²??–å¤§?œ°?‰²èª¿ã??å¤©ç?¶ç?–ç¶­å¦?äºéº»???æ£‰è³ªå¸¶æ?‰æ­£ç¢ºè?½é?ã??,
+            'Fire':'?­??ç???‰²???æ©™è‰²??–æ?–ç´«?‰²???è®“ä? ç??æ°?? ´å¤§è?½è?Œæº«??–ã??,
+            'Earth':'??¸æ??ç±³è‰²???æ£•è‰²??–å¡??¶è‰²???ç©©é?è?å¯¦???é¡è‰²??©å??ç©©å?šç???—¥å­ã??,
+            'Metal':'?™½?‰²???????‰²??–é?‘è‰²???ç°¡æ?”ç?šæ?è??æ¥µç°¡å±¤æ¬¡?????©å??ä»Šå¤©???,
+            'Water':'??è‰²???é»‘è‰²??–æ·±æµ·è?ã??æµ???•ç??å¸???™è??é£???¸ç???? å?‹å¸¶ä¾?å¥½è?½é?ã??
         };
         const ACTION_TIPS = {
             'Wood':'Creative energy peaks today. Start new projects, pitch ideas, and initiate conversations you have been delaying.',
@@ -1696,11 +1692,11 @@
             'Water':'Deep thinking and research day. Trust your gut over spreadsheets. Reflection yields insights.'
         };
         const ACTION_TIPS_ZH = {
-            'Wood':'ä»Šæ—¥å‰µé€ åŠ›å·”å³°ã€‚å•Ÿå‹•æ–°å°ˆæ¡ˆã€ææ¡ˆã€ç™¼èµ·ä½ ä¸€ç›´æ‹–å»¶çš„å°è©±ã€‚',
-            'Fire':'ç¤¾äº¤é­…åŠ›å¼·å¤§ã€‚å®‰æ’æœƒè­°ã€èˆ‰è¾¦èšæœƒï¼Œè®“ä½ çš„æ„ŸæŸ“åŠ›ç™¼æ®ä½œç”¨ã€‚',
-            'Earth':'å°ˆæ³¨æ–¼æ•´ç†èˆ‡ç©©å®šã€‚ä¿¡å®ˆæ‰¿è«¾ã€åŸ¹é¤Šé—œéµäººéš›é—œä¿‚ã€‚',
-            'Metal':'è²¡å‹™æ±ºç­–èˆ‡åˆç´„æœ‰åˆ©æ–¼ä½ ã€‚æœæ–·è¡Œå‹•ï¼Œæ“ºè„«æ¨¡ç³Šã€‚',
-            'Water':'æ·±åº¦æ€è€ƒèˆ‡ç ”ç©¶æ—¥ã€‚ç›¸ä¿¡ç›´è¦ºè€Œéæ•¸æ“šã€‚åæ€å¸¶ä¾†æ´å¯Ÿã€‚'
+            'Wood':'ä»Šæ—¥?‰µ?? å?›å?”å³°?????Ÿå?•æ–°å°?æ¡??????æ??????™¼èµ·ä?”U???›´??–å»¶???å°è©±???,
+            'Fire':'ç¤¾äº¤é­???›å¼·å¤§ã??å®‰æ?’æ??è­°ã????‰è¾¦??šæ??ï¼Œè?“ä? ç???????“å?›ç™¼?®ä½œç”¨???,
+            'Earth':'å°?æ³¨æ–¼?•´??????ç©©å?šã??ä¿¡å???‰¿è«¾ã???Ÿ¹é¤Šé?œéµäººé?›é?œä?????,
+            'Metal':'è²¡å?™æ±ºç­–è?????ç´???‰åˆ©?–¼ä½ ã????œæ–·è¡???•ï?Œæ“º??«æ¨¡ç³Šã??,
+            'Water':'æ·±åº¦??è???????”ç©¶?—¥????›¸ä¿¡ç›´è¦ºè?Œé?æ•¸??šã????æ?å¸¶ä¾?æ´å?Ÿã??
         };
 
         // ===== STATE =====
@@ -1782,7 +1778,7 @@
                 renderCalendar();
             }
         }
-        // Global function for the pay modal button â€” real Creem payment
+        // Global function for the pay modal button ???real Creem payment
         window.unlockAll = function() {
             var btn = document.querySelector('#payModal .cta-btn');
             btn.textContent = t('almanac.creating_checkout');
@@ -1836,14 +1832,14 @@
             const dayZhiElement = BRANCH_WX_MAP[dayZhi] || 'Earth';
             const zhiXing = l.getZhiXing();
             const tianShen = l.getDayTianShen();
-            const tianShenType = l.getDayTianShenType(); // é»„é“ / é»‘é“
+            const tianShenType = l.getDayTianShenType(); // é»???? / é»‘é??
 
             // === Traditional Score (0-100) ===
             // Base from å»ºé™¤ (30-70)
             let tradScore = ZHIXING_SCORE[zhiXing] || 45;
-            // é»„é“/é»‘é“ adjustment (Â±10)
-            if (tianShenType === 'é»„é“') tradScore += 10;
-            else if (tianShenType === 'é»‘é“') tradScore -= 10;
+            // é»????/é»‘é?? adjustment (Â±10)
+            if (tianShenType === 'é»????') tradScore += 10;
+            else if (tianShenType === 'é»‘é??') tradScore -= 10;
 
             // Auspicious / inauspicious spirits (from getDayJiShen / getDayXiongSha)
             const jiShen = l.getDayJiShen() || [];
@@ -1892,10 +1888,10 @@
             let combinedScore = Math.round(tradScore * 0.5 + personalNorm * 0.5);
             combinedScore = Math.max(0, Math.min(100, combinedScore));
 
-            // Yi/Ji (getDayYi/getDayJi return arrays) â€” only for scenario matching
+            // Yi/Ji (getDayYi/getDayJi return arrays) ???only for scenario matching
             const yiRaw = l.getDayYi() || [];
             const jiRaw = l.getDayJi() || [];
-            const genericTerms = ['é¦€äº‹å‹¿å–','è¯¸äº‹ä¸å®œ','ä¸Šè¡¨ç« ','ä¸Šè¡¨','æ²æµ´','å† ç¬„','ç»“ç½‘','å–æ¸”','ç•‹çŒ','æ‰«èˆ','å¡ç©´','å¹³æ²»é“æ¶‚','ä¿®é¥°å£å¢™'];
+            const genericTerms = ['é¦?äº‹å‹¿???,'è¯¸ä?‹ä?å??','ä¸Šè¡¨ç«?,'ä¸Šè¡¨','æ²æµ´','?? ç??','ç»“ç??','??–æ??','??‹ç??','?‰«???','å¡ç©´','å¹³æ²»??“æ??','ä¿®é¥°?£å¢?'];
             const yiList = (Array.isArray(yiRaw) ? yiRaw : String(yiRaw).split(',')).map(s=>String(s).trim()).filter(Boolean).filter(y=>!genericTerms.includes(y));
             const jiList = (Array.isArray(jiRaw) ? jiRaw : String(jiRaw).split(',')).map(s=>String(s).trim()).filter(Boolean).filter(j=>!genericTerms.includes(j));
 
@@ -1904,15 +1900,15 @@
             const hitInauspiciousNames = hitInauspicious.map(shenDisplayName);
 
             // Directions (translate Chinese to English)
-            const DIR_EN = {'æ­£ä¸œ':'East','æ­£å—':'South','æ­£è¥¿':'West','æ­£åŒ—':'North','ä¸œåŒ—':'Northeast','ä¸œå—':'Southeast','è¥¿å—':'Southwest','è¥¿åŒ—':'Northwest'};
-            const DIR_ZH = {'æ­£ä¸œ':'æ­£æ±','æ­£å—':'æ­£å—','æ­£è¥¿':'æ­£è¥¿','æ­£åŒ—':'æ­£åŒ—','ä¸œåŒ—':'æ±åŒ—','ä¸œå—':'æ±å—','è¥¿å—':'è¥¿å—','è¥¿åŒ—':'è¥¿åŒ—'};
+            const DIR_EN = {'æ­?ä¸?':'East','æ­????':'South','æ­?è¥?':'West','æ­????':'North','ä¸œå??':'Northeast','ä¸œå??':'Southeast','è¥¿å??':'Southwest','è¥¿å??':'Northwest'};
+            const DIR_ZH = {'æ­?ä¸?':'æ­??±','æ­????':'æ­????','æ­?è¥?':'æ­?è¥?','æ­????':'æ­????','ä¸œå??':'?±???','ä¸œå??':'?±???','è¥¿å??':'è¥¿å??','è¥¿å??':'è¥¿å??'};
             const caiDir = isZh() ? (DIR_ZH[l.getDayPositionCaiDesc()] || l.getDayPositionCaiDesc()) : (DIR_EN[l.getDayPositionCaiDesc()] || l.getDayPositionCaiDesc());
             const xiDir = isZh() ? (DIR_ZH[l.getDayPositionXiDesc()] || l.getDayPositionXiDesc()) : (DIR_EN[l.getDayPositionXiDesc()] || l.getDayPositionXiDesc());
 
             // Clash
             const clashIdx = ZHI.indexOf(l.getDayChong());
             const clashAnimal = isZh()
-                ? l.getDayChong() // Chinese: show åœ°æ”¯ directly
+                ? l.getDayChong() // Chinese: show ?œ°?”¯ directly
                 : (ZODIAC_EN[clashIdx] || 'Unknown');
 
             // Personal score (raw, for detail display)
@@ -1947,23 +1943,23 @@
 
             const cs = dd.combinedScore;
             let verdictText;
-            if (cs >= 85) { verdictText = isZh() ? 'å¤§å‰' : 'Excellent'; }
-            else if (cs >= 70) { verdictText = isZh() ? 'å‰' : 'Good'; }
-            else if (cs >= 55) { verdictText = isZh() ? 'å¹³' : 'Fair'; }
-            else { verdictText = isZh() ? 'å‡¶' : 'Caution'; }
+            if (cs >= 85) { verdictText = isZh() ? 'å¤§å??' : 'Excellent'; }
+            else if (cs >= 70) { verdictText = isZh() ? '??? : 'Good'; }
+            else if (cs >= 55) { verdictText = isZh() ? 'å¹? : 'Fair'; }
+            else { verdictText = isZh() ? '??? : 'Caution'; }
 
             // If personal clash, override verdict
             var hasPersonalClash = favorableElements.length > 0 && dd.personalScore <= -20;
             var hasPersonalMatch = favorableElements.length > 0 && dd.personalScore >= 15;
             if (hasPersonalClash) {
-                verdictText = isZh() ? 'é€šç”¨ç‚º' + verdictText + 'ï¼Œä½†èˆ‡æ‚¨å…«å­—æœ‰æ²–' : verdictText + ', but clashes with your chart';
+                verdictText = isZh() ? '??šç”¨??? + verdictText + 'ï¼Œä???????¨å?«å?—æ?‰æ??' : verdictText + ', but clashes with your chart';
             }
 
             // verdict is now shown inline next to score, clear the old element
             verdictEl.textContent = '';
 
             // Score + verdict + hint
-            var scoreHint = isZh() ? '  1-100ï¼Œåˆ†æ•¸è¶Šé«˜è¶Šå¥½' : '  1-100, higher is better';
+            var scoreHint = isZh() ? '  1-100ï¼?????•¸è¶Šé?˜è?Šå?? : '  1-100, higher is better';
             starsEl.innerHTML = `<span class="score-number" style="font-size:1.6rem;font-weight:700;">${cs}</span><span style="font-size:0.85rem;color:#888;margin-left:0.4rem;">${verdictText}</span><span style="font-size:0.75rem;color:#888;">${scoreHint}</span>`;
 
             // Good / Not ideal scenarios
@@ -1977,7 +1973,7 @@
             const goodHtml = goodScenarios.map(s => `<span class="scenario-tag tag-scenario-good">${s}</span>`).join('');
             const avoidHtml = avoidScenarios.map(s => `<span class="scenario-tag tag-scenario-avoid">${s}</span>`).join('');
 
-            // Build personal notice â€” align verdict with combined score
+            // Build personal notice ???align verdict with combined score
             var personalNoticeHtml = '';
             var hasClash = avoidElement && (dd.dayElement === avoidElement || dd.dayZhiElement === avoidElement);
             var hasFavMatch = favorableElements.some(function(el) { return el === dd.dayElement || el === dd.dayZhiElement; });
@@ -1988,37 +1984,37 @@
                 var clashElement = (dd.dayElement === avoidElement) ? dd.dayElement : dd.dayZhiElement;
                 var clashElementZh = wxZh(clashElement);
                 clashReason = isZh()
-                    ? 'ä»Šæ—¥çš„' + clashElementZh + 'èƒ½é‡èˆ‡ä½ å‘½ç›¤æœ‰æ²–'
+                    ? 'ä»Šæ—¥??? + clashElementZh + '??½é?è??ä½ å‘½?›¤??‰æ??'
                     : 'Today\'s ' + clashElement + ' energy clashes with your chart';
                 personalNoticeHtml = `<div class="personal-notice personal-notice-clash">
                     <div class="pn-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
                     <div class="pn-body">
-                        <div class="pn-title">${isZh() ? 'èˆ‡æ‚¨å‘½ç›¤æœ‰æ²–' : 'Clash with Your Chart'}</div>
+                        <div class="pn-title">${isZh() ? '?????¨å‘½?›¤??‰æ??' : 'Clash with Your Chart'}</div>
                         <div class="pn-desc">${clashReason}</div>
-                        <div class="pn-advice">${isZh() ? 'å»ºè­°å¦æ“‡ä»–æ—¥ï¼Œæˆ–æŒ‘é¸å‰æ™‚é€²è¡Œä»¥æ¸›è¼•å½±éŸ¿' : 'Consider picking another date, or choose a lucky time to reduce the impact.'}</div>
+                        <div class="pn-advice">${isZh() ? 'å»ºè­°?¦???ä»–æ—¥ï¼Œæ?–æ?‘é?¸å?‰æ????²è?Œä»¥æ¸›è?•å½±??? : 'Consider picking another date, or choose a lucky time to reduce the impact.'}</div>
                     </div>
                 </div>`;
             } else if (cs >= 70 && hasFavMatch) {
                 personalNoticeHtml = `<div class="personal-notice personal-notice-match">
                     <div class="pn-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
                     <div class="pn-body">
-                        <div class="pn-title">${isZh() ? 'èˆ‡æ‚¨å‘½ç›¤å¥‘åˆ' : 'Good Match for You'}</div>
-                        <div class="pn-desc">${isZh() ? 'ä»Šæ—¥çš„èƒ½é‡å°ä½ ç‰¹åˆ¥æœ‰åˆ©ï¼Œé©åˆæ¨é€²é‡è¦äº‹é …ã€‚' : 'Today\'s energy supports your chart well. A great day to move forward with important plans.'}</div>
+                        <div class="pn-title">${isZh() ? '?????¨å‘½?›¤å¥‘å??' : 'Good Match for You'}</div>
+                        <div class="pn-desc">${isZh() ? 'ä»Šæ—¥?????½é?å?ä? ç‰¹?ˆ¥??‰åˆ©ï¼Œé?©å???¨??²é?è??äº‹é????? : 'Today\'s energy supports your chart well. A great day to move forward with important plans.'}</div>
                     </div>
                 </div>`;
             } else if (cs >= 55) {
                 personalNoticeHtml = `<div class="personal-notice personal-notice-neutral">
                     <div class="pn-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></div>
                     <div class="pn-body">
-                        <div class="pn-title">${isZh() ? 'æ™®é€šæ—¥' : 'Average for You'}</div>
-                        <div class="pn-desc">${isZh() ? 'ä»Šæ—¥èƒ½é‡èˆ‡ä½ æ²’æœ‰ç‰¹åˆ¥æ²–çªæˆ–åŠ©åŠ›ï¼Œå±¬æ–¼æ™®é€šæ—¥ã€‚' : 'No special clash or boost for you today. An average day â€” nothing to worry about.'}</div>
+                        <div class="pn-title">${isZh() ? '?™®??šæ—¥' : 'Average for You'}</div>
+                        <div class="pn-desc">${isZh() ? 'ä»Šæ—¥??½é?è??ä½ æ?’æ?‰ç‰¹?ˆ¥æ²–ç????–åŠ©??›ï??å±¬æ–¼?™®??šæ—¥??? : 'No special clash or boost for you today. An average day ???nothing to worry about.'}</div>
                     </div>
                 </div>`;
             }
 
-            // No separate score hint â€” it's already shown next to the score number
+            // No separate score hint ???it's already shown next to the score number
 
-            // Scenarios: show for å‰/å¤§å‰ (>=70), caution for å¹³, strong caution for å‡¶
+            // Scenarios: show for ???å¤§å?? (>=70), caution for å¹? strong caution for ???
             var scenariosHtml = '';
             if (cs >= 70) {
                 if (goodHtml) {
@@ -2026,11 +2022,11 @@
                 }
             } else if (cs >= 55) {
                 scenariosHtml = `<div style="font-size:0.82rem;color:#888;margin-bottom:0.6rem;">${isZh()
-                    ? 'ä»Šæ—¥æ•´é«”ä¸€èˆ¬ï¼Œéç·Šæ€¥äº‹é …å»ºè­°å¦æ“‡å‰æ—¥ã€‚'
+                    ? 'ä»Šæ—¥?•´é«”ä????¬ï?Œé?ç?Šæ?¥ä?‹é??å»ºè­°?¦?????‰æ—¥???
                     : 'Today is average. For non-urgent matters, consider picking a better date.'}</div>`;
             } else {
                 scenariosHtml = `<div style="font-size:0.82rem;color:#888;margin-bottom:0.6rem;">${isZh()
-                    ? 'ä»Šæ—¥èƒ½é‡è¼ƒå¼±ï¼Œå»ºè­°é¿å…é‡å¤§æ±ºå®šå’Œé‡è¦æ´»å‹•ã€‚'
+                    ? 'ä»Šæ—¥??½é?è??å¼±ï??å»ºè­°??¿å?é?å¤§æ±ºå?šå?Œé?è??æ´»å?•ã??
                     : 'Low energy today. Best to avoid big decisions or important activities.'}</div>`;
             }
 
@@ -2163,7 +2159,7 @@
                 ? avoidScenarios.map(s => `<span class="scenario-tag tag-scenario-avoid">${s}</span>`).join('')
                 : '<span style="color:var(--text-muted);font-size:0.75rem;">' + t('almanac.all_activities_supported') + '</span>';
 
-            // Personal notice for day detail â€” align verdict with combined score
+            // Personal notice for day detail ???align verdict with combined score
             var dayPersonalNotice = '';
             var dayHasClash = avoidElement && (dd.dayElement === avoidElement || dd.dayZhiElement === avoidElement);
             var dayHasFavMatch = favorableElements.some(function(el) { return el === dd.dayElement || el === dd.dayZhiElement; });
@@ -2172,41 +2168,41 @@
                 var dayClashReason = '';
                 var dayClashEl = (dd.dayElement === avoidElement) ? dd.dayElement : dd.dayZhiElement;
                 dayClashReason = isZh()
-                    ? 'ä»Šæ—¥çš„' + wxZh(dayClashEl) + 'èƒ½é‡èˆ‡ä½ å‘½ç›¤æœ‰æ²–'
+                    ? 'ä»Šæ—¥??? + wxZh(dayClashEl) + '??½é?è??ä½ å‘½?›¤??‰æ??'
                     : 'Today\'s ' + dayClashEl + ' energy clashes with your chart';
                 dayPersonalNotice = `<div class="personal-notice personal-notice-clash" style="margin-top:0.8rem;">
                     <div class="pn-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
                     <div class="pn-body">
-                        <div class="pn-title">${isZh() ? 'èˆ‡æ‚¨å‘½ç›¤æœ‰æ²–' : 'Clash with Your Chart'}</div>
+                        <div class="pn-title">${isZh() ? '?????¨å‘½?›¤??‰æ??' : 'Clash with Your Chart'}</div>
                         <div class="pn-desc">${dayClashReason}</div>
-                        <div class="pn-advice">${isZh() ? 'å»ºè­°å¦æ“‡ä»–æ—¥' : 'Consider picking another date.'}</div>
+                        <div class="pn-advice">${isZh() ? 'å»ºè­°?¦???ä»–æ—¥' : 'Consider picking another date.'}</div>
                     </div>
                 </div>`;
             } else if (cs >= 70 && dayHasFavMatch) {
                 dayPersonalNotice = `<div class="personal-notice personal-notice-match" style="margin-top:0.8rem;">
                     <div class="pn-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
                     <div class="pn-body">
-                        <div class="pn-title">${isZh() ? 'èˆ‡æ‚¨å‘½ç›¤å¥‘åˆ' : 'Good Match for You'}</div>
-                        <div class="pn-desc">${isZh() ? 'ä»Šæ—¥çš„èƒ½é‡å°ä½ ç‰¹åˆ¥æœ‰åˆ©ï¼Œé©åˆæ¨é€²é‡è¦äº‹é …ã€‚' : 'Today\'s energy supports your chart well. A great day to move forward.'}</div>
+                        <div class="pn-title">${isZh() ? '?????¨å‘½?›¤å¥‘å??' : 'Good Match for You'}</div>
+                        <div class="pn-desc">${isZh() ? 'ä»Šæ—¥?????½é?å?ä? ç‰¹?ˆ¥??‰åˆ©ï¼Œé?©å???¨??²é?è??äº‹é????? : 'Today\'s energy supports your chart well. A great day to move forward.'}</div>
                     </div>
                 </div>`;
             } else if (cs >= 55) {
                 dayPersonalNotice = `<div class="personal-notice personal-notice-neutral" style="margin-top:0.8rem;">
                     <div class="pn-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></div>
                     <div class="pn-body">
-                        <div class="pn-title">${isZh() ? 'æ™®é€šæ—¥' : 'Average for You'}</div>
-                        <div class="pn-desc">${isZh() ? 'ä»Šæ—¥èƒ½é‡èˆ‡ä½ æ²’æœ‰ç‰¹åˆ¥æ²–çªæˆ–åŠ©åŠ›ï¼Œå±¬æ–¼æ™®é€šæ—¥ã€‚' : 'No special clash or boost for you. An average day.'}</div>
+                        <div class="pn-title">${isZh() ? '?™®??šæ—¥' : 'Average for You'}</div>
+                        <div class="pn-desc">${isZh() ? 'ä»Šæ—¥??½é?è??ä½ æ?’æ?‰ç‰¹?ˆ¥æ²–ç????–åŠ©??›ï??å±¬æ–¼?™®??šæ—¥??? : 'No special clash or boost for you. An average day.'}</div>
                     </div>
                 </div>`;
             }
 
             // Verdict text based on combined score
-            var dayVerdictText = cs >= 85 ? (isZh() ? 'å¤§å‰' : 'Excellent')
-                : cs >= 70 ? (isZh() ? 'å‰' : 'Good')
-                : cs >= 55 ? (isZh() ? 'å¹³' : 'Fair')
-                : (isZh() ? 'å‡¶' : 'Caution');
+            var dayVerdictText = cs >= 85 ? (isZh() ? 'å¤§å??' : 'Excellent')
+                : cs >= 70 ? (isZh() ? '??? : 'Good')
+                : cs >= 55 ? (isZh() ? 'å¹? : 'Fair')
+                : (isZh() ? '??? : 'Caution');
 
-            // Scenarios: show for å‰/å¤§å‰ (>=70), caution for å¹³, strong caution for å‡¶
+            // Scenarios: show for ???å¤§å?? (>=70), caution for å¹? strong caution for ???
             var dayScenariosHtml = '';
             if (cs >= 70) {
                 if (goodHtml) {
@@ -2217,17 +2213,17 @@
                 }
             } else if (cs >= 55) {
                 dayScenariosHtml = `<div style="font-size:0.82rem;color:#888;margin-top:0.6rem;">${isZh()
-                    ? 'æ­¤æ—¥æ•´é«”ä¸€èˆ¬ï¼Œéç·Šæ€¥äº‹é …å»ºè­°å¦æ“‡å‰æ—¥ã€‚'
+                    ? 'æ­¤æ—¥?•´é«”ä????¬ï?Œé?ç?Šæ?¥ä?‹é??å»ºè­°?¦?????‰æ—¥???
                     : 'This day is average. For non-urgent matters, consider a better date.'}</div>`;
             } else {
                 dayScenariosHtml = `<div style="font-size:0.82rem;color:#888;margin-top:0.6rem;">${isZh()
-                    ? 'æ­¤æ—¥èƒ½é‡è¼ƒå¼±ï¼Œå»ºè­°é¿å…é‡å¤§æ±ºå®šå’Œé‡è¦æ´»å‹•ã€‚'
+                    ? 'æ­¤æ—¥??½é?è??å¼±ï??å»ºè­°??¿å?é?å¤§æ±ºå?šå?Œé?è??æ´»å?•ã??
                     : 'Low energy. Best to avoid big decisions or important activities.'}</div>`;
             }
 
             panel.innerHTML = `
                 <div class="day-detail-header">
-                    <h4>${dateStr} â€” ${dayVerdictText} ${t('almanac.day_label')}</h4>
+                    <h4>${dateStr} ???${dayVerdictText} ${t('almanac.day_label')}</h4>
                     <span class="score-number" style="font-size:1.4rem;font-weight:700;">${cs}</span>
                 </div>
                 ${dayPersonalNotice}
@@ -2251,7 +2247,7 @@
                 engagement: t('almanac.scenario_engagement'), interview: t('almanac.scenario_interview'),
                 pet_vet: t('almanac.scenario_pet_vet'), date: t('almanac.scenario_date')
             };
-            titleEl.textContent = isZh() ? 'æœ¬æœˆæœ€ä½³æ—¥æœŸï¼š' + (scenarioNames[activeScenario] || activeScenario) : 'Best days for ' + (scenarioNames[activeScenario] || activeScenario) + ' this month:';
+            titleEl.textContent = isZh() ? '?œ¬??????ä½³æ—¥???ï¼?' + (scenarioNames[activeScenario] || activeScenario) : 'Best days for ' + (scenarioNames[activeScenario] || activeScenario) + ' this month:';
 
             const needed = SCENARIO_YI[activeScenario] || [];
             const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
@@ -2270,7 +2266,7 @@
             results.sort(function(a, b) { return b.combinedScore - a.combinedScore; });
 
             if (results.length === 0) {
-                listEl.innerHTML = '<li style="color:var(--text-muted);justify-content:center;">' + (isZh() ? 'æœ¬æœˆæœªæ‰¾åˆ°ç†æƒ³æ—¥æœŸï¼Œè«‹å˜—è©¦ä¸‹å€‹æœˆã€‚' : 'No ideal dates found this month. Try next month.') + '</li>';
+                listEl.innerHTML = '<li style="color:var(--text-muted);justify-content:center;">' + (isZh() ? '?œ¬????œª?‰¾??°ç????³æ—¥???ï¼Œè?‹å?—è©¦ä¸‹å?‹æ????? : 'No ideal dates found this month. Try next month.') + '</li>';
             } else {
                 const topCount = Math.min(results.length, 10);
                 let html = '';
@@ -2283,39 +2279,39 @@
                     if (r.personalScore <= -20) {
                         // Personal clash overrides everything
                         verdictClass = 'verdict-clash';
-                        verdictText = isZh() ? 'æ²–' : 'Clash';
-                        verdictIcon = 'âš ';
+                        verdictText = isZh() ? 'æ²? : 'Clash';
+                        verdictIcon = '???;
                     } else if (r.personalScore >= 15 && r.combinedScore >= 70) {
                         // Both good
                         verdictClass = 'verdict-best';
-                        verdictText = isZh() ? 'å¤§å‰' : 'Excellent';
+                        verdictText = isZh() ? 'å¤§å??' : 'Excellent';
                         verdictIcon = '';
                     } else if (r.personalScore >= 15 && r.combinedScore >= 55) {
                         // Personal good but day is fair
                         verdictClass = 'verdict-good';
-                        verdictText = isZh() ? 'å‰' : 'Good';
-                        verdictIcon = 'âœ“';
+                        verdictText = isZh() ? '??? : 'Good';
+                        verdictIcon = '???;
                     } else if (r.personalScore <= 0 && r.personalScore > -20) {
                         // Neutral personal
                         if (r.combinedScore >= 70) {
                             verdictClass = 'verdict-good';
-                            verdictText = isZh() ? 'å‰' : 'Good';
-                            verdictIcon = 'âœ“';
+                            verdictText = isZh() ? '??? : 'Good';
+                            verdictIcon = '???;
                         } else if (r.combinedScore >= 55) {
                             verdictClass = 'verdict-fair';
-                            verdictText = isZh() ? 'å¹³' : 'Fair';
-                            verdictIcon = 'â€“';
+                            verdictText = isZh() ? 'å¹? : 'Fair';
+                            verdictIcon = '???;
                         } else {
                             verdictClass = 'verdict-avoid';
-                            verdictText = isZh() ? 'å‡¶' : 'Avoid';
-                            verdictIcon = 'âœ—';
+                            verdictText = isZh() ? '??? : 'Avoid';
+                            verdictIcon = '???;
                         }
                     } else {
                         // Fallback to combined score only
-                        if (r.combinedScore >= 85) { verdictClass = 'verdict-best'; verdictText = isZh() ? 'å¤§å‰' : 'Excellent'; verdictIcon = 'âœ¦'; }
-                        else if (r.combinedScore >= 70) { verdictClass = 'verdict-good'; verdictText = isZh() ? 'å‰' : 'Good'; verdictIcon = 'âœ“'; }
-                        else if (r.combinedScore >= 55) { verdictClass = 'verdict-fair'; verdictText = isZh() ? 'å¹³' : 'Fair'; verdictIcon = 'â€“'; }
-                        else { verdictClass = 'verdict-avoid'; verdictText = isZh() ? 'å‡¶' : 'Avoid'; verdictIcon = 'âœ—'; }
+                        if (r.combinedScore >= 85) { verdictClass = 'verdict-best'; verdictText = isZh() ? 'å¤§å??' : 'Excellent'; verdictIcon = '???; }
+                        else if (r.combinedScore >= 70) { verdictClass = 'verdict-good'; verdictText = isZh() ? '??? : 'Good'; verdictIcon = '???; }
+                        else if (r.combinedScore >= 55) { verdictClass = 'verdict-fair'; verdictText = isZh() ? 'å¹? : 'Fair'; verdictIcon = '???; }
+                        else { verdictClass = 'verdict-avoid'; verdictText = isZh() ? '??? : 'Avoid'; verdictIcon = '???; }
                     }
 
                     html += '<li class="result-item"><span class="result-date">' + dateStr + '</span><span class="result-verdict ' + verdictClass + '">' + verdictIcon + ' ' + r.combinedScore + ' ' + verdictText + '</span></li>';
@@ -2327,8 +2323,8 @@
             // Render share bar
             if (window.ToolShare) {
                 var shareText = isZh()
-                    ? 'é»ƒæ›†æ“‡æ—¥çµæœ â€” ' + document.getElementById('resultTitle').textContent + ' | DaoEssence'
-                    : 'Chinese Almanac Results â€” ' + document.getElementById('resultTitle').textContent + ' | DaoEssence';
+                    ? 'é»????????—¥çµæ?? ???' + document.getElementById('resultTitle').textContent + ' | DaoEssence'
+                    : 'Chinese Almanac Results ???' + document.getElementById('resultTitle').textContent + ' | DaoEssence';
                 window.ToolShare.render('alm-share-container', { text: shareText });
             }
             resultEl.scrollIntoView({behavior:'smooth', block:'nearest'});
@@ -2360,7 +2356,7 @@
             localStorage.removeItem('almanac_avoid');
             // Bind calendar events
             bindEvents();
-            // Always show form on page load â€” user must explicitly submit
+            // Always show form on page load ???user must explicitly submit
             showAlmStep(1);
         }
     })();
@@ -2377,3 +2373,4 @@
     <script src="/js/tool-share.js"></script>
 </body>
 </html>
+
