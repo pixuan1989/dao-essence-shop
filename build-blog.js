@@ -1188,6 +1188,10 @@ function generateArticleHtml(post, category, allArticles, options = {}) {
   // SEO helpers
   const dateFormatted = formatDate(data.date);
 
+  // For zh-Hant pages, prefer native title/description over English seoTitle/seoDescription
+  const pageTitle = isZh ? (data.title || data.seoTitle || '') : (data.seoTitle || data.title || '');
+  const pageDesc  = isZh ? (data.description || data.seoDescription || '') : (data.seoDescription || data.description || '');
+
   function seoTitle(title) {
     const suffix = ' | DAO Essence';
     const maxLen = 60;
@@ -1246,19 +1250,19 @@ function generateArticleHtml(post, category, allArticles, options = {}) {
     <link rel="icon" type="image/png" href="/images/favicon.png">
     <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${seoTitle(data.seoTitle || data.title)}</title>
-    <meta name="description" content="${escapeHtml(seoDescription(data.seoDescription || data.description || ''))}">
+    <title>${seoTitle(pageTitle)}</title>
+    <meta name="description" content="${escapeHtml(seoDescription(pageDesc))}">
     <meta name="robots" content="index, follow">
-    <meta property="og:title" content="${seoTitle(data.seoTitle || data.title)}">
-    <meta property="og:description" content="${escapeHtml(seoDescription(data.seoDescription || data.description || ''))}">
+    <meta property="og:title" content="${seoTitle(pageTitle)}">
+    <meta property="og:description" content="${escapeHtml(seoDescription(pageDesc))}">
     <meta property="og:image" content="${SITE_URL + (data.image || '/images/og-default.jpg')}">
     <meta property="og:url" content="${articleUrl}">
     <meta property="og:type" content="article">
     <meta property="og:site_name" content="DAO Essence">
     <meta property="og:locale" content="${isZh ? 'zh_Hant' : 'en_US'}">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="${seoTitle(data.seoTitle || data.title)}">
-    <meta name="twitter:description" content="${escapeHtml(seoDescription(data.seoDescription || data.description || ''))}">
+    <meta name="twitter:title" content="${seoTitle(pageTitle)}">
+    <meta name="twitter:description" content="${escapeHtml(seoDescription(pageDesc))}">
     <meta name="twitter:image" content="${SITE_URL + (data.image || '/images/og-default.jpg')}">
     <link rel="canonical" href="${canonicalUrl}">
     ${hreflangLinks}
