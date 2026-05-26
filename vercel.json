@@ -110,6 +110,11 @@
       "permanent": true
     },
     {
+      "source": "/blog/post:20260415-8hrz",
+      "destination": "/blog",
+      "permanent": true
+    },
+    {
       "source": "/(.+)\\.html",
       "destination": "/$1",
       "permanent": true
