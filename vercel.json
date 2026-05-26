@@ -7,33 +7,70 @@
   "trailingSlash": false,
   "cleanUrls": true,
   "rewrites": [
-    { "source": "/auth", "destination": "/api/auth" },
-    { "source": "/callback", "destination": "/api/callback" }
+    {
+      "source": "/auth",
+      "destination": "/api/auth"
+    },
+    {
+      "source": "/callback",
+      "destination": "/api/callback"
+    }
   ],
   "routes": [
-    { "src": "/contact(.*)", "status": 410 },
-    { "src": "/blog/learn-bazi-free-course-guide", "status": 410 },
-    { "src": "/zh/blog/learn-bazi-free-course-guide", "status": 410 }
+    {
+      "src": "/contact(.*)",
+      "status": 410
+    },
+    {
+      "src": "/blog/learn-bazi-free-course-guide",
+      "status": 410
+    },
+    {
+      "src": "/zh/blog/learn-bazi-free-course-guide",
+      "status": 410
+    }
   ],
   "headers": [
     {
       "source": "/js/pageview.js",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
       ]
     },
     {
-      "source": "/zodiac/(.*)",
+      "source": "/zodiac/((?!js/|css/|images/|img/).*)\\.html",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
       ]
     }
   ],
   "redirects": [
-    { "source": "/blog/daily-horoscope", "destination": "/blog/zodiac-horoscope", "permanent": true },
-    { "source": "/blog/lucky-tips", "destination": "/blog/feng-shui", "permanent": true },
-    { "source": "/zh/blog/daily-horoscope", "destination": "/zh/blog/zodiac-horoscope", "permanent": true },
-    { "source": "/zh/blog/lucky-tips", "destination": "/zh/blog/feng-shui", "permanent": true },
+    {
+      "source": "/blog/daily-horoscope",
+      "destination": "/blog/zodiac-horoscope",
+      "permanent": true
+    },
+    {
+      "source": "/blog/lucky-tips",
+      "destination": "/blog/feng-shui",
+      "permanent": true
+    },
+    {
+      "source": "/zh/blog/daily-horoscope",
+      "destination": "/zh/blog/zodiac-horoscope",
+      "permanent": true
+    },
+    {
+      "source": "/zh/blog/lucky-tips",
+      "destination": "/zh/blog/feng-shui",
+      "permanent": true
+    },
     {
       "source": "/bazi-calculator",
       "destination": "/bazi-form",
