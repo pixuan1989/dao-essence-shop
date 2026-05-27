@@ -1,5 +1,30 @@
 # DaoEssence 每日运势自动化 - 执行记录
 
+## 2026-05-27 (02:00 自动执行)
+
+### 执行结果：部分成功（本地完成，Push 失败）
+
+**生成结果：**
+- ✅ 24 个生肖运势页面已生成（12生肖 × 中英文）
+- ✅ `zodiac/js/zodiac-data.js` 已更新
+- ✅ `zodiac/seo-content/2026-05-27.json` 已生成
+- ✅ 12 个静态详情页已生成（永久URL，无 date 参数）
+- ✅ `build-blog.js` 重建成功（123 URLs sitemap）
+- ✅ IndexNow 已通知（123 URLs）
+- ✅ 本地 git commit 已完成（2094eb8）
+
+**Push 结果：**
+- ❌ Git push 失败：本地提交未推送到远程
+- 原因：本机网络环境无法访问 GitHub，远程 `origin/main` 停留在 `54a3eb7`
+- 需用户手动 push 或配置代理后重试
+
+**脚本警告（不影响数据生成）：**
+- `CREEM_API_KEY not set` — 推荐商品功能跳过
+
+**待处理：** 用户需在能访问 GitHub 的环境下执行 `git push origin main` 触发 Vercel 部署。
+
+---
+
 ## 2026-05-26 (02:00 自动执行)
 
 ### 执行结果：部分成功（本地完成，Push 失败）
