@@ -1,5 +1,5 @@
 ---
-title: 如何解讀八字命盤（逐步詳解）
+title: 如何解讀八字命盤：從四柱到十神的逐步完整教學指南
 category: bazi-astrology
 tags:
   - 八字

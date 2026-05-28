@@ -1,5 +1,5 @@
 ---
-title: 10 個真正有效的家居風水小技巧
+title: 10個有科學依據的家居風水技巧：15分鐘改造你的能量場
 category: feng-shui
 tags:
   - 風水

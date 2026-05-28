@@ -1,5 +1,5 @@
 ---
-title: "風水床頭擺放：5大鐵律"
+title: 風水床頭擺放 5 大鐵律：提升睡眠品質與健康運的完整指南
 slug: "feng-shui-headboard-placement-5-rules"
 category: feng-shui
 tags:

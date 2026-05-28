@@ -1,5 +1,5 @@
 ---
-title: "10個八字日主的現代人格解析"
+title: 八字十日主性格全解析：十種現代人格原型的完整對照指南
 category: bazi-astrology
 tags:
   - 八字

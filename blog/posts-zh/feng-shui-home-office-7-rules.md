@@ -1,5 +1,5 @@
 ---
-title: "居家辦公風水：7條實用規則"
+title: 居家辦公室風水佈局：7條實用規則提升效率與財運能量
 slug: "feng-shui-home-office-7-rules"
 lang: "zh-Hant"
 category: feng-shui
