@@ -10,7 +10,7 @@ tags:
   - 每月運勢
   - 中國占星
   - 五行
-  - 火元素
+  - 自我提升
 author: "Dingwei"
 readTime: 11
 image: "/images/blog/jia-wu-month-june-2026-fire-energy-warning.webp"
@@ -22,7 +22,7 @@ cta_cards:
 related_posts:
   - "what-is-bazi-beginners-guide"
   - "five-elements-theory-wu-xing-guide"
-  - "is-weak-day-master-bad-bazi"
+  - "3-places-to-visit-when-bad-luck"
 keywords: "甲午月2026, 6月八字運勢, 丙午火年月運, 火月八字, 五行6月, 中國占星每月預測, 八字火元素月份"
 faq:
   - question: "2026年甲午月是什麼時候？"
