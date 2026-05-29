@@ -2275,6 +2275,13 @@
             // Sort by combinedScore desc
             results.sort(function(a, b) { return b.combinedScore - a.combinedScore; });
 
+            // When highest score < 55, adjust title — no good days this month
+            if (results.length > 0 && results[0].combinedScore < 55) {
+                titleEl.textContent = isZh()
+                    ? '本月无理想吉日：' + (scenarioNames[activeScenario] || activeScenario)
+                    : 'No ideal days for ' + (scenarioNames[activeScenario] || activeScenario) + ' this month:';
+            }
+
             if (results.length === 0) {
                 listEl.innerHTML = '<li style="color:var(--text-muted);justify-content:center;">' + (isZh() ? '本月未找到理想日期，請嘗試下個月。' : 'No ideal dates found this month. Try next month.') + '</li>';
             } else {
