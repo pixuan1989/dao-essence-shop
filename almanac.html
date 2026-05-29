@@ -2284,44 +2284,31 @@
                     const r = results[i];
                     const dateStr = r.date.toLocaleDateString(isZh() ? 'zh-TW' : 'en-US', {weekday:'short', month:'short', day:'numeric'});
 
-                    // Unified verdict: combine score + personal alignment
+                    // Traditional principle: clash overrides everything — 有冲先论冲
                     let verdictClass, verdictText, verdictIcon;
-                    if (r.personalScore <= -20) {
-                        // Personal clash overrides everything
+                    var hasPersonalClash = r.personalScore <= -20;
+
+                    if (hasPersonalClash) {
+                        // Clash first, no discussion — 冲就是冲
                         verdictClass = 'verdict-clash';
                         verdictText = isZh() ? '沖' : 'Clash';
                         verdictIcon = '⚠';
-                    } else if (r.personalScore >= 15 && r.combinedScore >= 70) {
-                        // Both good
+                    } else if (r.combinedScore >= 85) {
                         verdictClass = 'verdict-best';
                         verdictText = isZh() ? '大吉' : 'Excellent';
                         verdictIcon = '';
-                    } else if (r.personalScore >= 15 && r.combinedScore >= 55) {
-                        // Personal good but day is fair
+                    } else if (r.combinedScore >= 70) {
                         verdictClass = 'verdict-good';
                         verdictText = isZh() ? '吉' : 'Good';
                         verdictIcon = '✓';
-                    } else if (r.personalScore <= 0 && r.personalScore > -20) {
-                        // Neutral personal
-                        if (r.combinedScore >= 70) {
-                            verdictClass = 'verdict-good';
-                            verdictText = isZh() ? '吉' : 'Good';
-                            verdictIcon = '✓';
-                        } else if (r.combinedScore >= 55) {
-                            verdictClass = 'verdict-fair';
-                            verdictText = isZh() ? '平' : 'Fair';
-                            verdictIcon = '–';
-                        } else {
-                            verdictClass = 'verdict-avoid';
-                            verdictText = isZh() ? '凶' : 'Avoid';
-                            verdictIcon = '✗';
-                        }
+                    } else if (r.combinedScore >= 55) {
+                        verdictClass = 'verdict-fair';
+                        verdictText = isZh() ? '平' : 'Fair';
+                        verdictIcon = '–';
                     } else {
-                        // Fallback to combined score only
-                        if (r.combinedScore >= 85) { verdictClass = 'verdict-best'; verdictText = isZh() ? '大吉' : 'Excellent'; verdictIcon = '✦'; }
-                        else if (r.combinedScore >= 70) { verdictClass = 'verdict-good'; verdictText = isZh() ? '吉' : 'Good'; verdictIcon = '✓'; }
-                        else if (r.combinedScore >= 55) { verdictClass = 'verdict-fair'; verdictText = isZh() ? '平' : 'Fair'; verdictIcon = '–'; }
-                        else { verdictClass = 'verdict-avoid'; verdictText = isZh() ? '凶' : 'Avoid'; verdictIcon = '✗'; }
+                        verdictClass = 'verdict-avoid';
+                        verdictText = isZh() ? '凶' : 'Avoid';
+                        verdictIcon = '✗';
                     }
 
                     html += '<li class="result-item"><span class="result-date">' + dateStr + '</span><span class="result-verdict ' + verdictClass + '">' + verdictIcon + ' ' + r.combinedScore + ' ' + verdictText + '</span></li>';
