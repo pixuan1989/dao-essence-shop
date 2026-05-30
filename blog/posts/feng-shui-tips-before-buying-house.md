@@ -1,7 +1,7 @@
 ---
 title: "5 Feng Shui Tips Before You Buy a House"
 description: "Five practical feng shui checks to run before committing to a property: exterior sha qi, bright hall brightness, front door clashes, center palace placement, and intuitive energy feel — a hands-on guide for house hunters who want a home that genuinely supports their well-being."
-seoDescription: "5 feng shui checks before you buy: spot poison arrows, bright hall issues, door clashes, center palace problems, and energy feel. A free, no-sign-up house-hunting checklist."
+seoDescription: "5 feng shui checks before buying a house: spot poison arrows, bright hall issues, door clashes, center palace problems, and energy feel. Free house-hunting checklist."
 category: feng-shui
 tags:
   - feng shui house buying
