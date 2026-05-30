@@ -179,8 +179,8 @@
     <!-- Main Content -->
     <main>
         <section class="wallpaper-hero">
-            <h1>Lucky Wallpapers</h1>
-            <p>Curated collection of high-resolution auspicious wallpapers. <br>Enhance your device with the energy of BaZi and Five Elements.</p>
+            <h1 data-i18n="wallpaper.title">Lucky Wallpapers</h1>
+            <p data-i18n="wallpaper.desc">Curated collection of high-resolution auspicious wallpapers. <br>Enhance your device with the energy of BaZi and Five Elements.</p>
         </section>
 
         <div class="wallpaper-grid" id="wallpaper-grid">
@@ -278,9 +278,53 @@
             });
         }
 
+        // 获取当前语言
+        function getCurrentLang() {
+            const params = new URLSearchParams(window.location.search);
+            return params.get('lang') || localStorage.getItem('daoessence_lang') || 'en';
+        }
+
+        // 翻译字典
+        const i18n = {
+            en: {
+                title: "Lucky Wallpapers",
+                desc: "Curated collection of high-resolution auspicious wallpapers. <br>Enhance your device with the energy of BaZi and Five Elements.",
+                download: "Download HD",
+                cardTitle: "Lucky Wallpaper"
+            },
+            zh: {
+                title: "旺运壁纸",
+                desc: "精选高分辨率旺运壁纸。<br>用八字与五行的能量加持你的设备。",
+                download: "下载高清原图",
+                cardTitle: "旺运壁纸"
+            }
+        };
+
+        // 应用页面文本翻译
+        function applyTranslations() {
+            const lang = getCurrentLang();
+            const dict = i18n[lang] || i18n.en;
+            
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (dict[key]) {
+                    el.innerHTML = dict[key];
+                }
+            });
+
+            // 更新语言切换器显示
+            const langLabel = document.getElementById('lang-label');
+            if (langLabel) {
+                langLabel.textContent = lang === 'zh' ? '繁' : 'EN';
+            }
+        }
+
         // 动态加载壁纸
         async function loadWallpapers() {
             const grid = document.getElementById('wallpaper-grid');
+            const lang = getCurrentLang();
+            const dict = i18n[lang] || i18n.en;
+
             try {
                 // 获取 JSON 数据 (使用 cache busting 防止缓存)
                 const response = await fetch('/wallpapers.json?t=' + new Date().getTime());
@@ -294,11 +338,15 @@
                 wallpapers.forEach(wp => {
                     const card = document.createElement('div');
                     card.className = 'wallpaper-card';
+                    // 使用 wp.title 如果存在，否则使用默认翻译
+                    const title = wp.title || dict.cardTitle;
+                    const downloadText = dict.download;
+                    
                     card.innerHTML = `
-                        <img src="${wp.thumb}" alt="${wp.title}" loading="lazy">
+                        <img src="${wp.thumb}" alt="${title}" loading="lazy">
                         <div class="card-overlay">
-                            <div class="card-title">${wp.title}</div>
-                            <a href="${wp.original}" class="download-btn" target="_blank" download>Download HD</a>
+                            <div class="card-title">${title}</div>
+                            <a href="${wp.original}" class="download-btn" target="_blank" download>${downloadText}</a>
                         </div>
                     `;
                     grid.appendChild(card);
@@ -311,7 +359,10 @@
         }
 
         // 页面加载完成后执行
-        document.addEventListener('DOMContentLoaded', loadWallpapers);
+        document.addEventListener('DOMContentLoaded', () => {
+            applyTranslations();
+            loadWallpapers();
+        });
     </script>
 </body>
 </html>
