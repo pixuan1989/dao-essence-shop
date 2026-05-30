@@ -97,6 +97,7 @@ const NAV_HTML = `
                 <ul class="nav-menu">
                     <li><a href="/" class="nav-link" data-i18n="common.home">Home</a></li>
                     <li><a href="/zodiac/zodiac-daily" class="nav-link" data-i18n="nav.zodiac_daily_top">Zodiac Daily</a></li>
+                    <li><a href="/wallpaper" class="nav-link" data-i18n="nav.wallpapers">Lucky Wallpapers</a></li>
                     <li class="nav-dropdown">
                         <a href="/blog/" class="nav-dropdown-trigger" data-i18n="common.blog">Blog <i class="nav-dropdown-arrow"></i></a>
                         <div class="nav-dropdown-menu">
@@ -149,6 +150,7 @@ const FOOTER_HTML = `
                         <li><a href="/soulmate-calculator" data-i18n="footer.tool_soulmate">Soulmate Compatibility Finder</a></li>
                         <li><a href="/almanac" data-i18n="footer.tool_almanac">Auspicious Date Picker</a></li>
                         <li><a href="/zodiac/zodiac-daily" data-i18n="footer.tool_zodiac">Zodiac Daily</a></li>
+                        <li><a href="/wallpaper" data-i18n="footer.tool_wallpapers">Lucky Wallpapers</a></li>
                     </ul>
                 </div>
                 <div>
@@ -2371,6 +2373,14 @@ async function main() {
     console.log(`  Generated: dist/zh/index.html (${zhDisplay.length} zh articles)`);
   }
 
+  // Step 7.5: Copy wallpaper.html to dist/
+  console.log('Copying wallpaper page...');
+  const wallpaperSrc = path.join(SRC_DIR, 'wallpaper.html');
+  if (fs.existsSync(wallpaperSrc)) {
+    fs.copyFileSync(wallpaperSrc, path.join(DIST_DIR, 'wallpaper.html'));
+    console.log('  Generated: dist/wallpaper.html');
+  }
+
   // Step 8: Generate dynamic sitemap.xml
   console.log('Generating sitemap.xml...');
   const today = new Date().toISOString().split('T')[0];
@@ -2392,6 +2402,7 @@ async function main() {
     { loc: '/learn-bazi/luck-pillars', changefreq: 'monthly', priority: '0.8' },
     { loc: '/learn-bazi/practical', changefreq: 'monthly', priority: '0.8' },
     { loc: '/learn-bazi/spirit-stars', changefreq: 'monthly', priority: '0.8' },
+    { loc: '/wallpaper', changefreq: 'weekly', priority: '0.9' }, // 新增壁纸页
     { loc: '/privacy', changefreq: 'yearly', priority: '0.3' },
     { loc: '/terms', changefreq: 'yearly', priority: '0.3' },
     { loc: '/destiny', changefreq: 'monthly', priority: '0.6' },
