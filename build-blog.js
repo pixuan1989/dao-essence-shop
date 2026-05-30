@@ -87,49 +87,46 @@ const SITE_URL = 'https://www.daoessentia.com';
 
 // Shared nav HTML
 const NAV_HTML = `
-    <header class="header scrolled">
-        <div class="container">
-            <nav class="nav">
-                <a href="/" class="logo">
-                    <div class="logo-icon"></div>
-                    <div class="logo-text"><span class="logo-en">DAO ESSENCE</span></div>
-                </a>
-                <ul class="nav-menu">
-                    <li><a href="/" class="nav-link" data-i18n="common.home">Home</a></li>
-                    <li><a href="/zodiac/zodiac-daily" class="nav-link" data-i18n="nav.zodiac_daily_top">Zodiac Daily</a></li>
-                    <li><a href="/wallpaper" class="nav-link" data-i18n="nav.wallpapers">Lucky Wallpapers</a></li>
+                    <li><a href="/" class="nav-link">Home</a></li>
+                    
                     <li class="nav-dropdown">
-                        <a href="/blog/" class="nav-dropdown-trigger" data-i18n="common.blog">Blog <i class="nav-dropdown-arrow"></i></a>
+                        <a href="#" class="nav-dropdown-trigger">Tools <i class="nav-dropdown-arrow"></i></a>
                         <div class="nav-dropdown-menu">
-                            <a href="/blog/" data-i18n="nav.blog_all_articles">All Articles</a>
-                            <a href="/blog/bazi-astrology" data-i18n="nav.blog_bazi">BaZi Astrology</a>
-                            <a href="/zodiac/zodiac-daily" data-i18n="nav.zodiac_daily">Zodiac Daily</a>
-                            <a href="/blog/feng-shui" data-i18n="nav.blog_feng_shui">Home Feng Shui</a>
+                            <a href="/#free-bazi">BaZi Calculator</a>
+                            <a href="/zodiac/zodiac-daily">Daily Horoscope</a>
+                            <a href="/five-elements-test">Five Elements Test</a>
+                            <a href="/soulmate-calculator">Soulmate Compatibility</a>
+                            <a href="/almanac">Auspicious Almanac</a>
+                            <a href="/wallpaper">Lucky Wallpapers</a>
                         </div>
                     </li>
-                    <li><a href="/culture" class="nav-link" data-i18n="common.five_elements">Five Elements</a></li>
-                    <li><a href="/learn-bazi" class="nav-link" data-i18n="common.learn_bazi">Learn BaZi</a></li>
-                    <li><a href="/shop" class="nav-link" data-i18n="common.shop">Shop</a></li>
-                    <li><a href="/about" class="nav-link" data-i18n="common.about_us">About Us</a></li>
+
                     <li class="nav-dropdown">
-                        <a href="#" class="nav-dropdown-trigger lang-switcher-trigger" id="lang-trigger">
-                            <svg class="lang-globe-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg><span class="lang-label" id="lang-label">EN</span>
+                        <a href="/blog/" class="nav-dropdown-trigger">Blog <i class="nav-dropdown-arrow"></i></a>
+                        <div class="nav-dropdown-menu">
+                            <a href="/blog/">All Articles</a>
+                            <a href="/blog/bazi-astrology">BaZi Astrology</a>
+                            <a href="/zodiac/zodiac-daily">Zodiac Daily</a>
+                            <a href="/blog/feng-shui">Home Feng Shui</a>
+                            <a href="/culture">Five Elements</a>
+                        </div>
+                    </li>
+
+                    <li><a href="/learn-bazi" class="nav-link">Learn BaZi</a></li>
+                    <li><a href="/shop" class="nav-link">Shop</a></li>
+                    <li><a href="/about" class="nav-link">About Us</a></li>
+                    
+                    <li class="nav-dropdown">
+                        <a href="#" class="nav-dropdown-trigger lang-switcher-trigger">
+                            <svg class="lang-globe-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg><span class="lang-label">EN</span>
                             <i class="nav-dropdown-arrow"></i>
                         </a>
-                        <div class="nav-dropdown-menu" id="lang-menu">
-                            <a href="#" data-lang="en" class="lang-option active">
-                                English
-                            </a>
-                            <a href="#" data-lang="zh" class="lang-option">
-                                繁體中文
-                            </a>
+                        <div class="nav-dropdown-menu">
+                            <a href="#" data-lang="en" class="lang-option active">English</a>
+                            <a href="#" data-lang="zh" class="lang-option">繁體中文</a>
                         </div>
                     </li>
-                </ul>
-                <button class="mobile-menu-btn"><span></span><span></span><span></span></button>
-            </nav>
-        </div>
-    </header>`;
+    `;
 
 const FOOTER_HTML = `
     <footer class="footer">
