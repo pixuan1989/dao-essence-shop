@@ -20,7 +20,7 @@ author: "Xuanzhen"
 date: "2026-05-30"
 readTime: "9"
 pinned: false
-image: "/images/blog/feng-shui-house-buying-tips-hero-zh.webp"
+image: "/images/blog/feng-shui-house-buying-tips-hero.webp"
 imageAlt: "陽光明亮的現代住宅外觀，綠植繁茂，大門敞開，象徵風水上佳的旺宅"
 slug: "buy-house-feng-shui-5-tips-zh"
 keywords: "買房風水, 看房風水技巧, 房屋風水好壞, 風水旺宅, 買房注意, 風水煞氣, 中宮廚廁, 大門風水, 採光通風風水, feng shui house buying, feng shui checklist home, bright hall feng shui, poison arrow door feng shui, feng shui kitchen center house"
