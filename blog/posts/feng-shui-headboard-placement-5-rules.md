@@ -129,3 +129,9 @@ The underlying principle in every workaround is the same: create a sense of grou
 ---
 
 Understanding headboard placement is one piece of the larger feng shui bedroom picture. If you found these principles useful, check out our guide on [10 Home Feng Shui Hacks That Actually Work](/blog/10-home-feng-shui-hacks-that-actually-work-backed-by-energy-psychology) for a broader look at how environmental design affects your daily life — beyond just the bedroom.
+
+---
+
+## Related Reading
+
+- [5 Feng Shui Tips Before You Buy a House](/blog/feng-shui-tips-before-buying-house) — a 5-step checklist for evaluating a property's energy before committing to a purchase

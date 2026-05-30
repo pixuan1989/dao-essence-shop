@@ -95,3 +95,9 @@ Choose sofas and dining tables made of solid wood. Wood carries stable, groundin
 ---
 
 **Want to understand how your personal energy connects to your space?** Your BaZi birth chart reveals your favorable colors, directions, and elements — making it much easier to apply these hacks specifically for you. [Get your free BaZi chart](/#free-bazi) and start personalizing your space today.
+
+---
+
+## Related Reading
+
+- [5 Feng Shui Tips Before You Buy a House](/blog/feng-shui-tips-before-buying-house) — a practical checklist for evaluating a property's energy before you commit
