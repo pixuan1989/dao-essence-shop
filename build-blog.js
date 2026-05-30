@@ -87,8 +87,17 @@ const SITE_URL = 'https://www.daoessentia.com';
 
 // Shared nav HTML
 const NAV_HTML = `
-                    <li><a href="/" class="nav-link">Home</a></li>
+    <header class="header scrolled">
+        <div class="container">
+            <nav class="nav">
+                <a href="/" class="logo">
+                    <div class="logo-icon"></div>
+                    <div class="logo-text"><span class="logo-en">DAO ESSENCE</span></div>
+                </a>
+                <ul class="nav-menu">
+                    <li><a href="/" class="nav-link" data-i18n="common.home">Home</a></li>
                     
+                    <!-- Tools Dropdown -->
                     <li class="nav-dropdown">
                         <a href="#" class="nav-dropdown-trigger">Tools <i class="nav-dropdown-arrow"></i></a>
                         <div class="nav-dropdown-menu">
@@ -101,6 +110,7 @@ const NAV_HTML = `
                         </div>
                     </li>
 
+                    <!-- Blog Dropdown -->
                     <li class="nav-dropdown">
                         <a href="/blog/" class="nav-dropdown-trigger">Blog <i class="nav-dropdown-arrow"></i></a>
                         <div class="nav-dropdown-menu">
@@ -112,21 +122,26 @@ const NAV_HTML = `
                         </div>
                     </li>
 
-                    <li><a href="/learn-bazi" class="nav-link">Learn BaZi</a></li>
-                    <li><a href="/shop" class="nav-link">Shop</a></li>
-                    <li><a href="/about" class="nav-link">About Us</a></li>
+                    <li><a href="/learn-bazi" class="nav-link" data-i18n="common.learn_bazi">Learn BaZi</a></li>
+                    <li><a href="/shop" class="nav-link" data-i18n="common.shop">Shop</a></li>
+                    <li><a href="/about" class="nav-link" data-i18n="common.about_us">About Us</a></li>
                     
+                    <!-- Language Switcher -->
                     <li class="nav-dropdown">
-                        <a href="#" class="nav-dropdown-trigger lang-switcher-trigger">
-                            <svg class="lang-globe-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg><span class="lang-label">EN</span>
+                        <a href="#" class="nav-dropdown-trigger lang-switcher-trigger" id="lang-trigger">
+                            <svg class="lang-globe-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg><span class="lang-label" id="lang-label">EN</span>
                             <i class="nav-dropdown-arrow"></i>
                         </a>
-                        <div class="nav-dropdown-menu">
+                        <div class="nav-dropdown-menu" id="lang-menu">
                             <a href="#" data-lang="en" class="lang-option active">English</a>
                             <a href="#" data-lang="zh" class="lang-option">繁體中文</a>
                         </div>
                     </li>
-    `;
+                </ul>
+                <button class="mobile-menu-btn"><span></span><span></span><span></span></button>
+            </nav>
+        </div>
+    </header>`;
 
 const FOOTER_HTML = `
     <footer class="footer">
