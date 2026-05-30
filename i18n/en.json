@@ -108,12 +108,14 @@
   "nav": {
     "zodiac_daily": "Zodiac Daily",
     "zodiac_daily_top": "Zodiac Daily",
+    "tool_wallpapers": "Lucky Wallpapers",
     "blog_all_articles": "All Articles",
     "blog_bazi": "BaZi Astrology",
     "blog_feng_shui": "Feng Shui"
   },
   "footer": {
-    "tool_zodiac": "Daily Horoscope"
+    "tool_zodiac": "Daily Horoscope",
+    "tool_wallpapers": "Lucky Wallpapers"
   },
   "bazi_result": {
     "save_reading": "Save Reading"
