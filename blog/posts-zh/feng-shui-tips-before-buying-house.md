@@ -172,12 +172,12 @@ faq:
 
 ---
 
-*想更精準地選出適合自己命格的住宅方位與格局？[免費查看你的八字命盤](/bazi-form)，了解個人五行喜忌，找到真正與你相合的居住能量方向。*
+*想更精準地選出適合自己命格的住宅方位與格局？[免費查看你的八字命盤](/#free-bazi)，了解個人五行喜忌，找到真正與你相合的居住能量方向。*
 
 ---
 
 ## 延伸閱讀
 
-- [風水禁忌：這4樣東西別頻繁更換，越換越不順](/zh/blog/feng-shui-4-items-dont-replace-zh) — 入住後的家居風水穩定規則
-- [風水頭枕擺放五大規則](/zh/blog/feng-shui-headboard-placement-5-rules-zh) — 臥室風水佈局的關鍵細節
-- [居家辦公室風水七大法則](/zh/blog/feng-shui-home-office-7-rules-zh) — 家中工作區的能量流動指南
+- [風水禁忌：這4樣東西別頻繁更換，越換越不順](/zh/blog/feng-shui-4-items-dont-replace) — 入住後的家居風水穩定規則
+- [風水頭枕擺放五大規則](/zh/blog/feng-shui-headboard-placement-5-rules) — 臥室風水佈局的關鍵細節
+- [居家辦公室風水七大法則](/zh/blog/feng-shui-home-office-7-rules) — 家中工作區的能量流動指南
