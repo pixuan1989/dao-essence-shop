@@ -86,7 +86,15 @@ const CSS_VERSION = Date.now();
 const SITE_URL = 'https://www.daoessentia.com';
 
 // Shared nav HTML
-const NAV_HTML = `\n    <header class="header scrolled">\n        <div class="container">\n            <nav class="nav">\n                <a href="/" class="logo">\n                    <div class="logo-icon"></div>\n                    <div class="logo-text"><span class="logo-en">DAO ESSENCE</span></div>\n                </a>\n                <ul class="nav-menu">
+const NAV_HTML = `
+    <header class="header scrolled">
+        <div class="container">
+            <nav class="nav">
+                <a href="/" class="logo">
+                    <div class="logo-icon"></div>
+                    <div class="logo-text"><span class="logo-en">DAO ESSENCE</span></div>
+                </a>
+                <ul class="nav-menu">
                     <li><a href="/" class="nav-link" data-i18n="common.home">Home</a></li>
                     
                     <!-- Tools Dropdown -->
@@ -129,7 +137,11 @@ const NAV_HTML = `\n    <header class="header scrolled">\n        <div class="co
                             <a href="#" data-lang="zh" class="lang-option">繁體中文</a>
                         </div>
                     </li>
-                </ul>\n                <button class="mobile-menu-btn"><span></span><span></span><span></span></button>\n            </nav>\n        </div>\n    </header>`;
+                </ul>
+                <button class="mobile-menu-btn"><span></span><span></span><span></span></button>
+            </nav>
+        </div>
+    </header>`;
 
 const FOOTER_HTML = `
     <footer class="footer">
