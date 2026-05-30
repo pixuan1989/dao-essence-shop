@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lucky Wallpapers - Dao Essentia</title>
     <meta name="description" content="High-resolution auspicious wallpapers for your phone. Curated collection of Chinese metaphysics, Zodiac, and Five Elements art.">
-    <link rel="stylesheet" href="styles.min.css?v=2">
+    <link rel="stylesheet" href="styles.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         /* 壁纸页专用样式 */
@@ -119,8 +119,8 @@
     </style>
 </head>
 <body>
-    <!-- Header / Navigation (Copy from index.html) -->
-    <header class="header">
+    <!-- Header / Navigation (Mega Menu Style) -->
+    <header class="header scrolled">
         <div class="container">
             <nav class="nav">
                 <a href="/" class="logo">
@@ -129,7 +129,21 @@
                 </a>
                 <ul class="nav-menu">
                     <li><a href="/" class="nav-link">Home</a></li>
-                    <li><a href="/zodiac/zodiac-daily" class="nav-link">Zodiac Daily</a></li>
+                    
+                    <!-- Tools Dropdown (Active) -->
+                    <li class="nav-dropdown active">
+                        <a href="#" class="nav-dropdown-trigger">Tools <i class="nav-dropdown-arrow"></i></a>
+                        <div class="nav-dropdown-menu">
+                            <a href="/#free-bazi">BaZi Calculator</a>
+                            <a href="/zodiac/zodiac-daily">Daily Horoscope</a>
+                            <a href="/five-elements-test">Five Elements Test</a>
+                            <a href="/soulmate-calculator">Soulmate Compatibility</a>
+                            <a href="/almanac">Auspicious Almanac</a>
+                            <a href="/wallpaper" class="active">Lucky Wallpapers</a>
+                        </div>
+                    </li>
+
+                    <!-- Blog Dropdown -->
                     <li class="nav-dropdown">
                         <a href="/blog/" class="nav-dropdown-trigger">Blog <i class="nav-dropdown-arrow"></i></a>
                         <div class="nav-dropdown-menu">
@@ -137,12 +151,15 @@
                             <a href="/blog/bazi-astrology">BaZi Astrology</a>
                             <a href="/zodiac/zodiac-daily">Zodiac Daily</a>
                             <a href="/blog/feng-shui">Home Feng Shui</a>
+                            <a href="/culture">Five Elements</a>
                         </div>
                     </li>
-                    <li><a href="/culture" class="nav-link">Five Elements</a></li>
+
                     <li><a href="/learn-bazi" class="nav-link">Learn BaZi</a></li>
                     <li><a href="/shop" class="nav-link">Shop</a></li>
                     <li><a href="/about" class="nav-link">About Us</a></li>
+                    
+                    <!-- Language Switcher -->
                     <li class="nav-dropdown">
                         <a href="#" class="nav-dropdown-trigger lang-switcher-trigger" id="lang-trigger">
                             <svg class="lang-globe-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg><span class="lang-label" id="lang-label">EN</span>
@@ -179,7 +196,7 @@
                 </div>
             </div>
 
-            <!-- 壁纸卡片 2 (演示用，复用链接) -->
+            <!-- 壁纸卡片 2 -->
             <div class="wallpaper-card">
                 <img src="https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780121417/thumb.webp" alt="Purple Fortune Tree" loading="lazy" style="filter: hue-rotate(240deg);">
                 <div class="card-overlay">
@@ -191,7 +208,7 @@
                 </div>
             </div>
 
-            <!-- 壁纸卡片 3 (演示用) -->
+            <!-- 壁纸卡片 3 -->
             <div class="wallpaper-card">
                 <img src="https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780121417/thumb.webp" alt="Pink Fortune Tree" loading="lazy" style="filter: hue-rotate(300deg);">
                 <div class="card-overlay">
@@ -224,7 +241,7 @@
                         <li><a href="/soulmate-calculator">Soulmate Compatibility Finder</a></li>
                         <li><a href="/almanac">Auspicious Date Picker</a></li>
                         <li><a href="/zodiac/zodiac-daily">Zodiac Daily</a></li>
-                        <li><a href="/wallpaper">Lucky Wallpapers</a></li> <!-- 新增入口 -->
+                        <li><a href="/wallpaper">Lucky Wallpapers</a></li>
                     </ul>
                 </div>
                 <div>
@@ -283,7 +300,7 @@
         // 简单的防盗逻辑 (禁用右键)
         document.addEventListener('contextmenu', event => event.preventDefault());
         
-        // 移动端菜单逻辑 (简单版)
+        // 移动端菜单逻辑
         const mobileBtn = document.querySelector('.mobile-menu-btn');
         const navMenu = document.querySelector('.nav-menu');
         if (mobileBtn) {
