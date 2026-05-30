@@ -91,7 +91,26 @@ if (fs.existsSync(AGG_PAGE)) {
   console.warn(`️  聚合页不存在: ${AGG_PAGE}`);
 }
 
-// ─── 3. Build + Git 提交 + Push（全自动部署） ─────────────
+// ─── 3. 强制切换到 main 分支（防止在其他分支上 commit）─────────────
+console.log('\n--- 切换 to main 分支 ---');
+try {
+  // 1. 先查看当前分支
+  const currentBranch = execSync('git branch --show-current', { cwd: PROJECT_ROOT, encoding: 'utf8' }).trim();
+  if (currentBranch !== 'main') {
+    console.log(`  当前分支: ${currentBranch}，切换到 main...`);
+    execSync('git checkout main', { cwd: PROJECT_ROOT, stdio: 'inherit' });
+  }
+  // 2. pull 最新代码，避免冲突
+  console.log('  pulling latest main...');
+  execSync('git pull origin main', { cwd: PROJECT_ROOT, stdio: 'inherit' });
+  console.log('✅ 已切换到 main 分支并拉取最新代码');
+} catch (err) {
+  console.error(`❌ 切换分支失败: ${err.message}`);
+  sendFailureNotification('切换 main 分支失败', err.message);
+  process.exit(1);
+}
+
+// ─── 4. Build + Git 提交 + Push（全自动部署） ─────────────
 const SEO_FILE = path.join(PROJECT_ROOT, 'zodiac', 'seo-content', `${DATE}.json`);
 const DATA_FILE = path.join(PROJECT_ROOT, 'zodiac', 'js', 'zodiac-data.js');
 
@@ -168,7 +187,7 @@ if (fs.existsSync(SEO_FILE) && fs.existsSync(DATA_FILE)) {
   sendFailureNotification('关键文件缺失', `SEO: ${fs.existsSync(SEO_FILE)}, DATA: ${fs.existsSync(DATA_FILE)}`);
 }
 
-// ─── 4. 部署后验证提示 ────────────────────────────────────
+// ─── 5. 部署后验证提示 ────────────────────────────────────
 console.log(`\n${'═'.repeat(45)}`);
 console.log(`📋 部署验证清单（上线后请检查）`);
 console.log(`${'═'.repeat(45)}`);
