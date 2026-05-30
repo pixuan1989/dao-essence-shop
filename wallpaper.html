@@ -183,41 +183,10 @@
             <p>Curated collection of high-resolution auspicious wallpapers. <br>Enhance your device with the energy of BaZi and Five Elements.</p>
         </section>
 
-        <div class="wallpaper-grid">
-            <!-- 壁纸卡片 1 -->
-            <div class="wallpaper-card">
-                <img src="https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780121417/thumb.webp" alt="Green Fortune Tree" loading="lazy">
-                <div class="card-overlay">
-                    <div class="card-title">Fortune Tree</div>
-                    <a href="https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780121417/original.png" 
-                       class="download-btn" target="_blank" download>
-                       Download HD
-                    </a>
-                </div>
-            </div>
-
-            <!-- 壁纸卡片 2 -->
-            <div class="wallpaper-card">
-                <img src="https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780121417/thumb.webp" alt="Purple Fortune Tree" loading="lazy" style="filter: hue-rotate(240deg);">
-                <div class="card-overlay">
-                    <div class="card-title">Mystic Forest</div>
-                    <a href="https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780121417/original.png" 
-                       class="download-btn" target="_blank" download>
-                       Download HD
-                    </a>
-                </div>
-            </div>
-
-            <!-- 壁纸卡片 3 -->
-            <div class="wallpaper-card">
-                <img src="https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780121417/thumb.webp" alt="Pink Fortune Tree" loading="lazy" style="filter: hue-rotate(300deg);">
-                <div class="card-overlay">
-                    <div class="card-title">Peach Blossom</div>
-                    <a href="https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780121417/original.png" 
-                       class="download-btn" target="_blank" download>
-                       Download HD
-                    </a>
-                </div>
+        <div class="wallpaper-grid" id="wallpaper-grid">
+            <!-- 壁纸卡片将由 JS 动态生成 -->
+            <div class="loading-placeholder" style="grid-column: 1/-1; text-align: center; padding: 50px; color: #666;">
+                Loading wallpapers...
             </div>
         </div>
     </main>
@@ -308,6 +277,41 @@
                 navMenu.classList.toggle('active');
             });
         }
+
+        // 动态加载壁纸
+        async function loadWallpapers() {
+            const grid = document.getElementById('wallpaper-grid');
+            try {
+                // 获取 JSON 数据 (使用 cache busting 防止缓存)
+                const response = await fetch('/wallpapers.json?t=' + new Date().getTime());
+                if (!response.ok) throw new Error('Network response was not ok');
+                const wallpapers = await response.json();
+
+                // 清空 loading 提示
+                grid.innerHTML = '';
+
+                // 渲染每一张壁纸
+                wallpapers.forEach(wp => {
+                    const card = document.createElement('div');
+                    card.className = 'wallpaper-card';
+                    card.innerHTML = `
+                        <img src="${wp.thumb}" alt="${wp.title}" loading="lazy">
+                        <div class="card-overlay">
+                            <div class="card-title">${wp.title}</div>
+                            <a href="${wp.original}" class="download-btn" target="_blank" download>Download HD</a>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+
+            } catch (error) {
+                console.error('Failed to load wallpapers:', error);
+                grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 50px; color: #888;">Failed to load wallpapers. Please try again later.</div>`;
+            }
+        }
+
+        // 页面加载完成后执行
+        document.addEventListener('DOMContentLoaded', loadWallpapers);
     </script>
 </body>
 </html>
