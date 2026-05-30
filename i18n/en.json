@@ -106,11 +106,21 @@
     "about_us": "About Us"
   },
   "nav": {
+    "tools": "Tools",
+    "tool_bazi": "BaZi Calculator",
+    "tool_daily": "Daily Horoscope",
+    "tool_five": "Five Elements Test",
+    "tool_soulmate": "Soulmate Compatibility",
+    "tool_almanac": "Auspicious Almanac",
     "zodiac_daily": "Zodiac Daily",
     "zodiac_daily_top": "Zodiac Daily",
     "tool_wallpapers": "Lucky Wallpapers",
+    "blog_all": "All Articles",
     "blog_all_articles": "All Articles",
     "blog_bazi": "BaZi Astrology",
+    "blog_zodiac": "Zodiac Daily",
+    "blog_fengshui": "Home Feng Shui",
+    "blog_elements": "Five Elements",
     "blog_feng_shui": "Feng Shui"
   },
   "footer": {
