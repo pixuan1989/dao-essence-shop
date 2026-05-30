@@ -86,30 +86,39 @@ const CSS_VERSION = Date.now();
 const SITE_URL = 'https://www.daoessentia.com';
 
 // Shared nav HTML
-const NAV_HTML = `
-    <header class="header scrolled">
-        <div class="container">
-            <nav class="nav">
-                <a href="/" class="logo">
-                    <div class="logo-icon"></div>
-                    <div class="logo-text"><span class="logo-en">DAO ESSENCE</span></div>
-                </a>
-                <ul class="nav-menu">
+const NAV_HTML = `\n    <header class="header scrolled">\n        <div class="container">\n            <nav class="nav">\n                <a href="/" class="logo">\n                    <div class="logo-icon"></div>\n                    <div class="logo-text"><span class="logo-en">DAO ESSENCE</span></div>\n                </a>\n                <ul class="nav-menu">
                     <li><a href="/" class="nav-link" data-i18n="common.home">Home</a></li>
-                    <li><a href="/zodiac/zodiac-daily" class="nav-link" data-i18n="nav.zodiac_daily_top">Zodiac Daily</a></li>
+                    
+                    <!-- Tools Dropdown -->
+                    <li class="nav-dropdown">
+                        <a href="#" class="nav-dropdown-trigger" data-i18n="nav.tools">Tools <i class="nav-dropdown-arrow"></i></a>
+                        <div class="nav-dropdown-menu">
+                            <a href="/#free-bazi" data-i18n="nav.tool_bazi">BaZi Calculator</a>
+                            <a href="/zodiac/zodiac-daily" data-i18n="nav.tool_daily">Daily Horoscope</a>
+                            <a href="/five-elements-test" data-i18n="nav.tool_five">Five Elements Test</a>
+                            <a href="/soulmate-calculator" data-i18n="nav.tool_soulmate">Soulmate Compatibility</a>
+                            <a href="/almanac" data-i18n="nav.tool_almanac">Auspicious Almanac</a>
+                            <a href="/wallpaper" data-i18n="nav.tool_wallpapers">Lucky Wallpapers</a>
+                        </div>
+                    </li>
+
+                    <!-- Blog Dropdown -->
                     <li class="nav-dropdown">
                         <a href="/blog/" class="nav-dropdown-trigger" data-i18n="common.blog">Blog <i class="nav-dropdown-arrow"></i></a>
                         <div class="nav-dropdown-menu">
-                            <a href="/blog/" data-i18n="nav.blog_all_articles">All Articles</a>
+                            <a href="/blog/" data-i18n="nav.blog_all">All Articles</a>
                             <a href="/blog/bazi-astrology" data-i18n="nav.blog_bazi">BaZi Astrology</a>
-                            <a href="/zodiac/zodiac-daily" data-i18n="nav.zodiac_daily">Zodiac Daily</a>
-                            <a href="/blog/feng-shui" data-i18n="nav.blog_feng_shui">Home Feng Shui</a>
+                            <a href="/zodiac/zodiac-daily" data-i18n="nav.blog_zodiac">Zodiac Daily</a>
+                            <a href="/blog/feng-shui" data-i18n="nav.blog_fengshui">Home Feng Shui</a>
+                            <a href="/culture" data-i18n="nav.blog_elements">Five Elements</a>
                         </div>
                     </li>
-                    <li><a href="/culture" class="nav-link" data-i18n="common.five_elements">Five Elements</a></li>
+
                     <li><a href="/learn-bazi" class="nav-link" data-i18n="common.learn_bazi">Learn BaZi</a></li>
                     <li><a href="/shop" class="nav-link" data-i18n="common.shop">Shop</a></li>
                     <li><a href="/about" class="nav-link" data-i18n="common.about_us">About Us</a></li>
+                    
+                    <!-- Language Switcher -->
                     <li class="nav-dropdown">
                         <a href="#" class="nav-dropdown-trigger lang-switcher-trigger" id="lang-trigger">
                             <svg class="lang-globe-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg><span class="lang-label" id="lang-label">EN</span>
@@ -120,11 +129,7 @@ const NAV_HTML = `
                             <a href="#" data-lang="zh" class="lang-option">繁體中文</a>
                         </div>
                     </li>
-                </ul>
-                <button class="mobile-menu-btn"><span></span><span></span><span></span></button>
-            </nav>
-        </div>
-    </header>`;
+                </ul>\n                <button class="mobile-menu-btn"><span></span><span></span><span></span></button>\n            </nav>\n        </div>\n    </header>`;
 
 const FOOTER_HTML = `
     <footer class="footer">
