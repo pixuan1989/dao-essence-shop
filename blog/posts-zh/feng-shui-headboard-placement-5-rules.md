@@ -119,3 +119,9 @@ faq:
 ---
 
 理解床頭擺放是風水臥室全貌中的一環。如果你覺得這些原則有用，可以看看我們的 [10個真正有效的居家風水技巧](/blog/10-home-feng-shui-hacks-that-actually-work-backed-by-energy-psychology)，更全面地了解環境設計如何影響你的日常生活——不僅限於臥室。
+
+---
+
+## 延伸閱讀
+
+- [買房必看：五個實用技巧，一眼判斷房屋風水好壞](/zh/blog/buy-house-feng-shui-5-tips-zh) — 看房時從外到內判斷風水格局的五步清單

@@ -9,6 +9,12 @@ tags:
   - 旺宅選房
   - 風水煞氣
   - 家宅氣場
+  - 房屋風水好壞
+  - 大門風水煞氣
+  - 中宮廚廁
+  - 明堂採光風水
+  - feng shui house buying
+  - 風水看房清單
 lang: "zh-Hant"
 author: "Xuanzhen"
 date: "2026-05-30"
@@ -17,7 +23,7 @@ pinned: false
 image: "/images/blog/buy-house-feng-shui-hero.webp"
 imageAlt: "陽光明亮的現代住宅外觀，綠植繁茂，大門敞開，象徵風水上佳的旺宅"
 slug: "buy-house-feng-shui-5-tips-zh"
-keywords: "買房風水, 看房風水技巧, 房屋風水好壞, 風水旺宅, 買房注意, 風水煞氣, 中宮廚廁, 大門風水, 採光通風風水"
+keywords: "買房風水, 看房風水技巧, 房屋風水好壞, 風水旺宅, 買房注意, 風水煞氣, 中宮廚廁, 大門風水, 採光通風風水, feng shui house buying, feng shui checklist home, bright hall feng shui, poison arrow door feng shui, feng shui kitchen center house"
 faq:
   - question: "什麼樣的外部環境風水最差？"
     answer: "高架橋、高壓電塔、信號塔、垃圾站、醫院正對面、寺廟附近，這幾種外部環境被視為最嚴重的風水煞氣來源。高架帶來聲煞與震動，高壓電磁場干擾人體節律，垃圾站和醫院影響健康與心理。選房時應先站在樓外觀察，有以上任何一項都需謹慎評估。"
@@ -167,3 +173,11 @@ faq:
 ---
 
 *想更精準地選出適合自己命格的住宅方位與格局？[免費查看你的八字命盤](/bazi-form)，了解個人五行喜忌，找到真正與你相合的居住能量方向。*
+
+---
+
+## 延伸閱讀
+
+- [風水禁忌：這4樣東西別頻繁更換，越換越不順](/zh/blog/feng-shui-4-items-dont-replace-zh) — 入住後的家居風水穩定規則
+- [風水頭枕擺放五大規則](/zh/blog/feng-shui-headboard-placement-5-rules-zh) — 臥室風水佈局的關鍵細節
+- [居家辦公室風水七大法則](/zh/blog/feng-shui-home-office-7-rules-zh) — 家中工作區的能量流動指南
