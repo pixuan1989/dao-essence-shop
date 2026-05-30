@@ -2392,6 +2392,12 @@ async function main() {
     fs.copyFileSync(wallpaperSrc, path.join(DIST_DIR, 'wallpaper.html'));
     console.log('  Generated: dist/wallpaper.html');
   }
+  // Copy wallpapers.json for dynamic loading
+  const wallpapersJson = path.join(SRC_DIR, 'wallpapers.json');
+  if (fs.existsSync(wallpapersJson)) {
+    fs.copyFileSync(wallpapersJson, path.join(DIST_DIR, 'wallpapers.json'));
+    console.log('  Generated: dist/wallpapers.json');
+  }
 
   // Step 8: Generate dynamic sitemap.xml
   console.log('Generating sitemap.xml...');
