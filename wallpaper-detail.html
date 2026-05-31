@@ -343,15 +343,16 @@
             const dlLink = document.getElementById('download-link');
 
             // Update Image Source based on View
-            const currentSrc = currentView === 'mockup' ? (data.mockup || data.original) : data.original;
-            img.src = currentSrc;
+            // Default: show thumb (WebP) for fast loading; original (PNG) only for download
+            const displaySrc = currentView === 'mockup' ? (data.mockup || data.thumb) : data.thumb;
+            img.src = displaySrc;
             img.onload = () => {
                 document.querySelector('.loading').style.display = 'none';
                 img.style.display = 'block';
             };
 
-            // Update Background
-            bg.style.backgroundImage = `url(${data.original})`;
+            // Background blur: use thumb too (it's just a background effect)
+            bg.style.backgroundImage = `url(${data.thumb})`;
 
             // Update Text
             title.textContent = data.title || 'Lucky Wallpaper';
@@ -368,8 +369,8 @@
                 });
             }
 
-            // Update Download Link
-            dlLink.href = currentSrc;
+            // Download Link: always points to original PNG HD
+            dlLink.href = data.original;
 
             // SEO & OG Tags
             document.title = `${data.title} - Lucky Wallpaper | Dao Essentia`;
