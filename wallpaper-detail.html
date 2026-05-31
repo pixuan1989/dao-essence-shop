@@ -285,6 +285,12 @@
     </div>
 
     <script>
+        // 配置区
+        const CONFIG = {
+            relatedCount: 8,   // 相关推荐展示数量
+            cacheBust: true
+        };
+
         const urlParams = new URLSearchParams(window.location.search);
         let wallpaperId = urlParams.get('id');
         let wallpapers = [];
@@ -356,7 +362,7 @@
 
             const related = wallpapers
                 .filter((_, i) => i !== currentIndex)
-                .slice(0, 8);
+                .slice(0, CONFIG.relatedCount);
 
             related.forEach(wp => {
                 const card = document.createElement('div');
