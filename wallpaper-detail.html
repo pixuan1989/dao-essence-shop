@@ -92,16 +92,24 @@
         /* ── Image ── */
         .preview-image {
             width: 100%;
+            max-height: 72vh;
             border-radius: 16px;
             overflow: hidden;
             background: #111;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         .preview-image img {
-            width: 100%;
+            max-width: 100%;
+            max-height: 72vh;
+            width: auto;
+            height: auto;
             display: block;
             pointer-events: none;
             user-select: none;
             -webkit-user-drag: none;
+            object-fit: contain;
         }
 
         /* ── View Toggle (Original / Mockup) — ALWAYS VISIBLE ── */
@@ -283,16 +291,20 @@
         }
         .related-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
         }
         .related-card {
-            border-radius: 14px;
+            border-radius: 12px;
             overflow: hidden;
             cursor: pointer;
-            transition: transform 0.2s;
+            transition: transform 0.2s, box-shadow 0.2s;
             aspect-ratio: 9/16;
             background: #111;
+        }
+        .related-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.5);
         }
         .related-card:hover { transform: translateY(-3px); }
         .related-card img {
@@ -314,6 +326,9 @@
         }
 
         /* ── Responsive: Mobile stacked ── */
+        @media (max-width: 1200px) {
+            .related-grid { grid-template-columns: repeat(4, 1fr); }
+        }
         @media (max-width: 900px) {
             .detail-container {
                 flex-direction: column;
@@ -326,8 +341,11 @@
             }
             .wp-title { font-size: 22px; }
             .preview-image { border-radius: 12px; }
-            .related-grid { gap: 8px; }
+            .related-grid { grid-template-columns: repeat(3, 1fr); }
             .btn-download { height: 48px; font-size: 15px; }
+        }
+        @media (max-width: 600px) {
+            .related-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
         }
     </style>
 </head>
