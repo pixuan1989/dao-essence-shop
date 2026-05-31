@@ -114,19 +114,19 @@
         /* Wallpaper Card */
         .wallpaper-card {
             width: 100%;
-            max-width: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
+            min-height: 50vh;
             padding: 20px 0;
         }
 
         .wallpaper-card img {
-            max-width: 100%;
+            max-width: 90vw;  /* Fit within screen width */
             max-height: 80vh; /* Fit within screen height */
             width: auto;
             height: auto;
-            object-fit: contain; /* Keep original aspect ratio, no stretching */
+            object-fit: contain; /* Maintain original aspect ratio */
             display: block;
             border-radius: var(--radius-lg);
             box-shadow: 0 20px 40px rgba(0,0,0,0.5);
