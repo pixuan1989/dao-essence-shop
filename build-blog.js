@@ -2385,7 +2385,7 @@ async function main() {
     console.log(`  Generated: dist/zh/index.html (${zhDisplay.length} zh articles)`);
   }
 
-  // Step 7.5: Copy wallpaper page and Validate JSON
+  // Step 7.5: Copy wallpaper page and wallpapers.json
   console.log('Copying wallpaper page...');
   const wallpaperSrc = path.join(SRC_DIR, 'wallpaper.html');
   if (fs.existsSync(wallpaperSrc)) {
@@ -2393,37 +2393,11 @@ async function main() {
     console.log('  Generated: dist/wallpaper.html');
   }
   
-  // Validate and Copy wallpapers.json (Remove broken OSS links)
+  // Copy wallpapers.json (Frontend handles missing images via onerror)
   const wallpapersJson = path.join(SRC_DIR, 'wallpapers.json');
   if (fs.existsSync(wallpapersJson)) {
-    console.log('Validating wallpapers.json (checking OSS links)...');
-    const data = JSON.parse(fs.readFileSync(wallpapersJson, 'utf-8'));
-    const validData = [];
-    const https = require('https');
-    
-    // 验证函数
-    const checkLink = (url) => {
-      return new Promise((resolve) => {
-        if (!url) { resolve(false); return; }
-        https.get(url, { method: 'HEAD', timeout: 2000 }, (res) => {
-          resolve(res.statusCode === 200);
-        }).on('error', () => resolve(false));
-      });
-    };
-
-    // 使用 IIFE 执行异步验证
-    (async () => {
-      for (const item of data) {
-        const isThumbOk = await checkLink(item.thumb);
-        if (isThumbOk) {
-          validData.push(item);
-        } else {
-          console.log(`  Skipped broken wallpaper: ${item.id}`);
-        }
-      }
-      fs.writeFileSync(path.join(DIST_DIR, 'wallpapers.json'), JSON.stringify(validData, null, 2));
-      console.log(`  Generated: dist/wallpapers.json (Cleaned: ${data.length} -> ${validData.length})`);
-    })();
+    fs.copyFileSync(wallpapersJson, path.join(DIST_DIR, 'wallpapers.json'));
+    console.log('  Generated: dist/wallpapers.json');
   }
 
   // Step 8: Generate dynamic sitemap.xml
