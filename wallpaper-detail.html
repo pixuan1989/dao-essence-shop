@@ -111,10 +111,10 @@
             color: #000;
         }
 
-        /* Wallpaper Card - Removed max-width and aspect-ratio to support natural size */
+        /* Wallpaper Card */
         .wallpaper-card {
-            width: auto;
-            max-width: 90%; /* Prevent overflow on small screens */
+            width: 100%;
+            max-width: 450px; /* Cap width to simulate phone display on desktop */
             border-radius: var(--radius-lg);
             overflow: hidden;
             box-shadow: 0 20px 40px rgba(0,0,0,0.5);
@@ -126,8 +126,7 @@
         }
 
         .wallpaper-card img {
-            max-width: 100%;
-            width: auto;
+            width: 100%;
             height: auto;
             display: block;
             transition: opacity 0.3s ease;
