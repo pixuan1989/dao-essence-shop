@@ -84,7 +84,6 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 24px;
         }
 
         /* View Toggle (Tabs) */
@@ -94,6 +93,8 @@
             border-radius: 30px;
             padding: 4px;
             gap: 4px;
+            margin: 20px 0 40px;
+            z-index: 10;
         }
         .toggle-btn {
             padding: 8px 20px;
@@ -111,63 +112,80 @@
             color: #000;
         }
 
-        /* Wallpaper Card */
-        .wallpaper-card {
+        /* Detail Layout: Left Image, Right Info */
+        .detail-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 60px;
             width: 100%;
+            max-width: 1200px;
+        }
+
+        /* Left: Image */
+        .wallpaper-card {
+            flex: 1;
+            max-width: 55%;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 50vh;
-            padding: 20px 0;
+            position: relative;
+            background: #000;
+            border-radius: 0; /* No rounded corners */
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
         }
 
         .wallpaper-card img {
-            max-width: 90vw;  /* Fit within screen width */
-            max-height: 80vh; /* Fit within screen height */
-            width: auto;
+            width: 100%;
             height: auto;
-            object-fit: contain; /* Maintain original aspect ratio */
+            max-height: 85vh;
+            object-fit: contain;
             display: block;
-            border-radius: var(--radius-lg);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            border-radius: 0;
             transition: opacity 0.3s ease;
         }
 
-        /* Info Panel */
+        /* Right: Info */
         .info-panel {
-            text-align: center;
-            max-width: 320px;
-            width: 100%;
+            flex: 1;
+            max-width: 40%;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            text-align: left;
+            gap: 24px;
+            padding: 20px 0;
         }
 
         .wp-title {
             font-family: 'Noto Serif SC', serif;
-            font-size: 22px;
+            font-size: 28px;
             font-weight: 700;
-            margin: 0 0 8px;
+            margin: 0;
+            line-height: 1.2;
         }
 
         .wp-desc {
-            font-size: 14px;
+            font-size: 15px;
             line-height: 1.6;
             color: var(--text-dim);
-            margin-bottom: 16px;
+            margin: 0;
         }
 
         /* Tags */
         .wp-tags {
             display: flex;
             flex-wrap: wrap;
-            justify-content: center;
-            gap: 8px;
-            margin-bottom: 20px;
+            justify-content: flex-start;
+            gap: 10px;
         }
         .tag {
             background: rgba(255,255,255,0.08);
             border: 1px solid rgba(255,255,255,0.15);
-            padding: 4px 12px;
-            border-radius: 12px;
-            font-size: 11px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
             color: var(--text-dim);
         }
 
@@ -189,32 +207,55 @@
             cursor: pointer;
             text-decoration: none;
             box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
-            margin-bottom: 20px;
         }
         .btn-download svg { width: 20px; height: 20px; }
 
         /* Bottom Nav */
         .bottom-nav {
             display: flex;
-            gap: 10px;
-            justify-content: center;
+            gap: 12px;
+            justify-content: flex-start;
         }
         .nav-btn {
             background: rgba(255,255,255,0.1);
             border: 1px solid rgba(255,255,255,0.1);
             color: #fff;
-            padding: 10px 20px;
+            padding: 10px 24px;
             border-radius: 20px;
-            font-size: 13px;
+            font-size: 14px;
             cursor: pointer;
+            transition: 0.2s;
         }
-        .nav-btn:disabled { opacity: 0.3; }
+        .nav-btn:hover { background: rgba(255,255,255,0.2); }
+        .nav-btn:disabled { opacity: 0.3; cursor: default; }
 
         .loading {
             position: absolute;
             top: 50%; left: 50%;
             transform: translate(-50%, -50%);
             color: rgba(255,255,255,0.5);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .detail-wrapper {
+                flex-direction: column;
+                gap: 30px;
+            }
+            .wallpaper-card, .info-panel {
+                max-width: 90%;
+                width: 100%;
+            }
+            .info-panel {
+                align-items: center;
+                text-align: center;
+            }
+            .wp-tags, .bottom-nav {
+                justify-content: center;
+            }
+            .wallpaper-card img {
+                max-height: 60vh;
+            }
         }
     </style>
 </head>
@@ -238,28 +279,31 @@
             <button class="toggle-btn" id="btn-mockup">Mockup</button>
         </div>
 
-        <!-- Image Card -->
-        <div class="wallpaper-card">
-            <div class="loading">Loading...</div>
-            <img id="main-image" style="display:none;" />
-        </div>
+        <!-- Detail Layout -->
+        <div class="detail-wrapper">
+            <!-- Left: Image -->
+            <div class="wallpaper-card">
+                <div class="loading">Loading...</div>
+                <img id="main-image" style="display:none;" />
+            </div>
 
-        <!-- Info Panel -->
-        <div class="info-panel">
-            <h1 class="wp-title" id="wp-title">Lucky Wallpaper</h1>
-            <p class="wp-desc" id="wp-desc">Enhance your device's Feng Shui energy with this high-resolution lucky wallpaper.</p>
-            
-            <!-- Tags -->
-            <div class="wp-tags" id="wp-tags"></div>
+            <!-- Right: Info -->
+            <div class="info-panel">
+                <h1 class="wp-title" id="wp-title">Lucky Wallpaper</h1>
+                <p class="wp-desc" id="wp-desc">Enhance your device's Feng Shui energy with this high-resolution lucky wallpaper.</p>
+                
+                <!-- Tags -->
+                <div class="wp-tags" id="wp-tags"></div>
 
-            <a href="#" class="btn-download" id="download-link" download>
-                <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
-                Download HD Wallpaper
-            </a>
+                <a href="#" class="btn-download" id="download-link" download>
+                    <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+                    Download HD Wallpaper
+                </a>
 
-            <div class="bottom-nav">
-                <button class="nav-btn" id="prev-btn">Prev</button>
-                <button class="nav-btn" id="next-btn">Next</button>
+                <div class="bottom-nav">
+                    <button class="nav-btn" id="prev-btn">Prev</button>
+                    <button class="nav-btn" id="next-btn">Next</button>
+                </div>
             </div>
         </div>
     </div>
@@ -269,7 +313,7 @@
         let wallpaperId = urlParams.get('id');
         let wallpapers = [];
         let currentIndex = -1;
-        let currentView = 'wallpaper'; 
+        let currentView = 'wallpaper';
 
         async function init() {
             try {
