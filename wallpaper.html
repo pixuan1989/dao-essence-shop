@@ -388,10 +388,9 @@
         let allWallpapers = [];
         let activeCategory = 'All';
         let activeSort = 'popular';
+        let dynamicCats = [];  // Categories extracted from JSON data
 
-        const ALL_CATS = ['All', 'Nature', 'Abstract', 'Spiritual', 'Seasonal'];
-
-        // Category definitions for explore section
+        // Category info map (descriptions for Explore cards)
         const CAT_INFO = {
             Nature: { tags: 'Feng Shui · Five Elements · Autumn Gold · Jade Green · Water Flow' },
             Abstract: { tags: 'Indigo · Dark · Geometric · Minimal · Neon Glow' },
@@ -399,10 +398,20 @@
             Seasonal: { tags: 'Spring Blossom · Summer Fire · Harvest Moon · Winter Solstice' }
         };
 
-        // Build category toolbar pills
+        // Extract unique categories from wallpaper data
+        function extractCategories() {
+            const cats = new Set(['All']);
+            allWallpapers.forEach(w => {
+                if (w.category) cats.add(w.category);
+            });
+            dynamicCats = [...cats];
+            return dynamicCats;
+        }
+
+        // Build category toolbar pills (dynamic)
         function buildCategoryPills() {
             const row = document.getElementById('cat-row');
-            ALL_CATS.forEach(cat => {
+            dynamicCats.forEach(cat => {
                 const pill = document.createElement('button');
                 pill.className = 'tb-pill' + (cat === 'All' ? ' active' : '');
                 pill.textContent = cat;
@@ -417,10 +426,13 @@
             });
         }
 
-        // Build explore categories section
+        // Build explore categories section (dynamic — only show categories that have wallpapers)
         function buildExploreCategories() {
             const grid = document.getElementById('cat-grid');
-            Object.entries(CAT_INFO).forEach(([name, info]) => {
+            // Only show categories that exist in the data AND have info defined
+            const availableCats = dynamicCats.filter(c => c !== 'All' && CAT_INFO[c]);
+            availableCats.forEach(name => {
+                const info = CAT_INFO[name];
                 const card = document.createElement('div');
                 card.className = 'cat-card';
                 card.onclick = () => {
@@ -495,6 +507,7 @@
             } catch (e) {
                 console.error('Failed to load wallpapers:', e);
             }
+            extractCategories();  // Dynamic: extract categories from JSON data
             buildCategoryPills();
             buildExploreCategories();
             applyTranslations();
