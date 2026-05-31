@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Lucky Wallpaper - Dao Essentia</title>
+    <meta name="description" content="Download high-resolution Lucky Wallpaper.">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-gold: #D4AF37;
+            --bg-dark: #0a0a12;
+            --text-light: #ffffff;
+            --text-dim: rgba(255, 255, 255, 0.7);
+            --radius-lg: 24px;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            font-family: 'Inter', sans-serif;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Blurred Background */
+        #bg-blur {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            filter: blur(40px) brightness(0.5);
+            transform: scale(1.2);
+            z-index: -1;
+            transition: background-image 0.5s ease;
+        }
+
+        /* Top Bar */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px;
+            z-index: 10;
+        }
+
+        .icon-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: white;
+            transition: 0.2s;
+            text-decoration: none;
+        }
+        .icon-btn:hover { background: rgba(255, 255, 255, 0.2); }
+        .icon-btn svg { width: 20px; height: 20px; fill: currentColor; }
+
+        /* Content Area */
+        .content-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 0 20px 20px;
+            gap: 20px;
+        }
+
+        .wallpaper-card {
+            width: 100%;
+            max-width: 320px;
+            aspect-ratio: 9/19.5;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            position: relative;
+            background: #000;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        .wallpaper-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Info Panel */
+        .info-panel {
+            text-align: center;
+            max-width: 320px;
+            width: 100%;
+        }
+
+        .wp-title {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 20px;
+            font-weight: 700;
+            margin: 0 0 8px;
+            color: #fff;
+        }
+
+        .wp-meta {
+            font-size: 13px;
+            color: var(--text-dim);
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        /* Download Button */
+        .btn-download {
+            width: 100%;
+            max-width: 320px;
+            height: 56px;
+            border-radius: 28px;
+            background: linear-gradient(135deg, #D4AF37 0%, #AA8A26 100%);
+            color: #000;
+            font-weight: 700;
+            font-size: 16px;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+            transition: transform 0.2s;
+        }
+        .btn-download:active { transform: scale(0.98); }
+        .btn-download svg { width: 20px; height: 20px; }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+            justify-content: center;
+        }
+        .nav-btn {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 13px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: 0.2s;
+        }
+        .nav-btn:hover { background: rgba(255,255,255,0.2); }
+        .nav-btn:disabled { opacity: 0.3; cursor: default; }
+
+        /* Loading */
+        .loading {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            color: rgba(255,255,255,0.5);
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="bg-blur"></div>
+
+    <div class="top-bar">
+        <a href="wallpaper.html" class="icon-btn">
+            <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+        </a>
+        <div class="icon-btn" id="share-btn">
+            <svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/></svg>
+        </div>
+    </div>
+
+    <div class="content-area">
+        <div class="wallpaper-card" id="card-container">
+            <div class="loading">Loading...</div>
+            <img id="main-image" style="display:none;" />
+        </div>
+
+        <div class="info-panel">
+            <h1 class="wp-title" id="wp-title">Lucky Wallpaper</h1>
+            <div class="wp-meta">
+                <span id="wp-date">2026-05-31</span>
+            </div>
+            
+            <a href="#" class="btn-download" id="download-link" download>
+                <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+                Download HD
+            </a>
+
+            <div class="bottom-nav">
+                <button class="nav-btn" id="prev-btn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+                    Prev
+                </button>
+                <button class="nav-btn" id="next-btn">
+                    Next
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data Loading
+        const urlParams = new URLSearchParams(window.location.search);
+        let wallpaperId = urlParams.get('id');
+        let wallpapers = [];
+        let currentIndex = -1;
+
+        async function init() {
+            try {
+                const res = await fetch('wallpapers.json?t=' + new Date().getTime());
+                wallpapers = await res.json();
+                
+                if (wallpaperId) {
+                    const index = wallpapers.findIndex(w => w.id === wallpaperId);
+                    if (index !== -1) {
+                        render(index);
+                    } else {
+                        window.location.href = 'wallpaper.html';
+                    }
+                } else if (wallpapers.length > 0) {
+                    render(0);
+                }
+            } catch (e) {
+                console.error("Failed to load wallpapers", e);
+            }
+        }
+
+        function render(index) {
+            currentIndex = index;
+            const data = wallpapers[index];
+            wallpaperId = data.id; // Update ID for URL history
+
+            // Update DOM
+            const img = document.getElementById('main-image');
+            const bg = document.getElementById('bg-blur');
+            const title = document.getElementById('wp-title');
+            const date = document.getElementById('wp-date');
+            const dlLink = document.getElementById('download-link');
+
+            img.src = data.original;
+            img.onload = () => {
+                document.getElementById('card-container').querySelector('.loading').style.display = 'none';
+                img.style.display = 'block';
+            };
+            
+            // Background
+            bg.style.backgroundImage = `url(${data.thumb})`; // Use thumb for background speed
+            
+            // Text
+            title.textContent = data.title || 'Lucky Wallpaper';
+            date.textContent = data.date || '';
+            
+            // Download
+            dlLink.href = data.original;
+
+            // SEO
+            document.title = `${data.title} - Dao Essentia`;
+            document.querySelector('meta[name="description"]').content = `Download high-quality ${data.title} wallpaper. Curated collection of Feng Shui and Five Elements wallpapers.`;
+
+            // Navigation State
+            document.getElementById('prev-btn').disabled = index === 0;
+            document.getElementById('prev-btn').style.opacity = index === 0 ? '0.3' : '1';
+            
+            document.getElementById('next-btn').disabled = index === wallpapers.length - 1;
+            document.getElementById('next-btn').style.opacity = index === wallpapers.length - 1 ? '0.3' : '1';
+        }
+
+        // Navigation Clicks
+        document.getElementById('prev-btn').onclick = () => {
+            if (currentIndex > 0) {
+                render(currentIndex - 1);
+                window.history.pushState(null, null, `?id=${wallpapers[currentIndex - 1].id}`);
+            }
+        };
+
+        document.getElementById('next-btn').onclick = () => {
+            if (currentIndex < wallpapers.length - 1) {
+                render(currentIndex + 1);
+                window.history.pushState(null, null, `?id=${wallpapers[currentIndex + 1].id}`);
+            }
+        };
+
+        // Share Button
+        document.getElementById('share-btn').onclick = () => {
+            if (navigator.share) {
+                navigator.share({
+                    title: document.title,
+                    url: window.location.href
+                }).catch(console.error);
+            } else {
+                navigator.clipboard.writeText(window.location.href);
+                alert('Link copied!');
+            }
+        };
+
+        init();
+    </script>
+</body>
+</html>

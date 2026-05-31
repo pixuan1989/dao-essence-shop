@@ -2385,15 +2385,21 @@ async function main() {
     console.log(`  Generated: dist/zh/index.html (${zhDisplay.length} zh articles)`);
   }
 
-  // Step 7.5: Copy wallpaper page and wallpapers.json
-  console.log('Copying wallpaper page...');
+  // Step 7.5: Copy wallpaper pages
+  console.log('Copying wallpaper pages...');
   const wallpaperSrc = path.join(SRC_DIR, 'wallpaper.html');
   if (fs.existsSync(wallpaperSrc)) {
     fs.copyFileSync(wallpaperSrc, path.join(DIST_DIR, 'wallpaper.html'));
     console.log('  Generated: dist/wallpaper.html');
   }
   
-  // Copy wallpapers.json (Frontend handles missing images via onerror)
+  const wallpaperDetailSrc = path.join(SRC_DIR, 'wallpaper-detail.html');
+  if (fs.existsSync(wallpaperDetailSrc)) {
+    fs.copyFileSync(wallpaperDetailSrc, path.join(DIST_DIR, 'wallpaper-detail.html'));
+    console.log('  Generated: dist/wallpaper-detail.html');
+  }
+
+  // Copy wallpapers.json
   const wallpapersJson = path.join(SRC_DIR, 'wallpapers.json');
   if (fs.existsSync(wallpapersJson)) {
     fs.copyFileSync(wallpapersJson, path.join(DIST_DIR, 'wallpapers.json'));

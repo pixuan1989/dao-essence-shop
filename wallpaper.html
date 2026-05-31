@@ -338,15 +338,20 @@
                 wallpapers.forEach(wp => {
                     const card = document.createElement('div');
                     card.className = 'wallpaper-card';
-                    // 使用 wp.title 如果存在，否则使用默认翻译
+                    
+                    // Navigate to Detail Page
+                    card.onclick = () => {
+                        window.location.href = `wallpaper-detail.html?id=${wp.id}`;
+                    };
+
                     const title = wp.title || dict.cardTitle;
                     const downloadText = dict.download;
-                    
+
                     card.innerHTML = `
                         <img src="${wp.thumb}" alt="${title}" loading="lazy" onerror="this.parentElement.style.display='none'">
                         <div class="card-overlay">
                             <div class="card-title">${title}</div>
-                            <a href="${wp.original}" class="download-btn" target="_blank" download>${downloadText}</a>
+                            <a href="${wp.original}" class="download-btn" target="_blank" download onclick="event.stopPropagation();">${downloadText}</a>
                         </div>
                     `;
                     grid.appendChild(card);
