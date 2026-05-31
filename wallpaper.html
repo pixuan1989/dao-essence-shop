@@ -343,7 +343,7 @@
                     const downloadText = dict.download;
                     
                     card.innerHTML = `
-                        <img src="${wp.thumb}" alt="${title}" loading="lazy">
+                        <img src="${wp.thumb}" alt="${title}" loading="lazy" onerror="this.parentElement.style.display='none'">
                         <div class="card-overlay">
                             <div class="card-title">${title}</div>
                             <a href="${wp.original}" class="download-btn" target="_blank" download>${downloadText}</a>
