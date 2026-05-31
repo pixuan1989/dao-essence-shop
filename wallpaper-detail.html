@@ -115,7 +115,7 @@
         /* Detail Layout: Left Image, Right Info */
         .detail-wrapper {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             justify-content: center;
             gap: 60px;
             width: 100%;
@@ -128,12 +128,12 @@
             max-width: 55%;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
             position: relative;
-            background: #000;
-            border-radius: 0; /* No rounded corners */
-            overflow: hidden;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            background: transparent;
+            border-radius: 0;
+            overflow: visible;
+            box-shadow: none;
         }
 
         .wallpaper-card img {
@@ -155,7 +155,7 @@
             align-items: flex-start;
             text-align: left;
             gap: 24px;
-            padding: 20px 0;
+            padding-top: 20px;
         }
 
         .wp-title {
