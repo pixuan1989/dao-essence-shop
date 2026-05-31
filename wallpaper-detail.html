@@ -12,43 +12,48 @@
     <meta property="og:image" content="">
     <meta property="og:url" content="">
 
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
-            --primary-gold: #D4AF37;
-            --bg-dark: #121212;
-            --bg-card: #1a1a1a;
-            --text-light: #ffffff;
-            --text-dim: rgba(255, 255, 255, 0.6);
-            --text-secondary: rgba(255, 255, 255, 0.4);
+            --gold: #D4AF37;
+            --gold-dark: #AA8A26;
+            --bg: #0a0a0a;
+            --bg-card: #141414;
+            --text: #ffffff;
+            --text-dim: rgba(255,255,255,0.5);
+            --text-muted: rgba(255,255,255,0.3);
         }
-
         body {
-            margin: 0;
-            padding: 0;
-            background-color: var(--bg-dark);
-            color: var(--text-light);
+            background: var(--bg);
+            color: var(--text);
             font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
             min-height: 100vh;
         }
 
-        /* Top Bar */
+        /* ── Top Bar ── */
         .top-bar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 20px;
+            padding: 12px 16px;
             position: sticky;
             top: 0;
-            background: var(--bg-dark);
+            background: rgba(10,10,10,0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             z-index: 100;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
         }
-
+        .top-bar-left, .top-bar-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
         .icon-btn {
-            background: rgba(255, 255, 255, 0.1);
-            border: none;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.08);
             width: 40px;
             height: 40px;
             border-radius: 50%;
@@ -60,91 +65,138 @@
             text-decoration: none;
             transition: background 0.2s;
         }
-        .icon-btn:hover { background: rgba(255, 255, 255, 0.2); }
-        .icon-btn svg { width: 20px; height: 20px; fill: currentColor; }
+        .icon-btn:hover { background: rgba(255,255,255,0.15); }
+        .icon-btn svg { width: 20px; height: 20px; }
+        .back-btn svg { fill: none; stroke: currentColor; stroke-width: 2; }
+        .share-btn svg { fill: currentColor; }
+        .download-btn-sm svg { fill: none; stroke: currentColor; stroke-width: 2; }
 
-        /* Main Content */
+        /* ── Main ── */
         .main-content {
-            max-width: 1200px;
+            max-width: 600px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 24px 16px 48px;
         }
 
-        /* Detail Layout: Left Image, Right Info */
-        .detail-layout {
-            display: flex;
-            gap: 32px;
-            align-items: flex-start;
-        }
-
-        /* Left: Wallpaper Preview */
-        .wallpaper-preview {
-            flex: 1;
+        /* ── Image Preview ── */
+        .preview-wrapper {
+            position: relative;
+            width: 100%;
             display: flex;
             justify-content: center;
-            background: var(--bg-card);
-            border-radius: 16px;
+        }
+        .preview-image {
+            width: 100%;
+            max-width: 420px;
+            border-radius: 24px;
             overflow: hidden;
-            min-height: 500px;
+            background: var(--bg-card);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
         }
-
-        .wallpaper-preview img {
-            width: auto;
-            max-width: 100%;
-            height: auto;
-            max-height: 80vh;
-            object-fit: contain;
+        .preview-image img {
+            width: 100%;
             display: block;
+            pointer-events: none;
+            user-select: none;
+            -webkit-user-drag: none;
         }
 
-        /* Right: Info Panel */
-        .info-panel {
-            width: 320px;
-            flex-shrink: 0;
+        /* ── View Toggle (Original / Mockup) ── */
+        .view-toggle {
+            display: none;
+            margin-top: 16px;
+            justify-content: center;
+        }
+        .view-toggle.visible { display: flex; }
+        .toggle-group {
             display: flex;
-            flex-direction: column;
-            gap: 16px;
-            padding-top: 8px;
+            background: rgba(255,255,255,0.06);
+            border-radius: 10px;
+            padding: 3px;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+        .toggle-btn {
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            background: none;
+            color: var(--text-dim);
+            transition: all 0.2s;
+        }
+        .toggle-btn:hover { color: var(--text); }
+        .toggle-btn.active {
+            background: rgba(255,255,255,0.12);
+            color: var(--text);
         }
 
+        /* ── Info Section ── */
+        .info-section {
+            margin-top: 28px;
+        }
         .wp-title {
-            font-family: 'Noto Serif SC', serif;
-            font-size: 22px;
+            font-size: 24px;
             font-weight: 700;
-            margin: 0;
+            margin-bottom: 12px;
             line-height: 1.3;
         }
+        .wp-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+        .wp-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .wp-meta-item svg {
+            width: 14px;
+            height: 14px;
+            stroke: var(--text-muted);
+            fill: none;
+            stroke-width: 2;
+        }
 
-        /* Tags */
+        /* ── Tags ── */
         .wp-tags {
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
         }
         .tag {
-            background: rgba(255,255,255,0.08);
-            border: 1px solid rgba(255,255,255,0.12);
-            padding: 5px 12px;
-            border-radius: 16px;
+            padding: 6px 14px;
+            border-radius: 20px;
             font-size: 12px;
+            font-weight: 500;
             color: var(--text-dim);
-            transition: background 0.2s;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.08);
+            transition: all 0.2s;
         }
-        .tag:hover { background: rgba(255,255,255,0.12); }
+        .tag:hover {
+            background: rgba(212,175,55,0.1);
+            border-color: rgba(212,175,55,0.3);
+            color: var(--gold);
+        }
 
-        /* Action Buttons */
-        .action-buttons {
+        /* ── Action Buttons ── */
+        .action-section {
+            margin-top: 28px;
             display: flex;
             gap: 12px;
-            margin-top: 8px;
         }
-
         .btn-download {
             flex: 1;
-            height: 48px;
-            border-radius: 24px;
-            background: linear-gradient(135deg, #D4AF37 0%, #AA8A26 100%);
-            color: #000;
+            height: 52px;
+            border-radius: 26px;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+            color: #0a0a0a;
             font-weight: 700;
             font-size: 15px;
             border: none;
@@ -158,143 +210,158 @@
         }
         .btn-download:hover {
             transform: translateY(-1px);
-            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+            box-shadow: 0 8px 24px rgba(212,175,55,0.3);
         }
-        .btn-download svg { width: 18px; height: 18px; }
+        .btn-download:active { transform: scale(0.98); }
+        .btn-download svg { width: 18px; height: 18px; fill: #0a0a0a; }
 
         .btn-share {
-            width: 48px;
-            height: 48px;
+            width: 52px;
+            height: 52px;
             border-radius: 50%;
-            background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.15);
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.12);
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             color: white;
+            flex-shrink: 0;
             transition: background 0.2s;
         }
-        .btn-share:hover { background: rgba(255,255,255,0.2); }
+        .btn-share:hover { background: rgba(255,255,255,0.15); }
         .btn-share svg { width: 20px; height: 20px; fill: currentColor; }
 
-        /* Related Section */
-        .related-section {
-            margin-top: 48px;
+        /* ── Divider ── */
+        .divider {
+            height: 1px;
+            background: rgba(255,255,255,0.06);
+            margin: 40px 0;
         }
 
+        /* ── Related ── */
         .related-title {
             font-size: 18px;
             font-weight: 600;
-            margin: 0 0 20px;
-            color: var(--text-light);
+            margin-bottom: 16px;
         }
-
         .related-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-            gap: 12px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
         }
-
         .related-card {
-            border-radius: 12px;
+            border-radius: 14px;
             overflow: hidden;
             cursor: pointer;
             transition: transform 0.2s;
             aspect-ratio: 9/16;
             background: var(--bg-card);
         }
-        .related-card:hover { transform: scale(1.05); }
+        .related-card:hover { transform: translateY(-3px); }
         .related-card img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             display: block;
+            pointer-events: none;
         }
 
+        /* ── Loading ── */
         .loading {
             display: flex;
             align-items: center;
             justify-content: center;
-            height: 400px;
-            color: var(--text-dim);
+            height: 500px;
+            color: var(--text-muted);
             font-size: 14px;
         }
 
-        /* Mobile Responsive */
-        @media (max-width: 768px) {
-            .detail-layout {
-                flex-direction: column;
-                gap: 20px;
-            }
-            .wallpaper-preview {
-                min-height: 300px;
-                border-radius: 12px;
-            }
-            .info-panel {
-                width: 100%;
-            }
-            .related-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
+        /* ── Responsive ── */
+        @media (max-width: 600px) {
+            .preview-image { max-width: 100%; border-radius: 18px; }
+            .wp-title { font-size: 20px; }
+            .related-grid { gap: 8px; }
+            .btn-download { height: 48px; font-size: 14px; }
+            .btn-share { width: 48px; height: 48px; }
         }
     </style>
 </head>
 <body>
 
+    <!-- Top Bar -->
     <div class="top-bar">
-        <a href="wallpaper.html" class="icon-btn">
-            <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
-        </a>
-        <div class="icon-btn" id="share-btn">
-            <svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/></svg>
+        <div class="top-bar-left">
+            <a href="wallpaper.html" class="icon-btn back-btn">
+                <svg viewBox="0 0 24 24"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+            </a>
+        </div>
+        <div class="top-bar-right">
+            <a href="#" class="icon-btn download-btn-sm" id="download-btn-top" download>
+                <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            </a>
+            <button class="icon-btn share-btn" id="share-btn-top">
+                <svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/></svg>
+            </button>
         </div>
     </div>
 
+    <!-- Main -->
     <div class="main-content">
-        <!-- Detail Layout -->
-        <div class="detail-layout">
-            <!-- Left: Wallpaper Preview -->
-            <div class="wallpaper-preview">
+        <!-- Preview -->
+        <div class="preview-wrapper">
+            <div class="preview-image">
                 <div class="loading" id="loading-text">Loading...</div>
                 <img id="main-image" style="display:none;" />
             </div>
+        </div>
 
-            <!-- Right: Info Panel -->
-            <div class="info-panel">
-                <h1 class="wp-title" id="wp-title">Lucky Wallpaper</h1>
-                <div class="wp-tags" id="wp-tags"></div>
-
-                <div class="action-buttons">
-                    <a href="#" class="btn-download" id="download-link" download>
-                        <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
-                        Download
-                    </a>
-                    <button class="btn-share" id="share-btn-inline">
-                        <svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/></svg>
-                    </button>
-                </div>
+        <!-- View Toggle (Original / Mockup) -->
+        <div class="view-toggle" id="view-toggle">
+            <div class="toggle-group">
+                <button class="toggle-btn active" data-view="original" id="toggle-original">Original</button>
+                <button class="toggle-btn" data-view="mockup" id="toggle-mockup">Preview on Device</button>
             </div>
         </div>
 
-        <!-- Related Wallpapers -->
-        <div class="related-section">
-            <h2 class="related-title">Related</h2>
-            <div class="related-grid" id="related-grid"></div>
+        <!-- Info -->
+        <div class="info-section">
+            <h1 class="wp-title" id="wp-title">Lucky Wallpaper</h1>
+
+            <div class="wp-meta" id="wp-meta"></div>
+
+            <div class="wp-tags" id="wp-tags"></div>
         </div>
+
+        <!-- Actions -->
+        <div class="action-section">
+            <a href="#" class="btn-download" id="download-link" download>
+                <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+                <span id="download-text">Download</span>
+            </a>
+            <button class="btn-share" id="share-btn-main">
+                <svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/></svg>
+            </button>
+        </div>
+
+        <!-- Divider -->
+        <div class="divider"></div>
+
+        <!-- Related -->
+        <h2 class="related-title" id="related-title">More Wallpapers</h2>
+        <div class="related-grid" id="related-grid"></div>
     </div>
 
     <script>
-        // 配置区
-        const CONFIG = {
-            relatedCount: 8,   // 相关推荐展示数量
-            cacheBust: true
-        };
+        document.addEventListener('contextmenu', event => event.preventDefault());
+
+        const CONFIG = { relatedCount: 6 };
 
         const urlParams = new URLSearchParams(window.location.search);
         let wallpaperId = urlParams.get('id');
         let wallpapers = [];
         let currentIndex = -1;
+        let currentView = 'original'; // 'original' or 'mockup'
 
         async function init() {
             try {
@@ -318,44 +385,90 @@
 
             const img = document.getElementById('main-image');
             const loading = document.getElementById('loading-text');
-            const title = document.getElementById('wp-title');
-            const tagsContainer = document.getElementById('wp-tags');
-            const dlLink = document.getElementById('download-link');
 
-            // Image: WebP for fast loading
+            // Image
+            currentView = 'original';
             img.src = data.thumb;
             img.onload = () => {
                 loading.style.display = 'none';
                 img.style.display = 'block';
             };
 
+            // View toggle
+            const toggle = document.getElementById('view-toggle');
+            if (data.mockup) {
+                toggle.classList.add('visible');
+            } else {
+                toggle.classList.remove('visible');
+            }
+
             // Title
-            title.textContent = data.title || 'Lucky Wallpaper';
+            document.getElementById('wp-title').textContent = data.title || 'Lucky Wallpaper';
+
+            // Meta
+            const metaEl = document.getElementById('wp-meta');
+            metaEl.innerHTML = '';
+            if (data.date) {
+                const dateStr = new Date(data.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+                metaEl.innerHTML += `<span class="wp-meta-item"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>${dateStr}</span>`;
+            }
+            if (data.downloads) {
+                metaEl.innerHTML += `<span class="wp-meta-item"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>${data.downloads} downloads</span>`;
+            }
 
             // Tags
-            tagsContainer.innerHTML = '';
+            const tagsEl = document.getElementById('wp-tags');
+            tagsEl.innerHTML = '';
+            if (data.category) {
+                const catTag = document.createElement('span');
+                catTag.className = 'tag';
+                catTag.textContent = data.category;
+                tagsEl.appendChild(catTag);
+            }
             if (data.tags && data.tags.length > 0) {
                 data.tags.forEach(tag => {
                     const span = document.createElement('span');
                     span.className = 'tag';
                     span.textContent = tag;
-                    tagsContainer.appendChild(span);
+                    tagsEl.appendChild(span);
                 });
             }
 
-            // Download Link: PNG HD original
-            dlLink.href = data.original;
+            // Download
+            document.getElementById('download-link').href = data.original;
+            document.getElementById('download-btn-top').href = data.original;
 
-            // SEO & OG
+            // SEO
             document.title = `${data.title} - Lucky Wallpaper | Dao Essentia`;
             document.querySelector('meta[name="description"]').content = `Download ${data.title} - high-resolution lucky wallpaper from Dao Essentia.`;
-            document.querySelector('meta[property="og:image"]').content = data.original;
+            document.querySelector('meta[property="og:image"]').content = data.thumb;
             document.querySelector('meta[property="og:url"]').content = window.location.href;
 
-            // Related Wallpapers
+            // Related
             renderRelated(index);
         }
 
+        // View toggle (original / mockup)
+        document.querySelectorAll('.toggle-btn').forEach(btn => {
+            btn.onclick = () => {
+                const view = btn.dataset.view;
+                if (view === currentView) return;
+                currentView = view;
+
+                document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const data = wallpapers[currentIndex];
+                const img = document.getElementById('main-image');
+                if (view === 'mockup' && data.mockup) {
+                    img.src = data.mockup;
+                } else {
+                    img.src = data.thumb;
+                }
+            };
+        });
+
+        // Related
         function renderRelated(currentIndex) {
             const grid = document.getElementById('related-grid');
             grid.innerHTML = '';
@@ -369,7 +482,7 @@
                 card.className = 'related-card';
                 card.innerHTML = `<img src="${wp.thumb}" alt="${wp.title || 'Wallpaper'}" loading="lazy">`;
                 card.onclick = () => {
-                    window.location.href = `?id=${wp.id}`;
+                    window.location.href = `wallpaper-detail.html?id=${wp.id}`;
                 };
                 grid.appendChild(card);
             });
@@ -384,9 +497,8 @@
                 alert('Link copied!');
             }
         }
-
-        document.getElementById('share-btn').onclick = doShare;
-        document.getElementById('share-btn-inline').onclick = doShare;
+        document.getElementById('share-btn-top').onclick = doShare;
+        document.getElementById('share-btn-main').onclick = doShare;
 
         init();
     </script>

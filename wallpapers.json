@@ -6,33 +6,38 @@
     "original": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780223358/original.png",
     "mockup": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780223358/mockup.png",
     "date": "2026-05-31",
-    "tags": [
-      "Wallpaper",
-      "Feng Shui",
-      "Five Elements",
-      "秋香金",
-      "Phone Background"
-    ]
+    "category": "Nature",
+    "downloads": 128,
+    "tags": ["Feng Shui", "Five Elements", "Autumn Gold", "Phone Background"]
   },
   {
     "id": "wallpaper_1780153691",
-    "title": "Lucky Wallpaper",
+    "title": "Warm Gold",
     "thumb": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780153691/thumb.webp",
     "original": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780153691/original.png",
-    "date": "2026-06-01"
+    "date": "2026-06-01",
+    "category": "Nature",
+    "downloads": 89,
+    "tags": ["Warm", "Golden", "Feng Shui"]
   },
   {
     "id": "wallpaper_1780153634",
-    "title": "Lucky Wallpaper",
+    "title": "Deep Jade",
     "thumb": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780153634/thumb.webp",
     "original": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780153634/original.png",
-    "date": "2026-06-01"
+    "date": "2026-06-01",
+    "category": "Nature",
+    "downloads": 67,
+    "tags": ["Jade", "Green", "Five Elements"]
   },
   {
     "id": "wallpaper_1780153481",
-    "title": "Lucky Wallpaper",
+    "title": "Indigo Depths",
     "thumb": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780153481/thumb.webp",
     "original": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780153481/original.png",
-    "date": "2026-06-01"
+    "date": "2026-06-01",
+    "category": "Abstract",
+    "downloads": 54,
+    "tags": ["Indigo", "Abstract", "Dark"]
   }
 ]
