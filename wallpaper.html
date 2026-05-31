@@ -25,82 +25,36 @@
             z-index: 100;
         }
 
-        /* ── Hero ── */
-        .hero {
+        /* ── Page Title ── */
+        .page-title {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 48px 24px 0;
-            text-align: center;
+            padding: 40px 24px 0;
         }
-        .hero h1 {
-            font-size: 36px;
+        .page-title h1 {
+            font-size: 28px;
             font-weight: 700;
-            margin-bottom: 8px;
-            background: linear-gradient(135deg, #D4AF37, #f5e6a3, #D4AF37);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .hero p {
-            color: rgba(255,255,255,0.45);
-            font-size: 15px;
-            max-width: 480px;
-            margin: 0 auto 28px;
-            line-height: 1.5;
-        }
-
-        /* ── Search ── */
-        .search-box {
-            max-width: 480px;
-            margin: 0 auto 32px;
-            position: relative;
-        }
-        .search-box input {
-            width: 100%;
-            height: 44px;
-            border-radius: 22px;
-            border: 1px solid rgba(255,255,255,0.1);
-            background: rgba(255,255,255,0.05);
             color: #fff;
-            font-size: 14px;
-            padding: 0 16px 0 44px;
-            outline: none;
-            transition: border-color 0.2s, background 0.2s;
-        }
-        .search-box input::placeholder { color: rgba(255,255,255,0.3); }
-        .search-box input:focus {
-            border-color: rgba(212,175,55,0.5);
-            background: rgba(255,255,255,0.08);
-        }
-        .search-box svg {
-            position: absolute;
-            left: 16px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 18px;
-            height: 18px;
-            stroke: rgba(255,255,255,0.35);
         }
 
-        /* ── Filter Bar ── */
-        .filter-bar {
+        /* ── Filter Toolbar ── */
+        .filter-toolbar {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 0 24px;
+            padding: 24px 24px 0;
         }
-        .filter-row {
+        .toolbar-row {
             display: flex;
             align-items: center;
             gap: 8px;
-            margin-bottom: 8px;
             overflow-x: auto;
             scrollbar-width: none;
             -ms-overflow-style: none;
             padding-bottom: 4px;
         }
-        .filter-row::-webkit-scrollbar { display: none; }
+        .toolbar-row::-webkit-scrollbar { display: none; }
 
-        .cat-label {
+        .tb-label {
             font-size: 12px;
             font-weight: 600;
             color: rgba(255,255,255,0.35);
@@ -109,31 +63,31 @@
             white-space: nowrap;
             margin-right: 4px;
         }
-        .filter-pill {
+        .tb-pill {
             white-space: nowrap;
-            padding: 6px 16px;
-            border-radius: 20px;
+            padding: 8px 18px;
+            border-radius: 24px;
             font-size: 13px;
             font-weight: 500;
             cursor: pointer;
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.08);
             background: transparent;
-            color: rgba(255,255,255,0.6);
+            color: rgba(255,255,255,0.55);
             transition: all 0.2s;
         }
-        .filter-pill:hover {
-            background: rgba(255,255,255,0.08);
+        .tb-pill:hover {
+            background: rgba(255,255,255,0.06);
+            color: #fff;
+            border-color: rgba(255,255,255,0.15);
+        }
+        .tb-pill.active {
+            background: rgba(255,255,255,0.12);
             color: #fff;
             border-color: rgba(255,255,255,0.2);
-        }
-        .filter-pill.active {
-            background: linear-gradient(135deg, #D4AF37, #c9a22e);
-            color: #0a0a0a;
-            border-color: #D4AF37;
             font-weight: 600;
         }
 
-        /* ── Sort + Count ── */
+        /* ── Sort Bar ── */
         .sort-bar {
             max-width: 1400px;
             margin: 0 auto;
@@ -144,12 +98,12 @@
         }
         .result-count {
             font-size: 13px;
-            color: rgba(255,255,255,0.35);
+            color: rgba(255,255,255,0.3);
         }
         .sort-tabs {
             display: flex;
             gap: 4px;
-            background: rgba(255,255,255,0.05);
+            background: rgba(255,255,255,0.04);
             border-radius: 10px;
             padding: 3px;
         }
@@ -159,14 +113,14 @@
             font-size: 13px;
             font-weight: 500;
             cursor: pointer;
-            color: rgba(255,255,255,0.5);
+            color: rgba(255,255,255,0.45);
             border: none;
             background: none;
             transition: all 0.2s;
         }
-        .sort-tab:hover { color: rgba(255,255,255,0.8); }
+        .sort-tab:hover { color: rgba(255,255,255,0.7); }
         .sort-tab.active {
-            background: rgba(255,255,255,0.12);
+            background: rgba(255,255,255,0.1);
             color: #fff;
         }
 
@@ -179,73 +133,33 @@
         .wallpaper-grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
-            gap: 16px;
+            gap: 12px;
         }
 
+        /* ── Card — image only, no info bar ── */
         .wallpaper-card {
             position: relative;
-            border-radius: 14px;
+            border-radius: 12px;
             overflow: hidden;
-            background: #141414;
             cursor: pointer;
-            transition: transform 0.25s, box-shadow 0.25s;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
         .wallpaper-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 40px rgba(212,175,55,0.15), 0 4px 16px rgba(0,0,0,0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.5);
         }
-
-        .card-image {
+        .wallpaper-card img {
             width: 100%;
             aspect-ratio: 9 / 16;
-            overflow: hidden;
-        }
-        .card-image img {
-            width: 100%;
-            height: 100%;
             object-fit: cover;
             display: block;
-            transition: transform 0.3s;
             pointer-events: none;
             user-select: none;
             -webkit-user-drag: none;
+            transition: transform 0.3s;
         }
-        .wallpaper-card:hover .card-image img {
-            transform: scale(1.05);
-        }
-
-        .card-info {
-            padding: 10px 12px;
-        }
-        .card-title {
-            font-size: 13px;
-            font-weight: 600;
-            color: #fff;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .card-meta {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-top: 4px;
-        }
-        .card-downloads {
-            font-size: 11px;
-            color: rgba(255,255,255,0.35);
-            display: flex;
-            align-items: center;
-            gap: 3px;
-        }
-        .card-downloads svg {
-            width: 12px;
-            height: 12px;
-            stroke: rgba(255,255,255,0.35);
-        }
-        .card-date {
-            font-size: 11px;
-            color: rgba(255,255,255,0.25);
+        .wallpaper-card:hover img {
+            transform: scale(1.03);
         }
 
         /* ── Empty State ── */
@@ -253,15 +167,56 @@
             grid-column: 1 / -1;
             text-align: center;
             padding: 80px 20px;
-            color: rgba(255,255,255,0.3);
+            color: rgba(255,255,255,0.25);
         }
         .empty-state svg {
             width: 48px;
             height: 48px;
-            stroke: rgba(255,255,255,0.15);
+            stroke: rgba(255,255,255,0.12);
             margin-bottom: 16px;
         }
         .empty-state p { font-size: 15px; }
+
+        /* ── Explore Categories ── */
+        .explore-section {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 24px 60px;
+        }
+        .explore-section h2 {
+            font-size: 22px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+        .cat-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+        .cat-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 14px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .cat-card:hover {
+            background: rgba(255,255,255,0.08);
+            border-color: rgba(255,255,255,0.12);
+        }
+        .cat-card-name {
+            font-size: 15px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+        .cat-card-tags {
+            font-size: 12px;
+            color: rgba(255,255,255,0.35);
+            line-height: 1.6;
+        }
 
         /* ── Responsive ── */
         @media (max-width: 1200px) {
@@ -269,17 +224,18 @@
         }
         @media (max-width: 900px) {
             .wallpaper-grid { grid-template-columns: repeat(3, 1fr); }
+            .cat-grid { grid-template-columns: repeat(2, 1fr); }
         }
         @media (max-width: 600px) {
-            .hero { padding: 32px 16px 0; }
-            .hero h1 { font-size: 26px; }
-            .hero p { font-size: 13px; }
-            .filter-bar { padding: 0 16px; }
+            .page-title { padding: 24px 16px 0; }
+            .page-title h1 { font-size: 22px; }
+            .filter-toolbar { padding: 16px 16px 0; }
             .sort-bar { padding: 16px 16px 0; }
-            .grid-container { padding: 16px 16px 48px; }
-            .wallpaper-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-            .card-info { padding: 8px 10px; }
-            .card-title { font-size: 12px; }
+            .grid-container { padding: 16px 16px 40px; }
+            .wallpaper-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+            .explore-section { padding: 0 16px 40px; }
+            .cat-grid { grid-template-columns: repeat(2, 1fr); }
+            .cat-card { padding: 14px; }
         }
     </style>
 </head>
@@ -334,22 +290,15 @@
         </div>
     </header>
 
-    <!-- Hero -->
-    <div class="hero">
+    <!-- Page Title (ZEDGE style — plain text, no gradient) -->
+    <div class="page-title">
         <h1 id="hero-title">Lucky Wallpapers</h1>
-        <p id="hero-desc">Curated auspicious wallpapers designed with Chinese metaphysics. Find your element, boost your luck.</p>
     </div>
 
-    <!-- Search -->
-    <div class="search-box">
-        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        <input type="text" id="search-input" placeholder="Search wallpapers..." autocomplete="off">
-    </div>
-
-    <!-- Categories -->
-    <div class="filter-bar">
-        <div class="filter-row" id="cat-row">
-            <span class="cat-label">Category</span>
+    <!-- Category Toolbar -->
+    <div class="filter-toolbar">
+        <div class="toolbar-row" id="cat-row">
+            <span class="tb-label">Category</span>
         </div>
     </div>
 
@@ -370,6 +319,12 @@
                 <p>Loading wallpapers...</p>
             </div>
         </div>
+    </div>
+
+    <!-- Explore Categories (ZEDGE style) -->
+    <div class="explore-section">
+        <h2 id="explore-title">Explore different wallpaper categories</h2>
+        <div class="cat-grid" id="cat-grid"></div>
     </div>
 
     <!-- Footer -->
@@ -416,16 +371,15 @@
         }
 
         const i18n = {
-            en: { heroTitle: "Lucky Wallpapers", heroDesc: "Curated auspicious wallpapers designed with Chinese metaphysics. Find your element, boost your luck.", search: "Search wallpapers...", popular: "Popular", newest: "Newest", result: "wallpapers" },
-            zh: { heroTitle: "旺运壁纸", heroDesc: "以中国玄学设计的精选壁纸，找到你的五行元素，提升运势。", search: "搜索壁纸...", popular: "热门", newest: "最新", result: "张壁纸" }
+            en: { heroTitle: "Lucky Wallpapers", exploreTitle: "Explore different wallpaper categories", popular: "Popular", newest: "Newest", result: "wallpapers" },
+            zh: { heroTitle: "旺运壁纸", exploreTitle: "探索不同壁纸分类", popular: "热门", newest: "最新", result: "张壁纸" }
         };
 
         function applyTranslations() {
             const lang = getCurrentLang();
             const d = i18n[lang] || i18n.en;
             document.getElementById('hero-title').textContent = d.heroTitle;
-            document.getElementById('hero-desc').textContent = d.heroDesc;
-            document.getElementById('search-input').placeholder = d.search;
+            document.getElementById('explore-title').textContent = d.exploreTitle;
             document.getElementById('sort-popular').textContent = d.popular;
             document.getElementById('sort-newest').textContent = d.newest;
         }
@@ -434,26 +388,50 @@
         let allWallpapers = [];
         let activeCategory = 'All';
         let activeSort = 'popular';
-        let searchQuery = '';
 
-        // All categories (including "All")
         const ALL_CATS = ['All', 'Nature', 'Abstract', 'Spiritual', 'Seasonal'];
 
-        // Build category pills
+        // Category definitions for explore section
+        const CAT_INFO = {
+            Nature: { tags: 'Feng Shui · Five Elements · Autumn Gold · Jade Green · Water Flow' },
+            Abstract: { tags: 'Indigo · Dark · Geometric · Minimal · Neon Glow' },
+            Spiritual: { tags: 'Zen · Meditation · Lotus · Yin Yang · Tai Chi' },
+            Seasonal: { tags: 'Spring Blossom · Summer Fire · Harvest Moon · Winter Solstice' }
+        };
+
+        // Build category toolbar pills
         function buildCategoryPills() {
             const row = document.getElementById('cat-row');
             ALL_CATS.forEach(cat => {
                 const pill = document.createElement('button');
-                pill.className = 'filter-pill' + (cat === 'All' ? ' active' : '');
+                pill.className = 'tb-pill' + (cat === 'All' ? ' active' : '');
                 pill.textContent = cat;
                 pill.dataset.cat = cat;
                 pill.onclick = () => {
                     activeCategory = cat;
-                    document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+                    document.querySelectorAll('.tb-pill').forEach(p => p.classList.remove('active'));
                     pill.classList.add('active');
                     renderGrid();
                 };
                 row.appendChild(pill);
+            });
+        }
+
+        // Build explore categories section
+        function buildExploreCategories() {
+            const grid = document.getElementById('cat-grid');
+            Object.entries(CAT_INFO).forEach(([name, info]) => {
+                const card = document.createElement('div');
+                card.className = 'cat-card';
+                card.onclick = () => {
+                    activeCategory = name;
+                    document.querySelectorAll('.tb-pill').forEach(p => p.classList.remove('active'));
+                    document.querySelector(`.tb-pill[data-cat="${name}"]`)?.classList.add('active');
+                    renderGrid();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                };
+                card.innerHTML = `<div class="cat-card-name">${name}</div><div class="cat-card-tags">${info.tags}</div>`;
+                grid.appendChild(card);
             });
         }
 
@@ -467,47 +445,21 @@
             };
         });
 
-        // Search
-        document.getElementById('search-input').addEventListener('input', (e) => {
-            searchQuery = e.target.value.toLowerCase().trim();
-            renderGrid();
-        });
-
         // Get filtered + sorted wallpapers
         function getFiltered() {
             let list = [...allWallpapers];
-
-            // Filter by category
             if (activeCategory !== 'All') {
                 list = list.filter(w => w.category === activeCategory);
             }
-
-            // Filter by search
-            if (searchQuery) {
-                list = list.filter(w =>
-                    (w.title || '').toLowerCase().includes(searchQuery) ||
-                    (w.tags || []).some(t => t.toLowerCase().includes(searchQuery))
-                );
-            }
-
-            // Sort
             if (activeSort === 'popular') {
                 list.sort((a, b) => (b.downloads || 0) - (a.downloads || 0));
             } else if (activeSort === 'newest') {
                 list.sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
             }
-
             return list;
         }
 
-        // Format download count
-        function formatCount(n) {
-            if (!n) return '';
-            if (n >= 1000) return (n / 1000).toFixed(1) + 'K';
-            return n.toString();
-        }
-
-        // Render
+        // Render grid (image-only cards, no info bar)
         function renderGrid() {
             const grid = document.getElementById('wallpaper-grid');
             const filtered = getFiltered();
@@ -530,21 +482,7 @@
                 const card = document.createElement('div');
                 card.className = 'wallpaper-card';
                 card.onclick = () => window.location.href = `wallpaper-detail.html?id=${wp.id}`;
-
-                const dl = formatCount(wp.downloads);
-                const dateStr = wp.date ? new Date(wp.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : '';
-
-                card.innerHTML = `
-                    <div class="card-image">
-                        <img src="${wp.thumb}" alt="${wp.title || 'Lucky Wallpaper'}" loading="lazy">
-                    </div>
-                    <div class="card-info">
-                        <div class="card-title">${wp.title || 'Lucky Wallpaper'}</div>
-                        <div class="card-meta">
-                            ${dl ? `<span class="card-downloads"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>${dl}</span>` : ''}
-                            ${dateStr ? `<span class="card-date">${dateStr}</span>` : ''}
-                        </div>
-                    </div>`;
+                card.innerHTML = `<img src="${wp.thumb}" alt="${wp.title || 'Lucky Wallpaper'}" loading="lazy">`;
                 grid.appendChild(card);
             });
         }
@@ -558,6 +496,7 @@
                 console.error('Failed to load wallpapers:', e);
             }
             buildCategoryPills();
+            buildExploreCategories();
             applyTranslations();
             renderGrid();
         }

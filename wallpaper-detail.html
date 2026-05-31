@@ -19,7 +19,6 @@
             --gold: #D4AF37;
             --gold-dark: #AA8A26;
             --bg: #0a0a0a;
-            --bg-card: #141414;
             --text: #ffffff;
             --text-dim: rgba(255,255,255,0.5);
             --text-muted: rgba(255,255,255,0.3);
@@ -40,7 +39,7 @@
             padding: 12px 16px;
             position: sticky;
             top: 0;
-            background: rgba(10,10,10,0.85);
+            background: rgba(10,10,10,0.9);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             z-index: 100;
@@ -71,27 +70,19 @@
         .share-btn svg { fill: currentColor; }
         .download-btn-sm svg { fill: none; stroke: currentColor; stroke-width: 2; }
 
-        /* ── Main ── */
+        /* ── Main Content ── */
         .main-content {
             max-width: 600px;
             margin: 0 auto;
             padding: 24px 16px 48px;
         }
 
-        /* ── Image Preview ── */
-        .preview-wrapper {
-            position: relative;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-        }
+        /* ── Image — ZEDGE style: no frame, no shadow, full width ── */
         .preview-image {
             width: 100%;
-            max-width: 420px;
-            border-radius: 24px;
+            border-radius: 16px;
             overflow: hidden;
-            background: var(--bg-card);
-            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            background: #111;
         }
         .preview-image img {
             width: 100%;
@@ -101,7 +92,7 @@
             -webkit-user-drag: none;
         }
 
-        /* ── View Toggle (Original / Mockup) ── */
+        /* ── View Toggle (Original / Mockup) — KEPT ── */
         .view-toggle {
             display: none;
             margin-top: 16px;
@@ -132,30 +123,36 @@
             color: var(--text);
         }
 
-        /* ── Info Section ── */
+        /* ── Info Section (ZEDGE flow: date → H1 → downloads → tags) ── */
         .info-section {
-            margin-top: 28px;
+            margin-top: 24px;
         }
+
+        /* Date + Creator line */
+        .wp-date-line {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        /* Title */
         .wp-title {
-            font-size: 24px;
+            font-size: 22px;
             font-weight: 700;
-            margin-bottom: 12px;
+            margin-bottom: 6px;
             line-height: 1.3;
         }
-        .wp-meta {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 16px;
-            color: var(--text-muted);
+
+        /* Downloads */
+        .wp-downloads {
             font-size: 13px;
-        }
-        .wp-meta-item {
+            color: var(--text-muted);
+            margin-bottom: 16px;
             display: flex;
             align-items: center;
             gap: 4px;
         }
-        .wp-meta-item svg {
+        .wp-downloads svg {
             width: 14px;
             height: 14px;
             stroke: var(--text-muted);
@@ -163,11 +160,20 @@
             stroke-width: 2;
         }
 
-        /* ── Tags ── */
+        /* Description */
+        .wp-desc {
+            font-size: 14px;
+            color: var(--text-dim);
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        /* Tags */
         .wp-tags {
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
+            margin-bottom: 28px;
         }
         .tag {
             padding: 6px 14px;
@@ -178,59 +184,61 @@
             background: rgba(255,255,255,0.06);
             border: 1px solid rgba(255,255,255,0.08);
             transition: all 0.2s;
+            cursor: pointer;
         }
         .tag:hover {
-            background: rgba(212,175,55,0.1);
-            border-color: rgba(212,175,55,0.3);
-            color: var(--gold);
+            background: rgba(255,255,255,0.1);
+            border-color: rgba(255,255,255,0.15);
+            color: var(--text);
         }
 
-        /* ── Action Buttons ── */
-        .action-section {
-            margin-top: 28px;
-            display: flex;
-            gap: 12px;
-        }
+        /* ── Download Button (ZEDGE style: big, prominent) ── */
         .btn-download {
-            flex: 1;
+            width: 100%;
             height: 52px;
-            border-radius: 26px;
+            border-radius: 14px;
             background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
             color: #0a0a0a;
             font-weight: 700;
-            font-size: 15px;
+            font-size: 16px;
             border: none;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 10px;
             cursor: pointer;
             text-decoration: none;
             transition: transform 0.2s, box-shadow 0.2s;
         }
         .btn-download:hover {
             transform: translateY(-1px);
-            box-shadow: 0 8px 24px rgba(212,175,55,0.3);
+            box-shadow: 0 8px 28px rgba(212,175,55,0.3);
         }
         .btn-download:active { transform: scale(0.98); }
-        .btn-download svg { width: 18px; height: 18px; fill: #0a0a0a; }
+        .btn-download svg { width: 20px; height: 20px; fill: #0a0a0a; }
 
-        .btn-share {
-            width: 52px;
-            height: 52px;
+        /* ── Share Row ── */
+        .share-row {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 16px;
+        }
+        .share-icon-btn {
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
-            background: rgba(255,255,255,0.08);
-            border: 1px solid rgba(255,255,255,0.12);
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.08);
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            color: white;
-            flex-shrink: 0;
-            transition: background 0.2s;
+            color: var(--text-dim);
+            transition: all 0.2s;
         }
-        .btn-share:hover { background: rgba(255,255,255,0.15); }
-        .btn-share svg { width: 20px; height: 20px; fill: currentColor; }
+        .share-icon-btn:hover { background: rgba(255,255,255,0.12); color: #fff; }
+        .share-icon-btn svg { width: 18px; height: 18px; }
 
         /* ── Divider ── */
         .divider {
@@ -239,7 +247,7 @@
             margin: 40px 0;
         }
 
-        /* ── Related ── */
+        /* ── Related — KEPT ── */
         .related-title {
             font-size: 18px;
             font-weight: 600;
@@ -256,7 +264,7 @@
             cursor: pointer;
             transition: transform 0.2s;
             aspect-ratio: 9/16;
-            background: var(--bg-card);
+            background: #111;
         }
         .related-card:hover { transform: translateY(-3px); }
         .related-card img {
@@ -279,11 +287,10 @@
 
         /* ── Responsive ── */
         @media (max-width: 600px) {
-            .preview-image { max-width: 100%; border-radius: 18px; }
+            .preview-image { border-radius: 12px; }
             .wp-title { font-size: 20px; }
             .related-grid { gap: 8px; }
-            .btn-download { height: 48px; font-size: 14px; }
-            .btn-share { width: 48px; height: 48px; }
+            .btn-download { height: 48px; font-size: 15px; }
         }
     </style>
 </head>
@@ -308,15 +315,13 @@
 
     <!-- Main -->
     <div class="main-content">
-        <!-- Preview -->
-        <div class="preview-wrapper">
-            <div class="preview-image">
-                <div class="loading" id="loading-text">Loading...</div>
-                <img id="main-image" style="display:none;" />
-            </div>
+        <!-- Image (ZEDGE: no frame/shadow) -->
+        <div class="preview-image">
+            <div class="loading" id="loading-text">Loading...</div>
+            <img id="main-image" style="display:none;" />
         </div>
 
-        <!-- View Toggle (Original / Mockup) -->
+        <!-- View Toggle (Original / Mockup) — KEPT -->
         <div class="view-toggle" id="view-toggle">
             <div class="toggle-group">
                 <button class="toggle-btn active" data-view="original" id="toggle-original">Original</button>
@@ -324,22 +329,24 @@
             </div>
         </div>
 
-        <!-- Info -->
+        <!-- Info (ZEDGE flow: date → H1 → downloads → desc → tags) -->
         <div class="info-section">
+            <div class="wp-date-line" id="wp-date"></div>
             <h1 class="wp-title" id="wp-title">Lucky Wallpaper</h1>
-
-            <div class="wp-meta" id="wp-meta"></div>
-
+            <div class="wp-downloads" id="wp-downloads"></div>
+            <div class="wp-desc" id="wp-desc"></div>
             <div class="wp-tags" id="wp-tags"></div>
         </div>
 
-        <!-- Actions -->
-        <div class="action-section">
-            <a href="#" class="btn-download" id="download-link" download>
-                <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
-                <span id="download-text">Download</span>
-            </a>
-            <button class="btn-share" id="share-btn-main">
+        <!-- Download Button (ZEDGE: big, full-width) -->
+        <a href="#" class="btn-download" id="download-link" download>
+            <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+            <span id="download-text">Download</span>
+        </a>
+
+        <!-- Share Row -->
+        <div class="share-row">
+            <button class="share-icon-btn" id="share-btn-main">
                 <svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/></svg>
             </button>
         </div>
@@ -347,7 +354,7 @@
         <!-- Divider -->
         <div class="divider"></div>
 
-        <!-- Related -->
+        <!-- Related — KEPT -->
         <h2 class="related-title" id="related-title">More Wallpapers</h2>
         <div class="related-grid" id="related-grid"></div>
     </div>
@@ -361,7 +368,7 @@
         let wallpaperId = urlParams.get('id');
         let wallpapers = [];
         let currentIndex = -1;
-        let currentView = 'original'; // 'original' or 'mockup'
+        let currentView = 'original';
 
         async function init() {
             try {
@@ -402,18 +409,31 @@
                 toggle.classList.remove('visible');
             }
 
+            // Date line (ZEDGE: "2026 May 31" style)
+            const dateEl = document.getElementById('wp-date');
+            if (data.date) {
+                dateEl.textContent = new Date(data.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+            } else {
+                dateEl.textContent = '';
+            }
+
             // Title
             document.getElementById('wp-title').textContent = data.title || 'Lucky Wallpaper';
 
-            // Meta
-            const metaEl = document.getElementById('wp-meta');
-            metaEl.innerHTML = '';
-            if (data.date) {
-                const dateStr = new Date(data.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-                metaEl.innerHTML += `<span class="wp-meta-item"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>${dateStr}</span>`;
-            }
+            // Downloads
+            const dlEl = document.getElementById('wp-downloads');
             if (data.downloads) {
-                metaEl.innerHTML += `<span class="wp-meta-item"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>${data.downloads} downloads</span>`;
+                dlEl.innerHTML = `<svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> ${data.downloads} downloads`;
+            } else {
+                dlEl.innerHTML = '';
+            }
+
+            // Description
+            const descEl = document.getElementById('wp-desc');
+            if (data.tags && data.tags.length > 0) {
+                descEl.textContent = data.tags.join(', ');
+            } else {
+                descEl.textContent = '';
             }
 
             // Tags
