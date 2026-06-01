@@ -96,7 +96,6 @@
             justify-content: space-between;
             align-items: center;
             gap: 12px;
-            flex-wrap: wrap;
         }
         .sort-bar-left {
             display: flex;
@@ -106,6 +105,12 @@
         .result-count {
             font-size: 13px;
             color: rgba(255,255,255,0.3);
+            white-space: nowrap;
+        }
+        .search-row {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 12px 24px 0;
         }
         .search-box {
             position: relative;
@@ -273,8 +278,8 @@
             .page-title { padding: 24px 16px 0; }
             .page-title h1 { font-size: 22px; }
             .filter-toolbar { padding: 16px 16px 0; }
-            .sort-bar { padding: 16px 16px 0; flex-wrap: wrap; }
-            .search-box { flex: 1 1 100%; order: 3; }
+            .sort-bar { padding: 16px 16px 0; }
+            .search-row { padding: 12px 16px 0; }
             .grid-container { padding: 16px 16px 40px; }
             .wallpaper-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
             .explore-section { padding: 0 16px 40px; }
@@ -370,18 +375,22 @@
         </div>
     </div>
 
-    <!-- Sort + Search -->
+    <!-- Sort Bar -->
     <div class="sort-bar">
         <div class="sort-bar-left">
             <span class="result-count" id="result-count"></span>
-            <div class="search-box">
-                <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-                <input type="text" id="search-input" data-i18n-placeholder="wallpaper.search_placeholder" placeholder="Search wallpapers...">
-            </div>
         </div>
         <div class="sort-tabs">
             <button class="sort-tab active" data-sort="popular" id="sort-popular" data-i18n="wallpaper.popular">Popular</button>
             <button class="sort-tab" data-sort="newest" id="sort-newest" data-i18n="wallpaper.newest">Newest</button>
+        </div>
+    </div>
+
+    <!-- Search Row -->
+    <div class="search-row">
+        <div class="search-box">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="search-input" data-i18n-placeholder="wallpaper.search_placeholder" placeholder="Search wallpapers...">
         </div>
     </div>
 

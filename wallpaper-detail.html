@@ -45,6 +45,27 @@
         .header:not(.scrolled) .nav-link,
         .header:not(.scrolled) .nav-dropdown-trigger { color: rgba(255,255,255,0.85) !important; }
         .header:not(.scrolled) .nav-dropdown-arrow { border-top-color: rgba(255,255,255,0.85) !important; }
+        .header:not(.scrolled) .mobile-menu-btn span { background: rgba(255,255,255,0.85) !important; }
+
+        /* Dropdown menus: restore light theme (not affected by dark --bg-primary override) */
+        .nav-dropdown-menu {
+            background: #F5F0E6 !important;
+            border-color: rgba(212,175,55,0.15) !important;
+        }
+        .nav-dropdown-menu a {
+            color: #5A5040 !important;
+        }
+        .nav-dropdown-menu a:hover {
+            color: #8B2500 !important;
+            background: rgba(212,175,55,0.06) !important;
+        }
+        /* On scrolled header, dropdown links should be darker */
+        .header.scrolled .nav-dropdown-menu a {
+            color: #5A5040 !important;
+        }
+        .header.scrolled .nav-dropdown-menu a:hover {
+            color: #8B2500 !important;
+        }
 
         /* ── Main Layout: Desktop 2-column ── */
         .detail-container {
