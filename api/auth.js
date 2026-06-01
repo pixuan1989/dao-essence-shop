@@ -51,17 +51,23 @@ async function register(req, res) {
         await sendVerificationEmail(normalizedEmail, verifyToken);
     } catch (mailErr) {
         console.error('Failed to send verification email:', mailErr.message);
+        const baseUrl = process.env.SITE_URL || 'https://www.daoessentia.com';
+        const fallbackUrl = `${baseUrl}/api/auth?action=verify&token=${verifyToken}&email=${encodeURIComponent(normalizedEmail)}`;
         return res.status(201).json({
             success: true,
-            message: 'Registration successful, but verification email could not be sent. Please contact support.',
-            emailSent: false
+            message: 'Registration successful, but verification email could not be sent. Use the link below to verify.',
+            emailSent: false,
+            verifyUrl: fallbackUrl
         });
     }
 
+    const baseUrl = process.env.SITE_URL || 'https://www.daoessentia.com';
+    const verifyUrl = `${baseUrl}/api/auth?action=verify&token=${verifyToken}&email=${encodeURIComponent(normalizedEmail)}`;
     return res.status(201).json({
         success: true,
         message: 'Registration successful! Please check your email to verify your account.',
-        emailSent: true
+        emailSent: true,
+        verifyUrl: verifyUrl
     });
 }
 
@@ -131,7 +137,15 @@ async function login(req, res) {
     const user = await getUser(normalizedEmail);
 
     if (!user) return res.status(401).json({ error: 'Invalid email or password' });
-    if (!user.verified) return res.status(403).json({ error: 'Please verify your email before logging in. Check your inbox.', notVerified: true });
+    if (!user.verified) {
+        // 邮件未验证 — 允许登录但标记状态
+        const token = signJWT({ email: normalizedEmail }, '7d');
+        return res.status(200).json({
+            success: true, token, emailNotVerified: true,
+            message: 'Logged in, but email not verified. Please check your inbox or spam folder.',
+            user: { email: normalizedEmail, verified: false, downloadCount: 0, downloadDate: null }
+        });
+    }
     if (!verifyPassword(password, user.passwordHash)) return res.status(401).json({ error: 'Invalid email or password' });
 
     const token = signJWT({ email: normalizedEmail }, '7d');

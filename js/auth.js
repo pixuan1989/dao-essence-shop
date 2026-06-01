@@ -96,8 +96,13 @@
 
             if (res.ok) {
                 DA.setToken(data.token);
-                msgEl.textContent = 'Success!';
-                msgEl.className = 'auth-msg success';
+                if (data.emailNotVerified) {
+                    msgEl.textContent = 'Logged in! (Email not verified — check spam folder)';
+                    msgEl.className = 'auth-msg success';
+                } else {
+                    msgEl.textContent = 'Success!';
+                    msgEl.className = 'auth-msg success';
+                }
                 setTimeout(() => {
                     closeAuth();
                     DA.updateNav();
@@ -157,9 +162,14 @@
             const data = await res.json();
 
             if (res.ok) {
-                msgEl.textContent = 'Registration successful! Please check your email to verify your account.';
-                msgEl.className = 'auth-msg success';
-                setTimeout(() => DA.switchTab('login'), 2000);
+                if (data.emailSent === false && data.verifyUrl) {
+                    msgEl.innerHTML = 'Account created! Click to verify:<br><a href="' + data.verifyUrl + '" target="_blank" style="color:#D4AF37;font-size:12px;">' + data.verifyUrl + '</a>';
+                    msgEl.className = 'auth-msg success';
+                } else {
+                    msgEl.textContent = 'Registration successful! Please check your email to verify.';
+                    msgEl.className = 'auth-msg success';
+                }
+                setTimeout(() => DA.switchTab('login'), 3000);
             } else {
                 msgEl.textContent = data.error || 'Registration failed';
                 msgEl.className = 'auth-msg error';
