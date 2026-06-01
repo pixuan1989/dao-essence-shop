@@ -31,14 +31,14 @@
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            background: #0a0a0a;
-            color: #fff;
-            font-family: 'Inter', sans-serif;
+            background: #0a0a0a !important;
+            color: #fff !important;
+            font-family: 'Inter', sans-serif !important;
             -webkit-font-smoothing: antialiased;
             min-height: 100vh;
         }
         /* Reset paragraph color for dark theme */
-        p { color: var(--text-secondary); }
+        p { color: var(--text-secondary) !important; }
 
         /* ── ZEDGE-style standalone nav ── */
         .wpn {
@@ -118,20 +118,25 @@
 
         /* ── Main Layout: Desktop 2-column ── */
         .detail-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 100px 24px 48px;
-            display: flex;
+            max-width: 1200px !important;
+            width: 100% !important;
+            margin: 0 auto !important;
+            padding: 100px 24px 48px !important;
+            display: flex !important;
+            flex-direction: row !important;
             gap: 48px;
             align-items: flex-start;
+            box-sizing: border-box;
         }
         .left-column {
-            flex: 1.25;
-            min-width: 0;
+            flex: 1.25 1 0% !important;
+            min-width: 0 !important;
+            max-width: 100%;
         }
         .right-column {
-            flex: 1;
-            min-width: 0;
+            flex: 1 1 0% !important;
+            min-width: 0 !important;
+            max-width: 100%;
             padding-top: 8px;
         }
 
@@ -221,6 +226,7 @@
         .wp-title {
             font-size: 28px;
             font-weight: 700;
+            font-family: 'Inter', sans-serif;
             margin-bottom: 14px;
             line-height: 1.25;
         }
@@ -535,12 +541,10 @@
     </div>
 
     <!-- Related -->
-    <div class="detail-container" style="padding-top: 0;">
-        <div style="width: 100%;">
-            <div class="divider"></div>
-            <h2 class="related-title" id="related-title" data-i18n="wallpaper.more_wallpapers">More Wallpapers</h2>
-            <div class="related-grid" id="related-grid"></div>
-        </div>
+    <div class="section-container" style="max-width:1200px;margin:0 auto;padding:0 24px 48px;">
+        <div class="divider"></div>
+        <h2 class="related-title" id="related-title" data-i18n="wallpaper.more_wallpapers">More Wallpapers</h2>
+        <div class="related-grid" id="related-grid"></div>
     </div>
 
     <!-- Footer (matching main page) -->
