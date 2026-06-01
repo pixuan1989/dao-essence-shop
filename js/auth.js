@@ -258,14 +258,29 @@
         if (oldMenu) oldMenu.remove();
 
         if (user) {
-            var initial = (user.email || 'U')[0].toUpperCase();
-            btn.innerHTML = '<span style="display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,0.15);color:#fff;font-size:11px;font-weight:600;margin-right:6px;vertical-align:middle;">' + initial + '</span>' + user.email.split('@')[0];
+            var email = user.email || 'U';
+            var initial = email[0].toUpperCase();
+            // Generate a consistent gradient based on username
+            var hash = 0;
+            for (var i = 0; i < email.length; i++) hash = email.charCodeAt(i) + ((hash << 5) - hash);
+            var gradients = [
+                'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+                'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+                'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
+                'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
+                'linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%)',
+                'linear-gradient(135deg, #fccb81 0%, #d57eeb 100%)',
+                'linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%)',
+                'linear-gradient(135deg, #ffd89b 0%, #19547b 100%)',
+                'linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%)',
+                'linear-gradient(135deg, #d4af37 0%, #f4d03f 100%)',
+                'linear-gradient(135deg, #2af598 0%, #009efd 100%)',
+            ];
+            var grad = gradients[Math.abs(hash) % gradients.length];
+            btn.innerHTML = '<span style="display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;background:' + grad + ';color:#fff;font-size:13px;font-weight:700;margin-right:8px;vertical-align:middle;box-shadow:0 2px 8px rgba(0,0,0,0.25);flex-shrink:0;">' + initial + '</span><span style="font-size:13px;font-weight:500;color:rgba(255,255,255,0.85);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:120px;">' + email.split('@')[0] + '</span>';
             btn.title = t('auth.click_to_signout', 'Click to sign out');
-            btn.style.display = 'inline-flex';
-            btn.style.alignItems = 'center';
-            btn.style.cursor = 'pointer';
-            btn.style.color = '#fff';
-            btn.style.position = 'relative';
+            btn.style.cssText = 'display:inline-flex !important;align-items:center !important;padding:4px 12px 4px 4px !important;background:rgba(255,255,255,0.08) !important;border:1px solid rgba(255,255,255,0.15) !important;border-radius:999px !important;transition:all 0.2s !important;cursor:pointer !important;';
             btn.onclick = function(e) {
                 e.preventDefault();
                 e.stopPropagation();
@@ -293,8 +308,7 @@
         } else {
             btn.textContent = t('auth.sign_in', 'Sign In');
             btn.title = '';
-            btn.style.cursor = 'pointer';
-            btn.style.color = '#fff';
+            btn.style.cssText = 'display:inline-flex !important;align-items:center !important;padding:8px 16px !important;background:rgba(255,255,255,0.08) !important;border:1px solid rgba(255,255,255,0.15) !important;border-radius:999px !important;font-size:13px !important;font-weight:500 !important;color:#fff !important;transition:all 0.2s !important;cursor:pointer !important;';
             btn.onclick = function(e) { e.preventDefault(); DA.open('login'); };
         }
     };
