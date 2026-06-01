@@ -498,7 +498,7 @@
             <div class="wp-tags" id="wp-tags"></div>
 
             <!-- Download Button -->
-            <a href="#" class="btn-download" id="download-link" download>
+            <a href="#" class="btn-download" id="download-link">
                 <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
                 <span id="download-text" data-i18n="wallpaper.download">Download</span>
             </a>
@@ -733,9 +733,52 @@
                 });
             }
 
-            // Download
-            const dlLink = document.getElementById('download-link');
-            if (dlLink) dlLink.href = data.original;
+            // Store download URL (actual download via quota-check handler)
+            if (dlLink) dlLink.setAttribute('data-url', data.original);
+
+            // Download handler with quota check
+            dlLink.onclick = async function(e) {
+                e.preventDefault();
+                const url = this.getAttribute('data-url');
+                if (!url) return;
+
+                const dlText = document.getElementById('download-text');
+                const origText = dlText ? dlText.textContent : 'Download';
+                if (dlText) dlText.textContent = 'Checking...';
+
+                try {
+                    const token = window.DaoAuth ? window.DaoAuth.getToken() : null;
+                    const headers = { 'Content-Type': 'application/json' };
+                    if (token) headers['Authorization'] = 'Bearer ' + token;
+
+                    const res = await fetch('/api/auth/download', {
+                        method: 'POST',
+                        headers,
+                        body: JSON.stringify({ wallpaperId: wallpaperId })
+                    });
+                    const data = await res.json();
+
+                    if (res.ok && data.allowed) {
+                        // Update nav limit display
+                        if (window.DaoAuth) window.DaoAuth.updateNav();
+                        // Trigger download
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = '';
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                        if (dlText) dlText.textContent = origText;
+                    } else {
+                        alert(data.error || 'Download limit reached.');
+                        if (dlText) dlText.textContent = origText;
+                    }
+                } catch(err) {
+                    if (dlText) dlText.textContent = origText;
+                    // Fallback: allow direct download on network error
+                    window.open(url, '_blank');
+                }
+            };
 
             // SEO
             document.title = `${data.title} - Lucky Wallpaper | Dao Essentia`;
