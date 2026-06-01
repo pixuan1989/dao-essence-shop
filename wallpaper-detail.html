@@ -835,6 +835,10 @@
 
             // Related
             renderRelated(index);
+        } catch(e) {
+            console.error('render error:', e);
+            document.getElementById('loading-text').textContent = 'Render error: ' + e.message;
+        }
         }
 
         // View toggle (original / mockup)
@@ -857,10 +861,6 @@
                 }
             };
         });
-            } catch(e) {
-                console.error('render error:', e);
-                document.getElementById('loading-text').textContent = 'Render error: ' + e.message;
-            }
         }
 
         // Related
