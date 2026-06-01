@@ -1,0 +1,62 @@
+JS Block Analysis (L643-L1041)
+Total lines: 399
+Max brace depth: 7
+Final brace depth: 0
+Status: BALANCED
+
+--- Checking for common errors ---
+Opening braces: 97
+Closing braces: 97
+Balance: 0
+
+Opening parens: 222
+Closing parens: 222
+Balance: 0
+
+Opening brackets: 9
+Closing brackets: 9
+Balance: 0
+
+DOMContentLoaded at JS line 387 (HTML L1029):
+          document.addEventListener('DOMContentLoaded', init);
+  L1027:         }
+  L1028: 
+  L1029:         document.addEventListener('DOMContentLoaded', init);
+  L1030: 
+  L1031:         // ── Nav search: redirect to /wallpaper with query ──
+
+--- Lines 858-868 in HTML context ---
+L858:                     img.src = data.mockup;
+L859:                 } else {
+L860:                     img.src = data.thumb;
+L861:                 }
+L862:             };
+L863:         });
+L864: 
+L865:         // Related
+L866:         function renderRelated(currentIndex) {
+L867:             const grid = document.getElementById('related-grid');
+L868:             grid.innerHTML = '';
+
+--- Toggle listener section (L844-L864) ---
+L844:         // View toggle (original / mockup)
+L845:         document.querySelectorAll('.toggle-btn').forEach(btn => {
+L846:             btn.onclick = () => {
+L847:                 if (btn.disabled) return;
+L848:                 const view = btn.dataset.view;
+L849:                 if (view === currentView) return;
+L850:                 currentView = view;
+L851: 
+L852:                 document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+L853:                 btn.classList.add('active');
+L854: 
+L855:                 const data = wallpapers[currentIndex];
+L856:                 const img = document.getElementById('main-image');
+L857:                 if (view === 'mockup' && data.mockup) {
+L858:                     img.src = data.mockup;
+L859:                 } else {
+L860:                     img.src = data.thumb;
+L861:                 }
+L862:             };
+L863:         });
+L864: 

@@ -1,0 +1,71 @@
+=== Checking L776-L830 (download link section) ===
+
+L776: [12 spaces] // Store download URL (actual download via quota-check handler)
+L777: [12 spaces] const dlLink = document.getElementById('download-link');
+L778: [12 spaces] if (dlLink) {
+L779: [16 spaces] dlLink.setAttribute('data-url', data.original);
+L780: [16 spaces] dlLink.onclick = async function(e) {
+L781: [16 spaces] e.preventDefault();
+L782: [16 spaces] const url = this.getAttribute('data-url');
+L783: [16 spaces] if (!url) return;
+L784: [ 0 spaces] 
+L785: [16 spaces] const dlText = document.getElementById('download-text');
+L786: [16 spaces] const origText = dlText ? dlText.textContent : 'Download';
+L787: [16 spaces] if (dlText) dlText.textContent = 'Checking...';
+L788: [ 0 spaces] 
+L789: [16 spaces] try {
+L790: [20 spaces] const token = window.DaoAuth ? window.DaoAuth.getToken() : null;
+L791: [20 spaces] const headers = { 'Content-Type': 'application/json' };
+L792: [20 spaces] if (token) headers['Authorization'] = 'Bearer ' + token;
+L793: [ 0 spaces] 
+L794: [20 spaces] const res = await fetch('/api/auth?action=download', {
+L795: [24 spaces] method: 'POST',
+L796: [24 spaces] headers,
+L797: [24 spaces] body: JSON.stringify({ wallpaperId: wallpaperId })
+L798: [20 spaces] });
+L799: [20 spaces] const data = await res.json();
+L800: [ 0 spaces] 
+L801: [20 spaces] if (res.ok && data.allowed) {
+L802: [24 spaces] // Trigger download
+L803: [24 spaces] const a = document.createElement('a');
+L804: [24 spaces] a.href = url;
+L805: [24 spaces] a.download = '';
+L806: [24 spaces] document.body.appendChild(a);
+L807: [24 spaces] a.click();
+L808: [24 spaces] document.body.removeChild(a);
+L809: [24 spaces] if (dlText) dlText.textContent = origText;
+L810: [20 spaces] } else {
+L811: [24 spaces] // Show toast when limit reached
+L812: [24 spaces] if (window.DaoAuth) {
+L813: [28 spaces] window.DaoAuth.showToast(
+L814: [32 spaces] (data.error || 'Download limit reached.') + ' <a href="#" onclick="event.preventDefault();DaoAuth.open(\'login\')">Sign in</a> for 3/day.',
+L815: [32 spaces] 5000
+L816: [28 spaces] );
+L817: [24 spaces] } else {
+L818: [28 spaces] alert(data.error || 'Download limit reached.');
+L819: [24 spaces] }
+L820: [24 spaces] if (dlText) dlText.textContent = origText;
+L821: [20 spaces] }
+L822: [16 spaces] } catch(err) {
+L823: [20 spaces] if (dlText) dlText.textContent = origText;
+L824: [20 spaces] // Fallback: allow direct download on network error
+L825: [20 spaces] window.open(url, '_blank');
+L826: [16 spaces] }
+L827: [12 spaces] };
+L828: [12 spaces] }
+L829: [ 0 spaces] 
+L830: [12 spaces] // SEO
+
+
+=== Brace depth analysis for this section ===
+L777: depth after line = 2
+L781: depth after line = 4
+L789: depth after line = 5
+L799: depth after line = 5
+L823: depth after line = 5
+L828: depth after line = 2
+L829: depth after line = 2
+L838: depth after line = 2
+L839: depth after line = 2
+L842: depth after line = 0
+L843: depth after line = 0
