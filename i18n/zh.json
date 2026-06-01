@@ -1520,5 +1520,24 @@
     "abstract": "抽象",
     "spiritual": "靈性",
     "seasonal": "季節"
+  },
+  "auth": {
+    "sign_in": "登錄",
+    "register": "註冊",
+    "email": "郵箱",
+    "password": "密碼",
+    "confirm_password": "確認密碼",
+    "create_account": "創建帳號",
+    "fill_all": "請填寫所有欄位。",
+    "passwords_mismatch": "密碼不一致。",
+    "password_short": "密碼至少需要6個字符。",
+    "login_success": "登錄成功！",
+    "login_failed": "登錄失敗",
+    "register_success": "帳號創建成功！正在登錄...",
+    "register_failed": "註冊失敗",
+    "network_error": "網絡錯誤",
+    "signed_out": "已退出。",
+    "click_to_signout": "點擊退出",
+    "sign_out": "退出"
   }
 }

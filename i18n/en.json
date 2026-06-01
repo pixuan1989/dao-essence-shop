@@ -152,5 +152,24 @@
   },
   "bazi_result": {
     "save_reading": "Save Reading"
+  },
+  "auth": {
+    "sign_in": "Sign In",
+    "register": "Register",
+    "email": "Email",
+    "password": "Password",
+    "confirm_password": "Confirm Password",
+    "create_account": "Create Account",
+    "fill_all": "Please fill in all fields.",
+    "passwords_mismatch": "Passwords do not match.",
+    "password_short": "Password must be at least 6 characters.",
+    "login_success": "Signed in!",
+    "login_failed": "Login failed",
+    "register_success": "Account created! Signing in...",
+    "register_failed": "Registration failed",
+    "network_error": "Network error",
+    "signed_out": "Signed out.",
+    "click_to_signout": "Click to sign out",
+    "sign_out": "Sign Out"
   }
 }
