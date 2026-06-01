@@ -688,6 +688,10 @@
                 loading.style.display = 'none';
                 img.style.display = 'block';
             };
+            img.onerror = () => {
+                loading.textContent = 'Image unavailable — OSS storage pending refill.';
+                img.style.display = 'block';
+            };
 
             // View toggle: always visible, disable mockup button if no mockup data
             const mockupBtn = document.getElementById('toggle-mockup');
@@ -1017,7 +1021,7 @@
             });
         }
 
-        init();
+        document.addEventListener('DOMContentLoaded', init);
 
         // ── Nav search: redirect to /wallpaper with query ──
         const wpnSearchInput = document.getElementById('wpn-search-input');
