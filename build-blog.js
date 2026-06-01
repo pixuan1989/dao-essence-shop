@@ -2393,14 +2393,24 @@ async function main() {
     console.log('  Generated: dist/wallpaper.html');
   }
   
-  const wallpaperDetailSrc = path.join(SRC_DIR, 'wallpaper-detail.html');
-  if (fs.existsSync(wallpaperDetailSrc)) {
-    fs.copyFileSync(wallpaperDetailSrc, path.join(DIST_DIR, 'wallpaper-detail.html'));
-    console.log('  Generated: dist/wallpaper-detail.html');
-  }
-
   // Copy wallpapers.json
   const wallpapersJson = path.join(SRC_DIR, 'wallpapers.json');
+
+  const wallpaperDetailSrc = path.join(SRC_DIR, 'wallpaper-detail.html');
+  if (fs.existsSync(wallpaperDetailSrc)) {
+    // Inject wallpapers.json into wp-data script tag
+    let detailHtml = fs.readFileSync(wallpaperDetailSrc, 'utf8');
+    if (fs.existsSync(wallpapersJson)) {
+      const wpData = fs.readFileSync(wallpapersJson, 'utf8');
+      detailHtml = detailHtml.replace(
+        /<script id="wp-data" type="application\/json">[\s\S]*?<\/script>/,
+        `<script id="wp-data" type="application/json">${wpData}</script>`
+      );
+    }
+    fs.writeFileSync(path.join(DIST_DIR, 'wallpaper-detail.html'), detailHtml);
+    console.log('  Generated: dist/wallpaper-detail.html (with injected wp-data)');
+  }
+
   if (fs.existsSync(wallpapersJson)) {
     fs.copyFileSync(wallpapersJson, path.join(DIST_DIR, 'wallpapers.json'));
     console.log('  Generated: dist/wallpapers.json');
