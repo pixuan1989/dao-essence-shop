@@ -693,8 +693,8 @@
             }
 
             // Download
-            document.getElementById('download-link').href = data.original;
-            document.getElementById('download-btn-top').href = data.original;
+            const dlLink = document.getElementById('download-link');
+            if (dlLink) dlLink.href = data.original;
 
             // SEO
             document.title = `${data.title} - Lucky Wallpaper | Dao Essentia`;
@@ -757,8 +757,8 @@
                 alert(msg);
             }
         }
-        document.getElementById('share-btn-top').onclick = doShare;
-        document.getElementById('share-btn-main').onclick = doShare;
+        var shareBtnMain = document.getElementById('share-btn-main');
+        if (shareBtnMain) shareBtnMain.onclick = doShare;
 
         // Lang switcher dropdown toggle
         var langTrigger = document.getElementById('lang-trigger');

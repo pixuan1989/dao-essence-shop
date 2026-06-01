@@ -621,10 +621,21 @@
     "pig_desc": "富有同情心、慷慨大方、勤勉踏實。豬有著善良的心和隨和樂觀的性格。"
   },
   "nav": {
-    "zodiac_daily": "生肖运势",
-    "zodiac_daily_top": "生肖运势",
+    "tools": "工具",
+    "tool_bazi": "八字排盤",
+    "tool_daily": "每日運勢",
+    "tool_five": "五行測試",
+    "tool_soulmate": "合緣配對",
+    "tool_almanac": "吉日選擇",
+    "tool_wallpapers": "旺運壁紙",
+    "zodiac_daily": "生肖運勢",
+    "zodiac_daily_top": "生肖運勢",
+    "blog_all": "所有文章",
     "blog_all_articles": "所有文章",
     "blog_bazi": "八字占星",
+    "blog_zodiac": "生肖運勢",
+    "blog_fengshui": "家居風水",
+    "blog_elements": "五行文化",
     "blog_feng_shui": "風水"
   },
   "footer": {
