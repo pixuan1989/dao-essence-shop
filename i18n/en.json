@@ -127,6 +127,13 @@
     "tool_zodiac": "Daily Horoscope",
     "tool_wallpapers": "Lucky Wallpapers"
   },
+  "wallpaper": {
+    "loading": "Loading...",
+    "view_original": "Original",
+    "view_mockup": "Preview on Device",
+    "download": "Download",
+    "more_wallpapers": "More Wallpapers"
+  },
   "bazi_result": {
     "save_reading": "Save Reading"
   }
