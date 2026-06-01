@@ -191,19 +191,28 @@
             transition: all 0.2s;
         }
         .wpn-btn-signin:hover { background: rgba(255,255,255,0.15); }
-        .wpn-lang-btn {
-            background: none;
-            border: none;
-            color: rgba(255,255,255,0.5);
+        .wpn-lang-trigger {
+            color: rgba(255,255,255,0.7);
             cursor: pointer;
             display: flex;
             align-items: center;
             gap: 4px;
-            font-size: 12px;
+            font-size: 13px;
             font-family: inherit;
-            transition: color 0.2s;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            transition: all 0.2s;
         }
-        .wpn-lang-btn:hover { color: rgba(255,255,255,0.8); }
+        .wpn-lang-trigger:hover { color: #fff; background: rgba(255,255,255,0.06); }
+        .wpn-lang-arrow {
+            width: 0; height: 0;
+            border-left: 4px solid transparent;
+            border-right: 4px solid transparent;
+            border-top: 5px solid currentColor;
+            transition: transform 0.2s;
+        }
+        .wpn-lang.open .wpn-lang-arrow { transform: rotate(180deg); }
         /* ── Toast ── */
         .da-toast {
             position: fixed;
@@ -549,13 +558,16 @@
             </div>
             <div class="wpn-right">
                 <a href="#" class="wpn-btn-signin" id="wpn-signin-btn">Sign In</a>
-                <button class="wpn-lang-btn" id="lang-trigger">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-                    <span id="lang-label">EN</span>
-                </button>
-                <div class="wpn-dropdown-menu" id="lang-menu" style="right:0;left:auto;">
-                    <a href="#" data-lang="en" class="lang-option active">English</a>
-                    <a href="#" data-lang="zh" class="lang-option">繁體中文</a>
+                <div class="wpn-lang" id="wpn-lang">
+                    <a href="#" class="wpn-lang-trigger" id="lang-trigger">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                        <span id="lang-label">EN</span>
+                        <i class="wpn-lang-arrow"></i>
+                    </a>
+                    <div class="wpn-dropdown-menu" id="lang-menu" style="right:0;left:auto;">
+                        <a href="#" data-lang="en" class="lang-option active">English</a>
+                        <a href="#" data-lang="zh" class="lang-option">繁體中文</a>
+                    </div>
                 </div>
             </div>
         </div>
