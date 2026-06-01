@@ -120,18 +120,32 @@
     };
 
     // ── 更新导航栏 ──
+    let _signoutPending = false;
     DA.updateNav = async function() {
         const user = await DA.getUser();
         const btn = document.getElementById('wpn-signin-btn');
         if (!btn) return;
 
         if (user) {
+            _signoutPending = false;
             btn.textContent = user.email.split('@')[0];
             btn.title = 'Click to sign out';
-            btn.onclick = function(e) { e.preventDefault(); DA.signOut(); };
+            btn.style.cursor = 'pointer';
+            btn.onclick = function(e) {
+                e.preventDefault();
+                if (!_signoutPending) {
+                    _signoutPending = true;
+                    btn.textContent = 'Sign Out';
+                    btn.style.color = '#e74c3c';
+                } else {
+                    DA.signOut();
+                }
+            };
         } else {
+            _signoutPending = false;
             btn.textContent = 'Sign In';
             btn.title = 'Sign in or register';
+            btn.style.color = '#fff';
             btn.onclick = function(e) { e.preventDefault(); DA.signIn(); };
         }
     };
