@@ -258,8 +258,11 @@
         if (oldMenu) oldMenu.remove();
 
         if (user) {
-            btn.textContent = user.email.split('@')[0];
+            var initial = (user.email || 'U')[0].toUpperCase();
+            btn.innerHTML = '<span style="display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,0.15);color:#fff;font-size:11px;font-weight:600;margin-right:6px;vertical-align:middle;">' + initial + '</span>' + user.email.split('@')[0];
             btn.title = t('auth.click_to_signout', 'Click to sign out');
+            btn.style.display = 'inline-flex';
+            btn.style.alignItems = 'center';
             btn.style.cursor = 'pointer';
             btn.style.color = '#fff';
             btn.style.position = 'relative';
