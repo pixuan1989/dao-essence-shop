@@ -674,6 +674,7 @@
         }
 
         function render(index) {
+            try {
             currentIndex = index;
             const data = wallpapers[index];
             wallpaperId = data.id;
@@ -856,6 +857,11 @@
                 }
             };
         });
+            } catch(e) {
+                console.error('render error:', e);
+                document.getElementById('loading-text').textContent = 'Render error: ' + e.message;
+            }
+        }
 
         // Related
         function renderRelated(currentIndex) {
