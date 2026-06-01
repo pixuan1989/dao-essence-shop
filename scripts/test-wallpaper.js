@@ -63,7 +63,6 @@ check(path.join(root, 'wallpaper-detail.html'), [
     { desc: 'Has image element', pattern: /id="main-image"/, required: true },
     { desc: 'Has title element', pattern: /id="wp-title"/, required: true },
     { desc: 'Has description element', pattern: /id="wp-seo-desc"/, required: true },
-    { desc: 'Has styles.min.css', pattern: /styles\.min\.css/, required: true },
     { desc: 'Has auth.js', pattern: /js\/auth\.js/, required: true },
     { desc: 'Has i18n script', pattern: /i18n-switcher\.js/, required: true },
     { desc: 'dlLink declared before use', pattern: /const dlLink = document/, required: true },

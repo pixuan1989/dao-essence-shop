@@ -12,33 +12,35 @@
     <meta property="og:image" content="">
     <meta property="og:url" content="">
 
-    <link rel="stylesheet" href="styles.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Override styles.min.css for dark theme */
+        /* ── Reset (standalone, no styles.min.css dependency) ── */
+        *,*::before,*::after{box-sizing:border-box}
+        html{scroll-behavior:smooth;font-size:16px}
+        body{margin:0;padding:0;overflow-x:hidden;line-height:1.6}
+        img{max-width:100%;height:auto;display:block}
+        a{text-decoration:none;color:inherit}
+        ul{list-style:none;padding:0;margin:0}
+        button{font-family:inherit;cursor:pointer;border:none;outline:none;background:none}
+        h1,h2,h3,h4,h5,h6{font-family:'Inter',sans-serif;font-weight:600;line-height:1.3;margin:0;padding:0}
+        p{margin:0;padding:0}
+
+        /* Dark theme */
         :root {
-            --bg-primary: #0a0a0a;
             --text: #ffffff;
-            --text-primary: #ffffff;
             --text-secondary: rgba(255,255,255,0.7);
-            --text-light: rgba(255,255,255,0.5);
-            --bg-secondary: #1a1a1a;
-            --bg-accent: #1a1a1a;
-            --gold: #D4AF37;
-            --gold-dark: #AA8A26;
             --text-dim: rgba(255,255,255,0.5);
             --text-muted: rgba(255,255,255,0.3);
+            --gold: #D4AF37;
+            --gold-dark: #AA8A26;
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            background: #0a0a0a !important;
-            color: #fff !important;
-            font-family: 'Inter', sans-serif !important;
+            background: #0a0a0a;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
             -webkit-font-smoothing: antialiased;
             min-height: 100vh;
         }
-        /* Reset paragraph color for dark theme */
-        p { color: var(--text-secondary) !important; }
 
         /* ── ZEDGE-style standalone nav ── */
         .wpn {
@@ -118,25 +120,22 @@
 
         /* ── Main Layout: Desktop 2-column ── */
         .detail-container {
-            max-width: 1200px !important;
-            width: 100% !important;
-            margin: 0 auto !important;
-            padding: 100px 24px 48px !important;
-            display: flex !important;
-            flex-direction: row !important;
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 100px 24px 48px;
+            display: flex;
+            flex-direction: row;
             gap: 48px;
             align-items: flex-start;
-            box-sizing: border-box;
         }
         .left-column {
-            flex: 1.25 1 0% !important;
-            min-width: 0 !important;
-            max-width: 100%;
+            flex: 1.25 1 0%;
+            min-width: 0;
         }
         .right-column {
-            flex: 1 1 0% !important;
-            min-width: 0 !important;
-            max-width: 100%;
+            flex: 1 1 0%;
+            min-width: 0;
             padding-top: 8px;
         }
 
