@@ -164,4 +164,4 @@ faq:
 
 ## 延伸閱讀
 
-- [買房必看：五個實用技巧，一眼判斷房屋風水好壞](/zh/blog/buy-house-feng-shui-5-tips-zh) — 看房時從外到內的風水判斷清單
+- [買房必看：五個實用技巧，一眼判斷房屋風水好壞](/zh/blog/feng-shui-tips-before-buying-house) — 看房時從外到內的風水判斷清單
