@@ -39,32 +39,58 @@
         /* Reset paragraph color for dark theme */
         p { color: var(--text-secondary); }
 
-        /* Override header for dark theme */
-        .header:not(.scrolled) .logo-icon { border-color: #D4AF37 !important; color: #D4AF37 !important; }
-        .header:not(.scrolled) .logo-en { color: rgba(255,255,255,0.7) !important; }
-        .header:not(.scrolled) .nav-link,
-        .header:not(.scrolled) .nav-dropdown-trigger { color: rgba(255,255,255,0.85) !important; }
-        .header:not(.scrolled) .nav-dropdown-arrow { border-top-color: rgba(255,255,255,0.85) !important; }
-        .header:not(.scrolled) .mobile-menu-btn span { background: rgba(255,255,255,0.85) !important; }
-
-        /* Dropdown menus: restore light theme (not affected by dark --bg-primary override) */
-        .nav-dropdown-menu {
-            background: #F5F0E6 !important;
-            border-color: rgba(212,175,55,0.15) !important;
+        /* ── ZEDGE-style standalone nav ── */
+        .wpn {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: #0D0D0D;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
         }
-        .nav-dropdown-menu a {
-            color: #5A5040 !important;
+        .wpn-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 24px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
         }
-        .nav-dropdown-menu a:hover {
-            color: #8B2500 !important;
-            background: rgba(212,175,55,0.06) !important;
+        .wpn-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; flex-shrink: 0; }
+        .wpn-logo-icon { width: 36px; height: 36px; border: 2px solid #D4AF37; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #D4AF37; font-size: 14px; font-weight: 600; font-family: Georgia, serif; }
+        .wpn-logo-text { color: #D4AF37; font-family: Georgia, serif; font-size: 16px; letter-spacing: 0.12em; font-weight: 700; }
+        .wpn-dropdown { position: relative; flex-shrink: 0; }
+        .wpn-dropdown-btn { background: none; border: none; color: rgba(255,255,255,0.7); font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 4px; padding: 8px 12px; border-radius: 6px; transition: all 0.2s; font-family: inherit; }
+        .wpn-dropdown-btn:hover { color: #fff; background: rgba(255,255,255,0.06); }
+        .wpn-dropdown-btn svg { width: 10px; height: 10px; }
+        .wpn-dropdown-menu { position: absolute; top: calc(100% + 4px); left: 0; background: #1E1E1E; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 4px 0; min-width: 150px; display: none; z-index: 1001; }
+        .wpn-dropdown:hover .wpn-dropdown-menu, .wpn-dropdown-menu.open { display: block; }
+        .wpn-dropdown-menu a { display: block; padding: 8px 16px; color: rgba(255,255,255,0.7); text-decoration: none; font-size: 13px; transition: all 0.15s; }
+        .wpn-dropdown-menu a:hover { color: #fff; background: rgba(255,255,255,0.06); }
+        .wpn-dropdown-menu a.active { color: #D4AF37; }
+        .wpn-search { flex: 1; max-width: 480px; position: relative; }
+        .wpn-search svg { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px; color: rgba(255,255,255,0.3); }
+        .wpn-search input { width: 100%; padding: 8px 16px 8px 38px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #fff; font-size: 13px; font-family: inherit; outline: none; transition: all 0.2s; }
+        .wpn-search input::placeholder { color: rgba(255,255,255,0.3); }
+        .wpn-search input:focus { border-color: rgba(212,175,55,0.4); background: rgba(255,255,255,0.1); }
+        .wpn-right { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+        .wpn-btn-upload { padding: 8px 16px; background: linear-gradient(135deg, #D4AF37, #B8962E); color: #0A0A0A; border: none; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; font-family: inherit; }
+        .wpn-btn-upload:hover { opacity: 0.9; }
+        .wpn-btn-signin { padding: 8px 16px; background: rgba(255,255,255,0.08); color: #fff; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; font-size: 13px; font-weight: 500; text-decoration: none; transition: all 0.2s; }
+        .wpn-btn-signin:hover { background: rgba(255,255,255,0.15); }
+        .wpn-lang-btn { background: none; border: none; color: rgba(255,255,255,0.5); cursor: pointer; display: flex; align-items: center; gap: 4px; font-size: 12px; font-family: inherit; transition: color 0.2s; }
+        .wpn-lang-btn:hover { color: rgba(255,255,255,0.8); }
+        .wpn-limit { font-size: 11px; color: rgba(255,255,255,0.5); text-align: center; padding: 0 0 8px; }
+        .wpn-limit span { color: #D4AF37; font-weight: 600; }
+        @media (max-width: 768px) {
+            .wpn-inner { padding: 0 16px; gap: 10px; height: 54px; }
+            .wpn-logo-text { display: none; }
+            .wpn-btn-signin { display: none; }
+            .wpn-search { max-width: none; }
         }
-        /* On scrolled header, dropdown links should be darker */
-        .header.scrolled .nav-dropdown-menu a {
-            color: #5A5040 !important;
-        }
-        .header.scrolled .nav-dropdown-menu a:hover {
-            color: #8B2500 !important;
+        @media (max-width: 480px) {
+            .wpn-dropdown-btn span { display: none; }
+            .wpn-btn-upload { padding: 6px 10px; font-size: 11px; }
         }
 
         /* ── Main Layout: Desktop 2-column ── */
@@ -372,55 +398,45 @@
 </head>
 <body>
 
-    <!-- Header (same as main site) -->
-    <header class="header">
-        <div class="container">
-            <nav class="nav">
-                <a href="/" class="logo">
-                    <div class="logo-icon"></div>
-                    <div class="logo-text"><span class="logo-en">DAO ESSENCE</span></div>
-                </a>
-                <ul class="nav-menu">
-                    <li><a href="/" class="nav-link" data-i18n="common.home">Home</a></li>
-                    <li class="nav-dropdown active">
-                        <a href="#" class="nav-dropdown-trigger" data-i18n="nav.tools">Tools <i class="nav-dropdown-arrow"></i></a>
-                        <div class="nav-dropdown-menu">
-                            <a href="/#free-bazi" data-i18n="nav.tool_bazi">BaZi Calculator</a>
-                            <a href="/zodiac/zodiac-daily" data-i18n="nav.tool_daily">Daily Horoscope</a>
-                            <a href="/five-elements-test" data-i18n="nav.tool_five">Five Elements Test</a>
-                            <a href="/soulmate-calculator" data-i18n="nav.tool_soulmate">Soulmate Compatibility</a>
-                            <a href="/almanac" data-i18n="nav.tool_almanac">Auspicious Almanac</a>
-                            <a href="/wallpaper" class="active" data-i18n="nav.tool_wallpapers">Lucky Wallpapers</a>
-                        </div>
-                    </li>
-                    <li class="nav-dropdown">
-                        <a href="/blog/" class="nav-dropdown-trigger" data-i18n="common.blog">Blog <i class="nav-dropdown-arrow"></i></a>
-                        <div class="nav-dropdown-menu">
-                            <a href="/blog/" data-i18n="nav.blog_all">All Articles</a>
-                            <a href="/blog/bazi-astrology" data-i18n="nav.blog_bazi">BaZi Astrology</a>
-                            <a href="/zodiac/zodiac-daily" data-i18n="nav.zodiac_daily">Zodiac Daily</a>
-                            <a href="/blog/feng-shui" data-i18n="nav.blog_fengshui">Home Feng Shui</a>
-                            <a href="/culture" data-i18n="nav.blog_elements">Five Elements</a>
-                        </div>
-                    </li>
-                    <li><a href="/learn-bazi" class="nav-link" data-i18n="common.learn_bazi">Learn BaZi</a></li>
-                    <li><a href="/shop" class="nav-link" data-i18n="common.shop">Shop</a></li>
-                    <li><a href="/about" class="nav-link" data-i18n="common.about_us">About Us</a></li>
-                    <li class="nav-dropdown">
-                        <a href="#" class="nav-dropdown-trigger lang-switcher-trigger" id="lang-trigger">
-                            <svg class="lang-globe-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg><span class="lang-label" id="lang-label">EN</span>
-                            <i class="nav-dropdown-arrow"></i>
-                        </a>
-                        <div class="nav-dropdown-menu" id="lang-menu">
-                            <a href="#" data-lang="en" class="lang-option active">English</a>
-                            <a href="#" data-lang="zh" class="lang-option">繁體中文</a>
-                        </div>
-                    </li>
-                </ul>
-                <button class="mobile-menu-btn"><span></span><span></span><span></span></button>
-            </nav>
+    <!-- ZEDGE-style standalone nav -->
+    <nav class="wpn">
+        <div class="wpn-inner">
+            <a href="/" class="wpn-logo">
+                <div class="wpn-logo-icon">道</div>
+                <span class="wpn-logo-text">DAO ESSENCE</span>
+            </a>
+            <div class="wpn-dropdown" id="wpn-cat-dropdown">
+                <button class="wpn-dropdown-btn">
+                    <span>Categories</span>
+                    <svg viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
+                </button>
+                <div class="wpn-dropdown-menu" id="wpn-cat-menu">
+                    <a href="/wallpaper">All</a>
+                    <a href="/wallpaper?cat=Nature">Nature</a>
+                    <a href="/wallpaper?cat=Abstract">Abstract</a>
+                    <a href="/wallpaper?cat=Spiritual">Spiritual</a>
+                    <a href="/wallpaper?cat=Seasonal">Seasonal</a>
+                </div>
+            </div>
+            <div class="wpn-search">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <input type="text" placeholder="Search wallpapers..." id="wpn-search-input">
+            </div>
+            <div class="wpn-right">
+                <button class="wpn-btn-upload" onclick="alert('Coming soon')">Upload</button>
+                <a href="#" class="wpn-btn-signin">Sign In</a>
+                <button class="wpn-lang-btn" id="lang-trigger">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                    <span id="lang-label">EN</span>
+                </button>
+                <div class="wpn-dropdown-menu" id="lang-menu" style="right:0;left:auto;">
+                    <a href="#" data-lang="en" class="lang-option active">English</a>
+                    <a href="#" data-lang="zh" class="lang-option">繁體中文</a>
+                </div>
+            </div>
         </div>
-    </header>
+        <div class="wpn-limit">Free downloads: <span>1/1</span> today</div>
+    </nav>
 
     <!-- Main: Two-column layout -->
     <div class="detail-container">
@@ -856,16 +872,55 @@
             }
         });
 
+        // ── Category dropdown ──
+        const wpnCatBtn = document.querySelector('.wpn-dropdown-btn');
+        const wpnCatMenu = document.getElementById('wpn-cat-menu');
+        if (wpnCatBtn && wpnCatMenu) {
+            wpnCatBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                wpnCatMenu.classList.toggle('open');
+            });
+            document.addEventListener('click', function(e) {
+                if (!wpnCatBtn.contains(e.target) && !wpnCatMenu.contains(e.target)) {
+                    wpnCatMenu.classList.remove('open');
+                }
+            });
+        }
+
+        // ── Lang switcher ──
+        const langTrigger = document.getElementById('lang-trigger');
+        const langMenu = document.getElementById('lang-menu');
+        if (langTrigger && langMenu) {
+            langTrigger.addEventListener('click', function(e) {
+                e.preventDefault();
+                langMenu.classList.toggle('open');
+            });
+            langMenu.querySelectorAll('.lang-option').forEach(function(opt) {
+                opt.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    var lang = this.getAttribute('data-lang');
+                    try { localStorage.setItem('daoessence_lang', lang); } catch(ex) {}
+                    var url = new URL(window.location.href);
+                    url.searchParams.set('lang', lang);
+                    window.location.href = url.href;
+                });
+            });
+            document.addEventListener('click', function(e) {
+                if (!langTrigger.contains(e.target) && !langMenu.contains(e.target)) {
+                    langMenu.classList.remove('open');
+                }
+            });
+        }
+
         init();
 
-        // Top bar scroll behavior: transparent at top, solid when scrolled
-        var headerEl = document.querySelector('.header');
-        if (headerEl) {
-            window.addEventListener('scroll', function() {
-                if (window.scrollY > 50) {
-                    headerEl.classList.add('scrolled');
-                } else {
-                    headerEl.classList.remove('scrolled');
+        // ── Nav search: redirect to /wallpaper with query ──
+        const wpnSearchInput = document.getElementById('wpn-search-input');
+        if (wpnSearchInput) {
+            wpnSearchInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    var q = encodeURIComponent(this.value.trim());
+                    if (q) window.location.href = '/wallpaper?search=' + q;
                 }
             });
         }
