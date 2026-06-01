@@ -493,7 +493,7 @@
             filtered.forEach(wp => {
                 const card = document.createElement('div');
                 card.className = 'wallpaper-card';
-                card.onclick = () => window.location.href = `wallpaper-detail.html?id=${wp.id}`;
+                card.onclick = () => window.location.href = `/wallpaper-detail?id=${wp.id}`;
                 card.innerHTML = `<img src="${wp.thumb}" alt="${wp.title || 'Lucky Wallpaper'}" loading="lazy">`;
                 grid.appendChild(card);
             });
