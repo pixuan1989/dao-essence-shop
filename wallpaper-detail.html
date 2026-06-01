@@ -651,21 +651,13 @@
         let currentIndex = -1;
         let currentView = 'original';
 
-        async function init() {
+        function init() {
             try {
-                // 先用绝对路径尝试（绕过某些代理/认证问题）
-                let res = await fetch('/wallpapers.json?t=' + new Date().getTime());
-                if (!res.ok) throw new Error('HTTP ' + res.status);
-                const text = await res.text();
-                // 检测是否被重定向到了认证页面
-                if (text.trim().startsWith('<!doctype') || text.trim().startsWith('<html') || text.trim().startsWith('<!DOCTYPE')) {
-                    throw new Error('Auth wall intercepted JSON fetch');
-                }
-                wallpapers = JSON.parse(text);
+                const raw = document.getElementById('wp-data').textContent;
+                wallpapers = JSON.parse(raw);
             } catch(e) {
-                console.error('wallpapers.json fetch failed:', e.message);
-                // fallback: 内嵌数据（由构建时注入）
-                try { wallpapers = JSON.parse(document.getElementById('wp-data')?.textContent || '[]'); } catch {}
+                document.getElementById('loading-text').textContent = 'Error: ' + e.message;
+                return;
             }
 
             if (wallpapers.length > 0) {
