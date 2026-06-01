@@ -1,0 +1,866 @@
+{
+  "date": "2026-06-01",
+  "generatedAt": "2026-06-01T00:18:12.416Z",
+  "ganzhi": {
+    "ganzhi": "丙申",
+    "wuxing": "火",
+    "tiangan": "丙",
+    "dizhi": "申"
+  },
+  "fortunes": {
+    "rat": {
+      "score": 55,
+      "verdict": "降低",
+      "content": "钥匙串上的小铜铃今天突然哑了，晃半天没声儿，摸上去还微微发烫——像被太阳晒透的旧铁皮，你低头多看了两眼，心里莫名一紧。\n\n工作上容易陷进“反复确认”的怪圈：刚发完的邮件想撤回，改好的方案又怀疑漏了细节，同事一句无心的“再看看”，能让你重捋三遍逻辑。别硬扛，下午三点后找个安静角落，用纸笔把任务拆成三步，写完就划掉，比盯着屏幕强得多。\n\n感情里话到嘴边容易打结，尤其跟亲近的人——想关心对方累不累，出口变成“你这衣服是不是洗褪色了？”；想表达感谢，结果聊起天气。不如直接递杯温水、顺手把ta桌上的杂物理整齐，动作比语言更准。\n\n身体有点“虚火上浮”的苗头：眼睛干涩、喉咙微痒、午休醒来舌尖发麻。少吃煎炸和甜腻点心，办公室抽屉里备一小包菊花枸杞茶，泡开喝两口，别等口渴才想起来喝水。开车或骑车时，多留意路口红灯变黄灯那半秒，别抢。\n\n宜：整理旧物、给绿植浇水、穿深蓝或灰黑衣服、睡前写三件今天做对的小事  \n忌：签新合同、换手机系统、约人谈敏感事、吃隔夜辣椒炒肉",
+      "yi": [
+        "出行",
+        "搬家",
+        "沐浴"
+      ],
+      "ji": [
+        "开业",
+        "安葬"
+      ],
+      "luckyNum": 9,
+      "direction": "西南",
+      "pair": "丑",
+      "quote": "儿童节快乐，永葆童心。",
+      "color": "#5B8299",
+      "colorName": "蓝色",
+      "blogLinksCN": [
+        {
+          "url": "/zh/blog/five-elements-theory-wu-xing-guide",
+          "title": "五行性格測試：你是木、火、土、金還是水？"
+        },
+        {
+          "url": "/zh/blog/love-prediction-by-date-of-birth",
+          "title": "依出生日期預測姻緣：八字解讀"
+        }
+      ],
+      "blogLinksEN": [
+        {
+          "url": "/blog/five-elements-theory-wu-xing-guide",
+          "title": "Five Elements Personality Test: Are You Wood, Fire, Earth, Metal or Water?"
+        },
+        {
+          "url": "/blog/love-prediction-by-date-of-birth",
+          "title": "Love Prediction by Date of Birth: BaZi Reading"
+        }
+      ]
+    },
+    "ox": {
+      "score": 60,
+      "verdict": "喜忧参半",
+      "content": "清晨七点到九点之间，煮咖啡的水刚烧开那会儿，手边的待办清单突然变得清晰起来——不是事情变少了，而是你忽然知道哪三件该先动笔，哪两件可以往后挪。\n\n工作上别硬扛着做“老黄牛”，尤其下午三点后容易陷入重复劳动却不出成果的状态。有会议尽量安排在上午，临时加派的任务先问清优先级再接，今天特别容易被琐事带偏节奏。如果手头有方案要提交，多留二十分钟检查错别字和数字，火气旺容易心急，细节反而容易出岔子。\n\n感情里别用“我都是为你好”当万能句式，尤其家里长辈或伴侣提意见时，先点头听三分钟，再开口。单身的朋友若约人见面，选有自然光的咖啡馆比昏暗小酒馆更稳妥；微信聊天别发长语音，打字慢点，但每句都带着温度，对方反而更愿意接话。\n\n中午别吃太烫、太辣的饭菜，午休哪怕只闭眼十五分钟，也比刷半小时手机强。傍晚六点前后记得起身走动几步，别让腰背僵住；开车的话，进停车场前多扫一眼后视镜，今天容易因分神错过车位或路口提示。\n\n宜：列轻量清单、手写笔记、穿深蓝或灰褐色衣服、喝温蜂蜜水  \n忌：签新合同、冲动转账、跟人争对错、睡前两小时看刺激剧",
+      "yi": [
+        "出行",
+        "搬家",
+        "沐浴"
+      ],
+      "ji": [
+        "开业",
+        "安葬"
+      ],
+      "luckyNum": 8,
+      "direction": "西南",
+      "pair": "子",
+      "quote": "儿童节快乐，永葆童心。",
+      "color": "#9E8E6E",
+      "colorName": "棕色",
+      "blogLinksCN": [
+        {
+          "url": "/zh/blog/five-elements-theory-wu-xing-guide",
+          "title": "五行性格測試：你是木、火、土、金還是水？"
+        },
+        {
+          "url": "/zh/blog/when-will-i-find-love",
+          "title": "八字姻緣預測：你的出生日期揭示何時遇見真愛"
+        }
+      ],
+      "blogLinksEN": [
+        {
+          "url": "/blog/five-elements-theory-wu-xing-guide",
+          "title": "Five Elements Personality Test: Are You Wood, Fire, Earth, Metal or Water?"
+        },
+        {
+          "url": "/blog/when-will-i-find-love",
+          "title": "When Will I Find Love? What Your Birth Chart Says"
+        }
+      ]
+    },
+    "tiger": {
+      "score": 90,
+      "verdict": "上升",
+      "content": "客户发来一份加急修改稿，末尾手写补了句“麻烦今天下班前给个反馈”，纸角还沾着半粒没擦净的咖啡渍——你刚放下杯子，手机就震了，是对方打来的语音。\n\n工作上像踩着弹簧往上蹦，手头几个项目都到了能拍板的节点，尤其那个拖了两周的方案，今天突然被拉进高层短会，三句话就定了方向。别怕开口提资源或调整节奏，你越干脆，别人越愿意跟你同步信息。不过得留神别把“能搞定”说太满，留半分余地，后面补救才不显狼狈。\n\n感情里容易有小火苗窜出来，老朋友约你喝下午茶，聊着聊着就说到当年一起熬夜赶工的傻事，笑出眼泪；要是单身，地铁口偶遇熟人介绍的那位，对方主动多问了你两句兴趣，眼神没躲。别急着定义关系，先让轻松感多待一会儿。\n\n午间别凑合吃外卖，抽十分钟煮碗面，加个溏心蛋，热汤下肚比冰饮更稳住心气。傍晚路过花店顺手买支向日葵，插在办公桌玻璃瓶里，看着它，烦躁时呼吸会自然慢半拍。开车的话，避开三点到四点那条修路的辅道，绕两百米更省心。\n\n宜：当面敲定一件事、回一条拖了两天的消息、穿件亮色上衣  \n忌：替别人揽活、用冷水冲脸提神、睡前刷短视频超过十五分钟",
+      "yi": [
+        "出行",
+        "搬家",
+        "沐浴"
+      ],
+      "ji": [
+        "开业",
+        "安葬"
+      ],
+      "luckyNum": 2,
+      "direction": "西南",
+      "pair": "亥",
+      "quote": "儿童节快乐，永葆童心。",
+      "color": "#5E825E",
+      "colorName": "绿色",
+      "blogLinksCN": [
+        {
+          "url": "/zh/blog/five-elements-theory-wu-xing-guide",
+          "title": "五行性格測試：你是木、火、土、金還是水？"
+        },
+        {
+          "url": "/zh/blog/feng-shui-home-office-7-rules",
+          "title": "居家辦公風水：7條實用規則"
+        }
+      ],
+      "blogLinksEN": [
+        {
+          "url": "/blog/five-elements-theory-wu-xing-guide",
+          "title": "Five Elements Personality Test: Are You Wood, Fire, Earth, Metal or Water?"
+        },
+        {
+          "url": "/blog/feng-shui-home-office-7-rules",
+          "title": "Feng Shui Home Office: 7 Rules"
+        }
+      ]
+    },
+    "rabbit": {
+      "score": 80,
+      "verdict": "一般",
+      "content": "后颈那块肌肉有点发紧，像围了条没系好的丝巾，低头看手机时尤其明显，指尖按上去微微发烫，但又不是发烧那种热——倒像是刚晒过太阳的石板，余温还在皮肤底下悄悄走。\n\n工作上容易被临时抓壮丁，比如同事突然甩来个急活，或者领导改口说“这个细节再调一下”。别硬扛着自己全包，今天适合拉个人搭把手，哪怕只是帮你核对个数据、递杯水，都能让节奏松快些。重要的是别把“我来搞定”当口头禅，留点力气给真正该你拍板的事。\n\n感情里话别说得太满，尤其是答应别人的事，今天容易心软点头，回头发现时间排不开、精力跟不上。朋友约饭、家人问帮忙，先摸摸后颈那块肉——如果还绷着，就笑着说“让我缓两小时再回你”，比硬撑着赴约却心不在焉强得多。\n\n睡前用温毛巾敷敷后颈，别玩手机到眼皮打架；地铁换乘时留神脚下，扶手有点滑；晚饭少吃炸物，嘴馋的话啃根脆黄瓜比吃薯片更解压。水杯别离手，白水里加片柠檬，喝着清爽，也帮身体把火气往下带一带。\n\n宜：开口求助、提前确认时间、穿低领衣服、吃点带水分的蔬果  \n忌：硬接三件事、替别人做决定、空腹喝浓茶、睡前刷短视频超过十五分钟",
+      "yi": [
+        "出行",
+        "搬家",
+        "沐浴"
+      ],
+      "ji": [
+        "开业",
+        "安葬"
+      ],
+      "luckyNum": 3,
+      "direction": "西南",
+      "pair": "戌",
+      "quote": "儿童节快乐，永葆童心。",
+      "color": "#5E825E",
+      "colorName": "绿色",
+      "blogLinksCN": [
+        {
+          "url": "/zh/blog/love-prediction-by-date-of-birth",
+          "title": "依出生日期預測姻緣：八字解讀"
+        },
+        {
+          "url": "/zh/blog/five-elements-theory-wu-xing-guide",
+          "title": "五行性格測試：你是木、火、土、金還是水？"
+        }
+      ],
+      "blogLinksEN": [
+        {
+          "url": "/blog/love-prediction-by-date-of-birth",
+          "title": "Love Prediction by Date of Birth: BaZi Reading"
+        },
+        {
+          "url": "/blog/five-elements-theory-wu-xing-guide",
+          "title": "Five Elements Personality Test: Are You Wood, Fire, Earth, Metal or Water?"
+        }
+      ]
+    },
+    "dragon": {
+      "score": 70,
+      "verdict": "一般",
+      "content": "今天坐在办公室东侧靠绿植的位置，手边放一杯温热的陈皮茶，窗外有光斜照进来，整个人会更稳当些；避开正南方向那片空旷走廊，脚步轻一点，心也跟着踏实下来。\n\n工作上容易被临时拉进多个节奏里，比如同事突然甩来一个急活、领导临时改方案、系统又卡在关键节点——别硬扛，先花三分钟理清哪件事卡住了你的进度条，把最耗神的那件拆成两小步，做完第一步就划掉，心里立刻松一截。别怕开口说“我需要确认下优先级”，今天没人会怪你谨慎。\n\n感情和人际上，说话前多停半秒。尤其跟亲近的人聊天时，容易脱口而出带评判的话，比如“你怎么又……”“早说清楚不就完了”，其实对方只是想被听见。今晚如果一起吃饭，主动夹一筷子菜给对方，比说十句“我懂”都管用；朋友邀约若带点模糊地带，比如“有空出来坐坐”，不如直接问：“明晚七点，老地方？”反而轻松。\n\n身体容易发紧，尤其是肩颈和后腰，像背了半袋米走路。下午三点左右抽五分钟，把双手交叉举过头顶，用力向上伸展，再缓缓呼气放下，重复三次。出门尽量选平底鞋，地铁换乘时少走自动扶梯，多走几步楼梯反而提神；晚上十一点前关掉屏幕，用热毛巾敷眼三分钟，眼皮一沉，睡意就来了。\n\n宜：整理旧文件、回一条拖了两天的微信、煮一锅清淡的粥、穿浅灰或米白衣服  \n忌：签新合同、做重大财务决定、跟人争对错、空腹喝浓茶、睡前刷短视频超过十五分钟",
+      "yi": [
+        "出行",
+        "搬家",
+        "沐浴"
+      ],
+      "ji": [
+        "开业",
+        "安葬"
+      ],
+      "luckyNum": 3,
+      "direction": "西南",
+      "pair": "酉",
+      "quote": "儿童节快乐，永葆童心。",
+      "color": "#9E8E6E",
+      "colorName": "棕色",
+      "blogLinksCN": [
+        {
+          "url": "/zh/blog/five-elements-theory-wu-xing-guide",
+          "title": "五行性格測試：你是木、火、土、金還是水？"
+        },
+        {
+          "url": "/zh/blog/feng-shui-headboard-placement-5-rules",
+          "title": "風水床頭擺放：5大法則"
+        }
+      ],
+      "blogLinksEN": [
+        {
+          "url": "/blog/five-elements-theory-wu-xing-guide",
+          "title": "Five Elements Personality Test: Are You Wood, Fire, Earth, Metal or Water?"
+        },
+        {
+          "url": "/blog/feng-shui-headboard-placement-5-rules",
+          "title": "Feng Shui Bed Headboard Placement: 5 Essential Rules"
+        }
+      ]
+    },
+    "snake": {
+      "score": 70,
+      "verdict": "一般",
+      "content": "空调外机嗡嗡声忽高忽低，茶水壶烧开时哨音比往常尖利半秒，连手机提示音都像被火烤过似的，短促又发干——你耳朵里这股子燥劲，不是错觉。\n\n工作上别硬扛。手头若有需要反复确认的流程、合同条款或数据核对，趁上午头脑还清亮时多过两遍；下午容易因心急跳步，把“等对方回复”误当成“可以推进”，结果白忙一通。有会议尽量安排在11点前，三点后容易话不投机，一句无心的话可能被听成刺儿。\n\n感情里少讲道理，多递杯温水。伴侣或亲近的人今天情绪像晒烫的铁皮，一点就响，你若也跟着辩解两句，火苗立刻窜起来。单身者若约人见面，别选嘈杂咖啡馆，找个树荫下的长椅，聊点轻松的旧事反而更暖场。\n\n午间务必吃口软乎的，比如蒸蛋、粥或煮软的面条，别碰炸物和冰饮。傍晚散步时绕开施工路段，灰尘大，嗓子容易发紧；开车路过隧道前检查下空调滤芯，闷热天它最容易罢工。\n\n宜：整理抽屉、回老朋友微信、给绿植喷水、穿浅色棉麻衣服  \n忌：签新协议、催人还钱、尝试辛辣新菜、晚上十点后刷短视频",
+      "yi": [
+        "出行",
+        "搬家",
+        "沐浴"
+      ],
+      "ji": [
+        "开业",
+        "安葬"
+      ],
+      "luckyNum": 2,
+      "direction": "西南",
+      "pair": "申",
+      "quote": "儿童节快乐，永葆童心。",
+      "color": "#B8665E",
+      "colorName": "红色",
+      "blogLinksCN": [
+        {
+          "url": "/zh/blog/five-elements-theory-wu-xing-guide",
+          "title": "五行性格測試：你是木、火、土、金還是水？"
+        },
+        {
+          "url": "/zh/blog/love-prediction-by-date-of-birth",
+          "title": "依出生日期預測姻緣：八字解讀"
+        }
+      ],
+      "blogLinksEN": [
+        {
+          "url": "/blog/five-elements-theory-wu-xing-guide",
+          "title": "Five Elements Personality Test: Are You Wood, Fire, Earth, Metal or Water?"
+        },
+        {
+          "url": "/blog/love-prediction-by-date-of-birth",
+          "title": "Love Prediction by Date of Birth: BaZi Reading"
+        }
+      ]
+    },
+    "horse": {
+      "score": 55,
+      "verdict": "降低",
+      "content": "今天抽屉里若出现两枚硬币、三张纸条，或手机屏幕右下角时间恰好停在14:28（含两个“2”），别急着忽略——这些细碎的重复数字像轻轻敲了你一下，提醒你：有些事表面平静，底下正悄悄转向。\n\n工作上容易被临时拉进一个“补漏型”任务，比如同事甩来一份赶工的PPT、客户突然改需求、系统卡在关键节点。你本能想快刀斩乱麻，但今天火气旺、金气重，反而容易因一句较真的话把小摩擦烧成争执。建议先深呼吸三秒，把“这不对”换成“我们试试这样行不行”，效果翻倍。\n\n感情里别急着掏心窝子或做重大决定。单身者若约饭，对方聊起前任时你心里一紧，那是信号——今天情绪易被牵着走，不如多听少评；有伴侣的，避免用“你总是…”开头，换成“我今天有点累，想靠你肩膀歇会儿”，软话比道理管用。\n\n午间11:30–13:30之间容易犯困、眼干、喉咙发紧，尤其久坐盯屏后。随身带一小包无糖薄荷糖，含一颗提神又润喉；开车或骑车的朋友，过路口前多等半秒，别抢那眨眼的黄灯。\n\n宜：整理旧物、回一条搁置的微信、给绿植剪枯叶、穿浅灰或米白衣服压火气  \n忌：签新合同、换手机号、发起激烈争论、空腹喝浓茶、睡前刷短视频超过20分钟",
+      "yi": [
+        "出行",
+        "搬家",
+        "沐浴"
+      ],
+      "ji": [
+        "开业",
+        "安葬"
+      ],
+      "luckyNum": 2,
+      "direction": "西南",
+      "pair": "未",
+      "quote": "儿童节快乐，永葆童心。",
+      "color": "#B8665E",
+      "colorName": "红色",
+      "blogLinksCN": [
+        {
+          "url": "/zh/blog/feng-shui-headboard-placement-5-rules",
+          "title": "風水床頭擺放：5大法則"
+        },
+        {
+          "url": "/zh/blog/five-elements-theory-wu-xing-guide",
+          "title": "五行性格測試：你是木、火、土、金還是水？"
+        }
+      ],
+      "blogLinksEN": [
+        {
+          "url": "/blog/feng-shui-headboard-placement-5-rules",
+          "title": "Feng Shui Bed Headboard Placement: 5 Essential Rules"
+        },
+        {
+          "url": "/blog/five-elements-theory-wu-xing-guide",
+          "title": "Five Elements Personality Test: Are You Wood, Fire, Earth, Metal or Water?"
+        }
+      ]
+    },
+    "goat": {
+      "score": 85,
+      "verdict": "上升",
+      "content": "午休时别急着刷手机，把茶杯轻轻转三圈，看着水纹散开再喝一口——这会帮你稳住心神，避开下午容易上头的燥气。\n\n工作上容易接到临时加急的事，但别慌着应承。先默数五秒再开口，尤其涉及签字、改方案或答应别人时间，火气旺容易说错话。手边备张便签，想到什么先写下来，等情绪平复了再决定要不要做。今天适合处理旧事收尾，比如回个拖了几天的邮件、整理报销单，小事办利落，反而比硬扛新任务更顺。\n\n感情里容易因小事较真，比如对方回消息慢了两分钟，或者没按你设想的方式帮忙，心里就悄悄扣分。其实人家没恶意，是你自己太阳晒得太久，有点“烫”。约人见面的话，选有树荫的咖啡馆，别在正午阳光下散步聊天，温度一高，耐心就薄。\n\n记得下午三点左右起身走动五分钟，哪怕只是接杯水、去趟洗手间。空调房里待久了，肩颈容易发僵，回家后用温热毛巾敷脖子后侧，别贪凉吹风扇直吹后脑。开车的朋友，出发前检查下胎压，高温天轮胎容易虚高，别省那几秒钟。\n\n宜：穿浅灰或米白衣服、处理积压文书、给老朋友发条语音问候、吃点酸梅汤降火  \n忌：签新合同、做重大决定、跟人争对错、空腹喝冰饮、晚上十点后还开视频会议",
+      "yi": [
+        "出行",
+        "搬家",
+        "沐浴"
+      ],
+      "ji": [
+        "开业",
+        "安葬"
+      ],
+      "luckyNum": 1,
+      "direction": "西南",
+      "pair": "午",
+      "quote": "儿童节快乐，永葆童心。",
+      "color": "#9E8E6E",
+      "colorName": "棕色",
+      "blogLinksCN": [
+        {
+          "url": "/zh/blog/love-prediction-by-date-of-birth",
+          "title": "依出生日期預測姻緣：八字解讀"
+        },
+        {
+          "url": "/zh/blog/when-will-i-find-love",
+          "title": "八字姻緣預測：你的出生日期揭示何時遇見真愛"
+        }
+      ],
+      "blogLinksEN": [
+        {
+          "url": "/blog/love-prediction-by-date-of-birth",
+          "title": "Love Prediction by Date of Birth: BaZi Reading"
+        },
+        {
+          "url": "/blog/when-will-i-find-love",
+          "title": "When Will I Find Love? What Your Birth Chart Says"
+        }
+      ]
+    },
+    "monkey": {
+      "score": 70,
+      "verdict": "一般",
+      "content": "窗台那盆绿萝的叶子边缘泛着微光，像被谁悄悄镀了层薄金，但光照其实没变强——只是角度偏了点，照得人眼皮发烫，心也跟着浮了一瞬。\n\n工作上容易被临时插进来的杂事绊住脚，比如同事甩来一个“顺手帮下”的表格，或领导突然改口要提前交方案。你脑子转得快，但今天手比脑慢半拍，别硬撑着一口气全扛下来，挑两件最急的先做，其余大大方方说“我下午三点后统一处理”，反而更显靠谱。\n\n感情里别急着追问态度、索要承诺，尤其别在饭桌上、微信语音里抛出“我们到底算什么”这种问题。对方不是躲，是今天气场有点闷，话到嘴边容易卡壳。不如约个傍晚散步，吹吹风，聊点轻松的，比如小时候追过的蝉、弄丢的玻璃弹珠——小事一暖，关系自然松动。\n\n最近容易忽略身体的小信号：嗓子干、手指指尖发麻、坐久了腰背发紧。不是大毛病，但提醒你今天别喝冰咖啡提神，换成温热的陈皮水；通勤路上如果坐地铁，别一直低头刷手机，抬头看看窗外流动的广告牌，让眼睛和颈椎都喘口气。\n\n宜：整理旧物抽屉、给朋友发一句“刚看到这个，想到你”、穿带点金属光泽的配饰（耳钉、手表边框）  \n忌：签新合同、换发型、晚上十点后还跟人争对错",
+      "yi": [
+        "出行",
+        "搬家",
+        "沐浴"
+      ],
+      "ji": [
+        "开业",
+        "安葬"
+      ],
+      "luckyNum": 3,
+      "direction": "西南",
+      "pair": "巳",
+      "quote": "儿童节快乐，永葆童心。",
+      "color": "#D4AF37",
+      "colorName": "金色",
+      "blogLinksCN": [
+        {
+          "url": "/zh/blog/five-elements-theory-wu-xing-guide",
+          "title": "五行性格測試：你是木、火、土、金還是水？"
+        },
+        {
+          "url": "/zh/blog/feng-shui-home-office-7-rules",
+          "title": "居家辦公風水：7條實用規則"
+        }
+      ],
+      "blogLinksEN": [
+        {
+          "url": "/blog/five-elements-theory-wu-xing-guide",
+          "title": "Five Elements Personality Test: Are You Wood, Fire, Earth, Metal or Water?"
+        },
+        {
+          "url": "/blog/feng-shui-home-office-7-rules",
+          "title": "Feng Shui Home Office: 7 Rules"
+        }
+      ]
+    },
+    "rooster": {
+      "score": 70,
+      "verdict": "一般",
+      "content": "空气里飘着一股铁锈混着旧书页的微涩气味，像是抽屉深处翻出的铜钥匙在阳光下晒久了，泛出点哑光的凉意——你刚摸到包带扣时，指尖就微微一滞。\n\n工作上容易被临时塞活儿，尤其下午三点前后，有人会突然找你“帮忙核个数”“顺手改个格式”，听着轻巧，实则要搭进去半个多小时。别硬扛着说“没事”，该推就推，或者直接问清楚“这事儿最晚啥时候要？”——今天你的时间比平时更脆，一碰就容易裂口子。\n\n感情里话别说得太满，尤其别随口答应“明天一定回你消息”“周末肯定陪你”。对方可能真记在小本子上，而你今晚刷手机刷着刷着就忘了。要是单身，别靠发朋友圈试探谁会点赞来判断好感，今天人容易误读信号，安静待着反而更清醒。\n\n嗓子有点干，喝水时多含两秒再咽，别图快。地铁换乘时留神扶梯边缘，鞋跟卡进缝隙的概率比平时高；晚饭少吃炸物，油星溅到手背那一下，烫得特别尖锐。\n\n宜：列三件必须做完的小事、穿浅色袜子、把手机调成震动放桌面  \n忌：签新合同、借贵重物品、吃隔夜银耳、在电梯里和陌生人对视超过两秒",
+      "yi": [
+        "出行",
+        "搬家",
+        "沐浴"
+      ],
+      "ji": [
+        "开业",
+        "安葬"
+      ],
+      "luckyNum": 4,
+      "direction": "西南",
+      "pair": "辰",
+      "quote": "儿童节快乐，永葆童心。",
+      "color": "#D4AF37",
+      "colorName": "金色",
+      "blogLinksCN": [
+        {
+          "url": "/zh/blog/love-prediction-by-date-of-birth",
+          "title": "依出生日期預測姻緣：八字解讀"
+        },
+        {
+          "url": "/zh/blog/five-elements-theory-wu-xing-guide",
+          "title": "五行性格測試：你是木、火、土、金還是水？"
+        }
+      ],
+      "blogLinksEN": [
+        {
+          "url": "/blog/love-prediction-by-date-of-birth",
+          "title": "Love Prediction by Date of Birth: BaZi Reading"
+        },
+        {
+          "url": "/blog/five-elements-theory-wu-xing-guide",
+          "title": "Five Elements Personality Test: Are You Wood, Fire, Earth, Metal or Water?"
+        }
+      ]
+    },
+    "dog": {
+      "score": 80,
+      "verdict": "上升",
+      "content": "指尖刚碰上手机屏幕，微微发烫，像刚晒过太阳的玻璃窗——别急着回消息，先深呼吸三次，让心口那点躁气沉下去。\n\n工作上容易接到临时加塞的任务，尤其下午三点前后，有人会突然找你补个材料、改个方案。别硬扛着说“没问题”，先看看手头进度，把最耗神的活儿挪到上午做，剩下零碎事列成三行小纸条，贴在电脑边框上，做完一条撕一条，心里踏实。\n\n感情里今天容易因小事较真，比如对方没及时回微信、吃饭时多看了两眼手机，你心里就悄悄记了笔账。其实对方未必有心，不如直接说：“你刚在忙啥呢？”比憋着猜强十倍。朋友约饭也别推脱，坐下来聊十分钟，比刷半小时朋友圈更解压。\n\n最近火气旺，容易口干舌燥、眼睛发涩，记得早起喝一杯温水，别等渴了再灌。晚饭少吃煎炸，换成蒸南瓜或山药粥，胃舒服了，晚上躺下也容易入睡。开车路过施工路段多留神，喇叭少按，心平气顺才不堵车。\n\n宜：整理旧文件、给绿植浇水、穿浅色衣服、主动开口问一句“需要帮忙吗”  \n忌：熬夜改方案、翻旧聊天记录、吃太咸、替别人做决定",
+      "yi": [
+        "出行",
+        "搬家",
+        "沐浴"
+      ],
+      "ji": [
+        "开业",
+        "安葬"
+      ],
+      "luckyNum": 9,
+      "direction": "西南",
+      "pair": "卯",
+      "quote": "儿童节快乐，永葆童心。",
+      "color": "#9E8E6E",
+      "colorName": "棕色",
+      "blogLinksCN": [
+        {
+          "url": "/zh/blog/feng-shui-headboard-placement-5-rules",
+          "title": "風水床頭擺放：5大法則"
+        },
+        {
+          "url": "/zh/blog/when-will-i-find-love",
+          "title": "八字姻緣預測：你的出生日期揭示何時遇見真愛"
+        }
+      ],
+      "blogLinksEN": [
+        {
+          "url": "/blog/feng-shui-headboard-placement-5-rules",
+          "title": "Feng Shui Bed Headboard Placement: 5 Essential Rules"
+        },
+        {
+          "url": "/blog/when-will-i-find-love",
+          "title": "When Will I Find Love? What Your Birth Chart Says"
+        }
+      ]
+    },
+    "pig": {
+      "score": 70,
+      "verdict": "一般",
+      "content": "煮一壶茶时别急着掀盖，等水汽在壶嘴聚成小滴再缓缓落下，那会儿茶香才真正散开——你今天做事也这样，慢半拍反而更顺手。\n\n工作上容易遇到临时插进来的活儿，比如同事甩来一份要加急处理的表格，或者领导突然改了方案方向。别硬扛着一口气全吞下去，先挑最紧要的两三件事定好顺序，其余的大大方方说“我下午三点前给您初稿”，别人反而更放心。金气太旺，脑子转得快但容易想多，写完一段就起身走两步，别闷在椅子上反复删改。\n\n感情里说话别带“反正”“随便你”这类词，尤其跟亲近的人聊事时，哪怕只是晚饭吃啥，也试着把“都行”换成“我想吃点清淡的，你呢？”。朋友约饭、家人来电，接起来别一边刷手机一边应声，放下手机听满三句话再开口，对方能感觉到你在场。\n\n最近容易口干舌燥、眼皮发沉，早上出门前喝一小杯温水，别等渴了才灌；地铁换乘时别盯着手机猛赶，留出半分钟等下一趟更稳当。睡前把手机放远点，用纸质书翻十页，比刷短视频入睡快得多。\n\n宜：理旧账（比如清理微信不常联系的人、整理抽屉里过期的票据）、穿浅灰或米白衣服、傍晚散步十五分钟  \n忌：签新合同、做重大财务决定、空腹喝浓茶、跟人争“道理”谁对谁错",
+      "yi": [
+        "出行",
+        "搬家",
+        "沐浴"
+      ],
+      "ji": [
+        "开业",
+        "安葬"
+      ],
+      "luckyNum": 9,
+      "direction": "西南",
+      "pair": "寅",
+      "quote": "儿童节快乐，永葆童心。",
+      "color": "#5B8299",
+      "colorName": "蓝色",
+      "blogLinksCN": [
+        {
+          "url": "/zh/blog/five-elements-theory-wu-xing-guide",
+          "title": "五行性格測試：你是木、火、土、金還是水？"
+        },
+        {
+          "url": "/zh/blog/love-prediction-by-date-of-birth",
+          "title": "依出生日期預測姻緣：八字解讀"
+        }
+      ],
+      "blogLinksEN": [
+        {
+          "url": "/blog/five-elements-theory-wu-xing-guide",
+          "title": "Five Elements Personality Test: Are You Wood, Fire, Earth, Metal or Water?"
+        },
+        {
+          "url": "/blog/love-prediction-by-date-of-birth",
+          "title": "Love Prediction by Date of Birth: BaZi Reading"
+        }
+      ]
+    }
+  },
+  "fortunesEn": {
+    "rat": {
+      "keywords": null,
+      "verdict": "Challenging energy - caution and restraint recommended",
+      "content": "Chinese zodiac Rat, your energy feels quietly charged today—like that little brass bell on your keychain that went silent but still hums with warmth. It’s a subtle sign: things aren’t broken, just recalibrating. Your Rat daily horoscope points to a day where intuition runs deeper than logic, and small physical cues (a warm metal surface, dry eyes, a tingle) are actually your body’s way of speaking up. Don’t ignore them—they’re part of your Rat fortune today.\n\nWork will test your patience more than your skill. You’ll catch yourself second-guessing every send, edit, and reply—even when nothing’s wrong. That loop of “Did I miss something?” is exhausting, not productive. Honestly? Step away from the screen after 3 p.m. Grab pen and paper, break one big task into three tiny steps, and cross each off by hand. The physical act of scratching it out resets your nervous system better than any app.\n\nRomance or closeness won’t flow through grand declarations today—it’ll live in quiet gestures. You might fumble the words, blurting out something oddly practical instead of tender. That’s okay. Handing someone a warm cup of water, smoothing their notebook stack, or pausing to really listen while they talk? Those things land louder than perfect sentences. Let care show up in motion, not monologue.\n\nYour body’s asking for gentle attention—not alarm. Eyes feel gritty, throat’s a little scratchy, and that post-nap numbness on your tongue? Classic signs you’re running slightly overheated. Skip the fried snacks and sticky pastries. Keep a small pouch of chrysanthemum and goji tea at your desk—steep it, sip slowly, and hydrate before you’re thirsty. And if you’re driving or biking, pause an extra half-second at yellow lights. Rushing isn’t worth the risk.\n\nGood to do: Tidy a drawer or shelf, water your plants with real attention, wear deep blue or charcoal (it grounds you), and jot down three small wins before bed. \nBetter to avoid: Signing anything binding, updating your phone OS, bringing up heavy topics with loved ones, or eating leftover spicy dishes—your digestion’s extra sensitive.",
+      "score": 55,
+      "length": 2101,
+      "yi": [
+        "出行",
+        "搬家",
+        "沐浴"
+      ],
+      "ji": [
+        "开业",
+        "安葬"
+      ],
+      "quote": "儿童节快乐，永葆童心。",
+      "quoteEn": "A silent bell holds its song—listen closer, not louder.",
+      "luckyNum": 9,
+      "direction": "西南",
+      "pair": "丑",
+      "blogLinksEN": [
+        {
+          "url": "/blog/five-elements-theory-wu-xing-guide",
+          "title": "Five Elements Personality Test: Are You Wood, Fire, Earth, Metal or Water?"
+        },
+        {
+          "url": "/blog/love-prediction-by-date-of-birth",
+          "title": "Love Prediction by Date of Birth: BaZi Reading"
+        }
+      ]
+    },
+    "ox": {
+      "keywords": null,
+      "verdict": "Mixed fortune - opportunities balanced with challenges",
+      "content": "Your energy today feels grounded but quietly urgent—like a steady river picking up speed before a gentle bend. As a Chinese zodiac Ox, you’re naturally reliable and thorough, and today that calm strength is your biggest asset. But don’t mistake stillness for stagnation; this is a day where small, intentional choices ripple outward. Your Ox daily horoscope highlights focus over force—and that’s the real win.\n\nWorkwise, skip the “I’ll just power through” mindset, especially after 3 p.m. You’ll spin your wheels without moving forward. Morning is your sweet spot: lock in meetings, clarify priorities, and say “not yet” to last-minute asks. If you’re submitting something important, build in that extra 20 minutes—not because it’s messy, but because your usual precision needs a soft pause. Rushing today makes tiny errors stand out more than usual.\n\nIn love or close relationships, listening is your superpower—but only if you truly do it. Hold back the reflex to fix, defend, or explain. Let someone speak uninterrupted for three full minutes first. If you’re single and meeting someone new, go for daylight and comfort over mood lighting. And text instead of voice notes: slower typing means warmer words, and that warmth gets noticed.\n\nYour body’s asking for kindness, not heroics. Skip the scalding soup and fiery spices at lunch—even mild heat can stir things up. A 15-minute eyes-closed rest beats scrolling any day. Later, stretch your back around 6 p.m., and if you’re driving, double-check mirrors before turning or parking. Little habits keep everything running smoothly.\n\nGood to do: jot quick handwritten notes, simplify your to-do list to five items max, wear deep blue or warm gray, sip warm honey water. Better to avoid: signing anything binding, sending money without a second look, arguing to “win,” or watching intense shows right before bed.",
+      "score": 60,
+      "length": 1863,
+      "yi": [
+        "出行",
+        "搬家",
+        "沐浴"
+      ],
+      "ji": [
+        "开业",
+        "安葬"
+      ],
+      "quote": "儿童节快乐，永葆童心。",
+      "quoteEn": "Clarity arrives not when the list shrinks, but when your focus chooses its three true anchors.",
+      "luckyNum": 8,
+      "direction": "西南",
+      "pair": "子",
+      "blogLinksEN": [
+        {
+          "url": "/blog/five-elements-theory-wu-xing-guide",
+          "title": "Five Elements Personality Test: Are You Wood, Fire, Earth, Metal or Water?"
+        },
+        {
+          "url": "/blog/when-will-i-find-love",
+          "title": "When Will I Find Love? What Your Birth Chart Says"
+        }
+      ]
+    },
+    "tiger": {
+      "keywords": null,
+      "verdict": "Rising luck - an excellent day for all endeavors",
+      "content": "Chinese zodiac Tiger, your energy today feels like a well-timed espresso—sharp, warm, and just enough to lift you without the crash. You’re in that rare sweet spot where momentum meets clarity, and people are actually listening when you speak. Your Tiger daily horoscope has a confident 8/10 vibe—not because everything’s easy, but because you’re meeting friction with calm precision.\n\nWork is moving fast, and honestly? That’s good news. That stalled project just got unstuck, and your voice carried real weight in that quick huddle. Speak up early about what you need—time, help, or a slight pivot—and watch how quickly doors open. Just remember: saying “I’ll handle it” is powerful, but leaving room for adjustment keeps your credibility intact and your stress low.\n\nRomance isn’t demanding grand gestures today—it’s in the little warmth that lingers. A laugh with an old friend over shared memories, or a quiet spark with someone new who asks thoughtful questions and holds eye contact just a beat longer. No pressure to label anything. Let connection breathe, and enjoy how light it feels.\n\nYour body’s asking for small kindnesses, not big fixes. Skip the cold drink at noon—warm broth or a simple noodle bowl settles your nerves better. Tuck a sunflower on your desk; its quiet brightness is a grounding anchor when things pile up. And if you’re driving, take the slightly longer route past that construction zone—it saves more time than you think.\n\nGood to do: seal one clear agreement face-to-face, send that overdue reply, wear something that makes you smile when you glance in the mirror \nBetter to avoid: volunteering for extra tasks without checking your bandwidth, splashing cold water on your face (it shocks your system), scrolling before bed—it steals your wind-down",
+      "score": 90,
+      "length": 1782,
+      "yi": [
+        "出行",
+        "搬家",
+        "沐浴"
+      ],
+      "ji": [
+        "开业",
+        "安葬"
+      ],
+      "quote": "儿童节快乐，永葆童心。",
+      "quoteEn": "Let warmth rise from within—no rush, no mask, just steady light.",
+      "luckyNum": 2,
+      "direction": "西南",
+      "pair": "亥",
+      "blogLinksEN": [
+        {
+          "url": "/blog/five-elements-theory-wu-xing-guide",
+          "title": "Five Elements Personality Test: Are You Wood, Fire, Earth, Metal or Water?"
+        },
+        {
+          "url": "/blog/feng-shui-home-office-7-rules",
+          "title": "Feng Shui Home Office: 7 Rules"
+        }
+      ]
+    },
+    "rabbit": {
+      "keywords": null,
+      "verdict": "Balanced day - steady progress without major fluctuations",
+      "content": "Hey Rabbit—your Chinese zodiac Rabbit energy today feels like a gentle but persistent hum, not loud, but impossible to ignore. That subtle tension at the back of your neck? It’s your body’s quiet way of saying “hey, slow down.” Your Rabbit daily horoscope is all about honoring those small physical signals before they turn into bigger stress.\n\nWork will feel a little like playing whack-a-mole—you’ll get asked to jump in on things last minute, and it’s tempting to say yes to everything. But here’s the thing: saying “let’s split this” isn’t weakness, it’s strategy. Even a tiny bit of shared effort—like asking someone to proofread or just hold space while you think—keeps your head clear and your shoulders lower.\n\nIn love or friendship, your kindness is one of your superpowers—but today, it’s also your biggest trap. You’ll want to promise yes before you’ve checked your calendar or your energy. If someone asks for your time, pause. Touch that spot on your neck—if it’s still tight, buy yourself two hours to breathe before replying. That small delay protects your peace.\n\nYour body’s asking for softness tonight: swap screen time for a warm towel on your neck, skip the fried snacks, and sip lemon water instead of strong tea on an empty stomach. Watch your step on slippery surfaces, especially during transit—and seriously, put the phone down at least 15 minutes before bed. Your nervous system will thank you.\n\nGood to do: ask for help early, double-check timing before committing, wear something that gives your neck room to breathe, snack on cucumber or watermelon. Better to avoid: taking on three new tasks at once, deciding for others, drinking bitter tea without food, or scrolling right up to sleep.",
+      "score": 80,
+      "length": 1717,
+      "yi": [
+        "出行",
+        "搬家",
+        "沐浴"
+      ],
+      "ji": [
+        "开业",
+        "安葬"
+      ],
+      "quote": "儿童节快乐，永葆童心。",
+      "quoteEn": "Your body speaks first—listen before the mind rushes in.",
+      "luckyNum": 3,
+      "direction": "西南",
+      "pair": "戌",
+      "blogLinksEN": [
+        {
+          "url": "/blog/love-prediction-by-date-of-birth",
+          "title": "Love Prediction by Date of Birth: BaZi Reading"
+        },
+        {
+          "url": "/blog/five-elements-theory-wu-xing-guide",
+          "title": "Five Elements Personality Test: Are You Wood, Fire, Earth, Metal or Water?"
+        }
+      ]
+    },
+    "dragon": {
+      "keywords": null,
+      "verdict": "Balanced day - steady progress without major fluctuations",
+      "content": "Hey Dragon—today’s energy feels grounded and quietly intentional, like sunlight filtering through leaves onto your desk. As a Chinese zodiac Dragon, you’re naturally bold and magnetic, but today calls for softness over speed. Think of your Dragon daily horoscope as a gentle nudge to lead with presence, not power. Your Dragon fortune today isn’t about big wins—it’s about small, steady choices that add up to real calm.\n\nWork will feel like juggling in slow motion—urgent requests, shifting deadlines, tech hiccups. Don’t try to muscle through it all at once. Pause, name the one thing truly blocking you, then break it into two tiny actions. Do the first, cross it off, and breathe. It’s okay to ask, “What’s the top priority right now?” People respect clarity more than heroics today.\n\nIn love or close relationships, your words carry extra weight—so let them land gently. That half-second pause before speaking? Gold. With someone you care about, skip the critique and offer warmth instead: pass the salt, refill their glass, or just listen without fixing. If plans feel vague, get specific—it saves everyone mental energy and builds trust.\n\nYour body’s asking for kindness, especially your shoulders and lower back. Try that simple stretch—arms overhead, deep breath up, slow release—three times this afternoon. Swap heels for flats, take the stairs instead of the escalator, and give your eyes a warm towel hug before bed. Sleep starts long before your head hits the pillow.\n\nGood to do: tidy an old drawer, send that overdue reply, simmer a light rice porridge, wear soft neutral tones. \nBetter to avoid: signing anything binding, moving money around, debating who’s “right,” drinking strong tea on an empty stomach, or scrolling right up to bedtime.",
+      "score": 70,
+      "length": 1757,
+      "yi": [
+        "出行",
+        "搬家",
+        "沐浴"
+      ],
+      "ji": [
+        "开业",
+        "安葬"
+      ],
+      "quote": "儿童节快乐，永葆童心。",
+      "quoteEn": "Sunlight through leaves, breath held just long enough to remember you’re already enough",
+      "luckyNum": 3,
+      "direction": "西南",
+      "pair": "酉",
+      "blogLinksEN": [
+        {
+          "url": "/blog/five-elements-theory-wu-xing-guide",
+          "title": "Five Elements Personality Test: Are You Wood, Fire, Earth, Metal or Water?"
+        },
+        {
+          "url": "/blog/feng-shui-headboard-placement-5-rules",
+          "title": "Feng Shui Bed Headboard Placement: 5 Essential Rules"
+        }
+      ]
+    },
+    "snake": {
+      "keywords": null,
+      "verdict": "Balanced day - steady progress without major fluctuations",
+      "content": "Chinese zodiac Snake, your energy today feels like a summer afternoon just before thunder—charged, restless, and a little too loud in the ears. That sharpness you’re noticing in everyday sounds? It’s real, and it mirrors how your nervous system is humming right now. Your Snake daily horoscope points to high sensitivity and quick reflexes, but not the kind that serve you well when rushed. Slow down before you sprint.\n\nWork feels like walking on warm pavement—everything’s slightly unsteady. If you’re reviewing contracts, double-checking numbers, or waiting on replies, do the heavy lifting before noon. After 3 p.m., miscommunication spikes: what you say lightly might land heavily. Skip scheduling tough conversations late in the day. Honestly? Let things breathe instead of pushing.\n\nLove isn’t about fixing—it’s about softening. If someone close is prickly or short-tempered, skip the logic and hand them water instead. For singles, skip the loud first-date spots. A quiet bench, shared memories, and easy laughter will land better than clever banter. Romance luck today lives in stillness, not spark.\n\nYour body’s asking for gentleness. Eat something warm and tender at lunch—steamed eggs, congee, or soft noodles. Skip anything fried, icy, or overly spicy. If you’re driving, check your AC filter before tunnel stretches. And yes—dust and dry air really *will* catch up with your throat.\n\nGood to do: tidy a drawer, text an old friend, mist your plants, wear light cotton or linen \nBetter to avoid: signing anything binding, chasing repayments, trying fiery new foods, scrolling past 10 p.m.",
+      "score": 70,
+      "length": 1600,
+      "yi": [
+        "出行",
+        "搬家",
+        "沐浴"
+      ],
+      "ji": [
+        "开业",
+        "安葬"
+      ],
+      "quote": "儿童节快乐，永葆童心。",
+      "quoteEn": "Before the storm breaks, listen—not to the noise, but to the quiet beneath it",
+      "luckyNum": 2,
+      "direction": "西南",
+      "pair": "申",
+      "blogLinksEN": [
+        {
+          "url": "/blog/five-elements-theory-wu-xing-guide",
+          "title": "Five Elements Personality Test: Are You Wood, Fire, Earth, Metal or Water?"
+        },
+        {
+          "url": "/blog/love-prediction-by-date-of-birth",
+          "title": "Love Prediction by Date of Birth: BaZi Reading"
+        }
+      ]
+    },
+    "horse": {
+      "keywords": null,
+      "verdict": "Challenging energy - caution and restraint recommended",
+      "content": "Hey Horse—your energy today feels like a simmering pot: calm on the surface, but something’s shifting underneath. If you spot repeating numbers—two coins in a drawer, three stray notes, or your phone freezing at 14:28—it’s not coincidence. It’s your Chinese zodiac Horse intuition nudging you to pause and notice what’s quietly rearranging. Your Horse daily horoscope is all about gentle awareness, not force.\n\nWork will test your patience more than your skill. You’ll likely get pulled into last-minute fixes—revised slides, sudden client asks, tech hiccups—and your first instinct is to fix it fast. But today’s fire-and-metal mix makes snap reactions risky. One sharp word can escalate fast. So breathe before you reply. Swap “That’s wrong” for “What if we try this instead?” It keeps things light and gets better results.\n\nRomance isn’t about big moves today—it’s about soft landings. If you’re single and someone mentions an ex over lunch, that little twinge? Listen to it. Don’t rush to share deep feelings or make plans. If you’re in a relationship, skip the “you always…” talk. Try “I’m feeling a bit drained—can I just lean on you for a minute?” That kind of honesty disarms tension without drama.\n\nYour body’s asking for small kindnesses, especially between 11:30 am and 1:30 pm. Eye strain, dry throat, and afternoon fog are real—especially if you’re glued to a screen. Keep sugar-free mint lozenges handy. And if you’re driving or biking, give yellow lights extra respect. That half-second pause protects way more than you think.\n\nGood to do: Tidy a drawer, send that overdue text, trim dead leaves off your plants, wear soft neutral tones like light gray or cream—they really do help ground your energy. \nBetter to avoid: Signing anything binding, changing your number, diving into heated debates, drinking strong tea on an empty stomach, or scrolling late-night videos past 20 minutes.",
+      "score": 55,
+      "length": 1899,
+      "yi": [
+        "出行",
+        "搬家",
+        "沐浴"
+      ],
+      "ji": [
+        "开业",
+        "安葬"
+      ],
+      "quote": "儿童节快乐，永葆童心。",
+      "quoteEn": "Quiet shifts happen beneath still surfaces—notice the small signs, and trust your inner rhythm.",
+      "luckyNum": 2,
+      "direction": "西南",
+      "pair": "未",
+      "blogLinksEN": [
+        {
+          "url": "/blog/feng-shui-headboard-placement-5-rules",
+          "title": "Feng Shui Bed Headboard Placement: 5 Essential Rules"
+        },
+        {
+          "url": "/blog/five-elements-theory-wu-xing-guide",
+          "title": "Five Elements Personality Test: Are You Wood, Fire, Earth, Metal or Water?"
+        }
+      ]
+    },
+    "goat": {
+      "keywords": null,
+      "verdict": "Rising luck - an excellent day for all endeavors",
+      "content": "Hey Goat—your Chinese zodiac Goat energy today is all about gentle grounding, not pushing through. Think of it like walking barefoot on cool grass after a warm sidewalk: you’re not behind, you’re just recalibrating. This isn’t a high-octane Goat daily horoscope day—it’s one where slowing down actually moves you forward. Your Goat fortune today shines brightest when you honor small pauses instead of treating them like wasted time.\n\nWork feels a little reactive—like someone just tossed a hot potato your way. That’s okay, but don’t catch it with your bare hands. Pause five seconds before saying yes, especially if it involves deadlines, signatures, or shifting plans. Jot ideas on a sticky note first; let them sit while your head cools. You’ll surprise yourself how smoothly old tasks wrap up—those overdue emails? The messy receipts? Tackle them now. Completion feels better than momentum today.\n\nIn love, your antennae are extra sensitive—and slightly overheated. A delayed text or a mismatched expectation might spark quiet frustration, but it’s rarely about the other person. It’s more about your own inner temperature rising. If you’re meeting up, pick shade over sun, calm over chaos. A breezy corner table beats a sun-drenched park bench—your patience (and theirs) will thank you.\n\nYour body’s whispering for micro-breaks. Around 3 p.m., stand up—even just to refill your glass or stretch your shoulders. Stiffness creeps in fast in dry, air-conditioned spaces, so ease into evening with a warm towel on your neck. And if you drive, double-check tire pressure before pulling out. Heat plays tricks on rubber—and on judgment.\n\nGood to do: wear soft neutral tones, clear small admin tasks, voice-note an old friend, sip something tart and cooling like plum tea. Better to avoid: signing anything binding, making big life calls, debating semantics, gulping icy drinks on an empty stomach, or scheduling video chats past 10 p.m.",
+      "score": 85,
+      "length": 1936,
+      "yi": [
+        "出行",
+        "搬家",
+        "沐浴"
+      ],
+      "ji": [
+        "开业",
+        "安葬"
+      ],
+      "quote": "儿童节快乐，永葆童心。",
+      "quoteEn": "Pause, watch the ripples settle, then drink—not from thirst, but from presence.",
+      "luckyNum": 1,
+      "direction": "西南",
+      "pair": "午",
+      "blogLinksEN": [
+        {
+          "url": "/blog/love-prediction-by-date-of-birth",
+          "title": "Love Prediction by Date of Birth: BaZi Reading"
+        },
+        {
+          "url": "/blog/when-will-i-find-love",
+          "title": "When Will I Find Love? What Your Birth Chart Says"
+        }
+      ]
+    },
+    "monkey": {
+      "keywords": null,
+      "verdict": "Balanced day - steady progress without major fluctuations",
+      "content": "Hey Monkey—your energy today feels like sunlight catching a leaf just right: not brighter, but suddenly more noticeable. That’s the Chinese zodiac Monkey for you—sharp, adaptable, and always catching little shifts before anyone else does. Your Monkey daily horoscope has a quiet kind of sparkle, but it’s not about big wins. It’s about noticing the tilt, adjusting the angle, and moving with grace instead of force.\n\nWork will feel like walking through shallow water—things look clear, but every step stirs up little ripples. That “quick favor” someone drops on your desk? It’ll cost more mental energy than it seems. Trust your instinct: pick the two most urgent items, handle them cleanly, and hold gentle boundaries on the rest. Saying “I’ll batch this after 3 p.m.” isn’t lazy—it’s how reliable people stay sane.\n\nRomance isn’t about answers today—it’s about atmosphere. Pushing for definitions or declarations will only make things feel heavier. Instead, create lightness: suggest a walk at golden hour, talk about something nostalgic and harmless—like that time you tried to catch fireflies in a jar. Warmth builds quietly, not under pressure.\n\nYour body’s sending soft taps on the shoulder: dry throat, tingling fingers, tight shoulders. Nothing alarming—just your system asking for gentler fuel and slower rhythms. Skip the icy coffee. Try warm tangerine peel tea. And if you’re on transit, lift your gaze from your phone once in a while—let your eyes wander, let your neck relax.\n\nGood to do: dig through an old drawer and text a friend something random that reminded you of them. Wear something with subtle shine—silver earrings, a watch with a brushed metal face. \nBetter to avoid: signing anything binding, chopping off your hair on impulse, or debating fine points past 10 p.m.",
+      "score": 70,
+      "length": 1790,
+      "yi": [
+        "出行",
+        "搬家",
+        "沐浴"
+      ],
+      "ji": [
+        "开业",
+        "安葬"
+      ],
+      "quote": "儿童节快乐，永葆童心。",
+      "quoteEn": "Light doesn’t change—it just finds a new way to land on you",
+      "luckyNum": 3,
+      "direction": "西南",
+      "pair": "巳",
+      "blogLinksEN": [
+        {
+          "url": "/blog/five-elements-theory-wu-xing-guide",
+          "title": "Five Elements Personality Test: Are You Wood, Fire, Earth, Metal or Water?"
+        },
+        {
+          "url": "/blog/feng-shui-home-office-7-rules",
+          "title": "Feng Shui Home Office: 7 Rules"
+        }
+      ]
+    },
+    "rooster": {
+      "keywords": null,
+      "verdict": "Balanced day - steady progress without major fluctuations",
+      "content": "Chinese zodiac Rooster, your energy today feels like a vintage key left in the sun—cool to the touch but with quiet weight behind it. You’re sharp, observant, and quietly alert, but also more sensitive than usual to interruptions and unspoken expectations. This is your Rooster daily horoscope, and honestly? It’s one of those days where small things carry extra weight—so trust your gut when something feels off.\n\nWork will test your boundaries, especially mid-afternoon. Someone will ask for “just a quick favor” that quietly eats up your focus and time. Don’t default to “sure!” out of habit. Pause, clarify deadlines, and protect your rhythm. Your attention span is narrower today—not a flaw, just a fact. Honor it by saying no without over-explaining.\n\nIn love or relationships, keep promises light and specific. Vague commitments like “I’ll call soon” or “We’ll plan something next week” can backfire—someone might take them literally, and you’ll feel guilty later. If you’re single, skip the subtle social media cues. No one’s decoding your posts like a love cipher today. Real connection starts with presence, not performance.\n\nYour body’s sending gentle signals: dry throat, a little fatigue, maybe a twitchy awareness around movement. Sip water slowly. Watch your step on escalators—shoe heels catch easier today. Skip heavy fried foods at dinner; your digestion prefers simplicity. Rest isn’t lazy—it’s strategic.\n\nGood to do: write down three tiny must-dos (not goals—actual tasks), wear light-colored socks, keep your phone visible and on vibrate. Better to avoid: signing anything binding, lending jewelry or electronics, eating leftover cooked fungus like silver ear, or holding eye contact too long in tight spaces.",
+      "score": 70,
+      "length": 1731,
+      "yi": [
+        "出行",
+        "搬家",
+        "沐浴"
+      ],
+      "ji": [
+        "开业",
+        "安葬"
+      ],
+      "quote": "儿童节快乐，永葆童心。",
+      "quoteEn": "A quiet pause holds more truth than a rushed promise",
+      "luckyNum": 4,
+      "direction": "西南",
+      "pair": "辰",
+      "blogLinksEN": [
+        {
+          "url": "/blog/love-prediction-by-date-of-birth",
+          "title": "Love Prediction by Date of Birth: BaZi Reading"
+        },
+        {
+          "url": "/blog/five-elements-theory-wu-xing-guide",
+          "title": "Five Elements Personality Test: Are You Wood, Fire, Earth, Metal or Water?"
+        }
+      ]
+    },
+    "dog": {
+      "keywords": null,
+      "verdict": "Rising luck - an excellent day for all endeavors",
+      "content": "Hey Dog—your energy today feels like sunlight warming a windowsill: gentle but with a quiet intensity underneath. As a Chinese zodiac Dog, you’re naturally loyal and grounded, but today asks for extra patience with yourself and others. This isn’t a high-octane day—it’s one that rewards slowness, clarity, and small intentional choices. Your Dog fortune today leans into calm competence, not heroic effort.\n\nWork will test your boundaries, especially mid-afternoon when last-minute requests pop up. Don’t default to “sure!” before checking your bandwidth. Shift your heaviest focus to the morning, then break the rest into bite-sized tasks—literally write them down and tear them off as you go. That physical ritual helps your mind relax and trust the process.\n\nIn love or close relationships, tiny things might feel loaded—delayed replies, distracted glances, silence where you expected chatter. But most of it’s probably just noise, not meaning. Try swapping silent stories in your head for one simple, kind question: “What’s on your mind right now?” It opens doors instead of building walls.\n\nYour body’s asking for kindness today—especially your throat, eyes, and digestion. Sip warm water first thing, skip the salty snacks, and lean into soft foods like steamed squash or ginger-miso soup. If you’re driving, give yourself extra space around construction zones. A calmer commute starts with a calmer breath.\n\nGood to do: Clear out old emails, mist your plants, wear something light and airy, offer help before it’s asked. \nBetter to avoid: Burning the midnight oil on revisions, scrolling back through old convos, over-salting your food, or stepping in to fix someone else’s choice.",
+      "score": 80,
+      "length": 1688,
+      "yi": [
+        "出行",
+        "搬家",
+        "沐浴"
+      ],
+      "ji": [
+        "开业",
+        "安葬"
+      ],
+      "quote": "儿童节快乐，永葆童心。",
+      "quoteEn": "Breathe first. Speak gently. Let small things stay small.",
+      "luckyNum": 9,
+      "direction": "西南",
+      "pair": "卯",
+      "blogLinksEN": [
+        {
+          "url": "/blog/feng-shui-headboard-placement-5-rules",
+          "title": "Feng Shui Bed Headboard Placement: 5 Essential Rules"
+        },
+        {
+          "url": "/blog/when-will-i-find-love",
+          "title": "When Will I Find Love? What Your Birth Chart Says"
+        }
+      ]
+    },
+    "pig": {
+      "keywords": null,
+      "verdict": "Balanced day - steady progress without major fluctuations",
+      "content": "Hey there, Chinese zodiac Pig — your energy today is like a well-steeped cup of tea: rich, calm, and deeply soothing once you let it settle. You’re not rushing, and that’s exactly right. This is a Pig daily horoscope where patience isn’t just polite — it’s your secret superpower. Your intuition is quietly sharp, and people around you are picking up on your grounded vibe without you saying a word.\n\nWork feels a little scattered, like papers fluttering in a breeze — urgent requests pop up, plans shift, and your mind races ahead of your breath. That’s okay. Instead of trying to catch every falling leaf, gently gather the top two or three priorities and give them clear timing. Saying “I’ll send you the first version by 3 p.m.” builds trust way more than silent stress. Step away from your desk for two minutes every hour — it resets your focus better than ten minutes of staring at the screen.\n\nIn love or close relationships, tone matters more than content today. Swap dismissive phrases like “whatever” or “fine” for soft, open ones — even small things like choosing dinner become chances to connect. When someone calls or texts, pause before replying. Put the phone down, take one breath, and listen fully. That presence? It’s the quiet magic that makes people feel truly seen.\n\nYou might notice dry lips, tired eyes, or that heavy-afternoon slump. A small glass of warm water first thing helps more than you’d think. And if you’re commuting, skip the sprint between trains — waiting calmly for the next one saves energy and nerves. At night, trade scrolling for turning real pages. Ten minutes with a book signals safety to your nervous system — and sleep follows faster.\n\nGood to do today: tidy up loose ends (old messages, expired receipts), wear soft neutral tones like light gray or cream, and take a slow walk as the light softens. Better to avoid: signing anything binding, making big money moves, drinking strong tea on an empty stomach, or getting stuck in “who’s right” debates.",
+      "score": 70,
+      "length": 1997,
+      "yi": [
+        "出行",
+        "搬家",
+        "沐浴"
+      ],
+      "ji": [
+        "开业",
+        "安葬"
+      ],
+      "quote": "儿童节快乐，永葆童心。",
+      "quoteEn": "Let things steep. Let them settle. The richest flavor comes not from haste, but from waiting just long enough.",
+      "luckyNum": 9,
+      "direction": "西南",
+      "pair": "寅",
+      "blogLinksEN": [
+        {
+          "url": "/blog/five-elements-theory-wu-xing-guide",
+          "title": "Five Elements Personality Test: Are You Wood, Fire, Earth, Metal or Water?"
+        },
+        {
+          "url": "/blog/love-prediction-by-date-of-birth",
+          "title": "Love Prediction by Date of Birth: BaZi Reading"
+        }
+      ]
+    }
+  }
+}
