@@ -174,27 +174,25 @@ async function downloadCheck(req, res) {
     const ip = (req.headers['x-forwarded-for'] || req.socket?.remoteAddress || 'unknown').split(',')[0].trim();
     const { getRedis } = await import('../shared/redis.js');
     const client = getRedis();
-    if (!client) return res.status(200).json({ allowed: true, used: 0, limit: 1 });
-
-    // 共享计数器：同一 IP 下游客和登录用户共享配额
-    const dlKey = 'dl:' + ip + ':' + today;
-    const totalUsed = parseInt(await client.get(dlKey) || '0');
+    if (!client) return res.status(503).json({ error: 'Service unavailable', allowed: false });
 
     const auth = req.headers.authorization;
 
-    // Guest mode — 每天最多 1 次（与登录用户共享计数）
+    // Guest mode — 每天最多 1 次
     if (!auth || !auth.startsWith('Bearer ')) {
-        if (totalUsed >= 1) {
+        const dlKey = 'dl:' + ip + ':' + today;
+        const used = parseInt(await client.get(dlKey) || '0');
+        if (used >= 1) {
             return res.status(429).json({
                 error: 'Daily download limit reached (1/day for guests). Sign in for 3/day.',
-                allowed: false, used: totalUsed, limit: 1
+                allowed: false, used, limit: 1
             });
         }
-        await client.set(dlKey, String(totalUsed + 1), 'EX', 86400);
-        return res.status(200).json({ allowed: true, used: totalUsed + 1, limit: 1 });
+        await client.set(dlKey, String(used + 1), 'EX', 86400);
+        return res.status(200).json({ allowed: true, used: used + 1, limit: 1 });
     }
 
-    // Logged in user — 每天最多 3 次（与同一 IP 的游客下载共享计数）
+    // Logged in user — 每天最多 3 次
     const token = auth.slice(7);
     const payload = verifyJWT(token);
     if (!payload) return res.status(401).json({ error: 'Invalid or expired token' });
@@ -202,7 +200,14 @@ async function downloadCheck(req, res) {
     const user = await getUser(payload.email);
     if (!user) return res.status(404).json({ error: 'User not found' });
 
+    // 双重计数：IP 级别 + 用户级别，取较大值防止切换 IP 绕过
+    const ipKey = 'dl:' + ip + ':' + today;
+    const ipUsed = parseInt(await client.get(ipKey) || '0');
+    const userKey = 'dl_user:' + payload.email.toLowerCase() + ':' + today;
+    const userUsed = parseInt(await client.get(userKey) || '0');
+    const totalUsed = Math.max(ipUsed, userUsed);
     const limit = 3;
+
     if (totalUsed >= limit) {
         return res.status(429).json({
             error: 'Daily download limit reached (3/day).',
@@ -210,9 +215,12 @@ async function downloadCheck(req, res) {
         });
     }
 
-    await client.set(dlKey, String(totalUsed + 1), 'EX', 86400);
-    await updateUser(payload.email, { downloadCount: totalUsed + 1, downloadDate: today });
-    return res.status(200).json({ allowed: true, used: totalUsed + 1, limit, user: { email: user.email } });
+    const nextCount = totalUsed + 1;
+    // 同时更新两个计数器，防止切换 IP 或设备绕过
+    await client.set(ipKey, String(nextCount), 'EX', 86400);
+    await client.set(userKey, String(nextCount), 'EX', 86400);
+    await updateUser(payload.email, { downloadCount: nextCount, downloadDate: today });
+    return res.status(200).json({ allowed: true, used: nextCount, limit, user: { email: user.email } });
 }
 
 // Main handler — routes: GitHub OAuth (no action) or user auth (?action=xxx)
