@@ -152,6 +152,11 @@
       "permanent": true
     },
     {
+      "source": "/zh/blog/buy-house-feng-shui-5-tips-zh",
+      "destination": "/zh/blog/feng-shui-tips-before-buying-house",
+      "permanent": true
+    },
+    {
       "source": "/(.+)\\.html",
       "destination": "/$1",
       "permanent": true
