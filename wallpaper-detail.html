@@ -895,36 +895,6 @@
         var shareBtnMain = document.getElementById('share-btn-main');
         if (shareBtnMain) shareBtnMain.onclick = doShare;
 
-        // Lang switcher dropdown toggle
-        var langTrigger = document.getElementById('lang-trigger');
-        var langMenu = document.getElementById('lang-menu');
-        if (langTrigger && langMenu) {
-            langTrigger.addEventListener('click', function(e) {
-                e.preventDefault();
-                var display = langMenu.style.display;
-                langMenu.style.display = (display === 'none' || display === '') ? 'block' : 'none';
-            });
-            document.querySelectorAll('#lang-menu .lang-option').forEach(function(opt) {
-                opt.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    var lang = this.getAttribute('data-lang');
-                    // Save and switch
-                    try { localStorage.setItem('daoessence_lang', lang); } catch(ex) {}
-                    // Reload with lang param to trigger i18n-switcher on other pages
-                    var url = new URL(window.location.href);
-                    url.searchParams.set('lang', lang);
-                    window.location.href = url.href;
-                });
-            });
-            // Close on outside click
-            document.addEventListener('click', function(e) {
-                if (!langMenu.contains(e.target) && e.target !== langTrigger) {
-                    langMenu.style.display = 'none';
-                }
-            });
-        }
-
         // Listen for language changes — re-render dynamic content
         document.addEventListener('daoessence:i18n-changed', function() {
             if (currentIndex >= 0 && wallpapers[currentIndex]) {
