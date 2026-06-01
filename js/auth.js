@@ -286,11 +286,11 @@
                 e.stopPropagation();
                 var menu = document.getElementById('da-signout-menu');
                 if (menu) { menu.remove(); return; }
-                // 创建下拉退出菜单
+                // 创建简洁的退出链接（跟随邮箱下方）
                 menu = document.createElement('div');
                 menu.id = 'da-signout-menu';
-                menu.style.cssText = 'position:absolute;top:100%;right:0;margin-top:4px;background:#1E1E1E;border:1px solid rgba(212,175,55,0.15);border-radius:4px;padding:0;min-width:100px;z-index:10001;box-shadow:0 4px 16px rgba(0,0,0,0.4);';
-                menu.innerHTML = '<a href="#" style="display:block;padding:8px 16px;color:rgba(255,255,255,0.7);text-decoration:none;font-size:13px;transition:all 0.15s;" onmouseover="this.style.background=\'rgba(255,255,255,0.06)\';this.style.color=\'#fff\'" onmouseout="this.style.background=\'none\';this.style.color=\'rgba(255,255,255,0.7)\'">' + t('auth.sign_out', 'Sign Out') + '</a>';
+                menu.style.cssText = 'position:absolute;top:100%;right:0;margin-top:2px;z-index:10001;';
+                menu.innerHTML = '<a href="#" style="display:block;padding:4px 0;color:rgba(255,255,255,0.4);text-decoration:none;font-size:11px;transition:color 0.15s;white-space:nowrap;" onmouseover="this.style.color=\'#D4AF37\'" onmouseout="this.style.color=\'rgba(255,255,255,0.4)\'">' + t('auth.sign_out', 'Sign Out') + '</a>';
                 menu.querySelector('a').addEventListener('click', function(ev) {
                     ev.preventDefault();
                     menu.remove();
