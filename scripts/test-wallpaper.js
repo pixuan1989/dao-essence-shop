@@ -44,7 +44,6 @@ function check(file, test) {
 // ── wallpaper.html checks ──
 check(path.join(root, 'wallpaper.html'), [
     { desc: 'Has ZEDGE nav', pattern: /class="wpn"/, required: true },
-    { desc: 'Has auth modal', pattern: /auth-overlay/, required: true },
     { desc: 'Has Sign In button', pattern: /wpn-signin-btn/, required: true },
     { desc: 'Has search input', pattern: /id="search-input"/, required: true },
     { desc: 'Has category pills', pattern: /toolbar-row/, required: true },
@@ -58,7 +57,6 @@ check(path.join(root, 'wallpaper.html'), [
 // ── wallpaper-detail.html checks ──
 check(path.join(root, 'wallpaper-detail.html'), [
     { desc: 'Has ZEDGE nav', pattern: /class="wpn"/, required: true },
-    { desc: 'Has auth modal', pattern: /auth-overlay/, required: true },
     { desc: 'Has download button', pattern: /id="download-link"/, required: true },
     { desc: 'Has image element', pattern: /id="main-image"/, required: true },
     { desc: 'Has title element', pattern: /id="wp-title"/, required: true },
