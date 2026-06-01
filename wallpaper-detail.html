@@ -734,10 +734,10 @@
             }
 
             // Store download URL (actual download via quota-check handler)
-            if (dlLink) dlLink.setAttribute('data-url', data.original);
-
-            // Download handler with quota check
-            dlLink.onclick = async function(e) {
+            const dlLink = document.getElementById('download-link');
+            if (dlLink) {
+                dlLink.setAttribute('data-url', data.original);
+                dlLink.onclick = async function(e) {
                 e.preventDefault();
                 const url = this.getAttribute('data-url');
                 if (!url) return;
@@ -779,6 +779,7 @@
                     window.open(url, '_blank');
                 }
             };
+            }
 
             // SEO
             document.title = `${data.title} - Lucky Wallpaper | Dao Essentia`;
