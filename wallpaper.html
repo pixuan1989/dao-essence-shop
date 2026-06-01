@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lucky Wallpapers - Dao Essentia</title>
     <meta name="description" content="High-resolution auspicious wallpapers for your phone. Curated collection of Chinese metaphysics, Zodiac, and Five Elements art.">
-    <link rel="stylesheet" href="styles.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -279,6 +278,28 @@
             .explore-section { padding: 0 16px 40px; }
             .cat-grid { grid-template-columns: repeat(2, 1fr); }
             .cat-card { padding: 14px; }
+        }
+        /* ── Footer (self-contained) ── */
+        .footer { background: #1A1612; padding: 6rem 0 2rem; }
+        .footer .container { width: 100%; max-width: 1400px; margin: 0 auto; padding: 0 2rem; }
+        .footer-content { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: 2rem; margin-bottom: 3rem; }
+        .footer-brand .logo-en { color: rgba(245,240,230,0.6); font-family: Georgia, serif; letter-spacing: 0.15em; font-size: 1.25rem; }
+        .footer-brand p { color: rgba(245,240,230,0.7); margin-top: 1rem; line-height: 1.7; font-size: 0.9rem; }
+        .footer-title { font-family: Georgia, serif; font-size: 1.1rem; margin-bottom: 1rem; color: #D4AF37; }
+        .footer-links { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.5rem; }
+        .footer-links li { color: rgba(245,240,230,0.7); display: flex; align-items: center; }
+        .footer-links a { color: rgba(245,240,230,0.7); text-decoration: none; transition: color 200ms ease, padding-left 200ms ease; }
+        .footer-links a:hover { color: #D4AF37; padding-left: 0.5rem; }
+        .footer-bottom { text-align: center; padding-top: 2rem; border-top: 1px solid rgba(212,175,55,0.2); color: rgba(245,240,230,0.5); font-size: 0.875rem; }
+        .footer-legal-links { display: flex; justify-content: center; gap: 0.5rem; align-items: center; }
+        .footer-legal-links span { color: rgba(245,240,230,0.3); }
+        @media (max-width: 900px) {
+            .footer-content { grid-template-columns: 1fr 1fr; gap: 2rem; }
+            .footer-brand { grid-column: span 2; }
+        }
+        @media (max-width: 600px) {
+            .footer-content { grid-template-columns: 1fr; }
+            .footer-brand { grid-column: span 1; }
         }
     </style>
 </head>
