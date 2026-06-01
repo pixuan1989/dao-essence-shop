@@ -44,30 +44,13 @@ async function register(req, res) {
     const passwordHash = hashPassword(password);
     await saveUser(normalizedEmail, passwordHash);
 
-    const verifyToken = crypto.randomBytes(32).toString('hex');
-    await setVerifyToken(normalizedEmail, verifyToken);
+    // 自动标记为已验证（跳过邮件验证）
+    await updateUser(normalizedEmail, { verified: true });
 
-    try {
-        await sendVerificationEmail(normalizedEmail, verifyToken);
-    } catch (mailErr) {
-        console.error('Failed to send verification email:', mailErr.message);
-        const baseUrl = process.env.SITE_URL || 'https://www.daoessentia.com';
-        const fallbackUrl = `${baseUrl}/api/auth?action=verify&token=${verifyToken}&email=${encodeURIComponent(normalizedEmail)}`;
-        return res.status(201).json({
-            success: true,
-            message: 'Registration successful, but verification email could not be sent. Use the link below to verify.',
-            emailSent: false,
-            verifyUrl: fallbackUrl
-        });
-    }
-
-    const baseUrl = process.env.SITE_URL || 'https://www.daoessentia.com';
-    const verifyUrl = `${baseUrl}/api/auth?action=verify&token=${verifyToken}&email=${encodeURIComponent(normalizedEmail)}`;
     return res.status(201).json({
         success: true,
-        message: 'Registration successful! Please check your email to verify your account.',
-        emailSent: true,
-        verifyUrl: verifyUrl
+        message: 'Registration successful! You can now sign in.',
+        verified: true
     });
 }
 
