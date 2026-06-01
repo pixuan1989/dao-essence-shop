@@ -80,8 +80,30 @@
         .wpn-btn-signin:hover { background: rgba(255,255,255,0.15); }
         .wpn-lang-btn { background: none; border: none; color: rgba(255,255,255,0.5); cursor: pointer; display: flex; align-items: center; gap: 4px; font-size: 12px; font-family: inherit; transition: color 0.2s; }
         .wpn-lang-btn:hover { color: rgba(255,255,255,0.8); }
-        .wpn-limit { font-size: 11px; color: rgba(255,255,255,0.5); text-align: center; padding: 0 0 8px; }
-        .wpn-limit span { color: #D4AF37; font-weight: 600; }
+        /* ── Toast ── */
+        .da-toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #1E1E1E;
+            border: 1px solid rgba(212,175,55,0.3);
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-size: 13px;
+            z-index: 99999;
+            opacity: 0;
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
+            white-space: nowrap;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+        }
+        .da-toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+        .da-toast a { color: #D4AF37; text-decoration: underline; }
         @media (max-width: 768px) {
             .wpn-inner { padding: 0 16px; gap: 10px; height: 54px; }
             .wpn-logo-text { display: none; }
@@ -455,7 +477,6 @@
                 </div>
             </div>
         </div>
-        <div class="wpn-limit">Free downloads: <span>1/1</span> today</div>
     </nav>
 
     <!-- Main: Two-column layout -->
@@ -759,8 +780,6 @@
                     const data = await res.json();
 
                     if (res.ok && data.allowed) {
-                        // Update nav limit display
-                        if (window.DaoAuth) window.DaoAuth.updateNav();
                         // Trigger download
                         const a = document.createElement('a');
                         a.href = url;
@@ -770,7 +789,15 @@
                         document.body.removeChild(a);
                         if (dlText) dlText.textContent = origText;
                     } else {
-                        alert(data.error || 'Download limit reached.');
+                        // Show toast when limit reached
+                        if (window.DaoAuth) {
+                            window.DaoAuth.showToast(
+                                (data.error || 'Download limit reached.') + ' <a href="#" onclick="event.preventDefault();DaoAuth.open(\'login\')">Sign in</a> for 3/day.',
+                                5000
+                            );
+                        } else {
+                            alert(data.error || 'Download limit reached.');
+                        }
                         if (dlText) dlText.textContent = origText;
                     }
                 } catch(err) {

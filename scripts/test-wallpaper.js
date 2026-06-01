@@ -52,7 +52,7 @@ check(path.join(root, 'wallpaper.html'), [
     { desc: 'Has auth.js', pattern: /js\/auth\.js/, required: true },
     { desc: 'Has styles.min.css', pattern: /styles\.min\.css/, required: true },
     { desc: 'No old header class', pattern: /class="header"/, required: false },
-    { desc: 'Download limit display', pattern: /wpn-limit/, required: true },
+    { desc: 'Download limit toast', pattern: /da-toast/, required: true },
 ]);
 
 // ── wallpaper-detail.html checks ──

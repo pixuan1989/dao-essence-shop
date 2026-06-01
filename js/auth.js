@@ -189,11 +189,28 @@
         DA.updateNav();
     };
 
+    // ── Toast 提示 ──
+    DA.showToast = function(msg, duration) {
+        duration = duration || 4000;
+        let el = document.getElementById('da-toast');
+        if (!el) {
+            el = document.createElement('div');
+            el.id = 'da-toast';
+            el.className = 'da-toast';
+            document.body.appendChild(el);
+        }
+        el.innerHTML = msg;
+        el.classList.add('show');
+        clearTimeout(el._tid);
+        el._tid = setTimeout(function() {
+            el.classList.remove('show');
+        }, duration);
+    };
+
     // ── 更新导航栏显示 ──
     DA.updateNav = async function() {
         const user = await DA.getUser();
         const signinBtn = document.getElementById('wpn-signin-btn');
-        const limitEl = document.querySelector('.wpn-limit span');
 
         if (user) {
             // 已登录
@@ -203,12 +220,6 @@
                 signinBtn.onclick = function(e) { e.preventDefault(); DA.logout(); };
                 signinBtn.style.fontSize = '12px';
             }
-
-            // 登录用户 3 次/天
-            const max = 3;
-            const today = new Date().toISOString().slice(0, 10);
-            const count = (user.downloadDate === today) ? (user.downloadCount || 0) : 0;
-            if (limitEl) limitEl.textContent = count + '/' + max;
         } else {
             // 游客
             if (signinBtn) {
@@ -217,7 +228,6 @@
                 signinBtn.onclick = function(e) { e.preventDefault(); DA.open('login'); };
                 signinBtn.style.fontSize = '13px';
             }
-            if (limitEl) limitEl.textContent = '1/1';
         }
     };
 

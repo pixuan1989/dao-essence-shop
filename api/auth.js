@@ -16,15 +16,29 @@ const cors = {
     'Access-Control-Allow-Headers': 'Content-Type, Authorization'
 };
 
+// Parse JSON body (Vercel auto-parses, but handle edge cases)
+async function parseBody(req) {
+    if (req.body && typeof req.body === 'object' && Object.keys(req.body).length > 0) {
+        return req.body;
+    }
+    try {
+        const chunks = [];
+        for await (const chunk of req) chunks.push(chunk);
+        const raw = Buffer.concat(chunks).toString('utf-8');
+        return raw ? JSON.parse(raw) : {};
+    } catch {
+        return {};
+    }
+}
+
 // POST /api/auth?action=register
 async function register(req, res) {
-    let body = req.body;
-    if (!body || typeof body !== 'object') {
-        try { body = JSON.parse(req.body || '{}'); } catch { body = {}; }
-    }
+    const body = await parseBody(req);
+    console.log('[auth/register] parsed body:', JSON.stringify(body));
     const { email, password } = body;
 
     if (!email || !password) {
+        console.log('[auth/register] missing fields:', { hasEmail: !!email, hasPassword: !!password });
         return res.status(400).json({ error: 'Email and password are required' });
     }
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -106,10 +120,7 @@ p{color:rgba(255,255,255,0.7);font-size:15px;margin-bottom:24px}
 
 // POST /api/auth?action=login
 async function login(req, res) {
-    let body = req.body;
-    if (!body || typeof body !== 'object') {
-        try { body = JSON.parse(req.body || '{}'); } catch { body = {}; }
-    }
+    const body = await parseBody(req);
     const { email, password } = body;
 
     if (!email || !password) {
