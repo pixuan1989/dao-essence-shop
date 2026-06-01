@@ -41,6 +41,7 @@
             display: flex;
             align-items: center;
             gap: 16px;
+            position: relative;
         }
         .wpn-logo {
             display: flex;
@@ -129,9 +130,10 @@
         .wpn-dropdown-menu a:hover { color: #fff; background: rgba(255,255,255,0.06); }
         .wpn-dropdown-menu a.active { color: #D4AF37; }
         .wpn-search {
-            flex: 1;
-            max-width: 480px;
-            position: relative;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 360px;
         }
         .wpn-search svg {
             position: absolute;
@@ -241,7 +243,7 @@
             .wpn-inner { padding: 0 16px; gap: 10px; height: 54px; }
             .wpn-logo-text { display: none; }
             .wpn-btn-signin { display: none; }
-            .wpn-search { max-width: none; }
+            .wpn-search { position: static; transform: none; width: auto; }
         }
         @media (max-width: 480px) {
             .wpn-dropdown-btn span { display: none; }

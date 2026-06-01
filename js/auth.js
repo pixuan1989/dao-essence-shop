@@ -6,9 +6,10 @@
 
     const DA = {};
 
-    // ── i18n helper ──
+    // ── i18n helper (don't show key if translation missing) ──
     function t(key, fallback) {
-        return (window.DaoI18n && window.DaoI18n.t(key)) || fallback;
+        var v = window.DaoI18n && window.DaoI18n.t(key);
+        return (v && v !== key) ? v : fallback;
     }
 
     // ── Token ──
@@ -247,31 +248,49 @@
     };
 
     // ── 更新导航栏 ──
-    var _signoutPending = false;
     DA.updateNav = async function() {
         var user = await DA.getUser();
         var btn = document.getElementById('wpn-signin-btn');
         if (!btn) return;
 
+        // 移除旧的下拉菜单
+        var oldMenu = document.getElementById('da-signout-menu');
+        if (oldMenu) oldMenu.remove();
+
         if (user) {
-            _signoutPending = false;
             btn.textContent = user.email.split('@')[0];
             btn.title = t('auth.click_to_signout', 'Click to sign out');
             btn.style.cursor = 'pointer';
+            btn.style.color = '#fff';
+            btn.style.position = 'relative';
             btn.onclick = function(e) {
                 e.preventDefault();
-                if (!_signoutPending) {
-                    _signoutPending = true;
-                    btn.textContent = t('auth.sign_out', 'Sign Out');
-                    btn.style.color = '#e74c3c';
-                } else {
+                e.stopPropagation();
+                var menu = document.getElementById('da-signout-menu');
+                if (menu) { menu.remove(); return; }
+                // 创建下拉退出菜单
+                menu = document.createElement('div');
+                menu.id = 'da-signout-menu';
+                menu.style.cssText = 'position:absolute;top:100%;right:0;margin-top:4px;background:#1E1E1E;border:1px solid rgba(212,175,55,0.15);border-radius:4px;padding:0;min-width:100px;z-index:10001;box-shadow:0 4px 16px rgba(0,0,0,0.4);';
+                menu.innerHTML = '<a href="#" style="display:block;padding:8px 16px;color:rgba(255,255,255,0.7);text-decoration:none;font-size:13px;transition:all 0.15s;" onmouseover="this.style.background=\'rgba(255,255,255,0.06)\';this.style.color=\'#fff\'" onmouseout="this.style.background=\'none\';this.style.color=\'rgba(255,255,255,0.7)\'">' + t('auth.sign_out', 'Sign Out') + '</a>';
+                menu.querySelector('a').addEventListener('click', function(ev) {
+                    ev.preventDefault();
+                    menu.remove();
                     DA.signOut();
-                }
+                });
+                btn.parentNode.appendChild(menu);
+                // 点击其他区域关闭
+                setTimeout(function() {
+                    document.addEventListener('click', function _close(ev) {
+                        if (menu && !menu.contains(ev.target)) { menu.remove(); }
+                        document.removeEventListener('click', _close);
+                    });
+                }, 0);
             };
         } else {
-            _signoutPending = false;
             btn.textContent = t('auth.sign_in', 'Sign In');
             btn.title = '';
+            btn.style.cursor = 'pointer';
             btn.style.color = '#fff';
             btn.onclick = function(e) { e.preventDefault(); DA.open('login'); };
         }
