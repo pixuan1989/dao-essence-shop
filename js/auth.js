@@ -57,7 +57,7 @@
         const token = DA.getToken();
         if (!token) return null;
         try {
-            const res = await fetch('/api/auth/me', {
+            const res = await fetch('/api/auth?action=me', {
                 headers: { 'Authorization': 'Bearer ' + token }
             });
             if (!res.ok) { DA.clearToken(); return null; }
@@ -87,7 +87,7 @@
         msgEl.className = 'auth-msg';
 
         try {
-            const res = await fetch('/api/auth/login', {
+            const res = await fetch('/api/auth?action=login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, password })
@@ -149,7 +149,7 @@
         msgEl.className = 'auth-msg';
 
         try {
-            const res = await fetch('/api/auth/register', {
+            const res = await fetch('/api/auth?action=register', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, password })

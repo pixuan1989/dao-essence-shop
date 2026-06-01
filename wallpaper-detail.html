@@ -751,7 +751,7 @@
                     const headers = { 'Content-Type': 'application/json' };
                     if (token) headers['Authorization'] = 'Bearer ' + token;
 
-                    const res = await fetch('/api/auth/download', {
+                    const res = await fetch('/api/auth?action=download', {
                         method: 'POST',
                         headers,
                         body: JSON.stringify({ wallpaperId: wallpaperId })

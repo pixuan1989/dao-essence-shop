@@ -94,7 +94,7 @@ function getSmtpTransporter() {
 
 export async function sendVerificationEmail(to, token) {
     const baseUrl = process.env.SITE_URL || 'https://www.daoessentia.com';
-    const verifyUrl = `${baseUrl}/api/auth/verify?token=${token}&email=${encodeURIComponent(to)}`;
+    const verifyUrl = `${baseUrl}/api/auth?action=verify&token=${token}&email=${encodeURIComponent(to)}`;
 
     const html = `
         <div style="max-width:560px;margin:0 auto;font-family:'Segoe UI',Arial,sans-serif;">
