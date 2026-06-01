@@ -45,7 +45,33 @@
             z-index: 100;
             border-bottom: 1px solid rgba(255,255,255,0.05);
         }
-        .top-bar-left, .top-bar-right {
+        .top-logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #D4AF37;
+            text-decoration: none;
+            font-family: Georgia, serif;
+            font-size: 13px;
+            letter-spacing: 0.15em;
+        }
+        .logo-icon-sm {
+            width: 28px;
+            height: 28px;
+            border: 1.5px solid #D4AF37;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: Georgia, serif;
+            font-weight: 600;
+            font-size: 11px;
+            color: #D4AF37;
+            flex-shrink: 0;
+        }
+        .logo-icon-sm::before { content: '道'; }
+        .logo-en-sm { color: rgba(255,255,255,0.5); letter-spacing: 0.2em; font-size: 11px; }
+        .top-bar-right {
             display: flex;
             align-items: center;
             gap: 8px;
@@ -376,8 +402,9 @@
     <!-- Top Bar -->
     <div class="top-bar">
         <div class="top-bar-left">
-            <a href="/wallpaper" class="icon-btn back-btn">
-                <svg viewBox="0 0 24 24"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+            <a href="/wallpaper" class="top-logo">
+                <div class="logo-icon-sm"></div>
+                <span class="logo-en-sm">DAO ESSENCE</span>
             </a>
         </div>
         <div class="top-bar-right">
@@ -388,12 +415,6 @@
                 <a href="#" data-lang="en" class="lang-option" style="display:block;padding:8px 16px;font-size:13px;color:rgba(255,255,255,0.7);text-decoration:none;">English</a>
                 <a href="#" data-lang="zh" class="lang-option" style="display:block;padding:8px 16px;font-size:13px;color:rgba(255,255,255,0.7);text-decoration:none;">繁體中文</a>
             </div>
-            <a href="#" class="icon-btn download-btn-sm" id="download-btn-top" download>
-                <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            </a>
-            <button class="icon-btn share-btn" id="share-btn-top">
-                <svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/></svg>
-            </button>
         </div>
     </div>
 
@@ -624,12 +645,20 @@
                 dateEl.textContent = '';
             }
 
-            // Title
-            document.getElementById('wp-title').textContent = data.title || 'Lucky Wallpaper';
+            // Title (i18n-aware)
+            const wpTitle = document.getElementById('wp-title');
+            if (data.title_zh && lang === 'zh') {
+                wpTitle.textContent = data.title_zh;
+            } else {
+                wpTitle.textContent = data.title || 'Lucky Wallpaper';
+            }
 
-            // SEO Description
+            // SEO Description (i18n-aware)
             const seoDescEl = document.getElementById('wp-seo-desc');
-            if (data.description) {
+            if (lang === 'zh' && data.description_zh) {
+                seoDescEl.textContent = data.description_zh;
+                seoDescEl.style.display = 'block';
+            } else if (data.description) {
                 seoDescEl.textContent = data.description;
                 seoDescEl.style.display = 'block';
             } else {
@@ -764,15 +793,36 @@
         // Listen for language changes — re-render dynamic content
         document.addEventListener('daoessence:i18n-changed', function() {
             if (currentIndex >= 0 && wallpapers[currentIndex]) {
-                // Re-render date, downloads text
                 const data = wallpapers[currentIndex];
                 const newLang = window.DaoI18n ? window.DaoI18n.current() : 'en';
+
+                // Title
+                const wpTitle = document.getElementById('wp-title');
+                if (newLang === 'zh' && data.title_zh) {
+                    wpTitle.textContent = data.title_zh;
+                } else {
+                    wpTitle.textContent = data.title || 'Lucky Wallpaper';
+                }
+
+                // Description
+                const seoDescEl = document.getElementById('wp-seo-desc');
+                if (newLang === 'zh' && data.description_zh) {
+                    seoDescEl.textContent = data.description_zh;
+                    seoDescEl.style.display = 'block';
+                } else if (data.description) {
+                    seoDescEl.textContent = data.description;
+                    seoDescEl.style.display = 'block';
+                } else {
+                    seoDescEl.style.display = 'none';
+                }
+
                 // Date
                 const dateEl = document.getElementById('wp-date');
                 if (data.date) {
                     const locale = newLang === 'zh' ? 'zh-TW' : 'en-US';
                     dateEl.textContent = new Date(data.date).toLocaleDateString(locale, { year: 'numeric', month: 'long', day: 'numeric' });
                 }
+
                 // Downloads
                 const dlEl = document.getElementById('wp-downloads');
                 if (data.downloads) {
