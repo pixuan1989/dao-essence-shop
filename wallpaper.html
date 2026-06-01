@@ -205,6 +205,52 @@
             .wpn-btn-upload { padding: 6px 10px; font-size: 11px; }
         }
 
+        /* ── Auth Modal ── */
+        .auth-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.7);
+            z-index: 10000; display: none; align-items: center; justify-content: center;
+        }
+        .auth-overlay.open { display: flex; }
+        .auth-modal {
+            background: #1A1A1A; border: 1px solid rgba(212,175,55,0.15);
+            border-radius: 12px; padding: 32px; max-width: 380px; width: 90%;
+        }
+        .auth-tabs { display: flex; gap: 0; margin-bottom: 24px; }
+        .auth-tab {
+            flex: 1; padding: 10px; text-align: center; cursor: pointer;
+            background: none; border: none; border-bottom: 2px solid transparent;
+            color: rgba(255,255,255,0.4); font-size: 14px; font-weight: 500;
+            font-family: inherit; transition: all 0.2s;
+        }
+        .auth-tab.active { color: #D4AF37; border-bottom-color: #D4AF37; }
+        .auth-tab:hover { color: #fff; }
+        .auth-field { margin-bottom: 14px; }
+        .auth-field label { display: block; color: rgba(255,255,255,0.5); font-size: 12px; margin-bottom: 4px; }
+        .auth-field input {
+            width: 100%; padding: 10px 14px; background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.1); border-radius: 8px;
+            color: #fff; font-size: 14px; font-family: inherit; outline: none;
+            transition: border-color 0.2s;
+        }
+        .auth-field input:focus { border-color: rgba(212,175,55,0.4); }
+        .auth-btn {
+            width: 100%; padding: 12px; background: linear-gradient(135deg,#D4AF37,#AA8A26);
+            color: #0A0A0A; border: none; border-radius: 8px; font-size: 14px;
+            font-weight: 600; cursor: pointer; font-family: inherit; margin-top: 4px;
+            transition: opacity 0.2s;
+        }
+        .auth-btn:hover { opacity: 0.9; }
+        .auth-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .auth-msg { font-size: 13px; text-align: center; margin-top: 10px; min-height: 18px; }
+        .auth-msg.error { color: #e74c3c; }
+        .auth-msg.success { color: #2ecc71; }
+        .auth-close {
+            position: absolute; top: 12px; right: 16px; background: none; border: none;
+            color: rgba(255,255,255,0.4); font-size: 20px; cursor: pointer; font-family: inherit;
+        }
+        .auth-close:hover { color: #fff; }
+        .auth-field-hint { font-size: 11px; color: rgba(255,255,255,0.3); margin-top: 2px; }
+
         /* ── Page Title ── */
         .page-title {
             max-width: 1400px;
@@ -936,6 +982,49 @@
 
         document.addEventListener('DOMContentLoaded', init);
     </script>
+    <!-- Auth Modal -->
+    <div class="auth-overlay" id="auth-overlay">
+        <div class="auth-modal" style="position:relative;">
+            <button class="auth-close" onclick="closeAuth()">&times;</button>
+            <div class="auth-tabs">
+                <button class="auth-tab active" data-tab="login" onclick="switchAuthTab('login')">Sign In</button>
+                <button class="auth-tab" data-tab="register" onclick="switchAuthTab('register')">Register</button>
+            </div>
+            <!-- Login Form -->
+            <form id="auth-login-form" onsubmit="handleLogin(event)">
+                <div class="auth-field">
+                    <label>Email</label>
+                    <input type="email" id="login-email" required placeholder="your@email.com">
+                </div>
+                <div class="auth-field">
+                    <label>Password</label>
+                    <input type="password" id="login-password" required placeholder="Enter password">
+                </div>
+                <button type="submit" class="auth-btn" id="login-btn">Sign In</button>
+                <div class="auth-msg" id="login-msg"></div>
+            </form>
+            <!-- Register Form -->
+            <form id="auth-register-form" onsubmit="handleRegister(event)" style="display:none;">
+                <div class="auth-field">
+                    <label>Email</label>
+                    <input type="email" id="register-email" required placeholder="your@email.com">
+                    <div class="auth-field-hint">We'll send a verification link to this email</div>
+                </div>
+                <div class="auth-field">
+                    <label>Password</label>
+                    <input type="password" id="register-password" required placeholder="At least 6 characters" minlength="6">
+                </div>
+                <div class="auth-field">
+                    <label>Confirm Password</label>
+                    <input type="password" id="register-password2" required placeholder="Re-enter password" minlength="6">
+                </div>
+                <button type="submit" class="auth-btn" id="register-btn">Create Account</button>
+                <div class="auth-msg" id="register-msg"></div>
+            </form>
+        </div>
+    </div>
+
+    <script src="/js/auth.js"></script>
     <script src="js/i18n-switcher.js" defer></script>
 </body>
 </html>
