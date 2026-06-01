@@ -306,7 +306,7 @@
 </head>
 <body>
     <!-- Header -->
-    <header class="header scrolled">
+    <header class="header">
         <div class="container">
             <nav class="nav">
                 <a href="/" class="logo">
@@ -491,6 +491,18 @@
 
     <script>
         document.addEventListener('contextmenu', event => event.preventDefault());
+
+        // Header scroll behavior: transparent at top, solid when scrolled
+        const header = document.querySelector('.header');
+        if (header) {
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
+        }
 
         // Mobile menu
         const mobileBtn = document.querySelector('.mobile-menu-btn');
