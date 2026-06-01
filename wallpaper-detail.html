@@ -637,6 +637,9 @@
         </div>
     </div>
 
+    <!-- 内嵌壁纸数据（避免 Vercel 认证墙拦截 fetch） -->
+    <script id="wp-data" type="application/json">[{"id":"wallpaper_1780233534","title":"Warm Golden Phone Wallpaper - Wealth Feng Shui Background","title_zh":"暖金旺财手机壁纸 — 风水招财背景","thumb":"https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780233534/thumb.webp","original":"https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780233534/original.png","mockup":"https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780233534/mockup.webp","date":"2026-05-31","category":"Nature","category_zh":"自然","downloads":0,"tags":["Feng Shui","Five Elements","暖阳金","Phone Background"],"tags_zh":["風水","五行","暖陽金","手機背景"],"creator":"Dao Essentia","avatar":"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23D4AF37'/%3E%3Ctext x='50' y='65' font-size='45' text-anchor='middle' fill='%230a0a0a' font-family='Arial'%3EDE%3C/text%3E%3C/svg%3E","description":"This warm golden phone wallpaper channels the Metal and Earth elements, symbolizing wealth, abundance, and financial prosperity in Chinese metaphysics. The golden tones mimic the energy of autumn harvest — a season traditionally associated with gathering rewards and material success.\n\n**Best for people who need Metal (金) and Earth (土) energy** — if your BaZi chart shows weak Metal or Earth, or if your favorable element (用神) is Metal, this wallpaper amplifies those energies. It's especially powerful for entrepreneurs, investors, and anyone focused on wealth-building goals. The golden hue activates the Qian (乾) trigram energy, associated with leadership and financial authority.\n\n**Usage tips:** Use during business hours or when making financial decisions for maximum effect. The warm tones pair beautifully with dark mode interfaces. For best results, set as your lock screen so you see it every time you unlock your phone — a visual reminder of your prosperity intention.","description_zh":"這張暖金色手機壁紙匯聚金行與土行能量，象徵財富、豐盛與物質繁榮。金黃色調呼應秋收能量——傳統上與收穫獎賞和物質成功密切相關。\n\n**最適合需要金行（金）與土行（土）能量的人** —— 若你的八字中金或土偏弱，或你的喜用神是金，這張壁紙能放大這些能量。對創業者、投資者和專注於財富累積目標的人特別有效。金黃色調啟動乾卦能量，與領導力和財富權威相關。\n\n**使用建議：** 在商務時段或做財務決策時使用效果最佳。暖色調與深色模式介面完美搭配。為達最佳效果，設為鎖屏畫面，每次解鎖手機都能看見——這是你財富意圖的視覺提醒。"},{"id":"wallpaper_1780233504","title":"Autumn Gold Wallpaper - Prosperity Feng Shui Phone Background","title_zh":"秋香金壁纸 — 风水旺运手机背景","thumb":"https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780233504/thumb.webp","original":"https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780233504/original.png","mockup":"https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780233504/mockup.webp","date":"2026-05-31","category":"Nature","category_zh":"自然","downloads":0,"tags":["Feng Shui","Five Elements","秋香金","Phone Background"],"tags_zh":["風水","五行","秋香金","手機背景"],"creator":"Dao Essentia","avatar":"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23D4AF37'/%3E%3Ctext x='50' y='65' font-size='45' text-anchor='middle' fill='%230a0a0a' font-family='Arial'%3EDE%3C/text%3E%3C/svg%3E","description":"This autumn gold Feng Shui wallpaper captures the essence of seasonal abundance and harvest energy. Rich golden and amber tones evoke the Wood-to-Metal transition of autumn, representing the transformation of growth into tangible results and material rewards.\n\n**Best for people who need Metal (金) energy with Wood (木) support** — if your BaZi favorable element is Metal but you also benefit from Wood's creative energy, this wallpaper bridges both elements perfectly. It's ideal for creative professionals, artists, and anyone who monetizes their creative skills. The autumn theme activates the Dui (兑) trigram, associated with communication, networking, and social wealth.\n\n**Usage tips:** This wallpaper works especially well for people launching new projects or seeking career advancement. The warm golden light creates an inviting, optimistic atmosphere that attracts opportunities. Display on both lock screen and home screen during your project's active phase for sustained motivational energy.","description_zh":"這張秋香金風水壁紙捕捉季節豐盛與收穫能量的精髓。豐富的金黃和琥珀色調喚起秋日木生金的轉化，象徵成長轉化為具體成果與物質回報。\n\n**最適合需要金行（金）能量並輔以木行（木）支持的人** —— 若你的八字喜用神是金，但同時也受益於木的創造能量，這張壁紙完美銜接兩種元素。特別適合創意專業人士、藝術家，以及將創意技能變現的人。秋日主題啟動兌卦能量，與溝通、人脈和社交財富有關。\n\n**使用建議：** 這張壁紙特別適合啟動新專案或尋求職涯晉升的人。溫暖的金光營造出吸引人、樂觀的氛圍，吸引機會到來。在專案活躍期間，同時設為鎖屏和主畫面，以獲得持續的激勵能量。"}]</script>
+
     <script>
         document.addEventListener('contextmenu', event => event.preventDefault());
 
@@ -650,17 +653,32 @@
 
         async function init() {
             try {
-                const res = await fetch('wallpapers.json?t=' + new Date().getTime());
-                wallpapers = await res.json();
+                // 先用绝对路径尝试（绕过某些代理/认证问题）
+                let res = await fetch('/wallpapers.json?t=' + new Date().getTime());
+                if (!res.ok) throw new Error('HTTP ' + res.status);
+                const text = await res.text();
+                // 检测是否被重定向到了认证页面
+                if (text.trim().startsWith('<!doctype') || text.trim().startsWith('<html') || text.trim().startsWith('<!DOCTYPE')) {
+                    throw new Error('Auth wall intercepted JSON fetch');
+                }
+                wallpapers = JSON.parse(text);
+            } catch(e) {
+                console.error('wallpapers.json fetch failed:', e.message);
+                // fallback: 内嵌数据（由构建时注入）
+                try { wallpapers = JSON.parse(document.getElementById('wp-data')?.textContent || '[]'); } catch {}
+            }
 
+            if (wallpapers.length > 0) {
                 if (wallpaperId) {
                     const index = wallpapers.findIndex(w => w.id === wallpaperId);
                     if (index !== -1) render(index);
                     else window.location.href = '/wallpaper';
-                } else if (wallpapers.length > 0) {
+                } else {
                     render(0);
                 }
-            } catch (e) { console.error(e); }
+            } else {
+                document.getElementById('loading-text').textContent = 'Failed to load data. Please refresh.';
+            }
         }
 
         function render(index) {
