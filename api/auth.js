@@ -58,8 +58,11 @@ async function register(req, res) {
     const passwordHash = hashPassword(password);
     await saveUser(normalizedEmail, passwordHash);
 
-    // 自动标记为已验证（跳过邮件验证）
-    await updateUser(normalizedEmail, { verified: true });
+    // 自动标记为已验证
+    const updated = await updateUser(normalizedEmail, { verified: true });
+    if (!updated) {
+        return res.status(500).json({ error: 'Failed to verify account. Please try again.' });
+    }
 
     return res.status(201).json({
         success: true,
@@ -131,15 +134,7 @@ async function login(req, res) {
     const user = await getUser(normalizedEmail);
 
     if (!user) return res.status(401).json({ error: 'Invalid email or password' });
-    if (!user.verified) {
-        // 邮件未验证 — 允许登录但标记状态
-        const token = signJWT({ email: normalizedEmail }, '7d');
-        return res.status(200).json({
-            success: true, token, emailNotVerified: true,
-            message: 'Logged in, but email not verified. Please check your inbox or spam folder.',
-            user: { email: normalizedEmail, verified: false, downloadCount: 0, downloadDate: null }
-        });
-    }
+    // 密码必须先验证，不能跳过
     if (!verifyPassword(password, user.passwordHash)) return res.status(401).json({ error: 'Invalid email or password' });
 
     const token = signJWT({ email: normalizedEmail }, '7d');
