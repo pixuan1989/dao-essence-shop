@@ -40,7 +40,7 @@
             height: 60px;
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: 8px;
             position: relative;
         }
         .wpn-logo {
@@ -58,21 +58,19 @@
             align-items: center;
             justify-content: center;
             color: #D4AF37;
-            font-size: 18px;
-            font-weight: 600;
+            position: relative;
+        }
+        .wpn-logo-icon::before {
+            content: '道';
             font-family: Georgia, serif;
+            font-weight: 600;
+            font-size: 1.2rem;
+            line-height: 1;
+            letter-spacing: 0;
         }
         .wpn-logo-text {
             display: flex;
             flex-direction: column;
-        }
-        .wpn-logo-cn {
-            font-family: Georgia, serif;
-            font-size: 12px;
-            font-weight: 500;
-            letter-spacing: 0.15em;
-            color: rgba(255,255,255,0.7);
-            line-height: 1.2;
         }
         .wpn-logo-en {
             color: #D4AF37;
@@ -535,11 +533,10 @@
     <nav class="wpn">
         <div class="wpn-inner">
             <a href="/" class="wpn-logo">
-                <div class="wpn-logo-icon">道</div>
-                <span class="wpn-logo-text">
-                    <span class="wpn-logo-cn">道本質</span>
+                <div class="wpn-logo-icon"></div>
+                <div class="wpn-logo-text">
                     <span class="wpn-logo-en">DAO ESSENCE</span>
-                </span>
+                </div>
             </a>
             <div class="wpn-dropdown" id="wpn-cat-dropdown">
                 <button class="wpn-dropdown-btn">

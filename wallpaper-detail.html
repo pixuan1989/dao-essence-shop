@@ -57,13 +57,13 @@
             height: 60px;
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: 8px;
         }
         .wpn-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; flex-shrink: 0; }
-        .wpn-logo-icon { width: 50px; height: 50px; border: 2px solid rgba(255,255,255,0.6); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.8); font-size: 18px; font-weight: 600; font-family: Georgia, serif; }
+        .wpn-logo-icon { width: 50px; height: 50px; border: 2px solid #D4AF37; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #D4AF37; position: relative; }
+        .wpn-logo-icon::before { content: '道'; font-family: Georgia, serif; font-weight: 600; font-size: 1.2rem; line-height: 1; letter-spacing: 0; }
         .wpn-logo-text { display: flex; flex-direction: column; }
-        .wpn-logo-cn { font-family: Georgia, serif; font-size: 12px; font-weight: 500; letter-spacing: 0.15em; color: rgba(255,255,255,0.7); line-height: 1.2; }
-        .wpn-logo-en { color: rgba(255,255,255,0.8); font-family: Georgia, serif; font-size: 14px; letter-spacing: 0.12em; font-weight: 700; line-height: 1.2; }
+        .wpn-logo-en { color: #D4AF37; font-family: Georgia, serif; font-size: 14px; letter-spacing: 0.12em; font-weight: 700; line-height: 1.2; }
         .wpn-dropdown { position: relative; flex-shrink: 0; }
         .wpn-dropdown-btn { background: none; border: none; color: rgba(255,255,255,0.7); font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 4px; padding: 8px 12px; border-radius: 6px; transition: all 0.2s; font-family: inherit; }
         .wpn-dropdown-btn:hover { color: #fff; background: rgba(255,255,255,0.06); }
@@ -434,11 +434,10 @@
     <nav class="wpn">
         <div class="wpn-inner">
             <a href="/" class="wpn-logo">
-                <div class="wpn-logo-icon">道</div>
-                <span class="wpn-logo-text">
-                    <span class="wpn-logo-cn">道本質</span>
+                <div class="wpn-logo-icon"></div>
+                <div class="wpn-logo-text">
                     <span class="wpn-logo-en">DAO ESSENCE</span>
-                </span>
+                </div>
             </a>
             <div class="wpn-dropdown" id="wpn-cat-dropdown">
                 <button class="wpn-dropdown-btn">
