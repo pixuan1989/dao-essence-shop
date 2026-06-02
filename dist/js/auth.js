@@ -1,7 +1,6 @@
 /**
- * DaoEssence Auth — Clerk v6 + 独立登录页
- * 保留原有接口 (DaoAuth.getToken, getUser, updateNav 等)
- * 登录跳转 /login 页面（Zedge 风格）
+ * DaoEssence Auth — Clerk headless mode (jsdelivr CDN)
+ * DA.open() → Google OAuth redirect. No UI components needed.
  */
 (function() {
     'use strict';
@@ -10,149 +9,73 @@
     let clerkInstance = null;
     let clerkReady = false;
 
-    // ── i18n helper ──
     function t(key, fallback) {
         var v = window.DaoI18n && window.DaoI18n.t(key);
         return (v && v !== key) ? v : fallback;
     }
 
-    // ── Token ──
-    DA.getToken = function() {
-        if (!clerkReady || !clerkInstance) return null;
-        return clerkInstance.isSignedIn ? 'clerk_session' : null;
-    };
+    DA.getToken = function() { return clerkReady && clerkInstance && clerkInstance.isSignedIn ? 'clerk_session' : null; };
     DA.setToken = function() {};
     DA.clearToken = function() {};
 
-    // ── 获取用户信息 ──
     DA.getUser = async function() {
         if (!clerkReady || !clerkInstance || !clerkInstance.isSignedIn) return null;
-        const user = clerkInstance.user;
-        if (!user) return null;
-        return {
-            email: user.primaryEmailAddress?.emailAddress || user.emailAddresses?.[0]?.emailAddress || '',
-            id: user.id,
-            firstName: user.firstName,
-            lastName: user.lastName,
-            imageUrl: user.imageUrl
-        };
+        var u = clerkInstance.user;
+        if (!u) return null;
+        return { email: u.primaryEmailAddress?.emailAddress || '', id: u.id, firstName: u.firstName, lastName: u.lastName, imageUrl: u.imageUrl };
     };
 
-    // ── Toast ──
     DA.showToast = function(msg, duration) {
         duration = duration || 4000;
         var el = document.getElementById('da-toast');
-        if (!el) {
-            el = document.createElement('div');
-            el.id = 'da-toast';
-            el.className = 'da-toast';
-            document.body.appendChild(el);
-        }
-        el.innerHTML = msg;
-        el.classList.add('show');
+        if (!el) { el = document.createElement('div'); el.id = 'da-toast'; el.className = 'da-toast'; document.body.appendChild(el); }
+        el.innerHTML = msg; el.classList.add('show');
         clearTimeout(el._tid);
         el._tid = setTimeout(function() { el.classList.remove('show'); }, duration);
     };
 
-    // ── 初始化 Clerk v6 ──
     DA._initClerk = async function() {
         if (clerkInstance) return;
-
-        // 等待 ui.browser.js + clerk.browser.js 加载
-        let attempts = 0;
-        while ((!window.Clerk || !window.__internal_ClerkUICtor) && attempts < 50) {
-            await new Promise(r => setTimeout(r, 100));
-            attempts++;
-        }
-        if (!window.Clerk || !window.__internal_ClerkUICtor) return;
+        var a = 0;
+        while (!window.Clerk && a < 50) { await new Promise(r => setTimeout(r, 100)); a++; }
+        if (!window.Clerk) { console.error('[Auth] Clerk script not loaded'); return; }
 
         try {
-            await window.Clerk.load({
-                ui: { ClerkUI: window.__internal_ClerkUICtor },
-                appearance: {
-                    baseTheme: 'dark',
-                    variables: {
-                        colorPrimary: '#D4AF37',
-                        colorBackground: '#1A1A1A',
-                        colorText: '#ffffff',
-                        colorTextSecondary: 'rgba(255,255,255,0.7)',
-                        colorInputBackground: 'rgba(255,255,255,0.06)',
-                        colorInputBorder: 'rgba(255,255,255,0.1)',
-                        borderRadius: '8px',
-                        fontFamily: 'Inter, system-ui, sans-serif'
-                    }
-                }
-            });
+            await window.Clerk.load();
             clerkInstance = window.Clerk;
             clerkReady = true;
 
-            // 监听登录状态 → 自动关闭弹窗
-            clerkInstance.addListener(function(state) {
-                if (state.user) {
-                    var modal = document.getElementById('da-auth-modal');
-                    if (modal) modal.remove();
-                    DA.updateNav();
-                }
-            });
-
-            // Handle OAuth redirect callback
-            if (clerkInstance.handleRedirectCallback) {
+            // Handle OAuth redirect callback — only when callback params present
+            var hasRedirect = location.search.includes('__clerk_redirect_url') ||
+                               location.hash.includes('__clerk_redirect_url') ||
+                               location.search.includes('redirect_url') ||
+                               location.hash.includes('clerk_session');
+            if (hasRedirect && clerkInstance.handleRedirectCallback) {
                 await clerkInstance.handleRedirectCallback({
-                    signInForceRedirectUrl: window.location.origin + '/wallpaper',
-                    signUpForceRedirectUrl: window.location.origin + '/wallpaper'
+                    signInForceRedirectUrl: 'https://daoessentia.com/wallpaper',
+                    signUpForceRedirectUrl: 'https://daoessentia.com/wallpaper'
                 });
             }
 
+            // Update nav on auth state change (no auto-redirect)
+            clerkInstance.addListener(function(s) {
+                DA.updateNav();
+            });
+
             DA.updateNav();
-        } catch (err) {
-            console.error('[DaoAuth] Init failed:', err);
-        }
+        } catch (e) { console.error('[Auth] Init failed:', e); }
     };
 
-    // ── 打开登录弹窗（Clerk mountSignIn 嵌入自身页面）──
+    // Google OAuth redirect (headless — no UI needed)
     DA.open = function() {
-        if (!clerkReady || !clerkInstance) {
-            DA.showToast('Loading...', 2000);
-            setTimeout(function() { if (clerkReady) DA.open(); }, 2000);
-            return;
-        }
-        // 移除旧弹窗
-        var old = document.getElementById('da-auth-modal');
-        if (old) old.remove();
-
-        var modal = document.createElement('div');
-        modal.id = 'da-auth-modal';
-        modal.style.cssText = 'position:fixed;inset:0;z-index:10000;display:flex;align-items:center;justify-content:center;';
-
-        var backdrop = document.createElement('div');
-        backdrop.style.cssText = 'position:absolute;inset:0;background:rgba(0,0,0,0.6);';
-        backdrop.addEventListener('click', function() { modal.remove(); });
-        modal.appendChild(backdrop);
-
-        var container = document.createElement('div');
-        container.style.cssText = 'position:relative;max-width:420px;width:90%;';
-        modal.appendChild(container);
-
-        document.body.appendChild(modal);
-
-        clerkInstance.mountSignIn(container, {
-            appearance: {
-                baseTheme: 'dark',
-                variables: {
-                    colorPrimary: '#D4AF37',
-                    colorBackground: '#1A1A1A',
-                    colorText: '#ffffff',
-                    borderRadius: '8px',
-                    fontFamily: 'Inter, system-ui, sans-serif'
-                }
-            },
-            signInForceRedirectUrl: window.location.href,
-            signUpForceRedirectUrl: window.location.href,
-            fallbackRedirectUrl: window.location.href
+        if (!clerkReady || !clerkInstance) { DA.showToast('Loading...', 2000); return; }
+        clerkInstance.client.signIn.authenticateWithRedirect({
+            strategy: 'oauth_google',
+            redirectUrl: location.origin + '/wallpaper',
+            redirectUrlComplete: location.origin + '/wallpaper'
         });
     };
 
-    // ── 登出 ──
     DA.signOut = async function() {
         if (!clerkReady || !clerkInstance) return;
         await clerkInstance.signOut();
@@ -160,101 +83,40 @@
         DA.showToast(t('auth.signed_out', 'Signed out.'), 2000);
     };
 
-    // ── 更新导航栏 ──
     DA.updateNav = async function() {
         var btn = document.getElementById('wpn-signin-btn');
         if (!btn) return;
-
-        var oldMenu = document.getElementById('da-signout-menu');
-        if (oldMenu) oldMenu.remove();
+        var om = document.getElementById('da-signout-menu'); if (om) om.remove();
 
         if (!clerkReady || !clerkInstance) {
             btn.textContent = 'Loading...';
             btn.style.cssText = 'display:inline-flex;align-items:center;padding:8px 16px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:999px;font-size:13px;font-weight:500;color:#fff;opacity:0.5;cursor:not-allowed';
             return;
         }
-
-        const user = clerkInstance.user;
-        if (user) {
-            var email = user.primaryEmailAddress?.emailAddress || user.emailAddresses?.[0]?.emailAddress || 'U';
-            var initial = email[0].toUpperCase();
-            var hash = 0;
+        var u = clerkInstance.user;
+        if (u) {
+            var email = u.primaryEmailAddress?.emailAddress || 'U', initial = email[0].toUpperCase(), hash = 0;
             for (var i = 0; i < email.length; i++) hash = email.charCodeAt(i) + ((hash << 5) - hash);
-            var gradients = [
-                'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
-                'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
-                'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
-                'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
-                'linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%)',
-                'linear-gradient(135deg, #fccb81 0%, #d57eeb 100%)',
-                'linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%)',
-                'linear-gradient(135deg, #ffd89b 0%, #19547b 100%)',
-                'linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%)',
-                'linear-gradient(135deg, #d4af37 0%, #f4d03f 100%)',
-                'linear-gradient(135deg, #2af598 0%, #009efd 100%)',
-            ];
-            var grad = gradients[Math.abs(hash) % gradients.length];
-            btn.innerHTML = '<span style="display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;background:' + grad + ';color:#fff;font-size:13px;font-weight:700;margin-right:8px;box-shadow:0 2px 8px rgba(0,0,0,0.25);flex-shrink:0">' + initial + '</span><span style="font-size:13px;font-weight:500;color:rgba(255,255,255,0.85);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:120px">' + email.split('@')[0] + '</span>';
-            btn.title = t('auth.click_to_signout', 'Click to sign out');
+            var g = ['linear-gradient(135deg,#667eea,#764ba2)','linear-gradient(135deg,#f093fb,#f5576c)','linear-gradient(135deg,#4facfe,#00f2fe)','linear-gradient(135deg,#43e97b,#38f9d7)','linear-gradient(135deg,#fa709a,#fee140)','linear-gradient(135deg,#a18cd1,#fbc2eb)','linear-gradient(135deg,#fccb81,#d57eeb)','linear-gradient(135deg,#e0c3fc,#8ec5fc)','linear-gradient(135deg,#ffd89b,#19547b)','linear-gradient(135deg,#ff9a9e,#fecfef)','linear-gradient(135deg,#d4af37,#f4d03f)','linear-gradient(135deg,#2af598,#009efd)'];
+            var grad = g[Math.abs(hash) % g.length];
+            btn.innerHTML = '<span style="display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;background:'+grad+';color:#fff;font-size:13px;font-weight:700;margin-right:8px;box-shadow:0 2px 8px rgba(0,0,0,0.25);flex-shrink:0">'+initial+'</span><span style="font-size:13px;font-weight:500;color:rgba(255,255,255,0.85);overflow:hidden;text-overflow:ellipsis;max-width:120px;white-space:nowrap">'+email.split('@')[0]+'</span>';
+            btn.title = t('auth.click_to_signout','Click to sign out');
             btn.style.cssText = 'display:inline-flex;align-items:center;padding:4px 12px 4px 4px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:999px;transition:all 0.2s;cursor:pointer';
-            btn.onclick = function(e) {
-                e.preventDefault(); e.stopPropagation();
-                var menu = document.getElementById('da-signout-menu');
-                if (menu) { menu.remove(); return; }
-                menu = document.createElement('div');
-                menu.id = 'da-signout-menu';
-                menu.style.cssText = 'position:absolute;top:100%;right:0;margin-top:2px;z-index:10001';
-                menu.innerHTML = '<a href="#" style="display:block;padding:4px 0;color:rgba(255,255,255,0.4);text-decoration:none;font-size:11px;white-space:nowrap">' + t('auth.sign_out', 'Sign Out') + '</a>';
-                menu.querySelector('a').addEventListener('click', function(ev) {
-                    ev.preventDefault();
-                    menu.remove();
-                    DA.signOut();
-                });
-                btn.parentNode.appendChild(menu);
-                setTimeout(function() {
-                    document.addEventListener('click', function _close(ev) {
-                        if (menu && !menu.contains(ev.target)) { menu.remove(); }
-                        document.removeEventListener('click', _close);
-                    });
-                }, 0);
-            };
+            btn.onclick = function(e) { e.preventDefault();e.stopPropagation();var m=document.getElementById('da-signout-menu');if(m){m.remove();return;}m=document.createElement('div');m.id='da-signout-menu';m.style.cssText='position:absolute;top:100%;right:0;margin-top:2px;z-index:10001';m.innerHTML='<a href="#" style="display:block;padding:4px 0;color:rgba(255,255,255,0.4);text-decoration:none;font-size:11px;white-space:nowrap">'+t('auth.sign_out','Sign Out')+'</a>';m.querySelector('a').addEventListener('click',function(ev){ev.preventDefault();m.remove();DA.signOut();});btn.parentNode.appendChild(m);setTimeout(function(){document.addEventListener('click',function _c(ev){if(m&&!m.contains(ev.target)){m.remove();}document.removeEventListener('click',_c);});},0);};
         } else {
-            btn.textContent = t('auth.sign_in', 'Sign In');
-            btn.title = '';
+            btn.textContent = t('auth.sign_in','Sign In');btn.title='';
             btn.style.cssText = 'display:inline-flex;align-items:center;padding:8px 16px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:999px;font-size:13px;font-weight:500;color:#fff;transition:all 0.2s;cursor:pointer';
-            btn.onclick = function(e) {
-                e.preventDefault();
-                DA.open();
-            };
+            btn.onclick = function(e) { e.preventDefault(); DA.open(); };
         }
     };
 
-    // ── Session Token ──
     DA.getSessionToken = async function() {
-        if (!clerkReady || !clerkInstance || !clerkInstance.isSignedIn) return null;
+        if (!clerkReady||!clerkInstance||!clerkInstance.isSignedIn) return null;
         return await clerkInstance.session.getToken();
     };
+    DA.isSignedIn = function() { return clerkReady && clerkInstance && clerkInstance.isSignedIn; };
 
-    // ── 是否已登录 ──
-    DA.isSignedIn = function() {
-        return clerkReady && clerkInstance && clerkInstance.isSignedIn;
-    };
-
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', DA.init = function() { DA._initClerk(); });
-    } else {
-        DA._initClerk();
-    }
-
-    // /wallpaper?signin=1 → 自动弹登录
-    if (/[?&]signin=1/.test(window.location.search)) {
-        var tryOpen = function() {
-            if (DA.isSignedIn && !DA.isSignedIn()) { DA.open(); }
-            else { setTimeout(tryOpen, 500); }
-        };
-        setTimeout(tryOpen, 1000);
-    }
-
+    if (document.readyState==='loading') document.addEventListener('DOMContentLoaded',function(){DA._initClerk();});
+    else DA._initClerk();
     window.DaoAuth = DA;
 })();
