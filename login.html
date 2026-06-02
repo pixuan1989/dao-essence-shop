@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign In | DAO Essence</title>
-    <meta http-equiv="refresh" content="0;url=https://decent-glider-58.clerk.accounts.dev/sign-in">
     <style>
         body {
             font-family: 'Inter', -apple-system, sans-serif;
@@ -24,6 +23,10 @@
     </style>
 </head>
 <body>
-    <p><span class="spinner"></span> Redirecting to sign in...</p>
+    <p><span class="spinner"></span> Redirecting...</p>
+    <script>
+        // /login → 跳回主页，主页的 auth.js 会自动弹登录窗
+        window.location.href = '/wallpaper?signin=1';
+    </script>
 </body>
 </html>

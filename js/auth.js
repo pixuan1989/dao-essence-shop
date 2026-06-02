@@ -86,7 +86,16 @@
             clerkInstance = window.Clerk;
             clerkReady = true;
 
-            // Handle OAuth redirect callback (Google sign-in returns to this page)
+            // 监听登录状态 → 自动关闭弹窗
+            clerkInstance.addListener(function(state) {
+                if (state.user) {
+                    var modal = document.getElementById('da-auth-modal');
+                    if (modal) modal.remove();
+                    DA.updateNav();
+                }
+            });
+
+            // Handle OAuth redirect callback
             if (clerkInstance.handleRedirectCallback) {
                 await clerkInstance.handleRedirectCallback({
                     signInForceRedirectUrl: window.location.origin + '/wallpaper',
@@ -100,10 +109,47 @@
         }
     };
 
-    // ── 跳转 Clerk 托管登录页（带 redirect_url 回到当前页）──
+    // ── 打开登录弹窗（Clerk mountSignIn 嵌入自身页面）──
     DA.open = function() {
-        var returnUrl = encodeURIComponent(window.location.href);
-        window.location.href = 'https://decent-glider-58.clerk.accounts.dev/sign-in?redirect_url=' + returnUrl;
+        if (!clerkReady || !clerkInstance) {
+            DA.showToast('Loading...', 2000);
+            setTimeout(function() { if (clerkReady) DA.open(); }, 2000);
+            return;
+        }
+        // 移除旧弹窗
+        var old = document.getElementById('da-auth-modal');
+        if (old) old.remove();
+
+        var modal = document.createElement('div');
+        modal.id = 'da-auth-modal';
+        modal.style.cssText = 'position:fixed;inset:0;z-index:10000;display:flex;align-items:center;justify-content:center;';
+
+        var backdrop = document.createElement('div');
+        backdrop.style.cssText = 'position:absolute;inset:0;background:rgba(0,0,0,0.6);';
+        backdrop.addEventListener('click', function() { modal.remove(); });
+        modal.appendChild(backdrop);
+
+        var container = document.createElement('div');
+        container.style.cssText = 'position:relative;max-width:420px;width:90%;';
+        modal.appendChild(container);
+
+        document.body.appendChild(modal);
+
+        clerkInstance.mountSignIn(container, {
+            appearance: {
+                baseTheme: 'dark',
+                variables: {
+                    colorPrimary: '#D4AF37',
+                    colorBackground: '#1A1A1A',
+                    colorText: '#ffffff',
+                    borderRadius: '8px',
+                    fontFamily: 'Inter, system-ui, sans-serif'
+                }
+            },
+            signInForceRedirectUrl: window.location.href,
+            signUpForceRedirectUrl: window.location.href,
+            fallbackRedirectUrl: window.location.href
+        });
     };
 
     // ── 登出 ──
@@ -199,6 +245,15 @@
         document.addEventListener('DOMContentLoaded', DA.init = function() { DA._initClerk(); });
     } else {
         DA._initClerk();
+    }
+
+    // /wallpaper?signin=1 → 自动弹登录
+    if (/[?&]signin=1/.test(window.location.search)) {
+        var tryOpen = function() {
+            if (DA.isSignedIn && !DA.isSignedIn()) { DA.open(); }
+            else { setTimeout(tryOpen, 500); }
+        };
+        setTimeout(tryOpen, 1000);
     }
 
     window.DaoAuth = DA;
