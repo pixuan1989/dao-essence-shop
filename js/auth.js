@@ -43,7 +43,7 @@
 
         try {
             await window.Clerk.load({
-                frontendApi: '3ezf4uml2cbywxbc2qy0nt5xreh.clerk.accounts.dev'
+                frontendApi: 'clerk.daoessentia.com'
             });
             clerkInstance = window.Clerk;
             clerkReady = true;
