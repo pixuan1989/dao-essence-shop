@@ -35,7 +35,31 @@ keywords: "birth hours wealth bazi, wealth archetype chinese astrology, birth ch
 ---
 **Your birth hour shapes more than your sleep schedule — in Chinese astrology, it reveals your Wealth Archetype.** The 12 Earthly Branches each carry a distinct elemental energy that influences how you earn, spend, and think about money. A midnight birth (Zi, Water) produces the Mobile Strategist who thrives on movement and change. A late-night birth (Chou, Metal treasury) produces the Steady Accumulator who builds wealth through patience. [Generate your free BaZi chart](/#free-bazi) to find your Hour Pillar and discover which archetype matches your birth time.
 
-![12 Earthly Branches Wealth Archetype Table](/images/blog/jimeng-2026-04-15-1377-a-clear-and-neatly-formatted-table-image....png)
+<table class="wealth-table" style="width:100%;border-collapse:collapse;margin:1.5rem 0;font-size:0.95rem;">
+<thead>
+<tr style="background:#D4AF37;color:#1a1a2e;">
+<th style="padding:10px;border:1px solid #c9a837;">地支 (Branch)</th>
+<th style="padding:10px;border:1px solid #c9a837;">时辰 (Hour)</th>
+<th style="padding:10px;border:1px solid #c9a837;">财富原型 (Wealth Archetype)</th>
+<th style="padding:10px;border:1px solid #c9a837;">财富路径 (Wealth Path)</th>
+</tr>
+</thead>
+<tbody>
+<tr><td style="padding:9px;border:1px solid #3a3a5c;">子 (Zi)</td><td style="padding:9px;border:1px solid #3a3a5c;">23:00–00:59</td><td style="padding:9px;border:1px solid #3a3a5c;">机动策略家</td><td style="padding:9px;border:1px solid #3a3a5c;">通过移动与变化致富</td></tr>
+<tr style="background:rgba(212,175,55,0.06);"><td style="padding:9px;border:1px solid #3a3a5c;">丑 (Chou)</td><td style="padding:9px;border:1px solid #3a3a5c;">01:00–02:59</td><td style="padding:9px;border:1px solid #3a3a5c;">稳健累积者</td><td style="padding:9px;border:1px solid #3a3a5c;">通过耐心与储蓄致富</td></tr>
+<tr><td style="padding:9px;border:1px solid #3a3a5c;">寅 (Yin)</td><td style="padding:9px;border:1px solid #3a3a5c;">03:00–04:59</td><td style="padding:9px;border:1px solid #3a3a5c;">冒险先锋</td><td style="padding:9px;border:1px solid #3a3a5c;">远方与冒险带来财富</td></tr>
+<tr style="background:rgba(212,175,55,0.06);"><td style="padding:9px;border:1px solid #3a3a5c;">卯 (Mao)</td><td style="padding:9px;border:1px solid #3a3a5c;">05:00–06:59</td><td style="padding:9px;border:1px solid #3a3a5c;">社交魅力者</td><td style="padding:9px;border:1px solid #3a3a5c;">人脉与名声带来收入</td></tr>
+<tr><td style="padding:9px;border:1px solid #3a3a5c;">辰 (Chen)</td><td style="padding:9px;border:1px solid #3a3a5c;">07:00–08:59</td><td style="padding:9px;border:1px solid #3a3a5c;">自信领袖</td><td style="padding:9px;border:1px solid #3a3a5c;">大器晚成，掌控大资金</td></tr>
+<tr style="background:rgba(212,175,55,0.06);"><td style="padding:9px;border:1px solid #3a3a5c;">巳 (Si)</td><td style="padding:9px;border:1px solid #3a3a5c;">09:00–10:59</td><td style="padding:9px;border:1px solid #3a3a5c;">心智家</td><td style="padding:9px;border:1px solid #3a3a5c;">用头脑与口才赚钱</td></tr>
+<tr><td style="padding:9px;border:1px solid #3a3a5c;">午 (Wu)</td><td style="padding:9px;border:1px solid #3a3a5c;">11:00–12:59</td><td style="padding:9px;border:1px solid #3a3a5c;">聚光灯大亨</td><td style="padding:9px;border:1px solid #3a3a5c;">高调赚钱，学会守财</td></tr>
+<tr style="background:rgba(212,175,55,0.06);"><td style="padding:9px;border:1px solid #3a3a5c;">未 (Wei)</td><td style="padding:9px;border:1px solid #3a3a5c;">13:00–14:59</td><td style="padding:9px;border:1px solid #3a3a5c;">稳健供给者</td><td style="padding:9px;border:1px solid #3a3a5c;">房地产与稳定事业致富</td></tr>
+<tr><td style="padding:9px;border:1px solid #3a3a5c;">申 (Shen)</td><td style="padding:9px;border:1px solid #3a3a5c;">15:00–16:59</td><td style="padding:9px;border:1px solid #3a3a5c;">精算交易家</td><td style="padding:9px;border:1px solid #3a3a5c;">金融、交易与管理致富</td></tr>
+<tr style="background:rgba(212,175,55,0.06);"><td style="padding:9px;border:1px solid #3a3a5c;">酉 (You)</td><td style="padding:9px;border:1px solid #3a3a5c;">17:00–18:59</td><td style="padding:9px;border:1px solid #3a3a5c;">精致鉴赏家</td><td style="padding:9px;border:1px solid #3a3a5c;">奢华、美学与品牌致富</td></tr>
+<tr><td style="padding:9px;border:1px solid #3a3a5c;">戌 (Xu)</td><td style="padding:9px;border:1px solid #3a3a5c;">19:00–20:59</td><td style="padding:9px;border:1px solid #3a3a5c;">忠诚伙伴</td><td style="padding:9px;border:1px solid #3a3a5c;">合伙、团队与家族事业致富</td></tr>
+<tr style="background:rgba(212,175,55,0.06);"><td style="padding:9px;border:1px solid #3a3a5c;">亥 (Hai)</td><td style="padding:9px;border:1px solid #3a3a5c;">21:00–22:59</td><td style="padding:9px;border:1px solid #3a3a5c;">天选福星</td><td style="padding:9px;border:1px solid #3a3a5c;">贵人相助，顺遂致富</td></tr>
+</tbody>
+</table>
+<style>.wealth-table th{background:#D4AF37!important;color:#1a1a2e!important;}.wealth-table td{color:#e0dcd0;}</style>
 
 #### **1. 11:00 PM – 12:59 AM (Hour of Zi)**
 
