@@ -12,7 +12,7 @@ date: 2026-04-23
 author: Xuanzhen
 readTime: 7
 lang: "zh-Hant"
-image: /images/blog/stressed-winter-bazi.jpg
+image: /images/blog/stressed-winter-bazi.webp
 cta_cards:
   - favorable-element
   - five-elements
