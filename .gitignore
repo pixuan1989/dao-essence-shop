@@ -68,3 +68,6 @@ scripts/site-health-check.js
 
 # Local reports
 reports/
+
+# WorkBuddy local memory & config (AI session data, never push)
+.workbuddy/
