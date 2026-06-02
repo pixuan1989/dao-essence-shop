@@ -1,6 +1,6 @@
 /**
- * DaoEssence Auth — Clerk with UI (FAPI CDN)
- * DA.open() → openSignIn() popup with Google OAuth + Email.
+ * DaoEssence Auth — Clerk v6 compatible
+ * DA.open() → Google OAuth popup (no redirect).
  */
 (function() {
     'use strict';
@@ -35,58 +35,7 @@
         el._tid = setTimeout(function() { el.classList.remove('show'); }, duration);
     };
 
-    DA._initClerk = async function() {
-        if (clerkInstance) return;
-        var a = 0;
-        while (!window.Clerk && a < 50) { await new Promise(r => setTimeout(r, 100)); a++; }
-        if (!window.Clerk) { console.error('[Auth] Clerk script not loaded'); return; }
-
-        try {
-            // Clerk v6: publishableKey already set via data-clerk-publishable-key; no need for frontendApi
-            await window.Clerk.load();
-            clerkInstance = window.Clerk;
-            clerkReady = true;
-
-            // Update nav on auth state change (use listener state object for v6 compatibility)
-            clerkInstance.addListener(function(s) {
-                DA._updateNavFromState(s);
-                // Cache real Clerk session token for API calls
-                if (clerkInstance.isSignedIn && clerkInstance.session) {
-                    clerkInstance.session.getToken().then(function(t) { DA._token = t; });
-                } else {
-                    DA._token = null;
-                }
-            });
-
-            // Initial nav update; poll a few times in case user loads async
-            DA.updateNav();
-            var poll = 0;
-            var pollId = setInterval(function() {
-                if (clerkInstance.user || poll >= 10) { clearInterval(pollId); DA.updateNav(); }
-                poll++;
-            }, 300);
-        } catch (e) { console.error('[Auth] Init failed:', e); }
-    };
-
-    // Google OAuth redirect (headless — no UI components needed)
-    DA.open = function() {
-        if (!clerkReady || !clerkInstance) { DA.showToast('Loading...', 2000); return; }
-        clerkInstance.client.signIn.authenticateWithRedirect({
-            strategy: 'oauth_google',
-            redirectUrl: location.origin + '/wallpaper',
-            redirectUrlComplete: location.origin + '/wallpaper'
-        });
-    };
-
-    DA.signOut = async function() {
-        if (!clerkReady || !clerkInstance) return;
-        await clerkInstance.signOut();
-        DA._token = null;
-        DA.updateNav();
-        DA.showToast(t('auth.signed_out', 'Signed out.'), 2000);
-    };
-
-    // Helper: render nav using a user object (from listener state or clerkInstance.user)
+    // ---- Render helpers ----
     DA._renderUserNav = function(btn, u) {
         var om = document.getElementById('da-signout-menu'); if (om) om.remove();
         var email = u.primaryEmailAddress?.emailAddress || u.emailAddress || u.primaryEmailAddress || 'U';
@@ -132,28 +81,86 @@
         btn.onclick = function(e) { e.preventDefault(); DA.open(); };
     };
 
-    // Called from addListener with state object (Clerk v6 compatibility)
-    DA._updateNavFromState = function(s) {
+    // ---- Core nav update (uses subscribe state or direct read) ----
+    DA._syncNav = function(user) {
         var btn = document.getElementById('wpn-signin-btn');
         if (!btn) return;
-        var user = s && (s.user || s.session?.user || s.session?.actor || s.client?.activeSessions?.[0]?.user);
-        if (!user && clerkInstance) user = clerkInstance.user;
         if (user) { DA._renderUserNav(btn, user); }
         else { DA._renderSignInNav(btn); }
     };
 
-    DA.updateNav = async function() {
-        var btn = document.getElementById('wpn-signin-btn');
-        if (!btn) return;
+    // ---- Init Clerk v6 ----
+    DA._initClerk = async function() {
+        if (clerkInstance) return;
+        var a = 0;
+        while (!window.Clerk && a < 50) { await new Promise(function(r){setTimeout(r,100);}); a++; }
+        if (!window.Clerk) { console.error('[Auth] Clerk script not loaded'); return; }
 
-        if (!clerkReady || !clerkInstance) {
-            btn.textContent = 'Loading...';
-            btn.style.cssText = 'display:inline-flex;align-items:center;padding:8px 16px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:999px;font-size:13px;font-weight:500;color:#fff;opacity:0.5;cursor:not-allowed';
-            return;
+        try {
+            console.log('[Auth] Loading Clerk...');
+            await window.Clerk.load();
+            clerkInstance = window.Clerk;
+            clerkReady = true;
+            console.log('[Auth] Clerk loaded. isSignedIn:', clerkInstance.isSignedIn, 'user:', !!clerkInstance.user);
+
+            // v6: subscribe (not addListener) — state.user is the actual user object
+            clerkInstance.subscribe(function(state) {
+                console.log('[Auth] subscribe fired. user:', !!state.user, 'session:', !!state.session);
+                DA._syncNav(state.user);
+                if (state.session && state.session.getToken) {
+                    state.session.getToken().then(function(t) { DA._token = t; });
+                } else {
+                    DA._token = null;
+                }
+            });
+
+            // Immediate render (load() may have user already)
+            DA._syncNav(clerkInstance.user);
+
+            // Poll as fallback in case subscribe misses initial state
+            var poll = 0;
+            var pollId = setInterval(function() {
+                if (clerkInstance.user || poll >= 15) {
+                    clearInterval(pollId);
+                    console.log('[Auth] Poll done. user:', !!clerkInstance.user);
+                    DA._syncNav(clerkInstance.user);
+                }
+                poll++;
+            }, 300);
+        } catch (e) {
+            console.error('[Auth] Init failed:', e);
         }
-        var u = clerkInstance.user;
-        if (u) { DA._renderUserNav(btn, u); }
-        else { DA._renderSignInNav(btn); }
+    };
+
+    // ---- Sign in (OAuth popup, no redirect) ----
+    DA.open = function() {
+        if (!clerkReady || !clerkInstance) { DA.showToast('Loading...', 2000); return; }
+        try {
+            clerkInstance.openSignIn({
+                redirectUrl: window.location.href,
+                redirectUrlComplete: window.location.href,
+                appearance: {
+                    layout: { socialButtonsPlacement: 'top', showOptionalFields: false }
+                }
+            });
+        } catch (e) {
+            console.error('[Auth] openSignIn failed:', e);
+            // Fallback to redirect-based auth
+            clerkInstance.authenticateWithRedirect({
+                strategy: 'oauth_google',
+                redirectUrl: window.location.href,
+                redirectUrlComplete: window.location.href
+            });
+        }
+    };
+
+    // ---- Sign out ----
+    DA.signOut = async function() {
+        if (!clerkReady || !clerkInstance) return;
+        await clerkInstance.signOut();
+        DA._token = null;
+        DA._syncNav(null);
+        DA.showToast(t('auth.signed_out', 'Signed out.'), 2000);
     };
 
     DA.getSessionToken = async function() {
@@ -162,6 +169,7 @@
     };
     DA.isSignedIn = function() { return clerkReady && clerkInstance && clerkInstance.isSignedIn; };
 
+    // Start
     if (document.readyState==='loading') document.addEventListener('DOMContentLoaded',function(){DA._initClerk();});
     else DA._initClerk();
     window.DaoAuth = DA;
