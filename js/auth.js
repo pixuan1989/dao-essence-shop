@@ -14,7 +14,8 @@
         return (v && v !== key) ? v : fallback;
     }
 
-    DA.getToken = function() { return clerkReady && clerkInstance && clerkInstance.isSignedIn ? 'clerk_session' : null; };
+    DA._token = null;
+    DA.getToken = function() { return DA._token; };
     DA.setToken = function() {};
     DA.clearToken = function() {};
 
@@ -60,6 +61,12 @@
             // Update nav on auth state change (no auto-redirect)
             clerkInstance.addListener(function(s) {
                 DA.updateNav();
+                // Cache real Clerk session token for API calls
+                if (clerkInstance.isSignedIn && clerkInstance.session) {
+                    clerkInstance.session.getToken().then(function(t) { DA._token = t; });
+                } else {
+                    DA._token = null;
+                }
             });
 
             DA.updateNav();
@@ -79,6 +86,7 @@
     DA.signOut = async function() {
         if (!clerkReady || !clerkInstance) return;
         await clerkInstance.signOut();
+        DA._token = null;
         DA.updateNav();
         DA.showToast(t('auth.signed_out', 'Signed out.'), 2000);
     };

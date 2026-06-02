@@ -777,7 +777,7 @@
                 if (dlText) dlText.textContent = 'Checking...';
 
                 try {
-                    const token = window.DaoAuth ? window.DaoAuth.getToken() : null;
+                    const token = window.DaoAuth && window.DaoAuth.getSessionToken ? await window.DaoAuth.getSessionToken() : null;
                     const headers = { 'Content-Type': 'application/json' };
                     if (token) headers['Authorization'] = 'Bearer ' + token;
 
