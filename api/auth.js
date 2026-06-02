@@ -1,119 +1,21 @@
-/**
- * Auth API — Clerk 集成版
- * 仅保留下载配额检查，认证由 Clerk 前端处理
- */
+// DecapCMS OAuth - Step 1: Redirect to GitHub for authorization
+const GITHUB_CLIENT_ID = process.env.GITHUB_OAUTH_CLIENT_ID;
 
-import { getRedis } from '../shared/redis.js';
-
-// CORS headers
-const cors = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type, Authorization'
-};
-
-// Verify Clerk Session Token (简化版，实际生产环境建议用 Clerk Node SDK)
-async function verifyClerkToken(token) {
-    try {
-        // Clerk session token 是 JWT 格式
-        // 这里简化处理：如果 token 存在且格式正确，认为已登录
-        // 生产环境应调用 Clerk API 验证
-        if (!token || token.length < 100) return null;
-        // 从 token 中解析用户ID (简化处理)
-        const payload = JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString());
-        return payload;
-    } catch (e) {
-        return null;
-    }
-}
-
-// GET /api/auth?action=me
-async function me(req, res) {
-    const auth = req.headers.authorization;
-    if (!auth || !auth.startsWith('Bearer ')) {
-        return res.status(401).json({ error: 'Authentication required' });
-    }
-    const token = auth.slice(7);
-    const payload = await verifyClerkToken(token);
-    if (!payload) return res.status(401).json({ error: 'Invalid or expired token' });
-
-    // 返回用户信息（从 Clerk token 解析）
-    return res.status(200).json({
-        email: payload.email || payload.sub || 'user@example.com',
-        verified: true,
-        downloadCount: 0,
-        downloadDate: null
-    });
-}
-
-// POST /api/auth?action=download
-async function downloadCheck(req, res) {
-    const today = new Date().toISOString().slice(0, 10);
-    const ip = (req.headers['x-forwarded-for'] || req.socket?.remoteAddress || 'unknown').split(',')[0].trim();
-    const client = await getRedis();
-    if (!client) return res.status(503).json({ error: 'Service unavailable', allowed: false });
-
-    const auth = req.headers.authorization;
-    const payload = auth?.startsWith('Bearer ') ? await verifyClerkToken(auth.slice(7)) : null;
-
-    // Guest mode — 每天最多 1 次
-    if (!payload) {
-        const dlKey = 'dl:' + ip + ':' + today;
-        const used = parseInt(await client.get(dlKey) || '0');
-        if (used >= 1) {
-            return res.status(429).json({
-                error: 'Daily download limit reached (1/day for guests). Sign in for 3/day.',
-                allowed: false, used, limit: 1
-            });
-        }
-        await client.set(dlKey, String(used + 1), 'EX', 86400);
-        return res.status(200).json({ allowed: true, used: used + 1, limit: 1 });
-    }
-
-    // Logged in user — 每天最多 3 次
-    const email = payload.email || payload.sub || 'unknown';
-    const ipKey = 'dl:' + ip + ':' + today;
-    const ipUsed = parseInt(await client.get(ipKey) || '0');
-    const userKey = 'dl_user:' + email.toLowerCase() + ':' + today;
-    const userUsed = parseInt(await client.get(userKey) || '0');
-    const totalUsed = Math.max(ipUsed, userUsed);
-    const limit = 3;
-
-    if (totalUsed >= limit) {
-        return res.status(429).json({
-            error: 'Daily download limit reached (3/day).',
-            allowed: false, used: totalUsed, limit
-        });
-    }
-
-    const nextCount = totalUsed + 1;
-    await client.set(ipKey, String(nextCount), 'EX', 86400);
-    await client.set(userKey, String(nextCount), 'EX', 86400);
-    return res.status(200).json({ allowed: true, used: nextCount, limit, user: { email } });
-}
-
-// Main handler
 export default async function handler(req, res) {
-    // Set CORS headers
-    Object.entries(cors).forEach(([k, v]) => res.setHeader(k, v));
+  if (!GITHUB_CLIENT_ID) {
+    return res.status(500).send('Missing GITHUB_OAUTH_CLIENT_ID env var');
+  }
 
-    if (req.method === 'OPTIONS') return res.status(200).end();
+  const origin = 'https://www.daoessentia.com';
+  const callbackUrl = `${origin}/callback`;
+  const state = Math.random().toString(36).substring(7);
 
-    const action = req.query.action;
+  const githubAuthUrl =
+    `https://github.com/login/oauth/authorize` +
+    `?client_id=${encodeURIComponent(GITHUB_CLIENT_ID)}` +
+    `&redirect_uri=${encodeURIComponent(callbackUrl)}` +
+    `&scope=repo` +
+    `&state=${encodeURIComponent(state)}`;
 
-    try {
-        switch (action) {
-            case 'me':
-                if (req.method !== 'GET') return res.status(405).json({ error: 'Method not allowed' });
-                return await me(req, res);
-            case 'download':
-                if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
-                return await downloadCheck(req, res);
-            default:
-                return res.status(400).json({ error: 'Unknown action' });
-        }
-    } catch (err) {
-        console.error('[auth]', err);
-        return res.status(500).json({ error: 'Internal server error' });
-    }
+  return res.redirect(302, githubAuthUrl);
 }

@@ -96,45 +96,32 @@ const NAV_HTML = `
                 </a>
                 <ul class="nav-menu">
                     <li><a href="/" class="nav-link" data-i18n="common.home">Home</a></li>
-                    
-                    <!-- Tools Dropdown -->
-                    <li class="nav-dropdown">
-                        <a href="#" class="nav-dropdown-trigger" data-i18n="nav.tools">Tools <i class="nav-dropdown-arrow"></i></a>
-                        <div class="nav-dropdown-menu">
-                            <a href="/#free-bazi" data-i18n="nav.tool_bazi">BaZi Calculator</a>
-                            <a href="/zodiac/zodiac-daily" data-i18n="nav.tool_daily">Daily Horoscope</a>
-                            <a href="/five-elements-test" data-i18n="nav.tool_five">Five Elements Test</a>
-                            <a href="/soulmate-calculator" data-i18n="nav.tool_soulmate">Soulmate Compatibility</a>
-                            <a href="/almanac" data-i18n="nav.tool_almanac">Auspicious Almanac</a>
-                            <a href="/wallpaper" data-i18n="nav.tool_wallpapers">Lucky Wallpapers</a>
-                        </div>
-                    </li>
-
-                    <!-- Blog Dropdown -->
+                    <li><a href="/zodiac/zodiac-daily" class="nav-link" data-i18n="nav.zodiac_daily_top">Zodiac Daily</a></li>
                     <li class="nav-dropdown">
                         <a href="/blog/" class="nav-dropdown-trigger" data-i18n="common.blog">Blog <i class="nav-dropdown-arrow"></i></a>
                         <div class="nav-dropdown-menu">
-                            <a href="/blog/" data-i18n="nav.blog_all">All Articles</a>
+                            <a href="/blog/" data-i18n="nav.blog_all_articles">All Articles</a>
                             <a href="/blog/bazi-astrology" data-i18n="nav.blog_bazi">BaZi Astrology</a>
-                            <a href="/zodiac/zodiac-daily" data-i18n="nav.blog_zodiac">Zodiac Daily</a>
-                            <a href="/blog/feng-shui" data-i18n="nav.blog_fengshui">Home Feng Shui</a>
-                            <a href="/culture" data-i18n="nav.blog_elements">Five Elements</a>
+                            <a href="/zodiac/zodiac-daily" data-i18n="nav.zodiac_daily">Zodiac Daily</a>
+                            <a href="/blog/feng-shui" data-i18n="nav.blog_feng_shui">Home Feng Shui</a>
                         </div>
                     </li>
-
+                    <li><a href="/culture" class="nav-link" data-i18n="common.five_elements">Five Elements</a></li>
                     <li><a href="/learn-bazi" class="nav-link" data-i18n="common.learn_bazi">Learn BaZi</a></li>
                     <li><a href="/shop" class="nav-link" data-i18n="common.shop">Shop</a></li>
                     <li><a href="/about" class="nav-link" data-i18n="common.about_us">About Us</a></li>
-                    
-                    <!-- Language Switcher -->
                     <li class="nav-dropdown">
                         <a href="#" class="nav-dropdown-trigger lang-switcher-trigger" id="lang-trigger">
                             <svg class="lang-globe-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg><span class="lang-label" id="lang-label">EN</span>
                             <i class="nav-dropdown-arrow"></i>
                         </a>
                         <div class="nav-dropdown-menu" id="lang-menu">
-                            <a href="#" data-lang="en" class="lang-option active">English</a>
-                            <a href="#" data-lang="zh" class="lang-option">繁體中文</a>
+                            <a href="#" data-lang="en" class="lang-option active">
+                                English
+                            </a>
+                            <a href="#" data-lang="zh" class="lang-option">
+                                繁體中文
+                            </a>
                         </div>
                     </li>
                 </ul>
@@ -162,7 +149,6 @@ const FOOTER_HTML = `
                         <li><a href="/soulmate-calculator" data-i18n="footer.tool_soulmate">Soulmate Compatibility Finder</a></li>
                         <li><a href="/almanac" data-i18n="footer.tool_almanac">Auspicious Date Picker</a></li>
                         <li><a href="/zodiac/zodiac-daily" data-i18n="footer.tool_zodiac">Zodiac Daily</a></li>
-                        <li><a href="/wallpaper" data-i18n="footer.tool_wallpapers">Lucky Wallpapers</a></li>
                     </ul>
                 </div>
                 <div>
@@ -2385,37 +2371,6 @@ async function main() {
     console.log(`  Generated: dist/zh/index.html (${zhDisplay.length} zh articles)`);
   }
 
-  // Step 7.5: Copy wallpaper pages
-  console.log('Copying wallpaper pages...');
-  const wallpaperSrc = path.join(SRC_DIR, 'wallpaper.html');
-  if (fs.existsSync(wallpaperSrc)) {
-    fs.copyFileSync(wallpaperSrc, path.join(DIST_DIR, 'wallpaper.html'));
-    console.log('  Generated: dist/wallpaper.html');
-  }
-  
-  // Copy wallpapers.json
-  const wallpapersJson = path.join(SRC_DIR, 'wallpapers.json');
-
-  const wallpaperDetailSrc = path.join(SRC_DIR, 'wallpaper-detail.html');
-  if (fs.existsSync(wallpaperDetailSrc)) {
-    // Inject wallpapers.json into wp-data script tag
-    let detailHtml = fs.readFileSync(wallpaperDetailSrc, 'utf8');
-    if (fs.existsSync(wallpapersJson)) {
-      const wpData = fs.readFileSync(wallpapersJson, 'utf8');
-      detailHtml = detailHtml.replace(
-        /<script id="wp-data" type="application\/json">[\s\S]*?<\/script>/,
-        `<script id="wp-data" type="application/json">${wpData}</script>`
-      );
-    }
-    fs.writeFileSync(path.join(DIST_DIR, 'wallpaper-detail.html'), detailHtml);
-    console.log('  Generated: dist/wallpaper-detail.html (with injected wp-data)');
-  }
-
-  if (fs.existsSync(wallpapersJson)) {
-    fs.copyFileSync(wallpapersJson, path.join(DIST_DIR, 'wallpapers.json'));
-    console.log('  Generated: dist/wallpapers.json');
-  }
-
   // Step 8: Generate dynamic sitemap.xml
   console.log('Generating sitemap.xml...');
   const today = new Date().toISOString().split('T')[0];
@@ -2437,7 +2392,6 @@ async function main() {
     { loc: '/learn-bazi/luck-pillars', changefreq: 'monthly', priority: '0.8' },
     { loc: '/learn-bazi/practical', changefreq: 'monthly', priority: '0.8' },
     { loc: '/learn-bazi/spirit-stars', changefreq: 'monthly', priority: '0.8' },
-    { loc: '/wallpaper', changefreq: 'weekly', priority: '0.9' }, // 新增壁纸页
     { loc: '/privacy', changefreq: 'yearly', priority: '0.3' },
     { loc: '/terms', changefreq: 'yearly', priority: '0.3' },
     { loc: '/destiny', changefreq: 'monthly', priority: '0.6' },
