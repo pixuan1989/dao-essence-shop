@@ -71,75 +71,71 @@
         }
         if (clerkInstance) return;
 
-        // 动态加载 Clerk JS
-        await new Promise((resolve, reject) => {
-            if (window.Clerk) { resolve(); return; }
-            const script = document.createElement('script');
-            script.src = 'https://cdn.jsdelivr.net/npm/@clerk/clerk-js@latest/dist/clerk.browser.js';
-            script.async = true;
-            script.crossOrigin = 'anonymous';
-            script.onload = resolve;
-            script.onerror = () => reject(new Error('Failed to load Clerk'));
-            document.head.appendChild(script);
-        });
+        try {
+            // 动态加载 Clerk JS
+            await new Promise((resolve, reject) => {
+                if (window.Clerk) { resolve(); return; }
+                const script = document.createElement('script');
+                script.src = 'https://js.clerk.app/v1/clerk.browser.js';
+                script.async = true;
+                script.crossOrigin = 'anonymous';
+                script.onload = resolve;
+                script.onerror = () => reject(new Error('Failed to load Clerk'));
+                document.head.appendChild(script);
+            });
 
-        window.Clerk.load({
-            publishableKey: CLERK_KEY,
-            afterSignInUrl: window.location.href,
-            afterSignUpUrl: window.location.href,
-            appearance: {
-                baseTheme: 'dark',
-                variables: {
-                    colorPrimary: '#D4AF37',
-                    colorBackground: '#1A1A1A',
-                    colorText: '#ffffff',
-                    colorTextSecondary: 'rgba(255,255,255,0.7)',
-                    colorInputBackground: 'rgba(255,255,255,0.06)',
-                    colorInputBorder: 'rgba(255,255,255,0.1)',
-                    colorDanger: '#e74c3c',
-                    colorSuccess: '#2ecc71',
-                    borderRadius: '8px',
-                    fontFamily: 'Inter, system-ui, sans-serif'
-                },
-                elements: {
-                    card: {
-                        backgroundColor: '#1A1A1A',
-                        border: '1px solid rgba(212,175,55,0.2)',
-                        borderRadius: '12px',
-                        boxShadow: '0 20px 60px rgba(0,0,0,0.5)'
-                    },
-                    socialButtons: {
-                        gap: '12px'
-                    },
-                    socialButtonsIconButton: {
-                        border: '1px solid rgba(255,255,255,0.1)',
+            // 使用 Clerk 构造函数初始化
+            const clerk = new window.Clerk(CLERK_KEY);
+            await clerk.load({
+                appearance: {
+                    baseTheme: 'dark',
+                    variables: {
+                        colorPrimary: '#D4AF37',
+                        colorBackground: '#1A1A1A',
+                        colorText: '#ffffff',
+                        colorTextSecondary: 'rgba(255,255,255,0.7)',
+                        colorInputBackground: 'rgba(255,255,255,0.06)',
+                        colorInputBorder: 'rgba(255,255,255,0.1)',
+                        colorDanger: '#e74c3c',
+                        colorSuccess: '#2ecc71',
                         borderRadius: '8px',
-                        padding: '10px'
+                        fontFamily: 'Inter, system-ui, sans-serif'
                     },
-                    formButtonPrimary: {
-                        background: 'linear-gradient(135deg, #D4AF37, #AA8A26)',
-                        color: '#0A0A0A',
-                        fontWeight: '600'
-                    },
-                    footerActionLink: {
-                        color: '#D4AF37'
+                    elements: {
+                        card: {
+                            backgroundColor: '#1A1A1A',
+                            border: '1px solid rgba(212,175,55,0.2)',
+                            borderRadius: '12px',
+                            boxShadow: '0 20px 60px rgba(0,0,0,0.5)'
+                        },
+                        socialButtons: {
+                            gap: '12px'
+                        },
+                        socialButtonsIconButton: {
+                            border: '1px solid rgba(255,255,255,0.1)',
+                            borderRadius: '8px',
+                            padding: '10px'
+                        },
+                        formButtonPrimary: {
+                            background: 'linear-gradient(135deg, #D4AF37, #AA8A26)',
+                            color: '#0A0A0A',
+                            fontWeight: '600'
+                        },
+                        footerActionLink: {
+                            color: '#D4AF37'
+                        }
                     }
                 }
-            }
-        }).then(() => {
-            clerkInstance = window.Clerk;
+            });
+
+            clerkInstance = clerk;
             clerkReady = true;
             DA.updateNav();
 
-            // 监听登录状态变化
-            clerkInstance.addListener((event) => {
-                if (event.user) {
-                    DA.updateNav();
-                }
-            });
-        }).catch(err => {
+            console.log('[DaoAuth] Clerk initialized successfully');
+        } catch (err) {
             console.error('[DaoAuth] Clerk init failed:', err);
-        });
+        }
     };
 
     // ── 打开登录 Modal ──
