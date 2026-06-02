@@ -85,7 +85,8 @@
                     return;
                 }
                 const script = document.createElement('script');
-                script.src = 'https://js.clerk.dev/v1/clerk.browser.js';
+                // 备用 CDN: https://unpkg.com/@clerk/clerk-js@latest/dist/clerk.browser.js
+                script.src = 'https://cdn.jsdelivr.net/npm/@clerk/clerk-js@latest/dist/clerk.browser.js';
                 script.async = true;
                 script.crossOrigin = 'anonymous';
                 script.onload = function() {
