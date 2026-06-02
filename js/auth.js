@@ -85,7 +85,7 @@
                     return;
                 }
                 const script = document.createElement('script');
-                script.src = 'https://js.clerk.app/v1/clerk.browser.js';
+                script.src = 'https://js.clerk.dev/v1/clerk.browser.js';
                 script.async = true;
                 script.crossOrigin = 'anonymous';
                 script.onload = function() {
