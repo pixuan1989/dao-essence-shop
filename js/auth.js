@@ -53,8 +53,12 @@
                     }
                 }
             });
-            // Handle OAuth redirect callback
-            if (clerkInstance.handleRedirectCallback) {
+            // Handle OAuth redirect callback — only when there's actually a redirect
+            var hasRedirect = location.search.includes('__clerk_redirect_url') ||
+                               location.hash.includes('__clerk_redirect_url') ||
+                               location.search.includes('redirect_url') ||
+                               location.hash.includes('clerk_session');
+            if (hasRedirect && clerkInstance.handleRedirectCallback) {
                 await clerkInstance.handleRedirectCallback({
                     signInForceRedirectUrl: 'https://daoessentia.com/wallpaper',
                     signUpForceRedirectUrl: 'https://daoessentia.com/wallpaper'
