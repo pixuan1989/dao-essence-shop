@@ -44,16 +44,8 @@
             await window.Clerk.load();
             clerkInstance = window.Clerk;
             clerkReady = true;
-            clerkInstance.addListener(function(s) {
-                if (s.user) {
-                    DA.updateNav();
-                    // Auto-redirect back from Clerk domain after successful auth
-                    if (location.hostname.includes('accounts.dev') && !location.hostname.includes('daoessentia')) {
-                        window.location.replace('https://daoessentia.com/wallpaper');
-                    }
-                }
-            });
-            // Handle OAuth redirect callback — only when there's actually a redirect
+
+            // Handle OAuth redirect callback — only when callback params present
             var hasRedirect = location.search.includes('__clerk_redirect_url') ||
                                location.hash.includes('__clerk_redirect_url') ||
                                location.search.includes('redirect_url') ||
@@ -64,11 +56,13 @@
                     signUpForceRedirectUrl: 'https://daoessentia.com/wallpaper'
                 });
             }
+
+            // Update nav on auth state change (no auto-redirect)
+            clerkInstance.addListener(function(s) {
+                DA.updateNav();
+            });
+
             DA.updateNav();
-            // Also redirect if already signed in on Clerk domain after callback
-            if (clerkInstance.user && location.hostname.includes('accounts.dev') && !location.hostname.includes('daoessentia')) {
-                window.location.replace('https://daoessentia.com/wallpaper');
-            }
         } catch (e) { console.error('[Auth] Init failed:', e); }
     };
 
