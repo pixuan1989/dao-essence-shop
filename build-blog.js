@@ -112,9 +112,9 @@ const NAV_HTML = `
 
                     <!-- Blog Dropdown -->
                     <li class="nav-dropdown">
-                        <a href="/blog/" class="nav-dropdown-trigger" data-i18n="common.blog">Blog <i class="nav-dropdown-arrow"></i></a>
+                        <a href="/blog" class="nav-dropdown-trigger" data-i18n="common.blog">Blog <i class="nav-dropdown-arrow"></i></a>
                         <div class="nav-dropdown-menu">
-                            <a href="/blog/" data-i18n="nav.blog_all">All Articles</a>
+                            <a href="/blog" data-i18n="nav.blog_all">All Articles</a>
                             <a href="/blog/bazi-astrology" data-i18n="nav.blog_bazi">BaZi Astrology</a>
                             <a href="/zodiac/zodiac-daily" data-i18n="nav.blog_zodiac">Zodiac Daily</a>
                             <a href="/blog/feng-shui" data-i18n="nav.blog_fengshui">Home Feng Shui</a>
@@ -168,7 +168,7 @@ const FOOTER_HTML = `
                 <div>
                     <h4 class="footer-title" data-i18n="footer.explore_title">Explore</h4>
                     <ul class="footer-links">
-                        <li><a href="/blog/" data-i18n="common.blog">Blog</a></li>
+                        <li><a href="/blog" data-i18n="common.blog">Blog</a></li>
                         <li><a href="/learn-bazi">Learn BaZi</a></li>
                         <li><a href="/culture" data-i18n="common.five_elements">Five Elements</a></li>
                         <li><a href="/shop" data-i18n="common.shop">Shop</a></li>
@@ -1595,9 +1595,9 @@ ${NAV_HTML}
     ${isZodiacPage ? `
     <div class="blog-layout">
         <div class="blog-content">
-        <a href="${langPrefix}/blog/" class="blog-back-link">${isZh ? '← 返回部落格' : '← Back to Blog'}</a>
+        <a href="${langPrefix}/blog" class="blog-back-link">${isZh ? '← 返回部落格' : '← Back to Blog'}</a>
         <div class="blog-category-header">
-            <p class="blog-category-breadcrumb"><a href="/">${isZh ? '首頁' : 'Home'}</a> / <a href="${langPrefix}/blog/">${isZh ? '部落格' : 'Blog'}</a> / ${label}</p>
+            <p class="blog-category-breadcrumb"><a href="/">${isZh ? '首頁' : 'Home'}</a> / <a href="${langPrefix}/blog">${isZh ? '部落格' : 'Blog'}</a> / ${label}</p>
             <h1>${label}</h1>
             <p>${isZh ? `DaoEssence 的${label}文章與指南。` : `Articles and guides on ${label} by DAO Essence.`}</p>
         </div>
@@ -1613,9 +1613,9 @@ ${cardHtml}
     </div>
     ` : `
     <main class="blog-category">
-        <a href="${langPrefix}/blog/" class="blog-back-link">${isZh ? '← 返回部落格' : '← Back to Blog'}</a>
+        <a href="${langPrefix}/blog" class="blog-back-link">${isZh ? '← 返回部落格' : '← Back to Blog'}</a>
         <div class="blog-category-header">
-            <p class="blog-category-breadcrumb"><a href="/">${isZh ? '首頁' : 'Home'}</a> / <a href="${langPrefix}/blog/">${isZh ? '部落格' : 'Blog'}</a> / ${label}</p>
+            <p class="blog-category-breadcrumb"><a href="/">${isZh ? '首頁' : 'Home'}</a> / <a href="${langPrefix}/blog">${isZh ? '部落格' : 'Blog'}</a> / ${label}</p>
             <h1>${label}</h1>
             <p>${isZh ? `DaoEssence 的${label}文章與指南。` : `Articles and guides on ${label} by DAO Essence.`}</p>
         </div>
