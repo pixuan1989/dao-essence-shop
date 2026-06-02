@@ -31,7 +31,31 @@ lang: zh-Hant
 **你的出生時辰，影響的不只是睡眠習慣——在中國占星術中，它更揭示了你的「財富原型」。**  
 十二地支各自承載獨特的五行能量，深刻影響你賺錢、花錢與看待金錢的方式。子時（午夜）出生者屬「水」，是擅於應變的「流動策略家」；丑時（深夜）出生者則坐擁「金庫」之象，是沉穩務實的「穩健累積者」。[立即免費生成你的八字命盤](/#free-bazi)，找出你的「時柱」，確認哪一種財富原型最貼近你的出生時辰！
 
-![十二地支財富原型對照表](/images/blog/jimeng-2026-04-15-1377-a-clear-and-neatly-formatted-table-image....png)
+<table class="wealth-table" style="width:100%;border-collapse:collapse;margin:1.5rem 0;font-size:0.95rem;">
+<thead>
+<tr style="background:#D4AF37;color:#1a1a2e;">
+<th style="padding:10px;border:1px solid #c9a837;">地支</th>
+<th style="padding:10px;border:1px solid #c9a837;">時辰</th>
+<th style="padding:10px;border:1px solid #c9a837;">財富原型</th>
+<th style="padding:10px;border:1px solid #c9a837;">致富路徑</th>
+</tr>
+</thead>
+<tbody>
+<tr><td style="padding:9px;border:1px solid #3a3a5c;">子</td><td style="padding:9px;border:1px solid #3a3a5c;">23:00–00:59</td><td style="padding:9px;border:1px solid #3a3a5c;">流動策略家</td><td style="padding:9px;border:1px solid #3a3a5c;">通過移動與變化致富</td></tr>
+<tr style="background:rgba(212,175,55,0.06);"><td style="padding:9px;border:1px solid #3a3a5c;">丑</td><td style="padding:9px;border:1px solid #3a3a5c;">01:00–02:59</td><td style="padding:9px;border:1px solid #3a3a5c;">穩健累積者</td><td style="padding:9px;border:1px solid #3a3a5c;">通過耐心與儲蓄致富</td></tr>
+<tr><td style="padding:9px;border:1px solid #3a3a5c;">寅</td><td style="padding:9px;border:1px solid #3a3a5c;">03:00–04:59</td><td style="padding:9px;border:1px solid #3a3a5c;">冒險先鋒</td><td style="padding:9px;border:1px solid #3a3a5c;">遠方與冒險帶來財富</td></tr>
+<tr style="background:rgba(212,175,55,0.06);"><td style="padding:9px;border:1px solid #3a3a5c;">卯</td><td style="padding:9px;border:1px solid #3a3a5c;">05:00–06:59</td><td style="padding:9px;border:1px solid #3a3a5c;">社交魅力者</td><td style="padding:9px;border:1px solid #3a3a5c;">人脈與名聲帶來收入</td></tr>
+<tr><td style="padding:9px;border:1px solid #3a3a5c;">辰</td><td style="padding:9px;border:1px solid #3a3a5c;">07:00–08:59</td><td style="padding:9px;border:1px solid #3a3a5c;">自信領袖</td><td style="padding:9px;border:1px solid #3a3a5c;">大器晚成，掌控大資金</td></tr>
+<tr style="background:rgba(212,175,55,0.06);"><td style="padding:9px;border:1px solid #3a3a5c;">巳</td><td style="padding:9px;border:1px solid #3a3a5c;">09:00–10:59</td><td style="padding:9px;border:1px solid #3a3a5c;">心智家</td><td style="padding:9px;border:1px solid #3a3a5c;">用頭腦與口才賺錢</td></tr>
+<tr><td style="padding:9px;border:1px solid #3a3a5c;">午</td><td style="padding:9px;border:1px solid #3a3a5c;">11:00–12:59</td><td style="padding:9px;border:1px solid #3a3a5c;">聚光燈大亨</td><td style="padding:9px;border:1px solid #3a3a5c;">高調賺錢，學會守財</td></tr>
+<tr style="background:rgba(212,175,55,0.06);"><td style="padding:9px;border:1px solid #3a3a5c;">未</td><td style="padding:9px;border:1px solid #3a3a5c;">13:00–14:59</td><td style="padding:9px;border:1px solid #3a3a5c;">穩健供給者</td><td style="padding:9px;border:1px solid #3a3a5c;">房地產與穩定事業致富</td></tr>
+<tr><td style="padding:9px;border:1px solid #3a3a5c;">申</td><td style="padding:9px;border:1px solid #3a3a5c;">15:00–16:59</td><td style="padding:9px;border:1px solid #3a3a5c;">精算交易家</td><td style="padding:9px;border:1px solid #3a3a5c;">金融、交易與管理致富</td></tr>
+<tr style="background:rgba(212,175,55,0.06);"><td style="padding:9px;border:1px solid #3a3a5c;">酉</td><td style="padding:9px;border:1px solid #3a3a5c;">17:00–18:59</td><td style="padding:9px;border:1px solid #3a3a5c;">精緻鑑賞家</td><td style="padding:9px;border:1px solid #3a3a5c;">奢華、美學與品牌致富</td></tr>
+<tr><td style="padding:9px;border:1px solid #3a3a5c;">戌</td><td style="padding:9px;border:1px solid #3a3a5c;">19:00–20:59</td><td style="padding:9px;border:1px solid #3a3a5c;">忠誠夥伴</td><td style="padding:9px;border:1px solid #3a3a5c;">合夥、團隊與家族事業致富</td></tr>
+<tr style="background:rgba(212,175,55,0.06);"><td style="padding:9px;border:1px solid #3a3a5c;">亥</td><td style="padding:9px;border:1px solid #3a3a5c;">21:00–22:59</td><td style="padding:9px;border:1px solid #3a3a5c;">天選福星</td><td style="padding:9px;border:1px solid #3a3a5c;">貴人相助，順遂致富</td></tr>
+</tbody>
+</table>
+<style>.wealth-table th{background:#D4AF37!important;color:#1a1a2e!important;}.wealth-table td{color:#e0dcd0;}</style>
 
 #### **1. 晚上11:00 – 凌晨00:59（子時）**
 
