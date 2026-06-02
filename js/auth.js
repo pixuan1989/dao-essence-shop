@@ -44,15 +44,27 @@
             await window.Clerk.load();
             clerkInstance = window.Clerk;
             clerkReady = true;
-            clerkInstance.addListener(function(s) { if (s.user) DA.updateNav(); });
+            clerkInstance.addListener(function(s) {
+                if (s.user) {
+                    DA.updateNav();
+                    // Auto-redirect back from Clerk domain after successful auth
+                    if (location.hostname.includes('accounts.dev') && !location.hostname.includes('daoessentia')) {
+                        window.location.replace('https://daoessentia.com/wallpaper');
+                    }
+                }
+            });
             // Handle OAuth redirect callback
             if (clerkInstance.handleRedirectCallback) {
                 await clerkInstance.handleRedirectCallback({
-                    signInForceRedirectUrl: location.origin + '/wallpaper',
-                    signUpForceRedirectUrl: location.origin + '/wallpaper'
+                    signInForceRedirectUrl: 'https://daoessentia.com/wallpaper',
+                    signUpForceRedirectUrl: 'https://daoessentia.com/wallpaper'
                 });
             }
             DA.updateNav();
+            // Also redirect if already signed in on Clerk domain after callback
+            if (clerkInstance.user && location.hostname.includes('accounts.dev') && !location.hostname.includes('daoessentia')) {
+                window.location.replace('https://daoessentia.com/wallpaper');
+            }
         } catch (e) { console.error('[Auth] Init failed:', e); }
     };
 
