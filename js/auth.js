@@ -1,7 +1,7 @@
 /**
- * DaoEssence Auth — Clerk v6 集成版
- * 使用 Clerk FAPI CDN (ui.browser.js + clerk.browser.js)
- * Clerk v6 用 mountSignIn() 代替 openSignIn()
+ * DaoEssence Auth — Clerk v6 + 独立登录页
+ * 保留原有接口 (DaoAuth.getToken, getUser, updateNav 等)
+ * 登录跳转 /login 页面（Zedge 风格）
  */
 (function() {
     'use strict';
@@ -14,30 +14,6 @@
     function t(key, fallback) {
         var v = window.DaoI18n && window.DaoI18n.t(key);
         return (v && v !== key) ? v : fallback;
-    }
-
-    // ── 认证 Modal ──
-    function closeAuthModal() {
-        var modal = document.getElementById('da-auth-modal');
-        if (modal) modal.remove();
-    }
-
-    function openAuthModal(container) {
-        closeAuthModal();
-        var modal = document.createElement('div');
-        modal.id = 'da-auth-modal';
-        modal.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;z-index:10000;display:flex;align-items:center;justify-content:center;';
-        // backdrop
-        var backdrop = document.createElement('div');
-        backdrop.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);';
-        backdrop.addEventListener('click', closeAuthModal);
-        modal.appendChild(backdrop);
-        // container
-        var card = document.createElement('div');
-        card.appendChild(container);
-        card.style.cssText = 'position:relative;max-width:420px;width:90%;';
-        modal.appendChild(card);
-        document.body.appendChild(modal);
     }
 
     // ── Token ──
@@ -80,34 +56,17 @@
 
     // ── 初始化 Clerk v6 ──
     DA._initClerk = async function() {
-        console.log('[DaoAuth] _initClerk called, window.Clerk:', typeof window.Clerk);
+        if (clerkInstance) return;
 
-        if (clerkInstance) {
-            console.log('[DaoAuth] Clerk already initialized');
-            return;
-        }
-
-        // 等待 Clerk SDK + UI 脚本加载（defer 属性确保在 DOMContentLoaded 后）
+        // 等待 ui.browser.js + clerk.browser.js 加载
         let attempts = 0;
         while ((!window.Clerk || !window.__internal_ClerkUICtor) && attempts < 50) {
             await new Promise(r => setTimeout(r, 100));
             attempts++;
         }
-
-        if (!window.Clerk) {
-            console.error('[DaoAuth] window.Clerk not found after 5s');
-            return;
-        }
-        if (!window.__internal_ClerkUICtor) {
-            console.error('[DaoAuth] __internal_ClerkUICtor not found - ui.browser.js may not have loaded');
-            return;
-        }
-
-        console.log('[DaoAuth] Clerk v6 + UI scripts loaded');
+        if (!window.Clerk || !window.__internal_ClerkUICtor) return;
 
         try {
-            // Clerk v6: publishableKey 从 script[data-clerk-publishable-key] 自动读取
-            // UI component 通过 ui.ClerkUI 注入
             await window.Clerk.load({
                 ui: { ClerkUI: window.__internal_ClerkUICtor },
                 appearance: {
@@ -119,75 +78,22 @@
                         colorTextSecondary: 'rgba(255,255,255,0.7)',
                         colorInputBackground: 'rgba(255,255,255,0.06)',
                         colorInputBorder: 'rgba(255,255,255,0.1)',
-                        colorDanger: '#e74c3c',
-                        colorSuccess: '#2ecc71',
                         borderRadius: '8px',
                         fontFamily: 'Inter, system-ui, sans-serif'
-                    },
-                    elements: {
-                        card: {
-                            backgroundColor: '#1A1A1A',
-                            border: '1px solid rgba(212,175,55,0.2)',
-                            borderRadius: '12px',
-                            boxShadow: '0 20px 60px rgba(0,0,0,0.5)'
-                        },
-                        socialButtons: { gap: '12px' },
-                        socialButtonsIconButton: {
-                            border: '1px solid rgba(255,255,255,0.1)',
-                            borderRadius: '8px',
-                            padding: '10px'
-                        },
-                        formButtonPrimary: {
-                            background: 'linear-gradient(135deg, #D4AF37, #AA8A26)',
-                            color: '#0A0A0A',
-                            fontWeight: '600'
-                        },
-                        footerActionLink: { color: '#D4AF37' }
                     }
                 }
             });
-
             clerkInstance = window.Clerk;
             clerkReady = true;
-
-            // 监听认证状态变化 → 自动关闭 Modal
-            clerkInstance.addListener(function(state) {
-                if (state.user) {
-                    closeAuthModal();
-                    DA.updateNav();
-                }
-            });
-
             DA.updateNav();
-            console.log('[DaoAuth] Clerk v6 initialized, signed in:', clerkInstance.isSignedIn);
         } catch (err) {
-            console.error('[DaoAuth] Clerk init failed:', err);
+            console.error('[DaoAuth] Init failed:', err);
         }
     };
 
-    // ── 打开登录 Modal（Clerk v6: mountSignIn）──
+    // ── 跳转登录页 ──
     DA.open = function() {
-        console.log('[DaoAuth] open() called, clerkReady:', clerkReady);
-        if (!clerkReady || !clerkInstance) {
-            DA.showToast('Auth service loading, please wait...', 2000);
-            setTimeout(function() {
-                if (clerkReady && clerkInstance) DA.open();
-            }, 2000);
-            return;
-        }
-        var container = document.createElement('div');
-        clerkInstance.mountSignIn(container, {
-            appearance: {
-                baseTheme: 'dark',
-                variables: { colorPrimary: '#D4AF37', colorBackground: '#1A1A1A' }
-            }
-        });
-        openAuthModal(container);
-    };
-
-    // ── 关闭 ──
-    DA.close = function() {
-        closeAuthModal();
+        window.location.href = '/login';
     };
 
     // ── 登出 ──
@@ -208,7 +114,7 @@
 
         if (!clerkReady || !clerkInstance) {
             btn.textContent = 'Loading...';
-            btn.style.cssText = 'display:inline-flex !important;align-items:center !important;padding:8px 16px !important;background:rgba(255,255,255,0.08) !important;border:1px solid rgba(255,255,255,0.15) !important;border-radius:999px !important;font-size:13px !important;font-weight:500 !important;color:#fff !important;opacity:0.5 !important;cursor:not-allowed !important;';
+            btn.style.cssText = 'display:inline-flex;align-items:center;padding:8px 16px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:999px;font-size:13px;font-weight:500;color:#fff;opacity:0.5;cursor:not-allowed';
             return;
         }
 
@@ -233,18 +139,17 @@
                 'linear-gradient(135deg, #2af598 0%, #009efd 100%)',
             ];
             var grad = gradients[Math.abs(hash) % gradients.length];
-            btn.innerHTML = '<span style="display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;background:' + grad + ';color:#fff;font-size:13px;font-weight:700;margin-right:8px;vertical-align:middle;box-shadow:0 2px 8px rgba(0,0,0,0.25);flex-shrink:0;">' + initial + '</span><span style="font-size:13px;font-weight:500;color:rgba(255,255,255,0.85);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:120px;">' + email.split('@')[0] + '</span>';
+            btn.innerHTML = '<span style="display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;background:' + grad + ';color:#fff;font-size:13px;font-weight:700;margin-right:8px;box-shadow:0 2px 8px rgba(0,0,0,0.25);flex-shrink:0">' + initial + '</span><span style="font-size:13px;font-weight:500;color:rgba(255,255,255,0.85);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:120px">' + email.split('@')[0] + '</span>';
             btn.title = t('auth.click_to_signout', 'Click to sign out');
-            btn.style.cssText = 'display:inline-flex !important;align-items:center !important;padding:4px 12px 4px 4px !important;background:rgba(255,255,255,0.08) !important;border:1px solid rgba(255,255,255,0.15) !important;border-radius:999px !important;transition:all 0.2s !important;cursor:pointer !important;';
+            btn.style.cssText = 'display:inline-flex;align-items:center;padding:4px 12px 4px 4px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:999px;transition:all 0.2s;cursor:pointer';
             btn.onclick = function(e) {
-                e.preventDefault();
-                e.stopPropagation();
+                e.preventDefault(); e.stopPropagation();
                 var menu = document.getElementById('da-signout-menu');
                 if (menu) { menu.remove(); return; }
                 menu = document.createElement('div');
                 menu.id = 'da-signout-menu';
-                menu.style.cssText = 'position:absolute;top:100%;right:0;margin-top:2px;z-index:10001;';
-                menu.innerHTML = '<a href="#" style="display:block;padding:4px 0;color:rgba(255,255,255,0.4);text-decoration:none;font-size:11px;transition:color 0.15s;white-space:nowrap;" onmouseover="this.style.color=\'#D4AF37\'" onmouseout="this.style.color=\'rgba(255,255,255,0.4)\'">' + t('auth.sign_out', 'Sign Out') + '</a>';
+                menu.style.cssText = 'position:absolute;top:100%;right:0;margin-top:2px;z-index:10001';
+                menu.innerHTML = '<a href="#" style="display:block;padding:4px 0;color:rgba(255,255,255,0.4);text-decoration:none;font-size:11px;white-space:nowrap">' + t('auth.sign_out', 'Sign Out') + '</a>';
                 menu.querySelector('a').addEventListener('click', function(ev) {
                     ev.preventDefault();
                     menu.remove();
@@ -261,7 +166,7 @@
         } else {
             btn.textContent = t('auth.sign_in', 'Sign In');
             btn.title = '';
-            btn.style.cssText = 'display:inline-flex !important;align-items:center !important;padding:8px 16px !important;background:rgba(255,255,255,0.08) !important;border:1px solid rgba(255,255,255,0.15) !important;border-radius:999px !important;font-size:13px !important;font-weight:500 !important;color:#fff !important;transition:all 0.2s !important;cursor:pointer !important;';
+            btn.style.cssText = 'display:inline-flex;align-items:center;padding:8px 16px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:999px;font-size:13px;font-weight:500;color:#fff;transition:all 0.2s;cursor:pointer';
             btn.onclick = function(e) {
                 e.preventDefault();
                 DA.open();
@@ -275,20 +180,15 @@
         return await clerkInstance.session.getToken();
     };
 
-    // ── 检查是否已登录 ──
+    // ── 是否已登录 ──
     DA.isSignedIn = function() {
         return clerkReady && clerkInstance && clerkInstance.isSignedIn;
     };
 
-    // ── 初始化 ──
-    DA.init = function() {
-        DA._initClerk();
-    };
-
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', DA.init);
+        document.addEventListener('DOMContentLoaded', DA.init = function() { DA._initClerk(); });
     } else {
-        DA.init();
+        DA._initClerk();
     }
 
     window.DaoAuth = DA;
