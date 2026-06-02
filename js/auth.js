@@ -65,27 +65,46 @@
 
     // ── 初始化 Clerk ──
     DA._initClerk = async function() {
+        console.log('[DaoAuth] _initClerk called, CLERK_KEY:', CLERK_KEY ? 'configured' : 'missing');
         if (!CLERK_KEY) {
             console.error('[DaoAuth] CLERK_PUBLISHABLE_KEY not configured');
             return;
         }
-        if (clerkInstance) return;
+        if (clerkInstance) {
+            console.log('[DaoAuth] Clerk already initialized');
+            return;
+        }
 
         try {
             // 动态加载 Clerk JS
+            console.log('[DaoAuth] Loading Clerk script...');
             await new Promise((resolve, reject) => {
-                if (window.Clerk) { resolve(); return; }
+                if (window.Clerk) {
+                    console.log('[DaoAuth] window.Clerk already exists');
+                    resolve();
+                    return;
+                }
                 const script = document.createElement('script');
                 script.src = 'https://js.clerk.app/v1/clerk.browser.js';
                 script.async = true;
                 script.crossOrigin = 'anonymous';
-                script.onload = resolve;
-                script.onerror = () => reject(new Error('Failed to load Clerk'));
+                script.onload = function() {
+                    console.log('[DaoAuth] Clerk script loaded');
+                    resolve();
+                };
+                script.onerror = function() {
+                    console.error('[DaoAuth] Failed to load Clerk script');
+                    reject(new Error('Failed to load Clerk'));
+                };
                 document.head.appendChild(script);
             });
 
+            console.log('[DaoAuth] window.Clerk exists:', !!window.Clerk);
+            console.log('[DaoAuth] window.Clerk constructor:', typeof window.Clerk);
+
             // 使用 Clerk 构造函数初始化
             const clerk = new window.Clerk(CLERK_KEY);
+            console.log('[DaoAuth] Clerk instance created');
             await clerk.load({
                 appearance: {
                     baseTheme: 'dark',
@@ -140,8 +159,19 @@
 
     // ── 打开登录 Modal ──
     DA.open = function() {
+        console.log('[DaoAuth] open() called, clerkReady:', clerkReady, 'clerkInstance:', !!clerkInstance);
         if (!clerkReady || !clerkInstance) {
-            DA.showToast('Auth service loading...', 2000);
+            DA.showToast('Auth service loading, please wait...', 2000);
+            // 如果正在初始化，等2秒后重试
+            if (!clerkInstance && CLERK_KEY) {
+                setTimeout(() => {
+                    if (clerkReady && clerkInstance) {
+                        clerkInstance.openSignIn({
+                            appearance: { baseTheme: 'dark', variables: { colorPrimary: '#D4AF37', colorBackground: '#1A1A1A' } }
+                        });
+                    }
+                }, 2000);
+            }
             return;
         }
         clerkInstance.openSignIn({
