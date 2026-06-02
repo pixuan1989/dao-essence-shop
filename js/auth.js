@@ -85,6 +85,15 @@
             });
             clerkInstance = window.Clerk;
             clerkReady = true;
+
+            // Handle OAuth redirect callback (Google sign-in returns to this page)
+            if (clerkInstance.handleRedirectCallback) {
+                await clerkInstance.handleRedirectCallback({
+                    signInForceRedirectUrl: window.location.origin + '/wallpaper',
+                    signUpForceRedirectUrl: window.location.origin + '/wallpaper'
+                });
+            }
+
             DA.updateNav();
         } catch (err) {
             console.error('[DaoAuth] Init failed:', err);
