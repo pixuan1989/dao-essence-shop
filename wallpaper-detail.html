@@ -652,7 +652,7 @@
 
             if (wallpapers.length > 0) {
                 if (wallpaperId) {
-                    const index = wallpapers.findIndex(w => w.id === wallpaperId);
+                    const index = wallpapers.findIndex(w => String(w.id) === String(wallpaperId));
                     if (index !== -1) render(index);
                     else window.location.href = '/wallpaper';
                 } else {
