@@ -1,6 +1,6 @@
 /**
- * DaoEssence Auth — Clerk v6 compatible
- * DA.open() → Google OAuth popup (no redirect).
+ * DaoEssence Auth — Clerk Browser SDK
+ * Docs: https://clerk.com/docs/js-frontend/reference/objects/clerk
  */
 (function() {
     'use strict';
@@ -81,7 +81,6 @@
         btn.onclick = function(e) { e.preventDefault(); DA.open(); };
     };
 
-    // ---- Core nav update (uses subscribe state or direct read) ----
     DA._syncNav = function(user) {
         var btn = document.getElementById('wpn-signin-btn');
         if (!btn) return;
@@ -89,7 +88,7 @@
         else { DA._renderSignInNav(btn); }
     };
 
-    // ---- Init Clerk v6 ----
+    // ---- Init Clerk ----
     DA._initClerk = async function() {
         if (clerkInstance) return;
         var a = 0;
@@ -103,21 +102,22 @@
             clerkReady = true;
             console.log('[Auth] Clerk loaded. isSignedIn:', clerkInstance.isSignedIn, 'user:', !!clerkInstance.user);
 
-            // v6: subscribe (not addListener) — state.user is the actual user object
-            clerkInstance.subscribe(function(state) {
-                console.log('[Auth] subscribe fired. user:', !!state.user, 'session:', !!state.session);
-                DA._syncNav(state.user);
-                if (state.session && state.session.getToken) {
-                    state.session.getToken().then(function(t) { DA._token = t; });
+            // addListener: callback receives { user, session, client, organization }
+            // Docs: https://clerk.com/docs/js-frontend/reference/objects/clerk
+            clerkInstance.addListener(function(resources) {
+                console.log('[Auth] addListener fired. user:', !!resources.user, 'session:', !!resources.session);
+                DA._syncNav(resources.user);
+                if (resources.session && resources.session.getToken) {
+                    resources.session.getToken().then(function(t) { DA._token = t; });
                 } else {
                     DA._token = null;
                 }
             });
 
-            // Immediate render (load() may have user already)
+            // Immediate render (load() may already have user)
             DA._syncNav(clerkInstance.user);
 
-            // Poll as fallback in case subscribe misses initial state
+            // Poll fallback in case addListener misses initial async state
             var poll = 0;
             var pollId = setInterval(function() {
                 if (clerkInstance.user || poll >= 15) {
@@ -132,25 +132,30 @@
         }
     };
 
-    // ---- Sign in (OAuth popup, no redirect) ----
+    // ---- Sign in ----
     DA.open = function() {
         if (!clerkReady || !clerkInstance) { DA.showToast('Loading...', 2000); return; }
         try {
-            clerkInstance.openSignIn({
-                redirectUrl: window.location.href,
-                redirectUrlComplete: window.location.href,
-                appearance: {
-                    layout: { socialButtonsPlacement: 'top', showOptionalFields: false }
-                }
-            });
+            // Try openSignIn (modal) first — preferred, no page redirect
+            if (typeof clerkInstance.openSignIn === 'function') {
+                clerkInstance.openSignIn({
+                    redirectUrl: window.location.href,
+                    redirectUrlComplete: window.location.href
+                });
+                return;
+            }
+            // Fallback: redirect-based OAuth
+            if (clerkInstance.authenticateWithRedirect) {
+                clerkInstance.authenticateWithRedirect({
+                    strategy: 'oauth_google',
+                    redirectUrl: window.location.href,
+                    redirectUrlComplete: window.location.href
+                });
+                return;
+            }
+            console.error('[Auth] No sign-in method available');
         } catch (e) {
-            console.error('[Auth] openSignIn failed:', e);
-            // Fallback to redirect-based auth
-            clerkInstance.authenticateWithRedirect({
-                strategy: 'oauth_google',
-                redirectUrl: window.location.href,
-                redirectUrlComplete: window.location.href
-            });
+            console.error('[Auth] Sign-in failed:', e);
         }
     };
 
