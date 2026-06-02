@@ -1,7 +1,7 @@
 /**
- * DaoEssence Auth — Clerk 集成版
- * 保留原有接口 (DaoAuth.getToken, getUser, updateNav, showToast 等)
- * 内部使用 Clerk 处理认证
+ * DaoEssence Auth — Clerk v6 集成版
+ * 使用 Clerk FAPI CDN (ui.browser.js + clerk.browser.js)
+ * Clerk v6 用 mountSignIn() 代替 openSignIn()
  */
 (function() {
     'use strict';
@@ -16,22 +16,37 @@
         return (v && v !== key) ? v : fallback;
     }
 
-    // ── Clerk Publishable Key ──
-    // 从环境变量或全局配置读取
-    const CLERK_KEY = window.CLERK_PUBLISHABLE_KEY || '';
+    // ── 认证 Modal ──
+    function closeAuthModal() {
+        var modal = document.getElementById('da-auth-modal');
+        if (modal) modal.remove();
+    }
 
-    // ── Token（Clerk 使用 session token）──
+    function openAuthModal(container) {
+        closeAuthModal();
+        var modal = document.createElement('div');
+        modal.id = 'da-auth-modal';
+        modal.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;z-index:10000;display:flex;align-items:center;justify-content:center;';
+        // backdrop
+        var backdrop = document.createElement('div');
+        backdrop.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);';
+        backdrop.addEventListener('click', closeAuthModal);
+        modal.appendChild(backdrop);
+        // container
+        var card = document.createElement('div');
+        card.appendChild(container);
+        card.style.cssText = 'position:relative;max-width:420px;width:90%;';
+        modal.appendChild(card);
+        document.body.appendChild(modal);
+    }
+
+    // ── Token ──
     DA.getToken = function() {
         if (!clerkReady || !clerkInstance) return null;
-        // Clerk 使用内部 session 管理，我们返回一个标记表示已登录
         return clerkInstance.isSignedIn ? 'clerk_session' : null;
     };
-    DA.setToken = function(token) {
-        // Clerk 自动管理，无需手动存储
-    };
-    DA.clearToken = function() {
-        // Clerk 自动管理
-    };
+    DA.setToken = function() {};
+    DA.clearToken = function() {};
 
     // ── 获取用户信息 ──
     DA.getUser = async function() {
@@ -39,7 +54,7 @@
         const user = clerkInstance.user;
         if (!user) return null;
         return {
-            email: user.primaryEmailAddress?.emailAddress || user.emailAddresses[0]?.emailAddress || '',
+            email: user.primaryEmailAddress?.emailAddress || user.emailAddresses?.[0]?.emailAddress || '',
             id: user.id,
             firstName: user.firstName,
             lastName: user.lastName,
@@ -63,7 +78,7 @@
         el._tid = setTimeout(function() { el.classList.remove('show'); }, duration);
     };
 
-    // ── 初始化 Clerk（使用本地托管的 clerk.browser.js）──
+    // ── 初始化 Clerk v6 ──
     DA._initClerk = async function() {
         console.log('[DaoAuth] _initClerk called, window.Clerk:', typeof window.Clerk);
 
@@ -72,37 +87,29 @@
             return;
         }
 
-        // 等待本地脚本加载
+        // 等待 Clerk SDK + UI 脚本加载（defer 属性确保在 DOMContentLoaded 后）
         let attempts = 0;
-        while (!window.Clerk && attempts < 50) {
+        while ((!window.Clerk || !window.__internal_ClerkUICtor) && attempts < 50) {
             await new Promise(r => setTimeout(r, 100));
             attempts++;
         }
 
         if (!window.Clerk) {
-            console.error('[DaoAuth] window.Clerk not found after 5s - check /js/clerk.browser.js path');
+            console.error('[DaoAuth] window.Clerk not found after 5s');
+            return;
+        }
+        if (!window.__internal_ClerkUICtor) {
+            console.error('[DaoAuth] __internal_ClerkUICtor not found - ui.browser.js may not have loaded');
             return;
         }
 
-        console.log('[DaoAuth] window.Clerk found, type:', typeof window.Clerk);
+        console.log('[DaoAuth] Clerk v6 + UI scripts loaded');
 
         try {
-            // 从 script 标签的 data 属性或全局变量获取 key
-            var key = CLERK_KEY;
-            if (!key) {
-                var clerkScript = document.querySelector('script[data-clerk-publishable-key]');
-                if (clerkScript) key = clerkScript.getAttribute('data-clerk-publishable-key');
-            }
-
-            if (!key) {
-                console.error('[DaoAuth] No publishableKey found');
-                return;
-            }
-            console.log('[DaoAuth] Using publishableKey:', key.substring(0, 10) + '...');
-
-            // Clerk 最新版：publishableKey 作为 load() 的参数传入
+            // Clerk v6: publishableKey 从 script[data-clerk-publishable-key] 自动读取
+            // UI component 通过 ui.ClerkUI 注入
             await window.Clerk.load({
-                publishableKey: key,
+                ui: { ClerkUI: window.__internal_ClerkUICtor },
                 appearance: {
                     baseTheme: 'dark',
                     variables: {
@@ -124,9 +131,7 @@
                             borderRadius: '12px',
                             boxShadow: '0 20px 60px rgba(0,0,0,0.5)'
                         },
-                        socialButtons: {
-                            gap: '12px'
-                        },
+                        socialButtons: { gap: '12px' },
                         socialButtonsIconButton: {
                             border: '1px solid rgba(255,255,255,0.1)',
                             borderRadius: '8px',
@@ -137,52 +142,52 @@
                             color: '#0A0A0A',
                             fontWeight: '600'
                         },
-                        footerActionLink: {
-                            color: '#D4AF37'
-                        }
+                        footerActionLink: { color: '#D4AF37' }
                     }
                 }
             });
 
             clerkInstance = window.Clerk;
             clerkReady = true;
-            DA.updateNav();
 
-            console.log('[DaoAuth] Clerk initialized successfully, user:', clerkInstance.user ? 'signed in' : 'signed out');
+            // 监听认证状态变化 → 自动关闭 Modal
+            clerkInstance.addListener(function(state) {
+                if (state.user) {
+                    closeAuthModal();
+                    DA.updateNav();
+                }
+            });
+
+            DA.updateNav();
+            console.log('[DaoAuth] Clerk v6 initialized, signed in:', clerkInstance.isSignedIn);
         } catch (err) {
             console.error('[DaoAuth] Clerk init failed:', err);
         }
     };
 
-    // ── 打开登录 Modal ──
+    // ── 打开登录 Modal（Clerk v6: mountSignIn）──
     DA.open = function() {
-        console.log('[DaoAuth] open() called, clerkReady:', clerkReady, 'clerkInstance:', !!clerkInstance);
+        console.log('[DaoAuth] open() called, clerkReady:', clerkReady);
         if (!clerkReady || !clerkInstance) {
             DA.showToast('Auth service loading, please wait...', 2000);
-            // 如果正在初始化，等2秒后重试
-            setTimeout(() => {
-                if (clerkReady && clerkInstance) {
-                    clerkInstance.openSignIn({
-                        appearance: { baseTheme: 'dark', variables: { colorPrimary: '#D4AF37', colorBackground: '#1A1A1A' } }
-                    });
-                }
+            setTimeout(function() {
+                if (clerkReady && clerkInstance) DA.open();
             }, 2000);
             return;
         }
-        clerkInstance.openSignIn({
+        var container = document.createElement('div');
+        clerkInstance.mountSignIn(container, {
             appearance: {
                 baseTheme: 'dark',
-                variables: {
-                    colorPrimary: '#D4AF37',
-                    colorBackground: '#1A1A1A'
-                }
+                variables: { colorPrimary: '#D4AF37', colorBackground: '#1A1A1A' }
             }
         });
+        openAuthModal(container);
     };
 
-    // ── 关闭（Clerk 自动处理）──
+    // ── 关闭 ──
     DA.close = function() {
-        // Clerk modal 自动关闭
+        closeAuthModal();
     };
 
     // ── 登出 ──
@@ -198,7 +203,6 @@
         var btn = document.getElementById('wpn-signin-btn');
         if (!btn) return;
 
-        // 移除旧的下拉菜单
         var oldMenu = document.getElementById('da-signout-menu');
         if (oldMenu) oldMenu.remove();
 
@@ -212,7 +216,6 @@
         if (user) {
             var email = user.primaryEmailAddress?.emailAddress || user.emailAddresses?.[0]?.emailAddress || 'U';
             var initial = email[0].toUpperCase();
-            // Generate a consistent gradient based on username
             var hash = 0;
             for (var i = 0; i < email.length; i++) hash = email.charCodeAt(i) + ((hash << 5) - hash);
             var gradients = [
@@ -266,7 +269,7 @@
         }
     };
 
-    // ── 获取 Clerk Session Token（用于 API 调用）──
+    // ── Session Token ──
     DA.getSessionToken = async function() {
         if (!clerkReady || !clerkInstance || !clerkInstance.isSignedIn) return null;
         return await clerkInstance.session.getToken();
