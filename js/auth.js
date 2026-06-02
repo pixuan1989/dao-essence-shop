@@ -41,9 +41,7 @@
         if (!window.Clerk) { console.error('[Auth] Clerk script not loaded'); return; }
 
         try {
-            await window.Clerk.load({
-                proxyUrl: 'https://3ezf4uml2cbywxbc2qy0nt5xreh.clerk.accounts.dev'
-            });
+            await window.Clerk.load();
             clerkInstance = window.Clerk;
             clerkReady = true;
             clerkInstance.addListener(function(s) { if (s.user) DA.updateNav(); });
