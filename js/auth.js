@@ -101,12 +101,10 @@
             });
 
             console.log('[DaoAuth] window.Clerk exists:', !!window.Clerk);
-            console.log('[DaoAuth] window.Clerk constructor:', typeof window.Clerk);
 
-            // 使用 Clerk 构造函数初始化
-            const clerk = new window.Clerk(CLERK_KEY);
-            console.log('[DaoAuth] Clerk instance created');
-            await clerk.load({
+            // 新版 Clerk 用法：先设置 publishableKey，再 load
+            window.Clerk.publishableKey = CLERK_KEY;
+            await window.Clerk.load({
                 appearance: {
                     baseTheme: 'dark',
                     variables: {
@@ -148,11 +146,11 @@
                 }
             });
 
-            clerkInstance = clerk;
+            clerkInstance = window.Clerk;
             clerkReady = true;
             DA.updateNav();
 
-            console.log('[DaoAuth] Clerk initialized successfully');
+            console.log('[DaoAuth] Clerk initialized successfully, user:', clerkInstance.user ? 'signed in' : 'signed out');
         } catch (err) {
             console.error('[DaoAuth] Clerk init failed:', err);
         }
