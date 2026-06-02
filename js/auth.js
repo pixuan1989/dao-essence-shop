@@ -100,9 +100,10 @@
         }
     };
 
-    // ── 跳转 Clerk 托管登录页 ──
+    // ── 跳转 Clerk 托管登录页（带 redirect_url 回到当前页）──
     DA.open = function() {
-        window.location.href = 'https://decent-glider-58.clerk.accounts.dev/sign-in';
+        var returnUrl = encodeURIComponent(window.location.href);
+        window.location.href = 'https://decent-glider-58.clerk.accounts.dev/sign-in?redirect_url=' + returnUrl;
     };
 
     // ── 登出 ──
