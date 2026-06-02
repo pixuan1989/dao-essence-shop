@@ -36,6 +36,30 @@
     {
       "src": "/blog/taoist-meditation-guide.html",
       "status": 410
+    },
+    {
+      "src": "/life-path",
+      "status": 410
+    },
+    {
+      "src": "/guid",
+      "status": 410
+    },
+    {
+      "src": "/destiny",
+      "status": 410
+    },
+    {
+      "src": "/zh/destiny",
+      "status": 410
+    },
+    {
+      "src": "/blog/elon-musk-bazi-yang-wood-day-master-decoded",
+      "status": 410
+    },
+    {
+      "src": "/zh/learn-bazi/luck-pillars",
+      "status": 410
     }
   ],
   "headers": [
@@ -110,11 +134,6 @@
     {
       "source": "/zh/culture",
       "destination": "/culture",
-      "permanent": true
-    },
-    {
-      "source": "/zh/destiny",
-      "destination": "/destiny",
       "permanent": true
     },
     {

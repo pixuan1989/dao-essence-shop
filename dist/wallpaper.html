@@ -844,9 +844,16 @@
 
         // Build explore categories section
         function buildExploreCategories() {
+            const section = document.querySelector('.explore-section');
             const grid = document.getElementById('cat-grid');
-            grid.innerHTML = '';
             const availableCats = dynamicCats.filter(c => c !== 'All' && CAT_INFO[c]);
+            // Hide if 0 or 1 category (looks empty to users)
+            if (availableCats.length <= 1) {
+                section.style.display = 'none';
+                return;
+            }
+            section.style.display = '';
+            grid.innerHTML = '';
             const lang = getLang();
             const infoMap = lang === 'zh' ? CAT_INFO_ZH : CAT_INFO;
 
@@ -896,12 +903,15 @@
             }
             // Search filter
             if (searchQuery) {
+                const q = searchQuery;
                 list = list.filter(w => {
-                    const q = searchQuery;
                     return (
                         (w.title && w.title.toLowerCase().includes(q)) ||
+                        (w.title_zh && w.title_zh.toLowerCase().includes(q)) ||
                         (w.category && w.category.toLowerCase().includes(q)) ||
-                        (w.tags && w.tags.some(tag => tag.toLowerCase().includes(q)))
+                        (w.category_zh && w.category_zh.toLowerCase().includes(q)) ||
+                        (w.tags && w.tags.some(tag => tag.toLowerCase().includes(q))) ||
+                        (w.tags_zh && w.tags_zh.some(tag => tag.toLowerCase().includes(q)))
                     );
                 });
             }
