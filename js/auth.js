@@ -1,6 +1,6 @@
 /**
- * DaoEssence Auth — Clerk headless mode (jsdelivr CDN)
- * DA.open() → Google OAuth redirect. No UI components needed.
+ * DaoEssence Auth — Clerk with UI (FAPI CDN)
+ * DA.open() → openSignIn() popup with Google OAuth + Email.
  */
 (function() {
     'use strict';
@@ -46,19 +46,7 @@
             clerkInstance = window.Clerk;
             clerkReady = true;
 
-            // Handle OAuth redirect callback — only when callback params present
-            var hasRedirect = location.search.includes('__clerk_redirect_url') ||
-                               location.hash.includes('__clerk_redirect_url') ||
-                               location.search.includes('redirect_url') ||
-                               location.hash.includes('clerk_session');
-            if (hasRedirect && clerkInstance.handleRedirectCallback) {
-                await clerkInstance.handleRedirectCallback({
-                    signInForceRedirectUrl: 'https://daoessentia.com/wallpaper',
-                    signUpForceRedirectUrl: 'https://daoessentia.com/wallpaper'
-                });
-            }
-
-            // Update nav on auth state change (no auto-redirect)
+            // Update nav on auth state change
             clerkInstance.addListener(function(s) {
                 DA.updateNav();
                 // Cache real Clerk session token for API calls
@@ -73,13 +61,28 @@
         } catch (e) { console.error('[Auth] Init failed:', e); }
     };
 
-    // Google OAuth redirect (headless — no UI needed)
+    // Open Clerk sign-in popup (supports Google OAuth + Email)
     DA.open = function() {
         if (!clerkReady || !clerkInstance) { DA.showToast('Loading...', 2000); return; }
-        clerkInstance.client.signIn.authenticateWithRedirect({
-            strategy: 'oauth_google',
-            redirectUrl: location.origin + '/wallpaper',
-            redirectUrlComplete: location.origin + '/wallpaper'
+        clerkInstance.openSignIn({
+            appearance: {
+                variables: {
+                    colorPrimary: '#D4AF37',
+                    colorBackground: '#1a1a1f',
+                    colorText: '#ffffff',
+                    colorTextSecondary: 'rgba(255,255,255,0.6)',
+                    colorInputBackground: 'rgba(255,255,255,0.06)',
+                    colorInputText: '#ffffff',
+                    colorAlphaShade: 'rgba(255,255,255,0.1)',
+                    borderRadius: '12px',
+                    fontFamily: 'Inter, -apple-system, sans-serif'
+                },
+                elements: {
+                    card: { boxShadow: '0 8px 32px rgba(0,0,0,0.5)' }
+                }
+            },
+            routing: 'virtual',
+            redirectUrl: location.origin + '/wallpaper'
         });
     };
 
