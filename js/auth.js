@@ -42,7 +42,7 @@
 
         try {
             await window.Clerk.load({
-                frontendApi: 'https://3ezf4uml2cbywxbc2qy0nt5xreh.clerk.accounts.dev'
+                proxyUrl: 'https://3ezf4uml2cbywxbc2qy0nt5xreh.clerk.accounts.dev'
             });
             clerkInstance = window.Clerk;
             clerkReady = true;
