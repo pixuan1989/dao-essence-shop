@@ -136,7 +136,7 @@
     DA.open = function() {
         if (!clerkReady || !clerkInstance) { DA.showToast('Loading...', 2000); return; }
         try {
-            // Try openSignIn (modal) first — preferred, no page redirect
+            // Try modal sign-in first (requires UI components bundle)
             if (typeof clerkInstance.openSignIn === 'function') {
                 clerkInstance.openSignIn({
                     redirectUrl: window.location.href,
@@ -144,7 +144,11 @@
                 });
                 return;
             }
-            // Fallback: redirect-based OAuth
+        } catch (modalErr) {
+            console.warn('[Auth] Modal sign-in unavailable, falling back to redirect:', modalErr);
+        }
+        // Fallback: redirect-based OAuth (works with core bundle, no UI needed)
+        try {
             if (clerkInstance.authenticateWithRedirect) {
                 clerkInstance.authenticateWithRedirect({
                     strategy: 'oauth_google',
@@ -153,10 +157,10 @@
                 });
                 return;
             }
-            console.error('[Auth] No sign-in method available');
         } catch (e) {
-            console.error('[Auth] Sign-in failed:', e);
+            console.error('[Auth] Redirect sign-in failed:', e);
         }
+        console.error('[Auth] No sign-in method available');
     };
 
     // ---- Sign out ----
