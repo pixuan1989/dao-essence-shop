@@ -2506,20 +2506,13 @@ async function main() {
   fs.writeFileSync(path.join(DIST_DIR, 'sitemap.xml'), sitemapXml);
   console.log(`  Generated: sitemap.xml (${staticUrls.length + allArticles.length + zhArticles.length} URLs)`);
 
-  // Ping search engines with updated sitemap (GET /ping?sitemap=...)
-  console.log('Pinging search engines...');
-  const SITEMAP_URL = `${SITE_URL}/sitemap.xml`;
-  const pingTargets = [
-    { name: 'Google', url: `https://www.google.com/ping?sitemap=${encodeURIComponent(SITEMAP_URL)}` },
-    { name: 'Bing',   url: `https://www.bing.com/ping?sitemap=${encodeURIComponent(SITEMAP_URL)}` }
-  ];
-  for (const t of pingTargets) {
-    try {
-      const r = await fetch(t.url, { method: 'GET' });
-      console.log(`  ${t.name}: ${r.status} ${r.statusText}`);
-    } catch (e) {
-      console.warn(`  ${t.name} ping failed: ${e.message}`);
-    }
+  // Ping Bing (still accepted; Google ping deprecated)
+  console.log('Pinging Bing...');
+  try {
+    const bingRes = await fetch(`https://www.bing.com/ping?sitemap=${encodeURIComponent(SITE_URL + '/sitemap.xml')}`, { method: 'GET' });
+    console.log(`  Bing: ${bingRes.status} ${bingRes.statusText}`);
+  } catch (e) {
+    console.warn(`  Bing ping failed: ${e.message}`);
   }
 
   // Step 9: Generate clean URLs (create /about/index.html from /about.html)
