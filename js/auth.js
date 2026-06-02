@@ -100,9 +100,9 @@
             }
             console.log('[DaoAuth] Using publishableKey:', key.substring(0, 10) + '...');
 
-            // 新版 Clerk: 设置 key 后调用 load
-            window.Clerk.publishableKey = key;
+            // Clerk 最新版：publishableKey 作为 load() 的参数传入
             await window.Clerk.load({
+                publishableKey: key,
                 appearance: {
                     baseTheme: 'dark',
                     variables: {
