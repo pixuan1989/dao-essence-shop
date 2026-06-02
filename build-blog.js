@@ -2559,8 +2559,11 @@ async function main() {
   console.log('=== Blog Build Complete ===');
 
   // Copy static pages to dist (wallpaper, login, auth)
+  // NOTE: wallpaper-detail.html is NOT copied here — it was already generated
+  // with injected wallpapers.json data above (Step 7.5). Copying it again
+  // would overwrite the injected data with stale source content.
   console.log('Syncing static pages...');
-  const staticFiles = ['wallpaper.html', 'wallpaper-detail.html', 'login.html'];
+  const staticFiles = ['wallpaper.html', 'login.html'];
   for (const file of staticFiles) {
     const src = path.join(__dirname, file);
     const dest = path.join(DIST_DIR, file);
