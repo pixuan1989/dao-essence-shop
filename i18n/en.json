@@ -106,16 +106,70 @@
     "about_us": "About Us"
   },
   "nav": {
+    "tools": "Tools",
+    "tool_bazi": "BaZi Calculator",
+    "tool_daily": "Daily Horoscope",
+    "tool_five": "Five Elements Test",
+    "tool_soulmate": "Soulmate Compatibility",
+    "tool_almanac": "Auspicious Almanac",
     "zodiac_daily": "Zodiac Daily",
     "zodiac_daily_top": "Zodiac Daily",
+    "tool_wallpapers": "Lucky Wallpapers",
+    "blog_all": "All Articles",
     "blog_all_articles": "All Articles",
     "blog_bazi": "BaZi Astrology",
+    "blog_zodiac": "Zodiac Daily",
+    "blog_fengshui": "Home Feng Shui",
+    "blog_elements": "Five Elements",
     "blog_feng_shui": "Feng Shui"
   },
   "footer": {
-    "tool_zodiac": "Daily Horoscope"
+    "tool_zodiac": "Daily Horoscope",
+    "tool_wallpapers": "Lucky Wallpapers"
+  },
+  "wallpaper": {
+    "loading": "Loading...",
+    "view_original": "Original",
+    "view_mockup": "Preview on Device",
+    "download": "Download",
+    "more_wallpapers": "More Wallpapers",
+    "hero_title": "Lucky Wallpapers",
+    "category_label": "Category",
+    "popular": "Popular",
+    "newest": "Newest",
+    "result_count": "wallpapers",
+    "explore_title": "Explore different wallpaper categories",
+    "search_placeholder": "Search wallpapers...",
+    "empty_state": "No wallpapers found",
+    "loading_wallpapers": "Loading wallpapers...",
+    "downloads": "downloads",
+    "link_copied": "Link copied!",
+    "all": "All",
+    "nature": "Nature",
+    "abstract": "Abstract",
+    "spiritual": "Spiritual",
+    "seasonal": "Seasonal"
   },
   "bazi_result": {
     "save_reading": "Save Reading"
+  },
+  "auth": {
+    "sign_in": "Sign In",
+    "register": "Register",
+    "email": "Email",
+    "password": "Password",
+    "confirm_password": "Confirm Password",
+    "create_account": "Create Account",
+    "fill_all": "Please fill in all fields.",
+    "passwords_mismatch": "Passwords do not match.",
+    "password_short": "Password must be at least 6 characters.",
+    "login_success": "Signed in!",
+    "login_failed": "Login failed",
+    "register_success": "Account created! Signing in...",
+    "register_failed": "Registration failed",
+    "network_error": "Network error",
+    "signed_out": "Signed out.",
+    "click_to_signout": "Click to sign out",
+    "sign_out": "Sign Out"
   }
 }

@@ -1,0 +1,200 @@
+=== render() function structure (L676-L842) ===
+
+L676:         function render(index) {
+L677:             try {
+L678:             currentIndex = index;
+L679:             const data = wallpapers[index];
+L680:             wallpaperId = data.id;
+L681: 
+L682:             const img = document.getElementById('main-image');
+L683:             const loading = document.getElementById('loading-text');
+L684: 
+L685:             // Image
+L686:             currentView = 'original';
+L687:             img.src = data.thumb;
+L688:             img.onload = () => {
+L689:                 loading.style.display = 'none';
+L690:                 img.style.display = 'block';
+L691:             };
+L692:             img.onerror = () => {
+L693:                 loading.textContent = 'Image unavailable — OSS storage pending refill.';
+L694:                 img.style.display = 'block';
+L695:             };
+L696: 
+L697:             // View toggle: always visible, disable mockup button if no mockup data
+L698:             const mockupBtn = document.getElementById('toggle-mockup');
+L699:             if (data.mockup) {
+L700:                 mockupBtn.disabled = false;
+L701:             } else {
+L702:                 mockupBtn.disabled = true;
+L703:             }
+L704:             // Reset to original view
+L705:             document.getElementById('toggle-original').classList.add('active');
+L706:             document.getElementById('toggle-mockup').classList.remove('active');
+L707: 
+L708:             // Creator row: avatar + name + date
+L709:             const avatarEl = document.getElementById('wp-avatar');
+L710:             if (data.avatar) {
+L711:                 avatarEl.src = data.avatar;
+L712:                 avatarEl.style.display = 'block';
+L713:             } else {
+L714:                 avatarEl.style.display = 'none';
+L715:             }
+L716:             document.getElementById('wp-creator').textContent = data.creator || 'Dao Essentia';
+L717: 
+L718:             // Date (i18n-aware)
+L719:             const dateEl = document.getElementById('wp-date');
+L720:             const lang = window.DaoI18n ? window.DaoI18n.current() : 'en';
+L721:             if (data.date) {
+L722:                 const locale = lang === 'zh' ? 'zh-TW' : 'en-US';
+L723:                 dateEl.textContent = new Date(data.date).toLocaleDateString(locale, { year: 'numeric', month: 'long', day: 'numeric' });
+L724:             } else {
+L725:                 dateEl.textContent = '';
+L726:             }
+L727: 
+L728:             // Title (i18n-aware)
+L729:             const wpTitle = document.getElementById('wp-title');
+L730:             if (data.title_zh && lang === 'zh') {
+L731:                 wpTitle.textContent = data.title_zh;
+L732:             } else {
+L733:                 wpTitle.textContent = data.title || 'Lucky Wallpaper';
+L734:             }
+L735: 
+L736:             // SEO Description (i18n-aware)
+L737:             const seoDescEl = document.getElementById('wp-seo-desc');
+L738:             if (lang === 'zh' && data.description_zh) {
+L739:                 seoDescEl.textContent = data.description_zh;
+L740:                 seoDescEl.style.display = 'block';
+L741:             } else if (data.description) {
+L742:                 seoDescEl.textContent = data.description;
+L743:                 seoDescEl.style.display = 'block';
+L744:             } else {
+L745:                 seoDescEl.style.display = 'none';
+L746:             }
+L747: 
+L748:             // Downloads (i18n-aware)
+L749:             const dlEl = document.getElementById('wp-downloads');
+L750:             if (data.downloads) {
+L751:                 const dlLabel = window.DaoI18n ? window.DaoI18n.t('wallpaper.downloads') : 'downloads';
+L752:                 dlEl.innerHTML = `<svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> ${data.downloads} ${dlLabel}`;
+L753:             } else {
+L754:                 dlEl.innerHTML = '';
+L755:             }
+L756: 
+L757:             // Tags (i18n-aware)
+L758:             const tagsEl = document.getElementById('wp-tags');
+L759:             tagsEl.innerHTML = '';
+L760:             if (data.category) {
+L761:                 const catTag = document.createElement('span');
+L762:                 catTag.className = 'tag';
+L763:                 catTag.textContent = (lang === 'zh' && data.category_zh) ? data.category_zh : data.category;
+L764:                 tagsEl.appendChild(catTag);
+L765:             }
+L766:             const tagsArray = (lang === 'zh' && data.tags_zh) ? data.tags_zh : data.tags;
+L767:             if (tagsArray && tagsArray.length > 0) {
+L768:                 tagsArray.forEach(tag => {
+L769:                     const span = document.createElement('span');
+L770:                     span.className = 'tag';
+L771:                     span.textContent = tag;
+L772:                     tagsEl.appendChild(span);
+L773:                 });
+L774:             }
+L775: 
+L776:             // Store download URL (actual download via quota-check handler)
+L777:             const dlLink = document.getElementById('download-link');
+L778:             if (dlLink) {
+L779:                 dlLink.setAttribute('data-url', data.original);
+L780:                 dlLink.onclick = async function(e) {
+L781:                 e.preventDefault();
+L782:                 const url = this.getAttribute('data-url');
+L783:                 if (!url) return;
+L784: 
+L785:                 const dlText = document.getElementById('download-text');
+L786:                 const origText = dlText ? dlText.textContent : 'Download';
+L787:                 if (dlText) dlText.textContent = 'Checking...';
+L788: 
+L789:                 try {
+L790:                     const token = window.DaoAuth ? window.DaoAuth.getToken() : null;
+L791:                     const headers = { 'Content-Type': 'application/json' };
+L792:                     if (token) headers['Authorization'] = 'Bearer ' + token;
+L793: 
+L794:                     const res = await fetch('/api/auth?action=download', {
+L795:                         method: 'POST',
+L796:                         headers,
+L797:                         body: JSON.stringify({ wallpaperId: wallpaperId })
+L798:                     });
+L799:                     const data = await res.json();
+L800: 
+L801:                     if (res.ok && data.allowed) {
+L802:                         // Trigger download
+L803:                         const a = document.createElement('a');
+L804:                         a.href = url;
+L805:                         a.download = '';
+L806:                         document.body.appendChild(a);
+L807:                         a.click();
+L808:                         document.body.removeChild(a);
+L809:                         if (dlText) dlText.textContent = origText;
+L810:                     } else {
+L811:                         // Show toast when limit reached
+L812:                         if (window.DaoAuth) {
+L813:                             window.DaoAuth.showToast(
+L814:                                 (data.error || 'Download limit reached.') + ' <a href="#" onclick="event.preventDefault();DaoAuth.open(\'login\')">Sign in</a> for 3/day.',
+L815:                                 5000
+L816:                             );
+L817:                         } else {
+L818:                             alert(data.error || 'Download limit reached.');
+L819:                         }
+L820:                         if (dlText) dlText.textContent = origText;
+L821:                     }
+L822:                 } catch(err) {
+L823:                     if (dlText) dlText.textContent = origText;
+L824:                     // Fallback: allow direct download on network error
+L825:                     window.open(url, '_blank');
+L826:                 }
+L827:             };
+L828:             }
+L829: 
+L830:             // SEO
+L831:             document.title = `${data.title} - Lucky Wallpaper | Dao Essentia`;
+L832:             document.querySelector('meta[name="description"]').content = data.description || `Download ${data.title} - high-resolution lucky wallpaper from Dao Essentia.`;
+L833:             document.querySelector('meta[property="og:image"]').content = data.original;
+L834:             document.querySelector('meta[property="og:url"]').content = window.location.href;
+L835: 
+L836:             // Related
+L837:             renderRelated(index);
+L838:         } catch(e) {
+L839:             console.error('render error:', e);
+L840:             document.getElementById('loading-text').textContent = 'Render error: ' + e.message;
+L841:         }
+L842:         }
+L843: 
+L844:         // View toggle (original / mockup)
+L845:         document.querySelectorAll('.toggle-btn').forEach(btn => {
+
+
+=== init() function (L654-L674) ===
+L654:         function init() {
+L655:             try {
+L656:                 const raw = document.getElementById('wp-data').textContent;
+L657:                 wallpapers = JSON.parse(raw);
+L658:             } catch(e) {
+L659:                 document.getElementById('loading-text').textContent = 'Error: ' + e.message;
+L660:                 return;
+L661:             }
+L662: 
+L663:             if (wallpapers.length > 0) {
+L664:                 if (wallpaperId) {
+L665:                     const index = wallpapers.findIndex(w => w.id === wallpaperId);
+L666:                     if (index !== -1) render(index);
+L667:                     else window.location.href = '/wallpaper';
+L668:                 } else {
+L669:                     render(0);
+L670:                 }
+L671:             } else {
+L672:                 document.getElementById('loading-text').textContent = 'Failed to load data. Please refresh.';
+L673:             }
+L674:         }
+L675: 
+L676:         function render(index) {
+L677:             try {
+L678:             currentIndex = index;
