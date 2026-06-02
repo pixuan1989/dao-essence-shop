@@ -61,28 +61,13 @@
         } catch (e) { console.error('[Auth] Init failed:', e); }
     };
 
-    // Open Clerk sign-in popup (supports Google OAuth + Email)
+    // Google OAuth redirect (headless — no UI components needed)
     DA.open = function() {
         if (!clerkReady || !clerkInstance) { DA.showToast('Loading...', 2000); return; }
-        clerkInstance.openSignIn({
-            appearance: {
-                variables: {
-                    colorPrimary: '#D4AF37',
-                    colorBackground: '#1a1a1f',
-                    colorText: '#ffffff',
-                    colorTextSecondary: 'rgba(255,255,255,0.6)',
-                    colorInputBackground: 'rgba(255,255,255,0.06)',
-                    colorInputText: '#ffffff',
-                    colorAlphaShade: 'rgba(255,255,255,0.1)',
-                    borderRadius: '12px',
-                    fontFamily: 'Inter, -apple-system, sans-serif'
-                },
-                elements: {
-                    card: { boxShadow: '0 8px 32px rgba(0,0,0,0.5)' }
-                }
-            },
-            routing: 'virtual',
-            redirectUrl: location.origin + '/wallpaper'
+        clerkInstance.client.signIn.authenticateWithRedirect({
+            strategy: 'oauth_google',
+            redirectUrl: location.origin + '/wallpaper',
+            redirectUrlComplete: location.origin + '/wallpaper'
         });
     };
 
