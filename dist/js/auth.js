@@ -63,16 +63,16 @@
         el._tid = setTimeout(function() { el.classList.remove('show'); }, duration);
     };
 
-    // ── 初始化 Clerk ──
+    // ── 初始化 Clerk（使用本地托管的 clerk.browser.js）──
     DA._initClerk = async function() {
-        console.log('[DaoAuth] _initClerk called');
+        console.log('[DaoAuth] _initClerk called, window.Clerk:', typeof window.Clerk);
 
         if (clerkInstance) {
             console.log('[DaoAuth] Clerk already initialized');
             return;
         }
 
-        // 等待 Clerk 脚本加载（HTML中通过 data-clerk-publishable-key 预加载）
+        // 等待本地脚本加载
         let attempts = 0;
         while (!window.Clerk && attempts < 50) {
             await new Promise(r => setTimeout(r, 100));
@@ -80,13 +80,28 @@
         }
 
         if (!window.Clerk) {
-            console.error('[DaoAuth] window.Clerk not found after 5s');
+            console.error('[DaoAuth] window.Clerk not found after 5s - check /js/clerk.browser.js path');
             return;
         }
 
-        console.log('[DaoAuth] window.Clerk found');
+        console.log('[DaoAuth] window.Clerk found, type:', typeof window.Clerk);
 
         try {
+            // 从 script 标签的 data 属性或全局变量获取 key
+            var key = CLERK_KEY;
+            if (!key) {
+                var clerkScript = document.querySelector('script[data-clerk-publishable-key]');
+                if (clerkScript) key = clerkScript.getAttribute('data-clerk-publishable-key');
+            }
+
+            if (!key) {
+                console.error('[DaoAuth] No publishableKey found');
+                return;
+            }
+            console.log('[DaoAuth] Using publishableKey:', key.substring(0, 10) + '...');
+
+            // 新版 Clerk: 设置 key 后调用 load
+            window.Clerk.publishableKey = key;
             await window.Clerk.load({
                 appearance: {
                     baseTheme: 'dark',
