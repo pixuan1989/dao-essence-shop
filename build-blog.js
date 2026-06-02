@@ -1217,10 +1217,10 @@ function generateArticleHtml(post, category, allArticles, options = {}) {
     const truncated = escaped.substring(0, maxTitle).replace(/\s+\S*$/, '');
     return truncated + '...' + suffix;
   }
-  function seoDescription(desc) {
-    if (!desc) return '';
-    if (desc.length <= 155) return desc;
-    return desc.substring(0, 152).replace(/\s+\S*$/, '') + '...';
+  function seoDescription(rawDesc) {
+    if (!rawDesc) return '';
+    if (rawDesc.length <= 155) return rawDesc;
+    return rawDesc.substring(0, 152).replace(/\s+\S*$/, '') + '...';
   }
 
   // FAQ structured data

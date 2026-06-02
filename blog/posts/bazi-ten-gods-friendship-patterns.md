@@ -1,8 +1,8 @@
 ---
 title: "BaZi Ten Gods: What Your Chart Says About Friendships"
 slug: "bazi-ten-gods-friendship-patterns"
-description: "Your BaZi chart's Ten Gods reveal your friendship patterns, social circle, and why certain people drain you while others energize you. Discover your archetype."
-seoDescription: "Your BaZi chart's Ten Gods reveal your friendship patterns in Chinese astrology — why certain people drain you while others energize you."
+description: "Your BaZi chart's Ten Gods reveal your friendship patterns in Chinese astrology — why certain people drain you while others energize you. Discover your friendship archetype and improve your social circle today."
+seoDescription: "Your BaZi chart's Ten Gods reveal your friendship patterns in Chinese astrology — why certain people drain you while others energize you. Discover your friendship archetype and improve your social circle today."
 date: "2026-05-15"
 author: "Xuanzhen"
 readTime: 14
