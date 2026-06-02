@@ -141,8 +141,7 @@
             // Try modal sign-in first (requires UI components bundle)
             if (typeof clerkInstance.openSignIn === 'function') {
                 clerkInstance.openSignIn({
-                    redirectUrl: window.location.href,
-                    redirectUrlComplete: window.location.href
+                    fallbackRedirectUrl: window.location.href
                 });
                 return;
             }
