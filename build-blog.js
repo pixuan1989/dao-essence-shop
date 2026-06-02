@@ -2562,15 +2562,14 @@ async function main() {
   console.log('Syncing static pages...');
   const staticFiles = ['wallpaper.html', 'wallpaper-detail.html', 'login.html'];
   for (const file of staticFiles) {
-    const src = path.join(ROOT_DIR, file);
+    const src = path.join(__dirname, file);
     const dest = path.join(DIST_DIR, file);
     if (fs.existsSync(src)) {
       fs.copyFileSync(src, dest);
       console.log(`  ✅ ${file} → dist/`);
     }
   }
-  // Ensure dist/js/auth.js is up to date
-  const authSrc = path.join(ROOT_DIR, 'js', 'auth.js');
+  const authSrc = path.join(__dirname, 'js', 'auth.js');
   const authDest = path.join(DIST_DIR, 'js', 'auth.js');
   if (fs.existsSync(authSrc)) {
     fs.mkdirSync(path.dirname(authDest), { recursive: true });
