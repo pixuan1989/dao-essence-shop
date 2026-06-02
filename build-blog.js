@@ -939,7 +939,7 @@ function readAllMdFiles(dir) {
     .map(f => {
       const raw = fs.readFileSync(path.join(dir, f), 'utf-8');
       const { data, content } = matter(raw);
-      return { filename: f, slug: f.replace(/\.md$/, ''), data, content };
+      return { filename: f, slug: data.slug || f.replace(/\.md$/, ''), data, content };
     });
 }
 
@@ -1967,10 +1967,12 @@ async function main() {
     console.log('  Set DASHSCOPE_API_KEY in Vercel env to enable automatic zh translation.');
   }
 
-  // Fallback: read pre-existing zh articles if auto-translate didn't run
-  if (zhArticles.length === 0 && fs.existsSync(POSTS_ZH_DIR)) {
+  // Merge pre-existing zh articles (deduplicate with auto-translated)
+  if (fs.existsSync(POSTS_ZH_DIR)) {
     const zhPosts = readAllMdFiles(POSTS_ZH_DIR);
+    const existingSlugs = new Set(zhArticles.map(a => a.slug));
     zhPosts.forEach(post => {
+      if (existingSlugs.has(post.slug)) return;
       if (!post.content.trim() && post.data.body) {
         post.content = post.data.body;
       }
@@ -2440,7 +2442,6 @@ async function main() {
     { loc: '/wallpaper', changefreq: 'weekly', priority: '0.9' }, // 新增壁纸页
     { loc: '/privacy', changefreq: 'yearly', priority: '0.3' },
     { loc: '/terms', changefreq: 'yearly', priority: '0.3' },
-    { loc: '/destiny', changefreq: 'monthly', priority: '0.6' },
     { loc: '/guide', changefreq: 'monthly', priority: '0.7' },
   ];
   // Add category pages to sitemap (skip empty categories)
