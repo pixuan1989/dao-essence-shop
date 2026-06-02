@@ -42,7 +42,9 @@
         if (!window.Clerk) { console.error('[Auth] Clerk script not loaded'); return; }
 
         try {
-            await window.Clerk.load();
+            await window.Clerk.load({
+                frontendApi: '3ezf4uml2cbywxbc2qy0nt5xreh.clerk.accounts.dev'
+            });
             clerkInstance = window.Clerk;
             clerkReady = true;
 
