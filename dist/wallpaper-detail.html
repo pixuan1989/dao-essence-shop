@@ -1,0 +1,1775 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Lucky Wallpaper - Dao Essentia</title>
+    <meta name="description" content="Download high-resolution Lucky Wallpaper.">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Lucky Wallpaper - Dao Essentia">
+    <meta property="og:description" content="Curated collection of high-resolution auspicious wallpapers.">
+    <meta property="og:image" content="">
+    <meta property="og:url" content="">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ── Reset (standalone, no styles.min.css dependency) ── */
+        *,*::before,*::after{box-sizing:border-box}
+        html{scroll-behavior:smooth;font-size:16px}
+        body{margin:0;padding:0;overflow-x:hidden;line-height:1.6}
+        img{max-width:100%;height:auto;display:block}
+        a{text-decoration:none;color:inherit}
+        ul{list-style:none;padding:0;margin:0}
+        button{font-family:inherit;cursor:pointer;border:none;outline:none;background:none}
+        h1,h2,h3,h4,h5,h6{font-family:'Inter',sans-serif;font-weight:600;line-height:1.3;margin:0;padding:0}
+        p{margin:0;padding:0}
+
+        /* Dark theme */
+        :root {
+            --text: #ffffff;
+            --text-secondary: rgba(255,255,255,0.7);
+            --text-dim: rgba(255,255,255,0.5);
+            --text-muted: rgba(255,255,255,0.3);
+            --gold: #D4AF37;
+            --gold-dark: #AA8A26;
+        }
+        body {
+            background: #0a0a0a;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+        }
+
+        /* ── ZEDGE-style standalone nav ── */
+        .wpn {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: #0D0D0D;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .wpn-inner {
+            max-width: 1400px;
+            margin: 8px auto 0;
+            padding: 0 16px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .wpn-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; flex-shrink: 0; }
+        .wpn-logo-icon { width: 50px; height: 50px; border: 2px solid #D4AF37; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #D4AF37; position: relative; }
+        .wpn-logo-icon::before { content: '道'; font-family: Georgia, 'Times New Roman', serif; font-weight: 600; font-size: 1.5rem; line-height: 1; letter-spacing: 0; }
+        .wpn-logo-text { display: flex; flex-direction: column; }
+        .wpn-logo-en { color: rgba(255,255,255,0.85); font-family: Georgia, 'Times New Roman', serif; font-size: 12px; letter-spacing: 0.2em; font-weight: 400; line-height: 1.2; text-transform: uppercase; }
+        .wpn-dropdown { position: relative; flex-shrink: 0; }
+        .wpn-dropdown-btn { background: none; border: none; color: rgba(255,255,255,0.7); font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 4px; padding: 6px 8px; border-radius: 6px; transition: all 0.2s; font-family: inherit; }
+        .wpn-dropdown-btn:hover { color: #fff; background: rgba(255,255,255,0.06); }
+        .wpn-dropdown-btn svg { width: 10px; height: 10px; }
+        .wpn-dropdown-menu { position: absolute; top: calc(100% + 4px); left: 0; background: #1E1E1E; border: 1px solid rgba(212,175,55,0.15); border-radius: 4px; padding: 4px 0; min-width: 150px; opacity: 0; visibility: hidden; transform: translateY(4px); transition: all 0.2s ease; z-index: 1001; }
+        .wpn-dropdown:hover .wpn-dropdown-menu, .wpn-dropdown-menu.open { opacity: 1; visibility: visible; transform: translateY(0); }
+        .wpn-dropdown-menu a { display: block; padding: 8px 16px; color: rgba(255,255,255,0.7); text-decoration: none; font-size: 13px; transition: all 0.15s; }
+        .wpn-dropdown-menu a:hover { color: #fff; background: rgba(255,255,255,0.06); }
+        .wpn-dropdown-menu a.active { color: #D4AF37; }
+        .wpn-search { flex: 1; position: relative; }
+        .wpn-search svg { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px; color: rgba(255,255,255,0.3); }
+        .wpn-search input { width: 100%; padding: 8px 12px 8px 32px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #fff; font-size: 13px; font-family: inherit; outline: none; transition: all 0.2s; }
+        .wpn-search input::placeholder { color: rgba(255,255,255,0.3); }
+        .wpn-search input:focus { border-color: rgba(212,175,55,0.4); background: rgba(255,255,255,0.1); }
+        .wpn-right { display: flex; align-items: center; gap: 10px; flex-shrink: 0; margin-left: auto; position: relative; }
+        .wpn-lang { position: relative; }
+        .wpn-btn-upload { padding: 8px 16px; background: linear-gradient(135deg, #D4AF37, #B8962E); color: #0A0A0A; border: none; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; font-family: inherit; }
+        .wpn-btn-upload:hover { opacity: 0.9; }
+        .wpn-btn-signin { padding: 8px 16px; background: rgba(255,255,255,0.08); color: #fff; border: 1px solid rgba(255,255,255,0.15); border-radius: 999px; font-size: 13px; font-weight: 500; text-decoration: none; transition: all 0.2s; }
+        .wpn-btn-signin:hover { background: rgba(255,255,255,0.15); }
+        .wpn-lang-trigger { color: rgba(255,255,255,0.7); cursor: pointer; display: flex; align-items: center; gap: 4px; font-size: 13px; font-family: inherit; text-decoration: none; padding: 8px 12px; border-radius: 6px; transition: all 0.2s; }
+        .wpn-lang-trigger:hover { color: #fff; background: rgba(255,255,255,0.06); }
+        .wpn-lang-arrow { width: 0; height: 0; border-left: 4px solid transparent; border-right: 4px solid transparent; border-top: 5px solid currentColor; transition: transform 0.2s; }
+        .wpn-lang.open .wpn-lang-arrow { transform: rotate(180deg); }
+        /* ── Toast ── */
+        .da-toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #1E1E1E;
+            border: 1px solid rgba(212,175,55,0.3);
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-size: 13px;
+            z-index: 99999;
+            opacity: 0;
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
+            white-space: nowrap;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+        }
+        .da-toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+        .da-toast a { color: #D4AF37; text-decoration: underline; }
+        @media (max-width: 768px) {
+            .wpn-inner { padding: 0 16px; gap: 10px; height: 54px; }
+            .wpn-logo-text { display: none; }
+            .wpn-btn-signin { display: none; }
+            .wpn-search { flex: 1; }
+        }
+        @media (max-width: 480px) {
+            .wpn-dropdown-btn span { display: none; }
+            .wpn-btn-upload { padding: 6px 10px; font-size: 11px; }
+        }
+
+        /* ── Main Layout: Desktop 2-column ── */
+        .detail-container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 100px 24px 48px;
+            display: flex;
+            flex-direction: row;
+            gap: 48px;
+            align-items: flex-start;
+        }
+        .left-column {
+            flex: 1.25 1 0%;
+            min-width: 0;
+        }
+        .right-column {
+            flex: 1 1 0%;
+            min-width: 0;
+            padding-top: 8px;
+        }
+
+        /* ── Image ── */
+        .preview-image {
+            width: 100%;
+            max-height: 72vh;
+            border-radius: 16px;
+            overflow: hidden;
+            background: #111;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .preview-image img {
+            max-width: 100%;
+            max-height: 72vh;
+            width: auto;
+            height: auto;
+            display: block;
+            pointer-events: none;
+            user-select: none;
+            -webkit-user-drag: none;
+            object-fit: contain;
+        }
+
+        /* ── View Toggle (Original / Mockup) — ALWAYS VISIBLE ── */
+        .view-toggle {
+            display: flex;
+            margin-top: 16px;
+            justify-content: center;
+        }
+        .toggle-group {
+            display: flex;
+            background: rgba(255,255,255,0.06);
+            border-radius: 10px;
+            padding: 3px;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+        .toggle-btn {
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            background: none;
+            color: var(--text-dim);
+            transition: all 0.2s;
+        }
+        .toggle-btn:hover:not(:disabled) { color: var(--text); }
+        .toggle-btn.active {
+            background: rgba(255,255,255,0.12);
+            color: var(--text);
+        }
+        .toggle-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        /* ── Creator Row (avatar + name + date) ── */
+        .creator-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+        .creator-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text);
+        }
+        .wp-date-line {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-left: auto;
+        }
+
+        /* ── Title ── */
+        .wp-title {
+            font-size: 28px;
+            font-weight: 700;
+            font-family: 'Inter', sans-serif;
+            margin-bottom: 14px;
+            line-height: 1.25;
+        }
+
+        /* ── SEO Description (~300 chars) ── */
+        .wp-seo-desc {
+            font-size: 14px;
+            color: var(--text-dim);
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        /* ── Downloads ── */
+        .wp-downloads {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .wp-downloads svg {
+            width: 14px;
+            height: 14px;
+            stroke: var(--text-muted);
+            fill: none;
+            stroke-width: 2;
+        }
+
+        /* ── Tags ── */
+        .wp-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 28px;
+        }
+        .tag {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-dim);
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.08);
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        .tag:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: rgba(255,255,255,0.15);
+            color: var(--text);
+        }
+
+        /* ── Download Button ── */
+        .btn-download {
+            width: 100%;
+            height: 52px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+            color: #0a0a0a;
+            font-weight: 700;
+            font-size: 16px;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .btn-download:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 28px rgba(212,175,55,0.3);
+        }
+        .btn-download:active { transform: scale(0.98); }
+        .btn-download svg { width: 20px; height: 20px; fill: #0a0a0a; }
+
+        /* ── Share Row ── */
+        .share-row {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 16px;
+        }
+        .share-icon-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--text-dim);
+            transition: all 0.2s;
+        }
+        .share-icon-btn:hover { background: rgba(255,255,255,0.12); color: #fff; }
+        .share-icon-btn svg { width: 18px; height: 18px; }
+
+        /* ── Divider ── */
+        .divider {
+            height: 1px;
+            background: rgba(255,255,255,0.06);
+            margin: 40px 0;
+        }
+
+        /* ── Related — KEPT ── */
+        .related-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
+        }
+        .related-card {
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            aspect-ratio: 9/16;
+            background: #111;
+        }
+        .related-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+        }
+        .related-card:hover { transform: translateY(-3px); }
+        .related-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            pointer-events: none;
+        }
+
+        /* ── Loading ── */
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 500px;
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        /* ── Responsive: Mobile stacked ── */
+        @media (max-width: 1200px) {
+            .related-grid { grid-template-columns: repeat(4, 1fr); }
+        }
+        @media (max-width: 900px) {
+            .detail-container {
+                flex-direction: column;
+                padding: 80px 16px 48px;
+                gap: 24px;
+            }
+            .left-column, .right-column {
+                width: 100%;
+                flex: none;
+            }
+            .wp-title { font-size: 22px; }
+            .preview-image { border-radius: 12px; }
+            .related-grid { grid-template-columns: repeat(3, 1fr); }
+            .btn-download { height: 48px; font-size: 15px; }
+        }
+        @media (max-width: 600px) {
+            .related-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+        }
+        /* ── Footer (matching main site styles.min.css) ── */
+        .footer { background: #1A1612; padding: 80px 0 32px; margin-top: 40px; }
+        .footer .container { width: 100%; max-width: 1400px; margin: 0 auto; padding: 0 32px; }
+        .footer-content { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 32px; margin-bottom: 32px; }
+        .footer-brand .logo-en { color: rgba(245,240,230,0.6); font-family: Georgia, serif; letter-spacing: 0.15em; font-size: 20px; }
+        .footer-brand p { color: rgba(245,240,230,0.7); margin-top: 16px; line-height: 1.8; font-size: 14px; }
+        .footer-title { font-family: Georgia, serif; font-size: 16px; margin-bottom: 16px; color: #D4AF37; }
+        .footer-links { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+        .footer-links li { color: rgba(245,240,230,0.7); display: flex; align-items: center; font-size: 14px; line-height: 1.8; }
+        .footer-links a { color: rgba(245,240,230,0.7); text-decoration: none; transition: color 200ms ease, padding-left 200ms ease; font-size: 14px; }
+        .footer-links a:hover { color: #D4AF37; padding-left: 8px; }
+        .footer-bottom { text-align: center; padding-top: 32px; border-top: 1px solid rgba(212,175,55,0.2); color: rgba(245,240,230,0.5); font-size: 13px; }
+        .footer-bottom a { color: rgba(245,240,230,0.5); text-decoration: none; }
+        .footer-bottom a:hover { color: #D4AF37; }
+        .footer-legal-links { display: flex; justify-content: center; gap: 8px; align-items: center; margin-top: 8px; }
+        .footer-legal-links span { color: rgba(245,240,230,0.3); }
+        @media (max-width: 900px) {
+            .footer-content { grid-template-columns: 1fr 1fr; gap: 32px; }
+            .footer-brand { grid-column: span 2; }
+        }
+        @media (max-width: 600px) {
+            .footer-content { grid-template-columns: 1fr; }
+            .footer-brand { grid-column: span 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ZEDGE-style standalone nav -->
+    <nav class="wpn">
+        <div class="wpn-inner">
+            <a href="/" class="wpn-logo">
+                <div class="wpn-logo-icon"></div>
+                <div class="wpn-logo-text">
+                    <span class="wpn-logo-en">DAO ESSENCE</span>
+                </div>
+            </a>
+            <div class="wpn-dropdown" id="wpn-cat-dropdown">
+                <button class="wpn-dropdown-btn">
+                    <span>Categories</span>
+                    <svg viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
+                </button>
+                <div class="wpn-dropdown-menu" id="wpn-cat-menu">
+                    <a href="/wallpaper">All</a>
+                    <a href="/wallpaper?cat=Nature">Nature</a>
+                    <a href="/wallpaper?cat=Abstract">Abstract</a>
+                    <a href="/wallpaper?cat=Spiritual">Spiritual</a>
+                    <a href="/wallpaper?cat=Seasonal">Seasonal</a>
+                </div>
+            </div>
+            <div class="wpn-search">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <input type="text" placeholder="Search wallpapers..." id="wpn-search-input">
+            </div>
+            <div class="wpn-right">
+                <a href="#" class="wpn-btn-signin" id="wpn-signin-btn">Sign In</a>
+                <div class="wpn-lang" id="wpn-lang">
+                    <a href="#" class="wpn-lang-trigger" id="lang-trigger">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                        <span id="lang-label">EN</span>
+                        <i class="wpn-lang-arrow"></i>
+                    </a>
+                    <div class="wpn-dropdown-menu" id="lang-menu" style="right:0;left:auto;">
+                        <a href="#" data-lang="en" class="lang-option active">English</a>
+                        <a href="#" data-lang="zh" class="lang-option">繁體中文</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main: Two-column layout -->
+    <div class="detail-container">
+        <!-- Left: Image + Toggle -->
+        <div class="left-column">
+            <div class="preview-image">
+                <div class="loading" id="loading-text" data-i18n="wallpaper.loading">Loading...</div>
+                <img id="main-image" style="display:none;" />
+            </div>
+
+            <!-- View Toggle (Original / Mockup) — ALWAYS VISIBLE -->
+            <div class="view-toggle" id="view-toggle">
+                <div class="toggle-group">
+                    <button class="toggle-btn active" data-view="original" id="toggle-original" data-i18n="wallpaper.view_original">Original</button>
+                    <button class="toggle-btn" data-view="mockup" id="toggle-mockup" data-i18n="wallpaper.view_mockup">Preview on Device</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right: Info -->
+        <div class="right-column">
+            <!-- Creator Row: avatar + name + date -->
+            <div class="creator-row" id="creator-row">
+                <img class="avatar" id="wp-avatar" src="" alt="Creator" />
+                <span class="creator-name" id="wp-creator"></span>
+                <span class="wp-date-line" id="wp-date"></span>
+            </div>
+
+            <!-- Title -->
+            <h1 class="wp-title" id="wp-title">Lucky Wallpaper</h1>
+
+            <!-- SEO Description (~300 chars) -->
+            <p class="wp-seo-desc" id="wp-seo-desc"></p>
+
+            <!-- Downloads -->
+            <div class="wp-downloads" id="wp-downloads"></div>
+
+            <!-- Tags -->
+            <div class="wp-tags" id="wp-tags"></div>
+
+            <!-- Download Button -->
+            <a href="#" class="btn-download" id="download-link">
+                <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+                <span id="download-text" data-i18n="wallpaper.download">Download</span>
+            </a>
+
+            <!-- Share Row -->
+            <div class="share-row">
+                <button class="share-icon-btn" id="share-btn-main">
+                    <svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/></svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Related -->
+    <div class="section-container" style="max-width:1200px;margin:0 auto;padding:0 24px 48px;">
+        <div class="divider"></div>
+        <h2 class="related-title" id="related-title" data-i18n="wallpaper.more_wallpapers">More Wallpapers</h2>
+        <div class="related-grid" id="related-grid"></div>
+    </div>
+
+    <!-- Footer (matching main page) -->
+    <footer class="footer" style="margin-top:40px;">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <span class="logo-en">DAO ESSENCE</span>
+                    </div>
+                    <p data-i18n="footer.brand_desc">Ancient Wisdom, Modern Clarity. Navigate life with structured insight through BaZi analysis, Feng Shui consultation, and Five Elements guidance.</p>
+                </div>
+                <div>
+                    <h4 class="footer-title" data-i18n="footer.tools_title">Tools</h4>
+                    <ul class="footer-links">
+                        <li><a href="/#free-bazi" data-i18n="footer.tool_bazi">BaZi Birth Chart Calculator</a></li>
+                        <li><a href="/favorable-element" data-i18n="footer.tool_lucky">Five Elements Favorable Guide</a></li>
+                        <li><a href="/five-elements-test" data-i18n="footer.tool_five">Five Elements Personality Test</a></li>
+                        <li><a href="/soulmate-calculator" data-i18n="footer.tool_soulmate">Soulmate Compatibility Finder</a></li>
+                        <li><a href="/almanac" data-i18n="footer.tool_almanac">Auspicious Date Picker</a></li>
+                        <li><a href="/zodiac/zodiac-daily" data-i18n="footer.tool_zodiac">Zodiac Daily</a></li>
+                        <li><a href="/wallpaper" data-i18n="footer.tool_wallpapers">Lucky Wallpapers</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-title" data-i18n="footer.explore_title">Explore</h4>
+                    <ul class="footer-links">
+                        <li><a href="/blog/" data-i18n="common.blog">Blog</a></li>
+                        <li><a href="/culture" data-i18n="common.five_elements">Five Elements</a></li>
+                        <li><a href="/shop" data-i18n="common.shop">Shop</a></li>
+                        <li><a href="/about" data-i18n="common.about_us">About Us</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-title" data-i18n="footer.links_title">Links</h4>
+                    <ul class="footer-links">
+                        <li style="margin-bottom:8px;display:block !important;">
+                            <div><a href="https://fatenet.cn/" target="_blank" rel="noopener">FateNet</a></div>
+                            <div style="font-size:12px;color:var(--text-secondary);margin-top:4px;line-height:1.4;" data-i18n="footer.fortune_desc">Chinese Fortune Telling<br>Find Your Soulmate</div>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-title" data-i18n="footer.contact_title">Contact</h4>
+                    <ul class="footer-links">
+                        <li>
+                            <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle;margin-right:6px"><path d="M3 4h14a1 1 0 011 1v10a1 1 0 01-1 1H3a1 1 0 01-1-1V5a1 1 0 011-1z"/><path d="M3 5l7 6 7-6"/></svg>
+                            <a href="mailto:support@daoessentia.com">support@daoessentia.com</a>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style="vertical-align:middle;margin-right:6px;color:var(--accent-color)"><path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 0 0 .167-.054l1.903-1.114a.864.864 0 0 1 .717-.098 10.16 10.16 0 0 0 2.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348zM5.785 5.991c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178A1.17 1.17 0 0 1 4.623 7.17c0-.651.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178A1.17 1.17 0 0 1 10.623 7.17c0-.651.52-1.18 1.162-1.18zm5.34 2.867c-1.797-.052-3.746.512-5.28 1.786-1.72 1.428-2.687 3.72-1.78 6.22.942 2.453 3.666 4.229 6.884 4.229.826 0 1.622-.12 2.361-.336a.722.722 0 0 1 .598.082l1.584.926a.272.272 0 0 0 .14.047c.134 0 .24-.111.24-.247 0-.06-.023-.12-.038-.177l-.327-1.233a.582.582 0 0 1-.023-.156.49.49 0 0 1 .201-.398C23.024 18.48 24 16.82 24 14.98c0-3.21-2.931-5.837-7.062-6.122zm-3.957 3.467c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.969-.982zm4.844 0c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.969-.982z"/></svg>
+                            <a href="#" onclick="document.getElementById('wechat-modal').style.display='flex';return false;" data-i18n="footer.wechat">WeChat</a>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle;margin-right:6px"><circle cx="10" cy="10" r="8"/><path d="M10 6v4l2.5 2.5"/></svg>
+                            <span data-i18n="footer.hours">Mon&#8211;Sat: 9AM&#8211;9PM (CST / UTC+8)</span>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style="vertical-align:middle;margin-right:6px;color:#229ED9"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+                            <a href="https://t.me/dingwei_123" target="_blank" rel="noopener" data-i18n="footer.telegram_channel">Telegram Channel</a>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style="vertical-align:middle;margin-right:6px;color:#E60023"><path d="M12 0C5.373 0 0 5.372 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 0 1 .083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.631-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12 0-6.628-5.373-12-12-12z"/></svg>
+                            <a href="https://www.pinterest.com/pixuan/wallpapers/" target="_blank" rel="noopener">Pinterest</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p data-i18n="footer.copyright">&copy; 2026 DAO Essence &amp; Five Elements. All rights reserved.</p>
+                <div class="footer-legal-links">
+                    <a href="/privacy" data-i18n="footer.privacy">Privacy Policy</a>
+                    <span>|</span>
+                    <a href="/terms" data-i18n="footer.terms">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- WeChat Modal -->
+    <div id="wechat-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:9999;align-items:center;justify-content:center;" onclick="if(event.target===this)this.style.display='none'">
+        <div style="background:var(--bg-secondary,#1a1a1a);border:1px solid rgba(212,175,55,0.4);border-radius:16px;padding:40px;text-align:center;max-width:320px;width:90%;position:relative;">
+            <button onclick="document.getElementById('wechat-modal').style.display='none'" style="position:absolute;top:12px;right:16px;background:none;border:none;color:rgba(245,240,230,0.6);font-size:22px;cursor:pointer;line-height:1;">x</button>
+            <svg viewBox="0 0 24 24" width="40" height="40" fill="#D4AF37" style="margin-bottom:12px"><path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 0 0 .167-.054l1.903-1.114a.864.864 0 0 1 .717-.098 10.16 10.16 0 0 0 2.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348zM5.785 5.991c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178A1.17 1.17 0 0 1 4.623 7.17c0-.651.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178A1.17 1.17 0 0 1 10.623 7.17c0-.651.52-1.18 1.162-1.18zm5.34 2.867c-1.797-.052-3.746.512-5.28 1.786-1.72 1.428-2.687 3.72-1.78 6.22.942 2.453 3.666 4.229 6.884 4.229.826 0 1.622-.12 2.361-.336a.722.722 0 0 1 .598.082l1.584.926a.272.272 0 0 0 .14.047c.134 0 .24-.111.24-.247 0-.06-.023-.12-.038-.177l-.327-1.233a.582.582 0 0 1-.023-.156.49.49 0 0 1 .201-.398C23.024 18.48 24 16.82 24 14.98c0-3.21-2.931-5.837-7.062-6.122zm-3.957 3.467c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.969-.982zm4.844 0c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.969-.982z"/></svg>
+            <h3 style="color:var(--accent-color,#D4AF37);margin:0 0 8px;font-size:18px;">WeChat</h3>
+            <p style="color:rgba(245,240,230,0.7);font-size:13px;margin:0 0 20px;">Scan the QR code to connect with us on WeChat</p>
+            <div style="width:160px;height:160px;margin:0 auto;">
+                <img src="images/微信图片_20260324143206_59_9.jpg" alt="WeChat QR Code" loading="lazy" decoding="async" style="width:100%;height:100%;border-radius:8px;object-fit:cover;">
+            </div>
+            <p style="color:rgba(245,240,230,0.5);font-size:12px;margin:16px 0 0;">WeChat ID: pixuan1989</p>
+        </div>
+    </div>
+
+    <!-- 内嵌壁纸数据（避免 Vercel 认证墙拦截 fetch） -->
+    <script id="wp-data" type="application/json">[
+  {
+    "id": "wallpaper_1780327185",
+    "title": "Feng Shui Nature Wallpaper: Serene Mountain Landscape",
+    "title_zh": "風水自然壁纸：寧靜山景",
+    "thumb": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780327185/thumb.webp",
+    "original": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780327185/original.png",
+    "mockup": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780327185/mockup.webp",
+    "date": "2026-06-01",
+    "category": "Nature",
+    "category_zh": "自然壁纸",
+    "downloads": 0,
+    "tags": [
+      "Feng Shui",
+      "Nature",
+      "Wood",
+      "Water",
+      "Mountain",
+      "Phone Background"
+    ],
+    "tags_zh": [
+      "風水",
+      "自然",
+      "木",
+      "水",
+      "山",
+      "手機背景"
+    ],
+    "creator": "Dao Essentia",
+    "avatar": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23D4AF37'/%3E%3Ctext x='50' y='65' font-size='45' text-anchor='middle' fill='%230a0a0a' font-family='Arial'%3EDE%3C/text%3E%3C/svg%3E",
+    "description": "This serene mountain landscape wallpaper embodies the essence of Wood (木) and Water (水), with lush greenery and flowing streams creating a harmonious balance. From a Western astrology perspective, this image resonates with the energy of Neptune, promoting intuition and spiritual connection. The chakra alignment is primarily associated with the Heart Chakra (Anahata), fostering emotional healing and inner peace. For those seeking career guidance, this imagery aligns well with creative and nature-oriented professions, such as landscape design or environmental consultancy. Use this wallpaper as your phone background during meditation sessions or when you need to reconnect with your inner tranquility.",
+    "description_zh": "此寧靜山景壁纸以木（綠色）和水（藍綠色）為主，繁茂的樹木與潺潺流水構成和諧平衡。從西方占星學角度，此圖契合海王星能量，有助提升直覺與靈性連結。經絡對應心輪（Anahata），促進情感療癒與內心平和。命理上適合從事創意或與自然相關的職業，如園藝設計或環保諮詢。建議於冥想時或需要重新連接內心寧靜時使用。"
+  },
+  {
+    "id": "wallpaper_1780327139",
+    "title": "Cosmic Tree Feng Shui Wallpaper - Phone Background",
+    "title_zh": "宇宙樹風水手機壁紙",
+    "thumb": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780327139/thumb.webp",
+    "original": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780327139/original.png",
+    "mockup": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780327139/mockup.webp",
+    "date": "2026-06-01",
+    "category": "Astrology",
+    "category_zh": "占星壁纸",
+    "downloads": 0,
+    "tags": [
+      "Feng Shui",
+      "Cosmos",
+      "Water",
+      "Metal",
+      "Phone Background"
+    ],
+    "tags_zh": [
+      "風水",
+      "宇宙",
+      "水",
+      "金",
+      "手機背景"
+    ],
+    "creator": "Dao Essentia",
+    "avatar": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23D4AF37'/%3E%3Ctext x='50' y='65' font-size='45' text-anchor='middle' fill='%230a0a0a' font-family='Arial'%3EDE%3C/text%3E%3C/svg%3E",
+    "description": "This celestial wallpaper, rich with cosmic imagery and a mystical tree, resonates deeply with the energies of Western astrology and Daoist philosophy. The dominant element is Water (水), represented by the deep blues and teals of the starry night sky, while the golden accents symbolize Metal (金). For those attuned to planetary energy, this image evokes the ethereal qualities of Neptune and the transformative power of the Moon. In terms of chakras, it aligns with the Third Eye and Crown, enhancing intuition and spiritual connection. The favorable 喜用组合 for this design is Water + Metal (水生金), as Metal is generated by Water in the Five Elements Generating Cycle. This combination supports individuals with Water-based birth charts, particularly those seeking to enhance their career in creative or spiritual fields. Use this wallpaper as your phone's lock screen during evening hours to amplify its calming and introspective energy.",
+    "description_zh": "此宇宙主題壁紙，以神秘樹木與星空為主，深具西方占星學與道家哲學的能量。主五行屬水（藍色、青色），輔以金色象徵金（金）。此組合對應水生金（水生金）的相生循環，適合水命之人，尤其有助於藝術或靈性相關職業發展。建議作為手機鎖屏，在夜晚使用以增強其寧靜內省的能量。"
+  },
+  {
+    "id": "wallpaper_1780327054",
+    "title": "Blue Dragon Feng Shui Wallpaper for Phone",
+    "title_zh": "藍龍風水手機壁紙",
+    "thumb": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780327054/thumb.webp",
+    "original": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780327054/original.png",
+    "mockup": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780327054/mockup.webp",
+    "date": "2026-06-01",
+    "category": "Talisman",
+    "category_zh": "符箓壁纸",
+    "downloads": 0,
+    "tags": [
+      "Feng Shui",
+      "Dragon",
+      "Blue",
+      "Phone Background"
+    ],
+    "tags_zh": [
+      "風水",
+      "龍",
+      "藍色",
+      "手機背景"
+    ],
+    "creator": "Dao Essentia",
+    "avatar": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23D4AF37'/%3E%3Ctext x='50' y='65' font-size='45' text-anchor='middle' fill='%230a0a0a' font-family='Arial'%3EDE%3C/text%3E%3C/svg%3E",
+    "description": "This stunning wallpaper features a majestic blue dragon amidst swirling golden clouds, embodying the essence of power, wisdom, and good fortune in Chinese culture. From a Western astrology perspective, the dominant blue hue resonates with the energy of Neptune, enhancing intuition and spiritual awareness. In terms of chakras, it aligns with the throat and third-eye chakras, promoting clear communication and heightened perception. For those attuned to BaZi, the primary element is Water (水), symbolizing fluidity and adaptability. The favorable 喜用组合 (preferred elemental combination) is Water + Metal (金生水), as metal generates water in the Five Elements Generating Cycle. This pairing enhances career prospects in fields like finance, law, or technology, where strategic thinking and resourcefulness are key. Ideal for use as a phone background during moments of reflection or decision-making, this wallpaper harmonizes planetary energies and ancient wisdom.",
+    "description_zh": "此圖案以藍色神龍為主，周圍雲霧繚繞，象徵權威與智慧。從西方占星學看，藍色屬海王星能量，有助提升直覺與靈性覺醒；從中國命理看，主元素為水（水），喜用組合為水生金（金生水），符合五行相生循環。此組合有利於金融、法律或科技等領域發展，適合追求創新與策略的人士使用。"
+  },
+  {
+    "id": "wallpaper_1780327012",
+    "title": "Feng Shui Five Elements Wallpaper: Lotus and Goldfish",
+    "title_zh": "五行风水壁纸：莲花金鱼",
+    "thumb": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780327012/thumb.webp",
+    "original": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780327012/original.png",
+    "mockup": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780327012/mockup.webp",
+    "date": "2026-06-01",
+    "category": "Five Elements",
+    "category_zh": "五行壁纸",
+    "downloads": 0,
+    "tags": [
+      "Feng Shui",
+      "Water",
+      "Goldfish",
+      "Phone Background"
+    ],
+    "tags_zh": [
+      "風水",
+      "水",
+      "金魚",
+      "手機背景"
+    ],
+    "creator": "Dao Essentia",
+    "avatar": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23D4AF37'/%3E%3Ctext x='50' y='65' font-size='45' text-anchor='middle' fill='%230a0a0a' font-family='Arial'%3EDE%3C/text%3E%3C/svg%3E",
+    "description": "This elegant wallpaper features a harmonious blend of lotus leaves and golden fish, embodying the essence of Feng Shui and Chinese Five Elements theory. The dominant element is Water (水), represented by the flowing water and the graceful movement of the fish. According to the Generating Cycle, the secondary element should be Wood (木), as Water generates Wood. This combination promotes growth, prosperity, and emotional balance. In Western astrology, this image resonates with the energy of Pisces and the intuitive, empathetic qualities of the Fish sign. It also aligns with the throat chakra, enhancing communication and self-expression. For those seeking career success in creative or nurturing fields, this wallpaper serves as a powerful talisman. Use it as your phone background during times of transition or when you need to attract new opportunities.",
+    "description_zh": "此壁纸以蓮葉與金魚為主題，融合了風水與五行學說的精髓。主元素為水（水），象徵流水與魚兒的靈動；依循五行相生循環，次元素應為木（木），因水生木。此組合有助於成長、財運與情緒平衡。西方占星中，此圖契合雙魚座能量，展現直覺與同理心特質，並對應喉輪，提升溝通與自我表達能力。適合從事創意或關懷類工作的命格者使用，可作為招引新機遇的符咒。建議在轉換時期或需要吸引機會時作為手機背景。"
+  },
+  {
+    "id": "wallpaper_1780326953",
+    "title": "Feng Shui Green Fish Talisman Wallpaper for Phone",
+    "title_zh": "風水綠魚符咒手機壁紙",
+    "thumb": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780326953/thumb.webp",
+    "original": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780326953/original.png",
+    "mockup": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780326953/mockup.webp",
+    "date": "2026-06-01",
+    "category": "Talisman",
+    "category_zh": "符箓壁纸",
+    "downloads": 0,
+    "tags": [
+      "Feng Shui",
+      "Talisman",
+      "Green",
+      "Fish",
+      "Buddha",
+      "Phone Background"
+    ],
+    "tags_zh": [
+      "風水",
+      "符箓",
+      "綠色",
+      "魚",
+      "佛像",
+      "手機背景"
+    ],
+    "creator": "Dao Essentia",
+    "avatar": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23D4AF37'/%3E%3Ctext x='50' y='65' font-size='45' text-anchor='middle' fill='%230a0a0a' font-family='Arial'%3EDE%3C/text%3E%3C/svg%3E",
+    "description": "This elegant Feng Shui talisman wallpaper features a serene green background with graceful koi fish and a meditative Buddha figure, embodying harmony and prosperity. From a Western astrology perspective, the dominant green hue resonates with the Earth element, aligning with the Taurus zodiac sign and the Sacral chakra, promoting emotional balance and creativity. In Chinese BaZi philosophy, the primary element is Wood (木), as represented by the flowing fish and lush patterns. The favorable 喜用组合 (preferred elemental combination) follows the Generating Cycle: Wood + Water (木生火 → 火生土 → 土生金 → 金生水 → 水生木), making this design ideal for those whose life force energy is enhanced by the interplay of Wood and Water. This wallpaper is perfect for enhancing focus, attracting abundance, and fostering a peaceful mindset. Use it as your phone's lock screen or home screen during moments of reflection or when seeking clarity in decision-making.",
+    "description_zh": "此風水符咒手機壁紙以寧靜的綠色為背景，配以優雅的金魚和冥想佛陀形象，象徵和諧與富貴。從西方占星學角度看，主導的綠色屬土，契合金牛座及臍輪能量，有助情緒平衡與創造力提升。在中國八字命理中，主元素為木（木），由游動的金魚和繁茂紋樣體現。根據五行相生循環（木生火→火生土→土生金→金生水→水生木），最合適的喜用組合為木+水。此設計適合需要木水相生能量的人，能助於集中注意力、吸引財富並培養平和心態。建議作為鎖屏或主屏使用，尤其在冥想或決策時。"
+  },
+  {
+    "id": "wallpaper_1780326822",
+    "title": "Feng Shui Ocean Waves Dolphin Wallpaper - Phone Background",
+    "title_zh": "風水海浪海豚壁纸 - 手機背景",
+    "thumb": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780326822/thumb.webp",
+    "original": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780326822/original.png",
+    "mockup": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780326822/mockup.webp",
+    "date": "2026-06-01",
+    "category": "Nature",
+    "category_zh": "自然壁纸",
+    "downloads": 0,
+    "tags": [
+      "Feng Shui",
+      "Water",
+      "Ocean Waves",
+      "Dolphin",
+      "Phone Background"
+    ],
+    "tags_zh": [
+      "風水",
+      "水",
+      "海浪",
+      "海豚",
+      "手機背景"
+    ],
+    "creator": "Dao Essentia",
+    "avatar": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23D4AF37'/%3E%3Ctext x='50' y='65' font-size='45' text-anchor='middle' fill='%230a0a0a' font-family='Arial'%3EDE%3C/text%3E%3C/svg%3E",
+    "description": "This captivating wallpaper features dynamic ocean waves and playful dolphins, embodying the essence of Water (水). The dominant element is Water, symbolizing fluidity, intuition, and emotional depth. According to Feng Shui principles, the favorable combination for Water is Metal (金), as Metal generates Water (金生水). This pairing enhances creativity, clarity, and adaptability. From a Western astrology perspective, the imagery resonates with the energy of Pisces and Neptune, promoting spiritual awareness and empathy. Energy healers would associate this design with the throat chakra, encouraging communication and emotional expression. Ideal for those in creative or healing professions, this wallpaper fosters a serene and intuitive atmosphere.",
+    "description_zh": "此壁纸以動態海浪與嬉戲海豚為主題，主元素為水（水），象徵流動、直覺與情感深度。根據風水理論，水的最佳喜用組合為金（金），因金生水（金生水）。此搭配能提升創造力、清晰度與適應力。從西方占星學看，此圖像與雙魚座及海王星能量相呼應，有助於靈性覺醒與同理心。能量療癒師則認為此設計對應喉輪，促進溝通與情感表達。適合創意或療癒行業人士，能營造寧靜而直覺的氛圍。"
+  },
+  {
+    "id": "wallpaper_1780326765",
+    "title": "Golden Immortal Feng Shui Wallpaper for Phone",
+    "title_zh": "金仙風水手機壁紙",
+    "thumb": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780326765/thumb.webp",
+    "original": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780326765/original.png",
+    "mockup": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780326765/mockup.webp",
+    "date": "2026-06-01",
+    "category": "Talisman",
+    "category_zh": "符箓壁纸",
+    "downloads": 0,
+    "tags": [
+      "Feng Shui",
+      "Immortal",
+      "Golden",
+      "Phone Background"
+    ],
+    "tags_zh": [
+      "風水",
+      "仙人",
+      "金色",
+      "手機背景"
+    ],
+    "creator": "Dao Essentia",
+    "avatar": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23D4AF37'/%3E%3Ctext x='50' y='65' font-size='45' text-anchor='middle' fill='%230a0a0a' font-family='Arial'%3EDE%3C/text%3E%3C/svg%3E",
+    "description": "This ethereal wallpaper features a celestial immortal in flowing golden robes, set against a backdrop of majestic mountains and divine light. The dominant element is Metal (金), represented by the golden hues and regal imagery. According to BaZi principles, the favorable combination for Metal is Earth (土), as 土生金, symbolizing stability and support. This pairing resonates with the Daoist concept of harmony and balance, aligning with the career types of those who thrive in structured, nurturing environments. For optimal energy flow, use this wallpaper as your phone's lock screen during daytime hours, especially when seeking clarity and focus.",
+    "description_zh": "此畫面以一位身著金色華服的仙人為主，背景為巍峨山巒與神光。主五行屬金（金），輔以土（土生金）。此組合對應脾經與坤卦，適合命局中喜土之人，尤宜從事教育、醫療等穩定職業。建議作為鎖屏使用，白天觀賞，有助提升專注力與穩定感。"
+  },
+  {
+    "id": "wallpaper_1780326725",
+    "title": "Feng Shui Moon Goddess Wallpaper for Phone Background",
+    "title_zh": "風水月神壁纸手機背景",
+    "thumb": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780326725/thumb.webp",
+    "original": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780326725/original.png",
+    "mockup": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780326725/mockup.webp",
+    "date": "2026-06-01",
+    "category": "Energy",
+    "category_zh": "能量壁纸",
+    "downloads": 0,
+    "tags": [
+      "Feng Shui",
+      "Energy",
+      "Water",
+      "Moon",
+      "Phone Background"
+    ],
+    "tags_zh": [
+      "風水",
+      "能量",
+      "水",
+      "月亮",
+      "手機背景"
+    ],
+    "creator": "Dao Essentia",
+    "avatar": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23D4AF37'/%3E%3Ctext x='50' y='65' font-size='45' text-anchor='middle' fill='%230a0a0a' font-family='Arial'%3EDE%3C/text%3E%3C/svg%3E",
+    "description": "This ethereal wallpaper features a celestial goddess in flowing white and blue robes, set against a serene night sky with a luminous full moon and cascading waterfall. The dominant element is Water (水), symbolizing intuition, emotions, and the subconscious. According to Feng Shui principles, the favorable combination for this image is Water + Metal (金生水), as Metal generates Water in the Five Elements Generating Cycle. This pairing enhances clarity, precision, and inner strength. From a Western astrology perspective, the imagery resonates with the energy of Pisces and the Moon, promoting emotional balance and spiritual insight. It aligns with the Throat Chakra, encouraging communication and self-expression. This wallpaper is ideal for those seeking harmony and introspection, particularly suited for creative professionals or individuals in healing careers.",
+    "description_zh": "此壁纸以一位仙氣飄飄的月神為主題，背景為夜空明月與瀑布，主色調為藍白。五行主水（水），象徵直覺、情感與潛意識。根據風水理論，此圖最佳喜用組合為水+金（金生水），符合五行相生循環。從西方占星學看，此圖契合雙魚座與月亮的能量，有助情緒平衡與靈性覺醒。對應喉輪，能促進溝通與自我表達。適合追求和諧內省之人，尤適創意工作者或療愈行業人士。"
+  },
+  {
+    "id": "wallpaper_1780326685",
+    "title": "Phoenix Talisman Wallpaper: Feng Shui Phone Background",
+    "title_zh": "鳳凰符箓壁纸：風水手機背景",
+    "thumb": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780326685/thumb.webp",
+    "original": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780326685/original.png",
+    "mockup": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780326685/mockup.webp",
+    "date": "2026-06-01",
+    "category": "Talisman",
+    "category_zh": "符箓壁纸",
+    "downloads": 0,
+    "tags": [
+      "Feng Shui",
+      "Phoenix",
+      "Fire",
+      "Red",
+      "Phone Background"
+    ],
+    "tags_zh": [
+      "風水",
+      "鳳凰",
+      "火",
+      "紅色",
+      "手機背景"
+    ],
+    "creator": "Dao Essentia",
+    "avatar": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23D4AF37'/%3E%3Ctext x='50' y='65' font-size='45' text-anchor='middle' fill='%230a0a0a' font-family='Arial'%3EDE%3C/text%3E%3C/svg%3E",
+    "description": "This captivating wallpaper features a majestic phoenix and a regal figure in traditional attire, embodying the essence of Fire (火) energy. In Western astrology, the fiery imagery resonates with the passionate and transformative qualities of the Leo zodiac sign, while energetically, it aligns with the vibrant Solar Plexus chakra, promoting confidence and inner strength. From a Chinese BaZi perspective, the dominant element is Fire, making the favorable 喜用组合 (preferred elemental combination) either Fire + Earth (火生土) or Fire + what generates Fire (Wood, 木生火). This combination supports those with a Fire-based destiny, enhancing creativity, leadership, and career success in roles such as artists, leaders, or entrepreneurs. Use this wallpaper as your phone's lock screen or main display during daytime to harness its empowering energy.",
+    "description_zh": "此壁纸以神鳳和華服佳人為主題，主色調為紅橙色，五行屬火。西方占星學中，火象意象與獅子座的熱情 transformative 能量相呼應；能量層面則對應太陽輪，有助提升自信與內在力量。從八字命理看，此圖火元素為主，喜用組合為火生土或木生火（火生土、木生火），適合火命之人，能助其發揮創造力、領導力，適於藝術家、領導者或創業者等職業類型。建議作為手機鎖屏或主屏，於白天使用以吸收其激勵能量。"
+  },
+  {
+    "id": "wallpaper_1780326646",
+    "title": "Feng Shui Five Elements Wallpaper: Earth & Metal Harmony",
+    "title_zh": "五行風水壁纸：土金相生",
+    "thumb": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780326646/thumb.webp",
+    "original": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780326646/original.png",
+    "mockup": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780326646/mockup.webp",
+    "date": "2026-06-01",
+    "category": "Five Elements",
+    "category_zh": "五行壁纸",
+    "downloads": 0,
+    "tags": [
+      "Feng Shui",
+      "Five Elements",
+      "Earth",
+      "Metal",
+      "Phone Background"
+    ],
+    "tags_zh": [
+      "風水",
+      "五行",
+      "土",
+      "金",
+      "手機背景"
+    ],
+    "creator": "Dao Essentia",
+    "avatar": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23D4AF37'/%3E%3Ctext x='50' y='65' font-size='45' text-anchor='middle' fill='%230a0a0a' font-family='Arial'%3EDE%3C/text%3E%3C/svg%3E",
+    "description": "This captivating wallpaper blends Western astrology and Chinese BaZi wisdom, creating a harmonious energy design. The dominant color is earthy yellow and brown tones, representing the Earth element (土). In Feng Shui, Earth generates Metal (土生金), making this combination ideal for those seeking stability and prosperity. From an astrological perspective, this image resonates with Taurus and Virgo, grounding their energies while enhancing their practicality. The soft golden hues also align with the Solar Plexus chakra, promoting confidence and inner strength. Perfect for phone backgrounds, this wallpaper brings balance to your digital space.",
+    "description_zh": "此壁纸融合西方占星与中式八字智慧，打造和谐能量设计。主色调为黄褐色，属土元素（土）。在风水中，土生金，此组合适合追求稳定与财富之人。从命理角度看，此图对应土金相生，契合土象星座如金牛座与处女座，助其稳固能量并提升务实能力。柔和的金色亦对应太阳轮，增强自信与内在力量。适合作为手机壁纸，为您的数字空间带来平衡。"
+  },
+  {
+    "id": "wallpaper_1780326606",
+    "title": "Feng Shui Five Elements Wallpaper: Green Goddess Harmony",
+    "title_zh": "五行風水壁纸：綠意仙靈和諧之美",
+    "thumb": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780326606/thumb.webp",
+    "original": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780326606/original.png",
+    "mockup": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780326606/mockup.webp",
+    "date": "2026-06-01",
+    "category": "Five Elements",
+    "category_zh": "五行壁纸",
+    "downloads": 0,
+    "tags": [
+      "Feng Shui",
+      "Five Elements",
+      "Green",
+      "Goddess",
+      "Phone Background"
+    ],
+    "tags_zh": [
+      "風水",
+      "五行",
+      "綠色",
+      "女神",
+      "手機背景"
+    ],
+    "creator": "Dao Essentia",
+    "avatar": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23D4AF37'/%3E%3Ctext x='50' y='65' font-size='45' text-anchor='middle' fill='%230a0a0a' font-family='Arial'%3EDE%3C/text%3E%3C/svg%3E",
+    "description": "This enchanting wallpaper features a celestial goddess surrounded by lush greenery, blooming flowers, and serene wildlife, embodying the essence of Wood (木). The dominant green hues and flowing natural elements align with the Wood element, which is associated with growth, vitality, and creativity. According to Feng Shui principles, the favorable combination for Wood is Water (金生水), as Metal generates Water, creating a harmonious energy flow. This pairing enhances intuition, adaptability, and emotional balance. The image resonates with the Wood element's corresponding meridian, the Liver, promoting clarity and inner peace. Ideal for those seeking inspiration and renewal, this wallpaper suits creative professionals, artists, and individuals in careers involving nature, design, or healing arts. Use it as your phone background during daytime for a boost of positive energy and motivation.",
+    "description_zh": "此圖案以一位身著翠綠華服的仙靈女子為主，周圍環繞著繁茂的綠植、綻放的花朵及祥和的動物，完美詮釋了木（木）元素。畫面中濃郁的綠色調與自然流動的元素，彰顯木之生機與活力。根據五行相生循環，木的喜用組合為金生水（金生水），即金能生水，此組合有助於提升直覺力、適應力與情緒穩定。該圖案對應木元素所屬的經絡——肝經，能促進清晰思維與內心平和。適合尋求靈感與重生的人士，尤其適用於創意工作者、藝術家或從事與自然、設計、療癒相關職業者。建議作為手機背景，在白天使用以獲得正能量與動力。"
+  },
+  {
+    "id": "wallpaper_1780326556",
+    "title": "Golden Gourd Feng Shui Wallpaper for Phone",
+    "title_zh": "金葫蘆風水手機壁紙",
+    "thumb": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780326556/thumb.webp",
+    "original": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780326556/original.png",
+    "mockup": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780326556/mockup.webp",
+    "date": "2026-06-01",
+    "category": "Talisman",
+    "category_zh": "符箓壁纸",
+    "downloads": 0,
+    "tags": [
+      "Feng Shui",
+      "Metal",
+      "Wealth",
+      "Phone Background"
+    ],
+    "tags_zh": [
+      "風水",
+      "金",
+      "財富",
+      "手機背景"
+    ],
+    "creator": "Dao Essentia",
+    "avatar": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23D4AF37'/%3E%3Ctext x='50' y='65' font-size='45' text-anchor='middle' fill='%230a0a0a' font-family='Arial'%3EDE%3C/text%3E%3C/svg%3E",
+    "description": "This elegant wallpaper features a golden gourd adorned with ancient Chinese coins, symbolizing wealth and prosperity. From a Western astrology perspective, the golden hue resonates with the energy of Leo and Libra, activating the Solar Plexus and Heart chakras for confidence and harmony. In BaZi terms, the dominant Metal (金) element is complemented by its generating cycle partner, Water (水), creating a harmonious 喜用组合 (Xǐyòng Zǔhé) of 金生水. This combination supports individuals with Metal or Water imbalances, enhancing career opportunities in finance, law, and business. Perfect for use as a phone background during daytime to attract positive energy.",
+    "description_zh": "此圖案以金色葫蘆配古幣為主題，象徵財富與福氣。西方占星學中，金色能量對應獅子座和天秤座，激活太陽輪與心輪，帶來自信與和諧。八字命理中，主元素為金（金），其相生循環中的水（水）為喜用組合（金生水）。此組合適合金或水五行失衡者，有助於金融、法律及商業等職業發展。建議作為手機背景於白天使用，招引正向能量。"
+  },
+  {
+    "id": "wallpaper_1780326512",
+    "title": "Green Clover Feng Shui Wallpaper for Luck and Growth",
+    "title_zh": "綠 clover 風水手機壁紙",
+    "thumb": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780326512/thumb.webp",
+    "original": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780326512/original.png",
+    "mockup": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780326512/mockup.webp",
+    "date": "2026-06-01",
+    "category": "Nature",
+    "category_zh": "自然壁纸",
+    "downloads": 0,
+    "tags": [
+      "Feng Shui",
+      "Clover",
+      "Green",
+      "Phone Background"
+    ],
+    "tags_zh": [
+      "風水",
+      "三葉草",
+      "綠色",
+      "手機背景"
+    ],
+    "creator": "Dao Essentia",
+    "avatar": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23D4AF37'/%3E%3Ctext x='50' y='65' font-size='45' text-anchor='middle' fill='%230a0a0a' font-family='Arial'%3EDE%3C/text%3E%3C/svg%3E",
+    "description": "This wallpaper features a lush expanse of vibrant green clovers, symbolizing luck, growth, and renewal. From a Western astrology perspective, the dominant green hue aligns with the planet Venus, associated with harmony, beauty, and abundance. Energy healers recognize this color as resonating with the Heart Chakra, promoting emotional balance and vitality. In Chinese BaZi (Four Pillars of Destiny) terms, the image's primary element is Wood (木), representing creativity, expansion, and new beginnings. The favorable 喜用组合 (preferred elemental combination) follows the Generating Cycle: Wood + Water (木生火 → 火生土 → 土生金 → 金生水 → 水生木). Here, Water (水) complements Wood by nurturing its growth, creating a harmonious flow of energy. This pairing supports individuals with Wood-based birth charts, enhancing their career prospects in creative fields such as design, writing, or entrepreneurship. For optimal Feng Shui benefits, use this wallpaper as your phone's lock screen during daytime hours to attract positive energy and opportunities.",
+    "description_zh": "此壁纸以茂盛的翠綠三葉草為主題，象徵幸運、成長與新生。西方占星學認為綠色屬金星能量，主和諧、美麗與豐盈；能量療癒師則認同此色與心輪脈動相應，有助情緒平衡與活力。從八字命理看，此圖主元素為木（木），代表創造力、擴展與新開始。根據五行相生循環（木生火→火生土→土生金→金生水→水生木），最合適的喜用組合為木 + 水（木生火 → 火生土 → 土生金 → 金生水 → 水生木）。水能滋養木，促進其生長，形成良性能量流動。此組合適合木命之人，尤其對從事設計、寫作或創業等創意領域者尤為有利。風水建議：作為手機鎖屏使用，白天效果最佳，可招引正向能量與機會。"
+  },
+  {
+    "id": "wallpaper_1780326470",
+    "title": "Golden Mountain Feng Shui Wallpaper for Phone",
+    "title_zh": "金峰風水手機壁紙",
+    "thumb": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780326470/thumb.webp",
+    "original": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780326470/original.png",
+    "mockup": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780326470/mockup.webp",
+    "date": "2026-06-01",
+    "category": "Nature",
+    "category_zh": "自然壁纸",
+    "downloads": 0,
+    "tags": [
+      "Feng Shui",
+      "Mountain",
+      "Golden",
+      "Phone Background"
+    ],
+    "tags_zh": [
+      "風水",
+      "山嶺",
+      "金色",
+      "手機背景"
+    ],
+    "creator": "Dao Essentia",
+    "avatar": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23D4AF37'/%3E%3Ctext x='50' y='65' font-size='45' text-anchor='middle' fill='%230a0a0a' font-family='Arial'%3EDE%3C/text%3E%3C/svg%3E",
+    "description": "This stunning wallpaper captures the majestic essence of a golden mountain bathed in the warm glow of sunrise. From a Western astrology perspective, the radiant sun symbolizes Leo energy, activating the Solar Plexus chakra and enhancing personal power and confidence. The earthy tones and towering peaks resonate with Taurus vibrations, grounding and stabilizing one's energy field. In Chinese BaZi philosophy, the dominant element is Earth (土), as the mountainous landscape represents stability and nourishment. The favorable 喜用组合 (preferred elemental combination) follows the Generating Cycle: Earth + Metal (土生金). This pairing supports career growth, financial prosperity, and long-term success. Ideal for those seeking balance and ambition, this wallpaper harmonizes planetary influences with traditional Feng Shui principles.",
+    "description_zh": "此圖案以金色山巒為主題，沐浴在日出的溫暖光芒中。從西方占星學來看，耀眼的太陽象徵獅子座能量，激活太陽神經叢脈輪，增強個人力量與自信。大地色調與巍峨山峰呼應金牛座氣場，穩固並穩定能量場。根據中國八字理論，主元素為土（土），因山嶺象徵穩定與滋養。合適的喜用組合遵循相生循環：土 + 金（土生金）。此搭配有助事業發展、財富增長與長遠成功。適合追求平衡與抱負的人士，將行星影響與傳統風水原則完美融合。"
+  },
+  {
+    "id": "wallpaper_1780326428",
+    "title": "Golden Mountain Feng Shui Wallpaper for Phone",
+    "title_zh": "金山风水手机壁纸",
+    "thumb": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780326428/thumb.webp",
+    "original": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780326428/original.png",
+    "mockup": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780326428/mockup.webp",
+    "date": "2026-06-01",
+    "category": "Nature",
+    "category_zh": "自然壁纸",
+    "downloads": 0,
+    "tags": [
+      "Feng Shui",
+      "Mountain",
+      "Gold",
+      "Phone Background"
+    ],
+    "tags_zh": [
+      "風水",
+      "山",
+      "金",
+      "手機背景"
+    ],
+    "creator": "Dao Essentia",
+    "avatar": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23D4AF37'/%3E%3Ctext x='50' y='65' font-size='45' text-anchor='middle' fill='%230a0a0a' font-family='Arial'%3EDE%3C/text%3E%3C/svg%3E",
+    "description": "This stunning wallpaper features a golden mountain bathed in sunlight, symbolizing abundance and prosperity. From a Western astrology perspective, the radiant gold and warm tones resonate with the energy of Leo (sun sign) and the Solar Plexus chakra, promoting confidence and vitality. In Chinese BaZi, the dominant element is Metal (金), representing clarity, structure, and determination. The favorable 喜用组合 (preferred elemental combination) is Earth + Metal (土生金), as Earth nourishes and supports Metal. This pairing aligns with the Mountain's stability and the flowing water's nurturing qualities. Individuals with a Metal or Earth birth element will find this image particularly harmonious, enhancing career paths in finance, real estate, or leadership roles. Use this wallpaper as your phone's lock screen during morning hours to harness its energizing and stabilizing energies.",
+    "description_zh": "此壁纸以金色山峰沐浴阳光为主题，象征富足与繁荣。西方占星学上，金黄色调与温暖光线对应狮子座（太阳星座）及太阳神经丛脉轮，有助于提升自信与活力。中国八字中，主元素为金属（金），代表清晰、结构与决心。喜用组合为土生金（土生金），因土能滋养金属。此组合契合山峦的稳定与流水的滋养特质。五行属金或土的人使用此壁纸尤为和谐，助力金融、房地产或领导力相关职业发展。建议清晨作为锁屏壁纸，以吸收其振奋与稳定的能量。"
+  },
+  {
+    "id": "wallpaper_1780326375",
+    "title": "Feng Shui Green Forest Wallpaper for Phone Background",
+    "title_zh": "風水綠林手機壁紙",
+    "thumb": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780326375/thumb.webp",
+    "original": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780326375/original.png",
+    "mockup": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780326375/mockup.webp",
+    "date": "2026-06-01",
+    "category": "Nature",
+    "category_zh": "自然壁纸",
+    "downloads": 0,
+    "tags": [
+      "Feng Shui",
+      "Wood",
+      "Green",
+      "Forest",
+      "Phone Background"
+    ],
+    "tags_zh": [
+      "風水",
+      "木",
+      "綠色",
+      "森林",
+      "手機背景"
+    ],
+    "creator": "Dao Essentia",
+    "avatar": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23D4AF37'/%3E%3Ctext x='50' y='65' font-size='45' text-anchor='middle' fill='%230a0a0a' font-family='Arial'%3EDE%3C/text%3E%3C/svg%3E",
+    "description": "This serene aerial view of lush green trees embodies the essence of Wood (木) energy, resonating with growth, vitality, and renewal. In Western astrology, this imagery aligns with the nurturing influence of Venus and the harmonious flow of the Heart Chakra. From a BaZi perspective, the dominant Wood element is ideally complemented by Fire (火), as Wood generates Fire (木生火). This combination enhances creativity, passion, and leadership qualities. The vibrant green hues also correspond to the Liver Meridian in Traditional Chinese Medicine, promoting emotional balance and clarity. Perfect for those seeking inspiration and a connection to nature, this wallpaper suits individuals with Wood or Fire imbalances, particularly creative professionals, entrepreneurs, and artists.",
+    "description_zh": "此圖像以茂密的綠樹為主，五行屬木，象徵成長與活力。西方占星學中對應金星能量與心輪脈動；八字喜用神則木生火，木與火相生最為和諧。此綠意盎然之景亦對應肝經，有助情緒平穩與思維清晰。適合木或火失衡者，尤宜創意工作者、創業人士及藝術家使用。"
+  },
+  {
+    "id": "wallpaper_1780326335",
+    "title": "Feng Shui Fire Element Wallpaper for Phone Background",
+    "title_zh": "風水火元素手機壁紙",
+    "thumb": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780326335/thumb.webp",
+    "original": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780326335/original.png",
+    "mockup": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780326335/mockup.webp",
+    "date": "2026-06-01",
+    "category": "Five Elements",
+    "category_zh": "五行壁纸",
+    "downloads": 0,
+    "tags": [
+      "Feng Shui",
+      "Fire Element",
+      "Campfire",
+      "Phone Background"
+    ],
+    "tags_zh": [
+      "風水",
+      "火元素",
+      "篝火",
+      "手機背景"
+    ],
+    "creator": "Dao Essentia",
+    "avatar": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23D4AF37'/%3E%3Ctext x='50' y='65' font-size='45' text-anchor='middle' fill='%230a0a0a' font-family='Arial'%3EDE%3C/text%3E%3C/svg%3E",
+    "description": "This captivating wallpaper features a dynamic fire scene, embodying the essence of Fire (火) in Western astrology and energy systems. The vibrant flames and glowing embers resonate with the Leo zodiac sign, associated with passion and creativity, while also aligning with the Solar Plexus chakra, enhancing personal power and confidence. In Chinese BaZi, the dominant element is Fire, making it ideal for those whose birth chart benefits from Fire energy. The favorable 喜用组合 (Yong Shi Combination) is Fire + Earth (火生土), as Earth nourishes and supports Fire. This pairing is linked to the Spleen and Stomach meridians, promoting stability and grounding. Individuals with a Fire or Earth element in their BaZi chart will find this wallpaper particularly harmonious, especially suited for careers in leadership, creativity, or entrepreneurship. For optimal Feng Shui benefits, use this wallpaper as your phone's main screen during daytime hours when Fire energy is most active.",
+    "description_zh": "此壁纸以熊熊烈火為主題，主導五行屬火。西方占星學中，火象對應獅子座，象徵熱情與創造力；能量學上則關聯太陽輪，增強個人力量與自信。根據八字命理，此圖主導元素為火，適合火或土命之人。喜用組合為火生土（火生土），此組合對應脾胃經絡，有助穩定與接地。此圖適合火或土命格者使用，尤其適合領導、創意或創業類職業。作為手機背景時，建議於白天使用，以發揮火氣最旺之效。"
+  },
+  {
+    "id": "wallpaper_1780326292",
+    "title": "Golden Mountain & River Feng Shui Wallpaper",
+    "title_zh": "金峰銀河風水壁紙",
+    "thumb": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780326292/thumb.webp",
+    "original": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780326292/original.png",
+    "mockup": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780326292/mockup.webp",
+    "date": "2026-06-01",
+    "category": "Nature",
+    "category_zh": "自然壁纸",
+    "downloads": 0,
+    "tags": [
+      "Feng Shui",
+      "Mountain",
+      "River",
+      "Golden",
+      "Phone Background"
+    ],
+    "tags_zh": [
+      "風水",
+      "山",
+      "河",
+      "金色",
+      "手機背景"
+    ],
+    "creator": "Dao Essentia",
+    "avatar": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23D4AF37'/%3E%3Ctext x='50' y='65' font-size='45' text-anchor='middle' fill='%230a0a0a' font-family='Arial'%3EDE%3C/text%3E%3C/svg%3E",
+    "description": "This stunning wallpaper captures the majestic Matterhorn mountain bathed in golden sunlight, with a shimmering river flowing through the valley. From a Western astrology perspective, the warm golden hues resonate with the energy of Leo and the Solar Plexus chakra, promoting confidence and vitality. In Chinese BaZi philosophy, the dominant element is Metal (金), symbolized by the mountain's rugged form and reflective snow. The secondary element is Water (水), represented by the flowing river. According to the Five Elements Generating Cycle, the favorable combination for this image is Metal + Water (金生水), which supports creativity, adaptability, and emotional balance. This wallpaper is ideal for those seeking harmony between strength and fluidity in their daily lives.",
+    "description_zh": "此圖案以金色山巒與河流為主題，主五行屬金，次五行屬水。根據五行相生循環，金生水，故此為喜用組合「金水」。此組合對應心包經與坎卦，適合命局中缺金或需增強智慧與靈感的人，尤其適合從事藝術、設計或創意相關職業者。建議作為手機鎖屏或主屏背景，特別是在早晨或黃昏時段使用，可助提升自信與靈動氣場。"
+  },
+  {
+    "id": "wallpaper_1780326251",
+    "title": "Golden Mountain Feng Shui Wallpaper for Phone",
+    "title_zh": "金山風水手機壁紙",
+    "thumb": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780326251/thumb.webp",
+    "original": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780326251/original.png",
+    "mockup": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780326251/mockup.webp",
+    "date": "2026-06-01",
+    "category": "Nature",
+    "category_zh": "自然壁纸",
+    "downloads": 0,
+    "tags": [
+      "Feng Shui",
+      "Mountain",
+      "Golden",
+      "Phone Background"
+    ],
+    "tags_zh": [
+      "風水",
+      "山",
+      "金色",
+      "手機背景"
+    ],
+    "creator": "Dao Essentia",
+    "avatar": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23D4AF37'/%3E%3Ctext x='50' y='65' font-size='45' text-anchor='middle' fill='%230a0a0a' font-family='Arial'%3EDE%3C/text%3E%3C/svg%3E",
+    "description": "This stunning wallpaper features a majestic golden mountain landscape bathed in warm, radiant light, evoking a sense of strength, stability, and prosperity. From a Western astrology perspective, the dominant golden hue resonates with the energy of Leo, the Sun, and the Solar Plexus chakra, symbolizing confidence, leadership, and personal power. In Chinese BaZi (Four Pillars of Destiny) theory, the image's primary element is Earth (土), representing groundedness, nourishment, and structure. The favorable 喜用组合 (preferred elemental combination) adheres strictly to the Generating Cycle: Earth + Metal (土生金). This pairing enhances career opportunities, financial growth, and long-term success, particularly for individuals whose life path emphasizes stability and accumulation. Perfect for those seeking motivation and balance, this wallpaper serves as an ideal phone background for both lock screen and home screen use, especially during daytime hours when its vibrant energy can inspire productivity and focus.",
+    "description_zh": "此款絕美壁紙以金色雪山為主題，沐浴在溫暖光暈中，象徵堅強、穩定與富貴。從西方占星學角度，金色主調對應獅子座、太陽能量及太陽輪，寓意自信、領導力與個人力量。根據中國八字命理，此圖主元素為土（大地），次元素為金（金屬）。遵循五行相生循環，最合適的喜用組合為「土生金」，有助事業發展、財富增長與長遠成功，特別適合注重穩固與積累的命格。建議作為手機鎖屏或主屏背景，尤其白天使用，可激發行動力與專注力。"
+  },
+  {
+    "id": "wallpaper_1780326201",
+    "title": "Golden Mountain Waterfall Feng Shui Wallpaper",
+    "title_zh": "金瀑紫山风水壁纸",
+    "thumb": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780326201/thumb.webp",
+    "original": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780326201/original.png",
+    "mockup": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780326201/mockup.webp",
+    "date": "2026-06-01",
+    "category": "Nature",
+    "category_zh": "自然壁纸",
+    "downloads": 0,
+    "tags": [
+      "Feng Shui",
+      "Waterfall",
+      "Mountain",
+      "Golden",
+      "Phone Background"
+    ],
+    "tags_zh": [
+      "風水",
+      "瀑布",
+      "山",
+      "金色",
+      "手機背景"
+    ],
+    "creator": "Dao Essentia",
+    "avatar": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23D4AF37'/%3E%3Ctext x='50' y='65' font-size='45' text-anchor='middle' fill='%230a0a0a' font-family='Arial'%3EDE%3C/text%3E%3C/svg%3E",
+    "description": "This stunning wallpaper features a majestic golden waterfall cascading down a purple mountain, surrounded by ethereal clouds and radiant light. From a Western astrology perspective, the golden hues resonate with the energy of Leo and the Solar Plexus chakra, symbolizing confidence, creativity, and inner power. In Chinese BaZi, the dominant element is Metal (金), as the golden waterfall embodies metallic brilliance and strength. The favorable 喜用组合 (preferred elemental combination) follows the Generating Cycle: Metal + Water (金生水). This pairing enhances intuition, emotional depth, and spiritual insight. The imagery aligns with the Kidney and Bladder meridians in Daoist philosophy, promoting longevity and wisdom. Ideal for individuals with a Metal or Water birth element, this wallpaper supports careers in finance, law, or creative fields that require strategic thinking and emotional intelligence.",
+    "description_zh": "此壁纸以金色瀑布自紫山倾泻而下为核心，云雾缭绕，金光熠熠。西方占星学中，金色象征狮子座与太阳神经丛能量，寓意自信与创造力；中国八字中，主元素为金（金），次元素为水（金生水）。此组合遵循五行相生循环，助人提升直觉、情感深度与灵性洞察力。对应肾经与膀胱经，利于长寿与智慧。适合金或水命之人，助力金融、法律或创意类职业，需战略思维与情商者尤佳。"
+  },
+  {
+    "id": "wallpaper_1780325044",
+    "title": "Feng Shui Five Elements Mountain Landscape Wallpaper",
+    "thumb": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780325044/thumb.webp",
+    "original": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780325044/original.png",
+    "mockup": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780325044/mockup.webp",
+    "date": "2026-06-01",
+    "category": "Nature",
+    "downloads": 0,
+    "tags": [
+      "Feng Shui",
+      "Five Elements",
+      "Mountain Landscape",
+      "Wood",
+      "Fire",
+      "Phone Background"
+    ],
+    "creator": "Dao Essentia",
+    "avatar": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23D4AF37'/%3E%3Ctext x='50' y='65' font-size='45' text-anchor='middle' fill='%230a0a0a' font-family='Arial'%3EDE%3C/text%3E%3C/svg%3E",
+    "description": "This captivating wallpaper blends Western astrology and Chinese BaZi principles, creating a harmonious energy design. The dominant element is Wood (木), represented by the lush green mountains and vibrant flowers, symbolizing growth and vitality. According to the Five Elements Generating Cycle, the favorable combination for this image is Wood + Fire (木生火), as Wood naturally generates Fire. This pairing resonates with the red sun in the sky, embodying passion and creativity. From an energy perspective, this design aligns with the Heart Chakra (associated with love and emotional expression) and the Fire Zodiac signs (Aries, Leo, Sagittarius). It is ideal for individuals seeking inspiration and motivation in their careers, particularly those in creative fields such as art, writing, or entrepreneurship. Use this wallpaper as your phone's main screen during daytime hours to harness its uplifting energy, or as a lock screen for a subtle reminder of your goals.",
+    "title_zh": "五行山水風水壁纸",
+    "category_zh": "自然壁纸",
+    "tags_zh": [
+      "風水",
+      "五行",
+      "山水",
+      "木",
+      "火",
+      "手機背景"
+    ],
+    "description_zh": "此壁纸融合西方占星与中式八字理念，打造和谐能量设计。主元素為木（木），由翠綠山巒與絢麗花朵象徵，代表生長與活力。依五行相生循環，此圖最佳喜用組合為木+火（木生火），因木能自然生火。從能量層面看，此設計對應心輪（與愛及情感表達相關）及火象星座（白羊、獅子、射手）。適合尋求靈感與動力的職業人士，特別是藝術、寫作或創業領域。建議白天作為手機主屏使用以吸收其鼓舞能量，或作為鎖屏以提醒目標。"
+  },
+  {
+    "id": "wallpaper_1780325004",
+    "title": "Feng Shui Nature Wallpaper: Bamboo Grove Sunrise",
+    "thumb": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780325004/thumb.webp",
+    "original": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780325004/original.png",
+    "mockup": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780325004/mockup.webp",
+    "date": "2026-06-01",
+    "category": "Nature",
+    "downloads": 0,
+    "tags": [
+      "Feng Shui",
+      "Nature",
+      "Wood",
+      "Bamboo",
+      "Sunrise",
+      "Phone Background"
+    ],
+    "creator": "Dao Essentia",
+    "avatar": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23D4AF37'/%3E%3Ctext x='50' y='65' font-size='45' text-anchor='middle' fill='%230a0a0a' font-family='Arial'%3EDE%3C/text%3E%3C/svg%3E",
+    "description": "This serene nature wallpaper captures the essence of Wood (木) energy, symbolized by the lush bamboo grove bathed in golden sunlight. From a Western astrology perspective, this image resonates with the nurturing and growth-oriented qualities of Venus and the harmonious vibrations of the Heart Chakra. The Five Elements Generating Cycle highlights that Wood generates Fire (木生火), making this wallpaper ideal for those seeking to enhance their creative and passionate pursuits. It also pairs well with Water (水), as Water nourishes Wood (水生木). This tranquil scene is perfect for individuals whose BaZi charts indicate a need for Wood or Water support, particularly those in artistic, environmental, or leadership roles. Use this wallpaper as your phone's main screen during morning hours to harness the energizing and rejuvenating power of the rising sun.",
+    "title_zh": "風水自然壁纸：竹林日出",
+    "category_zh": "自然壁纸",
+    "tags_zh": [
+      "風水",
+      "自然",
+      "木",
+      "竹林",
+      "日出",
+      "手機背景"
+    ],
+    "description_zh": "此自然壁纸以翠綠竹林與金色曙光為主，五行屬木（木）。從西方占星學看，此圖契合金星的滋養與成長能量，及心輪脈動的和諧頻率。根據五行相生循環，木生火（木生火），故此圖適合激發創造力與熱情；亦可搭配水（水生木），因水能滋養木。此景宜用於八字喜木或水之人，尤適藝術、環保或領導類職業者。建議作為手機主屏，於清晨使用，以汲取旭日初升的振奮與療愈之力。"
+  },
+  {
+    "id": "wallpaper_1780324940",
+    "title": "Wood Energy Wallpaper: Feng Shui Tree Growth",
+    "thumb": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780324940/thumb.webp",
+    "original": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780324940/original.png",
+    "mockup": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780324940/mockup.webp",
+    "date": "2026-06-01",
+    "category": "Nature",
+    "downloads": 0,
+    "tags": [
+      "Feng Shui",
+      "Wood",
+      "Tree",
+      "Growth",
+      "Phone Background"
+    ],
+    "creator": "Dao Essentia",
+    "avatar": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23D4AF37'/%3E%3Ctext x='50' y='65' font-size='45' text-anchor='middle' fill='%230a0a0a' font-family='Arial'%3EDE%3C/text%3E%3C/svg%3E",
+    "description": "This enchanting wallpaper features a majestic tree bathed in golden sunlight, symbolizing growth, vitality, and renewal. From a Western astrology perspective, the imagery resonates with the energy of Leo (the lion) and the heart chakra, promoting confidence, creativity, and emotional warmth. In Chinese BaZi philosophy, the dominant element is Wood (木), representing expansion, flexibility, and new beginnings. The favorable 喜用组合 for this image is Wood + Fire (木生火), as Fire is generated by Wood, creating a harmonious flow of energy. This combination supports individuals with Wood or Fire imbalances, enhancing their career prospects in creative, leadership, or entrepreneurial roles. Perfect for use as a phone background during daytime to inspire motivation and positivity.",
+    "title_zh": "木能生火壁纸：風水樹木成長",
+    "category_zh": "自然壁纸",
+    "tags_zh": [
+      "風水",
+      "木",
+      "樹",
+      "成長",
+      "手機背景"
+    ],
+    "description_zh": "此壁纸以一棵沐浴在金色陽光中的巨樹為主題，象徵著成長、活力與新生。從西方占星學角度看，此圖像與獅子座（獅子）及心輪能量相呼應，有助提升自信、創造力與情感溫暖。根據中國八字命理，主元素為木（木），代表擴展、靈活性與新開始。此圖像的喜用組合為木 + 火（木生火），因火由木所生，形成和諧的能量流動。此組合適合木或火失衡者，有助於其在創意、領導或創業領域發展事業。建議作為手機背景，在白天使用以激發動力與正能量。"
+  },
+  {
+    "id": "wallpaper_1780324739",
+    "title": "Feng Shui Crystal Gourd Wallpaper for Phone",
+    "thumb": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780324739/thumb.webp",
+    "original": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780324739/original.png",
+    "mockup": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780324739/mockup.webp",
+    "date": "2026-06-01",
+    "category": "Talisman",
+    "downloads": 0,
+    "tags": [
+      "Feng Shui",
+      "Crystal Gourd",
+      "Water Element",
+      "Phone Background"
+    ],
+    "creator": "Dao Essentia",
+    "avatar": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23D4AF37'/%3E%3Ctext x='50' y='65' font-size='45' text-anchor='middle' fill='%230a0a0a' font-family='Arial'%3EDE%3C/text%3E%3C/svg%3E",
+    "description": "This elegant wallpaper features a crystal gourd adorned with gold and colorful gemstones, symbolizing prosperity and good fortune in Feng Shui. The dominant element is Water (水), represented by the blue hues of the crystal and the lotus imagery, which is associated with purity and spiritual growth. According to Chinese BaZi principles, the favorable combination for this image is Water + Metal (金生水), as Metal generates Water. This pairing enhances creativity, intuition, and emotional balance. The secondary element is Metal (金), represented by the golden accents and gemstones, which supports stability and clarity. This wallpaper is ideal for those seeking harmony and positive energy in their daily lives, particularly beneficial for individuals with a Water or Metal birth element. It can be used as a phone background during meditation or work to promote focus and tranquility.",
+    "title_zh": "風水水晶葫蘆手機壁紙",
+    "category_zh": "符箓壁纸",
+    "tags_zh": [
+      "風水",
+      "水晶葫蘆",
+      "水元素",
+      "手機背景"
+    ],
+    "description_zh": "此精美壁紙以水晶葫蘆為主，鑲嵌金色與彩色寶石，象徵福祿與財富。主元素為水（水），由藍色水晶與蓮花意象呈現，代表純淨與靈性成長。根據八字喜用神理論，此圖最佳組合為水 + 金（金生水），因金能生水，有助提升創造力、直覺與情緒平衡。輔助元素為金（金），由金色裝飾與寶石體現，支持穩定與清晰。此壁紙適合追求生活和諧與正能量者，尤其對水或金命局人士有益。可作為手機背景，在冥想或工作時使用，幫助集中注意力與保持寧靜。"
+  },
+  {
+    "id": "wallpaper_1780233534",
+    "title": "Golden Coins Feng Shui Wallpaper for Phone",
+    "title_zh": "金錢流水風水手機壁紙",
+    "thumb": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780233534/thumb.webp",
+    "original": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780233534/original.png",
+    "mockup": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780233534/mockup.webp",
+    "date": "2026-05-31",
+    "category": "Five Elements",
+    "category_zh": "五行壁纸",
+    "downloads": 0,
+    "tags": [
+      "Feng Shui",
+      "Metal",
+      "Water",
+      "Gold",
+      "Phone Background"
+    ],
+    "tags_zh": [
+      "風水",
+      "金",
+      "水",
+      "黃金",
+      "手機背景"
+    ],
+    "creator": "Dao Essentia",
+    "avatar": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23D4AF37'/%3E%3Ctext x='50' y='65' font-size='45' text-anchor='middle' fill='%230a0a0a' font-family='Arial'%3EDE%3C/text%3E%3C/svg%3E",
+    "description": "This captivating wallpaper features a stream of gleaming golden coins flowing through shimmering water, symbolizing wealth and prosperity. From a Western astrology perspective, the radiant gold aligns with the energy of Jupiter, enhancing abundance and optimism. In terms of energy work, the dynamic interplay of light and water resonates with the Solar Plexus Chakra, boosting confidence and personal power. According to Chinese BaZi principles, the dominant element is Metal (金), representing clarity, structure, and value. The favorable 喜用组合 (preferred elemental combination) is Metal + Water (金生水), as Metal generates Water, promoting fluidity and continuous flow of resources. This pairing also corresponds to the Kidney Meridian in Traditional Chinese Medicine, associated with vitality and longevity. Ideal for individuals with a Metal or Water birth element, this wallpaper suits career types such as finance, business, and entrepreneurship. For optimal use, set it as your phone's lock screen during morning hours to attract positive energy and opportunities.",
+    "description_zh": "此款精美壁紙以閃耀的金色硬幣流淌於波光粼粼的水流之中，象徵財富與豐盈。從西方占星學角度而言，璀璨黃金契合木星能量，有助增強財運與樂觀心態；從能量療癒角度看，光影與水流的動態交織呼應太陽輪脈，提升自信與個人力量。根據中國八字命理，主導元素為金（金），代表清晰、結構與價值。最合適的喜用組合為金生水（金生水），因金能生水，有助資源持續流動與圓融。此組合亦對應中醫腎經，關聯生命力與長壽。適合金或水命之人，尤其財務、商業及創業類職業者。建議作為手機鎖屏，清晨時段使用，可吸引正向能量與機會。"
+  },
+  {
+    "id": "wallpaper_1780233504",
+    "title": "Feng Shui Nature Wallpaper: Giant Tree with Lanterns",
+    "title_zh": "風水自然壁纸：巨树灯笼图",
+    "thumb": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780233504/thumb.webp",
+    "original": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780233504/original.png",
+    "mockup": "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780233504/mockup.webp",
+    "date": "2026-05-31",
+    "category": "Nature",
+    "category_zh": "自然壁纸",
+    "downloads": 0,
+    "tags": [
+      "Feng Shui",
+      "Nature",
+      "Wood",
+      "Fire",
+      "Phone Background"
+    ],
+    "tags_zh": [
+      "風水",
+      "自然",
+      "木",
+      "火",
+      "手機背景"
+    ],
+    "creator": "Dao Essentia",
+    "avatar": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23D4AF37'/%3E%3Ctext x='50' y='65' font-size='45' text-anchor='middle' fill='%230a0a0a' font-family='Arial'%3EDE%3C/text%3E%3C/svg%3E",
+    "description": "This enchanting wallpaper features a majestic, ancient tree bathed in golden light, symbolizing growth and vitality. The dominant element is Wood (木), represented by the lush green foliage and intricate branches. According to Feng Shui principles, the favorable combination for Wood is Fire (火), as Wood generates Fire (木生火). This pairing enhances creativity, passion, and energy. The scene also resonates with Western astrology, where the tree can be associated with the planet Jupiter, promoting expansion and abundance. For energy work, this image aligns with the Heart Chakra, encouraging emotional balance and spiritual connection. Ideal for those seeking inspiration and harmony, this wallpaper is perfect for use as a phone background or desktop screen during daytime hours.",
+    "description_zh": "此壁纸以一棵沐浴在金色光芒中的参天巨树为主题，象征着生机与活力。主五行元素为木（木），由繁茂的绿叶和盘虬卧龙的枝干体现。根据风水理论，木的最佳喜用组合为火（火），因木生火（木生火）。此搭配能增强创造力、热情与能量。从西方占星学角度，巨树可对应木星，寓意扩展与丰盈。能量疗愈方面，此图与心轮相合，助于情绪平衡与灵性连接。适合寻求灵感与和谐之人，适合作为手机背景或桌面壁纸，尤宜于白天使用。"
+  }
+]</script>
+
+    <script>
+        document.addEventListener('contextmenu', event => event.preventDefault());
+
+        const CONFIG = { relatedCount: 6 };
+
+        const urlParams = new URLSearchParams(window.location.search);
+        let wallpaperId = urlParams.get('id');
+        let wallpapers = [];
+        let currentIndex = -1;
+        let currentView = 'original';
+
+        function init() {
+            try {
+                const raw = document.getElementById('wp-data').textContent;
+                wallpapers = JSON.parse(raw);
+            } catch(e) {
+                document.getElementById('loading-text').textContent = 'Error: ' + e.message;
+                return;
+            }
+
+            if (wallpapers.length > 0) {
+                if (wallpaperId) {
+                    const index = wallpapers.findIndex(w => w.id === wallpaperId);
+                    if (index !== -1) render(index);
+                    else window.location.href = '/wallpaper';
+                } else {
+                    render(0);
+                }
+            } else {
+                document.getElementById('loading-text').textContent = 'Failed to load data. Please refresh.';
+            }
+        }
+
+        function render(index) {
+            try {
+            currentIndex = index;
+            const data = wallpapers[index];
+            wallpaperId = data.id;
+
+            const img = document.getElementById('main-image');
+            const loading = document.getElementById('loading-text');
+
+            // Image
+            currentView = 'original';
+            img.src = data.thumb;
+            img.onload = () => {
+                loading.style.display = 'none';
+                img.style.display = 'block';
+            };
+            img.onerror = () => {
+                loading.textContent = 'Image unavailable — OSS storage pending refill.';
+                img.style.display = 'block';
+            };
+
+            // View toggle: always visible, disable mockup button if no mockup data
+            const mockupBtn = document.getElementById('toggle-mockup');
+            if (data.mockup) {
+                mockupBtn.disabled = false;
+            } else {
+                mockupBtn.disabled = true;
+            }
+            // Reset to original view
+            document.getElementById('toggle-original').classList.add('active');
+            document.getElementById('toggle-mockup').classList.remove('active');
+
+            // Creator row: avatar + name + date
+            const avatarEl = document.getElementById('wp-avatar');
+            if (data.avatar) {
+                avatarEl.src = data.avatar;
+                avatarEl.style.display = 'block';
+            } else {
+                avatarEl.style.display = 'none';
+            }
+            document.getElementById('wp-creator').textContent = data.creator || 'Dao Essentia';
+
+            // Date (i18n-aware)
+            const dateEl = document.getElementById('wp-date');
+            const lang = window.DaoI18n ? window.DaoI18n.current() : 'en';
+            if (data.date) {
+                const locale = lang === 'zh' ? 'zh-TW' : 'en-US';
+                dateEl.textContent = new Date(data.date).toLocaleDateString(locale, { year: 'numeric', month: 'long', day: 'numeric' });
+            } else {
+                dateEl.textContent = '';
+            }
+
+            // Title (i18n-aware)
+            const wpTitle = document.getElementById('wp-title');
+            if (data.title_zh && lang === 'zh') {
+                wpTitle.textContent = data.title_zh;
+            } else {
+                wpTitle.textContent = data.title || 'Lucky Wallpaper';
+            }
+
+            // SEO Description (i18n-aware)
+            const seoDescEl = document.getElementById('wp-seo-desc');
+            if (lang === 'zh' && data.description_zh) {
+                seoDescEl.textContent = data.description_zh;
+                seoDescEl.style.display = 'block';
+            } else if (data.description) {
+                seoDescEl.textContent = data.description;
+                seoDescEl.style.display = 'block';
+            } else {
+                seoDescEl.style.display = 'none';
+            }
+
+            // Downloads (i18n-aware)
+            const dlEl = document.getElementById('wp-downloads');
+            if (data.downloads) {
+                const dlLabel = window.DaoI18n ? window.DaoI18n.t('wallpaper.downloads') : 'downloads';
+                dlEl.innerHTML = `<svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> ${data.downloads} ${dlLabel}`;
+            } else {
+                dlEl.innerHTML = '';
+            }
+
+            // Tags (i18n-aware)
+            const tagsEl = document.getElementById('wp-tags');
+            tagsEl.innerHTML = '';
+            if (data.category) {
+                const catTag = document.createElement('span');
+                catTag.className = 'tag';
+                catTag.textContent = (lang === 'zh' && data.category_zh) ? data.category_zh : data.category;
+                tagsEl.appendChild(catTag);
+            }
+            const tagsArray = (lang === 'zh' && data.tags_zh) ? data.tags_zh : data.tags;
+            if (tagsArray && tagsArray.length > 0) {
+                tagsArray.forEach(tag => {
+                    const span = document.createElement('span');
+                    span.className = 'tag';
+                    span.textContent = tag;
+                    tagsEl.appendChild(span);
+                });
+            }
+
+            // Store download URL (actual download via quota-check handler)
+            const dlLink = document.getElementById('download-link');
+            if (dlLink) {
+                dlLink.setAttribute('data-url', data.original);
+                dlLink.onclick = async function(e) {
+                e.preventDefault();
+                const url = this.getAttribute('data-url');
+                if (!url) return;
+
+                const dlText = document.getElementById('download-text');
+                const origText = dlText ? dlText.textContent : 'Download';
+                if (dlText) dlText.textContent = 'Checking...';
+
+                try {
+                    const token = window.DaoAuth ? window.DaoAuth.getToken() : null;
+                    const headers = { 'Content-Type': 'application/json' };
+                    if (token) headers['Authorization'] = 'Bearer ' + token;
+
+                    const res = await fetch('/api/auth?action=download', {
+                        method: 'POST',
+                        headers,
+                        body: JSON.stringify({ wallpaperId: wallpaperId })
+                    });
+                    const data = await res.json();
+
+                    if (res.ok && data.allowed) {
+                        // Trigger download
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = '';
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                        if (dlText) dlText.textContent = origText;
+                    } else {
+                        // Show toast when limit reached
+                        if (window.DaoAuth) {
+                            window.DaoAuth.showToast(
+                                (data.error || 'Download limit reached.') + ' <a href="#" onclick="event.preventDefault();DaoAuth.open(\'login\')">Sign in</a> for 3/day.',
+                                5000
+                            );
+                        } else {
+                            alert(data.error || 'Download limit reached.');
+                        }
+                        if (dlText) dlText.textContent = origText;
+                    }
+                } catch(err) {
+                    if (dlText) dlText.textContent = origText;
+                    // Fallback: allow direct download on network error
+                    window.open(url, '_blank');
+                }
+            };
+            }
+
+            // SEO
+            document.title = `${data.title} - Lucky Wallpaper | Dao Essentia`;
+            document.querySelector('meta[name="description"]').content = data.description || `Download ${data.title} - high-resolution lucky wallpaper from Dao Essentia.`;
+            document.querySelector('meta[property="og:image"]').content = data.original;
+            document.querySelector('meta[property="og:url"]').content = window.location.href;
+
+            // Related
+            renderRelated(index);
+        } catch(e) {
+            console.error('render error:', e);
+            document.getElementById('loading-text').textContent = 'Render error: ' + e.message;
+        }
+        }
+
+        // View toggle (original / mockup)
+        document.querySelectorAll('.toggle-btn').forEach(btn => {
+            btn.onclick = () => {
+                if (btn.disabled) return;
+                const view = btn.dataset.view;
+                if (view === currentView) return;
+                currentView = view;
+
+                document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const data = wallpapers[currentIndex];
+                const img = document.getElementById('main-image');
+                if (view === 'mockup' && data.mockup) {
+                    img.src = data.mockup;
+                } else {
+                    img.src = data.thumb;
+                }
+            };
+        });
+
+        // Related
+        function renderRelated(currentIndex) {
+            const grid = document.getElementById('related-grid');
+            grid.innerHTML = '';
+
+            const related = wallpapers
+                .filter((_, i) => i !== currentIndex)
+                .slice(0, CONFIG.relatedCount);
+
+            related.forEach(wp => {
+                const card = document.createElement('div');
+                card.className = 'related-card';
+                card.innerHTML = `<img src="${wp.thumb}" alt="${wp.title || 'Wallpaper'}" loading="lazy">`;
+                card.onclick = () => {
+                    window.location.href = `wallpaper-detail.html?id=${wp.id}`;
+                };
+                grid.appendChild(card);
+            });
+        }
+
+        // Share (i18n-aware)
+        function doShare() {
+            if (navigator.share) {
+                navigator.share({ title: document.title, url: window.location.href });
+            } else {
+                navigator.clipboard.writeText(window.location.href);
+                const msg = window.DaoI18n ? window.DaoI18n.t('wallpaper.link_copied') : 'Link copied!';
+                alert(msg);
+            }
+        }
+        var shareBtnMain = document.getElementById('share-btn-main');
+        if (shareBtnMain) shareBtnMain.onclick = doShare;
+
+        // Listen for language changes — re-render dynamic content
+        document.addEventListener('daoessence:i18n-changed', function() {
+            if (currentIndex >= 0 && wallpapers[currentIndex]) {
+                const data = wallpapers[currentIndex];
+                const newLang = window.DaoI18n ? window.DaoI18n.current() : 'en';
+
+                // Title
+                const wpTitle = document.getElementById('wp-title');
+                if (newLang === 'zh' && data.title_zh) {
+                    wpTitle.textContent = data.title_zh;
+                } else {
+                    wpTitle.textContent = data.title || 'Lucky Wallpaper';
+                }
+
+                // Description
+                const seoDescEl = document.getElementById('wp-seo-desc');
+                if (newLang === 'zh' && data.description_zh) {
+                    seoDescEl.textContent = data.description_zh;
+                    seoDescEl.style.display = 'block';
+                } else if (data.description) {
+                    seoDescEl.textContent = data.description;
+                    seoDescEl.style.display = 'block';
+                } else {
+                    seoDescEl.style.display = 'none';
+                }
+
+                // Date
+                const dateEl = document.getElementById('wp-date');
+                if (data.date) {
+                    const locale = newLang === 'zh' ? 'zh-TW' : 'en-US';
+                    dateEl.textContent = new Date(data.date).toLocaleDateString(locale, { year: 'numeric', month: 'long', day: 'numeric' });
+                }
+
+                // Downloads
+                const dlEl = document.getElementById('wp-downloads');
+                if (data.downloads) {
+                    const dlLabel = window.DaoI18n ? window.DaoI18n.t('wallpaper.downloads') : 'downloads';
+                    dlEl.innerHTML = `<svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> ${data.downloads} ${dlLabel}`;
+                }
+
+                // Tags (rerender on language change)
+                const tagsEl = document.getElementById('wp-tags');
+                tagsEl.innerHTML = '';
+                if (data.category) {
+                    const catTag = document.createElement('span');
+                    catTag.className = 'tag';
+                    catTag.textContent = (newLang === 'zh' && data.category_zh) ? data.category_zh : data.category;
+                    tagsEl.appendChild(catTag);
+                }
+                const tagsArray = (newLang === 'zh' && data.tags_zh) ? data.tags_zh : data.tags;
+                if (tagsArray && tagsArray.length > 0) {
+                    tagsArray.forEach(tag => {
+                        const span = document.createElement('span');
+                        span.className = 'tag';
+                        span.textContent = tag;
+                        tagsEl.appendChild(span);
+                    });
+                }
+            }
+        });
+
+        // ── Category dropdown ──
+        const wpnCatBtn = document.querySelector('.wpn-dropdown-btn');
+        const wpnCatMenu = document.getElementById('wpn-cat-menu');
+        if (wpnCatBtn && wpnCatMenu) {
+            wpnCatBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                wpnCatMenu.classList.toggle('open');
+            });
+            document.addEventListener('click', function(e) {
+                if (!wpnCatBtn.contains(e.target) && !wpnCatMenu.contains(e.target)) {
+                    wpnCatMenu.classList.remove('open');
+                }
+            });
+        }
+
+        // ── Lang switcher ──
+        const langTrigger = document.getElementById('lang-trigger');
+        const langMenu = document.getElementById('lang-menu');
+        if (langTrigger && langMenu) {
+            langTrigger.addEventListener('click', function(e) {
+                e.preventDefault();
+                langMenu.classList.toggle('open');
+            });
+            langMenu.querySelectorAll('.lang-option').forEach(function(opt) {
+                opt.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    var lang = this.getAttribute('data-lang');
+                    try { localStorage.setItem('daoessence_lang', lang); } catch(ex) {}
+                    var url = new URL(window.location.href);
+                    url.searchParams.set('lang', lang);
+                    window.location.href = url.href;
+                });
+            });
+            document.addEventListener('click', function(e) {
+                if (!langTrigger.contains(e.target) && !langMenu.contains(e.target)) {
+                    langMenu.classList.remove('open');
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', init);
+
+        // ── Nav search: redirect to /wallpaper with query ──
+        const wpnSearchInput = document.getElementById('wpn-search-input');
+        if (wpnSearchInput) {
+            wpnSearchInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    var q = encodeURIComponent(this.value.trim());
+                    if (q) window.location.href = '/wallpaper?search=' + q;
+                }
+            });
+        }
+    </script>
+    <script async crossorigin="anonymous" data-clerk-publishable-key="pk_test_ZGVjZW50LWdsaWRlci01OC5jbGVyay5hY2NvdW50cy5kZXYk" src="https://js.clerk.app/v1/clerk.browser.js" type="text/javascript"></script>
+    <script src="/js/auth.js"></script>
+    <script src="js/i18n-switcher.js" defer></script>
+</body>
+</html>
