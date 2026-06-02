@@ -65,45 +65,28 @@
 
     // ── 初始化 Clerk ──
     DA._initClerk = async function() {
-        console.log('[DaoAuth] _initClerk called, CLERK_KEY:', CLERK_KEY ? 'configured' : 'missing');
-        if (!CLERK_KEY) {
-            console.error('[DaoAuth] CLERK_PUBLISHABLE_KEY not configured');
-            return;
-        }
+        console.log('[DaoAuth] _initClerk called');
+
         if (clerkInstance) {
             console.log('[DaoAuth] Clerk already initialized');
             return;
         }
 
+        // 等待 Clerk 脚本加载（HTML中通过 data-clerk-publishable-key 预加载）
+        let attempts = 0;
+        while (!window.Clerk && attempts < 50) {
+            await new Promise(r => setTimeout(r, 100));
+            attempts++;
+        }
+
+        if (!window.Clerk) {
+            console.error('[DaoAuth] window.Clerk not found after 5s');
+            return;
+        }
+
+        console.log('[DaoAuth] window.Clerk found');
+
         try {
-            // 动态加载 Clerk JS
-            console.log('[DaoAuth] Loading Clerk script...');
-            await new Promise((resolve, reject) => {
-                if (window.Clerk) {
-                    console.log('[DaoAuth] window.Clerk already exists');
-                    resolve();
-                    return;
-                }
-                const script = document.createElement('script');
-                // 备用 CDN: https://unpkg.com/@clerk/clerk-js@latest/dist/clerk.browser.js
-                script.src = 'https://cdn.jsdelivr.net/npm/@clerk/clerk-js@latest/dist/clerk.browser.js';
-                script.async = true;
-                script.crossOrigin = 'anonymous';
-                script.onload = function() {
-                    console.log('[DaoAuth] Clerk script loaded');
-                    resolve();
-                };
-                script.onerror = function() {
-                    console.error('[DaoAuth] Failed to load Clerk script');
-                    reject(new Error('Failed to load Clerk'));
-                };
-                document.head.appendChild(script);
-            });
-
-            console.log('[DaoAuth] window.Clerk exists:', !!window.Clerk);
-
-            // 新版 Clerk 用法：先设置 publishableKey，再 load
-            window.Clerk.publishableKey = CLERK_KEY;
             await window.Clerk.load({
                 appearance: {
                     baseTheme: 'dark',
@@ -162,15 +145,13 @@
         if (!clerkReady || !clerkInstance) {
             DA.showToast('Auth service loading, please wait...', 2000);
             // 如果正在初始化，等2秒后重试
-            if (!clerkInstance && CLERK_KEY) {
-                setTimeout(() => {
-                    if (clerkReady && clerkInstance) {
-                        clerkInstance.openSignIn({
-                            appearance: { baseTheme: 'dark', variables: { colorPrimary: '#D4AF37', colorBackground: '#1A1A1A' } }
-                        });
-                    }
-                }, 2000);
-            }
+            setTimeout(() => {
+                if (clerkReady && clerkInstance) {
+                    clerkInstance.openSignIn({
+                        appearance: { baseTheme: 'dark', variables: { colorPrimary: '#D4AF37', colorBackground: '#1A1A1A' } }
+                    });
+                }
+            }, 2000);
             return;
         }
         clerkInstance.openSignIn({
