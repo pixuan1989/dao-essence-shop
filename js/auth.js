@@ -97,7 +97,9 @@
 
         try {
             console.log('[Auth] Loading Clerk...');
-            await window.Clerk.load();
+            await window.Clerk.load({
+                ui: { ClerkUI: window.__internal_ClerkUICtor }
+            });
             clerkInstance = window.Clerk;
             clerkReady = true;
             console.log('[Auth] Clerk loaded. isSignedIn:', clerkInstance.isSignedIn, 'user:', !!clerkInstance.user);
