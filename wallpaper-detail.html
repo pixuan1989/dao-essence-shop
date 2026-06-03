@@ -708,6 +708,14 @@
             const data = wallpapers[index];
             wallpaperId = data.id;
 
+            // Store download URL — actual download handled by download-guard.js (SAFE ZONE)
+            const dlLink = document.getElementById("download-link");
+            if (dlLink) {
+                dlLink.setAttribute("data-url", data.original || "");
+                dlLink.setAttribute("data-wallpaper-id", data.id || wallpaperId || "");
+            }
+
+
             const img = document.getElementById('main-image');
             const loading = document.getElementById('loading-text');
 

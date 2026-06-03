@@ -14,13 +14,14 @@
       wallpaperId = btn.id || 'unknown';
     }
     const url = btn.getAttribute('data-url');
-    if (!url) {
-      console.error('[DownloadGuard] Missing data-url', btn);
-      return;
-    }
-
     const origText = btn.textContent || 'Download';
     btn.textContent = 'Checking...';
+
+    if (!url) {
+      console.error('[DownloadGuard] Missing data-url', btn);
+      btn.textContent = origText;
+      return;
+    }
 
     try {
       const token = (window.DaoAuth && window.DaoAuth.getSessionToken)
@@ -52,10 +53,11 @@
         }
       }
     } catch (err) {
+      console.error('[DownloadGuard] Fetch error:', err);
       alert('Network error. Please try again.');
+    } finally {
+      btn.textContent = origText;
     }
-
-    btn.textContent = origText;
   }
 
   // Expose for use by HTML pages
@@ -68,8 +70,6 @@
   function bindButtons() {
     document.querySelectorAll('.btn-download, .btn-download-safe').forEach(function (btn) {
       if (btn.dataset.guarded) return;
-      const wpId = btn.getAttribute('data-wallpaper-id');
-      if (!wpId) return; // need at least wallpaperId
       btn.dataset.guarded = '1';
       btn.addEventListener('click', function (e) {
         e.preventDefault();
