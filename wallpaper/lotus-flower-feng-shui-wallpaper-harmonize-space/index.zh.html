@@ -303,8 +303,8 @@
             </div>
             <div class="view-toggle">
                 <div class="toggle-group">
-                    <button class="toggle-btn active" data-view="original" id="toggle-original">原图</button>
-                    <button class="toggle-btn" data-view="mockup" id="toggle-mockup">手机预览</button>
+                    <button class="toggle-btn active" data-view="original" id="toggle-original">原圖</button>
+                    <button class="toggle-btn" data-view="mockup" id="toggle-mockup">手機預覽</button>
                 </div>
             </div>
         </div>
@@ -317,7 +317,7 @@
 莲花还与水元素相关联，其柔和的流动带来宁静与清晰。其精致的细节和舒缓的色彩搭配使其成为冥想或正念练习的完美背景。无论是用作手机壁纸还是桌面壁纸，这款莲花灵感作品都将作为你日常生活中不断提醒精神成长与情感健康的永恒符号。
 
 立即下载，为你的日常生活注入莲花的宁静之美。让其 timeless 的象征意义提升你的灵性，吸引积极的能量进入你的家或工作空间。</p>
-            <div class="wp-downloads">⬇ 0 次下载</div>
+            <div class="wp-downloads">⬇ 0 次下載</div>
             <div class="wp-tags">
                 <span class="tag">自然壁纸</span>
                 <span class="tag">風水</span>
@@ -327,7 +327,7 @@
             </div>
             <button class="btn-download" data-url="https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780472211/original.png">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0a0a0a" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                下载壁纸
+                下載壁紙
             </button>
         </div>
     </div>
@@ -335,7 +335,7 @@
     <!-- Related -->
     <div style="max-width:1200px;margin:0 auto;padding:0 24px 48px;">
         <div class="divider"></div>
-        <h2 class="related-title">更多壁纸</h2>
+        <h2 class="related-title">更多壁紙</h2>
         <div class="related-grid">
             <a href="/zh/wallpaper/natures-serenity-green-forest-lake-wallpaper" class="related-card"><img src="https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780479926/thumb.webp" alt="自然宁静：绿林湖水壁纸" loading="lazy"></a>
             <a href="/zh/wallpaper/purple-qi-arrival-feng-shui-wallpaper-phone-background" class="related-card"><img src="https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780477477/thumb.webp" alt="紫氣東來風水壁纸" loading="lazy"></a>
@@ -363,7 +363,7 @@
                         <li><a href="/zh/favorable-element">五行喜用神指南</a></li>
                         <li><a href="/zh/five-elements-test">五行性格測試</a></li>
                         <li><a href="/zh/soulmate-calculator">靈魂伴侶配對</a></li>
-                        <li><a href="/zh/almanac">黃曆吉日</a></li>
+                        <li><a href="/zh/almanac">黃道吉日</a></li>
                         <li><a href="/zh/wallpaper">開運壁紙</a></li>
                     </ul>
                 </div>
@@ -435,7 +435,8 @@
     </script>
 
     <script defer crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/@clerk/ui@1/dist/ui.browser.js" type="text/javascript"></script>
-    <script defer crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/@clerk/clerk-js@6/dist/clerk.browser.js" data-clerk-publishable-key="pk_live_Y2xlcmsuZGFvZXNzZW50aWEuY29tJA"></script>
+    <script defer crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/@clerk/clerk-js@6/dist/clerk.browser.js"
+            data-clerk-publishable-key="pk_live_Y2xlc3NlbnRpYUAxNjBkYXRhLmNvbQJA"></script>
     <script src="/js/auth.js"></script>
     <!-- Download Limit JS -->
     <script>
@@ -445,7 +446,7 @@
             var cookieName = "dl_cnt_guest";
             var max = 1;
             function getCookieCount() {
-                try { var c = document.cookie.match(new RegExp("(?:^|;\\s*)" + cookieName + "=(\\d+)")); if (c) return parseInt(c[1]) || 0; } catch(e) {}
+                try { var c = document.cookie.match(new RegExp("(?:^|;\s*)" + cookieName + "=(\d+)")); if (c) return parseInt(c[1]) || 0; } catch(e) {}
                 return 0;
             }
             function setCookieCount(n) {
@@ -470,7 +471,7 @@
                 updateLimits();
                 var count = getCookieCount();
                 if (count >= max) {
-                    showToast("已达到下载上限，请登录后继续。");
+                    showToast("已达到下載上限，請登入後繼續。");
                     return;
                 }
                 setCookieCount(count + 1);

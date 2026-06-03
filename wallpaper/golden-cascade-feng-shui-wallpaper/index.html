@@ -269,7 +269,7 @@
                     <a href="/wallpaper?cat=%E5%8D%A0%E6%98%9F">Astrology</a>
                     <a href="/wallpaper?cat=%E7%94%9F%E8%82%96">Zodiac</a>
                     <a href="/wallpaper?cat=%E7%A5%9E%E4%BB%99">Deities</a>
-                    <a href="/wallpaper?cat=%E7%AC%A6%E7%AE%93">符箓</a>
+                    <a href="/wallpaper?cat=%E7%AC%A6%E7%AE%93">Talismans</a>
                     <a href="/wallpaper?cat=%E8%83%BD%E9%87%8F">Energy</a>
                     <a href="/wallpaper?cat=%E9%A3%8E%E6%B0%B4">Feng Shui</a>
                 </div>
@@ -431,7 +431,8 @@
     </script>
 
     <script defer crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/@clerk/ui@1/dist/ui.browser.js" type="text/javascript"></script>
-    <script defer crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/@clerk/clerk-js@6/dist/clerk.browser.js" data-clerk-publishable-key="pk_live_Y2xlcmsuZGFvZXNzZW50aWEuY29tJA"></script>
+    <script defer crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/@clerk/clerk-js@6/dist/clerk.browser.js"
+            data-clerk-publishable-key="pk_live_Y2xlc3NlbnRpYUAxNjBkYXRhLmNvbQJA"></script>
     <script src="/js/auth.js"></script>
     <!-- Download Limit JS -->
     <script>
@@ -441,7 +442,7 @@
             var cookieName = "dl_cnt_guest";
             var max = 1;
             function getCookieCount() {
-                try { var c = document.cookie.match(new RegExp("(?:^|;\\s*)" + cookieName + "=(\\d+)")); if (c) return parseInt(c[1]) || 0; } catch(e) {}
+                try { var c = document.cookie.match(new RegExp("(?:^|;\s*)" + cookieName + "=(\d+)")); if (c) return parseInt(c[1]) || 0; } catch(e) {}
                 return 0;
             }
             function setCookieCount(n) {
