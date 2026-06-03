@@ -382,6 +382,9 @@ function generateStaticPage(wp, lang) {
     + '            max-width: 100%; max-height: 72vh;\n'
     + '            width: auto; height: auto; display: block;\n'
     + '            object-fit: contain;\n'
+    + '            pointer-events: none;\n'
+    + '            user-select: none;\n'
+    + '            -webkit-user-drag: none;\n'
     + '        }\n'
     + '\n'
     + '        .wp-title { font-size: 28px; font-weight: 700; margin-bottom: 14px; line-height: 1.25; }\n'
@@ -511,7 +514,7 @@ function generateStaticPage(wp, lang) {
     + '        <!-- Left: Image + Toggle -->\n'
     + '        <div class="left-column">\n'
     + '            <div class="preview-image">\n'
-    + '                <img id="main-image" src="' + (imgOriginal || imgThumb) + '" alt="' + escapeHtml(title) + '" loading="lazy">\n'
+    + '                <img id="main-image" src="' + (imgThumb || imgOriginal) + '" alt="' + escapeHtml(title) + '" loading="lazy" oncontextmenu="return false">\n'
     + '            </div>\n'
     + '            <div class="view-toggle">\n'
     + '                <div class="toggle-group">\n'
@@ -661,6 +664,7 @@ function generateStaticPage(wp, lang) {
     + '        })();\n'
     + '    <\/script>\n'
     + '    <script src="js/i18n-switcher.js" defer></script>\n'
+    + '    <script>document.addEventListener("contextmenu", function(e) { if (e.target && (e.target.tagName === "IMG" || e.target.closest(".preview-image"))) { e.preventDefault(); } });</script>\n'
     + '</body>\n'
     + '</html>\n';
 
