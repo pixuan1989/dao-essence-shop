@@ -70,61 +70,69 @@ async function downloadCheck(req, res) {
     const auth = req.headers.authorization;
     const payload = auth?.startsWith('Bearer ') ? await verifyClerkToken(auth.slice(7)) : null;
 
-    // Guest mode — 每天最多 1 次
-    if (!payload) {
-        const dlKey = 'dl:' + ip + ':' + today;
-        let used;
-        if (useMemory) {
-            used = memoryCounts.get(dlKey) || 0;
-        } else {
-            used = parseInt(await client.get(dlKey) || '0');
+    try {
+        // Guest mode — 每天最多 1 次
+        if (!payload) {
+            const dlKey = 'dl:' + ip + ':' + today;
+            let used;
+            if (useMemory) {
+                used = memoryCounts.get(dlKey) || 0;
+            } else {
+                used = parseInt(await client.get(dlKey) || '0');
+            }
+            if (used >= 1) {
+                return res.status(429).json({
+                    error: 'Daily download limit reached (1/day for guests). Sign in for 3/day.',
+                    allowed: false, used, limit: 1
+                });
+            }
+            if (useMemory) {
+                memoryCounts.set(dlKey, used + 1);
+            } else {
+                await client.set(dlKey, String(used + 1), 'EX', 86400);
+            }
+            return res.status(200).json({ allowed: true, used: used + 1, limit: 1 });
         }
-        if (used >= 1) {
+
+        // Logged in user — 每天最多 3 次
+        const email = payload.email || payload.sub || 'unknown';
+        const ipKey = 'dl:' + ip + ':' + today;
+        const userKey = 'dl_user:' + email.toLowerCase() + ':' + today;
+
+        let ipUsed, userUsed;
+        if (useMemory) {
+            ipUsed = memoryCounts.get(ipKey) || 0;
+            userUsed = memoryCounts.get(userKey) || 0;
+        } else {
+            ipUsed = parseInt(await client.get(ipKey) || '0');
+            userUsed = parseInt(await client.get(userKey) || '0');
+        }
+        const totalUsed = Math.max(ipUsed, userUsed);
+        const limit = 3;
+
+        if (totalUsed >= limit) {
             return res.status(429).json({
-                error: 'Daily download limit reached (1/day for guests). Sign in for 3/day.',
-                allowed: false, used, limit: 1
+                error: 'Daily download limit reached (3/day).',
+                allowed: false, used: totalUsed, limit
             });
         }
+
+        const nextCount = totalUsed + 1;
         if (useMemory) {
-            memoryCounts.set(dlKey, used + 1);
+            memoryCounts.set(ipKey, nextCount);
+            memoryCounts.set(userKey, nextCount);
         } else {
-            await client.set(dlKey, String(used + 1), 'EX', 86400);
+            await client.set(ipKey, String(nextCount), 'EX', 86400);
+            await client.set(userKey, String(nextCount), 'EX', 86400);
         }
-        return res.status(200).json({ allowed: true, used: used + 1, limit: 1 });
-    }
-
-    // Logged in user — 每天最多 3 次
-    const email = payload.email || payload.sub || 'unknown';
-    const ipKey = 'dl:' + ip + ':' + today;
-    const userKey = 'dl_user:' + email.toLowerCase() + ':' + today;
-
-    let ipUsed, userUsed;
-    if (useMemory) {
-        ipUsed = memoryCounts.get(ipKey) || 0;
-        userUsed = memoryCounts.get(userKey) || 0;
-    } else {
-        ipUsed = parseInt(await client.get(ipKey) || '0');
-        userUsed = parseInt(await client.get(userKey) || '0');
-    }
-    const totalUsed = Math.max(ipUsed, userUsed);
-    const limit = 3;
-
-    if (totalUsed >= limit) {
-        return res.status(429).json({
-            error: 'Daily download limit reached (3/day).',
-            allowed: false, used: totalUsed, limit
+        return res.status(200).json({ allowed: true, used: nextCount, limit, user: { email } });
+    } catch (err) {
+        console.error('[auth] downloadCheck error:', err.message);
+        return res.status(503).json({
+            error: 'Download service temporarily unavailable. Please try again.',
+            allowed: false
         });
     }
-
-    const nextCount = totalUsed + 1;
-    if (useMemory) {
-        memoryCounts.set(ipKey, nextCount);
-        memoryCounts.set(userKey, nextCount);
-    } else {
-        await client.set(ipKey, String(nextCount), 'EX', 86400);
-        await client.set(userKey, String(nextCount), 'EX', 86400);
-    }
-    return res.status(200).json({ allowed: true, used: nextCount, limit, user: { email } });
 }
 
 // Main handler

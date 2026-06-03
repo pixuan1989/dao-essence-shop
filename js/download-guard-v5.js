@@ -159,19 +159,21 @@
       var data = null;
       try { data = await res.json(); } catch (e) { /* non-JSON response, ignore */ }
 
-      // API explicit deny → block
+      console.log('[DownloadGuard] API status:', res.status, 'data:', data);
+
+      // Priority 1: explicit deny (429 or any status with allowed=false)
       if (data && data.allowed === false) {
         allowed = false;
         denyReason = (data.error || 'Download limit reached.') + ' ' + (isZh ? '请登录获取更多。' : 'Sign in for more.');
       }
-      // Non-200 (503, 500, etc.) → ALSO block
-      if (!res.ok) {
+      // Priority 2: allow only if res.ok AND data.allowed === true
+      else if (res.ok && data && data.allowed === true) {
+        allowed = true;
+      }
+      // Priority 3: any other non-ok response without explicit deny → service error
+      else if (!res.ok) {
         allowed = false;
         denyReason = isZh ? '下载服务暂时不可用，请稍后重试。' : 'Service temporarily unavailable. Please try again later.';
-      }
-      // allowed === true only if res.ok && data.allowed === true
-      if (res.ok && data && data.allowed === true) {
-        allowed = true;
       }
     } catch (e) {
       // API unreachable → BLOCK (fail-closed)
