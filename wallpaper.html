@@ -546,13 +546,7 @@
                     <span data-i18n="wallpaper.category_label">Categories</span>
                     <svg viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
                 </button>
-                <div class="wpn-dropdown-menu" id="wpn-cat-menu">
-                    <a href="#all" data-cat="All" class="active">All</a>
-                    <a href="#nature" data-cat="Nature">Nature</a>
-                    <a href="#abstract" data-cat="Abstract">Abstract</a>
-                    <a href="#spiritual" data-cat="Spiritual">Spiritual</a>
-                    <a href="#seasonal" data-cat="Seasonal">Seasonal</a>
-                </div>
+                <div class="wpn-dropdown-menu" id="wpn-cat-menu"></div>
             </div>
             <div class="wpn-search">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
@@ -717,19 +711,19 @@
                 e.preventDefault();
                 wpnCatMenu.classList.toggle('open');
             });
-            wpnCatMenu.querySelectorAll('a').forEach(function(a) {
-                a.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const cat = this.getAttribute('data-cat') || 'All';
-                    wpnCatMenu.classList.remove('open');
-                    wpnCatMenu.querySelectorAll('a').forEach(function(x) { x.classList.remove('active'); });
-                    this.classList.add('active');
-                    // Sync with filter pills
-                    const pills = document.querySelectorAll('.tb-pill');
-                    pills.forEach(function(p) {
-                        if (p.getAttribute('data-cat') === cat) p.click();
-                        else if (cat === 'All' && !p.getAttribute('data-cat')) p.click();
-                    });
+            // Event delegation for dynamically generated category links
+            wpnCatMenu.addEventListener('click', function(e) {
+                const a = e.target.closest('a');
+                if (!a) return;
+                e.preventDefault();
+                const cat = a.getAttribute('data-cat') || 'All';
+                wpnCatMenu.classList.remove('open');
+                wpnCatMenu.querySelectorAll('a').forEach(function(x) { x.classList.remove('active'); });
+                a.classList.add('active');
+                // Sync with filter pills
+                const pills = document.querySelectorAll('.tb-pill');
+                pills.forEach(function(p) {
+                    if (p.getAttribute('data-cat') === cat) p.click();
                 });
             });
             document.addEventListener('click', function(e) {
@@ -778,18 +772,31 @@
         let searchQuery = '';
         let dynamicCats = [];
 
-        // Category info map (descriptions for Explore cards)
+        // Category info map (descriptions for Explore cards) — keyed by actual data category names
         const CAT_INFO = {
-            Nature: { tags: 'Feng Shui · Five Elements · Autumn Gold · Jade Green · Water Flow' },
-            Abstract: { tags: 'Indigo · Dark · Geometric · Minimal · Neon Glow' },
-            Spiritual: { tags: 'Zen · Meditation · Lotus · Yin Yang · Tai Chi' },
-            Seasonal: { tags: 'Spring Blossom · Summer Fire · Harvest Moon · Winter Solstice' }
+            '风水': { tags: 'Feng Shui · Five Elements · Autumn Gold · Jade Green · Water Flow' },
+            '能量': { tags: 'Cosmic Energy · Merkaba · Light Body · Spiritual Ascension' },
+            '神仙': { tags: 'Deities · Immortals · Divine Beings · Celestial Guardians' },
+            '生肖': { tags: 'Chinese Zodiac · Animal Signs · Yearly Fortune · Compatibility' },
+            '占星': { tags: 'Astrology · Horoscope · Planetary · Star Signs' },
+            '符籙': { tags: 'Talismans · Spiritual Symbols · Protective Seals · Sacred Scripts' },
+            '八字': { tags: 'BaZi · Four Pillars · Destiny Analysis · Life Path' }
         };
         const CAT_INFO_ZH = {
-            Nature: { tags: '風水 · 五行 · 秋金 · 翠玉 · 流水' },
-            Abstract: { tags: '靛藍 · 暗色 · 幾何 · 極簡 · 霓虹光暈' },
-            Spiritual: { tags: '禪 · 冥想 · 蓮花 · 陰陽 · 太極' },
-            Seasonal: { tags: '春花 · 夏火 · 丰收月 · 冬至' }
+            '风水': { tags: '風水 · 五行 · 秋金 · 翠玉 · 流水' },
+            '能量': { tags: '宇宙能量 · 梅爾卡巴 · 光體 · 靈性提升' },
+            '神仙': { tags: '神仙 · 仙界 · 神明 · 天界守護' },
+            '生肖': { tags: '十二生肖 · 屬相 · 流年運勢 · 生肖配對' },
+            '占星': { tags: '占星術 · 星座 · 行星 · 星盤' },
+            '符籙': { tags: '符籙 · 靈符 · 護身符 · 道教法器' },
+            '八字': { tags: '八字 · 四柱 · 命理分析 · 人生軌跡' }
+        };
+
+        // English category name → Chinese (for search matching)
+        const CAT_EN_TO_ZH = {
+            'bazi': '八字', 'astrology': '占星', 'zodiac': '生肖',
+            'deities': '神仙', 'talismans': '符籙', 'energy': '能量',
+            'feng shui': '风水', 'fengshui': '风水', 'feng-shui': '风水'
         };
 
         // Get current language
@@ -817,6 +824,21 @@
             });
             dynamicCats = [...cats];
             return dynamicCats;
+        }
+
+        // Build nav dropdown categories (dynamic, synced with data)
+        function buildNavDropdown() {
+            const menu = document.getElementById('wpn-cat-menu');
+            if (!menu) return;
+            menu.innerHTML = '';
+            dynamicCats.forEach(cat => {
+                const a = document.createElement('a');
+                a.href = '#' + encodeURIComponent(cat);
+                a.dataset.cat = cat;
+                a.textContent = cat === 'All' ? translateCat('all') : translateCat(cat);
+                if (cat === activeCategory) a.classList.add('active');
+                menu.appendChild(a);
+            });
         }
 
         // Build category toolbar pills (dynamic)
@@ -904,12 +926,14 @@
             // Search filter
             if (searchQuery) {
                 const q = searchQuery;
+                const mappedCat = CAT_EN_TO_ZH[q];
                 list = list.filter(w => {
                     return (
                         (w.title && w.title.toLowerCase().includes(q)) ||
                         (w.titleZh && w.titleZh.toLowerCase().includes(q)) ||
                         (w.category && w.category.toLowerCase().includes(q)) ||
                         (w.categoryZh && w.categoryZh.toLowerCase().includes(q)) ||
+                        (mappedCat && w.category === mappedCat) ||
                         (w.keywords && w.keywords.some(tag => tag.toLowerCase().includes(q))) ||
                         (w.keywordsZh && w.keywordsZh.some(tag => tag.toLowerCase().includes(q)))
                     );
@@ -954,6 +978,7 @@
 
         // Listen for language changes from global i18n-switcher
         document.addEventListener('daoessence:i18n-changed', () => {
+            buildNavDropdown();
             buildCategoryPills();
             buildExploreCategories();
             renderGrid();
@@ -979,6 +1004,7 @@
             if (catParam && dynamicCats.includes(catParam)) {
                 activeCategory = catParam;
             }
+            buildNavDropdown();
             buildCategoryPills();
             buildExploreCategories();
             renderGrid();

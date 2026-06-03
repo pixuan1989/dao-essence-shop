@@ -18,8 +18,19 @@ const DATA_FILE = path.join(ROOT, 'wallpapers.json');
 const OUT_DIR = path.join(ROOT, 'wallpaper');
 const DIST_OUT_DIR = path.join(ROOT, 'dist', 'wallpaper');
 
-// 全局：从 wallpapers.json 提取的唯一分类列表（英文）
+// 全局：从 wallpapers.json 提取的唯一分类列表
 var ALL_CATEGORIES = [];
+
+// 分类中英文映射（数据中的分类名为中文）
+const CAT_NAME_EN = {
+  '八字': 'BaZi',
+  '占星': 'Astrology',
+  '生肖': 'Zodiac',
+  '神仙': 'Deities',
+  '符籙': 'Talismans',
+  '能量': 'Energy',
+  '风水': 'Feng Shui'
+};
 
 // ── 工具函数 ───────────────────────────────────────────────
 
@@ -95,7 +106,7 @@ function generateStaticPage(wp, lang) {
   // 动态生成分类导航链接（以 wallpapers.json 实际分类为准）
   var catLinks = '<a href="/wallpaper' + (isZh ? '?lang=zh' : '') + '">' + (isZh ? '全部' : 'All') + '</a>\n';
   ALL_CATEGORIES.forEach(function(cat) {
-    var catLabel = isZh ? cat : cat; // 数据分类已是中文，如需英文映射可扩展
+    var catLabel = isZh ? cat : (CAT_NAME_EN[cat] || cat);
     catLinks += '                    <a href="/wallpaper?cat=' + encodeURIComponent(cat) + (isZh ? '&lang=zh' : '') + '">' + escapeHtml(catLabel) + '</a>\n';
   });
 
