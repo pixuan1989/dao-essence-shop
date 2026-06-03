@@ -323,7 +323,7 @@
                 <span class="tag">自然</span>
                 <span class="tag">手機背景</span>
             </div>
-            <button class="btn-download" data-url="https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780483770/original.png">
+            <button class="btn-download btn-download-safe" data-wallpaper-id="wallpaper_1780483770" data-url="https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780483770/original.png">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0a0a0a" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                 下載壁紙
             </button>
@@ -436,59 +436,7 @@
     <script defer crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/@clerk/clerk-js@6/dist/clerk.browser.js"
             data-clerk-publishable-key="pk_live_Y2xlc3NlbnRpYUAxNjBkYXRhLmNvbQJA"></script>
     <script src="/js/auth.js"></script>
-    <!-- Download Limit JS -->
-    <script>
-        (function() {
-            var btn = document.querySelector(".btn-download");
-            if (!btn) return;
-            var cookieName = "dl_cnt_guest";
-            var max = 1;
-            function getCookieCount() {
-                try { var c = document.cookie.match(new RegExp("(?:^|;\s*)" + cookieName + "=(\d+)")); if (c) return parseInt(c[1]) || 0; } catch(e) {}
-                return 0;
-            }
-            function setCookieCount(n) {
-                document.cookie = cookieName + "=" + n + ";path=/;max-age=86400";
-            }
-            function updateLimits() {
-                var isAuth = !!(window.DaoAuth && window.DaoAuth.isSignedIn && window.DaoAuth.isSignedIn());
-                cookieName = isAuth ? "dl_cnt_auth" : "dl_cnt_guest";
-                max = isAuth ? 3 : 1;
-            }
-            updateLimits();
-            window.addEventListener("daoessence:auth-changed", function(e) { updateLimits(); });
-            function showToast(msg) {
-                var t = document.createElement("div");
-                t.style.cssText = "position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#222;color:#fff;padding:10px 20px;border-radius:6px;font-size:14px;z-index:9999;opacity:0;transition:opacity .3s";
-                t.textContent = msg;
-                document.body.appendChild(t);
-                setTimeout(function(){ t.style.opacity = "1"; }, 10);
-                setTimeout(function(){ t.style.opacity = "0"; setTimeout(function(){ t.remove(); }, 300); }, 2500);
-            }
-            btn.addEventListener("click", function() {
-                updateLimits();
-                var count = getCookieCount();
-                if (count >= max) {
-                    showToast("已达到下載上限，請登入後繼續。");
-                    return;
-                }
-                setCookieCount(count + 1);
-                var url = btn.getAttribute("data-url");
-                if (!url) return;
-                var filename = url.substring(url.lastIndexOf("/") + 1) || "wallpaper.png";
-                fetch(url, { mode: "cors" })
-                    .then(function(r) { if (!r.ok) throw new Error("fail"); return r.blob(); })
-                    .then(function(blob) {
-                        var u = URL.createObjectURL(blob);
-                        var a = document.createElement("a");
-                        a.href = u; a.download = filename;
-                        document.body.appendChild(a); a.click();
-                        setTimeout(function(){ document.body.removeChild(a); URL.revokeObjectURL(u); }, 100);
-                    })
-                    .catch(function() { window.open(url, "_blank"); });
-            });
-        })();
-    </script>
+    <script src="/js/download-guard.js"></script>
     <!-- Language Switcher JS -->
     <script>
         const langTrigger = document.getElementById("lang-trigger");
