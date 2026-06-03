@@ -163,13 +163,40 @@
     btn.disabled = false;
   }
 
-  // ── Show message (toast or alert fallback) ──
+  // ── Show message (toast → DOM toast → alert → console) ──
   function showMessage(msg, duration) {
-    if (window.DaoAuth && window.DaoAuth.showToast) {
-      window.DaoAuth.showToast(msg, duration || 5000);
-    } else {
-      alert(msg);
-    }
+    duration = duration || 5000;
+    // 1. Try DaoAuth toast
+    try {
+      if (window.DaoAuth && window.DaoAuth.showToast) {
+        window.DaoAuth.showToast(msg, duration);
+        return;
+      }
+    } catch (e) { /* ignore */ }
+
+    // 2. Try inline DOM toast (always works)
+    try {
+      var existing = document.getElementById('dg-toast');
+      if (existing) existing.remove();
+      var toast = document.createElement('div');
+      toast.id = 'dg-toast';
+      toast.textContent = msg;
+      toast.style.cssText = 'position:fixed;top:20px;left:50%;transform:translateX(-50%);'
+        + 'background:rgba(0,0,0,0.85);color:#fff;padding:12px 24px;border-radius:8px;'
+        + 'font-family:sans-serif;font-size:14px;z-index:99999;'
+        + 'box-shadow:0 4px 12px rgba(0,0,0,0.3);max-width:90%;text-align:center;';
+      document.body.appendChild(toast);
+      setTimeout(function () {
+        if (toast.parentNode) toast.parentNode.removeChild(toast);
+      }, duration);
+      return;
+    } catch (e2) { /* ignore */ }
+
+    // 3. Fallback alert
+    try { alert(msg); } catch (e3) { /* ignore */ }
+
+    // 4. Last resort: console
+    console.log('[DownloadGuard]', msg);
   }
 
   // Expose for use by HTML pages
