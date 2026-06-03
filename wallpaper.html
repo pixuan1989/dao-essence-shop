@@ -577,7 +577,7 @@
 
     <!-- Page Title -->
     <div class="page-title">
-        <h1 id="hero-title" data-i18n="wallpaper.hero_title">Lucky Wallpapers</h1>
+        <h1 id="hero-title" data-i18n="wallpaper.hero_title" data-zh-title="旺運壁紙">Lucky Wallpapers</h1>
     </div>
 
     <!-- Category Toolbar -->
@@ -944,7 +944,7 @@
             filtered.forEach(wp => {
                 const card = document.createElement('div');
                 card.className = 'wallpaper-card';
-                card.onclick = () => { const lang = (new URLSearchParams(window.location.search)).get('lang') || localStorage.getItem('daoessence_lang') || 'en'; window.location.href = '/wallpaper/' + wp.id + (lang === 'zh' ? '?lang=zh' : ''); };
+                card.onclick = () => { const lang = getLang(); window.location.href = (lang === 'zh' ? '/zh' : '') + '/wallpaper/' + wp.id; };
                 const lang = (new URLSearchParams(window.location.search)).get('lang') || localStorage.getItem('daoessence_lang') || 'en';
                 const cardTitle = lang === 'zh' ? (wp.titleZh || wp.title) : wp.title;
                 card.innerHTML = `<img src="${wp.thumb}" alt="${cardTitle}" loading="lazy">`;
@@ -957,6 +957,11 @@
             buildCategoryPills();
             buildExploreCategories();
             renderGrid();
+            const heroTitle = document.getElementById('hero-title');
+            if (heroTitle) {
+                const lang = getLang();
+                heroTitle.textContent = lang === 'zh' ? '旺運壁紙' : 'Lucky Wallpapers';
+            }
         });
 
         // Init
@@ -971,6 +976,12 @@
             buildCategoryPills();
             buildExploreCategories();
             renderGrid();
+            // Set hero title based on current language
+            const heroTitle = document.getElementById('hero-title');
+            if (heroTitle) {
+                const lang = getLang();
+                heroTitle.textContent = lang === 'zh' ? '旺運壁紙' : 'Lucky Wallpapers';
+            }
         }
 
         document.addEventListener('DOMContentLoaded', init);
