@@ -10,16 +10,22 @@ let redis = null;
 export function getRedis() {
     if (!redis) {
         // Try multiple env var names (REDIS_URL, KV_REDIS_URL, KV_URL)
-        const url = process.env.REDIS_URL || process.env.KV_REDIS_URL || process.env.KV_URL;
+        let url = process.env.REDIS_URL || process.env.KV_REDIS_URL || process.env.KV_URL;
         if (!url) {
             console.error('❌ 未配置 REDIS_URL / KV_REDIS_URL / KV_URL 环境变量');
             return null;
         }
+        // Upstash requires TLS; auto-convert redis:// to rediss://
+        if (url.startsWith('redis://') && !url.startsWith('rediss://')) {
+            url = url.replace('redis://', 'rediss://');
+        }
         redis = new Redis(url, {
-            maxRetriesPerRequest: 3,
+            maxRetriesPerRequest: 2,
             retryStrategy(times) {
                 return Math.min(times * 200, 2000);
-            }
+            },
+            connectTimeout: 8000,
+            commandTimeout: 5000
         });
     }
     return redis;
