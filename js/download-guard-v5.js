@@ -70,7 +70,10 @@
     var displayMsg = msg;
     if (isZh) {
       if (msg.indexOf('Daily download limit reached') !== -1) {
-        displayMsg = '今日下载次数已用完，请登录获取更多';
+        // Guest: suggest sign in; Logged-in: plain message
+        displayMsg = msg.indexOf('guests') !== -1
+          ? '今日下载次数已用完，请登录获取更多'
+          : '今日下载次数已用完';
       } else if (msg.indexOf('Download service unavailable') !== -1) {
         displayMsg = '下载服务暂时不可用，请稍后重试';
       } else if (msg.indexOf('Download failed') !== -1) {
