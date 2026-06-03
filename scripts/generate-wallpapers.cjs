@@ -47,8 +47,14 @@ function ensureDir(dir) {
 }
 
 function cleanQuotes(str) {
-  // 把直引号 "..." 替换成单引号 '...'，避免 escapeHtml 产生 &quot;
-  return str.replace(/"/g, "'").replace(/"/g, "'").replace(/"/g, "'");
+  if (!str) return '';
+  return str
+    // 弯引号 → 直引号
+    .replace(/[\u201C\u201D]/g, '"')
+    .replace(/[\u2018\u2019]/g, "'")
+    // 直双引号 → 单引号（避免 escapeHtml 产生 &quot;）
+    .replace(/"/g, "'")
+    .replace(/'/g, "'");
 }
 
 function escapeHtml(str) {
