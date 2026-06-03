@@ -150,6 +150,18 @@
         }
         .btn-download:hover { transform: translateY(-1px); box-shadow: 0 8px 28px rgba(212,175,55,0.3); }
 
+        /* View Toggle */
+        .view-toggle { display: flex; margin-top: 16px; justify-content: center; }
+        .toggle-group { display: flex; background: rgba(255,255,255,0.06); border-radius: 10px; padding: 3px; border: 1px solid rgba(255,255,255,0.08); }
+        .toggle-btn {
+            padding: 8px 20px; border-radius: 8px; font-size: 13px;
+            border: none; background: transparent; color: rgba(255,255,255,0.5);
+            cursor: pointer; font-family: inherit; transition: all 0.2s;
+        }
+        .toggle-btn:hover:not(:disabled) { color: #fff; }
+        .toggle-btn.active { background: rgba(255,255,255,0.12); color: #fff; }
+        .toggle-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
         .divider { height: 1px; background: rgba(255,255,255,0.06); margin: 40px 0; }
 
         .related-title { font-size: 18px; font-weight: 600; margin-bottom: 16px; }
@@ -165,7 +177,20 @@
         /* Footer */
         .footer { background: #1A1612; padding: 80px 0 32px; margin-top: 40px; }
         .footer .container { max-width: 1400px; margin: 0 auto; padding: 0 32px; }
+        .footer-content { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 32px; margin-bottom: 32px; }
+        .footer-brand .logo-en { color: rgba(245,240,230,0.6); font-family: Georgia, serif; letter-spacing: 0.15em; font-size: 20px; }
+        .footer-brand p { color: rgba(245,240,230,0.7); margin-top: 16px; line-height: 1.8; font-size: 14px; }
+        .footer-title { font-family: Georgia, serif; font-size: 16px; margin-bottom: 16px; color: #D4AF37; }
+        .footer-links { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+        .footer-links li { color: rgba(245,240,230,0.7); display: flex; align-items: center; font-size: 14px; line-height: 1.8; }
+        .footer-links a { color: rgba(245,240,230,0.7); text-decoration: none; transition: color 200ms ease, padding-left 200ms ease; font-size: 14px; }
+        .footer-links a:hover { color: #D4AF37; padding-left: 8px; }
         .footer-bottom { text-align: center; padding-top: 32px; border-top: 1px solid rgba(212,175,55,0.2); color: rgba(245,240,230,0.5); font-size: 13px; }
+        .footer-bottom a { color: rgba(245,240,230,0.5); text-decoration: none; }
+        .footer-bottom a:hover { color: #D4AF37; }
+        .footer-legal-links { display: flex; justify-content: center; gap: 8px; align-items: center; margin-top: 8px; }
+        .footer-legal-links span { color: rgba(245,240,230,0.3); }
+        @media (max-width: 900px) { .footer-content { grid-template-columns: 1fr 1fr; gap: 32px; } .footer-brand { grid-column: span 2; } }
 
         @media (max-width: 900px) {
             .detail-container { flex-direction: column; padding: 80px 16px 48px; gap: 24px; }
@@ -207,10 +232,16 @@
 
     <!-- Main -->
     <div class="detail-container">
-        <!-- Left: Image -->
+        <!-- Left: Image + Toggle -->
         <div class="left-column">
             <div class="preview-image">
-                <img src="https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780327054/original.png" alt="天龙风水壁纸" loading="lazy">
+                <img id="main-image" src="https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780327054/original.png" alt="天龙风水壁纸" loading="lazy">
+            </div>
+            <div class="view-toggle">
+                <div class="toggle-group">
+                    <button class="toggle-btn active" data-view="original" id="toggle-original">原图</button>
+                    <button class="toggle-btn" data-view="mockup" id="toggle-mockup">手机预览</button>
+                </div>
             </div>
         </div>
 
@@ -250,7 +281,49 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <p class="footer-bottom">&copy; 2026 DAO Essence &amp; Five Elements. All rights reserved.</p>
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <span class="logo-en">DAO ESSENCE</span>
+                    </div>
+                    <p>古老智慧，現代明悟。透過八字分析、風水諮詢與五行指引，以結構化的洞察導航人生。</p>
+                </div>
+                <div>
+                    <h4 class="footer-title">工具</h4>
+                    <ul class="footer-links">
+                        <li><a href="/zh/#free-bazi">八字命盤計算器</a></li>
+                        <li><a href="/zh/favorable-element">五行喜用神指南</a></li>
+                        <li><a href="/zh/five-elements-test">五行性格測試</a></li>
+                        <li><a href="/zh/soulmate-calculator">靈魂伴侶配對</a></li>
+                        <li><a href="/zh/almanac">黃曆吉日</a></li>
+                        <li><a href="/zh/wallpaper">開運壁紙</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-title">探索</h4>
+                    <ul class="footer-links">
+                        <li><a href="/zh/blog">部落格</a></li>
+                        <li><a href="/zh/culture">五行文化</a></li>
+                        <li><a href="/zh/shop">商店</a></li>
+                        <li><a href="/zh/about">關於我們</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-title">聯繫我們</h4>
+                    <ul class="footer-links">
+                        <li><a href="mailto:support@daoessentia.com">support@daoessentia.com</a></li>
+                        <li><a href="https://www.pinterest.com/pixuan/wallpapers/" target="_blank" rel="noopener">Pinterest</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 DAO Essence &amp; Five Elements. All rights reserved.</p>
+                <div class="footer-legal-links">
+                    <a href="/zh/privacy">隱私政策</a>
+                    <span>|</span>
+                    <a href="/zh/terms">服務條款</a>
+                </div>
+            </div>
         </div>
     </footer>
 
@@ -270,6 +343,27 @@
   "datePublished": "2026-06-01",
   "keywords": "風水, 元素, 主题, 手機背景, lucky wallpaper, feng shui, Chinese metaphysics"
 }
+    </script>
+
+    <!-- Mockup Toggle JS -->
+    <script>
+        (function() {
+            var img = document.getElementById("main-image");
+            if (!img) return;
+            var originalSrc = img.getAttribute("src");
+            var mockupSrc = "https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780327054/mockup.webp";
+            var btns = document.querySelectorAll(".toggle-btn");
+            btns.forEach(function(b) {
+                b.addEventListener("click", function() {
+                    if (b.disabled) return;
+                    var view = b.getAttribute("data-view");
+                    btns.forEach(function(x) { x.classList.remove("active"); });
+                    b.classList.add("active");
+                    if (view === "mockup" && mockupSrc) { img.src = mockupSrc; }
+                    else { img.src = originalSrc; }
+                });
+            });
+        })();
     </script>
 
     <!-- Download Limit JS -->
