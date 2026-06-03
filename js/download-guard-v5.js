@@ -96,13 +96,14 @@
       toast.id = 'dg-toast';
       toast.textContent = displayMsg;
       toast.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);'
-        + 'background:rgba(0,0,0,0.92);color:#fff;padding:24px 40px;border-radius:16px;'
-        + 'font-family:sans-serif;font-size:16px;font-weight:600;z-index:2147483647;'
-        + 'box-shadow:0 12px 48px rgba(0,0,0,0.7);max-width:90%;text-align:center;'
-        + 'border:1px solid rgba(255,255,255,0.2);letter-spacing:0.4px;line-height:1.6;'
-        + 'pointer-events:none;user-select:none;';
-      var root = document.documentElement || document.body;
+        + 'background:rgba(20,20,20,0.96);color:#fff;padding:28px 44px;border-radius:18px;'
+        + 'font-family:sans-serif;font-size:17px;font-weight:700;z-index:2147483647;'
+        + 'box-shadow:0 0 80px rgba(255,255,255,0.15),0 16px 64px rgba(0,0,0,0.8);max-width:92%;text-align:center;'
+        + 'border:2px solid rgba(255,255,255,0.6);letter-spacing:0.5px;line-height:1.7;'
+        + 'pointer-events:none;user-select:none;text-shadow:0 1px 3px rgba(0,0,0,0.5);';
+      var root = document.body || document.documentElement;
       root.appendChild(toast);
+      console.log('[DownloadGuard] Toast created:', toast.textContent, 'at', toast.getBoundingClientRect());
       setTimeout(function () {
         if (toast.parentNode === root) root.removeChild(toast);
       }, duration);
