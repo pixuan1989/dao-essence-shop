@@ -106,24 +106,54 @@
       return;
     }
 
-    console.log('[DownloadGuard] Downloading:', url, 'as', filename);
+    btn.textContent = 'Checking...';
+    btn.disabled = true;
 
-    // ── API call (fire-and-forget, NEVER block download) ──
+    // ── Step 1: Call API and AWAIT result ──
+    var allowed = true; // default: allow (fallback if API fails)
+    var denyReason = '';
     try {
       var token = null;
       if (window.DaoAuth && window.DaoAuth.getSessionToken) {
         try { token = await Promise.race([window.DaoAuth.getSessionToken(), new Promise(function (_, r) { setTimeout(r, 3000); })]); } catch (e) { token = null; }
       }
-      if (token) {
+
+      var headers = { 'Content-Type': 'application/json' };
+      if (token) headers['Authorization'] = 'Bearer ' + token;
+
+      var res = await Promise.race([
         fetch('/api/auth?action=download', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+          headers: headers,
           body: JSON.stringify({ wallpaperId: wallpaperId })
-        }).catch(function () { /* ignore */ });
-      }
-    } catch (e) { /* ignore */ }
+        }),
+        new Promise(function (_, reject) { setTimeout(function () { reject(new Error('api-timeout')); }, 8000); })
+      ]);
 
-    // ── TRIGGER DOWNLOAD (never block user) ──
+      var data = await res.json();
+      if (res.ok && data.allowed === false) {
+        allowed = false;
+        denyReason = (data.error || 'Download limit reached.') + ' ' + (window.DaoI18n ? window.DaoI18n.t('wallpaper.sign_in_for_more') || 'Sign in for more.' : 'Sign in for more.');
+      }
+      // allowed === true or non-200 response → proceed to download
+    } catch (e) {
+      // API unreachable → fail OPEN (let user download, server logs the attempt)
+      console.warn('[DownloadGuard] API unreachable, allowing download:', e.message);
+      allowed = true;
+    }
+
+    if (!allowed) {
+      btn.textContent = origText;
+      btn.disabled = false;
+      if (window.DaoAuth && window.DaoAuth.showToast) {
+        window.DaoAuth.showToast(denyReason, 6000);
+      } else {
+        alert(denyReason);
+      }
+      return;
+    }
+
+    // ── Step 2: Trigger download (only if allowed) ──
     try {
       await forceDownload(url, filename);
     } catch (err) {
