@@ -71,3 +71,5 @@ reports/
 
 # WorkBuddy local memory & config (AI session data, never push)
 .workbuddy/
+*.bak
+scripts/壁纸跑图.py.bak
