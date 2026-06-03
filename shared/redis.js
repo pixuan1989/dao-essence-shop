@@ -9,9 +9,10 @@ let redis = null;
 
 export function getRedis() {
     if (!redis) {
-        const url = process.env.REDIS_URL;
+        // Try multiple env var names (REDIS_URL, KV_REDIS_URL, KV_URL)
+        const url = process.env.REDIS_URL || process.env.KV_REDIS_URL || process.env.KV_URL;
         if (!url) {
-            console.error('❌ 未配置 REDIS_URL 环境变量');
+            console.error('❌ 未配置 REDIS_URL / KV_REDIS_URL / KV_URL 环境变量');
             return null;
         }
         redis = new Redis(url, {
