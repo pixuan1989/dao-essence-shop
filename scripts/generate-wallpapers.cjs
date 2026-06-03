@@ -27,12 +27,12 @@ const CAT_NAME_EN = {
   '占星': 'Astrology',
   '生肖': 'Zodiac',
   '神仙': 'Deities',
-  '符籙': 'Talismans',
+  '符箓': 'Talismans',
   '能量': 'Energy',
   '风水': 'Feng Shui'
 };
 
-// ── 工具函数 ───────────────────────────────────────────────
+// ── 工具函数 ─────────────────────────────────────────────
 
 function loadWallpapers() {
   if (!fs.existsSync(DATA_FILE)) {
@@ -104,6 +104,59 @@ function getWallpaperUrl(wp, lang) {
   const slug = getSlug(wp);
   const pathPart = '/wallpaper/' + slug;
   return lang === 'zh' ? base + '/zh' + pathPart : base + pathPart;
+}
+
+// ── 并行生成工具 ─────────────────────────────────────────────
+// 用 Promise + 并发限制，避免内存爆炸
+function generateInParallel(wallpapers, getDirFn, concurrency) {
+  return new Promise(function(resolve) {
+    var index = 0;
+    var running = 0;
+    var done = 0;
+    var total = wallpapers.length;
+    var errors = [];
+
+    function next() {
+      while (index < total && running < concurrency) {
+        var wp = wallpapers[index++];
+        var dir = getDirFn(wp);
+        var enFile = path.join(dir, 'index.html');
+        var zhFile = path.join(dir, 'index.zh.html');
+        running++;
+
+        setImmediate(function(currentWp, cEnFile, cZhFile) {
+          try {
+            ensureDir(path.dirname(cEnFile));
+            fs.writeFileSync(cEnFile, generateStaticPage(currentWp, 'en'), 'utf8');
+            fs.writeFileSync(cZhFile, generateStaticPage(currentWp, 'zh'), 'utf8');
+            done++;
+            running--;
+            if (done % 10 === 0 || done === total) {
+              console.log('   Progress: ' + done + '/' + total + ' (' + Math.round(done/total*100) + '%)');
+            }
+            next();
+          } catch (e) {
+            errors.push({ wp: currentWp.id, error: e.message });
+            done++;
+            running--;
+            next();
+          }
+        }(wp, enFile, zhFile));
+      }
+
+      if (running === 0 && index >= total) {
+        if (errors.length > 0) {
+          console.warn('   ⚠️ ' + errors.length + ' errors:');
+          errors.slice(0, 5).forEach(function(e) {
+            console.warn('      ' + e.wp + ': ' + e.error);
+          });
+        }
+        resolve();
+      }
+    }
+
+    next();
+  });
 }
 
 // ── 生成单个静态壁纸详情页 ─────────────────────────────────
@@ -461,8 +514,8 @@ function generateStaticPage(wp, lang) {
     + '            </div>\n'
     + '            <div class="view-toggle">\n'
     + '                <div class="toggle-group">\n'
-    + '                    <button class="toggle-btn active" data-view="original" id="toggle-original">' + (isZh ? '原图' : 'Original') + '</button>\n'
-    + '                    <button class="toggle-btn" data-view="mockup" id="toggle-mockup"' + (imgMockup ? '' : ' disabled') + '>' + (isZh ? '手机预览' : 'Preview on Device') + '</button>\n'
+    + '                    <button class="toggle-btn active" data-view="original" id="toggle-original">' + (isZh ? '原圖' : 'Original') + '</button>\n'
+    + '                    <button class="toggle-btn" data-view="mockup" id="toggle-mockup"' + (imgMockup ? '' : ' disabled') + '>' + (isZh ? '手機預覽' : 'Preview on Device') + '</button>\n'
     + '                </div>\n'
     + '            </div>\n'
     + '        </div>\n'
@@ -471,7 +524,7 @@ function generateStaticPage(wp, lang) {
     + '        <div class="right-column">\n'
     + '            <h1 class="wp-title">' + escapeHtml(title) + '</h1>\n'
     + '            <p class="wp-seo-desc">' + escapeHtml(desc || seoDesc) + '</p>\n'
-    + '            <div class="wp-downloads">⬇ ' + downloads + ' ' + (isZh ? '次下载' : 'downloads') + '</div>\n'
+    + '            <div class="wp-downloads">⬇ ' + downloads + ' ' + (isZh ? '次下載' : 'downloads') + '</div>\n'
     + '            <div class="wp-tags">\n'
     + (category ? '                <span class="tag">' + escapeHtml(category) + '</span>\n' : '')
     + tags.map(function(t) { return '                <span class="tag">' + escapeHtml(t) + '</span>'; }).join('\n')
@@ -479,7 +532,7 @@ function generateStaticPage(wp, lang) {
     + '            </div>\n'
     + '            <button class="btn-download" data-url="' + (imgOriginal || '') + '">\n'
     + '                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0a0a0a" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>\n'
-    + '                ' + (isZh ? '下载壁纸' : 'Download Wallpaper') + '\n'
+    + '                ' + (isZh ? '下載壁紙' : 'Download Wallpaper') + '\n'
     + '            </button>\n'
     + '        </div>\n'
     + '    </div>\n'
@@ -487,7 +540,7 @@ function generateStaticPage(wp, lang) {
     + '    <!-- Related -->\n'
     + '    <div style="max-width:1200px;margin:0 auto;padding:0 24px 48px;">\n'
     + '        <div class="divider"></div>\n'
-    + '        <h2 class="related-title">' + (isZh ? '更多壁纸' : 'More Wallpapers') + '</h2>\n'
+    + '        <h2 class="related-title">' + (isZh ? '更多壁紙' : 'More Wallpapers') + '</h2>\n'
     + '        <div class="related-grid">\n'
     + related.map(function(w) {
         var wSlug = getSlug(w);
@@ -515,7 +568,7 @@ function generateStaticPage(wp, lang) {
     + '                        <li><a href="/' + (isZh ? 'zh/' : '') + 'favorable-element">' + (isZh ? '五行喜用神指南' : 'Five Elements Favorable Guide') + '</a></li>\n'
     + '                        <li><a href="/' + (isZh ? 'zh/' : '') + 'five-elements-test">' + (isZh ? '五行性格測試' : 'Five Elements Personality Test') + '</a></li>\n'
     + '                        <li><a href="/' + (isZh ? 'zh/' : '') + 'soulmate-calculator">' + (isZh ? '靈魂伴侶配對' : 'Soulmate Compatibility Finder') + '</a></li>\n'
-    + '                        <li><a href="/' + (isZh ? 'zh/' : '') + 'almanac">' + (isZh ? '黃曆吉日' : 'Auspicious Date Picker') + '</a></li>\n'
+    + '                        <li><a href="/' + (isZh ? 'zh/' : '') + 'almanac">' + (isZh ? '黃道吉日' : 'Auspicious Date Picker') + '</a></li>\n'
     + '                        <li><a href="/' + (isZh ? 'zh/' : '') + 'wallpaper">' + (isZh ? '開運壁紙' : 'Lucky Wallpapers') + '</a></li>\n'
     + '                    </ul>\n'
     + '                </div>\n'
@@ -574,7 +627,8 @@ function generateStaticPage(wp, lang) {
     + '    <\/script>\n'
     + '\n'
     + '    <script defer crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/@clerk/ui@1/dist/ui.browser.js" type="text/javascript"></script>\n'
-    + '    <script defer crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/@clerk/clerk-js@6/dist/clerk.browser.js" data-clerk-publishable-key="pk_live_Y2xlcmsuZGFvZXNzZW50aWEuY29tJA"></script>\n'
+    + '    <script defer crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/@clerk/clerk-js@6/dist/clerk.browser.js"\n'
+    + '            data-clerk-publishable-key="pk_live_Y2xlc3NlbnRpYUAxNjBkYXRhLmNvbQJA"></script>\n'
     + '    <script src="/js/auth.js"></script>\n'
     + '    <!-- Download Limit JS -->\n'
     + '    <script>\n'
@@ -584,7 +638,7 @@ function generateStaticPage(wp, lang) {
     + '            var cookieName = "dl_cnt_guest";\n'
     + '            var max = 1;\n'
     + '            function getCookieCount() {\n'
-    + '                try { var c = document.cookie.match(new RegExp("(?:^|;\\\\s*)" + cookieName + "=(\\\\d+)")); if (c) return parseInt(c[1]) || 0; } catch(e) {}\n'
+    + '                try { var c = document.cookie.match(new RegExp("(?:^|;\\s*)" + cookieName + "=(\\d+)")); if (c) return parseInt(c[1]) || 0; } catch(e) {}\n'
     + '                return 0;\n'
     + '            }\n'
     + '            function setCookieCount(n) {\n'
@@ -609,7 +663,7 @@ function generateStaticPage(wp, lang) {
     + '                updateLimits();\n'
     + '                var count = getCookieCount();\n'
     + '                if (count >= max) {\n'
-    + '                    showToast("' + (isZh ? '已达到下载上限，请登录后继续。' : 'Download limit reached. Please sign in.') + '");\n'
+    + '                    showToast("' + (isZh ? '已达到下載上限，請登入後繼續。' : 'Download limit reached. Please sign in.') + '");\n'
     + '                    return;\n'
     + '                }\n'
     + '                setCookieCount(count + 1);\n'
@@ -665,7 +719,7 @@ function generateStaticPage(wp, lang) {
   return html;
 }
 
-// ── 主函数 ─────────────────────────────────────────────────────
+// ── 主函数 ─────────────────────────────────────────────────────────
 // 用法:
 //   node scripts/generate-wallpapers.cjs        → 增量（只生成新增的）
 //   node scripts/generate-wallpapers.cjs --all  → 全量重新生成
@@ -691,55 +745,52 @@ function main() {
     console.log('   Mode: INCREMENTAL (only new wallpapers)\n');
   }
 
-  // 1. Generate /wallpaper/:id/index.html (source)
-  ensureDir(OUT_DIR);
-  var count = 0;
-  var skipped = 0;
-  wallpapers.forEach(function(wp) {
+  // 过滤出需要生成的壁纸（增量模式）
+  var toGenerate = wallpapers.filter(function(wp) {
+    if (forceAll) return true;
     var dir = path.join(OUT_DIR, wp.slug || wp.id);
     var enFile = path.join(dir, 'index.html');
     var zhFile = path.join(dir, 'index.zh.html');
-
-    // 增量模式：如果中英文文件都已存在，跳过
-    if (!forceAll && fs.existsSync(enFile) && fs.existsSync(zhFile)) {
-      skipped++;
-      return;
-    }
-
-    ensureDir(dir);
-    fs.writeFileSync(enFile, generateStaticPage(wp, 'en'), 'utf8');
-    fs.writeFileSync(zhFile, generateStaticPage(wp, 'zh'), 'utf8');
-
-    console.log('   ✅ ' + (wp.slug || wp.id) + ' (EN + ZH)');
-    count++;
+    return !(fs.existsSync(enFile) && fs.existsSync(zhFile));
   });
 
-  // 2. Generate /dist/wallpaper/:id/index.html (build output)
-  ensureDir(DIST_OUT_DIR);
-  wallpapers.forEach(function(wp) {
-    var dir = path.join(DIST_OUT_DIR, wp.slug || wp.id);
-    var enFile = path.join(dir, 'index.html');
-    var zhFile = path.join(dir, 'index.zh.html');
+  var skipped = wallpapers.length - toGenerate.length;
+  console.log('   To generate: ' + toGenerate.length + ' | Skipped: ' + skipped + '\n');
 
-    if (!forceAll && fs.existsSync(enFile) && fs.existsSync(zhFile)) {
-      return;
-    }
-
-    ensureDir(dir);
-    fs.writeFileSync(enFile, generateStaticPage(wp, 'en'), 'utf8');
-    fs.writeFileSync(zhFile, generateStaticPage(wp, 'zh'), 'utf8');
-  });
-
-  console.log('\n✅ Done! Generated: ' + count + ' | Skipped (already exist): ' + skipped + '\n');
-  if (count > 0) {
-    console.log('📝  Next steps:');
-    console.log('   1. git add wallpaper/ dist/wallpaper/');
-    console.log('   2. git commit -m "feat: add ' + count + ' new wallpaper pages"');
-    console.log('   3. git push');
-    console.log('   4. Submit new URLs to Google Search Console\n');
-  } else {
+  if (toGenerate.length === 0) {
     console.log('   (No new wallpapers to generate. Use --all to force full regenerate.)\n');
+    return;
   }
+
+  // 1. Generate /wallpaper/:id/index.html (source) — 并行，并发 10
+  console.log('   [1/2] Generating source pages (concurrency: 10)...');
+  ensureDir(OUT_DIR);
+  var start1 = Date.now();
+  generateInParallel(toGenerate, function(wp) {
+    return path.join(OUT_DIR, wp.slug || wp.id);
+  }, 10).then(function() {
+    var elapsed1 = ((Date.now() - start1) / 1000).toFixed(1);
+    console.log('   ✅ Source pages done (' + elapsed1 + 's)');
+
+    // 2. Generate /dist/wallpaper/:id/index.html (build output) — 并行，并发 10
+    console.log('   [2/2] Generating dist pages (concurrency: 10)...');
+    ensureDir(DIST_OUT_DIR);
+    var start2 = Date.now();
+    generateInParallel(toGenerate, function(wp) {
+      return path.join(DIST_OUT_DIR, wp.slug || wp.id);
+    }, 10).then(function() {
+      var elapsed2 = ((Date.now() - start2) / 1000).toFixed(1);
+      var totalElapsed = ((Date.now() - start1) / 1000).toFixed(1);
+      console.log('   ✅ Dist pages done (' + elapsed2 + 's)');
+      console.log('\n✅ Done! Generated: ' + toGenerate.length + ' | Skipped: ' + skipped);
+      console.log('   Total time: ' + totalElapsed + 's\n');
+      console.log('📝  Next steps:');
+      console.log('   1. git add wallpaper/ dist/wallpaper/');
+      console.log('   2. git commit -m "feat: add ' + toGenerate.length + ' new wallpaper pages"');
+      console.log('   3. git push');
+      console.log('   4. Submit new URLs to Google Search Console\n');
+    });
+  });
 }
 
 main();
