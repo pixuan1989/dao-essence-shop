@@ -276,44 +276,39 @@
     <!-- Download Limit JS -->
     <script>
         (function() {
-            const BTN = document.querySelector(".btn-download");
-            if (!BTN) return;
-            const KEY = "dl_" + location.pathname;
-            const MAX = 3;
-            function getCount() { try { return JSON.parse(localStorage.getItem(KEY)) || 0; } catch(e) { return 0; } }
-            function setCount(n) { try { localStorage.setItem(KEY, JSON.stringify(n)); } catch(e) {} }
+            var btn = document.querySelector(".btn-download");
+            if (!btn) return;
+            var max = 3;
+            var count = 0;
+            try { var c = document.cookie.match(/(?:^|;\s*)dl_cnt=(\d+)/); if (c) count = parseInt(c[1]) || 0; } catch(e) {}
             function showToast(msg) {
                 var t = document.createElement("div");
-                t.className = "da-toast";
+                t.style.cssText = "position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#222;color:#fff;padding:10px 20px;border-radius:6px;font-size:14px;z-index:9999;opacity:0;transition:opacity .3s";
                 t.textContent = msg;
                 document.body.appendChild(t);
-                setTimeout(function() { t.classList.add("show"); }, 10);
-                setTimeout(function() { t.classList.remove("show"); setTimeout(function() { t.remove(); }, 300); }, 2500);
+                setTimeout(function(){ t.style.opacity = "1"; }, 10);
+                setTimeout(function(){ t.style.opacity = "0"; setTimeout(function(){ t.remove(); }, 300); }, 2500);
             }
-            BTN.addEventListener("click", function(e) {
-                var c = getCount();
-                if (c >= MAX) {
+            btn.addEventListener("click", function() {
+                if (count >= max) {
                     showToast("已达到下载上限（每天3次），请登录后继续。");
                     return;
                 }
-                setCount(c + 1);
-                var url = BTN.getAttribute("data-url");
+                count++;
+                document.cookie = "dl_cnt=" + count + ";path=/;max-age=86400";
+                var url = btn.getAttribute("data-url");
                 if (!url) return;
                 var filename = url.substring(url.lastIndexOf("/") + 1) || "wallpaper.png";
                 fetch(url, { mode: "cors" })
-                    .then(function(r) { if (!r.ok) throw new Error("fetch failed"); return r.blob(); })
+                    .then(function(r) { if (!r.ok) throw new Error("fail"); return r.blob(); })
                     .then(function(blob) {
-                        var blobUrl = URL.createObjectURL(blob);
+                        var u = URL.createObjectURL(blob);
                         var a = document.createElement("a");
-                        a.href = blobUrl;
-                        a.download = filename;
-                        document.body.appendChild(a);
-                        a.click();
-                        setTimeout(function() { document.body.removeChild(a); URL.revokeObjectURL(blobUrl); }, 100);
+                        a.href = u; a.download = filename;
+                        document.body.appendChild(a); a.click();
+                        setTimeout(function(){ document.body.removeChild(a); URL.revokeObjectURL(u); }, 100);
                     })
-                    .catch(function() {
-                        window.open(url, "_blank");
-                    });
+                    .catch(function() { window.open(url, "_blank"); });
             });
         })();
     </script>
