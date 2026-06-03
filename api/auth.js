@@ -59,7 +59,12 @@ async function downloadCheck(req, res) {
     let useMemory = false;
     try {
         client = getRedis();
-        if (client) await client.ping();
+        if (client) {
+            await Promise.race([
+                client.ping(),
+                new Promise((_, reject) => setTimeout(() => reject(new Error('ping-timeout')), 2000))
+            ]);
+        }
     } catch (e) {
         console.warn('[auth] Redis unavailable, using memory fallback:', e.message);
         useMemory = true;
