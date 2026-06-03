@@ -629,11 +629,36 @@
 
         const CONFIG = { relatedCount: 6 };
 
-        // Category display name map — unify to English (prevents EN/ZH mixing)
+        // Category display name maps — per-language, prevents EN/ZH mixing
         const CAT_DISPLAY = {
             'Energy': 'Energy', 'Feng Shui': 'Feng Shui', 'Nature': 'Nature', 'Talisman': 'Talisman',
             '八字': 'BaZi', '占星': 'Astrology', '生肖': 'Zodiac', '神仙': 'Deities'
         };
+        const CAT_ZH = {
+            'Energy': '能量', 'Feng Shui': '风水', 'Nature': '自然', 'Talisman': '符箓',
+            '八字': '八字', '占星': '占星', '生肖': '生肖', '神仙': '神仙'
+        };
+
+        function getCurrentLang() {
+            if (window.DaoI18n) return window.DaoI18n.current();
+            const params = new URLSearchParams(window.location.search);
+            return params.get('lang') || localStorage.getItem('daoessence_lang') || 'en';
+        }
+
+        function translateCat(cat) {
+            if (cat === 'All') {
+                if (window.DaoI18n) {
+                    const tr = window.DaoI18n.t('wallpaper.all');
+                    if (tr !== 'wallpaper.all') return tr;
+                }
+                return 'All';
+            }
+            const lang = getCurrentLang();
+            if (lang === 'zh') {
+                return CAT_ZH[cat] || cat;
+            }
+            return CAT_DISPLAY[cat] || cat;
+        }
 
         const urlParams = new URLSearchParams(window.location.search);
         let wallpaperId = urlParams.get('id');
@@ -668,9 +693,9 @@
                 const cats = new Set();
                 wallpapers.forEach(function(w) { if (w.category) cats.add(w.category); });
                 const sortedCats = Array.from(cats).sort();
-                var html = '<a href="/wallpaper">All</a>';
+                var html = '<a href="/wallpaper">' + translateCat('All') + '</a>';
                 sortedCats.forEach(function(cat) {
-                    var display = CAT_DISPLAY[cat] || cat;
+                    var display = translateCat(cat);
                     html += '<a href="/wallpaper?cat=' + encodeURIComponent(cat) + '">' + display + '</a>';
                 });
                 catMenu.innerHTML = html;
@@ -764,7 +789,7 @@
             if (data.category) {
                 const catTag = document.createElement('span');
                 catTag.className = 'tag';
-                catTag.textContent = CAT_DISPLAY[data.category] || data.category;
+                catTag.textContent = translateCat(data.category);
                 tagsEl.appendChild(catTag);
             }
             const tagsArray = (lang === 'zh' && data.tags_zh) ? data.tags_zh : data.tags;
@@ -945,7 +970,7 @@
                 if (data.category) {
                     const catTag = document.createElement('span');
                     catTag.className = 'tag';
-                    catTag.textContent = CAT_DISPLAY[data.category] || data.category;
+                    catTag.textContent = translateCat(data.category);
                     tagsEl.appendChild(catTag);
                 }
                 const tagsArray = (newLang === 'zh' && data.tags_zh) ? data.tags_zh : data.tags;

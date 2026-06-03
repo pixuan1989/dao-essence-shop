@@ -772,10 +772,14 @@
         let searchQuery = '';
         let dynamicCats = [];
 
-        // Category display name map — unify to English (prevents EN/ZH mixing)
+        // Category display name maps — per-language, prevents EN/ZH mixing
         const CAT_DISPLAY = {
             'Energy': 'Energy', 'Feng Shui': 'Feng Shui', 'Nature': 'Nature', 'Talisman': 'Talisman',
             '八字': 'BaZi', '占星': 'Astrology', '生肖': 'Zodiac', '神仙': 'Deities'
+        };
+        const CAT_ZH = {
+            'Energy': '能量', 'Feng Shui': '风水', 'Nature': '自然', 'Talisman': '符箓',
+            '八字': '八字', '占星': '占星', '生肖': '生肖', '神仙': '神仙'
         };
 
         // Category info map (descriptions for Explore cards) — keyed by actual data category names
@@ -812,11 +816,15 @@
             return params.get('lang') || localStorage.getItem('daoessence_lang') || 'en';
         }
 
-        // Get display category name — unified to English, no i18n mixing
+        // Get display category name — per-language, no EN/ZH mixing
         function translateCat(cat) {
             if (cat === 'All') {
                 const allTranslated = t('wallpaper.all');
                 return allTranslated !== 'wallpaper.all' ? allTranslated : 'All';
+            }
+            const lang = getLang();
+            if (lang === 'zh') {
+                return CAT_ZH[cat] || cat;
             }
             return CAT_DISPLAY[cat] || cat;
         }
@@ -840,7 +848,7 @@
                 const a = document.createElement('a');
                 a.href = '#' + encodeURIComponent(cat);
                 a.dataset.cat = cat;
-                a.textContent = cat === 'All' ? translateCat('all') : translateCat(cat);
+                a.textContent = cat === 'All' ? translateCat('All') : translateCat(cat);
                 if (cat === activeCategory) a.classList.add('active');
                 menu.appendChild(a);
             });
@@ -857,7 +865,7 @@
             dynamicCats.forEach(cat => {
                 const pill = document.createElement('button');
                 pill.className = 'tb-pill' + (cat === activeCategory ? ' active' : '');
-                pill.textContent = cat === 'All' ? translateCat('all') : translateCat(cat);
+                pill.textContent = cat === 'All' ? translateCat('All') : translateCat(cat);
                 pill.dataset.cat = cat;
                 pill.onclick = () => {
                     activeCategory = cat;
