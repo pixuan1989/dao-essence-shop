@@ -1,6 +1,14 @@
 // scripts/generate-wallpapers.cjs
-// 为每个壁纸生成独立静态 HTML 详情页（SEO 优化）
-// 用法: node scripts/generate-wallpapers.cjs
+// 为每个壁纸生成独立静态 HTML 详情页（SEO 优化，适配 OSS 图片 URL）
+// 用法:
+//   node scripts/generate-wallpapers.cjs        → 增量：只生成新增的
+//   node scripts/generate-wallpapers.cjs --all  → 全量重新生成
+//
+// 输入:  wallpapers.json (OSS URL 格式)
+// 输出:  wallpaper/{id}/index.html       (英文源码)
+//        wallpaper/{id}/index.zh.html    (繁体中文源码)
+//        dist/wallpaper/{id}/index.html  (构建输出)
+//        dist/wallpaper/{id}/index.zh.html
 
 const fs = require('fs');
 const path = require('path');
@@ -10,7 +18,7 @@ const DATA_FILE = path.join(ROOT, 'wallpapers.json');
 const OUT_DIR = path.join(ROOT, 'wallpaper');
 const DIST_OUT_DIR = path.join(ROOT, 'dist', 'wallpaper');
 
-// ── 工具函数 ─────────────────────────────────────
+// ── 工具函数 ───────────────────────────────────────────────
 
 function loadWallpapers() {
   if (!fs.existsSync(DATA_FILE)) {
@@ -43,6 +51,7 @@ function truncate(str, len = 160) {
 function formatDate(dateStr, lang = 'en') {
   if (!dateStr) return '';
   const d = new Date(dateStr);
+  if (isNaN(d)) return '';
   if (lang === 'zh') {
     return d.toLocaleDateString('zh-TW', { year: 'numeric', month: 'long', day: 'numeric' });
   }
@@ -55,23 +64,23 @@ function getWallpaperUrl(id, lang = 'en') {
   return lang === 'zh' ? base + '/zh' + pathPart : base + pathPart;
 }
 
-// ── 生成单个静态壁纸详情页 ────────────────────────────────
+// ── 生成单个静态壁纸详情页 ─────────────────────────────────
 
 function generateStaticPage(wp, lang) {
   const isZh = lang === 'zh';
   const id = wp.id;
-  const title = isZh ? (wp.title_zh || wp.title) : wp.title;
-  const desc  = isZh ? (wp.description_zh || wp.description) : wp.description;
+  // 只读取 camelCase 格式（迁移后标准格式）
+  const title = isZh ? (wp.titleZh || wp.title) : wp.title;
+  const desc  = isZh ? (wp.descriptionZh || wp.description) : wp.description;
   const seoDesc = truncate(desc, 160);
-  const category = isZh ? (wp.category_zh || wp.category) : wp.category;
-  const tags = isZh ? (wp.tags_zh || wp.tags || []) : (wp.tags || []);
+  const category = isZh ? (wp.categoryZh || wp.category) : wp.category;
+  const tags = isZh
+    ? (wp.keywordsZh || wp.keywords || [])
+    : (wp.keywords || []);
   const imgThumb = wp.thumb || '';
   const imgOriginal = wp.original || '';
-  const imgMockup = wp.mockup || '';
   const dateStr = wp.date || '';
   const formattedDate = formatDate(dateStr, lang);
-  const creator = wp.creator || 'Dao Essentia';
-  const avatar = wp.avatar || '';
   const downloads = wp.downloads || 0;
 
   const pageUrl   = getWallpaperUrl(id, lang);
@@ -79,7 +88,7 @@ function generateStaticPage(wp, lang) {
   const pageUrlZh = getWallpaperUrl(id, 'zh');
   const canonical  = pageUrl;
 
-  // OG Image: 用 original 或 thumb
+  // OG Image: 优先用 original，fallback 到 thumb
   const ogImage = imgOriginal || imgThumb || '';
 
   // JSON-LD Schema.org
@@ -303,7 +312,7 @@ function generateStaticPage(wp, lang) {
     + '        <div class="related-grid">\n'
     + related.map(function(w) {
         var wUrl = '/wallpaper/' + w.id + (isZh ? '?lang=zh' : '');
-        return '            <a href="' + wUrl + '" class="related-card"><img src="' + (w.thumb || '') + '" alt="' + escapeHtml(isZh ? (w.title_zh || w.title) : w.title) + '" loading="lazy"></a>';
+        return '            <a href="' + wUrl + '" class="related-card"><img src="' + (w.thumb || '') + '" alt="' + escapeHtml(isZh ? (w.titleZh || w.title) : w.title) + '" loading="lazy"></a>';
       }).join('\n')
     + '\n'
     + '        </div>\n'
@@ -326,25 +335,44 @@ function generateStaticPage(wp, lang) {
   return html;
 }
 
-// ── 主函数 ──────────────────────────────────────────────────
+// ── 主函数 ─────────────────────────────────────────────────────
+// 用法:
+//   node scripts/generate-wallpapers.cjs        → 增量（只生成新增的）
+//   node scripts/generate-wallpapers.cjs --all  → 全量重新生成
 
 function main() {
-  console.log('\n🛠️  Generating static wallpaper detail pages...\n');
+  var args = process.argv.slice(2);
+  var forceAll = args.indexOf('--all') !== -1;
+
+  console.log('\n🖼️  Generating static wallpaper detail pages...\n');
 
   const wallpapers = loadWallpapers();
-  console.log('   Found ' + wallpapers.length + ' wallpapers');
+  console.log('   Found ' + wallpapers.length + ' wallpapers in wallpapers.json');
+
+  if (forceAll) {
+    console.log('   Mode: FULL regenerate (--all)\n');
+  } else {
+    console.log('   Mode: INCREMENTAL (only new wallpapers)\n');
+  }
 
   // 1. Generate /wallpaper/:id/index.html (source)
   ensureDir(OUT_DIR);
   var count = 0;
+  var skipped = 0;
   wallpapers.forEach(function(wp) {
     var dir = path.join(OUT_DIR, wp.id);
-    ensureDir(dir);
+    var enFile = path.join(dir, 'index.html');
+    var zhFile = path.join(dir, 'index.zh.html');
 
-    // English
-    fs.writeFileSync(path.join(dir, 'index.html'), generateStaticPage(wp, 'en'), 'utf8');
-    // Chinese
-    fs.writeFileSync(path.join(dir, 'index.zh.html'), generateStaticPage(wp, 'zh'), 'utf8');
+    // 增量模式：如果中英文文件都已存在，跳过
+    if (!forceAll && fs.existsSync(enFile) && fs.existsSync(zhFile)) {
+      skipped++;
+      return;
+    }
+
+    ensureDir(dir);
+    fs.writeFileSync(enFile, generateStaticPage(wp, 'en'), 'utf8');
+    fs.writeFileSync(zhFile, generateStaticPage(wp, 'zh'), 'utf8');
 
     console.log('   ✅ ' + wp.id + ' (EN + ZH)');
     count++;
@@ -354,16 +382,28 @@ function main() {
   ensureDir(DIST_OUT_DIR);
   wallpapers.forEach(function(wp) {
     var dir = path.join(DIST_OUT_DIR, wp.id);
+    var enFile = path.join(dir, 'index.html');
+    var zhFile = path.join(dir, 'index.zh.html');
+
+    if (!forceAll && fs.existsSync(enFile) && fs.existsSync(zhFile)) {
+      return;
+    }
+
     ensureDir(dir);
-    fs.writeFileSync(path.join(dir, 'index.html'), generateStaticPage(wp, 'en'), 'utf8');
-    fs.writeFileSync(path.join(dir, 'index.zh.html'), generateStaticPage(wp, 'zh'), 'utf8');
+    fs.writeFileSync(enFile, generateStaticPage(wp, 'en'), 'utf8');
+    fs.writeFileSync(zhFile, generateStaticPage(wp, 'zh'), 'utf8');
   });
 
-  console.log('\n✅ Generated ' + count + ' static wallpaper pages (EN + ZH, source + dist)\n');
-  console.log('📝  Next steps:');
-  console.log('   1. Commit and push these new files');
-  console.log('   2. Test: open /wallpaper/wallpaper_1780233534 in browser');
-  console.log('   3. Submit to Google Search Console for indexing\n');
+  console.log('\n✅ Done! Generated: ' + count + ' | Skipped (already exist): ' + skipped + '\n');
+  if (count > 0) {
+    console.log('📝  Next steps:');
+    console.log('   1. git add wallpaper/ dist/wallpaper/');
+    console.log('   2. git commit -m "feat: add ' + count + ' new wallpaper pages"');
+    console.log('   3. git push');
+    console.log('   4. Submit new URLs to Google Search Console\n');
+  } else {
+    console.log('   (No new wallpapers to generate. Use --all to force full regenerate.)\n');
+  }
 }
 
 main();
