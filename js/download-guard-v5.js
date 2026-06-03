@@ -192,17 +192,18 @@
       }
     } catch (e) { /* ignore */ }
 
-    // 2. Try inline DOM toast (always works)
+    // 2. Try inline DOM toast (always works, centered)
     try {
       var existing = document.getElementById('dg-toast');
       if (existing) existing.remove();
       var toast = document.createElement('div');
       toast.id = 'dg-toast';
       toast.textContent = msg;
-      toast.style.cssText = 'position:fixed;top:20px;left:50%;transform:translateX(-50%);'
-        + 'background:rgba(0,0,0,0.85);color:#fff;padding:12px 24px;border-radius:8px;'
-        + 'font-family:sans-serif;font-size:14px;z-index:99999;'
-        + 'box-shadow:0 4px 12px rgba(0,0,0,0.3);max-width:90%;text-align:center;';
+      toast.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);'
+        + 'background:#ff4444;color:#fff;padding:20px 32px;border-radius:12px;'
+        + 'font-family:sans-serif;font-size:16px;font-weight:bold;z-index:2147483647;'
+        + 'box-shadow:0 8px 32px rgba(0,0,0,0.5);max-width:85%;text-align:center;'
+        + 'border:2px solid #fff;letter-spacing:0.5px;line-height:1.5;';
       document.body.appendChild(toast);
       setTimeout(function () {
         if (toast.parentNode) toast.parentNode.removeChild(toast);
