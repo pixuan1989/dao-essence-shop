@@ -204,9 +204,10 @@
         + 'font-family:sans-serif;font-size:16px;font-weight:bold;z-index:2147483647;'
         + 'box-shadow:0 8px 32px rgba(0,0,0,0.5);max-width:85%;text-align:center;'
         + 'border:2px solid #fff;letter-spacing:0.5px;line-height:1.5;';
-      document.body.appendChild(toast);
+      (document.documentElement || document.body).appendChild(toast);
       setTimeout(function () {
-        if (toast.parentNode) toast.parentNode.removeChild(toast);
+        var root = document.documentElement || document.body;
+        if (toast.parentNode === root) root.removeChild(toast);
       }, duration);
       return;
     } catch (e2) { /* ignore */ }
@@ -228,6 +229,8 @@
     document.querySelectorAll('.btn-download, .btn-download-safe').forEach(function (btn) {
       if (btn.dataset.guarded) return;
       btn.dataset.guarded = '1';
+      // Stop <a href="#"> from jumping to top
+      if (btn.tagName === 'A') btn.setAttribute('href', 'javascript:void(0)');
       btn.addEventListener('click', function (e) {
         e.preventDefault();
         e.stopPropagation();
