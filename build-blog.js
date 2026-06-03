@@ -15,6 +15,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import matter from 'gray-matter';
 import { marked } from 'marked';
+import { execSync } from 'child_process';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const SRC_DIR = __dirname;
@@ -2418,6 +2419,20 @@ async function main() {
     console.log('  Generated: dist/wallpapers.json');
   }
 
+  // Step 7.6: Generate wallpaper static pages (SEO slug URLs)
+  console.log('\nGenerating wallpaper static pages...');
+  try {
+    const wpScript = path.join(SRC_DIR, 'scripts', 'generate-wallpapers.cjs');
+    // Remove outdated dist/wallpaper/ to avoid stale dirs, then regenerate
+    if (fs.existsSync(path.join(DIST_DIR, 'wallpaper'))) {
+      fs.rmSync(path.join(DIST_DIR, 'wallpaper'), { recursive: true, force: true });
+    }
+    execSync(`node "${wpScript}" --all`, { stdio: 'inherit', cwd: SRC_DIR });
+    console.log('  ✅ Wallpaper static pages generated');
+  } catch (e) {
+    console.warn('  ⚠️ Wallpaper generation failed (non-blocking):', e.message);
+  }
+
   // Step 8: Generate dynamic sitemap.xml
   console.log('Generating sitemap.xml...');
   const today = new Date().toISOString().split('T')[0];
@@ -2463,6 +2478,21 @@ async function main() {
   for (const key of ZODIAC_KEYS) {
     staticUrls.push({ loc: `/zodiac/${key}`, changefreq: 'daily', priority: '0.8' });
     staticUrls.push({ loc: `/zodiac/${key}-en`, changefreq: 'daily', priority: '0.8' });
+  }
+  // Add wallpaper static pages to sitemap (EN + ZH)
+  const wpJsonPath = path.join(SRC_DIR, 'wallpapers.json');
+  if (fs.existsSync(wpJsonPath)) {
+    try {
+      const wpList = JSON.parse(fs.readFileSync(wpJsonPath, 'utf8'));
+      for (const wp of wpList) {
+        const slug = (wp.slug || wp.id || 'wallpaper').toString();
+        staticUrls.push({ loc: `/wallpaper/${slug}`, changefreq: 'weekly', priority: '0.8' });
+        staticUrls.push({ loc: `/zh/wallpaper/${slug}`, changefreq: 'weekly', priority: '0.8' });
+      }
+      console.log(`  Added ${wpList.length * 2} wallpaper URLs to sitemap`);
+    } catch (e) {
+      console.warn('  ⚠️ Failed to add wallpaper URLs to sitemap:', e.message);
+    }
   }
   let sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"

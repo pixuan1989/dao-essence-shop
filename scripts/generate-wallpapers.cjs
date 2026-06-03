@@ -100,7 +100,7 @@ function getSlug(wp) {
 }
 
 function getWallpaperUrl(wp, lang) {
-  const base = 'https://daoessentia.com';
+  const base = 'https://www.daoessentia.com';
   const slug = getSlug(wp);
   const pathPart = '/wallpaper/' + slug;
   return lang === 'zh' ? base + '/zh' + pathPart : base + pathPart;
