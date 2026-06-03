@@ -5,6 +5,9 @@
 
 import { getRedis } from '../shared/redis.js';
 
+// In-memory fallback when Redis is unavailable (persists within same Lambda instance)
+const memoryCounts = new Map();
+
 // CORS headers
 const cors = {
     'Access-Control-Allow-Origin': '*',
@@ -50,8 +53,19 @@ async function me(req, res) {
 async function downloadCheck(req, res) {
     const today = new Date().toISOString().slice(0, 10);
     const ip = (req.headers['x-forwarded-for'] || req.socket?.remoteAddress || 'unknown').split(',')[0].trim();
-    const client = await getRedis();
-    if (!client) return res.status(503).json({ error: 'Service unavailable', allowed: false });
+
+    // Try Redis, fallback to memory if unavailable
+    let client = null;
+    let useMemory = false;
+    try {
+        client = getRedis();
+        if (client) await client.ping();
+    } catch (e) {
+        console.warn('[auth] Redis unavailable, using memory fallback:', e.message);
+        useMemory = true;
+        client = null;
+    }
+    if (!client) useMemory = true;
 
     const auth = req.headers.authorization;
     const payload = auth?.startsWith('Bearer ') ? await verifyClerkToken(auth.slice(7)) : null;
@@ -59,23 +73,39 @@ async function downloadCheck(req, res) {
     // Guest mode — 每天最多 1 次
     if (!payload) {
         const dlKey = 'dl:' + ip + ':' + today;
-        const used = parseInt(await client.get(dlKey) || '0');
+        let used;
+        if (useMemory) {
+            used = memoryCounts.get(dlKey) || 0;
+        } else {
+            used = parseInt(await client.get(dlKey) || '0');
+        }
         if (used >= 1) {
             return res.status(429).json({
                 error: 'Daily download limit reached (1/day for guests). Sign in for 3/day.',
                 allowed: false, used, limit: 1
             });
         }
-        await client.set(dlKey, String(used + 1), 'EX', 86400);
+        if (useMemory) {
+            memoryCounts.set(dlKey, used + 1);
+        } else {
+            await client.set(dlKey, String(used + 1), 'EX', 86400);
+        }
         return res.status(200).json({ allowed: true, used: used + 1, limit: 1 });
     }
 
     // Logged in user — 每天最多 3 次
     const email = payload.email || payload.sub || 'unknown';
     const ipKey = 'dl:' + ip + ':' + today;
-    const ipUsed = parseInt(await client.get(ipKey) || '0');
     const userKey = 'dl_user:' + email.toLowerCase() + ':' + today;
-    const userUsed = parseInt(await client.get(userKey) || '0');
+
+    let ipUsed, userUsed;
+    if (useMemory) {
+        ipUsed = memoryCounts.get(ipKey) || 0;
+        userUsed = memoryCounts.get(userKey) || 0;
+    } else {
+        ipUsed = parseInt(await client.get(ipKey) || '0');
+        userUsed = parseInt(await client.get(userKey) || '0');
+    }
     const totalUsed = Math.max(ipUsed, userUsed);
     const limit = 3;
 
@@ -87,8 +117,13 @@ async function downloadCheck(req, res) {
     }
 
     const nextCount = totalUsed + 1;
-    await client.set(ipKey, String(nextCount), 'EX', 86400);
-    await client.set(userKey, String(nextCount), 'EX', 86400);
+    if (useMemory) {
+        memoryCounts.set(ipKey, nextCount);
+        memoryCounts.set(userKey, nextCount);
+    } else {
+        await client.set(ipKey, String(nextCount), 'EX', 86400);
+        await client.set(userKey, String(nextCount), 'EX', 86400);
+    }
     return res.status(200).json({ allowed: true, used: nextCount, limit, user: { email } });
 }
 
