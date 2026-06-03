@@ -46,6 +46,11 @@ function ensureDir(dir) {
   if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
 }
 
+function cleanQuotes(str) {
+  // 把直引号 "..." 替换成单引号 '...'，避免 escapeHtml 产生 &quot;
+  return str.replace(/"/g, "'").replace(/"/g, "'").replace(/"/g, "'");
+}
+
 function escapeHtml(str) {
   if (!str) return '';
   return str.replace(/&/g, '&amp;')
@@ -101,8 +106,9 @@ function generateStaticPage(wp, lang) {
   const isZh = lang === 'zh';
   const id = wp.id;
   // 只读取 camelCase 格式（迁移后标准格式）
-  const title = isZh ? (wp.titleZh || wp.title) : wp.title;
-  const desc  = isZh ? (wp.descriptionZh || wp.description) : wp.description;
+  const title = cleanQuotes(isZh ? (wp.titleZh || wp.title) : wp.title);
+  const rawDesc = isZh ? (wp.descriptionZh || wp.description) : wp.description;
+  const desc = cleanQuotes(rawDesc);
   const seoDesc = truncate(desc, 160);
   const category = isZh ? (wp.categoryZh || wp.category) : wp.category;
   const tags = isZh
@@ -159,6 +165,7 @@ function generateStaticPage(wp, lang) {
     + '<head>\n'
     + '    <meta charset="UTF-8">\n'
     + '    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n'
+    + '    <meta name="robots" content="index,follow">\n'
     + '    <title>' + escapeHtml(title) + ' - Lucky Wallpapers | Dao Essentia</title>\n'
     + '    <meta name="description" content="' + escapeHtml(seoDesc) + '">\n'
     + '    <link rel="canonical" href="' + canonical + '">\n'
