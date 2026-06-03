@@ -829,7 +829,7 @@
 
             dynamicCats.forEach(cat => {
                 const pill = document.createElement('button');
-                pill.className = 'tb-pill' + (cat === 'All' ? ' active' : '');
+                pill.className = 'tb-pill' + (cat === activeCategory ? ' active' : '');
                 pill.textContent = cat === 'All' ? translateCat('all') : translateCat(cat);
                 pill.dataset.cat = cat;
                 pill.onclick = () => {
@@ -973,6 +973,12 @@
                 console.error('Failed to load wallpapers:', e);
             }
             extractCategories();
+            // Read ?cat= from URL (set by detail page category links)
+            const urlParams = new URLSearchParams(window.location.search);
+            const catParam = urlParams.get('cat');
+            if (catParam && dynamicCats.includes(catParam)) {
+                activeCategory = catParam;
+            }
             buildCategoryPills();
             buildExploreCategories();
             renderGrid();

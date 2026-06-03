@@ -54,9 +54,13 @@
             width: 50px; height: 50px;
             border: 2px solid #D4AF37; border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
-            color: #D4AF37; font-family: Georgia, serif; font-weight: 600;
-            font-size: 1.5rem;
+            color: #D4AF37; position: relative;
         }
+        .wpn-logo-icon::before {
+            content: "道"; font-family: Georgia, "Times New Roman", serif;
+            font-weight: 600; font-size: 1.5rem; line-height: 1; letter-spacing: 0;
+        }
+        .wpn-logo-text { display: flex; flex-direction: column; }
         .wpn-logo-en {
             color: rgba(255,255,255,0.85); font-family: Georgia, serif;
             font-size: 12px; letter-spacing: 0.2em; font-weight: 400;
@@ -256,14 +260,14 @@
                     <svg viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
                 </button>
                 <div class="wpn-dropdown-menu" id="wpn-cat-menu">
-                    <a href="/zh/wallpaper?lang=zh">全部</a>
-                    <a href="/zh/wallpaper?cat=deities&lang=zh">神仙</a>
-                    <a href="/zh/wallpaper?cat=fengshui&lang=zh">風水</a>
-                    <a href="/zh/wallpaper?cat=energy&lang=zh">能量</a>
-                    <a href="/zh/wallpaper?cat=talismans&lang=zh">符籙</a>
-                    <a href="/zh/wallpaper?cat=zodiac&lang=zh">生肖</a>
-                    <a href="/zh/wallpaper?cat=astrology&lang=zh">占星</a>
-                    <a href="/zh/wallpaper?cat=bazi&lang=zh">八字</a>
+                    <a href="/wallpaper?lang=zh">全部</a>
+                    <a href="/wallpaper?cat=%E5%85%AB%E5%AD%97&lang=zh">八字</a>
+                    <a href="/wallpaper?cat=%E5%8D%A0%E6%98%9F&lang=zh">占星</a>
+                    <a href="/wallpaper?cat=%E7%94%9F%E8%82%96&lang=zh">生肖</a>
+                    <a href="/wallpaper?cat=%E7%A5%9E%E4%BB%99&lang=zh">神仙</a>
+                    <a href="/wallpaper?cat=%E7%AC%A6%E7%AE%93&lang=zh">符箓</a>
+                    <a href="/wallpaper?cat=%E8%83%BD%E9%87%8F&lang=zh">能量</a>
+                    <a href="/wallpaper?cat=%E9%A3%8E%E6%B0%B4&lang=zh">风水</a>
                 </div>
             </div>
             <div class="wpn-search">
@@ -500,7 +504,7 @@
             if (input) {
                 input.addEventListener("keydown", function(e) {
                     if (e.key === "Enter" && input.value.trim()) {
-                        window.location.href = "/zh/wallpaper?q=" + encodeURIComponent(input.value.trim()) + "&lang=zh";
+                        window.location.href = "/wallpaper?q=" + encodeURIComponent(input.value.trim()) + "&lang=zh";
                     }
                 });
             }

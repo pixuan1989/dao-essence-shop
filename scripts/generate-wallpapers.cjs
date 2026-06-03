@@ -18,6 +18,9 @@ const DATA_FILE = path.join(ROOT, 'wallpapers.json');
 const OUT_DIR = path.join(ROOT, 'wallpaper');
 const DIST_OUT_DIR = path.join(ROOT, 'dist', 'wallpaper');
 
+// 全局：从 wallpapers.json 提取的唯一分类列表（英文）
+var ALL_CATEGORIES = [];
+
 // ── 工具函数 ───────────────────────────────────────────────
 
 function loadWallpapers() {
@@ -88,6 +91,13 @@ function generateStaticPage(wp, lang) {
   const pageUrlEn = getWallpaperUrl(id, 'en');
   const pageUrlZh = getWallpaperUrl(id, 'zh');
   const canonical  = pageUrl;
+
+  // 动态生成分类导航链接（以 wallpapers.json 实际分类为准）
+  var catLinks = '<a href="/wallpaper' + (isZh ? '?lang=zh' : '') + '">' + (isZh ? '全部' : 'All') + '</a>\n';
+  ALL_CATEGORIES.forEach(function(cat) {
+    var catLabel = isZh ? cat : cat; // 数据分类已是中文，如需英文映射可扩展
+    catLinks += '                    <a href="/wallpaper?cat=' + encodeURIComponent(cat) + (isZh ? '&lang=zh' : '') + '">' + escapeHtml(catLabel) + '</a>\n';
+  });
 
   // OG Image: 优先用 original，fallback 到 thumb
   const ogImage = imgOriginal || imgThumb || '';
@@ -171,9 +181,13 @@ function generateStaticPage(wp, lang) {
     + '            width: 50px; height: 50px;\n'
     + '            border: 2px solid #D4AF37; border-radius: 50%;\n'
     + '            display: flex; align-items: center; justify-content: center;\n'
-    + '            color: #D4AF37; font-family: Georgia, serif; font-weight: 600;\n'
-    + '            font-size: 1.5rem;\n'
+    + '            color: #D4AF37; position: relative;\n'
     + '        }\n'
+    + '        .wpn-logo-icon::before {\n'
+    + '            content: "道"; font-family: Georgia, "Times New Roman", serif;\n'
+    + '            font-weight: 600; font-size: 1.5rem; line-height: 1; letter-spacing: 0;\n'
+    + '        }\n'
+    + '        .wpn-logo-text { display: flex; flex-direction: column; }\n'
     + '        .wpn-logo-en {\n'
     + '            color: rgba(255,255,255,0.85); font-family: Georgia, serif;\n'
     + '            font-size: 12px; letter-spacing: 0.2em; font-weight: 400;\n'
@@ -373,14 +387,7 @@ function generateStaticPage(wp, lang) {
     + '                    <svg viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>\n'
     + '                </button>\n'
     + '                <div class="wpn-dropdown-menu" id="wpn-cat-menu">\n'
-    + '                    <a href="/' + (isZh ? 'zh/' : '') + 'wallpaper' + (isZh ? '?lang=zh' : '') + '">' + (isZh ? '全部' : 'All') + '</a>\n'
-    + '                    <a href="/' + (isZh ? 'zh/' : '') + 'wallpaper?cat=deities' + (isZh ? '&lang=zh' : '') + '">' + (isZh ? '神仙' : 'Deities') + '</a>\n'
-    + '                    <a href="/' + (isZh ? 'zh/' : '') + 'wallpaper?cat=fengshui' + (isZh ? '&lang=zh' : '') + '">' + (isZh ? '風水' : 'Feng Shui') + '</a>\n'
-    + '                    <a href="/' + (isZh ? 'zh/' : '') + 'wallpaper?cat=energy' + (isZh ? '&lang=zh' : '') + '">' + (isZh ? '能量' : 'Energy') + '</a>\n'
-    + '                    <a href="/' + (isZh ? 'zh/' : '') + 'wallpaper?cat=talismans' + (isZh ? '&lang=zh' : '') + '">' + (isZh ? '符籙' : 'Talismans') + '</a>\n'
-    + '                    <a href="/' + (isZh ? 'zh/' : '') + 'wallpaper?cat=zodiac' + (isZh ? '&lang=zh' : '') + '">' + (isZh ? '生肖' : 'Zodiac') + '</a>\n'
-    + '                    <a href="/' + (isZh ? 'zh/' : '') + 'wallpaper?cat=astrology' + (isZh ? '&lang=zh' : '') + '">' + (isZh ? '占星' : 'Astrology') + '</a>\n'
-    + '                    <a href="/' + (isZh ? 'zh/' : '') + 'wallpaper?cat=bazi' + (isZh ? '&lang=zh' : '') + '">' + (isZh ? '八字' : 'BaZi') + '</a>\n'
+    + '                    ' + catLinks
     + '                </div>\n'
     + '            </div>\n'
     + '            <div class="wpn-search">\n'
@@ -600,7 +607,7 @@ function generateStaticPage(wp, lang) {
     + '            if (input) {\n'
     + '                input.addEventListener("keydown", function(e) {\n'
     + '                    if (e.key === "Enter" && input.value.trim()) {\n'
-    + '                        window.location.href = "/' + (isZh ? 'zh/' : '') + 'wallpaper?q=" + encodeURIComponent(input.value.trim()) + "' + (isZh ? '&lang=zh' : '') + '";\n'
+    + '                        window.location.href = "/wallpaper?q=" + encodeURIComponent(input.value.trim()) + "' + (isZh ? '&lang=zh' : '') + '";\n'
     + '                    }\n'
     + '                });\n'
     + '            }\n'
@@ -626,6 +633,12 @@ function main() {
 
   const wallpapers = loadWallpapers();
   console.log('   Found ' + wallpapers.length + ' wallpapers in wallpapers.json');
+
+  // 提取所有唯一分类（英文），按字母排序
+  var catSet = new Set();
+  wallpapers.forEach(function(w) { if (w.category) catSet.add(w.category); });
+  ALL_CATEGORIES = Array.from(catSet).sort();
+  console.log('   Categories: ' + ALL_CATEGORIES.join(', '));
 
   if (forceAll) {
     console.log('   Mode: FULL regenerate (--all)\n');
