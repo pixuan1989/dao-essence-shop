@@ -62,7 +62,33 @@
             font-size: 12px; letter-spacing: 0.2em; font-weight: 400;
             line-height: 1.2; text-transform: uppercase;
         }
-        .wpn-right { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+        .wpn-dropdown { position: relative; flex-shrink: 0; }
+        .wpn-dropdown-btn {
+            background: none; border: none; color: rgba(255,255,255,0.7);
+            font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 4px;
+            padding: 6px 8px; border-radius: 6px; transition: all 0.2s; font-family: inherit;
+        }
+        .wpn-dropdown-btn:hover { color: #fff; background: rgba(255,255,255,0.06); }
+        .wpn-dropdown-btn svg { width: 10px; height: 10px; }
+        .wpn-search { flex: 1; position: relative; }
+        .wpn-search svg {
+            position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
+            width: 16px; height: 16px; color: rgba(255,255,255,0.3);
+        }
+        .wpn-search input {
+            width: 100%; padding: 8px 12px 8px 32px; background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #fff;
+            font-size: 13px; font-family: inherit; outline: none; transition: all 0.2s;
+        }
+        .wpn-search input::placeholder { color: rgba(255,255,255,0.3); }
+        .wpn-search input:focus { border-color: rgba(212,175,55,0.4); background: rgba(255,255,255,0.1); }
+        .wpn-right { margin-left: auto; display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+        .wpn-btn-signin {
+            padding: 8px 16px; background: rgba(255,255,255,0.08); color: #fff;
+            border: 1px solid rgba(255,255,255,0.15); border-radius: 999px;
+            font-size: 13px; font-weight: 500; text-decoration: none; transition: all 0.2s;
+        }
+        .wpn-btn-signin:hover { background: rgba(255,255,255,0.15); }
         .wpn-btn {
             padding: 8px 16px; border-radius: 8px;
             font-size: 13px; font-weight: 500;
@@ -100,6 +126,7 @@
             transform: translateY(4px); transition: all 0.2s ease;
             z-index: 1001;
         }
+        .wpn-dropdown:hover .wpn-dropdown-menu,
         .wpn-dropdown-menu.open { opacity: 1; visibility: visible; transform: translateY(0); }
         .wpn-dropdown-menu a {
             display: block; padding: 8px 16px;
@@ -191,6 +218,15 @@
         .footer-legal-links { display: flex; justify-content: center; gap: 8px; align-items: center; margin-top: 8px; }
         .footer-legal-links span { color: rgba(245,240,230,0.3); }
         @media (max-width: 900px) { .footer-content { grid-template-columns: 1fr 1fr; gap: 32px; } .footer-brand { grid-column: span 2; } }
+        @media (max-width: 768px) {
+            .wpn-inner { padding: 0 16px; gap: 10px; height: 54px; }
+            .wpn-logo-text { display: none; }
+            .wpn-btn-signin { display: none; }
+            .wpn-search { flex: 1; }
+        }
+        @media (max-width: 480px) {
+            .wpn-dropdown-btn span { display: none; }
+        }
 
         @media (max-width: 900px) {
             .detail-container { flex-direction: column; padding: 80px 16px 48px; gap: 24px; }
@@ -209,12 +245,33 @@
     <nav class="wpn">
         <div class="wpn-inner">
             <a href="/zh/" class="wpn-logo">
-                <div class="wpn-logo-icon">道</div>
-                <div>
+                <div class="wpn-logo-icon"></div>
+                <div class="wpn-logo-text">
                     <span class="wpn-logo-en">DAO ESSENCE</span>
                 </div>
             </a>
+            <div class="wpn-dropdown" id="wpn-cat-dropdown">
+                <button class="wpn-dropdown-btn">
+                    <span>分類</span>
+                    <svg viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
+                </button>
+                <div class="wpn-dropdown-menu" id="wpn-cat-menu">
+                    <a href="/zh/wallpaper?lang=zh">全部</a>
+                    <a href="/zh/wallpaper?cat=deities&lang=zh">神仙</a>
+                    <a href="/zh/wallpaper?cat=fengshui&lang=zh">風水</a>
+                    <a href="/zh/wallpaper?cat=energy&lang=zh">能量</a>
+                    <a href="/zh/wallpaper?cat=talismans&lang=zh">符籙</a>
+                    <a href="/zh/wallpaper?cat=zodiac&lang=zh">生肖</a>
+                    <a href="/zh/wallpaper?cat=astrology&lang=zh">占星</a>
+                    <a href="/zh/wallpaper?cat=bazi&lang=zh">八字</a>
+                </div>
+            </div>
+            <div class="wpn-search">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <input type="text" id="search-input" placeholder="搜尋壁紙...">
+            </div>
             <div class="wpn-right">
+                <a href="#" class="wpn-btn-signin" id="wpn-signin-btn">登入</a>
                 <div class="wpn-lang" id="wpn-lang">
                     <a href="#" class="wpn-lang-trigger" id="lang-trigger">
                         <span id="lang-label">繁體中文</span>
@@ -225,7 +282,6 @@
                         <a href="https://daoessentia.com/zh/wallpaper/wallpaper_1780324940" class="lang-option active">繁體中文</a>
                     </div>
                 </div>
-                <a href="/wallpaper?lang=zh" class="wpn-btn wpn-btn-outline">← 返回壁纸列表</a>
             </div>
         </div>
     </nav>
@@ -367,6 +423,7 @@
         })();
     </script>
 
+    <script src="/js/auth.js"></script>
     <!-- Download Limit JS -->
     <script>
         (function() {
@@ -436,7 +493,19 @@
             });
         }
     </script>
-    <script src="/js/auth.js"></script>
+    <!-- Search redirect -->
+    <script>
+        (function() {
+            var input = document.getElementById("search-input");
+            if (input) {
+                input.addEventListener("keydown", function(e) {
+                    if (e.key === "Enter" && input.value.trim()) {
+                        window.location.href = "/zh/wallpaper?q=" + encodeURIComponent(input.value.trim()) + "&lang=zh";
+                    }
+                });
+            }
+        })();
+    </script>
     <script src="js/i18n-switcher.js" defer></script>
 </body>
 </html>
