@@ -671,6 +671,15 @@ function generateStaticPage(wp, lang) {
   return html;
 }
 
+// ── Generate single wallpaper (--id=xxx mode) ──
+function generateOne(wp, outBase) {
+  var dir = path.join(outBase, wp.slug || wp.id);
+  ensureDir(dir);
+    fs.writeFileSync(path.join(dir, 'index.html'), generateStaticPage(wp, 'en'), 'utf8');
+    fs.writeFileSync(path.join(dir, 'index.zh.html'), generateStaticPage(wp, 'zh'), 'utf8');
+    console.log('   ✅ ' + (wp.slug || wp.id));
+}
+
 // ── 主函数 ─────────────────────────────────────────────────────────
 // 用法:
 //   node scripts/generate-wallpapers.cjs        → 增量（只生成新增的）
@@ -679,6 +688,10 @@ function generateStaticPage(wp, lang) {
 function main() {
   var args = process.argv.slice(2);
   var forceAll = args.indexOf('--all') !== -1;
+  var idArg = null;
+  args.forEach(function(a) {
+    if (a.startsWith('--id=')) idArg = a.slice(5);
+  });
 
   console.log('\n🖼️  Generating static wallpaper detail pages...\n');
 
@@ -690,6 +703,29 @@ function main() {
   wallpapers.forEach(function(w) { if (w.category) catSet.add(w.category); });
   ALL_CATEGORIES = Array.from(catSet).sort();
   console.log('   Categories: ' + ALL_CATEGORIES.join(', '));
+
+  // ── Single ID mode ──
+  if (idArg) {
+    var target = wallpapers.find(function(w) { return w.id === idArg; });
+    if (!target) {
+      console.error('❌ Wallpaper not found: ' + idArg);
+      process.exit(1);
+    }
+    console.log('   Mode: SINGLE wallpaper (' + idArg + ')\n');
+    var start1 = Date.now();
+    ensureDir(OUT_DIR);
+    generateOne(target, OUT_DIR);
+    var elapsed1 = ((Date.now() - start1) / 1000).toFixed(1);
+    console.log('   ✅ Source page done (' + elapsed1 + 's)');
+
+    var start2 = Date.now();
+    ensureDir(DIST_OUT_DIR);
+    generateOne(target, DIST_OUT_DIR);
+    var elapsed2 = ((Date.now() - start2) / 1000).toFixed(1);
+    console.log('   ✅ Dist page done (' + elapsed2 + 's)');
+    console.log('\n✅ Done! Generated 1 wallpaper (' + idArg + ')\n');
+    return;
+  }
 
   if (forceAll) {
     console.log('   Mode: FULL regenerate (--all)\n');
