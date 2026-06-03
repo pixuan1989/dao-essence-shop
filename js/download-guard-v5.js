@@ -190,7 +190,21 @@
       try {
         var span = btn.querySelector('span') || btn;
         var orig = span.textContent || btn.textContent || 'Download';
-        span.textContent = msg.substring(0, 35) + (msg.length > 35 ? '...' : '');
+        // Translate to Chinese if on Chinese page
+        var isZh = (document.documentElement.lang === 'zh' || window.location.pathname.includes('/zh/'));
+        var displayMsg = msg;
+        if (isZh) {
+          if (msg.indexOf('Daily download limit reached') !== -1) {
+            displayMsg = '今日下载次数已用完，请登录获取更多';
+          } else if (msg.indexOf('Download service unavailable') !== -1) {
+            displayMsg = '下载服务暂时不可用，请稍后重试';
+          } else if (msg.indexOf('Download failed') !== -1) {
+            displayMsg = '下载失败，请重试';
+          } else if (msg.indexOf('Download link not ready') !== -1) {
+            displayMsg = '下载链接未就绪，请刷新页面';
+          }
+        }
+        span.textContent = displayMsg.substring(0, 50) + (displayMsg.length > 50 ? '...' : '');
         span.style.color = '#ff4444';
         setTimeout(function () {
           span.textContent = orig;
