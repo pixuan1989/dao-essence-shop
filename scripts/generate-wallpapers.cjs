@@ -175,6 +175,8 @@ function generateStaticPage(wp, lang) {
   const imgThumb = wp.thumb || '';
   const imgOriginal = wp.original || '';
   const imgMockup = wp.mockup || '';
+  // Download URL: try multiple field names (safety)
+  const downloadUrl = wp.original || wp.image || wp.url || wp.src || wp.downloadUrl || wp.fileUrl || imgOriginal || '';
   const dateStr = wp.date || '';
   const formattedDate = formatDate(dateStr, lang);
   const downloads = wp.downloads || 0;
@@ -529,7 +531,7 @@ function generateStaticPage(wp, lang) {
     + tags.map(function(t) { return '                <span class="tag">' + escapeHtml(t) + '</span>'; }).join('\n')
     + '\n'
     + '            </div>\n'
-    + '            <button class="btn-download btn-download-safe" data-wallpaper-id="' + wp.id + '" data-url="' + (imgOriginal || '') + '">\n'
+    + '            <button class="btn-download btn-download-safe" data-wallpaper-id="' + wp.id + '" data-url="' + downloadUrl + '">\n'
     + '                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0a0a0a" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>\n'
     + '                ' + (isZh ? '下載壁紙' : 'Download Wallpaper') + '\n'
     + '            </button>\n'

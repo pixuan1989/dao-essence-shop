@@ -711,7 +711,9 @@
             // Store download URL — actual download handled by download-guard.js (SAFE ZONE)
             const dlLink = document.getElementById("download-link");
             if (dlLink) {
-                dlLink.setAttribute("data-url", data.original || "");
+                // Try multiple field names for download URL
+                const rawUrl = data.original || data.image || data.url || data.src || data.downloadUrl || data.fileUrl || '';
+                dlLink.setAttribute('data-url', rawUrl);
                 dlLink.setAttribute("data-wallpaper-id", data.id || wallpaperId || "");
             }
 

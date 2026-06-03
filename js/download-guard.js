@@ -1,88 +1,142 @@
 /**
- * SAFE ZONE: Download limit — single source of truth
+ * SAFE ZONE: Download handler — single source of truth
  * DO NOT MODIFY THIS FILE unless you know what you're doing.
  * Used by wallpaper-detail.html AND all generated static pages.
- * ONE file = ONE place to break = easier to protect.
  */
 (function () {
   'use strict';
 
-  // Race a promise against a timeout so UI never freezes
-  function withTimeout(promise, ms) {
-    return Promise.race([
-      promise,
-      new Promise(function (_, reject) {
-        setTimeout(function () { reject(new Error('Timeout')); }, ms);
-      })
-    ]);
+  // ── Get download URL from all possible sources ──
+  function getDownloadUrl(btn) {
+    // 1. data-url attribute (set by page JS)
+    var u = btn.getAttribute('data-url');
+    if (u && u !== 'null' && u !== '') return u;
+
+    // 2. Try multiple data-* attributes
+    u = btn.getAttribute('data-original')
+      || btn.getAttribute('data-image')
+      || btn.getAttribute('data-src');
+    if (u && u !== 'null' && u !== '') return u;
+
+    // 3. Main preview image (full-res, not thumb)
+    var img = document.getElementById('main-image');
+    if (img && img.dataset && img.dataset.original) return img.dataset.original;
+    if (img && img.src && !img.src.includes('thumb')) return img.src;
+
+    // 4. Any .preview-image img
+    var prev = document.querySelector('.preview-image img');
+    if (prev && prev.src && !prev.src.includes('thumb')) return prev.src;
+
+    return null;
+  }
+
+  // ── Force download via fetch → blob → object URL ──
+  async function forceDownload(url, filename) {
+    // Method 1: fetch as blob (works for same-origin or CORS-enabled)
+    try {
+      var res = await Promise.race([
+        fetch(url, { mode: 'cors', credentials: 'omit' }),
+        new Promise(function (_, reject) { setTimeout(function () { reject(new Error('timeout')); }, 10000); })
+      ]);
+      if (res.ok) {
+        var blob = await res.blob();
+        var blobUrl = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = blobUrl;
+        a.download = filename;
+        a.style.display = 'none';
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(function () { document.body.removeChild(a); URL.revokeObjectURL(blobUrl); }, 1000);
+        return true;
+      }
+    } catch (e) {
+      console.warn('[DownloadGuard] Blob download failed, trying direct...', e.message);
+    }
+
+    // Method 2: direct link (fallback)
+    try {
+      var a2 = document.createElement('a');
+      a2.href = url;
+      a2.download = filename;
+      a2.target = '_blank';
+      a2.rel = 'noopener';
+      a2.style.display = 'none';
+      document.body.appendChild(a2);
+      a2.click();
+      setTimeout(function () { document.body.removeChild(a2); }, 1000);
+      return true;
+    } catch (e2) {
+      console.error('[DownloadGuard] Direct download failed', e2);
+    }
+
+    // Method 3: open in new tab (last resort)
+    window.open(url, '_blank', 'noopener');
+    return false;
   }
 
   async function handleDownload(btn) {
-    // Support both data-wallpaper-id and falling back to btn.id
-    let wallpaperId = btn.getAttribute('data-wallpaper-id');
-    if (!wallpaperId || wallpaperId === 'null' || wallpaperId === '') {
-      wallpaperId = btn.id || 'unknown';
+    var wallpaperId = btn.getAttribute('data-wallpaper-id') || btn.id || 'unknown';
+    var url = getDownloadUrl(btn);
+    var origText = btn.textContent || 'Download';
+    var filename = 'wallpaper.jpg';
+
+    // Extract filename from URL
+    if (url) {
+      try {
+        var u = new URL(url, window.location.href);
+        var parts = u.pathname.split('/');
+        var f = parts[parts.length - 1];
+        if (f && f.includes('.')) filename = decodeURIComponent(f);
+      } catch (ex) { /* ignore */ }
     }
-    const url = btn.getAttribute('data-url');
-    const origText = btn.textContent || 'Download';
+
     btn.textContent = 'Checking...';
+    btn.disabled = true;
 
     if (!url) {
-      console.error('[DownloadGuard] Missing data-url', btn);
+      console.error('[DownloadGuard] No download URL found', btn);
+      if (window.DaoAuth && window.DaoAuth.showToast) {
+        window.DaoAuth.showToast('Download link not ready. Please refresh.', 5000);
+      } else {
+        alert('Download link not ready. Please refresh the page.');
+      }
       btn.textContent = origText;
+      btn.disabled = false;
       return;
     }
 
+    console.log('[DownloadGuard] Downloading:', url, 'as', filename);
+
+    // ── API call (fire-and-forget, NEVER block download) ──
     try {
-      // Get auth token with 3s timeout — prevents stuck button if Clerk/auth is broken
-      let token = null;
+      var token = null;
       if (window.DaoAuth && window.DaoAuth.getSessionToken) {
-        try {
-          token = await withTimeout(window.DaoAuth.getSessionToken(), 3000);
-        } catch (e) {
-          console.warn('[DownloadGuard] Auth token timeout, proceeding as guest');
-          token = null;
-        }
+        try { token = await Promise.race([window.DaoAuth.getSessionToken(), new Promise(function (_, r) { setTimeout(r, 3000); })]); } catch (e) { token = null; }
       }
-      const headers = { 'Content-Type': 'application/json' };
-      if (token) headers['Authorization'] = 'Bearer ' + token;
-
-      // Fetch with 8s timeout
-      const ctrl = new AbortController();
-      const timer = setTimeout(function () { ctrl.abort(); }, 8000);
-      const res = await fetch('/api/auth?action=download', {
-        method: 'POST',
-        headers,
-        body: JSON.stringify({ wallpaperId }),
-        signal: ctrl.signal
-      });
-      clearTimeout(timer);
-
-      // Also timeout JSON parsing — server might return HTML 404 page
-      const data = await withTimeout(res.json(), 5000);
-
-      if (res.ok && data.allowed) {
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = '';
-        a.target = '_blank';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-      } else {
-        const msg = (data.error || 'Download limit reached.') + ' Sign in for 3/day.';
-        if (window.DaoAuth && window.DaoAuth.showToast) {
-          window.DaoAuth.showToast(msg, 5000);
-        } else {
-          alert(msg);
-        }
+      if (token) {
+        fetch('/api/auth?action=download', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+          body: JSON.stringify({ wallpaperId: wallpaperId })
+        }).catch(function () { /* ignore */ });
       }
+    } catch (e) { /* ignore */ }
+
+    // ── TRIGGER DOWNLOAD (never block user) ──
+    try {
+      await forceDownload(url, filename);
     } catch (err) {
-      console.error('[DownloadGuard] Fetch error:', err);
-      alert('Network error. Please try again.');
-    } finally {
-      btn.textContent = origText;
+      console.error('[DownloadGuard] Download error:', err);
+      if (window.DaoAuth && window.DaoAuth.showToast) {
+        window.DaoAuth.showToast('Download failed. Please try again.', 5000);
+      } else {
+        alert('Download failed. Please try again.');
+      }
     }
+
+    btn.textContent = origText;
+    btn.disabled = false;
   }
 
   // Expose for use by HTML pages
@@ -91,7 +145,6 @@
   };
 
   // Auto-bind: any button with data-wallpaper-id gets guarded
-  // data-url is read at click time (set dynamically by page JS)
   function bindButtons() {
     document.querySelectorAll('.btn-download, .btn-download-safe').forEach(function (btn) {
       if (btn.dataset.guarded) return;
@@ -108,7 +161,7 @@
   } else {
     bindButtons();
   }
-  // Also re-bind after dynamic updates (for wallpaper-detail.html)
+  // Re-bind after dynamic updates (for wallpaper-detail.html)
   setTimeout(bindButtons, 500);
   setTimeout(bindButtons, 1500);
 })();
