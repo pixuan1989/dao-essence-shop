@@ -7,6 +7,16 @@
 (function () {
   'use strict';
 
+  // Race a promise against a timeout so UI never freezes
+  function withTimeout(promise, ms) {
+    return Promise.race([
+      promise,
+      new Promise(function (_, reject) {
+        setTimeout(function () { reject(new Error('Timeout')); }, ms);
+      })
+    ]);
+  }
+
   async function handleDownload(btn) {
     // Support both data-wallpaper-id and falling back to btn.id
     let wallpaperId = btn.getAttribute('data-wallpaper-id');
@@ -24,16 +34,29 @@
     }
 
     try {
-      const token = (window.DaoAuth && window.DaoAuth.getSessionToken)
-        ? await window.DaoAuth.getSessionToken() : null;
+      // Get auth token with 3s timeout — prevents stuck button if Clerk/auth is broken
+      let token = null;
+      if (window.DaoAuth && window.DaoAuth.getSessionToken) {
+        try {
+          token = await withTimeout(window.DaoAuth.getSessionToken(), 3000);
+        } catch (e) {
+          console.warn('[DownloadGuard] Auth token timeout, proceeding as guest');
+          token = null;
+        }
+      }
       const headers = { 'Content-Type': 'application/json' };
       if (token) headers['Authorization'] = 'Bearer ' + token;
 
+      // Fetch with 8s timeout
+      const ctrl = new AbortController();
+      const timer = setTimeout(function () { ctrl.abort(); }, 8000);
       const res = await fetch('/api/auth?action=download', {
         method: 'POST',
         headers,
-        body: JSON.stringify({ wallpaperId })
+        body: JSON.stringify({ wallpaperId }),
+        signal: ctrl.signal
       });
+      clearTimeout(timer);
       const data = await res.json();
 
       if (res.ok && data.allowed) {

@@ -102,7 +102,6 @@
         try {
             console.log('[Auth] Loading Clerk...');
             await window.Clerk.load({
-                publishableKey: 'pk_live_Y2xlcmsuZGFvZXNzZW50aWEuY29tJA',
                 ui: { ClerkUI: window.__internal_ClerkUICtor }
             });
             clerkInstance = window.Clerk;
