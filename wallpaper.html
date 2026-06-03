@@ -772,6 +772,12 @@
         let searchQuery = '';
         let dynamicCats = [];
 
+        // Category display name map — unify to English (prevents EN/ZH mixing)
+        const CAT_DISPLAY = {
+            'Energy': 'Energy', 'Feng Shui': 'Feng Shui', 'Nature': 'Nature', 'Talisman': 'Talisman',
+            '八字': 'BaZi', '占星': 'Astrology', '生肖': 'Zodiac', '神仙': 'Deities'
+        };
+
         // Category info map (descriptions for Explore cards) — keyed by actual data category names
         const CAT_INFO = {
             '风水': { tags: 'Feng Shui · Five Elements · Autumn Gold · Jade Green · Water Flow' },
@@ -806,14 +812,13 @@
             return params.get('lang') || localStorage.getItem('daoessence_lang') || 'en';
         }
 
-        // Get translated category name
+        // Get display category name — unified to English, no i18n mixing
         function translateCat(cat) {
-            const lang = getLang();
-            const key = 'wallpaper.' + cat.toLowerCase();
-            const translated = t(key);
-            // If translation exists and is different from key, use it
-            if (translated !== key) return translated;
-            return cat;
+            if (cat === 'All') {
+                const allTranslated = t('wallpaper.all');
+                return allTranslated !== 'wallpaper.all' ? allTranslated : 'All';
+            }
+            return CAT_DISPLAY[cat] || cat;
         }
 
         // Extract unique categories from wallpaper data
