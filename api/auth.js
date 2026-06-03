@@ -54,12 +54,15 @@ async function downloadCheck(req, res) {
     const today = new Date().toISOString().slice(0, 10);
     const ip = (req.headers['x-forwarded-for'] || req.socket?.remoteAddress || 'unknown').split(',')[0].trim();
 
-    // Try Redis (no ping — just try operations directly for speed)
+    // Try Redis, fallback to memory if unavailable
     let client = null;
     let useMemory = false;
     try {
         client = getRedis();
+        if (client) await client.ping();
     } catch (e) {
+        console.warn('[auth] Redis unavailable, using memory fallback:', e.message);
+        useMemory = true;
         client = null;
     }
     if (!client) useMemory = true;
