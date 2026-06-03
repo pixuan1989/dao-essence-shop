@@ -72,9 +72,26 @@ function formatDate(dateStr, lang = 'en') {
   return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 }
 
-function getWallpaperUrl(id, lang = 'en') {
+function toSlug(title) {
+  if (!title) return 'wallpaper';
+  var s = title.toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, '')
+    .replace(/\b(a|an|the|of|in|on|at|for|with|to|your|and|is|are|this|that|it)\b/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '');
+  return s || 'wallpaper';
+}
+
+function getSlug(wp) {
+  if (wp.slug) return wp.slug;
+  return toSlug(wp.title);
+}
+
+function getWallpaperUrl(wp, lang) {
   const base = 'https://daoessentia.com';
-  const pathPart = '/wallpaper/' + id;
+  const slug = getSlug(wp);
+  const pathPart = '/wallpaper/' + slug;
   return lang === 'zh' ? base + '/zh' + pathPart : base + pathPart;
 }
 
@@ -98,9 +115,10 @@ function generateStaticPage(wp, lang) {
   const formattedDate = formatDate(dateStr, lang);
   const downloads = wp.downloads || 0;
 
-  const pageUrl   = getWallpaperUrl(id, lang);
-  const pageUrlEn = getWallpaperUrl(id, 'en');
-  const pageUrlZh = getWallpaperUrl(id, 'zh');
+  const slug = getSlug(wp);
+  const pageUrl   = getWallpaperUrl(wp, lang);
+  const pageUrlEn = getWallpaperUrl(wp, 'en');
+  const pageUrlZh = getWallpaperUrl(wp, 'zh');
   const canonical  = pageUrl;
 
   // 动态生成分类导航链接（以 wallpapers.json 实际分类为准）
@@ -413,8 +431,8 @@ function generateStaticPage(wp, lang) {
     + '                        <i class="wpn-lang-arrow"></i>\n'
     + '                    </a>\n'
     + '                    <div class="wpn-dropdown-menu" id="lang-menu" style="right:0;left:auto;">\n'
-    + '                        <a href="' + getWallpaperUrl(id, 'en') + '" class="lang-option' + (!isZh ? ' active' : '') + '">English</a>\n'
-    + '                        <a href="' + getWallpaperUrl(id, 'zh') + '" class="lang-option' + (isZh ? ' active' : '') + '">繁體中文</a>\n'
+    + '                        <a href="' + getWallpaperUrl(wp, 'en') + '" class="lang-option' + (!isZh ? ' active' : '') + '">English</a>\n'
+    + '                        <a href="' + getWallpaperUrl(wp, 'zh') + '" class="lang-option' + (isZh ? ' active' : '') + '">繁體中文</a>\n'
     + '                    </div>\n'
     + '                </div>\n'
     + '            </div>\n'
@@ -459,7 +477,8 @@ function generateStaticPage(wp, lang) {
     + '        <h2 class="related-title">' + (isZh ? '更多壁纸' : 'More Wallpapers') + '</h2>\n'
     + '        <div class="related-grid">\n'
     + related.map(function(w) {
-        var wUrl = isZh ? '/zh/wallpaper/' + w.id : '/wallpaper/' + w.id;
+        var wSlug = getSlug(w);
+        var wUrl = isZh ? '/zh/wallpaper/' + wSlug : '/wallpaper/' + wSlug;
         return '            <a href="' + wUrl + '" class="related-card"><img src="' + (w.thumb || '') + '" alt="' + escapeHtml(isZh ? (w.titleZh || w.title) : w.title) + '" loading="lazy"></a>';
       }).join('\n')
     + '\n'
@@ -664,7 +683,7 @@ function main() {
   var count = 0;
   var skipped = 0;
   wallpapers.forEach(function(wp) {
-    var dir = path.join(OUT_DIR, wp.id);
+    var dir = path.join(OUT_DIR, wp.slug || wp.id);
     var enFile = path.join(dir, 'index.html');
     var zhFile = path.join(dir, 'index.zh.html');
 
@@ -678,14 +697,14 @@ function main() {
     fs.writeFileSync(enFile, generateStaticPage(wp, 'en'), 'utf8');
     fs.writeFileSync(zhFile, generateStaticPage(wp, 'zh'), 'utf8');
 
-    console.log('   ✅ ' + wp.id + ' (EN + ZH)');
+    console.log('   ✅ ' + (wp.slug || wp.id) + ' (EN + ZH)');
     count++;
   });
 
   // 2. Generate /dist/wallpaper/:id/index.html (build output)
   ensureDir(DIST_OUT_DIR);
   wallpapers.forEach(function(wp) {
-    var dir = path.join(DIST_OUT_DIR, wp.id);
+    var dir = path.join(DIST_OUT_DIR, wp.slug || wp.id);
     var enFile = path.join(dir, 'index.html');
     var zhFile = path.join(dir, 'index.zh.html');
 

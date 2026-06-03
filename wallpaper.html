@@ -968,7 +968,7 @@
             filtered.forEach(wp => {
                 const card = document.createElement('div');
                 card.className = 'wallpaper-card';
-                card.onclick = () => { const lang = getLang(); window.location.href = (lang === 'zh' ? '/zh' : '') + '/wallpaper/' + wp.id; };
+                card.onclick = () => { const lang = getLang(); const slug = wp.slug || wp.id; window.location.href = (lang === 'zh' ? '/zh' : '') + '/wallpaper/' + slug; };
                 const lang = (new URLSearchParams(window.location.search)).get('lang') || localStorage.getItem('daoessence_lang') || 'en';
                 const cardTitle = lang === 'zh' ? (wp.titleZh || wp.title) : wp.title;
                 card.innerHTML = `<img src="${wp.thumb}" alt="${cardTitle}" loading="lazy">`;
