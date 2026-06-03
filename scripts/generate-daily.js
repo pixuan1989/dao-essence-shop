@@ -2021,6 +2021,13 @@ async function main() {
   const dateStr = process.argv[2] || new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Shanghai' });
   console.log(`\n🚀 开始生成 ${dateStr} 生肖运势...\n`);
 
+  // 0️⃣ 重复生成检查：今日 SEO 文件已存在则跳过整个生成流程
+  const seoFile = path.join(SEO_DIR, `${dateStr}.json`);
+  if (fs.existsSync(seoFile)) {
+    console.log(`⚠️  ${dateStr}.json 已存在，跳过生成（如需重新生成请先删除该文件）\n`);
+    return;
+  }
+
   // ① 计算天干地支
   const date = new Date(dateStr + 'T00:00:00+08:00');
   const ganzhi = calculateGanzhi(date);
