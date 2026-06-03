@@ -2,6 +2,7 @@
  * SAFE ZONE: Download handler — single source of truth
  * DO NOT MODIFY THIS FILE unless you know what you're doing.
  * Used by wallpaper-detail.html AND all generated static pages.
+ * Version: 4 (fail-closed by default)
  */
 (function () {
   'use strict';
@@ -96,22 +97,16 @@
 
     if (!url) {
       console.error('[DownloadGuard] No download URL found', btn);
-      if (window.DaoAuth && window.DaoAuth.showToast) {
-        window.DaoAuth.showToast('Download link not ready. Please refresh.', 5000);
-      } else {
-        alert('Download link not ready. Please refresh the page.');
-      }
+      showMessage('Download link not ready. Please refresh.');
       btn.textContent = origText;
       btn.disabled = false;
       return;
     }
 
-    btn.textContent = 'Checking...';
-    btn.disabled = true;
+    // ── Step 1: Call API, DEFAULT = BLOCK (fail-closed) ──
+    var allowed = false; // ← FAIL-CLOSED by default
+    var denyReason = 'Download temporarily unavailable. Please try again later.';
 
-    // ── Step 1: Call API and AWAIT result ──
-    var allowed = true; // default: allow (fallback if API fails)
-    var denyReason = '';
     try {
       var token = null;
       if (window.DaoAuth && window.DaoAuth.getSessionToken) {
@@ -130,43 +125,51 @@
         new Promise(function (_, reject) { setTimeout(function () { reject(new Error('api-timeout')); }, 8000); })
       ]);
 
-      var data = await res.json();
-      if (res.ok && data.allowed === false) {
+      // Try to parse JSON (API might return HTML on 503)
+      var data = null;
+      try { data = await res.json(); } catch (jsonErr) { /* not JSON, keep data=null */ }
+
+      // ONLY allow if API explicitly returns allowed: true
+      if (res.ok && data && data.allowed === true) {
+        allowed = true;
+      } else if (data && data.allowed === false) {
         allowed = false;
         denyReason = (data.error || 'Download limit reached.') + ' ' + (window.DaoI18n ? window.DaoI18n.t('wallpaper.sign_in_for_more') || 'Sign in for more.' : 'Sign in for more.');
       }
-      // allowed === true or non-200 response → proceed to download
+      // All other cases: allowed = false (fail-closed)
     } catch (e) {
-      // API unreachable → fail OPEN (let user download, server logs the attempt)
-      console.warn('[DownloadGuard] API unreachable, allowing download:', e.message);
-      allowed = true;
+      // API unreachable → BLOCK (fail-closed), don't silently allow
+      console.warn('[DownloadGuard] API unreachable, blocking download:', e.message);
+      allowed = false;
+      denyReason = 'Download service unavailable. Please try again later.';
     }
 
     if (!allowed) {
       btn.textContent = origText;
       btn.disabled = false;
-      if (window.DaoAuth && window.DaoAuth.showToast) {
-        window.DaoAuth.showToast(denyReason, 6000);
-      } else {
-        alert(denyReason);
-      }
+      showMessage(denyReason, 6000);
       return;
     }
 
-    // ── Step 2: Trigger download (only if allowed) ──
+    // ── Step 2: Trigger download (only if explicitly allowed) ──
     try {
       await forceDownload(url, filename);
     } catch (err) {
       console.error('[DownloadGuard] Download error:', err);
-      if (window.DaoAuth && window.DaoAuth.showToast) {
-        window.DaoAuth.showToast('Download failed. Please try again.', 5000);
-      } else {
-        alert('Download failed. Please try again.');
-      }
+      showMessage('Download failed. Please try again.', 5000);
     }
 
     btn.textContent = origText;
     btn.disabled = false;
+  }
+
+  // ── Show message (toast or alert fallback) ──
+  function showMessage(msg, duration) {
+    if (window.DaoAuth && window.DaoAuth.showToast) {
+      window.DaoAuth.showToast(msg, duration || 5000);
+    } else {
+      alert(msg);
+    }
   }
 
   // Expose for use by HTML pages
