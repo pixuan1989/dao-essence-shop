@@ -14,6 +14,10 @@
     {
       "source": "/callback",
       "destination": "/api/callback"
+    },
+    {
+      "source": "/zh/wallpaper/:id",
+      "destination": "/wallpaper/:id/index.zh.html"
     }
   ],
   "routes": [
