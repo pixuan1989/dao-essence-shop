@@ -278,9 +278,22 @@
         (function() {
             var btn = document.querySelector(".btn-download");
             if (!btn) return;
-            var max = 3;
-            var count = 0;
-            try { var c = document.cookie.match(/(?:^|;\s*)dl_cnt=(\d+)/); if (c) count = parseInt(c[1]) || 0; } catch(e) {}
+            var cookieName = "dl_cnt_guest";
+            var max = 1;
+            function getCookieCount() {
+                try { var c = document.cookie.match(new RegExp("(?:^|;\\s*)" + cookieName + "=(\\d+)")); if (c) return parseInt(c[1]) || 0; } catch(e) {}
+                return 0;
+            }
+            function setCookieCount(n) {
+                document.cookie = cookieName + "=" + n + ";path=/;max-age=86400";
+            }
+            function updateLimits() {
+                var isAuth = !!(window.DaoAuth && window.DaoAuth.isSignedIn && window.DaoAuth.isSignedIn());
+                cookieName = isAuth ? "dl_cnt_auth" : "dl_cnt_guest";
+                max = isAuth ? 3 : 1;
+            }
+            updateLimits();
+            window.addEventListener("daoessence:auth-changed", function(e) { updateLimits(); });
             function showToast(msg) {
                 var t = document.createElement("div");
                 t.style.cssText = "position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#222;color:#fff;padding:10px 20px;border-radius:6px;font-size:14px;z-index:9999;opacity:0;transition:opacity .3s";
@@ -290,12 +303,13 @@
                 setTimeout(function(){ t.style.opacity = "0"; setTimeout(function(){ t.remove(); }, 300); }, 2500);
             }
             btn.addEventListener("click", function() {
+                updateLimits();
+                var count = getCookieCount();
                 if (count >= max) {
-                    showToast("Download limit reached (3/day). Please sign in.");
+                    showToast("Download limit reached. Please sign in.");
                     return;
                 }
-                count++;
-                document.cookie = "dl_cnt=" + count + ";path=/;max-age=86400";
+                setCookieCount(count + 1);
                 var url = btn.getAttribute("data-url");
                 if (!url) return;
                 var filename = url.substring(url.lastIndexOf("/") + 1) || "wallpaper.png";

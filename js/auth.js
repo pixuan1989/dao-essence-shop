@@ -86,6 +86,10 @@
         if (!btn) return;
         if (user) { DA._renderUserNav(btn, user); }
         else { DA._renderSignInNav(btn); }
+        // Notify wallpaper pages to update download limit
+        window.dispatchEvent(new CustomEvent('daoessence:auth-changed', {
+            detail: { isSignedIn: !!user }
+        }));
     };
 
     // ---- Init Clerk ----
