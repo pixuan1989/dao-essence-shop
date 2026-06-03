@@ -509,7 +509,7 @@
             <div class="wp-tags" id="wp-tags"></div>
 
             <!-- Download Button -->
-            <a href="#" class="btn-download" id="download-link">
+            <a href="#" class="btn-download btn-download-safe" id="download-link" data-wallpaper-id="">
                 <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
                 <span id="download-text" data-i18n="wallpaper.download">Download</span>
             </a>
@@ -802,93 +802,14 @@
                 });
             }
 
-            // Store download URL (actual download via quota-check handler)
+            // Store download URL — actual download handled by download-guard.js (SAFE ZONE)
             const dlLink = document.getElementById('download-link');
             if (dlLink) {
-                dlLink.setAttribute('data-url', data.original);
-                dlLink.onclick = async function(e) {
-                e.preventDefault();
-                const url = this.getAttribute('data-url');
-                if (!url) return;
-
-                const dlText = document.getElementById('download-text');
-                const origText = dlText ? dlText.textContent : 'Download';
-                if (dlText) dlText.textContent = 'Checking...';
-
-                try {
-                    const token = window.DaoAuth && window.DaoAuth.getSessionToken ? await window.DaoAuth.getSessionToken() : null;
-                    const headers = { 'Content-Type': 'application/json' };
-                    if (token) headers['Authorization'] = 'Bearer ' + token;
-
-                    const res = await fetch('/api/auth?action=download', {
-                        method: 'POST',
-                        headers,
-                        body: JSON.stringify({ wallpaperId: wallpaperId })
-                    });
-                    const data = await res.json();
-
-                    if (res.ok && data.allowed) {
-                        // Trigger download
-                        const a = document.createElement('a');
-                        a.href = url;
-                        a.download = '';
-                        document.body.appendChild(a);
-                        a.click();
-                        document.body.removeChild(a);
-                        if (dlText) dlText.textContent = origText;
-                    } else {
-                        // Show toast when limit reached
-                        if (window.DaoAuth) {
-                            window.DaoAuth.showToast(
-                                (data.error || 'Download limit reached.') + ' <a href="#" onclick="event.preventDefault();DaoAuth.open(\'login\')">Sign in</a> for 3/day.',
-                                5000
-                            );
-                        } else {
-                            alert(data.error || 'Download limit reached.');
-                        }
-                        if (dlText) dlText.textContent = origText;
-                    }
-                } catch(err) {
-                    if (dlText) dlText.textContent = origText;
-                    // Fallback: allow direct download on network error
-                    window.open(url, '_blank');
-                }
-            };
+                dlLink.setAttribute('data-url', data.original || '');
+                dlLink.setAttribute('data-wallpaper-id', data.id || wallpaperId || '');
+                dlLink.classList.add('btn-download-safe');
             }
 
-            // SEO
-            document.title = `${data.title} - Lucky Wallpaper | Dao Essentia`;
-            document.querySelector('meta[name="description"]').content = data.description || `Download ${data.title} - high-resolution lucky wallpaper from Dao Essentia.`;
-            document.querySelector('meta[property="og:image"]').content = data.original;
-            document.querySelector('meta[property="og:url"]').content = window.location.href;
-
-            // Related
-            renderRelated(index);
-        } catch(e) {
-            console.error('render error:', e);
-            document.getElementById('loading-text').textContent = 'Render error: ' + e.message;
-        }
-        }
-
-        // View toggle (original / mockup)
-        document.querySelectorAll('.toggle-btn').forEach(btn => {
-            btn.onclick = () => {
-                if (btn.disabled) return;
-                const view = btn.dataset.view;
-                if (view === currentView) return;
-                currentView = view;
-
-                document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-
-                const data = wallpapers[currentIndex];
-                const img = document.getElementById('main-image');
-                if (view === 'mockup' && data.mockup) {
-                    img.src = data.mockup;
-                } else {
-                    img.src = data.thumb;
-                }
-            };
         });
 
         // Related
@@ -1042,5 +963,6 @@
     <script defer crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/@clerk/clerk-js@6/dist/clerk.browser.js" data-clerk-publishable-key="pk_live_Y2xlcmsuZGFvZXNzZW50aWEuY29tJA"></script>
     <script src="/js/auth.js"></script>
     <script src="js/i18n-switcher.js" defer></script>
+    <script src="/js/download-guard.js"></script>
 </body>
 </html>
