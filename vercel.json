@@ -541,6 +541,16 @@
       "permanent": true
     },
     {
+      "source": "/zh/wallpaper/wallpaper_1780495381",
+      "destination": "/zh/wallpaper/celestial-serenity-wallpaper-ethereal-goddess-phone-background",
+      "permanent": true
+    },
+    {
+      "source": "/wallpaper/wallpaper_1780495381",
+      "destination": "/wallpaper/celestial-serenity-wallpaper-ethereal-goddess-phone-background",
+      "permanent": true
+    },
+    {
       "source": "/(.*)",
       "destination": "https://www.daoessentia.com/$1",
       "permanent": true,
