@@ -80,15 +80,7 @@
       }
     }
 
-    // 1. Try DaoAuth toast
-    try {
-      if (window.DaoAuth && window.DaoAuth.showToast) {
-        window.DaoAuth.showToast(displayMsg, duration);
-        return;
-      }
-    } catch (e) { /* ignore */ }
-
-    // 2. Black centered toast (always visible)
+    // 1. Black centered toast (always visible — PRIMARY method)
     try {
       var existing = document.getElementById('dg-toast');
       if (existing) existing.remove();
@@ -103,12 +95,20 @@
         + 'pointer-events:none;user-select:none;text-shadow:0 1px 3px rgba(0,0,0,0.5);';
       var root = document.body || document.documentElement;
       root.appendChild(toast);
-      console.log('[DownloadGuard] Toast created:', toast.textContent, 'at', toast.getBoundingClientRect());
+      console.log('[DownloadGuard] Toast created:', toast.textContent, 'rect:', toast.getBoundingClientRect());
       setTimeout(function () {
         if (toast.parentNode === root) root.removeChild(toast);
       }, duration);
       return;
     } catch (e2) { /* ignore */ }
+
+    // 2. Fallback: DaoAuth toast
+    try {
+      if (window.DaoAuth && window.DaoAuth.showToast) {
+        window.DaoAuth.showToast(displayMsg, duration);
+        return;
+      }
+    } catch (e) { /* ignore */ }
 
     // 3. Fallback: alert
     try { alert(displayMsg); } catch (e3) { /* ignore */ }
