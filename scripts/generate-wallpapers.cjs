@@ -21,15 +21,14 @@ const DIST_OUT_DIR = path.join(ROOT, 'dist', 'wallpaper');
 // 全局：从 wallpapers.json 提取的唯一分类列表
 var ALL_CATEGORIES = [];
 
-// 分类中英文映射（数据中的分类名为中文）
+// 分类中英文映射
 const CAT_NAME_EN = {
-  '八字': 'BaZi',
-  '占星': 'Astrology',
-  '生肖': 'Zodiac',
-  '神仙': 'Deities',
-  '符箓': 'Talismans',
-  '能量': 'Energy',
-  '风水': 'Feng Shui'
+  '八字': 'BaZi', '占星': 'Astrology', '生肖': 'Zodiac', '神仙': 'Deities',
+  '符箓': 'Talismans', '能量': 'Energy', '风水': 'Feng Shui'
+};
+const CAT_NAME_ZH = {
+  'Energy': '能量', 'Feng Shui': '风水', 'Nature': '自然', 'Talisman': '符箓',
+  'BaZi': '八字', 'Astrology': '占星', 'Zodiac': '生肖', 'Deities': '神仙'
 };
 
 // ── 工具函数 ─────────────────────────────────────────────
@@ -189,7 +188,7 @@ function generateStaticPage(wp, lang) {
   // 动态生成分类导航链接（以 wallpapers.json 实际分类为准）
   var catLinks = '<a href="/wallpaper' + (isZh ? '?lang=zh' : '') + '">' + (isZh ? '全部' : 'All') + '</a>\n';
   ALL_CATEGORIES.forEach(function(cat) {
-    var catLabel = isZh ? cat : (CAT_NAME_EN[cat] || cat);
+    var catLabel = isZh ? (CAT_NAME_ZH[cat] || cat) : (CAT_NAME_EN[cat] || cat);
     catLinks += '                    <a href="/wallpaper?cat=' + encodeURIComponent(cat) + (isZh ? '&lang=zh' : '') + '">' + escapeHtml(catLabel) + '</a>\n';
   });
 
@@ -526,7 +525,7 @@ function generateStaticPage(wp, lang) {
     + '            <p class="wp-seo-desc">' + escapeHtml(desc || seoDesc) + '</p>\n'
     + '            <div class="wp-downloads">⬇ ' + downloads + ' ' + (isZh ? '次下載' : 'downloads') + '</div>\n'
     + '            <div class="wp-tags">\n'
-    + (category ? '                <span class="tag">' + escapeHtml(category) + '</span>\n' : '')
+    + (category ? '                <span class="tag">' + escapeHtml(isZh ? (CAT_NAME_ZH[category] || category) : (CAT_NAME_EN[category] || category)) + '</span>\n' : '')
     + tags.map(function(t) { return '                <span class="tag">' + escapeHtml(t) + '</span>'; }).join('\n')
     + '\n'
     + '            </div>\n'
