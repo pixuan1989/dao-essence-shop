@@ -316,7 +316,7 @@ function generateStaticPage(wp, lang) {
     + '                        <a href="' + getWallpaperUrl(id, 'zh') + '" class="lang-option' + (isZh ? ' active' : '') + '">繁體中文</a>\n'
     + '                    </div>\n'
     + '                </div>\n'
-    + '                <a href="/' + (isZh ? 'zh/' : '') + 'wallpaper" class="wpn-btn wpn-btn-outline">← ' + (isZh ? '返回壁纸列表' : 'Back to Wallpapers') + '</a>\n'
+    + '                <a href="/wallpaper' + (isZh ? '?lang=zh' : '') + '" class="wpn-btn wpn-btn-outline">← ' + (isZh ? '返回壁纸列表' : 'Back to Wallpapers') + '</a>\n'
     + '            </div>\n'
     + '        </div>\n'
     + '    </nav>\n'
