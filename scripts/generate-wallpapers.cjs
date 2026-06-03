@@ -530,6 +530,8 @@ function generateStaticPage(wp, lang) {
     + '        })();\n'
     + '    <\/script>\n'
     + '\n'
+    + '    <script defer crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/@clerk/ui@1/dist/ui.browser.js" type="text/javascript"></script>\n'
+    + '    <script defer crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/@clerk/clerk-js@6/dist/clerk.browser.js" data-clerk-publishable-key="pk_live_Y2xlcmsuZGFvZXNzZW50aWEuY29tJA"></script>\n'
     + '    <script src="/js/auth.js"></script>\n'
     + '    <!-- Download Limit JS -->\n'
     + '    <script>\n'
