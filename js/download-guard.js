@@ -57,7 +57,9 @@
         signal: ctrl.signal
       });
       clearTimeout(timer);
-      const data = await res.json();
+
+      // Also timeout JSON parsing — server might return HTML 404 page
+      const data = await withTimeout(res.json(), 5000);
 
       if (res.ok && data.allowed) {
         const a = document.createElement('a');

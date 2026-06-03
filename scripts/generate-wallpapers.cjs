@@ -628,7 +628,7 @@ function generateStaticPage(wp, lang) {
     + '    <script defer crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/@clerk/ui@1/dist/ui.browser.js" type="text/javascript"></script>\n'
     + '    <script defer crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/@clerk/clerk-js@6/dist/clerk.browser.js" data-clerk-publishable-key="pk_live_Y2xlcmsuZGFvZXNzZW50aWEuY29tJA"></script>\n'
     + '    <script src="/js/auth.js"></script>\n'
-    + '    <script src="/js/download-guard.js"></script>\n'
+    + '    <script src="/js/download-guard.js?v=2"></script>\n'
     + '    <!-- Language Switcher JS -->\n'
     + '    <script>\n'
     + '        const langTrigger = document.getElementById("lang-trigger");\n'
