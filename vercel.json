@@ -406,6 +406,16 @@
       "permanent": true
     },
     {
+      "source": "/zh/wallpaper/wallpaper_1780479926",
+      "destination": "/zh/wallpaper/natures-serenity-green-forest-lake-wallpaper",
+      "permanent": true
+    },
+    {
+      "source": "/wallpaper/wallpaper_1780479926",
+      "destination": "/wallpaper/natures-serenity-green-forest-lake-wallpaper",
+      "permanent": true
+    },
+    {
       "source": "/blog/daily-horoscope",
       "destination": "/blog/zodiac-horoscope",
       "permanent": true
