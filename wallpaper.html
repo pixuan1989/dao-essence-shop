@@ -822,7 +822,7 @@
             allWallpapers.forEach(w => {
                 if (w.category) cats.add(w.category);
             });
-            dynamicCats = [...cats];
+            dynamicCats = [...cats].sort();
             return dynamicCats;
         }
 

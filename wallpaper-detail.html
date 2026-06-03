@@ -446,13 +446,7 @@
                     <span>Categories</span>
                     <svg viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
                 </button>
-                <div class="wpn-dropdown-menu" id="wpn-cat-menu">
-                    <a href="/wallpaper">All</a>
-                    <a href="/wallpaper?cat=Nature">Nature</a>
-                    <a href="/wallpaper?cat=Abstract">Abstract</a>
-                    <a href="/wallpaper?cat=Spiritual">Spiritual</a>
-                    <a href="/wallpaper?cat=Seasonal">Seasonal</a>
-                </div>
+                <div class="wpn-dropdown-menu" id="wpn-cat-menu"></div>
             </div>
             <div class="wpn-search">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
@@ -660,6 +654,19 @@
                 }
             } else {
                 document.getElementById('loading-text').textContent = 'Failed to load data. Please refresh.';
+            }
+
+            // Build category dropdown dynamically from wallpaper data
+            const catMenu = document.getElementById('wpn-cat-menu');
+            if (catMenu && wallpapers.length > 0) {
+                const cats = new Set();
+                wallpapers.forEach(function(w) { if (w.category) cats.add(w.category); });
+                const sortedCats = Array.from(cats).sort();
+                var html = '<a href="/wallpaper">All</a>';
+                sortedCats.forEach(function(cat) {
+                    html += '<a href="/wallpaper?cat=' + encodeURIComponent(cat) + '">' + cat + '</a>';
+                });
+                catMenu.innerHTML = html;
             }
         }
 
