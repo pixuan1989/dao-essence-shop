@@ -311,7 +311,7 @@ function generateStaticPage(wp, lang) {
     + '        <h2 class="related-title">' + (isZh ? '更多壁纸' : 'More Wallpapers') + '</h2>\n'
     + '        <div class="related-grid">\n'
     + related.map(function(w) {
-        var wUrl = '/wallpaper/' + w.id + (isZh ? '?lang=zh' : '');
+        var wUrl = isZh ? '/zh/wallpaper/' + w.id : '/wallpaper/' + w.id;
         return '            <a href="' + wUrl + '" class="related-card"><img src="' + (w.thumb || '') + '" alt="' + escapeHtml(isZh ? (w.titleZh || w.title) : w.title) + '" loading="lazy"></a>';
       }).join('\n')
     + '\n'

@@ -944,7 +944,7 @@
             filtered.forEach(wp => {
                 const card = document.createElement('div');
                 card.className = 'wallpaper-card';
-                card.onclick = () => window.location.href = `/wallpaper-detail?id=${wp.id}`;
+                card.onclick = () => { const lang = (new URLSearchParams(window.location.search)).get('lang') || localStorage.getItem('daoessence_lang') || 'en'; window.location.href = '/wallpaper/' + wp.id + (lang === 'zh' ? '?lang=zh' : ''); };
                 card.innerHTML = `<img src="${wp.thumb}" alt="${wp.title || 'Lucky Wallpaper'}" loading="lazy">`;
                 grid.appendChild(card);
             });

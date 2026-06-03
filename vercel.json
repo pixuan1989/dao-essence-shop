@@ -17,7 +17,7 @@
     },
     {
       "source": "/zh/wallpaper/:id",
-      "destination": "/wallpaper/:id/index.zh.html"
+      "destination": "/wallpaper/:id/index.zh"
     }
   ],
   "routes": [
