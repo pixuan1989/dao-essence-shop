@@ -1,117 +1,141 @@
-/**
- * SAFE ZONE: Download handler — single source of truth
- * DO NOT MODIFY THIS FILE unless you know what you're doing.
- * Used by wallpaper-detail.html AND all generated static pages.
- * Version: 5 (fail-closed + cache-bust filename)
- */
+/* ============================================================
+   Download Guard — v5 (2026-06-03)
+   Blocks unlimited downloads. Fail-CLOSED by default.
+   Shows black centered toast on errors.
+   ============================================================ */
+
 (function () {
   'use strict';
+  console.log('[DownloadGuard] v5 loaded — ' + location.pathname);
 
-  console.log('[DownloadGuard] v5 loaded —', window.location.pathname);
+  // ── Helpers ──
 
-  // ── Get download URL from all possible sources ──
   function getDownloadUrl(btn) {
-    // 1. data-url attribute (set by page JS)
-    var u = btn.getAttribute('data-url');
-    if (u && u !== 'null' && u !== '') return u;
-
-    // 2. Try multiple data-* attributes
-    u = btn.getAttribute('data-original')
-      || btn.getAttribute('data-image')
-      || btn.getAttribute('data-src');
-    if (u && u !== 'null' && u !== '') return u;
-
-    // 3. Main preview image (full-res, not thumb)
-    var img = document.getElementById('main-image');
-    if (img && img.dataset && img.dataset.original) return img.dataset.original;
-    if (img && img.src && !img.src.includes('thumb')) return img.src;
-
-    // 4. Any .preview-image img
-    var prev = document.querySelector('.preview-image img');
-    if (prev && prev.src && !prev.src.includes('thumb')) return prev.src;
-
-    return null;
-  }
-
-  // ── Force download via fetch → blob → object URL ──
-  async function forceDownload(url, filename) {
-    // Method 1: fetch as blob (works for same-origin or CORS-enabled)
-    try {
-      var res = await Promise.race([
-        fetch(url, { mode: 'cors', credentials: 'omit' }),
-        new Promise(function (_, reject) { setTimeout(function () { reject(new Error('timeout')); }, 10000); })
-      ]);
-      if (res.ok) {
-        var blob = await res.blob();
-        var blobUrl = URL.createObjectURL(blob);
-        var a = document.createElement('a');
-        a.href = blobUrl;
-        a.download = filename;
-        a.style.display = 'none';
-        document.body.appendChild(a);
-        a.click();
-        setTimeout(function () { document.body.removeChild(a); URL.revokeObjectURL(blobUrl); }, 1000);
-        return true;
-      }
-    } catch (e) {
-      console.warn('[DownloadGuard] Blob download failed, trying direct...', e.message);
-    }
-
-    // Method 2: direct link (fallback)
-    try {
-      var a2 = document.createElement('a');
-      a2.href = url;
-      a2.download = filename;
-      a2.target = '_blank';
-      a2.rel = 'noopener';
-      a2.style.display = 'none';
-      document.body.appendChild(a2);
-      a2.click();
-      setTimeout(function () { document.body.removeChild(a2); }, 1000);
-      return true;
-    } catch (e2) {
-      console.error('[DownloadGuard] Direct download failed', e2);
-    }
-
-    // Method 3: open in new tab (last resort)
-    window.open(url, '_blank', 'noopener');
-    return false;
-  }
-
-  async function handleDownload(btn) {
-    console.log('[DownloadGuard] handleDownload called');
-
-    var wallpaperId = btn.getAttribute('data-wallpaper-id') || btn.id || 'unknown';
-    var url = getDownloadUrl(btn);
-    var origText = btn.textContent || 'Download';
-    var filename = 'wallpaper.jpg';
-
-    console.log('[DownloadGuard] wallpaperId:', wallpaperId, 'url:', url ? 'present' : 'MISSING');
-
-    // Extract filename from URL
-    if (url) {
+    var url = '';
+    try { url = (btn && btn.getAttribute('data-url')) || ''; } catch (e) { /* ignore */ }
+    if (!url) {
       try {
-        var u = new URL(url, window.location.href);
-        var parts = u.pathname.split('/');
-        var f = parts[parts.length - 1];
-        if (f && f.includes('.')) filename = decodeURIComponent(f);
-      } catch (ex) { /* ignore */ }
+        var img = document.getElementById('main-image') || document.querySelector('.preview-image img');
+        if (img && img.src) url = img.src;
+      } catch (e2) { /* ignore */ }
     }
+    return url;
+  }
+
+  function getWallpaperId(btn) {
+    try { return (btn && btn.getAttribute('data-wallpaper-id')) || ''; } catch (e) { return ''; }
+  }
+
+  function withTimeout(promise, ms) {
+    return Promise.race([
+      promise,
+      new Promise(function (_, reject) {
+        setTimeout(function () { reject(new Error('timeout')); }, ms);
+      })
+    ]);
+  }
+
+  // ── Force download (fetch → blob → object URL) ──
+  async function forceDownload(url, filename) {
+    console.log('[DownloadGuard] forceDownload:', url, 'as', filename);
+    var blobUrl = null;
+    try {
+      var res = await withTimeout(fetch(url), 15000);
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      var blob = await res.blob();
+      blobUrl = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = blobUrl;
+      a.download = filename || 'wallpaper.jpg';
+      a.style.display = 'none';
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(function () {
+        document.body.removeChild(a);
+        if (blobUrl) URL.revokeObjectURL(blobUrl);
+      }, 1000);
+    } catch (err) {
+      console.warn('[DownloadGuard] Blob download failed, fallback to window.open', err);
+      if (blobUrl) URL.revokeObjectURL(blobUrl);
+      window.open(url, '_blank');
+    }
+  }
+
+  // ── Show message: black centered toast (primary) ──
+  function showMessage(msg, duration, isZh) {
+    console.log('[DownloadGuard] showMessage:', msg);
+    duration = duration || 6000;
+
+    // Translate to Chinese if needed
+    var displayMsg = msg;
+    if (isZh) {
+      if (msg.indexOf('Daily download limit reached') !== -1) {
+        displayMsg = '今日下载次数已用完，请登录获取更多';
+      } else if (msg.indexOf('Download service unavailable') !== -1) {
+        displayMsg = '下载服务暂时不可用，请稍后重试';
+      } else if (msg.indexOf('Download failed') !== -1) {
+        displayMsg = '下载失败，请重试';
+      } else if (msg.indexOf('Download link not ready') !== -1) {
+        displayMsg = '下载链接未就绪，请刷新页面';
+      }
+    }
+
+    // 1. Try DaoAuth toast
+    try {
+      if (window.DaoAuth && window.DaoAuth.showToast) {
+        window.DaoAuth.showToast(displayMsg, duration);
+        return;
+      }
+    } catch (e) { /* ignore */ }
+
+    // 2. Black centered toast (always visible)
+    try {
+      var existing = document.getElementById('dg-toast');
+      if (existing) existing.remove();
+      var toast = document.createElement('div');
+      toast.id = 'dg-toast';
+      toast.textContent = displayMsg;
+      toast.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);'
+        + 'background:rgba(0,0,0,0.92);color:#fff;padding:24px 40px;border-radius:16px;'
+        + 'font-family:sans-serif;font-size:16px;font-weight:600;z-index:2147483647;'
+        + 'box-shadow:0 12px 48px rgba(0,0,0,0.7);max-width:90%;text-align:center;'
+        + 'border:1px solid rgba(255,255,255,0.2);letter-spacing:0.4px;line-height:1.6;'
+        + 'pointer-events:none;user-select:none;';
+      var root = document.documentElement || document.body;
+      root.appendChild(toast);
+      setTimeout(function () {
+        if (toast.parentNode === root) root.removeChild(toast);
+      }, duration);
+      return;
+    } catch (e2) { /* ignore */ }
+
+    // 3. Fallback: alert
+    try { alert(displayMsg); } catch (e3) { /* ignore */ }
+
+    // 4. Last resort: console
+    console.log('[DownloadGuard]', displayMsg);
+  }
+
+  // ── Core: handle download click ──
+  async function handleDownload(btn) {
+    var origText = 'Download Wallpaper';
+    try {
+      var span = btn.querySelector('span') || btn;
+      origText = span.textContent || btn.textContent || 'Download Wallpaper';
+    } catch (e) { /* ignore */ }
+
+    console.log('[DownloadGuard] handleDownload called', { id: getWallpaperId(btn), url: getDownloadUrl(btn) });
+
+    var url = getDownloadUrl(btn);
+    var wallpaperId = getWallpaperId(btn);
 
     btn.textContent = 'Checking...';
     btn.disabled = true;
 
-    if (!url) {
-      console.error('[DownloadGuard] No download URL found', btn);
-      showMessage('Download link not ready. Please refresh the page.');
-      btn.textContent = origText;
-      btn.disabled = false;
-      return;
-    }
-
-    // ── Step 1: Call API, DEFAULT = BLOCK (fail-closed) ──
-    var allowed = false; // ← FAIL-CLOSED by default
-    var denyReason = 'Download temporarily unavailable. Please try again later.';
+    // ── Step 1: Call API and AWAIT result ──
+    var allowed = false; // FAIL-CLOSED by default
+    var denyReason = '';
+    var isZh = (document.documentElement.lang === 'zh' || window.location.pathname.includes('/zh/'));
 
     try {
       var token = null;
@@ -131,48 +155,48 @@
         new Promise(function (_, reject) { setTimeout(function () { reject(new Error('api-timeout')); }, 8000); })
       ]);
 
-      console.log('[DownloadGuard] API status:', res.status);
-
-      // Try to parse JSON (API might return HTML on 503)
       var data = null;
-      try { data = await res.json(); } catch (jsonErr) { /* not JSON, keep data=null */ }
+      try { data = await res.json(); } catch (e) { /* non-JSON response, ignore */ }
 
-      console.log('[DownloadGuard] API data:', data);
-
-      // ONLY allow if API explicitly returns allowed: true
+      // API explicit deny → block
+      if (data && data.allowed === false) {
+        allowed = false;
+        denyReason = (data.error || 'Download limit reached.') + ' ' + (isZh ? '请登录获取更多。' : 'Sign in for more.');
+      }
+      // Non-200 (503, 500, etc.) → ALSO block
+      if (!res.ok) {
+        allowed = false;
+        denyReason = isZh ? '下载服务暂时不可用，请稍后重试。' : 'Service temporarily unavailable. Please try again later.';
+      }
+      // allowed === true only if res.ok && data.allowed === true
       if (res.ok && data && data.allowed === true) {
         allowed = true;
-        console.log('[DownloadGuard] API allowed download');
-      } else if (data && data.allowed === false) {
-        allowed = false;
-        denyReason = (data.error || 'Download limit reached.') + ' ' + (window.DaoI18n ? window.DaoI18n.t('wallpaper.sign_in_for_more') || 'Sign in for more.' : 'Sign in for more.');
-        console.log('[DownloadGuard] API denied:', denyReason);
-      } else {
-        allowed = false;
-        denyReason = 'Service temporarily unavailable. Please try again later.';
-        console.log('[DownloadGuard] API non-200 or no allowed field, blocking');
       }
     } catch (e) {
-      // API unreachable → BLOCK (fail-closed), don't silently allow
+      // API unreachable → BLOCK (fail-closed)
       console.warn('[DownloadGuard] API unreachable, blocking download:', e.message);
       allowed = false;
-      denyReason = 'Download service unavailable. Please try again later.';
+      denyReason = isZh ? '下载服务暂时不可用，请稍后重试。' : 'Download service unavailable. Please try again later.';
     }
 
     if (!allowed) {
       btn.textContent = origText;
       btn.disabled = false;
-      showMessage(denyReason, 6000, btn);
+      showMessage(denyReason, 6000, isZh);
       return;
     }
 
     // ── Step 2: Trigger download (only if explicitly allowed) ──
-    console.log('[DownloadGuard] Starting download...');
     try {
+      var filename = 'wallpaper.jpg';
+      try {
+        var u = new URL(url);
+        filename = u.pathname.split('/').pop() || 'wallpaper.jpg';
+      } catch (ex) { /* ignore */ }
       await forceDownload(url, filename);
     } catch (err) {
       console.error('[DownloadGuard] Download error:', err);
-      showMessage('Download failed. Please try again.', 5000, btn);
+      showMessage(isZh ? '下载失败，请重试。' : 'Download failed. Please try again.', 5000, isZh);
     }
 
     btn.textContent = origText;
@@ -180,80 +204,7 @@
     console.log('[DownloadGuard] Done');
   }
 
-  // ── Show message (toast → button text → alert → console) ──
-  function showMessage(msg, duration, btn) {
-    console.log('[DownloadGuard] showMessage:', msg);
-    duration = duration || 5000;
-
-    // 0. Show on button text (most reliable — user always sees the button)
-    if (btn) {
-      try {
-        var span = btn.querySelector('span') || btn;
-        var orig = span.textContent || btn.textContent || 'Download';
-        // Translate to Chinese if on Chinese page
-        var isZh = (document.documentElement.lang === 'zh' || window.location.pathname.includes('/zh/'));
-        var displayMsg = msg;
-        if (isZh) {
-          if (msg.indexOf('Daily download limit reached') !== -1) {
-            displayMsg = '今日下载次数已用完，请登录获取更多';
-          } else if (msg.indexOf('Download service unavailable') !== -1) {
-            displayMsg = '下载服务暂时不可用，请稍后重试';
-          } else if (msg.indexOf('Download failed') !== -1) {
-            displayMsg = '下载失败，请重试';
-          } else if (msg.indexOf('Download link not ready') !== -1) {
-            displayMsg = '下载链接未就绪，请刷新页面';
-          }
-        }
-        span.textContent = displayMsg.substring(0, 50) + (displayMsg.length > 50 ? '...' : '');
-        span.style.color = '#ff4444';
-        setTimeout(function () {
-          span.textContent = orig;
-          span.style.color = '';
-        }, duration);
-      } catch (e0) { /* ignore */ }
-    }
-
-    // 1. Try DaoAuth toast
-    try {
-      if (window.DaoAuth && window.DaoAuth.showToast) {
-        window.DaoAuth.showToast(msg, duration);
-        return;
-      }
-    } catch (e) { /* ignore */ }
-
-    // 2. Try inline DOM toast (centered)
-    try {
-      var existing = document.getElementById('dg-toast');
-      if (existing) existing.remove();
-      var toast = document.createElement('div');
-      toast.id = 'dg-toast';
-      toast.textContent = msg;
-      toast.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);'
-        + 'background:#ff4444;color:#fff;padding:20px 32px;border-radius:12px;'
-        + 'font-family:sans-serif;font-size:16px;font-weight:bold;z-index:2147483647;'
-        + 'box-shadow:0 8px 32px rgba(0,0,0,0.5);max-width:85%;text-align:center;'
-        + 'border:2px solid #fff;letter-spacing:0.5px;line-height:1.5;';
-      (document.documentElement || document.body).appendChild(toast);
-      setTimeout(function () {
-        var root = document.documentElement || document.body;
-        if (toast.parentNode === root) root.removeChild(toast);
-      }, duration);
-      return;
-    } catch (e2) { /* ignore */ }
-
-    // 3. Fallback alert
-    try { alert(msg); } catch (e3) { /* ignore */ }
-
-    // 4. Last resort: console
-    console.log('[DownloadGuard]', msg);
-  }
-
-  // Expose for use by HTML pages
-  window.DownloadGuard = {
-    handleDownload: function (btn) { handleDownload(btn); }
-  };
-
-  // Auto-bind: any button with data-wallpaper-id gets guarded
+  // ── Auto-bind: any button with data-wallpaper-id gets guarded ──
   function bindButtons() {
     document.querySelectorAll('.btn-download, .btn-download-safe').forEach(function (btn) {
       if (btn.dataset.guarded) return;
@@ -269,13 +220,16 @@
     });
   }
 
+  // ── Init ──
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', bindButtons);
+    document.addEventListener('DOMContentLoaded', function () { bindButtons(); });
   } else {
     bindButtons();
   }
-  // Re-bind after dynamic updates (for wallpaper-detail.html)
-  setTimeout(bindButtons, 500);
-  setTimeout(bindButtons, 1500);
-  console.log('[DownloadGuard] Bindings set up');
+  // Re-bind after any DOM changes (for SPAs / dynamic pages)
+  try {
+    var observer = new MutationObserver(function () { bindButtons(); });
+    observer.observe(document.body || document.documentElement, { childList: true, subtree: true });
+  } catch (e) { /* ignore */ }
+
 })();
