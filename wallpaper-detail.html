@@ -810,15 +810,10 @@
                 });
             }
 
-            // Store download URL — actual download handled by download-guard.js (SAFE ZONE)
-            const dlLink = document.getElementById('download-link');
-            if (dlLink) {
-                dlLink.setAttribute('data-url', data.original || '');
-                dlLink.setAttribute('data-wallpaper-id', data.id || wallpaperId || '');
-                dlLink.classList.add('btn-download-safe');
+            } catch(e) {
+                console.error('[Render] Error:', e);
             }
-
-        });
+        }
 
         // Related
         function renderRelated(currentIndex) {
