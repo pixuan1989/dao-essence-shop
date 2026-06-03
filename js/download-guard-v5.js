@@ -162,7 +162,7 @@
     if (!allowed) {
       btn.textContent = origText;
       btn.disabled = false;
-      showMessage(denyReason, 6000);
+      showMessage(denyReason, 6000, btn);
       return;
     }
 
@@ -172,7 +172,7 @@
       await forceDownload(url, filename);
     } catch (err) {
       console.error('[DownloadGuard] Download error:', err);
-      showMessage('Download failed. Please try again.', 5000);
+      showMessage('Download failed. Please try again.', 5000, btn);
     }
 
     btn.textContent = origText;
@@ -180,10 +180,25 @@
     console.log('[DownloadGuard] Done');
   }
 
-  // ── Show message (toast → DOM toast → alert → console) ──
-  function showMessage(msg, duration) {
+  // ── Show message (toast → button text → alert → console) ──
+  function showMessage(msg, duration, btn) {
     console.log('[DownloadGuard] showMessage:', msg);
     duration = duration || 5000;
+
+    // 0. Show on button text (most reliable — user always sees the button)
+    if (btn) {
+      try {
+        var span = btn.querySelector('span') || btn;
+        var orig = span.textContent || btn.textContent || 'Download';
+        span.textContent = msg.substring(0, 35) + (msg.length > 35 ? '...' : '');
+        span.style.color = '#ff4444';
+        setTimeout(function () {
+          span.textContent = orig;
+          span.style.color = '';
+        }, duration);
+      } catch (e0) { /* ignore */ }
+    }
+
     // 1. Try DaoAuth toast
     try {
       if (window.DaoAuth && window.DaoAuth.showToast) {
@@ -192,7 +207,7 @@
       }
     } catch (e) { /* ignore */ }
 
-    // 2. Try inline DOM toast (always works, centered)
+    // 2. Try inline DOM toast (centered)
     try {
       var existing = document.getElementById('dg-toast');
       if (existing) existing.remove();
