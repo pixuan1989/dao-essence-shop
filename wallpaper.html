@@ -907,11 +907,11 @@
                 list = list.filter(w => {
                     return (
                         (w.title && w.title.toLowerCase().includes(q)) ||
-                        (w.title_zh && w.title_zh.toLowerCase().includes(q)) ||
+                        (w.titleZh && w.titleZh.toLowerCase().includes(q)) ||
                         (w.category && w.category.toLowerCase().includes(q)) ||
-                        (w.category_zh && w.category_zh.toLowerCase().includes(q)) ||
-                        (w.tags && w.tags.some(tag => tag.toLowerCase().includes(q))) ||
-                        (w.tags_zh && w.tags_zh.some(tag => tag.toLowerCase().includes(q)))
+                        (w.categoryZh && w.categoryZh.toLowerCase().includes(q)) ||
+                        (w.keywords && w.keywords.some(tag => tag.toLowerCase().includes(q))) ||
+                        (w.keywordsZh && w.keywordsZh.some(tag => tag.toLowerCase().includes(q)))
                     );
                 });
             }
@@ -945,7 +945,9 @@
                 const card = document.createElement('div');
                 card.className = 'wallpaper-card';
                 card.onclick = () => { const lang = (new URLSearchParams(window.location.search)).get('lang') || localStorage.getItem('daoessence_lang') || 'en'; window.location.href = '/wallpaper/' + wp.id + (lang === 'zh' ? '?lang=zh' : ''); };
-                card.innerHTML = `<img src="${wp.thumb}" alt="${wp.title || 'Lucky Wallpaper'}" loading="lazy">`;
+                const lang = (new URLSearchParams(window.location.search)).get('lang') || localStorage.getItem('daoessence_lang') || 'en';
+                const cardTitle = lang === 'zh' ? (wp.titleZh || wp.title) : wp.title;
+                card.innerHTML = `<img src="${wp.thumb}" alt="${cardTitle}" loading="lazy">`;
                 grid.appendChild(card);
             });
         }

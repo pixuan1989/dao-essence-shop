@@ -158,6 +158,16 @@
                 </div>
             </a>
             <div class="wpn-right">
+                <div class="wpn-lang" id="wpn-lang">
+                    <a href="#" class="wpn-lang-trigger" id="lang-trigger">
+                        <span id="lang-label">繁體中文</span>
+                        <i class="wpn-lang-arrow"></i>
+                    </a>
+                    <div class="wpn-dropdown-menu" id="lang-menu" style="right:0;left:auto;">
+                        <a href="https://daoessentia.com/wallpaper/wallpaper_1780327185" class="lang-option">English</a>
+                        <a href="https://daoessentia.com/zh/wallpaper/wallpaper_1780327185" class="lang-option active">繁體中文</a>
+                    </div>
+                </div>
                 <a href="/zh/wallpaper" class="wpn-btn wpn-btn-outline">← 返回壁纸列表</a>
             </div>
         </div>
@@ -229,5 +239,24 @@
   "keywords": "風水, 元素, 主题, 手機背景, lucky wallpaper, feng shui, Chinese metaphysics"
 }
     </script>
+
+    <!-- Language Switcher JS -->
+    <script>
+        const langTrigger = document.getElementById("lang-trigger");
+        const langMenu = document.getElementById("lang-menu");
+        if (langTrigger && langMenu) {
+            langTrigger.addEventListener("click", function(e) {
+                e.preventDefault();
+                langMenu.classList.toggle("open");
+            });
+            document.addEventListener("click", function(e) {
+                if (!langTrigger.contains(e.target) && !langMenu.contains(e.target)) {
+                    langMenu.classList.remove("open");
+                }
+            });
+        }
+    </script>
+    <script src="/js/auth.js"></script>
+    <script src="js/i18n-switcher.js" defer></script>
 </body>
 </html>
