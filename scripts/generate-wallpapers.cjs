@@ -502,7 +502,7 @@ function generateStaticPage(wp, lang) {
     + '    <!-- Nav -->\n'
     + '    <nav class="wpn">\n'
     + '        <div class="wpn-inner">\n'
-    + '            <a href="/' + (isZh ? 'zh/' : '') + '" class="wpn-logo">\n'
+    + '            <a href="/' + (isZh ? 'zh' : '') + '" class="wpn-logo">\n'
     + '                <div class="wpn-logo-icon"></div>\n'
     + '                <div class="wpn-logo-text">\n'
     + '                    <span class="wpn-logo-en">DAO ESSENCE</span>\n'
