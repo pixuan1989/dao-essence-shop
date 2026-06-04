@@ -1914,8 +1914,6 @@ ${FOOTER_HTML}
     </div>
     <script src="/js/pageview.js" defer></script>
     <script src="/js/tracking.js"></script>
-    <!-- Task P3: Blog Wallpaper Recommendation -->
-    <script src="/js/blog-wallpaper-recommendation.js" defer></script>
     <script src="/js/feedback.js" async></script>
     <script src="/js/i18n-switcher.js" defer></script>
 </body>

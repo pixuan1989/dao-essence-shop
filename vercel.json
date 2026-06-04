@@ -18,6 +18,10 @@
     {
       "source": "/zh/wallpaper/:id",
       "destination": "/wallpaper/:id/index.zh"
+    },
+    {
+      "source": "/wallpaper/:slug/js/i18n-switcher.js",
+      "destination": "/js/i18n-switcher.js"
     }
   ],
   "routes": [
