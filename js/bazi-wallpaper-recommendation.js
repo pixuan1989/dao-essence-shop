@@ -2,7 +2,7 @@
  * BaZi Wallpaper Recommendation Module (Task P1)
  * 功能：在八字排盘结果页底部，根据喜用神推荐对应元素的壁纸。
  * 策略：Append-Only，使用 MutationObserver 监听，绝不修改排盘核心逻辑。
- * 风格：浅色卡片 + 金色标题 (匹配截图)
+ * 风格：深色半透明卡片 (Dark Theme)，与结果页其他区块融合
  */
 (function() {
   'use strict';
@@ -49,25 +49,28 @@
   function renderRecommendations(container, wallpapers, title) {
     if (!wallpapers || wallpapers.length === 0) return;
 
-    // 样式注入 (Append-Only CSS)
+    // 样式注入 (Append-Only CSS) - Dark Theme
     if (!document.getElementById('bazi-wp-rec-style')) {
       const style = document.createElement('style');
       style.id = 'bazi-wp-rec-style';
       style.textContent = `
         .bazi-wallpaper-rec-box {
-          margin: 40px 0 20px;
+          margin-top: 40px;
           padding: 32px 20px;
-          background: #fdfbf7;
-          border: 1px solid #e8dfc5;
-          border-radius: 12px;
+          background: rgba(255, 255, 255, 0.02);
+          border: 1px solid rgba(255, 255, 255, 0.05);
+          border-radius: 16px;
           text-align: center;
-          box-shadow: 0 2px 12px rgba(0,0,0,0.03);
+          transition: all 0.3s ease;
+        }
+        .bazi-wallpaper-rec-box:hover {
+          background: rgba(255, 255, 255, 0.03);
+          border-color: rgba(255, 255, 255, 0.08);
         }
         .rec-title {
           font-size: 18px;
-          color: #a6833b;
+          color: #D4AF37;
           margin: 0 0 24px;
-          font-family: 'Noto Serif SC', 'Georgia', serif;
           font-weight: 600;
           letter-spacing: 1px;
         }
@@ -80,27 +83,36 @@
         }
         .rec-card {
           width: 110px;
-          border-radius: 8px;
+          border-radius: 12px;
           overflow: hidden;
-          border: 1px solid #eee;
-          box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-          transition: transform 0.2s;
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          transition: transform 0.2s, border-color 0.2s;
           display: block;
+          background: #111;
         }
-        .rec-card:hover { transform: translateY(-4px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .rec-card:hover { 
+          transform: translateY(-4px); 
+          border-color: #D4AF37;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
         .rec-card img { width: 100%; height: auto; display: block; }
         .rec-btn {
           display: inline-block;
           padding: 10px 24px;
-          background: #d4af37;
-          color: #fff;
-          border-radius: 6px;
+          background: rgba(212, 175, 55, 0.15);
+          color: #D4AF37;
+          border: 1px solid rgba(212, 175, 55, 0.3);
+          border-radius: 8px;
           text-decoration: none;
           font-size: 14px;
-          font-weight: 500;
-          transition: background 0.2s;
+          font-weight: 600;
+          transition: all 0.2s;
         }
-        .rec-btn:hover { background: #b8962e; }
+        .rec-btn:hover { 
+          background: rgba(212, 175, 55, 0.25); 
+          color: #fff; 
+          border-color: #D4AF37;
+        }
         @media (max-width: 600px) {
           .bazi-wallpaper-rec-box { padding: 24px 16px; }
           .rec-grid { gap: 12px; }
