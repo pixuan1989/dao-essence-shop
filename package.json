@@ -9,6 +9,7 @@
   "dependencies": {
     "@upstash/redis": "^1.38.0",
     "dashscope": "^1.0.1",
+    "fuse.js": "^7.4.1",
     "gray-matter": "^4.0.3",
     "ioredis": "^5.4.1",
     "lunar-javascript": "^1.7.7",
