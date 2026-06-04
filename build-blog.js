@@ -959,16 +959,28 @@ function generateArticleHtml(post, category, allArticles, options = {}) {
 
   // ── Wallpaper Recommendation Card (Build-time Injection) ─
   const wpCards = wallpapers.length > 0 ? [...wallpapers].sort(() => 0.5 - Math.random()).slice(0, 3) : [];
-  const wpCopyPool = [
+  
+  // i18n Support: Different copy for EN and ZH
+  const wpCopyZh = [
     '搭配玄学壁纸，让好运常伴左右',
     '将能量带入日常：精选五行壁纸',
     '换个背景，换种气场',
     '每日注视的能量场：精选壁纸',
     '能量加持：搭配对应元素壁纸'
   ];
+  const wpCopyEn = [
+    'Enhance your energy with metaphysical wallpapers',
+    'Bring ancient wisdom to your screen',
+    'Shift your vibe, shift your reality',
+    'Your daily visual energy field',
+    'Align with your element'
+  ];
+  const wpCopyPool = isZh ? wpCopyZh : wpCopyEn;
   const wpCopy = wpCopyPool[Math.floor(Math.random() * wpCopyPool.length)];
+  const btnText = isZh ? '查看更多开运壁纸 →' : 'Browse Lucky Wallpapers →';
+
   const wallpaperCardHtml = wpCards.length > 0 ? `
-    <div style="background:#fff;border:1px solid #f0f0f0;border-radius:12px;padding:24px 16px;margin:32px auto 0;text-align:center;box-shadow:0 4px 16px rgba(0,0,0,0.04);max-width:100%;">
+    <div style="background:#fff;border:1px solid #f0f0f0;border-radius:12px;padding:24px 16px;margin:32px 0;text-align:center;box-shadow:0 4px 16px rgba(0,0,0,0.04);max-width:100%;">
       <div style="font-size:16px;color:#D4AF37;font-weight:600;margin:0 0 16px;">${wpCopy}</div>
       <div style="display:flex;justify-content:center;gap:10px;margin-bottom:20px;flex-wrap:wrap;">
         ${wpCards.map(wp => `
@@ -977,7 +989,7 @@ function generateArticleHtml(post, category, allArticles, options = {}) {
           </a>
         `).join('')}
       </div>
-      <a href="/wallpaper" style="display:inline-block;padding:8px 16px;color:#D4AF37;text-decoration:none;font-size:13px;font-weight:500;border-bottom:1px dashed #D4AF37;">查看更多开运壁纸 →</a>
+      <a href="/wallpaper" style="display:inline-block;padding:8px 16px;color:#D4AF37;text-decoration:none;font-size:13px;font-weight:500;border-bottom:1px dashed #D4AF37;">${btnText}</a>
     </div>
   ` : '';
 
@@ -1225,6 +1237,30 @@ function generateArticleHtml(post, category, allArticles, options = {}) {
     finalBody = fixedBody;
   }
 
+  // ── Inject Wallpaper Card into Body (After 3rd Paragraph) ─
+  if (wallpaperCardHtml) {
+    const pTag = '</p>';
+    let thirdPIndex = -1;
+    let searchIndex = 0;
+    for (let i = 0; i < 3; i++) {
+      const idx = finalBody.indexOf(pTag, searchIndex);
+      if (idx !== -1) {
+        thirdPIndex = idx;
+        searchIndex = idx + pTag.length;
+      } else {
+        break;
+      }
+    }
+
+    if (thirdPIndex !== -1) {
+      // Insert after the 3rd paragraph
+      finalBody = finalBody.slice(0, thirdPIndex + pTag.length) + wallpaperCardHtml + finalBody.slice(thirdPIndex + pTag.length);
+    } else {
+      // If less than 3 paragraphs, append to end
+      finalBody += wallpaperCardHtml;
+    }
+  }
+
   // SEO helpers
   const dateFormatted = formatDate(data.date);
 
@@ -1426,8 +1462,6 @@ ${NAV_HTML}
                 </details>`;
                 }).join('')}
             </div>` : ''}
-
-        ${wallpaperCardHtml}
         </article>
 
         ${renderAffiliateCta()}
