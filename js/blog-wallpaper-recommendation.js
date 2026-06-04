@@ -123,15 +123,23 @@
 
   // 初始化
   function init() {
-    // 寻找文章正文容器 (兼容常见结构)
-    const article = document.querySelector('.article-body') || document.querySelector('main') || document.querySelector('.content');
+    // 1. URL 判断：确保只在文章详情页执行 (排除列表页和分类页)
+    // 列表页通常是 /blog 或 /blog/feng-shui，详情页是 /blog/slug (slug 中通常不含 /)
+    // 兼容中英文路径判断
+    const path = window.location.pathname;
+    const blogRegex = /^\/(?:zh\/)?blog\/[^\/]+$/;
+    if (!blogRegex.test(path)) return;
+
+    // 2. 寻找文章正文容器 (精确匹配详情页结构)
+    // 详情页通常有 .article-content 或单独的 article 标签
+    const article = document.querySelector('.article-content') || document.querySelector('article');
     if (!article) return;
 
-    // 寻找第 3 个段落
+    // 3. 寻找第 3 个段落
     const paragraphs = article.querySelectorAll('p');
     if (paragraphs.length <= CONFIG.insertionIndex) return;
 
-    // 插入
+    // 4. 插入
     render(paragraphs[CONFIG.insertionIndex]);
   }
 
