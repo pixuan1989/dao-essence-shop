@@ -212,7 +212,7 @@
         /* Footer */
         .footer { background: #1A1612; padding: 80px 0 32px; margin-top: 40px; }
         .footer .container { max-width: 1400px; margin: 0 auto; padding: 0 32px; }
-        .footer-content { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 32px; margin-bottom: 32px; }
+        .footer-content { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: 32px; margin-bottom: 32px; }
         .footer-brand .logo-en { color: rgba(245,240,230,0.6); font-family: Georgia, serif; letter-spacing: 0.15em; font-size: 20px; }
         .footer-brand p { color: rgba(245,240,230,0.7); margin-top: 16px; line-height: 1.8; font-size: 14px; }
         .footer-title { font-family: Georgia, serif; font-size: 16px; margin-bottom: 16px; color: #D4AF37; }
@@ -357,11 +357,12 @@
                 <div>
                     <h4 class="footer-title">工具</h4>
                     <ul class="footer-links">
-                        <li><a href="/zh/#free-bazi">八字命盤計算器</a></li>
-                        <li><a href="/zh/favorable-element">五行喜用神指南</a></li>
+                        <li><a href="/zh/#free-bazi">八字排盤</a></li>
+                        <li><a href="/zh/favorable-element">用神指南</a></li>
                         <li><a href="/zh/five-elements-test">五行性格測試</a></li>
-                        <li><a href="/zh/soulmate-calculator">靈魂伴侶配對</a></li>
-                        <li><a href="/zh/almanac">黃道吉日</a></li>
+                        <li><a href="/zh/soulmate-calculator">靈魂伴侶尋找</a></li>
+                        <li><a href="/zh/almanac">吉日選擇</a></li>
+                        <li><a href="/zh/zodiac/zodiac-daily">生肖運勢</a></li>
                         <li><a href="/zh/wallpaper">開運壁紙</a></li>
                     </ul>
                 </div>
@@ -375,9 +376,22 @@
                     </ul>
                 </div>
                 <div>
-                    <h4 class="footer-title">聯繫我們</h4>
+                    <h4 class="footer-title">連結</h4>
+                    <ul class="footer-links">
+                        <li style="margin-bottom:8px;display:block !important;">
+                            <div><a href="https://fatenet.cn/" target="_blank" rel="noopener">FateNet</a></div>
+                            <div style="font-size:12px;color:var(--text-secondary);margin-top:4px;line-height:1.4;">中國算命<br>尋找你的靈魂伴侶</div>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-title">聯繫方式</h4>
                     <ul class="footer-links">
                         <li><a href="mailto:support@daoessentia.com">support@daoessentia.com</a></li>
+                        <li><a href="#" onclick="document.getElementById('wechat-modal').style.display='flex';return false;">WeChat</a></li>
+                        <li><span>週一至週六：上午9點至晚上9點（CST / UTC+8）</span></li>
+                        <li><a href="https://t.me/dingwei_123" target="_blank" rel="noopener">Telegram 頻道</a></li>
+                        <li><a href="https://t.me/Dingwei_pi" target="_blank" rel="noopener">Telegram @Dingwei_pi</a></li>
                         <li><a href="https://www.pinterest.com/pixuan/wallpapers/" target="_blank" rel="noopener">Pinterest</a></li>
                     </ul>
                 </div>
@@ -392,6 +406,16 @@
             </div>
         </div>
     </footer>
+
+    <!-- WeChat Modal -->
+    <div id="wechat-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:9999;align-items:center;justify-content:center;" onclick="if(event.target===this)this.style.display='none'">
+        <div style="background:var(--bg-secondary,#1a1a1a);border:1px solid rgba(212,175,55,0.4);border-radius:16px;padding:40px;text-align:center;max-width:320px;width:90%;position:relative;">
+            <button onclick="document.getElementById('wechat-modal').style.display='none'" style="position:absolute;top:12px;right:16px;background:none;border:none;color:rgba(245,240,230,0.6);font-size:22px;cursor:pointer;line-height:1;">x</button>
+            <p style="color:var(--text-primary);margin-bottom:16px;font-size:16px;">掃描微信二維碼</p>
+            <img src="https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/assets/wechat-qr.jpg" alt="WeChat QR" style="width:200px;height:200px;border-radius:8px;">
+            <p style="color:var(--text-secondary);margin-top:12px;font-size:13px;">或搜索微信ID：daoessentia</p>
+        </div>
+    </div>
 
     <!-- Schema.org JSON-LD -->
     <script type="application/ld+json">

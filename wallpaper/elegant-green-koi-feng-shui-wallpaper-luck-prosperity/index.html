@@ -212,7 +212,7 @@
         /* Footer */
         .footer { background: #1A1612; padding: 80px 0 32px; margin-top: 40px; }
         .footer .container { max-width: 1400px; margin: 0 auto; padding: 0 32px; }
-        .footer-content { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 32px; margin-bottom: 32px; }
+        .footer-content { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: 32px; margin-bottom: 32px; }
         .footer-brand .logo-en { color: rgba(245,240,230,0.6); font-family: Georgia, serif; letter-spacing: 0.15em; font-size: 20px; }
         .footer-brand p { color: rgba(245,240,230,0.7); margin-top: 16px; line-height: 1.8; font-size: 14px; }
         .footer-title { font-family: Georgia, serif; font-size: 16px; margin-bottom: 16px; color: #D4AF37; }
@@ -365,6 +365,7 @@ Download now to infuse your digital environment with the serene energy of the ko
                         <li><a href="/five-elements-test">Five Elements Personality Test</a></li>
                         <li><a href="/soulmate-calculator">Soulmate Compatibility Finder</a></li>
                         <li><a href="/almanac">Auspicious Date Picker</a></li>
+                        <li><a href="/zodiac/zodiac-daily">Zodiac Daily</a></li>
                         <li><a href="/wallpaper">Lucky Wallpapers</a></li>
                     </ul>
                 </div>
@@ -378,9 +379,22 @@ Download now to infuse your digital environment with the serene energy of the ko
                     </ul>
                 </div>
                 <div>
+                    <h4 class="footer-title">Links</h4>
+                    <ul class="footer-links">
+                        <li style="margin-bottom:8px;display:block !important;">
+                            <div><a href="https://fatenet.cn/" target="_blank" rel="noopener">FateNet</a></div>
+                            <div style="font-size:12px;color:var(--text-secondary);margin-top:4px;line-height:1.4;">Chinese Fortune Telling<br>Find Your Soulmate</div>
+                        </li>
+                    </ul>
+                </div>
+                <div>
                     <h4 class="footer-title">Contact</h4>
                     <ul class="footer-links">
                         <li><a href="mailto:support@daoessentia.com">support@daoessentia.com</a></li>
+                        <li><a href="#" onclick="document.getElementById('wechat-modal').style.display='flex';return false;">WeChat</a></li>
+                        <li><span>Mon&#8211;Sat: 9AM&#8211;9PM (CST / UTC+8)</span></li>
+                        <li><a href="https://t.me/dingwei_123" target="_blank" rel="noopener">Telegram Channel</a></li>
+                        <li><a href="https://t.me/Dingwei_pi" target="_blank" rel="noopener">Telegram @Dingwei_pi</a></li>
                         <li><a href="https://www.pinterest.com/pixuan/wallpapers/" target="_blank" rel="noopener">Pinterest</a></li>
                     </ul>
                 </div>
@@ -395,6 +409,16 @@ Download now to infuse your digital environment with the serene energy of the ko
             </div>
         </div>
     </footer>
+
+    <!-- WeChat Modal -->
+    <div id="wechat-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:9999;align-items:center;justify-content:center;" onclick="if(event.target===this)this.style.display='none'">
+        <div style="background:var(--bg-secondary,#1a1a1a);border:1px solid rgba(212,175,55,0.4);border-radius:16px;padding:40px;text-align:center;max-width:320px;width:90%;position:relative;">
+            <button onclick="document.getElementById('wechat-modal').style.display='none'" style="position:absolute;top:12px;right:16px;background:none;border:none;color:rgba(245,240,230,0.6);font-size:22px;cursor:pointer;line-height:1;">x</button>
+            <p style="color:var(--text-primary);margin-bottom:16px;font-size:16px;">Scan WeChat QR Code</p>
+            <img src="https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/assets/wechat-qr.jpg" alt="WeChat QR" style="width:200px;height:200px;border-radius:8px;">
+            <p style="color:var(--text-secondary);margin-top:12px;font-size:13px;">Or search WeChat ID: daoessentia</p>
+        </div>
+    </div>
 
     <!-- Schema.org JSON-LD -->
     <script type="application/ld+json">
