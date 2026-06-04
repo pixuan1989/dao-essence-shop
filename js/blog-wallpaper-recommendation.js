@@ -123,15 +123,10 @@
 
   // 初始化
   function init() {
-    // 1. URL 判断：确保只在文章详情页执行 (排除列表页和分类页)
-    // 列表页通常是 /blog 或 /blog/feng-shui，详情页是 /blog/slug (slug 中通常不含 /)
-    // 兼容中英文路径判断
-    const path = window.location.pathname;
-    const blogRegex = /^\/(?:zh\/)?blog\/[^\/]+$/;
-    if (!blogRegex.test(path)) return;
+    // 1. 列表页检测：如果页面包含多个文章卡片（说明是列表页），则不执行
+    if (document.querySelectorAll('.article-card, .blog-card').length > 0) return;
 
-    // 2. 寻找文章正文容器 (精确匹配详情页结构)
-    // 详情页通常有 .article-content 或单独的 article 标签
+    // 2. 寻找文章正文容器 (精确匹配，避开全局 main)
     const article = document.querySelector('.article-content') || document.querySelector('article');
     if (!article) return;
 
