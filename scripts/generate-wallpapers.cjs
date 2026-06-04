@@ -21,14 +21,22 @@ const DIST_OUT_DIR = path.join(ROOT, 'dist', 'wallpaper');
 // 全局：从 wallpapers.json 提取的唯一分类列表
 var ALL_CATEGORIES = [];
 
-// 分类中英文映射
+// 分类中英文映射（与 JSON 标准分类对齐）
 const CAT_NAME_EN = {
-  '八字': 'BaZi', '占星': 'Astrology', '生肖': 'Zodiac', '神仙': 'Deities',
-  '符箓': 'Talismans', '能量': 'Energy', '风水': 'Feng Shui'
+  'Five Elements': 'Five Elements', 'Feng Shui': 'Feng Shui',
+  'Chinese Zodiac': 'Chinese Zodiac', 'Astrology': 'Astrology',
+  'Energy': 'Energy', 'Talismans': 'Talismans',
+  // 向后兼容旧数据
+  'Talisman': 'Talismans', '八字': 'BaZi', '占星': 'Astrology',
+  '生肖': 'Zodiac', '神仙': 'Deities', '符箓': 'Talismans', '能量': 'Energy', '风水': 'Feng Shui'
 };
 const CAT_NAME_ZH = {
-  'Energy': '能量', 'Feng Shui': '风水', 'Nature': '自然', 'Talisman': '符箓',
-  'BaZi': '八字', 'Astrology': '占星', 'Zodiac': '生肖', 'Deities': '神仙'
+  'Five Elements': '五行', 'Feng Shui': '風水',
+  'Chinese Zodiac': '生肖', 'Astrology': '占星',
+  'Energy': '能量', 'Talismans': '符籙',
+  // 向后兼容旧数据
+  'Talisman': '符籙', 'Nature': '自然', 'Deities': '神仙',
+  '八字': '八字', '占星': '占星', '生肖': '生肖', '神仙': '神仙', '符箓': '符籙', '能量': '能量', '风水': '風水'
 };
 
 // ── 工具函数 ─────────────────────────────────────────────
