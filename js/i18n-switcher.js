@@ -432,15 +432,16 @@
       return;
     }
 
-    // ── Wallpaper page redirect (static bilingual HTML, switch via URL) ─
-    var onWallpaperEn = pathname.indexOf('/wallpaper/') === 0 || pathname === '/wallpaper/' || pathname === '/wallpaper';
-    var onWallpaperZh = pathname.indexOf('/zh/wallpaper/') === 0 || pathname === '/zh/wallpaper/' || pathname === '/zh/wallpaper';
-    if (onWallpaperEn || onWallpaperZh) {
-      var wpSlug = pathname.replace(/^\/zh\/wallpaper\//, '').replace(/^\/wallpaper\//, '').replace(/^\/wallpaper$/, '').replace(/^\/zh\/wallpaper$/, '').replace(/\/$/, '');
+    // ─ Wallpaper DETAIL page redirect (static bilingual HTML, switch via URL) ──
+    // Only applies to detail pages (/wallpaper/{slug}), NOT the aggregate page (/wallpaper).
+    var isWpDetail = (pathname.indexOf('/wallpaper/') === 0 && pathname !== '/wallpaper/' && pathname !== '/wallpaper') ||
+                     (pathname.indexOf('/zh/wallpaper/') === 0 && pathname !== '/zh/wallpaper/' && pathname !== '/zh/wallpaper');
+    if (isWpDetail) {
+      var wpSlug = pathname.replace(/^\/zh\/wallpaper\//, '').replace(/^\/wallpaper\//, '').replace(/\/$/, '');
       if (lang === 'zh') {
-        window.location.href = '/zh/wallpaper/' + (wpSlug ? wpSlug : '');
+        window.location.href = '/zh/wallpaper/' + wpSlug;
       } else {
-        window.location.href = '/wallpaper/' + (wpSlug ? wpSlug : '');
+        window.location.href = '/wallpaper/' + wpSlug;
       }
       return;
     }
@@ -561,12 +562,15 @@
     // Determine initial language
     currentLang = getInitialLang();
 
-    // ── Wallpaper pages: static bilingual HTML, skip ALL auto-redirect ──
-    // These pages have separate EN/ZH files. Auto-redirect based on localStorage
-    // would cause EN↔ZH loops. Only manual switch (URL redirect) should work.
+    // ── Wallpaper DETAIL pages: static bilingual HTML, skip ALL auto-redirect ──
+    // These pages have separate EN/ZH files (/wallpaper/{slug} + /zh/wallpaper/{slug}).
+    // Auto-redirect based on localStorage would cause EN↔ZH loops. Only manual switch (URL redirect) should work.
+    // NOTE: The wallpaper AGGREGATE page (/wallpaper without slug) uses data-i18n + JS DOM replacement
+    // and MUST go through normal translation loading — do NOT skip it.
     var wpPath = window.location.pathname;
-    var onWallpaperPage = wpPath.indexOf('/wallpaper/') === 0 || wpPath.indexOf('/zh/wallpaper/') === 0 || wpPath === '/wallpaper/' || wpPath === '/wallpaper' || wpPath === '/zh/wallpaper/' || wpPath === '/zh/wallpaper';
-    if (onWallpaperPage) {
+    var isWallpaperDetail = (wpPath.indexOf('/wallpaper/') === 0 && wpPath !== '/wallpaper/') ||
+                            (wpPath.indexOf('/zh/wallpaper/') === 0 && wpPath !== '/zh/wallpaper/');
+    if (isWallpaperDetail) {
       // Force currentLang from URL path, ignore stale localStorage
       currentLang = wpPath.indexOf('/zh/wallpaper') === 0 ? 'zh' : DEFAULT_LANG;
       // Still bind dropdown events and set UI state
