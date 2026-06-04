@@ -246,6 +246,22 @@
         @media (max-width: 600px) {
             .related-grid { grid-template-columns: repeat(2, 1fr); }
         }
+
+        /* ── Element Guide Box (P0 Task) ── */
+        .guide-box {
+            background: rgba(255,255,255,0.04); border: 1px solid rgba(212,175,55,0.2);
+            border-radius: 16px; padding: 32px; margin-top: 48px;
+            display: flex; flex-direction: column; align-items: center; text-align: center;
+            gap: 16px;
+        }
+        .guide-box h3 { font-size: 18px; font-weight: 600; color: #D4AF37; margin: 0; }
+        .guide-box p { font-size: 14px; color: rgba(255,255,255,0.6); margin: 0; line-height: 1.6; max-width: 500px; }
+        .guide-btn {
+            padding: 10px 24px; border-radius: 8px; font-size: 14px; font-weight: 600;
+            background: rgba(212,175,55,0.15); color: #D4AF37; border: 1px solid rgba(212,175,55,0.3);
+            text-decoration: none; transition: all 0.2s;
+        }
+        .guide-btn:hover { background: rgba(212,175,55,0.25); color: #fff; }
     </style>
 </head>
 <body>
@@ -343,6 +359,14 @@ Download now to infuse your daily life with the tranquil beauty of the lotus. Al
             <a href="/wallpaper/divine-feng-shui-wallpaper-empower-home-yuanmu" class="related-card"><img src="https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780543209/thumb.webp" alt="Divine Feng Shui Wallpaper: Empower Your Home with Yuanmu" loading="lazy"></a>
             <a href="/wallpaper/cosmic-energy-galaxy-wallpaper-phone-background" class="related-card"><img src="https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780543087/thumb.webp" alt="Cosmic Energy Galaxy Wallpaper - Phone Background" loading="lazy"></a>
             <a href="/wallpaper/celestial-serenity-wallpaper-ethereal-goddess-phone-background" class="related-card"><img src="https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780495381/thumb.webp" alt="Celestial Serenity Wallpaper: Ethereal Goddess Phone Background" loading="lazy"></a>
+        </div>
+    </div>
+
+    <div style="max-width:1200px;margin:0 auto;padding:0 24px 48px;">
+        <div class="guide-box">
+            <h3>Not Sure About Your Element?</h3>
+            <p>Your favorable element determines which wallpapers bring you the most energy.</p>
+            <a href="/favorable-element" class="guide-btn">Free Favorable Element Guide →</a>
         </div>
     </div>
 
