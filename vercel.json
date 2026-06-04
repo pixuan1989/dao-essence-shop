@@ -466,6 +466,16 @@
       "permanent": true
     },
     {
+      "source": "/zh/wallpaper",
+      "destination": "/wallpaper",
+      "permanent": true
+    },
+    {
+      "source": "/zh/zodiac/zodiac-daily",
+      "destination": "/zodiac/zodiac-daily",
+      "permanent": true
+    },
+    {
       "source": "/zh/culture",
       "destination": "/culture",
       "permanent": true
