@@ -1,5 +1,5 @@
 /**
- * DaoEssence Auth — Clerk Browser SDK
+ * DaoEssence Auth — Clerk Browser SDK (Optimized for Slow Networks)
  * Docs: https://clerk.com/docs/js-frontend/reference/objects/clerk
  */
 (function() {
@@ -8,6 +8,7 @@
     const DA = {};
     let clerkInstance = null;
     let clerkReady = false;
+    let pendingSignIn = false; // Track if user clicked sign-in before SDK ready
 
     function t(key, fallback) {
         var v = window.DaoI18n && window.DaoI18n.t(key);
@@ -81,10 +82,18 @@
         btn.onclick = function(e) { e.preventDefault(); DA.open(); };
     };
 
+    DA._renderLoadingNav = function(btn) {
+        var om = document.getElementById('da-signout-menu'); if (om) om.remove();
+        btn.textContent = t('auth.loading','Loading...') + ' ⏳'; btn.title = '';
+        btn.style.cssText = 'display:inline-flex;align-items:center;padding:8px 16px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:999px;font-size:13px;font-weight:500;color:rgba(255,255,255,0.4);cursor:wait';
+        btn.onclick = null; // Disable click while loading
+    };
+
     DA._syncNav = function(user) {
         var btn = document.getElementById('wpn-signin-btn');
         if (!btn) return;
         if (user) { DA._renderUserNav(btn, user); }
+        else if (pendingSignIn) { DA._renderLoadingNav(btn); } // Show loading if pending
         else { DA._renderSignInNav(btn); }
         // Notify wallpaper pages to update download limit
         window.dispatchEvent(new CustomEvent('daoessence:auth-changed', {
@@ -95,8 +104,19 @@
     // ---- Init Clerk ----
     DA._initClerk = async function() {
         if (clerkInstance) return;
+        
+        // Timeout safety: if Clerk script doesn't load in 10s, give up
+        var loadTimeout = setTimeout(function() {
+            console.warn('[Auth] Clerk script load timeout');
+            pendingSignIn = false;
+            DA._syncNav(null);
+            DA.showToast('Sign-in service unavailable. Please refresh.', 5000);
+        }, 10000);
+
         var a = 0;
         while (!window.Clerk && a < 50) { await new Promise(function(r){setTimeout(r,100);}); a++; }
+        clearTimeout(loadTimeout);
+        
         if (!window.Clerk) { console.error('[Auth] Clerk script not loaded'); return; }
 
         try {
@@ -112,6 +132,7 @@
             // Docs: https://clerk.com/docs/js-frontend/reference/objects/clerk
             clerkInstance.addListener(function(resources) {
                 console.log('[Auth] addListener fired. user:', !!resources.user, 'session:', !!resources.session);
+                pendingSignIn = false; // Clear pending flag on state change
                 DA._syncNav(resources.user);
                 if (resources.session && resources.session.getToken) {
                     resources.session.getToken().then(function(t) { DA._token = t; });
@@ -121,7 +142,13 @@
             });
 
             // Immediate render (load() may already have user)
+            pendingSignIn = false;
             DA._syncNav(clerkInstance.user);
+
+            // If user clicked sign-in while loading, auto-open now
+            if (pendingSignIn && typeof clerkInstance.openSignIn === 'function') {
+                clerkInstance.openSignIn({ fallbackRedirectUrl: window.location.href });
+            }
 
             // Poll fallback in case addListener misses initial async state
             var poll = 0;
@@ -129,18 +156,27 @@
                 if (clerkInstance.user || poll >= 15) {
                     clearInterval(pollId);
                     console.log('[Auth] Poll done. user:', !!clerkInstance.user);
+                    pendingSignIn = false;
                     DA._syncNav(clerkInstance.user);
                 }
                 poll++;
             }, 300);
         } catch (e) {
             console.error('[Auth] Init failed:', e);
+            pendingSignIn = false;
+            DA._syncNav(null);
         }
     };
 
     // ---- Sign in ----
     DA.open = function() {
-        if (!clerkReady || !clerkInstance) { DA.showToast('Loading...', 2000); return; }
+        if (!clerkReady || !clerkInstance) {
+            // SDK not ready yet, set pending flag and show loading
+            pendingSignIn = true;
+            DA._syncNav(null);
+            DA.showToast('Initializing sign-in...', 2000);
+            return;
+        }
         try {
             // Try modal sign-in first (requires UI components bundle)
             if (typeof clerkInstance.openSignIn === 'function') {
