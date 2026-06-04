@@ -949,12 +949,37 @@ function readAllMdFiles(dir) {
 function generateArticleHtml(post, category, allArticles, options = {}) {
   const { data, content, slug } = post;
   const isZh = options.lang === 'zh-Hant';
+  const wallpapers = options.wallpapers || [];
   const lang = isZh ? 'zh-Hant' : 'en';
   const langPrefix = isZh ? '/zh' : '';
   const categoryLabel = isZh
     ? (CATEGORY_LABELS_ZH[category] || CATEGORY_LABELS[category] || category)
     : (CATEGORY_LABELS[category] || category);
   const categoryHref = `${langPrefix}/blog/${category}`;
+
+  // ── Wallpaper Recommendation Card (Build-time Injection) ─
+  const wpCards = wallpapers.length > 0 ? [...wallpapers].sort(() => 0.5 - Math.random()).slice(0, 3) : [];
+  const wpCopyPool = [
+    '搭配玄学壁纸，让好运常伴左右',
+    '将能量带入日常：精选五行壁纸',
+    '换个背景，换种气场',
+    '每日注视的能量场：精选壁纸',
+    '能量加持：搭配对应元素壁纸'
+  ];
+  const wpCopy = wpCopyPool[Math.floor(Math.random() * wpCopyPool.length)];
+  const wallpaperCardHtml = wpCards.length > 0 ? `
+    <div style="background:#fff;border:1px solid #f0f0f0;border-radius:12px;padding:24px 16px;margin:32px auto 0;text-align:center;box-shadow:0 4px 16px rgba(0,0,0,0.04);max-width:100%;">
+      <div style="font-size:16px;color:#D4AF37;font-weight:600;margin:0 0 16px;">${wpCopy}</div>
+      <div style="display:flex;justify-content:center;gap:10px;margin-bottom:20px;flex-wrap:wrap;">
+        ${wpCards.map(wp => `
+          <a href="/wallpaper/${wp.slug || wp.id}" style="width:32%;border-radius:8px;overflow:hidden;aspect-ratio:9/16;background:#f8f8f8;display:block;">
+            <img src="${wp.thumb}" alt="${escapeHtml(wp.title)}" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;" />
+          </a>
+        `).join('')}
+      </div>
+      <a href="/wallpaper" style="display:inline-block;padding:8px 16px;color:#D4AF37;text-decoration:none;font-size:13px;font-weight:500;border-bottom:1px dashed #D4AF37;">查看更多开运壁纸 →</a>
+    </div>
+  ` : '';
 
   // ── Related posts (You May Also Like) ──
   let relatedPosts = [];
@@ -1401,6 +1426,8 @@ ${NAV_HTML}
                 </details>`;
                 }).join('')}
             </div>` : ''}
+
+        ${wallpaperCardHtml}
         </article>
 
         ${renderAffiliateCta()}
@@ -2004,6 +2031,15 @@ async function main() {
   }
 
   // Step 4: Generate English article HTML files in dist/blog/
+  // Load wallpapers for recommendation card
+  let wallpapers = [];
+  try {
+    const wpPath = path.join(SRC_DIR, 'wallpapers.json');
+    if (fs.existsSync(wpPath)) {
+      wallpapers = JSON.parse(fs.readFileSync(wpPath, 'utf8'));
+    }
+  } catch (e) { console.warn('  Failed to load wallpapers.json:', e.message); }
+
   const usedSlugs = new Set();
   const hasZhArticles = zhArticles.length > 0;
   for (const post of allArticles) {
@@ -2011,7 +2047,7 @@ async function main() {
     post.slug = slug;
 
     const hasZhVersion = !!zhArticleMap[slug]; // only true if this specific article has a zh counterpart
-    const html = generateArticleHtml(post, post.category, allArticles, { lang: 'en', hasZh: hasZhVersion });
+    const html = generateArticleHtml(post, post.category, allArticles, { lang: 'en', hasZh: hasZhVersion, wallpapers: wallpapers });
     const outPath = path.join(DIST_BLOG_DIR, `${slug}.html`);
     fs.writeFileSync(outPath, html);
     console.log(`  Generated: dist/blog/${slug}.html`);
@@ -2041,7 +2077,7 @@ async function main() {
       }
 
       // Use zh articles for related posts when available
-      let html = generateArticleHtml(post, post.category, zhArticles, { lang: 'zh-Hant', hasZh: true });
+      let html = generateArticleHtml(post, post.category, zhArticles, { lang: 'zh-Hant', hasZh: true, wallpapers: wallpapers });
 
       // Fix zh internal links: /blog/ → /zh/blog/ (body links only, Related Posts already use langPrefix)
       html = html.replace(/href="\/blog\//g, 'href="/zh/blog/');
