@@ -1,12 +1,11 @@
 /**
  * Blog Wallpaper Recommendation Module (Task P3) - FIXED
- * 功能：仅在博客文章详情页插入玄学壁纸推荐。
- * 修复：增加严格 URL 白名单 + 精确 DOM 匹配，彻底杜绝列表页误触。
+ * 修复：增加列表页拦截，确保只在文章详情页显示。
  */
 (function() {
   'use strict';
 
-  // 文案池
+  // 文案池 (随机轮换)
   const COPIES = [
     { title: '搭配玄学壁纸，让好运常伴左右', btn: '查看更多开运壁纸 →' },
     { title: '将能量带入日常：精选五行壁纸', btn: '浏览更多精选 →' },
@@ -17,7 +16,7 @@
 
   const CONFIG = {
     limit: 3,
-    insertionIndex: 2
+    insertionIndex: 2 // 第 3 个段落后 (0-indexed)
   };
 
   // 渲染推荐卡片
@@ -26,6 +25,7 @@
 
     const copy = COPIES[Math.floor(Math.random() * COPIES.length)];
 
+    // 样式注入
     if (!document.getElementById('blog-wp-rec-style')) {
       const style = document.createElement('style');
       style.id = 'blog-wp-rec-style';
@@ -50,6 +50,7 @@
       document.head.appendChild(style);
     }
 
+    // 获取壁纸数据并插入
     fetch('/wallpapers.json')
       .then(res => res.ok ? res.json() : [])
       .then(wallpapers => {
@@ -69,31 +70,24 @@
       .catch(console.warn);
   }
 
-  // 初始化 (核心修复逻辑)
+  // 初始化
   function init() {
-    // 1. 严格 URL 白名单：只匹配 /blog/slug 或 /zh/blog/slug
-    // 排除 /blog (列表页) 和 /blog/feng-shui (分类页)
-    const path = window.location.pathname;
-    const isArticlePage = /^\/(?:zh\/)?blog\/[a-z0-9-]+$/.test(path);
-    if (!isArticlePage) return;
+    // 1. 列表页拦截：如果页面包含文章列表容器，说明是列表页，直接退出
+    if (document.querySelector('.blog-card-list')) return;
 
-    // 2. 列表页 DOM 检测：如果包含多个文章卡片，说明是列表页，直接跳过
-    if (document.querySelectorAll('.blog-card-list, .article-card').length > 0) {
-      return;
-    }
+    // 2. 详情页定位：寻找文章正文容器
+    const articleContent = document.querySelector('.blog-content') || document.querySelector('.blog-article');
+    if (!articleContent) return;
 
-    // 3. 精确容器匹配：只寻找 .blog-article（详情页独有）
-    const article = document.querySelector('.blog-article');
-    if (!article) return;
-
-    // 4. 段落数量检查
-    const paragraphs = article.querySelectorAll('p');
+    // 3. 寻找第 3 个段落
+    const paragraphs = articleContent.querySelectorAll('p');
     if (paragraphs.length <= CONFIG.insertionIndex) return;
 
-    // 5. 插入
+    // 4. 执行插入
     render(paragraphs[CONFIG.insertionIndex]);
   }
 
+  // 启动
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
   } else {
