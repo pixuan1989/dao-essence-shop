@@ -602,7 +602,6 @@ function generateStaticPage(wp, lang) {
     + '                        <li><a href="#" onclick="document.getElementById(\'wechat-modal\').style.display=\'flex\';return false;">' + (isZh ? 'WeChat' : 'WeChat') + '</a></li>\n'
     + '                        <li><span>' + (isZh ? '週一至週六：上午9點至晚上9點（CST / UTC+8）' : 'Mon&#8211;Sat: 9AM&#8211;9PM (CST / UTC+8)') + '</span></li>\n'
     + '                        <li><a href="https://t.me/dingwei_123" target="_blank" rel="noopener">Telegram ' + (isZh ? '頻道' : 'Channel') + '</a></li>\n'
-    + '                        <li><a href="https://t.me/Dingwei_pi" target="_blank" rel="noopener">Telegram @Dingwei_pi</a></li>\n'
     + '                        <li><a href="https://www.pinterest.com/pixuan/wallpapers/" target="_blank" rel="noopener">Pinterest</a></li>\n'
     + '                    </ul>\n'
     + '                </div>\n'
