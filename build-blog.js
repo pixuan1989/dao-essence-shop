@@ -2556,8 +2556,8 @@ async function main() {
     console.warn(`  Bing ping failed: ${e.message}`);
   }
 
-  // Step 9: Generate clean URLs (create /about/index.html from /about.html)
-  console.log('Generating clean URLs...');
+  // Step 9: Generate clean URLs — 增量，只创建不存在的
+  console.log('Generating clean URLs (incremental)...');
   const htmlFiles = [];
   function collectHtmlFiles(dir) {
     for (const file of fs.readdirSync(dir)) {
@@ -2570,12 +2570,20 @@ async function main() {
     }
   }
   collectHtmlFiles(DIST_DIR);
+  let cleanCreated = 0, cleanSkipped = 0;
   for (const htmlPath of htmlFiles) {
     const dirName = htmlPath.replace(/\.html$/, '');
-    fs.mkdirSync(dirName, { recursive: true });
-    fs.copyFileSync(htmlPath, path.join(dirName, 'index.html'));
-    console.log(`  ${path.relative(DIST_DIR, htmlPath)} -> ${path.relative(DIST_DIR, dirName)}/index.html`);
+    const target = path.join(dirName, 'index.html');
+    if (!fs.existsSync(target)) {
+      fs.mkdirSync(dirName, { recursive: true });
+      fs.copyFileSync(htmlPath, target);
+      cleanCreated++;
+      console.log(`  ${path.relative(DIST_DIR, htmlPath)} -> ${path.relative(DIST_DIR, dirName)}/index.html`);
+    } else {
+      cleanSkipped++;
+    }
   }
+  console.log(`  ✅ Clean URLs: ${cleanCreated} created, ${cleanSkipped} skipped (already exist)`);
 
   // Step 10: Push URLs to IndexNow (Bing / Yandex / Naver)
   console.log('Notifying IndexNow...');
