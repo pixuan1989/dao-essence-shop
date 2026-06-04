@@ -980,16 +980,16 @@ function generateArticleHtml(post, category, allArticles, options = {}) {
   const btnText = isZh ? '查看更多开运壁纸 →' : 'Browse Lucky Wallpapers →';
 
   const wallpaperCardHtml = wpCards.length > 0 ? `
-    <div style="background:#fff;border:1px solid #f0f0f0;border-radius:12px;padding:24px 16px;margin:32px 0;text-align:center;box-shadow:0 4px 16px rgba(0,0,0,0.04);max-width:100%;">
-      <div style="font-size:16px;color:#D4AF37;font-weight:600;margin:0 0 16px;">${wpCopy}</div>
-      <div style="display:flex;justify-content:center;gap:10px;margin-bottom:20px;flex-wrap:wrap;">
+    <div style="background:#fff;border:1px solid #f0f0f0;border-radius:12px;padding:16px 12px;margin:20px 0;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.03);max-width:100%;">
+      <div style="font-size:14px;color:#D4AF37;font-weight:600;margin:0 0 12px;">${wpCopy}</div>
+      <div style="display:flex;justify-content:center;gap:12px;margin-bottom:16px;flex-wrap:wrap;">
         ${wpCards.map(wp => `
-          <a href="/wallpaper/${wp.slug || wp.id}" style="width:32%;border-radius:8px;overflow:hidden;aspect-ratio:9/16;background:#f8f8f8;display:block;">
-            <img src="${wp.thumb}" alt="${escapeHtml(wp.title)}" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;" />
+          <a href="/wallpaper/${wp.slug || wp.id}" style="width:32%;border-radius:8px;overflow:hidden;background:#f8f8f8;display:block;">
+            <img src="${wp.thumb}" alt="${escapeHtml(wp.title)}" loading="lazy" style="width:100%;max-height:180px;object-fit:contain;display:block;" />
           </a>
         `).join('')}
       </div>
-      <a href="/wallpaper" style="display:inline-block;padding:8px 16px;color:#D4AF37;text-decoration:none;font-size:13px;font-weight:500;border-bottom:1px dashed #D4AF37;">${btnText}</a>
+      <a href="/wallpaper" style="display:inline-block;padding:6px 12px;color:#D4AF37;text-decoration:none;font-size:12px;font-weight:500;border-bottom:1px dashed #D4AF37;">${btnText}</a>
     </div>
   ` : '';
 
