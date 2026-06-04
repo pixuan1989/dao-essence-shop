@@ -2419,16 +2419,26 @@ async function main() {
     console.log('  Generated: dist/wallpapers.json');
   }
 
-  // Step 7.6: Generate wallpaper static pages (SEO slug URLs)
+  // Step 7.6: Generate wallpaper static pages (SEO slug URLs) — 只生成新增的
   console.log('\nGenerating wallpaper static pages...');
   try {
     const wpScript = path.join(SRC_DIR, 'scripts', 'generate-wallpapers.cjs');
-    // Remove outdated dist/wallpaper/ to avoid stale dirs, then regenerate
-    if (fs.existsSync(path.join(DIST_DIR, 'wallpaper'))) {
-      fs.rmSync(path.join(DIST_DIR, 'wallpaper'), { recursive: true, force: true });
+    const wallpapersData = JSON.parse(fs.readFileSync(wallpapersJson, 'utf8'));
+    let generated = 0;
+    for (const wp of wallpapersData) {
+      const slug = wp.slug || wp.id;
+      const sourcePath = path.join(SRC_DIR, 'wallpaper', slug, 'index.html');
+      if (!fs.existsSync(sourcePath)) {
+        console.log(`  🆕 New wallpaper found: ${wp.id} (${slug})`);
+        execSync(`node "${wpScript}" --id=${wp.id}`, { stdio: 'inherit', cwd: SRC_DIR });
+        generated++;
+      }
     }
-    execSync(`node "${wpScript}" --all`, { stdio: 'inherit', cwd: SRC_DIR });
-    console.log('  ✅ Wallpaper static pages generated');
+    if (generated === 0) {
+      console.log('  ✅ No new wallpapers to generate');
+    } else {
+      console.log(`  ✅ Generated ${generated} new wallpaper page(s)`);
+    }
   } catch (e) {
     console.warn('  ⚠️ Wallpaper generation failed (non-blocking):', e.message);
   }
