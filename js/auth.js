@@ -168,7 +168,7 @@
         }
     };
 
-    // ---- Sign in (Modal Mode) ----
+    // ---- Sign in (Optimized Single-Step Flow) ----
     DA.open = function() {
         if (!clerkReady || !clerkInstance) {
             pendingSignIn = true;
@@ -176,11 +176,12 @@
             return;
         }
         try {
-            // Use openSignIn for both Email and Google. 
-            // This is the standard Clerk method that supports all providers.
+            // Use redirectUrl instead of fallbackRedirectUrl to avoid the two-step flow.
+            // This ensures users only enter password once, providing a smoother UX.
+            // Docs: https://clerk.com/docs/references/javascript/clerk/sign-in
             if (typeof clerkInstance.openSignIn === 'function') {
                 clerkInstance.openSignIn({
-                    fallbackRedirectUrl: window.location.href
+                    redirectUrl: window.location.href
                 });
             } else {
                 console.warn('[Auth] openSignIn not available');
