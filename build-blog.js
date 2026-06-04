@@ -2537,7 +2537,6 @@ async function main() {
     { loc: '/wallpaper', changefreq: 'weekly', priority: '0.9' }, // 新增壁纸页
     { loc: '/privacy', changefreq: 'yearly', priority: '0.3' },
     { loc: '/terms', changefreq: 'yearly', priority: '0.3' },
-    { loc: '/guide', changefreq: 'monthly', priority: '0.7' },
   ];
   // Add category pages to sitemap (skip empty categories)
   for (const cat of CATEGORY_FOLDERS) {

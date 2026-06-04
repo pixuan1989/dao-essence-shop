@@ -719,7 +719,7 @@ function generateStaticPage(wp, lang) {
     + '            }\n'
     + '        })();\n'
     + '    <\/script>\n'
-    + '    <script src="js/i18n-switcher.js" defer></script>\n'
+    + '    <script src="/js/i18n-switcher.js" defer></script>\n'
     + '    <script>document.addEventListener("contextmenu", function(e) { if (e.target && (e.target.tagName === "IMG" || e.target.closest(".preview-image"))) { e.preventDefault(); } });</script>\n'
     + '</body>\n'
     + '</html>\n';
