@@ -429,6 +429,18 @@
             .footer-brand { grid-column: span 1; }
         }
     </style>
+    <script>
+    (function(){
+      var p = window.location.pathname;
+      window.currentLang = (p.indexOf('/zh/') === 0 || p === '/zh') ? 'zh' : 'en';
+    })();
+    </script>
+    <script>
+    (function(){
+      var p = window.location.pathname;
+      window.currentLang = (p.indexOf('/zh/') === 0 || p === '/zh') ? 'zh' : 'en';
+    })();
+    </script>
 </head>
 <body>
 
