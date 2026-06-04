@@ -432,6 +432,17 @@
       return;
     }
 
+    // ── Wallpaper page redirect (static bilingual HTML, switch via URL) ──
+    if (pathname.indexOf('/wallpaper/') === 0 || pathname === '/wallpaper/' || pathname === '/wallpaper') {
+      var wpSlug = pathname.replace(/^\/wallpaper\//, '').replace(/^\/wallpaper$/, '').replace(/\/$/, '');
+      if (lang === 'zh') {
+        window.location.href = '/zh/wallpaper/' + wpSlug;
+      } else {
+        window.location.href = '/wallpaper/' + wpSlug;
+      }
+      return;
+    }
+
     // ── JS DOM replacement (default for all pages) ──
     _applyLangSwitch(lang);
   }
