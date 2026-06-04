@@ -168,24 +168,27 @@
         }
     };
 
-    // ---- Sign in (Redirect Mode - Stable & Fast) ----
+    // ---- Sign in (Modal Mode) ----
     DA.open = function() {
         if (!clerkReady || !clerkInstance) {
-            DA.showToast('Initializing sign-in...', 2000);
+            pendingSignIn = true;
+            DA._syncNav(null); // Show loading state
             return;
         }
         try {
-            // Use Redirect mode to avoid modal UI lag/black screen issues.
-            // This behaves exactly like the Google Login flow (stable & fast) 
-            // but allows choosing between Email and Google login.
-            console.log('[Auth] Redirecting to Clerk login page...');
-            clerkInstance.authenticateWithRedirect({
-                redirectUrl: window.location.href,
-                redirectUrlComplete: window.location.href
-            });
+            // Use openSignIn for both Email and Google. 
+            // This is the standard Clerk method that supports all providers.
+            if (typeof clerkInstance.openSignIn === 'function') {
+                clerkInstance.openSignIn({
+                    fallbackRedirectUrl: window.location.href
+                });
+            } else {
+                console.warn('[Auth] openSignIn not available');
+                DA.showToast('Login unavailable.', 3000);
+            }
         } catch (e) {
-            console.error('[Auth] Redirect sign-in failed:', e);
-            DA.showToast('Login failed. Please try again.', 3000);
+            console.error('[Auth] Sign in error:', e);
+            DA.showToast('Login error. Please try again.', 3000);
         }
     };
 
