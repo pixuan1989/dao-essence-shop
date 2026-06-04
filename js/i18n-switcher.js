@@ -432,13 +432,15 @@
       return;
     }
 
-    // ── Wallpaper page redirect (static bilingual HTML, switch via URL) ──
-    if (pathname.indexOf('/wallpaper/') === 0 || pathname === '/wallpaper/' || pathname === '/wallpaper') {
-      var wpSlug = pathname.replace(/^\/wallpaper\//, '').replace(/^\/wallpaper$/, '').replace(/\/$/, '');
+    // ── Wallpaper page redirect (static bilingual HTML, switch via URL) ─
+    var onWallpaperEn = pathname.indexOf('/wallpaper/') === 0 || pathname === '/wallpaper/' || pathname === '/wallpaper';
+    var onWallpaperZh = pathname.indexOf('/zh/wallpaper/') === 0 || pathname === '/zh/wallpaper/' || pathname === '/zh/wallpaper';
+    if (onWallpaperEn || onWallpaperZh) {
+      var wpSlug = pathname.replace(/^\/zh\/wallpaper\//, '').replace(/^\/wallpaper\//, '').replace(/^\/wallpaper$/, '').replace(/^\/zh\/wallpaper$/, '').replace(/\/$/, '');
       if (lang === 'zh') {
-        window.location.href = '/zh/wallpaper/' + wpSlug;
+        window.location.href = '/zh/wallpaper/' + (wpSlug ? wpSlug : '');
       } else {
-        window.location.href = '/wallpaper/' + wpSlug;
+        window.location.href = '/wallpaper/' + (wpSlug ? wpSlug : '');
       }
       return;
     }
@@ -558,6 +560,37 @@
   function init() {
     // Determine initial language
     currentLang = getInitialLang();
+
+    // ── Wallpaper pages: static bilingual HTML, skip ALL auto-redirect ──
+    // These pages have separate EN/ZH files. Auto-redirect based on localStorage
+    // would cause EN↔ZH loops. Only manual switch (URL redirect) should work.
+    var wpPath = window.location.pathname;
+    var onWallpaperPage = wpPath.indexOf('/wallpaper/') === 0 || wpPath.indexOf('/zh/wallpaper/') === 0 || wpPath === '/wallpaper/' || wpPath === '/wallpaper' || wpPath === '/zh/wallpaper/' || wpPath === '/zh/wallpaper';
+    if (onWallpaperPage) {
+      // Force currentLang from URL path, ignore stale localStorage
+      currentLang = wpPath.indexOf('/zh/wallpaper') === 0 ? 'zh' : DEFAULT_LANG;
+      // Still bind dropdown events and set UI state
+      cacheOriginalTexts();
+      var trigger = document.getElementById('lang-trigger');
+      var menu = document.getElementById('lang-menu');
+      if (trigger && menu) {
+        trigger.addEventListener('click', function (e) { e.preventDefault(); });
+        var options = menu.querySelectorAll('.lang-option');
+        for (var i = 0; i < options.length; i++) {
+          options[i].addEventListener('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            var lang = this.getAttribute('data-lang');
+            switchLanguage(lang);
+            if (menu.classList.contains('show')) { menu.classList.remove('show'); }
+          });
+        }
+      }
+      updateSwitcherUI(currentLang);
+      highlightActiveOption(currentLang);
+      document.dispatchEvent(new CustomEvent('daoessence:i18n-changed', { detail: { lang: currentLang } }));
+      return;
+    }
 
     // ── Auto-redirect based on saved lang vs current URL ──
     var pathname = window.location.pathname;
