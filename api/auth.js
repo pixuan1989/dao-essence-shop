@@ -49,6 +49,26 @@ async function me(req, res) {
     });
 }
 
+// GET /api/auth?action=stats  — return download counts for sorting
+async function getStats(req, res) {
+    try {
+        const client = getRedis();
+        const stats = {};
+        const keys = await client.keys('wallpaper:downloads:*');
+        if (keys && keys.length > 0) {
+            const counts = await client.mget(...keys);
+            keys.forEach((key, i) => {
+                const wpId = key.replace('wallpaper:downloads:', '');
+                stats[wpId] = parseInt(counts[i]) || 0;
+            });
+        }
+        return res.status(200).json({ stats });
+    } catch (e) {
+        console.error('[auth] getStats error:', e.message);
+        return res.status(200).json({ stats: {} });
+    }
+}
+
 // POST /api/auth?action=download
 async function downloadCheck(req, res) {
     const today = new Date().toISOString().slice(0, 10);
@@ -88,6 +108,21 @@ async function downloadCheck(req, res) {
             } else {
                 await client.set(dlKey, String(used + 1), { ex: 86400 });
             }
+            // Record download count (best-effort, never block download)
+            try {
+                const wpId = req.body?.wallpaperId || req.query.wallpaperId || '';
+                if (wpId) {
+                    const key = 'wallpaper:downloads:' + wpId;
+                    if (useMemory) {
+                        memoryCounts.set(key, (memoryCounts.get(key) || 0) + 1);
+                    } else {
+                        await client.incr(key);
+                        await client.expire(key, 86400 * 365); // persist ~1 year
+                    }
+                }
+            } catch (e) { console.error('[auth] download count error:', e.message); }
+            // --- end count ---
+
             return res.status(200).json({ allowed: true, used: used + 1, limit: 1 });
         }
 
@@ -122,6 +157,22 @@ async function downloadCheck(req, res) {
             await client.set(ipKey, String(nextCount), { ex: 86400 });
             await client.set(userKey, String(nextCount), { ex: 86400 });
         }
+
+        // Record download count (best-effort, never block download)
+        try {
+            const wpId = req.body?.wallpaperId || req.query.wallpaperId || '';
+            if (wpId) {
+                const key = 'wallpaper:downloads:' + wpId;
+                if (useMemory) {
+                    memoryCounts.set(key, (memoryCounts.get(key) || 0) + 1);
+                } else {
+                    await client.incr(key);
+                    await client.expire(key, 86400 * 365);
+                }
+            }
+        } catch (e) { console.error('[auth] download count error:', e.message); }
+        // --- end count ---
+
         return res.status(200).json({ allowed: true, used: nextCount, limit, user: { email } });
     } catch (err) {
         console.error('[auth] downloadCheck error:', err.message);
@@ -149,6 +200,9 @@ export default async function handler(req, res) {
             case 'download':
                 if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
                 return await downloadCheck(req, res);
+            case 'stats':
+                if (req.method !== 'GET') return res.status(405).json({ error: 'Method not allowed' });
+                return await getStats(req, res);
             default:
                 return res.status(400).json({ error: 'Unknown action' });
         }
