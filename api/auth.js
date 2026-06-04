@@ -54,20 +54,12 @@ async function downloadCheck(req, res) {
     const today = new Date().toISOString().slice(0, 10);
     const ip = (req.headers['x-forwarded-for'] || req.socket?.remoteAddress || 'unknown').split(',')[0].trim();
 
-    // Try Redis, fallback to memory if unavailable
+    // Try Redis (no ping, @upstash/redis is HTTP-based)
     let client = null;
     let useMemory = false;
     try {
         client = getRedis();
-        if (client) {
-            await Promise.race([
-                client.ping(),
-                new Promise((_, reject) => setTimeout(() => reject(new Error('ping-timeout')), 2000))
-            ]);
-        }
     } catch (e) {
-        console.warn('[auth] Redis unavailable, using memory fallback:', e.message);
-        useMemory = true;
         client = null;
     }
     if (!client) useMemory = true;
@@ -94,7 +86,7 @@ async function downloadCheck(req, res) {
             if (useMemory) {
                 memoryCounts.set(dlKey, used + 1);
             } else {
-                await client.set(dlKey, String(used + 1), 'EX', 86400);
+                await client.set(dlKey, String(used + 1), { ex: 86400 });
             }
             return res.status(200).json({ allowed: true, used: used + 1, limit: 1 });
         }
@@ -127,8 +119,8 @@ async function downloadCheck(req, res) {
             memoryCounts.set(ipKey, nextCount);
             memoryCounts.set(userKey, nextCount);
         } else {
-            await client.set(ipKey, String(nextCount), 'EX', 86400);
-            await client.set(userKey, String(nextCount), 'EX', 86400);
+            await client.set(ipKey, String(nextCount), { ex: 86400 });
+            await client.set(userKey, String(nextCount), { ex: 86400 });
         }
         return res.status(200).json({ allowed: true, used: nextCount, limit, user: { email } });
     } catch (err) {

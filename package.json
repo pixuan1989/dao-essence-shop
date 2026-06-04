@@ -7,6 +7,7 @@
     "build": "node build-blog.js"
   },
   "dependencies": {
+    "@upstash/redis": "^1.38.0",
     "dashscope": "^1.0.1",
     "gray-matter": "^4.0.3",
     "ioredis": "^5.4.1",

@@ -1,45 +1,33 @@
 /**
  * Redis 连接工具
- * 使用 ioredis 直接连接 Redis
+ * 使用 @upstash/redis (HTTP REST API，Serverless 友好)
  */
 
-import Redis from 'ioredis';
+import { Redis } from '@upstash/redis';
 
 let redis = null;
 
 export function getRedis() {
     if (!redis) {
-        // Try multiple env var names (REDIS_URL, KV_REDIS_URL, KV_URL)
-        let url = process.env.REDIS_URL || process.env.KV_REDIS_URL || process.env.KV_URL;
-        if (!url) {
-            console.error('❌ 未配置 REDIS_URL / KV_REDIS_URL / KV_URL 环境变量');
+        const url = process.env.KV_REST_API_URL;
+        const token = process.env.KV_REST_API_TOKEN;
+        if (!url || !token) {
+            console.error('❌ 未配置 KV_REST_API_URL / KV_REST_API_TOKEN 环境变量');
             return null;
         }
-        // Upstash requires TLS; auto-convert redis:// to rediss://
-        if (url.startsWith('redis://') && !url.startsWith('rediss://')) {
-            url = url.replace('redis://', 'rediss://');
-        }
-        redis = new Redis(url, {
-            maxRetriesPerRequest: 2,
-            retryStrategy(times) {
-                return Math.min(times * 200, 2000);
-            },
-            connectTimeout: 8000,
-            commandTimeout: 5000
-        });
+        redis = new Redis({ url, token });
     }
     return redis;
 }
 
 /**
- * 获取值（自动 JSON.parse）
+ * 获取值（已解析）
  */
 export async function redisGet(key) {
     const client = getRedis();
     if (!client) return null;
     try {
-        const val = await client.get(key);
-        return val ? JSON.parse(val) : null;
+        return await client.get(key);
     } catch (err) {
         console.error('❌ Redis GET 失败:', err.message);
         return null;
@@ -62,13 +50,17 @@ export async function redisDel(key) {
 }
 
 /**
- * 设置值（自动 JSON.stringify）
+ * 设置值（带 TTL，秒）
  */
-export async function redisSet(key, value) {
+export async function redisSet(key, value, ttlSeconds) {
     const client = getRedis();
     if (!client) return false;
     try {
-        await client.set(key, JSON.stringify(value));
+        if (ttlSeconds) {
+            await client.set(key, value, { ex: ttlSeconds });
+        } else {
+            await client.set(key, value);
+        }
         return true;
     } catch (err) {
         console.error('❌ Redis SET 失败:', err.message);
@@ -84,12 +76,12 @@ export async function redisKeys(pattern) {
     if (!client) return [];
     try {
         const keys = [];
-        let cursor = '0';
+        let cursor = 0;
         do {
-            const [nextCursor, matchedKeys] = await client.scan(cursor, 'MATCH', pattern, 'COUNT', 100);
-            cursor = nextCursor;
-            keys.push(...matchedKeys);
-        } while (cursor !== '0');
+            const result = await client.scan(cursor, { match: pattern, count: 100 });
+            cursor = result.cursor;
+            if (result.keys) keys.push(...result.keys);
+        } while (cursor !== 0);
         return keys;
     } catch (err) {
         console.error('❌ Redis KEYS failed:', err.message);
