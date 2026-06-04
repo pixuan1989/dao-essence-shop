@@ -168,40 +168,25 @@
         }
     };
 
-    // ---- Sign in ----
+    // ---- Sign in (Redirect Mode - Stable & Fast) ----
     DA.open = function() {
         if (!clerkReady || !clerkInstance) {
-            // SDK not ready yet, set pending flag and show loading
-            pendingSignIn = true;
-            DA._syncNav(null);
             DA.showToast('Initializing sign-in...', 2000);
             return;
         }
         try {
-            // Try modal sign-in first (requires UI components bundle)
-            if (typeof clerkInstance.openSignIn === 'function') {
-                clerkInstance.openSignIn({
-                    fallbackRedirectUrl: window.location.href
-                });
-                return;
-            }
-        } catch (modalErr) {
-            console.warn('[Auth] Modal sign-in unavailable, falling back to redirect:', modalErr);
-        }
-        // Fallback: redirect-based OAuth (works with core bundle, no UI needed)
-        try {
-            if (clerkInstance.authenticateWithRedirect) {
-                clerkInstance.authenticateWithRedirect({
-                    strategy: 'oauth_google',
-                    redirectUrl: window.location.href,
-                    redirectUrlComplete: window.location.href
-                });
-                return;
-            }
+            // Use Redirect mode to avoid modal UI lag/black screen issues.
+            // This behaves exactly like the Google Login flow (stable & fast) 
+            // but allows choosing between Email and Google login.
+            console.log('[Auth] Redirecting to Clerk login page...');
+            clerkInstance.authenticateWithRedirect({
+                redirectUrl: window.location.href,
+                redirectUrlComplete: window.location.href
+            });
         } catch (e) {
             console.error('[Auth] Redirect sign-in failed:', e);
+            DA.showToast('Login failed. Please try again.', 3000);
         }
-        console.error('[Auth] No sign-in method available');
     };
 
     // ---- Sign out ----
