@@ -211,8 +211,8 @@
 
         /* Footer */
         .footer { background: #1A1612; padding: 80px 0 32px; margin-top: 40px; }
-        .footer .container { max-width: 1400px; margin: 0 auto; padding: 0 32px; }
-        .footer-content { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: 32px; margin-bottom: 32px; }
+        .footer .container { width: 100%; max-width: 1400px; margin: 0 auto; padding: 0 32px; }
+        .footer-content { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 32px; margin-bottom: 32px; }
         .footer-brand .logo-en { color: rgba(245,240,230,0.6); font-family: Georgia, serif; letter-spacing: 0.15em; font-size: 20px; }
         .footer-brand p { color: rgba(245,240,230,0.7); margin-top: 16px; line-height: 1.8; font-size: 14px; }
         .footer-title { font-family: Georgia, serif; font-size: 16px; margin-bottom: 16px; color: #D4AF37; }
@@ -226,6 +226,7 @@
         .footer-legal-links { display: flex; justify-content: center; gap: 8px; align-items: center; margin-top: 8px; }
         .footer-legal-links span { color: rgba(245,240,230,0.3); }
         @media (max-width: 900px) { .footer-content { grid-template-columns: 1fr 1fr; gap: 32px; } .footer-brand { grid-column: span 2; } }
+        @media (max-width: 600px) { .footer-content { grid-template-columns: 1fr; } .footer-brand { grid-column: span 1; } }
         @media (max-width: 768px) {
             .wpn-inner { padding: 0 16px; gap: 10px; height: 54px; }
             .wpn-logo-text { display: none; }
@@ -390,7 +391,6 @@
                         <li><a href="#" onclick="document.getElementById('wechat-modal').style.display='flex';return false;">WeChat</a></li>
                         <li><span>Mon&#8211;Sat: 9AM&#8211;9PM (CST / UTC+8)</span></li>
                         <li><a href="https://t.me/dingwei_123" target="_blank" rel="noopener">Telegram Channel</a></li>
-                        <li><a href="https://t.me/Dingwei_pi" target="_blank" rel="noopener">Telegram @Dingwei_pi</a></li>
                         <li><a href="https://www.pinterest.com/pixuan/wallpapers/" target="_blank" rel="noopener">Pinterest</a></li>
                     </ul>
                 </div>
