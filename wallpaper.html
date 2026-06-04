@@ -7,6 +7,7 @@
     <meta name="description" content="High-resolution auspicious wallpapers for your phone. Curated collection of Chinese metaphysics, Zodiac, and Five Elements art.">
     <link rel="stylesheet" href="styles.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.1.0"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -930,27 +931,41 @@
         });
 
         // Get filtered + sorted wallpapers
+        // Fuse.js fuzzy search (initialized once after data load)
+        let fuseInstance = null;
+        function initFuse() {
+            if (fuseInstance || !allWallpapers.length) return;
+            fuseInstance = new Fuse(allWallpapers, {
+                keys: [
+                    { name: 'title', weight: 0.5 },
+                    { name: 'titleZh', weight: 0.5 },
+                    { name: 'category', weight: 0.2 },
+                    { name: 'categoryZh', weight: 0.2 },
+                    { name: 'keywords', weight: 0.15 },
+                    { name: 'keywordsZh', weight: 0.15 }
+                ],
+                includeScore: true,
+                threshold: 0.5,   // 0.0 = exact, 1.0 = match anything; 0.5 balances precision & recall
+                ignoreLocation: true,
+                distance: 1000,     // allow match anywhere in string (important for Chinese)
+                minMatchCharLength: 1
+            });
+        }
+
         function getFiltered() {
             let list = [...allWallpapers];
             // Category filter
             if (activeCategory !== 'All') {
                 list = list.filter(w => w.category === activeCategory);
             }
-            // Search filter
+            // Search filter (Fuse.js fuzzy search)
             if (searchQuery) {
-                const q = searchQuery;
-                const mappedCat = CAT_EN_TO_ZH[q];
-                list = list.filter(w => {
-                    return (
-                        (w.title && w.title.toLowerCase().includes(q)) ||
-                        (w.titleZh && w.titleZh.toLowerCase().includes(q)) ||
-                        (w.category && w.category.toLowerCase().includes(q)) ||
-                        (w.categoryZh && w.categoryZh.toLowerCase().includes(q)) ||
-                        (mappedCat && w.category === mappedCat) ||
-                        (w.keywords && w.keywords.some(tag => tag.toLowerCase().includes(q))) ||
-                        (w.keywordsZh && w.keywordsZh.some(tag => tag.toLowerCase().includes(q)))
-                    );
-                });
+                initFuse();
+                if (fuseInstance) {
+                    const results = fuseInstance.search(searchQuery);
+                    const ids = new Set(results.map(r => r.item.id));
+                    list = list.filter(w => ids.has(w.id));
+                }
             }
             // Sort
             if (activeSort === 'popular') {
