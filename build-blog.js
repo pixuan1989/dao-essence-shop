@@ -2690,11 +2690,12 @@ async function main() {
   // with injected wallpapers.json data above (Step 7.5). Copying it again
   // would overwrite the injected data with stale source content.
   console.log('Syncing static pages...');
-  const staticFiles = ['wallpaper.html', 'login.html'];
+  const staticFiles = ['wallpaper.html', 'login.html', 'zodiac/zodiac-daily.html'];
   for (const file of staticFiles) {
     const src = path.join(__dirname, file);
     const dest = path.join(DIST_DIR, file);
     if (fs.existsSync(src)) {
+      fs.mkdirSync(path.dirname(dest), { recursive: true });
       fs.copyFileSync(src, dest);
       console.log(`  ✅ ${file} → dist/`);
     }
@@ -2705,6 +2706,25 @@ async function main() {
     fs.mkdirSync(path.dirname(authDest), { recursive: true });
     fs.copyFileSync(authSrc, authDest);
     console.log('  ✅ js/auth.js → dist/js/');
+  }
+  
+  // Copy new wallpaper recommendation scripts
+  const newWpScripts = [
+    'zodiac-bottom-wallpaper.js',
+    'zodiac-detail-wallpaper.js',
+    'almanac-wallpaper-recommendation.js',
+    'soulmate-wallpaper-recommendation.js',
+    'bazi-wallpaper-recommendation.js',
+    'favorable-element-wallpaper-recommendation.js'
+  ];
+  const jsDir = path.join(DIST_DIR, 'js');
+  fs.mkdirSync(jsDir, { recursive: true });
+  for (const script of newWpScripts) {
+    const src = path.join(__dirname, 'js', script);
+    if (fs.existsSync(src)) {
+      fs.copyFileSync(src, path.join(jsDir, script));
+      console.log(`  ✅ js/${script} → dist/js/`);
+    }
   }
 }
 
