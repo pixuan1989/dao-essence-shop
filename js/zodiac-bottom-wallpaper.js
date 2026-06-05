@@ -1,7 +1,7 @@
 /**
  * Zodiac Aggregate Bottom Wallpaper Module (Append-Only)
  * Function: Renders 3 random wallpapers at the bottom of the aggregate page.
- * Safety: Wrapped in try-catch, fails silently, zero impact on core logic.
+ * Safety: Wrapped in try-catch, reports errors to console.
  */
 (function() {
   'use strict';
@@ -28,7 +28,8 @@
         grid.appendChild(a);
       });
     } catch (e) {
-      // Fail silently
+      // 现在会打印错误，方便调试
+      console.error('[Zodiac Wallpaper] Error:', e);
     }
   }
 
