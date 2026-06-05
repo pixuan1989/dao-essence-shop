@@ -4,8 +4,7 @@
  * 安全：独立模块，不修改现有下载逻辑
  * 复用 api/pageview 端点（合并下载计数到现有函数，不超限）
  * 
- * 修复：使用 MutationObserver 监听 data-wallpaper-id 的变化
- * （因为壁纸数据是异步加载的）
+ * 修复：增加重试机制和 MutationObserver 双保险，确保异步数据加载后也能正确获取 ID
  */
 (function() {
   'use strict';
@@ -77,50 +76,58 @@
     el.textContent = text;
   }
 
-  // 使用 MutationObserver 监听 data-wallpaper-id 的变化
-  function observeWallpaperId() {
+  // 获取 ID 的主逻辑
+  function tryGetId() {
+    if (initialized) return;
+    
     const dlLink = document.getElementById('download-link');
     if (!dlLink) return;
 
-    const observer = new MutationObserver(function(mutations) {
-      mutations.forEach(function(mutation) {
-        if (mutation.type === 'attributes' && mutation.attributeName === 'data-wallpaper-id') {
-          const newId = dlLink.getAttribute('data-wallpaper-id');
-          if (newId) {
-            initCount(newId);
-            observer.disconnect(); // 停止监听
-          }
-        }
-      });
-    });
-
-    observer.observe(dlLink, { attributes: true, attributeFilter: ['data-wallpaper-id'] });
+    const id = dlLink.getAttribute('data-wallpaper-id');
+    if (id) {
+      initCount(id);
+      return true;
+    }
+    return false;
   }
 
   // 启动
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', function() {
-      // 先检查是否已经有 ID（可能数据已经加载）
-      const dlLink = document.getElementById('download-link');
-      if (dlLink) {
-        const existingId = dlLink.getAttribute('data-wallpaper-id');
-        if (existingId) {
-          initCount(existingId);
-        } else {
-          observeWallpaperId();
-        }
+  function start() {
+    // 1. 立即尝试
+    if (tryGetId()) return;
+
+    // 2. 轮询重试（最多 5 次，间隔 300ms）
+    let retries = 0;
+    const pollId = setInterval(function() {
+      if (tryGetId()) {
+        clearInterval(pollId);
+      } else {
+        retries++;
+        if (retries >= 5) clearInterval(pollId);
       }
-    });
-  } else {
-    // DOM 已加载完成
+    }, 300);
+
+    // 3. 监听属性变化（MutationObserver 作为备用）
     const dlLink = document.getElementById('download-link');
     if (dlLink) {
-      const existingId = dlLink.getAttribute('data-wallpaper-id');
-      if (existingId) {
-        initCount(existingId);
-      } else {
-        observeWallpaperId();
-      }
+      const observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          if (mutation.type === 'attributes' && mutation.attributeName === 'data-wallpaper-id') {
+            const newId = dlLink.getAttribute('data-wallpaper-id');
+            if (newId) {
+              initCount(newId);
+              observer.disconnect();
+            }
+          }
+        });
+      });
+      observer.observe(dlLink, { attributes: true, attributeFilter: ['data-wallpaper-id'] });
     }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', start);
+  } else {
+    start();
   }
 })();
