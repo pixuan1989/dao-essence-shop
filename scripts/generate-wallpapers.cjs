@@ -793,9 +793,10 @@ function main() {
   }
 
   // 过滤出需要生成的壁纸（增量模式）
+  // 必须用 getSlug() 保持一致，避免 wp.slug 缺失时判断用 wp.id 但实际生成用 toSlug(title)
   var toGenerate = wallpapers.filter(function(wp) {
     if (forceAll) return true;
-    var dir = path.join(OUT_DIR, wp.slug || wp.id);
+    var dir = path.join(OUT_DIR, getSlug(wp));
     var enFile = path.join(dir, 'index.html');
     var zhFile = path.join(dir, 'index.zh.html');
     return !(fs.existsSync(enFile) && fs.existsSync(zhFile));
@@ -814,7 +815,7 @@ function main() {
   ensureDir(OUT_DIR);
   var start1 = Date.now();
   generateInParallel(toGenerate, function(wp) {
-    return path.join(OUT_DIR, wp.slug || wp.id);
+    return path.join(OUT_DIR, getSlug(wp));
   }, 10).then(function() {
     var elapsed1 = ((Date.now() - start1) / 1000).toFixed(1);
     console.log('   ✅ Source pages done (' + elapsed1 + 's)');
@@ -824,7 +825,7 @@ function main() {
     ensureDir(DIST_OUT_DIR);
     var start2 = Date.now();
     generateInParallel(toGenerate, function(wp) {
-      return path.join(DIST_OUT_DIR, wp.slug || wp.id);
+      return path.join(DIST_OUT_DIR, getSlug(wp));
     }, 10).then(function() {
       var elapsed2 = ((Date.now() - start2) / 1000).toFixed(1);
       var totalElapsed = ((Date.now() - start1) / 1000).toFixed(1);
