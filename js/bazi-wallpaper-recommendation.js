@@ -11,15 +11,13 @@
     if (!container) return;
 
     // --- i18n Logic ---
-    // 1. Check window.currentLang (used by bazi-result.js)
-    // 2. Check window.DaoI18n
-    // 3. Check URL path /zh/
+    // 1. Check HTML lang attribute (most reliable, e.g. "zh-Hant")
+    // 2. Check window.currentLang
     let lang = 'en';
-    if (typeof window.currentLang !== 'undefined' && window.currentLang === 'zh') {
+    const htmlLang = document.documentElement.lang;
+    if (htmlLang && (htmlLang.startsWith('zh') || htmlLang.includes('Hant'))) {
       lang = 'zh';
-    } else if (window.DaoI18n && window.DaoI18n.current && window.DaoI18n.current() === 'zh') {
-      lang = 'zh';
-    } else if (window.location.pathname.indexOf('/zh/') === 0) {
+    } else if (typeof window.currentLang !== 'undefined' && window.currentLang === 'zh') {
       lang = 'zh';
     }
 
@@ -35,21 +33,21 @@
       // Pick 3 random
       const picks = wps.sort(() => 0.5 - Math.random()).slice(0, 3);
       
-      // Build HTML with inline flex centering
+      // Build HTML with strict centering constraints
       let html = `
-        <div style="padding-top:40px; text-align:center;">
-          <h3 style="font-size:18px; color:#D4AF37; margin:0 0 20px 0; font-weight:600;">${title}</h3>
-          <div style="display:flex; justify-content:center; gap:16px; flex-wrap:wrap; margin-bottom:24px;">
+        <div style="max-width: 800px; margin: 50px auto 0; text-align: center; padding: 0 20px;">
+          <h3 style="font-size: 20px; color: #D4AF37; margin: 0 0 24px 0; font-weight: 600;">${title}</h3>
+          <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-bottom: 30px;">
       `;
       
       picks.forEach(wp => {
-        html += `<a href="/wallpaper/${wp.slug || wp.id}" style="display:block; width:110px; border-radius:10px; overflow:hidden; border:1px solid rgba(212,175,55,0.2); transition:transform 0.2s;">
-                   <img src="${wp.thumb || ''}" style="width:100%; display:block; min-height:160px;" loading="lazy"/>
+        html += `<a href="/wallpaper/${wp.slug || wp.id}" style="display: block; width: 130px; border-radius: 12px; overflow: hidden; border: 1px solid rgba(212,175,55,0.3); box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: transform 0.2s;">
+                   <img src="${wp.thumb || ''}" style="width: 100%; display: block;" loading="lazy"/>
                  </a>`;
       });
       
       html += `</div>`;
-      html += `<a href="/wallpaper" style="display:inline-block; padding:10px 24px; background:rgba(212,175,55,0.15); color:#D4AF37; border:1px solid rgba(212,175,55,0.3); border-radius:8px; text-decoration:none; font-size:14px; font-weight:500;">${btnText}</a>`;
+      html += `<a href="/wallpaper" style="display: inline-block; padding: 12px 28px; background: #D4AF37; color: #fff; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: 600; transition: opacity 0.2s;">${btnText}</a>`;
       html += `</div>`;
       
       container.innerHTML = html;
