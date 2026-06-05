@@ -1,7 +1,7 @@
 /**
  * Almanac Wallpaper Recommendation Module (Task P4)
  * Function: Recommends wallpapers matching the user's selected scenario after auspicious date results.
- * Strategy: Append-Only, uses MutationObserver on #selectResult, never modifies core logic.
+ * Strategy: Append-Only, uses MutationObserver on #selectResult, supports i18n language switching.
  * Style: Dark semi-transparent glass cards, consistent with existing modules.
  */
 (function() {
@@ -20,6 +20,19 @@
     targetId: 'selectResult',
     limit: 3
   };
+
+  let storedWallpapers = [];
+  let storedScenario = null;
+
+  // Get current language from DaoI18n or URL
+  function getLang() {
+    // DaoI18n exposes .current() method (not getCurrentLang)
+    if (window.DaoI18n && typeof window.DaoI18n.current === 'function') {
+      return window.DaoI18n.current();
+    }
+    // Fallback: URL path
+    return window.location.pathname.indexOf('/zh/') === 0 ? 'zh' : 'en';
+  }
 
   // Extract scenario from result title text
   function extractScenario() {
