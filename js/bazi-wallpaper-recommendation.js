@@ -10,14 +10,25 @@
     const container = document.getElementById('bazi-wp-rec-container');
     if (!container) return;
 
-    // --- i18n Logic ---
-    // 1. Check HTML lang attribute (most reliable, e.g. "zh-Hant")
-    // 2. Check window.currentLang
+    // --- i18n Logic (Improved for SPA Language Switching) ---
+    // The BaZi result page is an SPA - language is switched via JS dropdown, not separate files.
+    // We detect language by: 1) URL path, 2) active language button in nav, 3) window.currentLang
     let lang = 'en';
-    const htmlLang = document.documentElement.lang;
-    if (htmlLang && (htmlLang.startsWith('zh') || htmlLang.includes('Hant'))) {
+    
+    // Method 1: Check URL path (/zh/ prefix)
+    const path = window.location.pathname;
+    if (path.includes('/zh/')) {
       lang = 'zh';
-    } else if (typeof window.currentLang !== 'undefined' && window.currentLang === 'zh') {
+    }
+    // Method 2: Check active language button in header dropdown
+    else {
+      const activeLangBtn = document.querySelector('.lang-option.active');
+      if (activeLangBtn && activeLangBtn.getAttribute('data-lang') === 'zh') {
+        lang = 'zh';
+      }
+    }
+    // Method 3: Check window.currentLang (backup)
+    if (typeof window.currentLang !== 'undefined' && window.currentLang === 'zh') {
       lang = 'zh';
     }
 
