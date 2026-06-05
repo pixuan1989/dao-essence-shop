@@ -59,7 +59,7 @@ files.forEach(file => {
       if(!grid)return;
       fetch('/wallpapers.json').then(function(r){return r.ok?r.json():null;}).then(function(wps){
         if(!wps||!wps.length)return;
-        wps.sort(function(){return 0.5-Math.random();}).slice(0,5).forEach(function(wp){
+        wps.sort(function(){return 0.5-Math.random();}).slice(0,4).forEach(function(wp){
           var a=document.createElement('a');
           a.href='/wallpaper/'+(wp.slug||wp.id);
           a.style.cssText='display:block;width:130px;border-radius:8px;overflow:hidden;border:1px solid rgba(255,255,255,0.1);transition:transform 0.2s;';
