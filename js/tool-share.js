@@ -8,7 +8,7 @@
 
   var CSS_ID = 'tool-share-css';
   var css = [
-    '.tool-share-bar{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:0.5rem;padding:1rem 0;margin-top:0.5rem;border-top:1px solid #E5E4DF}',
+    '.tool-share-bar{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:0.5rem;padding:0.5rem 0;margin:0;border-top:none}',
     '.tool-share-label{font-size:0.78rem;color:#8C8C85;text-transform:uppercase;letter-spacing:0.1em;margin-right:0.5rem;white-space:nowrap}',
     '.tool-share-btn{width:34px;height:34px;border-radius:50%;border:1px solid #D4C4A8;background:#F8F7F5;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;color:#50504A;text-decoration:none;padding:0}',
     '.tool-share-btn:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,0.1)}',
