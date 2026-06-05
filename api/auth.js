@@ -18,12 +18,12 @@ const cors = {
 // Verify Clerk Session Token (简化版，实际生产环境建议用 Clerk Node SDK)
 async function verifyClerkToken(token) {
     try {
-        // Clerk session token 是 JWT 格式
-        // 这里简化处理：如果 token 存在且格式正确，认为已登录
-        // 生产环境应调用 Clerk API 验证
+        // Clerk session token 是 JWT 格式 (base64url 编码)
         if (!token || token.length < 100) return null;
-        // 从 token 中解析用户ID (简化处理)
-        const payload = JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString());
+        const parts = token.split('.');
+        if (parts.length !== 3) return null;
+        // 必须用 base64url（JWT 标准），不能用 base64
+        const payload = JSON.parse(Buffer.from(parts[1], 'base64url').toString());
         return payload;
     } catch (e) {
         return null;
