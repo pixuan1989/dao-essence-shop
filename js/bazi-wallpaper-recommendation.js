@@ -157,9 +157,10 @@
 
     // 监听排盘结果渲染
     const observer = new MutationObserver((mutations, obs) => {
-      // 检查是否有排盘内容
-      const hasContent = target.innerText.length > 50;
-      if (!hasContent) return;
+      // 检查是否有排盘内容（四柱信息），而不是简单判断文字长度
+      // 初始状态有隐私提示文字 >50 字，所以 length 判断不可靠
+      const hasPillars = target.querySelector('.bazi-pillars-grid') || target.querySelector('.bazi-pillar');
+      if (!hasPillars) return;
 
       // 提取喜用神
       const text = target.innerText;
