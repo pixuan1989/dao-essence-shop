@@ -273,21 +273,43 @@
 <!-- Wallpapers Section (Bottom) -->
 <section class="container" style="margin-bottom:40px;">
   <div id="zodiac-wp-rec-container" style="text-align:center; padding:30px; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); border-radius:16px;">
-    <h3 style="font-size:18px;color:#D4AF37;margin-bottom:20px;">今日生肖幸运壁纸</h3>
+    <h3 id="zodiac-wp-title" style="font-size:18px;color:#D4AF37;margin-bottom:20px;">Today's Lucky Wallpapers</h3>
     <div id="zodiac-wp-grid" style="display:flex;justify-content:center;gap:16px;flex-wrap:wrap;"></div>
-    <a href="/wallpaper" style="display:inline-block;margin-top:20px;padding:10px 24px;background:rgba(212,175,55,0.15);color:#D4AF37;border:1px solid rgba(212,175,55,0.3);border-radius:8px;text-decoration:none;font-size:14px;">查看更多玄学壁纸 →</a>
+    <a id="zodiac-wp-btn" href="/wallpaper" style="display:inline-block;margin-top:20px;padding:10px 24px;background:rgba(212,175,55,0.15);color:#D4AF37;border:1px solid rgba(212,175,55,0.3);border-radius:8px;text-decoration:none;font-size:14px;">Browse All Wallpapers →</a>
   </div>
 </section>
 <script>
 (function(){
-  var grid=document.getElementById('zodiac-wp-grid');
-  if(!grid)return;
+  // i18n Support
+  var titleEl = document.getElementById('zodiac-wp-title');
+  var btnEl = document.getElementById('zodiac-wp-btn');
+  var grid = document.getElementById('zodiac-wp-grid');
+  
+  function updateLanguage() {
+    var lang = window.DaoI18n ? window.DaoI18n.current() : 'en';
+    if (lang === 'zh') {
+      if (titleEl) titleEl.textContent = '今日生肖幸运壁纸';
+      if (btnEl) btnEl.textContent = '查看更多玄学壁纸 →';
+    } else {
+      if (titleEl) titleEl.textContent = "Today's Lucky Wallpapers";
+      if (btnEl) btnEl.textContent = 'Browse All Wallpapers →';
+    }
+  }
+  
+  // Initial update
+  updateLanguage();
+  
+  // Listen for language changes
+  document.addEventListener('daoessence:i18n-changed', updateLanguage);
+
+  if (!grid) return;
   fetch('/wallpapers.json').then(function(r){return r.ok?r.json():null;}).then(function(wps){
     if(!wps||!wps.length)return;
-    wps.sort(function(){return 0.5-Math.random();}).slice(0,3).forEach(function(wp){
+    // Increased to 5 items, width increased to 150px
+    wps.sort(function(){return 0.5-Math.random();}).slice(0,5).forEach(function(wp){
       var a=document.createElement('a');
       a.href='/wallpaper/'+(wp.slug||wp.id);
-      a.style.cssText='display:block;width:110px;border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,0.1);transition:transform 0.2s;';
+      a.style.cssText='display:block;width:150px;border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,0.1);transition:transform 0.2s;';
       a.innerHTML='<img src="'+(wp.thumb||'')+'" style="width:100%;display:block;" loading="lazy"/>';
       a.onmouseenter=function(){a.style.transform='translateY(-4px)';};
       a.onmouseleave=function(){a.style.transform='';};
