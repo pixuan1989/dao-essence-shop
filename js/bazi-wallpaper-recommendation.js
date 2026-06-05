@@ -7,6 +7,7 @@
  * 1. Align with left column of .bazi-page (grid 1fr 300px layout)
  * 2. Use window.DaoI18n.current() for language detection (consistent with BaZi SPA)
  * 3. Listen to daoessence:i18n-changed event for dynamic language switching
+ * 4. Added retry mechanism for language detection (waits for DaoI18n to load)
  */
 (function() {
   'use strict';
@@ -17,13 +18,13 @@
     if (window.DaoI18n && typeof window.DaoI18n.current === 'function') {
       return window.DaoI18n.current() === 'zh' ? 'zh' : 'en';
     }
-    // Method 2: Check URL path (/zh/ prefix)
-    if (window.location.pathname.includes('/zh/')) {
-      return 'zh';
-    }
-    // Method 3: Check active language button
+    // Method 2: Check active language button in nav dropdown
     const activeBtn = document.querySelector('.lang-option.active');
     if (activeBtn && activeBtn.getAttribute('data-lang') === 'zh') {
+      return 'zh';
+    }
+    // Method 3: Check URL path (/zh/ prefix)
+    if (window.location.pathname.includes('/zh/')) {
       return 'zh';
     }
     // Method 4: Check window.currentLang
@@ -50,8 +51,9 @@
       const picks = wps.sort(() => 0.5 - Math.random()).slice(0, 3);
 
       // Build HTML - align with LEFT column of .bazi-page (grid-template-columns: 1fr 300px)
-      // The left column width ≈ 800px (1140px total - 300px sidebar - 2.5rem gap)
-      // We wrap in 1140px container to match .bazi-page, then inner 800px for left column alignment
+      // .bazi-page has max-width: 1140px, padding: 0 1.5rem, grid gap: 2.5rem
+      // Left column (main content) ≈ 800px, right sidebar = 300px
+      // We match .bazi-page's outer container, then limit inner content to left column width
       let html = `
         <div style="max-width: 1140px; margin: 50px auto 0; padding: 0 1.5rem;">
           <div style="max-width: 800px; text-align: center;">
@@ -76,11 +78,18 @@
     }
   }
 
-  // --- Init ---
+  // --- Init with retry for language detection ---
   function init() {
-    // Render immediately
-    render();
-    
+    // Check if DaoI18n is loaded, if not retry after a short delay
+    if (!window.DaoI18n || typeof window.DaoI18n.current !== 'function') {
+      // DaoI18n not ready yet, wait and retry
+      setTimeout(function() {
+        render();
+      }, 200);
+    } else {
+      render();
+    }
+
     // Listen for language changes (SPA dynamic switching)
     // BaZi SPA fires 'daoessence:i18n-changed' when user switches language
     document.addEventListener('daoessence:i18n-changed', function() {
