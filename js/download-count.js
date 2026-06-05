@@ -2,11 +2,12 @@
  * download-count.js - 壁纸下载计数显示
  * 功能：页面加载时显示下载次数，点击下载时 +1
  * 安全：独立模块，不修改现有下载逻辑
+ * 复用 api/pageview 端点（合并下载计数到现有函数，不超限）
  */
 (function() {
   'use strict';
 
-  const API = '/api/download';
+  const API = '/api/pageview';
   let currentWallpaperId = '';
 
   // 格式化数字（1234 → 1.2K）
@@ -36,7 +37,7 @@
 
   // 查询下载次数并显示
   function loadCount(id) {
-    fetch(`${API}?ids=${encodeURIComponent(id)}`)
+    fetch(`${API}?action=download&ids=${encodeURIComponent(id)}`)
       .then(res => res.json())
       .then(data => {
         const count = data[id] || 0;
@@ -50,7 +51,7 @@
     fetch(API, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id }),
+      body: JSON.stringify({ action: 'download', id }),
     })
       .then(res => res.json())
       .then(data => {

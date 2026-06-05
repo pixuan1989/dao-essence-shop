@@ -1,7 +1,9 @@
 /**
- * Pageview API - 阅读量统计
- * GET  /api/pageview?slugs=slug1,slug2  → 批量查询阅读量
- * POST /api/pageview + body { slug }      → 该文章阅读量 +1
+ * Pageview API - 阅读量统计 + 壁纸下载计数
+ * GET  /api/pageview?slugs=slug1,slug2              → 批量查询阅读量
+ * GET  /api/pageview?action=download&ids=id1,id2    → 批量查询下载次数
+ * POST /api/pageview + body { slug }                 → 文章阅读量 +1
+ * POST /api/pageview + body { action: 'download', id } → 壁纸下载次数 +1
  * POST /api/pageview + body { action: 'feedback', email, message, page } → 提交反馈
  *
  * 阅读量使用 Vercel KV (Upstash Redis) 存储 (KV_REST_API_URL)
@@ -70,9 +72,24 @@ export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   if (req.method === 'OPTIONS') return res.status(200).end();
 
-  // ── GET：批量查询 ──
+  // ── GET：批量查询阅读量 或 下载次数 ──
   if (req.method === 'GET') {
-    const { slugs } = req.query;
+    const { slugs, ids, action } = req.query;
+
+    // 下载计数查询
+    if (action === 'download' && ids) {
+      const idList = ids.split(',').map(s => s.trim()).filter(Boolean);
+      const result = {};
+      await Promise.all(
+        idList.map(async (id) => {
+          const val = await kvGet(`dl:${id}`);
+          result[id] = parseInt(val) || 0;
+        })
+      );
+      return res.status(200).json(result);
+    }
+
+    // 阅读量查询
     if (!slugs) return res.status(400).json({ error: 'Missing slugs param' });
 
     const slugList = slugs.split(',').map(s => s.trim()).filter(Boolean);
@@ -94,7 +111,7 @@ export default async function handler(req, res) {
     return res.status(200).json(result);
   }
 
-  // ── POST：反馈提交 或 阅读量 +1 ──
+  // ── POST：反馈提交 或 阅读量 +1 或 下载次数 +1 ──
   if (req.method === 'POST') {
     const { action } = req.body || {};
 
@@ -103,6 +120,30 @@ export default async function handler(req, res) {
       return handleFeedback(req, res);
     }
 
+    // 下载计数 +1
+    if (action === 'download') {
+      const { id } = req.body || {};
+      if (!id) return res.status(400).json({ error: 'Missing id' });
+
+      const ip = (
+        req.headers['cf-connecting-ip'] ||
+        req.headers['x-forwarded-for']?.split(',')[0]?.trim() ||
+        req.socket?.remoteAddress ||
+        'unknown'
+      );
+
+      const dedupKey = `dl_visited:${id}:${ip}`;
+      const isNew = await kvSetNX(dedupKey, 86400);
+      if (!isNew) {
+        const count = await kvGet(`dl:${id}`);
+        return res.status(200).json({ id, count: parseInt(count) || 0, newDownload: false });
+      }
+
+      const count = await kvIncr(`dl:${id}`);
+      return res.status(200).json({ id, count, newDownload: true });
+    }
+
+    // 阅读量 +1
     const { slug } = req.body || {};
     if (!slug) return res.status(400).json({ error: 'Missing slug' });
 
