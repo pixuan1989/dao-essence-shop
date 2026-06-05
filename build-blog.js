@@ -980,16 +980,18 @@ function generateArticleHtml(post, category, allArticles, options = {}) {
   const btnText = isZh ? '查看更多开运壁纸 →' : 'Browse Lucky Wallpapers →';
 
   const wallpaperCardHtml = wpCards.length > 0 ? `
-    <div style="background:#fff;border:1px solid #f0f0f0;border-radius:12px;padding:24px 16px;margin:32px 0;text-align:center;box-shadow:0 4px 16px rgba(0,0,0,0.04);max-width:100%;">
-      <div style="font-size:16px;color:#D4AF37;font-weight:600;margin:0 0 16px;">${wpCopy}</div>
-      <div style="display:flex;justify-content:center;gap:10px;margin-bottom:20px;flex-wrap:wrap;">
-        ${wpCards.map(wp => `
-          <a href="/wallpaper/${wp.slug || wp.id}" style="width:32%;border-radius:8px;overflow:hidden;aspect-ratio:9/16;background:#f8f8f8;display:block;">
-            <img src="${wp.thumb}" alt="${escapeHtml(wp.title)}" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;" />
-          </a>
-        `).join('')}
+    <div style="text-align:center;margin:40px 0;">
+      <div style="background:linear-gradient(135deg,#faf8f5 0%,#f5f0e8 100%);border:1px solid rgba(212,175,55,0.15);border-radius:16px;padding:32px 24px;display:inline-block;max-width:600px;width:100%;text-align:center;box-shadow:0 8px 24px rgba(0,0,0,0.06);">
+        <div style="font-size:18px;color:#D4AF37;font-weight:600;margin:0 0 20px;letter-spacing:0.5px;">${wpCopy}</div>
+        <div style="display:flex;justify-content:center;gap:12px;margin-bottom:24px;flex-wrap:wrap;">
+          ${wpCards.map(wp => `
+            <a href="/wallpaper/${wp.slug || wp.id}" style="width:32%;border-radius:10px;overflow:hidden;aspect-ratio:9/16;background:#fff;box-shadow:0 4px 12px rgba(0,0,0,0.1);display:block;">
+              <img src="${wp.thumb}" alt="${escapeHtml(wp.title)}" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;" />
+            </a>
+          `).join('')}
+        </div>
+        <a href="/wallpaper" style="display:inline-block;padding:10px 24px;background:rgba(212,175,55,0.1);color:#D4AF37;text-decoration:none;font-size:14px;font-weight:600;border:1px solid rgba(212,175,55,0.3);border-radius:8px;">${btnText}</a>
       </div>
-      <a href="/wallpaper" style="display:inline-block;padding:8px 16px;color:#D4AF37;text-decoration:none;font-size:13px;font-weight:500;border-bottom:1px dashed #D4AF37;">${btnText}</a>
     </div>
   ` : '';
 
