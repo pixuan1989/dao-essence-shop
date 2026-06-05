@@ -23,24 +23,31 @@
   let storedWallpapers = [];
   let storedElements = [];
 
-  // Utility: Get current language from i18n-switcher state
+  // Utility: Get current language from DaoI18n state or URL
   function getLang() {
-    // Try DaoI18n first (single-page language switching)
-    if (window.DaoI18n && window.DaoI18n.getCurrentLang) {
-      return window.DaoI18n.getCurrentLang();
+    // DaoI18n exposes .current() method (not getCurrentLang)
+    if (window.DaoI18n && typeof window.DaoI18n.current === 'function') {
+      return window.DaoI18n.current();
     }
     // Fallback: URL path
     return window.location.pathname.indexOf('/zh/') === 0 ? 'zh' : 'en';
   }
 
+  // Normalize element name to a consistent English key for lookup
+  function normalizeElement(el) {
+    const zhToEn = { '火': 'fire', '水': 'water', '木': 'wood', '金': 'metal', '土': 'earth' };
+    const lower = (el || '').toLowerCase();
+    return zhToEn[el] || zhToEn[lower] || lower;
+  }
+
   // Utility: Build title based on elements and language
   function buildTitle(elements, lang) {
     const isZh = lang === 'zh';
+    const cn = { fire: '火', water: '水', wood: '木', metal: '金', earth: '土' };
+    const en = { fire: 'Fire', water: 'Water', wood: 'Wood', metal: 'Metal', earth: 'Earth' };
     const elNames = elements.map(e => {
-      const cn = { '火': '火', '水': '水', '木': '木', '金': '金', '土': '土' };
-      const en = { 'fire': 'Fire', 'water': 'Water', 'wood': 'Wood', 'metal': 'Metal', 'earth': 'Earth' };
-      const lower = e.toLowerCase();
-      return isZh ? (cn[e] || cn[lower] || e) : (en[lower] || en[e] || e);
+      const key = normalizeElement(e);
+      return isZh ? (cn[key] || e) : (en[key] || e);
     });
     const elStr = elNames.join(' & ');
     return isZh
@@ -246,8 +253,6 @@
       if (matched.length > 0) {
         const title = buildTitle(storedElements, getLang());
         renderRecommendations(target, matched, storedElements, title);
-        // Don't disconnect — keep observing for re-render on lang switch
-        // Actually, disconnect to avoid duplicate renders, reRender handles lang switch
         obs.disconnect();
       }
     });

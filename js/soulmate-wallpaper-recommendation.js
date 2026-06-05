@@ -19,8 +19,8 @@
 
   // Get current language from DaoI18n or URL
   function getLang() {
-    if (window.DaoI18n && window.DaoI18n.getCurrentLang) {
-      return window.DaoI18n.getCurrentLang();
+    if (window.DaoI18n && typeof window.DaoI18n.current === 'function') {
+      return window.DaoI18n.current();
     }
     return window.location.pathname.indexOf('/zh/') === 0 ? 'zh' : 'en';
   }
