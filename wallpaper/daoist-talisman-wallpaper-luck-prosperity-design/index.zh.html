@@ -340,7 +340,7 @@
                 <span class="tag">灵性</span>
                 <span class="tag">手機背景</span>
             </div>
-            <button class="btn-download btn-download-safe" data-wallpaper-id="wallpaper_1780543255" data-url="https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780543255/original.png">
+            <button id="download-link" class="btn-download btn-download-safe" data-wallpaper-id="wallpaper_1780543255" data-url="https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780543255/original.png">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0a0a0a" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                 下載壁紙
             </button>
@@ -352,12 +352,12 @@
         <div class="divider"></div>
         <h2 class="related-title">更多壁紙</h2>
         <div class="related-grid">
-            <a href="/zh/wallpaper/golden-sunset-beach-wallpaper" class="related-card"><img src="https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780554703/thumb.webp" alt="金色日落海滩壁纸" loading="lazy"></a>
-            <a href="/zh/wallpaper/golden-fire-azure-water-fusion-wallpaper" class="related-card"><img src="https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780553944/thumb.webp" alt="金火交融水韵壁纸" loading="lazy"></a>
-            <a href="/zh/wallpaper/divine-feng-shui-wallpaper-empower-home-yuanmu" class="related-card"><img src="https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780543209/thumb.webp" alt="元母风水壁纸：守护家宅吉祥" loading="lazy"></a>
-            <a href="/zh/wallpaper/cosmic-energy-galaxy-wallpaper-phone-background" class="related-card"><img src="https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780543087/thumb.webp" alt="宇宙能量星系壁纸" loading="lazy"></a>
-            <a href="/zh/wallpaper/celestial-serenity-wallpaper-ethereal-goddess-phone-background" class="related-card"><img src="https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780495381/thumb.webp" alt=" celestial goddess壁纸" loading="lazy"></a>
-            <a href="/zh/wallpaper/elegant-green-koi-feng-shui-wallpaper-luck-prosperity" class="related-card"><img src="https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780484073/thumb.webp" alt="绿金锦鲤风水壁纸" loading="lazy"></a>
+            <a href="/zh/wallpaper/golden-tiger-talisman-wallpaper-lucky-chinese-zodiac" class="related-card"><img src="https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780670470/thumb.webp" alt="金虎符箓壁纸-生肖好运" loading="lazy"></a>
+            <a href="/zh/wallpaper/golden-pig-zodiac-wallpaper-lucky-chinese-new-year-design" class="related-card"><img src="https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780670409/thumb.webp" alt="金猪生肖壁纸-新年好运设计" loading="lazy"></a>
+            <a href="/zh/wallpaper/golden-dragon-talisman-wallpaper-lucky-feng-shui-design" class="related-card"><img src="https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780670348/thumb.webp" alt="金龙符箓壁纸-风水吉祥设计" loading="lazy"></a>
+            <a href="/zh/wallpaper/golden-dragon-talisman-wallpaper-lucky-feng-shui-design-2" class="related-card"><img src="https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780670290/thumb.webp" alt="金龙符箓壁纸-风水吉祥" loading="lazy"></a>
+            <a href="/zh/wallpaper/lucky-rabbit-chinese-zodiac-wallpaper-phone-background" class="related-card"><img src="https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780670234/thumb.webp" alt="生肖兔幸运壁纸" loading="lazy"></a>
+            <a href="/zh/wallpaper/lucky-tiger-talisman-wallpaper-feng-shui-harmony" class="related-card"><img src="https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780670178/thumb.webp" alt="虎符招财风水壁纸" loading="lazy"></a>
         </div>
     </div>
 
@@ -484,6 +484,7 @@
     <script defer crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/@clerk/clerk-js@6/dist/clerk.browser.js" data-clerk-publishable-key="pk_live_Y2xlcmsuZGFvZXNzZW50aWEuY29tJA"></script>
     <script src="/js/auth.js"></script>
     <script src="/js/download-guard-v5.js"></script>
+    <script src="/js/download-count.js" defer></script>
     <!-- Language Switcher JS -->
     <script>
         const langTrigger = document.getElementById("lang-trigger");

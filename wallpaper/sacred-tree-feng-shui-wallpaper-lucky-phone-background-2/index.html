@@ -340,7 +340,7 @@
                 <span class="tag">Sacred Tree</span>
                 <span class="tag">Phone Background</span>
             </div>
-            <button class="btn-download btn-download-safe" data-wallpaper-id="wallpaper_1780668487" data-url="https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780668487/original.png">
+            <button id="download-link" class="btn-download btn-download-safe" data-wallpaper-id="wallpaper_1780668487" data-url="https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/wallpaper_1780668487/original.png">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0a0a0a" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                 Download Wallpaper
             </button>
@@ -484,6 +484,7 @@
     <script defer crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/@clerk/clerk-js@6/dist/clerk.browser.js" data-clerk-publishable-key="pk_live_Y2xlcmsuZGFvZXNzZW50aWEuY29tJA"></script>
     <script src="/js/auth.js"></script>
     <script src="/js/download-guard-v5.js"></script>
+    <script src="/js/download-count.js" defer></script>
     <!-- Language Switcher JS -->
     <script>
         const langTrigger = document.getElementById("lang-trigger");

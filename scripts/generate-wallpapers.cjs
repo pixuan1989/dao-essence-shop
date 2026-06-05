@@ -607,7 +607,7 @@ function generateStaticPage(wp, lang) {
     + tags.map(function(t) { return '                <span class="tag">' + escapeHtml(t) + '</span>'; }).join('\n')
     + '\n'
     + '            </div>\n'
-    + '            <button class="btn-download btn-download-safe" data-wallpaper-id="' + wp.id + '" data-url="' + downloadUrl + '">\n'
+    + '            <button id="download-link" class="btn-download btn-download-safe" data-wallpaper-id="' + wp.id + '" data-url="' + downloadUrl + '">\n'
     + '                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0a0a0a" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>\n'
     + '                ' + (isZh ? '下載壁紙' : 'Download Wallpaper') + '\n'
     + '            </button>\n'
@@ -738,6 +738,7 @@ function generateStaticPage(wp, lang) {
     + '    <script defer crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/@clerk/clerk-js@6/dist/clerk.browser.js" data-clerk-publishable-key="pk_live_Y2xlcmsuZGFvZXNzZW50aWEuY29tJA"></script>\n'
     + '    <script src="/js/auth.js"></script>\n'
     + '    <script src="/js/download-guard-v5.js"></script>\n'
+    + '    <script src="/js/download-count.js" defer></script>\n'
     + '    <!-- Language Switcher JS -->\n'
     + '    <script>\n'
     + '        const langTrigger = document.getElementById("lang-trigger");\n'
