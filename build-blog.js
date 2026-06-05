@@ -2491,6 +2491,63 @@ async function main() {
     console.log('  Generated: dist/wallpapers.json');
   }
 
+  // Step 7.55: Auto-fix missing slugs & dedupe (prevent 404)
+  console.log('Checking wallpaper slugs...');
+  try {
+    const wpJsonPath = path.join(SRC_DIR, 'wallpapers.json');
+    if (fs.existsSync(wpJsonPath)) {
+      let wpData = JSON.parse(fs.readFileSync(wpJsonPath, 'utf8'));
+
+      // toSlug helper (same logic as generate-wallpapers.cjs)
+      const toSlug = (title) => {
+        if (!title) return 'wallpaper';
+        let s = title.toLowerCase()
+          .replace(/[^a-z0-9\s-]/g, '')
+          .replace(/\b(a|an|the|of|in|on|at|for|with|to|your|and|is|are|this|that|it)\b/g, '')
+          .replace(/\s+/g, '-')
+          .replace(/-+/g, '-')
+          .replace(/^-|-$/g, '');
+        return s || 'wallpaper';
+      };
+
+      let changed = false;
+
+      // 1. Auto-add missing slugs
+      wpData.forEach(wp => {
+        if (!wp.slug) {
+          wp.slug = toSlug(wp.title);
+          console.log(`   ⚡ Auto-slug: ${wp.id} → ${wp.slug}`);
+          changed = true;
+        }
+      });
+
+      // 2. Dedupe slugs
+      const seen = {};
+      wpData.forEach((wp, idx) => {
+        if (seen[wp.slug]) {
+          let i = 2;
+          let newSlug;
+          do { newSlug = wp.slug + '-' + i; i++; } while (seen[newSlug]);
+          console.log(`   ⚡ Dedupe slug: ${wp.id} → ${newSlug}`);
+          wp.slug = newSlug;
+          seen[newSlug] = true;
+          changed = true;
+        } else {
+          seen[wp.slug] = true;
+        }
+      });
+
+      if (changed) {
+        fs.writeFileSync(wpJsonPath, JSON.stringify(wpData, null, 2), 'utf8');
+        console.log('   ✅ wallpapers.json updated (slug fix)\n');
+      } else {
+        console.log('   ✅ All slugs OK\n');
+      }
+    }
+  } catch (e) {
+    console.warn('   ⚠️ Slug check failed (non-blocking):', e.message);
+  }
+
   // Step 7.6: Generate wallpaper static pages (SEO slug URLs) — 只生成新增的
   console.log('\nGenerating wallpaper static pages...');
   try {
@@ -2498,7 +2555,7 @@ async function main() {
     const wallpapersData = JSON.parse(fs.readFileSync(wallpapersJson, 'utf8'));
     let generated = 0;
     for (const wp of wallpapersData) {
-      const slug = wp.slug || wp.id;
+      const slug = wp.slug;
       const sourcePath = path.join(SRC_DIR, 'wallpaper', slug, 'index.html');
       if (!fs.existsSync(sourcePath)) {
         console.log(`  🆕 New wallpaper found: ${wp.id} (${slug})`);
@@ -2566,7 +2623,7 @@ async function main() {
     try {
       const wpList = JSON.parse(fs.readFileSync(wpJsonPath, 'utf8'));
       for (const wp of wpList) {
-        const slug = (wp.slug || wp.id || 'wallpaper').toString();
+        const slug = wp.slug;
         staticUrls.push({ loc: `/wallpaper/${slug}`, changefreq: 'weekly', priority: '0.8' });
         staticUrls.push({ loc: `/zh/wallpaper/${slug}`, changefreq: 'weekly', priority: '0.8' });
       }

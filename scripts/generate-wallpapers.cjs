@@ -106,6 +106,51 @@ function getSlug(wp) {
   return toSlug(wp.title);
 }
 
+// ── 自动补全缺失的 slug（防止人为漏写导致 404）──
+// 必须在 main() 最开头调用，在任何生成逻辑之前
+function ensureSlugs(wallpapers) {
+  var changed = 0;
+  wallpapers.forEach(function(wp) {
+    if (!wp.slug) {
+      wp.slug = toSlug(wp.title);
+      changed++;
+      console.log('   ⚡ Auto-slug: ' + wp.id + ' → ' + wp.slug);
+    }
+  });
+  if (changed > 0) {
+    fs.writeFileSync(DATA_FILE, JSON.stringify(wallpapers, null, 2), 'utf8');
+    console.log('   ✅ Auto-added ' + changed + ' slug(s) to wallpapers.json\n');
+  }
+}
+
+// ── 检测并修复重复 slug ─────────────────────────────────────
+// 发现重复时给后出现的加 -2, -3 ... 后缀
+function dedupeSlugs(wallpapers) {
+  var seen = {};
+  var changed = 0;
+  wallpapers.forEach(function(wp) {
+    var s = wp.slug;
+    if (seen[s]) {
+      var i = 2;
+      var newSlug;
+      do {
+        newSlug = s + '-' + i;
+        i++;
+      } while (seen[newSlug]);
+      wp.slug = newSlug;
+      seen[newSlug] = true;
+      changed++;
+      console.log('   ⚡ Dedupe slug: ' + wp.id + ' → ' + newSlug);
+    } else {
+      seen[s] = true;
+    }
+  });
+  if (changed > 0) {
+    fs.writeFileSync(DATA_FILE, JSON.stringify(wallpapers, null, 2), 'utf8');
+    console.log('   ✅ Deduplicated ' + changed + ' slug(s) in wallpapers.json\n');
+  }
+}
+
 function getWallpaperUrl(wp, lang) {
   const base = 'https://www.daoessentia.com';
   const slug = getSlug(wp);
@@ -736,7 +781,7 @@ function generateOne(wp, outBase) {
   ensureDir(dir);
     fs.writeFileSync(path.join(dir, 'index.html'), generateStaticPage(wp, 'en'), 'utf8');
     fs.writeFileSync(path.join(dir, 'index.zh.html'), generateStaticPage(wp, 'zh'), 'utf8');
-    console.log('   ✅ ' + (wp.slug || wp.id));
+    console.log('   ✅ ' + getSlug(wp));
 }
 
 // ── 主函数 ─────────────────────────────────────────────────────────
@@ -756,6 +801,13 @@ function main() {
 
   const wallpapers = loadWallpapers();
   console.log('   Found ' + wallpapers.length + ' wallpapers in wallpapers.json');
+
+  // ── 自动防呆：补全缺失 slug + 去重 ──
+  ensureSlugs(wallpapers);
+  dedupeSlugs(wallpapers);
+  // 重新加载（确保拿到最新的 slug/deduped 结果）
+  // 其实 ensureSlugs/dedupeSlugs 已经直接修改了 wallpapers 数组（引用相同）
+  // 但为安全起见，如果 JSON 被写回文件，下次 load 会是新的；这里不需要重读
 
   // 提取所有唯一分类（英文），按字母排序
   var catSet = new Set();
