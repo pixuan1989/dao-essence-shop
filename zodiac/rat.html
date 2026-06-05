@@ -74,7 +74,32 @@
       </div>
     </div>
     <div id="zodiac-share"></div>
-    <div class="seo-divider">
+    
+    <!-- Lucky Wallpaper Recommendation Module -->
+    <div style="margin-top:32px;padding:24px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);border-radius:16px;text-align:center;">
+      <h3 style="font-size:16px;color:#D4AF37;margin-bottom:16px;">今日鼠幸运壁纸</h3>
+      <div id="zodiac-detail-wp-grid" style="display:flex;justify-content:center;gap:14px;flex-wrap:wrap;"></div>
+      <a href="/wallpaper" style="display:inline-block;margin-top:16px;padding:8px 20px;background:rgba(212,175,55,0.15);color:#D4AF37;border:1px solid rgba(212,175,55,0.3);border-radius:6px;text-decoration:none;font-size:13px;">查看更多玄学壁纸 →</a>
+    </div>
+    <script>
+    (function(){
+      var grid=document.getElementById('zodiac-detail-wp-grid');
+      if(!grid)return;
+      fetch('/wallpapers.json').then(function(r){return r.ok?r.json():null;}).then(function(wps){
+        if(!wps||!wps.length)return;
+        wps.sort(function(){return 0.5-Math.random();}).slice(0,5).forEach(function(wp){
+          var a=document.createElement('a');
+          a.href='/wallpaper/'+(wp.slug||wp.id);
+          a.style.cssText='display:block;width:130px;border-radius:8px;overflow:hidden;border:1px solid rgba(255,255,255,0.1);transition:transform 0.2s;';
+          a.innerHTML='<img src="'+(wp.thumb||'')+'" style="width:100%;display:block;" loading="lazy"/>';
+          a.onmouseenter=function(){a.style.transform='translateY(-3px)';};
+          a.onmouseleave=function(){a.style.transform='';};
+          grid.appendChild(a);
+        });
+      }).catch(function(e){console.error('[Detail WP]',e);});
+    })();
+    </script>
+  <div class="seo-divider">
       <span class="seo-divider__line"></span>
       <span class="seo-divider__text" id="dividerText">今日运势解读</span>
       <span class="seo-divider__line"></span>
