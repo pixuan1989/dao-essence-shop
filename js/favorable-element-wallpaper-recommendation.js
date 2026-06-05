@@ -1,13 +1,12 @@
 /**
  * Favorable Element Wallpaper Recommendation Module (Task P1 - Top Priority)
  * Function: Recommends wallpapers matching the user's favorable element(s) after the Five Elements analysis.
- * Strategy: Append-Only, uses MutationObserver, never modifies core logic.
+ * Strategy: Injects into renderResult() flow, supports i18n language switching via daoessence:i18n-changed event.
  * Style: Dark semi-transparent glass cards, consistent with existing modules.
  */
 (function() {
   'use strict';
 
-  // Configuration
   const CONFIG = {
     elementToCategory: {
       '火': 'Energy', 'fire': 'Energy', 'Fire': 'Energy',
@@ -20,19 +19,18 @@
     limit: 3
   };
 
-  // Utility: Extract favorable element(s) from DOM text
-  function extractFavElements() {
-    const favNameEl = document.getElementById('feFavElementName');
-    if (!favNameEl) return [];
-    const text = favNameEl.textContent || '';
-    const elements = ['火', '水', '木', '金', '土', 'fire', 'water', 'wood', 'metal', 'earth'];
-    const found = [];
-    for (const el of elements) {
-      if (text.toLowerCase().includes(el.toLowerCase()) && !found.includes(el)) {
-        found.push(el);
-      }
+  // Store data for re-render on language switch
+  let storedWallpapers = [];
+  let storedElements = [];
+
+  // Utility: Get current language from i18n-switcher state
+  function getLang() {
+    // Try DaoI18n first (single-page language switching)
+    if (window.DaoI18n && window.DaoI18n.getCurrentLang) {
+      return window.DaoI18n.getCurrentLang();
     }
-    return found.slice(0, 2); // Max 2 elements
+    // Fallback: URL path
+    return window.location.pathname.indexOf('/zh/') === 0 ? 'zh' : 'en';
   }
 
   // Utility: Build title based on elements and language
@@ -41,7 +39,8 @@
     const elNames = elements.map(e => {
       const cn = { '火': '火', '水': '水', '木': '木', '金': '金', '土': '土' };
       const en = { 'fire': 'Fire', 'water': 'Water', 'wood': 'Wood', 'metal': 'Metal', 'earth': 'Earth' };
-      return isZh ? (cn[e] || e) : (en[e.toLowerCase()] || e);
+      const lower = e.toLowerCase();
+      return isZh ? (cn[e] || cn[lower] || e) : (en[lower] || en[e] || e);
     });
     const elStr = elNames.join(' & ');
     return isZh
@@ -49,8 +48,17 @@
       : `Enhance your ${elStr} energy with these wallpapers`;
   }
 
+  // Build "More Wallpapers" button text
+  function getMoreBtnText(lang) {
+    return lang === 'zh' ? '查看更多玄学壁纸 →' : 'Browse All Wallpapers →';
+  }
+
   // Render recommendation block
-  function renderRecommendations(container, wallpapers, title) {
+  function renderRecommendations(container, wallpapers, elements, title) {
+    // Remove existing rec box (for re-render on lang switch)
+    const existing = container.querySelector('.fe-wallpaper-rec-box');
+    if (existing) existing.remove();
+
     if (!wallpapers || wallpapers.length === 0) return;
 
     // Append-Only CSS
@@ -126,11 +134,14 @@
       document.head.appendChild(style);
     }
 
-    // Create container
+    const lang = getLang();
+    const moreBtn = getMoreBtnText(lang);
+    const recTitle = title || buildTitle(elements, lang);
+
     const recBox = document.createElement('div');
     recBox.className = 'fe-wallpaper-rec-box';
     recBox.innerHTML = `
-      <h3 class="rec-title">${title}</h3>
+      <h3 class="rec-title">${recTitle}</h3>
       <div class="rec-grid">
         ${wallpapers.map(wp => `
           <a href="/wallpaper/${wp.slug || wp.id}" class="rec-card">
@@ -138,7 +149,7 @@
           </a>
         `).join('')}
       </div>
-      <a href="/wallpaper" class="rec-btn">查看更多玄学壁纸 →</a>
+      <a href="/wallpaper" class="rec-btn">${moreBtn}</a>
     `;
     container.appendChild(recBox);
   }
@@ -149,59 +160,94 @@
     if (!target) return;
 
     // Load wallpaper data
-    let wallpapers = [];
     try {
       const res = await fetch('/wallpapers.json');
-      if (res.ok) wallpapers = await res.json();
+      if (res.ok) storedWallpapers = await res.json();
     } catch (e) {
       console.warn('[FE WP Rec] Failed to load wallpapers:', e);
     }
-    if (wallpapers.length === 0) return;
+    if (storedWallpapers.length === 0) return;
 
-    // Determine language
-    function getLang() {
-      const pathname = window.location.pathname;
-      return pathname.indexOf('/zh/') === 0 ? 'zh' : 'en';
+    // Extract favorable elements from #feFavElementName
+    function extractFavElements() {
+      const favNameEl = document.getElementById('feFavElementName');
+      if (!favNameEl) return [];
+      const text = favNameEl.textContent || '';
+      const elements = ['火', '水', '木', '金', '土', 'fire', 'water', 'wood', 'metal', 'earth', 'Fire', 'Water', 'Wood', 'Metal', 'Earth'];
+      const found = [];
+      for (const el of elements) {
+        const matchText = text.toLowerCase();
+        const matchEl = el.toLowerCase();
+        if (matchText.includes(matchEl) && !found.some(f => f.toLowerCase() === matchEl)) {
+          found.push(el);
+        }
+      }
+      return found.slice(0, 2);
     }
 
-    // Listen for result rendering
+    // Re-render on language switch
+    function reRender() {
+      if (storedElements.length === 0) return;
+      const lang = getLang();
+      const title = buildTitle(storedElements, lang);
+      const categories = new Set();
+      for (const el of storedElements) {
+        const cat = CONFIG.elementToCategory[el];
+        if (cat) categories.add(cat);
+      }
+      let matched = [];
+      if (categories.size > 0) {
+        for (const cat of categories) {
+          matched = matched.concat(storedWallpapers.filter(wp => wp.category === cat));
+        }
+        const seen = new Set();
+        matched = matched.filter(wp => { if (seen.has(wp.id)) return false; seen.add(wp.id); return true; });
+      }
+      if (matched.length === 0) {
+        matched = [...storedWallpapers].sort(() => 0.5 - Math.random()).slice(0, CONFIG.limit);
+      } else {
+        matched = matched.sort(() => 0.5 - Math.random()).slice(0, CONFIG.limit);
+      }
+      if (matched.length > 0) {
+        renderRecommendations(target, matched, storedElements, title);
+      }
+    }
+
+    // Listen for i18n language change
+    document.addEventListener('daoessence:i18n-changed', reRender);
+
+    // Listen for result rendering via MutationObserver
     const observer = new MutationObserver((mutations, obs) => {
       const favNameEl = document.getElementById('feFavElementName');
       if (!favNameEl || favNameEl.textContent.trim().length < 1) return;
 
-      const elements = extractFavElements();
-      let matchedWps = [];
+      storedElements = extractFavElements();
+      if (storedElements.length === 0) return;
 
-      if (elements.length > 0) {
-        const categories = new Set();
-        for (const el of elements) {
-          const cat = CONFIG.elementToCategory[el];
-          if (cat) categories.add(cat);
-        }
-        if (categories.size > 0) {
-          for (const cat of categories) {
-            matchedWps = matchedWps.concat(wallpapers.filter(wp => wp.category === cat));
-          }
-          // Remove duplicates
-          const seen = new Set();
-          matchedWps = matchedWps.filter(wp => {
-            if (seen.has(wp.id)) return false;
-            seen.add(wp.id);
-            return true;
-          });
-        }
+      const categories = new Set();
+      for (const el of storedElements) {
+        const cat = CONFIG.elementToCategory[el];
+        if (cat) categories.add(cat);
       }
-
-      // Fallback: random 3
-      if (matchedWps.length === 0) {
-        matchedWps = [...wallpapers].sort(() => 0.5 - Math.random()).slice(0, CONFIG.limit);
+      let matched = [];
+      if (categories.size > 0) {
+        for (const cat of categories) {
+          matched = matched.concat(storedWallpapers.filter(wp => wp.category === cat));
+        }
+        const seen = new Set();
+        matched = matched.filter(wp => { if (seen.has(wp.id)) return false; seen.add(wp.id); return true; });
+      }
+      if (matched.length === 0) {
+        matched = [...storedWallpapers].sort(() => 0.5 - Math.random()).slice(0, CONFIG.limit);
       } else {
-        matchedWps = matchedWps.sort(() => 0.5 - Math.random()).slice(0, CONFIG.limit);
+        matched = matched.sort(() => 0.5 - Math.random()).slice(0, CONFIG.limit);
       }
 
-      if (matchedWps.length > 0) {
-        const title = buildTitle(elements, getLang());
-        renderRecommendations(target, matchedWps, title);
+      if (matched.length > 0) {
+        const title = buildTitle(storedElements, getLang());
+        renderRecommendations(target, matched, storedElements, title);
+        // Don't disconnect — keep observing for re-render on lang switch
+        // Actually, disconnect to avoid duplicate renders, reRender handles lang switch
         obs.disconnect();
       }
     });
@@ -209,7 +255,6 @@
     observer.observe(target, { childList: true, subtree: true, characterData: true });
   }
 
-  // Start
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
   } else {

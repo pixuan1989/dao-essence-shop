@@ -1,9 +1,9 @@
 /**
  * Soulmate Calculator Wallpaper Recommendation Module (Task P3)
  * Function: Recommends "peach blossom / love luck" wallpapers after the soulmate reading.
- * Strategy: Append-Only, uses MutationObserver on #sc-step-3, never modifies core logic.
+ * Strategy: Append-Only, uses MutationObserver on #sc-step-3, supports i18n language switching.
  * Style: Dark semi-transparent glass cards, consistent with existing modules.
- * 
+ *
  * Note: Currently recommends random wallpapers with "催桃花" themed copy.
  * Future: When peach-blossom/love wallpapers are generated, filter by those tags.
  */
@@ -15,7 +15,13 @@
     limit: 3
   };
 
+  let storedWallpapers = [];
+
+  // Get current language from DaoI18n or URL
   function getLang() {
+    if (window.DaoI18n && window.DaoI18n.getCurrentLang) {
+      return window.DaoI18n.getCurrentLang();
+    }
     return window.location.pathname.indexOf('/zh/') === 0 ? 'zh' : 'en';
   }
 
@@ -26,8 +32,16 @@
       : 'Peach Blossom Wallpapers — Attract Love & Romance';
   }
 
+  function getMoreBtnText(lang) {
+    return lang === 'zh' ? '查看更多玄学壁纸 →' : 'Browse All Wallpapers →';
+  }
+
   function renderRecommendations(container, wallpapers, title) {
-    if (container.querySelector('.sc-wallpaper-rec-box')) return;
+    // Remove existing for re-render
+    const existing = container.querySelector('.sc-wallpaper-rec-box');
+    if (existing) existing.remove();
+
+    if (!wallpapers || wallpapers.length === 0) return;
 
     // Append-Only CSS
     if (!document.getElementById('sc-wp-rec-style')) {
@@ -102,10 +116,14 @@
       document.head.appendChild(style);
     }
 
+    const lang = getLang();
+    const recTitle = title || buildTitle(lang);
+    const moreBtn = getMoreBtnText(lang);
+
     const recBox = document.createElement('div');
     recBox.className = 'sc-wallpaper-rec-box';
     recBox.innerHTML = `
-      <h3 class="rec-title">${title}</h3>
+      <h3 class="rec-title">${recTitle}</h3>
       <div class="rec-grid">
         ${wallpapers.map(wp => `
           <a href="/wallpaper/${wp.slug || wp.id}" class="rec-card">
@@ -113,7 +131,7 @@
           </a>
         `).join('')}
       </div>
-      <a href="/wallpaper" class="rec-btn">查看更多玄学壁纸 →</a>
+      <a href="/wallpaper" class="rec-btn">${moreBtn}</a>
     `;
     container.appendChild(recBox);
   }
@@ -125,17 +143,32 @@
     let wallpapers = [];
     try {
       const res = await fetch('/wallpapers.json');
-      if (res.ok) wallpapers = await res.json();
+      if (res.ok) {
+        wallpapers = await res.json();
+        storedWallpapers = wallpapers;
+      }
     } catch (e) {
       console.warn('[SC WP Rec] Failed to load wallpapers:', e);
     }
     if (wallpapers.length === 0) return;
 
+    // Re-render on language switch
+    function reRender() {
+      if (storedWallpapers.length === 0) return;
+      const lang = getLang();
+      const title = buildTitle(lang);
+      const matched = [...storedWallpapers].sort(() => 0.5 - Math.random()).slice(0, CONFIG.limit);
+      if (matched.length > 0) {
+        renderRecommendations(target, matched, title);
+      }
+    }
+
+    document.addEventListener('daoessence:i18n-changed', reRender);
+
     const observer = new MutationObserver((mutations, obs) => {
       const dirBody = document.getElementById('sc-direction-body');
       if (!dirBody || dirBody.children.length === 0) return;
 
-      // Recommend random wallpapers with peach-blossom / love luck themed title
       const matched = [...wallpapers].sort(() => 0.5 - Math.random()).slice(0, CONFIG.limit);
 
       if (matched.length > 0) {

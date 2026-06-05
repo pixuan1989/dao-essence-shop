@@ -26,8 +26,11 @@
     limit: 1 // 1 wallpaper per sign card
   };
 
-  // Get language from URL
+  // Get language from DaoI18n or URL
   function getLang() {
+    if (window.DaoI18n && window.DaoI18n.getCurrentLang) {
+      return window.DaoI18n.getCurrentLang();
+    }
     return window.location.pathname.indexOf('/zh/') === 0 ? 'zh' : 'en';
   }
 
