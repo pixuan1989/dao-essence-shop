@@ -71,7 +71,8 @@ async function getStats(req, res) {
 
 // POST /api/auth?action=download
 async function downloadCheck(req, res) {
-    const today = new Date().toISOString().slice(0, 10);
+    // 使用北京时间（Asia/Shanghai）的自然日作为计数周期
+    const today = new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Shanghai' });
     const ip = (req.headers['x-forwarded-for'] || req.socket?.remoteAddress || 'unknown').split(',')[0].trim();
 
     // Try Redis (no ping, @upstash/redis is HTTP-based)
@@ -106,7 +107,7 @@ async function downloadCheck(req, res) {
             if (useMemory) {
                 memoryCounts.set(dlKey, used + 1);
             } else {
-                await client.set(dlKey, String(used + 1), { ex: 86400 });
+                await client.set(dlKey, String(used + 1), { ex: 172800 });
             }
             // Record download count (best-effort, never block download)
             try {
@@ -154,8 +155,8 @@ async function downloadCheck(req, res) {
             memoryCounts.set(ipKey, nextCount);
             memoryCounts.set(userKey, nextCount);
         } else {
-            await client.set(ipKey, String(nextCount), { ex: 86400 });
-            await client.set(userKey, String(nextCount), { ex: 86400 });
+            await client.set(ipKey, String(nextCount), { ex: 172800 });
+            await client.set(userKey, String(nextCount), { ex: 172800 });
         }
 
         // Record download count (best-effort, never block download)
