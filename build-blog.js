@@ -2451,7 +2451,7 @@ async function main() {
     // Add zh-Hant hreflang self-reference (after existing x-default hreflang)
     zhHomeHtml = zhHomeHtml.replace(
       '<link rel="alternate" hreflang="x-default" href="https://www.daoessentia.com/">',
-      '<link rel="alternate" hreflang="x-default" href="https://www.daoessentia.com/">\n    <link rel="alternate" hreflang="zh-Hant" href="https://www.daoessentia.com/zh/">'
+      '<link rel="alternate" hreflang="x-default" href="https://www.daoessentia.com/">\n    <link rel="alternate" hreflang="zh-Hant" href="https://www.daoessentia.com/zh">'
     );
 
     fs.writeFileSync(zhHomePath, zhHomeHtml);

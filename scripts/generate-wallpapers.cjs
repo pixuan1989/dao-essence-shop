@@ -732,7 +732,7 @@ function generateStaticPage(wp, lang) {
 
 // ── Generate single wallpaper (--id=xxx mode) ──
 function generateOne(wp, outBase) {
-  var dir = path.join(outBase, wp.slug || wp.id);
+  var dir = path.join(outBase, getSlug(wp));
   ensureDir(dir);
     fs.writeFileSync(path.join(dir, 'index.html'), generateStaticPage(wp, 'en'), 'utf8');
     fs.writeFileSync(path.join(dir, 'index.zh.html'), generateStaticPage(wp, 'zh'), 'utf8');
