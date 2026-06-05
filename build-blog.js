@@ -983,9 +983,9 @@ function generateArticleHtml(post, category, allArticles, options = {}) {
     <div style="text-align:center;margin:40px 0;">
       <div style="background:linear-gradient(135deg,#faf8f5 0%,#f5f0e8 100%);border:1px solid rgba(212,175,55,0.15);border-radius:16px;padding:32px 24px;display:inline-block;max-width:600px;width:100%;text-align:center;box-shadow:0 8px 24px rgba(0,0,0,0.06);">
         <div style="font-size:18px;color:#D4AF37;font-weight:600;margin:0 0 20px;letter-spacing:0.5px;">${wpCopy}</div>
-        <div style="display:flex;justify-content:center;gap:12px;margin-bottom:24px;flex-wrap:wrap;">
+        <div style="display:flex;justify-content:center;gap:12px;margin-bottom:24px;flex-wrap:nowrap;">
           ${wpCards.map(wp => `
-            <a href="/wallpaper/${wp.slug || wp.id}" style="width:32%;border-radius:10px;overflow:hidden;aspect-ratio:9/16;background:#fff;box-shadow:0 4px 12px rgba(0,0,0,0.1);display:block;">
+            <a href="/wallpaper/${wp.slug || wp.id}" style="width:32%;border-radius:10px;overflow:hidden;aspect-ratio:9/16;background:#fff;box-shadow:0 4px 12px rgba(0,0,0,0.1);display:block;flex-shrink:0;">
               <img src="${wp.thumb}" alt="${escapeHtml(wp.title)}" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;" />
             </a>
           `).join('')}
