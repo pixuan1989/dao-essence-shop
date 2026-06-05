@@ -1907,6 +1907,14 @@ function buildDetailHTML(ctx, isEn) {
 
 ${toolsSection}
 
+    <!-- Lucky Wallpaper Recommendation -->
+    <div class="zodiac-wp-section" style="margin-top:32px;padding:24px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);border-radius:16px;text-align:center;">
+      <h3 style="font-size:16px;color:#D4AF37;margin-bottom:16px;">${isEn ? 'Today\'s Lucky Wallpaper for ' + signNameEn : '今日' + signName + '幸运壁纸'}</h3>
+      <div id="zodiac-detail-wp-grid" style="display:flex;justify-content:center;gap:14px;flex-wrap:wrap;"></div>
+      <a href="/wallpaper" style="display:inline-block;margin-top:16px;padding:8px 20px;background:rgba(212,175,55,0.15);color:#D4AF37;border:1px solid rgba(212,175,55,0.3);border-radius:6px;text-decoration:none;font-size:13px;">${isEn ? 'Browse All Wallpapers →' : '查看更多玄学壁纸 →'}</a>
+    </div>
+    <script src="/js/zodiac-detail-wallpaper.js" defer></script>
+
     <!-- 生肖百科（Evergreen Content，永远不变，SEO 锚定） -->
     <div class="seo-divider">
       <span class="seo-divider__line"></span>

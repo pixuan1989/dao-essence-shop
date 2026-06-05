@@ -1,15 +1,13 @@
 /**
  * BaZi Wallpaper Recommendation Module (Task P1)
- * 功能：在八字排盘结果页底部，根据喜用神推荐对应元素的壁纸。
- * 策略：Append-Only，使用 MutationObserver 监听，绝不修改排盘核心逻辑。
- * 风格：深色半透明卡片 (Dark Theme)，与结果页其他区块融合
+ * Function: In BaZi result page, recommends wallpapers matching the favorable element.
+ * Strategy: Append-Only, uses MutationObserver on #bazi-result.
+ * Safety: Checks for result keywords ('Favorable'/'喜用神') to avoid premature display.
  */
 (function() {
   'use strict';
 
-  // 配置
   const CONFIG = {
-    // 喜用神 -> 壁纸分类映射 (基于五行颜色特征)
     elementToCategory: {
       '火': 'Energy', 'fire': 'Energy', 'Fire': 'Energy',
       '水': 'Five Elements', 'water': 'Five Elements', 'Water': 'Five Elements',
@@ -17,181 +15,157 @@
       '金': 'Five Elements', 'metal': 'Five Elements', 'Metal': 'Five Elements',
       '土': 'Feng Shui', 'earth': 'Feng Shui', 'Earth': 'Feng Shui'
     },
-    // 目标容器
     targetId: 'bazi-result',
-    // 推荐数量
     limit: 3
   };
 
-  // 工具函数：从文本中提取五行
-  function extractElement(text) {
-    if (!text) return null;
-    const cnKeywords = ['喜用神', '喜神', '用神', '五行喜'];
-    const enKeywords = ['favorable', 'lucky element', 'needed element'];
+  let storedWallpapers = [];
+  let storedElements = [];
 
-    const lines = text.split(/\n|<br>/i);
-    for (let line of lines) {
-      const lower = line.toLowerCase();
-      const hasCn = cnKeywords.some(k => lower.includes(k));
-      const hasEn = enKeywords.some(k => lower.includes(k));
-
-      if (hasCn || hasEn) {
-        const elements = ['火', '水', '木', '金', '土', 'fire', 'water', 'wood', 'metal', 'earth'];
-        for (let el of elements) {
-          if (line.includes(el)) return el;
-        }
-      }
+  // Utility: Get current language from DaoI18n state or URL
+  function getLang() {
+    if (window.DaoI18n && typeof window.DaoI18n.current === 'function') {
+      return window.DaoI18n.current();
     }
-    return null;
+    return window.location.pathname.indexOf('/zh/') === 0 ? 'zh' : 'en';
   }
 
-  // 工具函数：渲染推荐区块
-  function renderRecommendations(container, wallpapers, title) {
+  // Normalize element name
+  function normalizeElement(el) {
+    const zhToEn = { '火': 'fire', '水': 'water', '木': 'wood', '金': 'metal', '土': 'earth' };
+    const lower = (el || '').toLowerCase();
+    return zhToEn[el] || zhToEn[lower] || lower;
+  }
+
+  function buildTitle(elements, lang) {
+    const isZh = lang === 'zh';
+    const cn = { fire: '火', water: '水', wood: '木', metal: '金', earth: '土' };
+    const en = { fire: 'Fire', water: 'Water', wood: 'Wood', metal: 'Metal', earth: 'Earth' };
+    const elNames = elements.map(e => {
+      const key = normalizeElement(e);
+      return isZh ? (cn[key] || e) : (en[key] || e);
+    });
+    const elStr = elNames.join(' & ');
+    return isZh
+      ? `搭配${elStr}元素壁纸，增强您的运势`
+      : `Enhance your ${elStr} energy with these wallpapers`;
+  }
+
+  function getMoreBtnText(lang) {
+    return lang === 'zh' ? '查看更多玄学壁纸 →' : 'Browse All Wallpapers →';
+  }
+
+  function renderRecommendations(container, wallpapers, elements, title) {
+    const existing = container.querySelector('.bazi-wp-rec-box');
+    if (existing) existing.remove();
+
     if (!wallpapers || wallpapers.length === 0) return;
 
-    // 样式注入 (Append-Only CSS) - Dark Theme
     if (!document.getElementById('bazi-wp-rec-style')) {
       const style = document.createElement('style');
       style.id = 'bazi-wp-rec-style';
       style.textContent = `
-        .bazi-wallpaper-rec-box {
-          margin-top: 40px;
-          padding: 32px 20px;
-          background: rgba(255, 255, 255, 0.02);
-          border: 1px solid rgba(255, 255, 255, 0.05);
-          border-radius: 16px;
-          text-align: center;
-          transition: all 0.3s ease;
+        .bazi-wp-rec-box {
+          margin-top: 40px; padding: 32px 20px; background: rgba(255,255,255,0.02);
+          border: 1px solid rgba(255,255,255,0.05); border-radius: 16px; text-align: center;
         }
-        .bazi-wallpaper-rec-box:hover {
-          background: rgba(255, 255, 255, 0.03);
-          border-color: rgba(255, 255, 255, 0.08);
-        }
-        .rec-title {
-          font-size: 18px;
-          color: #D4AF37;
-          margin: 0 0 24px;
-          font-weight: 600;
-          letter-spacing: 1px;
-        }
-        .rec-grid {
-          display: flex;
-          justify-content: center;
-          gap: 16px;
-          margin-bottom: 24px;
-          flex-wrap: wrap;
-        }
-        .rec-card {
-          width: 110px;
-          border-radius: 12px;
-          overflow: hidden;
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          transition: transform 0.2s, border-color 0.2s;
-          display: block;
-          background: #111;
-        }
-        .rec-card:hover { 
-          transform: translateY(-4px); 
-          border-color: #D4AF37;
-          box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-        }
+        .rec-title { font-size: 18px; color: #D4AF37; margin: 0 0 24px; font-weight: 600; }
+        .rec-grid { display: flex; justify-content: center; gap: 16px; margin-bottom: 24px; flex-wrap: wrap; }
+        .rec-card { width: 110px; border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,255,255,0.08); transition: transform 0.2s; }
+        .rec-card:hover { transform: translateY(-4px); border-color: #D4AF37; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
         .rec-card img { width: 100%; height: auto; display: block; }
         .rec-btn {
-          display: inline-block;
-          padding: 10px 24px;
-          background: rgba(212, 175, 55, 0.15);
-          color: #D4AF37;
-          border: 1px solid rgba(212, 175, 55, 0.3);
-          border-radius: 8px;
-          text-decoration: none;
-          font-size: 14px;
-          font-weight: 600;
-          transition: all 0.2s;
+          display: inline-block; padding: 10px 24px; background: rgba(212,175,55,0.15); color: #D4AF37;
+          border: 1px solid rgba(212,175,55,0.3); border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: 600;
         }
-        .rec-btn:hover { 
-          background: rgba(212, 175, 55, 0.25); 
-          color: #fff; 
-          border-color: #D4AF37;
-        }
-        @media (max-width: 600px) {
-          .bazi-wallpaper-rec-box { padding: 24px 16px; }
-          .rec-grid { gap: 12px; }
-          .rec-card { width: 90px; }
-        }
+        .rec-btn:hover { background: rgba(212,175,55,0.25); color: #fff; }
       `;
       document.head.appendChild(style);
     }
 
-    // 创建容器
+    const lang = getLang();
     const recBox = document.createElement('div');
-    recBox.className = 'bazi-wallpaper-rec-box';
+    recBox.className = 'bazi-wp-rec-box';
     recBox.innerHTML = `
-      <h3 class="rec-title">${title || '搭配玄学壁纸，增强您的运势'}</h3>
+      <h3 class="rec-title">${title || buildTitle(elements, lang)}</h3>
       <div class="rec-grid">
-        ${wallpapers.map(wp => `
-          <a href="/wallpaper/${wp.slug || wp.id}" class="rec-card">
-            <img src="${wp.thumb}" alt="${wp.title}" loading="lazy" />
-          </a>
-        `).join('')}
+        ${wallpapers.map(wp => `<a href="/wallpaper/${wp.slug || wp.id}" class="rec-card"><img src="${wp.thumb}" alt="${wp.title}" loading="lazy"/></a>`).join('')}
       </div>
-      <a href="/wallpaper" class="rec-btn">查看更多玄学壁纸 →</a>
+      <a href="/wallpaper" class="rec-btn">${getMoreBtnText(lang)}</a>
     `;
     container.appendChild(recBox);
   }
 
-  // 核心逻辑
   async function init() {
     const target = document.getElementById(CONFIG.targetId);
     if (!target) return;
 
-    // 获取壁纸数据
-    let wallpapers = [];
     try {
       const res = await fetch('/wallpapers.json');
-      if (res.ok) wallpapers = await res.json();
-    } catch (e) {
-      console.warn('[BaZi WP Rec] Failed to load wallpapers:', e);
-    }
+      if (res.ok) storedWallpapers = await res.json();
+    } catch (e) {}
+    if (storedWallpapers.length === 0) return;
 
-    if (wallpapers.length === 0) return;
-
-    // 监听排盘结果渲染
-    const observer = new MutationObserver((mutations, obs) => {
-      // 检查是否有排盘内容（四柱信息），而不是简单判断文字长度
-      // 初始状态有隐私提示文字 >50 字，所以 length 判断不可靠
-      const hasPillars = target.querySelector('.bazi-pillars-grid') || target.querySelector('.bazi-pillar');
-      if (!hasPillars) return;
-
-      // 提取喜用神
-      const text = target.innerText;
-      const element = extractElement(text);
-      let matchedWps = [];
-      let title = '搭配玄学壁纸，增强您的运势';
-
-      if (element && CONFIG.elementToCategory[element]) {
-        const category = CONFIG.elementToCategory[element];
-        matchedWps = wallpapers.filter(wp => wp.category === category);
-        
-        if (matchedWps.length > 0) {
-          // 构建个性化标题
-          const elMap = {
-            '火': '您的喜用神为火，建议搭配能量壁纸',
-            'water': '您的喜用神为水，建议搭配五行壁纸',
-            'wood': '您的喜用神为木，建议搭配自然壁纸',
-            'metal': '您的喜用神为金，建议搭配五行壁纸',
-            'earth': '您的喜用神为土，建议搭配风水壁纸'
-          };
-          title = elMap[element] || title;
+    // Extract elements from result
+    function extractElements() {
+      const text = target.innerText || '';
+      const elements = ['火', '水', '木', '金', '土', 'fire', 'water', 'wood', 'metal', 'earth', 'Fire', 'Water', 'Wood', 'Metal', 'Earth'];
+      const found = [];
+      for (const el of elements) {
+        if (text.includes(el) && !found.some(f => f.toLowerCase() === el.toLowerCase())) {
+          found.push(el);
         }
       }
+      return found.slice(0, 2);
+    }
 
-      // 如果没有匹配到，随机选 3 张
-      if (matchedWps.length === 0) {
-        matchedWps = [...wallpapers].sort(() => 0.5 - Math.random()).slice(0, CONFIG.limit);
+    // Re-render on language switch
+    function reRender() {
+      if (storedElements.length === 0) return;
+      const title = buildTitle(storedElements, getLang());
+      const categories = new Set();
+      for (const el of storedElements) {
+        const cat = CONFIG.elementToCategory[el];
+        if (cat) categories.add(cat);
       }
+      let matched = [];
+      if (categories.size > 0) {
+        for (const cat of categories) matched = matched.concat(storedWallpapers.filter(wp => wp.category === cat));
+        const seen = new Set();
+        matched = matched.filter(wp => { if (seen.has(wp.id)) return false; seen.add(wp.id); return true; });
+      }
+      if (matched.length === 0) matched = storedWallpapers.sort(() => 0.5 - Math.random()).slice(0, CONFIG.limit);
+      else matched = matched.sort(() => 0.5 - Math.random()).slice(0, CONFIG.limit);
+      renderRecommendations(target, matched, storedElements, title);
+    }
 
-      if (matchedWps.length > 0) {
-        renderRecommendations(target, matchedWps, title);
+    document.addEventListener('daoessence:i18n-changed', reRender);
+
+    // Observe result rendering
+    const observer = new MutationObserver((mutations, obs) => {
+      // Check if result is ready by looking for keywords
+      const text = target.innerText || '';
+      if (!text.includes('Favorable') && !text.includes('喜用神')) return;
+
+      storedElements = extractElements();
+      if (storedElements.length === 0) return;
+
+      const categories = new Set();
+      for (const el of storedElements) {
+        const cat = CONFIG.elementToCategory[el];
+        if (cat) categories.add(cat);
+      }
+      let matched = [];
+      if (categories.size > 0) {
+        for (const cat of categories) matched = matched.concat(storedWallpapers.filter(wp => wp.category === cat));
+        const seen = new Set();
+        matched = matched.filter(wp => { if (seen.has(wp.id)) return false; seen.add(wp.id); return true; });
+      }
+      if (matched.length === 0) matched = storedWallpapers.sort(() => 0.5 - Math.random()).slice(0, CONFIG.limit);
+      else matched = matched.sort(() => 0.5 - Math.random()).slice(0, CONFIG.limit);
+
+      if (matched.length > 0) {
+        renderRecommendations(target, matched, storedElements, buildTitle(storedElements, getLang()));
         obs.disconnect();
       }
     });
@@ -199,7 +173,6 @@
     observer.observe(target, { childList: true, subtree: true, characterData: true });
   }
 
-  // 启动
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
   } else {
