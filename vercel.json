@@ -1014,17 +1014,6 @@
           "value": "daoessence-shop.vercel.app"
         }
       ]
-    },
-    {
-      "source": "/(.*)",
-      "destination": "https://www.daoessentia.com/$1",
-      "permanent": true,
-      "has": [
-        {
-          "type": "host",
-          "value": "daoessence.com"
-        }
-      ]
     }
   ]
 }
