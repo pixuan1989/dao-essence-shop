@@ -67,13 +67,13 @@
   function showCount(count) {
     const el = document.getElementById('dl-count-text');
     if (!el) return;
-    
-    const isZh = document.documentElement.lang === 'zh-Hant' || 
+
+    const isZh = document.documentElement.lang === 'zh-Hant' ||
                  window.currentLang === 'zh' ||
                  window.location.pathname.includes('/zh/');
-    
+
     const text = isZh ? `${formatCount(count)} 次下载` : `${formatCount(count)} downloads`;
-    el.textContent = text;
+    el.textContent = '⬇ ' + text;
   }
 
   // 获取 ID 的主逻辑

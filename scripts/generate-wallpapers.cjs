@@ -601,7 +601,7 @@ function generateStaticPage(wp, lang) {
     + '        <div class="right-column">\n'
     + '            <h1 class="wp-title">' + escapeHtml(title) + '</h1>\n'
     + '            <p class="wp-seo-desc">' + escapeHtml(desc || seoDesc) + '</p>\n'
-    + '            <div class="wp-downloads">⬇ ' + downloads + ' ' + (isZh ? '次下載' : 'downloads') + '</div>\n'
+    + '            <div class="wp-downloads"><span id="dl-count-text">⬇ ' + downloads + ' ' + (isZh ? '次下載' : 'downloads') + '</span></div>\n'
     + '            <div class="wp-tags">\n'
     + (category ? '                <span class="tag">' + escapeHtml(isZh ? (CAT_NAME_ZH[category] || category) : (CAT_NAME_EN[category] || category)) + '</span>\n' : '')
     + tags.map(function(t) { return '                <span class="tag">' + escapeHtml(t) + '</span>'; }).join('\n')
