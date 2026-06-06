@@ -63,6 +63,71 @@
 </div>`
         },
         {
+            id: 'wallpaper_digest',
+            name: '🖼️ 壁纸精选推送 (7 张)',
+            subject: '{{title}} - 本周精选玄学壁纸',
+            html: `<div style="padding: 20px 0; font-family: sans-serif;">
+    <h2 style="color: #d4af37; text-align: center; margin-bottom: 20px;">✨ {{title}} ✨</h2>
+    <p style="color: #666; font-size: 14px; margin: 0 0 20px; text-align: center;">亲爱的 {{name}}，为您精选了本周 7 张好运壁纸：</p>
+    
+    <!-- 第 1-2 行：4 张壁纸 -->
+    <table width="100%" cellpadding="0" cellspacing="0" style="max-width: 600px; margin: 0 auto;">
+        <tr>
+            <td width="48%" style="vertical-align: top; padding-bottom: 20px;">
+                <img src="{{img1}}" alt="{{title1}}" style="width: 100%; border-radius: 8px; display: block; margin-bottom: 8px;">
+                <p style="margin: 0; font-size: 13px; color: #333; font-weight: 600;">{{title1}}</p>
+            </td>
+            <td width="4%">&nbsp;</td>
+            <td width="48%" style="vertical-align: top; padding-bottom: 20px;">
+                <img src="{{img2}}" alt="{{title2}}" style="width: 100%; border-radius: 8px; display: block; margin-bottom: 8px;">
+                <p style="margin: 0; font-size: 13px; color: #333; font-weight: 600;">{{title2}}</p>
+            </td>
+        </tr>
+        <tr>
+            <td width="48%" style="vertical-align: top; padding-bottom: 20px;">
+                <img src="{{img3}}" alt="{{title3}}" style="width: 100%; border-radius: 8px; display: block; margin-bottom: 8px;">
+                <p style="margin: 0; font-size: 13px; color: #333; font-weight: 600;">{{title3}}</p>
+            </td>
+            <td width="4%">&nbsp;</td>
+            <td width="48%" style="vertical-align: top; padding-bottom: 20px;">
+                <img src="{{img4}}" alt="{{title4}}" style="width: 100%; border-radius: 8px; display: block; margin-bottom: 8px;">
+                <p style="margin: 0; font-size: 13px; color: #333; font-weight: 600;">{{title4}}</p>
+            </td>
+        </tr>
+    </table>
+
+    <!-- 第 3-4 行：2 张壁纸 -->
+    <table width="100%" cellpadding="0" cellspacing="0" style="max-width: 600px; margin: 0 auto;">
+        <tr>
+            <td width="48%" style="vertical-align: top; padding-bottom: 20px;">
+                <img src="{{img5}}" alt="{{title5}}" style="width: 100%; border-radius: 8px; display: block; margin-bottom: 8px;">
+                <p style="margin: 0; font-size: 13px; color: #333; font-weight: 600;">{{title5}}</p>
+            </td>
+            <td width="4%">&nbsp;</td>
+            <td width="48%" style="vertical-align: top; padding-bottom: 20px;">
+                <img src="{{img6}}" alt="{{title6}}" style="width: 100%; border-radius: 8px; display: block; margin-bottom: 8px;">
+                <p style="margin: 0; font-size: 13px; color: #333; font-weight: 600;">{{title6}}</p>
+            </td>
+        </tr>
+    </table>
+
+    <!-- 第 5 行：最后 1 张居中 -->
+    <table width="100%" cellpadding="0" cellspacing="0" style="max-width: 300px; margin: 0 auto;">
+        <tr>
+            <td style="vertical-align: top; padding-bottom: 20px;">
+                <img src="{{img7}}" alt="{{title7}}" style="width: 100%; border-radius: 8px; display: block; margin-bottom: 8px;">
+                <p style="margin: 0; font-size: 13px; color: #333; font-weight: 600;">{{title7}}</p>
+            </td>
+        </tr>
+    </table>
+
+    <!-- 底部按钮 -->
+    <div style="text-align: center; margin-top: 25px;">
+        <a href="{{link}}" style="display: inline-block; background: linear-gradient(135deg, #d4af37, #b8941f); color: #1a1a2e; padding: 14px 32px; border-radius: 8px; text-decoration: none; font-weight: 700;">下载高清大图 →</a>
+    </div>
+</div>`
+        },
+        {
             id: 'custom',
             name: '✏️ 自定义邮件',
             subject: '',
