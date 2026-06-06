@@ -104,6 +104,29 @@ function isSpam(text) {
     return spamPatterns.some(pattern => pattern.test(text));
 }
 
+// ==================== 壁纸推送历史记录管理（防重复） ====================
+
+// 提取 HTML 中的壁纸 ID (格式: wallpaper_xxxx)
+function extractWallpaperIdsFromHtml(html) {
+    if (!html) return [];
+    const matches = html.match(/wallpaper_\d+/g);
+    return matches ? [...new Set(matches)] : []; // 去重
+}
+
+// 记录已发送的壁纸 ID 到 Redis (保留最近 30 天的记录)
+async function recordSentWallpapers(ids) {
+    if (!ids || ids.length === 0) return;
+    try {
+        let history = await redisGet('sent_wallpaper_history') || [];
+        const newHistory = [...new Set([...ids, ...history])]; // 新 ID 放前面
+        if (newHistory.length > 200) newHistory.length = 200; // 限制数量
+        await redisSet('sent_wallpaper_history', newHistory, 86400 * 30); // 30 天过期
+        console.log(`📝 记录已发送壁纸: ${ids.length} 张`);
+    } catch (err) {
+        console.error('记录壁纸历史失败:', err);
+    }
+}
+
 // ==================== 邮件发送核心（SMTP） ====================
 
 function escapeHtml(str) {
@@ -795,6 +818,10 @@ async function handleSendMarketing(req, res) {
                 console.log(`📧 [${index}/${total}] ${email}: ${status}`);
             }
         );
+
+        // 记录已发送的壁纸 ID（防重复推送）
+        const sentIds = extractWallpaperIdsFromHtml(htmlContent);
+        await recordSentWallpapers(sentIds);
 
         return res.status(200).json({
             success: true,
