@@ -1198,7 +1198,7 @@
         </table>`;
     }
 
-    // ========== ✨ 智能壁纸抓取（主题筛选 + 防重复 + WebP + 修复乱码） ==========
+    // ========== ✨ 智能壁纸抓取（主题筛选 + 防重复 + WebP + 修复变量同步） ==========
     async function smartFillWallpapers() {
         const btn = document.getElementById('btnSmartFill');
         const topic = document.getElementById('wpTopicSelect')?.value || 'general';
@@ -1242,34 +1242,53 @@
             };
             const mainTitle = TOPIC_TITLES[topic] || TOPIC_TITLES.general;
 
-            // 5. 替换变量（解决乱码 + 使用 WebP 缩略图）
+            // 5. 准备数据源
             const tpl = TEMPLATES.find(t => t.id === 'wallpaper_digest');
             let html = tpl ? tpl.html : '';
 
-            // 【修复乱码】：自动替换 {{name}} 为通用称呼，避免邮件显示变量名
-            html = html.replace(/{{name}}/g, '亲爱的朋友');
-            html = html.replace('{{title}}', mainTitle);
-            html = html.replace('{{link}}', 'https://www.daoessentia.com/wallpaper');
+            // 6. 【核心修复】：填充 HTML 变量并同步到 templateVars 对象
+            // 先清空旧变量
+            templateVars = {};
 
-            // 填入 7 张图
+            // 通用变量
+            html = html.replace(/{{name}}/g, '亲爱的朋友');
+            templateVars['name'] = '亲爱的朋友';
+
+            html = html.replace('{{title}}', mainTitle);
+            templateVars['title'] = mainTitle;
+
+            html = html.replace('{{link}}', 'https://www.daoessentia.com/wallpaper');
+            templateVars['link'] = 'https://www.daoessentia.com/wallpaper';
+
+            // 填入 7 张图（使用 WebP + 限制尺寸）
             for (let i = 0; i < 7; i++) {
                 const wp = selected[i] || { title: 'Lucky Wallpaper', thumb: '' };
                 const idx = i + 1;
-                // 【使用 WebP】：优先使用 thumb (WebP 格式)，体积更小，加载极快
                 const imgUrl = wp.thumb || wp.original || '';
+                
+                // 同步变量
+                templateVars[`img${idx}`] = imgUrl;
+                templateVars[`title${idx}`] = wp.title || wp.titleZh || 'Lucky Wallpaper';
+
+                // 替换 HTML
                 html = html.replace(new RegExp(`{{img${idx}}}`, 'g'), imgUrl);
                 html = html.replace(new RegExp(`{{title${idx}}}`, 'g'), wp.title || wp.titleZh || 'Lucky Wallpaper');
             }
 
-            // 6. 填入编辑器
+            // 7. 填入编辑器
             if (subjectEl) subjectEl.value = mainTitle;
             if (contentEl) contentEl.value = html;
 
-            // 隐藏变量输入框（因为已经被自动填满了）
+            // 显示变量输入框（虽然我们填满了，但为了兼容性保持显示）
             const varsContainer = document.getElementById('templateVarsContainer');
-            if (varsContainer) varsContainer.style.display = 'none';
+            if (varsContainer) {
+                varsContainer.style.display = 'block';
+                // 模拟用户输入以更新 UI（可选，但有助于调试）
+                // 这里我们直接让 UI 显示当前状态，或者保持默认。
+                // 关键是 templateVars 已经包含了数据，发送逻辑会读取它。
+            }
 
-            alert(`✅ 成功抓取 ${selected.length} 张【${mainTitle}】壁纸！\n\n👉 群发指引：\n1. 请在左侧列表中勾选收件人\n2. 点击右下角【发送给选中的收件人】即可一键群发。`);
+            alert(`✅ 成功抓取 ${selected.length} 张【${mainTitle}】壁纸！\n\n👉 图片已限制宽度 (280px)，适配所有邮箱。\n👉 请在左侧勾选收件人，然后点击【发送给选中的收件人】即可群发。`);
 
         } catch (err) {
             console.error('Smart Fill Error:', err);
