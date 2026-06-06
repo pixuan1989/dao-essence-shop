@@ -69,6 +69,7 @@
             html: `<div style="padding: 20px 0; font-family: sans-serif; max-width: 600px; margin: 0 auto;">
     <h2 style="color: #d4af37; text-align: center; margin-bottom: 10px;">✨ {{title}} ✨</h2>
     <p style="color: #666; font-size: 14px; margin: 0 0 20px; text-align: center;">亲爱的朋友，为您精选了本周 7 张好运壁纸：</p>
+    <p style="color: #555; font-size: 13px; margin: 0 0 15px; line-height: 1.6; text-align: justify; padding: 0 10px;">在这个快节奏的时代，一张静谧的壁纸能为您带来内心的平静。我们为您精选了本周最受欢迎的玄学壁纸，涵盖招财、桃花、学业等主题。每一张都经过精心设计，希望能为您的一天注入正能量与好运。请查收以下精选内容：</p>
     
     <!-- 第 1-2 张 -->
     <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 15px;">
@@ -126,6 +127,7 @@
     <div style="text-align: center; margin-top: 25px;">
         <a href="{{link}}" style="display: inline-block; background: linear-gradient(135deg, #d4af37, #b8941f); color: #1a1a2e; padding: 14px 32px; border-radius: 8px; text-decoration: none; font-weight: 700;">下载高清大图 →</a>
     </div>
+    <p style="color: #888; font-size: 12px; margin: 20px 0 10px; line-height: 1.5;">如果您希望查看更多精美壁纸，或对我们的内容有任何建议，欢迎随时访问我们的网站或回复本邮件。感谢您的支持！</p>
     <p style="text-align: center; font-size: 12px; color: #999; margin-top: 20px;">© 2026 DAO Essence · <a href="https://www.daoessentia.com" style="color: #667eea;">www.daoessentia.com</a></p>
 </div>`
         },
