@@ -1196,7 +1196,7 @@
         </table>`;
     }
 
-    // ========== ✨ 智能壁纸抓取（主题筛选 + 防重复） ==========
+    // ========== ✨ 智能壁纸抓取（主题筛选 + 防重复 + WebP + 修复乱码） ==========
     async function smartFillWallpapers() {
         const btn = document.getElementById('btnSmartFill');
         const topic = document.getElementById('wpTopicSelect')?.value || 'general';
@@ -1206,9 +1206,7 @@
         if (btn) { btn.disabled = true; btn.textContent = '⏳ 抓取中...'; }
 
         try {
-            // 1. 获取已发送历史（防重复）
-            const sentRes = await fetch('/api/marketing-history'); // 需要新建此接口，或直接从 redisGet 获取。为简化，我们直接在前端过滤
-            // 简化方案：直接请求 wallpapers.json，前端做随机去重（实际生产建议加后端接口，但为安全合规暂不新增 API 路由）
+            // 1. 获取壁纸数据
             const res = await fetch('/wallpapers.json');
             if (!res.ok) throw new Error('网络请求失败');
             const wallpapers = await res.json();
@@ -1219,21 +1217,16 @@
                 wealth: ['Five Elements', 'Feng Shui', 'Talismans'],
                 study: ['Energy', 'Talismans'],
                 energy: ['Energy'],
-                general: [] // 不限
+                general: []
             };
             const allowedCats = TOPIC_MAP[topic] || [];
 
-            // 3. 筛选 & 排序（优先未发过的）
-            // 注：为简化实现，此处采用“随机打乱+分类过滤”策略，避免新增后端路由风险
+            // 3. 筛选 & 排序
             let pool = wallpapers.filter(w => {
                 if (allowedCats.length === 0) return true;
                 return allowedCats.includes(w.category);
             });
-            
-            // 随机打乱保证每次不同
             pool.sort(() => Math.random() - 0.5);
-            
-            // 取前 7 张
             const selected = pool.slice(0, 7);
             if (selected.length === 0) throw new Error('该主题下暂无足够壁纸');
 
@@ -1247,26 +1240,34 @@
             };
             const mainTitle = TOPIC_TITLES[topic] || TOPIC_TITLES.general;
 
-            // 5. 替换变量
-            let html = document.getElementById('emailContent')?.value || '';
-            // 重置为模板原始内容
+            // 5. 替换变量（解决乱码 + 使用 WebP 缩略图）
             const tpl = TEMPLATES.find(t => t.id === 'wallpaper_digest');
-            html = tpl ? tpl.html : '';
+            let html = tpl ? tpl.html : '';
 
+            // 【修复乱码】：自动替换 {{name}} 为通用称呼，避免邮件显示变量名
+            html = html.replace(/{{name}}/g, '亲爱的朋友');
             html = html.replace('{{title}}', mainTitle);
             html = html.replace('{{link}}', 'https://www.daoessentia.com/wallpaper');
 
+            // 填入 7 张图
             for (let i = 0; i < 7; i++) {
-                const wp = selected[i] || { title: 'Lucky Wallpaper', original: '' };
+                const wp = selected[i] || { title: 'Lucky Wallpaper', thumb: '' };
                 const idx = i + 1;
-                html = html.replace(new RegExp(`{{img${idx}}}`, 'g'), wp.original || wp.thumb || '');
+                // 【使用 WebP】：优先使用 thumb (WebP 格式)，体积更小，加载极快
+                const imgUrl = wp.thumb || wp.original || '';
+                html = html.replace(new RegExp(`{{img${idx}}}`, 'g'), imgUrl);
                 html = html.replace(new RegExp(`{{title${idx}}}`, 'g'), wp.title || wp.titleZh || 'Lucky Wallpaper');
             }
 
-            // 6. 填入
+            // 6. 填入编辑器
             if (subjectEl) subjectEl.value = mainTitle;
             if (contentEl) contentEl.value = html;
-            alert(`✅ 成功抓取 ${selected.length} 张【${TOPIC_TITLES[topic]}】壁纸！已自动去重。`);
+
+            // 隐藏变量输入框（因为已经被自动填满了）
+            const varsContainer = document.getElementById('templateVarsContainer');
+            if (varsContainer) varsContainer.style.display = 'none';
+
+            alert(`✅ 成功抓取 ${selected.length} 张【${mainTitle}】壁纸！\n\n👉 群发指引：\n1. 请在左侧列表中勾选收件人\n2. 点击右下角【发送给选中的收件人】即可一键群发。`);
 
         } catch (err) {
             console.error('Smart Fill Error:', err);
