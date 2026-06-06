@@ -621,7 +621,7 @@ function generateStaticPage(wp, lang) {
     + '        <div class="related-grid">\n'
     + related.map(function(w) {
         var wSlug = getSlug(w);
-        var wUrl = isZh ? '/zh/wallpaper/' + wSlug : '/wallpaper/' + wSlug;
+        var wUrl = '/wallpaper/' + wSlug;
         return '            <a href="' + wUrl + '" class="related-card"><img src="' + (w.thumb || '') + '" alt="' + escapeHtml(isZh ? (w.titleZh || w.title) : w.title) + '" loading="lazy"></a>';
       }).join('\n')
     + '\n'
