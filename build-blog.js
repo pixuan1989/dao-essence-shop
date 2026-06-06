@@ -2116,12 +2116,6 @@ async function main() {
       // Fix zh internal links: /blog/ → /zh/blog/ (body links only, Related Posts already use langPrefix)
       html = html.replace(/href="\/blog\//g, 'href="/zh/blog/');
 
-      // Fix zh tool/page links with boundary matching to avoid partial matches
-      const zhToolPaths = ['/five-elements-test', '/favorable-element', '/bazi-form', '/soulmate-calculator', '/learn-bazi', '/shop'];
-      zhToolPaths.forEach(p => {
-        html = html.replace(new RegExp(`href="${p}(["/?#"])`, 'g'), `href="/zh${p}$1`);
-        html = html.replace(new RegExp(`href="${p}"`, 'g'), `href="/zh${p}"`);
-      });
 
       const outPath = path.join(DIST_ZH_BLOG_DIR, `${slug}.html`);
       fs.writeFileSync(outPath, html);
