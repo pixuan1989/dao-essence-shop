@@ -1121,6 +1121,8 @@
 
         // Listen for language changes from global i18n-switcher
         document.addEventListener('daoessence:i18n-changed', () => {
+            // Guard: don't render if data hasn't loaded yet (avoids flash of empty-state)
+            if (!allWallpapers.length) return;
             buildNavDropdown();
             buildCategoryPills();
             buildExploreCategories();
