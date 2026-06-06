@@ -2444,6 +2444,10 @@ async function main() {
       '<link rel="canonical" href="https://www.daoessentia.com/">',
       '<link rel="canonical" href="https://www.daoessentia.com/zh">'
     );
+    zhHomeHtml = zhHomeHtml.replace(
+      '<meta property="og:url" content="https://www.daoessentia.com/">',
+      '<meta property="og:url" content="https://www.daoessentia.com/zh">'
+    );
     // Add zh-Hant hreflang self-reference (after existing x-default hreflang)
     zhHomeHtml = zhHomeHtml.replace(
       '<link rel="alternate" hreflang="x-default" href="https://www.daoessentia.com/">',
