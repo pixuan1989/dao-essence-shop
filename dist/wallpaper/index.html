@@ -410,6 +410,55 @@
             margin: 0 auto;
             padding: 20px 24px 60px;
         }
+
+        /* ── Skeleton Screen ── */
+        .skeleton-card {
+            background: #1a1a1a;
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .skeleton-thumb {
+            width: 100%;
+            aspect-ratio: 9/16;
+            background: linear-gradient(90deg, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%);
+            background-size: 200% 100%;
+            animation: skeleton-pulse 1.5s ease-in-out infinite;
+        }
+        .skeleton-info {
+            padding: 10px 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .skeleton-line {
+            height: 10px;
+            border-radius: 4px;
+            background: linear-gradient(90deg, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%);
+            background-size: 200% 100%;
+            animation: skeleton-pulse 1.5s ease-in-out infinite;
+        }
+        .skeleton-line.short { width: 60%; }
+        .skeleton-line.medium { width: 80%; }
+        .skeleton-tag {
+            display: flex;
+            gap: 4px;
+            margin-top: 4px;
+        }
+        .skeleton-tag-item {
+            width: 32px;
+            height: 6px;
+            border-radius: 3px;
+            background: linear-gradient(90deg, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%);
+            background-size: 200% 100%;
+            animation: skeleton-pulse 1.5s ease-in-out infinite;
+        }
+        @keyframes skeleton-pulse {
+            0%   { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
         .wallpaper-grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
@@ -608,10 +657,15 @@
     <!-- Grid -->
     <div class="grid-container">
         <div class="wallpaper-grid" id="wallpaper-grid">
-            <div class="empty-state">
-                <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
-                <p id="loading-text" data-i18n="wallpaper.loading_wallpapers">Loading wallpapers...</p>
-            </div>
+            <!-- Skeleton Screen -->
+            <div class="skeleton-card"><div class="skeleton-thumb"></div><div class="skeleton-info"><div class="skeleton-line medium"></div><div class="skeleton-line short"></div><div class="skeleton-tag"><div class="skeleton-tag-item"></div><div class="skeleton-tag-item"></div></div></div></div>
+            <div class="skeleton-card"><div class="skeleton-thumb"></div><div class="skeleton-info"><div class="skeleton-line short"></div><div class="skeleton-line medium"></div><div class="skeleton-tag"><div class="skeleton-tag-item"></div><div class="skeleton-tag-item"></div></div></div></div>
+            <div class="skeleton-card"><div class="skeleton-thumb"></div><div class="skeleton-info"><div class="skeleton-line medium"></div><div class="skeleton-line short"></div><div class="skeleton-tag"><div class="skeleton-tag-item"></div><div class="skeleton-tag-item"></div></div></div></div>
+            <div class="skeleton-card"><div class="skeleton-thumb"></div><div class="skeleton-info"><div class="skeleton-line short"></div><div class="skeleton-line medium"></div><div class="skeleton-tag"><div class="skeleton-tag-item"></div><div class="skeleton-tag-item"></div></div></div></div>
+            <div class="skeleton-card"><div class="skeleton-thumb"></div><div class="skeleton-info"><div class="skeleton-line medium"></div><div class="skeleton-line short"></div><div class="skeleton-tag"><div class="skeleton-tag-item"></div><div class="skeleton-tag-item"></div></div></div></div>
+            <div class="skeleton-card"><div class="skeleton-thumb"></div><div class="skeleton-info"><div class="skeleton-line short"></div><div class="skeleton-line medium"></div><div class="skeleton-tag"><div class="skeleton-tag-item"></div><div class="skeleton-tag-item"></div></div></div></div>
+            <div class="skeleton-card"><div class="skeleton-thumb"></div><div class="skeleton-info"><div class="skeleton-line medium"></div><div class="skeleton-line short"></div><div class="skeleton-tag"><div class="skeleton-tag-item"></div><div class="skeleton-tag-item"></div></div></div></div>
+            <div class="skeleton-card"><div class="skeleton-thumb"></div><div class="skeleton-info"><div class="skeleton-line short"></div><div class="skeleton-line medium"></div><div class="skeleton-tag"><div class="skeleton-tag-item"></div><div class="skeleton-tag-item"></div></div></div></div>
         </div>
     </div>
 
@@ -1067,6 +1121,8 @@
 
         // Listen for language changes from global i18n-switcher
         document.addEventListener('daoessence:i18n-changed', () => {
+            // Guard: don't render if data hasn't loaded yet (avoids flash of empty-state)
+            if (!allWallpapers.length) return;
             buildNavDropdown();
             buildCategoryPills();
             buildExploreCategories();
@@ -1081,7 +1137,7 @@
         // Init
         async function init() {
             try {
-                const res = await fetch('wallpapers.json?t=' + new Date().getTime());
+                const res = await fetch('wallpapers.json');
                 allWallpapers = await res.json();
             } catch (e) {
                 console.error('Failed to load wallpapers:', e);
@@ -1114,5 +1170,6 @@
     <script src="/js/auth.js"></script>
     <script src="js/i18n-switcher.js" defer></script>
     <script src="/js/wallpaper-search-optimize.js" defer></script>
+    <script src="/js/wallpaper-image-fix.js" defer></script>
 </body>
 </html>
