@@ -821,12 +821,12 @@
     },
     {
       "source": "/zh/bazi-calculator",
-      "destination": "/zh/bazi-form",
+      "destination": "/bazi-form",
       "permanent": true
     },
     {
       "source": "/zh/bazi-calculator/",
-      "destination": "/zh/bazi-form",
+      "destination": "/bazi-form",
       "permanent": true
     },
     {
