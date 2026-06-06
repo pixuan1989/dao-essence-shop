@@ -66,57 +66,58 @@
             id: 'wallpaper_digest',
             name: '🖼️ 壁纸精选推送 (7 张)',
             subject: '{{title}} - 本周精选玄学壁纸',
-            html: `<div style="padding: 20px 0; font-family: sans-serif;">
-    <h2 style="color: #d4af37; text-align: center; margin-bottom: 20px;">✨ {{title}} ✨</h2>
-    <p style="color: #666; font-size: 14px; margin: 0 0 20px; text-align: center;">亲爱的 {{name}}，为您精选了本周 7 张好运壁纸：</p>
+            html: `<div style="padding: 20px 0; font-family: sans-serif; max-width: 600px; margin: 0 auto;">
+    <h2 style="color: #d4af37; text-align: center; margin-bottom: 10px;">✨ {{title}} ✨</h2>
+    <p style="color: #666; font-size: 14px; margin: 0 0 20px; text-align: center;">亲爱的朋友，为您精选了本周 7 张好运壁纸：</p>
     
-    <!-- 第 1-2 行：4 张壁纸 -->
-    <table width="100%" cellpadding="0" cellspacing="0" style="max-width: 600px; margin: 0 auto;">
+    <!-- 第 1-2 张 -->
+    <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 15px;">
         <tr>
-            <td width="48%" style="vertical-align: top; padding-bottom: 20px;">
-                <img src="{{img1}}" alt="{{title1}}" style="width: 100%; border-radius: 8px; display: block; margin-bottom: 8px;">
-                <p style="margin: 0; font-size: 13px; color: #333; font-weight: 600;">{{title1}}</p>
+            <td width="49%" style="vertical-align: top; padding-right: 2%;">
+                <img src="{{img1}}" alt="{{title1}}" style="width: 100%; border-radius: 8px; display: block;">
+                <p style="margin: 8px 0 0; font-size: 13px; color: #333; font-weight: 600; text-align: center;">{{title1}}</p>
             </td>
-            <td width="4%">&nbsp;</td>
-            <td width="48%" style="vertical-align: top; padding-bottom: 20px;">
-                <img src="{{img2}}" alt="{{title2}}" style="width: 100%; border-radius: 8px; display: block; margin-bottom: 8px;">
-                <p style="margin: 0; font-size: 13px; color: #333; font-weight: 600;">{{title2}}</p>
-            </td>
-        </tr>
-        <tr>
-            <td width="48%" style="vertical-align: top; padding-bottom: 20px;">
-                <img src="{{img3}}" alt="{{title3}}" style="width: 100%; border-radius: 8px; display: block; margin-bottom: 8px;">
-                <p style="margin: 0; font-size: 13px; color: #333; font-weight: 600;">{{title3}}</p>
-            </td>
-            <td width="4%">&nbsp;</td>
-            <td width="48%" style="vertical-align: top; padding-bottom: 20px;">
-                <img src="{{img4}}" alt="{{title4}}" style="width: 100%; border-radius: 8px; display: block; margin-bottom: 8px;">
-                <p style="margin: 0; font-size: 13px; color: #333; font-weight: 600;">{{title4}}</p>
+            <td width="49%" style="vertical-align: top; padding-left: 2%;">
+                <img src="{{img2}}" alt="{{title2}}" style="width: 100%; border-radius: 8px; display: block;">
+                <p style="margin: 8px 0 0; font-size: 13px; color: #333; font-weight: 600; text-align: center;">{{title2}}</p>
             </td>
         </tr>
     </table>
 
-    <!-- 第 3-4 行：2 张壁纸 -->
-    <table width="100%" cellpadding="0" cellspacing="0" style="max-width: 600px; margin: 0 auto;">
+    <!-- 第 3-4 张 -->
+    <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 15px;">
         <tr>
-            <td width="48%" style="vertical-align: top; padding-bottom: 20px;">
-                <img src="{{img5}}" alt="{{title5}}" style="width: 100%; border-radius: 8px; display: block; margin-bottom: 8px;">
-                <p style="margin: 0; font-size: 13px; color: #333; font-weight: 600;">{{title5}}</p>
+            <td width="49%" style="vertical-align: top; padding-right: 2%;">
+                <img src="{{img3}}" alt="{{title3}}" style="width: 100%; border-radius: 8px; display: block;">
+                <p style="margin: 8px 0 0; font-size: 13px; color: #333; font-weight: 600; text-align: center;">{{title3}}</p>
             </td>
-            <td width="4%">&nbsp;</td>
-            <td width="48%" style="vertical-align: top; padding-bottom: 20px;">
-                <img src="{{img6}}" alt="{{title6}}" style="width: 100%; border-radius: 8px; display: block; margin-bottom: 8px;">
-                <p style="margin: 0; font-size: 13px; color: #333; font-weight: 600;">{{title6}}</p>
+            <td width="49%" style="vertical-align: top; padding-left: 2%;">
+                <img src="{{img4}}" alt="{{title4}}" style="width: 100%; border-radius: 8px; display: block;">
+                <p style="margin: 8px 0 0; font-size: 13px; color: #333; font-weight: 600; text-align: center;">{{title4}}</p>
             </td>
         </tr>
     </table>
 
-    <!-- 第 5 行：最后 1 张居中 -->
-    <table width="100%" cellpadding="0" cellspacing="0" style="max-width: 300px; margin: 0 auto;">
+    <!-- 第 5-6 张 -->
+    <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 15px;">
         <tr>
-            <td style="vertical-align: top; padding-bottom: 20px;">
-                <img src="{{img7}}" alt="{{title7}}" style="width: 100%; border-radius: 8px; display: block; margin-bottom: 8px;">
-                <p style="margin: 0; font-size: 13px; color: #333; font-weight: 600;">{{title7}}</p>
+            <td width="49%" style="vertical-align: top; padding-right: 2%;">
+                <img src="{{img5}}" alt="{{title5}}" style="width: 100%; border-radius: 8px; display: block;">
+                <p style="margin: 8px 0 0; font-size: 13px; color: #333; font-weight: 600; text-align: center;">{{title5}}</p>
+            </td>
+            <td width="49%" style="vertical-align: top; padding-left: 2%;">
+                <img src="{{img6}}" alt="{{title6}}" style="width: 100%; border-radius: 8px; display: block;">
+                <p style="margin: 8px 0 0; font-size: 13px; color: #333; font-weight: 600; text-align: center;">{{title6}}</p>
+            </td>
+        </tr>
+    </table>
+
+    <!-- 第 7 张 (居中) -->
+    <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 20px;">
+        <tr>
+            <td width="100%" style="vertical-align: top;">
+                <img src="{{img7}}" alt="{{title7}}" style="width: 100%; max-width: 290px; border-radius: 8px; display: block; margin: 0 auto;">
+                <p style="margin: 8px 0 0; font-size: 13px; color: #333; font-weight: 600; text-align: center;">{{title7}}</p>
             </td>
         </tr>
     </table>
@@ -125,6 +126,7 @@
     <div style="text-align: center; margin-top: 25px;">
         <a href="{{link}}" style="display: inline-block; background: linear-gradient(135deg, #d4af37, #b8941f); color: #1a1a2e; padding: 14px 32px; border-radius: 8px; text-decoration: none; font-weight: 700;">下载高清大图 →</a>
     </div>
+    <p style="text-align: center; font-size: 12px; color: #999; margin-top: 20px;">© 2026 DAO Essence · <a href="https://www.daoessentia.com" style="color: #667eea;">www.daoessentia.com</a></p>
 </div>`
         },
         {
