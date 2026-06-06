@@ -74,11 +74,11 @@
     <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 15px;">
         <tr>
             <td width="49%" style="vertical-align: top; padding-right: 2%;">
-                <img src="{{img1}}" alt="{{title1}}" style="width: 100%; border-radius: 8px; display: block;">
+                <img src="{{img1}}" alt="{{title1}}" width="280" style="width: 100%; max-width: 280px; height: auto; border-radius: 8px; display: block;">
                 <p style="margin: 8px 0 0; font-size: 13px; color: #333; font-weight: 600; text-align: center;">{{title1}}</p>
             </td>
             <td width="49%" style="vertical-align: top; padding-left: 2%;">
-                <img src="{{img2}}" alt="{{title2}}" style="width: 100%; border-radius: 8px; display: block;">
+                <img src="{{img2}}" alt="{{title2}}" width="280" style="width: 100%; max-width: 280px; height: auto; border-radius: 8px; display: block;">
                 <p style="margin: 8px 0 0; font-size: 13px; color: #333; font-weight: 600; text-align: center;">{{title2}}</p>
             </td>
         </tr>
@@ -88,11 +88,11 @@
     <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 15px;">
         <tr>
             <td width="49%" style="vertical-align: top; padding-right: 2%;">
-                <img src="{{img3}}" alt="{{title3}}" style="width: 100%; border-radius: 8px; display: block;">
+                <img src="{{img3}}" alt="{{title3}}" width="280" style="width: 100%; max-width: 280px; height: auto; border-radius: 8px; display: block;">
                 <p style="margin: 8px 0 0; font-size: 13px; color: #333; font-weight: 600; text-align: center;">{{title3}}</p>
             </td>
             <td width="49%" style="vertical-align: top; padding-left: 2%;">
-                <img src="{{img4}}" alt="{{title4}}" style="width: 100%; border-radius: 8px; display: block;">
+                <img src="{{img4}}" alt="{{title4}}" width="280" style="width: 100%; max-width: 280px; height: auto; border-radius: 8px; display: block;">
                 <p style="margin: 8px 0 0; font-size: 13px; color: #333; font-weight: 600; text-align: center;">{{title4}}</p>
             </td>
         </tr>
@@ -102,11 +102,11 @@
     <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 15px;">
         <tr>
             <td width="49%" style="vertical-align: top; padding-right: 2%;">
-                <img src="{{img5}}" alt="{{title5}}" style="width: 100%; border-radius: 8px; display: block;">
+                <img src="{{img5}}" alt="{{title5}}" width="280" style="width: 100%; max-width: 280px; height: auto; border-radius: 8px; display: block;">
                 <p style="margin: 8px 0 0; font-size: 13px; color: #333; font-weight: 600; text-align: center;">{{title5}}</p>
             </td>
             <td width="49%" style="vertical-align: top; padding-left: 2%;">
-                <img src="{{img6}}" alt="{{title6}}" style="width: 100%; border-radius: 8px; display: block;">
+                <img src="{{img6}}" alt="{{title6}}" width="280" style="width: 100%; max-width: 280px; height: auto; border-radius: 8px; display: block;">
                 <p style="margin: 8px 0 0; font-size: 13px; color: #333; font-weight: 600; text-align: center;">{{title6}}</p>
             </td>
         </tr>
@@ -116,7 +116,7 @@
     <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 20px;">
         <tr>
             <td width="100%" style="vertical-align: top;">
-                <img src="{{img7}}" alt="{{title7}}" style="width: 100%; max-width: 290px; border-radius: 8px; display: block; margin: 0 auto;">
+                <img src="{{img7}}" alt="{{title7}}" width="280" style="width: 100%; max-width: 280px; height: auto; border-radius: 8px; display: block; margin: 0 auto;">
                 <p style="margin: 8px 0 0; font-size: 13px; color: #333; font-weight: 600; text-align: center;">{{title7}}</p>
             </td>
         </tr>
