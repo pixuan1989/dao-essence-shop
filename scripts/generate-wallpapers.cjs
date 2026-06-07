@@ -34,6 +34,7 @@ const CAT_NAME_ZH = {
   'Five Elements': '五行', 'Feng Shui': '風水',
   'Chinese Zodiac': '生肖', 'Astrology': '占星',
   'Energy': '能量', 'Talismans': '符籙',
+  'Love': '愛', 'Wealth': '財富',
   // 向后兼容旧数据
   'Talisman': '符籙', 'Nature': '自然', 'Deities': '神仙',
   '八字': '八字', '占星': '占星', '生肖': '生肖', '神仙': '神仙', '符箓': '符籙', '能量': '能量', '风水': '風水'

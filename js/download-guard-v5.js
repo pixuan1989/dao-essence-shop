@@ -251,19 +251,10 @@
     var toast = document.getElementById('dg-toast');
     if (toast) toast.remove();
 
-    // 2. 重置所有下载按钮状态（i18n-aware）
+    // 2. 重置所有下载按钮状态（不清除文本，文本由 HTML 模板控制）
     document.querySelectorAll('.btn-download, .btn-download-safe').forEach(function (btn) {
       btn.disabled = false;
       btn.dataset.isProcessing = 'false'; // 清除处理锁
-      var span = btn.querySelector('span') || btn;
-      // Use i18n if available, otherwise fallback based on page language
-      if (window.DaoI18n) {
-        var i18nText = window.DaoI18n.t('wallpaper.download');
-        span.textContent = (i18nText !== 'wallpaper.download') ? i18nText : 'Download';
-      } else {
-        var isZh = (document.documentElement.lang === 'zh' || window.location.pathname.includes('/zh/'));
-        span.textContent = isZh ? '下載' : 'Download';
-      }
     });
   });
 
