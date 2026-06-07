@@ -85,80 +85,58 @@ async function downloadCheck(req, res) {
     }
     if (!client) useMemory = true;
 
+    // Check Login Status
     const auth = req.headers.authorization;
     const payload = auth?.startsWith('Bearer ') ? await verifyClerkToken(auth.slice(7)) : null;
+    const isLoggedIn = !!payload;
+
+    // Determine Key and Limit based on status
+    // 彻底抛弃 IP 限制，只认账号
+    // 游客：按 IP 限制，每天 2 次
+    // 登录用户：按账号限制，每天 5 次
+    let trackingKey, limit;
+
+    if (isLoggedIn) {
+        // 已登录：Key = dl_user:{Email}:{Date}, Limit = 5
+        const email = payload.email || payload.sub;
+        trackingKey = `dl_user:${email.toLowerCase()}:${today}`;
+        limit = 5;
+    } else {
+        // 游客：Key = dl:{IP}:{Date}, Limit = 2
+        trackingKey = `dl:${ip}:${today}`;
+        limit = 2;
+    }
 
     try {
-        // Guest mode — 每天最多 1 次
-        if (!payload) {
-            const dlKey = 'dl:' + ip + ':' + today;
-            let used;
-            if (useMemory) {
-                used = memoryCounts.get(dlKey) || 0;
-            } else {
-                used = parseInt(await client.get(dlKey) || '0');
-            }
-            if (used >= 1) {
-                return res.status(429).json({
-                    error: 'Daily download limit reached (1/day for guests). Sign in for 3/day.',
-                    allowed: false, used, limit: 1
-                });
-            }
-            if (useMemory) {
-                memoryCounts.set(dlKey, used + 1);
-            } else {
-                await client.set(dlKey, String(used + 1), { ex: 172800 });
-            }
-            // Record download count (best-effort, never block download)
-            try {
-                const wpId = req.body?.wallpaperId || req.query.wallpaperId || '';
-                if (wpId) {
-                    const key = 'wallpaper:downloads:' + wpId;
-                    if (useMemory) {
-                        memoryCounts.set(key, (memoryCounts.get(key) || 0) + 1);
-                    } else {
-                        await client.incr(key);
-                        await client.expire(key, 86400 * 365); // persist ~1 year
-                    }
-                }
-            } catch (e) { console.error('[auth] download count error:', e.message); }
-            // --- end count ---
-
-            return res.status(200).json({ allowed: true, used: used + 1, limit: 1 });
-        }
-
-        // Logged in user — 每天最多 3 次
-        const email = payload.email || payload.sub || 'unknown';
-        const ipKey = 'dl:' + ip + ':' + today;
-        const userKey = 'dl_user:' + email.toLowerCase() + ':' + today;
-
-        let ipUsed, userUsed;
+        // Get current count
+        let currentCount = 0;
         if (useMemory) {
-            ipUsed = memoryCounts.get(ipKey) || 0;
-            userUsed = memoryCounts.get(userKey) || 0;
+            currentCount = memoryCounts.get(trackingKey) || 0;
         } else {
-            ipUsed = parseInt(await client.get(ipKey) || '0');
-            userUsed = parseInt(await client.get(userKey) || '0');
+            currentCount = parseInt(await client.get(trackingKey) || '0');
         }
-        // 已登录用户：只看账号维度，不受 IP 影响
-        const totalUsed = userUsed;
-        const limit = 3;
 
-        if (totalUsed >= limit) {
+        // Check Limit
+        if (currentCount >= limit) {
             return res.status(429).json({
-                error: 'Daily download limit reached (3/day).',
-                allowed: false, used: totalUsed, limit
+                error: isLoggedIn
+                    ? '每日下载次数已达上限（5 次/天）'
+                    : '每日下载次数已达上限（游客 2 次/天，登录后 5 次/天）',
+                allowed: false,
+                used: currentCount,
+                limit: limit
             });
         }
 
-        const nextCount = totalUsed + 1;
+        // Increment Count
+        const nextCount = currentCount + 1;
         if (useMemory) {
-            memoryCounts.set(userKey, nextCount);
+            memoryCounts.set(trackingKey, nextCount);
         } else {
-            await client.set(userKey, String(nextCount), { ex: 172800 });
+            await client.set(trackingKey, String(nextCount), { ex: 172800 });
         }
 
-        // Record download count (best-effort, never block download)
+        // Record wallpaper download count (analytics)
         try {
             const wpId = req.body?.wallpaperId || req.query.wallpaperId || '';
             if (wpId) {
@@ -171,9 +149,9 @@ async function downloadCheck(req, res) {
                 }
             }
         } catch (e) { console.error('[auth] download count error:', e.message); }
-        // --- end count ---
 
-        return res.status(200).json({ allowed: true, used: nextCount, limit, user: { email } });
+        return res.status(200).json({ allowed: true, used: nextCount, limit: limit, isLoggedIn: isLoggedIn });
+
     } catch (err) {
         console.error('[auth] downloadCheck error:', err.message);
         return res.status(503).json({
