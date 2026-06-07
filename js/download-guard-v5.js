@@ -122,6 +122,10 @@
 
   // ── Core: handle download click ──
   async function handleDownload(btn) {
+    // 防止重复处理
+    if (btn.dataset.isProcessing === 'true') return;
+    btn.dataset.isProcessing = 'true';
+
     var origText = 'Download Wallpaper';
     try {
       var span = btn.querySelector('span') || btn;
@@ -136,111 +140,97 @@
     btn.textContent = 'Checking...';
     btn.disabled = true;
 
-    // ── Step 1: Call API and AWAIT result ──
-    var allowed = false; // FAIL-CLOSED by default
-    var denyReason = '';
-    var isZh = (document.documentElement.lang === 'zh' || window.location.pathname.includes('/zh/'));
-
     try {
-      var token = null;
-      if (window.DaoAuth && window.DaoAuth.getSessionToken) {
-        try { token = await Promise.race([window.DaoAuth.getSessionToken(), new Promise(function (_, r) { setTimeout(r, 3000); })]); } catch (e) { token = null; }
-      }
+      // ── Step 1: Call API and AWAIT result ──
+      var allowed = false; // FAIL-CLOSED by default
+      var denyReason = '';
+      var isZh = (document.documentElement.lang === 'zh' || window.location.pathname.includes('/zh/'));
 
-      var headers = { 'Content-Type': 'application/json' };
-      if (token) headers['Authorization'] = 'Bearer ' + token;
-
-      var res = await Promise.race([
-        fetch('/api/auth?action=download', {
-          method: 'POST',
-          headers: headers,
-          body: JSON.stringify({ wallpaperId: wallpaperId })
-        }),
-        new Promise(function (_, reject) { setTimeout(function () { reject(new Error('api-timeout')); }, 8000); })
-      ]);
-
-      var data = null;
-      try { data = await res.json(); } catch (e) { /* non-JSON response, ignore */ }
-
-      console.log('[DownloadGuard] API status:', res.status, 'data:', data);
-
-      // Priority 1: explicit deny (429 or any status with allowed=false)
-      if (data && data.allowed === false) {
-        allowed = false;
-        denyReason = (data.error || 'Download limit reached.') + ' ' + (isZh ? '请登录获取更多。' : 'Sign in for more.');
-      }
-      // Priority 2: allow only if res.ok AND data.allowed === true
-      else if (res.ok && data && data.allowed === true) {
-        allowed = true;
-      }
-      // Priority 3: any other non-ok response without explicit deny → service error
-      else if (!res.ok) {
-        allowed = false;
-        denyReason = isZh ? '下载服务暂时不可用，请稍后重试。' : 'Service temporarily unavailable. Please try again later.';
-      }
-    } catch (e) {
-      // API unreachable → BLOCK (fail-closed)
-      console.warn('[DownloadGuard] API unreachable, blocking download:', e.message);
-      allowed = false;
-      denyReason = isZh ? '下载服务暂时不可用，请稍后重试。' : 'Download service unavailable. Please try again later.';
-    }
-
-    if (!allowed) {
-      // 恢复按钮状态（硬编码文案，防止 origText 捕获到 "Checking..."）
-      btn.disabled = false;
-      btn.textContent = 'Download Wallpaper';
-      var span = btn.querySelector('span');
-      if (span) span.textContent = 'Download Wallpaper';
-      
-      showMessage(denyReason, 6000, isZh);
-      return;
-    }
-
-    // ── Step 2: Trigger download (only if explicitly allowed) ──
-    try {
-      var filename = 'wallpaper.jpg';
       try {
-        var u = new URL(url);
-        filename = u.pathname.split('/').pop() || 'wallpaper.jpg';
-      } catch (ex) { /* ignore */ }
-      await forceDownload(url, filename);
-    } catch (err) {
-      console.error('[DownloadGuard] Download error:', err);
-      showMessage(isZh ? '下载失败，请重试。' : 'Download failed. Please try again.', 5000, isZh);
+        var token = null;
+        if (window.DaoAuth && window.DaoAuth.getSessionToken) {
+          try { token = await Promise.race([window.DaoAuth.getSessionToken(), new Promise(function (_, r) { setTimeout(r, 3000); })]); } catch (e) { token = null; }
+        }
+
+        var headers = { 'Content-Type': 'application/json' };
+        if (token) headers['Authorization'] = 'Bearer ' + token;
+
+        var res = await Promise.race([
+          fetch('/api/auth?action=download', {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify({ wallpaperId: wallpaperId })
+          }),
+          new Promise(function (_, reject) { setTimeout(function () { reject(new Error('api-timeout')); }, 8000); })
+        ]);
+
+        var data = null;
+        try { data = await res.json(); } catch (e) { /* non-JSON response, ignore */ }
+
+        console.log('[DownloadGuard] API status:', res.status, 'data:', data);
+
+        // Priority 1: explicit deny (429 or any status with allowed=false)
+        if (data && data.allowed === false) {
+          allowed = false;
+          denyReason = (data.error || 'Download limit reached.') + ' ' + (isZh ? '请登录获取更多。' : 'Sign in for more.');
+        }
+        // Priority 2: allow only if res.ok AND data.allowed === true
+        else if (res.ok && data && data.allowed === true) {
+          allowed = true;
+        }
+        // Priority 3: any other non-ok response without explicit deny → service error
+        else if (!res.ok) {
+          allowed = false;
+          denyReason = isZh ? '下载服务暂时不可用，请稍后重试。' : 'Service temporarily unavailable. Please try again later.';
+        }
+      } catch (e) {
+        // API unreachable → BLOCK (fail-closed)
+        console.warn('[DownloadGuard] API unreachable, blocking download:', e.message);
+        allowed = false;
+        denyReason = isZh ? '下载服务暂时不可用，请稍后重试。' : 'Download service unavailable. Please try again later.';
+      }
+
+      if (!allowed) {
+        showMessage(denyReason, 6000, isZh);
+        return;
+      }
+
+      // ── Step 2: Trigger download (only if explicitly allowed) ──
+      try {
+        var filename = 'wallpaper.jpg';
+        try {
+          var u = new URL(url);
+          filename = u.pathname.split('/').pop() || 'wallpaper.jpg';
+        } catch (ex) { /* ignore */ }
+        await forceDownload(url, filename);
+      } catch (err) {
+        console.error('[DownloadGuard] Download error:', err);
+        showMessage(isZh ? '下载失败，请重试。' : 'Download failed. Please try again.', 5000, isZh);
+      }
+
+    } finally {
+      // 无论成功失败，都恢复按钮状态
+      btn.textContent = origText;
+      btn.disabled = false;
+      btn.dataset.isProcessing = 'false';
+      console.log('[DownloadGuard] Done');
+    }
+  }
+
+  // ── Auto-bind: Event Delegation (Prevents duplicate bindings) ──
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest('.btn-download, .btn-download-safe');
+    if (!btn) return;
+
+    // Prevent default action
+    if (btn.tagName === 'A' || btn.tagName === 'BUTTON') {
+      e.preventDefault();
+      e.stopPropagation();
     }
 
-    btn.textContent = origText;
-    btn.disabled = false;
-    console.log('[DownloadGuard] Done');
-  }
-
-  // ── Auto-bind: any button with data-wallpaper-id gets guarded ──
-  function bindButtons() {
-    document.querySelectorAll('.btn-download, .btn-download-safe').forEach(function (btn) {
-      if (btn.dataset.guarded) return;
-      btn.dataset.guarded = '1';
-      // Stop <a href="#"> from jumping to top
-      if (btn.tagName === 'A') btn.setAttribute('href', 'javascript:void(0)');
-      btn.addEventListener('click', function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-        console.log('[DownloadGuard] Click intercepted on', btn.id || btn.className);
-        handleDownload(btn);
-      });
-    });
-  }
-
-  // ── Init ──
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', function () { bindButtons(); });
-  } else {
-    bindButtons();
-  }
-  // Re-bind after any DOM changes (for SPAs / dynamic pages)
-  try {
-    var observer = new MutationObserver(function () { bindButtons(); });
-    observer.observe(document.body || document.documentElement, { childList: true, subtree: true });
-  } catch (e) { /* ignore */ }
+    console.log('[DownloadGuard] Click intercepted on', btn.id || btn.className);
+    handleDownload(btn);
+  });
 
   // ✅ 监听登录状态变化，自动恢复下载权限（无需刷新页面）
   window.addEventListener('daoessence:auth-changed', function (e) {
@@ -253,7 +243,7 @@
     // 2. 重置所有下载按钮状态
     document.querySelectorAll('.btn-download, .btn-download-safe').forEach(function (btn) {
       btn.disabled = false;
-      btn.dataset.guarded = ''; // 清除锁定标记
+      btn.dataset.isProcessing = 'false'; // 清除处理锁
       var span = btn.querySelector('span') || btn;
       span.textContent = btn.dataset.origText || 'Download Wallpaper';
     });
