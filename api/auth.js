@@ -75,14 +75,9 @@ async function downloadCheck(req, res) {
     const today = new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Shanghai' });
     const ip = (req.headers['x-forwarded-for'] || req.socket?.remoteAddress || 'unknown').split(',')[0].trim();
 
-    // Try Redis (no ping, @upstash/redis is HTTP-based)
-    let client = null;
-    let useMemory = false;
-    try {
-        client = getRedis();
-    } catch (e) {
-        client = null;
-    }
+    // Try Redis
+    let client = null, useMemory = false;
+    try { client = getRedis(); } catch (e) { client = null; }
     if (!client) useMemory = true;
 
     // Check Login Status
@@ -90,53 +85,46 @@ async function downloadCheck(req, res) {
     const payload = auth?.startsWith('Bearer ') ? await verifyClerkToken(auth.slice(7)) : null;
     const isLoggedIn = !!payload;
 
-    // Determine Key and Limit based on status
-    // 彻底抛弃 IP 限制，只认账号
-    // 游客：按 IP 限制，每天 2 次
-    // 登录用户：按账号限制，每天 5 次
-    let trackingKey, limit;
-
-    if (isLoggedIn) {
-        // 已登录：Key = dl_user:{Email}:{Date}, Limit = 5
-        const email = payload.email || payload.sub;
-        trackingKey = `dl_user:${email.toLowerCase()}:${today}`;
-        limit = 5;
-    } else {
-        // 游客：Key = dl:{IP}:{Date}, Limit = 2
-        trackingKey = `dl:${ip}:${today}`;
-        limit = 2;
-    }
+    const ipKey = `dl:${ip}:${today}`;
+    let ipUsed = useMemory ? (memoryCounts.get(ipKey) || 0) : parseInt(await client.get(ipKey) || '0');
 
     try {
-        // Get current count
-        let currentCount = 0;
-        if (useMemory) {
-            currentCount = memoryCounts.get(trackingKey) || 0;
-        } else {
-            currentCount = parseInt(await client.get(trackingKey) || '0');
+        // ── 游客模式：按 IP 限制，每天 2 次 ──
+        if (!isLoggedIn) {
+            if (ipUsed >= 2) {
+                return res.status(429).json({
+                    error: '每日下载次数已达上限（游客 2 次/天）',
+                    allowed: false, used: ipUsed, limit: 2
+                });
+            }
+            // 累加 IP 记录
+            const nextIp = ipUsed + 1;
+            useMemory ? memoryCounts.set(ipKey, nextIp) : await client.set(ipKey, String(nextIp), { ex: 172800 });
+
+            return res.status(200).json({ allowed: true, used: nextIp, limit: 2, isLoggedIn: false });
         }
 
-        // Check Limit
-        if (currentCount >= limit) {
+        // ── 登录模式：按账号限制，每天 5 次（需去重/扣除游客已下载次数） ─
+        const email = payload.email || payload.sub;
+        const userKey = `dl_user:${email.toLowerCase()}:${today}`;
+        let userUsed = useMemory ? (memoryCounts.get(userKey) || 0) : parseInt(await client.get(userKey) || '0');
+
+        // 核心去重逻辑：总已用次数 = IP已用 + 账号已用
+        const totalUsed = ipUsed + userUsed;
+        const limit = 5;
+
+        if (totalUsed >= limit) {
             return res.status(429).json({
-                error: isLoggedIn
-                    ? '每日下载次数已达上限（5 次/天）'
-                    : '每日下载次数已达上限（游客 2 次/天，登录后 5 次/天）',
-                allowed: false,
-                used: currentCount,
-                limit: limit
+                error: '每日下载次数已达上限（5 次/天，已扣除游客下载次数）',
+                allowed: false, used: totalUsed, limit: limit
             });
         }
 
-        // Increment Count
-        const nextCount = currentCount + 1;
-        if (useMemory) {
-            memoryCounts.set(trackingKey, nextCount);
-        } else {
-            await client.set(trackingKey, String(nextCount), { ex: 172800 });
-        }
+        // 登录后只累加账号 Key，防止下次请求重复计算 IP
+        const nextUserUsed = userUsed + 1;
+        useMemory ? memoryCounts.set(userKey, nextUserUsed) : await client.set(userKey, String(nextUserUsed), { ex: 172800 });
 
-        // Record wallpaper download count (analytics)
+        // 统计壁纸下载量（后台数据）
         try {
             const wpId = req.body?.wallpaperId || req.query.wallpaperId || '';
             if (wpId) {
@@ -150,7 +138,7 @@ async function downloadCheck(req, res) {
             }
         } catch (e) { console.error('[auth] download count error:', e.message); }
 
-        return res.status(200).json({ allowed: true, used: nextCount, limit: limit, isLoggedIn: isLoggedIn });
+        return res.status(200).json({ allowed: true, used: totalUsed + 1, limit: limit, isLoggedIn: true });
 
     } catch (err) {
         console.error('[auth] downloadCheck error:', err.message);
