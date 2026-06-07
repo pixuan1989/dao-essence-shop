@@ -140,7 +140,8 @@ async function downloadCheck(req, res) {
             ipUsed = parseInt(await client.get(ipKey) || '0');
             userUsed = parseInt(await client.get(userKey) || '0');
         }
-        const totalUsed = Math.max(ipUsed, userUsed);
+        // 已登录用户：只看账号维度，不受 IP 影响
+        const totalUsed = userUsed;
         const limit = 3;
 
         if (totalUsed >= limit) {
