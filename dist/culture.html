@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+    <link rel="icon" type="image/png" href="/images/favicon.png">
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Five Elements (Wu Xing) Guide | DAO Essence</title>
+    <meta name="description" content="Learn the Five Elements (Wu Xing) — foundation of BaZi, Feng Shui, and Chinese metaphysics. Discover your elemental profile and how it shapes your life.">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+    <meta name="keywords" content="Five elements, Wu Xing, Chinese five elements, BaZi elements, five elements personality, five elements health, Wood Fire Earth Metal Water, Chinese metaphysics, BaZi reading, Chinese astrology, Five elements theory">
+    <!-- Open Graph -->
+    <meta property="og:title" content="Five Elements (Wu Xing) — The Key to Understanding Your BaZi | DAO Essence">
+    <meta property="og:description" content="Master the Five Elements that power BaZi charts. Discover which element you are and how it shapes your personality, career, health, and relationships.">
+    <meta property="og:image" content="https://www.daoessentia.com/images/og-default.jpg">
+    <meta property="og:url" content="https://www.daoessentia.com/culture">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="DAO Essence">
+    <link rel="canonical" href="https://www.daoessentia.com/culture">
+    <link rel="alternate" hreflang="en" href="https://www.daoessentia.com/culture">
+    <link rel="alternate" hreflang="x-default" href="https://www.daoessentia.com/culture">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Five Elements (Wu Xing) Guide | DAO Essence">
+    <meta name="twitter:description" content="Master the Five Elements that power BaZi charts. Discover which element you are and how it shapes your personality, career, health, and relationships.">
+    <meta name="twitter:image" content="https://www.daoessentia.com/images/og-default.jpg">
+    <link rel="stylesheet" href="styles.min.css?v=202604031200">
+
+    <script src="main.min.js?v=202604031200" defer></script>
+    
+    <!-- Vercel Web Analytics -->
+    <script>
+      window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+      var script = document.createElement('script');
+      script.defer = true;
+      script.src = '/_vercel/insights/script.js';
+      document.head.appendChild(script);
+    </script>
+    <style>
+        /* Five Elements page styles */
+        .culture-hero {
+            height: 65vh;
+            min-height: 520px;
+            background:
+                linear-gradient(180deg,
+                    rgba(15, 25, 22, 0.75) 0%,
+                    rgba(18, 30, 26, 0.7) 50%,
+                    rgba(12, 22, 18, 0.85) 100%
+                ),
+                url('images/cdbc3b281648ab285bde9a54954e2eaf6c148a3a1322a9-ReITNc.jfif') center/cover no-repeat;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .culture-hero-content {
+            text-align: center;
+            z-index: 3;
+            padding: 0 2rem;
+        }
+
+        .culture-hero h1 {
+            font-family: var(--font-display);
+            font-size: clamp(2.8rem, 7vw, 4.5rem);
+            margin-bottom: 1rem;
+            color: #F5F0E6;
+            letter-spacing: 0.2em;
+            text-shadow: 0 2px 30px rgba(201, 169, 97, 0.3);
+        }
+
+        .culture-hero .subtitle {
+            font-family: var(--font-english);
+            font-size: 0.95rem;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: #C9A961;
+            margin-bottom: 1.5rem;
+        }
+
+        .culture-hero p {
+            font-size: 1.1rem;
+            color: rgba(245, 240, 230, 0.85);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 2;
+        }
+
+        /* 五元素圆形布局 */
+        .wuxing-circle-container {
+            display: flex;
+            justify-content: center;
+            padding: 2rem 0;
+        }
+
+        .wuxing-circle {
+            width: 500px;
+            height: 500px;
+            position: relative;
+            margin: 2rem auto;
+            max-width: 90vw;
+            max-height: 90vw;
+        }
+
+        .wuxing-node {
+            position: absolute;
+            width: 16%;
+            height: 16%;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            cursor: pointer;
+            z-index: 2;
+            top: calc(var(--top) - 8%);
+            left: calc(var(--left) - 8%);
+        }
+
+        .wuxing-node:hover {
+            transform: scale(1.15);
+            filter: brightness(1.1);
+        }
+
+        .wuxing-node .node-char {
+            font-family: var(--font-display);
+            font-size: clamp(0.7rem, 1.2vw, 1.5rem);
+            color: white;
+            font-weight: 600;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+
+        .wuxing-node.wood {
+            --top: 15%; --left: 50%; background: #3D5A47;
+        }
+        .wuxing-node.fire {
+            --top: 39.2%; --left: 83.2%; background: #8B4D4D;
+        }
+        .wuxing-node.earth {
+            --top: 78.4%; --left: 70.6%; background: #8B7355;
+        }
+        .wuxing-node.metal {
+            --top: 78.4%; --left: 29.4%; background: #6B6B6B;
+        }
+        .wuxing-node.water {
+            --top: 39.2%; --left: 16.8%; background: #4A5D6B;
+        }
+
+        .wuxing-lines {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .taiji-center {
+            transform-origin: 250px 250px;
+            animation: taiji-spin 8s linear infinite;
+        }
+
+        @keyframes taiji-spin {
+            from { transform: rotate(0deg); }
+            to   { transform: rotate(360deg); }
+        }
+
+        .sheng-line {
+            fill: none;
+            stroke: rgba(212, 175, 55, 0.5);
+            stroke-width: 2;
+            stroke-dasharray: 8, 4;
+            animation: dash 20s linear infinite;
+        }
+
+        @keyframes dash {
+            to { stroke-dashoffset: -100; }
+        }
+
+        .ke-line {
+            fill: none;
+            stroke: rgba(212, 175, 55, 0.2);
+            stroke-width: 1.5;
+            stroke-dasharray: 4, 6;
+        }
+
+        .wuxing-motto {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .wuxing-motto p {
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            letter-spacing: 0.15em;
+            margin-bottom: 0.5rem;
+        }
+
+        /* 内容区域 */
+        .culture-section {
+            padding: 5rem 5%;
+            background: var(--bg-primary);
+        }
+
+        .culture-section:nth-child(even) {
+            background: var(--bg-secondary);
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 3rem;
+        }
+
+        .section-header h2 {
+            font-family: var(--font-display);
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.1em;
+        }
+
+        .section-header .subtitle {
+            font-family: var(--font-english);
+            font-size: 0.9rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--text-light);
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        /* Element deep dive — editorial layout */
+        .element-grid {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 1rem 0;
+        }
+
+        /* Each element is a full-width horizontal block */
+        .element-block {
+            display: grid;
+            grid-template-columns: 80px 1fr;
+            gap: 0;
+            margin-bottom: 2.5rem;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            padding-bottom: 2.5rem;
+        }
+
+        .element-block:last-of-type {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        /* Left: Chinese character pillar */
+        .element-char {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding-top: 0.3rem;
+        }
+
+        .element-char .cn {
+            font-family: var(--font-display);
+            font-size: 2.8rem;
+            line-height: 1;
+            opacity: 0.2;
+        }
+
+        .element-char .en {
+            font-family: var(--font-english);
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--text-light);
+            margin-top: 0.3rem;
+        }
+
+        /* Right: content area */
+        .element-body h3 {
+            font-family: var(--font-display);
+            font-size: 1.35rem;
+            margin-bottom: 0.4rem;
+            letter-spacing: 0.04em;
+        }
+
+        .element-body .tagline {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            letter-spacing: 0.06em;
+            margin-bottom: 0.8rem;
+            font-style: italic;
+        }
+
+        .element-body .element-desc {
+            color: var(--text-secondary);
+            line-height: 1.85;
+            font-size: 0.92rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Inline tips — horizontal flow, not a list block */
+        .element-tips-inline {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem 1.2rem;
+            font-size: 0.82rem;
+            color: var(--text-light);
+        }
+
+        .element-tips-inline span {
+            white-space: nowrap;
+        }
+
+        .element-tips-inline span::before {
+            content: '';
+            display: inline-block;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            margin-right: 6px;
+            vertical-align: middle;
+            opacity: 0.5;
+        }
+
+        /* Element-specific colors */
+        .el-wood .cn { color: #3D5A47; }
+        .el-wood h3 { color: #3D5A47; }
+        .el-wood .element-tips-inline span::before { background: #3D5A47; }
+        .el-fire .cn { color: #8B4D4D; }
+        .el-fire h3 { color: #8B4D4D; }
+        .el-fire .element-tips-inline span::before { background: #8B4D4D; }
+        .el-earth .cn { color: #8B7355; }
+        .el-earth h3 { color: #8B7355; }
+        .el-earth .element-tips-inline span::before { background: #8B7355; }
+        .el-metal .cn { color: #6B6B6B; }
+        .el-metal h3 { color: #6B6B6B; }
+        .el-metal .element-tips-inline span::before { background: #6B6B6B; }
+        .el-water .cn { color: #4A5D6B; }
+        .el-water h3 { color: #4A5D6B; }
+        .el-water .element-tips-inline span::before { background: #4A5D6B; }
+
+        /* Balance section — full-width accent block */
+        .element-balance-block {
+            margin-top: 3rem;
+            padding: 2.5rem 3rem;
+            background: linear-gradient(135deg, rgba(212,175,55,0.03), rgba(212,175,55,0.06));
+            border: 1px solid rgba(212,175,55,0.1);
+            border-radius: 4px;
+        }
+
+        .element-balance-block h3 {
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            color: var(--accent-color);
+            letter-spacing: 0.06em;
+            margin-bottom: 1rem;
+        }
+
+        .element-balance-block p {
+            color: var(--text-secondary);
+            font-size: 0.92rem;
+            line-height: 1.85;
+            max-width: 640px;
+        }
+
+        /* Section divider */
+        .section-divider {
+            max-width: 900px;
+            margin: 0 auto;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(212,175,55,0.15) 30%, rgba(212,175,55,0.15) 70%, transparent);
+        }
+
+        @media (max-width: 600px) {
+            .element-block {
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
+            }
+            .element-char {
+                flex-direction: row;
+                gap: 0.5rem;
+            }
+            .element-char .cn {
+                font-size: 2rem;
+                opacity: 0.3;
+            }
+            .element-balance-block {
+                padding: 1.5rem;
+            }
+        }
+
+        /* FAQ styles */
+        .faq-item {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 1.5rem 1.8rem;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(212,175,55,0.08);
+        }
+
+        .faq-item:hover {
+            border-color: rgba(212,175,55,0.2);
+        }
+
+        .faq-item .faq-question {
+            font-weight: 600;
+            font-size: 1.05rem;
+            color: var(--text-primary);
+            letter-spacing: 0.02em;
+        }
+
+        .faq-item .faq-answer {
+            display: none;
+            margin-top: 0.8rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            font-size: 0.95rem;
+        }
+
+        .faq-active .faq-answer {
+            display: block;
+        }
+
+        .faq-active .faq-question::after {
+            content: '';
+        }
+
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            padding: 5rem 5%;
+            background: var(--bg-primary);
+        }
+
+        .cta-section h2 {
+            font-family: var(--font-display);
+            font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+            letter-spacing: 0.1em;
+        }
+
+        .cta-section p {
+            color: var(--text-secondary);
+            max-width: 550px;
+            margin: 0 auto 2rem;
+            line-height: 1.8;
+        }
+
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 1rem 2.2rem;
+            background: linear-gradient(135deg, #D4AF37, #C49B2F);
+            color: #1C1A17;
+            font-size: 0.95rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-decoration: none;
+            border-radius: 4px;
+            box-shadow: 0 4px 16px rgba(212,175,55,0.35);
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .cta-btn:hover {
+            background: linear-gradient(135deg, #E0BD4A, #D4AF37);
+            box-shadow: 0 6px 24px rgba(212,175,55,0.5);
+            transform: translateY(-2px);
+            color: #1C1A17;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .wuxing-circle {
+                width: min(300px, 85vw);
+                height: min(300px, 85vw);
+            }
+
+            .wuxing-motto p {
+                font-size: 0.95rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .wuxing-circle {
+                width: min(260px, 90vw);
+                height: min(260px, 90vw);
+            }
+        }
+    </style>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What are the Five Elements in Chinese metaphysics?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "The Five Elements (Wu Xing, 五行) are Wood, Fire, Earth, Metal, and Water — five fundamental forces that interact through generating and controlling cycles. In BaZi (Chinese astrology), every person has a unique elemental composition based on their birth date and time, which reveals their personality, strengths, and life patterns."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How do I know which element I am in BaZi?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Your primary element is determined by your Day Master — the Heavenly Stem of the day you were born. For example, if you were born on a day ruled by Jia (甲), your Day Master is Wood. You can find your Day Master instantly with our free BaZi calculator — just enter your birth date and time."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What happens if an element is missing from my BaZi chart?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "A missing element doesn't mean disaster — it simply means that quality is less accessible to you. For instance, missing Water might suggest difficulty with adaptability or deep reflection, while missing Fire could affect social confidence. The key is understanding which elements support or challenge your Day Master, not just counting what's present."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How are the Five Elements related to health?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "In Traditional Chinese Medicine, each element governs specific organs: Wood for Liver and Gallbladder, Fire for Heart, Earth for Spleen and Stomach, Metal for Lungs, and Water for Kidneys. An imbalance in your BaZi chart may point to vulnerabilities in those areas — it's a framework for prevention, not diagnosis."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Can the Five Elements help me choose a career?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes. Your Day Master element reveals your natural working style. Wood people thrive in creative and growth-oriented roles, Fire people excel in communication and leadership, Earth people shine in service and stability, Metal people prefer structure and precision, and Water people do well in strategy and research. A full BaZi reading maps your elemental strengths to career paths."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What is the generating cycle (Sheng) of the Five Elements?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Wood generates Fire, Fire generates Earth, Earth generates Metal, Metal generates Water, and Water generates Wood. This cycle represents nourishment, support, and growth. In BaZi, understanding which elements feed your Day Master helps identify your most supportive environments and relationships."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How accurate is a BaZi reading based on Five Elements?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "BaZi has been refined over 2,000 years and is built on precise astronomical calculations, not intuition. The accuracy depends on two things: correct birth data (date, time, and place) and a skilled interpreter. Our calculator handles the math perfectly — the insight comes from reading the patterns in your chart."
+                }
+            }
+        ]
+    }
+    </script>
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-FX0T6YB6DE"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-FX0T6YB6DE');
+    </script>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <a href="/" class="logo">
+                    <div class="logo-icon"></div>
+                    <div class="logo-text">
+                        <span class="logo-en">DAO ESSENCE</span>
+                    </div>
+                </a>
+                <ul class="nav-menu">
+                    <li><a href="/" class="nav-link" data-i18n="common.home">Home</a></li>
+                    
+                    <!-- Tools Dropdown -->
+                    <li class="nav-dropdown">
+                        <a href="#" class="nav-dropdown-trigger" data-i18n="nav.tools">Tools <i class="nav-dropdown-arrow"></i></a>
+                        <div class="nav-dropdown-menu">
+                            <a href="/#free-bazi" data-i18n="nav.tool_bazi">BaZi Calculator</a>
+                            <a href="/zodiac/zodiac-daily" data-i18n="nav.tool_daily">Daily Horoscope</a>
+                            <a href="/five-elements-test" data-i18n="nav.tool_five">Five Elements Test</a>
+                            <a href="/soulmate-calculator" data-i18n="nav.tool_soulmate">Soulmate Compatibility</a>
+                            <a href="/almanac" data-i18n="nav.tool_almanac">Auspicious Almanac</a>
+                            <a href="/wallpaper" data-i18n="nav.tool_wallpapers">Lucky Wallpapers</a>
+                        </div>
+                    </li>
+
+                    <!-- Blog Dropdown -->
+                    <li class="nav-dropdown active">
+                        <a href="/blog" class="nav-dropdown-trigger" data-i18n="common.blog">Blog <i class="nav-dropdown-arrow"></i></a>
+                        <div class="nav-dropdown-menu">
+                            <a href="/blog" data-i18n="nav.blog_all">All Articles</a>
+                            <a href="/blog/bazi-astrology" data-i18n="nav.blog_bazi">BaZi Astrology</a>
+                            <a href="/zodiac/zodiac-daily" data-i18n="nav.blog_zodiac">Zodiac Daily</a>
+                            <a href="/blog/feng-shui" data-i18n="nav.blog_fengshui">Home Feng Shui</a>
+                            <a href="/culture" data-i18n="nav.blog_elements" class="active">Five Elements</a>
+                        </div>
+                    </li>
+
+                    <li><a href="/learn-bazi" class="nav-link" data-i18n="common.learn_bazi">Learn BaZi</a></li>
+                    <li><a href="/shop" class="nav-link" data-i18n="common.shop">Shop</a></li>
+                    <li><a href="/about" class="nav-link" data-i18n="common.about_us">About Us</a></li>
+                    
+                    <!-- Language Switcher -->
+                    <li class="nav-dropdown">
+                        <a href="#" class="nav-dropdown-trigger lang-switcher-trigger" id="lang-trigger">
+                            <svg class="lang-globe-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg><span class="lang-label" id="lang-label">EN</span>
+                            <i class="nav-dropdown-arrow"></i>
+                        </a>
+                        <div class="nav-dropdown-menu" id="lang-menu">
+                            <a href="#" data-lang="en" class="lang-option active">English</a>
+                            <a href="#" data-lang="zh" class="lang-option">繁體中文</a>
+                        </div>
+                    </li>
+                </ul>
+                <button class="mobile-menu-btn">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="culture-hero">
+        <div class="culture-hero-content">
+            <p class="subtitle" data-i18n="culture.hero_subtitle">Wu Xing</p>
+            <h1 data-i18n="culture.hero_title">Five Elements</h1>
+            <p data-i18n="culture.hero_desc">The Five Elements (Wu Xing) are the building blocks of every BaZi chart. Understand them, and you hold the key to reading your own destiny.</p>
+        </div>
+    </section>
+
+    <!-- Five Elements Theory -->
+    <section class="culture-section">
+        <div class="section-header">
+            <p class="subtitle" data-i18n="culture.section1_subtitle">The Foundation</p>
+            <h2 data-i18n="culture.section1_title">How the Five Elements Work</h2>
+            <p data-i18n="culture.section1_desc">All things in heaven and earth are composed of five fundamental forces: Wood, Fire, Earth, Metal, and Water. They generate and control each other in endless cycles — and your BaZi chart is a snapshot of these elements at the moment you were born.</p>
+        </div>
+
+        <div class="wuxing-circle-container">
+            <div class="wuxing-circle">
+                <div class="wuxing-node wood">
+                    <span class="node-char">Wood</span>
+                </div>
+                <div class="wuxing-node fire">
+                    <span class="node-char">Fire</span>
+                </div>
+                <div class="wuxing-node earth">
+                    <span class="node-char">Earth</span>
+                </div>
+                <div class="wuxing-node metal">
+                    <span class="node-char">Metal</span>
+                </div>
+                <div class="wuxing-node water">
+                    <span class="node-char">Water</span>
+                </div>
+                <svg class="wuxing-lines" viewBox="0 0 500 500">
+                    <circle cx="250" cy="250" r="175" fill="none" stroke="rgba(212, 175, 55, 0.15)" stroke-width="1" stroke-dasharray="5,5"/>
+
+                    <!-- Taiji center -->
+                    <g class="taiji-center">
+                        <circle cx="250" cy="250" r="38" fill="white"/>
+                        <path d="M250 212 A38 38 0 0 1 250 288 A19 19 0 0 1 250 250 A19 19 0 0 0 250 212" fill="black"/>
+                        <circle cx="250" cy="231" r="6" fill="black"/>
+                        <circle cx="250" cy="269" r="6" fill="white"/>
+                        <circle cx="250" cy="250" r="38" fill="none" stroke="rgba(180,180,180,0.4)" stroke-width="1"/>
+                    </g>
+                    
+                    <!-- Generating cycle (outer clockwise): Wood→Fire→Earth→Metal→Water→Wood -->
+                    <path class="sheng-line" d="M 250,75 A 175,175 0 0,1 416,196" />
+                    <path class="sheng-line" d="M 416,196 A 175,175 0 0,1 353,392" />
+                    <path class="sheng-line" d="M 353,392 A 175,175 0 0,1 147,392" />
+                    <path class="sheng-line" d="M 147,392 A 175,175 0 0,1 84,196" />
+                    <path class="sheng-line" d="M 84,196 A 175,175 0 0,1 250,75" />
+
+                    <!-- Controlling cycle (pentagram) -->
+                    <line class="ke-line" x1="250" y1="75" x2="353" y2="392" />
+                    <line class="ke-line" x1="353" y1="392" x2="84" y2="196" />
+                    <line class="ke-line" x1="84" y1="196" x2="416" y2="196" />
+                    <line class="ke-line" x1="416" y1="196" x2="147" y2="392" />
+                    <line class="ke-line" x1="147" y1="392" x2="250" y2="75" />
+                </svg>
+            </div>
+        </div>
+
+        <div class="wuxing-motto">
+            <p data-i18n="culture.sheng_cycle">Wood generates Fire, Fire generates Earth, Earth generates Metal, Metal generates Water, Water generates Wood</p>
+            <p data-i18n="culture.ke_cycle">Wood controls Earth, Earth controls Water, Water controls Fire, Fire controls Metal, Metal controls Wood</p>
+        </div>
+    </section>
+
+    <!-- Five Elements Deep Dive -->
+    <section class="culture-section" style="background: var(--bg-secondary);">
+        <div class="section-header">
+            <p class="subtitle" data-i18n="culture.section2_subtitle">Understanding Wu Xing</p>
+            <h2 data-i18n="culture.section2_title">The Five Elements in Your Life</h2>
+            <p data-i18n="culture.section2_desc">Each element governs specific organs, emotions, seasons, and personality traits. Your BaZi chart reveals which elements are strong, weak, or missing — and that profile shapes who you are.</p>
+        </div>
+
+        <div class="element-grid">
+
+            <!-- Wood -->
+            <div class="element-block el-wood">
+                <div class="element-char">
+                    <span class="cn">木</span>
+                    <span class="en">Wood</span>
+                </div>
+                <div class="element-body">
+                    <h3 data-i18n="culture.wood_name">Wood</h3>
+                    <p class="tagline" data-i18n="culture.wood_tagline">Spring &middot; Liver &middot; Ambition &middot; Forward Motion</p>
+                    <p class="element-desc" data-i18n="culture.wood_desc">Wood people are natural starters — visionaries who push things forward. Balanced Wood shows kindness and flexibility. Excess shows impatience and stubbornness.</p>
+                    <div class="element-tips-inline">
+                        <span data-i18n="culture.wood_tip1">Green tones in wardrobe and living space</span>
+                        <span data-i18n="culture.wood_tip2">Morning walks in nature</span>
+                        <span data-i18n="culture.wood_tip3">Leafy greens, sour flavors</span>
+                        <span data-i18n="culture.wood_tip4">Peak creativity: early morning</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fire -->
+            <div class="element-block el-fire">
+                <div class="element-char">
+                    <span class="cn">火</span>
+                    <span class="en">Fire</span>
+                </div>
+                <div class="element-body">
+                    <h3 data-i18n="culture.fire_name">Fire</h3>
+                    <p class="tagline" data-i18n="culture.fire_tagline">Summer &middot; Heart &middot; Passion &middot; Connection</p>
+                    <p class="element-desc" data-i18n="culture.fire_desc">Fire people draw others in — charismatic, expressive, and socially magnetic. Balanced Fire brings warmth and joy. Excess brings restlessness and burnout.</p>
+                    <div class="element-tips-inline">
+                        <span data-i18n="culture.fire_tip1">Warm tones — reds, oranges, purples</span>
+                        <span data-i18n="culture.fire_tip2">Meaningful social connections</span>
+                        <span data-i18n="culture.fire_tip3">Berries, dark chocolate</span>
+                        <span data-i18n="culture.fire_tip4">Peak energy: midday</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Earth -->
+            <div class="element-block el-earth">
+                <div class="element-char">
+                    <span class="cn">土</span>
+                    <span class="en">Earth</span>
+                </div>
+                <div class="element-body">
+                    <h3 data-i18n="culture.earth_name">Earth</h3>
+                    <p class="tagline" data-i18n="culture.earth_tagline">Late Summer &middot; Spleen &middot; Stability &middot; Nourishment</p>
+                    <p class="element-desc" data-i18n="culture.earth_desc">Earth types are the reliable center — grounding, patient, and deeply caring. They hold things together. The risk is overthinking and getting stuck in comfort zones.</p>
+                    <div class="element-tips-inline">
+                        <span data-i18n="culture.earth_tip1">Beige, brown, yellow tones</span>
+                        <span data-i18n="culture.earth_tip2">Consistent daily routines</span>
+                        <span data-i18n="culture.earth_tip3">Warm, cooked foods — soups and stews</span>
+                        <span data-i18n="culture.earth_tip4">Best focus: late morning</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Metal -->
+            <div class="element-block el-metal">
+                <div class="element-char">
+                    <span class="cn">金</span>
+                    <span class="en">Metal</span>
+                </div>
+                <div class="element-body">
+                    <h3 data-i18n="culture.metal_name">Metal</h3>
+                    <p class="tagline" data-i18n="culture.metal_tagline">Autumn &middot; Lungs &middot; Structure &middot; Precision</p>
+                    <p class="element-desc" data-i18n="culture.metal_desc">Metal people value integrity and clear boundaries. They excel at organizing complex systems and cutting through noise. The risk is becoming too rigid or detached.</p>
+                    <div class="element-tips-inline">
+                        <span data-i18n="culture.metal_tip1">White, silver, and gold tones</span>
+                        <span data-i18n="culture.metal_tip2">Breathwork and structured exercise</span>
+                        <span data-i18n="culture.metal_tip3">Ginger, garlic, pungent flavors</span>
+                        <span data-i18n="culture.metal_tip4">Sharpest focus: late afternoon</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Water -->
+            <div class="element-block el-water">
+                <div class="element-char">
+                    <span class="cn">水</span>
+                    <span class="en">Water</span>
+                </div>
+                <div class="element-body">
+                    <h3 data-i18n="culture.water_name">Water</h3>
+                    <p class="tagline" data-i18n="culture.water_tagline">Winter &middot; Kidneys &middot; Depth &middot; Intuition</p>
+                    <p class="element-desc" data-i18n="culture.water_desc">Water people think deeply and adapt fluidly. They carry inner wisdom that others rely on. The risk is indecision, withdrawal, and letting momentum fade.</p>
+                    <div class="element-tips-inline">
+                        <span data-i18n="culture.water_tip1">Blue and black tones</span>
+                        <span data-i18n="culture.water_tip2">Time near water — oceans, rivers</span>
+                        <span data-i18n="culture.water_tip3">Salty foods, seafood</span>
+                        <span data-i18n="culture.water_tip4">Intuition peaks: evening</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Yin Yang Balance -->
+            <div class="element-balance-block">
+                <h3 data-i18n="culture.balance_title">Yin Yang Balance</h3>
+                <p data-i18n="culture.balance_desc">The Five Elements exist within the broader framework of Yin and Yang — complementary forces that underpin all of Chinese philosophy. Every chart has a unique elemental mix, and no two are identical. Strength in one area often means weakness in another. A full BaZi reading maps these dynamics and reveals what your elemental profile truly means for your life path.</p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section style="padding: 5rem 5%; background: var(--bg-primary);">
+        <div style="max-width: 800px; margin: 0 auto;">
+            <h2 data-i18n="culture.faq_title" style="font-family: var(--font-display); font-size: 1.8rem; color: var(--accent-color); text-align: center; margin-bottom: 2.5rem; letter-spacing: 0.1em;">Frequently Asked Questions</h2>
+
+            <div class="faq-item" onclick="this.classList.toggle('faq-active')">
+                <div class="faq-question" data-i18n="culture.faq1_q">What are the Five Elements in Chinese metaphysics?</div>
+                <div class="faq-answer" data-i18n="culture.faq1_a">The Five Elements (Wu Xing, 五行) are Wood, Fire, Earth, Metal, and Water — five fundamental forces that interact through generating and controlling cycles. In BaZi (Chinese astrology), every person has a unique elemental composition based on their birth date and time, which reveals their personality, strengths, and life patterns.</div>
+            </div>
+
+            <div class="faq-item" onclick="this.classList.toggle('faq-active')">
+                <div class="faq-question" data-i18n="culture.faq2_q">How do I know which element I am in BaZi?</div>
+                <div class="faq-answer" data-i18n="culture.faq2_a">Your primary element is determined by your Day Master — the Heavenly Stem of the day you were born. For example, if you were born on a day ruled by Jia (甲), your Day Master is Wood. You can find your Day Master instantly with our free BaZi calculator — just enter your birth date and time.</div>
+            </div>
+
+            <div class="faq-item" onclick="this.classList.toggle('faq-active')">
+                <div class="faq-question" data-i18n="culture.faq3_q">What happens if an element is missing from my BaZi chart?</div>
+                <div class="faq-answer" data-i18n="culture.faq3_a">A missing element doesn't mean disaster — it simply means that quality is less accessible to you. For instance, missing Water might suggest difficulty with adaptability or deep reflection, while missing Fire could affect social confidence. The key is understanding which elements support or challenge your Day Master, not just counting what's present.</div>
+            </div>
+
+            <div class="faq-item" onclick="this.classList.toggle('faq-active')">
+                <div class="faq-question" data-i18n="culture.faq4_q">How are the Five Elements related to health?</div>
+                <div class="faq-answer" data-i18n="culture.faq4_a">In Traditional Chinese Medicine, each element governs specific organs: Wood for Liver and Gallbladder, Fire for Heart, Earth for Spleen and Stomach, Metal for Lungs, and Water for Kidneys. An imbalance in your BaZi chart may point to vulnerabilities in those areas — it's a framework for prevention, not diagnosis.</div>
+            </div>
+
+            <div class="faq-item" onclick="this.classList.toggle('faq-active')">
+                <div class="faq-question" data-i18n="culture.faq5_q">Can the Five Elements help me choose a career?</div>
+                <div class="faq-answer" data-i18n="culture.faq5_a">Yes. Your Day Master element reveals your natural working style. Wood people thrive in creative and growth-oriented roles, Fire people excel in communication and leadership, Earth people shine in service and stability, Metal people prefer structure and precision, and Water people do well in strategy and research. A full BaZi reading maps your elemental strengths to career paths.</div>
+            </div>
+
+            <div class="faq-item" onclick="this.classList.toggle('faq-active')">
+                <div class="faq-question" data-i18n="culture.faq6_q">What is the generating cycle (Sheng) of the Five Elements?</div>
+                <div class="faq-answer" data-i18n="culture.faq6_a">Wood generates Fire, Fire generates Earth, Earth generates Metal, Metal generates Water, and Water generates Wood. This cycle represents nourishment, support, and growth. In BaZi, understanding which elements feed your Day Master helps identify your most supportive environments and relationships.</div>
+            </div>
+
+            <div class="faq-item" onclick="this.classList.toggle('faq-active')">
+                <div class="faq-question" data-i18n="culture.faq7_q">How accurate is a BaZi reading based on Five Elements?</div>
+                <div class="faq-answer" data-i18n="culture.faq7_a">BaZi has been refined over 2,000 years and is built on precise astronomical calculations, not intuition. The accuracy depends on two things: correct birth data (date, time, and place) and a skilled interpreter. Our calculator handles the math perfectly — the insight comes from reading the patterns in your chart.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <h2 data-i18n="culture.cta_title">Discover Your Elemental Profile</h2>
+        <p data-i18n="culture.cta_desc">Your BaZi chart is a map of the Five Elements at your birth moment. Enter your birth details and see your elemental composition, Day Master, and what it all means — in seconds.</p>
+        <a href="/#free-bazi" class="cta-btn" data-i18n="culture.cta_btn">Try Your Free BaZi Reading</a>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <span class="logo-en">DAO ESSENCE</span>
+                    </div>
+                    <p data-i18n="footer.brand_desc">Ancient Wisdom, Modern Clarity. Navigate life with structured insight through BaZi analysis, Feng Shui consultation, and Five Elements guidance.</p>
+                </div>
+                <div>
+                    <h4 class="footer-title" data-i18n="footer.tools_title">Tools</h4>
+                    <ul class="footer-links">
+                        <li><a href="/#free-bazi" data-i18n="footer.tool_bazi">BaZi Birth Chart Calculator</a></li>
+                        <li><a href="/favorable-element" data-i18n="footer.tool_lucky">Five Elements Favorable Guide</a></li>
+                        <li><a href="/five-elements-test" data-i18n="footer.tool_five">Five Elements Personality Test</a></li>
+                        <li><a href="/soulmate-calculator" data-i18n="footer.tool_soulmate">Soulmate Compatibility Finder</a></li>
+                        <li><a href="/almanac" data-i18n="footer.tool_almanac">Auspicious Date Picker</a></li>
+                        <li><a href="/zodiac/zodiac-daily" data-i18n="footer.tool_zodiac">Zodiac Daily</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-title" data-i18n="footer.explore_title">Explore</h4>
+                    <ul class="footer-links">
+                        <li><a href="/blog" data-i18n="common.blog">Blog</a></li>
+                        <li><a href="/culture" data-i18n="common.five_elements">Five Elements</a></li>
+                        <li><a href="/shop" data-i18n="common.shop">Shop</a></li>
+                        <li><a href="/about" data-i18n="common.about_us">About Us</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-title" data-i18n="footer.links_title">Links</h4>
+                    <ul class="footer-links">
+                        <li style="margin-bottom:8px;display:block !important;">
+                            <div><a href="https://fatenet.cn/" target="_blank" rel="noopener">FateNet</a></div>
+                            <div style="font-size:12px;color:var(--text-secondary);margin-top:4px;line-height:1.4;" data-i18n="footer.fortune_desc">Chinese Fortune Telling<br>Find Your Soulmate</div>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-title" data-i18n="footer.contact_title">Contact</h4>
+                    <ul class="footer-links">
+                        <li>
+                            <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle;margin-right:6px"><path d="M3 4h14a1 1 0 011 1v10a1 1 0 01-1 1H3a1 1 0 01-1-1V5a1 1 0 011-1z"/><path d="M3 5l7 6 7-6"/></svg>
+                            <a href="mailto:support@daoessentia.com">support@daoessentia.com</a>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style="vertical-align:middle;margin-right:6px;color:var(--accent-color)"><path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 0 0 .167-.054l1.903-1.114a.864.864 0 0 1 .717-.098 10.16 10.16 0 0 0 2.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348zM5.785 5.991c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178A1.17 1.17 0 0 1 4.623 7.17c0-.651.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178 1.17 1.17 0 0 1-4.623 7.17c0-.651.52-1.18 1.162-1.18zm5.34 2.867c-1.797-.052-3.746.512-5.28 1.786-1.72 1.428-2.687 3.72-1.78 6.22.942 2.453 3.666 4.229 6.884 4.229.826 0 1.622-.12 2.361-.336a.722.722 0 0 1 .598.082l1.584.926a.272.272 0 0 0 .14.047c.134 0 .24-.111.24-.247 0-.06-.023-.12-.038-.177l-.327-1.233a.582.582 0 0 1-.023-.156.49.49 0 0 1 .201-.398C23.024 18.48 24 16.82 24 14.98c0-3.21-2.931-5.837-7.062-6.122zm-3.957 3.467c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.969-.982zm4.844 0c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.969-.982z"/></svg>
+                            <a href="#" onclick="document.getElementById('wechat-modal').style.display='flex';return false;" data-i18n="footer.wechat">WeChat</a>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle;margin-right:6px"><circle cx="10" cy="10" r="8"/><path d="M10 6v4l2.5 2.5"/></svg>
+                            <span data-i18n="footer.hours">Mon&#8211;Sat: 9AM&#8211;9PM (CST / UTC+8)</span>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style="vertical-align:middle;margin-right:6px;color:#229ED9"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+                            <a href="https://t.me/dingwei_123" target="_blank" rel="noopener" data-i18n="footer.telegram_channel">Telegram Channel</a>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style="vertical-align:middle;margin-right:6px;color:#229ED9"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+                            <a href="https://t.me/Dingwei_pi" target="_blank" rel="noopener">Telegram @Dingwei_pi</a>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style="vertical-align:middle;margin-right:6px;color:#E60023"><path d="M12 0C5.373 0 0 5.372 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 0 1 .083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.631-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12 0-6.628-5.373-12-12-12z"/></svg>
+                            <a href="https://www.pinterest.com/pixuan/wallpapers/" target="_blank" rel="noopener">Pinterest</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p data-i18n="footer.copyright">&copy; 2026 DAO Essence &amp; Five Elements. All rights reserved.</p>
+                <div class="footer-legal-links">
+                    <a href="/privacy" data-i18n="footer.privacy">Privacy Policy</a>
+                    <span>|</span>
+                    <a href="/terms" data-i18n="footer.terms">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- WeChat QR Modal -->
+    <div id="wechat-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:9999;align-items:center;justify-content:center;" onclick="if(event.target===this)this.style.display='none'">
+        <div style="background:#1a1a1a;border:1px solid rgba(212,175,55,0.4);border-radius:16px;padding:40px;text-align:center;max-width:320px;width:90%;position:relative;">
+            <button onclick="document.getElementById('wechat-modal').style.display='none'" style="position:absolute;top:12px;right:16px;background:none;border:none;color:rgba(245,240,230,0.6);font-size:22px;cursor:pointer;line-height:1;">&times;</button>
+            <svg viewBox="0 0 24 24" width="40" height="40" fill="#D4AF37" style="margin-bottom:12px"><path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 0 0 .167-.054l1.903-1.114a.864.864 0 0 1 .717-.098 10.16 10.16 0 0 0 2.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348zM5.785 5.991c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178A1.17 1.17 0 0 1 4.623 7.17c0-.651.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178 1.17 1.17 0 0 1-4.623 7.17c0-.651.52-1.18 1.162-1.18zm5.34 2.867c-1.797-.052-3.746.512-5.28 1.786-1.72 1.428-2.687 3.72-1.78 6.22.942 2.453 3.666 4.229 6.884 4.229.826 0 1.622-.12 2.361-.336a.722.722 0 0 1 .598.082l1.584.926a.272.272 0 0 0 .14.047c.134 0 .24-.111.24-.247 0-.06-.023-.12-.038-.177l-.327-1.233a.582.582 0 0 1-.023-.156.49.49 0 0 1 .201-.398C23.024 18.48 24 16.82 24 14.98c0-3.21-2.931-5.837-7.062-6.122zm-3.957 3.467c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.969-.982zm4.844 0c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.969-.982z"/></svg>
+            <h3 style="color:#D4AF37;margin:0 0 8px;font-size:18px;">WeChat</h3>
+            <p style="color:rgba(245,240,230,0.7);font-size:13px;margin:0 0 20px;">Scan the QR code to connect with us on WeChat</p>
+            <div style="width:160px;height:160px;margin:0 auto;">
+                <img src="images/微信图片_20260324143206_59_9.jpg" alt="WeChat QR Code" style="width:100%;height:100%;border-radius:8px;object-fit:cover;" loading="lazy">
+            </div>
+            <p style="color:rgba(245,240,230,0.5);font-size:12px;margin:16px 0 0;">WeChat ID: your-wechat-id</p>
+        </div>
+    </div>
+
+    <script>
+        // Scroll animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.wuxing-node, .element-block, .element-balance-block').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+    <script src="/js/i18n-switcher.js" defer></script>
+    <script src="/js/feedback.js" async></script>
+</body>
+</html>

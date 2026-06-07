@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+    <link rel="icon" type="image/png" href="/images/favicon.png">
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BaZi & Feng Shui Blog | DAO Essence</title>
+    <meta name="description" content="Explore articles on BaZi astrology, Feng Shui, Five Elements theory, Taoist meditation, Chinese zodiac, and daily Chinese horoscopes.">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="Blog | DAO Essence">
+    <meta property="og:url" content="https://www.daoessentia.com/blog">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://www.daoessentia.com/images/og-default.jpg">
+    <meta property="og:site_name" content="DAO Essence">
+    <meta property="og:locale" content="en_US">
+    <link rel="canonical" href="https://www.daoessentia.com/blog">
+    <link rel="alternate" hreflang="en" href="https://www.daoessentia.com/blog">
+    <link rel="alternate" hreflang="zh-Hant" href="https://www.daoessentia.com/zh/blog">
+    <link rel="alternate" hreflang="x-default" href="https://www.daoessentia.com/blog">
+    <link rel="stylesheet" href="/styles.min.css?v=1780828364408">
+    <script src="/main.min.js?v=1780828364408" defer></script>
+    <style>
+        @keyframes img-shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        .blog-home { max-width: 1200px; margin: 0 auto; padding: 7rem 2rem 4rem; }
+        .blog-home-header { text-align: center; margin-bottom: 3.5rem; }
+        .blog-home-header h1 { font-family: var(--font-display); font-size: clamp(2rem, 5vw, 2.8rem); color: var(--accent-color); letter-spacing: 0.1em; margin-bottom: 0.8rem; }
+        .blog-home-header p { color: var(--text-secondary); font-size: 1.05rem; line-height: 1.7; max-width: 600px; margin: 0 auto; }
+        .blog-main-layout { display: flex; gap: 2.5rem; align-items: flex-start; }
+        .blog-main-content { flex: 1; min-width: 0; }
+        .blog-section-title { font-family: var(--font-display); font-size: 1.4rem; color: var(--accent-color); letter-spacing: 0.08em; margin-bottom: 1.5rem; padding-bottom: 0.8rem; border-bottom: 1px solid rgba(212,175,55,0.15); }
+        .blog-latest { margin-bottom: 2rem; }
+        .blog-card-list { display: flex; flex-direction: column; gap: 1.5rem; }
+        .blog-card { display: flex; flex-direction: row; background: rgba(212,175,55,0.03); border: 1px solid rgba(212,175,55,0.1); border-radius: 12px; text-decoration: none; transition: all 0.3s ease; overflow: hidden; }
+        .blog-card:hover { background: rgba(212,175,55,0.06); border-color: rgba(212,175,55,0.25); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,0,0,0.15); }
+        .blog-card-image { width: 220px; min-width: 220px; aspect-ratio: 1.9 / 1; overflow: hidden; background: rgba(212,175,55,0.06); position: relative; }
+        .blog-card-image::before { content: ''; position: absolute; inset: 0; background: linear-gradient(110deg, rgba(212,175,55,0.04) 25%, rgba(212,175,55,0.18) 50%, rgba(212,175,55,0.04) 75%); background-size: 200% 100%; animation: img-shimmer 1.5s ease-in-out infinite; z-index: 1; transition: opacity 0.5s ease; }
+        .blog-card-image.loaded::before { opacity: 0; pointer-events: none; }
+        .blog-card-image img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s; }
+        .blog-card:hover .blog-card-image img { transform: scale(1.05); }
+        .blog-card-body { flex: 1; padding: 1.5rem 2rem; display: flex; flex-direction: column; justify-content: center; }
+        .blog-card-category { display: inline-block; font-size: 0.72rem; color: var(--accent-color); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 0.5rem; padding: 0.2rem 0.6rem; background: rgba(212,175,55,0.08); border-radius: 4px; }
+        .blog-card h2 { font-family: var(--font-display); font-size: 1.25rem; color: #1A1612; letter-spacing: 0.05em; margin-bottom: 0.5rem; transition: color 0.3s; }
+        .blog-card:hover h2 { color: #1A1612; }
+        .blog-card p { color: #555; font-size: 0.92rem; line-height: 1.7; margin-bottom: 0.8rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .blog-card-meta { display: flex; gap: 1rem; font-size: 0.8rem; color: #888; opacity: 0.7; }
+        .blog-card-pinned { display: inline-block; font-size: 0.72rem; color: #D4AF37; letter-spacing: 0.08em; margin-bottom: 0.3rem; }
+        .blog-card.pinned { border-color: rgba(212,175,55,0.3); background: rgba(212,175,55,0.06); }
+
+        /* Right sidebar */
+        .blog-sidebar { width: 320px; min-width: 320px; position: sticky; top: 100px; }
+        .blog-home-cta { position: relative; overflow: hidden; text-align: left; padding: 2.5rem 2rem; background: linear-gradient(160deg, #1A1208 0%, #2C2416 60%, #3D3422 100%); border: 1px solid rgba(212,175,55,0.25); border-radius: 16px; box-shadow: 0 12px 40px rgba(0,0,0,0.15); }
+        .blog-home-cta::before { content: '☯'; position: absolute; top: -20px; right: 10px; font-size: 6rem; opacity: 0.04; color: #D4AF37; pointer-events: none; }
+        .blog-home-cta::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, rgba(212,175,55,0.5), transparent); }
+        .blog-home-cta h3 { font-family: var(--font-display); color: #D4AF37; font-size: 1.3rem; letter-spacing: 0.08em; margin-bottom: 0.5rem; position: relative; }
+        .blog-home-cta .cta-sub { color: rgba(255,255,255,0.7); margin-bottom: 1.5rem; font-size: 0.92rem; line-height: 1.6; position: relative; }
+        .blog-home-cta .cta-features { display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 1.5rem; position: relative; }
+        .blog-home-cta .cta-feat { color: rgba(255,255,255,0.6); font-size: 0.85rem; display: flex; align-items: center; gap: 0.4rem; }
+        .blog-home-cta .cta-feat span { color: #D4AF37; font-size: 1rem; }
+        .blog-home-cta a { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.9rem 2rem; background: linear-gradient(135deg, #D4AF37, #E8C547); color: #1A1208; text-decoration: none; font-weight: 700; font-size: 0.95rem; letter-spacing: 0.05em; border-radius: 10px; transition: all 0.3s; position: relative; box-shadow: 0 4px 20px rgba(212,175,55,0.3); }
+        .blog-home-cta a:hover { transform: translateY(-3px); box-shadow: 0 8px 32px rgba(212,175,55,0.5); background: linear-gradient(135deg, #E8C547, #F0D76A); }
+        .blog-home-cta a::after { content: '→'; font-size: 1.2rem; transition: transform 0.3s; }
+        .blog-home-cta a:hover::after { transform: translateX(4px); }
+
+        @media (max-width: 900px) {
+            .blog-main-layout { flex-direction: column; }
+            .blog-sidebar { width: 100%; min-width: unset; position: static; }
+            .blog-home-cta { margin-top: 2rem; }
+        }
+        @media (max-width: 640px) {
+            .blog-card { flex-direction: column; }
+            .blog-card-image { width: 100%; min-width: unset; }
+        }
+    </style>
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-FX0T6YB6DE"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-FX0T6YB6DE');
+    </script>
+</head>
+<body>
+
+    <header class="header scrolled">
+        <div class="container">
+            <nav class="nav">
+                <a href="/" class="logo">
+                    <div class="logo-icon"></div>
+                    <div class="logo-text"><span class="logo-en">DAO ESSENCE</span></div>
+                </a>
+                <ul class="nav-menu">
+                    <li><a href="/" class="nav-link" data-i18n="common.home">Home</a></li>
+                    
+                    <!-- Tools Dropdown -->
+                    <li class="nav-dropdown">
+                        <a href="#" class="nav-dropdown-trigger" data-i18n="nav.tools">Tools <i class="nav-dropdown-arrow"></i></a>
+                        <div class="nav-dropdown-menu">
+                            <a href="/#free-bazi" data-i18n="nav.tool_bazi">BaZi Calculator</a>
+                            <a href="/zodiac/zodiac-daily" data-i18n="nav.tool_daily">Daily Horoscope</a>
+                            <a href="/five-elements-test" data-i18n="nav.tool_five">Five Elements Test</a>
+                            <a href="/soulmate-calculator" data-i18n="nav.tool_soulmate">Soulmate Compatibility</a>
+                            <a href="/almanac" data-i18n="nav.tool_almanac">Auspicious Almanac</a>
+                            <a href="/wallpaper" data-i18n="nav.tool_wallpapers">Lucky Wallpapers</a>
+                        </div>
+                    </li>
+
+                    <!-- Blog Dropdown -->
+                    <li class="nav-dropdown">
+                        <a href="/blog" class="nav-dropdown-trigger" data-i18n="common.blog">Blog <i class="nav-dropdown-arrow"></i></a>
+                        <div class="nav-dropdown-menu">
+                            <a href="/blog" data-i18n="nav.blog_all">All Articles</a>
+                            <a href="/blog/bazi-astrology" data-i18n="nav.blog_bazi">BaZi Astrology</a>
+                            <a href="/zodiac/zodiac-daily" data-i18n="nav.blog_zodiac">Zodiac Daily</a>
+                            <a href="/blog/feng-shui" data-i18n="nav.blog_fengshui">Home Feng Shui</a>
+                            <a href="/culture" data-i18n="nav.blog_elements">Five Elements</a>
+                        </div>
+                    </li>
+
+                    <li><a href="/learn-bazi" class="nav-link" data-i18n="common.learn_bazi">Learn BaZi</a></li>
+                    <li><a href="/shop" class="nav-link" data-i18n="common.shop">Shop</a></li>
+                    <li><a href="/about" class="nav-link" data-i18n="common.about_us">About Us</a></li>
+                    
+                    <!-- Language Switcher -->
+                    <li class="nav-dropdown">
+                        <a href="#" class="nav-dropdown-trigger lang-switcher-trigger" id="lang-trigger">
+                            <svg class="lang-globe-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg><span class="lang-label" id="lang-label">EN</span>
+                            <i class="nav-dropdown-arrow"></i>
+                        </a>
+                        <div class="nav-dropdown-menu" id="lang-menu">
+                            <a href="#" data-lang="en" class="lang-option active">English</a>
+                            <a href="#" data-lang="zh" class="lang-option">繁體中文</a>
+                        </div>
+                    </li>
+                </ul>
+                <button class="mobile-menu-btn"><span></span><span></span><span></span></button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="blog-home">
+        <div class="blog-home-header">
+            <h1 data-i18n="blog.title">Blog</h1>
+            <p data-i18n="blog.desc">Ancient wisdom meets modern insight. Explore articles on BaZi astrology, Feng Shui, meditation, and the Five Elements.</p>
+        </div>
+
+        <div class="blog-main-layout">
+            <div class="blog-main-content">
+                <section class="blog-latest">
+                    <h2 class="blog-section-title" data-i18n="blog.latest_articles">Latest Articles</h2>
+                    <div class="blog-card-list">
+
+                <a href="/blog/bazi-10-day-masters-guide" class="blog-card pinned">
+                    <div class="blog-card-image">
+                        <img src="/images/blog/bazi-10-day-masters-modern-characters.webp" alt="10 BaZi Day Masters as modern archetypes — minimalist line icons arranged in two rows of five circles: tree, bamboo, sun, candle, mountain, garden soil, sword, crystal, water drop, and ocean wave. Each icon is labeled with its Chinese character, pinyin, and elemental type (Yang/Yin Wood, Fire, Earth, Metal, Water). Clean white background with subtle elemental color accents." onload="this.parentElement.classList.add('loaded')" onerror="this.parentElement.classList.add('loaded');this.src='https://www.daoessentia.com/images/og-default.jpg'">
+                    </div>
+                    <div class="blog-card-body">
+                        <span class="blog-card-pinned">📌 Pinned</span>
+                        <span class="blog-card-category" data-zh-cat="八字命理">BaZi Astrology</span>
+                        <h2 data-zh-title="八字十日主性格全解析：十種現代人格原型的完整對照指南">10 BaZi Day Masters as Modern Characters</h2>
+                        <p data-zh-desc="甲木像執行長、癸水像藝術家？十個八字日主對應十種人格原型。找到你的日主，理解你的核心性格、天生優勢與盲點。免費查你的日主類型，揭開你的人格密碼。立即免費查詢你的日主類型，揭開你的人格密碼。">The 10 BaZi Day Masters explained as modern characters you'd recognize from your own life. From Jia Wood CEOs to Gui Water mystics — find your archetype.</p>
+                        <div class="blog-card-meta">
+                            <span>Xuanzhen</span>
+                            <span>·</span><span>May 12, 2026</span>
+                            <span>·</span><span class="read-time-label" data-zh-text="18 分鐘閱讀">18 min read</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="/blog/feng-shui-home-office-7-rules" class="blog-card pinned">
+                    <div class="blog-card-image">
+                        <img src="/images/blog/feng-shui-home-office-desk.webp" alt="Feng shui home office desk in commanding position with solid wall behind, Money Tree on left, golden light on dark background" onload="this.parentElement.classList.add('loaded')" onerror="this.parentElement.classList.add('loaded');this.src='https://www.daoessentia.com/images/og-default.jpg'">
+                    </div>
+                    <div class="blog-card-body">
+                        <span class="blog-card-pinned">📌 Pinned</span>
+                        <span class="blog-card-category" data-zh-cat="家居風水">Home Feng Shui</span>
+                        <h2 data-zh-title="居家辦公室風水佈局：7條實用規則提升效率與財運能量">Feng Shui Home Office: 7 Rules</h2>
+                        <p data-zh-desc="居家辦公風水 7 條實用規則：辦公桌對窗不背門、命令位坐北朝南、綠植放左不放右、避免雜線纏繞。每條 15 分鐘內可完成，立即提升工作效率、專注力與財運能量。今天就能完成，立即提升你的工作效率與專注力。">7 actionable feng shui rules for your home office setup — from desk placement and commanding position to colors, plants, and lighting. Apply each rule in under 15 minutes.</p>
+                        <div class="blog-card-meta">
+                            <span>Xuanzhen</span>
+                            <span>·</span><span>May 11, 2026</span>
+                            <span>·</span><span class="read-time-label" data-zh-text="12 分鐘閱讀">12 min read</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="/blog/how-to-choose-the-best-date-for-any-important-life-event" class="blog-card pinned">
+                    <div class="blog-card-image">
+                        <img src="/images/blog/12222131241241.webp" alt="Feng Shui Calendar: Best Dates for Life Events" onload="this.parentElement.classList.add('loaded')" onerror="this.parentElement.classList.add('loaded');this.src='https://www.daoessentia.com/images/og-default.jpg'">
+                    </div>
+                    <div class="blog-card-body">
+                        <span class="blog-card-pinned">📌 Pinned</span>
+                        <span class="blog-card-category" data-zh-cat="家居風水">Home Feng Shui</span>
+                        <h2 data-zh-title="八字擇日指南：如何為人生大事選擇吉日">Feng Shui Calendar: Best Dates for Life Events</h2>
+                        <p data-zh-desc="婚禮、搬遷、開業、簽約——人生大事的日期選對了事半功倍。運用兩千年傳統的八字擇日法則，搭配免費線上擇日工具，根據你的八字找出最旺運的黃道吉日。免費使用我們的八字擇日工具，為你挑選最旺的日期。">Pick the best dates for weddings, moving, business launches, and more. Free Chinese calendar tool uses 2000-year wisdom to find your lucky dates.</p>
+                        <div class="blog-card-meta">
+                            <span>Xuanzhen</span>
+                            <span>·</span><span>April 19, 2026</span>
+                            <span>·</span><span class="read-time-label" data-zh-text="5 分鐘閱讀">5 min read</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="/blog/when-will-i-find-love" class="blog-card pinned">
+                    <div class="blog-card-image">
+                        <img src="/images/blog/211243434554.webp" alt="When Will I Find Love? What Your Birth Chart Says" onload="this.parentElement.classList.add('loaded')" onerror="this.parentElement.classList.add('loaded');this.src='https://www.daoessentia.com/images/og-default.jpg'">
+                    </div>
+                    <div class="blog-card-body">
+                        <span class="blog-card-pinned">📌 Pinned</span>
+                        <span class="blog-card-category" data-zh-cat="八字命理">BaZi Astrology</span>
+                        <h2 data-zh-title="八字姻緣預測：你的出生日期揭示何時遇見真愛">When Will I Find Love? What Your Birth Chart Says</h2>
+                        <p data-zh-desc="我何時會遇到真愛？八字從財星（男命）和官星（女命）的位置與強弱，判斷你的戀愛時機。了解哪些大運流年感情運最旺，該主動出擊還是靜待緣分降臨。查詢你的八字財星或官星位置，找到感情運最旺的年份。">When will I find love? Discover what Chinese astrology says about your love timing, which life phases favor romance, and how to read the signals in your birth chart.</p>
+                        <div class="blog-card-meta">
+                            <span>Xuanzhen</span>
+                            <span>·</span><span>April 18, 2026</span>
+                            <span>·</span><span class="read-time-label" data-zh-text="13 分鐘閱讀">13 min read</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="/blog/why-am-i-depressed-bazi-cycles-10-year-luck-periods-explained" class="blog-card pinned">
+                    <div class="blog-card-image">
+                        <img src="/images/blog/stressed-winter-bazi.webp" alt="Feel Stuck Every 10 Years? BaZi Luck Cycles Explained" onload="this.parentElement.classList.add('loaded')" onerror="this.parentElement.classList.add('loaded');this.src='https://www.daoessentia.com/images/og-default.jpg'">
+                    </div>
+                    <div class="blog-card-body">
+                        <span class="blog-card-pinned">📌 Pinned</span>
+                        <span class="blog-card-category" data-zh-cat="八字命理">BaZi Astrology</span>
+                        <h2 data-zh-title="八字大運：為什麼你每10年感到停滯不前？（這不是憂鬱症）">Feel Stuck Every 10 Years? BaZi Luck Cycles Explained</h2>
+                        <p data-zh-desc="每隔十年總有幾年感到莫名低落？八字大運和流年轉換會引發五行能量失衡，導致情緒波動與事業停滯。了解你正處於哪個運勢階段，以及為什麼這種低潮是暫時的。了解自己正處於哪個運勢階段，找到對應的調整方法。">Why do you feel depressed or stuck? BaZi's 10-year luck cycles and yearly influences explain emotional lows. Discover which energy phase you're in and why it's temporary.</p>
+                        <div class="blog-card-meta">
+                            <span>Xuanzhen</span>
+                            <span>·</span><span>April 23, 2026</span>
+                            <span>·</span><span class="read-time-label" data-zh-text="7 分鐘閱讀">7 min read</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="/blog/zodiac-reading-vs-bazi" class="blog-card pinned">
+                    <div class="blog-card-image">
+                        <img src="/images/blog/zodiac-reading-vs-bazi.webp" alt="Western zodiac wheel beside golden BaZi pillars on dark navy background, illustrating how zodiac reading differs from Chinese BaZi life timing chart" onload="this.parentElement.classList.add('loaded')" onerror="this.parentElement.classList.add('loaded');this.src='https://www.daoessentia.com/images/og-default.jpg'">
+                    </div>
+                    <div class="blog-card-body">
+                        <span class="blog-card-pinned">📌 Pinned</span>
+                        <span class="blog-card-category" data-zh-cat="八字命理">BaZi Astrology</span>
+                        <h2 data-zh-title="為什麼你的生肖命理分析總是對不上？——八字揭示占星遺漏的「時間密碼」">BaZi vs Zodiac: Why Your Reading Doesn't Match You</h2>
+                        <p data-zh-desc="生肖只看出生年，八字看年月日時——差了三個維度的精確度，難怪總覺得「不準」。本文用八字四柱解釋為什麼生肖分析對不上你，以及如何用更精準的系統認識自己。升级到更精準的八字系統，重新認識你自己。">Your birth chart tells you who you are, but it can't tell you when. Discover what astrology misses about timing, life phases, and when to make your biggest moves.</p>
+                        <div class="blog-card-meta">
+                            <span>Xuanzhen</span>
+                            <span>·</span><span>April 26, 2026</span>
+                            <span>·</span><span class="read-time-label" data-zh-text="9 分鐘閱讀">9 min read</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="/blog/jia-wu-month-2026-best-day-masters" class="blog-card">
+                    <div class="blog-card-image">
+                        <img src="https://www.daoessentia.com/images/og-default.jpg" alt="Best Day Masters for Jia Wu Month 2026" onload="this.parentElement.classList.add('loaded')" onerror="this.parentElement.classList.add('loaded');this.src='https://www.daoessentia.com/images/og-default.jpg'">
+                    </div>
+                    <div class="blog-card-body">
+                        
+                        <span class="blog-card-category" data-zh-cat="八字命理">BaZi Astrology</span>
+                        <h2 data-zh-title="2026甲午月日主排行榜：事業、感情、財富、學業四大維度最佳日主">Best Day Masters for Jia Wu Month 2026</h2>
+                        <p data-zh-desc="2026甲午月哪些日主在事業、感情、財富、學業方面最強？庚金、壬水、癸水、戊土四人稱王，完整十天干排行榜一次看懂。">Which Day Masters dominate career, love, wealth, and study in June 2026? Geng Metal, Ren Water, Gui Water, and Wu Earth lead the rankings.</p>
+                        <div class="blog-card-meta">
+                            <span>Dingwei</span>
+                            <span>·</span><span>June 2, 2026</span>
+                            <span>·</span><span class="read-time-label" data-zh-text="9 分鐘閱讀">9 min read</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="/blog/feng-shui-tips-before-buying-house" class="blog-card">
+                    <div class="blog-card-image">
+                        <img src="/images/blog/feng-shui-house-buying-tips-hero.webp" alt="Modern home exterior in warm sunlight with open front door and lush greenery, symbolizing good feng shui energy flow for house buyers" onload="this.parentElement.classList.add('loaded')" onerror="this.parentElement.classList.add('loaded');this.src='https://www.daoessentia.com/images/og-default.jpg'">
+                    </div>
+                    <div class="blog-card-body">
+                        
+                        <span class="blog-card-category" data-zh-cat="家居風水">Home Feng Shui</span>
+                        <h2 data-zh-title="買房必看：五個實用技巧，一眼判斷房屋風水好壞">5 Feng Shui Tips Before You Buy a House</h2>
+                        <p data-zh-desc="買房前必須懂的五個風水判斷技巧：從外圍環境、採光通風、大門格局、中宮廚廁位置，到用身體感受氣場，手把手教你一眼識別「旺宅」還是「凶宅」，讓這輩子最大的投資真正值回票價。">Five practical feng shui checks to run before committing to a property: exterior sha qi, bright hall brightness, front door clashes, center palace placement, and intuitive energy feel — a hands-on guide for house hunters who want a home that genuinely supports their well-being.</p>
+                        <div class="blog-card-meta">
+                            <span>Xuanzhen</span>
+                            <span>·</span><span>May 30, 2026</span>
+                            <span>·</span><span class="read-time-label" data-zh-text="9 分鐘閱讀">9 min read</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="/blog/jia-wu-month-june-2026-fire-energy-warning" class="blog-card">
+                    <div class="blog-card-image">
+                        <img src="/images/blog/jia-wu-month-june-2026-fire-energy-warning.webp" alt="Blazing fire torii gate with bronze vessels and five elements circular arrangement on deep navy background, warm orange-red glow" onload="this.parentElement.classList.add('loaded')" onerror="this.parentElement.classList.add('loaded');this.src='https://www.daoessentia.com/images/og-default.jpg'">
+                    </div>
+                    <div class="blog-card-body">
+                        
+                        <span class="blog-card-category" data-zh-cat="八字命理">BaZi Astrology</span>
+                        <h2 data-zh-title="2026甲午月警報：火氣拉滿！誰該衝刺，誰該保命">Jia Wu Month 2026 BaZi: Fire Peaks — Thrive or Survive</h2>
+                        <p data-zh-desc="2026甲午月（6月5日至7月6日）是丙午火年中火勢最猛的一個月。了解你的日主是喜火還是忌火，掌握本月健康、感情、情緒管理的生存指南。">June 2026 Jia Wu month is the most fire-intense period of the Bing Wu Fire Horse year. Discover who thrives, who survives, and how to protect yourself.</p>
+                        <div class="blog-card-meta">
+                            <span>Dingwei</span>
+                            <span>·</span><span>May 28, 2026</span>
+                            <span>·</span><span class="read-time-label" data-zh-text="11 分鐘閱讀">11 min read</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="/blog/heavenly-stems-compatibility-love-match" class="blog-card">
+                    <div class="blog-card-image">
+                        <img src="/images/blog/heavenly-stems-compatibility-love-match.webp" alt="Minimalist illustration of the 10 Heavenly Stems arranged in a circular love compatibility wheel, with connecting lines showing optimal pairings" onload="this.parentElement.classList.add('loaded')" onerror="this.parentElement.classList.add('loaded');this.src='https://www.daoessentia.com/images/og-default.jpg'">
+                    </div>
+                    <div class="blog-card-body">
+                        
+                        <span class="blog-card-category" data-zh-cat="八字命理">BaZi Astrology</span>
+                        <h2 data-zh-title="天干五合速配：十日干男女姻緣完全指南，找出你的上上等佳配">Heavenly Stems Compatibility: The Ultimate BaZi Love Match Guide</h2>
+                        <p data-zh-desc="天干五合是八字合婚中契合度最高的姻緣組合。完整解析十日干男女速配關係，找出你的最佳另一半。">Discover which Heavenly Stem combinations create the strongest love matches in BaZi. The complete guide to Day Master compatibility for men and women.</p>
+                        <div class="blog-card-meta">
+                            <span>Xuanzhen</span>
+                            <span>·</span><span>May 27, 2026</span>
+                            <span>·</span><span class="read-time-label" data-zh-text="12 分鐘閱讀">12 min read</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="/blog/seven-killings-bazi-wealth-star" class="blog-card">
+                    <div class="blog-card-image">
+                        <img src="/images/blog/seven-killings-bazi-wealth-star.webp" alt="A dramatic illustration of a warrior figure standing atop a mountain of gold coins, with two diverging paths: one path leads to a blazing forge (controlling) and the other to a palace gate (transforming). Chinese character 杀 (Killings) glows in the sky above." onload="this.parentElement.classList.add('loaded')" onerror="this.parentElement.classList.add('loaded');this.src='https://www.daoessentia.com/images/og-default.jpg'">
+                    </div>
+                    <div class="blog-card-body">
+                        
+                        <span class="blog-card-category" data-zh-cat="八字命理">BaZi Astrology</span>
+                        <h2 data-zh-title="七殺不是煞，是你命盤裡最大的財庫：制殺與化殺誰更赚大錢">Seven Killings in BaZi: Why It's Your Hidden Wealth Star</h2>
+                        <p data-zh-desc="七殺是八字中最強的財富驅動力。食傷制殺直接將壓力轉化為財富，適合創業搞錢；印星化殺走權位路線，適合靠平台升遷。了解你的命盤該選哪條路，借七殺實現財富躍遷。立即查詢你的命盤是否有七殺，判斷你的財富潛力。">Seven Killings (七杀) isn't a curse — it's the most powerful wealth driver in BaZi. Discover how controlling vs transforming it decides whether you build a fortune or climb the corporate ladder.</p>
+                        <div class="blog-card-meta">
+                            <span>Xuanzhen</span>
+                            <span>·</span><span>May 26, 2026</span>
+                            <span>·</span><span class="read-time-label" data-zh-text="9 分鐘閱讀">9 min read</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="/blog/door-facing-door-feng-shui-energy-clash" class="blog-card">
+                    <div class="blog-card-image">
+                        <img src="/images/blog/door-facing-door-feng-shui-hero.webp" alt="Two apartment doors facing each other in hallway with blue wall, feng shui energy clash illustration" onload="this.parentElement.classList.add('loaded')" onerror="this.parentElement.classList.add('loaded');this.src='https://www.daoessentia.com/images/og-default.jpg'">
+                    </div>
+                    <div class="blog-card-body">
+                        
+                        <span class="blog-card-category" data-zh-cat="家居風水">Home Feng Shui</span>
+                        <h2 data-zh-title="大門對大門風水：化解鄰居間不良氣場的 4 種方法">Door Facing Door Feng Shui: 4 Fixes for Bad Energy Between Neighbors</h2>
+                        <p data-zh-desc="大門對大門是公寓常見的風水煞——兩戶氣場直接衝撞，影響財運與家庭和諧。本文提供 4 種免費化解法：屏風隔氣、綠植擋煞、地毯吸氣、調整開關門習慣，15 分鐘搞定。">Doors facing each other in apartments create feng shui energy clash. Learn 4 simple fixes — screens, plants, door habits — to protect your home's qi.</p>
+                        <div class="blog-card-meta">
+                            <span>Xuanzhen</span>
+                            <span>·</span><span>May 21, 2026</span>
+                            <span>·</span><span class="read-time-label" data-zh-text="7 分鐘閱讀">7 min read</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="/blog/3-places-to-visit-when-bad-luck" class="blog-card">
+                    <div class="blog-card-image">
+                        <img src="/images/blog/3-places-shift-energy-bad-luck.webp" alt="Person standing in nature between mountains and forest, golden sunlight breaking through clouds, symbolizing energy reset and luck shift" onload="this.parentElement.classList.add('loaded')" onerror="this.parentElement.classList.add('loaded');this.src='https://www.daoessentia.com/images/og-default.jpg'">
+                    </div>
+                    <div class="blog-card-body">
+                        
+                        <span class="blog-card-category" data-zh-cat="家居風水">Home Feng Shui</span>
+                        <h2 data-zh-title="運氣差？去這3個地方，轉換你的氣場">Feng Shui Reset: 3 Places That Shift Bad Luck</h2>
+                        <p data-zh-desc="風水認為氣場停滯導致運氣差。運動場、圖書館、大自然——3個地方能重置五行能量、打破氣場停滯、轉換運勢。現代科學佐證，中國玄學原理解析。免費八字命盤，查看你的大運。">Feng shui says stuck Qi causes bad luck. 3 places reset your Five Elements energy and shift luck. Backed by science. Try free BaZi chart.</p>
+                        <div class="blog-card-meta">
+                            <span>Xuanzhen</span>
+                            <span>·</span><span>May 18, 2026</span>
+                            <span>·</span><span class="read-time-label" data-zh-text="7 分鐘閱讀">7 min read</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="/blog/toxic-relationship-energy-bazi-compatibility" class="blog-card">
+                    <div class="blog-card-image">
+                        <img src="/images/blog/toxic-relationship-energy-bazi-compatibility.webp" alt="A serene illustration showing two silhouettes standing on opposite banks of a flowing river, one bathed in warm golden light and the other in cool blue shadow, with subtle Chinese Five Elements symbols floating between them" onload="this.parentElement.classList.add('loaded')" onerror="this.parentElement.classList.add('loaded');this.src='https://www.daoessentia.com/images/og-default.jpg'">
+                    </div>
+                    <div class="blog-card-body">
+                        
+                        <span class="blog-card-category" data-zh-cat="八字命理">BaZi Astrology</span>
+                        <h2 data-zh-title="有毒關係能量：八字合婚指南">Toxic Relationship Energy: BaZi Compatibility Guide</h2>
+                        <p data-zh-desc="有些關係讓你越來越虛弱，有些則讓你充滿能量。八字合婚不是看星座配對，而是分析兩人五行的互補或互剋——學會用命盤辨識消耗型關係，守護自己的能量場。學會用八字辨識消耗型關係，守護你的能量。">Is your relationship draining your energy? Learn the signs of toxic vs nourishing zodiac compatibility through Chinese astrology and BaZi chart analysis.</p>
+                        <div class="blog-card-meta">
+                            <span>Xuanzhen</span>
+                            <span>·</span><span>May 16, 2026</span>
+                            <span>·</span><span class="read-time-label" data-zh-text="7 分鐘閱讀">7 min read</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="/blog/bazi-ten-gods-friendship-patterns" class="blog-card">
+                    <div class="blog-card-image">
+                        <img src="/images/blog/bazi-ten-gods-friendship-patterns.webp" alt="A warm illustration of five diverse figures around a circular BaZi chart with glowing elemental symbols — wood, fire, earth, metal, water — each connected by golden threads representing different friendship archetypes" onload="this.parentElement.classList.add('loaded')" onerror="this.parentElement.classList.add('loaded');this.src='https://www.daoessentia.com/images/og-default.jpg'">
+                    </div>
+                    <div class="blog-card-body">
+                        
+                        <span class="blog-card-category" data-zh-cat="八字命理">BaZi Astrology</span>
+                        <h2 data-zh-title="八字十神：你的命盤如何揭示友誼模式 | Dao Essentia">BaZi Ten Gods: What Your Chart Says About Friendships</h2>
+                        <p data-zh-desc="八字十神揭示你的交友模式——食傷吸引創意圈、印星結交長輩貴人、比劫帶來競爭夥伴。了解你的命盤如何決定社交圈品質，以及哪些人會消耗你的能量、哪些人能助你成長。查詢你的命盤十神配置，了解你的最佳社交策略。">Your BaZi chart's Ten Gods reveal your friendship patterns in Chinese astrology — why certain people drain you while others energize you. Discover your friendship archetype and improve your social circle today.</p>
+                        <div class="blog-card-meta">
+                            <span>Xuanzhen</span>
+                            <span>·</span><span>May 15, 2026</span>
+                            <span>·</span><span class="read-time-label" data-zh-text="14 分鐘閱讀">14 min read</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="/blog/she-was-36-divorced-bazi-love-story" class="blog-card">
+                    <div class="blog-card-image">
+                        <img src="/images/blog/she-was-36-divorced-bazi-love-story.webp" alt="A warm-toned illustration of a woman sitting at a traditional Chinese tea table reviewing a BaZi chart with golden characters, soft candlelight, and a subtle watercolor snake and rat motif in the background" onload="this.parentElement.classList.add('loaded')" onerror="this.parentElement.classList.add('loaded');this.src='https://www.daoessentia.com/images/og-default.jpg'">
+                    </div>
+                    <div class="blog-card-body">
+                        
+                        <span class="blog-card-category" data-zh-cat="八字命理">BaZi Astrology</span>
+                        <h2 data-zh-title="36歲離婚女遇29歲男 — 八字姐弟戀真實故事 | Dao Essentia">36F Divorced, Met 29M — BaZi Love Story | Dao Essentia</h2>
+                        <p data-zh-desc="36 歲離婚女企業家遇到 29 歲男——八字命盤揭示為什麼這段姐弟戀恰好是正確時機。她的傷官見官化解、他的正財星到位，兩人五行能量完美互補。用真實案例了解八字如何預測感情時機與品質。">A divorced business owner met a man 7 years younger. Her BaZi chart revealed why the timing was perfect — and why their energies complemented each other.</p>
+                        <div class="blog-card-meta">
+                            <span>Xuanzhen</span>
+                            <span>·</span><span>May 15, 2026</span>
+                            <span>·</span><span class="read-time-label" data-zh-text="10 分鐘閱讀">10 min read</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="/blog/is-weak-day-master-bad-bazi" class="blog-card">
+                    <div class="blog-card-image">
+                        <img src="/images/blog/weak-day-master-bazi-truth.webp" alt="Split-screen infographic: left side shows a withered tree labeled 'Misconception: Weak = Bad'; right side shows a precision Swiss watch labeled 'Reality: Weak = Sensitive &amp; Strategic'. Center has the Chinese character 身 (Shen) in gold brushstroke." onload="this.parentElement.classList.add('loaded')" onerror="this.parentElement.classList.add('loaded');this.src='https://www.daoessentia.com/images/og-default.jpg'">
+                    </div>
+                    <div class="blog-card-body">
+                        
+                        <span class="blog-card-category" data-zh-cat="八字命理">BaZi Astrology</span>
+                        <h2 data-zh-title="身弱 = 命不好？古典八字早就給出了反常識的答案">Is a Weak Day Master Bad? The Truth About Shen Ruo in Bazi</h2>
+                        <p data-zh-desc="身弱的八字命盤不是「命不好」——反而是最大潛力股。了解身弱為何能靠印星和比劫逆襲，古籍中身弱富貴的案例遠多於身強。附完整指南，免費查你的日主強弱。查詢你的日主強弱，找到你的專屬成功路徑。"></p>
+                        <div class="blog-card-meta">
+                            <span>Xuanzhen</span>
+                            <span>·</span><span>May 13, 2026</span>
+                            <span>·</span><span class="read-time-label" data-zh-text="10 分鐘閱讀">10 min read</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="/blog/feng-shui-4-items-dont-replace" class="blog-card">
+                    <div class="blog-card-image">
+                        <img src="/images/blog/feng-shui-4-items-dont-replace-hero.webp" alt="Four home items wallpaper cabinet bed curtains arranged on wooden table with Feng Shui symbols, warm natural lighting" onload="this.parentElement.classList.add('loaded')" onerror="this.parentElement.classList.add('loaded');this.src='https://www.daoessentia.com/images/og-default.jpg'">
+                    </div>
+                    <div class="blog-card-body">
+                        
+                        <span class="blog-card-category" data-zh-cat="家居風水">Home Feng Shui</span>
+                        <h2>Stop Replacing These 4 Items (Feng Shui)</h2>
+                        <p>Feng Shui says stop replacing these 4 home items. Stability beats freshness — protect your qi field, health, and wealth.</p>
+                        <div class="blog-card-meta">
+                            <span>Xuanzhen</span>
+                            <span>·</span><span>May 10, 2026</span>
+                            <span>·</span><span class="read-time-label" data-zh-text="8 分鐘閱讀">8 min read</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="/blog/bazi-10-year-luck-cycles-guide" class="blog-card">
+                    <div class="blog-card-image">
+                        <img src="/images/blog/bazi-10-year-luck-cycles.webp" alt="Ten Year Luck Cycle BaZi pillar diagram, Major Luck shifting every decade in Chinese astrology, five elements energy flow visualization, golden cosmic background" onload="this.parentElement.classList.add('loaded')" onerror="this.parentElement.classList.add('loaded');this.src='https://www.daoessentia.com/images/og-default.jpg'">
+                    </div>
+                    <div class="blog-card-body">
+                        
+                        <span class="blog-card-category" data-zh-cat="八字命理">BaZi Astrology</span>
+                        <h2 data-zh-title="八字大運：為什麼你每隔十年會轉變？">BaZi Major Luck Cycles (Da Yun): Why Your Life Shifts Every 10 Years</h2>
+                        <p data-zh-desc="八字大運（Da Yun）每十年轉換一次，直接影響你的事業、財運和感情走向。了解大運如何運作、如何判斷自己處於順運還是逆運，以及如何提前為下一個十年做好準備。學會看懂自己的大運盤，提前掌握人生節奏。">Why does life feel different every 10 years? Chinese astrology's Major Luck Cycles (Da Yun) reveal how to find yours and what each decade brings. Learn to read your BaZi luck pillars and timing.</p>
+                        <div class="blog-card-meta">
+                            <span>Xuanzhen</span>
+                            <span>·</span><span>May 9, 2026</span>
+                            <span>·</span><span class="read-time-label" data-zh-text="9 分鐘閱讀">9 min read</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="/blog/is-bazi-real-skeptics-guide" class="blog-card">
+                    <div class="blog-card-image">
+                        <img src="/images/blog/bazi-real-skeptics-guide.webp" alt="BaZi birth chart displayed on screen with magnifying glass, Is BaZi real skeptical analysis, Chinese astrology accuracy investigation, golden and navy color scheme" onload="this.parentElement.classList.add('loaded')" onerror="this.parentElement.classList.add('loaded');this.src='https://www.daoessentia.com/images/og-default.jpg'">
+                    </div>
+                    <div class="blog-card-body">
+                        
+                        <span class="blog-card-category" data-zh-cat="八字命理">BaZi Astrology</span>
+                        <h2 data-zh-title="八字是真的嗎？懷疑論者的實話指南">Is BaZi Accurate? What Science and 3,000 Years of Data Say</h2>
+                        <p data-zh-desc="八字是迷信還是有統計基礎？本文誠實分析四柱命理能可靠預測什麼（事業時機、感情週期、人生階段轉換），不能預測什麼，以及如何辨別真正有水平的命理師。用數據說話，看完這篇你自己判斷。">Does Chinese astrology actually work? We break down what BaZi can reliably predict — career timing, relationship patterns, life cycle shifts — and what it can't, based on how practitioners actually use it.</p>
+                        <div class="blog-card-meta">
+                            <span>Xuanzhen</span>
+                            <span>·</span><span>May 9, 2026</span>
+                            <span>·</span><span class="read-time-label" data-zh-text="8 分鐘閱讀">8 min read</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="/blog/teach-yourself-bazi-guide" class="blog-card">
+                    <div class="blog-card-image">
+                        <img src="/images/blog/learn-bazi-free-course-guide.webp" alt="Person learning BaZi Four Pillars of Destiny on laptop, free online course, Chinese astrology self-study guide, warm golden light, desktop setup" onload="this.parentElement.classList.add('loaded')" onerror="this.parentElement.classList.add('loaded');this.src='https://www.daoessentia.com/images/og-default.jpg'">
+                    </div>
+                    <div class="blog-card-body">
+                        
+                        <span class="blog-card-category" data-zh-cat="八字命理">BaZi Astrology</span>
+                        <h2 data-zh-title="別再花$200做八字解讀：3週自學完整指南（免費）">Stop Paying $200 — Learn to Read BaZi</h2>
+                        <p data-zh-desc="市面上八字解讀收費 $100-300，結果卻讓你更迷茫。其實你可以在兩週內免費學會讀自己的命盤——這份完整指南帶你從零開始，掌握天干地支、十神和大運的讀法。省下 $200，現在就開始你的免費八字自學之旅。">Most BaZi readings cost $100-300 and leave you with more questions than answers. You can learn to read your own birth chart for free in about two weeks of casual study.</p>
+                        <div class="blog-card-meta">
+                            <span>Xuanzhen</span>
+                            <span>·</span><span>May 9, 2026</span>
+                            <span>·</span><span class="read-time-label" data-zh-text="9 分鐘閱讀">9 min read</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="/blog/feng-shui-headboard-placement-5-rules" class="blog-card">
+                    <div class="blog-card-image">
+                        <img src="/images/blog/feng-shui-headboard-placement.webp" alt="Minimalist bedroom with solid wood headboard against a dark wall, warm ambient lighting, feng shui bed placement illustration" onload="this.parentElement.classList.add('loaded')" onerror="this.parentElement.classList.add('loaded');this.src='https://www.daoessentia.com/images/og-default.jpg'">
+                    </div>
+                    <div class="blog-card-body">
+                        
+                        <span class="blog-card-category" data-zh-cat="家居風水">Home Feng Shui</span>
+                        <h2 data-zh-title="風水床頭擺放 5 大鐵律：提升睡眠品質與健康運的完整指南">Feng Shui Headboard Placement: 5 Rules</h2>
+                        <p data-zh-desc="床頭靠實牆、不對門、不壓樑、不靠窗、不掛鏡——風水床頭擺放 5 大鐵律，每一條都有能量學依據。附 3 種常見臥室佈局的具體修正方案，幫你提升睡眠品質與整體運勢。">Learn the 5 essential feng shui headboard placement rules — which direction to face, what to avoid, and how to fix common bedroom layout problems for better sleep.</p>
+                        <div class="blog-card-meta">
+                            <span>Xuanzhen</span>
+                            <span>·</span><span>May 7, 2026</span>
+                            <span>·</span><span class="read-time-label" data-zh-text="7 分鐘閱讀">7 min read</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="/blog/trump-bazi-fire-earth" class="blog-card">
+                    <div class="blog-card-image">
+                        <img src="/images/blog/trump-portrait-bazi-fire-earth-analysis.webp" alt="Donald Trump portrait with BaZi fire-earth chart analysis, Chinese metaphysics four pillars decoding" onload="this.parentElement.classList.add('loaded')" onerror="this.parentElement.classList.add('loaded');this.src='https://www.daoessentia.com/images/og-default.jpg'">
+                    </div>
+                    <div class="blog-card-body">
+                        
+                        <span class="blog-card-category" data-zh-cat="八字命理">BaZi Astrology</span>
+                        <h2 data-zh-title="為什麼川普能贏兩次？八字命盤揭露答案">Why Trump Won Twice: BaZi Reveals the Pattern</h2>
+                        <p data-zh-desc="川普八字是典型的火土燥烈格局——丙火日主、午戌半合火局。濕土（辰、丑）是他的關鍵用神，解釋了兩次當選與政策風格。本文從八字視角深入解析其命盤與命運軌跡。對比你的命盤，看看你和成功人士的八字有何異同。">Donald Trump's BaZi chart is a fire-earth desert. Learn why moist Earth (Chen and Chou) appeared at both presidential wins, what his 2019–2029 luck period reveals, and how the 2026 Water-Fire clash explains the White House dinner shooting.</p>
+                        <div class="blog-card-meta">
+                            <span>Xuanzhen</span>
+                            <span>·</span><span>May 7, 2026</span>
+                            <span>·</span><span class="read-time-label" data-zh-text="8 分鐘閱讀">8 min read</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="/blog/yi-wood-may-2026-gui-si-month" class="blog-card">
+                    <div class="blog-card-image">
+                        <img src="/images/blog/yi-wood-yin-wood-may-2026-gui-si-month-forecast.webp" alt="Yin Wood vine with water drops and fire glow on dark navy, Yi Wood Gui Si May 2026" onload="this.parentElement.classList.add('loaded')" onerror="this.parentElement.classList.add('loaded');this.src='https://www.daoessentia.com/images/og-default.jpg'">
+                    </div>
+                    <div class="blog-card-body">
+                        
+                        <span class="blog-card-category" data-zh-cat="八字命理">BaZi Astrology</span>
+                        <h2 data-zh-title="乙木日主2026年5月八字月運預測">BaZi Day Master Forecast: Yi Wood (Yin Wood) May 2026</h2>
+                        <p data-zh-desc="癸巳月（2026年5月5日至6月4日）為乙木日主帶來「外火內水」的能量格局。傷官星激活創意突破與事業能見度，癸水則滋養並穩固你。涵蓋事業、財富、感情、健康，以及六大乙木日柱的專屬指導。">The Gui Si Water Snake month (May 5 – June 4, 2026) creates a &quot;fire outside, water inside&quot; pattern for Yi Wood Day Masters. Your Hurting Officer star activates creative breakthroughs and career visibility, while Gui Water nourishes and grounds you. Covers career, wealth, relationships, health, plus specific guidance for all six Yi Wood Day Pillars.</p>
+                        <div class="blog-card-meta">
+                            <span>Dingwei</span>
+                            <span>·</span><span>May 7, 2026</span>
+                            <span>·</span><span class="read-time-label" data-zh-text="10 分鐘閱讀">10 min read</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="/blog/learn-bazi-free-course" class="blog-card">
+                    <div class="blog-card-image">
+                        <img src="/images/blog/learn-bazi-free-course.webp" alt="Open book with golden BaZi chart pillars glowing on dark navy background, representing a free self-study course for Chinese Four Pillars of Destiny" onload="this.parentElement.classList.add('loaded')" onerror="this.parentElement.classList.add('loaded');this.src='https://www.daoessentia.com/images/og-default.jpg'">
+                    </div>
+                    <div class="blog-card-body">
+                        
+                        <span class="blog-card-category" data-zh-cat="八字命理">BaZi Astrology</span>
+                        <h2 data-zh-title="免費八字入門課程：零基礎也能按自己的節奏學會命理">Free BaZi Course: Learn at Your Own Pace</h2>
+                        <p data-zh-desc="六章免費八字課程，從零開始學四柱命理：認識日主與五行、讀懂十神、理解大運流年、掌握格局判斷。按自己的節奏學習，無需任何基礎，附實例和互動練習題。第一章只需要 10 分鐘，現在就開始吧。">Learn BaZi free with a 6-chapter course. Discover your Day Master, read career patterns, and understand 10-year luck cycles — at your own pace.</p>
+                        <div class="blog-card-meta">
+                            <span>Xuanzhen</span>
+                            <span>·</span><span>April 29, 2026</span>
+                            <span>·</span><span class="read-time-label" data-zh-text="9 分鐘閱讀">9 min read</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="/blog/elon-musk-bazi-chart-analysis" class="blog-card">
+                    <div class="blog-card-image">
+                        <img src="/images/blog/elon-musk-bazi-yang-wood-chart.webp" alt="Elon Musk BaZi Chart: Four Pillars of Destiny Decoded" onload="this.parentElement.classList.add('loaded')" onerror="this.parentElement.classList.add('loaded');this.src='https://www.daoessentia.com/images/og-default.jpg'">
+                    </div>
+                    <div class="blog-card-body">
+                        
+                        <span class="blog-card-category" data-zh-cat="八字命理">BaZi Astrology</span>
+                        <h2 data-zh-title="Elon Musk 4000億美元八字命盤：四柱五行揭示他的人生密碼">Elon Musk BaZi Chart: Four Pillars of Destiny Decoded</h2>
+                        <p data-zh-desc="伊隆·馬斯克為何敢冒極端風險？他的八字揭露陽木日主配七殺星的壓力格局——這個組合解釋了 4000 億美元身價背後的冒險基因、決策模式與事業起伏。免費查看你的日主。">Elon Musk's BaZi Four Pillars decoded — see his Day Master, Five Elements, and what his birth chart reveals about risk-taking and ambition. Try your own free chart.</p>
+                        <div class="blog-card-meta">
+                            <span>Xuanzhen</span>
+                            <span>·</span><span>April 25, 2026</span>
+                            <span>·</span><span class="read-time-label" data-zh-text="8 分鐘閱讀">8 min read</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="/blog/auspicious-date-selection-a-practical-guide" class="blog-card">
+                    <div class="blog-card-image">
+                        <img src="/images/blog/择日.webp" alt="Feng Shui Date Selection: Pick Your Auspicious Day" onload="this.parentElement.classList.add('loaded')" onerror="this.parentElement.classList.add('loaded');this.src='https://www.daoessentia.com/images/og-default.jpg'">
+                    </div>
+                    <div class="blog-card-body">
+                        
+                        <span class="blog-card-category" data-zh-cat="家居風水">Home Feng Shui</span>
+                        <h2 data-zh-title="風水擇日：如何選擇人生大事的吉日（實用指南）">Feng Shui Date Selection: Pick Your Auspicious Day</h2>
+                        <p data-zh-desc="中國擇日（Ze Ri）將人生大事與天干地支的能量週期同步。了解這項延續兩千年的古老智慧，如何根據你的八字為婚禮、搬遷、開業挑選最旺運的黃道吉日，避開凶日。立即使用我們的免費擇日工具，找出屬於你的吉日。">Chinese date selection (Ze Ri) aligns your life events with natural energy cycles. Learn how this 2000-year practice helps pick the best day for weddings, moving, and business.</p>
+                        <div class="blog-card-meta">
+                            <span>Xuanzhen</span>
+                            <span>·</span><span>April 24, 2026</span>
+                            <span>·</span><span class="read-time-label" data-zh-text="8 分鐘閱讀">8 min read</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="/blog/ben-ming-nian-why-your-zodiac-year-matters-in-bazi" class="blog-card">
+                    <div class="blog-card-image">
+                        <img src="/images/blog/生肖.webp" alt="Chinese Zodiac: Ben Ming Nian — Your Zodiac Year Explained" onload="this.parentElement.classList.add('loaded')" onerror="this.parentElement.classList.add('loaded');this.src='https://www.daoessentia.com/images/og-default.jpg'">
+                    </div>
+                    <div class="blog-card-body">
+                        
+                        <span class="blog-card-category" data-zh-cat="八字命理">BaZi Astrology</span>
+                        <h2 data-zh-title="命理詳解：本命年你的生肖年要注意什麼">Chinese Zodiac: Ben Ming Nian — Your Zodiac Year Explained</h2>
+                        <p data-zh-desc="本命年（太歲當頭）每 12 年輪迴一次，真的是「犯太歲」嗎？八字視角解析本命年的能量本質，以及身強與身弱者各自的應對策略——不需要恐慌，只需要對的方法與心態。學會判斷自己的本命年應對方式，平穩度過太歲。">Your zodiac year returns every 12 years. Learn what Ben Ming Nian means in BaZi — why it's unlucky, how long it lasts, and how to navigate this energy cycle safely.</p>
+                        <div class="blog-card-meta">
+                            <span>Xuanzhen</span>
+                            <span>·</span><span>April 21, 2026</span>
+                            <span>·</span><span class="read-time-label" data-zh-text="8 分鐘閱讀">8 min read</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="/blog/how-to-choose-your-phone-wallpaper-using-chinese-five-elements" class="blog-card">
+                    <div class="blog-card-image">
+                        <img src="/images/blog/金生水.webp" alt="Phone Wallpaper Colors &amp; Five Elements" onload="this.parentElement.classList.add('loaded')" onerror="this.parentElement.classList.add('loaded');this.src='https://www.daoessentia.com/images/og-default.jpg'">
+                    </div>
+                    <div class="blog-card-body">
+                        
+                        <span class="blog-card-category" data-zh-cat="家居風水">Home Feng Shui</span>
+                        <h2 data-zh-title="手機壁紙顏色與五行屬性：選對顏色補運開運完整指南">Phone Wallpaper Colors &amp; Five Elements</h2>
+                        <p data-zh-desc="手機是每天看最多次的物品，桌布顏色會持續影響你的能量場。透過八字五行找出你的幸運色，讓手機桌布成為每日微型開運工具——簡單換一張圖，能量大不同。今天就換上你的幸運色桌布，開始你的微型開運實驗。">Your phone wallpaper color matters more than you think. Learn how Chinese Five Elements and BaZi reveal the best colors to support your personal energy.</p>
+                        <div class="blog-card-meta">
+                            <span>Dingwei</span>
+                            <span>·</span><span>April 20, 2026</span>
+                            <span>·</span><span class="read-time-label" data-zh-text="7 分鐘閱讀">7 min read</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="/blog/how-to-read-bazi-chart" class="blog-card">
+                    <div class="blog-card-image">
+                        <img src="/images/blog/how-to-read-bazi-chart.webp" alt="How to Read a BaZi Chart (Step by Step)" onload="this.parentElement.classList.add('loaded')" onerror="this.parentElement.classList.add('loaded');this.src='https://www.daoessentia.com/images/og-default.jpg'">
+                    </div>
+                    <div class="blog-card-body">
+                        
+                        <span class="blog-card-category" data-zh-cat="八字命理">BaZi Astrology</span>
+                        <h2 data-zh-title="如何解讀八字命盤：從四柱到十神的逐步完整教學指南">How to Read a BaZi Chart (Step by Step)</h2>
+                        <p data-zh-desc="八字命盤看起來像天書？其實只需四步：找到日主、看五行分布、辨識十神、判斷格局。本逐步教學讓零基礎者也能在 30 分鐘內讀懂自己的命盤，無需任何預備知識。跟著步驟操作，30 分鐘內讀懂你的第一張命盤。">Learn how to read your BaZi chart step by step. Decode the Heavenly Stems, Earthly Branches, Five Elements, and Ten Gods to understand your birth energy.</p>
+                        <div class="blog-card-meta">
+                            <span>Xuanzhen</span>
+                            <span>·</span><span>April 18, 2026</span>
+                            <span>·</span><span class="read-time-label" data-zh-text="8 分鐘閱讀">8 min read</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="/blog/love-prediction-by-date-of-birth" class="blog-card">
+                    <div class="blog-card-image">
+                        <img src="/images/blog/love-prediction-by-birth-date.webp" alt="Love Prediction by Date of Birth: BaZi Reading" onload="this.parentElement.classList.add('loaded')" onerror="this.parentElement.classList.add('loaded');this.src='https://www.daoessentia.com/images/og-default.jpg'">
+                    </div>
+                    <div class="blog-card-body">
+                        
+                        <span class="blog-card-category" data-zh-cat="八字命理">BaZi Astrology</span>
+                        <h2 data-zh-title="依出生日期預測姻緣：八字解讀">Love Prediction by Date of Birth: BaZi Reading</h2>
+                        <p data-zh-desc="你的出生日期隱藏著戀愛時機的密碼。透過八字正財星與偏財星的位置和強弱，判斷你何時會遇到真愛、對象的性格特質，以及哪些年份感情運最旺。透過八字財星位置，預測你的下一段戀愛何時到來。">Can your birth date predict when you'll find love? Learn how BaZi and the Five Elements reveal your love timing, soulmate direction, and relationship blueprint.</p>
+                        <div class="blog-card-meta">
+                            <span>Xuanzhen</span>
+                            <span>·</span><span>April 18, 2026</span>
+                            <span>·</span><span class="read-time-label" data-zh-text="11 分鐘閱讀">11 min read</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="/blog/where-will-i-meet-my-soulmate" class="blog-card">
+                    <div class="blog-card-image">
+                        <img src="/images/blog/88-1x.webp" alt="Find Your Soulmate Direction: BaZi Guide" onload="this.parentElement.classList.add('loaded')" onerror="this.parentElement.classList.add('loaded');this.src='https://www.daoessentia.com/images/og-default.jpg'">
+                    </div>
+                    <div class="blog-card-body">
+                        
+                        <span class="blog-card-category" data-zh-cat="八字命理">BaZi Astrology</span>
+                        <h2 data-zh-title="八字靈魂伴侶預測：在哪裡遇見命中注定的人">Find Your Soulmate Direction: BaZi Guide</h2>
+                        <p data-zh-desc="靈魂伴侶會在哪裡出現？八字從五行方位和桃花星的位置，預測你與命中注定之人相遇的地點類型——可能是旅行途中、職場上、或是朋友聚會裡。透過八字桃花星位置，預測你與靈魂伴侶相遇的地點。">Where will you meet your soulmate? Discover how Chinese astrology and BaZi reveal your soulmate direction — the feng shui compass point where love is most likely to find you.</p>
+                        <div class="blog-card-meta">
+                            <span>Xuanzhen</span>
+                            <span>·</span><span>April 18, 2026</span>
+                            <span>·</span><span class="read-time-label" data-zh-text="12 分鐘閱讀">12 min read</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="/blog/the-mbti-alternative-angle" class="blog-card">
+                    <div class="blog-card-image">
+                        <img src="/images/blog/蒙版组-75-1x.webp" alt="Five Elements Personality Test: The &quot;MBTI Alternative&quot; Angle" onload="this.parentElement.classList.add('loaded')" onerror="this.parentElement.classList.add('loaded');this.src='https://www.daoessentia.com/images/og-default.jpg'">
+                    </div>
+                    <div class="blog-card-body">
+                        
+                        <span class="blog-card-category" data-zh-cat="八字命理">BaZi Astrology</span>
+                        <h2 data-zh-title="五行性格分析：比 MBTI 更深層的性格測試">Five Elements Personality Test: The &quot;MBTI Alternative&quot; Angle</h2>
+                        <p data-zh-desc="MBTI 只測性格表層，八字五行測的是你的能量本質。你是富遠見的甲木、重細節的辛金、還是適應力強的癸水？五行人格系統比 MBTI 多了時間維度與動態分析。做完 MBTI 不夠？再來看看五行能告訴你什麼。">Is your spirit animal actually a visionary Wood Dragon or a meticulous Metal Snake? Discover how BaZi's Five Elements system reveals your true personality type.</p>
+                        <div class="blog-card-meta">
+                            <span>Xuanzhen</span>
+                            <span>·</span><span>April 17, 2026</span>
+                            <span>·</span><span class="read-time-label" data-zh-text="10 分鐘閱讀">10 min read</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="/blog/10-home-feng-shui-hacks-that-actually-work-backed-by-energy-psychology" class="blog-card">
+                    <div class="blog-card-image">
+                        <img src="/images/blog/13.webp" alt="10 Home Feng Shui Hacks That Actually Work" onload="this.parentElement.classList.add('loaded')" onerror="this.parentElement.classList.add('loaded');this.src='https://www.daoessentia.com/images/og-default.jpg'">
+                    </div>
+                    <div class="blog-card-body">
+                        
+                        <span class="blog-card-category" data-zh-cat="家居風水">Home Feng Shui</span>
+                        <h2 data-zh-title="10個有科學依據的家居風水技巧：15分鐘改造你的能量場">10 Home Feng Shui Hacks That Actually Work</h2>
+                        <p data-zh-desc="10 個有能量心理學背書的家居風水技巧，每個 15 分鐘內完成。從玄關氣流、廚房火氣到臥室光線，實用改造你的居家環境，全面提升財富、健康與人際關係的整體能量場。">Transform your home with 10 feng shui hacks backed by energy psychology. Improve flow, cleanliness, and intentionality to enhance your wealth, health, and relationships.</p>
+                        <div class="blog-card-meta">
+                            <span>Xuanzhen</span>
+                            <span>·</span><span>April 16, 2026</span>
+                            <span>·</span><span class="read-time-label" data-zh-text="8 分鐘閱讀">8 min read</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="/blog/chinese-zodiac-daily-forecast-thursday-april-16-2026" class="blog-card">
+                    <div class="blog-card-image">
+                        <img src="/images/blog/chinese-zodiac-daily-forecast.webp" alt="Chinese Zodiac Daily Forecast: Thursday, April 16, 2026" onload="this.parentElement.classList.add('loaded')" onerror="this.parentElement.classList.add('loaded');this.src='https://www.daoessentia.com/images/og-default.jpg'">
+                    </div>
+                    <div class="blog-card-body">
+                        
+                        <span class="blog-card-category" data-zh-cat="十二生肖運勢">Chinese Zodiac Horoscope</span>
+                        <h2 data-zh-title="生肖運勢：十二生肖每日預報2026年4月16日（星期四）">Chinese Zodiac Daily Forecast: Thursday, April 16, 2026</h2>
+                        <p data-zh-desc="2026年4月16日十二生肖每日運勢預報：蛇、鼠、龍今日最旺，財運和事業均有突破機會；虎、兔、豬宜守不宜攻，注意人際溝通。附各生肖今日開運色、幸運方位與避忌事項。">Today's Chinese zodiac forecast: Snake, Rat, Dragon are top lucky signs. Tiger, Rabbit, Pig — handle with care. Daily luck tips for all 12 zodiac animals.</p>
+                        <div class="blog-card-meta">
+                            <span>Xuanzhen</span>
+                            <span>·</span><span>April 16, 2026</span>
+                            <span>·</span><span class="read-time-label" data-zh-text="5 分鐘閱讀">5 min read</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="/blog/birth-hours-wealth-personalities-a-western-friendly-guide" class="blog-card">
+                    <div class="blog-card-image">
+                        <img src="/images/blog/birth-hours-wealth-guide.webp" alt="Birth Hours &amp; Wealth: What Your Birth Chart Reveals" onload="this.parentElement.classList.add('loaded')" onerror="this.parentElement.classList.add('loaded');this.src='https://www.daoessentia.com/images/og-default.jpg'">
+                    </div>
+                    <div class="blog-card-body">
+                        
+                        <span class="blog-card-category" data-zh-cat="八字命理">BaZi Astrology</span>
+                        <h2 data-zh-title="出生時辰與財富：八字命理揭示你的理財性格">Birth Hours &amp; Wealth: What Your Birth Chart Reveals</h2>
+                        <p data-zh-desc="子時出生的理財偏保守，午時出生的愛冒險？十二地支對應十二種財富性格。了解你的出生時辰如何決定消費習慣、投資風格和賺錢方式，找到最適合你的財富增長路線。立即查詢你的出生時辰對應的財富原型。">Discover your Wealth Archetype through the 12 Earthly Branches. Learn how your birth hour shapes your earning style, spending habits, and money personality.</p>
+                        <div class="blog-card-meta">
+                            <span>Xuanzhen</span>
+                            <span>·</span><span>April 15, 2026</span>
+                            <span>·</span><span class="read-time-label" data-zh-text="5 分鐘閱讀">5 min read</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="/blog/five-virtues-five-elements" class="blog-card">
+                    <div class="blog-card-image">
+                        <img src="/images/blog/five-virtues-five-elements.webp" alt="Five Elements: Benevolence, Righteousness, Propriety, Wisdom, and Integrity" onload="this.parentElement.classList.add('loaded')" onerror="this.parentElement.classList.add('loaded');this.src='https://www.daoessentia.com/images/og-default.jpg'">
+                    </div>
+                    <div class="blog-card-body">
+                        
+                        <span class="blog-card-category" data-zh-cat="八字命理">BaZi Astrology</span>
+                        <h2 data-zh-title="五常與五行：仁義禮智信對應金木水火土的命理密碼">Five Elements: Benevolence, Righteousness, Propriety, Wisdom, and Integrity</h2>
+                        <p data-zh-desc="仁屬木、義屬金、禮屬火、智屬水、信屬土——五常與五行的對應關係是中國哲學的根基密碼。了解你的主導五行如何決定你的品德傾向、行為模式與人際互動。找到你的主導五行，認識你最深層的品德驅動力。">The foundational code of China's five-millennium civilization is encoded within the dynamic interplay of Benevolence, Righteousness, Propriety, Wisdom, Integrity and the Five Elements.</p>
+                        <div class="blog-card-meta">
+                            <span>Xuanzhen</span>
+                            <span>·</span><span>April 15, 2026</span>
+                            <span>·</span><span class="read-time-label" data-zh-text="5 分鐘閱讀">5 min read</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="/blog/five-elements-theory-wu-xing-guide" class="blog-card">
+                    <div class="blog-card-image">
+                        <img src="https://www.daoessentia.com/images/og-default.jpg" alt="Five Elements Personality Test: Are You Wood, Fire, Earth, Metal or Water?" onload="this.parentElement.classList.add('loaded')" onerror="this.parentElement.classList.add('loaded');this.src='https://www.daoessentia.com/images/og-default.jpg'">
+                    </div>
+                    <div class="blog-card-body">
+                        
+                        <span class="blog-card-category" data-zh-cat="八字命理">BaZi Astrology</span>
+                        <h2 data-zh-title="五行性格測試：你是木、火、土、金還是水？">Five Elements Personality Test: Are You Wood, Fire, Earth, Metal or Water?</h2>
+                        <p data-zh-desc="木生火、火生土、土生金、金生水、水生木——五行相生相剋循環是中國玄學的根基。了解你的主導五行如何影響性格、健康、人際關係與風水佈局。免費測你的五行類型。免費測你的五行類型，找到你的能量優勢方向。">Take the free Five Elements personality test — a core concept in Chinese astrology, Wu Xing, TCM, and feng shui. Discover which element (Wood, Fire, Earth, Metal, Water) dominates your chart and shapes your personality.</p>
+                        <div class="blog-card-meta">
+                            <span>Xuanzhen</span>
+                            <span>·</span><span>April 8, 2026</span>
+                            <span>·</span><span class="read-time-label" data-zh-text="12 分鐘閱讀">12 min read</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="/blog/what-is-bazi-beginners-guide" class="blog-card">
+                    <div class="blog-card-image">
+                        <img src="/images/blog/what-is-bazi-beginners-guide.webp" alt="How to Read Your BaZi Chart: A Step-by-Step Guide for Beginners" onload="this.parentElement.classList.add('loaded')" onerror="this.parentElement.classList.add('loaded');this.src='https://www.daoessentia.com/images/og-default.jpg'">
+                    </div>
+                    <div class="blog-card-body">
+                        
+                        <span class="blog-card-category" data-zh-cat="八字命理">BaZi Astrology</span>
+                        <h2 data-zh-title="如何解讀你的八字命盤：新手逐步指南">How to Read Your BaZi Chart: A Step-by-Step Guide for Beginners</h2>
+                        <p data-zh-desc="八字是什麼？用出生年月日時排出的四柱命盤，揭示你的性格、事業、財運和感情模式。這份免費新手指南用簡單語言和實例，5 分鐘帶你入門中國最古老的命理系統。只需 5 分鐘，了解這套延續三千年的智慧系統。">What is BaZi? Learn the Four Pillars of Destiny for free — Day Master, Five Elements, Ten Gods, and how your birth time shapes your personality and career path.</p>
+                        <div class="blog-card-meta">
+                            <span>Xuanzhen</span>
+                            <span>·</span><span>April 8, 2026</span>
+                            <span>·</span><span class="read-time-label" data-zh-text="11 分鐘閱讀">11 min read</span>
+                        </div>
+                    </div>
+                </a>
+                    </div>
+                </section>
+            </div>
+
+            <aside class="blog-sidebar">
+                <div class="blog-home-cta">
+                    <h3 data-i18n="blog.cta_title">Discover Your True Destiny</h3>
+                    <p class="cta-sub" data-i18n="blog.cta_desc">Unlock the secrets hidden in your birth chart. Get a complete BaZi reading with Four Pillars of Destiny analysis.</p>
+                    <div class="cta-features">
+                        <div class="cta-feat"><span>✨</span> <span data-i18n="blog.cta_feat1">Four Pillars Reading</span></div>
+                        <div class="cta-feat"><span>⭐</span> <span data-i18n="blog.cta_feat2">Five Elements Analysis</span></div>
+                        <div class="cta-feat"><span>🔮</span> <span data-i18n="blog.cta_feat3">Life Path Insights</span></div>
+                    </div>
+                    <a href="/#free-bazi" data-i18n="blog.cta_btn">Get Your Free BaZi Reading</a>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <span class="logo-en">DAO ESSENCE</span>
+                    </div>
+                    <p data-i18n="footer.brand_desc">Ancient Wisdom, Modern Clarity. Navigate life with structured insight through BaZi analysis, Feng Shui consultation, and Five Elements guidance.</p>
+                </div>
+                <div>
+                    <h4 class="footer-title" data-i18n="footer.tools_title">Tools</h4>
+                    <ul class="footer-links">
+                        <li><a href="/#free-bazi" data-i18n="footer.tool_bazi">BaZi Birth Chart Calculator</a></li>
+                        <li><a href="/favorable-element" data-i18n="footer.tool_lucky">Five Elements Favorable Guide</a></li>
+                        <li><a href="/five-elements-test" data-i18n="footer.tool_five">Five Elements Personality Test</a></li>
+                        <li><a href="/soulmate-calculator" data-i18n="footer.tool_soulmate">Soulmate Compatibility Finder</a></li>
+                        <li><a href="/almanac" data-i18n="footer.tool_almanac">Auspicious Date Picker</a></li>
+                        <li><a href="/zodiac/zodiac-daily" data-i18n="footer.tool_zodiac">Zodiac Daily</a></li>
+                        <li><a href="/wallpaper" data-i18n="footer.tool_wallpapers">Lucky Wallpapers</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-title" data-i18n="footer.explore_title">Explore</h4>
+                    <ul class="footer-links">
+                        <li><a href="/blog" data-i18n="common.blog">Blog</a></li>
+                        <li><a href="/learn-bazi">Learn BaZi</a></li>
+                        <li><a href="/culture" data-i18n="common.five_elements">Five Elements</a></li>
+                        <li><a href="/shop" data-i18n="common.shop">Shop</a></li>
+                        <li><a href="/about" data-i18n="common.about_us">About Us</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-title" data-i18n="footer.links_title">Links</h4>
+                    <ul class="footer-links">
+                        <li style="margin-bottom:8px;display:block !important;">
+                            <div><a href="https://fatenet.cn/" target="_blank" rel="noopener">FateNet</a></div>
+                            <div style="font-size:12px;color:var(--text-secondary);margin-top:4px;line-height:1.4;" data-i18n="footer.fortune_desc">Chinese Fortune Telling<br>Find Your Soulmate</div>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-title" data-i18n="footer.contact_title">Contact</h4>
+                    <ul class="footer-links">
+                        <li>
+                            <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle;margin-right:6px"><path d="M3 4h14a1 1 0 011 1v10a1 1 0 01-1 1H3a1 1 0 01-1-1V5a1 1 0 011-1z"/><path d="M3 5l7 6 7-6"/></svg>
+                            <a href="mailto:support@daoessentia.com">support@daoessentia.com</a>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style="vertical-align:middle;margin-right:6px;color:var(--accent-color)"><path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 0 0 .167-.054l1.903-1.114a.864.864 0 0 1 .717-.098 10.16 10.16 0 0 0 2.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348zM5.785 5.991c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178A1.17 1.17 0 0 1 4.623 7.17c0-.651.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178A1.17 1.17 0 0 1 4.623 7.17c0-.651.52-1.18 1.162-1.18zm5.34 2.867c-1.797-.052-3.746.512-5.28 1.786-1.72 1.428-2.687 3.72-1.78 6.22.942 2.453 3.666 4.229 6.884 4.229.826 0 1.622-.12 2.361-.336a.722.722 0 0 1 .598.082l1.584.926a.272.272 0 0 0 .14.047c.134 0 .24-.111.24-.247 0-.06-.023-.12-.038-.177l-.327-1.233a.582.582 0 0 1-.023-.156.49.49 0 0 1 .201-.398C23.024 18.48 24 16.82 24 14.98c0-3.21-2.931-5.837-7.062-6.122zm-3.957 3.467c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.969-.982zm4.844 0c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.969-.982z"/></svg>
+                            <a href="#" onclick="document.getElementById('wechat-modal').style.display='flex';return false;" data-i18n="footer.wechat">WeChat</a>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle;margin-right:6px"><circle cx="10" cy="10" r="8"/><path d="M10 6v4l2.5 2.5"/></svg>
+                            <span data-i18n="footer.hours">Mon&#8211;Sat: 9AM&#8211;9PM (CST / UTC+8)</span>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style="vertical-align:middle;margin-right:6px;color:#229ED9"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+                            <a href="https://t.me/dingwei_123" target="_blank" rel="noopener" data-i18n="footer.telegram_channel">Telegram Channel</a>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style="vertical-align:middle;margin-right:6px;color:#229ED9"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+                            <a href="https://t.me/Dingwei_pi" target="_blank" rel="noopener">Telegram @Dingwei_pi</a>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style="vertical-align:middle;margin-right:6px;color:#E60023"><path d="M12 0C5.373 0 0 5.372 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 0 1 .083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.631-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12 0-6.628-5.373-12-12-12z"/></svg>
+                            <a href="https://www.pinterest.com/pixuan/wallpapers/" target="_blank" rel="noopener">Pinterest</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p data-i18n="footer.copyright">&copy; 2026 DAO Essence &amp; Five Elements. All rights reserved.</p>
+                <div class="footer-legal-links">
+                    <a href="/privacy" data-i18n="footer.privacy">Privacy Policy</a>
+                    <span>|</span>
+                    <a href="/terms" data-i18n="footer.terms">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+        <script src="/js/share.js" defer></script>
+    </footer>
+
+    <!-- WeChat Modal -->
+    <div id="wechat-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:9999;align-items:center;justify-content:center;" onclick="if(event.target===this)this.style.display='none'">
+        <div style="background:var(--bg-secondary,#1a1a1a);border:1px solid rgba(212,175,55,0.4);border-radius:16px;padding:40px;text-align:center;max-width:320px;width:90%;position:relative;">
+            <button onclick="document.getElementById('wechat-modal').style.display='none'" style="position:absolute;top:12px;right:16px;background:none;border:none;color:rgba(245,240,230,0.6);font-size:22px;cursor:pointer;line-height:1;">x</button>
+            <svg viewBox="0 0 24 24" width="40" height="40" fill="#D4AF37" style="margin-bottom:12px"><path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 0 0 .167-.054l1.903-1.114a.864.864 0 0 1 .717-.098 10.16 10.16 0 0 0 2.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348zM5.785 5.991c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178A1.17 1.17 0 0 1 4.623 7.17c0-.651.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178A1.17 1.17 0 0 1 4.623 7.17c0-.651.52-1.18 1.162-1.18zm5.34 2.867c-1.797-.052-3.746.512-5.28 1.786-1.72 1.428-2.687 3.72-1.78 6.22.942 2.453 3.666 4.229 6.884 4.229.826 0 1.622-.12 2.361-.336a.722.722 0 0 1 .598.082l1.584.926a.272.272 0 0 0 .14.047c.134 0 .24-.111.24-.247 0-.06-.023-.12-.038-.177l-.327-1.233a.582.582 0 0 1-.023-.156.49.49 0 0 1 .201-.398C23.024 18.48 24 16.82 24 14.98c0-3.21-2.931-5.837-7.062-6.122zm-3.957 3.467c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.969-.982zm4.844 0c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.969-.982z"/></svg>
+            <h3 style="color:var(--accent-color,#D4AF37);margin:0 0 8px;font-size:18px;">WeChat</h3>
+            <p style="color:rgba(245,240,230,0.7);font-size:13px;margin:0 0 20px;">Scan the QR code to connect with us on WeChat</p>
+            <div style="width:160px;height:160px;margin:0 auto;">
+                <img src="/images/微信图片_20260324143206_59_9.jpg" alt="WeChat QR Code" loading="lazy" decoding="async" style="width:100%;height:100%;border-radius:8px;object-fit:cover;">
+            </div>
+            <p style="color:rgba(245,240,230,0.5);font-size:12px;margin:16px 0 0;">WeChat ID: pixuan1989</p>
+        </div>
+    </div>
+    <script src="/js/pageview.js" defer></script>
+    <script src="/js/tracking.js"></script>
+    <script src="/js/feedback.js" async></script>
+    <script src="/js/i18n-switcher.js" defer></script>
+</body>
+</html>
