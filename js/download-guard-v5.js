@@ -186,8 +186,12 @@
     }
 
     if (!allowed) {
-      btn.textContent = origText;
+      // 恢复按钮状态（硬编码文案，防止 origText 捕获到 "Checking..."）
       btn.disabled = false;
+      btn.textContent = 'Download Wallpaper';
+      var span = btn.querySelector('span');
+      if (span) span.textContent = 'Download Wallpaper';
+      
       showMessage(denyReason, 6000, isZh);
       return;
     }
