@@ -3,8 +3,6 @@
  * 仅保留下载配额检查，认证由 Clerk 前端处理
  */
 
-// trigger: test Vercel webhook 2026-06-07
-
 import { getRedis } from '../shared/redis.js';
 
 // In-memory fallback when Redis is unavailable (persists within same Lambda instance)
