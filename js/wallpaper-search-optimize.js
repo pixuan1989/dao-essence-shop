@@ -1,7 +1,12 @@
 /**
- * wallpaper-search-optimize.js v2
- * 功能：修复中文长句搜索匹配差的问题，支持多关键词匹配。
+ * wallpaper-search-optimize.js v3
+ * 功能：修复中文搜索匹配问题，采用 OR 逻辑 + 匹配度排序，确保用户输入任何词都能找到相关内容。
  * 安全：独立模块，Append-Only。
+ * 
+ * 设计原则：
+ * - 中文逐字拆分，包含任意一字即匹配（OR 逻辑）
+ * - 按匹配字数排序，匹配度高的排前面
+ * - 英文保持按空格拆分，支持多词搜索
  */
 (function() {
   'use strict';
@@ -26,64 +31,66 @@
           { name: 'categoryZh', weight: 0.1 }
         ],
         includeScore: true,
-        threshold: 0.35,          // 降低阈值，提高匹配度
-        distance: 2000,           // 增加距离
-        ignoreLocation: true,     // 忽略位置
+        threshold: 0.6,           // 提高阈值，增加召回率
+        distance: 3000,           // 增加距离，允许更远距离匹配
+        ignoreLocation: true,     // 忽略位置，全文搜索
         minMatchCharLength: 1
       });
     }
 
-    // 2. 优化 getFiltered 逻辑 (支持多关键词)
+    // 2. 优化 getFiltered 逻辑
     const originalGetFiltered = typeof getFiltered === 'function' ? getFiltered : null;
     if (originalGetFiltered) {
       window.getFiltered = function() {
         let list = [...allWallpapers];
-        
+
         // Category filter
         if (typeof activeCategory !== 'undefined' && activeCategory !== 'All') {
           list = list.filter(w => w.category === activeCategory);
         }
-        
+
         // Search filter
         if (typeof searchQuery !== 'undefined' && searchQuery) {
           if (typeof fuseInstance !== 'undefined' && fuseInstance) {
-            // 将搜索词拆分为关键词（支持空格分隔，中文也可按字拆分）
-            // 【优化】：中文搜索支持“逐字匹配”，解决“顺顺”搜不到“顺风顺水”的问题
             const isChinese = /[\u4e00-\u9fa5]/.test(searchQuery);
-            const keywords = isChinese 
+            const keywords = isChinese
                 ? searchQuery.trim().split('').filter(k => k.trim().length > 0) // 中文逐字拆分
                 : searchQuery.trim().split(/\s+/).filter(k => k.length > 0);    // 英文按空格拆分
-            
-            // 去重（避免“顺顺”变成两个“顺”重复计算）
+
+            // 去重
             const uniqueKeywords = [...new Set(keywords)];
 
-            if (uniqueKeywords.length > 1) {
-              // 多关键词：取交集 (AND 逻辑)，要求所有词都匹配
-              let matchedIds = new Set();
-              let firstResults = fuseInstance.search(uniqueKeywords[0]);
-              matchedIds = new Set(firstResults.map(r => r.item.id));
+            // 【核心逻辑】：OR 匹配 + 按匹配度排序
+            // 对于每个壁纸，统计它匹配了多少个关键词，匹配越多越靠前
+            let matchedItems = new Map(); // id -> { item, matchCount }
 
-              for (let i = 1; i < uniqueKeywords.length; i++) {
-                const results = fuseInstance.search(uniqueKeywords[i]);
-                const wordIds = new Set(results.map(r => r.item.id));
-                matchedIds = new Set([...matchedIds].filter(id => wordIds.has(id)));
+            for (const keyword of uniqueKeywords) {
+              const results = fuseInstance.search(keyword);
+              for (const result of results) {
+                const id = result.item.id;
+                if (matchedItems.has(id)) {
+                  matchedItems.get(id).matchCount++;
+                } else {
+                  matchedItems.set(id, { item: result.item, matchCount: 1 });
+                }
               }
-              list = list.filter(w => matchedIds.has(w.id));
-            } else {
-              // 单关键词：直接搜索
-              const results = fuseInstance.search(uniqueKeywords[0] || searchQuery);
-              const ids = new Set(results.map(r => r.item.id));
-              list = list.filter(w => ids.has(w.id));
             }
+
+            // 转换为数组并按匹配度降序排序
+            list = [...matchedItems.values()]
+              .sort((a, b) => b.matchCount - a.matchCount)
+              .map(entry => entry.item);
           }
         }
-        
-        // Sort
-        if (typeof activeSort !== 'undefined') {
-          if (activeSort === 'popular') {
-            list.sort((a, b) => (b.downloads || 0) - (a.downloads || 0));
-          } else if (activeSort === 'newest') {
-            list.sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
+
+        // Sort (保持原有排序逻辑，但搜索结果的匹配度排序优先)
+        if (typeof searchQuery === 'undefined' || !searchQuery) {
+          if (typeof activeSort !== 'undefined') {
+            if (activeSort === 'popular') {
+              list.sort((a, b) => (b.downloads || 0) - (a.downloads || 0));
+            } else if (activeSort === 'newest') {
+              list.sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
+            }
           }
         }
         return list;
