@@ -91,9 +91,9 @@ async function downloadCheck(req, res) {
         });
     }
 
-    // 2. 纯账号维度限制 (每天 5 次)
+    // 2. 纯账号维度限制 (每天 5 次) —— 升级为 v2 前缀，彻底隔离旧数据
     const email = payload.email || payload.sub;
-    const userKey = `dl_user:${email.toLowerCase()}:${today}`;
+    const userKey = `dl_v2_user:${email.toLowerCase()}:${today}`;
     const limit = 5;
 
     try {
