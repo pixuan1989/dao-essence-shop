@@ -99,6 +99,24 @@
       ]
     },
     {
+      "source": "/wallpaper/.*",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/zh/wallpaper/.*",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
+      ]
+    },
+    {
       "source": "/wallpapers\\.json",
       "headers": [
         {
