@@ -99,7 +99,7 @@
       ]
     },
     {
-      "source": "/wallpaper/**",
+      "source": "/wallpaper/:path*",
       "headers": [
         {
           "key": "Cache-Control",
@@ -108,7 +108,7 @@
       ]
     },
     {
-      "source": "/zh/wallpaper/**",
+      "source": "/zh/wallpaper/:path*",
       "headers": [
         {
           "key": "Cache-Control",
