@@ -129,7 +129,10 @@
     // 根据语言环境显示文案 (不再缓存旧文案)
     var isZh = (document.documentElement.lang === 'zh' || window.location.pathname.includes('/zh/'));
     var span = btn.querySelector('span');
-    
+
+    // 保存原始按钮文字，用于下载完成后恢复
+    var origText = span ? span.textContent : 'Download';
+
     console.log('[DownloadGuard] handleDownload called', { id: getWallpaperId(btn), url: getDownloadUrl(btn) });
 
     var url = getDownloadUrl(btn);
