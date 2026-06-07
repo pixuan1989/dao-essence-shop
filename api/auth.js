@@ -119,7 +119,7 @@ async function downloadCheck(req, res) {
                 await client.decr(userKey);
             }
             return res.status(429).json({
-                error: '每日下载次数已达上限（5 次/天）',
+                error: '今日下载额度已用完',
                 allowed: false, used: nextCount - 1, limit: limit
             });
         }
