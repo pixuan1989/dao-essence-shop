@@ -48,23 +48,30 @@
         if (typeof searchQuery !== 'undefined' && searchQuery) {
           if (typeof fuseInstance !== 'undefined' && fuseInstance) {
             // 将搜索词拆分为关键词（支持空格分隔，中文也可按字拆分）
-            const keywords = searchQuery.trim().split(/\s+/).filter(k => k.length > 0);
+            // 【优化】：中文搜索支持“逐字匹配”，解决“顺顺”搜不到“顺风顺水”的问题
+            const isChinese = /[\u4e00-\u9fa5]/.test(searchQuery);
+            const keywords = isChinese 
+                ? searchQuery.trim().split('').filter(k => k.trim().length > 0) // 中文逐字拆分
+                : searchQuery.trim().split(/\s+/).filter(k => k.length > 0);    // 英文按空格拆分
             
-            if (keywords.length > 1) {
+            // 去重（避免“顺顺”变成两个“顺”重复计算）
+            const uniqueKeywords = [...new Set(keywords)];
+
+            if (uniqueKeywords.length > 1) {
               // 多关键词：取交集 (AND 逻辑)，要求所有词都匹配
               let matchedIds = new Set();
-              let firstResults = fuseInstance.search(keywords[0]);
+              let firstResults = fuseInstance.search(uniqueKeywords[0]);
               matchedIds = new Set(firstResults.map(r => r.item.id));
-              
-              for (let i = 1; i < keywords.length; i++) {
-                const results = fuseInstance.search(keywords[i]);
+
+              for (let i = 1; i < uniqueKeywords.length; i++) {
+                const results = fuseInstance.search(uniqueKeywords[i]);
                 const wordIds = new Set(results.map(r => r.item.id));
                 matchedIds = new Set([...matchedIds].filter(id => wordIds.has(id)));
               }
               list = list.filter(w => matchedIds.has(w.id));
             } else {
               // 单关键词：直接搜索
-              const results = fuseInstance.search(searchQuery);
+              const results = fuseInstance.search(uniqueKeywords[0] || searchQuery);
               const ids = new Set(results.map(r => r.item.id));
               list = list.filter(w => ids.has(w.id));
             }
