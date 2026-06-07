@@ -221,7 +221,8 @@ function generateStaticPage(wp, lang) {
   const title = cleanQuotes(isZh ? (wp.titleZh || wp.title) : wp.title);
   const rawDesc = isZh ? (wp.descriptionZh || wp.description) : wp.description;
   const desc = cleanQuotes(rawDesc);
-  const seoDesc = truncate(desc, 160);
+  const seoDesc = truncate(desc, 155);
+  const seoTitle = truncate(title, 20); // 留空间给 " - Lucky Wallpapers | Dao Essentia"
   const category = isZh ? (wp.categoryZh || wp.category) : wp.category;
   const tags = isZh
     ? (wp.keywordsZh || wp.keywords || [])
@@ -280,7 +281,7 @@ function generateStaticPage(wp, lang) {
     + '    <meta charset="UTF-8">\n'
     + '    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n'
     + '    <meta name="robots" content="index,follow">\n'
-    + '    <title>' + escapeHtml(title) + ' - Lucky Wallpapers | Dao Essentia</title>\n'
+    + '    <title>' + escapeHtml(seoTitle) + ' - Lucky Wallpapers | Dao Essentia</title>\n'
     + '    <meta name="description" content="' + escapeHtml(seoDesc) + '">\n'
     + '    <link rel="canonical" href="' + canonical + '">\n'
     + '\n'
@@ -290,7 +291,7 @@ function generateStaticPage(wp, lang) {
     + '    <link rel="alternate" hreflang="x-default" href="' + pageUrlEn + '">\n'
     + '\n'
     + '    <!-- Open Graph -->\n'
-    + '    <meta property="og:title" content="' + escapeHtml(title) + '">\n'
+    + '    <meta property="og:title" content="' + escapeHtml(seoTitle) + '">\n'
     + '    <meta property="og:description" content="' + escapeHtml(seoDesc) + '">\n'
     + '    <meta property="og:image" content="' + ogImage + '">\n'
     + '    <meta property="og:url" content="' + pageUrl + '">\n'
@@ -299,7 +300,7 @@ function generateStaticPage(wp, lang) {
     + '\n'
     + '    <!-- Twitter Card -->\n'
     + '    <meta name="twitter:card" content="summary_large_image">\n'
-    + '    <meta name="twitter:title" content="' + escapeHtml(title) + '">\n'
+    + '    <meta name="twitter:title" content="' + escapeHtml(seoTitle) + '">\n'
     + '    <meta name="twitter:description" content="' + escapeHtml(seoDesc) + '">\n'
     + '    <meta name="twitter:image" content="' + ogImage + '">\n'
     + '\n'
