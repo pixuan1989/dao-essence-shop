@@ -126,18 +126,17 @@
     if (btn.dataset.isProcessing === 'true') return;
     btn.dataset.isProcessing = 'true';
 
-    var origText = 'Download Wallpaper';
-    try {
-      var span = btn.querySelector('span') || btn;
-      origText = span.textContent || btn.textContent || 'Download Wallpaper';
-    } catch (e) { /* ignore */ }
-
+    // 根据语言环境显示文案 (不再缓存旧文案)
+    var isZh = (document.documentElement.lang === 'zh' || window.location.pathname.includes('/zh/'));
+    var span = btn.querySelector('span');
+    
     console.log('[DownloadGuard] handleDownload called', { id: getWallpaperId(btn), url: getDownloadUrl(btn) });
 
     var url = getDownloadUrl(btn);
     var wallpaperId = getWallpaperId(btn);
 
-    btn.textContent = 'Checking...';
+    // 设置 "检查中" 状态
+    if (span) span.textContent = isZh ? '检查中...' : 'Checking...';
     btn.disabled = true;
 
     try {
@@ -218,8 +217,8 @@
       }
 
     } finally {
-      // 无论成功失败，都恢复按钮状态
-      btn.textContent = origText;
+      // 无论成功失败，都恢复 span 文字（不破坏按钮结构）
+      if (span) span.textContent = origText;
       btn.disabled = false;
       btn.dataset.isProcessing = 'false';
       console.log('[DownloadGuard] Done');
