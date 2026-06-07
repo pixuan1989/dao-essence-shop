@@ -180,7 +180,7 @@
             return; // 拦截后续流程
           }
           
-          denyReason = (data.error || 'Download limit reached.') + ' ' + (isZh ? '请登录获取更多。' : 'Sign in for more.');
+          denyReason = data.error || 'Download limit reached.';
         }
         // Priority 2: allow only if res.ok AND data.allowed === true
         else if (res.ok && data && data.allowed === true) {
