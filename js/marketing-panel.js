@@ -65,9 +65,9 @@
         {
             id: 'wallpaper_digest',
             name: '🖼️ 壁纸精选推送 (7 张)',
-            subject: '{{title}} - 本周精选玄学壁纸',
+            subject: '{{title}}',
             html: `<div style="padding: 20px 0; font-family: sans-serif; max-width: 600px; margin: 0 auto;">
-    <h2 style="color: #d4af37; text-align: center; margin-bottom: 10px;">✨ {{title}} ✨</h2>
+    <h2 style="color: #d4af37; text-align: center; margin-bottom: 10px;">✨ 本周精选壁纸推荐 ✨</h2>
     <p style="color: #666; font-size: 14px; margin: 0 0 20px; text-align: center;">亲爱的朋友，为您精选了本周 7 张好运壁纸：</p>
     <p style="color: #555; font-size: 13px; margin: 0 0 15px; line-height: 1.6; text-align: justify; padding: 0 10px;">在这个快节奏的时代，一张静谧的壁纸能为您带来内心的平静。我们为您精选了本周最受欢迎的玄学壁纸，涵盖招财、桃花、学业等主题。每一张都经过精心设计，希望能为您的一天注入正能量与好运。请查收以下精选内容：</p>
     
