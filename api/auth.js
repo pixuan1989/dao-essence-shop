@@ -153,10 +153,8 @@ async function downloadCheck(req, res) {
 
         const nextCount = totalUsed + 1;
         if (useMemory) {
-            memoryCounts.set(ipKey, nextCount);
             memoryCounts.set(userKey, nextCount);
         } else {
-            await client.set(ipKey, String(nextCount), { ex: 172800 });
             await client.set(userKey, String(nextCount), { ex: 172800 });
         }
 
