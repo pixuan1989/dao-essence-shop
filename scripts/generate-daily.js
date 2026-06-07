@@ -374,6 +374,22 @@ const ZODIAC_EVERGREEN = {
   }
 };
 
+// ─── 生肖性格关键词（用于 Meta Description，命中长尾搜索词）───
+const ZODIAC_TRAITS = {
+  '鼠': 'intelligent, adaptable, resourceful',
+  '牛': 'diligent, dependable, hardworking',
+  '虎': 'courageous, confident, natural leader',
+  '兔': 'gentle, elegant, compassionate',
+  '龙': 'ambitious, charismatic, lucky',
+  '蛇': 'wise, intuitive, analytical',
+  '马': 'energetic, independent, adventurous',
+  '羊': 'creative, kind, harmonious',
+  '猴': 'clever, witty, versatile',
+  '鸡': 'observant, honest, punctual',
+  '狗': 'loyal, faithful, protective',
+  '猪': 'compassionate, generous, sincere'
+};
+
 // ─── 天干 ───
 const TIANGAN = ['甲', '乙', '丙', '丁', '戊', '己', '庚', '辛', '壬', '癸'];
 const TIANGAN_WUXING = ['木', '木', '火', '火', '土', '土', '金', '金', '水', '水'];
@@ -1981,12 +1997,14 @@ ${toolsSection}
  * 构建 <head> SEO 标签
  */
 function buildSeoHead(z, fc, fe, dateStr, dateZh, dateEn, verdictEn, dirEn, colorEn, canonicalPath, alternatePath, isEn) {
+  // P1: 缩短 Title ≤55 字符，确保 Google 搜索结果完整显示
   const title = isEn
-    ? `${z.en} Chinese Zodiac — Personality, Fortune & Traits — DaoEssentia`
-    : `生肖${z.name}运势详解 - 性格、幸运与特质 - DaoEssentia`;
+    ? `${z.en} Chinese Zodiac: Personality & Fortune — DaoEssentia`
+    : `生肖${z.name}运势详解 - 性格与幸运 - DaoEssentia`;
   const firstYiEn = fc.yi.length > 0 ? trYi(fc.yi[0]) : 'various activities';
-  const descEn = `Complete guide to ${z.en} Chinese zodiac. Check daily horoscope, lucky elements, personality traits, and compatibility. Updated daily.`;
-  const descZh = `生肖${z.name}运势详解：综合指南，包含每日运势、幸运元素、性格特点和配对分析。每日更新。`;
+  // P2: Meta Description 命中长尾关键词（personality traits, lucky colors, compatible signs）
+  const descEn = `${z.en} Chinese Zodiac personality traits: ${ZODIAC_TRAITS[z.zh.toLowerCase()] || 'see full guide'}. Lucky colors, compatible signs, daily horoscope updated.`;
+  const descZh = `生肖${z.name}运势详解：性格特质${ZODIAC_TRAITS[z.zh.toLowerCase()] ? '（' + ZODIAC_TRAITS[z.zh.toLowerCase()].replace(/, /g, '、') + '）' : ''}。幸运颜色、配对生肖、每日运势持续更新。`;
   const desc = isEn ? descEn : descZh;
 
   const canonicalUrl = `https://www.daoessentia.com/zodiac/${canonicalPath}`;
