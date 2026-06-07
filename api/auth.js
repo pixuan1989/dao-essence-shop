@@ -82,7 +82,7 @@ async function downloadCheck(req, res) {
     // ✅ 核心策略：彻底抛弃游客逻辑，仅允许登录账号下载
     const auth = req.headers.authorization;
     const payload = auth?.startsWith('Bearer ') ? await verifyClerkToken(auth.slice(7)) : null;
-    
+
     // 1. 检查是否登录
     if (!payload) {
         return res.status(401).json({
@@ -97,20 +97,32 @@ async function downloadCheck(req, res) {
     const limit = 5;
 
     try {
-        // 获取当前账号已下载次数
-        let currentCount = useMemory ? (memoryCounts.get(userKey) || 0) : parseInt(await client.get(userKey) || '0');
-
-        // 检查是否超限
-        if (currentCount >= limit) {
-            return res.status(429).json({
-                error: '每日下载次数已达上限（5 次/天）',
-                allowed: false, used: currentCount, limit: limit
-            });
+        // ✅ 使用原子操作 INCR 防止并发竞争
+        let nextCount;
+        if (useMemory) {
+            const current = memoryCounts.get(userKey) || 0;
+            nextCount = current + 1;
+            memoryCounts.set(userKey, nextCount);
+        } else {
+            nextCount = await client.incr(userKey);
+            // 确保有过期时间（INCR 不会重置过期时间）
+            const ttl = await client.ttl(userKey);
+            if (ttl < 0) await client.expire(userKey, 172800);
         }
 
-        // 增加计数
-        const nextCount = currentCount + 1;
-        useMemory ? memoryCounts.set(userKey, nextCount) : await client.set(userKey, String(nextCount), { ex: 172800 });
+        // 检查是否超限
+        if (nextCount > limit) {
+            // 超限，回滚计数
+            if (useMemory) {
+                memoryCounts.set(userKey, nextCount - 1);
+            } else {
+                await client.decr(userKey);
+            }
+            return res.status(429).json({
+                error: '每日下载次数已达上限（5 次/天）',
+                allowed: false, used: nextCount - 1, limit: limit
+            });
+        }
 
         // 📊 统计壁纸总下载量（用于排序和展示）
         try {
