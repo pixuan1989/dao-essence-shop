@@ -73,48 +73,44 @@ async function getStats(req, res) {
 async function downloadCheck(req, res) {
     // 使用北京时间自然日
     const today = new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Shanghai' });
-    const ip = (req.headers['x-forwarded-for'] || req.socket?.remoteAddress || 'unknown').split(',')[0].trim();
 
     // 尝试获取 Redis 客户端
     let client = null, useMemory = false;
     try { client = getRedis(); } catch (e) { client = null; }
     if (!client) useMemory = true;
 
-    // 验证登录状态
+    // ✅ 核心策略：彻底抛弃游客逻辑，仅允许登录账号下载
     const auth = req.headers.authorization;
     const payload = auth?.startsWith('Bearer ') ? await verifyClerkToken(auth.slice(7)) : null;
-    const isLoggedIn = !!payload;
+    
+    // 1. 检查是否登录
+    if (!payload) {
+        return res.status(401).json({
+            error: '请先登录后再下载',
+            allowed: false
+        });
+    }
+
+    // 2. 纯账号维度限制 (每天 5 次)
+    const email = payload.email || payload.sub;
+    const userKey = `dl_user:${email.toLowerCase()}:${today}`;
+    const limit = 5;
 
     try {
-        // ✅ 身份完全隔离：
-        // 1. 游客按 IP 限制，每天 2 次
-        // 2. 登录用户按账号限制，每天 5 次
-        // 3. 两者互不干涉，杜绝 IP 污染
-
-        let trackingKey, limit;
-        if (isLoggedIn) {
-            const email = payload.email || payload.sub;
-            trackingKey = `dl_user:${email.toLowerCase()}:${today}`;
-            limit = 5;
-        } else {
-            trackingKey = `dl:${ip}:${today}`;
-            limit = 2;
-        }
-
-        // 获取当前计数
-        let currentCount = useMemory ? (memoryCounts.get(trackingKey) || 0) : parseInt(await client.get(trackingKey) || '0');
+        // 获取当前账号已下载次数
+        let currentCount = useMemory ? (memoryCounts.get(userKey) || 0) : parseInt(await client.get(userKey) || '0');
 
         // 检查是否超限
         if (currentCount >= limit) {
             return res.status(429).json({
-                error: isLoggedIn ? '每日下载次数已达上限（5 次/天）' : '每日下载次数已达上限（游客 2 次/天）',
+                error: '每日下载次数已达上限（5 次/天）',
                 allowed: false, used: currentCount, limit: limit
             });
         }
 
         // 增加计数
         const nextCount = currentCount + 1;
-        useMemory ? memoryCounts.set(trackingKey, nextCount) : await client.set(trackingKey, String(nextCount), { ex: 172800 });
+        useMemory ? memoryCounts.set(userKey, nextCount) : await client.set(userKey, String(nextCount), { ex: 172800 });
 
         // 📊 统计壁纸总下载量（用于排序和展示）
         try {
@@ -130,7 +126,7 @@ async function downloadCheck(req, res) {
             }
         } catch (e) { console.error('[auth] download count error:', e.message); }
 
-        return res.status(200).json({ allowed: true, used: nextCount, limit: limit, isLoggedIn: isLoggedIn });
+        return res.status(200).json({ allowed: true, used: nextCount, limit: limit, isLoggedIn: true });
 
     } catch (err) {
         console.error('[auth] downloadCheck error:', err.message);
