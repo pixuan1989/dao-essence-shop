@@ -172,6 +172,15 @@
         // Priority 1: explicit deny (429 or any status with allowed=false)
         if (data && data.allowed === false) {
           allowed = false;
+          
+          // ✅ 新增逻辑：未登录直接弹登录框，不显示报错提示
+          if (data.error === '请先登录后再下载') {
+            if (window.DaoAuth && window.DaoAuth.open) {
+              window.DaoAuth.open();
+            }
+            return; // 拦截后续流程
+          }
+          
           denyReason = (data.error || 'Download limit reached.') + ' ' + (isZh ? '请登录获取更多。' : 'Sign in for more.');
         }
         // Priority 2: allow only if res.ok AND data.allowed === true
