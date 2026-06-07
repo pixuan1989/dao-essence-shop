@@ -238,4 +238,21 @@
     observer.observe(document.body || document.documentElement, { childList: true, subtree: true });
   } catch (e) { /* ignore */ }
 
+  // ✅ 监听登录状态变化，自动恢复下载权限（无需刷新页面）
+  window.addEventListener('daoessence:auth-changed', function (e) {
+    console.log('[DownloadGuard] Auth changed:', e.detail.isSignedIn);
+
+    // 1. 清除之前的报错 Toast
+    var toast = document.getElementById('dg-toast');
+    if (toast) toast.remove();
+
+    // 2. 重置所有下载按钮状态
+    document.querySelectorAll('.btn-download, .btn-download-safe').forEach(function (btn) {
+      btn.disabled = false;
+      btn.dataset.guarded = ''; // 清除锁定标记
+      var span = btn.querySelector('span') || btn;
+      span.textContent = btn.dataset.origText || 'Download Wallpaper';
+    });
+  });
+
 })();
