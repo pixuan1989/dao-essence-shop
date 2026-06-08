@@ -2003,8 +2003,8 @@ function buildSeoHead(z, fc, fe, dateStr, dateZh, dateEn, verdictEn, dirEn, colo
     : `生肖${z.name}运势详解 - 性格与幸运 - DaoEssentia`;
   const firstYiEn = fc.yi.length > 0 ? trYi(fc.yi[0]) : 'various activities';
   // P2: Meta Description 命中长尾关键词（personality traits, lucky colors, compatible signs）
-  const descEn = `${z.en} Chinese Zodiac personality traits: ${ZODIAC_TRAITS[z.zh.toLowerCase()] || 'see full guide'}. Lucky colors, compatible signs, daily horoscope updated.`;
-  const descZh = `生肖${z.name}运势详解：性格特质${ZODIAC_TRAITS[z.zh.toLowerCase()] ? '（' + ZODIAC_TRAITS[z.zh.toLowerCase()].replace(/, /g, '、') + '）' : ''}。幸运颜色、配对生肖、每日运势持续更新。`;
+  const descEn = `${z.en} Chinese Zodiac personality traits: ${ZODIAC_TRAITS[z.name] || 'see full guide'}. Lucky colors, compatible signs, daily horoscope updated.`;
+  const descZh = `生肖${z.name}运势详解：性格特质${ZODIAC_TRAITS[z.name] ? '（' + ZODIAC_TRAITS[z.name].replace(/, /g, '、') + '）' : ''}。幸运颜色、配对生肖、每日运势持续更新。`;
   const desc = isEn ? descEn : descZh;
 
   const canonicalUrl = `https://www.daoessentia.com/zodiac/${canonicalPath}`;
