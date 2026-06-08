@@ -2783,6 +2783,16 @@ async function main() {
     };
     copyDir(wallpaperSrcDir, wallpaperDestDir);
     console.log('  ✅ wallpaper/ → dist/wallpaper/');
+    // Auto-clean index.zh/ dirs (Vercel cleanUrls generates these duplicates)
+    let zhDirs = 0;
+    for (const root of fs.readdirSync(wallpaperDestDir)) {
+      const p = path.join(wallpaperDestDir, root, 'index.zh');
+      if (fs.existsSync(p) && fs.statSync(p).isDirectory()) {
+        fs.rmSync(p, { recursive: true, force: true });
+        zhDirs++;
+      }
+    }
+    if (zhDirs > 0) console.log(`  🧹 Cleaned ${zhDirs} index.zh/ duplicate dirs`);
   }
   for (const file of staticFiles) {
     const src = path.join(__dirname, file);
