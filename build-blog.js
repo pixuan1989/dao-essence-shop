@@ -2630,55 +2630,50 @@ async function main() {
       console.warn('  ⚠️ Failed to add wallpaper URLs to sitemap:', e.message);
     }
   }
-  try {
-  let sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:xhtml="http://www.w3.org/1999/xhtml">
-`;
-  // Build a lookup — only blog articles have real zh-Hant pages
-  // Static pages (shop, about, etc.) do NOT have /zh/ counterparts, so NO hreflang for them
-  for (const u of staticUrls) {
-    sitemapXml += `    <url>
-        <loc>${SITE_URL}${u.loc}</loc>
-        <lastmod>${today}</lastmod>
-        <changefreq>${u.changefreq}</changefreq>
-        <priority>${u.priority}</priority>
-    </url>\n`;
-  }
-  // Add blog articles from CMS (English)
-  for (const post of allArticles) {
-    const d = post.data.date instanceof Date && !isNaN(post.data.date.getTime()) ? post.data.date.toISOString().split('T')[0] : String(post.data.date || today);
-    const hasZhVer = !!zhArticleMap[post.slug];
-    const zhAlternate = hasZhVer
-      ? `\n        <xhtml:link rel="alternate" hreflang="zh-Hant" href="${SITE_URL}/zh/blog/${post.slug}"/>`
-      : '';
-    sitemapXml += `    <url>
-        <loc>${SITE_URL}/blog/${post.slug}</loc>
-        <lastmod>${d}</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>${zhAlternate}
-    </url>\n`;
-  }
-  // Add translated zh articles
-  for (const post of zhArticles) {
-    const d = post.data.date instanceof Date && !isNaN(post.data.date.getTime()) ? post.data.date.toISOString().split('T')[0] : String(post.data.date || today);
-    sitemapXml += `    <url>
-        <loc>${SITE_URL}/zh/blog/${post.slug}</loc>
-        <lastmod>${d}</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-        <xhtml:link rel="alternate" hreflang="en" href="${SITE_URL}/blog/${post.slug}"/>
-    </url>\n`;
-  }
-  sitemapXml += `</urlset>`;
-  // Atomic write: write to temp file first, then rename (prevents partial deploys)
+  // Step 8: Generate sitemap.xml (stream-based to avoid Vercel truncation)
   const sitemapPath = path.join(DIST_DIR, 'sitemap.xml');
   const sitemapTmp = sitemapPath + '.tmp';
-  fs.writeFileSync(sitemapTmp, sitemapXml);
-  fs.renameSync(sitemapTmp, sitemapPath);
-  console.log(`  Generated: sitemap.xml (${staticUrls.length + allArticles.length + zhArticles.length} URLs)`);
+  try {
+    const stream = fs.createWriteStream(sitemapTmp);
+    stream.write(`<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"\n        xmlns:xhtml="http://www.w3.org/1999/xhtml">\n`);
+    for (const u of staticUrls) {
+      stream.write(`    <url>\n        <loc>${SITE_URL}${u.loc}</loc>\n        <lastmod>${today}</lastmod>\n        <changefreq>${u.changefreq}</changefreq>\n        <priority>${u.priority}</priority>\n    </url>\n`);
+    }
+    for (const post of allArticles) {
+      const d = post.data.date instanceof Date && !isNaN(post.data.date.getTime()) ? post.data.date.toISOString().split('T')[0] : String(post.data.date || today);
+      const hasZhVer = !!zhArticleMap[post.slug];
+      const zhAlternate = hasZhVer
+        ? `\n        <xhtml:link rel="alternate" hreflang="zh-Hant" href="${SITE_URL}/zh/blog/${post.slug}"/>`
+        : '';
+      stream.write(`    <url>\n        <loc>${SITE_URL}/blog/${post.slug}</loc>\n        <lastmod>${d}</lastmod>\n        <changefreq>monthly</changefreq>\n        <priority>0.8</priority>${zhAlternate}\n    </url>\n`);
+    }
+    for (const post of zhArticles) {
+      const d = post.data.date instanceof Date && !isNaN(post.data.date.getTime()) ? post.data.date.toISOString().split('T')[0] : String(post.data.date || today);
+      stream.write(`    <url>\n        <loc>${SITE_URL}/zh/blog/${post.slug}</loc>\n        <lastmod>${d}</lastmod>\n        <changefreq>monthly</changefreq>\n        <priority>0.8</priority>\n        <xhtml:link rel="alternate" hreflang="en" href="${SITE_URL}/blog/${post.slug}"/>\n    </url>\n`);
+    }
+    stream.write(`</urlset>\n`);
+    stream.end();
+    await new Promise((resolve, reject) => {
+      stream.on('finish', resolve);
+      stream.on('error', reject);
+    });
+    fs.renameSync(sitemapTmp, sitemapPath);
+    // Verify: check file ends with </urlset>
+    const stats = fs.statSync(sitemapPath);
+    const fd = fs.openSync(sitemapPath, 'r');
+    const buf = Buffer.alloc(50);
+    fs.readSync(fd, buf, 0, 50, Math.max(0, stats.size - 50));
+    fs.closeSync(fd);
+    const tail = buf.toString('utf-8');
+    if (!tail.includes('</urlset>')) {
+      console.error('Sitemap verification FAILED: file does not end with </urlset>');
+      console.error('Tail (last 50 bytes):', tail);
+      process.exit(1);
+    }
+    console.log(`  Generated: sitemap.xml (${staticUrls.length + allArticles.length + zhArticles.length} URLs, ${stats.size} bytes)`);
   } catch (e) {
     console.error('Sitemap generation failed:', e.message);
+    if (fs.existsSync(sitemapTmp)) fs.unlinkSync(sitemapTmp);
     process.exit(1);
   }
 
