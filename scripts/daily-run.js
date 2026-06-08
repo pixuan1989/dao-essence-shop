@@ -61,6 +61,25 @@ function sendFailureNotification(reason, detail) {
 console.log(`\n[${new Date().toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' })}] 启动每日运势生成`);
 console.log(`生成日期: ${DATE}  缓存版本: ${CACHE_VERSION}\n`);
 
+// ─── 1a. 预清理：删除旧详情页，防止生成失败后验证误判 ─────────
+console.log('--- 预清理旧详情页 ---');
+const DETAIL_PAGE_SLUGS = [
+  'rat', 'ox', 'tiger', 'rabbit', 'dragon', 'snake',
+  'horse', 'goat', 'monkey', 'rooster', 'dog', 'pig',
+];
+const ZODIAC_DIR = path.join(PROJECT_ROOT, 'zodiac');
+let cleaned = 0;
+for (const slug of DETAIL_PAGE_SLUGS) {
+  for (const suffix of ['-en', '-zh']) {
+    const p = path.join(ZODIAC_DIR, `${slug}${suffix}.html`);
+    if (fs.existsSync(p)) {
+      fs.unlinkSync(p);
+      cleaned++;
+    }
+  }
+}
+console.log(`✅ 已删除 ${cleaned} 个旧详情页`);
+
 try {
   console.log('--- 运行 generate-daily.js ---');
   execSync(`node "${GENERATE_SCRIPT}" ${DATE}`, {
@@ -72,6 +91,41 @@ try {
   sendFailureNotification('generate-daily.js 执行失败', err.message);
   process.exit(1);
 }
+
+// ─── 1b. 生成后验证：检查关键输出文件 ────────────────────────
+console.log('\n--- 验证生成结果 ---');
+const DETAIL_PAGES = [
+  'rat', 'ox', 'tiger', 'rabbit', 'dragon', 'snake',
+  'horse', 'goat', 'monkey', 'rooster', 'dog', 'pig',
+];
+const ZODIAC_DIR = path.join(PROJECT_ROOT, 'zodiac');
+const requiredFiles = [
+  path.join(ZODIAC_DIR, 'js', 'zodiac-data.js'),
+  path.join(ZODIAC_DIR, 'seo-content', `${DATE}.json`),
+];
+const missingFiles = requiredFiles.filter(f => !fs.existsSync(f));
+if (missingFiles.length > 0) {
+  const msg = `关键文件缺失: ${missingFiles.join(', ')}`;
+  console.error(`\n❌ ${msg}`);
+  sendFailureNotification('生成后验证失败', msg);
+  process.exit(1);
+}
+// 检查详情页（中+英，预清理后不存在=未生成，必须终止）
+let missingDetailPages = [];
+for (const slug of DETAIL_PAGES) {
+  for (const suffix of ['-en', '-zh']) {
+    const p = path.join(ZODIAC_DIR, `${slug}${suffix}.html`);
+    if (!fs.existsSync(p)) missingDetailPages.push(`${slug}${suffix}.html`);
+  }
+}
+if (missingDetailPages.length > 0) {
+  const msg = `详情页未生成: ${missingDetailPages.join(', ')}`;
+  console.error(`\n❌ ${msg}`);
+  sendFailureNotification('详情页生成不完整', msg);
+  process.exit(1);
+}
+console.log(`✅ 12生肖详情页（中+英）全部生成`);
+console.log('✅ 生成后验证通过');
 
 // ─── 2. 缓存防刷：更新聚合页版本号 ─────────────────────────
 const AGG_PAGE = path.join(PROJECT_ROOT, 'zodiac', 'zodiac-daily.html');
