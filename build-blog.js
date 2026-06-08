@@ -2630,6 +2630,7 @@ async function main() {
       console.warn('  ⚠️ Failed to add wallpaper URLs to sitemap:', e.message);
     }
   }
+  try {
   let sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
@@ -2646,7 +2647,7 @@ async function main() {
   }
   // Add blog articles from CMS (English)
   for (const post of allArticles) {
-    const d = post.data.date instanceof Date ? post.data.date.toISOString().split('T')[0] : String(post.data.date || today);
+    const d = post.data.date instanceof Date && !isNaN(post.data.date.getTime()) ? post.data.date.toISOString().split('T')[0] : String(post.data.date || today);
     const hasZhVer = !!zhArticleMap[post.slug];
     const zhAlternate = hasZhVer
       ? `\n        <xhtml:link rel="alternate" hreflang="zh-Hant" href="${SITE_URL}/zh/blog/${post.slug}"/>`
@@ -2660,7 +2661,7 @@ async function main() {
   }
   // Add translated zh articles
   for (const post of zhArticles) {
-    const d = post.data.date instanceof Date ? post.data.date.toISOString().split('T')[0] : String(post.data.date || today);
+    const d = post.data.date instanceof Date && !isNaN(post.data.date.getTime()) ? post.data.date.toISOString().split('T')[0] : String(post.data.date || today);
     sitemapXml += `    <url>
         <loc>${SITE_URL}/zh/blog/${post.slug}</loc>
         <lastmod>${d}</lastmod>
@@ -2670,8 +2671,16 @@ async function main() {
     </url>\n`;
   }
   sitemapXml += `</urlset>`;
-  fs.writeFileSync(path.join(DIST_DIR, 'sitemap.xml'), sitemapXml);
+  // Atomic write: write to temp file first, then rename (prevents partial deploys)
+  const sitemapPath = path.join(DIST_DIR, 'sitemap.xml');
+  const sitemapTmp = sitemapPath + '.tmp';
+  fs.writeFileSync(sitemapTmp, sitemapXml);
+  fs.renameSync(sitemapTmp, sitemapPath);
   console.log(`  Generated: sitemap.xml (${staticUrls.length + allArticles.length + zhArticles.length} URLs)`);
+  } catch (e) {
+    console.error('Sitemap generation failed:', e.message);
+    process.exit(1);
+  }
 
   // Ping Bing (still accepted; Google ping deprecated)
   console.log('Pinging Bing...');
