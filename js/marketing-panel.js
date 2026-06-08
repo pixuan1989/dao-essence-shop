@@ -64,61 +64,33 @@
         },
         {
             id: 'wallpaper_digest',
-            name: '🖼️ 壁纸精选推送 (7 张)',
+            name: '壁纸精选推送',
             subject: '{{title}}',
             html: `<div style="padding: 20px 0; font-family: sans-serif; max-width: 600px; margin: 0 auto;">
-    <h2 style="color: #d4af37; text-align: center; margin-bottom: 10px;">✨ 本周精选壁纸推荐 ✨</h2>
-    <p style="color: #666; font-size: 14px; margin: 0 0 20px; text-align: center;">亲爱的朋友，为您精选了本周 7 张好运壁纸：</p>
-    <p style="color: #555; font-size: 13px; margin: 0 0 15px; line-height: 1.6; text-align: justify; padding: 0 10px;">在这个快节奏的时代，一张静谧的壁纸能为您带来内心的平静。我们为您精选了本周最受欢迎的玄学壁纸，涵盖招财、桃花、学业等主题。每一张都经过精心设计，希望能为您的一天注入正能量与好运。请查收以下精选内容：</p>
-    
-    <!-- 第 1-2 张 -->
+    <h2 style="color: #d4af37; text-align: center; margin-bottom: 10px;">本周精选壁纸</h2>
+    <p style="color: #666; font-size: 14px; margin: 0 0 20px; text-align: center;">为您精选本周 3 张好运壁纸：</p>
+    <p style="color: #555; font-size: 13px; margin: 0 0 15px; line-height: 1.6; text-align: justify; padding: 0 10px;">我们为您精选了本周最受欢迎的玄学壁纸，涵盖招财、桃花、学业等主题。每一张都经过精心设计，希望能为您的一天注入正能量与好运。请查收以下精选内容：</p>
+
+    <!-- 第 1 张 (大图) -->
     <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 15px;">
         <tr>
-            <td width="49%" style="vertical-align: top; padding-right: 2%;">
-                <img src="{{img1}}" alt="{{title1}}" width="280" style="width: 100%; max-width: 280px; height: auto; border-radius: 8px; display: block;">
+            <td width="100%" style="vertical-align: top;">
+                <img src="{{img1}}" alt="{{title1}}" width="280" style="width: 100%; max-width: 280px; height: auto; border-radius: 8px; display: block; margin: 0 auto;">
                 <p style="margin: 8px 0 0; font-size: 13px; color: #333; font-weight: 600; text-align: center;">{{title1}}</p>
             </td>
-            <td width="49%" style="vertical-align: top; padding-left: 2%;">
+        </tr>
+    </table>
+
+    <!-- 第 2-3 张 -->
+    <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 20px;">
+        <tr>
+            <td width="49%" style="vertical-align: top; padding-right: 2%;">
                 <img src="{{img2}}" alt="{{title2}}" width="280" style="width: 100%; max-width: 280px; height: auto; border-radius: 8px; display: block;">
                 <p style="margin: 8px 0 0; font-size: 13px; color: #333; font-weight: 600; text-align: center;">{{title2}}</p>
             </td>
-        </tr>
-    </table>
-
-    <!-- 第 3-4 张 -->
-    <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 15px;">
-        <tr>
-            <td width="49%" style="vertical-align: top; padding-right: 2%;">
+            <td width="49%" style="vertical-align: top; padding-left: 2%;">
                 <img src="{{img3}}" alt="{{title3}}" width="280" style="width: 100%; max-width: 280px; height: auto; border-radius: 8px; display: block;">
                 <p style="margin: 8px 0 0; font-size: 13px; color: #333; font-weight: 600; text-align: center;">{{title3}}</p>
-            </td>
-            <td width="49%" style="vertical-align: top; padding-left: 2%;">
-                <img src="{{img4}}" alt="{{title4}}" width="280" style="width: 100%; max-width: 280px; height: auto; border-radius: 8px; display: block;">
-                <p style="margin: 8px 0 0; font-size: 13px; color: #333; font-weight: 600; text-align: center;">{{title4}}</p>
-            </td>
-        </tr>
-    </table>
-
-    <!-- 第 5-6 张 -->
-    <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 15px;">
-        <tr>
-            <td width="49%" style="vertical-align: top; padding-right: 2%;">
-                <img src="{{img5}}" alt="{{title5}}" width="280" style="width: 100%; max-width: 280px; height: auto; border-radius: 8px; display: block;">
-                <p style="margin: 8px 0 0; font-size: 13px; color: #333; font-weight: 600; text-align: center;">{{title5}}</p>
-            </td>
-            <td width="49%" style="vertical-align: top; padding-left: 2%;">
-                <img src="{{img6}}" alt="{{title6}}" width="280" style="width: 100%; max-width: 280px; height: auto; border-radius: 8px; display: block;">
-                <p style="margin: 8px 0 0; font-size: 13px; color: #333; font-weight: 600; text-align: center;">{{title6}}</p>
-            </td>
-        </tr>
-    </table>
-
-    <!-- 第 7 张 (居中) -->
-    <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 20px;">
-        <tr>
-            <td width="100%" style="vertical-align: top;">
-                <img src="{{img7}}" alt="{{title7}}" width="280" style="width: 100%; max-width: 280px; height: auto; border-radius: 8px; display: block; margin: 0 auto;">
-                <p style="margin: 8px 0 0; font-size: 13px; color: #333; font-weight: 600; text-align: center;">{{title7}}</p>
             </td>
         </tr>
     </table>
@@ -1230,15 +1202,15 @@
                 if (allowedCats.length === 0) return true;
                 return allowedCats.includes(w.category);
             });
-            
-            // 【核心修复】：如果当前主题不足 7 张，自动从其他分类补全
-            if (pool.length < 7) {
+
+            // 【优化】：如果当前主题不足 3 张，自动从其他分类补全
+            if (pool.length < 3) {
                 const others = wallpapers.filter(w => !pool.includes(w));
                 pool = [...pool, ...others];
             }
-            
+
             pool.sort(() => Math.random() - 0.5);
-            const selected = pool.slice(0, 7);
+            const selected = pool.slice(0, 3);
 
             // 4. 生成主题标题
             const TOPIC_TITLES = {
@@ -1261,20 +1233,21 @@
             html = html.replace(/{{name}}/g, '亲爱的朋友');
             templateVars['name'] = '亲爱的朋友';
 
-            html = html.replace('{{title}}', mainTitle);
+            // 【标题防重复】：Subject 使用动态主题名，Body H2 保持静态 "本周精选壁纸推荐"
+            // html 中的 {{title}} 变量主要用于 Subject，Body 中的标题已经是固定文案
             templateVars['title'] = mainTitle;
 
-            // 【链接优化】：明确指向壁纸页，并添加 target="_blank"
+            // 【链接优化】：明确指向壁纸页
             const wallpaperLink = 'https://www.daoessentia.com/wallpaper';
             html = html.replace('{{link}}', wallpaperLink);
             templateVars['link'] = wallpaperLink;
 
-            // 填入 7 张图
-            for (let i = 0; i < 7; i++) {
+            // 填入 3 张图
+            for (let i = 0; i < 3; i++) {
                 const wp = selected[i] || { title: 'Lucky Wallpaper', thumb: '' };
                 const idx = i + 1;
                 const imgUrl = wp.thumb || wp.original || '';
-                
+
                 templateVars[`img${idx}`] = imgUrl;
                 templateVars[`title${idx}`] = wp.title || wp.titleZh || 'Lucky Wallpaper';
 
@@ -1289,7 +1262,7 @@
             const varsContainer = document.getElementById('templateVarsContainer');
             if (varsContainer) varsContainer.style.display = 'block';
 
-            alert(`✅ 成功抓取 ${selected.length} 张【${mainTitle}】壁纸！\n\n👉 已自动补全数量，确保显示 7 张。\n👉 已增加文案密度，避免垃圾邮件拦截。\n👉 请在左侧勾选收件人，然后点击【发送给选中的收件人】即可群发。`);
+            alert(`✅ 成功抓取 ${selected.length} 张【${mainTitle}】壁纸！\n\n👉 已限制为 3 张，降低反垃圾拦截率。\n👉 标题已优化，不再与正文标题重复。\n 请在左侧勾选收件人，然后点击【发送给选中的收件人】即可群发。`);
 
         } catch (err) {
             console.error('Smart Fill Error:', err);
