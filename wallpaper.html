@@ -648,7 +648,8 @@
             <span class="result-count" id="result-count"></span>
         </div>
         <div class="sort-tabs">
-            <button class="sort-tab active" data-sort="popular" id="sort-popular" data-i18n="wallpaper.popular">Popular</button>
+            <button class="sort-tab active" data-sort="random" id="sort-random" data-i18n="wallpaper.random">Random</button>
+            <button class="sort-tab" data-sort="popular" id="sort-popular" data-i18n="wallpaper.popular">Popular</button>
             <button class="sort-tab" data-sort="newest" id="sort-newest" data-i18n="wallpaper.newest">Newest</button>
         </div>
     </div>
@@ -834,7 +835,7 @@
         // State
         let allWallpapers = [];
         let activeCategory = 'All';
-        let activeSort = 'popular';
+        let activeSort = 'random';
         let searchQuery = '';
         let dynamicCats = [];
 
@@ -965,8 +966,8 @@
                 allWallpapers.forEach(w => {
                     if (stats[w.id]) w.downloads = stats[w.id];
                 });
-                // Re-render grid if popular sort is active
-                if (activeSort === 'popular') renderGrid();
+                // Re-render grid if popular or random sort is active
+                if (activeSort === 'popular' || activeSort === 'random') renderGrid();
             } catch (e) { /* silent fail, no UI impact */ }
         }
 
@@ -1045,6 +1046,34 @@
             }, 200);
         });
 
+        // Seeded shuffle algorithm (Fisher-Yates with deterministic seed)
+        function shuffleArray(array, seed) {
+            const arr = [...array];
+            let m = arr.length, t, i;
+            const rand = function() {
+                const x = Math.sin(seed++) * 10000;
+                return x - Math.floor(x);
+            };
+            while (m) {
+                i = Math.floor(rand() * m--);
+                t = arr[m];
+                arr[m] = arr[i];
+                arr[i] = t;
+            }
+            return arr;
+        }
+
+        // Daily seed based on current date (same seed all day for consistency)
+        function getDailySeed() {
+            const dateStr = new Date().toDateString(); // e.g. "Mon Jun 08 2026"
+            let hash = 0;
+            for (let i = 0; i < dateStr.length; i++) {
+                hash = ((hash << 5) - hash) + dateStr.charCodeAt(i);
+                hash |= 0;
+            }
+            return Math.abs(hash);
+        }
+
         // Get filtered + sorted wallpapers
         // Fuse.js fuzzy search (initialized once after data load)
         let fuseInstance = null;
@@ -1083,7 +1112,10 @@
                 }
             }
             // Sort
-            if (activeSort === 'popular') {
+            if (activeSort === 'random') {
+                // Daily seeded shuffle (same order all day, changes next day)
+                list = shuffleArray(list, getDailySeed());
+            } else if (activeSort === 'popular') {
                 list.sort((a, b) => (b.downloads || 0) - (a.downloads || 0));
             } else if (activeSort === 'newest') {
                 list.sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
