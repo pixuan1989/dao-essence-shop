@@ -2630,52 +2630,62 @@ async function main() {
       console.warn('  ⚠️ Failed to add wallpaper URLs to sitemap:', e.message);
     }
   }
-  // Step 8: Generate sitemap.xml (stream-based to avoid Vercel truncation)
+  // Step 8: Generate sitemap.xml (sync write + fsync to prevent Vercel truncation)
   const sitemapPath = path.join(DIST_DIR, 'sitemap.xml');
   const sitemapTmp = sitemapPath + '.tmp';
-  try {
-    const stream = fs.createWriteStream(sitemapTmp);
-    stream.write(`<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"\n        xmlns:xhtml="http://www.w3.org/1999/xhtml">\n`);
-    for (const u of staticUrls) {
-      stream.write(`    <url>\n        <loc>${SITE_URL}${u.loc}</loc>\n        <lastmod>${today}</lastmod>\n        <changefreq>${u.changefreq}</changefreq>\n        <priority>${u.priority}</priority>\n    </url>\n`);
+  
+  // Build sitemap content
+  let sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"\n        xmlns:xhtml="http://www.w3.org/1999/xhtml">\n`;
+  for (const u of staticUrls) {
+    sitemapXml += `    <url>\n        <loc>${SITE_URL}${u.loc}</loc>\n        <lastmod>${today}</lastmod>\n        <changefreq>${u.changefreq}</changefreq>\n        <priority>${u.priority}</priority>\n    </url>\n`;
+  }
+  for (const post of allArticles) {
+    const d = post.data.date instanceof Date && !isNaN(post.data.date.getTime()) ? post.data.date.toISOString().split('T')[0] : String(post.data.date || today);
+    const hasZhVer = !!zhArticleMap[post.slug];
+    const zhAlternate = hasZhVer
+      ? `\n        <xhtml:link rel="alternate" hreflang="zh-Hant" href="${SITE_URL}/zh/blog/${post.slug}"/>`
+      : '';
+    sitemapXml += `    <url>\n        <loc>${SITE_URL}/blog/${post.slug}</loc>\n        <lastmod>${d}</lastmod>\n        <changefreq>monthly</changefreq>\n        <priority>0.8</priority>${zhAlternate}\n    </url>\n`;
+  }
+  for (const post of zhArticles) {
+    const d = post.data.date instanceof Date && !isNaN(post.data.date.getTime()) ? post.data.date.toISOString().split('T')[0] : String(post.data.date || today);
+    sitemapXml += `    <url>\n        <loc>${SITE_URL}/zh/blog/${post.slug}</loc>\n        <lastmod>${d}</lastmod>\n        <changefreq>monthly</changefreq>\n        <priority>0.8</priority>\n        <xhtml:link rel="alternate" hreflang="en" href="${SITE_URL}/blog/${post.slug}"/>\n    </url>\n`;
+  }
+  sitemapXml += `</urlset>\n`;
+  
+  // Write with retry + fsync (critical for Vercel memory filesystem)
+  let retries = 3;
+  let success = false;
+  while (retries > 0 && !success) {
+    try {
+      fs.writeFileSync(sitemapTmp, sitemapXml, 'utf8');
+      // Force flush to disk
+      const fd = fs.openSync(sitemapTmp, 'r+');
+      fs.fsyncSync(fd);
+      fs.closeSync(fd);
+      // Verify: read back and check ending
+      const written = fs.readFileSync(sitemapTmp, 'utf8');
+      if (written.trim().endsWith('</urlset>') && written.length === sitemapXml.length) {
+        success = true;
+      } else {
+        console.warn(`  Sitemap write verification failed (attempt ${4 - retries}/3): size ${written.length} vs expected ${sitemapXml.length}`);
+        retries--;
+      }
+    } catch (e) {
+      console.warn(`  Sitemap write error (attempt ${4 - retries}/3): ${e.message}`);
+      retries--;
     }
-    for (const post of allArticles) {
-      const d = post.data.date instanceof Date && !isNaN(post.data.date.getTime()) ? post.data.date.toISOString().split('T')[0] : String(post.data.date || today);
-      const hasZhVer = !!zhArticleMap[post.slug];
-      const zhAlternate = hasZhVer
-        ? `\n        <xhtml:link rel="alternate" hreflang="zh-Hant" href="${SITE_URL}/zh/blog/${post.slug}"/>`
-        : '';
-      stream.write(`    <url>\n        <loc>${SITE_URL}/blog/${post.slug}</loc>\n        <lastmod>${d}</lastmod>\n        <changefreq>monthly</changefreq>\n        <priority>0.8</priority>${zhAlternate}\n    </url>\n`);
-    }
-    for (const post of zhArticles) {
-      const d = post.data.date instanceof Date && !isNaN(post.data.date.getTime()) ? post.data.date.toISOString().split('T')[0] : String(post.data.date || today);
-      stream.write(`    <url>\n        <loc>${SITE_URL}/zh/blog/${post.slug}</loc>\n        <lastmod>${d}</lastmod>\n        <changefreq>monthly</changefreq>\n        <priority>0.8</priority>\n        <xhtml:link rel="alternate" hreflang="en" href="${SITE_URL}/blog/${post.slug}"/>\n    </url>\n`);
-    }
-    stream.write(`</urlset>\n`);
-    stream.end();
-    await new Promise((resolve, reject) => {
-      stream.on('finish', resolve);
-      stream.on('error', reject);
-    });
-    fs.renameSync(sitemapTmp, sitemapPath);
-    // Verify: check file ends with </urlset>
-    const stats = fs.statSync(sitemapPath);
-    const fd = fs.openSync(sitemapPath, 'r');
-    const buf = Buffer.alloc(50);
-    fs.readSync(fd, buf, 0, 50, Math.max(0, stats.size - 50));
-    fs.closeSync(fd);
-    const tail = buf.toString('utf-8');
-    if (!tail.includes('</urlset>')) {
-      console.error('Sitemap verification FAILED: file does not end with </urlset>');
-      console.error('Tail (last 50 bytes):', tail);
-      process.exit(1);
-    }
-    console.log(`  Generated: sitemap.xml (${staticUrls.length + allArticles.length + zhArticles.length} URLs, ${stats.size} bytes)`);
-  } catch (e) {
-    console.error('Sitemap generation failed:', e.message);
+  }
+  
+  if (!success) {
+    console.error('Sitemap generation FAILED after 3 retries');
     if (fs.existsSync(sitemapTmp)) fs.unlinkSync(sitemapTmp);
     process.exit(1);
   }
+  
+  fs.renameSync(sitemapTmp, sitemapPath);
+  const stats = fs.statSync(sitemapPath);
+  console.log(`  Generated: sitemap.xml (${staticUrls.length + allArticles.length + zhArticles.length} URLs, ${stats.size} bytes)`);
 
   // Ping Bing (still accepted; Google ping deprecated)
   console.log('Pinging Bing...');
