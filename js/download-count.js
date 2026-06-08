@@ -1,10 +1,10 @@
 /**
- * download-count.js - 壁纸下载计数显示
- * 功能：页面加载时显示下载次数，点击下载时 +1
- * 安全：独立模块，不修改现有下载逻辑
- * 复用 api/pageview 端点（合并下载计数到现有函数，不超限）
- * 
- * 修复：增加重试机制和 MutationObserver 双保险，确保异步数据加载后也能正确获取 ID
+ * download-count.js - 壁纸下载计数显示（只读）
+ * 功能：页面加载时显示下载次数
+ * 安全：不再监听点击下载事件（计数已由后端 /api/auth?action=download 统一管理）
+ *
+ * 后端 auth.js 在额度验证通过后自动 incr 计数，前端只负责展示。
+ * 修复：移除 incrementCount，避免额度用完后仍显示 +1 的问题。
  */
 (function() {
   'use strict';
@@ -19,7 +19,7 @@
     return String(n);
   }
 
-  // 初始化计数显示和按钮监听
+  // 初始化计数显示（只读，不监听点击）
   function initCount(id) {
     if (initialized || !id) return;
     initialized = true;
@@ -28,14 +28,8 @@
     // 加载当前下载次数
     loadCount(id);
 
-    // 监听下载按钮点击（不阻止原有逻辑）
-    const dlLink = document.getElementById('download-link');
-    if (dlLink) {
-      dlLink.addEventListener('click', function(e) {
-        if (!currentWallpaperId) return;
-        incrementCount(currentWallpaperId);
-      });
-    }
+    // ️ 移除：不再监听下载按钮点击，计数由后端统一管理
+    // 旧代码会在任何点击时 +1，即使额度已用完也会显示，导致计数不准确
   }
 
   // 查询下载次数并显示
@@ -45,20 +39,6 @@
       .then(data => {
         const count = data[id] || 0;
         showCount(count);
-      })
-      .catch(() => {});
-  }
-
-  // 下载次数 +1
-  function incrementCount(id) {
-    fetch(API, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ action: 'download', id }),
-    })
-      .then(res => res.json())
-      .then(data => {
-        showCount(data.count || 0);
       })
       .catch(() => {});
   }
@@ -73,13 +53,13 @@
                  window.location.pathname.includes('/zh/');
 
     const text = isZh ? `${formatCount(count)} 次下载` : `${formatCount(count)} downloads`;
-    el.textContent = '⬇ ' + text;
+    el.textContent = ' ' + text;
   }
 
   // 获取 ID 的主逻辑
   function tryGetId() {
     if (initialized) return;
-    
+
     const dlLink = document.getElementById('download-link');
     if (!dlLink) return;
 
