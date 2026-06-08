@@ -849,7 +849,7 @@
                 card.className = 'related-card';
                 card.innerHTML = `<img src="${wp.thumb}" alt="${wp.title || 'Wallpaper'}" loading="lazy">`;
                 card.onclick = () => {
-                    window.location.href = `wallpaper-detail.html?id=${wp.id}`;
+                    window.location.href = `/wallpaper-detail?id=${wp.id}`;
                 };
                 grid.appendChild(card);
             });
