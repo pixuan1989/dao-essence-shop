@@ -54,12 +54,18 @@ async function getStats(req, res) {
     try {
         const client = getRedis();
         const stats = {};
-        const keys = await client.keys('wallpaper:downloads:*');
-        if (keys && keys.length > 0) {
-            const counts = await client.mget(...keys);
-            keys.forEach((key, i) => {
-                const wpId = key.replace('wallpaper:downloads:', '');
-                stats[wpId] = parseInt(counts[i]) || 0;
+        // 兼容两种前缀：dl:（新）和 wallpaper:downloads:（旧）
+        const keys1 = await client.keys('dl:*');
+        const keys2 = await client.keys('wallpaper:downloads:*');
+        const allKeys = [...(keys1 || []), ...(keys2 || [])];
+        if (allKeys && allKeys.length > 0) {
+            const counts = await client.mget(...allKeys);
+            allKeys.forEach((key, i) => {
+                const wpId = key.startsWith('dl:') 
+                    ? key.replace('dl:', '') 
+                    : key.replace('wallpaper:downloads:', '');
+                // 取最大值，确保不重复计算
+                stats[wpId] = Math.max(stats[wpId] || 0, parseInt(counts[i]) || 0);
             });
         }
         return res.status(200).json({ stats });
@@ -125,10 +131,11 @@ async function downloadCheck(req, res) {
         }
 
         // 📊 统计壁纸总下载量（用于排序和展示）
+        // 使用 dl: 前缀与 pageview.js 保持一致
         try {
             const wpId = req.body?.wallpaperId || req.query.wallpaperId || '';
             if (wpId) {
-                const key = 'wallpaper:downloads:' + wpId;
+                const key = 'dl:' + wpId;
                 if (useMemory) {
                     memoryCounts.set(key, (memoryCounts.get(key) || 0) + 1);
                 } else {

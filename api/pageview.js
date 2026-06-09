@@ -82,8 +82,11 @@ export default async function handler(req, res) {
       const result = {};
       await Promise.all(
         idList.map(async (id) => {
-          const val = await kvGet(`dl:${id}`);
-          result[id] = parseInt(val) || 0;
+          // 兼容两种前缀：dl:（新）和 wallpaper:downloads:（旧）
+          const val1 = await kvGet(`dl:${id}`);
+          const val2 = await kvGet(`wallpaper:downloads:${id}`);
+          // 取最大值，确保不丢失历史数据
+          result[id] = Math.max(parseInt(val1) || 0, parseInt(val2) || 0);
         })
       );
       return res.status(200).json(result);
