@@ -103,13 +103,23 @@
           }
         }
 
-        // Sort (无搜索时才按热门/最新排序)
+        // Sort (无搜索时才按热门/最新/随机排序)
         if (typeof searchQuery === 'undefined' || !searchQuery) {
           if (typeof activeSort !== 'undefined') {
-            if (activeSort === 'popular') {
+            if (activeSort === 'random') {
+              // Daily seeded shuffle (same order all day, changes next day)
+              if (typeof shuffleArray === 'function' && typeof getDailySeed === 'function') {
+                list = shuffleArray(list, getDailySeed());
+              }
+            } else if (activeSort === 'popular') {
               list.sort((a, b) => (b.downloads || 0) - (a.downloads || 0));
             } else if (activeSort === 'newest') {
-              list.sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
+              // Fallback: extract timestamp from ID (e.g. wallpaper_1780913534)
+              list.sort((a, b) => {
+                const dateA = a.date ? new Date(a.date) : new Date(parseInt(a.id.split('_')[1]) * 1000 || 0);
+                const dateB = b.date ? new Date(b.date) : new Date(parseInt(b.id.split('_')[1]) * 1000 || 0);
+                return dateB - dateA;
+              });
             }
           }
         }
