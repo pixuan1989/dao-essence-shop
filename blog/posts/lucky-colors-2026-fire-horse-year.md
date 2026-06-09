@@ -49,7 +49,7 @@ keywords: "lucky colors 2026, lucky numbers 2026, fire horse year colors, chines
 
 If you wear red because you're a Fire sign, but your chart already has too much Fire, that "lucky" color might be working against you. In the Fire Horse year (Bing Wu 丙午), Fire energy is extreme — knowing which colors actually balance your chart matters more than ever.
 
-[Find your Day Master in 2 minutes →](#free-bazi)
+[Find your Day Master in 2 minutes →](/#free-bazi)
 
 ---
 
@@ -232,7 +232,7 @@ You don't need to overhaul your entire wardrobe. Small, consistent changes work 
 
 ### If You're a Horse (Ben Ming Nian 本命年)
 
-2026 is your zodiac year — the energy is intense. Earth and Metal tones are your best friends this year. Avoid too much red (even though it's traditionally "lucky" for Horses). Use our [Ben Ming Nian guide](/blog/posts/ben-ming-nian-why-your-zodiac-year-matters-in-bazi) for the full strategy.
+2026 is your zodiac year — the energy is intense. Earth and Metal tones are your best friends this year. Avoid too much red (even though it's traditionally "lucky" for Horses). Use our [Ben Ming Nian guide](/blog/ben-ming-nian-why-your-zodiac-year-matters-in-bazi/) for the full strategy.
 
 ### If You're a Rat or Pig (Water signs)
 
@@ -262,7 +262,7 @@ The fastest way to find your *actual* personal lucky colors: generate your BaZi 
 
 Once you know your Day Master, cross-reference with the tables above — and adjust for 2026's Fire Horse energy. Your personalized lucky color combination is probably different from the generic "zodiac color" lists. That's the point.
 
-**Want to go deeper?** Our [Five Elements Test](/#five-elements-test) shows you which elements are missing or excessive in your chart — and gives you specific color, food, and lifestyle recommendations.
+**Want to go deeper?** Our [Five Elements Test](/five-elements-test) shows you which elements are missing or excessive in your chart — and gives you specific color, food, and lifestyle recommendations.
 
 ---
 
