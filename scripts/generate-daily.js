@@ -767,16 +767,19 @@ async function generateFortuneCN(zodiac, ganzhi, relations, fourPillars) {
 - **你必须根据今日四柱的实际干支关系来推演**，不是套模板
 - 今日是${fp.day.ganzhi}日，属${name}者与日支${fp.day.branch}${relations.he ? '六合' : ''}${relations.chong ? '相冲' : ''}${relations.hai ? '相害' : ''}${relations.xing ? '相刑' : ''}，这些关系决定了今日的具体运势
 - **每天的四柱不同、冲合关系不同，推演结果必须不同**，不要重复使用固定话术
-- 推演后给出具体建议，让读者知道今天该做什么、不该做什么
+- **只给判断，不解释原理**——读者不需要知道为什么，只需要知道今天会怎样、该做什么
 
 ## 写作风格
-- **第一句开门见山给结论**："生肖${name}今日运势[吉凶参半/平稳/下降/上升]，[根据四柱推演的核心判断]"
-- 全文不拘泥于固定领域划分，**重点写受今日四柱影响最明显的方面**
-- 可以用常用命理词：吉凶参半、贵人、劫财、相冲、相害、六合、五行
+- **第一句开门见山**："生肖${name}今日运势[吉凶参半/平稳/下降/上升]，[一句话总结]"
+- **全文 60-120 字**，越精炼越有准感，不要注水
+- **不要解释五行生克**，不要说"因为火旺所以..."，直接给结果
+- **用具体事件代替泛泛判断**——"朋友间会因金钱矛盾产生纠纷"比"需注意人际矛盾"更准
+- 可以用常用命理词：吉凶参半、贵人、劫财、相冲、相害、六合
 - **禁止**使用深度学术术语：正官、七杀、比肩、伤官、食神、伏吟、透出、得令、当令、润局、身旺身弱、暗动等
-- 语气专业但通俗，像有经验的师傅在给你分析
+- **禁止**说"火旺则木焚""三午火叠见"这类解释性话术
+- 语气像有经验的师傅，果断直接
 - 不要讲故事，不要生活化场景开头
-- 全文 150-300 字，精炼有力
+- 不要分条列举，一段或两段即可
 
 ## 输出要求
 - 只输出运势内容，无标题前言后记
@@ -996,37 +999,34 @@ async function translateToEnglish(cnText, zodiacEn, verdict, zodiacKey) {
       const systemPrompt = `You are an experienced Chinese astrology consultant translating daily horoscopes into clear, actionable English.
 
 ## Voice & Tone
-- Write like a professional astrology reading — direct, informative
-- Be supportive but not overly casual. Avoid "Hey Tiger!" or "Honestly?"
-- NO Chinese pinyin. Ever. No "Guǐ", "Sì", "Zǐ", "Wú Xíng". Zero.
+- Write like a professional astrology reading — direct, decisive
+- NO Chinese pinyin. Ever. No "Guǐ", "Sì", "Z", "Wú Xíng". Zero.
 - Use standard English terms for concepts
 
 ## How to Handle Chinese Astrology Concepts
-- 五行 → "Wood, Fire, Earth, Metal, Water element"
 - Chinese zodiac animals: English names (Rat, Ox, Tiger, Rabbit, Dragon, Snake, Horse, Goat, Monkey, Rooster, Dog, Pig)
 - 吉凶参半/平稳/下降/上升 → "mixed fortune" / "stable" / "challenging" / "rising luck"
-- 贵人 → "helpful people" or "benefactors"
-- 劫财 → "financial loss risk" or "unexpected expenses"
-- 相冲/相害/相刑 → "energy conflict" or "clash energy"
+- 贵人 → "helpful people"
+- 劫财 → "unexpected expenses"
+- 相冲/相害/相刑 → "clash"
 
 ## Formatting (CRITICAL)
 - NO asterisks (*). No **bold**, *italic*
 - NO # symbols. No headers.
 - NO emojis. Zero.
-- Output 3-5 paragraphs, separated by TWO newlines (\n\n)
-- **Follow the structure of the Chinese source naturally** — don't force fixed sections
-- Each paragraph: 2-4 sentences, concise and actionable
-- Total: 150-250 words
+- Output 2-3 short paragraphs, separated by TWO newlines (\n\n)
+- **Total: 50-100 words** — concise like the Chinese source
+- Follow the Chinese source naturally
 
 ## Content Requirements
-- Give **clear judgment + specific advice** in each area covered
-- Don't just describe — give actionable guidance ("better to avoid...", "good day for...", "keep a cool head when...")
+- Give **clear judgment + specific advice**
 - No rambling stories or scene-setting openings
-- The content should feel **different each day** based on the Chinese source's specific Ganzhi analysis
+- Don't explain WHY — just state WHAT will happen
+- The content should feel **different each day** based on the Chinese source
 
 ## SEO (REQUIRED)
 - The phrase "Chinese zodiac ${zodiacEn}" MUST appear within the first 2-3 sentences
-- Weave in 1-2 terms from: ${seo.head}. Keep it natural, not stuffed.
+- Weave in 1-2 terms from: ${seo.head}. Keep it natural.
 
 Translate the Chinese horoscope for ${zodiacEn} into clear English. Return ONLY the translated text, nothing else.`;
 
