@@ -2051,12 +2051,17 @@ async function main() {
     return;
   }
 
-  // ① 计算天干地支
+  // ① 获取完整四柱（paipan 引擎精确排盘，作为唯一数据源）
   const date = new Date(dateStr + 'T00:00:00+08:00');
-  const ganzhi = calculateGanzhi(date);
-
-  // ①b 获取完整四柱（含藏干、五行分布）用于AI推理
   const fourPillars = getDailyFourPillars(date);
+  
+  // ①b 提取日柱信息作为 ganzhi 变量（废弃 calculateGanzhi 简化算法，避免数据不一致）
+  const ganzhi = {
+    ganzhi: fourPillars.day.ganzhi,
+    wuxing: fourPillars.day.wuxing,
+    tiangan: fourPillars.day.stem,
+    dizhi: fourPillars.day.branch,
+  };
 
   // ①c 用 paipan 精确日支算冲合害刑（不再用 calculateGanzhi 的简化日支，避免打分与AI内容矛盾）
   const relations = getRelations(fourPillars.day.branch);
