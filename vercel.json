@@ -145,17 +145,6 @@
     }
   ],
   "redirects": [
-    // Blog: .html → clean URL (directory format)
-    {
-      "source": "/blog/:slug.html",
-      "destination": "/blog/:slug/",
-      "permanent": true
-    },
-    {
-      "source": "/zh/blog/:slug.html",
-      "destination": "/zh/blog/:slug/",
-      "permanent": true
-    },
     {
       "source": "/blog/:slug.html",
       "destination": "/blog/:slug/",
