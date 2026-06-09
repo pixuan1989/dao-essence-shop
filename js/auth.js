@@ -203,11 +203,14 @@
     };
 
     // ---- Lazy Load Clerk SDK ----
-    DA._loadClerkSDK = function() {
+    // silent: true 时不显示 loading 提示（用于后台预加载）
+    DA._loadClerkSDK = function(silent) {
         if (document.getElementById('clerk-sdk-script')) return; // Already loading
 
         console.log('[Auth] Loading Clerk SDK on demand...');
-        DA.showToast(t('auth.loading', 'Loading sign-in...'), 3000);
+        if (!silent) {
+            DA.showToast(t('auth.loading', 'Loading sign-in...'), 3000);
+        }
 
         // Load Clerk UI first
         var uiScript = document.createElement('script');
@@ -265,17 +268,17 @@
         // Wait for page resources (images, etc.) to finish loading
         if (document.readyState === 'complete') {
             // Page already fully loaded, start SDK preload immediately
-            DA._loadClerkSDK();
+            DA._loadClerkSDK(true); // silent = true, no toast
         } else {
             window.addEventListener('load', function() {
                 // Use requestIdleCallback if available, otherwise setTimeout
                 if (window.requestIdleCallback) {
                     window.requestIdleCallback(function() {
-                        DA._loadClerkSDK();
+                        DA._loadClerkSDK(true); // silent = true, no toast
                     }, { timeout: 2000 });
                 } else {
                     setTimeout(function() {
-                        DA._loadClerkSDK();
+                        DA._loadClerkSDK(true); // silent = true, no toast
                     }, 1000);
                 }
             });
