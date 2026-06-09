@@ -2042,21 +2042,11 @@ async function main() {
     console.log('  Skipping blog/posts-zh/ to avoid duplicate manual translations.');
   }
 
-  // Only read blog/posts-zh/ if API key is set (auto-translation was attempted)
-  // This prevents duplicate articles when manual .zh.md files exist
-  if (process.env.DASHSCOPE_API_KEY && fs.existsSync(POSTS_ZH_DIR)) {
-    const zhPosts = readAllMdFiles(POSTS_ZH_DIR);
-    const existingSlugs = new Set(zhArticles.map(a => a.slug));
-    zhPosts.forEach(post => {
-      if (existingSlugs.has(post.slug)) return;
-      if (!post.content.trim() && post.data.body) {
-        post.content = post.data.body;
-      }
-      zhArticles.push({ ...post, category: post.data.category || 'bazi-astrology' });
-    });
-  } else if (fs.existsSync(POSTS_ZH_DIR)) {
-    console.log('  Skipped blog/posts-zh/ (DASHSCOPE_API_KEY not set, auto-translation disabled)');
-  }
+  // NOTE: autoTranslateIfNeeded() already returns ALL zh articles
+  // (both newly translated and existing files from blog/posts-zh/).
+  // Do NOT read blog/posts-zh/ again here — causes duplicate articles.
+  // When DASHSCOPE_API_KEY is set (production), auto-translation handles everything.
+  // When NOT set (local dev), zhArticles stays empty — no zh output.
 
   // Build a map of en slug -> zh article for cross-linking
   // Key: en slug (zh slug with -zh suffix removed), so en articles can find their zh counterpart

@@ -217,9 +217,12 @@ export async function autoTranslateIfNeeded(englishArticles, postsZhDir) {
       const raw = fs.readFileSync(path.join(postsZhDir, f), 'utf-8');
       const { data, content } = matter(raw);
       if (!content.trim() && data.body) content = data.body;
+      // Normalize ".zh" suffix to "-zh" to match generateSlug() in build-blog.js
+      const rawSlug = f.replace(/\.md$/, '');
+      const slug = rawSlug.replace(/\.zh$/, '-zh');
       zhArticles.push({
         filename: f,
-        slug: f.replace(/\.md$/, ''),
+        slug,
         data,
         content,
         category: data.category || 'bazi-astrology'
@@ -263,9 +266,12 @@ export async function autoTranslateIfNeeded(englishArticles, postsZhDir) {
       const raw = fs.readFileSync(path.join(postsZhDir, f), 'utf-8');
       const { data, content } = matter(raw);
       if (!content.trim() && data.body) content = data.body;
+      // Normalize ".zh" suffix to "-zh" to match generateSlug() in build-blog.js
+      const rawSlug = f.replace(/\.md$/, '');
+      const slug = rawSlug.replace(/\.zh$/, '-zh');
       zhArticles.push({
         filename: f,
-        slug: f.replace(/\.md$/, ''),
+        slug,
         data,
         content,
         category: data.category || 'bazi-astrology'
