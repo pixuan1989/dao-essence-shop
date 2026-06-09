@@ -2106,9 +2106,12 @@ async function main() {
 
     const hasZhVersion = !!zhArticleMap[slug]; // only true if this specific article has a zh counterpart
     const html = generateArticleHtml(post, post.category, allArticles, { lang: 'en', hasZh: hasZhVersion, wallpapers: wallpapers });
-    const outPath = path.join(DIST_BLOG_DIR, `${slug}.html`);
+    // Generate as directory: /blog/{slug}/index.html (clean URL)
+    const outDir = path.join(DIST_BLOG_DIR, slug);
+    fs.mkdirSync(outDir, { recursive: true });
+    const outPath = path.join(outDir, 'index.html');
     fs.writeFileSync(outPath, html);
-    console.log(`  Generated: dist/blog/${slug}.html`);
+    console.log(`  Generated: dist/blog/${slug}/index.html`);
   }
 
   // Step 4b: Generate Traditional Chinese article HTML files in dist/zh/blog/
