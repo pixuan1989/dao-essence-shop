@@ -1221,6 +1221,8 @@
             } catch (e) {
                 console.error('Failed to load wallpapers:', e);
                 document.getElementById('wallpaper-grid').innerHTML = '<p style="color:red;text-align:center;padding:40px;">Failed to load wallpapers. Please refresh.</p>';
+                const overlay = document.getElementById('loading-overlay');
+                if (overlay) overlay.classList.add('hidden');
                 return;
             }
             extractCategories();
@@ -1240,6 +1242,9 @@
                 const lang = getLang();
                 heroTitle.textContent = lang === 'zh' ? '旺運壁紙' : 'Lucky Wallpapers';
             }
+            // Hide loading overlay
+            const overlay = document.getElementById('loading-overlay');
+            if (overlay) overlay.classList.add('hidden');
             // Load real download stats (best-effort)
             loadStats();
         }
