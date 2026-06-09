@@ -154,7 +154,7 @@
 
       var dayData = getDayData(dateStr);
       var data = dayData[sign];
-      if (!data) { alert('暂无该生肖数据'); location.href='zodiac-daily.html'; return; }
+      if (!data) { alert('暂无该生肖数据'); location.href='/zodiac/zodiac-daily'; return; }
 
       var meta = null;
       for (var i=0;i<ZODIAC_SIGNS.length;i++) { if(ZODIAC_SIGNS[i].key===sign){meta=ZODIAC_SIGNS[i];break;} }

@@ -1255,7 +1255,7 @@
                     var name = isZh ? (zhMap[p.id] || p.name || p.title) : (p.name || p.title);
                     var imgUrl = p.image || p.image_url || '';
                     cardsHtml +=
-                        '<a href="/product-detail.html?id=' + p.id + '" class="fe-shop-card">' +
+                        '<a href="/product-detail?id=' + p.id + '" class="fe-shop-card">' +
                             '<img class="fe-shop-card-img" src="' + imgUrl + '" alt="' + name + '" loading="lazy">' +
                             '<div class="fe-shop-card-body">' +
                                 '<div class="fe-shop-card-name">' + name + '</div>' +
@@ -1463,7 +1463,7 @@
                     var name = zh && zhMap[p.id] ? (zhMap[p.id].nameCN || p.name) : p.name;
                     var imgUrl = p.image || p.image_url || '';
                     cardsHtml +=
-                        '<a href="/product-detail.html?id=' + p.id + '" class="fe-shop-card">' +
+                        '<a href="/product-detail?id=' + p.id + '" class="fe-shop-card">' +
                             '<img class="fe-shop-card-img" src="' + imgUrl + '" alt="' + name + '" loading="lazy">' +
                             '<div class="fe-shop-card-body">' +
                                 '<div class="fe-shop-card-name">' + name + '</div>' +

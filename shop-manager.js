@@ -183,7 +183,7 @@ function _doRenderShop() {
 
         // 为八字分析产品添加特殊处理
         const isBaziProduct = product.category === 'bazi-analysis' || product.id === 'bazi-analysis' || product.id === 'prod_28PqAKMEom5WGRH1w9O35n' || product.name.includes('BaZi') || product.name.includes('Bazi') || (product.nameCN && product.nameCN.includes('八字'));
-        const productLink = isBaziProduct ? 'bazi-form.html' : `product-detail.html?id=${product.id}`;
+        const productLink = isBaziProduct ? '/bazi-form' : `/product-detail?id=${product.id}`;
 
         const isZh = window.DaoI18n && window.DaoI18n.current() === 'zh';
     const displayName = (isZh && product.nameCN) ? product.nameCN : product.name;
