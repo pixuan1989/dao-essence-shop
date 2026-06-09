@@ -14,12 +14,12 @@ readTime: 9
 pinned: false
 image: /images/blog/lucky-colors-2026-fire-horse-year.webp
 cta_cards:
-  - five-elements-test
+  - five-elements
   - bazi
 related_posts:
-  - Ben Ming Nian — Your Zodiac Year Explained
-  - How to Choose Your Phone Wallpaper Using Chinese Five Elements
-  - What Is BaZi? A Beginner's Guide to Chinese Astrology
+  - ben-ming-nian-why-your-zodiac-year-matters-in-bazi
+  - five-elements-test
+  - what-is-bazi-beginners-guide
 faq:
   - question: "幸运颜色真的有效吗，还是只是心理作用？"
     answer: "两者皆是。在八字中，颜色是五行能量的物理表达——穿对元素可以支持你的天然能量模式。同时，感觉与命盘对齐所带来的自信提升是真实的。把它想成是你身体的风水布局。"
@@ -108,7 +108,7 @@ keywords: "2026年幸运色, 火马年幸运色, 生肖幸运色, 八字幸运�
 
 你的日主是你八字命盘**日柱**中的元素。你需要你的出生日期（公历）来计算。
 
-[使用我们的免费八字计算器 →](/#free-bazi) —— 它立即显示你的日主，无需注册。
+使用我们的免费八字计算器 —— 它立即显示你的日主，无需注册。
 
 ### 步骤2：识别你的日主元素
 

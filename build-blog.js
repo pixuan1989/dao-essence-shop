@@ -2124,9 +2124,20 @@ async function main() {
       html = html.replace(/href="\/blog\//g, 'href="/zh/blog/');
 
 
-      const outPath = path.join(DIST_ZH_BLOG_DIR, `${slug}.html`);
+      const outDir = path.join(DIST_ZH_BLOG_DIR, slug);
+      fs.mkdirSync(outDir, { recursive: true });
+      const outPath = path.join(outDir, 'index.html');
       fs.writeFileSync(outPath, html);
-      console.log(`  Generated: dist/zh/blog/${slug}.html`);
+      console.log(`  Generated: dist/zh/blog/${slug}/index.html`);
+    }
+  }
+
+  // Cleanup: remove stale .html files in dist/zh/blog/ (old format, now using directories)
+  if (fs.existsSync(DIST_ZH_BLOG_DIR)) {
+    for (const f of fs.readdirSync(DIST_ZH_BLOG_DIR)) {
+      if (f.endsWith('.html')) {
+        try { fs.unlinkSync(path.join(DIST_ZH_BLOG_DIR, f)); console.log(`  Cleaned stale: dist/zh/blog/${f}`); } catch(e) {}
+      }
     }
   }
 

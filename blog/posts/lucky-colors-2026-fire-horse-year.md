@@ -14,12 +14,12 @@ readTime: 9
 pinned: false
 image: /images/blog/lucky-colors-2026-fire-horse-year.webp
 cta_cards:
-  - five-elements-test
+  - five-elements
   - bazi
 related_posts:
-  - Ben Ming Nian — Your Zodiac Year Explained
-  - How to Choose Your Phone Wallpaper Using Chinese Five Elements
-  - What Is BaZi? A Beginner's Guide to Chinese Astrology
+  - ben-ming-nian-why-your-zodiac-year-matters-in-bazi
+  - door-facing-door-feng-shui-energy-clash
+  - what-is-bazi-beginners-guide
 faq:
   - question: "Do lucky colors actually work, or is it just psychology?"
     answer: "Both. In BaZi, color is one of the Five Elements' physical expressions — wearing the right element can support your natural energy pattern. At the same time, the confidence boost from feeling aligned with your chart is real. Think of it as physical feng shui for your body."
@@ -108,7 +108,7 @@ This is the method most articles skip. Here's how to do it yourself in 5 minutes
 
 Your Day Master is the element in the **Day Pillar** of your BaZi chart. You need your birth date (Gregorian) to calculate it.
 
-[Use our free BaZi calculator →](/#free-bazi) — it shows your Day Master instantly, no registration needed.
+Use our free BaZi calculator — it shows your Day Master instantly, no registration needed.
 
 ### Step 2: Identify Your Day Master Element
 
