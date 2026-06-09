@@ -464,6 +464,40 @@
             display: grid;
             grid-template-columns: repeat(5, 1fr);
             gap: 12px;
+            min-height: 200px;
+        }
+
+        /* Loading overlay — visible until data loads */
+        .loading-overlay {
+            position: fixed;
+            inset: 0;
+            background: #0a0a0a;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.3s ease;
+        }
+        .loading-overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(255,255,255,0.1);
+            border-top-color: #D4AF37;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .loading-text {
+            margin-top: 16px;
+            font-size: 14px;
+            color: rgba(255,255,255,0.5);
         }
 
         /* ── Card — image only, no info bar ── */
@@ -655,6 +689,12 @@
         </div>
     </div>
 
+
+    <!-- Loading Overlay (visible until data loads) -->
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="loading-spinner"></div>
+        <div class="loading-text" data-i18n="common.loading">Loading...</div>
+    </div>
 
     <!-- Grid -->
     <div class="grid-container">
@@ -1175,10 +1215,13 @@
         // Init
         async function init() {
             try {
-                const res = await fetch('wallpapers-lite.json');
+                const res = await fetch('/wallpapers-lite.json');
+                if (!res.ok) throw new Error(res.status);
                 allWallpapers = await res.json();
             } catch (e) {
                 console.error('Failed to load wallpapers:', e);
+                document.getElementById('wallpaper-grid').innerHTML = '<p style="color:red;text-align:center;padding:40px;">Failed to load wallpapers. Please refresh.</p>';
+                return;
             }
             extractCategories();
             // Read ?cat= from URL (set by detail page category links)
