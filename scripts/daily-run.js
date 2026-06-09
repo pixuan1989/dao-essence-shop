@@ -70,13 +70,18 @@ const DETAIL_PAGE_SLUGS = [
 const ZODIAC_DIR = path.join(PROJECT_ROOT, 'zodiac');
 let cleaned = 0;
 for (const slug of DETAIL_PAGE_SLUGS) {
-  for (const suffix of ['-en', '-zh']) {
+  for (const suffix of ['-en', '']) {
     const p = path.join(ZODIAC_DIR, `${slug}${suffix}.html`);
     if (fs.existsSync(p)) {
       fs.unlinkSync(p);
       cleaned++;
     }
   }
+}
+// 向后兼容：清理旧版 -zh 后缀（如果存在）
+for (const slug of DETAIL_PAGE_SLUGS) {
+  const p = path.join(ZODIAC_DIR, `${slug}-zh.html`);
+  if (fs.existsSync(p)) { fs.unlinkSync(p); cleaned++; }
 }
 console.log(`✅ 已删除 ${cleaned} 个旧详情页`);
 
@@ -98,7 +103,6 @@ const DETAIL_PAGES = [
   'rat', 'ox', 'tiger', 'rabbit', 'dragon', 'snake',
   'horse', 'goat', 'monkey', 'rooster', 'dog', 'pig',
 ];
-const ZODIAC_DIR = path.join(PROJECT_ROOT, 'zodiac');
 const requiredFiles = [
   path.join(ZODIAC_DIR, 'js', 'zodiac-data.js'),
   path.join(ZODIAC_DIR, 'seo-content', `${DATE}.json`),
@@ -113,9 +117,9 @@ if (missingFiles.length > 0) {
 // 检查详情页（中+英，预清理后不存在=未生成，必须终止）
 let missingDetailPages = [];
 for (const slug of DETAIL_PAGES) {
-  for (const suffix of ['-en', '-zh']) {
+  for (const suffix of ['-en', '']) {
     const p = path.join(ZODIAC_DIR, `${slug}${suffix}.html`);
-    if (!fs.existsSync(p)) missingDetailPages.push(`${slug}${suffix}.html`);
+    if (!fs.existsSync(p)) missingDetailPages.push(`${slug}${suffix || '.html'}`);
   }
 }
 if (missingDetailPages.length > 0) {
