@@ -773,16 +773,17 @@ async function generateFortuneCN(zodiac, ganzhi, relations, fourPillars) {
 ## 写作风格（不二堂风格）
 - **第一句开门见山**："生肖${name}今日运势[吉凶参半/平稳/下降/上升]，[核心判断]"
 - **全文 80-120 字**，精炼有力，不注水
+- **书面命理风**，像不二堂钱自涌的每日运势专栏——果断、精炼、有命理感
 - **四个维度必须都有具体判断**：
-  - 事业：今天工作上会发生什么具体事（如"临时被拉进项目组""方案被打回重做"）
-  - 财运：今天钱方面会怎样（如"投资需谨慎""有劫财迹象""不宜大额支出"）
-  - 感情：今天人际/感情会怎样（如"要控制情绪""谨防火伤感情""人缘佳"）
-  - 健康：今天身体/情绪会怎样（如"谨防发火伤身体""容易失眠""注意休息"）
-- **用具体事件代替泛泛判断**——"朋友间会因金钱矛盾产生纠纷"比"需注意人际矛盾"更准
-- 可以用常用命理词：吉凶参半、贵人、劫财、相冲、相害、六合
-- **禁止**使用深度学术术语：正官、七杀、比肩、伤官、食神、伏吟、透出、得令、当令、润局、身旺身弱、暗动等
+  - 事业："执行力亦强，可开拓市场" / "暗中受阻，不宜激进" / "贵人明透，利合作"
+  - 财运："投资需谨慎" / "有劫财迹象" / "正财平稳，偏财勿贪"
+  - 感情："人缘佳" / "要控制情绪" / "谨防火伤感情" / "利沟通"
+  - 健康："谨防发火伤身体" / "容易失眠" / "注意休息" / "身体无碍"
+- **禁止口语化**——不说"你明天会被拉进项目组""朋友间会吵架"这种大白话
+- 可以用常用命理词：吉凶参半、贵人、劫财、相冲、相害、六合、执行力、人缘
+- **禁止**使用深度学术术语：正官、七杀、比肩、伤官、食神、伏吟、透出、得令、当令、润局等
 - **禁止**解释性话术："火旺则木焚""三午火叠见""因为XX所以XX"
-- 语气果断直接，像有经验的师傅
+- 语气果断直接，不绕弯子
 - 不要讲故事，不要生活化场景开头
 - 一段或两段即可，不要分条列举
 
@@ -1026,8 +1027,10 @@ async function translateToEnglish(cnText, zodiacEn, verdict, zodiacKey) {
 ## Content Requirements
 - MUST cover four areas: work/career, finances, relationships, health
 - Give **clear judgment + specific advice** for each area
+- Use written, professional astrology style — like Chinese master's readings
+- Examples: "execution strong, favorable for expansion" / "investment caution advised" / "control emotions, avoid conflicts"
+- **NO colloquial language** — avoid "you'll get pulled into a meeting" style
 - Don't explain WHY — just state WHAT will happen
-- Use specific predictions: "unexpected work assignment" not "be careful at work"
 - The content should feel **different each day** — never repeat fixed phrases
 - No rambling stories or scene-setting openings
 
