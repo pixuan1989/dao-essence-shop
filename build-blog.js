@@ -888,6 +888,9 @@ function generateSlug(filename, data, existingSlugs) {
   // Replace CJK parens and special chars with dash
   base = base.replace(/[（()）\[\]【】]/g, '-');
   
+  // Normalize language suffix: "foo.zh" → "foo-zh" before ascii conversion
+  base = base.replace(/\.([a-z]{2,3})$/, '-$1');
+
   // Try ASCII slug first
   const asciiSlug = base.toLowerCase()
     .replace(/[^\w\s-]/g, '')
@@ -940,7 +943,8 @@ function readAllMdFiles(dir) {
     .map(f => {
       const raw = fs.readFileSync(path.join(dir, f), 'utf-8');
       const { data, content } = matter(raw);
-      return { filename: f, slug: data.slug || f.replace(/\.md$/, ''), data, content };
+      const slug = generateSlug(f, data, new Set());
+      return { filename: f, slug, data, content };
     });
 }
 
@@ -1306,12 +1310,13 @@ function generateArticleHtml(post, category, allArticles, options = {}) {
     </script>`;
   }
 
-  // hreflang links for multilingual SEO
-  // Only include zh-Hant if zh article pages actually exist (built at Step 4b)
+  // hreflang: enUrl and zhUrl must use correct slugs
+  const enSlug = isZh && slug.endsWith('-zh') ? slug.replace(/-zh$/, '') : slug;
+  const zhSlug = isZh ? slug : (options.hasZh ? slug + '-zh' : null);
   const articleUrl = `${SITE_URL}${langPrefix}/blog/${slug}`;
-  const enUrl = `${SITE_URL}/blog/${slug}`;
+  const enUrl = `${SITE_URL}/blog/${enSlug}`;
   const hasZh = options.hasZh === true;
-  const zhUrl = `${SITE_URL}/zh/blog/${slug}`;
+  const zhUrl = zhSlug ? `${SITE_URL}/zh/blog/${zhSlug}` : '';
   const hreflangLinks = hasZh ? `
     <link rel="alternate" hreflang="en" href="${enUrl}">
     <link rel="alternate" hreflang="zh-Hant" href="${zhUrl}">
@@ -2045,9 +2050,11 @@ async function main() {
   }
 
   // Build a map of en slug -> zh article for cross-linking
+  // Key: en slug (zh slug with -zh suffix removed), so en articles can find their zh counterpart
   const zhArticleMap = {};
   for (const zhPost of zhArticles) {
-    zhArticleMap[zhPost.slug] = zhPost;
+    const enSlug = zhPost.slug.endsWith('-zh') ? zhPost.slug.replace(/-zh$/, '') : zhPost.slug;
+    zhArticleMap[enSlug] = zhPost;
   }
 
   if (allArticles.length === 0) {
