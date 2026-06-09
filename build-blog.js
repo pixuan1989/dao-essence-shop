@@ -2038,8 +2038,26 @@ async function main() {
     }
   } else {
     console.log('DASHSCOPE_API_KEY not set — skipping auto-translation.');
-    console.log('  Set DASHSCOPE_API_KEY in Vercel env to enable automatic zh translation.');
-    console.log('  Skipping blog/posts-zh/ to avoid duplicate manual translations.');
+    // FALLBACK: Load existing manual translations from posts-zh/ so sitemap includes zh URLs
+    if (fs.existsSync(POSTS_ZH_DIR)) {
+      console.log('  Fallback: Loading existing manual translations from posts-zh/...');
+      for (const f of fs.readdirSync(POSTS_ZH_DIR)) {
+        if (!f.endsWith('.md')) continue;
+        const raw = fs.readFileSync(path.join(POSTS_ZH_DIR, f), 'utf-8');
+        const { data, content } = matter(raw);
+        if (!content.trim() && data.body) data.body = content;
+        const rawSlug = f.replace(/\.md$/, '');
+        const slug = rawSlug.replace(/\.zh$/, '-zh');
+        zhArticles.push({
+          filename: f,
+          slug,
+          data,
+          content,
+          category: data.category || 'bazi-astrology'
+        });
+      }
+      console.log(`  ✅ Loaded ${zhArticles.length} manual zh translations for sitemap`);
+    }
   }
 
   // NOTE: autoTranslateIfNeeded() already returns ALL zh articles
