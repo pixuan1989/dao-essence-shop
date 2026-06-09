@@ -1852,10 +1852,10 @@ function buildDetailHTML(ctx, isEn) {
 <body class="detail-page-body">
   <div class="detail-bg"></div>
   <header class="detail-nav">
-    <a class="detail-nav__back" href="zodiac-daily.html" id="backLink">${isEn ? '← Back to Horoscope' : '← 返回运势首页'}</a>
+    <a class="detail-nav__back" href="/zodiac/zodiac-daily/" id="backLink">${isEn ? '← Back to Horoscope' : '← 返回运势首页'}</a>
     <div class="detail-lang-switch">
-      <a href="${sign}.html" style="color:${isEn ? 'rgba(255,255,255,0.5)' : '#D4AF37'};text-decoration:none;font-weight:${isEn ? '400' : '600'};font-size:0.85rem;">中</a>
-      <a href="${sign}-en.html" style="color:${isEn ? '#D4AF37' : 'rgba(255,255,255,0.5)'};text-decoration:none;font-weight:${isEn ? '600' : '400'};font-size:0.85rem;margin-left:12px;">EN</a>
+      <a href="/zodiac/${sign}/" style="color:${isEn ? 'rgba(255,255,255,0.5)' : '#D4AF37'};text-decoration:none;font-weight:${isEn ? '400' : '600'};font-size:0.85rem;">中</a>
+      <a href="/zodiac/${sign}-en/" style="color:${isEn ? '#D4AF37' : 'rgba(255,255,255,0.5)'};text-decoration:none;font-weight:${isEn ? '600' : '400'};font-size:0.85rem;margin-left:12px;">EN</a>
     </div>
   </header>
   <main class="detail-content-v5">

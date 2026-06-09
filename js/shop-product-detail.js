@@ -108,9 +108,9 @@ function renderBreadcrumbs() {
     if (!breadcrumbContainer) return;
     
     breadcrumbContainer.innerHTML = `
-        <a href="index.html">首页</a>
+        <a href="/">首页</a>
         <span>/</span>
-        <a href="shop.html">卡</a>
+        <a href="/shop/">卡</a>
         <span>/</span>
         <span>${currentCard.title}</span>
     `;
@@ -547,7 +547,7 @@ async function renderRelatedCards() {
                 ${related.map(card => {
                     const img = getMainImage(card);
                     return `
-                        <a href="product-detail.html?product=${card.handle}" class="related-product-card">
+                        <a href="/product-detail?product=${card.handle}" class="related-product-card">
                             <img src="${img?.url || 'images/placeholder.jpg'}" alt="${card.title}">
                             <h4>${card.title}</h4>
                             <p>${formatPrice(card.priceRange.minVariantPrice.amount, card.priceRange.minVariantPrice.currencyCode)}</p>
@@ -645,7 +645,7 @@ function showError(message) {
     container.innerHTML = `
         <div class="error-page">
             <p>${message}</p>
-            <a href="shop.html" class="back-link">返回卡列表</a>
+            <a href="/shop/" class="back-link">返回卡列表</a>
         </div>
     `;
 }
