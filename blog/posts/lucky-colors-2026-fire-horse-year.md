@@ -12,7 +12,7 @@ date: 2026-06-09
 author: Xuanzhen
 readTime: 9
 pinned: false
-image: /images/blog/lucky-colors-2026.webp
+image: /images/blog/lucky-colors-2026-fire-horse-year.webp
 cta_cards:
   - five-elements-test
   - bazi
