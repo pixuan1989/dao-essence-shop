@@ -170,11 +170,20 @@
 
     // ---- Sign in (Optimized Single-Step Flow) ----
     DA.open = function() {
+        // If Clerk SDK not loaded yet, load it dynamically
+        if (!window.Clerk) {
+            pendingSignIn = true;
+            DA._syncNav(null); // Show loading state
+            DA._loadClerkSDK();
+            return;
+        }
+        // If SDK loaded but not initialized
         if (!clerkReady || !clerkInstance) {
             pendingSignIn = true;
             DA._syncNav(null); // Show loading state
             return;
         }
+        // SDK ready, open sign-in
         try {
             // Use redirectUrl instead of fallbackRedirectUrl to avoid the two-step flow.
             // This ensures users only enter password once, providing a smoother UX.
@@ -193,6 +202,49 @@
         }
     };
 
+    // ---- Lazy Load Clerk SDK ----
+    DA._loadClerkSDK = function() {
+        if (document.getElementById('clerk-sdk-script')) return; // Already loading
+
+        console.log('[Auth] Loading Clerk SDK on demand...');
+        DA.showToast(t('auth.loading', 'Loading sign-in...'), 3000);
+
+        // Load Clerk UI first
+        var uiScript = document.createElement('script');
+        uiScript.src = 'https://cdn.jsdelivr.net/npm/@clerk/ui@1/dist/ui.browser.js';
+        uiScript.crossOrigin = 'anonymous';
+        document.head.appendChild(uiScript);
+
+        // Load Clerk JS
+        var clerkScript = document.createElement('script');
+        clerkScript.id = 'clerk-sdk-script';
+        clerkScript.src = 'https://cdn.jsdelivr.net/npm/@clerk/clerk-js@6/dist/clerk.browser.js';
+        clerkScript.crossOrigin = 'anonymous';
+        clerkScript.setAttribute('data-clerk-publishable-key', 'pk_live_Y2xlcmsuZGFvZXNzZW50aWEuY29tJA');
+        
+        clerkScript.onload = function() {
+            console.log('[Auth] Clerk SDK loaded, initializing...');
+            // Initialize Clerk after SDK loads
+            DA._initClerk().then(function() {
+                // If user clicked sign-in while loading, auto-open now
+                if (pendingSignIn && clerkInstance && typeof clerkInstance.openSignIn === 'function') {
+                    clerkInstance.openSignIn({
+                        redirectUrl: window.location.href
+                    });
+                }
+            });
+        };
+        
+        clerkScript.onerror = function() {
+            console.error('[Auth] Failed to load Clerk SDK');
+            pendingSignIn = false;
+            DA._syncNav(null);
+            DA.showToast(t('auth.signin_error', 'Sign-in service unavailable. Please refresh.'), 5000);
+        };
+        
+        document.head.appendChild(clerkScript);
+    };
+
     // ---- Sign out ----
     DA.signOut = async function() {
         if (!clerkReady || !clerkInstance) return;
@@ -208,8 +260,8 @@
     };
     DA.isSignedIn = function() { return clerkReady && clerkInstance && clerkInstance.isSignedIn; };
 
-    // Start
-    if (document.readyState==='loading') document.addEventListener('DOMContentLoaded',function(){DA._initClerk();});
-    else DA._initClerk();
+    // Start: Initialize UI state only (no SDK load)
+    if (document.readyState==='loading') document.addEventListener('DOMContentLoaded',function(){DA._syncNav(null);});
+    else DA._syncNav(null);
     window.DaoAuth = DA;
 })();
