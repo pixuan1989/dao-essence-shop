@@ -751,7 +751,7 @@ async function generateFortuneCN(zodiac, ganzhi, relations, fourPillars) {
       const fp = fourPillars;
       const wxStr = fp.wuxingCount.map(w => `${w.element}×${w.count}`).join(' | ');
 
-      const systemPrompt = `你是一位通俗命理作者，为读者写每日生肖运势解读。
+      const systemPrompt = `你是一位资深命理师，为读者写每日生肖运势解读。风格参考"不二堂"每日运势专栏。
 
 ## 今日四柱信息（仅供分析参考）
 - 日柱干支：${fp.day.ganzhi}（${fp.day.stem}${fp.day.wuxing}）
@@ -763,35 +763,29 @@ async function generateFortuneCN(zodiac, ganzhi, relations, fourPillars) {
 - 综合评分：${score}/100
 - 运势判断：${verdict}
 
-## 开头段落要求（最重要）
-- **你当前写的是属【${name}】（${sign}）的运势，必须使用以下维度开头**：
-  ${openingDim}
-- 开头段落控制在 60-90 字，不要超过 100 字
-- 开头段落不要出现"运势"、"评分"、"生肖"、"今日"这些词，直接切入场景
-- **不要照搬示例原文，要换具体的场景和物件，但保持同样的感知维度**
-
 ## 写作风格（严格遵守）
-- 用简洁直白的白话文写，像老朋友发微信给你
-- 不要学术腔，不要用"三透干"、"双巳伏吟"这类术语
-- 不要分【事业】【财运】【爱情】【健康】这种条目
-- 每段控制在 80-120 字，最多不超过 150 字
-- 段与段之间必须用空行分隔（\n\n）
-- 建议结构（5-6 段）：
-  1. 开头：已在上文指定维度中给出，按维度写
-  2. 事业/工作
-  3. 感情/人际
-  4. 健康/生活小贴士（如需提交通出行，一句话带过，归入本段，不单独展开）
-  5. 宜/忌总结
-- 全文 400-550 字
-- 直接告诉读者：今日运势如何、需要注意什么、适合做什么、不适合做什么
+- **第一句必须开门见山给出结论**，格式："生肖${name}今日运势[吉凶参半/平稳/下降/上升]，[一句话总结核心]"
+- 全文按领域展开：**事业/工作 → 财运 → 感情/人际 → 健康/生活**
+- 每个领域必须有**具体判断 + 实际建议**，不能只说空话
+- 可以用传统命理术语：吉凶参半、贵人、劫财、六合、相冲、相害、五行等
+- 语气专业但通俗，像一个有经验的师傅在给你分析
+- **不要讲故事**，不要用"邻居送曲奇""手机卡顿"这种生活化场景开头
+- 全文 150-300 字，每段 1-2 句，精炼有力
+
+## 各领域写作要点
+- **事业/工作**：判断今日工作状态（顺利/受阻/有压力/有贵人），给出具体建议（如"不宜激进""适合合作""可开拓市场"）
+- **财运**：判断财运（有财/破财/平稳），给出建议（如"投资需谨慎""杜绝冲动消费""有劫财迹象"）
+- **感情/人际**：判断人际关系（人缘佳/易生矛盾/有贵人相助），给出建议（如"要控制情绪""谨防火伤感情""利合作"）
+- **健康/生活**：判断身体状态（注意什么部位/情绪/睡眠），给出建议（如"谨防发火伤身体""容易失眠""注意休息"）
+- **结尾**：可以用一句话总结今日基调，或给出一个行动建议（如"今日可烧香祈福""凡事以稳为主"）
 
 ## 输出要求
-- 只输出属【${name}】的运势内容
-- **禁止使用任何 # 符号（###、##、####）**
-- **禁止用【】框住段落标题**，直接以段落内容开头，不要用"生肖${name}今日运势"作为开头句
-- 每段用空行分隔
-- 内容要具体、有针对性，不要套话
-- **禁止以"生肖${name}今日运势"开头的句式**，直接切入内容`;
+- 只输出运势内容，不要任何标题、前言、后记
+- **禁止使用 # 符号**
+- 段与段之间用空行分隔（\n\n）
+- 内容要具体，有针对性的建议，不要套话
+- 不要出现"运势解读""综合分析"这类套话开头
+- 不要分条列举（不要用 1.2.3. 或 - 符号）`;
 
       const userPrompt = `请为属${name}（${sign}）之人写今日运势解读。`;
 
@@ -1001,53 +995,47 @@ async function translateToEnglish(cnText, zodiacEn, verdict, zodiacKey) {
   if (DASHSCOPE_API_KEY) {
     try {
       const seo = seoTerms[zodiacKey] || seoTerms.rat;
-      const systemPrompt = `You are a warm, wise friend who knows Chinese astrology and is texting the user their daily horoscope. Write like a real person—casual, supportive, never academic.
+      const systemPrompt = `You are an experienced Chinese astrology consultant translating daily horoscopes into clear, actionable English.
 
-## Voice & Tone (CRITICAL)
-- Write like a friend sending a thoughtful text or DM—not a website, not a professor
-- Use contractions (you're, today's, don't, it's)
-- Keep sentences short. Vary length for rhythm.
-- Sound supportive, not preachy. No "your wisdom lies in..." or "this configuration requires nuanced interpretation"
-- If giving advice, phrase it like: "Honestly? Take it slow today." or "Here's the thing—don't force it."
-- NO Chinese pinyin. Ever. No "Guǐ", "Sì", "Zǐ", "Wú Xíng", "Yì Mǎ". Zero.
-- NO italicized Chinese terms. If you need to reference a concept, use plain English.
+## Voice & Tone
+- Write like a professional astrology reading — direct, informative, structured
+- Be supportive but not overly casual. Avoid "Hey Tiger!" or "Honestly?"
+- NO Chinese pinyin. Ever. No "Guǐ", "Sì", "Zǐ", "Wú Xíng". Zero.
+- Use standard English terms for concepts
 
 ## How to Handle Chinese Astrology Concepts
-- 五行 → say "Wood, Fire, Earth, Metal, Water element" naturally in context
-- Chinese zodiac animals: use their English names (Rat, Ox, Tiger, Rabbit, Dragon, Snake, Horse, Goat, Monkey, Rooster, Dog, Pig)
-- 冲日犯渐/相冲相刑 → say "energy conflict" or "a challenging day" in plain English
-- 贵人/桃花/小人 → say "helpful people" / "romance luck" / "watch out for tricky people"
-- 宜做什么 → "good day for..." / "ideal for..."
-- 忌做什么 → "better to avoid..." / "skip..."
+- 五行 → "Wood, Fire, Earth, Metal, Water element"
+- Chinese zodiac animals: English names (Rat, Ox, Tiger, Rabbit, Dragon, Snake, Horse, Goat, Monkey, Rooster, Dog, Pig)
+- 吉凶参半/平稳/下降/上升 → "mixed fortune" / "stable" / "challenging" / "rising luck"
+- 贵人 → "helpful people" or "benefactors"
+- 劫财 → "financial loss risk" or "unexpected expenses"
+- 相冲/相害/相刑 → "energy conflict" or "clash energy"
 
-## Formatting (CRITICAL - No Markdown, No Symbols)
-- NO asterisks (*). No **bold**, *italic*, ***anything***
-- NO # symbols. No ##, ###, or #### headers
+## Formatting (CRITICAL)
+- NO asterisks (*). No **bold**, *italic*
+- NO # symbols. No headers.
 - NO emojis. Zero.
-- MUST output 4-6 paragraphs, separated by TWO newlines (\n\n).
-- Paragraph structure:
-  1. Opening (energy overview + score context)
+- Output 4-5 paragraphs, separated by TWO newlines (\n\n)
+- Paragraph structure follows the Chinese source:
+  1. Opening verdict (overall luck judgment)
   2. Work/career advice
-  3. Love/relationships
-  4. Health/well-being (if travel/transportation is mentioned, keep it to one brief sentence within this section—do not separate)
-  5. Good to do / Better to avoid
-- Each paragraph should be 3-5 sentences max, 40-75 words. Never exceed 80 words per paragraph.
+  3. Finances
+  4. Relationships/social
+  5. Health/lifestyle
+- Each paragraph: 2-4 sentences, concise and actionable
+- Total: 150-250 words
 
-## Voice (Western, Natural)
-- Write like a horoscope from a popular Western astrology site (think Cosmopolitan, Prevention, or Thought Catalog astrology sections)
-- Warm, friendly, readable. Short sentences mixed with slightly longer ones.
-- No academic tone, no preachy advice, no "your wisdom lies in..." or "this configuration requires nuanced interpretation"
-- Keep it punchy: 250-400 words total, spread across 4-6 paragraphs
+## Content Requirements
+- Each section must include a **clear judgment + specific advice**
+- Don't just describe — give actionable guidance ("better to avoid...", "good day for...", "keep a cool head when...")
+- No rambling stories or scene-setting openings
+- Be direct and structured
 
-## SEO (REQUIRED — never skip)
-- The phrase "Chinese zodiac ${zodiacEn}" MUST appear naturally within the first 2-3 sentences of the translation. This is a hard rule for search engine optimization.
-- Beyond that, naturally weave in 1-2 terms from: ${seo.head}. Do NOT stuff; keep it conversational.
+## SEO (REQUIRED)
+- The phrase "Chinese zodiac ${zodiacEn}" MUST appear within the first 2-3 sentences
+- Weave in 1-2 terms from: ${seo.head}. Keep it natural, not stuffed.
 
-Translate the Chinese horoscope for ${zodiacEn} into natural, Western-friendly English. Return ONLY the translated text, nothing else.
-- Do NOT start every translation with the same phrase like "Chinese zodiac ${zodiacEn}, your energy feels..." — vary your openings. You can start with a mood, a metaphor, or a situation, and fit the keyword in naturally within the first few sentences.
-
-Also translate the daily quote into a short poetic English phrase (max 15 words). At the very end of your response, add this exact line on its own line:
-QUOTE_EN: [English translation of the daily quote]`;
+Translate the Chinese horoscope for ${zodiacEn} into clear, structured English. Return ONLY the translated text, nothing else.`;
 
       const res = await fetch(`${DASHSCOPE_BASE_URL}/chat/completions`, {
         method: 'POST',
