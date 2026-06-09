@@ -1933,12 +1933,17 @@ ${FOOTER_HTML}
 
 async function main() {
   console.log('=== Blog Build Started ===');
-  // Step 1: Clean and create dist/
-  if (fs.existsSync(DIST_DIR)) {
-    fs.rmSync(DIST_DIR, { recursive: true, force: true });
+  // Step 1: Clean blog dirs in dist/ (avoid removing entire dist/ which may be locked)
+  const blogDist = path.join(DIST_DIR, 'blog');
+  if (fs.existsSync(blogDist)) {
+    fs.rmSync(blogDist, { recursive: true, force: true });
   }
-  fs.mkdirSync(DIST_DIR, { recursive: true });
+  const zhBlogDist = path.join(DIST_DIR, 'zh', 'blog');
+  if (fs.existsSync(zhBlogDist)) {
+    fs.rmSync(zhBlogDist, { recursive: true, force: true });
+  }
   fs.mkdirSync(DIST_BLOG_DIR, { recursive: true });
+  fs.mkdirSync(DIST_ZH_BLOG_DIR, { recursive: true });
 
   // Step 2: Copy entire project to dist/ (excluding build artifacts)
   console.log('Copying project to dist/...');
@@ -2034,10 +2039,12 @@ async function main() {
   } else {
     console.log('DASHSCOPE_API_KEY not set — skipping auto-translation.');
     console.log('  Set DASHSCOPE_API_KEY in Vercel env to enable automatic zh translation.');
+    console.log('  Skipping blog/posts-zh/ to avoid duplicate manual translations.');
   }
 
-  // Merge pre-existing zh articles (deduplicate with auto-translated)
-  if (fs.existsSync(POSTS_ZH_DIR)) {
+  // Only read blog/posts-zh/ if API key is set (auto-translation was attempted)
+  // This prevents duplicate articles when manual .zh.md files exist
+  if (process.env.DASHSCOPE_API_KEY && fs.existsSync(POSTS_ZH_DIR)) {
     const zhPosts = readAllMdFiles(POSTS_ZH_DIR);
     const existingSlugs = new Set(zhArticles.map(a => a.slug));
     zhPosts.forEach(post => {
@@ -2047,6 +2054,8 @@ async function main() {
       }
       zhArticles.push({ ...post, category: post.data.category || 'bazi-astrology' });
     });
+  } else if (fs.existsSync(POSTS_ZH_DIR)) {
+    console.log('  Skipped blog/posts-zh/ (DASHSCOPE_API_KEY not set, auto-translation disabled)');
   }
 
   // Build a map of en slug -> zh article for cross-linking
