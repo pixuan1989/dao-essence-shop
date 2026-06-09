@@ -2742,7 +2742,8 @@ async function main() {
       const fullPath = path.join(dir, file);
       if (fs.statSync(fullPath).isDirectory()) {
         collectHtmlFiles(fullPath);
-      } else if (file.endsWith('.html') && file !== 'index.html') {
+      } else if (file.endsWith('.html') && file !== 'index.html' && file !== 'index.zh.html') {
+        // 排除 index.html 和 index.zh.html（已在正确目录中）
         htmlFiles.push(fullPath);
       }
     }
