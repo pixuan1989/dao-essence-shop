@@ -2525,6 +2525,26 @@ async function main() {
   if (fs.existsSync(wallpapersJson)) {
     fs.copyFileSync(wallpapersJson, path.join(DIST_DIR, 'wallpapers.json'));
     console.log('  Generated: dist/wallpapers.json');
+
+    // Generate wallpapers-lite.json for aggregate page (removes description/descriptionZh/avatar/etc.)
+    try {
+      const fullData = JSON.parse(fs.readFileSync(wallpapersJson, 'utf8'));
+      const liteFields = ['id', 'title', 'titleZh', 'thumb', 'original', 'mockup', 'date', 'category', 'categoryZh', 'downloads', 'slug'];
+      const liteData = fullData.map(wp => {
+        const lite = {};
+        for (const f of liteFields) {
+          if (wp[f] !== undefined) lite[f] = wp[f];
+        }
+        return lite;
+      });
+      const litePath = path.join(DIST_DIR, 'wallpapers-lite.json');
+      fs.writeFileSync(litePath, JSON.stringify(liteData, null, 2), 'utf8');
+      const origSize = fs.statSync(wallpapersJson).size;
+      const liteSize = fs.statSync(litePath).size;
+      console.log(`  Generated: dist/wallpapers-lite.json (${origSize} → ${liteSize} bytes, ${Math.round((1 - liteSize/origSize) * 100)}% reduction)`);
+    } catch (e) {
+      console.warn('  ⚠️ Failed to generate wallpapers-lite.json:', e.message);
+    }
   }
 
   // Step 7.55: Auto-fix missing slugs & dedupe (prevent 404)

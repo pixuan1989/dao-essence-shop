@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Soulmate Calculator Wallpaper Recommendation Module (Task P3)
  * Function: Recommends "peach blossom / love luck" wallpapers after the soulmate reading.
  * Strategy: Append-Only, uses MutationObserver on #sc-step-3, supports i18n language switching.
@@ -25,12 +25,12 @@
   function buildTitle(lang) {
     const isZh = lang === 'zh';
     return isZh
-      ? '催桃花壁纸 — 旺姻缘、招正缘'
-      : 'Peach Blossom Wallpapers — Attract Love & Romance';
+      ? '鍌鑺卞绾?鈥?鏃哄Щ缂樸€佹嫑姝ｇ紭'
+      : 'Peach Blossom Wallpapers 鈥?Attract Love & Romance';
   }
 
   function getMoreBtnText(lang) {
-    return lang === 'zh' ? '查看更多玄学壁纸 →' : 'Browse All Wallpapers →';
+    return lang === 'zh' ? '鏌ョ湅鏇村鐜勫澹佺焊 鈫? : 'Browse All Wallpapers 鈫?;
   }
 
   function renderRecommendations(container, wallpapers, title) {
@@ -78,7 +78,7 @@
     if (!target) return;
 
     try {
-      const res = await fetch('/wallpapers.json');
+      const res = await fetch('/wallpapers-lite.json');
       if (res.ok) storedWallpapers = await res.json();
     } catch (e) {}
     if (storedWallpapers.length === 0) return;

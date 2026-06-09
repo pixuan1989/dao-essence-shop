@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Almanac Wallpaper Recommendation Module (Task P4)
  * Function: Recommends wallpapers matching the user's selected scenario after auspicious date results.
  * Strategy: Append-Only, uses MutationObserver on #selectResult, supports i18n language switching.
@@ -37,18 +37,18 @@
     if (!titleEl) return null;
     const text = (titleEl.textContent || '').toLowerCase();
     const keywords = [
-      { key: 'marry', words: ['married', 'getting married', '结婚', 'wedding'] },
-      { key: 'engagement', words: ['engaged', 'getting engaged', '订婚'] },
-      { key: 'business', words: ['business', 'starting business', '开业', '创业'] },
-      { key: 'contract', words: ['contract', 'signing contract', '签约', '合同'] },
-      { key: 'moving', words: ['moving', 'moving home', '搬家', '搬迁'] },
-      { key: 'housewarm', words: ['housewarming', '入宅', '乔迁'] },
-      { key: 'travel', words: ['travel', 'vacation', '出行', '旅游'] },
-      { key: 'purchase', words: ['purchase', 'buying', '购买', '购物'] },
-      { key: 'medical', words: ['medical', 'procedure', '医疗', '手术'] },
-      { key: 'interview', words: ['interview', 'job interview', '面试'] },
-      { key: 'pet_vet', words: ['pet', 'vet', '宠物', '看兽医'] },
-      { key: 'date', words: ['date', 'going on a date', '约会', '相亲'] }
+      { key: 'marry', words: ['married', 'getting married', '缁撳', 'wedding'] },
+      { key: 'engagement', words: ['engaged', 'getting engaged', '璁㈠'] },
+      { key: 'business', words: ['business', 'starting business', '寮€涓?, '鍒涗笟'] },
+      { key: 'contract', words: ['contract', 'signing contract', '绛剧害', '鍚堝悓'] },
+      { key: 'moving', words: ['moving', 'moving home', '鎼', '鎼縼'] },
+      { key: 'housewarm', words: ['housewarming', '鍏ュ畢', '涔旇縼'] },
+      { key: 'travel', words: ['travel', 'vacation', '鍑鸿', '鏃呮父'] },
+      { key: 'purchase', words: ['purchase', 'buying', '璐拱', '璐墿'] },
+      { key: 'medical', words: ['medical', 'procedure', '鍖荤枟', '鎵嬫湳'] },
+      { key: 'interview', words: ['interview', 'job interview', '闈㈣瘯'] },
+      { key: 'pet_vet', words: ['pet', 'vet', '瀹犵墿', '鐪嬪吔鍖?] },
+      { key: 'date', words: ['date', 'going on a date', '绾︿細', '鐩镐翰'] }
     ];
     for (const kw of keywords) {
       if (kw.words.some(w => text.includes(w))) return kw.key;
@@ -59,21 +59,21 @@
   function buildTitle(scenario, lang) {
     const isZh = lang === 'zh';
     const scenarioNames = {
-      marry: { zh: '结婚', en: 'Marriage' }, engagement: { zh: '订婚', en: 'Engagement' },
-      business: { zh: '开业', en: 'Business' }, contract: { zh: '签约', en: 'Contract' },
-      moving: { zh: '搬家', en: 'Moving' }, housewarm: { zh: '乔迁', en: 'Housewarming' },
-      travel: { zh: '出行', en: 'Travel' }, purchase: { zh: '购物', en: 'Purchase' },
-      medical: { zh: '医疗', en: 'Medical' }, interview: { zh: '面试', en: 'Interview' },
-      pet_vet: { zh: '宠物', en: 'Pet' }, date: { zh: '约会', en: 'Date' }
+      marry: { zh: '缁撳', en: 'Marriage' }, engagement: { zh: '璁㈠', en: 'Engagement' },
+      business: { zh: '寮€涓?, en: 'Business' }, contract: { zh: '绛剧害', en: 'Contract' },
+      moving: { zh: '鎼', en: 'Moving' }, housewarm: { zh: '涔旇縼', en: 'Housewarming' },
+      travel: { zh: '鍑鸿', en: 'Travel' }, purchase: { zh: '璐墿', en: 'Purchase' },
+      medical: { zh: '鍖荤枟', en: 'Medical' }, interview: { zh: '闈㈣瘯', en: 'Interview' },
+      pet_vet: { zh: '瀹犵墿', en: 'Pet' }, date: { zh: '绾︿細', en: 'Date' }
     };
-    const name = scenarioNames[scenario] || { zh: '择日', en: 'Auspicious Day' };
+    const name = scenarioNames[scenario] || { zh: '鎷╂棩', en: 'Auspicious Day' };
     return isZh
-      ? `选个好日子${name.zh}，用${name.zh}主题壁纸加持好运`
+      ? `閫変釜濂芥棩瀛?{name.zh}锛岀敤${name.zh}涓婚澹佺焊鍔犳寔濂借繍`
       : `Picked an auspicious day for ${name.en}? Carry the energy home with these wallpapers`;
   }
 
   function getMoreBtnText(lang) {
-    return lang === 'zh' ? '查看更多玄学壁纸 →' : 'Browse All Wallpapers →';
+    return lang === 'zh' ? '鏌ョ湅鏇村鐜勫澹佺焊 鈫? : 'Browse All Wallpapers 鈫?;
   }
 
   function renderRecommendations(container, wallpapers, scenario, title) {
@@ -121,7 +121,7 @@
     if (!target) return;
 
     try {
-      const res = await fetch('/wallpapers.json');
+      const res = await fetch('/wallpapers-lite.json');
       if (res.ok) storedWallpapers = await res.json();
     } catch (e) {}
     if (storedWallpapers.length === 0) return;

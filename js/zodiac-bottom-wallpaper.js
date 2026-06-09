@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Zodiac Aggregate Bottom Wallpaper Module (Append-Only)
  * Function: Renders 3 random wallpapers at the bottom of the aggregate page.
  * Debug: Displays status text on the webpage for troubleshooting.
@@ -10,42 +10,42 @@
     const grid = document.getElementById('zodiac-wp-grid');
     const container = document.getElementById('zodiac-wp-rec-container');
     
-    // 调试：在网页上显示“脚本已运行”
+    // 璋冭瘯锛氬湪缃戦〉涓婃樉绀衡€滆剼鏈凡杩愯鈥?
     if (container) {
-      container.innerHTML = '<div style="color:#fff;font-size:14px;">[脚本已启动] 正在请求壁纸数据...</div>';
+      container.innerHTML = '<div style="color:#fff;font-size:14px;">[鑴氭湰宸插惎鍔╙ 姝ｅ湪璇锋眰澹佺焊鏁版嵁...</div>';
     }
     if (!grid) {
-      if (container) container.innerHTML += '<div style="color:red;font-size:14px;">[错误] 找不到显示区域 (zodiac-wp-grid)</div>';
+      if (container) container.innerHTML += '<div style="color:red;font-size:14px;">[閿欒] 鎵句笉鍒版樉绀哄尯鍩?(zodiac-wp-grid)</div>';
       return;
     }
 
     try {
-      const res = await fetch('/wallpapers.json');
+      const res = await fetch('/wallpapers-lite.json');
       if (!res.ok) {
-        if (container) container.innerHTML = '<div style="color:red;font-size:14px;">[请求失败] 网络状态码: ' + res.status + '</div>';
+        if (container) container.innerHTML = '<div style="color:red;font-size:14px;">[璇锋眰澶辫触] 缃戠粶鐘舵€佺爜: ' + res.status + '</div>';
         return;
       }
       
       const wps = await res.json();
       
-      // 调试：在网页上显示获取到的数据量
-      if (container) container.innerHTML = '<div style="color:#4ade80;font-size:14px;">[成功] 获取到 ' + wps.length + ' 张壁纸，正在渲染...</div>';
+      // 璋冭瘯锛氬湪缃戦〉涓婃樉绀鸿幏鍙栧埌鐨勬暟鎹噺
+      if (container) container.innerHTML = '<div style="color:#4ade80;font-size:14px;">[鎴愬姛] 鑾峰彇鍒?' + wps.length + ' 寮犲绾革紝姝ｅ湪娓叉煋...</div>';
 
       if (wps.length === 0) {
-        if (container) container.innerHTML += '<div style="color:orange;font-size:14px;">[警告] 数据为空</div>';
+        if (container) container.innerHTML += '<div style="color:orange;font-size:14px;">[璀﹀憡] 鏁版嵁涓虹┖</div>';
         return;
       }
 
-      // 随机选 3 张
+      // 闅忔満閫?3 寮?
       const picks = wps.sort(() => 0.5 - Math.random()).slice(0, 3);
 
       picks.forEach(wp => {
         const a = document.createElement('a');
         a.href = '/wallpaper/' + (wp.slug || wp.id);
         a.style.cssText = "display:block;width:110px;border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,0.1);transition:transform 0.2s;";
-        // 检查是否有缩略图
+        // 妫€鏌ユ槸鍚︽湁缂╃暐鍥?
         if (!wp.thumb) {
-          console.warn('壁纸缺少 thumb 字段', wp);
+          console.warn('澹佺焊缂哄皯 thumb 瀛楁', wp);
         }
         a.innerHTML = '<img src="' + (wp.thumb || '') + '" style="width:100%;display:block;min-height:150px;background:#333;" loading="lazy"/>';
         a.onmouseenter = () => a.style.transform = "translateY(-4px)";
@@ -53,16 +53,16 @@
         grid.appendChild(a);
       });
       
-      // 渲染成功后，移除调试文字（或者保留一个成功提示）
-      // container.innerHTML = ''; // 暂时保留调试信息以便确认
+      // 娓叉煋鎴愬姛鍚庯紝绉婚櫎璋冭瘯鏂囧瓧锛堟垨鑰呬繚鐣欎竴涓垚鍔熸彁绀猴級
+      // container.innerHTML = ''; // 鏆傛椂淇濈暀璋冭瘯淇℃伅浠ヤ究纭
       
     } catch (e) {
-      // 调试：在网页上显示具体报错信息
+      // 璋冭瘯锛氬湪缃戦〉涓婃樉绀哄叿浣撴姤閿欎俊鎭?
       if (container) {
         container.innerHTML = '<div style="color:red;font-size:14px;text-align:left;padding:10px;">'
-          + '<strong>[脚本报错]</strong><br>'
+          + '<strong>[鑴氭湰鎶ラ敊]</strong><br>'
           + e.message + '<br>'
-          + '<small>请截图此信息反馈</small>'
+          + '<small>璇锋埅鍥炬淇℃伅鍙嶉</small>'
           + '</div>';
       }
       console.error('[Zodiac Wallpaper] Error:', e);

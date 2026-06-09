@@ -1,12 +1,12 @@
-/**
+﻿/**
  * Zodiac Daily Wallpaper Recommendation Module (Task P2)
  * Function: Adds a "Today's Lucky Wallpaper" recommendation to each zodiac card on the aggregate page.
  * Strategy: Append-Only, injects wallpaper cards into each zodiac card after data loads.
  * Style: Dark semi-transparent glass cards, consistent with existing modules.
  *
- * Element mapping (sign → inherent element):
- *   Rat/Pig → Water | Tiger/Rabbit → Wood | Snake/Horse → Fire
- *   Monkey/Rooster → Metal | Ox/Dragon/Goat/Dog → Earth
+ * Element mapping (sign 鈫?inherent element):
+ *   Rat/Pig 鈫?Water | Tiger/Rabbit 鈫?Wood | Snake/Horse 鈫?Fire
+ *   Monkey/Rooster 鈫?Metal | Ox/Dragon/Goat/Dog 鈫?Earth
  */
 (function() {
   'use strict';
@@ -38,13 +38,13 @@
   function buildTitle(sign, lang) {
     const isZh = lang === 'zh';
     const signNames = {
-      rat: { zh: '鼠', en: 'Rat' }, ox: { zh: '牛', en: 'Ox' }, tiger: { zh: '虎', en: 'Tiger' },
-      rabbit: { zh: '兔', en: 'Rabbit' }, dragon: { zh: '龙', en: 'Dragon' }, snake: { zh: '蛇', en: 'Snake' },
-      horse: { zh: '马', en: 'Horse' }, goat: { zh: '羊', en: 'Goat' }, monkey: { zh: '猴', en: 'Monkey' },
-      rooster: { zh: '鸡', en: 'Rooster' }, dog: { zh: '狗', en: 'Dog' }, pig: { zh: '猪', en: 'Pig' }
+      rat: { zh: '榧?, en: 'Rat' }, ox: { zh: '鐗?, en: 'Ox' }, tiger: { zh: '铏?, en: 'Tiger' },
+      rabbit: { zh: '鍏?, en: 'Rabbit' }, dragon: { zh: '榫?, en: 'Dragon' }, snake: { zh: '铔?, en: 'Snake' },
+      horse: { zh: '椹?, en: 'Horse' }, goat: { zh: '缇?, en: 'Goat' }, monkey: { zh: '鐚?, en: 'Monkey' },
+      rooster: { zh: '楦?, en: 'Rooster' }, dog: { zh: '鐙?, en: 'Dog' }, pig: { zh: '鐚?, en: 'Pig' }
     };
     const name = signNames[sign] || { zh: sign, en: sign };
-    return isZh ? `今日${name.zh}幸运壁纸` : `Today's Lucky Wallpaper for ${name.en}`;
+    return isZh ? `浠婃棩${name.zh}骞歌繍澹佺焊` : `Today's Lucky Wallpaper for ${name.en}`;
   }
 
   // Render wallpaper recommendation into a card
@@ -128,7 +128,7 @@
 
     let wallpapers = [];
     try {
-      const res = await fetch('/wallpapers.json');
+      const res = await fetch('/wallpapers-lite.json');
       if (res.ok) wallpapers = await res.json();
     } catch (e) {
       console.warn('[Zodiac WP Rec] Failed to load wallpapers:', e);

@@ -1174,7 +1174,7 @@
         // Init
         async function init() {
             try {
-                const res = await fetch('wallpapers.json');
+                const res = await fetch('wallpapers-lite.json');
                 allWallpapers = await res.json();
             } catch (e) {
                 console.error('Failed to load wallpapers:', e);

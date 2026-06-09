@@ -1,4 +1,4 @@
-/**
+﻿/**
  * BaZi Wallpaper Recommendation Module (Fixed Layout & i18n)
  * Function: Renders wallpapers at the bottom of BaZi result page.
  * Safety: Appends to existing container, respects current language.
@@ -39,11 +39,11 @@
     if (!container) return;
 
     const lang = getLang();
-    const title = lang === 'zh' ? '搭配玄学壁纸，增强您的运势' : "Enhance your energy with metaphysical wallpapers";
-    const btnText = lang === 'zh' ? '查看更多玄学壁纸 →' : 'Browse All Wallpapers →';
+    const title = lang === 'zh' ? '鎼厤鐜勫澹佺焊锛屽寮烘偍鐨勮繍鍔? : "Enhance your energy with metaphysical wallpapers";
+    const btnText = lang === 'zh' ? '鏌ョ湅鏇村鐜勫澹佺焊 鈫? : 'Browse All Wallpapers 鈫?;
 
     try {
-      const res = await fetch('/wallpapers.json');
+      const res = await fetch('/wallpapers-lite.json');
       if (!res.ok) return;
       const wps = await res.json();
 
@@ -52,7 +52,7 @@
 
       // Build HTML - align with LEFT column of .bazi-page (grid-template-columns: 1fr 300px)
       // .bazi-page has max-width: 1140px, padding: 0 1.5rem, grid gap: 2.5rem
-      // Left column (main content) ≈ 800px, right sidebar = 300px
+      // Left column (main content) 鈮?800px, right sidebar = 300px
       // We match .bazi-page's outer container, then limit inner content to left column width
       let html = `
         <div style="max-width: 1140px; margin: 50px auto 0; padding: 0 1.5rem;">

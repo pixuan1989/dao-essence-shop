@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Zodiac Detail Wallpaper Module (Append-Only)
  * Function: Renders 3 random wallpapers in zodiac detail pages.
  * Safety: Wrapped in try-catch, fails silently, zero impact on core logic.
@@ -11,7 +11,7 @@
     if (!grid) return;
 
     try {
-      const res = await fetch('/wallpapers.json');
+      const res = await fetch('/wallpapers-lite.json');
       if (!res.ok) return;
       const wps = await res.json();
 

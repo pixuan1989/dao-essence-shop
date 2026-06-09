@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Favorable Element Wallpaper Recommendation Module (Task P1 - Top Priority)
  * Function: Recommends wallpapers matching the user's favorable element(s) after the Five Elements analysis.
  * Strategy: Injects into renderResult() flow, supports i18n language switching via daoessence:i18n-changed event.
@@ -9,11 +9,11 @@
 
   const CONFIG = {
     elementToCategory: {
-      '火': 'Energy', 'fire': 'Energy', 'Fire': 'Energy',
-      '水': 'Five Elements', 'water': 'Five Elements', 'Water': 'Five Elements',
-      '木': 'Nature', 'wood': 'Nature', 'Wood': 'Nature',
-      '金': 'Five Elements', 'metal': 'Five Elements', 'Metal': 'Five Elements',
-      '土': 'Feng Shui', 'earth': 'Feng Shui', 'Earth': 'Feng Shui'
+      '鐏?: 'Energy', 'fire': 'Energy', 'Fire': 'Energy',
+      '姘?: 'Five Elements', 'water': 'Five Elements', 'Water': 'Five Elements',
+      '鏈?: 'Nature', 'wood': 'Nature', 'Wood': 'Nature',
+      '閲?: 'Five Elements', 'metal': 'Five Elements', 'Metal': 'Five Elements',
+      '鍦?: 'Feng Shui', 'earth': 'Feng Shui', 'Earth': 'Feng Shui'
     },
     targetId: 'feResult',
     limit: 3
@@ -35,7 +35,7 @@
 
   // Normalize element name to a consistent English key for lookup
   function normalizeElement(el) {
-    const zhToEn = { '火': 'fire', '水': 'water', '木': 'wood', '金': 'metal', '土': 'earth' };
+    const zhToEn = { '鐏?: 'fire', '姘?: 'water', '鏈?: 'wood', '閲?: 'metal', '鍦?: 'earth' };
     const lower = (el || '').toLowerCase();
     return zhToEn[el] || zhToEn[lower] || lower;
   }
@@ -43,7 +43,7 @@
   // Utility: Build title based on elements and language
   function buildTitle(elements, lang) {
     const isZh = lang === 'zh';
-    const cn = { fire: '火', water: '水', wood: '木', metal: '金', earth: '土' };
+    const cn = { fire: '鐏?, water: '姘?, wood: '鏈?, metal: '閲?, earth: '鍦? };
     const en = { fire: 'Fire', water: 'Water', wood: 'Wood', metal: 'Metal', earth: 'Earth' };
     const elNames = elements.map(e => {
       const key = normalizeElement(e);
@@ -51,13 +51,13 @@
     });
     const elStr = elNames.join(' & ');
     return isZh
-      ? `搭配${elStr}元素壁纸，增强您的运势`
+      ? `鎼厤${elStr}鍏冪礌澹佺焊锛屽寮烘偍鐨勮繍鍔縛
       : `Enhance your ${elStr} energy with these wallpapers`;
   }
 
   // Build "More Wallpapers" button text
   function getMoreBtnText(lang) {
-    return lang === 'zh' ? '查看更多玄学壁纸 →' : 'Browse All Wallpapers →';
+    return lang === 'zh' ? '鏌ョ湅鏇村鐜勫澹佺焊 鈫? : 'Browse All Wallpapers 鈫?;
   }
 
   // Render recommendation block
@@ -168,7 +168,7 @@
 
     // Load wallpaper data
     try {
-      const res = await fetch('/wallpapers.json');
+      const res = await fetch('/wallpapers-lite.json');
       if (res.ok) storedWallpapers = await res.json();
     } catch (e) {
       console.warn('[FE WP Rec] Failed to load wallpapers:', e);
@@ -180,7 +180,7 @@
       const favNameEl = document.getElementById('feFavElementName');
       if (!favNameEl) return [];
       const text = favNameEl.textContent || '';
-      const elements = ['火', '水', '木', '金', '土', 'fire', 'water', 'wood', 'metal', 'earth', 'Fire', 'Water', 'Wood', 'Metal', 'Earth'];
+      const elements = ['鐏?, '姘?, '鏈?, '閲?, '鍦?, 'fire', 'water', 'wood', 'metal', 'earth', 'Fire', 'Water', 'Wood', 'Metal', 'Earth'];
       const found = [];
       for (const el of elements) {
         const matchText = text.toLowerCase();
