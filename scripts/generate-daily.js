@@ -765,21 +765,26 @@ async function generateFortuneCN(zodiac, ganzhi, relations, fourPillars) {
 
 ## 推演要求（核心）
 - **你必须根据今日四柱的实际干支关系来推演**，不是套模板
-- 今日是${fp.day.ganzhi}日，属${name}者与日支${fp.day.branch}${relations.he ? '六合' : ''}${relations.chong ? '相冲' : ''}${relations.hai ? '相害' : ''}${relations.xing ? '相刑' : ''}，这些关系决定了今日的具体运势
-- **每天的四柱不同、冲合关系不同，推演结果必须不同**，不要重复使用固定话术
+- 今日是${fp.day.ganzhi}日，属${name}者与日支${fp.day.branch}${relations.he ? '六合' : ''}${relations.chong ? '相冲' : ''}${relations.hai ? '相害' : ''}${relations.xing ? '相刑' : ''}
+- **每天的四柱不同，推演结果必须完全不同**，禁止重复使用"贵人暗中提携""职场易获重要任务"等固定话术
 - **只给判断，不解释原理**——读者不需要知道为什么，只需要知道今天会怎样、该做什么
+- **必须覆盖四个维度**：事业、财运、感情、健康，每个维度 1-2 句
 
-## 写作风格
-- **第一句开门见山**："生肖${name}今日运势[吉凶参半/平稳/下降/上升]，[一句话总结]"
-- **全文 60-120 字**，越精炼越有准感，不要注水
-- **不要解释五行生克**，不要说"因为火旺所以..."，直接给结果
+## 写作风格（不二堂风格）
+- **第一句开门见山**："生肖${name}今日运势[吉凶参半/平稳/下降/上升]，[核心判断]"
+- **全文 80-120 字**，精炼有力，不注水
+- **四个维度必须都有具体判断**：
+  - 事业：今天工作上会发生什么具体事（如"临时被拉进项目组""方案被打回重做"）
+  - 财运：今天钱方面会怎样（如"投资需谨慎""有劫财迹象""不宜大额支出"）
+  - 感情：今天人际/感情会怎样（如"要控制情绪""谨防火伤感情""人缘佳"）
+  - 健康：今天身体/情绪会怎样（如"谨防发火伤身体""容易失眠""注意休息"）
 - **用具体事件代替泛泛判断**——"朋友间会因金钱矛盾产生纠纷"比"需注意人际矛盾"更准
 - 可以用常用命理词：吉凶参半、贵人、劫财、相冲、相害、六合
 - **禁止**使用深度学术术语：正官、七杀、比肩、伤官、食神、伏吟、透出、得令、当令、润局、身旺身弱、暗动等
-- **禁止**说"火旺则木焚""三午火叠见"这类解释性话术
-- 语气像有经验的师傅，果断直接
+- **禁止**解释性话术："火旺则木焚""三午火叠见""因为XX所以XX"
+- 语气果断直接，像有经验的师傅
 - 不要讲故事，不要生活化场景开头
-- 不要分条列举，一段或两段即可
+- 一段或两段即可，不要分条列举
 
 ## 输出要求
 - 只输出运势内容，无标题前言后记
@@ -1000,29 +1005,31 @@ async function translateToEnglish(cnText, zodiacEn, verdict, zodiacKey) {
 
 ## Voice & Tone
 - Write like a professional astrology reading — direct, decisive
-- NO Chinese pinyin. Ever. No "Guǐ", "Sì", "Z", "Wú Xíng". Zero.
+- NO Chinese pinyin. Ever. Zero.
 - Use standard English terms for concepts
 
 ## How to Handle Chinese Astrology Concepts
-- Chinese zodiac animals: English names (Rat, Ox, Tiger, Rabbit, Dragon, Snake, Horse, Goat, Monkey, Rooster, Dog, Pig)
+- Chinese zodiac animals: English names only
 - 吉凶参半/平稳/下降/上升 → "mixed fortune" / "stable" / "challenging" / "rising luck"
 - 贵人 → "helpful people"
 - 劫财 → "unexpected expenses"
-- 相冲/相害/相刑 → "clash"
+- 相冲/相害 → "clash"
 
 ## Formatting (CRITICAL)
 - NO asterisks (*). No **bold**, *italic*
 - NO # symbols. No headers.
 - NO emojis. Zero.
-- Output 2-3 short paragraphs, separated by TWO newlines (\n\n)
-- **Total: 50-100 words** — concise like the Chinese source
+- Output 2-4 short paragraphs, separated by TWO newlines (\n\n)
+- **Total: 80-120 words** — concise like the Chinese source
 - Follow the Chinese source naturally
 
 ## Content Requirements
-- Give **clear judgment + specific advice**
-- No rambling stories or scene-setting openings
+- MUST cover four areas: work/career, finances, relationships, health
+- Give **clear judgment + specific advice** for each area
 - Don't explain WHY — just state WHAT will happen
-- The content should feel **different each day** based on the Chinese source
+- Use specific predictions: "unexpected work assignment" not "be careful at work"
+- The content should feel **different each day** — never repeat fixed phrases
+- No rambling stories or scene-setting openings
 
 ## SEO (REQUIRED)
 - The phrase "Chinese zodiac ${zodiacEn}" MUST appear within the first 2-3 sentences
