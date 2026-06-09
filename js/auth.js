@@ -260,8 +260,36 @@
     };
     DA.isSignedIn = function() { return clerkReady && clerkInstance && clerkInstance.isSignedIn; };
 
-    // Start: Initialize UI state only (no SDK load)
-    if (document.readyState==='loading') document.addEventListener('DOMContentLoaded',function(){DA._syncNav(null);});
-    else DA._syncNav(null);
+    // Start: Initialize UI state + preload Clerk SDK after page resources load
+    function preloadClerkOnIdle() {
+        // Wait for page resources (images, etc.) to finish loading
+        if (document.readyState === 'complete') {
+            // Page already fully loaded, start SDK preload immediately
+            DA._loadClerkSDK();
+        } else {
+            window.addEventListener('load', function() {
+                // Use requestIdleCallback if available, otherwise setTimeout
+                if (window.requestIdleCallback) {
+                    window.requestIdleCallback(function() {
+                        DA._loadClerkSDK();
+                    }, { timeout: 2000 });
+                } else {
+                    setTimeout(function() {
+                        DA._loadClerkSDK();
+                    }, 1000);
+                }
+            });
+        }
+    }
+
+    if (document.readyState==='loading') {
+        document.addEventListener('DOMContentLoaded', function() {
+            DA._syncNav(null);
+            preloadClerkOnIdle();
+        });
+    } else {
+        DA._syncNav(null);
+        preloadClerkOnIdle();
+    }
     window.DaoAuth = DA;
 })();
