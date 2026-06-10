@@ -1098,19 +1098,40 @@
             });
         }
 
+        // Check if query contains Chinese characters
+        function containsChinese(str) {
+            return /[\u4e00-\u9fff\u3400-\u4dbf]/.test(str);
+        }
+
         function getFiltered() {
             let list = [...allWallpapers];
             // Category filter
             if (activeCategory !== 'All') {
                 list = list.filter(w => w.category === activeCategory);
             }
-            // Search filter (Fuse.js fuzzy search)
+            // Search filter
             if (searchQuery) {
-                initFuse();
-                if (fuseInstance) {
-                    const results = fuseInstance.search(searchQuery);
-                    const ids = new Set(results.map(r => r.item.id));
-                    list = list.filter(w => ids.has(w.id));
+                const hasChinese = containsChinese(searchQuery);
+                if (hasChinese) {
+                    // Chinese: exact substring matching with String.includes()
+                    list = list.filter(w => {
+                        const title = (w.title || '').toLowerCase();
+                        const titleZh = (w.titleZh || '').toLowerCase();
+                        const cat = (w.category || '').toLowerCase();
+                        const catZh = (w.categoryZh || '').toLowerCase();
+                        const kw = (w.keywords || []).join(' ').toLowerCase();
+                        const kwZh = (w.keywordsZh || []).join(' ').toLowerCase();
+                        const allText = [title, titleZh, cat, catZh, kw, kwZh].join(' ');
+                        return allText.includes(searchQuery);
+                    });
+                } else {
+                    // English: Fuse.js fuzzy search
+                    initFuse();
+                    if (fuseInstance) {
+                        const results = fuseInstance.search(searchQuery);
+                        const ids = new Set(results.map(r => r.item.id));
+                        list = list.filter(w => ids.has(w.id));
+                    }
                 }
             }
             // Sort
