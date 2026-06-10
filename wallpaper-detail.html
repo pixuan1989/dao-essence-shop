@@ -331,6 +331,22 @@
         }
         .btn-download svg { width: 20px; height: 20px; fill: #0a0a0a; }
 
+        /* Download button ripple effect */
+        .download-ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.4);
+            transform: scale(0);
+            animation: ripple-animation 0.4s ease-out;
+            pointer-events: none;
+        }
+        @keyframes ripple-animation {
+            to {
+                transform: scale(1);
+                opacity: 0;
+            }
+        }
+
         /* ── Share Row ── */
         .share-row {
             display: flex;
@@ -889,6 +905,26 @@
         }
         var shareBtnMain = document.getElementById('share-btn-main');
         if (shareBtnMain) shareBtnMain.onclick = doShare;
+
+        // Download button click interaction
+        var downloadLink = document.getElementById('download-link');
+        if (downloadLink) {
+            downloadLink.addEventListener('mousedown', function(e) {
+                // Create ripple effect
+                var ripple = document.createElement('span');
+                ripple.className = 'download-ripple';
+                var rect = downloadLink.getBoundingClientRect();
+                var size = Math.max(rect.width, rect.height);
+                ripple.style.width = ripple.style.height = size + 'px';
+                ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
+                ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
+                downloadLink.appendChild(ripple);
+                // Remove ripple after animation
+                ripple.addEventListener('animationend', function() {
+                    ripple.remove();
+                });
+            });
+        }
 
         // Listen for language changes — re-render dynamic content
         document.addEventListener('daoessence:i18n-changed', function() {
