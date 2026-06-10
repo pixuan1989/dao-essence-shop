@@ -2510,7 +2510,7 @@ async function main() {
       const top4 = wpData.slice(0, 4);
       let galleryHtml = '\n    <!-- SEO Image Gallery: Featured Wallpapers (Static for Crawlability) -->\n';
       galleryHtml += '    <section id="seo-featured-gallery" style="max-width:1400px;margin:40px auto;padding:0 16px;text-align:center;">\n';
-      galleryHtml += '      <h2 style="color:#D4AF37;font-size:18px;margin-bottom:16px;">Featured Lucky Wallpapers</h2>\n';
+      galleryHtml += '      <h2 style="color:#D4AF37;font-size:18px;margin-bottom:16px;" data-i18n="wallpaper.featured_title" data-zh-title="精选旺运壁纸">Featured Lucky Wallpapers</h2>\n';
       galleryHtml += '      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;">\n';
       top4.forEach(wp => {
         const title = wp.title || wp.titleZh || 'Lucky Wallpaper';
@@ -2521,8 +2521,8 @@ async function main() {
       galleryHtml += '      </div>\n';
       galleryHtml += '    </section>\n';
 
-      // Inject before </body>
-      wallpaperHtml = wallpaperHtml.replace('</body>', galleryHtml + '  </body>');
+      // Inject before <footer> (so it appears above footer, between content and footer)
+      wallpaperHtml = wallpaperHtml.replace('<footer class="footer">', galleryHtml + '  <footer class="footer">');
     }
 
     // 2. Inject ImageGallery Schema (JSON-LD)
