@@ -230,13 +230,9 @@
         clerkScript.onload = function() {
             console.log('[Auth] Clerk SDK loaded, initializing...');
             // Initialize Clerk after SDK loads
+            // Note: _initClerk() already handles auto-opening sign-in via wasPending flag
             DA._initClerk().then(function() {
-                // If user clicked sign-in while loading, auto-open now
-                if (pendingSignIn && clerkInstance && typeof clerkInstance.openSignIn === 'function') {
-                    clerkInstance.openSignIn({
-                        redirectUrl: window.location.href
-                    });
-                }
+                console.log('[Auth] Clerk init complete');
             });
         };
         
