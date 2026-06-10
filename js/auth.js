@@ -167,6 +167,7 @@
             console.error('[Auth] Init failed:', e);
             pendingSignIn = false;
             DA._syncNav(null);
+            DA.showToast('Sign-in service unavailable. Please refresh.', 5000);
         }
     };
 
