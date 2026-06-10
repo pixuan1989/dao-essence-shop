@@ -1151,12 +1151,57 @@
             return list;
         }
 
+        // ── Infinite Scroll Variables ──
+        let batchSize = 12;
+        let displayedCount = 0;
+        let observer = null;
+        let loadingMore = false;
+
+        // Setup Intersection Observer for "Load More"
+        function setupLoadMoreObserver(loadMoreTrigger) {
+            if (observer) observer.disconnect();
+            observer = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting && !loadingMore) {
+                    loadMoreWallpapers();
+                }
+            }, { rootMargin: '200px' });
+            if (loadMoreTrigger) observer.observe(loadMoreTrigger);
+        }
+
+        function loadMoreWallpapers() {
+            const filtered = getFiltered();
+            if (displayedCount >= filtered.length) return;
+            loadingMore = true;
+            
+            // Batch render
+            const nextBatch = filtered.slice(displayedCount, displayedCount + batchSize);
+            const grid = document.getElementById('wallpaper-grid');
+            const lang = (new URLSearchParams(window.location.search)).get('lang') || localStorage.getItem('daoessence_lang') || 'en';
+            
+            nextBatch.forEach(wp => {
+                const card = document.createElement('div');
+                card.className = 'wallpaper-card';
+                card.onclick = () => { const slug = wp.slug || wp.id; window.location.href = (lang === 'zh' ? '/zh' : '') + '/wallpaper/' + slug; };
+                const cardTitle = lang === 'zh' ? (wp.titleZh || wp.title) : wp.title;
+                card.innerHTML = `<img src="${wp.thumb}" alt="${cardTitle}" loading="lazy">`;
+                grid.appendChild(card);
+            });
+            
+            displayedCount += nextBatch.length;
+            loadingMore = false;
+        }
+
         // Render grid
         function renderGrid() {
             const grid = document.getElementById('wallpaper-grid');
             const filtered = getFiltered();
             const resultText = filtered.length + ' ' + t('wallpaper.result_count');
             document.getElementById('result-count').textContent = resultText;
+
+            // Clear existing
+            grid.innerHTML = '';
+            displayedCount = 0;
+            if (observer) observer.disconnect();
 
             if (filtered.length === 0) {
                 grid.innerHTML = `
@@ -1167,16 +1212,33 @@
                 return;
             }
 
-            grid.innerHTML = '';
-            filtered.forEach(wp => {
-                const card = document.createElement('div');
-                card.className = 'wallpaper-card';
-                card.onclick = () => { const lang = getLang(); const slug = wp.slug || wp.id; window.location.href = (lang === 'zh' ? '/zh' : '') + '/wallpaper/' + slug; };
+            // ─ Pagination Logic ──
+            // If user is searching or filtering, show ALL results (no pagination)
+            const isSearchOrFilter = searchQuery || activeCategory !== 'All';
+            
+            if (isSearchOrFilter) {
+                // Render all immediately
                 const lang = (new URLSearchParams(window.location.search)).get('lang') || localStorage.getItem('daoessence_lang') || 'en';
-                const cardTitle = lang === 'zh' ? (wp.titleZh || wp.title) : wp.title;
-                card.innerHTML = `<img src="${wp.thumb}" alt="${cardTitle}" loading="lazy">`;
-                grid.appendChild(card);
-            });
+                filtered.forEach(wp => {
+                    const card = document.createElement('div');
+                    card.className = 'wallpaper-card';
+                    card.onclick = () => { const slug = wp.slug || wp.id; window.location.href = (lang === 'zh' ? '/zh' : '') + '/wallpaper/' + slug; };
+                    const cardTitle = lang === 'zh' ? (wp.titleZh || wp.title) : wp.title;
+                    card.innerHTML = `<img src="${wp.thumb}" alt="${cardTitle}" loading="lazy">`;
+                    grid.appendChild(card);
+                });
+                displayedCount = filtered.length;
+            } else {
+                // Initial load for "All" category: Load first batch
+                loadMoreWallpapers();
+                
+                // Add load-more trigger element
+                const trigger = document.createElement('div');
+                trigger.id = 'load-more-trigger';
+                trigger.style.height = '1px';
+                grid.appendChild(trigger);
+                setupLoadMoreObserver(trigger);
+            }
         }
 
         // Listen for language changes from global i18n-switcher
