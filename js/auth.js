@@ -147,7 +147,7 @@
             // If user clicked sign-in while loading, auto-open now
             if (wasPending && typeof clerkInstance.openSignIn === 'function') {
                 console.log('[Auth] Auto-opening sign-in (wasPending=true)');
-                clerkInstance.openSignIn({ fallbackRedirectUrl: window.location.href });
+                clerkInstance.openSignIn();
             }
 
             // Poll fallback in case addListener misses initial async state
@@ -186,13 +186,8 @@
         }
         // SDK ready, open sign-in
         try {
-            // Use redirectUrl instead of fallbackRedirectUrl to avoid the two-step flow.
-            // This ensures users only enter password once, providing a smoother UX.
-            // Docs: https://clerk.com/docs/references/javascript/clerk/sign-in
             if (typeof clerkInstance.openSignIn === 'function') {
-                clerkInstance.openSignIn({
-                    redirectUrl: window.location.href
-                });
+                clerkInstance.openSignIn();
             } else {
                 console.warn('[Auth] openSignIn not available');
                 DA.showToast('Login unavailable.', 3000);
@@ -242,7 +237,7 @@
     // ---- Sign out ----
     DA.signOut = async function() {
         if (!clerkReady || !clerkInstance) return;
-        await clerkInstance.signOut({ redirectUrl: window.location.href });
+        await clerkInstance.signOut();
         DA._token = null;
         DA._syncNav(null);
         DA.showToast(t('auth.signed_out', 'Signed out.'), 2000);
