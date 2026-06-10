@@ -222,7 +222,18 @@ function generateStaticPage(wp, lang) {
   const rawDesc = isZh ? (wp.descriptionZh || wp.description) : wp.description;
   const desc = cleanQuotes(rawDesc);
   const seoDesc = truncate(desc, 155);
-  const seoTitle = truncate(title, 20); // 留空间给 " - Lucky Wallpapers | Dao Essentia"
+  const BRAND_SUFFIX = ' | Dao Essentia'; // 14 chars
+  const FULL_EN_MAX = 60; // Google limit
+  const FULL_ZH_MAX = 30; // Chinese search engine limit
+  const EN_TITLE_MAX = FULL_EN_MAX - BRAND_SUFFIX.length; // 46
+  const ZH_TITLE_MAX = FULL_ZH_MAX - BRAND_SUFFIX.length; // 16
+  const rawSeoTitle = cleanQuotes(isZh ? (wp.titleZh || wp.title) : wp.title);
+  // Escape FIRST, then truncate based on escaped length — &amp; adds 4 chars per &
+  let seoTitle = escapeHtml(rawSeoTitle);
+  const maxLen = isZh ? ZH_TITLE_MAX : EN_TITLE_MAX;
+  if (seoTitle.length > maxLen) {
+    seoTitle = seoTitle.slice(0, maxLen);
+  }
   const category = isZh ? (wp.categoryZh || wp.category) : wp.category;
   const tags = isZh
     ? (wp.keywordsZh || wp.keywords || [])
@@ -281,7 +292,7 @@ function generateStaticPage(wp, lang) {
     + '    <meta charset="UTF-8">\n'
     + '    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n'
     + '    <meta name="robots" content="index,follow">\n'
-    + '    <title>' + escapeHtml(seoTitle) + ' - Lucky Wallpapers | Dao Essentia</title>\n'
+    + '    <title>' + seoTitle + BRAND_SUFFIX + '</title>\n'
     + '    <meta name="description" content="' + escapeHtml(seoDesc) + '">\n'
     + '    <link rel="canonical" href="' + canonical + '">\n'
     + '\n'
@@ -291,7 +302,7 @@ function generateStaticPage(wp, lang) {
     + '    <link rel="alternate" hreflang="x-default" href="' + pageUrlEn + '">\n'
     + '\n'
     + '    <!-- Open Graph -->\n'
-    + '    <meta property="og:title" content="' + escapeHtml(seoTitle) + '">\n'
+    + '    <meta property="og:title" content="' + seoTitle + '">\n'
     + '    <meta property="og:description" content="' + escapeHtml(seoDesc) + '">\n'
     + '    <meta property="og:image" content="' + ogImage + '">\n'
     + '    <meta property="og:url" content="' + pageUrl + '">\n'
@@ -300,7 +311,7 @@ function generateStaticPage(wp, lang) {
     + '\n'
     + '    <!-- Twitter Card -->\n'
     + '    <meta name="twitter:card" content="summary_large_image">\n'
-    + '    <meta name="twitter:title" content="' + escapeHtml(seoTitle) + '">\n'
+    + '    <meta name="twitter:title" content="' + seoTitle + '">\n'
     + '    <meta name="twitter:description" content="' + escapeHtml(seoDesc) + '">\n'
     + '    <meta name="twitter:image" content="' + ogImage + '">\n'
     + '\n'
