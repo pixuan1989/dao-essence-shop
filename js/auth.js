@@ -121,9 +121,7 @@
 
         try {
             console.log('[Auth] Loading Clerk...');
-            await window.Clerk.load({
-                ui: { ClerkUI: window.__internal_ClerkUICtor }
-            });
+            await window.Clerk.load();
             clerkInstance = window.Clerk;
             clerkReady = true;
             console.log('[Auth] Clerk loaded. isSignedIn:', clerkInstance.isSignedIn, 'user:', !!clerkInstance.user);
@@ -215,19 +213,13 @@
             DA.showToast(t('auth.loading', 'Loading sign-in...'), 3000);
         }
 
-        // Load Clerk UI first
-        var uiScript = document.createElement('script');
-        uiScript.src = 'https://cdn.jsdelivr.net/npm/@clerk/ui@1/dist/ui.browser.js';
-        uiScript.crossOrigin = 'anonymous';
-        document.head.appendChild(uiScript);
-
-        // Load Clerk JS
+        // Load Clerk from custom domain (includes built-in UI components)
         var clerkScript = document.createElement('script');
         clerkScript.id = 'clerk-sdk-script';
-        clerkScript.src = 'https://cdn.jsdelivr.net/npm/@clerk/clerk-js@6/dist/clerk.browser.js';
+        clerkScript.src = 'https://clerk.daoessentia.com/npm/@clerk/clerk-js@5/dist/clerk.browser.js';
         clerkScript.crossOrigin = 'anonymous';
         clerkScript.setAttribute('data-clerk-publishable-key', 'pk_live_Y2xlcmsuZGFvZXNzZW50aWEuY29tJA');
-        
+
         clerkScript.onload = function() {
             console.log('[Auth] Clerk SDK loaded, initializing...');
             // Initialize Clerk after SDK loads
