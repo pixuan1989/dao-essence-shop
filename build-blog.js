@@ -2496,32 +2496,74 @@ async function main() {
     console.log(`  Generated: dist/zh/index.html (${zhDisplay.length} zh articles)`);
   }
 
-  // Step 7.5: Copy wallpaper pages
+  // Step 7.5: Copy wallpaper pages + Inject SEO Image Gallery (Top 4 static images for crawlers)
   console.log('Copying wallpaper pages...');
   const wallpaperSrc = path.join(SRC_DIR, 'wallpaper.html');
-  if (fs.existsSync(wallpaperSrc)) {
-    fs.copyFileSync(wallpaperSrc, path.join(DIST_DIR, 'wallpaper.html'));
-    console.log('  Generated: dist/wallpaper.html');
-  }
-  
-  // Copy wallpapers.json
   const wallpapersJson = path.join(SRC_DIR, 'wallpapers.json');
+  if (fs.existsSync(wallpaperSrc) && fs.existsSync(wallpapersJson)) {
+    let wallpaperHtml = fs.readFileSync(wallpaperSrc, 'utf8');
+    const wpData = JSON.parse(fs.readFileSync(wallpapersJson, 'utf8'));
 
-  const wallpaperDetailSrc = path.join(SRC_DIR, 'wallpaper-detail.html');
-  if (fs.existsSync(wallpaperDetailSrc)) {
-    // Inject wallpapers.json into wp-data script tag
-    let detailHtml = fs.readFileSync(wallpaperDetailSrc, 'utf8');
-    if (fs.existsSync(wallpapersJson)) {
-      const wpData = fs.readFileSync(wallpapersJson, 'utf8');
-      detailHtml = detailHtml.replace(
-        /<script id="wp-data" type="application\/json">[\s\S]*?<\/script>/,
-        `<script id="wp-data" type="application/json">${wpData}</script>`
-      );
+    // 1. Inject Static Image Gallery at bottom (SEO for Image Carousel)
+    // Limit to 4 images to keep DOM light; all use loading="lazy" for zero performance impact
+    if (wpData && wpData.length > 0) {
+      const top4 = wpData.slice(0, 4);
+      let galleryHtml = '\n    <!-- SEO Image Gallery: Featured Wallpapers (Static for Crawlability) -->\n';
+      galleryHtml += '    <section id="seo-featured-gallery" style="max-width:1400px;margin:40px auto;padding:0 16px;text-align:center;">\n';
+      galleryHtml += '      <h2 style="color:#D4AF37;font-size:18px;margin-bottom:16px;">Featured Lucky Wallpapers</h2>\n';
+      galleryHtml += '      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;">\n';
+      top4.forEach(wp => {
+        const title = wp.title || wp.titleZh || 'Lucky Wallpaper';
+        galleryHtml += `        <a href="/wallpaper/${wp.slug || wp.id}" style="aspect-ratio:9/16;background:#111;border-radius:8px;overflow:hidden;display:block;">\n`;
+        galleryHtml += `          <img src="${wp.thumb}" alt="${title}" width="100" height="178" loading="lazy" style="width:100%;height:100%;object-fit:cover;" />\n`;
+        galleryHtml += '        </a>\n';
+      });
+      galleryHtml += '      </div>\n';
+      galleryHtml += '    </section>\n';
+
+      // Inject before </body>
+      wallpaperHtml = wallpaperHtml.replace('</body>', galleryHtml + '  </body>');
     }
+
+    // 2. Inject ImageGallery Schema (JSON-LD)
+    if (wpData && wpData.length > 0) {
+      const top8 = wpData.slice(0, 8);
+      const schemaItems = top8.map(wp => ({
+        "@type": "ImageObject",
+        "name": wp.title || wp.titleZh,
+        "thumbnailUrl": wp.thumb,
+        "url": `https://www.daoessentia.com/wallpaper/${wp.slug || wp.id}`
+      }));
+      const schemaJson = JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "ImageGallery",
+        "name": "Dao Essentia Lucky Wallpapers Collection",
+        "associatedMedia": schemaItems
+      });
+      const schemaScript = `<script type="application/ld+json">${schemaJson}</script>\n`;
+
+      // Inject before </head>
+      wallpaperHtml = wallpaperHtml.replace('</head>', schemaScript + '  </head>');
+    }
+
+    fs.writeFileSync(path.join(DIST_DIR, 'wallpaper.html'), wallpaperHtml);
+    console.log('  Generated: dist/wallpaper.html (with SEO Gallery + Schema)');
+  }
+
+  // Copy wallpaper-detail.html (with injected JSON data)
+  const wallpaperDetailSrc = path.join(SRC_DIR, 'wallpaper-detail.html');
+  if (fs.existsSync(wallpaperDetailSrc) && fs.existsSync(wallpapersJson)) {
+    let detailHtml = fs.readFileSync(wallpaperDetailSrc, 'utf8');
+    const wpData = fs.readFileSync(wallpapersJson, 'utf8');
+    detailHtml = detailHtml.replace(
+      /<script id="wp-data" type="application\/json">[\s\S]*?<\/script>/,
+      `<script id="wp-data" type="application/json">${wpData}</script>`
+    );
     fs.writeFileSync(path.join(DIST_DIR, 'wallpaper-detail.html'), detailHtml);
     console.log('  Generated: dist/wallpaper-detail.html (with injected wp-data)');
   }
 
+  // Copy wallpapers.json & Generate wallpapers-lite.json
   if (fs.existsSync(wallpapersJson)) {
     fs.copyFileSync(wallpapersJson, path.join(DIST_DIR, 'wallpapers.json'));
     console.log('  Generated: dist/wallpapers.json');
@@ -2819,8 +2861,11 @@ async function main() {
   // NOTE: wallpaper-detail.html is NOT copied here — it was already generated
   // with injected wallpapers.json data above (Step 7.5). Copying it again
   // would overwrite the injected data with stale source content.
+  // NOTE: wallpaper.html is NOT copied here — it was already generated
+  // with SEO Image Gallery + Schema injected above (Step 7.5). Copying it again
+  // would overwrite the injected SEO content with the plain source file.
   console.log('Syncing static pages...');
-  const staticFiles = ['wallpaper.html', 'login.html', 'zodiac/zodiac-daily.html'];
+  const staticFiles = ['login.html', 'zodiac/zodiac-daily.html'];
   // Copy wallpaper static pages (generated by generate-wallpapers.cjs) to dist/
   const wallpaperSrcDir = path.join(__dirname, 'wallpaper');
   const wallpaperDestDir = path.join(DIST_DIR, 'wallpaper');
