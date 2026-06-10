@@ -142,11 +142,13 @@
             });
 
             // Immediate render (load() may already have user)
+            var wasPending = pendingSignIn; // Save flag BEFORE clearing
             pendingSignIn = false;
             DA._syncNav(clerkInstance.user);
 
             // If user clicked sign-in while loading, auto-open now
-            if (pendingSignIn && typeof clerkInstance.openSignIn === 'function') {
+            if (wasPending && typeof clerkInstance.openSignIn === 'function') {
+                console.log('[Auth] Auto-opening sign-in (wasPending=true)');
                 clerkInstance.openSignIn({ fallbackRedirectUrl: window.location.href });
             }
 
