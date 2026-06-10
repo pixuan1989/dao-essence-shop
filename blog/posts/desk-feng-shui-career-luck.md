@@ -3,11 +3,12 @@ title: "Desk Feng Shui 101: Boost Your Career"
 description: "Your desk position affects career luck. Learn 7 feng shui rules — command position, direction, and element fixes — in 5 minutes."
 seoDescription: "Boost career luck with 7 desk feng shui rules. Find your command position and personal lucky direction. Free calculator inside."
 category: "feng-shui"
+date: 2026-06-10
 tags: "desk feng shui, office desk placement, career luck feng shui, command position, kua number, feng shui office layout"
 author: "Xuanzhen"
 readTime: "7 min read"
 pinned: false
-image: "/images/blog/desk-feng-shui-command-position.webp"
+image: "/images/blog/desk-feng-shui-career-luck-cover.webp"
 imageAlt: "Office desk in command position with solid wall behind, feng shui career luck setup"
 slug: "desk-feng-shui-career-luck"
 cta_cards:
