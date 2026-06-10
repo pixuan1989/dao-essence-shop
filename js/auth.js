@@ -237,7 +237,7 @@
     // ---- Sign out ----
     DA.signOut = async function() {
         if (!clerkReady || !clerkInstance) return;
-        await clerkInstance.signOut();
+        await clerkInstance.signOut({ redirectUrl: window.location.href });
         DA._token = null;
         DA._syncNav(null);
         DA.showToast(t('auth.signed_out', 'Signed out.'), 2000);
