@@ -231,7 +231,7 @@ Training data bias (mostly elite charts), lack of secret techniques, theoretical
 No. AI lacks contextual awareness, ethical judgment, and the ability to adapt its reading to your specific situation. It's a learning tool, not a decision-making tool.
 
 ### Which is more accurate: AI or human Bazi reading?
-Human Bazi masters are significantly more accurate, especially for timing predictions and life event specifics. Use our free [Bazi Chart Calculator](/bazi-form) to generate your chart, then consult a human expert for interpretation.
+Human Bazi masters are significantly more accurate, especially for timing predictions and life event specifics. Try our free [Five Elements Test](/five-elements-test) to understand your core energy, then explore Bazi deeper.
 
 ### Is it safe to use AI for Bazi?
 For basic learning, yes. For decisions about career, marriage, health, or investments—no. Always consult a qualified human practitioner for important life guidance.
