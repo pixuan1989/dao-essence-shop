@@ -188,8 +188,21 @@ async function translateArticle(systemPrompt, data, content, filename, retryCoun
     }
   }
 
+  // Post-process: fix common untranslated terms and artifacts
+  function postProcess(text) {
+    if (!text) return text;
+    return text
+      .replace(/Wu Xing/g, '五行')
+      .replace(/wu xing/gi, '五行')
+      .replace(/practitioners/g, '從業者')
+      .replace(/practitioner/g, '從業者');
+  }
+  zhData.title = postProcess(zhData.title);
+  if (zhData.description) zhData.description = postProcess(zhData.description);
+  const processedBody = postProcess(translatedBody);
+
   // Output
-  const zhContent = matter.stringify(translatedBody, zhData);
+  const zhContent = matter.stringify(processedBody, zhData);
   return { zhContent, title: zhData.title, description: zhData.description };
 }
 
