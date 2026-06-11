@@ -343,7 +343,7 @@ async function handleLeadsQuery(res) {
             if (lead) leads.push({ ...lead, source: 'wuxing_quiz' });
         }
 
-        // 支付订阅留资（来自 Creem webhook 的 marketing_subscribers）
+        // 留资用户（来自 marketing_subscribers，包含五行测试/Clerk注册/Creem付费等多种来源）
         const marketingSubscribers = await redisGet('marketing_subscribers') || [];
         for (const sub of marketingSubscribers) {
             if (sub.email) {
@@ -353,7 +353,7 @@ async function handleLeadsQuery(res) {
                     name: sub.name || '',
                     source: 'marketing',
                     createdAt: sub.subscribedAt || new Date().toISOString(),
-                    notes: '来源：支付完成订阅'
+                    notes: '来源：留资用户'
                 });
             }
         }
@@ -365,7 +365,7 @@ async function handleLeadsQuery(res) {
             return tb - ta;
         });
 
-        console.log(`💬 留资线索: 联系表单 ${contacts.length} + 五行测试 ${quizIds.length} + 支付订阅 ${marketingSubscribers.length} = ${leads.length}`);
+        console.log(`💬 留资线索: 联系表单 ${contacts.length} + 五行测试 ${quizIds.length} + 留资用户 ${marketingSubscribers.length} = ${leads.length}`);
         return res.status(200).json({ success: true, leads: leads, total: leads.length });
     } catch (err) {
         console.error('❌ 查询留资线索失败:', err.message);

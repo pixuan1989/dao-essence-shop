@@ -836,14 +836,14 @@
                         <div class="stat-card"><h3 id="leadsTotal">0</h3><p>留资总数</p></div>
                         <div class="stat-card"><h3 id="leadsContactCount" style="color: #2196f3;">0</h3><p>联系表单</p></div>
                         <div class="stat-card"><h3 id="leadsQuizCount" style="color: #64b5f6;">0</h3><p>五行测试</p></div>
-                        <div class="stat-card"><h3 id="leadsMarketingCount" style="color: #d4af37;">0</h3><p>支付订阅</p></div>
+                        <div class="stat-card"><h3 id="leadsMarketingCount" style="color: #d4af37;">0</h3><p>留资用户</p></div>
                     </div>
                     <div class="filters">
                         <select id="leadsSourceFilter" onchange="renderLeads()">
                             <option value="">全部来源</option>
                             <option value="contact_form">联系表单</option>
                             <option value="wuxing_quiz">五行测试</option>
-                            <option value="marketing">支付订阅</option>
+                            <option value="marketing">留资用户</option>
                         </select>
                         <button class="btn btn-primary" onclick="loadLeads()">🔄 刷新</button>
                         <button class="btn btn-primary" onclick="exportLeads()">📥 导出</button>
@@ -1582,12 +1582,12 @@
                 const sourceBadge = l.source === 'contact_form'
                     ? '<span class="status-badge" style="background:rgba(33,150,243,0.15);color:#2196f3;">联系表单</span>'
                     : l.source === 'marketing'
-                    ? '<span class="status-badge" style="background:rgba(212,175,55,0.15);color:#d4af37;">支付订阅</span>'
+                    ? '<span class="status-badge" style="background:rgba(212,175,55,0.15);color:#d4af37;">留资用户</span>'
                     : '<span class="status-badge" style="background:rgba(100,181,246,0.15);color:#64b5f6;">五行测试</span>';
                 const summary = l.source === 'contact_form'
                     ? (l.subjectLabel || l.subject || '-') + ': ' + ((l.message||'').substring(0,50)) + (l.message && l.message.length > 50 ? '...' : '')
                     : l.source === 'marketing'
-                    ? '支付完成订阅'
+                    ? '留资时间: ' + formatDate(l.createdAt || l.date)
                     : '五行: ' + (l.wuxingResult?.dominant || '-') + ' | ' + (l.birthYear||'-') + '-' + (l.birthMonth||'-') + '-' + (l.birthDay||'-');
                 const delType = l.source === 'contact_form' ? 'contact' : l.source === 'marketing' ? 'marketing' : 'wuxing_quiz';
                 const delId = l.id || l.date || '';
@@ -1605,11 +1605,11 @@
         function viewLead(id) {
             const l = leadsData.find(x => x.id === id);
             if (!l) return;
-            let html = '<div class="detail-row"><span class="detail-label">来源</span><span class="detail-value">' + (l.source === 'contact_form' ? '联系表单' : l.source === 'marketing' ? '支付订阅' : '五行测试') + '</span></div><div class="detail-row"><span class="detail-label">姓名</span><span class="detail-value">' + (l.name||'-') + '</span></div><div class="detail-row"><span class="detail-label">邮箱</span><span class="detail-value"><a href="mailto:' + (l.email||'') + '" class="email-link">' + (l.email||'-') + '</a></span></div>';
+            let html = '<div class="detail-row"><span class="detail-label">来源</span><span class="detail-value">' + (l.source === 'contact_form' ? '联系表单' : l.source === 'marketing' ? '留资用户' : '五行测试') + '</span></div><div class="detail-row"><span class="detail-label">姓名</span><span class="detail-value">' + (l.name||'-') + '</span></div><div class="detail-row"><span class="detail-label">邮箱</span><span class="detail-value"><a href="mailto:' + (l.email||'') + '" class="email-link">' + (l.email||'-') + '</a></span></div>';
             if (l.source === 'contact_form') {
                 html += '<div class="detail-row"><span class="detail-label">主题</span><span class="detail-value">' + (l.subjectLabel||l.subject||'-') + '</span></div><div style="margin-top:15px;"><span class="detail-label">留言内容</span><div class="notes-box">' + (l.message||'无') + '</div></div>';
             } else if (l.source === 'marketing') {
-                html += '<div class="detail-row"><span class="detail-label">订阅时间</span><span class="detail-value">' + formatDateTime(l.createdAt) + '</span></div>';
+                html += '<div class="detail-row"><span class="detail-label">留资时间</span><span class="detail-value">' + formatDateTime(l.createdAt) + '</span></div>';
             } else {
                 html += '<div class="detail-row"><span class="detail-label">主元素</span><span class="detail-value" style="color:#d4af37">' + (l.wuxingResult?.dominant||'-') + '</span></div><div class="detail-row"><span class="detail-label">生日</span><span class="detail-value">' + (l.birthYear||'-') + '-' + String(l.birthMonth||0).padStart(2,'0') + '-' + String(l.birthDay||0).padStart(2,'0') + '</span></div><div class="detail-row"><span class="detail-label">时间</span><span class="detail-value">' + formatDateTime(l.createdAt) + '</span></div>';
             }
@@ -1618,8 +1618,8 @@
         }
         function exportLeads() {
             const csv = ['来源,姓名,邮箱,内容,时间', ...leadsData.map(l => {
-                const content = l.source === 'contact_form' ? (l.subjectLabel||'') + ': ' + (l.message||'') : l.source === 'marketing' ? '支付完成订阅' : '五行:' + (l.wuxingResult?.dominant||'') + ' ' + (l.birthYear||'') + '-' + (l.birthMonth||'') + '-' + (l.birthDay||'');
-                return ['"'+(l.source==='contact_form'?'联系表单':l.source==='marketing'?'支付订阅':'五行测试')+'"', '"'+(l.name||'')+'"', '"'+(l.email||'')+'"', '"'+content.replace(/"/g,'""')+'"', '"'+(l.createdAt||l.date||'')+'"'].join(',');
+                const content = l.source === 'contact_form' ? (l.subjectLabel||'') + ': ' + (l.message||'') : l.source === 'marketing' ? '留资用户' : '五行:' + (l.wuxingResult?.dominant||'') + ' ' + (l.birthYear||'') + '-' + (l.birthMonth||'') + '-' + (l.birthDay||'');
+                return ['"'+(l.source==='contact_form'?'联系表单':l.source==='marketing'?'留资用户':'五行测试')+'"', '"'+(l.name||'')+'"', '"'+(l.email||'')+'"', '"'+content.replace(/"/g,'""')+'"', '"'+(l.createdAt||l.date||'')+'"'].join(',');
             })].join('\n');
             downloadCSV(csv, 'daoessence-leads');
         }
