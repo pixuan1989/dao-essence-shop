@@ -2066,12 +2066,12 @@ async function main() {
   // When DASHSCOPE_API_KEY is set (production), auto-translation handles everything.
   // When NOT set (local dev), zhArticles stays empty — no zh output.
 
-  // Build a map of en slug -> zh article for cross-linking
-  // Key: en slug (zh slug with -zh suffix removed), so en articles can find their zh counterpart
+  // Build a map of en filename -> zh article for cross-linking
+  // Key: filename (e.g., 'feng-shui-headboard.md'), so en articles can find their zh counterpart
+  // NOTE: Must build this AFTER slugs are assigned to zhArticles
   const zhArticleMap = {};
   for (const zhPost of zhArticles) {
-    const enSlug = zhPost.slug.endsWith('-zh') ? zhPost.slug.replace(/-zh$/, '') : zhPost.slug;
-    zhArticleMap[enSlug] = zhPost;
+    zhArticleMap[zhPost.filename] = zhPost;
   }
 
   if (allArticles.length === 0) {
@@ -2104,7 +2104,8 @@ async function main() {
     const slug = generateSlug(post.filename, post.data, usedSlugs);
     post.slug = slug;
 
-    const hasZhVersion = !!zhArticleMap[slug]; // only true if this specific article has a zh counterpart
+    // Check if this article has a Chinese translation by filename match
+    const hasZhVersion = !!zhArticleMap[post.filename];
     const html = generateArticleHtml(post, post.category, allArticles, { lang: 'en', hasZh: hasZhVersion, wallpapers: wallpapers });
     // Generate as directory: /blog/{slug}/index.html (clean URL)
     const outDir = path.join(DIST_BLOG_DIR, slug);
