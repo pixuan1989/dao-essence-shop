@@ -15,7 +15,7 @@ date: '2026-04-08'
 author: DAO Essence
 readTime: 12
 body: >
-  The **Five Elements theory** (五行, *Wu Xing*) is one of the most important
+  The **Five Elements theory** (五行, *五行*) is one of the most important
   foundational concepts in **Chinese philosophy**, **Traditional Chinese
   Medicine** (TCM), **feng shui**, and **Chinese metaphysics**. Developed over
   3,000 years ago, it provides a framework for understanding how natural forces
@@ -258,7 +258,7 @@ body: >
   balance in all aspects of life.
 faq_zh: &ref_0
   - question: 中國哲學中的五行是什麼？
-    answer: 五行（Wu Xing）是木、火、土、金、水——中國哲學認為構成宇宙中所有現象的五種基本力量。
+    answer: 五行（五行）是木、火、土、金、水——中國哲學認為構成宇宙中所有現象的五種基本力量。
   - question: 如何找出我的主導五行？
     answer: 你的主導五行可以通過八字（四柱八字）分析來確定，它使用你的出生年、月、日、時來計算你的五行組成。
   - question: 五行在中医中如何運用？
@@ -270,7 +270,7 @@ faq_zh: &ref_0
 faq: *ref_0
 lang: zh-Hant
 ---
-**五行理論**（五行，*Wu Xing*）是中國哲學、**傳統中醫**（TCM）、**風水**及**中國玄學**中最重要、最根本的概念之一。此理論源於三千多年前，為我們理解自然力量如何互動、調和與轉化——無論是在外在世界，抑或在我們自身的身體與心靈之中——提供了完整的架構。
+**五行理論**（五行，*五行*）是中國哲學、**傳統中醫**（TCM）、**風水**及**中國玄學**中最重要、最根本的概念之一。此理論源於三千多年前，為我們理解自然力量如何互動、調和與轉化——無論是在外在世界，抑或在我們自身的身體與心靈之中——提供了完整的架構。
 
 不論你是初次接觸東方哲學，還是希望更深入掌握**中國占星術**、**八字命理**或**能量療癒**，這份指南都將帶你全面認識五行的內涵與應用。
 

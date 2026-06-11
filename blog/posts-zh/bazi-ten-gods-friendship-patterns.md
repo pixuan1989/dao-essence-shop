@@ -218,7 +218,7 @@ faq:
 
 - [10 個八字日主的現代角色解讀](/blog/bazi-10-day-masters-guide) ——你是哪個日主？
 - [八字身弱不好嗎？](/blog/is-weak-day-master-bad-bazi) ——為什麼「弱」不代表「運勢差」
-- [五行理論：Wu Xing 完整指南](/blog/five-elements-theory-wu-xing-guide) ——理解相生與相剋循環
+- [五行理論：五行 完整指南](/blog/five-elements-theory-wu-xing-guide) ——理解相生與相剋循環
 
 ---
 
