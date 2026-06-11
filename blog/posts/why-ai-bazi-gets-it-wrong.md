@@ -221,7 +221,7 @@ Training data bias (mostly elite charts), lack of secret techniques, theoretical
 No. AI lacks contextual awareness, ethical judgment, and the ability to adapt its reading to your specific situation. It's a learning tool, not a decision-making tool.
 
 ### Which is more accurate: AI or human Bazi reading?
-Human Bazi masters are significantly more accurate, especially for timing predictions and life event specifics. Use our free [Bazi Chart Calculator](/bazi-chart) to generate your chart, then consult a human expert for interpretation.
+Human Bazi masters are significantly more accurate, especially for timing predictions and life event specifics. Use our free [Bazi Chart Calculator](/bazi-form) to generate your chart, then consult a human expert for interpretation.
 
 ### Is it safe to use AI for Bazi?
 For basic learning, yes. For decisions about career, marriage, health, or investments—no. Always consult a qualified human practitioner for important life guidance.
@@ -232,7 +232,7 @@ For basic learning, yes. For decisions about career, marriage, health, or invest
 
 AI Bazi is a **fascinating demo, not a reliable tool**. It's great for sparking curiosity and learning basic concepts. But when it comes to understanding your destiny—something that shapes every major decision you'll ever make—you deserve better than an algorithm trained on incomplete, biased data.
 
-**Want to see your real Bazi chart?** Use our free [Bazi Chart Calculator](/bazi-chart) to generate your Four Pillars instantly. Then take that chart to a human expert for interpretation.
+**Want to see your real Bazi chart?** Use our free [Bazi Chart Calculator](/bazi-form) to generate your Four Pillars instantly. Then take that chart to a human expert for interpretation.
 
 Your destiny is too important for guesswork.
 
