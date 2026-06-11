@@ -106,9 +106,7 @@ export default async function handler(req, res) {
         const productName = items[0]?.name || 'Digital Service';
         const encodedName = encodeURIComponent(productName);
 
-        const baseUrl = process.env.VERCEL_URL
-            ? `https://${process.env.VERCEL_URL}`
-            : (req.headers.origin || 'https://daoessentia.com');
+        const baseUrl = 'https://www.daoessentia.com';
         // 不传 total 参数，避免前端价格和 Creem 价格不一致
         // 支持 almanac 等页面传入自定义 successUrl
         const finalSuccessUrl = successUrl || `${baseUrl}/payment-success.html?order_id=${orderId}&product=${encodedName}`;
