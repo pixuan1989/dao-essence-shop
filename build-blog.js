@@ -1311,8 +1311,9 @@ function generateArticleHtml(post, category, allArticles, options = {}) {
   }
 
   // hreflang: enUrl and zhUrl must use correct slugs
+  // Chinese articles use the SAME slug as English (just under /zh/ path), so NO '-zh' suffix needed.
   const enSlug = isZh && slug.endsWith('-zh') ? slug.replace(/-zh$/, '') : slug;
-  const zhSlug = isZh ? slug : (options.hasZh ? slug + '-zh' : null);
+  const zhSlug = options.hasZh ? slug : null;
   const articleUrl = `${SITE_URL}${langPrefix}/blog/${slug}`;
   const enUrl = `${SITE_URL}/blog/${enSlug}`;
   const hasZh = options.hasZh === true;
