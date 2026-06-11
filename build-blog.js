@@ -943,6 +943,7 @@ function readAllMdFiles(dir) {
     .map(f => {
       const raw = fs.readFileSync(path.join(dir, f), 'utf-8');
       const { data, content } = matter(raw);
+      data.image = data.image || data.featuredImage;
       const slug = generateSlug(f, data, new Set());
       return { filename: f, slug, data, content };
     });
@@ -2046,6 +2047,7 @@ async function main() {
         if (!f.endsWith('.md')) continue;
         const raw = fs.readFileSync(path.join(POSTS_ZH_DIR, f), 'utf-8');
         const { data, content } = matter(raw);
+        data.image = data.image || data.featuredImage;
         if (!content.trim() && data.body) data.body = content;
         const rawSlug = f.replace(/\.md$/, '');
         const slug = rawSlug.replace(/\.zh$/, '-zh');
