@@ -187,7 +187,7 @@
         // SDK ready, open sign-in
         try {
             if (typeof clerkInstance.openSignIn === 'function') {
-                clerkInstance.openSignIn();
+                clerkInstance.openSignIn({ redirectUrl: window.location.href });
             } else {
                 console.warn('[Auth] openSignIn not available');
                 DA.showToast('Login unavailable.', 3000);
