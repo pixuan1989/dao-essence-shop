@@ -221,20 +221,11 @@ A skilled human Bazi practitioner offers things AI cannot replicate:
 
 ## FAQ: People Also Ask
 
-### Is AI fortune telling accurate?
-No. AI can calculate your Bazi chart accurately, but its interpretations are 40-60% wrong. It should not be used for major life decisions.
-
-### Why does AI get Bazi wrong?
-Training data bias (mostly elite charts), lack of secret techniques, theoretical inconsistencies between schools, inability to perceive your energy, and hallucination of fake Bazi concepts.
-
-### Can AI replace a human Bazi master?
-No. AI lacks contextual awareness, ethical judgment, and the ability to adapt its reading to your specific situation. It's a learning tool, not a decision-making tool.
-
-### Which is more accurate: AI or human Bazi reading?
-Human Bazi masters are significantly more accurate, especially for timing predictions and life event specifics. Try our free [Five Elements Test](/five-elements-test) to understand your core energy, then explore Bazi deeper.
-
 ### Is it safe to use AI for Bazi?
-For basic learning, yes. For decisions about career, marriage, health, or investments—no. Always consult a qualified human practitioner for important life guidance.
+For basic learning, yes. But for decisions about career, marriage, health, or investments—no. AI lacks the ability to perceive your actual life context and energy. Always consult a qualified human practitioner for important guidance.
+
+### How do I know if a Bazi reading is from AI or a human?
+The key difference is **contextual depth**. A human master will adjust their reading based on your specific life situation, family background, and current concerns. An AI reading often feels "generically accurate but personally off"—like a horoscope that could apply to anyone.
 
 ---
 
