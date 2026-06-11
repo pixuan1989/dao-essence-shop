@@ -66,13 +66,12 @@ export default async function handler(req, res) {
 
         const orderId = `BAZI_${Date.now()}_${Math.floor(Math.random() * 10000)}`;
 
-        const baseUrl = process.env.VERCEL_URL
-            ? `https://${process.env.VERCEL_URL}`
-            : (req.headers.origin || 'https://daoessentia.com');
+        // 硬编码合规域名，完全忽略前端传来的任何 URL（Creem 合规要求）
+        const ALLOWED_DOMAIN = 'https://www.daoessentia.com';
 
         // 支付成功回调页面（不传 total，避免价格不一致）
         const baziProductName = encodeURIComponent('Bazi Life Guidance');
-        const successUrl = `${baseUrl}/payment-success.html?order_id=${orderId}&type=bazi&lang=${language || 'zh'}&product=${baziProductName}`;
+        const successUrl = `${ALLOWED_DOMAIN}/payment-success.html?order_id=${orderId}&type=bazi&lang=${language || 'zh'}&product=${baziProductName}`;
 
         // ============================================
         // 核心：将八字数据写入 metadata

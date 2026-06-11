@@ -49,7 +49,7 @@ export default async function handler(req, res) {
     }
 
     try {
-        const { items, discountCode, successUrl } = req.body;
+        const { items, discountCode } = req.body;
 
         // 🔥 调试日志：打印接收到的完整请求数据
         console.log('📥 收到创建支付请求:', {
@@ -106,12 +106,9 @@ export default async function handler(req, res) {
         const productName = items[0]?.name || 'Digital Service';
         const encodedName = encodeURIComponent(productName);
 
-        const baseUrl = process.env.VERCEL_URL
-            ? `https://${process.env.VERCEL_URL}`
-            : (req.headers.origin || 'https://daoessentia.com');
-        // 不传 total 参数，避免前端价格和 Creem 价格不一致
-        // 支持 almanac 等页面传入自定义 successUrl
-        const finalSuccessUrl = successUrl || `${baseUrl}/payment-success.html?order_id=${orderId}&product=${encodedName}`;
+        // 硬编码合规域名，完全忽略前端传来的 successUrl（Creem 合规要求）
+        const ALLOWED_DOMAIN = 'https://www.daoessentia.com';
+        const finalSuccessUrl = `${ALLOWED_DOMAIN}/payment-success.html?order_id=${orderId}&product=${encodedName}`;
 
         // 准备 Creem API 请求数据（精简，去掉不必要的 metadata）
         const creemCheckoutData = {
