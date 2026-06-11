@@ -27,7 +27,7 @@ faq:
     answer: "Use workarounds: add a high-backed chair or cushion for 'wall support,' place a small mirror to see the door, or add a plant to the left side for growth energy. Small adjustments still help."
 related_posts:
   - what-is-bazi-beginners-guide
-  - five-elements-test-why-it-matters
+  - five-elements-theory-wu-xing-guide
   - bazi-10-year-luck-cycles-guide
 ---
 

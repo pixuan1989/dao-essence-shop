@@ -35,7 +35,7 @@ faq: &ref_0
       可運用替代方案：選用高背椅或加墊高靠枕，模擬「背靠牆」的支撐感；在桌邊放置小型鏡子，以便觀照門口動靜；或於書桌左方（青龍位）擺放一株綠植，引動生發之氣。即使微調，亦能發揮作用。
 related_posts:
   - what-is-bazi-beginners-guide
-  - five-elements-test-why-it-matters
+  - five-elements-theory-wu-xing-guide
   - bazi-10-year-luck-cycles-guide
 lang: zh-Hant
 faq_zh: *ref_0
