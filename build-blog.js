@@ -2114,7 +2114,7 @@ async function main() {
     const outDir = path.join(DIST_BLOG_DIR, slug);
     fs.mkdirSync(outDir, { recursive: true });
     const outPath = path.join(outDir, 'index.html');
-    fs.writeFileSync(outPath, html);
+    fs.writeFileSync(outPath, html, 'utf-8');
     console.log(`  Generated: dist/blog/${slug}/index.html`);
   }
 
@@ -2151,7 +2151,7 @@ async function main() {
       const outDir = path.join(DIST_ZH_BLOG_DIR, slug);
       fs.mkdirSync(outDir, { recursive: true });
       const outPath = path.join(outDir, 'index.html');
-      fs.writeFileSync(outPath, html);
+      fs.writeFileSync(outPath, html, 'utf-8');
       console.log(`  Generated: dist/zh/blog/${slug}/index.html`);
     }
   }
@@ -2190,7 +2190,7 @@ async function main() {
     }
     const html = generateCategoryHtml(cat, articles, { lang: 'en', hasZh: hasZhArticles });
     const outPath = path.join(DIST_BLOG_DIR, `${cat}.html`);
-    fs.writeFileSync(outPath, html);
+    fs.writeFileSync(outPath, html, 'utf-8');
     console.log(`  Updated: dist/blog/${cat}.html (${articles.length} articles)`);
   }
 
@@ -2204,7 +2204,7 @@ async function main() {
       }
       const html = generateCategoryHtml(cat, articles, { lang: 'zh-Hant', hasZh: true });
       const outPath = path.join(DIST_ZH_BLOG_DIR, `${cat}.html`);
-      fs.writeFileSync(outPath, html);
+      fs.writeFileSync(outPath, html, 'utf-8');
       console.log(`  Generated: dist/zh/blog/${cat}.html (${articles.length} articles)`);
     }
   }
@@ -2212,14 +2212,14 @@ async function main() {
   // Step 6: Generate English blog index
   const indexHtml = generateBlogIndex(allArticles, { lang: 'en', zhMap: zhArticleMap, hasZh: hasZhArticles });
   const indexPath = path.join(DIST_BLOG_DIR, 'index.html');
-  fs.writeFileSync(indexPath, indexHtml);
+  fs.writeFileSync(indexPath, indexHtml, 'utf-8');
   console.log(`  Updated: dist/blog/index.html`);
 
   // Step 6a: Generate Traditional Chinese blog index
   if (zhArticles.length > 0) {
     const zhIndexHtml = generateBlogIndex(zhArticles, { lang: 'zh-Hant', hasZh: true });
     const zhIndexPath = path.join(DIST_ZH_BLOG_DIR, 'index.html');
-    fs.writeFileSync(zhIndexPath, zhIndexHtml);
+    fs.writeFileSync(zhIndexPath, zhIndexHtml, 'utf-8');
     console.log(`  Generated: dist/zh/blog/index.html`);
   }
 
@@ -2406,7 +2406,7 @@ async function main() {
       /<div class="articles-list">[\s\S]*?<\/div>\s*(<div class="articles-more">)/,
       `<div class="articles-list">\n${cardsHtml}\n            </div>\n            $1`
     );
-    fs.writeFileSync(homeIndexPath, homeHtml);
+    fs.writeFileSync(homeIndexPath, homeHtml, 'utf-8');
     console.log(`  Updated: index.html (${displayArticles.length} articles: ${pinnedArticles.length} pinned + ${displayArticles.length - pinnedArticles.length} latest)`);
   }
 
@@ -2496,7 +2496,7 @@ async function main() {
       '<link rel="alternate" hreflang="x-default" href="https://www.daoessentia.com/">\n    <link rel="alternate" hreflang="zh-Hant" href="https://www.daoessentia.com/zh">'
     );
 
-    fs.writeFileSync(zhHomePath, zhHomeHtml);
+    fs.writeFileSync(zhHomePath, zhHomeHtml, 'utf-8');
     console.log(`  Generated: dist/zh/index.html (${zhDisplay.length} zh articles)`);
   }
 
