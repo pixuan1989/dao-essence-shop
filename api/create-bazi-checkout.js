@@ -66,7 +66,9 @@ export default async function handler(req, res) {
 
         const orderId = `BAZI_${Date.now()}_${Math.floor(Math.random() * 10000)}`;
 
-        const baseUrl = 'https://www.daoessentia.com';
+        const baseUrl = process.env.VERCEL_URL
+            ? `https://${process.env.VERCEL_URL}`
+            : (req.headers.origin || 'https://daoessentia.com');
 
         // 支付成功回调页面（不传 total，避免价格不一致）
         const baziProductName = encodeURIComponent('Bazi Life Guidance');
