@@ -1222,9 +1222,12 @@ function generateArticleHtml(post, category, allArticles, options = {}) {
   const sidebarCtaHtml = sidebarCards.length > 0 ? sidebarCards.map(renderCtaCard).join('\n') : renderCtaCard('bazi');
 
   // Replace zodiac-lookup: either from Markdown marker or from cta_cards field
-  // If article has body written inside frontmatter (data.body), merge it with content (after ---)
-  // This handles legacy articles where the main text was stored in a body: field
-  const rawContent = data.body ? (data.body + '\n\n' + content) : content;
+  // For Chinese articles (isZh), always use content after --- separator.
+  // Never use data.body for zh files — it may contain English text from a
+  // copy-paste translation artifact and would cause EN/ZH mixing in output.
+  // For English articles, fall back to data.body if content after --- is empty
+  // (handles legacy articles that stored the full body in frontmatter).
+  const rawContent = isZh ? content : (data.body && !content.trim() ? data.body : (data.body ? (data.body + '\n\n' + content) : content));
   const hasMarkdownMarker = rawContent.includes('<!--zodiac-lookup-->');
   const hasZodiacLookup = hasMarkdownMarker || hasZodiacCta;
   const processedContent = hasMarkdownMarker
@@ -1327,6 +1330,25 @@ function generateArticleHtml(post, category, allArticles, options = {}) {
     <link rel="alternate" hreflang="x-default" href="${enUrl}">`;
   const canonicalUrl = articleUrl;
 
+  // Article structured data (SEO Essential) — inserted after URL definitions
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": data.title,
+    "description": data.description || data.excerpt,
+    "image": data.featuredImage ? `${SITE_URL}${data.featuredImage}` : `${SITE_URL}/images/og-default.jpg`,
+    "datePublished": data.date,
+    "dateModified": data.date,
+    "author": { "@type": "Person", "name": "Xuanzhen", "url": `${SITE_URL}/about` },
+    "publisher": {
+      "@type": "Organization",
+      "name": "DAO Essence",
+      "logo": { "@type": "ImageObject", "url": `${SITE_URL}/images/favicon.png` }
+    },
+    "mainEntityOfPage": { "@type": "WebPage", "@id": articleUrl }
+  };
+  const articleJsonLd = `<script type="application/ld+json">${JSON.stringify(articleSchema)}</script>`;
+
   return `<!DOCTYPE html>
 <html lang="${lang}">
 <head>
@@ -1379,7 +1401,7 @@ function generateArticleHtml(post, category, allArticles, options = {}) {
         "mainEntityOfPage": "${articleUrl}",
         "inLanguage": "${lang}"
     }
-    </script>${faqJsonLd}
+    </script>${articleJsonLd}${faqJsonLd}
     <style>${ARTICLE_STYLES}
         /* ── Share Buttons ── */
         .share-buttons { display: flex; gap: 0.75rem; margin: -1.5rem 0 2rem; align-items: center; }
@@ -2048,7 +2070,7 @@ async function main() {
         const raw = fs.readFileSync(path.join(POSTS_ZH_DIR, f), 'utf-8');
         const { data, content } = matter(raw);
         data.image = data.image || data.featuredImage;
-        if (!content.trim() && data.body) data.body = content;
+        if (!content.trim() && data.body) content = data.body;
         const rawSlug = f.replace(/\.md$/, '');
         const slug = rawSlug.replace(/\.zh$/, '-zh');
         zhArticles.push({
