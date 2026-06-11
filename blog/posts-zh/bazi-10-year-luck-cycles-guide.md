@@ -130,3 +130,10 @@ faq:
 想更深入地探討大運以及它們如何與十神系統互動，[請探索我們的免費八字課程](/learn-bazi)。
 
 想了解更多關於為什麼通用的生肖運勢常常感覺不準確——以及八字如何對個人時機採取根本不同的方法——[請看我們關於為什麼生肖解讀不符合你的指南](/zh/blog/zodiac-reading-vs-bazi)。
+
+---
+
+**延伸閱讀：**
+
+- [為何 AI 八字解讀會出錯？](/zh/blog/why-ai-bazi-gets-it-wrong/)
+- [八字新手完全指南：十神、日主與命盤解析](/zh/blog/what-is-bazi-beginners-guide/)

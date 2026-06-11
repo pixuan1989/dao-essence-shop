@@ -163,3 +163,10 @@ A professional BaZi reading requires your exact birth data: year, month, day, ho
 Whether you are seeking career clarity, relationship insights, health awareness, or simply a deeper understanding of your place in the universe, BaZi offers a time-tested framework for self-discovery and growth.
 
 **Ready to see your own chart?** [Get your free BaZi reading](/#free-bazi) — it takes 30 seconds and reveals your Day Master, Five Elements balance, and current luck cycle. Want to learn how to read charts yourself? [Start the free 6-chapter course](/learn-bazi).
+
+---
+
+**Related Articles:**
+
+- [Why AI BaZi Gets It Wrong](/blog/why-ai-bazi-gets-it-wrong/)
+- [BaZi 10-Year Luck Cycles: Complete Guide](/blog/bazi-10-year-luck-cycles-guide/)

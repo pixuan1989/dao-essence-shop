@@ -258,5 +258,6 @@ AI 八字是一場**令人驚豔的技術展示，而非可靠的命理工具**�
 **延伸閱讀：**
 
 - [什麼是八字？新手完全指南](/zh/blog/what-is-bazi-beginners-guide/)
-- [五行理論全解：從 五行 到生活應用](/zh/blog/five-elements-theory-wu-xing-guide/)
+- [五行理論全解：從五行到生活應用](/zh/blog/five-elements-theory-wu-xing-guide/)
 - [八字大運解密：十年一運，如何把握人生節奏？](/zh/blog/bazi-10-year-luck-cycles-guide/)
+- 🔮 [免費五行人格測試：發現你的核心優勢](/five-elements-test)

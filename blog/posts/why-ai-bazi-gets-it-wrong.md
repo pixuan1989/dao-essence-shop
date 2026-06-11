@@ -252,3 +252,4 @@ Your destiny is too important for guesswork.
 - [What Is Bazi? A Beginner's Guide](/blog/what-is-bazi-beginners-guide/)
 - [Five Elements Theory: The Complete Guide](/blog/five-elements-theory-wu-xing-guide/)
 - [Bazi 10-Year Luck Cycles: Complete Guide](/blog/bazi-10-year-luck-cycles-guide/)
+- 🔮 [Free Five Elements Personality Test](/five-elements-test)

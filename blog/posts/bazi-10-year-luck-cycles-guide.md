@@ -140,3 +140,10 @@ If you already have your chart and want to understand what it actually means, ou
 For a deeper dive specifically on Luck Cycles and how they interact with the Ten Gods system, [explore Chapter 4 of our course](/learn-bazi/luck-pillars).
 
 For more on why generic horoscopes often feel inaccurate — and how BaZi takes a fundamentally different approach to individual timing — [check out our guide on why zodiac readings don't match you](/blog/zodiac-reading-vs-bazi).
+
+---
+
+**Related Articles:**
+
+- [Why AI BaZi Gets It Wrong](/blog/why-ai-bazi-gets-it-wrong/)
+- [What Is BaZi? A Beginner's Guide](/blog/what-is-bazi-beginners-guide/)
