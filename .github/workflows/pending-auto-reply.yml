@@ -1,0 +1,36 @@
+name: Pending Auto-Reply Worker
+
+on:
+  schedule:
+    - cron: '*/30 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  auto-reply:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    env:
+      UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
+      UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
+      DASHSCOPE_API_KEY: ${{ secrets.DASHSCOPE_API_KEY }}
+      ALIYUN_EMAIL_ACCOUNT: ${{ secrets.ALIYUN_EMAIL_ACCOUNT }}
+      ALIYUN_SMTP_PASSWORD: ${{ secrets.ALIYUN_SMTP_PASSWORD }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install nodemailer
+
+      - name: Run Auto-Reply Worker
+        run: node scripts/pending-auto-reply.js
