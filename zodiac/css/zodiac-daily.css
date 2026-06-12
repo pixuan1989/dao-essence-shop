@@ -523,11 +523,18 @@ body.detail-page-body { overflow-x: hidden; }
   align-items: center;
 }
 .detail-nav__back {
-  font-size: 0.8rem; color: rgba(255,255,255,0.5);
-  text-decoration: none; transition: color 0.2s;
-  letter-spacing: 0.05em;
+  font-size: 0.95rem; color: rgba(255,255,255,0.9);
+  text-decoration: none; transition: all 0.2s;
+  letter-spacing: 0.03em; font-weight: 500;
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 12px; border-radius: 8px;
 }
-.detail-nav__back:hover { color: #fff; }
+.detail-nav__back::before {
+  content: "←"; font-size: 1.1rem; line-height: 1;
+}
+.detail-nav__back:hover {
+  color: #D4AF37; background: rgba(255,255,255,0.08);
+}
 .detail-lang-switch {
   display: flex;
   align-items: center;
