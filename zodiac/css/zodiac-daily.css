@@ -513,25 +513,25 @@ body {
 
 body.detail-page-body { overflow-x: hidden; }
 
-/* ─── 顶栏 ─── */
+/* ─── 顶栏 (Sticky + Glass) ─── */
 .detail-nav {
-  position: relative; z-index: 5;
-  padding: 16px 20px 10px;
+  position: sticky; top: 0; z-index: 50;
+  padding: 14px 20px;
   max-width: 720px; margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  display: flex; justify-content: space-between; align-items: center;
+  background: rgba(30, 15, 10, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
 }
 .detail-nav__back {
   font-size: 0.95rem; color: rgba(255,255,255,0.9);
   text-decoration: none; transition: all 0.2s;
-  letter-spacing: 0.03em; font-weight: 500;
+  letter-spacing: 0.02em; font-weight: 500;
   display: inline-flex; align-items: center; gap: 6px;
   padding: 6px 12px; border-radius: 8px;
 }
-.detail-nav__back::before {
-  content: "←"; font-size: 1.1rem; line-height: 1;
-}
+.detail-nav__back::before { content: none; }
 .detail-nav__back:hover {
   color: #D4AF37; background: rgba(255,255,255,0.08);
 }
