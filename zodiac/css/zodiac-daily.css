@@ -513,21 +513,21 @@ body {
 
 body.detail-page-body { overflow-x: hidden; }
 
-/* ─── 顶栏 (Sticky + Glass + Full Width) ─── */
+/* ─── 顶栏 (Centered Block) ─── */
 .detail-nav {
   position: sticky; top: 0; z-index: 50;
+  max-width: 720px;
   width: 100%;
-  background: rgba(30, 15, 10, 0.92);
+  margin: 0 auto;
+  padding: 14px 20px;
+  display: flex; justify-content: space-between; align-items: center;
+  background: rgba(30, 15, 10, 0.95);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid rgba(255,255,255,0.06);
+  border-radius: 0 0 12px 12px; /* 底部圆角，像悬浮卡片 */
 }
-.detail-nav__inner {
-  width: 100%; max-width: 720px;
-  margin: 0 auto;
-  padding: 14px 24px;
-  display: flex; justify-content: space-between; align-items: center;
-}
+/* 移除旧的 detail-nav__inner 定义 */
 .detail-nav__back {
   font-size: 0.9rem; color: rgba(255,255,255,0.85);
   text-decoration: none; transition: all 0.2s;
