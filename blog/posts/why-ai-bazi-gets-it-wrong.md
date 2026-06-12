@@ -2,8 +2,9 @@
 title: "Why AI Bazi Gets It Wrong"
 date: 2026-06-11
 slug: "why-ai-bazi-gets-it-wrong"
+description: "AI Bazi fortune telling sounds convenient, but the accuracy gap vs human experts is massive. Here are 5 hard truths about AI Bazi readings."
 excerpt: "AI Bazi calculations are technically correct, but interpretations are 40-60% wrong. Here's why you shouldn't trust AI with your destiny."
-metaDescription: "AI Bazi fortune telling sounds convenient, but the accuracy gap vs human experts is massive. Here are 5 hard truths about AI Bazi readings."
+readTime: 8
 featuredImage: "/images/blog/ai-bazi-wrong.webp"
 imageAlt: "AI brain vs human fortune teller concept, digital vs traditional Bazi chart"
 categories: ["bazi-astrology", "feng-shui"]
