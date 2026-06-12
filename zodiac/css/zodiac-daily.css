@@ -517,15 +517,15 @@ body.detail-page-body { overflow-x: hidden; }
 .detail-nav {
   position: sticky; top: 0; z-index: 50;
   width: 100%;
-  padding: 14px 20px;
-  display: flex; justify-content: center; align-items: center;
-  background: rgba(30, 15, 10, 0.9);
+  background: rgba(30, 15, 10, 0.92);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid rgba(255,255,255,0.06);
 }
 .detail-nav__inner {
   width: 100%; max-width: 720px;
+  margin: 0 auto;
+  padding: 14px 24px;
   display: flex; justify-content: space-between; align-items: center;
 }
 .detail-nav__back {
