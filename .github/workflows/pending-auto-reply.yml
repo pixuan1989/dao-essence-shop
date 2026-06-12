@@ -33,4 +33,4 @@ jobs:
         run: npm install nodemailer
 
       - name: Run Auto-Reply Worker
-        run: node scripts/pending-auto-reply.js
+        run: node scripts/pending-auto-reply.cjs
