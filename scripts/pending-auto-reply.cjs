@@ -47,10 +47,16 @@ async function getPendingEmails() {
   try {
     const res = await redisWithRetry('/GET/pending_auto_reply');
     const data = res.result;
+    // DEBUG: 打印原始响应类型和内容
+    console.log(`[DEBUG] Redis res.result type=${typeof data}, value=${JSON.stringify(data)?.slice(0, 300)}`);
     // Redis 返回 null（key 不存在）时返回空数组
     if (data === null || data === undefined) return [];
     // 如果是字符串（JSON），解析它
-    if (typeof data === 'string') return JSON.parse(data);
+    if (typeof data === 'string') {
+      const parsed = JSON.parse(data);
+      console.log(`[DEBUG] JSON.parse result type=${typeof parsed}, isArray=${Array.isArray(parsed)}`);
+      return Array.isArray(parsed) ? parsed : [];
+    }
     // 如果是数组，直接返回
     if (Array.isArray(data)) return data;
     // 其他类型（如数字、对象），安全返回空数组
@@ -67,26 +73,28 @@ async function savePendingEmails(list) {
   await redisWithRetry('/SET/pending_auto_reply', 'POST', JSON.stringify(list));
 }
 
-async function removePendingEmail(leadId) { 
-  const p = await getPendingEmails(); 
-  await savePendingEmails(p.filter(x => x.id !== leadId)); 
+async function removePendingEmail(leadId) {
+  const p = await getPendingEmails();
+  if (!Array.isArray(p)) return;
+  await savePendingEmails(p.filter(x => x.id !== leadId));
 }
 
-async function addSentRecord(leadId) { 
-  const s = (await redisWithRetry('/GET/sent_auto_replies')).result || []; 
-  s.unshift({ id: leadId, sentAt: new Date().toISOString() }); 
-  if (s.length > 500) s.length = 500; 
-  await redisWithRetry('/SET/sent_auto_replies', 'POST', s); 
+async function addSentRecord(leadId) {
+  const s = (await redisWithRetry('/GET/sent_auto_replies')).result || [];
+  s.unshift({ id: leadId, sentAt: new Date().toISOString() });
+  if (s.length > 500) s.length = 500;
+  await redisWithRetry('/SET/sent_auto_replies', 'POST', s);
 }
 
-async function isAlreadySent(leadId) { 
-  return ((await redisWithRetry('/GET/sent_auto_replies')).result || []).some(s => s.id === leadId); 
+async function isAlreadySent(leadId) {
+  return ((await redisWithRetry('/GET/sent_auto_replies')).result || []).some(s => s.id === leadId);
 }
 
-async function cleanExpiredRecords() { 
-  const p = await getPendingEmails(); 
-  const v = p.filter(x => Date.now() - new Date(x.createdAt).getTime() < CONFIG.recordTTL * 1000); 
-  if (v.length < p.length) await savePendingEmails(v); 
+async function cleanExpiredRecords() {
+  const p = await getPendingEmails();
+  if (!Array.isArray(p)) return;
+  const v = p.filter(x => Date.now() - new Date(x.createdAt).getTime() < CONFIG.recordTTL * 1000);
+  if (v.length < p.length) await savePendingEmails(v);
 }
 
 async function checkDailyQuota() { 
