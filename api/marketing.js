@@ -475,7 +475,7 @@ async function handleQuizLead(req, res) {
                 if (birth_year && birth_month && birth_day) {
                     const pendingEmails = await redisGet('pending_auto_reply') || [];
                     const sendAfter = new Date(Date.now() + 2 * 60 * 60 * 1000).toISOString(); // 2 小时后
-                    
+
                     pendingEmails.unshift({
                         id: leadId,
                         email: email.toLowerCase().trim(),
@@ -486,11 +486,17 @@ async function handleQuizLead(req, res) {
                         birthHour: String(birth_hour || -1),
                         gender: gender || '',
                         dominantElement: wuxing_result?.dominant || '',
+                        // 【新增】把前端算好的四柱传给 AI，这是专业分析的关键
+                        yearPillar: wuxing_result?.yearPillar || '',
+                        monthPillar: wuxing_result?.monthPillar || '',
+                        dayPillar: wuxing_result?.dayPillar || '',
+                        hourPillar: wuxing_result?.hourPillar || '',
+                        dayMaster: wuxing_result?.dayMaster || '',
                         source: 'wuxing_quiz',
                         sendAfter: sendAfter,
                         createdAt: new Date().toISOString()
                     });
-                    
+
                     if (pendingEmails.length > 1000) pendingEmails.length = 1000;
                     await redisSet('pending_auto_reply', pendingEmails);
                     console.log(` 待发邮件已加入队列: ${leadId}`);
