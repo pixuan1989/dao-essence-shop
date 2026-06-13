@@ -2044,11 +2044,12 @@ async function main() {
   const dateStr = process.argv[2] || new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Shanghai' });
   console.log(`\n🚀 开始生成 ${dateStr} 生肖运势...\n`);
 
-  // 0️⃣ 重复生成检查：今日 SEO 文件已存在则跳过整个生成流程
+  // 0️⃣ 重复生成检查：今日 SEO 文件已存在则跳过 AI 生成，但详情页仍需重新生成
   const seoFile = path.join(SEO_DIR, `${dateStr}.json`);
+  let seoData = null;
   if (fs.existsSync(seoFile)) {
-    console.log(`⚠️  ${dateStr}.json 已存在，跳过生成（如需重新生成请先删除该文件）\n`);
-    return;
+    console.log(`⚠️  ${dateStr}.json 已存在，跳过 AI 生成，但详情页仍会重新生成\n`);
+    seoData = JSON.parse(fs.readFileSync(seoFile, 'utf8'));
   }
 
   // ① 获取完整四柱（paipan 引擎精确排盘，作为唯一数据源）

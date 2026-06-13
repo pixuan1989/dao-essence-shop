@@ -1611,7 +1611,7 @@
             } else if (l.source === 'marketing') {
                 html += '<div class="detail-row"><span class="detail-label">留资时间</span><span class="detail-value">' + formatDateTime(l.createdAt) + '</span></div>';
             } else {
-                html += '<div class="detail-row"><span class="detail-label">主元素</span><span class="detail-value" style="color:#d4af37">' + (l.wuxingResult?.dominant||'-') + '</span></div><div class="detail-row"><span class="detail-label">生日</span><span class="detail-value">' + (l.birthYear||'-') + '-' + String(l.birthMonth||0).padStart(2,'0') + '-' + String(l.birthDay||0).padStart(2,'0') + '</span></div><div class="detail-row"><span class="detail-label">时间</span><span class="detail-value">' + formatDateTime(l.createdAt) + '</span></div>';
+                html += '<div class="detail-row"><span class="detail-label">主元素</span><span class="detail-value" style="color:#d4af37">' + (l.wuxingResult?.dominant||'-') + '</span></div><div class="detail-row"><span class="detail-label">生日</span><span class="detail-value">' + (l.birthYear||'-') + '-' + String(l.birthMonth||0).padStart(2,'0') + '-' + String(l.birthDay||0).padStart(2,'0') + '</span></div><div class="detail-row"><span class="detail-label">时辰</span><span class="detail-value">' + (l.birthHour && l.birthHour !== '-1' ? l.birthHour + ':00' : '未知') + '</span></div><div class="detail-row"><span class="detail-label">时间</span><span class="detail-value">' + formatDateTime(l.createdAt) + '</span></div>';
             }
             document.getElementById('modalBody').innerHTML = html;
             document.getElementById('orderModal').classList.add('active');
