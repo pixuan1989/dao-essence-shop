@@ -43,12 +43,19 @@ async function redisWithRetry(path, method = 'GET', body = null, retries = CONFI
 }
 
 // 获取待发邮件列表，兼容旧格式（如果是字符串则解析，如果是数组则直接用）
-async function getPendingEmails() { 
+async function getPendingEmails() {
   try {
     const res = await redisWithRetry('/GET/pending_auto_reply');
-    const data = res.result || [];
-    // 如果是字符串（JSON），解析它；如果是数组，直接返回
-    return typeof data === 'string' ? JSON.parse(data) : (Array.isArray(data) ? data : []);
+    const data = res.result;
+    // Redis 返回 null（key 不存在）时返回空数组
+    if (data === null || data === undefined) return [];
+    // 如果是字符串（JSON），解析它
+    if (typeof data === 'string') return JSON.parse(data);
+    // 如果是数组，直接返回
+    if (Array.isArray(data)) return data;
+    // 其他类型（如数字、对象），安全返回空数组
+    logWarn(`Redis 返回非预期类型: ${typeof data}，重置为空`);
+    return [];
   } catch (e) {
     logError(`读取队列失败：${e.message}，重置为空`);
     return [];
