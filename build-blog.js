@@ -2720,6 +2720,13 @@ async function main() {
     { loc: '/wallpaper', changefreq: 'weekly', priority: '0.9' }, // 新增壁纸页
     { loc: '/privacy', changefreq: 'yearly', priority: '0.3' },
     { loc: '/terms', changefreq: 'yearly', priority: '0.3' },
+    // Blog article pages (discovered by GSC but missing from sitemap)
+    { loc: '/blog/learn-bazi-free-course', changefreq: 'monthly', priority: '0.7' },
+    { loc: '/blog/trump-bazi-fire-earth', changefreq: 'monthly', priority: '0.7' },
+    { loc: '/blog/what-is-bazi-beginners-guide', changefreq: 'monthly', priority: '0.7' },
+    // Chinese blog article pages
+    { loc: '/zh/blog/3-places-to-visit-when-bad-luck', changefreq: 'monthly', priority: '0.7' },
+    { loc: '/zh/blog/zodiac-horoscope', changefreq: 'monthly', priority: '0.7' },
   ];
   // Add category pages to sitemap (skip empty categories)
   for (const cat of CATEGORY_FOLDERS) {

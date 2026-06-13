@@ -1,5 +1,6 @@
 ---
 title: "How to Read Your BaZi Chart: A Step-by-Step Guide for Beginners"
+slug: "what-is-bazi-beginners-guide"
 category: bazi-astrology
 tags:
   - BaZi
