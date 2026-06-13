@@ -85,6 +85,13 @@ for (const slug of DETAIL_PAGE_SLUGS) {
 }
 console.log(`✅ 已删除 ${cleaned} 个旧详情页`);
 
+// 0b. 强制删除当日 SEO JSON，防止 generate-daily.js 跳过生成（详情页必须每次重新生成）
+const seoJsonPath = path.join(ZODIAC_DIR, 'seo-content', `${DATE}.json`);
+if (fs.existsSync(seoJsonPath)) {
+  fs.unlinkSync(seoJsonPath);
+  console.log(`🗑️  已删除 ${DATE}.json，强制重新生成`);
+}
+
 try {
   console.log('--- 运行 generate-daily.js ---');
   execSync(`node "${GENERATE_SCRIPT}" ${DATE}`, {
