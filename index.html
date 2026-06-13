@@ -1289,6 +1289,15 @@
                 background: var(--bg-dark);
                 overflow: hidden;
                 position: relative;
+                user-select: none;
+                -webkit-user-select: none;
+            }
+            .wallpaper-card-img::after {
+                content: '';
+                position: absolute;
+                inset: 0;
+                background: transparent;
+                z-index: 2;
             }
             .wallpaper-card-img img {
                 width: 100%;
@@ -1296,6 +1305,9 @@
                 object-fit: cover;
                 display: block;
                 transition: transform 0.4s ease;
+                -webkit-user-drag: none;
+                user-drag: none;
+                pointer-events: none;
             }
             .wallpaper-card:hover .wallpaper-card-img img {
                 transform: scale(1.05);
@@ -1823,6 +1835,21 @@
                 console.warn('Wallpaper carousel load failed:', err);
                 if (carousel) carousel.innerHTML = '';
             });
+
+        // Disable right-click and drag on wallpaper section
+        var wpSection = document.getElementById('lucky-wallpapers');
+        if (wpSection) {
+            wpSection.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
+                return false;
+            });
+            wpSection.addEventListener('dragstart', function(e) {
+                if (e.target.tagName === 'IMG') {
+                    e.preventDefault();
+                    return false;
+                }
+            });
+        }
     })();
     </script>
 </body>
