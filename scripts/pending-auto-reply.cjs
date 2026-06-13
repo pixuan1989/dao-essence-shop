@@ -28,14 +28,16 @@ function logError(msg) { log('ERROR', msg); }
 
 async function sleep(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
 
-async function redisWithRetry(path, method = 'GET', body = null, retries = CONFIG.maxRetries) {
+async function redisWithRetry(path, method = 'GET', body = null, retries = CONFIG.maxRetries, rawBody = false) {
   for (let attempt = 1; attempt <= retries; attempt++) {
     try {
       const res = await new Promise((resolve, reject) => {
         const req = https.request(`${CONFIG.redisUrl}${path}`, { method, headers: { 'Authorization': `Bearer ${CONFIG.redisToken}`, 'Content-Type': 'application/json' }, timeout: 10000 }, r => {
           let d = ''; r.on('data', c => d += c); r.on('end', () => resolve(JSON.parse(d)));
         });
-        req.on('error', reject); if (body) req.write(JSON.stringify(body)); req.end();
+        req.on('error', reject); 
+        if (body) req.write(rawBody ? body : JSON.stringify(body)); 
+        req.end();
       });
       return res;
     } catch (e) { if (attempt === retries) throw e; await sleep(CONFIG.retryBackoff[attempt - 1]); }
@@ -67,9 +69,10 @@ async function getPendingEmails() {
   }
 }
 
-// 保存待发邮件列表，统一保存为 JSON 字符串
+// 保存待发邮件列表，直接发送 JSON 字符串（不二次编码）
 async function savePendingEmails(list) {
-  await redisWithRetry('/SET/pending_auto_reply', 'POST', JSON.stringify(list));
+  // Upstash SET 命令直接存 body 内容，无需 stringify
+  await redisWithRetry('/SET/pending_auto_reply', 'POST', JSON.stringify(list), false);
 }
 
 async function removePendingEmail(leadId) {
@@ -80,9 +83,10 @@ async function removePendingEmail(leadId) {
 
 async function addSentRecord(leadId) {
   const s = (await redisWithRetry('/GET/sent_auto_replies')).result || [];
-  s.unshift({ id: leadId, sentAt: new Date().toISOString() });
-  if (s.length > 500) s.length = 500;
-  await redisWithRetry('/SET/sent_auto_replies', 'POST', s);
+  const parsed = typeof s === 'string' ? JSON.parse(s) : (Array.isArray(s) ? s : []);
+  parsed.unshift({ id: leadId, sentAt: new Date().toISOString() });
+  if (parsed.length > 500) parsed.length = 500;
+  await redisWithRetry('/SET/sent_auto_replies', 'POST', JSON.stringify(parsed), 3, true);
 }
 
 async function isAlreadySent(leadId) {
