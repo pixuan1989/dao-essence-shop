@@ -1248,23 +1248,27 @@
                 width: 100vw;
                 margin-left: calc(50% - 50vw);
                 margin-right: calc(50% - 50vw);
+                overflow: hidden;
+            }
+            .wallpaper-carousel-track {
+                display: flex;
+                gap: var(--spacing-lg);
+                width: max-content;
+                animation: wpScroll 60s linear infinite;
+            }
+            .wallpaper-carousel-track:hover {
+                animation-play-state: paused;
             }
             .wallpaper-carousel {
                 display: flex;
                 gap: var(--spacing-lg);
-                overflow-x: auto;
-                scroll-snap-type: x mandatory;
-                -webkit-overflow-scrolling: touch;
-                padding: var(--spacing-lg) calc(50vw - 50%);
-                scrollbar-width: none;
-                -ms-overflow-style: none;
             }
-            .wallpaper-carousel::-webkit-scrollbar {
-                display: none;
+            @keyframes wpScroll {
+                0% { transform: translateX(0); }
+                100% { transform: translateX(-50%); }
             }
             .wallpaper-card {
                 flex: 0 0 220px;
-                scroll-snap-align: start;
                 background: rgba(245,240,230,0.04);
                 border: 1px solid rgba(212,175,55,0.12);
                 border-radius: var(--radius-lg);
@@ -1321,46 +1325,6 @@
                 text-transform: uppercase;
                 opacity: 0.7;
             }
-            .wallpaper-arrow {
-                position: absolute;
-                top: 50%;
-                transform: translateY(-50%);
-                width: 44px;
-                height: 44px;
-                border-radius: 50%;
-                background: rgba(212,175,55,0.15);
-                border: 1px solid rgba(212,175,55,0.3);
-                color: var(--accent-color);
-                font-size: 1.2rem;
-                cursor: pointer;
-                z-index: 5;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                transition: all var(--transition-base);
-                backdrop-filter: blur(8px);
-                -webkit-backdrop-filter: blur(8px);
-            }
-            .wallpaper-arrow:hover {
-                background: rgba(212,175,55,0.3);
-                border-color: var(--accent-color);
-                transform: translateY(-50%) scale(1.1);
-            }
-            .wallpaper-arrow-left {
-                left: 20px;
-            }
-            .wallpaper-arrow-right {
-                right: 20px;
-            }
-            .wallpaper-arrow svg {
-                width: 20px;
-                height: 20px;
-                fill: none;
-                stroke: currentColor;
-                stroke-width: 2;
-                stroke-linecap: round;
-                stroke-linejoin: round;
-            }
             .wallpaper-cta {
                 text-align: center;
                 margin-top: var(--spacing-2xl);
@@ -1392,19 +1356,10 @@
                 .wallpaper-card {
                     flex: 0 0 160px;
                 }
-                .wallpaper-arrow {
-                    width: 36px;
-                    height: 36px;
-                }
-                .wallpaper-arrow-left { left: 8px; }
-                .wallpaper-arrow-right { right: 8px; }
             }
             @media (max-width: 480px) {
                 .wallpaper-card {
                     flex: 0 0 140px;
-                }
-                .wallpaper-arrow {
-                    display: none;
                 }
             }
         </style>
@@ -1415,15 +1370,12 @@
             </div>
         </div>
         <div class="wallpaper-carousel-wrapper">
-            <button class="wallpaper-arrow wallpaper-arrow-left" id="wp-arrow-left" aria-label="Previous wallpapers">
-                <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
-            </button>
-            <div class="wallpaper-carousel" id="wallpaper-carousel">
-                <div class="wallpaper-loading" data-i18n="wallpaper.loading_wallpapers">Loading wallpapers...</div>
+            <div class="wallpaper-carousel-track" id="wallpaper-track">
+                <div class="wallpaper-carousel" id="wallpaper-carousel">
+                    <div class="wallpaper-loading" data-i18n="wallpaper.loading_wallpapers">Loading wallpapers...</div>
+                </div>
+                <div class="wallpaper-carousel" id="wallpaper-carousel-clone"></div>
             </div>
-            <button class="wallpaper-arrow wallpaper-arrow-right" id="wp-arrow-right" aria-label="Next wallpapers">
-                <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
-            </button>
         </div>
         <div class="container">
             <div class="wallpaper-cta">
@@ -1785,11 +1737,7 @@
     <script>
     (function() {
         var carousel = document.getElementById('wallpaper-carousel');
-        var arrowLeft = document.getElementById('wp-arrow-left');
-        var arrowRight = document.getElementById('wp-arrow-right');
-        var autoTimer = null;
-        var AUTO_INTERVAL = 4000;
-        var allWallpapers = [];
+        var carouselClone = document.getElementById('wallpaper-carousel-clone');
         var pickedWallpapers = [];
 
         function getLang() {
@@ -1797,41 +1745,8 @@
             return lang === 'zh' || lang.startsWith('zh') ? 'zh' : 'en';
         }
 
-        function getScrollAmount() {
-            var card = carousel ? carousel.querySelector('.wallpaper-card') : null;
-            if (card) {
-                var style = window.getComputedStyle(card);
-                return card.offsetWidth + parseInt(style.marginLeft || 0) + parseInt(style.marginRight || 0) + 24;
-            }
-            return 250;
-        }
-
-        function scrollCarousel(direction) {
-            if (!carousel) return;
-            var amount = getScrollAmount();
-            carousel.scrollBy({ left: direction * amount, behavior: 'smooth' });
-        }
-
-        function startAutoScroll() {
-            stopAutoScroll();
-            autoTimer = setInterval(function() {
-                if (!carousel) return;
-                var maxScroll = carousel.scrollWidth - carousel.clientWidth;
-                if (carousel.scrollLeft >= maxScroll - 10) {
-                    carousel.scrollTo({ left: 0, behavior: 'smooth' });
-                } else {
-                    scrollCarousel(1);
-                }
-            }, AUTO_INTERVAL);
-        }
-
-        function stopAutoScroll() {
-            if (autoTimer) { clearInterval(autoTimer); autoTimer = null; }
-        }
-
         function buildCardHTML(w) {
-            var lang = getLang();
-            var isZh = lang === 'zh';
+            var isZh = getLang() === 'zh';
             var title = isZh ? (w.titleZh || w.title) : w.title;
             var category = isZh ? (w.categoryZh || w.category) : w.category;
             var slug = w.slug || '';
@@ -1846,12 +1761,13 @@
         }
 
         function renderCards() {
-            if (!carousel || !pickedWallpapers.length) return;
+            if (!carousel || !carouselClone || !pickedWallpapers.length) return;
             var html = '';
             for (var i = 0; i < pickedWallpapers.length; i++) {
                 html += buildCardHTML(pickedWallpapers[i]);
             }
             carousel.innerHTML = html;
+            carouselClone.innerHTML = html;
         }
 
         function pickDiverse(list, count) {
@@ -1875,16 +1791,6 @@
             return picked.slice(0, count);
         }
 
-        // Arrow buttons
-        if (arrowLeft) arrowLeft.addEventListener('click', function() { scrollCarousel(-1); startAutoScroll(); });
-        if (arrowRight) arrowRight.addEventListener('click', function() { scrollCarousel(1); startAutoScroll(); });
-
-        // Pause on hover
-        if (carousel) {
-            carousel.addEventListener('mouseenter', stopAutoScroll);
-            carousel.addEventListener('mouseleave', startAutoScroll);
-        }
-
         // Re-render on language switch
         document.addEventListener('daoessence:i18n-changed', function() {
             renderCards();
@@ -1894,10 +1800,8 @@
         fetch('/wallpapers.json')
             .then(function(res) { return res.json(); })
             .then(function(data) {
-                allWallpapers = data;
-                pickedWallpapers = pickDiverse(data, 8);
+                pickedWallpapers = pickDiverse(data, 12);
                 renderCards();
-                startAutoScroll();
             })
             .catch(function(err) {
                 console.warn('Wallpaper carousel load failed:', err);
