@@ -1353,6 +1353,22 @@
                 font-size: var(--text-sm);
             }
             @media (max-width: 768px) {
+                .wallpaper-carousel-wrapper {
+                    overflow-x: auto;
+                    -webkit-overflow-scrolling: touch;
+                    scrollbar-width: none;
+                }
+                .wallpaper-carousel-wrapper::-webkit-scrollbar {
+                    display: none;
+                }
+                .wallpaper-carousel-track {
+                    animation: none !important;
+                    width: 100%;
+                    max-width: none;
+                }
+                .wallpaper-carousel-clone {
+                    display: none !important;
+                }
                 .wallpaper-card {
                     flex: 0 0 160px;
                 }
