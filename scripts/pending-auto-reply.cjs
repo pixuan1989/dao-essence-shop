@@ -46,15 +46,14 @@ async function redisWithRetry(path, method = 'GET', body = null, retries = CONFI
 async function getPendingEmails() {
   try {
     const res = await redisWithRetry('/GET/pending_auto_reply');
-    const data = res.result;
-    // DEBUG: 打印原始响应类型和内容
-    console.log(`[DEBUG] Redis res.result type=${typeof data}, value=${JSON.stringify(data)?.slice(0, 300)}`);
+    let data = res.result;
     // Redis 返回 null（key 不存在）时返回空数组
     if (data === null || data === undefined) return [];
-    // 如果是字符串（JSON），解析它
+    // 如果是字符串，解析它
     if (typeof data === 'string') {
-      const parsed = JSON.parse(data);
-      console.log(`[DEBUG] JSON.parse result type=${typeof parsed}, isArray=${Array.isArray(parsed)}`);
+      let parsed = JSON.parse(data);
+      // 处理 double-encoded 情况：Upstash 可能把 "[...]" 存成了 "\"[...]\""
+      if (typeof parsed === 'string') parsed = JSON.parse(parsed);
       return Array.isArray(parsed) ? parsed : [];
     }
     // 如果是数组，直接返回
