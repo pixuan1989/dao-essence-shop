@@ -474,7 +474,7 @@ async function handleQuizLead(req, res) {
             try {
                 if (birth_year && birth_month && birth_day) {
                     const pendingEmails = await redisGet('pending_auto_reply') || [];
-                    const sendAfter = new Date(Date.now() + 2 * 60 * 60 * 1000).toISOString(); // 2 小时后
+                    const sendAfter = new Date(Date.now() + 5 * 60 * 1000).toISOString(); // 5 分钟后
 
                     pendingEmails.unshift({
                         id: leadId,
