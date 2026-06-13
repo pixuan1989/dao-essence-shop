@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+﻿#!/usr/bin/env node
 /**
  * Pending Auto-Reply Worker
  * 扫描 Redis 中的待发邮件队列，找到到时间的记录，调用 AI 生成解读并发送邮件
@@ -117,22 +117,27 @@ async function incrementDailyCount() {
 async function generateInterpretation(lead) {
   const { name, dominantElement, yearPillar, monthPillar, dayPillar, hourPillar, dayMaster, ganzhi, zodiac, birthday } = lead;
   
-  const systemPrompt = `你是Dao Essentia的资深命理顾问。请用温暖、专业的语气为用户写一封个性化的五行解读邮件。`;
+  const systemPrompt = `You are a cultural consultant at Dao Essentia. Write a warm, professional personality insight email based on Chinese Five Elements theory. Avoid fortune-telling language. Keep it concise and respectful.`;
   
-  const userPrompt = `请为以下用户生成五行解读邮件内容：
+  const userPrompt = `Write a short personality insight email for:
 
-用户：${name || '用户'}
-五行主元素：${dominantElement}
-出生年份：${ganzhi}年（${zodiac}年）
-四柱：年柱${yearPillar}、月柱${monthPillar}、日柱${dayPillar}、时柱${hourPillar}
-日主：${dayMaster}
+Name: ${name || 'Friend'}
+Primary Element: ${dominantElement}
+Birth Year: ${ganzhi} (${zodiac})
+Day Master: ${dayMaster}
 
-要求：
-1. 中文部分（约150字）：引用古籍解释五行特质，给出职业建议（2-3个方向）和感情特点，健康建议（器官+季节）。语气像朋友间的专业建议。
-2. 英文部分（约120词）：翻译核心内容，用现代灵性词汇（energy, alignment, balance等）。
-3. 用"---"分隔中英文，不要列表，不要夸张用语。
+Requirements:
+1. Keep it under 100 words total (Chinese + English combined).
+2. Focus on personality strengths (e.g., grounded, reliable, nurturing for Earth).
+3. Mention ONE career suggestion and ONE relationship trait.
+4. Use a warm, conversational tone like a friend sharing insight.
+5. NO fortune-telling terms, NO lists, NO exaggerated claims.
+6. End with: "---" to separate Chinese and English versions.
 
-直接输出内容，不要加标题或前后缀。`;
+Output format:
+[Chinese paragraph]
+---
+[English paragraph]`;
 
   try {
     const res = await new Promise((resolve, reject) => {
@@ -142,8 +147,8 @@ async function generateInterpretation(lead) {
           { role: 'system', content: systemPrompt },
           { role: 'user', content: userPrompt }
         ],
-        temperature: 0.7,
-        max_tokens: 800
+        temperature: 0.6,
+        max_tokens: 400
       });
       
       const req = https.request('https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions', {
@@ -175,13 +180,13 @@ async function generateInterpretation(lead) {
       req.end();
     });
     
-    logInfo(`[AI] 生成成功 (${res.length}字)`);
+    logInfo(`[AI] OK (${res.length} chars)`);
     return res;
   } catch (err) {
     logError(`[AI] 生成失败: ${err.message}，使用兜底内容`);
-    return `你的命局主五行为${dominantElement}，生于${ganzhi}年。《滴天髓》云："${dominantElement}主仁，其性直"。日主为${dayMaster}，天生灵活应变。职业上适合设计、咨询或医疗领域。感情中倾向包容体谅。木气主肝胆筋骨，建议早睡养肝，春季多舒展筋骨。
+    return `Your primary element is ${dominantElement}, born in the Year of ${ganzhi}. People with this element are known for being grounded, reliable, and nurturing. You likely excel in roles requiring patience and care, such as teaching, healthcare, or project management. In relationships, you value stability and long-term commitment.
 ---
-Your primary element is ${dominantElement}, born in the Year of ${ganzhi}. Like the ancient texts note, your nature is inherently flexible. You are suited for fields requiring adaptability and empathy, such as design, counseling, or healthcare. Wood governs the liver and tendons. It is advisable to rest early to nourish the liver.`;
+你的主元素是${dominantElement}，生于${ganzhi}年。此元素的人通常踏实可靠、善于照顾他人。你可能在需要耐心和关怀的领域表现出色，如教育、医疗或项目管理。在感情中，你看重稳定和长期承诺。`;
   }
 }
 
