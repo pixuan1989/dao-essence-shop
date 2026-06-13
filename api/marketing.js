@@ -470,6 +470,35 @@ async function handleQuizLead(req, res) {
                 await redisSet('marketing_subscribers', subscribers);
             }
 
+            // 写入自动回复队列 (如果有生日信息)
+            try {
+                if (birth_year && birth_month && birth_day) {
+                    const pendingEmails = await redisGet('pending_auto_reply') || [];
+                    const sendAfter = new Date(Date.now() + 2 * 60 * 60 * 1000).toISOString(); // 2 小时后
+                    
+                    pendingEmails.unshift({
+                        id: leadId,
+                        email: email.toLowerCase().trim(),
+                        name: name || '',
+                        birthYear: String(birth_year),
+                        birthMonth: String(birth_month),
+                        birthDay: String(birth_day),
+                        birthHour: String(birth_hour || -1),
+                        gender: gender || '',
+                        dominantElement: wuxing_result?.dominant || '',
+                        source: 'wuxing_quiz',
+                        sendAfter: sendAfter,
+                        createdAt: new Date().toISOString()
+                    });
+                    
+                    if (pendingEmails.length > 1000) pendingEmails.length = 1000;
+                    await redisSet('pending_auto_reply', pendingEmails);
+                    console.log(` 待发邮件已加入队列: ${leadId}`);
+                }
+            } catch (queueErr) {
+                console.error(' 待发邮件队列写入失败:', queueErr.message);
+            }
+
             console.log(`✅ Quiz lead saved: ${leadId}`);
         } catch (redisErr) {
             console.error('❌ Redis save failed:', redisErr.message);
