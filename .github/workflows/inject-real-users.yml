@@ -19,7 +19,7 @@ jobs:
           # 2. 注入测试用户（sendAfter 设为过去时间，立即触发）
           PAST_TIME="2026-06-12T00:00:00Z"
           DATA='[
-            {"id":"real_pp","email":"pixuan1989@gmail.com","name":"pp","birthYear":"1990","birthMonth":"01","birthDay":"01","birthHour":"0","dominantElement":"fire","ganzhi":"Gengwu","zodiac":"Horse","yearPillar":"Gengwu","monthPillar":"Wuzi","dayPillar":"Yiyou","hourPillar":"Bingzi","dayMaster":"Yi","source":"wuxing_quiz","sendAfter":"'$PAST_TIME'","createdAt":"2026-06-12T00:00:00Z"},
+            {"id":"real_pp","email":"pixuan123456789@gmail.com","name":"pp","birthYear":"1990","birthMonth":"01","birthDay":"01","birthHour":"0","dominantElement":"fire","ganzhi":"Gengwu","zodiac":"Horse","yearPillar":"Gengwu","monthPillar":"Wuzi","dayPillar":"Yiyou","hourPillar":"Bingzi","dayMaster":"Yi","source":"wuxing_quiz","sendAfter":"'$PAST_TIME'","createdAt":"2026-06-12T00:00:00Z"},
             {"id":"real_66666","email":"517748938@qq.com","name":"66666","birthYear":"1992","birthMonth":"01","birthDay":"17","birthHour":"1","dominantElement":"earth","ganzhi":"Xinwei","zodiac":"Goat","yearPillar":"Xinwei","monthPillar":"Xinchou","dayPillar":"Guiyou","hourPillar":"Guichou","dayMaster":"Gui","source":"wuxing_quiz","sendAfter":"'$PAST_TIME'","createdAt":"2026-06-12T00:00:00Z"}
           ]'
 

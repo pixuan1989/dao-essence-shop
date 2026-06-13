@@ -256,7 +256,7 @@ function buildEmailHtml(name, interpretation) {
   
   <div class="footer">
     <p>This is a brief analysis based on your primary element and birth year. A complete BaZi reading (including month, day, and hour pillars) reveals more about your career direction, relationships, and health.</p>
-    <p><a href="https://www.daoessentia.com/bazi-calculator" class="link">Free BaZi Calculator</a> &nbsp;|&nbsp; <a href="https://www.daoessentia.com/shop" class="link">Full Reading Report</a></p>
+    <p><a href="https://www.daoessentia.com/#free-bazi" class="link">Free BaZi Calculator</a> &nbsp;|&nbsp; <a href="https://www.daoessentia.com/shop" class="link">Full Reading Report</a></p>
     <p style="margin-top: 20px; font-size: 12px;">Dao Essentia — <a href="https://www.daoessentia.com" class="link">www.daoessentia.com</a></p>
   </div>
 </body>
