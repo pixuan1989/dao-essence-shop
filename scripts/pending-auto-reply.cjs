@@ -117,27 +117,31 @@ async function incrementDailyCount() {
 async function generateInterpretation(lead) {
   const { name, dominantElement, yearPillar, monthPillar, dayPillar, hourPillar, dayMaster, ganzhi, zodiac, birthday } = lead;
   
-  const systemPrompt = `You are a cultural consultant at Dao Essentia. Write a warm, professional personality insight email based on Chinese Five Elements theory. Avoid fortune-telling language. Keep it concise and respectful.`;
-  
-  const userPrompt = `Write a short personality insight email for:
+  const systemPrompt = `You are a cultural consultant at Dao Essentia. Write a warm, professional personality insight email based on Chinese Five Elements theory. Use Traditional Chinese for the Chinese version. Avoid fortune-telling language. Keep it respectful.`;
+
+  const userPrompt = `Write a personality insight email for:
 
 Name: ${name || 'Friend'}
 Primary Element: ${dominantElement}
-Birth Year: ${ganzhi} (${zodiac})
+Birth Year Ganzhi: ${ganzhi} (${zodiac})
 Day Master: ${dayMaster}
+Four Pillars: Year ${yearPillar}, Month ${monthPillar}, Day ${dayPillar}, Hour ${hourPillar}
 
 Requirements:
-1. Keep it under 100 words total (Chinese + English combined).
-2. Focus on personality strengths (e.g., grounded, reliable, nurturing for Earth).
-3. Mention ONE career suggestion and ONE relationship trait.
+1. Chinese version in Traditional Chinese (繁體中文), about 200 characters.
+2. English version, about 150 words.
+3. Structure BOTH versions with these sections:
+   - 事業/Career: 2-3 specific career directions based on the Day Master and element traits
+   - 感情/Relationships: 1-2 sentences about relationship style and what they value
 4. Use a warm, conversational tone like a friend sharing insight.
-5. NO fortune-telling terms, NO lists, NO exaggerated claims.
-6. End with: "---" to separate Chinese and English versions.
+5. NO fortune-telling terms (no 算命，no 吉凶), NO lists, NO exaggerated claims.
+6. DO NOT translate ganzhi names literally (e.g., "Xinwei" ≠ "新魏年"). Keep ganzhi as symbols.
+7. End with: "---" to separate Chinese and English versions.
 
 Output format:
-[Chinese paragraph]
+[Traditional Chinese paragraph with 事業 and 感情 sections]
 ---
-[English paragraph]`;
+[English paragraph with Career and Relationships sections]`;
 
   try {
     const res = await new Promise((resolve, reject) => {
@@ -148,7 +152,7 @@ Output format:
           { role: 'user', content: userPrompt }
         ],
         temperature: 0.6,
-        max_tokens: 400
+        max_tokens: 800
       });
       
       const req = https.request('https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions', {
@@ -184,9 +188,15 @@ Output format:
     return res;
   } catch (err) {
     logError(`[AI] 生成失败: ${err.message}，使用兜底内容`);
-    return `Your primary element is ${dominantElement}, born in the Year of ${ganzhi}. People with this element are known for being grounded, reliable, and nurturing. You likely excel in roles requiring patience and care, such as teaching, healthcare, or project management. In relationships, you value stability and long-term commitment.
+    return `【事業】你的主元素是${dominantElement}，生於${ganzhi}年。此元素的人通常踏實可靠，善於照顧他人。你可能在需要耐心和關懷的領域表現出色，如教育、醫療或項目管理。你做事有條理，能讓團隊感到安心。
+
+【感情】在人際關係中，你看重穩定和長期承諾。你不會輕易表達情感，但一旦認定了對方，就會全心付出。你傾向於用實際行動而不是甜言蜜語來表達愛意，這讓你的伴侶感到踏實可靠。
 ---
-你的主元素是${dominantElement}，生于${ganzhi}年。此元素的人通常踏实可靠、善于照顾他人。你可能在需要耐心和关怀的领域表现出色，如教育、医疗或项目管理。在感情中，你看重稳定和长期承诺。`;
+Your primary element is ${dominantElement}, born in the Year of ${ganzhi}. 
+
+Career: People with this element are known for being grounded, reliable, and nurturing. You likely excel in roles requiring patience and care, such as teaching, healthcare, or project management. You bring stability to any team you join.
+
+Relationships: You value stability and long-term commitment. You don't rush into relationships, but once you commit, you give your whole heart. You show love through actions rather than words, making your partner feel secure and cherished.`;
   }
 }
 
