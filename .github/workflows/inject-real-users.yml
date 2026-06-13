@@ -1,0 +1,36 @@
+name: Inject Real Users to Queue
+on:
+  workflow_dispatch:
+
+jobs:
+  inject:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Inject Schay and KN
+        env:
+          URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
+          TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
+        run: |
+          # 1. Get current queue
+          CURRENT=$(curl -s -X GET $URL/GET/pending_auto_reply -H "Authorization: Bearer $TOKEN" | jq -r '.result // "[]"')
+          
+          # 2. Define new users to inject (Schay + KN)
+          # Using a time in the past to trigger immediate sending
+          PAST_TIME="2026-06-12T00:00:00Z"
+          
+          SCHAY='{"id":"real_user_schay","email":"chay.sipha@gmail.com","name":"Schay","birthYear":"1972","birthMonth":"09","birthDay":"21","birthHour":"-1","dominantElement":"wood","source":"wuxing_quiz","sendAfter":"'$PAST_TIME'","createdAt":"2026-06-12T00:00:00Z"}'
+          KN='{"id":"real_user_kn","email":"conkayen@gmail.com","name":"KN","birthYear":"1989","birthMonth":"09","birthDay":"12","birthHour":"17","dominantElement":"wood","source":"wuxing_quiz","sendAfter":"'$PAST_TIME'","createdAt":"2026-06-12T00:00:00Z"}'
+          
+          # 3. Combine and push to Redis
+          # We construct the new JSON array manually using jq to append the new items
+          echo "$CURRENT" | jq --argjson schay "$SCHAY" --argjson kn "$KN" '[ $schay, $kn ] + .' > /tmp/new_queue.json
+          
+          NEW_DATA=$(cat /tmp/new_queue.json)
+          
+          curl -s -X POST $URL/SET/pending_auto_reply \
+            -H "Authorization: Bearer $TOKEN" \
+            -H "Content-Type: application/json" \
+            -d "$NEW_DATA"
+            
+          echo "✅ 成功注入 2 个真实用户：Schay 和 KN 已进入发送队列。"
+          echo "👉 请等待 30 分钟（下次自动扫描）或手动 Run workflow 发送邮件。"
