@@ -229,6 +229,7 @@ export async function autoTranslateIfNeeded(englishArticles, postsZhDir) {
     for (const f of existingZh) {
       const raw = fs.readFileSync(path.join(postsZhDir, f), 'utf-8');
       const { data, content } = matter(raw);
+      data.image = data.image || data.featuredImage;
       if (!content.trim() && data.body) content = data.body;
       // Normalize ".zh" suffix to "-zh" to match generateSlug() in build-blog.js
       const rawSlug = f.replace(/\.md$/, '');
@@ -259,6 +260,7 @@ export async function autoTranslateIfNeeded(englishArticles, postsZhDir) {
       console.log(`    ✅ Saved: posts-zh/${post.filename}`);
       // Read back from saved file to get correct frontmatter (including translated FAQ)
       const savedRaw = matter(result.zhContent);
+      savedRaw.data.image = savedRaw.data.image || savedRaw.data.featuredImage;
       zhArticles.push({
         filename: post.filename,
         slug: post.slug,
