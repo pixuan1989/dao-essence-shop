@@ -155,16 +155,6 @@
   ],
   "redirects": [
     {
-      "source": "/blog/:slug.html",
-      "destination": "/blog/:slug/",
-      "permanent": true
-    },
-    {
-      "source": "/zh/blog/:slug.html",
-      "destination": "/zh/blog/:slug/",
-      "permanent": true
-    },
-    {
       "source": "/zh/wallpaper/wallpaper_1780233504",
       "destination": "/zh/wallpaper/divine-tree-wallpaper-feng-shui",
       "permanent": true
