@@ -1218,6 +1218,162 @@
         </div>
     </section>
 
+    <!-- Lucky Wallpapers -->
+    <section class="lucky-wallpapers section" id="lucky-wallpapers">
+        <style>
+            .lucky-wallpapers {
+                padding: var(--spacing-4xl) 0;
+                background: linear-gradient(180deg, #0B0E18 0%, #12101A 40%, #1A1612 100%);
+                position: relative;
+                overflow: hidden;
+            }
+            .lucky-wallpapers::before {
+                content: '';
+                position: absolute;
+                inset: 0;
+                background: radial-gradient(ellipse at 50% 30%, rgba(212,175,55,0.06) 0%, transparent 60%);
+                pointer-events: none;
+            }
+            .lucky-wallpapers .section-header h2 {
+                color: var(--bg-primary);
+            }
+            .lucky-wallpapers .section-header .subtitle {
+                color: var(--accent-color);
+            }
+            .lucky-wallpapers .section-header p {
+                color: rgba(245,240,230,0.6);
+            }
+            .wallpaper-carousel {
+                display: flex;
+                gap: var(--spacing-lg);
+                overflow-x: auto;
+                scroll-snap-type: x mandatory;
+                -webkit-overflow-scrolling: touch;
+                padding: var(--spacing-lg) 0;
+                scrollbar-width: thin;
+                scrollbar-color: rgba(212,175,55,0.3) transparent;
+            }
+            .wallpaper-carousel::-webkit-scrollbar {
+                height: 6px;
+            }
+            .wallpaper-carousel::-webkit-scrollbar-track {
+                background: transparent;
+            }
+            .wallpaper-carousel::-webkit-scrollbar-thumb {
+                background: rgba(212,175,55,0.3);
+                border-radius: 3px;
+            }
+            .wallpaper-card {
+                flex: 0 0 220px;
+                scroll-snap-align: start;
+                background: rgba(245,240,230,0.04);
+                border: 1px solid rgba(212,175,55,0.12);
+                border-radius: var(--radius-lg);
+                overflow: hidden;
+                text-decoration: none;
+                transition: all var(--transition-base);
+                display: flex;
+                flex-direction: column;
+            }
+            .wallpaper-card:hover {
+                transform: translateY(-4px);
+                border-color: rgba(212,175,55,0.35);
+                box-shadow: 0 8px 30px rgba(212,175,55,0.12);
+            }
+            .wallpaper-card-img {
+                width: 100%;
+                aspect-ratio: 9/16;
+                background: var(--bg-dark);
+                overflow: hidden;
+                position: relative;
+            }
+            .wallpaper-card-img img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                display: block;
+                transition: transform 0.4s ease;
+            }
+            .wallpaper-card:hover .wallpaper-card-img img {
+                transform: scale(1.05);
+            }
+            .wallpaper-card-body {
+                padding: var(--spacing-md);
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                gap: 6px;
+            }
+            .wallpaper-card-title {
+                font-family: var(--font-display);
+                font-size: 0.85rem;
+                color: var(--bg-primary);
+                line-height: 1.4;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+            }
+            .wallpaper-card-tag {
+                display: inline-block;
+                font-size: 0.7rem;
+                color: var(--accent-color);
+                letter-spacing: 0.1em;
+                text-transform: uppercase;
+                opacity: 0.7;
+            }
+            .wallpaper-cta {
+                text-align: center;
+                margin-top: var(--spacing-2xl);
+            }
+            .wallpaper-cta a {
+                display: inline-flex;
+                align-items: center;
+                gap: 0.5rem;
+                padding: 0.85rem 2rem;
+                background: var(--gradient-gold);
+                color: var(--bg-dark);
+                font-weight: 600;
+                font-size: var(--text-base);
+                border-radius: var(--radius-sm);
+                text-decoration: none;
+                transition: all var(--transition-base);
+            }
+            .wallpaper-cta a:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 6px 20px rgba(212,175,55,0.35);
+            }
+            .wallpaper-loading {
+                text-align: center;
+                padding: var(--spacing-2xl);
+                color: rgba(245,240,230,0.5);
+                font-size: var(--text-sm);
+            }
+            @media (max-width: 768px) {
+                .wallpaper-card {
+                    flex: 0 0 160px;
+                }
+            }
+            @media (max-width: 480px) {
+                .wallpaper-card {
+                    flex: 0 0 140px;
+                }
+            }
+        </style>
+        <div class="container">
+            <div class="section-header">
+                <h2 data-i18n="wallpaper.home_title">Lucky Feng Shui Wallpapers</h2>
+                <p class="subtitle" data-i18n="wallpaper.home_subtitle">Free phone backgrounds for wealth, love, and protection</p>
+            </div>
+            <div class="wallpaper-carousel" id="wallpaper-carousel">
+                <div class="wallpaper-loading" data-i18n="wallpaper.loading_wallpapers">Loading wallpapers...</div>
+            </div>
+            <div class="wallpaper-cta">
+                <a href="/wallpaper" data-i18n="wallpaper.home_cta">Browse All Wallpapers</a>
+            </div>
+        </div>
+    </section>
+
     <!-- Recent Articles -->
     <section class="recent-articles section">
         <div class="container">
@@ -1566,5 +1722,71 @@
     </script>
     <!-- Task P1: BaZi Wallpaper Recommendation (Append-Only) -->
     <script src="js/bazi-wallpaper-recommendation.js" defer></script>
+
+    <!-- Homepage Wallpaper Carousel -->
+    <script>
+    (function() {
+        var LANG = document.documentElement.lang || 'en';
+        var isZh = LANG === 'zh' || LANG.startsWith('zh');
+
+        function renderWallpapers(wallpapers) {
+            var carousel = document.getElementById('wallpaper-carousel');
+            if (!carousel || !wallpapers || !wallpapers.length) return;
+
+            // Pick 6 diverse wallpapers: try to cover different categories
+            var picked = pickDiverse(wallpapers, 6);
+            var html = '';
+            for (var i = 0; i < picked.length; i++) {
+                var w = picked[i];
+                var title = isZh ? (w.titleZh || w.title) : w.title;
+                var category = isZh ? (w.categoryZh || w.category) : w.category;
+                var slug = w.slug || '';
+                var thumb = w.thumb || w.original || '';
+                if (!slug || !thumb) continue;
+                html += '<a href="/wallpaper/' + slug + '" class="wallpaper-card" title="' + title.replace(/"/g, '&quot;') + '">'
+                    + '<div class="wallpaper-card-img"><img src="' + thumb + '" alt="' + title.replace(/"/g, '&quot;') + '" loading="lazy" decoding="async"></div>'
+                    + '<div class="wallpaper-card-body">'
+                    + '<span class="wallpaper-card-tag">' + category + '</span>'
+                    + '<span class="wallpaper-card-title">' + title + '</span>'
+                    + '</div></a>';
+            }
+            carousel.innerHTML = html;
+        }
+
+        function pickDiverse(list, count) {
+            if (list.length <= count) return list;
+            // Group by category
+            var groups = {};
+            for (var i = 0; i < list.length; i++) {
+                var cat = list[i].category || 'Other';
+                if (!groups[cat]) groups[cat] = [];
+                groups[cat].push(list[i]);
+            }
+            // Pick one from each category, then fill remaining
+            var picked = [];
+            var cats = Object.keys(groups);
+            for (var c = 0; c < cats.length && picked.length < count; c++) {
+                var g = groups[cats[c]];
+                if (g.length > 0) picked.push(g[Math.floor(Math.random() * g.length)]);
+            }
+            // Fill remaining randomly
+            while (picked.length < count) {
+                var r = list[Math.floor(Math.random() * list.length)];
+                if (picked.indexOf(r) === -1) picked.push(r);
+            }
+            return picked.slice(0, count);
+        }
+
+        // Load wallpapers
+        fetch('/wallpapers.json')
+            .then(function(res) { return res.json(); })
+            .then(function(data) { renderWallpapers(data); })
+            .catch(function(err) {
+                console.warn('Wallpaper carousel load failed:', err);
+                var carousel = document.getElementById('wallpaper-carousel');
+                if (carousel) carousel.innerHTML = '';
+            });
+    })();
+    </script>
 </body>
 </html>
