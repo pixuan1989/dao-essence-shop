@@ -111,17 +111,89 @@ async function incrementDailyCount() {
 
 async function generateInterpretation(lead) {
   const { name, dominantElement, yearPillar, monthPillar, dayPillar, hourPillar, dayMaster, ganzhi, zodiac, birthday } = lead;
-  const prompt = `你是资深命理师。用户：${name||'用户'}，主元素：${dominantElement}，四柱：年${yearPillar}月${monthPillar}日${dayPillar}时${hourPillar}，日主：${dayMaster}，年：${ganzhi}(${zodiac})。
-要求：1.引用《滴天髓》或《尚书》解释元素特质。2.结合日主给出具体职业方向（如设计/咨询/医疗等）和感情模式（如包容但易压抑自我）。3.给出具体健康建议（器官 + 季节/习惯）。4.结尾钩子引导完整八字分析。5.中英双语，中文约 180 字，用---分隔。不要列表，不要恐吓，不要 AI 腔。`;
-  // 这里暂时返回模拟内容，避免 API 调用失败导致整个流程卡住
-  // 实际使用时应调用 Qwen API
-  return `你的命局主五行为${dominantElement}，生于${ganzhi}年。《滴天髓》云："${dominantElement}主仁，其性直"。日主为${dayMaster}，天生灵活应变。
+  
+  const systemPrompt = `你是Dao Essentia的资深命理师，精通八字命理和五行学说。请用专业但易懂的语言为用户解读。`;
+  
+  const userPrompt = `请为以下用户生成五行解读邮件内容：
+
+用户信息：
+- 姓名：${name || '用户'}
+- 五行主元素：${dominantElement}
+- 出生年份干支：${ganzhi}年（${zodiac}年）
+- 四柱：年柱${yearPillar}、月柱${monthPillar}、日柱${dayPillar}、时柱${hourPillar}
+- 日主：${dayMaster}
+
+要求：
+1. **中文部分（约180字）**：
+   - 引用《滴天髓》或《尚书》经典解释该五行特质
+   - 结合日主给出2-3个具体职业方向建议
+   - 描述感情模式特点（1-2句）
+   - 给出具体健康建议（器官+季节/习惯）
+   - 语气温暖专业，像资深命理师面对面解读
+
+2. **英文部分（约150词）**：
+   - 翻译并适配中文内容的核心意思
+   - 使用New Age风格词汇（energy, alignment, intuition等）
+   - 保持专业但易懂
+
+3. **格式**：中文和英文用"---"分隔，不要列表，不要恐吓性语言，不要AI腔调。
+
+请直接输出解读内容，不要加任何前缀或后缀。`;
+
+  try {
+    const res = await new Promise((resolve, reject) => {
+      const body = JSON.stringify({
+        model: 'qwen-plus',
+        messages: [
+          { role: 'system', content: systemPrompt },
+          { role: 'user', content: userPrompt }
+        ],
+        temperature: 0.7,
+        max_tokens: 1000
+      });
+      
+      const req = https.request('https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${CONFIG.dashscopeApiKey}`
+        },
+        timeout: CONFIG.dashscopeTimeout
+      }, r => {
+        let d = '';
+        r.on('data', c => d += c);
+        r.on('end', () => {
+          try {
+            const json = JSON.parse(d);
+            if (json.choices && json.choices[0] && json.choices[0].message) {
+              resolve(json.choices[0].message.content);
+            } else {
+              reject(new Error(`API返回异常: ${d.slice(0, 200)}`));
+            }
+          } catch (e) {
+            reject(e);
+          }
+        });
+      });
+      
+      req.on('error', reject);
+      req.write(body);
+      req.end();
+    });
+    
+    logInfo(`[AI] 生成成功 (${res.length}字)`);
+    return res;
+  } catch (err) {
+    logError(`[AI] 生成失败: ${err.message}，使用兜底内容`);
+    // 兜底内容
+    return `你的命局主五行为${dominantElement}，生于${ganzhi}年。《滴天髓》云："${dominantElement}主仁，其性直"。日主为${dayMaster}，天生灵活应变。
 职业上，你适合需灵活应变与人情练达的领域，如设计、咨询或医疗，能发挥你调和矛盾的特长。感情中你倾向包容体谅，但需留意勿为求和而压抑自我。
 木气主肝胆筋骨，建议早睡养肝，春季宜多舒展筋骨。
 ---
 Your primary element is ${dominantElement}, born in the Year of ${ganzhi}. As the *Di Tian Sui* notes: "Yi Wood is soft, yet its nature is straight." Like a vine, your nature is inherently flexible.
 Professionally, you are suited for fields requiring adaptability and empathy, such as design, counseling, or healthcare. In relationships, you tend to be accommodating, but beware of suppressing your own needs.
 Wood governs the liver and tendons. It is advisable to rest early to nourish the liver.`;
+  }
 }
 
 const BLOCKED_PATTERNS = [/灾难 | 厄运 | 必死/i, /法力 | 神通/i];
