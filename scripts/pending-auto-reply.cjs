@@ -220,48 +220,38 @@ function buildEmailHtml(name, interpretation) {
   const parts = interpretation.split('---');
   const zhContent = (parts[0] || '').trim();
   const enContent = (parts[1] || '').trim();
-  
+
   return `<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body { font-family: 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px; }
-    .header { text-align: center; padding: 20px 0; border-bottom: 2px solid #D4AF37; margin-bottom: 30px; }
-    .header h1 { margin: 0; color: #2c3e50; font-size: 24px; }
-    .section { margin: 25px 0; }
-    .section h2 { color: #D4AF37; font-size: 18px; border-bottom: 1px solid #eee; padding-bottom: 8px; }
-    .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee; text-align: center; color: #666; font-size: 14px; }
-    .cta { display: inline-block; margin: 10px 5px; padding: 12px 24px; background: #D4AF37; color: #fff; text-decoration: none; border-radius: 4px; font-weight: bold; }
-    .cta:hover { background: #C49F27; }
+    body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px; }
+    .greeting { margin-bottom: 20px; }
+    .content { margin: 20px 0; }
+    .divider { border: none; border-top: 1px solid #ddd; margin: 20px 0; }
+    .footer { margin-top: 30px; font-size: 13px; color: #888; }
+    .link { color: #D4AF37; text-decoration: none; }
   </style>
 </head>
 <body>
-  <div class="header">
-    <h1>🌿 Your Five Elements Reading</h1>
-  </div>
+  <p class="greeting">Hi ${name || 'friend'},</p>
   
-  <p>Hi ${name || 'friend'},</p>
-  <p>Thank you for completing the Five Elements Quiz! Based on your birth information, here's your personalized reading:</p>
+  <p>Thanks for taking the Five Elements Quiz! Here's your personalized insight:</p>
   
-  <div class="section">
-    <h2>📖 中文解读</h2>
+  <div class="content">
     <p>${zhContent.replace(/\n/g, '<br>')}</p>
   </div>
   
-  <div class="section">
-    <h2>📖 English Interpretation</h2>
+  <hr class="divider">
+  
+  <div class="content">
     <p>${enContent.replace(/\n/g, '<br>')}</p>
   </div>
   
   <div class="footer">
-    <p>以上是基于你的五行主元素和年柱的初步分析。完整八字（月、日、时三柱的交叉关系）会揭示更多关于职业方向、感情模式和健康建议的精准信息。</p>
-    <p><strong>Want to go deeper?</strong></p>
-    <a href="https://www.daoessentia.com/bazi-calculator" class="cta"> Free BaZi Calculator</a>
-    <a href="https://www.daoessentia.com/shop" class="cta">📄 Full Reading Report</a>
-    <p style="margin-top: 30px; font-size: 12px; color: #999;">Dao Essentia — Ancient Wisdom for Modern Life<br>
-    <a href="https://www.daoessentia.com" style="color: #999;">www.daoessentia.com</a></p>
+    <p>This is a brief analysis based on your primary element and birth year. A complete BaZi reading (including month, day, and hour pillars) reveals more about your career direction, relationships, and health.</p>
+    <p>Learn more: <a href="https://www.daoessentia.com/bazi-calculator" class="link">Free BaZi Calculator</a> | <a href="https://www.daoessentia.com" class="link">www.daoessentia.com</a></p>
   </div>
 </body>
 </html>`;
