@@ -84,13 +84,18 @@ async function removePendingEmail(leadId) {
 async function addSentRecord(leadId) {
   const s = (await redisWithRetry('/GET/sent_auto_replies')).result || [];
   const parsed = typeof s === 'string' ? JSON.parse(s) : (Array.isArray(s) ? s : []);
-  parsed.unshift({ id: leadId, sentAt: new Date().toISOString() });
-  if (parsed.length > 500) parsed.length = 500;
-  await redisWithRetry('/SET/sent_auto_replies', 'POST', JSON.stringify(parsed), 3, true);
+  // 处理 double-encoded 情况
+  const arr = typeof parsed === 'string' ? JSON.parse(parsed) : (Array.isArray(parsed) ? parsed : []);
+  arr.unshift({ id: leadId, sentAt: new Date().toISOString() });
+  if (arr.length > 500) arr.length = 500;
+  await redisWithRetry('/SET/sent_auto_replies', 'POST', JSON.stringify(arr), 3, true);
 }
 
 async function isAlreadySent(leadId) {
-  return ((await redisWithRetry('/GET/sent_auto_replies')).result || []).some(s => s.id === leadId);
+  const s = (await redisWithRetry('/GET/sent_auto_replies')).result || [];
+  const parsed = typeof s === 'string' ? JSON.parse(s) : (Array.isArray(s) ? s : []);
+  const arr = typeof parsed === 'string' ? JSON.parse(parsed) : (Array.isArray(parsed) ? parsed : []);
+  return arr.some(item => item.id === leadId);
 }
 
 async function cleanExpiredRecords() {
