@@ -128,20 +128,21 @@ Day Master: ${dayMaster}
 Four Pillars: Year ${yearPillar}, Month ${monthPillar}, Day ${dayPillar}, Hour ${hourPillar}
 
 Requirements:
-1. Chinese version in Traditional Chinese (繁體中文), about 200 characters.
-2. English version, about 150 words.
-3. Structure BOTH versions with these sections:
+1. Chinese version in Traditional Chinese (繁體中文), about 250 characters.
+2. English version, about 180 words.
+3. Structure BOTH versions with these three sections:
    - 事業/Career: 2-3 specific career directions based on the Day Master and element traits
    - 感情/Relationships: 1-2 sentences about relationship style and what they value
+   - 健康/Health: 1-2 sentences about which body parts to care for and seasonal lifestyle tips
 4. Use a warm, conversational tone like a friend sharing insight.
 5. NO fortune-telling terms (no 算命，no 吉凶), NO lists, NO exaggerated claims.
 6. DO NOT translate ganzhi names literally (e.g., "Xinwei" ≠ "新魏年"). Keep ganzhi as symbols.
 7. End with: "---" to separate Chinese and English versions.
 
 Output format:
-[Traditional Chinese paragraph with 事業 and 感情 sections]
+[Traditional Chinese paragraph with 事業, 感情, and 健康 sections]
 ---
-[English paragraph with Career and Relationships sections]`;
+[English paragraph with Career, Relationships, and Health sections]`;
 
   try {
     const res = await new Promise((resolve, reject) => {
@@ -152,7 +153,7 @@ Output format:
           { role: 'user', content: userPrompt }
         ],
         temperature: 0.6,
-        max_tokens: 800
+        max_tokens: 1000
       });
       
       const req = https.request('https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions', {
@@ -191,12 +192,16 @@ Output format:
     return `【事業】你的主元素是${dominantElement}，生於${ganzhi}年。此元素的人通常踏實可靠，善於照顧他人。你可能在需要耐心和關懷的領域表現出色，如教育、醫療或項目管理。你做事有條理，能讓團隊感到安心。
 
 【感情】在人際關係中，你看重穩定和長期承諾。你不會輕易表達情感，但一旦認定了對方，就會全心付出。你傾向於用實際行動而不是甜言蜜語來表達愛意，這讓你的伴侶感到踏實可靠。
+
+【健康】此元素對應的臟腑需要特別關注。建議保持規律作息，避免過度勞累。飲食方面宜清淡，多攝取當季新鮮蔬果。適度運動有助於保持身心平衡，建議選擇溫和的運動方式如散步或瑜伽。
 ---
 Your primary element is ${dominantElement}, born in the Year of ${ganzhi}. 
 
 Career: People with this element are known for being grounded, reliable, and nurturing. You likely excel in roles requiring patience and care, such as teaching, healthcare, or project management. You bring stability to any team you join.
 
-Relationships: You value stability and long-term commitment. You don't rush into relationships, but once you commit, you give your whole heart. You show love through actions rather than words, making your partner feel secure and cherished.`;
+Relationships: You value stability and long-term commitment. You don't rush into relationships, but once you commit, you give your whole heart. You show love through actions rather than words, making your partner feel secure and cherished.
+
+Health: Your element corresponds to specific organs that need extra attention. Maintain a regular sleep schedule and avoid overworking yourself. Eat light, seasonal foods and stay hydrated. Gentle exercises like walking or yoga help maintain balance between body and mind.`;
   }
 }
 
