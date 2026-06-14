@@ -134,6 +134,7 @@ Some people use BaZi as a passive prediction tool ("when will love happen to me?
 That's the real power of love prediction by birth date — not knowing the future, but **creating better conditions for the love you want.**
 
 **Related Reading:**
+- [BaZi Marriage Prediction: Spouse Star Guide](/blog/bazi-marriage-prediction-spouse-star) — How your Spouse Star reveals marriage quality, spouse traits, and timing
 - [Where Will I Meet My Soulmate?](/blog/where-will-i-meet-my-soulmate) — Your complete guide to soulmate direction in Chinese astrology
 - [When Will I Find Love?](/blog/when-will-i-find-love) — What Chinese astrology says about your love timing
 - [Toxic Relationship Energy: BaZi Compatibility Guide](/blog/toxic-relationship-energy-bazi-compatibility) — How to spot energy drain vs nourishment using Chinese astrology

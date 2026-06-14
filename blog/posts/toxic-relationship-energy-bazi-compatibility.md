@@ -125,6 +125,7 @@ This analysis is based on Chinese cultural tradition and archetypal framework, i
 
 ### Related Reading
 
+- [BaZi Marriage Prediction: Spouse Star Guide](/blog/bazi-marriage-prediction-spouse-star) — How your Spouse Star reveals marriage quality, spouse traits, and timing
 - [Love Prediction by Date of Birth: BaZi Reading](/blog/love-prediction-by-date-of-birth)
 - [When Will I Find Love? Your Birth Date Knows](/blog/when-will-i-find-love)
 - [She Was 36, Divorced — BaZi Love Story](/blog/she-was-36-divorced-bazi-love-story)
