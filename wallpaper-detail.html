@@ -884,14 +884,26 @@
             }
         }
 
-        // Related
+        // Related — category-first, then random fill
         function renderRelated(currentIndex) {
             const grid = document.getElementById('related-grid');
             grid.innerHTML = '';
 
-            const related = wallpapers
-                .filter((_, i) => i !== currentIndex)
-                .slice(0, CONFIG.relatedCount);
+            const current = wallpapers[currentIndex];
+            const currentCategory = current ? current.category : '';
+
+            // 1. Same category (exclude current)
+            const sameCategory = wallpapers
+                .filter((wp, i) => i !== currentIndex && wp.category === currentCategory)
+                .sort(() => 0.5 - Math.random());
+
+            // 2. Other categories (exclude current)
+            const otherCategory = wallpapers
+                .filter((wp, i) => i !== currentIndex && wp.category !== currentCategory)
+                .sort(() => 0.5 - Math.random());
+
+            // 3. Merge: same category first, then others, up to 100
+            const related = [...sameCategory, ...otherCategory].slice(0, 100);
 
             related.forEach(wp => {
                 const card = document.createElement('div');
