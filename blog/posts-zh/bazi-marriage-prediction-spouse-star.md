@@ -1,6 +1,6 @@
 ---
 title: "八字論婚姻：配偶星完整指南"
-h1Title: "八字論婚姻：配偶星如何揭示婚姻品質、時機與風險"
+h1Title: "八字看婚姻：你的配偶星藏著什麼秘密？"
 slug: "bazi-marriage-prediction-spouse-star"
 category: bazi-astrology
 tags: [八字婚姻, 配偶星, 八字合婚, 結婚時機, 正財, 正官]

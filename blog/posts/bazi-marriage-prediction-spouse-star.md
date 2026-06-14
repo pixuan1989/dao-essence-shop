@@ -4,8 +4,8 @@ h1Title: "BaZi Marriage Prediction: How Your Spouse Star Reveals Marriage Qualit
 slug: "bazi-marriage-prediction-spouse-star"
 category: bazi-astrology
 tags: [BaZi Marriage, Spouse Star, Chinese Astrology Marriage, Marriage Timing, BaZi Compatibility, Direct Wealth, Direct Officer]
-description: "BaZi marriage prediction reads your Spouse Star to reveal marriage quality, spouse traits, and risky timing. Learn how Direct Wealth and Direct Officer work."
-seoDescription: "Discover what your BaZi chart reveals about marriage. The Spouse Star (Direct Wealth or Direct Officer) shows spouse traits, timing, and relationship risks."
+description: "BaZi marriage prediction reads your Spouse Star to reveal marriage quality, spouse traits, and timing. Learn how Direct Wealth and Direct Officer work."
+seoDescription: "What does your BaZi chart reveal about marriage? The Spouse Star shows spouse traits, timing, and relationship risks. Complete guide inside."
 date: "2026-06-13"
 author: "Xuanzhen"
 readTime: 11
