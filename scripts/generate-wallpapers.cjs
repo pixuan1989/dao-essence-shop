@@ -556,6 +556,7 @@ function generateStaticPage(wp, lang) {
     + '        }\n'
     + '\n'
     + '    </style>\n'
+    + '    <script>\n'
     + '        window.currentLang = "' + (isZh ? 'zh' : 'en') + '";\n'
     + '    </script>\n'
     + '</head>\n'
