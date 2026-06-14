@@ -174,13 +174,13 @@
         // Priority 3: any other non-ok response without explicit deny → service error
         else if (!res.ok) {
           allowed = false;
-          denyReason = isZh ? '下载服务暂时不可用，请稍后重试。' : 'Service temporarily unavailable. Please try again later.';
+          denyReason = isZh ? '网络波动，请稍后再试' : 'Network error. Please try again later.';
         }
       } catch (e) {
         // API unreachable → BLOCK (fail-closed)
         console.warn('[DownloadGuard] API unreachable, blocking download:', e.message);
         allowed = false;
-        denyReason = isZh ? '下载服务暂时不可用，请稍后重试。' : 'Download service unavailable. Please try again later.';
+        denyReason = isZh ? '网络波动，请稍后再试' : 'Network error. Please try again later.';
       }
 
       if (!allowed) {
