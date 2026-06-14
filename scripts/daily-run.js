@@ -195,6 +195,7 @@ if (fs.existsSync(SEO_FILE) && fs.existsSync(DATA_FILE)) {
   } catch (err) {
     console.warn(`️  build-blog.js 失败（非致命）: ${err.message}`);
     console.warn('   继续运势部署流程...');
+    sendFailureNotification('build-blog.js 重建失败', err.message);
   }
 
   // ── 3b: Git 提交 + 推送（独立于 build-blog，不受其失败影响） ──
@@ -206,8 +207,8 @@ if (fs.existsSync(SEO_FILE) && fs.existsSync(DATA_FILE)) {
     } else {
       console.log(`变更文件:\n${status}`);
 
-      // 2. Git add 所有变更（含聚合页 + 详情页 + SEO 内容 + 数据文件）
-      execSync('git add zodiac/zodiac-daily.html zodiac/js/zodiac-data.js zodiac/seo-content/*.json zodiac/*.html', { cwd: PROJECT_ROOT });
+      // 2. Git add 所有变更（含聚合页 + 详情页 + SEO 内容 + 数据文件 + sitemap + 博客页）
+      execSync('git add zodiac/zodiac-daily.html zodiac/js/zodiac-data.js zodiac/seo-content/*.json zodiac/*.html dist/sitemap.xml blog/', { cwd: PROJECT_ROOT });
       execSync(`git commit -m "chore: ${DATE} daily horoscope update + rebuild"`, { cwd: PROJECT_ROOT });
       console.log(`✅ 已提交本地`);
 
