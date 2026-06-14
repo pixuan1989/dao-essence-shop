@@ -331,6 +331,17 @@
         }
         .btn-download svg { width: 20px; height: 20px; fill: #0a0a0a; }
 
+        /* Processing state — subtle pulse when disabled */
+        .btn-download.processing {
+            opacity: 0.7;
+            animation: wpPulse 1.2s ease-in-out infinite;
+            pointer-events: none;
+        }
+        @keyframes wpPulse {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+
         /* Download button ripple effect */
         .download-ripple {
             position: absolute;

@@ -124,6 +124,7 @@
 
     // 按钮禁用防止重复点击（不改变文字）
     btn.disabled = true;
+    btn.classList.add('processing');
 
     try {
       // ── Step 1: Call API and AWAIT result ──
@@ -204,6 +205,7 @@
     } finally {
       // 恢复按钮状态（不改变文字）
       btn.disabled = false;
+      btn.classList.remove('processing');
       btn.dataset.isProcessing = 'false';
       console.log('[DownloadGuard] Done');
     }
