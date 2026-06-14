@@ -606,7 +606,7 @@ function generateStaticPage(wp, lang) {
     + '        <!-- Right: Info -->\n'
     + '        <div class="right-column">\n'
     + '            <h1 class="wp-title">' + escapeHtml(title) + '</h1>\n'
-    + '            <p class="wp-seo-desc">' + escapeHtml(desc || seoDesc) + '<a href="/favorable-element" class="element-guide-link">' + (isZh ? '不确定自己的喜用神？' : 'Not Sure About Your Element?') + '</a></p>\n'
+    + '            <p class="wp-seo-desc">' + escapeHtml(desc || seoDesc) + '<a href="/favorable-element" class="element-guide-link">' + (isZh ? '了解自己的喜用神，找到更适合自己的壁纸' : 'Know your favorable element, find wallpapers that suit you best') + '</a></p>\n'
     + '            <div class="wp-downloads"><span id="dl-count-text">⬇ ' + downloads + ' ' + (isZh ? '次下載' : 'downloads') + '</span></div>\n'
     + '            <div class="wp-tags">\n'
     + (category ? '                <span class="tag">' + escapeHtml(isZh ? (CAT_NAME_ZH[category] || category) : (CAT_NAME_EN[category] || category)) + '</span>\n' : '')
