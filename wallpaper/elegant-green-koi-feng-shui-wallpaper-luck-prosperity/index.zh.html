@@ -167,6 +167,11 @@
 
         .wp-title { font-size: 28px; font-weight: 700; margin-bottom: 14px; line-height: 1.25; }
         .wp-seo-desc { font-size: 14px; color: rgba(255,255,255,0.6); line-height: 1.7; margin-bottom: 20px; }
+        .element-guide-link {
+            display: block; margin-top: 16px; font-size: 13px;
+            color: #D4AF37; text-decoration: none;
+        }
+        .element-guide-link:hover { text-decoration: underline; }
         .wp-downloads { font-size: 13px; color: rgba(255,255,255,0.4); margin-bottom: 20px; display: flex; align-items: center; gap: 4px; }
         .wp-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; }
         .tag {
@@ -237,28 +242,12 @@
             .wpn-dropdown-btn span { display: none; }
         }
 
-        /* ── Element Guide Card (Floating) ── */
-        .guide-card {
-            background: rgba(255,255,255,0.04); border: 1px solid rgba(212,175,55,0.2);
-            border-radius: 12px; padding: 20px; margin-top: 24px;
-            display: flex; flex-direction: column; align-items: center; text-align: center;
-            gap: 12px;
-        }
-        .guide-card h3 { font-size: 15px; font-weight: 600; color: #D4AF37; margin: 0; }
-        .guide-card p { font-size: 12px; color: rgba(255,255,255,0.5); margin: 0; line-height: 1.5; }
-        .guide-card-btn {
-            padding: 8px 18px; border-radius: 6px; font-size: 13px; font-weight: 600;
-            background: rgba(212,175,55,0.15); color: #D4AF37; border: 1px solid rgba(212,175,55,0.3);
-            text-decoration: none; transition: all 0.2s; white-space: nowrap;
-        }
-        .guide-card-btn:hover { background: rgba(212,175,55,0.25); color: #fff; }
 
         @media (max-width: 900px) {
             .detail-container { flex-direction: column; padding: 80px 16px 48px; gap: 24px; }
             .left-column, .right-column { width: 100%; flex: none; }
             .wp-title { font-size: 22px; }
             .related-grid { grid-template-columns: repeat(3, 1fr); }
-            .guide-card { max-width: 400px; margin: 24px auto 0; }
         }
         @media (max-width: 600px) {
             .related-grid { grid-template-columns: repeat(2, 1fr); }
@@ -337,7 +326,7 @@
             <h1 class="wp-title">绿金锦鲤风水壁纸</h1>
             <p class="wp-seo-desc">这款精美的风水壁纸以两条优雅的绿色锦鲤为主题，呈阴阳和谐之态游动。翠绿象征生机与木元素，金色点缀则寓意财富与繁荣。在风水学中，锦鲤是招财纳福、坚韧不拔与蜕变的象征。此设计特别有助于提升事业运、吸引财富，并营造空间中的平衡气场。让这幅视觉盛宴为您的生活与工作空间注入和谐、正能量与无限机遇。
 
-流畅的线条与灵动的姿态传递出随遇而安的智慧，鼓励您以从容之心拥抱变化。无论是作为手机壁纸还是桌面背景，它都时刻提醒您顺应自然规律，展现韧性之美。立即下载，将宇宙的祝福融入日常，是追求身心灵平衡与现代审美的必备之选。</p>
+流畅的线条与灵动的姿态传递出随遇而安的智慧，鼓励您以从容之心拥抱变化。无论是作为手机壁纸还是桌面背景，它都时刻提醒您顺应自然规律，展现韧性之美。立即下载，将宇宙的祝福融入日常，是追求身心灵平衡与现代审美的必备之选。<a href="/favorable-element" class="element-guide-link">不确定自己的喜用神？</a></p>
             <div class="wp-downloads"><span id="dl-count-text">⬇ 0 次下載</span></div>
             <div class="wp-tags">
                 <span class="tag">招财</span>
@@ -351,12 +340,6 @@
                 下載壁紙
             </button>
 
-            <!-- Element Guide Card -->
-            <div class="guide-card">
-                <h3>不確定自己的喜用神？</h3>
-                <p>每個人的五行喜用不同，選對壁紙才能最大化能量加持。</p>
-                <a href="/favorable-element" class="guide-card-btn">免费用神指南 →</a>
-            </div>
         </div>
     </div>
 
@@ -365,106 +348,106 @@
         <div class="divider"></div>
         <h2 class="related-title">更多壁紙</h2>
         <div class="related-grid">
-            <a href="/wallpaper/feng-shui-lucky-wallpaper-prosperity-wealth-energy" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780669894/thumb.webp" alt="风水招财壁纸：福运满堂" loading="lazy"></a>
+            <a href="/wallpaper/fortune-attracts-lucky-feng-shui-wallpaper-phone" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780669012/thumb.webp" alt="招财进宝风水壁纸" loading="lazy"></a>
             <a href="/wallpaper/lucky-pixiu-wallpaper-feng-shui-fortune-guardian" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780669204/thumb.webp" alt="貔貅招财风水壁纸" loading="lazy"></a>
-            <a href="/wallpaper/golden-wealth-bag-wallpaper-feng-shui-lucky-design" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1781140522/thumb.webp" alt="金玉满堂招财壁纸" loading="lazy"></a>
-            <a href="/wallpaper/golden-wheat-lucky-wallpaper-feng-shui-phone-background" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780717681/thumb.webp" alt="金麦穗风水壁纸" loading="lazy"></a>
-            <a href="/wallpaper/golden-peony-feng-shui-wallpaper-luck-prosperity" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780718110/thumb.webp" alt="金牡丹风水壁纸" loading="lazy"></a>
-            <a href="/wallpaper/golden-stream-feng-shui-wallpaper" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780233534/thumb.webp" alt="金流生财风水壁纸" loading="lazy"></a>
-            <a href="/wallpaper/golden-eight-directions-wealth-wallpaper-feng-shui-harmony" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780668894/thumb.webp" alt="八方来财风水壁纸" loading="lazy"></a>
-            <a href="/wallpaper/feng-shui-lucky-wallpaper-gourd-hand-gesture-wealth" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780717079/thumb.webp" alt="风水葫芦手印壁纸" loading="lazy"></a>
-            <a href="/wallpaper/golden-wealth-talisman-wallpaper-feng-shui-lucky-design-2" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780717627/thumb.webp" alt="金元宝招财符壁纸" loading="lazy"></a>
-            <a href="/wallpaper/fortune-blooms-lucky-money-flower-wallpaper" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780968034/thumb.webp" alt="有钱花壁纸，招财进宝" loading="lazy"></a>
-            <a href="/wallpaper/lucky-wealth-god-wallpaper-feng-shui-phone-background" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780717507/thumb.webp" alt="财神招财壁纸" loading="lazy"></a>
-            <a href="/wallpaper/golden-wealth-talisman-wallpaper-lucky-phone-background" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780717791/thumb.webp" alt="财富符箓壁纸-招财手机背景" loading="lazy"></a>
-            <a href="/wallpaper/fortune-awaits-lucky-wealth-wallpaper-phone" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780794917/thumb.webp" alt="财运上门手机壁纸" loading="lazy"></a>
-            <a href="/wallpaper/fortune-blessing-wallpaper-chinese-god-of-wealth" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780794633/thumb.webp" alt="财神偏爱壁纸" loading="lazy"></a>
             <a href="/wallpaper/prosperity-pomegranates-feng-shui-wallpaper-lucky-phone-background" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780717985/thumb.webp" alt="石榴风水壁纸-招财手机背景" loading="lazy"></a>
-            <a href="/wallpaper/golden-carp-lotus-feng-shui-wallpaper-luck-prosperity" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780669070/thumb.webp" alt="金鱼莲花风水壁纸" loading="lazy"></a>
+            <a href="/wallpaper/golden-gourd-feng-shui-wallpaper" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780326556/thumb.webp" alt="金葫芦风水壁纸" loading="lazy"></a>
+            <a href="/wallpaper/feng-shui-lucky-wallpaper-prosperity-wealth-energy" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780669894/thumb.webp" alt="风水招财壁纸：福运满堂" loading="lazy"></a>
             <a href="/wallpaper/golden-feng-shui-mountain-wallpaper-luck-prosperity" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780668833/thumb.webp" alt="风水金山招财壁纸" loading="lazy"></a>
             <a href="/wallpaper/elegant-deer-peach-wallpaper-lucky-feng-shui-design" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780717927/thumb.webp" alt="祥鹿仙桃风水壁纸" loading="lazy"></a>
-            <a href="/wallpaper/golden-gourd-feng-shui-wallpaper" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780326556/thumb.webp" alt="金葫芦风水壁纸" loading="lazy"></a>
-            <a href="/wallpaper/fortune-attracts-lucky-feng-shui-wallpaper-phone" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780669012/thumb.webp" alt="招财进宝风水壁纸" loading="lazy"></a>
+            <a href="/wallpaper/golden-wealth-bag-wallpaper-feng-shui-lucky-design" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1781140522/thumb.webp" alt="金玉满堂招财壁纸" loading="lazy"></a>
+            <a href="/wallpaper/golden-eight-directions-wealth-wallpaper-feng-shui-harmony" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780668894/thumb.webp" alt="八方来财风水壁纸" loading="lazy"></a>
+            <a href="/wallpaper/fortune-blooms-lucky-money-flower-wallpaper" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780968034/thumb.webp" alt="有钱花壁纸，招财进宝" loading="lazy"></a>
+            <a href="/wallpaper/golden-peony-feng-shui-wallpaper-luck-prosperity" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780718110/thumb.webp" alt="金牡丹风水壁纸" loading="lazy"></a>
+            <a href="/wallpaper/feng-shui-lucky-wallpaper-gourd-hand-gesture-wealth" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780717079/thumb.webp" alt="风水葫芦手印壁纸" loading="lazy"></a>
+            <a href="/wallpaper/fortune-awaits-lucky-wealth-wallpaper-phone" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780794917/thumb.webp" alt="财运上门手机壁纸" loading="lazy"></a>
+            <a href="/wallpaper/fortune-blessing-wallpaper-chinese-god-of-wealth" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780794633/thumb.webp" alt="财神偏爱壁纸" loading="lazy"></a>
             <a href="/wallpaper/purple-feng-shui-cauldron-wallpaper-lucky-phone-background" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780718209/thumb.webp" alt="紫金风水招财壁纸" loading="lazy"></a>
-            <a href="/wallpaper/lotus-flower-feng-shui-wallpaper-serenity-prosperity" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1781140646/thumb.webp" alt="莲花风水壁纸 - 宁静与繁荣" loading="lazy"></a>
-            <a href="/wallpaper/fortune-guardian-wallpaper-lucky-666-chinese-god" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780847935/thumb.webp" alt="招财福神壁纸：六六大顺" loading="lazy"></a>
-            <a href="/wallpaper/mystical-dragon-fire-element-feng-shui-phone" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780718165/thumb.webp" alt="神龙风水壁纸手机背景" loading="lazy"></a>
-            <a href="/wallpaper/golden-dragon-talisman-lucky-feng-shui-wallpaper" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780670290/thumb.webp" alt="金龙符箓壁纸-风水吉祥" loading="lazy"></a>
-            <a href="/wallpaper/sacred-mountain-mandala-wallpaper-energy-ascension" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780722925/thumb.webp" alt="圣山曼陀罗能量壁纸" loading="lazy"></a>
-            <a href="/wallpaper/feng-shui-celestial-map-wallpaper-lucky-phone-background" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780717016/thumb.webp" alt="风水星象图壁纸-招财手机背景" loading="lazy"></a>
-            <a href="/wallpaper/golden-om-energy-wallpaper-sacred-geometry-phone-background" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780718586/thumb.webp" alt="金色奥姆能量壁纸" loading="lazy"></a>
-            <a href="/wallpaper/golden-tiger-talisman-wallpaper-lucky-chinese-zodiac" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780670470/thumb.webp" alt="金虎符箓壁纸-生肖好运" loading="lazy"></a>
-            <a href="/wallpaper/feng-shui-mountain-wallpaper-tranquil-energy" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780890274/thumb.webp" alt="风水山峦壁纸 - 宁静能量" loading="lazy"></a>
-            <a href="/wallpaper/lucky-feng-shui-wallpaper-celestial-wealth-vessel" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780716898/thumb.webp" alt="风水聚宝盆壁纸" loading="lazy"></a>
-            <a href="/wallpaper/golden-mountain-scroll-wallpaper-feng-shui-design" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780723310/thumb.webp" alt="金卷山居风水壁纸" loading="lazy"></a>
-            <a href="/wallpaper/sacred-mantra-scroll-wallpaper-divine-energy-protection" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780718647/thumb.webp" alt="神圣咒语卷轴壁纸-灵能守护" loading="lazy"></a>
-            <a href="/wallpaper/nine-tailed-fox-lucky-wallpaper-fire-element-energy" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780718504/thumb.webp" alt="九尾狐火元素壁纸" loading="lazy"></a>
-            <a href="/wallpaper/sacred-geometry-mandala-energy-wallpaper-phone" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780718260/thumb.webp" alt="神圣几何能量壁纸" loading="lazy"></a>
-            <a href="/wallpaper/golden-gourd-feng-shui-wallpaper-lucky-phone-background" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780717858/thumb.webp" alt="金葫芦风水壁纸-手机背景" loading="lazy"></a>
-            <a href="/wallpaper/ethereal-pink-mountain-landscape-wallpaper-feng-shui" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780717446/thumb.webp" alt="仙山福地壁纸" loading="lazy"></a>
-            <a href="/wallpaper/sacred-geometry-mandala-mountain-energy-wallpaper" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780723137/thumb.webp" alt="曼陀罗山峰能量壁纸" loading="lazy"></a>
-            <a href="/wallpaper/divine-protection-talisman-wallpaper-feng-shui-luck" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780717382/thumb.webp" alt="北帝符箓平安壁纸" loading="lazy"></a>
-            <a href="/wallpaper/sacred-lotus-energy-wallpaper-phone-background" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780846289/thumb.webp" alt="神圣莲花能量壁纸" loading="lazy"></a>
-            <a href="/wallpaper/mystical-mountain-feng-shui-wallpaper-for-phone" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1781091498/thumb.webp" alt="神秘山水风水壁纸" loading="lazy"></a>
-            <a href="/wallpaper/north-star-talisman-wallpaper-feng-shui-luck" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780717199/thumb.webp" alt="北帝符箓壁纸-平安顺遂" loading="lazy"></a>
-            <a href="/wallpaper/elegant-peony-feng-shui-wallpaper-for-luck-and-prosperity" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1781002269/thumb.webp" alt="牡丹风水壁纸，招财纳福" loading="lazy"></a>
-            <a href="/wallpaper/sacred-tree-of-life-wallpaper-feng-shui-energy" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1781240924/thumb.webp" alt="生命之树风水壁纸" loading="lazy"></a>
-            <a href="/wallpaper/good-luck-talisman-wallpaper-feng-shui-phone-background" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1781140348/thumb.webp" alt="逢考必过符箓壁纸" loading="lazy"></a>
-            <a href="/wallpaper/sacred-geometry-talisman-wallpaper-energy-vibration" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780723083/thumb.webp" alt="神圣几何符箓壁纸" loading="lazy"></a>
-            <a href="/wallpaper/taoist-guardian-talisman-wallpaper-feng-shui-phone" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780846328/thumb.webp" alt="道家护法符箓壁纸" loading="lazy"></a>
-            <a href="/wallpaper/energy-flower-wallpaper-heart-shaped-bloom-etheric-vibration" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780723691/thumb.webp" alt="能量之花壁纸：心形绽放的灵性振动" loading="lazy"></a>
+            <a href="/wallpaper/golden-wealth-talisman-wallpaper-feng-shui-lucky-design-2" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780717627/thumb.webp" alt="金元宝招财符壁纸" loading="lazy"></a>
+            <a href="/wallpaper/golden-stream-feng-shui-wallpaper" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780233534/thumb.webp" alt="金流生财风水壁纸" loading="lazy"></a>
+            <a href="/wallpaper/golden-wealth-talisman-wallpaper-lucky-phone-background" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780717791/thumb.webp" alt="财富符箓壁纸-招财手机背景" loading="lazy"></a>
+            <a href="/wallpaper/golden-carp-lotus-feng-shui-wallpaper-luck-prosperity" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780669070/thumb.webp" alt="金鱼莲花风水壁纸" loading="lazy"></a>
+            <a href="/wallpaper/golden-wheat-lucky-wallpaper-feng-shui-phone-background" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780717681/thumb.webp" alt="金麦穗风水壁纸" loading="lazy"></a>
+            <a href="/wallpaper/lucky-wealth-god-wallpaper-feng-shui-phone-background" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780717507/thumb.webp" alt="财神招财壁纸" loading="lazy"></a>
             <a href="/wallpaper/blessed-north-star-talisman-wallpaper-feng-shui-harmony" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780717254/thumb.webp" alt="北帝符箓平安壁纸" loading="lazy"></a>
-            <a href="/wallpaper/nine-tailed-fox-fire-element-energy-wallpaper" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780718425/thumb.webp" alt="九尾狐火元素能量壁纸" loading="lazy"></a>
-            <a href="/wallpaper/divine-guanyin-feng-shui-wallpaper" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780968271/thumb.webp" alt="观音菩萨壁纸：宁静与灵性觉醒" loading="lazy"></a>
-            <a href="/wallpaper/chinese-talisman-wallpaper-divine-power-luck" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780847591/thumb.webp" alt="符箓壁纸：神力与好运" loading="lazy"></a>
-            <a href="/wallpaper/ethereal-green-landscape-wallpaper-feng-shui-harmony" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780723470/thumb.webp" alt="青绿山水符箓壁纸" loading="lazy"></a>
-            <a href="/wallpaper/celestial-dragon-wallpaper-mystical-feng-shui-design" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1781140780/thumb.webp" alt=" celestial 龙壁纸：风水灵韵" loading="lazy"></a>
-            <a href="/wallpaper/mystical-blue-landscape-wallpaper-feng-shui-design" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780723260/thumb.webp" alt="上上签风水壁纸" loading="lazy"></a>
-            <a href="/wallpaper/sacred-mandala-feng-shui-wallpaper-spiritual-energy" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780993353/thumb.webp" alt="曼陀罗风水壁纸-灵性能量" loading="lazy"></a>
-            <a href="/wallpaper/nine-tailed-fox-zodiac-fire-element-wallpaper" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780718368/thumb.webp" alt="九尾狐火元素壁纸" loading="lazy"></a>
-            <a href="/wallpaper/feng-shui-lotus-rabbit-wallpaper-phone-lucky" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780891098/thumb.webp" alt="风水莲兔壁纸-手机背景" loading="lazy"></a>
-            <a href="/wallpaper/divine-serenity-wallpaper-feng-shui-lotus-energy" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780993601/thumb.webp" alt="风水莲花能量壁纸" loading="lazy"></a>
-            <a href="/wallpaper/golden-qi-kai-de-sheng-talisman-wallpaper-lucky-phone-background" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1781140393/thumb.webp" alt="旗开得胜符箓壁纸" loading="lazy"></a>
-            <a href="/wallpaper/golden-talisman-wallpaper-divine-protection-prosperity" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1781241096/thumb.webp" alt="金光神咒符箓壁纸" loading="lazy"></a>
-            <a href="/wallpaper/lotus-flower-feng-shui-wallpaper-serenity-prosperity-2" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780996869/thumb.webp" alt="莲花风水壁纸 - 宁静与繁荣" loading="lazy"></a>
-            <a href="/wallpaper/lucky-tiger-talisman-wallpaper-feng-shui-harmony" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780670178/thumb.webp" alt="虎符招财风水壁纸" loading="lazy"></a>
-            <a href="/wallpaper/fortune-guardian-wallpaper-chinese-tiger-lucky-charm" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780891299/thumb.webp" alt="福虎镇宅壁纸：招财符咒" loading="lazy"></a>
-            <a href="/wallpaper/ethereal-chrysanthemum-feng-shui-wallpaper-phone-background" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780913534/thumb.webp" alt="幽兰菊韵风水壁纸" loading="lazy"></a>
-            <a href="/wallpaper/fortune-blessings-wallpaper-luck-prosperity" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780794831/thumb.webp" alt="八方来财壁纸" loading="lazy"></a>
-            <a href="/wallpaper/baihe-jin-lucky-wallpaper-tranquil-five-elements" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780890962/thumb.webp" alt="秋香金五行壁纸：宁静致远" loading="lazy"></a>
-            <a href="/wallpaper/sacred-geometry-energy-wallpaper-phone-background" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780718309/thumb.webp" alt="神圣几何能量壁纸" loading="lazy"></a>
-            <a href="/wallpaper/feng-shui-calligraphy-wallpaper-wind-stirs-water" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780993506/thumb.webp" alt="风水书法壁纸：风生水起" loading="lazy"></a>
-            <a href="/wallpaper/feng-shui-lucky-wallpaper-prosperity-gourd-carp" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1781091671/thumb.webp" alt="风水福禄壁纸：葫芦锦鲤" loading="lazy"></a>
-            <a href="/wallpaper/ethereal-feng-shui-wallpaper-serene-mountain-temple" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1781364296/thumb.webp" alt="风水仙境壁纸：山寺流萤" loading="lazy"></a>
             <a href="/wallpaper/lucky-rabbit-chinese-zodiac-wallpaper-phone-background" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780670234/thumb.webp" alt="生肖兔幸运壁纸" loading="lazy"></a>
-            <a href="/wallpaper/golden-citrine-crystal-energy-wallpaper-phone" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780967695/thumb.webp" alt="金发晶能量壁纸-手机背景" loading="lazy"></a>
-            <a href="/wallpaper/ethereal-mountain-energy-wallpaper-phone-nature" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780890404/thumb.webp" alt="山海能量壁纸 - 手机背景" loading="lazy"></a>
-            <a href="/wallpaper/fiery-phoenix-path-wallpaper-lucky-fire-energy" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780723367/thumb.webp" alt="火龙流光壁纸" loading="lazy"></a>
-            <a href="/wallpaper/sacred-geometry-green-leaves-energy-wallpaper" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780967747/thumb.webp" alt="神圣几何绿叶壁纸-能量疗愈" loading="lazy"></a>
-            <a href="/wallpaper/enchanted-feng-shui-wallpaper-serene-temple-by-moonlight" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1781364348/thumb.webp" alt="风水秘境：月下古寺" loading="lazy"></a>
-            <a href="/wallpaper/golden-wealth-talisman-feng-shui-wallpaper" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780967857/thumb.webp" alt="金元宝招财符壁纸" loading="lazy"></a>
-            <a href="/wallpaper/divine-north-star-talisman-wallpaper-feng-shui-luck" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780717327/thumb.webp" alt="北帝符箓壁纸-平安顺遂" loading="lazy"></a>
-            <a href="/wallpaper/golden-koi-lotus-feng-shui-wallpaper-lucky-phone-background" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780999317/thumb.webp" alt="金鲤莲花风水壁纸" loading="lazy"></a>
-            <a href="/wallpaper/ethereal-dragon-feng-shui-wallpaper-for-phone-background" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1781140825/thumb.webp" alt="龙腾云霄风水壁纸" loading="lazy"></a>
-            <a href="/wallpaper/mystical-mountain-landscape-wallpaper-feng-shui-design" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780723522/thumb.webp" alt="山川秘境风水壁纸" loading="lazy"></a>
-            <a href="/wallpaper/positive-affirmations-wallpaper-phone-background" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780794879/thumb.webp" alt="正能量壁纸-手机背景" loading="lazy"></a>
-            <a href="/wallpaper/sacred-geometry-energy-wallpaper-vibrant-phone" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780890546/thumb.webp" alt="神圣几何能量壁纸" loading="lazy"></a>
-            <a href="/wallpaper/enchanted-crystal-ball-wallpaper-phone-background" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780723740/thumb.webp" alt="水晶球魔法壁纸" loading="lazy"></a>
-            <a href="/wallpaper/peaceful-apple-wallpaper-lucky-phone-background" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780763539/thumb.webp" alt="平安顺遂苹果壁纸" loading="lazy"></a>
-            <a href="/wallpaper/lucky-chinese-zodiac-horse-wallpaper-phone-background" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780670126/thumb.webp" alt="生肖马壁纸手机背景" loading="lazy"></a>
-            <a href="/wallpaper/fiery-passion-wallpaper-lucky-fire-element-design" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780723417/thumb.webp" alt="炽热火焰壁纸：火元素幸运设计" loading="lazy"></a>
-            <a href="/wallpaper/ethereal-lily-wallpaper-serenity-spiritual-growth" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1781140686/thumb.webp" alt="百合灵韵壁纸：宁静与灵修" loading="lazy"></a>
+            <a href="/wallpaper/nine-tailed-fox-fire-element-energy-wallpaper" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780718425/thumb.webp" alt="九尾狐火元素能量壁纸" loading="lazy"></a>
+            <a href="/wallpaper/golden-dragon-talisman-lucky-feng-shui-wallpaper" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780670290/thumb.webp" alt="金龙符箓壁纸-风水吉祥" loading="lazy"></a>
+            <a href="/wallpaper/lucky-feng-shui-wallpaper-celestial-wealth-vessel" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780716898/thumb.webp" alt="风水聚宝盆壁纸" loading="lazy"></a>
+            <a href="/wallpaper/mystical-blue-landscape-wallpaper-feng-shui-design" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780723260/thumb.webp" alt="上上签风水壁纸" loading="lazy"></a>
+            <a href="/wallpaper/lucky-peach-wallpaper-good-fortune-continues" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780717736/thumb.webp" alt="好运连连桃子壁纸" loading="lazy"></a>
+            <a href="/wallpaper/sacred-lotus-energy-wallpaper-phone-background" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780846289/thumb.webp" alt="神圣莲花能量壁纸" loading="lazy"></a>
+            <a href="/wallpaper/energy-flower-wallpaper-heart-shaped-bloom-etheric-vibration" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780723691/thumb.webp" alt="能量之花壁纸：心形绽放的灵性振动" loading="lazy"></a>
+            <a href="/wallpaper/taoist-guardian-talisman-wallpaper-feng-shui-phone" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780846328/thumb.webp" alt="道家护法符箓壁纸" loading="lazy"></a>
+            <a href="/wallpaper/golden-tiger-talisman-wallpaper-lucky-chinese-zodiac" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780670470/thumb.webp" alt="金虎符箓壁纸-生肖好运" loading="lazy"></a>
             <a href="/wallpaper/caishen-feng-shui-wallpaper-get-rich-2024" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780794785/thumb.webp" alt="财神顺风顺水壁纸" loading="lazy"></a>
-            <a href="/wallpaper/cosmic-energy-aura-wallpaper-phone-background" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780830324/thumb.webp" alt="宇宙能量灵光壁纸" loading="lazy"></a>
-            <a href="/wallpaper/red-peony-butterfly-feng-shui-wallpaper" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780968337/thumb.webp" alt="红牡丹蝴蝶风水壁纸" loading="lazy"></a>
-            <a href="/wallpaper/lotus-pond-feng-shui-wallpaper-tranquil-phone-background" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1781091554/thumb.webp" alt="莲池风水壁纸 - 宁静手机背景" loading="lazy"></a>
-            <a href="/wallpaper/golden-mountain-sunrise-wallpaper-feng-shui-lucky-design" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780718042/thumb.webp" alt="金山日出风水壁纸" loading="lazy"></a>
-            <a href="/wallpaper/lotus-elegance-feng-shui-wallpaper-for-phone" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780830266/thumb.webp" alt="莲花风水壁纸手机背景" loading="lazy"></a>
-            <a href="/wallpaper/positive-affirmation-wallpaper-luck-success" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780794734/thumb.webp" alt="好运加持壁纸" loading="lazy"></a>
-            <a href="/wallpaper/golden-sheep-zodiac-wallpaper-lucky-chinese-new-year-design" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780670071/thumb.webp" alt="金羊生肖壁纸 - 吉祥新年设计" loading="lazy"></a>
-            <a href="/wallpaper/golden-elegance-feng-shui-wallpaper-phone" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780968221/thumb.webp" alt="金黑典雅风水壁纸" loading="lazy"></a>
-            <a href="/wallpaper/lotus-bloom-feng-shui-wallpaper-harmonize-space" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780717574/thumb.webp" alt="莲花风水壁纸 - 调和能量场" loading="lazy"></a>
+            <a href="/wallpaper/ethereal-mountain-energy-wallpaper-phone-nature" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780890404/thumb.webp" alt="山海能量壁纸 - 手机背景" loading="lazy"></a>
+            <a href="/wallpaper/nine-tailed-fox-lucky-wallpaper-fire-element-energy" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780718504/thumb.webp" alt="九尾狐火元素壁纸" loading="lazy"></a>
+            <a href="/wallpaper/sacred-geometry-energy-wallpaper-vibrant-meditation" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780890483/thumb.webp" alt="神圣几何能量壁纸" loading="lazy"></a>
+            <a href="/wallpaper/lucky-wallpaper-get-rich-love-yourself-prosper" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780763469/thumb.webp" alt="千啥都顺壁纸" loading="lazy"></a>
             <a href="/wallpaper/golden-pig-zodiac-wallpaper-lucky-chinese-new-year-design" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780670409/thumb.webp" alt="金猪生肖壁纸-新年好运设计" loading="lazy"></a>
+            <a href="/wallpaper/nine-tailed-fox-zodiac-fire-element-wallpaper" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780718368/thumb.webp" alt="九尾狐火元素壁纸" loading="lazy"></a>
+            <a href="/wallpaper/feng-shui-gourd-wallpaper-harmonize-space" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780716843/thumb.webp" alt="风水葫芦壁纸：和谐家居" loading="lazy"></a>
+            <a href="/wallpaper/mystical-dragon-fire-element-feng-shui-phone" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780718165/thumb.webp" alt="神龙风水壁纸手机背景" loading="lazy"></a>
+            <a href="/wallpaper/divine-protection-talisman-wallpaper-feng-shui-luck" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780717382/thumb.webp" alt="北帝符箓平安壁纸" loading="lazy"></a>
+            <a href="/wallpaper/golden-om-energy-wallpaper-sacred-geometry-phone-background" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780718586/thumb.webp" alt="金色奥姆能量壁纸" loading="lazy"></a>
+            <a href="/wallpaper/divine-protection-talisman-wallpaper-feng-shui" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780716962/thumb.webp" alt="北帝符箓壁纸-平安顺遂" loading="lazy"></a>
+            <a href="/wallpaper/golden-gourd-talisman-wallpaper-feng-shui-luck" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780717141/thumb.webp" alt="金葫芦符箓壁纸-风水招财" loading="lazy"></a>
+            <a href="/wallpaper/daoist-talisman-wallpaper-luck-prosperity-design" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780543255/thumb.webp" alt="道家符箓壁纸：福运加持" loading="lazy"></a>
+            <a href="/wallpaper/golden-sunset-beach-wallpaper" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780554703/thumb.webp" alt="金色日落海滩壁纸" loading="lazy"></a>
+            <a href="/wallpaper/ethereal-pink-mountain-landscape-wallpaper-feng-shui" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780717446/thumb.webp" alt="仙山福地壁纸" loading="lazy"></a>
+            <a href="/wallpaper/enchanted-crystal-ball-wallpaper-phone-background" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780723740/thumb.webp" alt="水晶球魔法壁纸" loading="lazy"></a>
+            <a href="/wallpaper/mystical-tree-life-wallpaper-feng-shui-phone-background" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780668721/thumb.webp" alt="生命之树风水壁纸" loading="lazy"></a>
+            <a href="/wallpaper/lucky-tiger-talisman-wallpaper-feng-shui-harmony" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780670178/thumb.webp" alt="虎符招财风水壁纸" loading="lazy"></a>
+            <a href="/wallpaper/pink-candle-energy-wallpaper-spiritual-glow" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780669436/thumb.webp" alt="粉烛能量壁纸-灵光闪耀" loading="lazy"></a>
+            <a href="/wallpaper/sacred-mantra-scroll-wallpaper-divine-energy-protection" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780718647/thumb.webp" alt="神圣咒语卷轴壁纸-灵能守护" loading="lazy"></a>
+            <a href="/wallpaper/sacred-geometry-energy-wallpaper-phone-background" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780718309/thumb.webp" alt="神圣几何能量壁纸" loading="lazy"></a>
+            <a href="/wallpaper/positive-affirmations-wallpaper-phone-background" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780794879/thumb.webp" alt="正能量壁纸-手机背景" loading="lazy"></a>
+            <a href="/wallpaper/golden-auspicious-deer-wallpaper-lucky-feng-shui-design" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780670013/thumb.webp" alt="金鹿祥瑞壁纸-风水招财" loading="lazy"></a>
+            <a href="/wallpaper/golden-fire-azure-water-fusion-wallpaper" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780553944/thumb.webp" alt="金火交融水韵壁纸" loading="lazy"></a>
+            <a href="/wallpaper/golden-key-energy-wallpaper-unlock-potential" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780669383/thumb.webp" alt="金钥能量壁纸 - 解锁潜能" loading="lazy"></a>
+            <a href="/wallpaper/cosmic-tree-life-wallpaper-galaxy-phone-background" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780668543/thumb.webp" alt="宇宙生命之树壁纸" loading="lazy"></a>
+            <a href="/wallpaper/divine-palace-wallpaper-feng-shui" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780393427/thumb.webp" alt="仙宫秘境壁纸" loading="lazy"></a>
+            <a href="/wallpaper/divine-tree-wallpaper-feng-shui" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780233504/thumb.webp" alt="神树壁纸-风水布局" loading="lazy"></a>
+            <a href="/wallpaper/golden-sacred-geometry-wallpaper-blue-energy-vibe" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780669835/thumb.webp" alt="金色神圣几何壁纸" loading="lazy"></a>
+            <a href="/wallpaper/feng-shui-lotus-wallpaper" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780327012/thumb.webp" alt="风水莲花壁纸" loading="lazy"></a>
+            <a href="/wallpaper/zhi-zu-chang-le-lucky-wallpaper-serenity-harmony" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780668434/thumb.webp" alt="知足常乐符箓壁纸" loading="lazy"></a>
+            <a href="/wallpaper/fortune-blessings-wallpaper-luck-prosperity" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780794831/thumb.webp" alt="八方来财壁纸" loading="lazy"></a>
+            <a href="/wallpaper/lotus-flower-feng-shui-wallpaper-harmonize-space" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780472211/thumb.webp" alt="莲花风水壁纸 - 和谐能量" loading="lazy"></a>
+            <a href="/wallpaper/radiant-heart-butterflies-lucky-wallpaper" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780669493/thumb.webp" alt="心光蝶舞幸运壁纸" loading="lazy"></a>
+            <a href="/wallpaper/mystical-energy-mandala-wallpaper-phone-meditation" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780890626/thumb.webp" alt="神秘能量曼陀罗壁纸" loading="lazy"></a>
+            <a href="/wallpaper/pink-lotus-talisman-wallpaper-luck-prosperity" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780763607/thumb.webp" alt="莲花符箓壁纸" loading="lazy"></a>
+            <a href="/wallpaper/moonlit-fantasy-wallpaper-celestial-energy-starlight" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780669324/thumb.webp" alt="月光幻想壁纸：星能闪耀" loading="lazy"></a>
+            <a href="/wallpaper/positive-affirmation-wallpaper-luck-success" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780794734/thumb.webp" alt="好运加持壁纸" loading="lazy"></a>
+            <a href="/wallpaper/celestial-stairway-wallpaper-ascension-cosmic" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780890446/thumb.webp" alt="仙鹤梯云壁纸-升天之路" loading="lazy"></a>
+            <a href="/wallpaper/fiery-passion-wallpaper-lucky-fire-element-design" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780723417/thumb.webp" alt="炽热火焰壁纸：火元素幸运设计" loading="lazy"></a>
+            <a href="/wallpaper/lotus-elegance-feng-shui-wallpaper-for-phone" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780830266/thumb.webp" alt="莲花风水壁纸手机背景" loading="lazy"></a>
+            <a href="/wallpaper/lucky-dog-year-wallpaper-chinese-zodiac-fortune" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780669955/thumb.webp" alt="生肖狗年幸运壁纸" loading="lazy"></a>
+            <a href="/wallpaper/feng-shui-celestial-map-wallpaper-lucky-phone-background" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780717016/thumb.webp" alt="风水星象图壁纸-招财手机背景" loading="lazy"></a>
+            <a href="/wallpaper/fortune-awaits-lucky-red-shang-chuan-feng-shui-wallpaper" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780476673/thumb.webp" alt="上岸红运壁纸" loading="lazy"></a>
+            <a href="/wallpaper/cosmic-energy-galaxy-wallpaper-phone-background" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780543087/thumb.webp" alt="宇宙能量星系壁纸" loading="lazy"></a>
+            <a href="/wallpaper/golden-mountain-scroll-wallpaper-feng-shui-design" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780723310/thumb.webp" alt="金卷山居风水壁纸" loading="lazy"></a>
+            <a href="/wallpaper/cosmic-energy-aura-wallpaper-phone-background" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780830324/thumb.webp" alt="宇宙能量灵光壁纸" loading="lazy"></a>
+            <a href="/wallpaper/peaceful-apple-wallpaper-lucky-phone-background" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780763539/thumb.webp" alt="平安顺遂苹果壁纸" loading="lazy"></a>
+            <a href="/wallpaper/sacred-tree-wood-element-feng-shui-phone" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780668487/thumb.webp" alt="神树风水壁纸-手机幸运背景" loading="lazy"></a>
+            <a href="/wallpaper/fortune-guardian-wallpaper-lucky-666-chinese-god" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780847935/thumb.webp" alt="招财福神壁纸：六六大顺" loading="lazy"></a>
+            <a href="/wallpaper/peaceful-forest-waterfall-wallpaper-nature-phone-background" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1781447770/thumb.webp" alt="森林瀑布壁纸 - 自然手机背景" loading="lazy"></a>
+            <a href="/wallpaper/golden-lotus-feng-shui-wallpaper-for-phone-background" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780902400/thumb.webp" alt="金莲风水壁纸手机背景" loading="lazy"></a>
+            <a href="/wallpaper/golden-koi-feng-shui-wallpaper-lucky-phone" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780913482/thumb.webp" alt="金鱼风水壁纸-招财手机背景" loading="lazy"></a>
+            <a href="/wallpaper/ethereal-white-flowers-doves-lucky-wallpaper" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780669551/thumb.webp" alt="白花飞鸽幸运壁纸" loading="lazy"></a>
+            <a href="/wallpaper/ethereal-feng-shui-landscape-wallpaper-tranquil-mountain-view" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1781140602/thumb.webp" alt="风水山水壁纸 - 静谧山河" loading="lazy"></a>
+            <a href="/wallpaper/feng-shui-mountain-wallpaper-tranquil-energy" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780890274/thumb.webp" alt="风水山峦壁纸 - 宁静能量" loading="lazy"></a>
+            <a href="/wallpaper/fortune-guardian-wallpaper-chinese-tiger-lucky-charm" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780891299/thumb.webp" alt="福虎镇宅壁纸：招财符咒" loading="lazy"></a>
+            <a href="/wallpaper/sacred-geometry-mandala-energy-wallpaper-phone" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780718260/thumb.webp" alt="神圣几何能量壁纸" loading="lazy"></a>
+            <a href="/wallpaper/divine-feng-shui-wallpaper-empower-home-yuanmu" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780543209/thumb.webp" alt="元母风水壁纸：守护家宅吉祥" loading="lazy"></a>
+            <a href="/wallpaper/om-symbol-sacred-geometry-wallpaper-energy-vibration" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780722873/thumb.webp" alt="奥姆符号神圣几何壁纸" loading="lazy"></a>
+            <a href="/wallpaper/sacred-mountain-mandala-wallpaper-energy-ascension" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780722925/thumb.webp" alt="圣山曼陀罗能量壁纸" loading="lazy"></a>
+            <a href="/wallpaper/pink-fox-peony-feng-shui-wallpaper-lucky-phone-background" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1781091319/thumb.webp" alt="粉狐牡丹风水壁纸" loading="lazy"></a>
+            <a href="/wallpaper/mystical-mountain-landscape-wallpaper-feng-shui" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780722976/thumb.webp" alt="山水云雾风水壁纸" loading="lazy"></a>
+            <a href="/wallpaper/lucky-four-leaf-clover-wallpaper-feng-shui-phone-background" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780993182/thumb.webp" alt="幸运四叶草壁纸" loading="lazy"></a>
+            <a href="/wallpaper/golden-koi-waterfall-feng-shui-wallpaper-wealth" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780890879/thumb.webp" alt="金鲤流水风水壁纸" loading="lazy"></a>
+            <a href="/wallpaper/magical-unicorn-wallpaper-fairy-wings-celestial-door" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1780669666/thumb.webp" alt="魔法独角兽壁纸：仙翼与星门" loading="lazy"></a>
+            <a href="/wallpaper/golden-mountain-temple-feng-shui-wallpaper-for-phone" class="related-card"><img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1781241193/thumb.webp" alt="金殿山居风水壁纸" loading="lazy"></a>
         </div>
     </div>
 
