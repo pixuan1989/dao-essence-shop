@@ -1,6 +1,6 @@
 ---
 title: "BaZi Marriage Prediction: Spouse Star Guide"
-h1Title: "BaZi Marriage Prediction: How Your Spouse Star Reveals Marriage Quality, Timing, and Risks"
+h1Title: "BaZi Marriage Prediction: What Your Spouse Star Says About Your Love Life"
 slug: "bazi-marriage-prediction-spouse-star"
 category: bazi-astrology
 tags: [BaZi Marriage, Spouse Star, Chinese Astrology Marriage, Marriage Timing, BaZi Compatibility, Direct Wealth, Direct Officer]
