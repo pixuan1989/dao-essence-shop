@@ -341,6 +341,7 @@
             gap: 12px;
         }
         .result-count {
+            display: none;
             font-size: 13px;
             color: rgba(255,255,255,0.3);
             white-space: nowrap;
@@ -463,6 +464,7 @@
             display: grid;
             grid-template-columns: repeat(5, 1fr);
             gap: 12px;
+            min-height: 200px;
         }
 
         /* ── Card — image only, no info bar ── */
@@ -591,7 +593,8 @@
             .footer-brand { grid-column: span 1; }
         }
     </style>
-</head>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"ImageGallery","name":"Dao Essentia Lucky Wallpapers Collection","associatedMedia":[{"@type":"ImageObject","name":"Golden Wealth Talisman Wallpaper - Feng Shui Lucky Design","thumbnailUrl":"https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1781424261/thumb.webp","url":"https://www.daoessentia.com/wallpaper/golden-wealth-talisman-wallpaper-feng-shui-lucky-design"},{"@type":"ImageObject","name":"Enchanted Feng Shui Wallpaper: Serene Temple by Moonlight","thumbnailUrl":"https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1781364348/thumb.webp","url":"https://www.daoessentia.com/wallpaper/enchanted-feng-shui-wallpaper-serene-temple-by-moonlight"},{"@type":"ImageObject","name":"Ethereal Feng Shui Wallpaper: Serene Mountain Temple","thumbnailUrl":"https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1781364296/thumb.webp","url":"https://www.daoessentia.com/wallpaper/ethereal-feng-shui-wallpaper-serene-mountain-temple"},{"@type":"ImageObject","name":"Ethereal Feng Shui Wallpaper: Serene Temple & Cranes","thumbnailUrl":"https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1781364240/thumb.webp","url":"https://www.daoessentia.com/wallpaper/ethereal-feng-shui-wallpaper-serene-temple-cranes"},{"@type":"ImageObject","name":"Ethereal Crane Landscape Wallpaper - Feng Shui Design","thumbnailUrl":"https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1781364186/thumb.webp","url":"https://www.daoessentia.com/wallpaper/ethereal-crane-landscape-wallpaper-feng-shui-design"},{"@type":"ImageObject","name":"Elegant Koi Fish Wallpaper - Feng Shui Phone Background","thumbnailUrl":"https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1781364129/thumb.webp","url":"https://www.daoessentia.com/wallpaper/elegant-koi-fish-wallpaper-feng-shui-phone-background"},{"@type":"ImageObject","name":"Ethereal Feng Shui Wallpaper: Serene Mountain Retreat","thumbnailUrl":"https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1781364064/thumb.webp","url":"https://www.daoessentia.com/wallpaper/ethereal-feng-shui-wallpaper-serene-mountain-retreat"},{"@type":"ImageObject","name":"Golden Sunset Feng Shui Wallpaper - Phone Background","thumbnailUrl":"https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1781241448/thumb.webp","url":"https://www.daoessentia.com/wallpaper/golden-sunset-feng-shui-wallpaper-phone-background"}]}</script>
+  </head>
 <body>
     <!-- ZEDGE-style standalone nav -->
     <nav class="wpn">
@@ -677,7 +680,26 @@
     </div>
 
     <!-- Footer (matching main page) -->
-    <footer class="footer">
+    
+    <!-- SEO Image Gallery: Featured Wallpapers (Static for Crawlability) -->
+    <section id="seo-featured-gallery" style="max-width:1400px;margin:40px auto;padding:0 16px;text-align:center;">
+      <h2 style="color:#D4AF37;font-size:18px;margin-bottom:16px;" data-i18n="wallpaper.featured_title" data-zh-title="精选旺运壁纸">Featured Lucky Wallpapers</h2>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;">
+        <a href="/wallpaper/golden-wealth-talisman-wallpaper-feng-shui-lucky-design" style="aspect-ratio:9/16;background:#111;border-radius:8px;overflow:hidden;display:block;">
+          <img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1781424261/thumb.webp" alt="Golden Wealth Talisman Wallpaper - Feng Shui Lucky Design" width="100" height="178" loading="lazy" style="width:100%;height:100%;object-fit:cover;" />
+        </a>
+        <a href="/wallpaper/enchanted-feng-shui-wallpaper-serene-temple-by-moonlight" style="aspect-ratio:9/16;background:#111;border-radius:8px;overflow:hidden;display:block;">
+          <img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1781364348/thumb.webp" alt="Enchanted Feng Shui Wallpaper: Serene Temple by Moonlight" width="100" height="178" loading="lazy" style="width:100%;height:100%;object-fit:cover;" />
+        </a>
+        <a href="/wallpaper/ethereal-feng-shui-wallpaper-serene-mountain-temple" style="aspect-ratio:9/16;background:#111;border-radius:8px;overflow:hidden;display:block;">
+          <img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1781364296/thumb.webp" alt="Ethereal Feng Shui Wallpaper: Serene Mountain Temple" width="100" height="178" loading="lazy" style="width:100%;height:100%;object-fit:cover;" />
+        </a>
+        <a href="/wallpaper/ethereal-feng-shui-wallpaper-serene-temple-cranes" style="aspect-ratio:9/16;background:#111;border-radius:8px;overflow:hidden;display:block;">
+          <img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1781364240/thumb.webp" alt="Ethereal Feng Shui Wallpaper: Serene Temple & Cranes" width="100" height="178" loading="lazy" style="width:100%;height:100%;object-fit:cover;" />
+        </a>
+      </div>
+    </section>
+  <footer class="footer">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-brand">
@@ -1096,19 +1118,40 @@
             });
         }
 
+        // Check if query contains Chinese characters
+        function containsChinese(str) {
+            return /[\u4e00-\u9fff\u3400-\u4dbf]/.test(str);
+        }
+
         function getFiltered() {
             let list = [...allWallpapers];
             // Category filter
             if (activeCategory !== 'All') {
                 list = list.filter(w => w.category === activeCategory);
             }
-            // Search filter (Fuse.js fuzzy search)
+            // Search filter
             if (searchQuery) {
-                initFuse();
-                if (fuseInstance) {
-                    const results = fuseInstance.search(searchQuery);
-                    const ids = new Set(results.map(r => r.item.id));
-                    list = list.filter(w => ids.has(w.id));
+                const hasChinese = containsChinese(searchQuery);
+                if (hasChinese) {
+                    // Chinese: exact substring matching with String.includes()
+                    list = list.filter(w => {
+                        const title = (w.title || '').toLowerCase();
+                        const titleZh = (w.titleZh || '').toLowerCase();
+                        const cat = (w.category || '').toLowerCase();
+                        const catZh = (w.categoryZh || '').toLowerCase();
+                        const kw = (w.keywords || []).join(' ').toLowerCase();
+                        const kwZh = (w.keywordsZh || []).join(' ').toLowerCase();
+                        const allText = [title, titleZh, cat, catZh, kw, kwZh].join(' ');
+                        return allText.includes(searchQuery);
+                    });
+                } else {
+                    // English: Fuse.js fuzzy search
+                    initFuse();
+                    if (fuseInstance) {
+                        const results = fuseInstance.search(searchQuery);
+                        const ids = new Set(results.map(r => r.item.id));
+                        list = list.filter(w => ids.has(w.id));
+                    }
                 }
             }
             // Sort
@@ -1128,12 +1171,57 @@
             return list;
         }
 
+        // ── Infinite Scroll Variables ──
+        let batchSize = 12;
+        let displayedCount = 0;
+        let observer = null;
+        let loadingMore = false;
+
+        // Setup Intersection Observer for "Load More"
+        function setupLoadMoreObserver(loadMoreTrigger) {
+            if (observer) observer.disconnect();
+            observer = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting && !loadingMore) {
+                    loadMoreWallpapers();
+                }
+            }, { rootMargin: '200px' });
+            if (loadMoreTrigger) observer.observe(loadMoreTrigger);
+        }
+
+        function loadMoreWallpapers() {
+            const filtered = getFiltered();
+            if (displayedCount >= filtered.length) return;
+            loadingMore = true;
+            
+            // Batch render
+            const nextBatch = filtered.slice(displayedCount, displayedCount + batchSize);
+            const grid = document.getElementById('wallpaper-grid');
+            const lang = (new URLSearchParams(window.location.search)).get('lang') || localStorage.getItem('daoessence_lang') || 'en';
+            
+            nextBatch.forEach(wp => {
+                const card = document.createElement('div');
+                card.className = 'wallpaper-card';
+                card.onclick = () => { const slug = wp.slug || wp.id; window.location.href = (lang === 'zh' ? '/zh' : '') + '/wallpaper/' + slug; };
+                const cardTitle = lang === 'zh' ? (wp.titleZh || wp.title) : wp.title;
+                card.innerHTML = `<img src="${wp.thumb}" alt="${cardTitle}" loading="lazy">`;
+                grid.appendChild(card);
+            });
+            
+            displayedCount += nextBatch.length;
+            loadingMore = false;
+        }
+
         // Render grid
         function renderGrid() {
             const grid = document.getElementById('wallpaper-grid');
             const filtered = getFiltered();
             const resultText = filtered.length + ' ' + t('wallpaper.result_count');
             document.getElementById('result-count').textContent = resultText;
+
+            // Clear existing
+            grid.innerHTML = '';
+            displayedCount = 0;
+            if (observer) observer.disconnect();
 
             if (filtered.length === 0) {
                 grid.innerHTML = `
@@ -1144,16 +1232,33 @@
                 return;
             }
 
-            grid.innerHTML = '';
-            filtered.forEach(wp => {
-                const card = document.createElement('div');
-                card.className = 'wallpaper-card';
-                card.onclick = () => { const lang = getLang(); const slug = wp.slug || wp.id; window.location.href = (lang === 'zh' ? '/zh' : '') + '/wallpaper/' + slug; };
+            // ─ Pagination Logic ──
+            // If user is searching or filtering, show ALL results (no pagination)
+            const isSearchOrFilter = searchQuery || activeCategory !== 'All';
+            
+            if (isSearchOrFilter) {
+                // Render all immediately
                 const lang = (new URLSearchParams(window.location.search)).get('lang') || localStorage.getItem('daoessence_lang') || 'en';
-                const cardTitle = lang === 'zh' ? (wp.titleZh || wp.title) : wp.title;
-                card.innerHTML = `<img src="${wp.thumb}" alt="${cardTitle}" loading="lazy">`;
-                grid.appendChild(card);
-            });
+                filtered.forEach(wp => {
+                    const card = document.createElement('div');
+                    card.className = 'wallpaper-card';
+                    card.onclick = () => { const slug = wp.slug || wp.id; window.location.href = (lang === 'zh' ? '/zh' : '') + '/wallpaper/' + slug; };
+                    const cardTitle = lang === 'zh' ? (wp.titleZh || wp.title) : wp.title;
+                    card.innerHTML = `<img src="${wp.thumb}" alt="${cardTitle}" loading="lazy">`;
+                    grid.appendChild(card);
+                });
+                displayedCount = filtered.length;
+            } else {
+                // Initial load for "All" category: Load first batch
+                loadMoreWallpapers();
+                
+                // Add load-more trigger element
+                const trigger = document.createElement('div');
+                trigger.id = 'load-more-trigger';
+                trigger.style.height = '1px';
+                grid.appendChild(trigger);
+                setupLoadMoreObserver(trigger);
+            }
         }
 
         // Listen for language changes from global i18n-switcher
@@ -1174,10 +1279,13 @@
         // Init
         async function init() {
             try {
-                const res = await fetch('wallpapers.json');
+                const res = await fetch('/wallpapers-lite.json');
+                if (!res.ok) throw new Error(res.status);
                 allWallpapers = await res.json();
             } catch (e) {
                 console.error('Failed to load wallpapers:', e);
+                document.getElementById('wallpaper-grid').innerHTML = '<p style="color:red;text-align:center;padding:40px;">Failed to load wallpapers. Please refresh.</p>';
+                return;
             }
             extractCategories();
             // Read ?cat= from URL (set by detail page category links)
@@ -1215,11 +1323,9 @@
             renderGrid();
         });
     </script>
-    <script defer crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/@clerk/ui@1/dist/ui.browser.js" type="text/javascript"></script>
-    <script defer crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/@clerk/clerk-js@6/dist/clerk.browser.js" data-clerk-publishable-key="pk_live_Y2xlcmsuZGFvZXNzZW50aWEuY29tJA"></script>
-    <script src="/js/auth.js"></script>
-    <script src="js/i18n-switcher.js" defer></script>
-    <script src="/js/wallpaper-search-optimize.js" defer></script>
-    <script src="/js/wallpaper-image-fix.js" defer></script>
+    <script src="/js/auth.js?v=2"></script>
+    <script src="js/i18n-switcher.js?v=2" defer></script>
+    <script src="/js/wallpaper-search-optimize.js?v=2" defer></script>
+    <script src="/js/wallpaper-image-fix.js?v=2" defer></script>
 </body>
 </html>
