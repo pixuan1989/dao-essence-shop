@@ -116,25 +116,19 @@
 
     // 根据语言环境显示文案 (不再缓存旧文案)
     var isZh = (document.documentElement.lang === 'zh' || window.location.pathname.includes('/zh/'));
-    var span = btn.querySelector('span');
-
-    // 保存原始按钮文字，用于下载完成后恢复
-    var origText = span ? span.textContent : 'Download';
 
     console.log('[DownloadGuard] handleDownload called', { id: getWallpaperId(btn), url: getDownloadUrl(btn) });
 
     var url = getDownloadUrl(btn);
     var wallpaperId = getWallpaperId(btn);
 
-    // 设置 "检查中" 状态
-    if (span) span.textContent = isZh ? '检查中...' : 'Checking...';
+    // 按钮禁用防止重复点击（不改变文字）
     btn.disabled = true;
 
     try {
       // ── Step 1: Call API and AWAIT result ──
       var allowed = false; // FAIL-CLOSED by default
       var denyReason = '';
-      var isZh = (document.documentElement.lang === 'zh' || window.location.pathname.includes('/zh/'));
 
       try {
         var token = null;
@@ -162,7 +156,7 @@
         // Priority 1: explicit deny (429 or any status with allowed=false)
         if (data && data.allowed === false) {
           allowed = false;
-          
+
           // ✅ 新增逻辑：未登录直接弹登录框，不显示报错提示
           if (data.error === '请先登录后再下载') {
             if (window.DaoAuth && window.DaoAuth.open) {
@@ -170,7 +164,7 @@
             }
             return; // 拦截后续流程
           }
-          
+
           denyReason = data.error || 'Download limit reached.';
         }
         // Priority 2: allow only if res.ok AND data.allowed === true
@@ -208,8 +202,7 @@
       }
 
     } finally {
-      // 无论成功失败，都恢复 span 文字（不破坏按钮结构）
-      if (span) span.textContent = origText;
+      // 恢复按钮状态（不改变文字）
       btn.disabled = false;
       btn.dataset.isProcessing = 'false';
       console.log('[DownloadGuard] Done');
