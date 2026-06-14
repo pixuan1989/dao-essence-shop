@@ -108,7 +108,7 @@
     console.log('[DownloadGuard]', displayMsg);
   }
 
-  // ── Core: handle download click ──
+  // ── Core: handle download click ─
   async function handleDownload(btn) {
     // 防止重复处理
     if (btn.dataset.isProcessing === 'true') return;
@@ -121,6 +121,11 @@
 
     var url = getDownloadUrl(btn);
     var wallpaperId = getWallpaperId(btn);
+
+    // 点击视觉反馈：按钮缩小 + 变暗
+    btn.style.transform = 'scale(0.95)';
+    btn.style.opacity = '0.7';
+    btn.style.transition = 'transform 0.1s, opacity 0.1s';
 
     // 按钮禁用防止重复点击（不改变文字）
     btn.disabled = true;
@@ -207,6 +212,9 @@
       btn.disabled = false;
       btn.classList.remove('processing');
       btn.dataset.isProcessing = 'false';
+      // 恢复点击反馈样式
+      btn.style.transform = '';
+      btn.style.opacity = '';
       console.log('[DownloadGuard] Done');
     }
   }
