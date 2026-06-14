@@ -1,33 +1,21 @@
 ﻿/**
- * BaZi Wallpaper Recommendation Module (Fixed Layout & i18n)
- * Function: Renders wallpapers at the bottom of BaZi result page.
- * Safety: Appends to existing container, respects current language.
- * 
- * Fixed: 
- * 1. Align with left column of .bazi-page (grid 1fr 300px layout)
- * 2. Use window.DaoI18n.current() for language detection (consistent with BaZi SPA)
- * 3. Listen to daoessence:i18n-changed event for dynamic language switching
- * 4. Added retry mechanism for language detection (waits for DaoI18n to load)
+ * BaZi Wallpaper Recommendation Module
+ * Renders wallpapers at the bottom of BaZi result page.
  */
 (function() {
   'use strict';
 
-  // --- Language Detection (Consistent with BaZi SPA) ---
   function getLang() {
-    // Method 1: Use DaoI18n (same as bazi-result.js uses window.DaoI18n.current())
     if (window.DaoI18n && typeof window.DaoI18n.current === 'function') {
       return window.DaoI18n.current() === 'zh' ? 'zh' : 'en';
     }
-    // Method 2: Check active language button in nav dropdown
     const activeBtn = document.querySelector('.lang-option.active');
     if (activeBtn && activeBtn.getAttribute('data-lang') === 'zh') {
       return 'zh';
     }
-    // Method 3: Check URL path (/zh/ prefix)
     if (window.location.pathname.includes('/zh/')) {
       return 'zh';
     }
-    // Method 4: Check window.currentLang
     if (typeof window.currentLang !== 'undefined' && window.currentLang === 'zh') {
       return 'zh';
     }
@@ -39,62 +27,43 @@
     if (!container) return;
 
     const lang = getLang();
-    const title = lang === 'zh' ? '鎼厤鐜勫澹佺焊锛屽寮烘偍鐨勮繍鍔? : "Enhance your energy with metaphysical wallpapers";
-    const btnText = lang === 'zh' ? '鏌ョ湅鏇村鐜勫澹佺焊 鈫? : 'Browse All Wallpapers 鈫?;
+    const title = lang === 'zh' ? '\u642d\u914d\u7384\u5b66\u58c1\u7eb8\uff0c\u589e\u5f3a\u60a8\u7684\u8fd0\u52bf' : 'Enhance your energy with metaphysical wallpapers';
+    const btnText = lang === 'zh' ? '\u67e5\u770b\u66f4\u591a\u7384\u5b66\u58c1\u7eb8 \u2192' : 'Browse All Wallpapers \u2192';
 
     try {
       const res = await fetch('/wallpapers-lite.json');
       if (!res.ok) return;
       const wps = await res.json();
-
-      // Pick 3 random
       const picks = wps.sort(() => 0.5 - Math.random()).slice(0, 3);
 
-      // Build HTML - align with LEFT column of .bazi-page (grid-template-columns: 1fr 300px)
-      // .bazi-page has max-width: 1140px, padding: 0 1.5rem, grid gap: 2.5rem
-      // Left column (main content) 鈮?800px, right sidebar = 300px
-      // We match .bazi-page's outer container, then limit inner content to left column width
-      let html = `
-        <div style="max-width: 1140px; margin: 50px auto 0; padding: 0 1.5rem;">
-          <div style="max-width: 800px; text-align: center;">
-            <h3 style="font-size: 20px; color: #D4AF37; margin: 0 0 24px 0; font-weight: 600;">${title}</h3>
-            <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-bottom: 30px;">
-      `;
+      let html = '<div style="max-width:1140px;margin:50px auto 0;padding:0 1.5rem;">';
+      html += '<div style="max-width:800px;text-align:center;">';
+      html += '<h3 style="font-size:20px;color:#D4AF37;margin:0 0 24px 0;font-weight:600;">' + title + '</h3>';
+      html += '<div style="display:flex;justify-content:center;gap:20px;flex-wrap:wrap;margin-bottom:30px;">';
 
-      picks.forEach(wp => {
-        html += `<a href="/wallpaper/${wp.slug || wp.id}" style="display: block; width: 130px; border-radius: 12px; overflow: hidden; border: 1px solid rgba(212,175,55,0.3); box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: transform 0.2s;">
-                   <img src="${wp.thumb || ''}" style="width: 100%; display: block;" loading="lazy"/>
-                 </a>`;
+      picks.forEach(function(wp) {
+        html += '<a href="/wallpaper/' + (wp.slug || wp.id) + '" style="display:block;width:130px;border-radius:12px;overflow:hidden;border:1px solid rgba(212,175,55,0.3);box-shadow:0 4px 12px rgba(0,0,0,0.1);transition:transform 0.2s;">';
+        html += '<img src="' + (wp.thumb || '') + '" style="width:100%;display:block;" loading="lazy"/>';
+        html += '</a>';
       });
 
-      html += `</div>`;
-      html += `<a href="/wallpaper" style="display: inline-block; padding: 12px 28px; background: #D4AF37; color: #fff; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: 600; transition: opacity 0.2s;">${btnText}</a>`;
-      html += `</div></div>`;
+      html += '</div>';
+      html += '<a href="/wallpaper" style="display:inline-block;padding:12px 28px;background:#D4AF37;color:#fff;border-radius:8px;text-decoration:none;font-size:14px;font-weight:600;transition:opacity 0.2s;">' + btnText + '</a>';
+      html += '</div></div>';
 
       container.innerHTML = html;
-
     } catch (e) {
       console.error('[BaZi Wallpaper] Error:', e);
     }
   }
 
-  // --- Init with retry for language detection ---
   function init() {
-    // Check if DaoI18n is loaded, if not retry after a short delay
     if (!window.DaoI18n || typeof window.DaoI18n.current !== 'function') {
-      // DaoI18n not ready yet, wait and retry
-      setTimeout(function() {
-        render();
-      }, 200);
+      setTimeout(render, 200);
     } else {
       render();
     }
-
-    // Listen for language changes (SPA dynamic switching)
-    // BaZi SPA fires 'daoessence:i18n-changed' when user switches language
-    document.addEventListener('daoessence:i18n-changed', function() {
-      render();
-    });
+    document.addEventListener('daoessence:i18n-changed', render);
   }
 
   if (document.readyState === 'loading') {
