@@ -2955,7 +2955,8 @@ async function main() {
     'almanac-wallpaper-recommendation.js',
     'soulmate-wallpaper-recommendation.js',
     'bazi-wallpaper-recommendation.js',
-    'favorable-element-wallpaper-recommendation.js'
+    'favorable-element-wallpaper-recommendation.js',
+    'five-elements-wallpaper-recommendation.js'
   ];
   const jsDir = path.join(DIST_DIR, 'js');
   fs.mkdirSync(jsDir, { recursive: true });
