@@ -35,30 +35,18 @@
     ]);
   }
 
-  // ── Force download (fetch → blob → object URL) ──
-  async function forceDownload(url, filename) {
-    console.log('[DownloadGuard] forceDownload:', url, 'as', filename);
-    var blobUrl = null;
-    try {
-      var res = await withTimeout(fetch(url), 15000);
-      if (!res.ok) throw new Error('HTTP ' + res.status);
-      var blob = await res.blob();
-      blobUrl = URL.createObjectURL(blob);
-      var a = document.createElement('a');
-      a.href = blobUrl;
-      a.download = filename || 'wallpaper.jpg';
-      a.style.display = 'none';
-      document.body.appendChild(a);
-      a.click();
-      setTimeout(function () {
-        document.body.removeChild(a);
-        if (blobUrl) URL.revokeObjectURL(blobUrl);
-      }, 1000);
-    } catch (err) {
-      console.warn('[DownloadGuard] Blob download failed, fallback to window.open', err);
-      if (blobUrl) URL.revokeObjectURL(blobUrl);
-      window.open(url, '_blank');
-    }
+  // ── Force download (native <a> with download attribute) ──
+  function forceDownload(url, filename) {
+    console.log('[DownloadGuard] forceDownload (native):', url, 'as', filename);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = filename || 'wallpaper.jpg';
+    a.style.display = 'none';
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(function () {
+      document.body.removeChild(a);
+    }, 1000);
   }
 
   // ── Show message: black centered toast (primary) ──
