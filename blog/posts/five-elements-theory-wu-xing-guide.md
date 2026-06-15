@@ -12,6 +12,9 @@ seoDescription: "Take the free Five Elements personality test — a core concept
 date: "2026-04-08"
 author: "DAO Essence"
 readTime: 12
+related_posts:
+  - world-cup-champions-five-elements-lens
+  - what-is-bazi-beginners-guide
 body: |
   The **Five Elements theory** (五行, *Wu Xing*) is one of the most important foundational concepts in **Chinese philosophy**, **Traditional Chinese Medicine** (TCM), **feng shui**, and **Chinese metaphysics**. Developed over 3,000 years ago, it provides a framework for understanding how natural forces interact, balance, and transform — both in the external world and within our own bodies and minds.
 
