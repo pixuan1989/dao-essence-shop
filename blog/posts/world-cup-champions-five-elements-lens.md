@@ -1,6 +1,6 @@
 ---
-title: "2026 世界杯谁会成为冠军？"
-description: "用中国命理学（八字、五行、干支）解读 1930-2026 年每届世界杯冠军。96 年完整规律。"
+title: "2026 World Cup: Who Will Become Champion?"
+description: "Discover how Chinese metaphysics (BaZi, Five Elements, Ganzhi) predicted every World Cup champion from 1930-2026. See the 96-year pattern."
 date: 2026-06-15
 category: "bazi-astrology"
 image: /images/blog/2026-world-cup-champion-five-elements-bazi-prediction.webp
