@@ -1,0 +1,1331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lucky Wallpapers - Dao Essentia</title>
+    <meta name="description" content="High-resolution auspicious wallpapers for your phone. Curated collection of Chinese metaphysics, Zodiac, and Five Elements art.">
+    <link rel="canonical" href="https://www.daoessentia.com/wallpaper">
+    <meta property="og:title" content="Lucky Wallpapers - Dao Essentia">
+    <meta property="og:description" content="High-resolution auspicious wallpapers for your phone. Curated collection of Chinese metaphysics, Zodiac, and Five Elements art.">
+    <meta property="og:image" content="https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/dao-essentia-feng-shui-wallpaper/thumb.webp">
+    <meta property="og:url" content="https://www.daoessentia.com/wallpaper">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Dao Essentia">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Lucky Wallpapers - Dao Essentia">
+    <meta name="twitter:description" content="High-resolution auspicious wallpapers for your phone. Curated collection of Chinese metaphysics, Zodiac, and Five Elements art.">
+    <meta name="twitter:image" content="https://daoessentia-wallpapers.oss-cn-hangzhou.aliyuncs.com/wallpapers/dao-essentia-feng-shui-wallpaper/thumb.webp">
+    <link rel="stylesheet" href="styles.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.1.0"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background-color: #0a0a0a;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ── Header ── */
+        .wallpaper-header {
+            background: #0a0a0a;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        /* ── ZEDGE-style standalone nav ── */
+        .wpn {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: #0D0D0D;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .wpn-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 16px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            position: relative;
+            margin-top: 8px;
+        }
+        .wpn-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+        .wpn-logo-icon {
+            width: 50px; height: 50px;
+            border: 2px solid #D4AF37;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #D4AF37;
+            position: relative;
+        }
+        .wpn-logo-icon::before {
+            content: '道';
+            font-family: Georgia, 'Times New Roman', serif;
+            font-weight: 600;
+            font-size: 1.5rem;
+            line-height: 1;
+            letter-spacing: 0;
+        }
+        .wpn-logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+        .wpn-logo-en {
+            color: rgba(255,255,255,0.85);
+            font-family: Georgia, 'Times New Roman', serif;
+            font-size: 12px;
+            letter-spacing: 0.2em;
+            font-weight: 400;
+            line-height: 1.2;
+            text-transform: uppercase;
+        }
+        .wpn-dropdown {
+            position: relative;
+            flex-shrink: 0;
+        }
+        .wpn-dropdown-btn {
+            background: none;
+            border: none;
+            color: rgba(255,255,255,0.7);
+            font-size: 13px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 6px 8px;
+            border-radius: 6px;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+        .wpn-dropdown-btn:hover { color: #fff; background: rgba(255,255,255,0.06); }
+        .wpn-dropdown-btn svg { width: 10px; height: 10px; }
+        .wpn-dropdown-menu {
+            position: absolute;
+            top: calc(100% + 4px);
+            left: 0;
+            background: #1E1E1E;
+            border: 1px solid rgba(212,175,55,0.15);
+            border-radius: 4px;
+            padding: 4px 0;
+            min-width: 150px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(4px);
+            transition: all 0.2s ease;
+            z-index: 1001;
+        }
+        .wpn-dropdown:hover .wpn-dropdown-menu,
+        .wpn-dropdown-menu.open { opacity: 1; visibility: visible; transform: translateY(0); }
+        .wpn-dropdown-menu a {
+            display: block;
+            padding: 8px 16px;
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            font-size: 13px;
+            transition: all 0.15s;
+        }
+        .wpn-dropdown-menu a:hover { color: #fff; background: rgba(255,255,255,0.06); }
+        .wpn-dropdown-menu a.active { color: #D4AF37; }
+        .wpn-search {
+            flex: 1;
+            position: relative;
+        }
+        .wpn-search svg {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            color: rgba(255,255,255,0.3);
+        }
+        .wpn-search input {
+            width: 100%;
+            padding: 8px 12px 8px 32px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 13px;
+            font-family: inherit;
+            outline: none;
+            transition: all 0.2s;
+        }
+        .wpn-search input::placeholder { color: rgba(255,255,255,0.3); }
+        .wpn-search input:focus {
+            border-color: rgba(212,175,55,0.4);
+            background: rgba(255,255,255,0.1);
+        }
+        .wpn-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+            margin-left: auto;
+            position: relative;
+            position: relative;
+        }
+        .wpn-lang { position: relative; }
+        .wpn-btn-upload {
+            padding: 8px 16px;
+            background: linear-gradient(135deg, #D4AF37, #B8962E);
+            color: #0A0A0A;
+            border: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+        .wpn-btn-upload:hover { opacity: 0.9; }
+        .wpn-btn-signin {
+            padding: 8px 16px;
+            background: rgba(255,255,255,0.08);
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 999px;
+            font-size: 13px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .wpn-btn-signin:hover { background: rgba(255,255,255,0.15); }
+        .wpn-lang-trigger {
+            color: rgba(255,255,255,0.7);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 13px;
+            font-family: inherit;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+        .wpn-lang-trigger:hover { color: #fff; background: rgba(255,255,255,0.06); }
+        .wpn-lang-arrow {
+            width: 0; height: 0;
+            border-left: 4px solid transparent;
+            border-right: 4px solid transparent;
+            border-top: 5px solid currentColor;
+            transition: transform 0.2s;
+        }
+        .wpn-lang.open .wpn-lang-arrow { transform: rotate(180deg); }
+        /* ── Toast ── */
+        .da-toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #1E1E1E;
+            border: 1px solid rgba(212,175,55,0.3);
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-size: 13px;
+            z-index: 99999;
+            opacity: 0;
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
+            white-space: nowrap;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+        }
+        .da-toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+        .da-toast a { color: #D4AF37; text-decoration: underline; }
+        @media (max-width: 768px) {
+            .wpn-inner { padding: 0 16px; gap: 10px; height: 54px; }
+            .wpn-logo-text { display: none; }
+            .wpn-btn-signin { display: none; }
+            .wpn-search { flex: 1; }
+        }
+        @media (max-width: 480px) {
+            .wpn-dropdown-btn span { display: none; }
+            .wpn-btn-upload { padding: 6px 10px; font-size: 11px; }
+        }
+
+        /* ── Page Title ── */
+        .page-title {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 100px 24px 0;
+        }
+        .page-title h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        /* ── Filter Toolbar ── */
+        .filter-toolbar {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 24px 24px 0;
+        }
+        .toolbar-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            overflow-x: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            padding-bottom: 4px;
+        }
+        .toolbar-row::-webkit-scrollbar { display: none; }
+
+        .tb-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: rgba(255,255,255,0.35);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            white-space: nowrap;
+            margin-right: 4px;
+        }
+        .tb-pill {
+            white-space: nowrap;
+            padding: 8px 18px;
+            border-radius: 24px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.08);
+            background: transparent;
+            color: rgba(255,255,255,0.55);
+            transition: all 0.2s;
+        }
+        .tb-pill:hover {
+            background: rgba(255,255,255,0.06);
+            color: #fff;
+            border-color: rgba(255,255,255,0.15);
+        }
+        .tb-pill.active {
+            background: rgba(255,255,255,0.12);
+            color: #fff;
+            border-color: rgba(255,255,255,0.2);
+            font-weight: 600;
+        }
+
+        /* ── Sort Bar ── */
+        .sort-bar {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px 24px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+        }
+        .sort-bar-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .result-count {
+            display: none;
+            font-size: 13px;
+            color: rgba(255,255,255,0.3);
+            white-space: nowrap;
+        }
+            position: relative;
+            flex: 0 1 260px;
+        }
+        .search-box input {
+            width: 100%;
+            padding: 8px 16px 8px 36px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.08);
+            background: rgba(255,255,255,0.04);
+            color: #fff;
+            font-size: 13px;
+            font-family: inherit;
+            outline: none;
+            transition: all 0.2s;
+        }
+        .search-box input::placeholder {
+            color: rgba(255,255,255,0.3);
+        }
+        .search-box input:focus {
+            border-color: rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.06);
+        }
+        .search-box svg {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            stroke: rgba(255,255,255,0.3);
+            fill: none;
+            stroke-width: 2;
+            pointer-events: none;
+        }
+        .sort-tabs {
+            display: flex;
+            gap: 4px;
+            background: rgba(255,255,255,0.04);
+            border-radius: 10px;
+            padding: 3px;
+            flex-shrink: 0;
+        }
+        .sort-tab {
+            padding: 6px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            color: rgba(255,255,255,0.45);
+            border: none;
+            background: none;
+            transition: all 0.2s;
+        }
+        .sort-tab:hover { color: rgba(255,255,255,0.7); }
+        .sort-tab.active {
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+        }
+
+        /* ── Wallpaper Grid ── */
+        .grid-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px 24px 60px;
+        }
+
+        /* ── Skeleton Screen ── */
+        .skeleton-card {
+            background: #1a1a1a;
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .skeleton-thumb {
+            width: 100%;
+            aspect-ratio: 9/16;
+            background: linear-gradient(90deg, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%);
+            background-size: 200% 100%;
+            animation: skeleton-pulse 1.5s ease-in-out infinite;
+        }
+        .skeleton-info {
+            padding: 10px 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .skeleton-line {
+            height: 10px;
+            border-radius: 4px;
+            background: linear-gradient(90deg, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%);
+            background-size: 200% 100%;
+            animation: skeleton-pulse 1.5s ease-in-out infinite;
+        }
+        .skeleton-line.short { width: 60%; }
+        .skeleton-line.medium { width: 80%; }
+        .skeleton-tag {
+            display: flex;
+            gap: 4px;
+            margin-top: 4px;
+        }
+        .skeleton-tag-item {
+            width: 32px;
+            height: 6px;
+            border-radius: 3px;
+            background: linear-gradient(90deg, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%);
+            background-size: 200% 100%;
+            animation: skeleton-pulse 1.5s ease-in-out infinite;
+        }
+        @keyframes skeleton-pulse {
+            0%   { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        .wallpaper-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
+            min-height: 200px;
+        }
+
+        /* ── Card — image only, no info bar ── */
+        .wallpaper-card {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .wallpaper-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+        }
+        .wallpaper-card img {
+            width: 100%;
+            aspect-ratio: 9 / 16;
+            object-fit: cover;
+            display: block;
+            pointer-events: none;
+            user-select: none;
+            -webkit-user-drag: none;
+            transition: transform 0.3s;
+        }
+        .wallpaper-card:hover img {
+            transform: scale(1.03);
+        }
+
+        /* ── Empty State ── */
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 80px 20px;
+            color: rgba(255,255,255,0.25);
+        }
+        .empty-state svg {
+            width: 48px;
+            height: 48px;
+            stroke: rgba(255,255,255,0.12);
+            margin-bottom: 16px;
+        }
+        .empty-state p { font-size: 15px; }
+
+        /* ── Explore Categories ── */
+        .explore-section {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 24px 60px;
+        }
+        .explore-section h2 {
+            font-size: 22px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+        .cat-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+        .cat-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 14px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .cat-card:hover {
+            background: rgba(255,255,255,0.08);
+            border-color: rgba(255,255,255,0.12);
+        }
+        .cat-card-name {
+            font-size: 15px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+        .cat-card-tags {
+            font-size: 12px;
+            color: rgba(255,255,255,0.35);
+            line-height: 1.6;
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 1200px) {
+            .wallpaper-grid { grid-template-columns: repeat(4, 1fr); }
+        }
+        @media (max-width: 900px) {
+            .wallpaper-grid { grid-template-columns: repeat(3, 1fr); }
+            .cat-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 600px) {
+            .page-title { padding: 80px 16px 0; }
+            .page-title h1 { font-size: 22px; }
+            .filter-toolbar { padding: 16px 16px 0; }
+            .sort-bar { padding: 16px 16px 0; }
+            .grid-container { padding: 16px 16px 40px; }
+            .wallpaper-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+            .explore-section { padding: 0 16px 40px; }
+            .cat-grid { grid-template-columns: repeat(2, 1fr); }
+            .cat-card { padding: 14px; }
+        }
+        /* ── Footer (matching main site styles.min.css) ── */
+        .footer { background: #1A1612; padding: 80px 0 32px; }
+        .footer .container { width: 100%; max-width: 1400px; margin: 0 auto; padding: 0 32px; }
+        .footer-content { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 32px; margin-bottom: 32px; }
+        .footer-brand .logo-en { color: rgba(245,240,230,0.6); font-family: Georgia, serif; letter-spacing: 0.15em; font-size: 20px; }
+        .footer-brand p { color: rgba(245,240,230,0.7); margin-top: 16px; line-height: 1.8; font-size: 14px; }
+        .footer-title { font-family: Georgia, serif; font-size: 16px; margin-bottom: 16px; color: #D4AF37; }
+        .footer-links { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+        .footer-links li { color: rgba(245,240,230,0.7); display: flex; align-items: center; font-size: 14px; line-height: 1.8; }
+        .footer-links a { color: rgba(245,240,230,0.7); text-decoration: none; transition: color 200ms ease, padding-left 200ms ease; font-size: 14px; }
+        .footer-links a:hover { color: #D4AF37; padding-left: 8px; }
+        .footer-bottom { text-align: center; padding-top: 32px; border-top: 1px solid rgba(212,175,55,0.2); color: rgba(245,240,230,0.5); font-size: 13px; }
+        .footer-bottom a { color: rgba(245,240,230,0.5); text-decoration: none; }
+        .footer-bottom a:hover { color: #D4AF37; }
+        .footer-legal-links { display: flex; justify-content: center; gap: 8px; align-items: center; margin-top: 8px; }
+        .footer-legal-links span { color: rgba(245,240,230,0.3); }
+        @media (max-width: 900px) {
+            .footer-content { grid-template-columns: 1fr 1fr; gap: 32px; }
+            .footer-brand { grid-column: span 2; }
+        }
+        @media (max-width: 600px) {
+            .footer-content { grid-template-columns: 1fr; }
+            .footer-brand { grid-column: span 1; }
+        }
+    </style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"ImageGallery","name":"Dao Essentia Lucky Wallpapers Collection","associatedMedia":[{"@type":"ImageObject","name":"Golden Wealth Talisman Wallpaper - Feng Shui Lucky Design","thumbnailUrl":"https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1781424261/thumb.webp","url":"https://www.daoessentia.com/wallpaper/golden-wealth-talisman-wallpaper-feng-shui-lucky-design"},{"@type":"ImageObject","name":"Enchanted Feng Shui Wallpaper: Serene Temple by Moonlight","thumbnailUrl":"https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1781364348/thumb.webp","url":"https://www.daoessentia.com/wallpaper/enchanted-feng-shui-wallpaper-serene-temple-by-moonlight"},{"@type":"ImageObject","name":"Ethereal Feng Shui Wallpaper: Serene Mountain Temple","thumbnailUrl":"https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1781364296/thumb.webp","url":"https://www.daoessentia.com/wallpaper/ethereal-feng-shui-wallpaper-serene-mountain-temple"},{"@type":"ImageObject","name":"Ethereal Feng Shui Wallpaper: Serene Temple & Cranes","thumbnailUrl":"https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1781364240/thumb.webp","url":"https://www.daoessentia.com/wallpaper/ethereal-feng-shui-wallpaper-serene-temple-cranes"},{"@type":"ImageObject","name":"Ethereal Crane Landscape Wallpaper - Feng Shui Design","thumbnailUrl":"https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1781364186/thumb.webp","url":"https://www.daoessentia.com/wallpaper/ethereal-crane-landscape-wallpaper-feng-shui-design"},{"@type":"ImageObject","name":"Elegant Koi Fish Wallpaper - Feng Shui Phone Background","thumbnailUrl":"https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1781364129/thumb.webp","url":"https://www.daoessentia.com/wallpaper/elegant-koi-fish-wallpaper-feng-shui-phone-background"},{"@type":"ImageObject","name":"Ethereal Feng Shui Wallpaper: Serene Mountain Retreat","thumbnailUrl":"https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1781364064/thumb.webp","url":"https://www.daoessentia.com/wallpaper/ethereal-feng-shui-wallpaper-serene-mountain-retreat"},{"@type":"ImageObject","name":"Golden Sunset Feng Shui Wallpaper - Phone Background","thumbnailUrl":"https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1781241448/thumb.webp","url":"https://www.daoessentia.com/wallpaper/golden-sunset-feng-shui-wallpaper-phone-background"}]}</script>
+  </head>
+<body>
+    <!-- ZEDGE-style standalone nav -->
+    <nav class="wpn">
+        <div class="wpn-inner">
+            <a href="/" class="wpn-logo">
+                <div class="wpn-logo-icon"></div>
+                <div class="wpn-logo-text">
+                    <span class="wpn-logo-en">DAO ESSENCE</span>
+                </div>
+            </a>
+            <div class="wpn-dropdown" id="wpn-cat-dropdown">
+                <button class="wpn-dropdown-btn">
+                    <span data-i18n="wallpaper.category_label">Categories</span>
+                    <svg viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
+                </button>
+                <div class="wpn-dropdown-menu" id="wpn-cat-menu"></div>
+            </div>
+            <div class="wpn-search">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <input type="text" id="search-input" data-i18n-placeholder="wallpaper.search_placeholder" placeholder="Search wallpapers...">
+            </div>
+            <div class="wpn-right">
+                <a href="#" class="wpn-btn-signin" id="wpn-signin-btn">Sign In</a>
+                <div class="wpn-lang" id="wpn-lang">
+                    <a href="#" class="wpn-lang-trigger" id="lang-trigger">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                        <span id="lang-label">EN</span>
+                        <i class="wpn-lang-arrow"></i>
+                    </a>
+                    <div class="wpn-dropdown-menu" id="lang-menu" style="right:0;left:auto;">
+                        <a href="#" data-lang="en" class="lang-option active">English</a>
+                        <a href="#" data-lang="zh" class="lang-option">繁體中文</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Title -->
+    <div class="page-title">
+        <h1 id="hero-title" data-i18n="wallpaper.hero_title" data-zh-title="旺運壁紙">Lucky Wallpapers</h1>
+    </div>
+
+    <!-- Category Toolbar -->
+    <div class="filter-toolbar">
+        <div class="toolbar-row" id="cat-row">
+            <span class="tb-label" data-i18n="wallpaper.category_label">Category</span>
+        </div>
+    </div>
+
+    <!-- Sort Bar -->
+    <div class="sort-bar">
+        <div class="sort-bar-left">
+            <span class="result-count" id="result-count"></span>
+        </div>
+        <div class="sort-tabs">
+            <button class="sort-tab active" data-sort="random" id="sort-random" data-i18n="wallpaper.random">Random</button>
+            <button class="sort-tab" data-sort="popular" id="sort-popular" data-i18n="wallpaper.popular">Popular</button>
+            <button class="sort-tab" data-sort="newest" id="sort-newest" data-i18n="wallpaper.newest">Newest</button>
+        </div>
+    </div>
+
+
+    <!-- Grid -->
+    <div class="grid-container">
+        <div class="wallpaper-grid" id="wallpaper-grid">
+            <!-- Skeleton Screen -->
+            <div class="skeleton-card"><div class="skeleton-thumb"></div><div class="skeleton-info"><div class="skeleton-line medium"></div><div class="skeleton-line short"></div><div class="skeleton-tag"><div class="skeleton-tag-item"></div><div class="skeleton-tag-item"></div></div></div></div>
+            <div class="skeleton-card"><div class="skeleton-thumb"></div><div class="skeleton-info"><div class="skeleton-line short"></div><div class="skeleton-line medium"></div><div class="skeleton-tag"><div class="skeleton-tag-item"></div><div class="skeleton-tag-item"></div></div></div></div>
+            <div class="skeleton-card"><div class="skeleton-thumb"></div><div class="skeleton-info"><div class="skeleton-line medium"></div><div class="skeleton-line short"></div><div class="skeleton-tag"><div class="skeleton-tag-item"></div><div class="skeleton-tag-item"></div></div></div></div>
+            <div class="skeleton-card"><div class="skeleton-thumb"></div><div class="skeleton-info"><div class="skeleton-line short"></div><div class="skeleton-line medium"></div><div class="skeleton-tag"><div class="skeleton-tag-item"></div><div class="skeleton-tag-item"></div></div></div></div>
+            <div class="skeleton-card"><div class="skeleton-thumb"></div><div class="skeleton-info"><div class="skeleton-line medium"></div><div class="skeleton-line short"></div><div class="skeleton-tag"><div class="skeleton-tag-item"></div><div class="skeleton-tag-item"></div></div></div></div>
+            <div class="skeleton-card"><div class="skeleton-thumb"></div><div class="skeleton-info"><div class="skeleton-line short"></div><div class="skeleton-line medium"></div><div class="skeleton-tag"><div class="skeleton-tag-item"></div><div class="skeleton-tag-item"></div></div></div></div>
+            <div class="skeleton-card"><div class="skeleton-thumb"></div><div class="skeleton-info"><div class="skeleton-line medium"></div><div class="skeleton-line short"></div><div class="skeleton-tag"><div class="skeleton-tag-item"></div><div class="skeleton-tag-item"></div></div></div></div>
+            <div class="skeleton-card"><div class="skeleton-thumb"></div><div class="skeleton-info"><div class="skeleton-line short"></div><div class="skeleton-line medium"></div><div class="skeleton-tag"><div class="skeleton-tag-item"></div><div class="skeleton-tag-item"></div></div></div></div>
+        </div>
+    </div>
+
+    <!-- Explore Categories -->
+    <div class="explore-section">
+        <h2 id="explore-title" data-i18n="wallpaper.explore_title">Explore different wallpaper categories</h2>
+        <div class="cat-grid" id="cat-grid"></div>
+    </div>
+
+    <!-- Footer (matching main page) -->
+    
+    <!-- SEO Image Gallery: Featured Wallpapers (Static for Crawlability) -->
+    <section id="seo-featured-gallery" style="max-width:1400px;margin:40px auto;padding:0 16px;text-align:center;">
+      <h2 style="color:#D4AF37;font-size:18px;margin-bottom:16px;" data-i18n="wallpaper.featured_title" data-zh-title="精选旺运壁纸">Featured Lucky Wallpapers</h2>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;">
+        <a href="/wallpaper/golden-wealth-talisman-wallpaper-feng-shui-lucky-design" style="aspect-ratio:9/16;background:#111;border-radius:8px;overflow:hidden;display:block;">
+          <img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1781424261/thumb.webp" alt="Golden Wealth Talisman Wallpaper - Feng Shui Lucky Design" width="100" height="178" loading="lazy" style="width:100%;height:100%;object-fit:cover;" />
+        </a>
+        <a href="/wallpaper/enchanted-feng-shui-wallpaper-serene-temple-by-moonlight" style="aspect-ratio:9/16;background:#111;border-radius:8px;overflow:hidden;display:block;">
+          <img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1781364348/thumb.webp" alt="Enchanted Feng Shui Wallpaper: Serene Temple by Moonlight" width="100" height="178" loading="lazy" style="width:100%;height:100%;object-fit:cover;" />
+        </a>
+        <a href="/wallpaper/ethereal-feng-shui-wallpaper-serene-mountain-temple" style="aspect-ratio:9/16;background:#111;border-radius:8px;overflow:hidden;display:block;">
+          <img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1781364296/thumb.webp" alt="Ethereal Feng Shui Wallpaper: Serene Mountain Temple" width="100" height="178" loading="lazy" style="width:100%;height:100%;object-fit:cover;" />
+        </a>
+        <a href="/wallpaper/ethereal-feng-shui-wallpaper-serene-temple-cranes" style="aspect-ratio:9/16;background:#111;border-radius:8px;overflow:hidden;display:block;">
+          <img src="https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1781364240/thumb.webp" alt="Ethereal Feng Shui Wallpaper: Serene Temple & Cranes" width="100" height="178" loading="lazy" style="width:100%;height:100%;object-fit:cover;" />
+        </a>
+      </div>
+    </section>
+  <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <span class="logo-en">DAO ESSENCE</span>
+                    </div>
+                    <p data-i18n="footer.brand_desc">Ancient Wisdom, Modern Clarity. Navigate life with structured insight through BaZi analysis, Feng Shui consultation, and Five Elements guidance.</p>
+                </div>
+                <div>
+                    <h4 class="footer-title" data-i18n="footer.tools_title">Tools</h4>
+                    <ul class="footer-links">
+                        <li><a href="/#free-bazi" data-i18n="footer.tool_bazi">BaZi Birth Chart Calculator</a></li>
+                        <li><a href="/favorable-element" data-i18n="footer.tool_lucky">Five Elements Favorable Guide</a></li>
+                        <li><a href="/five-elements-test" data-i18n="footer.tool_five">Five Elements Personality Test</a></li>
+                        <li><a href="/soulmate-calculator" data-i18n="footer.tool_soulmate">Soulmate Compatibility Finder</a></li>
+                        <li><a href="/almanac" data-i18n="footer.tool_almanac">Auspicious Date Picker</a></li>
+                        <li><a href="/zodiac/zodiac-daily" data-i18n="footer.tool_zodiac">Zodiac Daily</a></li>
+                        <li><a href="/wallpaper" data-i18n="footer.tool_wallpapers">Lucky Wallpapers</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-title" data-i18n="footer.explore_title">Explore</h4>
+                    <ul class="footer-links">
+                        <li><a href="/blog" data-i18n="common.blog">Blog</a></li>
+                        <li><a href="/culture" data-i18n="common.five_elements">Five Elements</a></li>
+                        <li><a href="/shop" data-i18n="common.shop">Shop</a></li>
+                        <li><a href="/about" data-i18n="common.about_us">About Us</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-title" data-i18n="footer.links_title">Links</h4>
+                    <ul class="footer-links">
+                        <li style="margin-bottom:8px;display:block !important;">
+                            <div><a href="https://fatenet.cn/" target="_blank" rel="noopener">FateNet</a></div>
+                            <div style="font-size:12px;color:var(--text-secondary);margin-top:4px;line-height:1.4;" data-i18n="footer.fortune_desc">Chinese Fortune Telling<br>Find Your Soulmate</div>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-title" data-i18n="footer.contact_title">Contact</h4>
+                    <ul class="footer-links">
+                        <li>
+                            <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle;margin-right:6px"><path d="M3 4h14a1 1 0 011 1v10a1 1 0 01-1 1H3a1 1 0 01-1-1V5a1 1 0 011-1z"/><path d="M3 5l7 6 7-6"/></svg>
+                            <a href="mailto:support@daoessentia.com">support@daoessentia.com</a>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style="vertical-align:middle;margin-right:6px;color:var(--accent-color)"><path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 0 0 .167-.054l1.903-1.114a.864.864 0 0 1 .717-.098 10.16 10.16 0 0 0 2.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348zM5.785 5.991c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178A1.17 1.17 0 0 1 4.623 7.17c0-.651.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178A1.17 1.17 0 0 1 10.623 7.17c0-.651.52-1.18 1.162-1.18zm5.34 2.867c-1.797-.052-3.746.512-5.28 1.786-1.72 1.428-2.687 3.72-1.78 6.22.942 2.453 3.666 4.229 6.884 4.229.826 0 1.622-.12 2.361-.336a.722.722 0 0 1 .598.082l1.584.926a.272.272 0 0 0 .14.047c.134 0 .24-.111.24-.247 0-.06-.023-.12-.038-.177l-.327-1.233a.582.582 0 0 1-.023-.156.49.49 0 0 1 .201-.398C23.024 18.48 24 16.82 24 14.98c0-3.21-2.931-5.837-7.062-6.122zm-3.957 3.467c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.969-.982zm4.844 0c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.969-.982z"/></svg>
+                            <a href="#" onclick="document.getElementById('wechat-modal').style.display='flex';return false;" data-i18n="footer.wechat">WeChat</a>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle;margin-right:6px"><circle cx="10" cy="10" r="8"/><path d="M10 6v4l2.5 2.5"/></svg>
+                            <span data-i18n="footer.hours">Mon&#8211;Sat: 9AM&#8211;9PM (CST / UTC+8)</span>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style="vertical-align:middle;margin-right:6px;color:#229ED9"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+                            <a href="https://t.me/dingwei_123" target="_blank" rel="noopener" data-i18n="footer.telegram_channel">Telegram Channel</a>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style="vertical-align:middle;margin-right:6px;color:#E60023"><path d="M12 0C5.373 0 0 5.372 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 0 1 .083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.631-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12 0-6.628-5.373-12-12-12z"/></svg>
+                            <a href="https://www.pinterest.com/pixuan/wallpapers/" target="_blank" rel="noopener">Pinterest</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p data-i18n="footer.copyright">&copy; 2026 DAO Essence &amp; Five Elements. All rights reserved.</p>
+                <div class="footer-legal-links">
+                    <a href="/privacy" data-i18n="footer.privacy">Privacy Policy</a>
+                    <span>|</span>
+                    <a href="/terms" data-i18n="footer.terms">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- WeChat Modal -->
+    <div id="wechat-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:9999;align-items:center;justify-content:center;" onclick="if(event.target===this)this.style.display='none'">
+        <div style="background:var(--bg-secondary,#1a1a1a);border:1px solid rgba(212,175,55,0.4);border-radius:16px;padding:40px;text-align:center;max-width:320px;width:90%;position:relative;">
+            <button onclick="document.getElementById('wechat-modal').style.display='none'" style="position:absolute;top:12px;right:16px;background:none;border:none;color:rgba(245,240,230,0.6);font-size:22px;cursor:pointer;line-height:1;">x</button>
+            <svg viewBox="0 0 24 24" width="40" height="40" fill="#D4AF37" style="margin-bottom:12px"><path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 0 0 .167-.054l1.903-1.114a.864.864 0 0 1 .717-.098 10.16 10.16 0 0 0 2.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348zM5.785 5.991c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178A1.17 1.17 0 0 1 4.623 7.17c0-.651.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178A1.17 1.17 0 0 1 10.623 7.17c0-.651.52-1.18 1.162-1.18zm5.34 2.867c-1.797-.052-3.746.512-5.28 1.786-1.72 1.428-2.687 3.72-1.78 6.22.942 2.453 3.666 4.229 6.884 4.229.826 0 1.622-.12 2.361-.336a.722.722 0 0 1 .598.082l1.584.926a.272.272 0 0 0 .14.047c.134 0 .24-.111.24-.247 0-.06-.023-.12-.038-.177l-.327-1.233a.582.582 0 0 1-.023-.156.49.49 0 0 1 .201-.398C23.024 18.48 24 16.82 24 14.98c0-3.21-2.931-5.837-7.062-6.122zm-3.957 3.467c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.969-.982zm4.844 0c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.969-.982z"/></svg>
+            <h3 style="color:var(--accent-color,#D4AF37);margin:0 0 8px;font-size:18px;">WeChat</h3>
+            <p style="color:rgba(245,240,230,0.7);font-size:13px;margin:0 0 20px;">Scan the QR code to connect with us on WeChat</p>
+            <div style="width:160px;height:160px;margin:0 auto;">
+                <img src="images/微信图片_20260324143206_59_9.jpg" alt="WeChat QR Code" loading="lazy" decoding="async" style="width:100%;height:100%;border-radius:8px;object-fit:cover;">
+            </div>
+            <p style="color:rgba(245,240,230,0.5);font-size:12px;margin:16px 0 0;">WeChat ID: pixuan1989</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('contextmenu', event => event.preventDefault());
+
+        // ── Nav: Category dropdown ──
+        const wpnCatBtn = document.querySelector('.wpn-dropdown-btn');
+        const wpnCatMenu = document.getElementById('wpn-cat-menu');
+        if (wpnCatBtn && wpnCatMenu) {
+            wpnCatBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                wpnCatMenu.classList.toggle('open');
+            });
+            // Event delegation for dynamically generated category links
+            wpnCatMenu.addEventListener('click', function(e) {
+                const a = e.target.closest('a');
+                if (!a) return;
+                e.preventDefault();
+                const cat = a.getAttribute('data-cat') || 'All';
+                wpnCatMenu.classList.remove('open');
+                wpnCatMenu.querySelectorAll('a').forEach(function(x) { x.classList.remove('active'); });
+                a.classList.add('active');
+                // Sync with filter pills
+                const pills = document.querySelectorAll('.tb-pill');
+                pills.forEach(function(p) {
+                    if (p.getAttribute('data-cat') === cat) p.click();
+                });
+            });
+            document.addEventListener('click', function(e) {
+                if (!wpnCatBtn.contains(e.target) && !wpnCatMenu.contains(e.target)) {
+                    wpnCatMenu.classList.remove('open');
+                }
+            });
+        }
+
+        // ── Lang switcher ──
+        const langTrigger = document.getElementById('lang-trigger');
+        const langMenu = document.getElementById('lang-menu');
+        if (langTrigger && langMenu) {
+            langTrigger.addEventListener('click', function(e) {
+                e.preventDefault();
+                langMenu.classList.toggle('open');
+            });
+            langMenu.querySelectorAll('.lang-option').forEach(function(opt) {
+                opt.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    var lang = this.getAttribute('data-lang');
+                    try { localStorage.setItem('daoessence_lang', lang); } catch(ex) {}
+                    var url = new URL(window.location.href);
+                    url.searchParams.set('lang', lang);
+                    window.location.href = url.href;
+                });
+            });
+            document.addEventListener('click', function(e) {
+                if (!langTrigger.contains(e.target) && !langMenu.contains(e.target)) {
+                    langMenu.classList.remove('open');
+                }
+            });
+        }
+
+        // ── Search (existing logic) ──
+        // Helper: get translated text via global i18n system
+        function t(key) {
+            if (window.DaoI18n) return window.DaoI18n.t(key);
+            return key;
+        }
+
+        // State
+        let allWallpapers = [];
+        let activeCategory = 'All';
+        let activeSort = 'random';
+        let searchQuery = '';
+        let dynamicCats = [];
+
+        // Category display name maps — per-language, prevents EN/ZH mixing
+        const CAT_DISPLAY = {
+            'Five Elements': 'Five Elements', 'Feng Shui': 'Feng Shui',
+            'Chinese Zodiac': 'Chinese Zodiac', 'Astrology': 'Astrology',
+            'Energy': 'Energy', 'Talismans': 'Talismans',
+            'Wealth': 'Wealth & Fortune', 'Love': 'Love & Romance',
+            'Talisman': 'Talismans', 'Nature': 'Nature', 'Deities': 'Deities',
+            '八字': 'BaZi', '占星': 'Astrology', '生肖': 'Zodiac', '神仙': 'Deities'
+        };
+        const CAT_ZH = {
+            'Five Elements': '五行', 'Feng Shui': '風水',
+            'Chinese Zodiac': '生肖', 'Astrology': '占星',
+            'Energy': '能量', 'Talismans': '符籙',
+            'Wealth': '招財', 'Love': '桃花',  // cache-bust: 2026-06-07
+            'Talisman': '符籙', 'Nature': '自然', 'Deities': '神仙',
+            '八字': '八字', '占星': '占星', '生肖': '生肖', '神仙': '神仙'
+        };
+
+        // Category info map (descriptions for Explore cards) — keyed by actual data category names
+        const CAT_INFO = {
+            // Standard English keys (current data)
+            'Five Elements': { tags: 'Five Elements · Wood Fire Earth Metal Water' },
+            'Feng Shui': { tags: 'Feng Shui · Qi Flow · Wealth · Health · Layout' },
+            'Chinese Zodiac': { tags: 'Chinese Zodiac · Animal Signs · Yearly Fortune · Compatibility' },
+            'Astrology': { tags: 'Astrology · Horoscope · Planetary · Star Signs' },
+            'Energy': { tags: 'Cosmic Energy · Merkaba · Light Body · Spiritual Ascension' },
+            'Talismans': { tags: 'Talismans · Spiritual Symbols · Protective Seals · Sacred Scripts' },
+            'Wealth': { tags: 'Wealth · Gold · Fortune · Abundance · Prosperity' },
+            'Love': { tags: 'Love · Romance · Peach Blossom · Relationships · Heart' },
+            // Chinese keys (legacy data + internal use)
+            '风水': { tags: 'Feng Shui · Five Elements · Autumn Gold · Jade Green · Water Flow' },
+            '能量': { tags: 'Cosmic Energy · Merkaba · Light Body · Spiritual Ascension' },
+            '神仙': { tags: 'Deities · Immortals · Divine Beings · Celestial Guardians' },
+            '生肖': { tags: 'Chinese Zodiac · Animal Signs · Yearly Fortune · Compatibility' },
+            '占星': { tags: 'Astrology · Horoscope · Planetary · Star Signs' },
+            '符': { tags: 'Talismans · Spiritual Symbols · Protective Seals · Sacred Scripts' },
+            '八字': { tags: 'BaZi · Four Pillars · Destiny Analysis · Life Path' },
+            '五行': { tags: 'Five Elements · Wood Fire Earth Metal Water' },
+            '招財': { tags: '招財 · 黃金 · 財富 · 繁榮 · 聚寶' },
+            '桃花': { tags: '桃花 · 愛情 · 姻緣 · 人際關係 · 心形' }
+        };
+        const CAT_INFO_ZH = {
+            // Standard English keys (current data)
+            'Five Elements': { tags: '五行 · 木火土金水' },
+            'Feng Shui': { tags: '風水 · 氣場 · 招財 · 健康 · 佈局' },
+            'Chinese Zodiac': { tags: '十二生肖 · 屬相 · 流年運勢 · 生肖配對' },
+            'Astrology': { tags: '占星術 · 星座 · 行星 · 星盤' },
+            'Energy': { tags: '宇宙能量 · 梅爾卡巴 · 光體 · 靈性提升' },
+            'Talismans': { tags: '符籙 · 靈符 · 護身符 · 道教法器' },
+            'Wealth': { tags: '招財 · 黃金 · 財富 · 繁榮 · 聚寶' },
+            'Love': { tags: '桃花 · 愛情 · 姻緣 · 人際關係 · 心形' },
+            // Chinese keys (legacy data + internal use)
+            '风水': { tags: '風水 · 五行 · 秋金 · 翠玉 · 流水' },
+            '能量': { tags: '宇宙能量 · 梅爾卡巴 · 光體 · 靈性提升' },
+            '神仙': { tags: '神仙 · 仙界 · 神明 · 天界守護' },
+            '生肖': { tags: '十二生肖 · 屬相 · 流年運勢 · 生肖配對' },
+            '占星': { tags: '占星術 · 星座 · 行星 · 星盤' },
+            '符籙': { tags: '符籙 · 靈符 · 護身符 · 道教法器' },
+            '八字': { tags: '八字 · 四柱 · 命理分析 · 人生軌跡' },
+            '五行': { tags: '五行 · 木火土金水' },
+            '招財': { tags: '招財 · 黃金 · 財富 · 繁榮 · 聚寶' },
+            '桃花': { tags: '桃花 · 愛情 · 姻緣 · 人際關係 · 心形' }
+        };
+
+        // English category name → Chinese (for search matching)
+        const CAT_EN_TO_ZH = {
+            'bazi': '八字', 'astrology': '占星', 'zodiac': '生肖',
+            'deities': '神仙', 'talismans': '符籙', 'energy': '能量',
+            'feng shui': '风水', 'fengshui': '风水', 'feng-shui': '风水'
+        };
+
+        // Get current language
+        function getLang() {
+            if (window.DaoI18n) return window.DaoI18n.current();
+            const params = new URLSearchParams(window.location.search);
+            return params.get('lang') || localStorage.getItem('daoessence_lang') || 'en';
+        }
+
+        // Get display category name — per-language, no EN/ZH mixing
+        function translateCat(cat) {
+            if (cat === 'All') {
+                const allTranslated = t('wallpaper.all');
+                return allTranslated !== 'wallpaper.all' ? allTranslated : 'All';
+            }
+            const lang = getLang();
+            if (lang === 'zh') {
+                return CAT_ZH[cat] || cat;
+            }
+            return CAT_DISPLAY[cat] || cat;
+        }
+
+        // Extract unique categories from wallpaper data
+        function extractCategories() {
+            const cats = new Set(['All']);
+            allWallpapers.forEach(w => {
+                if (w.category) cats.add(w.category);
+            });
+            dynamicCats = [...cats].sort();
+            return dynamicCats;
+        }
+
+        // Build nav dropdown categories (dynamic, synced with data)
+        function buildNavDropdown() {
+            const menu = document.getElementById('wpn-cat-menu');
+            if (!menu) return;
+            menu.innerHTML = '';
+            dynamicCats.forEach(cat => {
+                const a = document.createElement('a');
+                a.href = '#' + encodeURIComponent(cat);
+                a.dataset.cat = cat;
+                a.textContent = cat === 'All' ? translateCat('All') : translateCat(cat);
+                if (cat === activeCategory) a.classList.add('active');
+                menu.appendChild(a);
+            });
+        }
+
+        // Load real download stats from Redis (best-effort)
+        async function loadStats() {
+            try {
+                const res = await fetch('/api/auth?action=stats');
+                if (!res.ok) return;
+                const { stats } = await res.json();
+                if (!stats || typeof stats !== 'object') return;
+                // Merge into allWallpapers
+                allWallpapers.forEach(w => {
+                    if (stats[w.id]) w.downloads = stats[w.id];
+                });
+                // Re-render grid if popular or random sort is active
+                if (activeSort === 'popular' || activeSort === 'random') renderGrid();
+            } catch (e) { /* silent fail, no UI impact */ }
+        }
+
+        // Build category toolbar pills (dynamic)
+        function buildCategoryPills() {
+            const row = document.getElementById('cat-row');
+            // Keep the label, remove old pills
+            const label = row.querySelector('.tb-label');
+            row.innerHTML = '';
+            if (label) row.appendChild(label);
+
+            dynamicCats.forEach(cat => {
+                const pill = document.createElement('button');
+                pill.className = 'tb-pill' + (cat === activeCategory ? ' active' : '');
+                pill.textContent = cat === 'All' ? translateCat('All') : translateCat(cat);
+                pill.dataset.cat = cat;
+                pill.onclick = () => {
+                    activeCategory = cat;
+                    document.querySelectorAll('.tb-pill').forEach(p => p.classList.remove('active'));
+                    pill.classList.add('active');
+                    renderGrid();
+                };
+                row.appendChild(pill);
+            });
+        }
+
+        // Build explore categories section
+        function buildExploreCategories() {
+            const section = document.querySelector('.explore-section');
+            const grid = document.getElementById('cat-grid');
+            const availableCats = dynamicCats.filter(c => c !== 'All' && CAT_INFO[c]);
+            // Hide if 0 or 1 category (looks empty to users)
+            if (availableCats.length <= 1) {
+                section.style.display = 'none';
+                return;
+            }
+            section.style.display = '';
+            grid.innerHTML = '';
+            const lang = getLang();
+            const infoMap = lang === 'zh' ? CAT_INFO_ZH : CAT_INFO;
+
+            availableCats.forEach(name => {
+                const info = infoMap[name] || CAT_INFO[name];
+                const card = document.createElement('div');
+                card.className = 'cat-card';
+                card.onclick = () => {
+                    activeCategory = name;
+                    document.querySelectorAll('.tb-pill').forEach(p => p.classList.remove('active'));
+                    document.querySelector(`.tb-pill[data-cat="${name}"]`)?.classList.add('active');
+                    renderGrid();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                };
+                card.innerHTML = `<div class="cat-card-name">${translateCat(name)}</div><div class="cat-card-tags">${info.tags}</div>`;
+                grid.appendChild(card);
+            });
+        }
+
+        // Sort tabs
+        document.querySelectorAll('.sort-tab').forEach(tab => {
+            tab.onclick = () => {
+                activeSort = tab.dataset.sort;
+                document.querySelectorAll('.sort-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                renderGrid();
+            };
+        });
+
+        // Search input
+        const searchInput = document.getElementById('search-input');
+        let searchTimeout;
+        searchInput.addEventListener('input', () => {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                searchQuery = searchInput.value.trim().toLowerCase();
+                renderGrid();
+            }, 200);
+        });
+
+        // Seeded shuffle algorithm (Fisher-Yates with deterministic seed)
+        function shuffleArray(array, seed) {
+            const arr = [...array];
+            let m = arr.length, t, i;
+            const rand = function() {
+                const x = Math.sin(seed++) * 10000;
+                return x - Math.floor(x);
+            };
+            while (m) {
+                i = Math.floor(rand() * m--);
+                t = arr[m];
+                arr[m] = arr[i];
+                arr[i] = t;
+            }
+            return arr;
+        }
+
+        // Daily seed based on current date (same seed all day for consistency)
+        function getDailySeed() {
+            const dateStr = new Date().toDateString(); // e.g. "Mon Jun 08 2026"
+            let hash = 0;
+            for (let i = 0; i < dateStr.length; i++) {
+                hash = ((hash << 5) - hash) + dateStr.charCodeAt(i);
+                hash |= 0;
+            }
+            return Math.abs(hash);
+        }
+
+        // Get filtered + sorted wallpapers
+        // Fuse.js fuzzy search (initialized once after data load)
+        let fuseInstance = null;
+        function initFuse() {
+            if (fuseInstance || !allWallpapers.length) return;
+            fuseInstance = new Fuse(allWallpapers, {
+                keys: [
+                    { name: 'title', weight: 0.5 },
+                    { name: 'titleZh', weight: 0.5 },
+                    { name: 'category', weight: 0.2 },
+                    { name: 'categoryZh', weight: 0.2 },
+                    { name: 'keywords', weight: 0.15 },
+                    { name: 'keywordsZh', weight: 0.15 }
+                ],
+                includeScore: true,
+                threshold: 0.5,   // 0.0 = exact, 1.0 = match anything; 0.5 balances precision & recall
+                ignoreLocation: true,
+                distance: 1000,     // allow match anywhere in string (important for Chinese)
+                minMatchCharLength: 1
+            });
+        }
+
+        // Check if query contains Chinese characters
+        function containsChinese(str) {
+            return /[\u4e00-\u9fff\u3400-\u4dbf]/.test(str);
+        }
+
+        function getFiltered() {
+            let list = [...allWallpapers];
+            // Category filter
+            if (activeCategory !== 'All') {
+                list = list.filter(w => w.category === activeCategory);
+            }
+            // Search filter
+            if (searchQuery) {
+                const hasChinese = containsChinese(searchQuery);
+                if (hasChinese) {
+                    // Chinese: exact substring matching with String.includes()
+                    list = list.filter(w => {
+                        const title = (w.title || '').toLowerCase();
+                        const titleZh = (w.titleZh || '').toLowerCase();
+                        const cat = (w.category || '').toLowerCase();
+                        const catZh = (w.categoryZh || '').toLowerCase();
+                        const kw = (w.keywords || []).join(' ').toLowerCase();
+                        const kwZh = (w.keywordsZh || []).join(' ').toLowerCase();
+                        const allText = [title, titleZh, cat, catZh, kw, kwZh].join(' ');
+                        return allText.includes(searchQuery);
+                    });
+                } else {
+                    // English: Fuse.js fuzzy search
+                    initFuse();
+                    if (fuseInstance) {
+                        const results = fuseInstance.search(searchQuery);
+                        const ids = new Set(results.map(r => r.item.id));
+                        list = list.filter(w => ids.has(w.id));
+                    }
+                }
+            }
+            // Sort
+            if (activeSort === 'random') {
+                // Daily seeded shuffle (same order all day, changes next day)
+                list = shuffleArray(list, getDailySeed());
+            } else if (activeSort === 'popular') {
+                list.sort((a, b) => (b.downloads || 0) - (a.downloads || 0));
+            } else if (activeSort === 'newest') {
+                list.sort((a, b) => {
+                    // Fallback: extract timestamp from ID (e.g. wallpaper_1780913534)
+                    const dateA = a.date ? new Date(a.date) : new Date(parseInt(a.id.split('_')[1]) * 1000 || 0);
+                    const dateB = b.date ? new Date(b.date) : new Date(parseInt(b.id.split('_')[1]) * 1000 || 0);
+                    return dateB - dateA;
+                });
+            }
+            return list;
+        }
+
+        // ── Infinite Scroll Variables ──
+        let batchSize = 12;
+        let displayedCount = 0;
+        let observer = null;
+        let loadingMore = false;
+
+        // Setup Intersection Observer for "Load More"
+        function setupLoadMoreObserver(loadMoreTrigger) {
+            if (observer) observer.disconnect();
+            observer = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting && !loadingMore) {
+                    loadMoreWallpapers();
+                }
+            }, { rootMargin: '200px' });
+            if (loadMoreTrigger) observer.observe(loadMoreTrigger);
+        }
+
+        function loadMoreWallpapers() {
+            const filtered = getFiltered();
+            if (displayedCount >= filtered.length) return;
+            loadingMore = true;
+            
+            // Batch render
+            const nextBatch = filtered.slice(displayedCount, displayedCount + batchSize);
+            const grid = document.getElementById('wallpaper-grid');
+            const lang = (new URLSearchParams(window.location.search)).get('lang') || localStorage.getItem('daoessence_lang') || 'en';
+            
+            nextBatch.forEach(wp => {
+                const card = document.createElement('div');
+                card.className = 'wallpaper-card';
+                card.onclick = () => { const slug = wp.slug || wp.id; window.location.href = (lang === 'zh' ? '/zh' : '') + '/wallpaper/' + slug; };
+                const cardTitle = lang === 'zh' ? (wp.titleZh || wp.title) : wp.title;
+                card.innerHTML = `<img src="${wp.thumb}" alt="${cardTitle}" loading="lazy">`;
+                grid.appendChild(card);
+            });
+            
+            displayedCount += nextBatch.length;
+            loadingMore = false;
+        }
+
+        // Render grid
+        function renderGrid() {
+            const grid = document.getElementById('wallpaper-grid');
+            const filtered = getFiltered();
+            const resultText = filtered.length + ' ' + t('wallpaper.result_count');
+            document.getElementById('result-count').textContent = resultText;
+
+            // Clear existing
+            grid.innerHTML = '';
+            displayedCount = 0;
+            if (observer) observer.disconnect();
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+                        <p>${t('wallpaper.empty_state')}</p>
+                    </div>`;
+                return;
+            }
+
+            // ─ Pagination Logic ──
+            // If user is searching or filtering, show ALL results (no pagination)
+            const isSearchOrFilter = searchQuery || activeCategory !== 'All';
+            
+            if (isSearchOrFilter) {
+                // Render all immediately
+                const lang = (new URLSearchParams(window.location.search)).get('lang') || localStorage.getItem('daoessence_lang') || 'en';
+                filtered.forEach(wp => {
+                    const card = document.createElement('div');
+                    card.className = 'wallpaper-card';
+                    card.onclick = () => { const slug = wp.slug || wp.id; window.location.href = (lang === 'zh' ? '/zh' : '') + '/wallpaper/' + slug; };
+                    const cardTitle = lang === 'zh' ? (wp.titleZh || wp.title) : wp.title;
+                    card.innerHTML = `<img src="${wp.thumb}" alt="${cardTitle}" loading="lazy">`;
+                    grid.appendChild(card);
+                });
+                displayedCount = filtered.length;
+            } else {
+                // Initial load for "All" category: Load first batch
+                loadMoreWallpapers();
+                
+                // Add load-more trigger element
+                const trigger = document.createElement('div');
+                trigger.id = 'load-more-trigger';
+                trigger.style.height = '1px';
+                grid.appendChild(trigger);
+                setupLoadMoreObserver(trigger);
+            }
+        }
+
+        // Listen for language changes from global i18n-switcher
+        document.addEventListener('daoessence:i18n-changed', () => {
+            // Guard: don't render if data hasn't loaded yet (avoids flash of empty-state)
+            if (!allWallpapers.length) return;
+            buildNavDropdown();
+            buildCategoryPills();
+            buildExploreCategories();
+            renderGrid();
+            const heroTitle = document.getElementById('hero-title');
+            if (heroTitle) {
+                const lang = getLang();
+                heroTitle.textContent = lang === 'zh' ? '旺運壁紙' : 'Lucky Wallpapers';
+            }
+        });
+
+        // Init
+        async function init() {
+            try {
+                const res = await fetch('/wallpapers-lite.json');
+                if (!res.ok) throw new Error(res.status);
+                allWallpapers = await res.json();
+            } catch (e) {
+                console.error('Failed to load wallpapers:', e);
+                document.getElementById('wallpaper-grid').innerHTML = '<p style="color:red;text-align:center;padding:40px;">Failed to load wallpapers. Please refresh.</p>';
+                return;
+            }
+            extractCategories();
+            // Read ?cat= from URL (set by detail page category links)
+            const urlParams = new URLSearchParams(window.location.search);
+            const catParam = urlParams.get('cat');
+            if (catParam && dynamicCats.includes(catParam)) {
+                activeCategory = catParam;
+            }
+            buildNavDropdown();
+            buildCategoryPills();
+            buildExploreCategories();
+            renderGrid();
+            // Set hero title based on current language
+            const heroTitle = document.getElementById('hero-title');
+            if (heroTitle) {
+                const lang = getLang();
+                heroTitle.textContent = lang === 'zh' ? '旺運壁紙' : 'Lucky Wallpapers';
+            }
+            // Load real download stats (best-effort)
+            loadStats();
+        }
+
+        document.addEventListener('DOMContentLoaded', init);
+
+        // Sort tab click handler
+        document.addEventListener('click', function(e) {
+            const tab = e.target.closest('.sort-tab');
+            if (!tab) return;
+            const sort = tab.dataset.sort;
+            if (!sort) return;
+            activeSort = sort;
+            // Update active state
+            document.querySelectorAll('.sort-tab').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            renderGrid();
+        });
+    </script>
+    <script src="/js/auth.js?v=2"></script>
+    <script src="js/i18n-switcher.js?v=2" defer></script>
+    <script src="/js/wallpaper-search-optimize.js?v=2" defer></script>
+    <script src="/js/wallpaper-image-fix.js?v=2" defer></script>
+</body>
+</html>
