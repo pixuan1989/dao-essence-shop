@@ -1004,9 +1004,9 @@ function generateArticleHtml(post, category, allArticles, options = {}) {
   // ── Related posts (You May Also Like) ──
   let relatedPosts = [];
   if (Array.isArray(data.related_posts) && data.related_posts.length > 0) {
-    // Manual: match by title
+    // Manual: match by slug
     relatedPosts = data.related_posts
-      .map(title => allArticles.find(p => p.data.title === title))
+      .map(slug => allArticles.find(p => p.slug === slug))
       .filter(Boolean)
       .filter(p => p.slug !== slug)
       .slice(0, 3);
