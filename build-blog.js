@@ -2915,7 +2915,18 @@ async function main() {
           fs.mkdirSync(destPath, { recursive: true });
           copyDir(srcPath, destPath);
         } else {
-          fs.copyFileSync(srcPath, destPath);
+          // Only copy if content differs (avoid unnecessary mtime updates)
+          let shouldCopy = true;
+          if (fs.existsSync(destPath)) {
+            const srcContent = fs.readFileSync(srcPath);
+            const destContent = fs.readFileSync(destPath);
+            if (srcContent.equals(destContent)) {
+              shouldCopy = false;
+            }
+          }
+          if (shouldCopy) {
+            fs.copyFileSync(srcPath, destPath);
+          }
         }
       }
     };
