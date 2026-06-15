@@ -13,6 +13,27 @@ tags:
   - "2026 World Cup winner prediction"
   - "I Ching football championship"
   - "Chinese metaphysics sports prediction"
+faq:
+  - question: "What is BaZi?"
+    answer: "BaZi (八字) means 'Eight Characters' in Chinese. It's a system that maps a person's birth year, month, day, and hour to the Five Elements and Yin-Yang theory. The same system applies to events like the World Cup."
+  - question: "How does Five Elements prediction work?"
+    answer: "Each year has specific elemental properties based on the Ganzhi calendar. Countries' names in Chinese characters also carry elemental properties through their radicals. When year elements and name elements align (produce, support, or match), that country has stronger 'qi' for that tournament."
+  - question: "Has this method predicted past winners correctly?"
+    answer: "This analysis is retrospective—it explains all 22 tournaments from 1930-2022. The 2026 prediction is prospective and will be tested when the tournament concludes."
+  - question: "What is the Ganzhi system?"
+    answer: "Ganzhi (干支) combines 10 Heavenly Stems and 12 Earthly Branches to create a 60-year cycle. Each year has unique elemental properties used in Chinese astrology, calendar systems, and decision-making."
+  - question: "Can I use this for other sports predictions?"
+    answer: "The same framework applies to any major event with a fixed date. The key is matching the event's year elements to the competitor's name characteristics."
+  - question: "What are the Five Elements?"
+    answer: "Wood (growth), Fire (brilliance), Earth (stability), Metal (precision), Water (flow). They interact through production (Wood→Fire→Earth→Metal→Water→Wood) and control cycles."
+  - question: "Why do Chinese characters matter for non-Chinese countries?"
+    answer: "The analysis uses the Chinese transliteration of country names, which carries specific radical structures. This isn't about the original language—it's about how the name exists in the Chinese metaphysical system."
+  - question: "Is this scientific?"
+    answer: "It's a pattern recognition system based on 3,000 years of Chinese observational data. It's not Western scientific method, but it's internally consistent and historically verifiable."
+  - question: "What about 2026 specifically?"
+    answer: "2026 is Bing Wu (丙午)—pure Fire year in Li Palace. This favors explosive, high-profile victories. Teams with Fire or Wood name elements have the strongest alignment."
+  - question: "Where can I learn more about BaZi?"
+    answer: "Check our BaZi calculator to explore your own Four Pillars, or read our Five Elements guide for deeper theory."
 ---
 
 # World Cup Champions: Five Elements Lens
@@ -282,34 +303,8 @@ Which team do you think fits? Drop your guess in the comments.
 
 *Note: This analysis uses Chinese metaphysics as a cultural lens for pattern recognition. It's not a substitute for team form, player fitness, or tactical analysis. Football remains unpredictable—that's why we love it.*
 
-## FAQ
+## Related Reading
 
-### What is BaZi?
-BaZi (八字) means "Eight Characters" in Chinese. It's a system that maps a person's birth year, month, day, and hour to the Five Elements and Yin-Yang theory. The same system applies to events like the World Cup.
-
-### How does Five Elements prediction work?
-Each year has specific elemental properties based on the Ganzhi calendar. Countries' names in Chinese characters also carry elemental properties through their radicals. When year elements and name elements align (produce, support, or match), that country has stronger "qi" for that tournament.
-
-### Has this method predicted past winners correctly?
-This analysis is retrospective—it explains all 22 tournaments from 1930-2022. The 2026 prediction is prospective and will be tested when the tournament concludes.
-
-### What is the Ganzhi system?
-Ganzhi (干支) combines 10 Heavenly Stems and 12 Earthly Branches to create a 60-year cycle. Each year has unique elemental properties used in Chinese astrology, calendar systems, and decision-making.
-
-### Can I use this for other sports predictions?
-The same framework applies to any major event with a fixed date. The key is matching the event's year elements to the competitor's name characteristics.
-
-### What are the Five Elements?
-Wood (growth), Fire (brilliance), Earth (stability), Metal (precision), Water (flow). They interact through production (Wood→Fire→Earth→Metal→Water→Wood) and control cycles.
-
-### Why do Chinese characters matter for non-Chinese countries?
-The analysis uses the Chinese transliteration of country names, which carries specific radical structures. This isn't about the original language—it's about how the name exists in the Chinese metaphysical system.
-
-### Is this scientific?
-It's a pattern recognition system based on 3,000 years of Chinese observational data. It's not Western scientific method, but it's internally consistent and historically verifiable.
-
-### What about 2026 specifically?
-2026 is Bing Wu (丙午)—pure Fire year in Li Palace. This favors explosive, high-profile victories. Teams with Fire or Wood name elements have the strongest alignment.
-
-### Where can I learn more about BaZi?
-Check our [BaZi calculator](/bazi-calculator) to explore your own Four Pillars, or read our [Five Elements guide](/blog/five-elements-theory-wu-xing-guide/) for deeper theory.
+- [What is BaZi? A Beginner's Guide](/blog/what-is-bazi-beginners-guide/)
+- [Five Elements Theory: Wu Xing Guide](/blog/five-elements-theory-wu-xing-guide/)
+- [Try our BaZi Calculator](/bazi-calculator)
