@@ -208,7 +208,37 @@ if (fs.existsSync(SEO_FILE) && fs.existsSync(DATA_FILE)) {
       console.log(`变更文件:\n${status}`);
 
       // 2. Git add 所有变更（含聚合页 + 详情页 + SEO 内容 + 数据文件 + sitemap + 博客页）
-      execSync('git add zodiac/zodiac-daily.html zodiac/js/zodiac-data.js zodiac/seo-content/*.json zodiac/*.html dist/sitemap.xml blog/', { cwd: PROJECT_ROOT });
+      //    用 Node.js 动态构建文件列表，避免 shell glob 在 Windows 下行为不一致
+      const addFiles = [];
+      // 聚合页 + 数据文件
+      addFiles.push('zodiac/zodiac-daily.html', 'zodiac/js/zodiac-data.js');
+      // SEO JSON（精确匹配当天文件，不用 *.json 通配）
+      const seoJson = `zodiac/seo-content/${DATE}.json`;
+      if (fs.existsSync(path.join(PROJECT_ROOT, seoJson))) addFiles.push(seoJson);
+      // 详情页 HTML
+      for (const slug of DETAIL_PAGES) {
+        for (const suffix of ['-en', '']) {
+          const fp = `zodiac/${slug}${suffix}.html`;
+          if (fs.existsSync(path.join(PROJECT_ROOT, fp))) addFiles.push(fp);
+        }
+      }
+      // sitemap（从 dist 复制到根目录，避免 gitignore 问题）
+      const distSitemap = path.join(PROJECT_ROOT, 'dist', 'sitemap.xml');
+      const rootSitemap = path.join(PROJECT_ROOT, 'sitemap.xml');
+      if (fs.existsSync(distSitemap)) {
+        fs.copyFileSync(distSitemap, rootSitemap);
+        console.log('✅ sitemap.xml 已从 dist/ 复制到根目录');
+      }
+      addFiles.push('sitemap.xml');
+      // blog 目录下有变更的文件
+      try {
+        const blogChanged = execSync('git diff --name-only HEAD -- blog/', { cwd: PROJECT_ROOT, encoding: 'utf8' }).trim();
+        if (blogChanged) addFiles.push('blog/');
+      } catch (_) { /* blog 无变更则跳过 */ }
+
+      const addCmd = ['git', 'add', ...addFiles].join(' ');
+      console.log(`  git add 文件数: ${addFiles.length}`);
+      execSync(addCmd, { cwd: PROJECT_ROOT });
       execSync(`git commit -m "chore: ${DATE} daily horoscope update + rebuild"`, { cwd: PROJECT_ROOT });
       console.log(`✅ 已提交本地`);
 
