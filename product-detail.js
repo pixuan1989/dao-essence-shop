@@ -1,4 +1,4 @@
-﻿﻿// ============================================
+﻿// ============================================
 // Card Detail Page System
 // ============================================
 
@@ -736,7 +736,11 @@ window.buyNow = async function() {
     const buyBtn = document.querySelector('.btn-buy-now');
     const btnText = buyBtn?.querySelector('.btn-text');
     if (buyBtn) buyBtn.classList.add('loading');
-    if (btnText) btnText.textContent = window.DaoI18n ? window.DaoI18n.t('product_detail.redirecting') : 'Redirecting...';
+    if (btnText) {
+        // 使用 i18n 翻译，如果未加载则用 fallback
+        const t = window.DaoI18n && window.DaoI18n.current ? window.DaoI18n.t('product_detail.redirecting') : null;
+        btnText.textContent = (t && t !== 'product_detail.redirecting') ? t : 'Redirecting...';
+    }
 
     try {
         const quantity = Math.max(1, parseInt(document.getElementById('quantity')?.value) || 1);
@@ -767,7 +771,11 @@ window.buyNow = async function() {
         alert(window.DaoI18n ? window.DaoI18n.t('product_detail.alert_payment_fail') : 'Unable to connect to payment service. Please try again.');
         window._buying = false;
         if (buyBtn) buyBtn.classList.remove('loading');
-        if (btnText) btnText.textContent = window.DaoI18n ? window.DaoI18n.t('product_detail.buy_now') : 'Buy Now';
+        if (btnText) {
+            // 恢复按钮文字，使用 i18n 翻译
+            const t = window.DaoI18n && window.DaoI18n.current ? window.DaoI18n.t('product_detail.buy_now') : null;
+            btnText.textContent = (t && t !== 'product_detail.buy_now') ? t : 'Buy Now';
+        }
     }
 };
 
@@ -784,7 +792,12 @@ document.addEventListener('DOMContentLoaded', async function() {
         buyBtn.disabled = true;
         buyBtn.style.opacity = '0.5';
         buyBtn.style.pointerEvents = 'none';
-        if (btnText) btnText.textContent = window.DaoI18n ? window.DaoI18n.t('product_detail.loading') : 'Loading...';
+        // 不直接设置文字，让 i18n-switcher.js 通过 data-i18n 处理
+        // 加载状态用 data-i18n 属性标记，由 i18n 系统翻译
+        if (btnText) {
+            btnText.setAttribute('data-i18n', 'product_detail.loading');
+            btnText.textContent = 'Loading...'; // fallback，i18n 加载后会自动替换
+        }
     }
 
     // 1. 加载卡数据（必须在其他操作之前）
@@ -795,7 +808,11 @@ document.addEventListener('DOMContentLoaded', async function() {
         buyBtn.disabled = false;
         buyBtn.style.opacity = '';
         buyBtn.style.pointerEvents = '';
-        if (btnText) btnText.textContent = window.DaoI18n ? window.DaoI18n.t('product_detail.buy_now') : 'Buy Now';
+        // 恢复原始 data-i18n 属性，让 i18n 系统处理翻译
+        if (btnText) {
+            btnText.setAttribute('data-i18n', 'product_detail.buy_now');
+            btnText.textContent = 'Buy Now'; // fallback，i18n 加载后会自动替换
+        }
     }
 
     // 2. 初始化购物车数据
