@@ -1252,6 +1252,11 @@
 
         // Load shop recommendations
         loadShopRecommendations(analysis);
+
+        // Trigger wallpaper recommendation refresh (after _feLastData is set)
+        if (window.FeWallpaperRec && typeof window.FeWallpaperRec.refresh === 'function') {
+            window.FeWallpaperRec.refresh();
+        }
     }
 
     // Shop recommendations (extracted from renderResult)

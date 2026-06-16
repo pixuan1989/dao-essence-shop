@@ -89,6 +89,12 @@
     if (storedWallpapers.length === 0) return;
 
     function extractFavElements() {
+      // Read directly from cached API result (accurate)
+      if (window._feLastData && window._feLastData.analysis) {
+        const favElements = window._feLastData.analysis.favorableElements || [];
+        return favElements.slice(0, 2);
+      }
+      // Fallback: extract from DOM (less accurate)
       const favNameEl = document.getElementById('feFavElementName');
       if (!favNameEl) return [];
       const text = favNameEl.textContent || '';
@@ -132,6 +138,14 @@
     }
 
     document.addEventListener('daoessence:i18n-changed', reRender);
+
+    // Expose refresh method for external calls
+    window.FeWallpaperRec = {
+      refresh: function() {
+        storedElements = extractFavElements();
+        reRender();
+      }
+    };
 
     const observer = new MutationObserver((mutations, obs) => {
       const favNameEl = document.getElementById('feFavElementName');
