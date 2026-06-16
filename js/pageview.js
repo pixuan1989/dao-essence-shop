@@ -95,12 +95,18 @@ function displayPageviewsInListing(data) {
       el = document.createElement('span');
       el.className = 'pageview-badge';
       el.style.cssText = 'font-size:11px;margin-left:6px;';
-      const metaEl = container.querySelector('.article-card-meta, .blog-card-meta, .blog-card-body .read-time-label');
-      if (metaEl) {
-        metaEl.parentElement.insertBefore(el, metaEl.nextSibling);
+      // 优先匹配 read-time-label，把 views 紧跟在 "min read" 后面同一行
+      const readTimeEl = container.querySelector('.read-time-label');
+      if (readTimeEl) {
+        readTimeEl.parentElement.insertBefore(el, readTimeEl.nextSibling);
       } else {
-        const titleEl = container.querySelector('h2, h3');
-        if (titleEl) titleEl.insertAdjacentElement('afterend', el);
+        const metaEl = container.querySelector('.article-card-meta, .blog-card-meta');
+        if (metaEl) {
+          metaEl.appendChild(el);
+        } else {
+          const titleEl = container.querySelector('h2, h3');
+          if (titleEl) titleEl.insertAdjacentElement('afterend', el);
+        }
       }
     }
     if (el) el.innerHTML = `${formatCount(count)} views`;
