@@ -95,7 +95,7 @@ function displayPageviewsInListing(data) {
       el = document.createElement('span');
       el.className = 'pageview-badge';
       el.style.cssText = 'font-size:11px;margin-left:6px;';
-      const metaEl = container.querySelector('.article-card-meta, .blog-card-body .read-time-label');
+      const metaEl = container.querySelector('.article-card-meta, .blog-card-meta, .blog-card-body .read-time-label');
       if (metaEl) {
         metaEl.parentElement.insertBefore(el, metaEl.nextSibling);
       } else {
