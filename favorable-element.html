@@ -919,11 +919,30 @@
             }
             hourSel.value = currentVal;
         }
-        // Re-render result if step 3 is visible
+        // Re-render result if step 3 is visible — re-fetch analysis in new language
         if (document.getElementById('feStep3') && document.getElementById('feStep3').classList.contains('active')) {
             if (window._feLastChart && window._feLastData) {
                 renderChartAndSkeleton(window._feLastChart);
-                fillAnalysis(window._feLastChart, window._feLastData.analysis);
+                // Re-call API with new language to get translated LLM content
+                (async function() {
+                    try {
+                        var res = await fetch('/api/bazi-favorable-element', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ chart: window._feLastChart, lang: isZh() ? 'zh-Hant' : 'en' })
+                        });
+                        var data = await res.json();
+                        if (res.ok && data.success) {
+                            window._feLastData = data;
+                            fillAnalysis(window._feLastChart, data.analysis);
+                        } else {
+                            // Fallback: render cached data if re-fetch fails
+                            fillAnalysis(window._feLastChart, window._feLastData.analysis);
+                        }
+                    } catch (e) {
+                        fillAnalysis(window._feLastChart, window._feLastData.analysis);
+                    }
+                })();
             }
         }
     });
@@ -1016,13 +1035,19 @@
             barHtml += '<div class="fe-wx-bar-segment ' + wxBgClass[wx] + '" style="width:' + pct + '%"></div>';
             labelsHtml += '<span class="wx-' + wxClass(wx) + '">' + wxLabel + ' ' + chart.wxCount[wx] + '</span>';
         }
+        const WX_EN_ZH = { Wood: '木', Fire: '火', Earth: '土', Metal: '金', Water: '水' };
+        const POS_I18N = { 'Year Pillar': 'fav.pillar_year', 'Month Pillar': 'fav.pillar_month', 'Day Pillar': 'fav.pillar_day', 'Hour Pillar': 'fav.pillar_hour' };
         let pillarsHtml = '';
         chart.pillars.forEach(function(p) {
+            const posKey = POS_I18N[p.position] || '';
+            const posLabel = posKey ? t(posKey) : p.position;
+            const stemWx = isZh ? (WX_EN_ZH[p.stemElement] || p.stemElement) : p.stemElement;
+            const branchWx = isZh ? (WX_EN_ZH[p.branchElement] || p.branchElement) : p.branchElement;
             pillarsHtml += '<div class="fe-pillar">' +
-                '<div class="fe-pillar-pos">' + p.position + '</div>' +
+                '<div class="fe-pillar-pos">' + posLabel + '</div>' +
                 '<div class="fe-pillar-stem wx-' + wxClass(p.stemElement) + '">' + p.stem + '</div>' +
                 '<div class="fe-pillar-branch wx-' + wxClass(p.branchElement) + '">' + p.branch + '</div>' +
-                '<div class="fe-pillar-wx">' + p.stemElement + ' / ' + p.branchElement + '</div>' +
+                '<div class="fe-pillar-wx">' + stemWx + ' / ' + branchWx + '</div>' +
                 '</div>';
         });
 
