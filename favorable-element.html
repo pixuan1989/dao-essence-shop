@@ -919,40 +919,30 @@
             }
             hourSel.value = currentVal;
         }
-        // Re-render result if step 3 is visible — use cached data for instant switching
+        // Re-render result if step 3 is visible — re-fetch analysis in new language
         if (document.getElementById('feStep3') && document.getElementById('feStep3').classList.contains('active')) {
             if (window._feLastChart && window._feLastData) {
+                // Show skeleton with loading hint while re-fetching
                 renderChartAndSkeleton(window._feLastChart);
-                // Check if we have cached data for the other language
-                const targetLang = isZh() ? 'zh-Hant' : 'en';
-                const currentDataLang = window._feLastData.chart && window._feLastData.chart.lang;
-                const needOtherLang = (targetLang === 'zh-Hant' && currentDataLang !== 'zh-Hant') ||
-                                      (targetLang === 'en' && currentDataLang !== 'en');
-
-                if (needOtherLang && window._feLastDataOther) {
-                    // Use cached other language data (instant, no API call)
-                    window._feLastData = window._feLastDataOther;
-                    fillAnalysis(window._feLastChart, window._feLastDataOther.analysis);
-                } else if (!needOtherLang) {
-                    // Already have correct language cached
-                    fillAnalysis(window._feLastChart, window._feLastData.analysis);
-                } else {
-                    // Fallback: re-fetch if cache miss (shouldn't happen normally)
-                    (async function() {
-                        try {
-                            var res = await fetch('/api/bazi-favorable-element', {
-                                method: 'POST',
-                                headers: { 'Content-Type': 'application/json' },
-                                body: JSON.stringify({ chart: window._feLastChart, lang: targetLang })
-                            });
-                            var data = await res.json();
-                            if (res.ok && data.success) {
-                                window._feLastData = data;
-                                fillAnalysis(window._feLastChart, data.analysis);
-                            }
-                        } catch (e) {}
-                    })();
-                }
+                // Re-call API with new language
+                (async function() {
+                    try {
+                        var res = await fetch('/api/bazi-favorable-element', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ chart: window._feLastChart, lang: isZh() ? 'zh-Hant' : 'en' })
+                        });
+                        var data = await res.json();
+                        if (res.ok && data.success) {
+                            window._feLastData = data;
+                            fillAnalysis(window._feLastChart, data.analysis);
+                        } else {
+                            fillAnalysis(window._feLastChart, window._feLastData.analysis);
+                        }
+                    } catch (e) {
+                        fillAnalysis(window._feLastChart, window._feLastData.analysis);
+                    }
+                })();
             }
         }
     });
