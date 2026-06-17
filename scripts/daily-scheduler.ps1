@@ -6,18 +6,11 @@ $ErrorActionPreference = "Continue"
 $ProjectDir = "C:\Users\agenew\Desktop\DaoEssence1.0"
 $NodeExe = "C:\Program Files\nodejs\node.exe"
 $LogDir = Join-Path $ProjectDir "scripts\logs"
-$ProxyUrl = "http://127.0.0.1:7897"
 
-# 设置代理环境变量（确保 git/node 能访问 GitHub）
-$env:HTTP_PROXY = $ProxyUrl
-$env:HTTPS_PROXY = $ProxyUrl
-$env:http_proxy = $ProxyUrl
-$env:https_proxy = $ProxyUrl
-
-# 创建日志目录
+# 创建日志目录（必须在 Write-Log 之前）
 if (-not (Test-Path $LogDir)) { New-Item -ItemType Directory -Path $LogDir -Force | Out-Null }
 
-# 日志文件名
+# 日志文件名（必须在 Write-Log 之前赋值）
 $Date = Get-Date -Format "yyyy-MM-dd"
 $LogFile = Join-Path $LogDir "daily-$Date.log"
 
@@ -31,7 +24,35 @@ function Write-Log($msg) {
 Write-Log "========== Windows Task Scheduler 启动 =========="
 Write-Log "Node: $NodeExe"
 Write-Log "Project: $ProjectDir"
-Write-Log "Proxy: $ProxyUrl"
+
+# 检测代理是否可用，可用则设置，不可用则直连
+$ProxyUrl = "http://127.0.0.1:7897"
+$ProxyAvailable = $false
+try {
+    $tcp = New-Object System.Net.Sockets.TcpClient
+    $tcp.Connect("127.0.0.1", 7897)
+    $ProxyAvailable = $true
+    $tcp.Close()
+} catch {
+    $ProxyAvailable = $false
+}
+
+if ($ProxyAvailable) {
+    $env:HTTP_PROXY = $ProxyUrl
+    $env:HTTPS_PROXY = $ProxyUrl
+    $env:http_proxy = $ProxyUrl
+    $env:https_proxy = $ProxyUrl
+    Write-Log "代理 127.0.0.1:7897 可用，已设置"
+} else {
+    $env:HTTP_PROXY = ""
+    $env:HTTPS_PROXY = ""
+    $env:http_proxy = ""
+    $env:https_proxy = ""
+    # 清除 git 代理设置，确保直连
+    & git config --global --unset http.proxy 2>$null
+    & git config --global --unset https.proxy 2>$null
+    Write-Log "代理 127.0.0.1:7897 不可用，使用直连（GitHub 无需代理）"
+}
 
 # 验证 Node.js 存在
 if (-not (Test-Path $NodeExe)) {

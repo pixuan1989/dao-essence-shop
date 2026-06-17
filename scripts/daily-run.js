@@ -256,7 +256,7 @@ if (fs.existsSync(SEO_FILE) && fs.existsSync(DATA_FILE)) {
             lastError = pushErr.message;
             if (attempt < MAX_RETRIES) {
               console.warn(`⚠️  Push 第${attempt}次失败，5秒后重试...`);
-              execSync('timeout /t 5 /nobreak > nul', { cwd: PROJECT_ROOT, stdio: 'ignore', shell: true });
+              execSync('timeout /t 5 /nobreak', { cwd: PROJECT_ROOT, stdio: 'ignore', shell: true });
             } else {
               console.error(`\n❌ Push 全部失败（已重试${MAX_RETRIES}次）: ${pushErr.message}`);
             }
