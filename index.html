@@ -179,6 +179,41 @@
             box-shadow: 0 6px 20px rgba(212, 175, 55, 0.35);
         }
 
+        /* Secondary button */
+        .btn-outline {
+            display: inline-block;
+            padding: var(--spacing-md) var(--spacing-2xl);
+            border: 1px solid var(--accent-color);
+            color: var(--accent-color);
+            font-weight: 600;
+            font-size: var(--text-base);
+            border-radius: var(--radius-sm);
+            transition: all var(--transition-base);
+            text-decoration: none;
+            background: transparent;
+        }
+
+        .btn-outline:hover {
+            background: rgba(212, 175, 55, 0.1);
+            transform: translateY(-2px);
+        }
+
+        /* Hero desc links */
+        .hero-desc a {
+            color: var(--accent-color);
+            text-decoration: none;
+            transition: text-decoration 0.2s;
+        }
+
+        .hero-desc a:hover {
+            text-decoration: underline;
+        }
+
+        /* Hide empty question */
+        .hero-question:empty {
+            display: none;
+        }
+
         .hero-note {
             margin-top: var(--spacing-xl);
             font-size: var(--text-sm);
@@ -1048,14 +1083,14 @@
     <!-- Hero -->
     <section class="hero">
         <div class="hero-inner">
-            <p class="hero-eyebrow" data-i18n="hero.eyebrow">Chinese Metaphysics & Eastern Wisdom</p>
-            <h1 class="hero-heading"><span data-i18n="hero.heading_prefix">Navigate Life with</span><br><span class="highlight" data-i18n="hero.heading_highlight">Chinese Astrology</span></h1>
-            <p class="hero-question" data-i18n="hero.question">Are You Feeling Stuck in Life?</p>
-            <p class="hero-desc" data-i18n="hero.desc">From destiny to decisions, energy to timing -- discover how Chinese metaphysics helps you navigate life with clarity and balance. Get your free BaZi reading today.</p>
+            <p class="hero-eyebrow" data-i18n="hero.eyebrow">Ancient Wisdom · Smart Analysis · Free BaZi Reading</p>
+            <h1 class="hero-heading"><span data-i18n="hero.heading_prefix">Free BaZi Calculator &</span><br><span class="highlight" data-i18n="hero.heading_highlight">Destiny Analysis</span></h1>
+            <p class="hero-desc" data-i18n="hero.desc">From <a href='/bazi-form'>BaZi Chart</a> to <a href='/zodiac/zodiac-daily'>Daily Horoscope</a>, from <a href='/soulmate-calculator'>Soulmate Match</a> to <a href='/five-elements-test'>Five Elements</a> — discover your personality, career, wealth timing, and relationship insights. All free, in English and Chinese.</p>
             <div class="hero-actions">
-                <a href="#free-bazi" class="btn-gold" onclick="showBaziCalculator(event); return false;" data-i18n="hero.cta">Free BaZi Reading</a>
+                <a href="#free-bazi" class="btn-gold" onclick="showBaziCalculator(event); return false;" data-i18n="hero.cta">Get My Free Chart</a>
+                <a href="/wallpaper" class="btn-outline" data-i18n="hero.cta2">View My Lucky Wallpaper</a>
             </div>
-            <p class="hero-note" data-i18n="hero.note">Free report. No registration required.</p>
+            <p class="hero-note" data-i18n="hero.note">✓ Instant Results · Bilingual · No Sign-up</p>
         </div>
         <div class="scroll-indicator">
             <span></span>
