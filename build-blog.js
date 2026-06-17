@@ -2700,54 +2700,62 @@ async function main() {
   // Step 8: Generate dynamic sitemap.xml
   console.log('Generating sitemap.xml...');
   const today = new Date().toISOString().split('T')[0];
+  // Helper: get git last-modified date for a source file, fallback to fixed date
+  function getGitLastMod(filePath) {
+    try {
+      const relPath = path.relative(__dirname, filePath).replace(/\\/g, '/');
+      const date = execSync(`git log -1 --format=%ad --date=short -- ${relPath}`, { cwd: __dirname, encoding: 'utf8' }).trim();
+      return date || '2026-05-01';
+    } catch { return '2026-05-01'; }
+  }
   const staticUrls = [
-    { loc: '/', changefreq: 'weekly', priority: '1.0' },
-    { loc: '/blog', changefreq: 'weekly', priority: '1.0' },
-    { loc: '/bazi-form', changefreq: 'weekly', priority: '1.0' },
-    { loc: '/five-elements-test', changefreq: 'weekly', priority: '1.0' },
-    { loc: '/soulmate-calculator', changefreq: 'weekly', priority: '1.0' },
-    { loc: '/favorable-element', changefreq: 'weekly', priority: '1.0' },
-    { loc: '/almanac', changefreq: 'daily', priority: '1.0' },
-    { loc: '/culture', changefreq: 'monthly', priority: '0.8' },
-    { loc: '/shop', changefreq: 'daily', priority: '0.6' },
-    { loc: '/about', changefreq: 'monthly', priority: '0.6' },
-    { loc: '/learn-bazi', changefreq: 'weekly', priority: '0.9' },
-    { loc: '/learn-bazi/what-is-bazi', changefreq: 'monthly', priority: '0.8' },
-    { loc: '/learn-bazi/career-love', changefreq: 'monthly', priority: '0.8' },
-    { loc: '/learn-bazi/education-timing', changefreq: 'monthly', priority: '0.8' },
-    { loc: '/learn-bazi/luck-pillars', changefreq: 'monthly', priority: '0.8' },
-    { loc: '/learn-bazi/practical', changefreq: 'monthly', priority: '0.8' },
-    { loc: '/learn-bazi/spirit-stars', changefreq: 'monthly', priority: '0.8' },
-    { loc: '/wallpaper', changefreq: 'weekly', priority: '0.9' }, // 新增壁纸页
-    { loc: '/privacy', changefreq: 'yearly', priority: '0.3' },
-    { loc: '/terms', changefreq: 'yearly', priority: '0.3' },
+    { loc: '/', changefreq: 'weekly', priority: '1.0', lastmod: null },
+    { loc: '/blog', changefreq: 'weekly', priority: '1.0', lastmod: null },
+    { loc: '/bazi-form', changefreq: 'weekly', priority: '1.0', lastmod: null },
+    { loc: '/five-elements-test', changefreq: 'weekly', priority: '1.0', lastmod: null },
+    { loc: '/soulmate-calculator', changefreq: 'weekly', priority: '1.0', lastmod: null },
+    { loc: '/favorable-element', changefreq: 'weekly', priority: '1.0', lastmod: null },
+    { loc: '/almanac', changefreq: 'daily', priority: '1.0', lastmod: null },
+    { loc: '/culture', changefreq: 'monthly', priority: '0.8', lastmod: null },
+    { loc: '/shop', changefreq: 'daily', priority: '0.6', lastmod: null },
+    { loc: '/about', changefreq: 'monthly', priority: '0.6', lastmod: null },
+    { loc: '/learn-bazi', changefreq: 'weekly', priority: '0.9', lastmod: null },
+    { loc: '/learn-bazi/what-is-bazi', changefreq: 'monthly', priority: '0.8', lastmod: null },
+    { loc: '/learn-bazi/career-love', changefreq: 'monthly', priority: '0.8', lastmod: null },
+    { loc: '/learn-bazi/education-timing', changefreq: 'monthly', priority: '0.8', lastmod: null },
+    { loc: '/learn-bazi/luck-pillars', changefreq: 'monthly', priority: '0.8', lastmod: null },
+    { loc: '/learn-bazi/practical', changefreq: 'monthly', priority: '0.8', lastmod: null },
+    { loc: '/learn-bazi/spirit-stars', changefreq: 'monthly', priority: '0.8', lastmod: null },
+    { loc: '/wallpaper', changefreq: 'weekly', priority: '0.9', lastmod: null },
+    { loc: '/privacy', changefreq: 'yearly', priority: '0.3', lastmod: null },
+    { loc: '/terms', changefreq: 'yearly', priority: '0.3', lastmod: null },
     // Blog article pages (discovered by GSC but missing from sitemap)
-    { loc: '/blog/learn-bazi-free-course', changefreq: 'monthly', priority: '0.7' },
-    { loc: '/blog/trump-bazi-fire-earth', changefreq: 'monthly', priority: '0.7' },
-    { loc: '/blog/what-is-bazi-beginners-guide', changefreq: 'monthly', priority: '0.7' },
+    { loc: '/blog/learn-bazi-free-course', changefreq: 'monthly', priority: '0.7', lastmod: null },
+    { loc: '/blog/trump-bazi-fire-earth', changefreq: 'monthly', priority: '0.7', lastmod: null },
+    { loc: '/blog/what-is-bazi-beginners-guide', changefreq: 'monthly', priority: '0.7', lastmod: null },
     // Chinese blog article pages
-    { loc: '/zh/blog/3-places-to-visit-when-bad-luck', changefreq: 'monthly', priority: '0.7' },
-    { loc: '/zh/blog/zodiac-horoscope', changefreq: 'monthly', priority: '0.7' },
+    { loc: '/zh/blog/3-places-to-visit-when-bad-luck', changefreq: 'monthly', priority: '0.7', lastmod: null },
+    { loc: '/zh/blog/zodiac-horoscope', changefreq: 'monthly', priority: '0.7', lastmod: null },
   ];
   // Add category pages to sitemap (skip empty categories)
   for (const cat of CATEGORY_FOLDERS) {
     if ((byCategory[cat] || []).length === 0) continue;
-    staticUrls.push({ loc: `/blog/${cat}`, changefreq: 'weekly', priority: '0.7' });
+    staticUrls.push({ loc: `/blog/${cat}`, changefreq: 'weekly', priority: '0.7', lastmod: null });
   }
   // Add zh blog index and zh category pages
   if (zhArticles.length > 0) {
-    staticUrls.push({ loc: '/zh/blog', changefreq: 'weekly', priority: '1.0' });
+    staticUrls.push({ loc: '/zh/blog', changefreq: 'weekly', priority: '1.0', lastmod: null });
     for (const cat of CATEGORY_FOLDERS) {
       if ((zhByCategory[cat] || []).length === 0) continue;
-      staticUrls.push({ loc: `/zh/blog/${cat}`, changefreq: 'weekly', priority: '0.7' });
+      staticUrls.push({ loc: `/zh/blog/${cat}`, changefreq: 'weekly', priority: '0.7', lastmod: null });
     }
   }
   // Add 12 Chinese Zodiac detail pages + aggregate page (generated by generate-daily.js)
   const ZODIAC_KEYS = ['rat','ox','tiger','rabbit','dragon','snake','horse','goat','monkey','rooster','dog','pig'];
-  staticUrls.push({ loc: '/zodiac/zodiac-daily', changefreq: 'daily', priority: '0.9' });
+  staticUrls.push({ loc: '/zodiac/zodiac-daily', changefreq: 'daily', priority: '0.9', lastmod: null });
   for (const key of ZODIAC_KEYS) {
-    staticUrls.push({ loc: `/zodiac/${key}`, changefreq: 'daily', priority: '0.8' });
-    staticUrls.push({ loc: `/zodiac/${key}-en`, changefreq: 'daily', priority: '0.8' });
+    staticUrls.push({ loc: `/zodiac/${key}`, changefreq: 'daily', priority: '0.8', lastmod: null });
+    staticUrls.push({ loc: `/zodiac/${key}-en`, changefreq: 'daily', priority: '0.8', lastmod: null });
   }
   // Add wallpaper static pages to sitemap (EN + ZH)
   const wpJsonPath = path.join(SRC_DIR, 'wallpapers.json');
@@ -2756,8 +2764,8 @@ async function main() {
       const wpList = JSON.parse(fs.readFileSync(wpJsonPath, 'utf8'));
       for (const wp of wpList) {
         const slug = wp.slug;
-        staticUrls.push({ loc: `/wallpaper/${slug}`, changefreq: 'weekly', priority: '0.8' });
-        staticUrls.push({ loc: `/zh/wallpaper/${slug}`, changefreq: 'weekly', priority: '0.8' });
+        staticUrls.push({ loc: `/wallpaper/${slug}`, changefreq: 'weekly', priority: '0.8', lastmod: null });
+        staticUrls.push({ loc: `/zh/wallpaper/${slug}`, changefreq: 'weekly', priority: '0.8', lastmod: null });
       }
       console.log(`  Added ${wpList.length * 2} wallpaper URLs to sitemap`);
     } catch (e) {
@@ -2769,9 +2777,29 @@ async function main() {
   const sitemapTmp = sitemapPath + '.tmp';
   
   // Build sitemap content
+  // SEO best practice: only use today's date for pages that actually change daily (changefreq: 'daily').
+  // Other pages use git last-modified date to avoid diluting the lastmod signal.
   let sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"\n        xmlns:xhtml="http://www.w3.org/1999/xhtml">\n`;
   for (const u of staticUrls) {
-    sitemapXml += `    <url>\n        <loc>${SITE_URL}${u.loc}</loc>\n        <lastmod>${today}</lastmod>\n        <changefreq>${u.changefreq}</changefreq>\n        <priority>${u.priority}</priority>\n    </url>\n`;
+    // daily pages (zodiac, almanac, shop) use today; others use git last-modified or fixed fallback
+    let lastmod;
+    if (u.changefreq === 'daily') {
+      lastmod = today;
+    } else if (u.lastmod) {
+      lastmod = u.lastmod;
+    } else {
+      // Try to resolve git last-mod date from the corresponding source HTML file
+      const srcFile = path.join(__dirname, 'src', u.loc.replace(/^\/zh/, '').replace(/^\//, '') + '.html');
+      const rootSrcFile = path.join(__dirname, u.loc.replace(/^\/zh/, '').replace(/^\//, '') + '.html');
+      if (fs.existsSync(srcFile)) {
+        lastmod = getGitLastMod(srcFile);
+      } else if (fs.existsSync(rootSrcFile)) {
+        lastmod = getGitLastMod(rootSrcFile);
+      } else {
+        lastmod = '2026-05-01'; // fixed fallback for pages without a clear source file
+      }
+    }
+    sitemapXml += `    <url>\n        <loc>${SITE_URL}${u.loc}</loc>\n        <lastmod>${lastmod}</lastmod>\n        <changefreq>${u.changefreq}</changefreq>\n        <priority>${u.priority}</priority>\n    </url>\n`;
   }
   for (const post of allArticles) {
     const d = post.data.date instanceof Date && !isNaN(post.data.date.getTime()) ? post.data.date.toISOString().split('T')[0] : String(post.data.date || today);
