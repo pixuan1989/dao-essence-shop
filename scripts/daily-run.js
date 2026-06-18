@@ -180,25 +180,9 @@ const SEO_FILE = path.join(PROJECT_ROOT, 'zodiac', 'seo-content', `${DATE}.json`
 const DATA_FILE = path.join(PROJECT_ROOT, 'zodiac', 'js', 'zodiac-data.js');
 
 if (fs.existsSync(SEO_FILE) && fs.existsSync(DATA_FILE)) {
-  console.log('\n--- 构建 + Git 提交 + 推送 ---');
+  console.log('\n--- Git 提交 + 推送 ---');
 
-  // ── 3a: 重建博客页（可选，失败不阻断主流程） ──
-  let buildSuccess = false;
-  try {
-    console.log('\n 运行 build-blog.js 重建博客页...');
-    execSync('node build-blog.js', {
-      cwd: PROJECT_ROOT,
-      stdio: 'inherit',
-    });
-    console.log('✅ 博客页重建成功');
-    buildSuccess = true;
-  } catch (err) {
-    console.warn(`️  build-blog.js 失败（非致命）: ${err.message}`);
-    console.warn('   继续运势部署流程...');
-    sendFailureNotification('build-blog.js 重建失败', err.message);
-  }
-
-  // ── 3b: Git 提交 + 推送（独立于 build-blog，不受其失败影响） ──
+  // ── 3a: Git 提交 + 推送 ──
   try {
     // 1. 检查是否有变更
     const status = execSync('git status --porcelain', { cwd: PROJECT_ROOT, encoding: 'utf8' });
@@ -239,7 +223,7 @@ if (fs.existsSync(SEO_FILE) && fs.existsSync(DATA_FILE)) {
       const addCmd = ['git', 'add', ...addFiles].join(' ');
       console.log(`  git add 文件数: ${addFiles.length}`);
       execSync(addCmd, { cwd: PROJECT_ROOT });
-      execSync(`git commit -m "chore: ${DATE} daily horoscope update + rebuild"`, { cwd: PROJECT_ROOT });
+      execSync(`git commit -m "chore: ${DATE} daily horoscope update"`, { cwd: PROJECT_ROOT });
       console.log(`✅ 已提交本地`);
 
       // 3. AUTO_DEPLOY=true 时自动 push（自动化任务设置此变量；手动运行不设置，由用户手动 push）
