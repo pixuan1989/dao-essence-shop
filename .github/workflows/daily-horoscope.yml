@@ -1,0 +1,46 @@
+name: Daily Zodiac Horoscope
+
+on:
+  schedule:
+    - cron: '0 18 * * *'
+  workflow_dispatch:
+    inputs:
+      date:
+        description: '日期 YYYY-MM-DD（留空=今天）'
+        required: false
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  generate-and-deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    env:
+      DASHSCOPE_API_KEY: ${{ secrets.DASHSCOPE_API_KEY }}
+      AUTO_DEPLOY: 'true'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate daily horoscope
+        run: node scripts/daily-run-auto.js ${{ inputs.date || '' }}
+
+      - name: Failure notification
+        if: failure()
+        run: |
+          echo "❌ 每日运势生成失败，请检查 GitHub Actions 日志"
+          echo "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
