@@ -17,9 +17,9 @@ cta_cards:
   - five-elements
   - bazi
 related_posts:
+  - dragon-boat-festival-lucky-rituals
   - world-cup-champions-five-elements-lens
   - ben-ming-nian-why-your-zodiac-year-matters-in-bazi
-  - what-is-bazi-beginners-guide
 faq:
   - question: "Do lucky colors actually work, or is it just psychology?"
     answer: "Both. In BaZi, color is one of the Five Elements' physical expressions — wearing the right element can support your natural energy pattern. At the same time, the confidence boost from feeling aligned with your chart is real. Think of it as physical feng shui for your body."
