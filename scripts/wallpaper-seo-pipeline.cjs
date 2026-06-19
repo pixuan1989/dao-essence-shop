@@ -80,9 +80,7 @@ async function main() {
     const oldId = wp.id.replace('wallpaper_', '');
     const rules = [
       { source: `/wallpaper/${oldId}`, destination: `/wallpaper/${wp.slug}`, permanent: true },
-      { source: `/wallpaper/${oldId}/`, destination: `/wallpaper/${wp.slug}/`, permanent: true },
       { source: `/zh/wallpaper/${oldId}`, destination: `/zh/wallpaper/${wp.slug}`, permanent: true },
-      { source: `/zh/wallpaper/${oldId}/`, destination: `/zh/wallpaper/${wp.slug}/`, permanent: true },
     ];
     for (const rule of rules) {
       if (!existingSources.has(rule.source)) {
