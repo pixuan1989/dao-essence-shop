@@ -22,13 +22,16 @@ const WX_CN = ['木', '火', '土', '金', '水'];
 
 /**
  * 获取完整四柱（含藏干、五行分布）
- * @param {Date} date - 本地时间 Date 对象
+ * @param {Date} date - 日期对象（仅用于兼容，实际取年月日从参数）
+ * @param {number} y - 年份（优先使用，避免时区问题）
+ * @param {number} m - 月份 1-12
+ * @param {number} d - 日期 1-31
  * @returns {Object} 完整四柱数据
  */
-function getDailyFourPillars(date) {
-  const yy = date.getFullYear();
-  const mm = date.getMonth() + 1;
-  const dd = date.getDate();
+function getDailyFourPillars(date, y, m, d) {
+  const yy = y || date.getFullYear();
+  const mm = m || (date.getMonth() + 1);
+  const dd = d || date.getDate();
   const hh = 12; // 取中午为代表时辰
 
   const p = new paipan();

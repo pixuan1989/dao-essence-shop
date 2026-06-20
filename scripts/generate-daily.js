@@ -2053,8 +2053,9 @@ async function main() {
   }
 
   // ① 获取完整四柱（paipan 引擎精确排盘，作为唯一数据源）
-  const date = new Date(dateStr + 'T00:00:00+08:00');
-  const fourPillars = getDailyFourPillars(date);
+  // 直接传年月日数字，避免 Date 对象在不同时区环境下 getDate() 返回不同值
+  const [y, mo, d] = dateStr.split('-').map(Number);
+  const fourPillars = getDailyFourPillars(null, y, mo, d);
   
   // ①b 提取日柱信息作为 ganzhi 变量（废弃 calculateGanzhi 简化算法，避免数据不一致）
   const ganzhi = {
