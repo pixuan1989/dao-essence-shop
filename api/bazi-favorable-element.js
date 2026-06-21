@@ -67,6 +67,20 @@ function buildBaziData(chartData) {
         };
     });
 
+    // 统计十神出现次数（天干 + 地支藏干）
+    const tenGodCount = {};
+    pillars.forEach(p => {
+        if (p.tenGod && p.tenGod !== '日主') {
+            tenGodCount[p.tenGod] = (tenGodCount[p.tenGod] || 0) + 1;
+        }
+        // 藏干的十神
+        const hiddenStems = BRANCH_HIDDEN[p.branch] || [];
+        hiddenStems.forEach(s => {
+            const tg = getTenGod(s, dm);
+            if (tg) tenGodCount[tg] = (tenGodCount[tg] || 0) + 1;
+        });
+    });
+
     // 合并英文五元素计数（前端传的是英文 key）
     const wxEnCount = chartData.wxCount || { Wood: 0, Fire: 0, Earth: 0, Metal: 0, Water: 0 };
 
@@ -76,7 +90,8 @@ function buildBaziData(chartData) {
         dayWxEn: dayWx,
         gender: genderText,
         pillars,
-        wxEnCount
+        wxEnCount,
+        tenGodCount
     };
 }
 
@@ -95,6 +110,7 @@ function buildPrompt(data) {
 - 性別：${data.gender === 1 ? '男' : '女'}
 - 四柱：
   ${data.pillars.map((p, i) => ['年柱','月柱','日柱','時柱'][i] + '：' + p.stem + p.branch + ' | 天干五行：' + p.stemWx + '，地支五行：' + p.branchWx + ' | 十神：' + p.tenGod + ' | 藏干：' + p.hidden.join('、')).join('\n  ')}
+- 十神統計（天干 + 藏干）：${Object.entries(data.tenGodCount).map(([k,v]) => k + ": " + v + "个").join("、") || "無"}
 - 五行計數（天干+地支+藏干）：${JSON.stringify(data.wxEnCount)}
 
 ## 分析規則
@@ -137,6 +153,7 @@ function buildPrompt(data) {
 - Gender: ${data.gender}
 - Four Pillars (四柱):
   ${data.pillars.map((p, i) => ['Year','Month','Day','Hour'][i] + ': ' + p.stem + p.branch + ' | Stem Wx: ' + p.stemWx + ', Branch Wx: ' + p.branchWx + ' | Ten God: ' + p.tenGod + ' | Hidden Stems: ' + p.hidden.join(', ')).join('\n  ')}
+- Ten Gods Count (天干 + 藏干): ${Object.entries(data.tenGodCount).map(([k,v]) => k + ": " + v).join(", ") || "None"}
 - Five Elements Count (天干+地支+藏干): ${JSON.stringify(data.wxEnCount)}
 
 ## Analysis Rules
