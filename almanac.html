@@ -1762,6 +1762,14 @@
         const UNLOCK_KEY = 'almanac_unlocked';
         const ALMANAC_PRODUCT_ID = 'prod_3fJInBNekM9UVJwtClgUtx';
 
+        // ⚙️ PAYWALL SWITCH: Set to false to enable payments, true for free access
+        const ALMANAC_FREE_MODE = true;
+
+        function isUnlocked() {
+            if (ALMANAC_FREE_MODE) return true;
+            return localStorage.getItem(UNLOCK_KEY) === 'true';
+        }
+
         // Check URL params for successful payment callback
         (function() {
             var params = new URLSearchParams(window.location.search);
@@ -1772,9 +1780,6 @@
             }
         })();
 
-        function isUnlocked() {
-            return localStorage.getItem(UNLOCK_KEY) === 'true';
-        }
         function applyUnlockState() {
             if (isUnlocked()) {
                 // Unlock all locked buttons
