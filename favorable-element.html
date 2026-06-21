@@ -1046,8 +1046,10 @@
                 window.DaoTrack.toolResult('favorable-element');
             }
         } catch (err) {
-            document.getElementById('fe-loading-timer').style.display = 'none';
-            document.getElementById('fe-loading-cancel').style.display = 'none';
+            var timerEl = document.getElementById('fe-loading-timer');
+            if (timerEl) timerEl.style.display = 'none';
+            var cancelEl = document.getElementById('fe-loading-cancel');
+            if (cancelEl) cancelEl.style.display = 'none';
             if (err.name === 'AbortError') {
                 alert(isZh() ? '分析超時，請稍後再試' : 'Analysis timed out. Please try again later.');
             } else {

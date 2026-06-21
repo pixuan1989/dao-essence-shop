@@ -7,7 +7,7 @@
  */
 
 const DASHSCOPE_API_KEY = process.env.DASHSCOPE_API_KEY;
-const DASHSCOPE_MODEL = 'qwen3.5-plus';
+const DASHSCOPE_MODEL = 'qwen-plus';
 
 // 天干五行
 const STEM_WX = {'甲':'Wood','乙':'Wood','丙':'Fire','丁':'Fire','戊':'Earth','己':'Earth','庚':'Metal','辛':'Metal','壬':'Water','癸':'Water'};
@@ -26,6 +26,24 @@ const BRANCH_HIDDEN = {
 // 中文五行 → 英文
 const WX_ZH_EN = {'木':'Wood','火':'Fire','土':'Earth','金':'Metal','水':'Water'};
 
+// 十神计算表 [日主天干索引][其他天干索引] → 十神
+const STEMS = ['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'];
+const TG_INDEX = ['比肩','劫财','食神','伤官','偏财','正财','七杀','正官','偏印','正印'];
+const DGS_TABLE = [
+    [0,1,2,3,4,5,6,7,8,9],[1,0,3,2,5,4,7,6,9,8],
+    [8,9,0,1,2,3,4,5,6,7],[9,8,1,0,3,2,5,4,7,6],
+    [6,7,8,9,0,1,2,3,4,5],[7,6,9,8,1,0,3,2,5,4],
+    [4,5,6,7,8,9,0,1,2,3],[5,4,7,6,9,8,1,0,3,2],
+    [2,3,4,5,6,7,8,9,0,1],[3,2,5,4,7,6,9,8,1,0]
+];
+
+function getTenGod(stemCn, dmCn) {
+    var si = STEMS.indexOf(stemCn);
+    var di = STEMS.indexOf(dmCn);
+    if (si < 0 || di < 0) return '';
+    return TG_INDEX[DGS_TABLE[di][si]];
+}
+
 /**
  * 从前端传来的排盘数据构建 LLM prompt 所需的结构
  * 前端传入: { pillars, dayMaster, gender, wxCount }
@@ -33,16 +51,19 @@ const WX_ZH_EN = {'木':'Wood','火':'Fire','土':'Earth','金':'Metal','水':'W
 function buildBaziData(chartData) {
     const dayWx = STEM_WX[chartData.dayMaster] || 'Unknown';
     const genderText = chartData.gender === 1 ? 'Male' : 'Female';
+    const dm = chartData.dayMaster;
 
-    // 重新计算英文五行的隐藏干信息
+    // 重新计算英文五行的隐藏干信息 + 十神
     const pillars = chartData.pillars.map(p => {
         const hiddenWxInfo = (BRANCH_HIDDEN[p.branch] || []).map(s => s + '(' + (STEM_WX[s] || '') + ')');
+        const tenGod = p.stem === dm ? '日主' : getTenGod(p.stem, dm);
         return {
             stem: p.stem,
             branch: p.branch,
             stemWx: STEM_WX[p.stem] || '',
             branchWx: BRANCH_WX[p.branch] || '',
-            hidden: hiddenWxInfo
+            hidden: hiddenWxInfo,
+            tenGod: tenGod
         };
     });
 
@@ -73,7 +94,7 @@ function buildPrompt(data) {
 - 日主：${data.dayStem}（${data.dayWx}，${data.dayWxEn}）
 - 性別：${data.gender === 1 ? '男' : '女'}
 - 四柱：
-  ${data.pillars.map((p, i) => ['年柱','月柱','日柱','時柱'][i] + '：' + p.stem + p.branch + ' | 天干五行：' + p.stemWx + '，地支五行：' + p.branchWx + ' | 藏干：' + p.hidden.join('、')).join('\n  ')}
+  ${data.pillars.map((p, i) => ['年柱','月柱','日柱','時柱'][i] + '：' + p.stem + p.branch + ' | 天干五行：' + p.stemWx + '，地支五行：' + p.branchWx + ' | 十神：' + p.tenGod + ' | 藏干：' + p.hidden.join('、')).join('\n  ')}
 - 五行計數（天干+地支+藏干）：${JSON.stringify(data.wxEnCount)}
 
 ## 分析規則
@@ -115,7 +136,7 @@ function buildPrompt(data) {
 - Day Master (日主): ${data.dayStem} (${data.dayWx}, ${data.dayWxEn})
 - Gender: ${data.gender}
 - Four Pillars (四柱):
-  ${data.pillars.map((p, i) => ['Year','Month','Day','Hour'][i] + ': ' + p.stem + p.branch + ' | Stem Wx: ' + p.stemWx + ', Branch Wx: ' + p.branchWx + ' | Hidden Stems: ' + p.hidden.join(', ')).join('\n  ')}
+  ${data.pillars.map((p, i) => ['Year','Month','Day','Hour'][i] + ': ' + p.stem + p.branch + ' | Stem Wx: ' + p.stemWx + ', Branch Wx: ' + p.branchWx + ' | Ten God: ' + p.tenGod + ' | Hidden Stems: ' + p.hidden.join(', ')).join('\n  ')}
 - Five Elements Count (天干+地支+藏干): ${JSON.stringify(data.wxEnCount)}
 
 ## Analysis Rules
