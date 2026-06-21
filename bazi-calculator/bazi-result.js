@@ -495,10 +495,10 @@
             dayMaster: rt['ctg'][2],
             gender: rt['xb'] === '\u7537' ? 0 : 1,
             pillars: [
-                { stem: rt['ctg'][0], branch: rt['cdz'][0] },
-                { stem: rt['ctg'][1], branch: rt['cdz'][1] },
-                { stem: rt['ctg'][2], branch: rt['cdz'][2] },
-                { stem: rt['ctg'][3], branch: rt['cdz'][3] }
+                { stem: rt['ctg'][0], branch: rt['cdz'][0], tenGod: getStemShiShen(0, 2) },
+                { stem: rt['ctg'][1], branch: rt['cdz'][1], tenGod: getStemShiShen(1, 2) },
+                { stem: rt['ctg'][2], branch: rt['cdz'][2], tenGod: '日主' },
+                { stem: rt['ctg'][3], branch: rt['cdz'][3], tenGod: getStemShiShen(3, 2) }
             ],
             wxCount: (function() {
                 var nwx = rt['nwx'] || [0,0,0,0,0];

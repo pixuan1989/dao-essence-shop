@@ -57,7 +57,8 @@ function buildChartSummary(chart, lang) {
         var labels = ['Year','Month','Day','Hour'];
         var sWx = STEM_WX[p.stem] || '';
         var bWx = BRANCH_WX[p.branch] || '';
-        return labels[i] + ': ' + p.stem + p.branch + ' (' + sWx + '/' + bWx + ')';
+        var tg = p.tenGod || '';
+        return labels[i] + ': ' + p.stem + p.branch + ' (' + sWx + '/' + bWx + ')' + (tg ? ' - Ten God: ' + tg : '');
     }).join('\n  ');
 
     var wxCount = chart.wxCount || {};
