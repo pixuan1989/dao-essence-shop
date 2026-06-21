@@ -1201,6 +1201,14 @@
                         var lyData = dy['ly'][lyIdx];
                         var lyYear = lyItem.getAttribute('data-ly-year');
 
+                        // If liunian-detail element doesn't exist, skip detail panel logic
+                        if (!lyDetail) {
+                            if (activeLy) activeLy.classList.remove('ly-active');
+                            lyItem.classList.add('ly-active');
+                            activeLy = lyItem;
+                            return;
+                        }
+
                         if (activeLy === lyItem) {
                             lyDetail.classList.remove('show');
                             lyItem.classList.remove('ly-active');
@@ -1223,7 +1231,7 @@
                     });
                     if (lyClose) {
                         lyClose.addEventListener('click', function() {
-                            lyDetail.classList.remove('show');
+                            if (lyDetail) lyDetail.classList.remove('show');
                             if (activeLy) { activeLy.classList.remove('ly-active'); activeLy = null; }
                         });
                     } // end if (lyClose)
