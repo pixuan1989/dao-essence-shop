@@ -750,11 +750,18 @@
                 var bzIdx = 3 * p + j;
                 if (rt['bzcg'] && rt['bzcg'][bzIdx] && rt['bzcg'][bzIdx] !== '') {
                     var bzName = rt['bzcg'][bzIdx];
-                    var bzIdx2 = ['印','卩','比','劫','伤','食','财','才','官','杀'].indexOf(bzName);
-                    if (bzIdx2 >= 0) {
-                        var bzFull = TG_INDEX[bzIdx2];
-                        if (bzFull) tgCount[bzFull] = (tgCount[bzFull] || 0) + 1;
-                    }
+                    // CRITICAL: Correct mapping from paipan sss abbreviations to full ten god names
+                    // sss order: ['印','卩','比','劫','伤','食','财','才','官','杀']
+                    // Must NOT use TG_INDEX by position — they have different ordering!
+                    var sssToFull = {
+                        '印': '偏印', '卩': '正印',
+                        '比': '比肩', '劫': '劫财',
+                        '伤': '伤官', '食': '食神',
+                        '财': '偏财', '才': '正财',
+                        '官': '正官', '杀': '七杀'
+                    };
+                    var bzFull = sssToFull[bzName];
+                    if (bzFull) tgCount[bzFull] = (tgCount[bzFull] || 0) + 1;
                 }
             }
         }
