@@ -759,10 +759,9 @@
             }
         }
         var sorted = Object.keys(tgCount).sort(function(a, b) { return tgCount[b] - tgCount[a]; });
-        var top3 = sorted.slice(0, 3);
 
-        // Build AI interpretation
-        var topGodsData = top3.map(function(cn) { return { cn: cn, count: tgCount[cn] }; });
+        // Build AI interpretation — send ALL ten gods (not just top 3) so LLM has complete distribution
+        var allGodsData = sorted.map(function(cn) { return { cn: cn, count: tgCount[cn] }; });
         var cardId = 'shishen-ai-' + Date.now();
 
         var html = '<div class="info-card">';
@@ -780,7 +779,7 @@
                 chartPayload.pillars.push({ stem: ctg[p] || '', branch: cdz[p] || '' });
             }
             setTimeout(function() { progressTimers[cardId] = startFakeProgress(cardId); }, 50);
-            fetchAnalysis('shishen', chartPayload, null, null, topGodsData)
+            fetchAnalysis('shishen', chartPayload, null, null, allGodsData)
                 .then(function(result) {
                     finishProgress(cardId);
                     var card = document.getElementById(cardId);

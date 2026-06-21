@@ -57,14 +57,22 @@ function buildChartSummary(chart, lang) {
         var labels = ['Year','Month','Day','Hour'];
         var sWx = STEM_WX[p.stem] || '';
         var bWx = BRANCH_WX[p.branch] || '';
-        var tg = p.tenGod || '';
+        // Auto-calculate Ten God for each pillar's heavenly stem vs Day Master
+        var tg = p.tenGod || getTenGod(p.stem, dm);
         return labels[i] + ': ' + p.stem + p.branch + ' (' + sWx + '/' + bWx + ')' + (tg ? ' - Ten God: ' + tg : '');
     }).join('\n  ');
 
     var wxCount = chart.wxCount || {};
     var wxText = Object.entries(wxCount).map(function(e) { return e[0] + ': ' + e[1]; }).join(', ');
 
-    return 'Day Master: ' + dm + ' (' + dmWx + ')\nGender: ' + gender + '\nPillars:\n  ' + pText + '\nFive Elements: ' + wxText;
+    // Build complete Ten Gods distribution from topGods if provided
+    var allTgText = '';
+    if (chart.topGods && chart.topGods.length > 0) {
+        allTgText = '\n\n## Complete Ten Gods Distribution (all pillars + hidden stems)\n' +
+            chart.topGods.map(function(g) { return g.cn + ': ' + g.count; }).join(', ');
+    }
+
+    return 'Day Master: ' + dm + ' (' + dmWx + ')\nGender: ' + gender + '\nPillars:\n  ' + pText + '\nFive Elements: ' + wxText + allTgText;
 }
 
 function buildDayunPrompt(chart, dayunData, lang) {
@@ -140,7 +148,9 @@ function buildDayunPrompt(chart, dayunData, lang) {
 
 function buildShishenPrompt(chart, topGods, lang) {
     var isZh = lang && lang.startsWith('zh');
-    var chartInfo = buildChartSummary(chart, lang);
+    // Pass complete ten gods distribution to buildChartSummary so LLM has accurate reference data
+    var chartWithTg = Object.assign({}, chart, { topGods: topGods });
+    var chartInfo = buildChartSummary(chartWithTg, lang);
     var dm = chart.dayMaster;
     var dmWx = STEM_WX[dm] || '';
     var wxCount = chart.wxCount || {};
@@ -156,11 +166,16 @@ function buildShishenPrompt(chart, topGods, lang) {
             '## 命盤資料\n' + chartInfo + '\n' +
             '五行分佈：' + wxText + '\n\n' +
             '## 十神統計（按數量排序）\n' + godList + '\n\n' +
+            '## ⚠️ 重要規則：禁止捏造十神數量\n' +
+            '- 你的分析必須嚴格基於上面「命盤資料」中列出的四柱干支和十神標註\n' +
+            '- 絕對不能自行推算或捏造任何十神的出現次數（例如：不能說「傷官四現」如果命盤裡根本沒有四個傷官）\n' +
+            '- 如果某個十神在命盤中只出現一次，就說一次；如果完全沒出現，就不要提它\n' +
+            '- 財運分析時，先看清楚命盤裡到底是正財還是偏財，不要搞反\n\n' +
             '## 分析要求\n' +
             '1. 從排前3的十神綜合分析此人的核心性格特質（不逐個羅列，要融會貫通）\n' +
             '2. 根據十神組合，分析事業方向與適合的職業類型\n' +
             '3. 分析感情婚姻的特點與潛在問題\n' +
-            '4. 分析財運模式（正財偏財）\n' +
+            '4. 分析財運模式（正財偏財）— 務必先確認命盤中實際存在的財星類型\n' +
             '5. 健康上需要特別注意的方向\n' +
             '6. 用2-3句話總結這個命盤的關鍵建議\n\n' +
             '## 輸出格式（嚴格 JSON）\n' +
@@ -179,6 +194,11 @@ function buildShishenPrompt(chart, topGods, lang) {
         '## Birth Chart\n' + chartInfo + '\n' +
         'Five Elements: ' + wxText + '\n\n' +
         '## Top Ten Gods (by count)\n' + godList + '\n\n' +
+        '## ️ CRITICAL RULE: Do NOT fabricate Ten God counts\n' +
+        '- Your analysis MUST be strictly based on the actual pillars and Ten God labels shown in the "Birth Chart" section above\n' +
+        '- NEVER invent or guess how many times a Ten God appears (e.g., do NOT say "four Hurting Officers" if the chart doesn\'t show four)\n' +
+        '- If a Ten God appears only once, say so; if it doesn\'t appear at all, don\'t mention it\n' +
+        '- When analyzing wealth, first verify whether the chart has Direct Wealth or Indirect Wealth — do NOT mix them up\n\n' +
         '## CRITICAL WRITING RULES\n' +
         '1. Write in natural, conversational English — like a thoughtful lifestyle article, NOT academic or mystical\n' +
         '2. NEVER use Chinese pinyin terms (no "Qi", "Yin Yang", "Shen", etc.) — translate everything into plain English\n' +
