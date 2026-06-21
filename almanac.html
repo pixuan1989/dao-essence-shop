@@ -2377,5 +2377,13 @@
     <script src="js/almanac-wallpaper-recommendation.js" defer></script>
     <script src="/js/tracking.js"></script>
     <script src="/js/tool-share.js"></script>
+    <script>
+    // 支付成功后自动解锁
+    document.addEventListener('DOMContentLoaded', function() {
+        if (isUnlocked()) {
+            applyUnlockState();
+        }
+    });
+    </script>
 </body>
 </html>

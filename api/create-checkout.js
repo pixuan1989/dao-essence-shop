@@ -108,7 +108,14 @@ export default async function handler(req, res) {
 
         // 硬编码合规域名，完全忽略前端传来的 successUrl（Creem 合规要求）
         const ALLOWED_DOMAIN = 'https://www.daoessentia.com';
-        const finalSuccessUrl = `${ALLOWED_DOMAIN}/payment-success.html?order_id=${orderId}&product=${encodedName}`;
+        // 根据产品 ID 跳转不同页面（黄历和恋爱配对直接跳回工具页）
+        const isAlmanac = productId === 'prod_3fJInBNekM9UVJwtClgUtx';
+        const isSoulmate = productId === 'prod_2wj3G9PQp6ZlbD8oFJdr2X';
+        const finalSuccessUrl = isAlmanac
+            ? `${ALLOWED_DOMAIN}/almanac?payment=success`
+            : isSoulmate
+                ? `${ALLOWED_DOMAIN}/soulmate-calculator?payment=success`
+                : `${ALLOWED_DOMAIN}/payment-success.html?order_id=${orderId}&product=${encodedName}`;
 
         // 准备 Creem API 请求数据（精简，去掉不必要的 metadata）
         const creemCheckoutData = {

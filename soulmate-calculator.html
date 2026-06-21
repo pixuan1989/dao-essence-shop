@@ -2028,5 +2028,17 @@
     <script src="js/soulmate-wallpaper-recommendation.js" defer></script>
     <script src="/js/tracking.js"></script>
     <script src="/js/tool-share.js"></script>
+    <script>
+    // 支付成功后自动解锁
+    document.addEventListener('DOMContentLoaded', function() {
+        var params = new URLSearchParams(window.location.search);
+        if (params.get('payment') === 'success' && localStorage.getItem(SC_UNLOCK_KEY) === 'true') {
+            setTimeout(function() {
+                var t = window.DaoI18n ? window.DaoI18n.t.bind(window.DaoI18n) : function(k){return k;};
+                alert(t('sc.unlock_success_msg') || 'Payment successful! Your 5-year love timing forecast is now unlocked. Please re-enter your birth date to view the full results.');
+            }, 500);
+        }
+    });
+    </script>
 </body>
 </html>
