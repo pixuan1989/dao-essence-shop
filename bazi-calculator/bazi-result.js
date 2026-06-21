@@ -1147,9 +1147,9 @@
                 item.classList.add('active');
                 activeItem = item;
 
-                detailTitle.textContent = t('bazi_result.dayun_age') + ' ' + dy['zqage'] + '–' + dy['zboz'] + '  ·  ' + dy['syear'] + '–' + dy['eyear'];
+                if (detailTitle) detailTitle.textContent = t('bazi_result.dayun_age') + ' ' + dy['zqage'] + '–' + dy['zboz'] + '  ·  ' + dy['syear'] + '–' + dy['eyear'];
                 var dyStemTgLocal = getStemShiShen(STEMS.indexOf(dy['zfma']), dmIdx);
-                detailBody.innerHTML = buildDayunDetail(dy, dmIdx, chartPayload, idx, dyStemTgLocal);
+                if (detailBody) detailBody.innerHTML = buildDayunDetail(dy, dmIdx, chartPayload, idx, dyStemTgLocal);
 
                 // Flow Years
                 if (dy['ly'] && dy['ly'].length > 0) {
@@ -1211,9 +1211,9 @@
                         lyItem.classList.add('ly-active');
                         activeLy = lyItem;
 
-                        lyTitle.textContent = (isZh() ? '流年 ' : 'Year ') + lyYear;
+                        if (lyTitle) lyTitle.textContent = (isZh() ? '流年 ' : 'Year ') + lyYear;
                         var lyTgLocal = getStemShiShen(STEMS.indexOf(lyData['lye'].substring(0, 1)), dmIdx);
-                        lyBody.innerHTML = buildLiunianDetail(lyData, dmIdx, dy['zfma'] || '', dy['zfmb'] || '', chartPayload, lyIdx, lyTgLocal);
+                        if (lyBody) lyBody.innerHTML = buildLiunianDetail(lyData, dmIdx, dy['zfma'] || '', dy['zfmb'] || '', chartPayload, lyIdx, lyTgLocal);
                         lyDetail.classList.add('show');
                         lyDetail.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                     }
