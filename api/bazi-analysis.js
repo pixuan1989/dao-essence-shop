@@ -63,13 +63,33 @@ function buildChartSummary(chart, lang) {
     }).join('\n  ');
 
     var wxCount = chart.wxCount || {};
-    var wxText = Object.entries(wxCount).map(function(e) { return e[0] + ': ' + e[1]; }).join(', ');
+    // CRITICAL: Convert five elements to qualitative description only — never show raw numbers
+    // This prevents the LLM from fabricating phrases like "五行4:4" or "水僅1"
+    var wxOrder = ['Metal','Water','Wood','Fire','Earth'];
+    var wxZhNames = { 'Metal':'金','Water':'水','Wood':'木','Fire':'火','Earth':'土' };
+    var wxCounts = wxOrder.map(function(w) { return wxCount[w] || 0; });
+    var maxWx = Math.max.apply(null, wxCounts);
+    var minWx = Math.min.apply(null, wxCounts.filter(function(v) { return v > 0; }));
+    var dominantWx = wxOrder.filter(function(w) { return wxCount[w] === maxWx && maxWx > 0; }).map(function(w) { return wxZhNames[w] || w; });
+    var weakWx = wxOrder.filter(function(w) { return wxCount[w] === minWx && minWx > 0; }).map(function(w) { return wxZhNames[w] || w; });
+    var missingWx = wxOrder.filter(function(w) { return wxCount[w] === 0; }).map(function(w) { return wxZhNames[w] || w; });
+    var wxQualitative = 'Dominant: ' + (dominantWx.length > 0 ? dominantWx.join(', ') : 'None') +
+        (weakWx.length > 0 ? ' | Weaker: ' + weakWx.join(', ') : '') +
+        (missingWx.length > 0 ? ' | Missing: ' + missingWx.join(', ') : '');
+    var wxText = wxQualitative;
 
     // Build complete Ten Gods distribution from topGods if provided
+    // CRITICAL: Only list which ten gods are PRESENT, NEVER include counts/numbers
+    // This prevents the LLM from fabricating narrative phrases like "傷官四現"
     var allTgText = '';
     if (chart.topGods && chart.topGods.length > 0) {
-        allTgText = '\n\n## Complete Ten Gods Distribution (all pillars + hidden stems)\n' +
-            chart.topGods.map(function(g) { return g.cn + ': ' + g.count; }).join(', ');
+        // Extract just the names, sorted by count (descending), but WITHOUT showing the counts
+        var presentGods = chart.topGods.map(function(g) { return g.cn; });
+        allTgText = '\n\n## Ten Gods Present in This Chart (listed by prominence, NO COUNTS shown)\n' +
+            presentGods.join(', ') +
+            '\n\n⚠️ IMPORTANT: The above list shows ONLY which ten gods exist in this chart. ' +
+            'It does NOT show how many times each appears. ' +
+            'You must NEVER mention specific counts (e.g., "four X", "three Y") in your analysis.';
     }
 
     return 'Day Master: ' + dm + ' (' + dmWx + ')\nGender: ' + gender + '\nPillars:\n  ' + pText + '\nFive Elements: ' + wxText + allTgText;
@@ -153,29 +173,41 @@ function buildShishenPrompt(chart, topGods, lang) {
     var chartInfo = buildChartSummary(chartWithTg, lang);
     var dm = chart.dayMaster;
     var dmWx = STEM_WX[dm] || '';
+    // CRITICAL: Use qualitative five elements description — never show raw numbers to LLM
     var wxCount = chart.wxCount || {};
-    var wxZh = isZh ? WX_EN_ZH : {};
-    var wxText = Object.entries(wxCount).map(function(e) { return (wxZh[e[0]] || e[0]) + ': ' + e[1]; }).join(', ');
+    var wxOrder = ['Metal','Water','Wood','Fire','Earth'];
+    var wxZhNames = { 'Metal':'金','Water':'水','Wood':'木','Fire':'火','Earth':'土' };
+    var wxCounts = wxOrder.map(function(w) { return wxCount[w] || 0; });
+    var maxWx = Math.max.apply(null, wxCounts);
+    var minWx = Math.min.apply(null, wxCounts.filter(function(v) { return v > 0; }));
+    var dominantWx = wxOrder.filter(function(w) { return wxCount[w] === maxWx && maxWx > 0; }).map(function(w) { return wxZhNames[w] || w; });
+    var weakWx = wxOrder.filter(function(w) { return wxCount[w] === minWx && minWx > 0; }).map(function(w) { return wxZhNames[w] || w; });
+    var missingWx = wxOrder.filter(function(w) { return wxCount[w] === 0; }).map(function(w) { return wxZhNames[w] || w; });
+    var wxText = 'Dominant: ' + (dominantWx.length > 0 ? dominantWx.join(', ') : 'None') +
+        (weakWx.length > 0 ? ' | Weaker: ' + weakWx.join(', ') : '') +
+        (missingWx.length > 0 ? ' | Missing: ' + missingWx.join(', ') : '');
     var godList = topGods.map(function(g) {
         var info = TEN_GODS_EN[g.cn] || {};
-        return g.cn + ' x' + g.count + (isZh ? '' : ' (' + info.en + ')');
+        // CRITICAL: Do NOT include count numbers — only list which ten gods are present
+        return g.cn + (isZh ? '' : ' (' + info.en + ')');
     }).join('、');
 
     if (isZh) {
         return '你是一位擁有30年經驗的專業八字命理師。請根據命盤的十神分佈，綜合分析此人的核心性格與人生走向。\n\n' +
             '## 命盤資料\n' + chartInfo + '\n' +
             '五行分佈：' + wxText + '\n\n' +
-            '## 十神統計（按數量排序）\n' + godList + '\n\n' +
-            '## ⚠️ 重要規則：禁止捏造十神數量\n' +
-            '- 你的分析必須嚴格基於上面「命盤資料」中列出的四柱干支和十神標註\n' +
-            '- 絕對不能自行推算或捏造任何十神的出現次數（例如：不能說「傷官四現」如果命盤裡根本沒有四個傷官）\n' +
-            '- 如果某個十神在命盤中只出現一次，就說一次；如果完全沒出現，就不要提它\n' +
-            '- 財運分析時，先看清楚命盤裡到底是正財還是偏財，不要搞反\n\n' +
+            '## 此命盤中出現的十神（按重要性排列）\n' + godList + '\n\n' +
+            '## ⚠️ 絕對禁止事項\n' +
+            '- 禁止在分析中提及任何十神的「出現次數」或「數量」（例如：不能說「傷官四現」「比肩三重」「偏財3個」等）\n' +
+            '- 禁止自行推算或捏造任何數字——你看到的十神列表只告訴你「有哪些十神」，不告訴你「有幾個」\n' +
+            '- 禁止在財運分析中捏造正財/偏財的數量對比（例如：不能說「偏財多於正財」除非命盤明確顯示）\n' +
+            '- 禁止在健康分析中捏造五行具體數字（例如：不能說「五行4:4」）\n' +
+            '- 你只能用定性描述（如「旺」「弱」「有」「無」「主導」「缺乏」），絕不能用定量描述\n\n' +
             '## 分析要求\n' +
-            '1. 從排前3的十神綜合分析此人的核心性格特質（不逐個羅列，要融會貫通）\n' +
+            '1. 從出現的十神綜合分析此人的核心性格特質（不逐個羅列，要融會貫通）\n' +
             '2. 根據十神組合，分析事業方向與適合的職業類型\n' +
             '3. 分析感情婚姻的特點與潛在問題\n' +
-            '4. 分析財運模式（正財偏財）— 務必先確認命盤中實際存在的財星類型\n' +
+            '4. 分析財運模式（正財偏財）— 只描述性質，不捏造數量\n' +
             '5. 健康上需要特別注意的方向\n' +
             '6. 用2-3句話總結這個命盤的關鍵建議\n\n' +
             '## 輸出格式（嚴格 JSON）\n' +
@@ -193,12 +225,12 @@ function buildShishenPrompt(chart, topGods, lang) {
     return 'You are a professional Chinese BaZi (Four Pillars of Destiny) counselor with 30 years of experience, writing for a Western audience unfamiliar with Chinese metaphysics. Analyze this person\'s core personality and life path based on their Ten Gods (十神) distribution.\n\n' +
         '## Birth Chart\n' + chartInfo + '\n' +
         'Five Elements: ' + wxText + '\n\n' +
-        '## Top Ten Gods (by count)\n' + godList + '\n\n' +
-        '## ️ CRITICAL RULE: Do NOT fabricate Ten God counts\n' +
-        '- Your analysis MUST be strictly based on the actual pillars and Ten God labels shown in the "Birth Chart" section above\n' +
-        '- NEVER invent or guess how many times a Ten God appears (e.g., do NOT say "four Hurting Officers" if the chart doesn\'t show four)\n' +
-        '- If a Ten God appears only once, say so; if it doesn\'t appear at all, don\'t mention it\n' +
-        '- When analyzing wealth, first verify whether the chart has Direct Wealth or Indirect Wealth — do NOT mix them up\n\n' +
+        '## Ten Gods Present in This Chart (by prominence)\n' + godList + '\n\n' +
+        '## ️ ABSOLUTELY FORBIDDEN\n' +
+        '- NEVER mention specific counts or quantities of any Ten God (e.g., do NOT say "four Hurting Officers", "three Friends", "more Indirect Wealth than Direct Wealth")\n' +
+        '- The list above tells you WHICH ten gods exist, NOT how many — you must never fabricate numbers\n' +
+        '- Never fabricate Five Elements counts either (e.g., do NOT say "Fire and Earth 4:4")\n' +
+        '- Use ONLY qualitative descriptions ("strong", "weak", "present", "absent", "dominant", "lacking") — NEVER quantitative ones\n\n' +
         '## CRITICAL WRITING RULES\n' +
         '1. Write in natural, conversational English — like a thoughtful lifestyle article, NOT academic or mystical\n' +
         '2. NEVER use Chinese pinyin terms (no "Qi", "Yin Yang", "Shen", etc.) — translate everything into plain English\n' +
@@ -206,7 +238,7 @@ function buildShishenPrompt(chart, topGods, lang) {
         '4. Be specific and grounded — reference the actual chart data, not vague platitudes\n' +
         '5. Address the reader directly as "you" — make it feel personal, not clinical\n\n' +
         '## Analysis Requirements\n' +
-        '1. Synthesize the top 3 Ten Gods into a coherent personality profile (don\'t list them one by one)\n' +
+        '1. Synthesize the present Ten Gods into a coherent personality profile (don\'t list them one by one)\n' +
         '2. Suggest career directions and suitable work environments\n' +
         '3. Describe relationship patterns and what to watch for\n' +
         '4. Describe their natural approach to money and financial decisions\n' +
