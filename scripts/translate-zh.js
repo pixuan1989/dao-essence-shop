@@ -23,7 +23,7 @@ const POSTS_ZH_DIR = path.join(ROOT_DIR, 'blog', 'posts-zh');
 const TERMINOLOGY_FILE = path.join(ROOT_DIR, 'i18n', 'terminology.json');
 
 const DASHSCOPE_API_KEY = process.env.DASHSCOPE_API_KEY;
-const DASHSCOPE_MODEL = 'qwen-plus'; // 性价比最优
+const DASHSCOPE_MODEL = 'qwen3.5-plus'; // 性价比最优
 const DASHSCOPE_BASE_URL = 'https://dashscope.aliyuncs.com/compatible-mode/v1';
 
 if (!DASHSCOPE_API_KEY) {

@@ -9,7 +9,7 @@ const CONFIG = {
   redisUrl: process.env.UPSTASH_REDIS_REST_URL,
   redisToken: process.env.UPSTASH_REDIS_REST_TOKEN,
   dashscopeApiKey: process.env.DASHSCOPE_API_KEY,
-  dashscopeModel: 'qwen-max',
+  dashscopeModel: 'qwen3.5-plus',
   dashscopeTimeout: 30000,
   smtpHost: 'smtpdm.aliyun.com',
   smtpPort: 465,
@@ -146,7 +146,7 @@ Output format:
   try {
     const res = await new Promise((resolve, reject) => {
       const body = JSON.stringify({
-        model: 'qwen-plus',
+        model: 'qwen3.5-plus',
         messages: [
           { role: 'system', content: systemPrompt },
           { role: 'user', content: userPrompt }

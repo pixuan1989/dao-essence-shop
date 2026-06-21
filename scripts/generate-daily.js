@@ -809,7 +809,7 @@ async function generateFortuneCN(zodiac, ganzhi, relations, fourPillars) {
           'Authorization': `Bearer ${DASHSCOPE_API_KEY}`
         },
         body: JSON.stringify({
-          model: 'qwen-plus',
+          model: 'qwen3.5-plus',
           messages: [
             { role: 'system', content: systemPrompt },
             { role: 'user', content: userPrompt }
@@ -929,7 +929,7 @@ async function generateFortuneEN(zodiac, cnData, ganzhi) {
  */
 async function translateToEnglish(cnText, zodiacEn, verdict, zodiacKey) {
   const DASHSCOPE_API_KEY = process.env.DASHSCOPE_API_KEY;
-  const DASHSCOPE_MODEL = 'qwen-plus';
+  const DASHSCOPE_MODEL = 'qwen3.5-plus';
   const DASHSCOPE_BASE_URL = 'https://dashscope.aliyuncs.com/compatible-mode/v1';
 
   // SEO 分层关键词（head / longTail / semantic）

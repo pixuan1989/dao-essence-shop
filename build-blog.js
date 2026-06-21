@@ -2274,7 +2274,7 @@ async function main() {
         const res = await fetch('https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${process.env.DASHSCOPE_API_KEY}` },
-          body: JSON.stringify({ model: 'qwen-plus', messages: [{ role: 'system', content: sysPrompt }, { role: 'user', content: `翻譯為繁體中文，只輸出翻譯結果：\n${text}` }], temperature: 0.3, max_tokens: maxTokens || 300 })
+          body: JSON.stringify({ model: 'qwen3.5-plus', messages: [{ role: 'system', content: sysPrompt }, { role: 'user', content: `翻譯為繁體中文，只輸出翻譯結果：\n${text}` }], temperature: 0.3, max_tokens: maxTokens || 300 })
         });
         if (!res.ok) return '';
         const data = await res.json();
@@ -2289,7 +2289,7 @@ async function main() {
         const res = await fetch('https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${process.env.DASHSCOPE_API_KEY}` },
-          body: JSON.stringify({ model: 'qwen-plus', messages: [{ role: 'system', content: sysPrompt }, { role: 'user', content: titleBulkPrompt }], temperature: 0.3, max_tokens: 1000 })
+          body: JSON.stringify({ model: 'qwen3.5-plus', messages: [{ role: 'system', content: sysPrompt }, { role: 'user', content: titleBulkPrompt }], temperature: 0.3, max_tokens: 1000 })
         });
         if (res.ok) {
           const data = await res.json();

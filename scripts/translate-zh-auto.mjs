@@ -10,7 +10,7 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 
-const DASHSCOPE_MODEL = 'qwen-plus';
+const DASHSCOPE_MODEL = 'qwen3.5-plus';
 const DASHSCOPE_BASE_URL = 'https://dashscope.aliyuncs.com/compatible-mode/v1';
 
 // Load terminology dictionary

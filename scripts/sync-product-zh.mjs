@@ -28,7 +28,7 @@ const HIDDEN_PRODUCT_IDS = new Set([
   'prod_2wj3G9PQp6ZlbD8oFJdr2X',  // Soulmate Direction Unlock ($2.99)
 ]);
 
-const DASHSCOPE_MODEL = 'qwen-plus';
+const DASHSCOPE_MODEL = 'qwen3.5-plus';
 const DASHSCOPE_BASE_URL = 'https://dashscope.aliyuncs.com/compatible-mode/v1';
 const CREEM_API_BASE = 'https://api.creem.io/v1';
 
