@@ -38,7 +38,7 @@ const DATA_FILE = path.join(PROJECT_ROOT, 'zodiac', 'js', 'zodiac-data.js');
 // 兼容 ES Module __dirname
 
 // ─── fetch 超时包装（防止 API 挂起导致整个任务超时）───
-const API_TIMEOUT_MS = 90_000; // 单个 API 调用 90 秒超时
+const API_TIMEOUT_MS = 180_000; // 单个 API 调用 180 秒超时（GitHub Actions → 阿里云跨洋延迟）
 async function fetchWithTimeout(url, options, timeout = API_TIMEOUT_MS) {
   return Promise.race([
     fetch(url, options),
@@ -2124,8 +2124,8 @@ async function main() {
     return { key: z.key, result };
   }
 
-  // 并发执行，每批 4 个
-  const BATCH = 4;
+  // 并发执行，每批 2 个（避免跨洋请求触发限流）
+  const BATCH = 2;
   for (let i = 0; i < ZODIAC_LIST.length; i += BATCH) {
     const batch = ZODIAC_LIST.slice(i, i + BATCH);
     const results = await Promise.all(batch.map(z => generateOneCN(z)));
