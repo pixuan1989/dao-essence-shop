@@ -992,7 +992,7 @@ function generateArticleHtml(post, category, allArticles, options = {}) {
         <div style="display:flex;justify-content:center;gap:12px;margin-bottom:24px;flex-wrap:nowrap;">
           ${wpCards.map(wp => `
             <a href="/wallpaper/${wp.slug || wp.id}" style="width:32%;border-radius:10px;overflow:hidden;aspect-ratio:9/16;background:#fff;box-shadow:0 4px 12px rgba(0,0,0,0.1);display:block;flex-shrink:0;">
-              <img src="${wp.thumb}" alt="${escapeHtml(wp.title)}" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;" />
+              <img src="${wp.thumb}" alt="${escapeHtml(wp.title)}" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;" onerror="this.onerror=null;this.src=this.src.split('?')[0]+'?t='+Date.now()" />
             </a>
           `).join('')}
         </div>
