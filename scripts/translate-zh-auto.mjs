@@ -48,29 +48,37 @@ function buildSystemPrompt(terms) {
 ${termList}`;
 }
 
-async function callDashScope(messages, maxTokens = 8000) {
+async function callDashScope(messages, maxTokens = 8000, timeoutMs = 120000) {
   const apiKey = process.env.DASHSCOPE_API_KEY;
-  const res = await fetch(`${DASHSCOPE_BASE_URL}/chat/completions`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${apiKey}`
-    },
-    body: JSON.stringify({
-      model: DASHSCOPE_MODEL,
-      messages,
-      temperature: 0.3,
-      max_tokens: maxTokens
-    })
-  });
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
 
-  if (!res.ok) {
-    const errorText = await res.text();
-    throw new Error(`DashScope API error ${res.status}: ${errorText.substring(0, 200)}`);
+  try {
+    const res = await fetch(`${DASHSCOPE_BASE_URL}/chat/completions`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey}`
+      },
+      body: JSON.stringify({
+        model: DASHSCOPE_MODEL,
+        messages,
+        temperature: 0.3,
+        max_tokens: maxTokens
+      }),
+      signal: controller.signal
+    });
+
+    if (!res.ok) {
+      const errorText = await res.text();
+      throw new Error(`DashScope API error ${res.status}: ${errorText.substring(0, 200)}`);
+    }
+
+    const data = await res.json();
+    return data.choices?.[0]?.message?.content;
+  } finally {
+    clearTimeout(timeoutId);
   }
-
-  const data = await res.json();
-  return data.choices?.[0]?.message?.content;
 }
 
 async function translateArticle(systemPrompt, data, content, filename, retryCount = 2) {
@@ -91,6 +99,8 @@ async function translateArticle(systemPrompt, data, content, filename, retryCoun
   let translatedDescription;
   if (data.description) {
     try {
+      // Small delay to avoid rate limiting
+      await new Promise(r => setTimeout(r, 1000));
       translatedDescription = await callDashScope([
         { role: 'system', content: systemPrompt },
         { role: 'user', content: `翻譯文章描述為繁體中文，保持 155 字元以內：\n\n${data.description}` }
@@ -106,6 +116,8 @@ async function translateArticle(systemPrompt, data, content, filename, retryCoun
   let translatedBody;
   for (let attempt = 0; attempt <= retryCount; attempt++) {
     try {
+      // Small delay to avoid rate limiting
+      await new Promise(r => setTimeout(r, 1000));
       translatedBody = await callDashScope([
         { role: 'system', content: systemPrompt },
         { role: 'user', content: `翻譯以下 Markdown 文章為繁體中文：\n\n${content}` }
