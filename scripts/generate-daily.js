@@ -38,16 +38,14 @@ const DATA_FILE = path.join(PROJECT_ROOT, 'zodiac', 'js', 'zodiac-data.js');
 // 兼容 ES Module __dirname
 
 // ─── fetch 超时包装（防止 API 挂起导致整个任务超时）───
-const API_TIMEOUT_MS = 120_000; // 单个 API 调用 120 秒超时
+const API_TIMEOUT_MS = 90_000; // 单个 API 调用 90 秒超时
 async function fetchWithTimeout(url, options, timeout = API_TIMEOUT_MS) {
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), timeout);
-  try {
-    const res = await fetch(url, { ...options, signal: controller.signal });
-    return res;
-  } finally {
-    clearTimeout(timer);
-  }
+  return Promise.race([
+    fetch(url, options),
+    new Promise((_, reject) =>
+      setTimeout(() => reject(new Error(`API timeout after ${timeout}ms`)), timeout)
+    )
+  ]);
 }
 
 // ─── 生肖列表 ───
@@ -2092,19 +2090,18 @@ async function main() {
   const sharedQuote = generateDailyQuote(dateStr); // 节日/节气共享
   console.log(`\n✨ 今日金句: ${solarTerm ? `[${solarTerm}] ${sharedQuote}` : festival ? `[节日] ${sharedQuote}` : sharedQuote}`);
 
-  // ③ 生成12生肖运势
-  console.log('\n✍️  生成中文运势:');
+  // ③ 生成12生肖运势（并发 4 个，加速执行）
+  console.log('\n✍️  生成中文运势（并发模式）:');
   const fortunesCN = {};
-  for (const z of ZODIAC_LIST) {
+
+  async function generateOneCN(z) {
     const f = await generateFortuneCN(z, ganzhi, relations, fourPillars);
     const luckyNum = generateLuckyNumber(dateStr, z.key);
     const direction = generateLuckyDirection(ganzhi.dizhi);
     const pair = generatePairSign(z.sign);
-    const quote = generateDailyQuote(dateStr, z.key); // 每生肖单独金句
-
-    // 获取生肖对应的五行颜色
+    const quote = generateDailyQuote(dateStr, z.key);
     const wuxingColor = WUXING_COLORS[z.element] || { hex: '#D4AF37', name: '金色' };
-    fortunesCN[z.key] = {
+    const result = {
       ...f,
       luckyNum,
       direction,
@@ -2114,7 +2111,6 @@ async function main() {
       ji: f.ji,
       color: wuxingColor.hex,
       colorName: wuxingColor.name,
-      // 博客导流（中文：/zh/blog/，英文：/blog/）
       blogLinksCN: (BLOG_RECOMMENDATIONS[z.key] || []).map(b => ({
         url: `/zh/blog/${b.slug}`,
         title: b.titleCN,
@@ -2124,22 +2120,40 @@ async function main() {
         title: b.titleEN,
       })),
     };
-
     console.log(`   ${z.name} ${z.sign}: ${f.verdict} | 幸运数${luckyNum} | ${direction} | ${pair} | 金句"${quote}" | ${f.content.length}字`);
+    return { key: z.key, result };
   }
 
-  // ④ 生成英文运势
-  console.log('\n🌐 生成英文运势:');
+  // 并发执行，每批 4 个
+  const BATCH = 4;
+  for (let i = 0; i < ZODIAC_LIST.length; i += BATCH) {
+    const batch = ZODIAC_LIST.slice(i, i + BATCH);
+    const results = await Promise.all(batch.map(z => generateOneCN(z)));
+    for (const { key, result } of results) {
+      fortunesCN[key] = result;
+    }
+  }
+
+  // ④ 生成英文运势（并发 4 个）
+  console.log('\n🌐 生成英文运势（并发模式）:');
   const fortunesEN = {};
-  for (const z of ZODIAC_LIST) {
+
+  async function translateOneEN(z) {
     const fortuneEN = await generateFortuneEN(z, fortunesCN[z.key], ganzhi);
-    // 注入英文博客导流链接（/blog/ 前缀）
     fortuneEN.blogLinksEN = (BLOG_RECOMMENDATIONS[z.key] || []).map(b => ({
       url: `/blog/${b.slug}`,
       title: b.titleEN,
     }));
-    fortunesEN[z.key] = fortuneEN;
-    console.log(`   ${z.en}: ${fortunesEN[z.key].verdict.slice(0, 40)}... (${fortunesEN[z.key].length} words)`);
+    console.log(`   ${z.en}: ${fortuneEN.verdict.slice(0, 40)}... (${fortuneEN.length} words)`);
+    return { key: z.key, fortuneEN };
+  }
+
+  for (let i = 0; i < ZODIAC_LIST.length; i += BATCH) {
+    const batch = ZODIAC_LIST.slice(i, i + BATCH);
+    const results = await Promise.all(batch.map(z => translateOneEN(z)));
+    for (const { key, fortuneEN } of results) {
+      fortunesEN[key] = fortuneEN;
+    }
   }
 
   // ⑤ 保存文件
