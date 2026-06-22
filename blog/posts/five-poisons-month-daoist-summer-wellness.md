@@ -12,8 +12,8 @@ tags:
   - Duanwu Customs
   - Daoist Fasting
   - Seasonal Health
-description: "What is the Five Poisons Month? Trace its Daoist roots, understand the Nine Poisonous Days, and learn the complete summer wellness guide from ancient Chinese tradition."
-seoDescription: "Five Poisons Month explained: Daoist origins, Nine Poisonous Days calendar for 2026, and a full guide to summer body cleansing, diet, and spiritual practice rooted in ancient Chinese wisdom."
+description: "Five Poisons Month: Daoist origins, the Nine Poisonous Days for 2026, and a complete summer wellness guide rooted in ancient Chinese tradition."
+seoDescription: "Five Poisons Month explained: Daoist origins, Nine Poisonous Days for 2026, and a full guide to summer cleansing, diet, and spiritual practice."
 date: 2026-06-22
 author: Dingwei
 readTime: 10
