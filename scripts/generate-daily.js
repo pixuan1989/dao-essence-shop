@@ -37,6 +37,19 @@ const SEO_DIR = path.join(PROJECT_ROOT, 'zodiac', 'seo-content');
 const DATA_FILE = path.join(PROJECT_ROOT, 'zodiac', 'js', 'zodiac-data.js');
 // 兼容 ES Module __dirname
 
+// ─── fetch 超时包装（防止 API 挂起导致整个任务超时）───
+const API_TIMEOUT_MS = 120_000; // 单个 API 调用 120 秒超时
+async function fetchWithTimeout(url, options, timeout = API_TIMEOUT_MS) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeout);
+  try {
+    const res = await fetch(url, { ...options, signal: controller.signal });
+    return res;
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 // ─── 生肖列表 ───
 const ZODIAC_LIST = [
   { key: 'rat',     name: '鼠', sign: '子', en: 'Rat', element: '水' },
@@ -802,7 +815,7 @@ async function generateFortuneCN(zodiac, ganzhi, relations, fourPillars) {
 
       const userPrompt = `请为属${name}（${sign}）之人写今日运势解读。`;
 
-      const res = await fetch(`${DASHSCOPE_BASE_URL}/chat/completions`, {
+      const res = await fetchWithTimeout(`${DASHSCOPE_BASE_URL}/chat/completions`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -1046,7 +1059,7 @@ async function translateToEnglish(cnText, zodiacEn, verdict, zodiacKey) {
 
 Translate the Chinese horoscope for ${zodiacEn} into clear English. Return ONLY the translated text, nothing else.`;
 
-      const res = await fetch(`${DASHSCOPE_BASE_URL}/chat/completions`, {
+      const res = await fetchWithTimeout(`${DASHSCOPE_BASE_URL}/chat/completions`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
