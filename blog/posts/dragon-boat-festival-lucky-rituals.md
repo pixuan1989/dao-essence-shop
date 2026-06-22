@@ -21,9 +21,9 @@ cta_cards:
   - five-elements
   - bazi
 related_posts:
-  - lucky-colors-2026-fire-horse-year
+  - five-poisons-month-daoist-summer-wellness
   - jia-wu-month-june-2026-fire-energy-warning
-  - five-elements-theory-wu-xing-guide
+  - lucky-colors-2026-fire-horse-year
 faq:
   - question: "What is the Dragon Boat Festival in Chinese metaphysics?"
     answer: "Dragon Boat Festival (Duanwu 端午) falls on the 5th day of the 5th lunar month — the peak of yang energy in the Chinese calendar. In Five Elements theory, it represents maximum Fire energy, making it the most powerful day for clearing negative qi, boosting luck, and resetting your spiritual energy for the months ahead."

@@ -20,9 +20,9 @@ cta_cards:
   - "bazi"
   - "favorable-element"
 related_posts:
+  - "five-poisons-month-daoist-summer-wellness"
   - "dragon-boat-festival-lucky-rituals"
-  - "what-is-bazi-beginners-guide"
-  - "five-elements-theory-wu-xing-guide"
+  - "lucky-colors-2026-fire-horse-year"
 keywords: "jia wu month 2026, june 2026 bazi forecast, bing wu fire horse year monthly prediction, fire month bazi, five elements june 2026, chinese astrology monthly forecast, bazi fire element month"
 faq:
   - question: "What dates does the Jia Wu month cover in 2026?"
