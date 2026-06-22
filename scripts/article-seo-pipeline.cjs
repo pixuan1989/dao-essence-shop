@@ -1,26 +1,40 @@
 /**
  * 文章上线 SEO 回测 (Article SEO Pipeline)
- * 在 build-blog.js 完成后运行，验证新文章的中英文 HTML 是否都存在
+ * 验证线上中英文页面是否都可访问
  */
 const fs = require('fs');
 const path = require('path');
+const https = require('https');
 
 const PROJECT_ROOT = path.join(__dirname, '..');
 const POSTS_DIR = path.join(PROJECT_ROOT, 'blog', 'posts');
 const POSTS_ZH_DIR = path.join(PROJECT_ROOT, 'blog', 'posts-zh');
-const DIST_BLOG_DIR = path.join(PROJECT_ROOT, 'dist', 'blog');
-const DIST_ZH_BLOG_DIR = path.join(PROJECT_ROOT, 'dist', 'zh', 'blog');
+const BASE_URL = 'https://www.daoessentia.com';
 
-function main() {
-  console.log('\n🔍 [文章 SEO 回测] 启动...\n');
+function checkUrl(url, maxRedirects = 3) {
+  return new Promise((resolve) => {
+    https.get(url, { timeout: 10000 }, (res) => {
+      // 301/302/303/307/308 → follow redirect
+      if ([301, 302, 303, 307, 308].includes(res.statusCode) && res.headers.location && maxRedirects > 0) {
+        const nextUrl = new URL(res.headers.location, url).href;
+        checkUrl(nextUrl, maxRedirects - 1).then(resolve);
+      } else {
+        resolve(res.statusCode);
+      }
+    }).on('error', () => resolve(0));
+  });
+}
+
+async function main() {
+  console.log('\n [文章 SEO 回测] 启动...\n');
 
   // 1. 获取所有英文文章
   const enFiles = fs.readdirSync(POSTS_DIR).filter(f => f.endsWith('.md'));
-  console.log(`📋 英文文章: ${enFiles.length} 篇`);
+  console.log(`📋 英文文章：${enFiles.length} 篇`);
 
   // 2. 获取所有中文翻译
   const zhFiles = new Set(fs.readdirSync(POSTS_ZH_DIR).filter(f => f.endsWith('.md')));
-  console.log(`📋 中文翻译: ${zhFiles.size} 篇`);
+  console.log(`📋 中文翻译：${zhFiles.size} 篇`);
 
   // 3. 检查缺失的中文翻译
   const missingZh = enFiles.filter(f => !zhFiles.has(f));
@@ -31,50 +45,70 @@ function main() {
       console.error(`   - ${f}`);
     }
     console.error('\n⚠️  这些文章的中文 HTML 不会生成，影响中文 SEO');
-    console.error('   解决方案: 检查 DashScope API 是否正常，或手动创建中文版\n');
     process.exit(1);
   }
 
   console.log('\n✅ 所有文章都有中文翻译');
 
-  // 4. 验证中英文 HTML 是否都存在
+  // 4. 验证线上中英文页面是否都可访问
+  console.log('\n🌐 检查线上页面...');
   let allPassed = true;
-  const missingHtml = [];
+  const failedUrls = [];
 
   for (const f of enFiles) {
-    const slug = f.replace('.md', '');
-    const enHtml = path.join(DIST_BLOG_DIR, slug, 'index.html');
-    const zhHtml = path.join(DIST_ZH_BLOG_DIR, slug, 'index.html');
+    const filePath = path.join(POSTS_DIR, f);
+    const content = fs.readFileSync(filePath, 'utf8');
+    const slugMatch = content.match(/^slug:\s*["']?([^"'\n]+)["']?$/m);
+    const slug = slugMatch ? slugMatch[1].trim() : f.replace('.md', '');
+    
+    const enUrl = `${BASE_URL}/blog/${slug}`;
+    const zhUrl = `${BASE_URL}/zh/blog/${slug}`;
 
-    if (!fs.existsSync(enHtml)) {
-      missingHtml.push({ slug, lang: 'EN' });
+    const [enStatus, zhStatus] = await Promise.all([
+      checkUrl(enUrl),
+      checkUrl(zhUrl)
+    ]);
+
+    if (enStatus !== 200) {
+      failedUrls.push({ slug, lang: 'EN', status: enStatus });
       allPassed = false;
     }
-    if (!fs.existsSync(zhHtml)) {
-      missingHtml.push({ slug, lang: 'ZH' });
+    if (zhStatus !== 200) {
+      failedUrls.push({ slug, lang: 'ZH', status: zhStatus });
       allPassed = false;
     }
   }
 
-  if (missingHtml.length > 0) {
-    console.error(`\n❌ 发现 ${missingHtml.length} 个 HTML 文件缺失:`);
-    for (const m of missingHtml) {
-      console.error(`   - ${m.lang}: ${m.slug}`);
+  if (failedUrls.length > 0) {
+    console.error(`\n❌ 发现 ${failedUrls.length} 个页面无法访问:`);
+    for (const m of failedUrls) {
+      console.error(`   - ${m.lang}: ${m.slug} (HTTP ${m.status})`);
     }
-    console.error('\n⚠️  这可能是 build-blog.js 构建失败导致的\n');
     process.exit(1);
   }
 
-  console.log('✅ 所有文章的中英文 HTML 都已生成');
+  console.log('✅ 所有文章的中英文页面都可访问 (HTTP 200)');
 
   // 5. 验证 sitemap 包含所有文章
-  const sitemap = fs.readFileSync(path.join(PROJECT_ROOT, 'dist', 'sitemap.xml'), 'utf8');
-  let sitemapPassed = true;
+  console.log('\n📄 检查 sitemap...');
+  const sitemapUrl = `${BASE_URL}/sitemap.xml`;
+  const sitemap = await new Promise((resolve) => {
+    https.get(sitemapUrl, (res) => {
+      let data = '';
+      res.on('data', chunk => data += chunk);
+      res.on('end', () => resolve(data));
+    }).on('error', () => resolve(''));
+  });
 
+  let sitemapPassed = true;
   for (const f of enFiles) {
-    const slug = f.replace('.md', '');
+    const filePath = path.join(POSTS_DIR, f);
+    const content = fs.readFileSync(filePath, 'utf8');
+    const slugMatch = content.match(/^slug:\s*["']?([^"'\n]+)["']?$/m);
+    const slug = slugMatch ? slugMatch[1].trim() : f.replace('.md', '');
+    
     if (!sitemap.includes(`blog/${slug}`)) {
-      console.error(`   ❌ sitemap 缺失: ${slug}`);
+      console.error(`   ❌ sitemap 缺失：${slug}`);
       sitemapPassed = false;
     }
   }
@@ -82,11 +116,10 @@ function main() {
   if (sitemapPassed) {
     console.log('✅ sitemap.xml 包含所有文章 URL');
   } else {
-    console.error('\n⚠️  sitemap.xml 不完整\n');
     process.exit(1);
   }
 
-  console.log('\n🎉 [文章 SEO 回测] 全部通过！');
+  console.log('\n [文章 SEO 回测] 全部通过！');
 }
 
 main();
