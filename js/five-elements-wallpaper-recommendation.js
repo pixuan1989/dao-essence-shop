@@ -66,7 +66,7 @@
     const recBox = document.createElement('div');
     recBox.className = 'fet-wallpaper-rec-box';
     recBox.innerHTML = '<h3 class="fet-rec-title">' + recTitle + '</h3><div class="fet-rec-grid">' +
-      wallpapers.map(wp => '<a href="/wallpaper/' + (wp.slug || wp.id) + '" class="fet-rec-card"><img src="' + (wp.thumb || '') + '" alt="' + (wp.title || '') + '" loading="lazy"/></a>').join('') +
+      wallpapers.map(wp => '<a href="/wallpaper/' + (wp.slug || wp.id) + '" class="fet-rec-card"><img src="' + (wp.thumb || '') + '" alt="' + (wp.title || '') + '" loading="lazy" onerror="this.onerror=null;this.src=this.src.split(\'?\')[0]+\'?t=\'+Date.now()"/></a>').join('') +
       '</div><a href="/wallpaper" class="fet-rec-btn">' + moreBtn + '</a>';
     container.appendChild(recBox);
   }

@@ -88,7 +88,7 @@
     const recBox = document.createElement('div');
     recBox.className = 'alm-wallpaper-rec-box';
     recBox.innerHTML = '<h3 class="rec-title">' + title + '</h3><div class="rec-grid">' +
-      wallpapers.map(wp => '<a href="/wallpaper/' + (wp.slug || wp.id) + '" class="rec-card"><img src="' + wp.thumb + '" alt="' + wp.title + '" loading="lazy"/></a>').join('') +
+      wallpapers.map(wp => '<a href="/wallpaper/' + (wp.slug || wp.id) + '" class="rec-card"><img src="' + wp.thumb + '" alt="' + wp.title + '" loading="lazy" onerror="this.onerror=null;this.src=this.src.split(\'?\')[0]+\'?t=\'+Date.now()"/></a>').join('') +
       '</div><a href="/wallpaper" class="rec-btn">' + getMoreBtnText(getLang()) + '</a>';
     container.appendChild(recBox);
   }

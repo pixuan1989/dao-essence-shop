@@ -75,7 +75,7 @@
     recDiv.innerHTML = `
       <div class="zwp-title">${title}</div>
       <a href="/wallpaper/${wp.slug || wp.id}" class="zwp-card">
-        <img src="${wp.thumb}" alt="${wp.title}" loading="lazy" />
+        <img src="${wp.thumb}" alt="${wp.title}" loading="lazy" onerror="this.onerror=null;this.src=this.src.split('?')[0]+'?t='+Date.now()" />
       </a>
     `;
     cardEl.appendChild(recDiv);

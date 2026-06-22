@@ -43,7 +43,7 @@
 
       picks.forEach(function(wp) {
         html += '<a href="/wallpaper/' + (wp.slug || wp.id) + '" style="display:block;width:130px;border-radius:12px;overflow:hidden;border:1px solid rgba(212,175,55,0.3);box-shadow:0 4px 12px rgba(0,0,0,0.1);transition:transform 0.2s;">';
-        html += '<img src="' + (wp.thumb || '') + '" style="width:100%;display:block;" loading="lazy"/>';
+        html += '<img src="' + (wp.thumb || '') + '" style="width:100%;display:block;" loading="lazy" onerror="this.onerror=null;this.src=this.src.split(\'?\')[0]+\'?t=\'+Date.now()"/>';
         html += '</a>';
       });
 
