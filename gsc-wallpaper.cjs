@@ -23,8 +23,8 @@ const STATE_FILE = path.join(__dirname, '.gsc-wallpaper-state.json');
 const SITE_URL = 'https://www.daoessentia.com';
 const GSC_SITE = process.env.GSC_SITE || 'sc-domain:daoessentia.com';
 const PROXY_URL = process.env.HTTPS_PROXY || process.env.https_proxy || 'http://127.0.0.1:8800';
-const BATCH_SIZE = 10;  // 每天检查/提交 10 个
-const RETRY_BATCH = 10; // 每天复查 10 个之前的未收录
+const BATCH_SIZE = 25;  // 每天提交 25 个新 URL
+const RETRY_BATCH = 25; // 每天复查 25 个之前的未收录
 
 // ─── 代理（keepAlive） ───
 const proxyAgent = new HttpsProxyAgent(PROXY_URL, { keepAlive: true, timeout: 30000 });
