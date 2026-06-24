@@ -132,6 +132,24 @@ async function main() {
   const token = await getToken();
   console.log('✅ 授权成功\n');
 
+  // 1b. 重新提交 sitemap，告诉 Google sitemap 有更新
+  //    （上次提交是6月6日，不重新提交 Google 不会重新抓取）
+  try {
+    const { google } = require('googleapis');
+    const auth2 = new google.auth.JWT({
+      email: credentials.client_email, key: credentials.private_key,
+      scopes: ['https://www.googleapis.com/auth/webmasters']
+    });
+    const wm = google.webmasters({ version: 'v3', auth: auth2 });
+    await wm.sitemaps.submit({
+      siteUrl: GSC_SITE,
+      feedpath: 'https://www.daoessentia.com/sitemap.xml'
+    });
+    console.log('📄 sitemap 已重新提交 → Google 将重新抓取\n');
+  } catch (e) {
+    console.log(`⚠️  sitemap 提交失败：${e.message?.substring(0, 80)}\n`);
+  }
+
   // 2. 加载状态
   const state = loadState();
   const allUrls = getAllWallpaperUrls();
