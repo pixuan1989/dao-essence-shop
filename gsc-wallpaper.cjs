@@ -169,7 +169,7 @@ async function main() {
   const unindexed = state.submitted.filter(s => {
     const cov = s.coverageState;
     // "Submitted and indexed" 或含 "indexed" = 已收录，跳过
-    if (cov && (cov.includes('indexed') || cov.includes('Submitted'))) return false;
+    if (cov && cov === 'Submitted and indexed') return false;
     return true;
   });
 
@@ -188,7 +188,7 @@ async function main() {
       process.stdout.write(`  [${i + 1}/${newBatch.length}] ${label}... `);
       
       const result = await inspectUrl(token, url);
-      const isIndexed = result.coverage && (result.coverage.includes('indexed') || result.coverage.includes('Submitted'));
+      const isIndexed = result.coverage === 'Submitted and indexed';
       
       if (isIndexed) {
         console.log(`✅ 已收录`);
@@ -225,7 +225,7 @@ async function main() {
       process.stdout.write(`  [${i + 1}/${retryBatch.length}] ${label}... `);
       
       const result = await inspectUrl(token, entry.url);
-      const isNowIndexed = result.coverage && (result.coverage.includes('indexed') || result.coverage.includes('Submitted'));
+      const isNowIndexed = result.coverage === 'Submitted and indexed';
       
       if (isNowIndexed) {
         console.log(`✅ 变为已收录！`);
