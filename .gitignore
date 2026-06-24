@@ -72,3 +72,9 @@ reports/
 # WorkBuddy local memory & config (AI session data, never push)
 .workbuddy/
 *.bak
+
+# GCP Service Account key (contains private key, NEVER COMMIT)
+credentials.json
+
+# IndexNow submission state (local tracking, not git-worthy)
+.indexnow-state.json
