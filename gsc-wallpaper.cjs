@@ -132,8 +132,29 @@ async function main() {
   const token = await getToken();
   console.log('✅ 授权成功\n');
 
-  // 1b. 重新提交 sitemap，告诉 Google sitemap 有更新
-  //    （上次提交是6月6日，不重新提交 Google 不会重新抓取）
+  // 1b. sitemap ping — Google 旧接口，直接敲门说"更新了，来抓"
+  //     比 sitemaps.submit 更直接（相当于"请求索引"）
+  try {
+    const https = require('https');
+    const pingUrl = 'https://www.google.com/ping?sitemap=https://www.daoessentia.com/sitemap.xml';
+    console.log(`📡 发送 sitemap ping...`);
+    await new Promise((resolve) => {
+      const req = https.get(pingUrl, (res) => {
+        let d = '';
+        res.on('data', c => d += c);
+        res.on('end', () => {
+          console.log(`   Google 响应: HTTP ${res.statusCode}`);
+          resolve();
+        });
+      });
+      req.on('error', (e) => { console.log(`   请求失败: ${e.message}`); resolve(); });
+      req.setTimeout(10000, () => { req.destroy(); resolve(); });
+    });
+  } catch (e) {
+    console.log(`⚠️ sitemap ping 失败: ${e.message?.substring(0, 80)}`);
+  }
+
+  // 1c. 再通过 GSC API 提交一次 sitemap（双重确保）
   try {
     const { google } = require('googleapis');
     const auth2 = new google.auth.JWT({
@@ -145,9 +166,9 @@ async function main() {
       siteUrl: GSC_SITE,
       feedpath: 'https://www.daoessentia.com/sitemap.xml'
     });
-    console.log('📄 sitemap 已重新提交 → Google 将重新抓取\n');
+    console.log(`📄 sitemap 已通过 GSC API 提交\n`);
   } catch (e) {
-    console.log(`⚠️  sitemap 提交失败：${e.message?.substring(0, 80)}\n`);
+    console.log(`⚠️ sitemap API 提交失败: ${e.message?.substring(0, 80)}\n`);
   }
 
   // 2. 加载状态
