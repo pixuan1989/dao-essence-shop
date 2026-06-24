@@ -27,7 +27,7 @@ const BACKUP_ENDPOINTS = [
 ];
 
 // 代理配置（QuickQ 端口）
-const PROXY_URL = process.env.HTTPS_PROXY || process.env.https_proxy || 'http://127.0.0.1:7897';
+const PROXY_URL = process.env.HTTPS_PROXY || process.env.https_proxy || 'http://127.0.0.1:8800';
 
 let HttpsProxyAgent;
 try {
