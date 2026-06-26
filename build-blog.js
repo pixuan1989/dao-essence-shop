@@ -2263,7 +2263,7 @@ async function main() {
     try {
       const { buildSystemPrompt } = await import('./scripts/translate-zh-auto.mjs');
       const terms = {};
-      const termFile = path.join(ROOT_DIR, 'i18n', 'terminology.json');
+      const termFile = path.join(SRC_DIR, 'i18n', 'terminology.json');
       if (fs.existsSync(termFile)) {
         const rawTerms = JSON.parse(fs.readFileSync(termFile, 'utf-8'));
         for (const mappings of Object.values(rawTerms.categories)) Object.assign(terms, mappings);
