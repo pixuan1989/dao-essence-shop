@@ -15,7 +15,7 @@ readTime: 10
 pinned: false
 image: /images/blog/kazuo-inamori-three-xin-metal-bazi.webp
 slug: kazuo-inamori-bazi-three-xin-fortune-500
-h1Title: "Kazuo Inamori BaZi: Three Xin Metal Built Two Fortune 500s"
+h1Title: "稻盛和夫八字：三辛金締造兩家《財富》500強企業"
 seoDescription: "Kazuo Inamori BaZi chart decoded — how a Three Xin Metal pattern built two Fortune 500 companies. Try your free birth chart now."
 faq:
   - question: "What is the Three Xin Metal BaZi pattern?"
