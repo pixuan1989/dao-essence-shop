@@ -80,7 +80,7 @@ keywords: "kazuo inamori bazi, three xin metal bazi, yin metal day master, celeb
 
 最後一點至關重要。如果沒有戊土——即正印——稻盛和夫的命盤很可能只會造就一個才華橫溢卻孤立的個體，或許是個隱居的學者或工匠。有了戊土，命盤才具備建立機構的能力。
 
-如果您是八字格局的新手，我們的[初學者指南](/blog/what-is-bazi-beginners-guide)將以淺顯易懂的方式為您講解基礎知識。想了解三辛格局與其他名人命盤的對比，請參閱我們的[馬斯克八字分析](/blog/elon-musk-bazi-yang-wood-day-master-decoded)——這是一個動態截然不同的陽木日主格局。
+如果您是八字格局的新手，我們的[初學者指南](/blog/what-is-bazi-beginners-guide)將以淺顯易懂的方式為您講解基礎知識。想了解三辛格局與其他名人命盤的對比，請參閱我們的[馬斯克八字分析](/blog/elon-musk-bazi-chart-analysis)——這是一個動態截然不同的陽木日主格局。
 
 ![八字四柱命盤結構圖，顯示年、月、日、時四柱的天干與地支](/images/blog/bazi-four-pillars-structure.webp)## 稻盛和夫的八字——原局命盤
 
@@ -230,7 +230,7 @@ keywords: "kazuo inamori bazi, three xin metal bazi, yin metal day master, celeb
 
 對自己的命盤感到好奇嗎？[幾秒鐘內免費生成你的八字命盤](/#free-bazi)。想學習如何有系統地解讀命盤嗎？[立即開始我們的免費六堂課](/learn-bazi)。兩者皆完全免費，無需訂閱。## 常見問題
 
-若想更深入瞭解八字格局的運作原理，我們的[免費八字入門指南](/blog/what-is-bazi-beginners-guide)涵蓋了基礎知識。若想閱讀另一位名人的案例研究，請參閱我們的[伊隆·馬斯克八字分析](/blog/elon-musk-bazi-yang-wood-day-master-decoded)。
+若想更深入瞭解八字格局的運作原理，我們的[免費八字入門指南](/blog/what-is-bazi-beginners-guide)涵蓋了基礎知識。若想閱讀另一位名人的案例研究，請參閱我們的[伊隆·馬斯克八字分析](/blog/elon-musk-bazi-chart-analysis)。
 
 ---
 

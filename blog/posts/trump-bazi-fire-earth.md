@@ -146,7 +146,7 @@ For a systematic learning path, our [free 6-chapter BaZi course](/learn-bazi) us
 
 Want another case study of a chart that defied its "unfavorable" periods? See how Japan's Kazuo Inamori built two Fortune 500 companies from a rare Three Xin Metal pattern — a configuration almost no traditional BaZi textbook would call favorable. [Read the full Inamori analysis](/blog/kazuo-inamori-bazi-three-xin-fortune-500).
 
-For comparison, see [Elon Musk's Yang Wood BaZi decoded](/blog/elon-musk-bazi-yang-wood-day-master-decoded): how Seven Killings + Jia Wood produced extreme risk tolerance and multi-industry empire-building.
+For comparison, see [Elon Musk's Yang Wood BaZi decoded](/blog/elon-musk-bazi-chart-analysis): how Seven Killings + Jia Wood produced extreme risk tolerance and multi-industry empire-building.
 
 ---
 

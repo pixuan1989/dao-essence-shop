@@ -87,7 +87,7 @@ For a Yin Metal Day Master like Inamori, the Three Xin pattern produces several 
 
 This last point is critical. Without Wu Earth (戊土) — the Direct Seal — Inamori's chart would likely have produced a brilliant but isolated figure, possibly a hermit scholar or craftsman. With Wu Earth, the chart becomes capable of building institutions.
 
-If you're new to BaZi patterns, [our beginner's guide](/blog/what-is-bazi-beginners-guide) walks through the basics without jargon. To see how a Three Xin pattern compares to other celebrity charts, look at our [Elon Musk BaZi analysis](/blog/elon-musk-bazi-yang-wood-day-master-decoded) — a Yang Wood Day Master configuration with very different dynamics.
+If you're new to BaZi patterns, [our beginner's guide](/blog/what-is-bazi-beginners-guide) walks through the basics without jargon. To see how a Three Xin pattern compares to other celebrity charts, look at our [Elon Musk BaZi analysis](/blog/elon-musk-bazi-chart-analysis) — a Yang Wood Day Master configuration with very different dynamics.
 
 ![BaZi four pillars chart structure showing Year, Month, Day, and Hour columns with stems and branches](/images/blog/bazi-four-pillars-structure.webp)
 
@@ -251,7 +251,7 @@ Curious about your own chart? [Generate your free BaZi chart](/#free-bazi) in se
 
 ## FAQ
 
-For a deeper understanding of how BaZi patterns work, our [free BaZi beginner's guide](/blog/what-is-bazi-beginners-guide) covers the fundamentals. To see another celebrity case study, read our [Elon Musk BaZi analysis](/blog/elon-musk-bazi-yang-wood-day-master-decoded).
+For a deeper understanding of how BaZi patterns work, our [free BaZi beginner's guide](/blog/what-is-bazi-beginners-guide) covers the fundamentals. To see another celebrity case study, read our [Elon Musk BaZi analysis](/blog/elon-musk-bazi-chart-analysis).
 
 ---
 
