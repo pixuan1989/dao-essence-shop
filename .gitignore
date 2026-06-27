@@ -73,6 +73,11 @@ reports/
 .workbuddy/
 *.bak
 
+# Qwen Code / Codebuddy skill registration files (auto-generated, never push)
+.agents/
+.codebuddy/
+skills-lock.json
+
 # GCP Service Account key (contains private key, NEVER COMMIT)
 credentials.json
 
