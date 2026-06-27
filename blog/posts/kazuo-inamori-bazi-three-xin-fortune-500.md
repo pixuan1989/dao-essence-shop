@@ -207,7 +207,17 @@ Ren Water (Yang Water) is the Hurting Officer (伤官) for Yin Metal — brillia
 
 In 2022, the Ren Yin (壬寅) year clashed with his chart, and on August 24 (Ji You day, 己酉日), Metal at its peak, he passed away at age 90. The Hurting Officer paired with Seal is often the configuration of someone who leaves a distinct intellectual legacy — and Inamori's Seiwajuku continues to influence thousands of entrepreneurs across Asia.
 
-![Eight major luck cycles timeline showing key life events from age 5 to 95](/images/blog/kazuo-inamori-daqyun-timeline.webp)
+| Age | Pillar | Year | Key Event |
+|-----|--------|------|-----------|
+| 5-15 | Geng Zi (庚子) | 1937-1947 | Childhood poverty, tuberculosis at 12 |
+| 15-25 | Ji Hai (己亥) | 1947-1957 | University, early career at Shofu |
+| 25-35 | Wu Xu (戊戌) | 1957-1967 | **1959: Founded Kyocera** |
+| 35-45 | Ding You (丁酉) | 1967-1977 | **1971: Kyocera IPO** |
+| 45-55 | Bing Shen (丙申) | 1977-1987 | **1983: Founded Seiwajuku** |
+| 55-65 | Yi Wei (乙未) | 1987-1997 | 1990 Plaza Accord crisis |
+| 65-75 | Jia Wu (甲午) | 1997-2007 | **1997: Cancer diagnosis, became monk** |
+| 75-85 | Gui Si (癸巳) | 2007-2017 | **2010-2012: JAL turnaround** |
+| 85-95 | Ren Chen (壬辰) | 2017-2027 | **2022-08-24: Died at 90** |
 
 ## Why Inamori Defied His Luck Cycles
 
