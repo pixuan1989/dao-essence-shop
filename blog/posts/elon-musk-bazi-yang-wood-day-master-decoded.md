@@ -164,6 +164,12 @@ If you're curious about your own energy patterns — your Day Master, your domin
 
 No subscription required. No upsell. Just your Four Pillars, decoded.
 
+## More Celebrity BaZi Decoded
+
+Want to compare Musk's chart with other public figures? See how Japan's Kazuo Inamori built two Fortune 500 companies from a rare Three Xin Metal pattern — a configuration almost no traditional BaZi textbook would call favorable. [Read the full Inamori analysis](/blog/kazuo-inamori-bazi-three-xin-fortune-500).
+
+For a chart that looks nothing like Musk's — pure Fire-Earth with almost no Water — see [Trump's BaZi decoded](/blog/trump-bazi-fire-earth): how the same element (moist Earth) appeared at both presidential victories.
+
 ---
 
 **Disclaimer**: This analysis is for cultural education and entertainment purposes. BaZi is a traditional Chinese framework — not a scientific instrument. Individual outcomes depend on countless factors beyond birth data.

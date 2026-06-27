@@ -142,6 +142,12 @@ You don't need to calculate any of this manually. Our free [BaZi calculator](/#f
 
 For a systematic learning path, our [free 6-chapter BaZi course](/learn-bazi) uses your own chart as the textbook, guiding you step by step from identifying the Day Master to reading annual pillars.
 
+## More Celebrity BaZi Decoded
+
+Want another case study of a chart that defied its "unfavorable" periods? See how Japan's Kazuo Inamori built two Fortune 500 companies from a rare Three Xin Metal pattern — a configuration almost no traditional BaZi textbook would call favorable. [Read the full Inamori analysis](/blog/kazuo-inamori-bazi-three-xin-fortune-500).
+
+For comparison, see [Elon Musk's Yang Wood BaZi decoded](/blog/elon-musk-bazi-yang-wood-day-master-decoded): how Seven Killings + Jia Wood produced extreme risk tolerance and multi-industry empire-building.
+
 ---
 
 *Disclaimer: This analysis is for cultural education and entertainment purposes. BaZi is a traditional Chinese framework — not a scientific instrument. Political commentary is incidental to the chart analysis and should not be interpreted as endorsement or criticism.*
