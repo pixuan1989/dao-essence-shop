@@ -1,6 +1,6 @@
 ---
 title: "2026年7月旺運壁紙：乙未月五行顏色指南"
-description: "2026年7月乙未月從火能量過渡到木土平衡能量。為你的五行找到幸運壁紙顏色。"
+description: "2026年7月乙未月（7/7小暑–8/7立秋）五行從火能量過渡到木土平衡。綠森林、金色大地、蓮花水景——按你的五行找到幸運壁紙顏色，讓手機與月度能量同頻。"
 date: "2026-06-30"
 slug: "july-2026-lucky-wallpaper-yi-wei-month-five-elements"
 category: feng-shui
