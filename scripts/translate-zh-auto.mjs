@@ -12,6 +12,7 @@ import matter from 'gray-matter';
 
 const DASHSCOPE_MODEL = 'qwen3.5-plus';
 const DASHSCOPE_BASE_URL = 'https://dashscope.aliyuncs.com/compatible-mode/v1';
+const TRANSLATE_TIMEOUT_MS = 180000; // 3 minutes (was 120s, long articles need more)
 
 // Load terminology dictionary
 function loadTerminology(rootDir) {
@@ -48,7 +49,7 @@ function buildSystemPrompt(terms) {
 ${termList}`;
 }
 
-async function callDashScope(messages, maxTokens = 8000, timeoutMs = 120000) {
+async function callDashScope(messages, maxTokens = 8000, timeoutMs = TRANSLATE_TIMEOUT_MS) {
   const apiKey = process.env.DASHSCOPE_API_KEY;
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
