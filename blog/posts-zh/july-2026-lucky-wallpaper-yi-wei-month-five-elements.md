@@ -14,7 +14,8 @@ author: "Dingwei"
 readTime: 9
 image: "/images/blog/july-2026-lucky-wallpaper-yi-wei-month-five-elements.webp"
 lang: "zh-TW"
-faq_zh:
+seoDescription: "2026年7月乙未月五行旺運壁紙指南——從火能量過渡到木土平衡，為你的命盤找到最幸運的壁紙顏色。免費查詢你的五行。"
+faq:
   - question: "2026年乙未月是什麼時候？"
     answer: "乙未月大約從2026年7月7日（小暑）到8月7日（立秋），持續約一個月。"
   - question: "乙未月和之前的甲午月有什麼不同？"
