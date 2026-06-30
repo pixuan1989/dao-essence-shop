@@ -161,7 +161,7 @@ Not sure which colors support your personal energy? Use our free [Favorable Elem
 
 **Step 3: Browse our Lucky Wallpapers collection**
 
-Visit our [Lucky Wallpapers module](/wallpapers) and filter by:
+Visit our [Lucky Wallpapers module](/wallpaper) and filter by:
 - **Five Elements** category for color-specific designs
 - **Feng Shui** category for energy-balanced compositions
 - **Energy** category for vibrant, life-force imagery
@@ -195,7 +195,7 @@ We've curated wallpapers that match Yi Wei month's Wood-Earth balance:
 - Gentle stream through forest
 - Ethereal blue water with golden sparkles
 
-Browse all [Lucky Wallpapers](/wallpapers) →
+Browse all [Lucky Wallpapers](/wallpaper) →
 
 ## Monthly Wallpaper Rotation: Why It Works
 
@@ -217,7 +217,7 @@ It's not superstition — it's **environmental design** based on natural cycles.
 **Quick actions:**
 
 1. [Check your favorable element](/favorable-element) — know which colors support your personal energy
-2. [Browse Lucky Wallpapers](/wallpapers) — filter by Five Elements or Feng Shui categories
+2. [Browse Lucky Wallpapers](/wallpaper) — filter by Five Elements or Feng Shui categories
 3. [Read our complete wallpaper guide](/blog/how-to-choose-your-phone-wallpaper-using-chinese-five-elements) — understand the theory behind color choices
 
 **July 2026 is your month to consolidate, grow gently, and build foundations.** Let your wallpaper reflect that energy.
