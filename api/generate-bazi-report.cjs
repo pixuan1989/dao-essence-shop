@@ -184,7 +184,7 @@ async function callQwen(systemPrompt, userContent, options = {}) {
 
 // ─── System Prompt 模板（只含核心規則，不含全量知識庫） ───
 function buildSystemPrompt(section) {
-  const coreRules = '你是一位頂尖的資深盲派命理師，從業30年，精通段建業、李清娟盲派體系、子平術、調候、通關、病藥學說、滴天髓。你的風格專業、直接、接地氣。用「你」稱呼命主。語氣像一位誠懇的分析師在給客戶做解析——該說好說好，該說壞說壞，不繞彎子。你精通盲派命理，以「做功」為核心論命，同時輔助判斷身強身弱。\n\n【盲派核心規則：身強弱判斷】\n1. 月令佔50%：得令為強，失令為弱\n2. 印比幫身佔30%：辰丑濕土不幫身反助水，只有戌未燥土可幫身\n3. 剋泄耗佔30%：看官殺財星食傷是否旺\n\n【身弱大運吉凶規則】\n- 行比劫運：比劫幫身將財才轉正化為財富 → 吉\n- 行印運：印星生身 → 吉\n- 行財運：財旺耗身 → 凶\n- 行官殺運：官殺克身 → 凶\n\n【辰丑濕土鐵律】辰丑為濕土內藏水，不助土反助水，生金晦火不克水。戌未為燥土才能助土。\n\n【注意】下面的「段建業命理知識庫」中的相關知識已在本節的用戶消息中提供，請以用戶消息中的盲派知識為準進行分析。';
+  const coreRules = '【全局約束】分析必須全面覆蓋所有要求方面，禁止因任何原因省略內容。如某方面內容較長，允許超出字數限制，不可精簡帶過。\n\n你是一位頂尖的資深盲派命理師，從業30年，精通段建業、李清娟盲派體系、子平術、調候、通關、病藥學說、滴天髓。你的風格專業、直接、接地氣。用「你」稱呼命主。語氣像一位誠懇的分析師在給客戶做解析——該說好說好，該說壞說壞，不繞彎子。你精通盲派命理，以「做功」為核心論命，同時輔助判斷身強身弱。\n\n【盲派核心規則：身強弱判斷】\n1. 月令佔50%：得令為強，失令為弱\n2. 印比幫身佔30%：辰丑濕土不幫身反助水，只有戌未燥土可幫身\n3. 剋泄耗佔30%：看官殺財星食傷是否旺\n\n【身弱大運吉凶規則】\n- 行比劫運：比劫幫身將財才轉正化為財富 → 吉\n- 行印運：印星生身 → 吉\n- 行財運：財旺耗身 → 凶\n- 行官殺運：官殺克身 → 凶\n\n【辰丑濕土鐵律】辰丑為濕土內藏水，不助土反助水，生金晦火不克水。戌未為燥土才能助土。\n\n【注意】下面的「段建業命理知識庫」中的相關知識已在本節的用戶消息中提供，請以用戶消息中的盲派知識為準進行分析。';
   const antiFabrication = '【重要】只能根據八字原理做分析，絕對不能編造具體的個人生活經歷。可以用場景化描述，但不能說「你曾經...」「你之前...」這類虛構故事。';
   const noEmoji = '【格式】禁止使用任何Emoji符号、Unicode图标。只能用中文标点符号。';
   const formatRules = '【排版格式】禁止使用 #、##、###、#### 等markdown標題符號。章節分隔用【一、】【二、】或自然段落，不要用任何符號標記標題。輸出純文字內容，HTML格式會由模板自動處理。';
@@ -239,6 +239,7 @@ function buildSystemPrompt(section) {
 
     // ── 大運（盲派：做功/賓主體用） ──
     dayun: coreRules + ' ' + formatRules + ' ' + antiFabrication + noEmoji + 
+      '【絕對禁止偷懶】本節內容必須全面覆蓋，禁止因篇幅限制而省略任何要求分析的部分。地支分析不可省略，不可只用一句帶過。\n\n' +
       '寫「大運走勢」。這是最重要的章節。\n\n' +
       '用盲派思路分析大運，但**必須先判斷身強弱再分析大運吉凶**。\n\n' +
       '身強弱判斷規則（鐵律）：\n' +
@@ -256,16 +257,20 @@ function buildSystemPrompt(section) {
       '【XX運 XX-XX歲】吉／凶／先凶後吉／先吉後凶\n' +
       '先用一句有衝擊力的話定性——「這十年你將感受到前所未有的壓力」「這是你的財富積累黃金期」。\n\n' +
       '然後拆開分析：\n\n' +
-      '天干分析：\n' +
-      '  事業方面：直接說天干對事業的具體影響。\n' +
-      '  財運方面：直接說天干對財運的具體影響。\n' +
-      '  健康方面：直接說天干對健康的具體影響。\n' +
-      '  應對建議：給出具體的行動指南。\n\n' +
-      '地支分析：\n' +
-      '  直接說地支對人際、家庭或內在狀態的具體影響。\n\n' +
+      '【天干分析】（必寫，不可省略）\n' +
+      '  天干十神是什麼，對命主有何影響。\n' +
+      '  事業方面：天干十神對事業的具體影響。\n' +
+      '  財運方面：天干十神對財運的具體影響。\n' +
+      '  感情方面：天干十神對感情的具體影響。\n' +
+      '  健康方面：天干十神對健康的具體影響。\n\n' +
+      '【地支分析】（必寫，不可省略，不可只用一句帶過）\n' +
+      '  1. 地支藏干有哪些（如「辰藏戊乙癸」），這些藏干對命主的具體影響。\n' +
+      '  2. 地支與原局是否有合/沖/刑/害，具體說明（如「辰酉合，引動子女宮」）。\n' +
+      '  3. 地支對事業/財運/感情/健康的具體影響（分開說，不可合在一起籠統說）。\n' +
+      '  4. 天干+地支綜合判斷：吉凶理由。\n\n' +
       '當前大運加倍篇幅，分事業/財運/感情/健康四方面詳寫。\n' +
       '語言直接不繞彎，凶運要說清楚凶在哪方面。\n' +
-      '控制在1200字以內。',
+      '控制在2500字以內。',
 
     // ── 流年（仿天機閣：每年獨立分開寫） ──
     liunian: coreRules + ' ' + formatRules + ' ' + antiFabrication + noEmoji + 
@@ -437,7 +442,7 @@ async function generateReport(baziData) {
 
   // 測試模式只跑3個章節（省錢），正式模式跑全量13章
   const sections = TEST_MODE
-    ? ['overview', 'personality', 'mangpai']
+    ? ['overview', 'personality', 'dayun', 'mangpai']
     : ['overview', 'personality', 'fourPillars', 'shishen',
        'dayun', 'liunian', 'career', 'wealth', 'romance', 'fortune', 'mangpai', 'closing'];
 
@@ -447,9 +452,24 @@ async function generateReport(baziData) {
     try {
       // 按節注入相關知識（避免全量95KB塞給AI）
       const sectionKnowledge = getSectionKnowledge(section);
-      const options = section === 'closing' 
-        ? { temperature: 0.5, max_tokens: 512, enable_thinking: false, timeout: 60000 }
-        : { temperature: 0.75, max_tokens: 8192 };
+      const options = (() => {
+        // 各章节 token 上限：内容越复杂给越多
+        const tokenMap = {
+          closing:  { temperature: 0.5,  max_tokens: 512,  enable_thinking: false, timeout: 60000 },
+          overview: { temperature: 0.75, max_tokens: 4096 },
+          personality: { temperature: 0.75, max_tokens: 4096 },
+          fourPillars: { temperature: 0.75, max_tokens: 4096 },
+          shishen: { temperature: 0.75, max_tokens: 6144 },
+          dayun:  { temperature: 0.75, max_tokens: 8192 },
+          liunian: { temperature: 0.75, max_tokens: 6144 },
+          career: { temperature: 0.75, max_tokens: 6144 },
+          wealth: { temperature: 0.75, max_tokens: 4096 },
+          romance: { temperature: 0.75, max_tokens: 4096 },
+          fortune: { temperature: 0.75, max_tokens: 4096 },
+          mangpai: { temperature: 0.75, max_tokens: 6144 },
+        };
+        return tokenMap[section] || { temperature: 0.75, max_tokens: 8192 };
+      })();
       const content = await callQwen(
         buildSystemPrompt(section),
         buildUserPrompt(section, baziData, blindSchoolAnalysis, sectionKnowledge),
@@ -647,8 +667,12 @@ function analyzeBaziByBlindSchool(baziData) {
   if ((hourGan==='戊'||hourGan==='己'||yearGan==='戊'||yearGan==='己') && (monthGan==='壬'||monthGan==='癸'))
     duanyu.push('「比劫奪了財,當心妻有災」——天干比劫制財,感情/財運易有競爭');
   if ((dayZhi==='巳'||yearZhi==='巳') && monthZhi==='申') {
+    // 巳申合：只有命盘透出官杀（甲乙木对己土日主）才能谈「制杀」
+    const hasGuanSha = [yearGan,monthGan,hourGan].some(g => g==='甲'||g==='乙');
+    if (hasGuanSha) {
+      duanyu.push('「食神制殺,有一定職務」——巳申合接近食傷制殺邏輯（僅在命盘透官杀時適用）');
+    }
     duanyu.push('「巳申合,制的效果好」——印合傷官/財星,靠腦力技術取財');
-    duanyu.push('「食神制殺,有一定職務」——巳申合接近食傷制殺邏輯');
   }
   if (monthZhi==='申') {
     duanyu.push('「傷官主文章」——傷官在月令,主技術/才華/創業');
