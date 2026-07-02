@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>八字批命書 | 玄珍館</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700;900&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+@page { size: A4; margin: 0; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Noto Serif TC', 'Noto Serif SC', 'Noto Sans TC', serif;
+  color: #1a1a1a;
+  background: #e8e2d6;
+  line-height: 2;
+  font-size: 11pt;
+}
+.page {
+  width: 210mm; min-height: 297mm;
+  padding: 18mm 20mm;
+  margin: 0 auto 6mm auto;
+  background: #fcf9f2;
+  position: relative;
+  page-break-after: always;
+}
+
+/* ─── 頁眉頁腳 ─── */
+.page-header {
+  position: absolute; top: 0; left: 20mm; right: 20mm;
+  height: 10mm;
+  border-bottom: 1px solid rgba(212,175,55,0.2);
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: 9pt; color: #8B0000;
+}
+.page-header .title { font-weight: 600; }
+.pg-num { font-size: 9pt; color: #D4AF37; }
+.page-footer {
+  position: absolute; bottom: 7mm; left: 20mm; right: 20mm;
+  text-align: center; font-size: 8pt; color: #aaa;
+  border-top: 1px solid rgba(212,175,55,0.15); padding-top: 3mm;
+}
+.footer-bar {
+  position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, #8B0000, #D4AF37, #8B0000, #D4AF37, #8B0000);
+}
+
+/* ─── 封面 ─── */
+.cover {
+  background: linear-gradient(170deg, #1a0505 0%, #3d0d0d 50%, #1a0505 100%);
+  color: #e8dcc8;
+  display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
+}
+.cover::before {
+  content: ''; position: absolute; top:0; left:0; right:0; bottom:0;
+  background: radial-gradient(ellipse at 30% 20%, rgba(212,175,55,0.08) 0%, transparent 60%),
+              radial-gradient(ellipse at 70% 80%, rgba(139,0,0,0.15) 0%, transparent 50%);
+  pointer-events: none;
+}
+.cover-border {
+  position: absolute; top:15mm; left:15mm; right:15mm; bottom:15mm;
+  border: 1px solid rgba(212,175,55,0.2);
+  pointer-events: none;
+}
+.cover-seal {
+  width: 52px; height: 52px;
+  border: 2px solid rgba(212,175,55,0.5);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13pt; color: rgba(212,175,55,0.6);
+  margin-bottom: 28px; transform: rotate(-6deg);
+}
+.cover h1 {
+  font-size: 36pt; font-weight: 900; color: #e8dcc8;
+  letter-spacing: 12px; margin-bottom: 4px;
+}
+.cover h2 {
+  font-size: 12pt; color: rgba(212,175,55,0.5);
+  letter-spacing: 6px; margin-bottom: 6px;
+}
+.cover-line { width: 60px; height: 1px; background: rgba(212,175,55,0.3); margin: 0 auto; }
+.cover-sub { margin-top: 4px; font-size: 7.5pt; color: rgba(212,175,55,0.2); letter-spacing: 2px; }
+.cover-info {
+  margin-top: 28px; text-align: left; font-size: 10pt; line-height: 2.8; color: rgba(232,220,200,0.85);
+}
+.cover-info span { color: rgba(212,175,55,0.5); margin-right: 6px; }
+.bazi-grid { margin-top: 18px; border-collapse: collapse; }
+.bazi-grid td {
+  border: 1px solid rgba(212,175,55,0.2);
+  padding: 5px 14px; font-size: 18pt; color: rgba(212,175,55,0.7);
+  text-align: center; min-width: 46px;
+}
+.bazi-grid .label {
+  font-size: 7pt; color: rgba(212,175,55,0.3);
+  border-top: none; padding: 2px 14px;
+}
+.cover-note {
+  position: absolute; bottom: 20mm;
+  font-size: 7pt; color: rgba(232,220,200,0.12); letter-spacing: 1px;
+}
+
+/* ─── 章節 ─── */
+.section { margin-top: 10mm; }
+.section-title {
+  font-size: 16pt; font-weight: 700; color: #8B0000;
+  margin-bottom: 4px; letter-spacing: 3px;
+}
+.section-title-deco {
+  width: 36px; height: 2px; background: #D4AF37; margin-bottom: 10px;
+}
+.section-sub {
+  font-size: 10pt; color: #bbb; margin-bottom: 12px;
+}
+
+/* ─── 正文 ─── */
+.body-text {
+  font-size: 11pt; line-height: 2.2; color: #2a2a2a; text-indent: 2em; margin-bottom: 10px;
+  text-align: justify;
+}
+.body-text strong { color: #8B0000; font-weight: 700; }
+
+/* ─── 命盤總覽頁 ─── */
+.overview-grid {
+  margin-bottom: 14px;
+}
+.overview-grid .bazi-table {
+  width: 100%; border-collapse: collapse; margin-bottom: 10px;
+}
+.overview-grid .bazi-table th {
+  background: #8B0000; color: #fcf9f2;
+  padding: 6px 10px; font-size: 10pt; text-align: center; font-weight: 600;
+}
+.overview-grid .bazi-table td {
+  padding: 6px 10px; border: 1px solid #e0d8c8; text-align: center; font-size: 12pt;
+  vertical-align: middle;
+}
+.overview-grid .bazi-table .gan { font-size: 14pt; font-weight: 700; color: #8B0000; }
+.overview-grid .bazi-table .zhi { font-size: 14pt; color: #333; }
+.overview-grid .bazi-table .shishen-label { font-size: 8pt; color: #999; display: block; margin-top: 1px; }
+.wuxing-list { list-style: none; margin: 6px 0 10px 0; }
+.wuxing-list li { font-size: 10pt; color: #333; line-height: 2; padding-left: 0.5em; }
+.wuxing-list li::before { content: '▸ '; color: #8B0000; font-weight: 700; }
+
+/* ─── 點評框 ─── */
+.remark {
+  margin: 12px 0; padding: 10px 14px;
+  background: rgba(212,175,55,0.06); border-left: 2px solid #D4AF37;
+  font-size: 11pt; line-height: 2; color: #444;
+}
+.remark-label { font-weight: 700; color: #8B0000; font-size: 11pt; margin-bottom: 2px; }
+.remark-label-small { font-weight: 700; color: #8B0000; font-size: 11pt; }
+
+/* ─── 大運 ─── */
+.dayun-item {
+  padding: 6px 0 6px 14px; border-left: 2px solid #D4AF37;
+  margin-bottom: 5px; position: relative;
+}
+.dayun-item::before {
+  content: ''; position: absolute; left: -6px; top: 13px;
+  width: 9px; height: 9px; border-radius: 50%;
+  background: #8B0000; border: 2px solid #D4AF37;
+}
+.dayun-item.current::before { background: #D4AF37; border-color: #8B0000; }
+.dayun-year { font-weight: 700; color: #8B0000; font-size: 11pt; }
+.dayun-desc { font-size: 11pt; color: #555; line-height: 1.8; margin-top: 1px; }
+
+/* ─── 表格 ─── */
+.simple-table {
+  width: 100%; border-collapse: collapse; margin: 8px 0; font-size: 9.5pt;
+}
+.simple-table th {
+  background: #8B0000; color: #fcf9f2;
+  padding: 7px 10px; font-size: 10pt; text-align: center; font-weight: 600;
+}
+.simple-table td {
+  padding: 5px 8px; border-bottom: 1px solid #e8e0d4; color: #333; vertical-align: top; line-height: 1.8;
+}
+.simple-table tr:nth-child(even) td { background: rgba(212,175,55,0.04); }
+
+/* ─── 三維 ─── */
+.dim-section { margin: 10px 0; }
+.dim-section h4 { font-size: 12pt; color: #8B0000; margin-bottom: 2px; font-weight: 700; }
+
+/* ─── 開運 ─── */
+.advice-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 10px 0; }
+.advice-box { padding: 8px 10px; background: rgba(212,175,55,0.06); }
+.advice-box-title {
+  font-weight: 700; color: #8B0000; font-size: 11pt;
+  padding-bottom: 2px; border-bottom: 1px solid rgba(212,175,55,0.2); margin-bottom: 3px;
+}
+.advice-box-content { font-size: 11pt; color: #555; line-height: 1.8; }
+.sub-text { font-size: 10pt; color: #777; line-height: 1.8; padding-left: 1em; }
+.tip-item { padding: 3px 0; font-size: 11pt; color: #555; }
+.tip-item::before { content: '· '; color: #8B0000; font-weight: 700; }
+
+/* ─── 結語框 ─── */
+.closing {
+  margin-top: 20px; padding: 16px 20px;
+  background: #1a0505; color: #e8dcc8;
+  text-align: center; line-height: 2.2; font-size: 9.5pt;
+}
+.closing strong { color: #D4AF37; }
+
+/* ─── 免責聲明 ─── */
+.disclaimer { margin-top: 10mm; }
+.disclaimer-title { font-size: 12pt; font-weight: 700; color: #8B0000; margin-bottom: 8px; }
+.disclaimer-item { font-size: 10pt; color: #555; line-height: 2; margin-bottom: 4px; padding-left: 1.5em; text-indent: -1.5em; }
+.disclaimer-item::before { content: '• '; color: #8B0000; font-weight: 700; }
+</style>
+</head>
+<body>
+
+<!-- ═══════ 封面 ═══════ -->
+<div class="page cover">
+  <div class="cover-border"></div>
+  <div class="cover-seal">玄珍</div>
+  <h1>八字批命書</h1>
+  <h2>BaZi Life Guidance · 天機盡在此中尋</h2>
+  <div class="cover-line"></div>
+  <p class="cover-sub">— 私家珍藏 · 非請勿示 —</p>
+  <div class="cover-info">
+    <span>信人</span>　張明德 先生<br>
+    <span>生於</span>　西元一九九〇年八月十五日 申時<br>
+    <span>公曆</span>　1990年8月15日 15:00–17:00<br>
+    <span>四柱</span>　庚午年 甲申月 甲子日 壬申時
+  </div>
+  <table class="bazi-grid">
+    <tr><td class="label"></td><td class="label">年柱</td><td class="label">月柱</td><td class="label">日柱</td><td class="label">時柱</td></tr>
+    <tr><td class="label" style="border-right:none;">天干</td><td>庚</td><td>甲</td><td>甲</td><td>壬</td></tr>
+    <tr><td class="label" style="border-right:none;">地支</td><td>午</td><td>申</td><td>子</td><td>申</td></tr>
+    <tr><td class="label" style="border-right:none;">藏干</td><td>丁己</td><td>庚壬戊</td><td>癸</td><td>庚壬戊</td></tr>
+  </table>
+  <div class="cover-note">— 此為機密個人命理文件，僅供信人本人參閱，不可外傳 —</div>
+</div>
+
+<!-- ═══════ 第一章 · 命盤總覽 ═══════ -->
+<div class="page">
+  <div class="page-header"><span class="title">八字批命書</span><span class="pg-num">一</span></div>
+  <div class="section">
+    <h3 class="section-title">命盤總覽</h3>
+    <div class="section-title-deco"></div>
+    <p class="section-sub">四柱八字 · 五行分布 · 格局判定 · 神煞</p>
+
+    <div class="overview-grid">
+      <table class="bazi-table">
+        <tr>
+          <th style="width:16%;"></th>
+          <th style="width:21%;">年柱</th>
+          <th style="width:21%;">月柱</th>
+          <th style="width:21%;">日柱</th>
+          <th style="width:21%;">時柱</th>
+        </tr>
+        <tr>
+          <td style="font-weight:700;color:#8B0000;">天干</td>
+          <td><span class="gan">{{OG_YEAR_GAN}}</span><span class="shishen-label"></span></td>
+          <td><span class="gan">{{OG_MONTH_GAN}}</span><span class="shishen-label"></span></td>
+          <td><span class="gan">{{OG_DAY_GAN}}</span><span class="shishen-label">日主</span></td>
+          <td><span class="gan">{{OG_HOUR_GAN}}</span><span class="shishen-label"></span></td>
+        </tr>
+        <tr>
+          <td style="font-weight:700;color:#8B0000;">地支</td>
+          <td><span class="zhi">{{OG_YEAR_ZHI}}</span><span class="shishen-label"></span></td>
+          <td><span class="zhi">{{OG_MONTH_ZHI}}</span><span class="shishen-label"></span></td>
+          <td><span class="zhi">{{OG_DAY_ZHI}}</span><span class="shishen-label"></span></td>
+          <td><span class="zhi">{{OG_HOUR_ZHI}}</span><span class="shishen-label"></span></td>
+        </tr>
+        <tr>
+          <td style="font-weight:700;color:#8B0000;">藏干</td>
+          <td>{{OG_CANG_Y}}</td>
+          <td>{{OG_CANG_M}}</td>
+          <td>{{OG_CANG_D}}</td>
+          <td>{{OG_CANG_H}}</td>
+        </tr>
+        <tr>
+          <td style="font-weight:700;color:#8B0000;">藏干十神</td>
+          <td>{{OG_SHISZHEN_Y}}</td>
+          <td>{{OG_SHISZHEN_M}}</td>
+          <td>{{OG_SHISZHEN_D}}</td>
+          <td>{{OG_SHISZHEN_H}}</td>
+        </tr>
+      </table>
+
+      <div id="ai-content-overview"></div>
+    </div>
+  </div>
+  <div class="page-footer">玄珍館 · 八字批命書 · 信人 張明德</div>
+  <div class="footer-bar"></div>
+</div>
+
+<!-- ═══════ 第二章 · 日主性格深度解讀 ═══════ -->
+<div class="page">
+  <div class="page-header"><span class="title">八字批命書</span><span class="pg-num">二</span></div>
+  <div class="section">
+    <h3 class="section-title">日主性格深度解讀</h3>
+    <div class="section-title-deco"></div>
+    <p class="section-sub">日主性情 · 十神心性 · 五行人格</p>
+    <div id="ai-content-personality"></div>
+  </div>
+  <div class="page-footer">玄珍館 · 八字批命書 · 信人 張明德</div>
+  <div class="footer-bar"></div>
+</div>
+
+<!-- ═══════ 第三章 · 格局與五行分析 ═══════ -->
+<div class="page">
+  <div class="page-header"><span class="title">八字批命書</span><span class="pg-num">三</span></div>
+  <div class="section">
+    <h3 class="section-title">格局與五行分析</h3>
+    <div class="section-title-deco"></div>
+    <p class="section-sub">格局成敗 · 納音解讀 · 五行流通</p>
+    <div id="ai-content-fourPillars"></div>
+  </div>
+  <div class="page-footer">玄珍館 · 八字批命書 · 信人 張明德</div>
+  <div class="footer-bar"></div>
+</div>
+
+<!-- ═══════ 三·五 盲派做功分析 ═══════ -->
+<div class="page">
+  <div class="page-header"><span class="title">八字批命書</span><span class="pg-num">三·五</span></div>
+  <div class="section">
+    <h3 class="section-title">盲派做功分析</h3>
+    <div class="section-title-deco"></div>
+    <p class="section-sub">不談旺衰 · 只看效率 · 以體取用</p>
+    <div id="ai-content-mangpai"></div>
+  </div>
+  <div class="page-footer">玄珍館 · 八字批命書 · 信人 張明德</div>
+  <div class="footer-bar"></div>
+</div>
+
+<!-- ═══════ 第四章 · 十神逐一解讀 ═══════ -->
+<div class="page">
+  <div class="page-header"><span class="title">八字批命書</span><span class="pg-num">四</span></div>
+  <div class="section">
+    <h3 class="section-title">十神逐一解讀</h3>
+    <div class="section-title-deco"></div>
+    <p class="section-sub">比肩 · 劫財 · 食神 · 傷官 · 正財 · 偏財 · 正官 · 七殺 · 正印 · 偏印</p>
+    <div id="ai-content-shishen"></div>
+  </div>
+  <div class="page-footer">玄珍館 · 八字批命書 · 信人 張明德</div>
+  <div class="footer-bar"></div>
+</div>
+
+<!-- ═══════ 第五章 · 大運走勢 ═══════ -->
+<div class="page">
+  <div class="page-header"><span class="title">八字批命書</span><span class="pg-num">五</span></div>
+  <div class="section">
+    <h3 class="section-title">大運走勢</h3>
+    <div class="section-title-deco"></div>
+    <p class="section-sub">十年一運 · 人生階段之綱要</p>
+    <div id="ai-content-dayun"></div>
+  </div>
+  <div class="page-footer">玄珍館 · 八字批命書 · 信人 張明德</div>
+  <div class="footer-bar"></div>
+</div>
+
+<!-- 当前大运已在第五章大运走势中详细分析，此处不再重复 -->
+
+<!-- ═══════ 第六章 · 近三年流年運勢 ═══════ -->
+<div class="page">
+  <div class="page-header"><span class="title">八字批命書</span><span class="pg-num">六</span></div>
+  <div class="section">
+    <h3 class="section-title">近三年流年運勢</h3>
+    <div class="section-title-deco"></div>
+    <p class="section-sub">逐歲吉凶 · 趨吉避凶之要</p>
+    <div id="ai-content-liunian"></div>
+  </div>
+  <div class="page-footer">玄珍館 · 八字批命書 · 信人 張明德</div>
+  <div class="footer-bar"></div>
+</div>
+
+<!-- ═══════ 第七章 · 事業·財運·感情 ═══════ -->
+<div class="page">
+  <div class="page-header"><span class="title">八字批命書</span><span class="pg-num">七</span></div>
+  <div class="section">
+    <h3 class="section-title">事業·財運·感情</h3>
+    <div class="section-title-deco"></div>
+    <p class="section-sub">三大領域深度解讀</p>
+    <div id="ai-content-career"></div>
+    <div id="ai-content-wealth"></div>
+    <div id="ai-content-romance"></div>
+  </div>
+  <div class="page-footer">玄珍館 · 八字批命書 · 信人 張明德</div>
+  <div class="footer-bar"></div>
+</div>
+
+<!-- ═══════ 第八章 · 開運指南 ═══════ -->
+<div class="page">
+  <div class="page-header"><span class="title">八字批命書</span><span class="pg-num">八</span></div>
+  <div class="section">
+    <h3 class="section-title">開運指南</h3>
+    <div class="section-title-deco"></div>
+    <p class="section-sub">五行調和 · 順勢而為 · 日常實踐</p>
+    <div id="ai-content-fortune"></div>
+  </div>
+  <div class="page-footer">玄珍館 · 八字批命書 · 信人 張明德</div>
+  <div class="footer-bar"></div>
+</div>
+
+<!-- ═══════ 第九章 · 結語 ═══════ -->
+<div class="page">
+  <div class="page-header"><span class="title">八字批命書</span><span class="pg-num">九</span></div>
+  <div class="section">
+    <h3 class="section-title">結語</h3>
+    <div class="section-title-deco"></div>
+    <p class="section-sub">知命而後能造命</p>
+    <div class="closing">
+      <p>命者，天之所賦也；運者，時之所遇也。</p>
+      <p>知命而不認命，順勢而後有為。</p>
+      <p> </p>
+      <p><strong>金鱗豈是池中物，一遇風雲便化龍。</strong></p>
+      <p> </p>
+      <p>願君善用此書，以智慧破迷障，以勇氣行大道。</p>
+      <p>前程似海，來日方長。</p>
+      <p> </p>
+      <p>—— 玄珍館 · 敬呈</p>
+    </div>
+    <div id="ai-content-closing"></div>
+  </div>
+  <div class="page-footer">玄珍館 · 八字批命書 · 信人 張明德</div>
+  <div class="footer-bar"></div>
+</div>
+
+<!-- ═══════ 免責聲明 ═══════ -->
+<div class="page">
+  <div class="page-header"><span class="title">八字批命書</span><span class="pg-num">附</span></div>
+  <div class="section">
+    <h3 class="section-title">重要免責聲明</h3>
+    <div class="section-title-deco"></div>
+    <div class="disclaimer">
+      <p class="disclaimer-item"><strong>文化研究性質</strong> — 本報告基於中國傳統命理學（八字命理）進行分析，屬於傳統文化研究範疇，不屬於科學預測。命理學尚未被現代科學完全驗證，其準確性和可靠性無法保證。</p>
+      <p class="disclaimer-item"><strong>非專業建議</strong> — 本報告內容不構成任何醫療、法律、財務、職業或人生決策建議。請勿將本報告作為重大人生決策的唯一依據。</p>
+      <p class="disclaimer-item"><strong>健康相關</strong> — 報告中不包含任何疾病診斷或醫療建議。如有健康問題，請諮詢專業醫療機構。</p>
+      <p class="disclaimer-item"><strong>概率性描述</strong> — 報告中的性格分析、運勢走向等內容為概率性描述，不代表必然結果。每個人的人生受多種因素影響，命理僅為參考維度之一。</p>
+      <p class="disclaimer-item"><strong>娛樂參考</strong> — 本報告主要供文化研究和個人娛樂參考使用。建議以開放、理性的態度閱讀，取其精華，理性看待。</p>
+      <p class="disclaimer-item"><strong>隱私保護</strong> — 您的出生資訊僅用於生成本報告，我們不會將您的個人資訊用於其他用途或分享給第三方。</p>
+      <p class="disclaimer-item"><strong>版權聲明</strong> — 本報告內容版權歸玄珍館所有，未經授權不得商業使用或大規模傳播。</p>
+    </div>
+    <div style="margin-top:20px; text-align:center; font-size:9pt; color:#bbb;">
+      <p>玄珍館 · tianji.best · 八字批命書</p>
+      <p style="margin-top:4px;">— 天機盡在此中尋 —</p>
+    </div>
+  </div>
+  <div class="page-footer">玄珍館 · 八字批命書 · 信人 張明德</div>
+  <div class="footer-bar"></div>
+</div>
+
+</body>
+</html>

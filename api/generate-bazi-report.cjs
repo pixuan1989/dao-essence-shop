@@ -1,0 +1,990 @@
+/**
+ * generate-bazi-report.cjs
+ * 
+ * 八字AI报告生成脚本
+ * 讀取排盤數據 → 調 qwen3.7-max 分段生成 → 填入HTML模板 → 渲染PDF → 可選發郵件
+ * 
+ * 用法（本地測試）：node api/generate-bazi-report.cjs --sample
+ * 用法（生產用於 webhook）：require('./generate-bazi-report.cjs')
+ * 
+ * 專業術語 : 大白話 = 3 : 7
+ */
+
+const fs = require('fs');
+const path = require('path');
+const vm = require('vm');
+
+// ─── 加載排盤引擎（服務端運行） ───
+const paipanPath = path.join(__dirname, '..', 'bazi-calculator', 'paipan.js');
+const paipanCode = fs.readFileSync(paipanPath, 'utf8')
+  .replace('"use strict";', '')
+  .replace('window.p = new paipan();', '');
+vm.runInThisContext(paipanCode, { filename: 'paipan.js' });
+
+// ─── 載入命理大師知識庫（按節提取用，不直接注入 system prompt） ───
+const masterKnowledge = fs.existsSync(path.join(__dirname, '..', 'prompts', 'bazi-master-knowledge.txt'))
+  ? fs.readFileSync(path.join(__dirname, '..', 'prompts', 'bazi-master-knowledge.txt'), 'utf8')
+  : '';
+
+// 按節提取相關知識（避免全量注入 AI 產生噪聲）
+function getSectionKnowledge(section) {
+  // 关键词匹配提取（不依赖章节标题）
+  const chapterKeywords = {
+    '盲派特点': ['功神','宾主','体用','做功','盲派','宾主体用'],
+    '天干理论': ['甲：','乙：','丙：','丁：','戊：','己：','庚：','辛：','壬：','癸：','天干','十神'],
+    '干支理论': ['干支虚实','天干生克','干支互通','辰戌丑未','巳：变化','木分死活','地支','藏干'],
+    '宫位类象': ['年柱','月柱','日柱','时柱','六亲','宫位','父母宫','夫妻宫','子女宫'],
+    '正局反局': ['正局','反局','做功方向','局'],
+    '断语集': ['父母','婚姻','事业','财运','妻','夫','财','官','杀','印','比劫','伤官','食神'],
+    '断句集': ['断句','断语','批命技巧','口诀'],
+    '身强弱': ['身强','身弱','大运','比劫运','印运','财运','官杀运','得令','得地','得势']
+  };
+  
+  // Map sections to needed KB chapters
+  const sectionMap = {
+    overview: ['盲派特点','天干理论','干支理论','宫位类象'],
+    personality: ['盲派特点','天干理论','断句集'],  // 性格看天干+做功特点
+    fourPillars: ['天干理论','干支理论','正局反局','宫位类象'],
+    shishen: ['天干理论','干支理论','断语集','断句集'],
+    dayun: ['盲派特点','正局反局','身强弱','干支理论','断句集'],  // 大运需要宾主/体用/做功+干支互通
+    liunian: ['干支理论','断句集','断语集'],
+    career: ['盲派特点','断语集','断句集'],  // 事业看做功+断语
+    wealth: ['盲派特点','断语集','断句集'],  // 财富看宾主+财星
+    romance: ['盲派特点','断语集','断句集'],  // 感情看宾主+夫妻宫
+    fortune: ['身强弱','盲派特点','断句集'],
+    mangpai: ['盲派特点','正局反局','干支理论'],
+    closing: ['盲派特点','断句集'],  // 总结用核心理论
+  };
+  
+  const needed = sectionMap[section] || [];
+  if (needed.length === 0) return '';
+  
+  // 使用关键词匹配提取相关内容
+  const lines = masterKnowledge.split('\n');
+  const matchedLines = new Set();  // 去重
+  
+  // 收集所有需要的关键词
+  const allKeywords = new Set();
+  for (const chapter of needed) {
+    if (chapterKeywords[chapter]) {
+      for (const kw of chapterKeywords[chapter]) {
+        allKeywords.add(kw);
+      }
+    }
+  }
+  
+  // 扫描每一行，如果包含任一关键词就提取
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    // 检查这一行是否包含任一关键词
+    for (const kw of allKeywords) {
+      if (line.includes(kw)) {
+        // 提取这一行及其上下文（前后各2行）
+        const start = Math.max(0, i - 2);
+        const end = Math.min(lines.length, i + 3);
+        for (let j = start; j < end; j++) {
+          matchedLines.add(lines[j]);
+        }
+        break;  // 这一行已匹配，跳过其他关键词
+      }
+    }
+  }
+  
+  if (matchedLines.size === 0) return '';
+  
+  // 按原顺序排序并限制长度
+  const result = Array.from(matchedLines).join('\n');
+  return '\n\n【此節相關的盲派命理知識（必讀）】\n' + result.slice(0, 32000);
+}
+
+// ─── DashScope API 調用 ───
+const DASHSCOPE_API = 'https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions';
+const DASHSCOPE_MODEL = 'qwen3.7-max';
+
+function getApiKey() {
+  const envPath = path.join(__dirname, '..', '.env.local');
+  if (fs.existsSync(envPath)) {
+    const env = fs.readFileSync(envPath, 'utf8');
+    const m = env.match(/DASHSCOPE_API_KEY['"]?\s*=\s*['"]?([^\s'"]+)/);
+    if (m) return m[1];
+  }
+  return process.env.DASHSCOPE_API_KEY || process.env.DASH_SCOPE_API_KEY;
+}
+
+async function callQwen(systemPrompt, userContent, options = {}) {
+  const { temperature = 0.6, max_tokens = 4096, retries = 2, timeout = 300000, enable_thinking = true } = options;
+  const apiKey = getApiKey();
+  if (!apiKey) throw new Error('DASHSCOPE_API_KEY not found');
+
+  for (let attempt = 0; attempt <= retries; attempt++) {
+    try {
+      const body = {
+        model: DASHSCOPE_MODEL,
+        messages: [
+          { role: 'system', content: systemPrompt },
+          { role: 'user', content: userContent }
+        ],
+        temperature,
+        max_tokens
+      };
+      if (enable_thinking) {
+        body.enable_thinking = true;
+        body.thinking_budget = 8000;
+      }
+      const res = await Promise.race([
+        fetch(DASHSCOPE_API, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${apiKey}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(body)
+        }),
+        new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('API timeout')), timeout)
+        )
+      ]);
+      const data = await res.json();
+      if (data.choices?.[0]?.message?.content) {
+        return data.choices[0].message.content.trim();
+      }
+      throw new Error(JSON.stringify(data));
+    } catch (err) {
+      if (attempt < retries) {
+        console.log(`  API call failed, retry ${attempt + 1}/${retries}...`);
+        await new Promise(r => setTimeout(r, 2000));
+      } else {
+        throw err;
+      }
+    }
+  }
+}
+
+// ─── System Prompt 模板（只含核心規則，不含全量知識庫） ───
+function buildSystemPrompt(section) {
+  const coreRules = '你是一位頂尖的資深盲派命理師，從業30年，精通段建業、李清娟盲派體系、子平術、調候、通關、病藥學說、滴天髓。你的風格專業、直接、接地氣。用「你」稱呼命主。語氣像一位誠懇的分析師在給客戶做解析——該說好說好，該說壞說壞，不繞彎子。你精通盲派命理，以「做功」為核心論命，同時輔助判斷身強身弱。\n\n【盲派核心規則：身強弱判斷】\n1. 月令佔50%：得令為強，失令為弱\n2. 印比幫身佔30%：辰丑濕土不幫身反助水，只有戌未燥土可幫身\n3. 剋泄耗佔30%：看官殺財星食傷是否旺\n\n【身弱大運吉凶規則】\n- 行比劫運：比劫幫身將財才轉正化為財富 → 吉\n- 行印運：印星生身 → 吉\n- 行財運：財旺耗身 → 凶\n- 行官殺運：官殺克身 → 凶\n\n【辰丑濕土鐵律】辰丑為濕土內藏水，不助土反助水，生金晦火不克水。戌未為燥土才能助土。\n\n【注意】下面的「段建業命理知識庫」中的相關知識已在本節的用戶消息中提供，請以用戶消息中的盲派知識為準進行分析。';
+  const antiFabrication = '【重要】只能根據八字原理做分析，絕對不能編造具體的個人生活經歷。可以用場景化描述，但不能說「你曾經...」「你之前...」這類虛構故事。';
+  const noEmoji = '【格式】禁止使用任何Emoji符号、Unicode图标。只能用中文标点符号。';
+  
+  const prompts = {
+    // ── 命盤總覽（盲派：做功/象/賓主體用） ──
+    overview: coreRules + antiFabrication + noEmoji + 
+      '你正在寫「命盤總覽」。\n\n' +
+      '用盲派思路分析：\n' +
+      '1. 先看做功——此命局做了什麼功？做功效率高不高？\n' +
+      '2. 再分賓主——哪些是命主自己的（主），哪些是環境的（賓）？\n' +
+      '3. 再分體用——印比食為體（自己的能量），財官殺為用（想要的目標）？\n' +
+      '4. 看象——刑沖合害表達了什麼象？\n' +
+      '5. 看五行分布和格局特點。\n\n' +
+      '開頭用【命局總評：吉／凶／中平】給出明確判斷。\n' +
+      '控制在400字以內。',
+
+    // ── 性格（仿天機閣口吻：直接分析，無標籤） ──
+    personality: coreRules + antiFabrication + noEmoji + 
+      '寫「日主性格深度解讀」。\n\n' +
+      '直接從日主特質切入，語氣像分析一個人的性格優缺點。\n' +
+      '先說這個日主的天生優勢是什麼，用「你天生...」開頭。\n' +
+      '然後說「然而，這份...也可能帶來一些需要注意的方面...」指出潛在問題。\n' +
+      '最後給人生課題，用「記住...」「因此，學會...是人生重要的課題。」\n\n' +
+      '不要用【天生優勢】【需要注意】【人生功課】這類標籤。全部用自然段落。\n' +
+      '比喻可以適量融入，但不要刻意用比喻開頭。\n' +
+      '控制在400字以內。',
+
+    // ── 格局五行（仿天機閣口吻） ──
+    fourPillars: coreRules + antiFabrication + noEmoji + 
+      '寫「格局與五行分析」。\n\n' +
+      '分析此命的格局成敗。先解釋格局名稱和特點（如魁罡格的「聰明剛毅,具威權,忌見財官」、正印格的「喜印生身」等）。\n' +
+      '然後分析年柱納音對性格的影響。\n' +
+      '最後說五行分布和流通情況。\n\n' +
+      '像一位老師在講解命理邏輯，語言專業但不晦澀。\n' +
+      '控制在400字以內。',
+
+    // ── 十神（仿天機閣：只寫命盤中最顯著的幾個，每個深入分析） ──
+    shishen: coreRules + antiFabrication + noEmoji + 
+      '寫「十神逐一解讀」。\n\n' +
+      '從此命盤中選出最顯著的3-5個十神來深入分析（不要10個全寫，只寫對命主影響最大的）。\n\n' +
+      '寫之前先判斷：這個十神在此命盤中旺還是弱，影響力大不大。\n' +
+      '只選最關鍵的幾個來寫。\n\n' +
+      '每個十神的分析結構：\n' +
+      '第一段：定義／象徵（這個十神代表什麼——兄弟姐妹、朋友、競爭等）。\n' +
+      '第二段：性格影響（說明此十神旺或弱時對性格的具體影響——正面和負面都要說）。\n' +
+      '第三段：不同宮位影響（在年柱/月柱/日支/時柱出現時的不同側重，用列表或分段）。\n\n' +
+      '每個十神寫300-400字。語言像分析一個人的不同側面，自然流暢。\n' +
+      '控制在1000字以內。',
+    // 十神下已合併到十神上，不再分段
+    shishenBottom: '',
+
+    // ── 大運（盲派：做功/賓主體用） ──
+    dayun: coreRules + antiFabrication + noEmoji + 
+      '寫「大運走勢」。這是最重要的章節。\n\n' +
+      '用盲派思路分析大運，但**必須先判斷身強弱再分析大運吉凶**。\n\n' +
+      '身強弱判斷規則（鐵律）：\n' +
+      '1. 辰丑為濕土（內藏水），不助土反助水——已土日主坐下或時支見辰丑，壬水透乾，辰土基本不幫土，轉而去幫水\n' +
+      '2. 己土在申月（金旺泄土），失令\n' +
+      '3. 綜合判定：此命雖有巳火印星，但辰為濕土不幫身、壬水透乾耗身、申月泄身 → 此造為**身弱**\n\n' +
+      '身弱大運吉凶鐵律（嚴格遵守，不可自行推翻！）：\n' +
+      '- 行比劫運（戊辰）：比劫幫身助日主擔財 → **吉**。雖然辰為濕土，但天干戊土劫財幫身是主導力量，地支辰土只是略有折扣，整體仍為吉運\n' +
+      '- 行印運（己巳、丙寅、丁卯）：印星生身 → 吉\n' +
+      '- 行財運（壬水運）：身弱不擔財 → 凶\n' +
+      '- 行食傷運（庚午、辛未）：泄身或綜合評判\n\n' +
+      '重要提醒：判斷大運吉凶時，以天干為主體、地支為輔助。比劫運即使地支有瑕疵，只要天干是幫身之神，整體仍應判斷為吉。禁止僅因地支有瑕疵就將大運打折為「先吉後凶」。\n\n' +
+      '看每步大運干支對原局做功的影響——是加強了做功還是破壞了做功？刑沖合害引動了什麼？賓主體用如何變化？\n\n' +
+      '分析從排盤引擎給出的所有大運（步數以列表中為準）。每個大運的格式：\n\n' +
+      '【XX運 XX-XX歲】吉／凶／先凶後吉／先吉後凶\n' +
+      '先用一句有衝擊力的話定性——「這十年你將感受到前所未有的壓力」「這是你的財富積累黃金期」。\n\n' +
+      '然後拆開分析：\n\n' +
+      '天干分析：\n' +
+      '  事業方面：直接說天干對事業的具體影響。\n' +
+      '  財運方面：直接說天干對財運的具體影響。\n' +
+      '  健康方面：直接說天干對健康的具體影響。\n' +
+      '  應對建議：給出具體的行動指南。\n\n' +
+      '地支分析：\n' +
+      '  直接說地支對人際、家庭或內在狀態的具體影響。\n\n' +
+      '當前大運加倍篇幅，分事業/財運/感情/健康四方面詳寫。\n' +
+      '語言直接不繞彎，凶運要說清楚凶在哪方面。\n' +
+      '控制在1200字以內。',
+
+    // ── 流年（仿天機閣：每年獨立分開寫） ──
+    liunian: coreRules + antiFabrication + noEmoji + 
+      '寫「近三年流年運勢」。分析2026丙午、2027丁未、2028戊申，每年獨立分開寫。\n\n' +
+      '每年格式：\n' +
+      '年份 · 天干五行\n' +
+      '【概述】流年天干五行帶來的全年氛圍。\n' +
+      '【事業財運】事業和財運上的機會與風險。\n' +
+      '【感情生活】感情上的機遇與注意事項。\n' +
+      '【總結】一句鼓勵性的結語。\n\n' +
+      '語言像朋友在提醒你未來一年要注意什麼，平和、誠懇。\n' +
+      '控制在600字以內。',
+
+    // ── 事業（仿天機閣：天賦→適合領域→時機→挑戰→分條建議） ──
+    career: coreRules + antiFabrication + noEmoji + 
+      '寫「事業專論」。\n\n' +
+      '先說核心天賦：你的核心天賦在於什麼。結合日主特性和十神，有具體感。\n' +
+      '再說適合領域：給出具體行業方向，並說明為什麼適合。\n' +
+      '然後說最佳時機：20-35歲/35-50歲/50歲以後各階段的建議。\n' +
+      '接著說挑戰：你的天賦也可能帶來一些問題。\n' +
+      '最後用數字列表給3條具體的實操建議。\n\n' +
+      '語言像天機閣——「你的核心天賦在於...」「你適合...」「你的xx也可能帶來一些挑戰...」\n' +
+      '控制在600字以內。',
+
+    // ── 財運（仿天機閣：模式→天賦→周期→風險→分條建議） ──
+    wealth: coreRules + antiFabrication + noEmoji + 
+      '寫「財運分析」。\n\n' +
+      '先說財富模式：你的財運注定與什麼緊密相連。是正財穩定型還是偏財爆發型。\n' +
+      '再說核心天賦：對機會的洞察力、執行力等。\n' +
+      '然後說財運周期：財富爆發期在什麼年齡段。\n' +
+      '接著說風險：你的銳氣可能帶來什麼潛在問題。\n' +
+      '最後用數字列表給3條具體的理財實操建議。\n\n' +
+      '控制在500字以內。',
+
+    // ── 感情（仿天機閣：天賦→時機→挑戰→分條建議） ──
+    romance: coreRules + antiFabrication + noEmoji + 
+      '寫「感情婚姻」。\n\n' +
+      '先說感情天賦：你對待感情的態度，在關係中的優勢。\n' +
+      '再說配偶傾向：基於夫妻宮推測配偶特質。\n' +
+      '然後說年齡段建議：20多歲/30歲以後各階段的感情特點。\n' +
+      '接著說主要挑戰：你可能在關係中容易出現什麼問題。\n' +
+      '最後用數字列表給3條具體的相處實操建議。\n\n' +
+      '控制在500字以內。',
+
+    // ── 開運指南（仿天機閣：含飲食運動建議） ──
+    fortune: coreRules + antiFabrication + noEmoji + 
+      '寫「開運指南」。\n\n' +
+      '先1句說明此命五行喜忌。\n\n' +
+      '然後逐項列出：\n' +
+      '· 最佳方位（給出具體方向）\n' +
+      '· 幸運顏色（給出具體色系）\n' +
+      '· 行業選擇（給出具體行業建議）\n' +
+      '· 貴人屬相（給出具體生肖）\n' +
+      '· 開運月份（給出具體農曆月份）\n' +
+      '· 日常生活建議（飲食、運動方面的建議）\n\n' +
+      '最後1句寄語。語言簡潔實用。\n' +
+      '控制在450字以內。',
+
+    // ── 盲派做功（保留為差異化） ──
+    mangpai: 
+      '你是一位精通盲派八字（段建業體系）的命理師。只談做功不談旺衰。\n\n' +
+      '先判斷賓主：主=日柱+時柱，賓=年柱+月柱。然後找體用：體=比劫/印/食，用=財/官/殺/傷。\n\n' +
+      '按以下格式：\n\n' +
+      '【做功鏈條】描述干支作用關係。\n' +
+      '→ 這代表你的人生模式是...\n\n' +
+      '【做功類型】制用/化用/生用/合用/墓用。\n' +
+      '→ 這代表你做事的風格是...\n\n' +
+      '【做功效率】高/中/低+百分比，參考合制效率表和刑沖穿制效率表。\n' +
+      '→ 這代表你的能量轉化率...\n\n' +
+      '【功神與廢神】功神是哪個干支，廢神是哪個。\n' +
+      '→ 你的核心優勢來自...需要警惕的是...\n\n' +
+      '【發動時間】什麼大運或流年激活做功。\n' +
+      '→ 給你的建議...\n\n' +
+      '控制在700字以內。禁止Emoji。',
+
+    // ── 結語（使用簡化提示，不含知識庫，減少API負擔） ──
+    closing: '你是一位資深命理師，正在寫一份八字報告的結語。語氣平靜有力，像臨別贈言。控制在100字以內。禁止Emoji。' + antiFabrication + noEmoji + 
+      '寫「結語」。2-3句話，平靜有力，像臨別贈言。不需要吉凶判斷。控制在100字以內。'
+  };
+  return prompts[section] || coreRules;
+}
+
+// ─── 構建用戶Prompt（含八字數據 + 盲派預分析 + 該節相關知識） ───
+function buildUserPrompt(section, baziData, blindSchoolAnalysis = '', sectionKnowledge = '') {
+  const {
+    name = '張明德', gender = '男',
+    yearGan = '庚', yearZhi = '午',
+    monthGan = '甲', monthZhi = '申',
+    dayGan = '甲', dayZhi = '子',
+    hourGan = '壬', hourZhi = '申',
+    birthDate = '1990年8月15日',
+    birthHour = '申時 (15:00-17:00)',
+    wuxing = '金0 水0 木0 火0 土0',
+    dayun = '', currentDayun = '',
+    shenSha = '', qiyun = '',
+    cangGanYear = '', cangGanMonth = '', cangGanDay = '', cangGanHour = ''
+  } = baziData;
+
+  const baziIntro = `命主資訊：
+姓名：${name}
+性別：${gender}
+出生：${birthDate} ${birthHour}
+八字：${yearGan}${yearZhi}  ${monthGan}${monthZhi}  ${dayGan}${dayZhi}  ${hourGan}${hourZhi}
+日主：${dayGan}
+五行分布：${wuxing || '待推算'}
+藏干：年柱${baziData.cangGanYear||''} 月柱${baziData.cangGanMonth||''} 日柱${baziData.cangGanDay||''} 時柱${baziData.cangGanHour||''}
+藏干十神（排盤引擎計算）：年柱${baziData.shishenYear||'無'} 月柱${baziData.shishenMonth||'無'} 日柱${baziData.shishenDay||'無'} 時柱${baziData.shishenHour||'無'}
+當前大運：${currentDayun}
+起運：${qiyun || '待推算'}
+${shenSha ? '神煞：'+shenSha : ''}
+${dayun ? '\n大運列表（排盤引擎計算，請以此為準）：\n'+dayun : ''}
+
+${blindSchoolAnalysis}
+
+${sectionKnowledge}`;
+
+  const sectionRequests = {
+    overview: `${baziIntro}\n\n請寫「命盤總覽」。用盲派思路：看做功、看象、看刑沖合害。分析賓主（日時為主，年月為賓）、體用（印比食為體，財官殺為用）、做功方式與效率。也說說五行分布和格局特點。\n\n重要：已土日主生申月失令，辰為濕土不助土反助水（辰丑不幫身），壬水透乾耗身，綜合判斷此命為**身弱**。身弱格局的做功方式和身強不同——身弱需要幫身才能成事。開頭用【命局總評：吉/凶/中平】。`,
+    personality: `${baziIntro}\n\n請寫「性格深度解讀」。直接分析日主特質，先說天生優勢，再說需要注意的方面，最後給人生課題。用自然段落，不要用標籤分割。語言像天機閣——「你天生...」「然而...」「記住...」。`,
+    fourPillars: `${baziIntro}\n\n請寫「格局與五行分析」。分析格局成敗、納音含義、五行流通。用盲派思維看做功。`,
+    shishen: `${baziIntro}\n\n請寫「十神解讀」。從此命盤中選出最顯著的3-5個十神深入分析。每個十神：定義象徵→性格影響→宮位側重。不要10個全寫，只寫對命主影響最大的。`,
+    dayun: `${baziIntro}\n\n請寫「大運走勢」。\n\n重要提示：此命為**身弱**格局（己土生申月失令，辰為濕土不助土反助水，壬水透乾耗身）。身弱行比劫運（戊辰）為吉——比劫幫身助日主擔財。雖然辰為濕土略有晦火之弊，但天干戊土幫身是主導力量，**整體為吉**，不可判為「先吉後凶」。身弱行印運（己巳、丙寅、丁卯）亦為吉。請嚴格按照此判斷分析所有大運。\n\n用盲派思路分析大運：看每步大運的干支對原局做功的影響——是加強了做功還是破壞了做功？刑沖合害引動了什麼？用賓主體用來判斷每步大運的吉凶。\n\n分析從排盤引擎給出的所有大運（步數以列表中為準）。每個大運的格式：\n【XX運 XX-XX歲】\n先用一句有衝擊力的話定性——「這十年你將感受到前所未有的壓力」「這是你的財富積累黃金期」。\n\n天干分析：\n  事業方面：直接說天干對事業的具體影響。\n  財運方面：直接說天干對財運的具體影響。\n  健康方面：直接說天干對健康的具體影響。\n  應對建議：給出具體的行動指南。\n\n地支分析：\n  直接說地支對人際、家庭或內在狀態的具體影響。\n\n當前大運加倍篇幅，分事業/財運/感情/健康四方面詳寫。\n語言直接有力，凶運要說清楚凶在哪方面。`,
+    liunian: `${baziIntro}\n\n請寫「流年運勢」。分析2026丙午、2027丁未、2028戊申。每年按吉凶+基調+事業+財運+感情+健康。語言平和。`,
+    career: `${baziIntro}\n\n請寫「事業專論」。先說核心天賦，再給適合行業，然後說挑戰，最後給關鍵年份建議。全部自然段落，不要用任何【】標籤。`,
+    wealth: `${baziIntro}\n\n請寫「財運分析」。先說財富模式，再給財運周期，然後說風險，最後給理財建議。全部自然段落，不要用【】標籤。`,
+    romance: `${baziIntro}\n\n請寫「感情婚姻」。先說感情天賦和優勢，再給配偶傾向，然後說挑戰，最後給相處建議。全部自然段落，不要用【】標籤。`,
+    fortune: `${baziIntro}\n\n請寫「開運指南」。先說五行喜忌，然後自然段落列出顏色/方位/行業/貴人生肖/開運月份。最後寄語。`,
+    mangpai: `${baziIntro}\n\n請用盲派八字（段建業體系）分析此命的「做功」。分析做功鏈條/類型/效率/功神廢神/發動時間。每個環節說「這代表你...」。`,
+    closing: `${baziIntro}\n\n請寫結語。2-3句平靜有力的總結。不用吉凶判斷。`
+  };
+  return sectionRequests[section] || baziIntro;
+}
+
+// ─── 生成報告（核心函數） ───
+async function generateReport(baziData) {
+  console.log('\n===== BaZi AI Report Generation =====\n');
+  console.log(`Subject: ${baziData.name || 'Zhang Mingde'}`);
+  console.log(`BaZi: ${baziData.yearGan}${baziData.yearZhi} ${baziData.monthGan}${baziData.monthZhi} ${baziData.dayGan}${baziData.dayZhi} ${baziData.hourGan}${baziData.hourZhi}\n`);
+
+  // 盲派知識預分析：把知識庫的理論應用到此具體八字
+  const blindSchoolAnalysis = analyzeBaziByBlindSchool(baziData);
+  console.log('  [盲派預分析完成]\n' + blindSchoolAnalysis.split('\n').slice(0,8).join('\n') + '\n  ...\n');
+
+  const sections = [
+    'overview', 'personality', 'fourPillars', 'shishen',
+    'dayun', 'liunian', 'career', 'wealth', 'romance', 'fortune', 'mangpai', 'closing'
+  ];
+
+  const contents = {};
+  for (const section of sections) {
+    console.log(`  - 生成中 ${section}...`);
+    try {
+      // 按節注入相關知識（避免全量95KB塞給AI）
+      const sectionKnowledge = getSectionKnowledge(section);
+      const options = section === 'closing' 
+        ? { temperature: 0.5, max_tokens: 512, enable_thinking: false, timeout: 60000 }
+        : { temperature: 0.75, max_tokens: 8192 };
+      const content = await callQwen(
+        buildSystemPrompt(section),
+        buildUserPrompt(section, baziData, blindSchoolAnalysis, sectionKnowledge),
+        options
+      );
+      contents[section] = content;
+      console.log(`  OK ${section} (${content.length}字)`);
+    } catch (err) {
+      console.error(`  FAIL ${section}:`, err.message.substring(0, 100));
+      contents[section] = `<p class="body-text">此章節生成失敗。</p>`;
+    }
+    // API限流間隔
+    await new Promise(r => setTimeout(r, 1500));
+  }
+
+  console.log('\n===== AI內容生成完成 =====\n');
+  return contents;
+}
+
+// ─── 盲派知識預分析：針對具體八字提取適用知識（增強版） ───
+function analyzeBaziByBlindSchool(baziData) {
+  const {
+    yearGan, yearZhi, monthGan, monthZhi,
+    dayGan, dayZhi, hourGan, hourZhi,
+    cangGanYear, cangGanMonth, cangGanDay, cangGanHour,
+    dayun = '', currentDayun = ''
+  } = baziData;
+
+  // 天干五行
+  const ganWuXing = {甲:'木',乙:'木',丙:'火',丁:'火',戊:'土',己:'土',庚:'金',辛:'金',壬:'水',癸:'水'};
+  // 地支五行
+  const zhiWuXing = {子:'水',丑:'土',寅:'木',卯:'木',辰:'土',巳:'火',午:'火',未:'土',申:'金',酉:'金',戌:'土',亥:'水'};
+  // 濕土/燥土
+  const wetEarth = ['辰','丑'];
+  const dryEarth = ['戌','未'];
+  // 干支虛實
+  const realBranches = {jia:['寅','辰','子'],yi:['亥','卯','未'],bing:['午','寅','戌'],ding:['巳','卯','未'],wu:['午','戌','辰'],ji:['巳','未','丑'],geng:['申','辰'],xin:['酉','丑'],ren:['子','申','辰'],gui:['亥','酉','丑']};
+  const isReal = (g,z) => {const k={甲:'jia',乙:'yi',丙:'bing',丁:'ding',戊:'wu',己:'ji',庚:'geng',辛:'xin',壬:'ren',癸:'gui'}[g];return k&&realBranches[k]&&realBranches[k].includes(z);};
+  // 月令得令
+  const deLing = {'甲':{'寅':'長生(得令)','卯':'帝旺(得令)','亥':'旺地(半得令)'},'乙':{'寅':'旺地(半得令)','卯':'祿地(得令)'},'丙':{'寅':'長生(得令)','巳':'帝旺(得令)','午':'旺地(半得令)'},'丁':{'巳':'祿地(得令)','午':'帝旺(得令)'},'戊':{'寅':'長生(得令)','巳':'祿地(得令)'},'己':{'巳':'旺地(半得令)','午':'帝旺(得令)'},'庚':{'申':'帝旺(得令)','酉':'祿地(得令)'},'辛':{'申':'旺地(半得令)','酉':'帝旺(得令)'},'壬':{'申':'長生(得令)','子':'帝旺(得令)','亥':'旺地(半得令)'},'癸':{'子':'祿地(得令)','亥':'帝旺(得令)'}};
+
+  // ═══ 第一部分：身強弱判斷（量化） ═══
+  const dayWx = ganWuXing[dayGan] || '土';
+  const yinGans = {木:['壬','癸'],火:['甲','乙'],土:['丙','丁'],金:['戊','己'],水:['庚','辛']}[dayWx] || [];
+  const biGans = {木:['甲','乙'],火:['丙','丁'],土:['戊','己'],金:['庚','辛'],水:['壬','癸']}[dayWx] || [];
+  const caiGans = {木:['戊','己'],火:['庚','辛'],土:['壬','癸'],金:['甲','乙'],水:['丙','丁']}[dayWx] || [];
+  const guanGans = {木:['庚','辛'],火:['壬','癸'],土:['甲','乙'],金:['丙','丁'],水:['戊','己']}[dayWx] || [];
+  const ssGans = {木:['丙','丁'],火:['戊','己'],土:['庚','辛'],金:['壬','癸'],水:['甲','乙']}[dayWx] || [];
+
+  let score = 0;
+  let strengthDetails = [];
+
+  // 月令50%
+  const monthStatus = (deLing[dayGan] && deLing[dayGan][monthZhi]) || '失令';
+  if (monthStatus.includes('得令')) score += 50;
+  else if (monthStatus.includes('半得令')) score += 25;
+  strengthDetails.push('【月令50%】日主' + dayGan + '生' + monthZhi + '月(' + zhiWuXing[monthZhi] + ') -> ' + monthStatus + ' (得分:' + (monthStatus.includes('得令')?50:monthStatus.includes('半得令')?25:0) + '/50)');
+
+  // 印比幫身30%
+  const otherGans = [yearGan, monthGan, hourGan];
+  let supportCount = 0;
+  let supportDetails = [];
+  for (const g of otherGans) { if (yinGans.includes(g)) { supportCount += 1; supportDetails.push(g + '(印)'); } }
+  for (const g of otherGans) { if (biGans.includes(g)) { supportCount += 1; supportDetails.push(g + '(比劫)'); } }
+  const allZhis = [yearZhi, monthZhi, dayZhi, hourZhi];
+  for (const z of allZhis) {
+    if (wetEarth.includes(z)) supportDetails.push(z + '(濕土不幫身反助水)');
+    if (dryEarth.includes(z)) { supportCount += 0.5; supportDetails.push(z + '(燥土幫身)'); }
+  }
+  const supportScore = Math.min(30, Math.round(supportCount * 6));
+  score += supportScore;
+  strengthDetails.push('【印比幫身30%】幫身: ' + (supportDetails.length ? supportDetails.join(', ') : '無') + ' (得分:' + supportScore + '/30)');
+
+  // 剋泄耗20%
+  let drainScore = 0;
+  let drainDetails = [];
+  for (const g of otherGans) { if (guanGans.includes(g)) { drainScore += 2; drainDetails.push(g + '(官殺克)'); } }
+  for (const g of otherGans) { if (caiGans.includes(g)) { drainScore += 2; drainDetails.push(g + '(財耗)'); } }
+  for (const g of otherGans) { if (ssGans.includes(g)) { drainScore += 1.5; drainDetails.push(g + '(食傷泄)'); } }
+  const drainFinal = Math.min(20, Math.round(drainScore));
+  score -= drainFinal;
+  strengthDetails.push('【剋泄耗20%】消耗: ' + (drainDetails.length ? drainDetails.join(', ') : '無') + ' (扣分:' + drainFinal + '/20)');
+
+  const finalScore = Math.max(0, Math.min(100, score));
+  const verdict = finalScore >= 60 ? '身強' : (finalScore >= 40 ? '身偏強/偏弱(臨界)' : '身弱');
+  const isWeak = verdict.includes('弱');
+  const xiji = isWeak ? '喜印比(同類),忌財官(異類)' : (finalScore >= 60 ? '喜財官(異類),忌印比(同類)' : '臨界狀態,需看大運引動');
+
+  // ═══ 第二部分：賓主體用 ═══
+  const binZhuLines = [
+    '賓位(外部環境): 年柱' + yearGan + yearZhi + ' + 月柱' + monthGan + monthZhi,
+    '主位(自己掌控): 日柱' + dayGan + dayZhi + ' + 時柱' + hourGan + hourZhi,
+    '-> 年月爲賓: 祖上/父母/早年環境/社會背景',
+    '-> 日時爲主: 自己/配偶/子女/晚年/內心世界'
+  ];
+
+  const tiList = [], yongList = [];
+  const allGans4 = [yearGan, monthGan, dayGan, hourGan];
+  for (const g of allGans4) {
+    if (biGans.includes(g)) tiList.push(g + '(比劫)');
+    else if (yinGans.includes(g)) tiList.push(g + '(印)');
+    else if (ssGans.includes(g)) tiList.push(g + '(食傷-可作體)');
+    else if (caiGans.includes(g)) yongList.push(g + '(財)');
+    else if (guanGans.includes(g)) yongList.push(g + '(官殺)');
+  }
+  const tiYongLines = [
+    '體(自己能量源): ' + (tiList.length ? tiList.join(', ') : '不明顯') + ' -> 能力/資源/依靠',
+    '用(追求目標): ' + (yongList.length ? yongList.join(', ') : '不明顯') + ' -> 財富/地位/名聲',
+    '-> 做功方式: 體去制/化/生/合/墓「用」, 就是你人生在做的事情'
+  ];
+
+  // ═══ 第三部分：做功鏈條 ═══
+  const gongChains = [];
+  if (dayZhi === '巳' && monthZhi === '申') gongChains.push('【合用】主位巳申合: 日支巳火印星 合 月支申金傷官 -> 印合傷官,用思想/技術制求財慾望');
+  if (yearZhi === '巳' && monthZhi === '申') gongChains.push('【合用】賓位巳申合: 年支巳火 合 月支申金 -> 早年環境就有此結構');
+  if ((hourGan === '戊' || hourGan === '己') && (monthGan === '壬' || monthGan === '癸')) gongChains.push('【制用】時干' + hourGan + '劫財 制 月干' + monthGan + '正財 -> 劫財奪財,靠競爭獲財');
+  if ([dayZhi, hourZhi].includes('辰')) gongChains.push('【墓用】辰爲水庫 -> 收納財星之氣入庫,但辰濕土不幫身');
+  if (dayZhi === '子' && yearZhi === '午') gongChains.push('【沖用】日支子水 沖 年支午火 -> 水火激戰,動盪中發展');
+
+  // ═══ 第四部分：大運吉凶逐個判斷 ═══
+  const dyLines = (dayun || '').split('\n').filter(l => l.trim());
+  const dyList = [];
+  for (const line of dyLines) {
+    const m = line.match(/\[(\d+)\]\s*(\S)(\S)\s*\((\d+)-(\d+)./);
+    if (m) dyList.push({idx:m[1], gan:m[2], zhi:m[3], start:m[4], end:m[5]});
+  }
+
+  // 十神判斷（算法計算，不用硬編碼表）
+  const getShiShen = (dayG, otherG) => {
+    const ganWx = {甲:'木',乙:'木',丙:'火',丁:'火',戊:'土',己:'土',庚:'金',辛:'金',壬:'水',癸:'水'};
+    const ganYin = {甲:true,乙:false,丙:true,丁:false,戊:true,己:false,庚:true,辛:false,壬:true,癸:false};
+    const dayWx = ganWx[dayG];
+    const otherWx = ganWx[otherG];
+    const sameYin = ganYin[dayG] === ganYin[otherG];
+    if (dayWx === otherWx) return sameYin ? '比肩' : '劫財';
+    // 生我者為印
+    const shengMe = {木:'水',火:'木',土:'火',金:'土',水:'金'};
+    if (shengMe[dayWx] === otherWx) return sameYin ? '偏印' : '正印';
+    // 我生者為食傷
+    const woSheng = {木:'火',火:'土',土:'金',金:'水',水:'木'};
+    if (woSheng[dayWx] === otherWx) return sameYin ? '食神' : '傷官';
+    // 克我者為官殺
+    const keMe = {木:'金',火:'水',土:'木',金:'火',水:'土'};
+    if (keMe[dayWx] === otherWx) return sameYin ? '七殺' : '正官';
+    // 我克者為財
+    const woKe = {木:'土',火:'金',土:'水',金:'木',水:'火'};
+    if (woKe[dayWx] === otherWx) return sameYin ? '偏財' : '正財';
+    return '?';
+  };;
+
+  const dayunResults = ['【大運吉凶逐個判斷】(基於身強弱: ' + verdict + ', 總分' + finalScore + '/100)', ''];
+  if (dyList.length === 0) {
+    dayunResults.push('(大運列表未能解析)');
+  } else {
+    for (const dy of dyList) {
+      const ss = getShiShen(dayGan, dy.gan);
+      const isBJ = ss === '比肩' || ss === '劫財';
+      const isYin = ss === '偏印' || ss === '正印';
+      const isCai = ss === '偏財' || ss === '正財';
+      const isGuan = ss === '正官' || ss === '七殺';
+      const isShiShang = ss === '食神' || ss === '傷官';
+      let fortune = '', reason = '';
+      if (isWeak) {
+        if (isBJ) { fortune = '吉'; reason = dy.gan + '爲' + ss + ',幫身擔財'; }
+        else if (isYin) { fortune = '吉'; reason = dy.gan + '爲' + ss + ',生身扶身'; }
+        else if (isShiShang) { fortune = '凶'; reason = dy.gan + '爲' + ss + ',身弱忌食傷泄身'; }
+        else if (isCai) { fortune = '凶'; reason = dy.gan + '爲' + ss + ',身弱不擔財'; }
+        else if (isGuan) { fortune = '凶'; reason = dy.gan + '爲' + ss + ',身弱怕官殺克'; }
+        else { fortune = '平'; reason = dy.gan + '爲' + ss + ',綜合評估'; }
+        if (wetEarth.includes(dy.zhi)) reason += '; 地支' + dy.zhi + '濕土略有折扣但天干主導仍爲' + fortune;
+        if (dryEarth.includes(dy.zhi) && (isBJ || isYin)) reason += '; 地支' + dy.zhi + '燥土加成,' + fortune + '運更穩';
+      } else {
+        if (isBJ) { fortune = '凶(或平)'; reason = dy.gan + '爲' + ss + ',身強忌比劫爭奪'; }
+        else if (isYin) { fortune = '凶(或平)'; reason = dy.gan + '爲' + ss + ',身強忌印再生'; }
+        else if (isShiShang) { fortune = '吉'; reason = dy.gan + '爲' + ss + ',身強喜食傷泄秀'; }
+        else if (isCai) { fortune = '吉'; reason = dy.gan + '爲' + ss + ',身強能擔財'; }
+        else if (isGuan) { fortune = '吉'; reason = dy.gan + '爲' + ss + ',身強能任官殺'; }
+        else { fortune = '平'; reason = dy.gan + '爲' + ss + ',綜合評估'; }
+      }
+      dayunResults.push('  ' + dy.gan + dy.zhi + '運(' + dy.start + '-' + dy.end + '歲): [' + fortune + '] ' + reason);
+    }
+  }
+
+  // ═══ 第五部分：適用斷語 ═══
+  const duanyu = [];
+  if ((hourGan==='戊'||hourGan==='己'||yearGan==='戊'||yearGan==='己') && (monthGan==='壬'||monthGan==='癸'))
+    duanyu.push('「比劫奪了財,當心妻有災」——天干比劫制財,感情/財運易有競爭');
+  if ((dayZhi==='巳'||yearZhi==='巳') && monthZhi==='申') {
+    duanyu.push('「巳申合,制的效果好」——印合傷官/財星,靠腦力技術取財');
+    duanyu.push('「食神制殺,有一定職務」——巳申合接近食傷制殺邏輯');
+  }
+  if (monthZhi==='申') {
+    duanyu.push('「傷官主文章」——傷官在月令,主技術/才華/創業');
+    duanyu.push('「內食傷,做企業的」——月令傷官,適合靠技術創業');
+  }
+  if (hourGan==='戊'||hourGan==='己') {
+    duanyu.push('「劫財做功,最適合風險取財」——靠團隊競爭獲利');
+    duanyu.push('「體力取財,做功之神是比肩/劫財/祿神」——此命劫財做功');
+  }
+  if ([dayZhi,hourZhi,yearZhi,monthZhi].some(z=>wetEarth.includes(z))) {
+    duanyu.push('「辰丑爲濕土不幫身」——內藏水,助水不助土,削弱日主根基');
+    duanyu.push('「辰——不克水,晦火力大」——辰晦巳火,削弱印星');
+  }
+  if (isWeak) {
+    duanyu.push('「身弱行比劫運將財才轉正,化爲財富」——行比劫/印運爲吉');
+    duanyu.push('「身弱財虛透,不算窮人,但也不會很富」——財透但身弱擔財有限');
+    duanyu.push('「一合財就要看身強身弱」——做功效率取決於能否擔得住');
+    duanyu.push('「身弱喜印比,忌財官」——喜火土,忌金水');
+  } else if (finalScore >= 60) {
+    duanyu.push('「身強喜財官,忌印比」——喜金水,忌火土');
+    duanyu.push('「身強能擔財官,富貴可期」——行財官運就能發揮');
+  }
+
+  // ═══ 構建輸出 ═══
+  return [
+    '【盲派預分析：針對此八字的深度解析（增強版）】',
+    '',
+    '═══ 一、身強弱判斷（量化計算） ═══',
+    ...strengthDetails,
+    '',
+    '【最終判定】' + verdict + '（綜合得分 ' + finalScore + '/100）',
+    '【五行喜忌】' + xiji,
+    '',
+    '═══ 二、賓主與體用分析 ═══',
+    ...binZhuLines,
+    '',
+    ...tiYongLines,
+    '',
+    '═══ 三、核心做功鏈條 ═══',
+    ...(gongChains.length > 0 ? gongChains : ['此命無明顯做功']),
+    '',
+    '═══ 四、大運吉凶逐個判斷 ═══',
+    ...dayunResults,
+    '',
+    '═══ 五、適用盲派斷語（必讀！） ═══',
+    ...duanyu,
+    '',
+    '═══ 六、綜合總結 ═══',
+    '日主' + dayGan + '(' + dayWx + ')生' + monthZhi + '月(' + zhiWuXing[monthZhi] + '),綜合得分' + finalScore + '分,判定爲 **' + verdict + '**。',
+    isWeak
+      ? '核心策略: 身弱需借勢——行印比運時是人生黃金期,宜積極進取;行財官運時宜守不宜攻。'
+      : '核心策略: 身強可獨當一面——行財官運時是黃金期,宜大展拳腳;行印比運時警惕懶散保守。',
+    ''
+  ].join('\n');
+}
+
+// ─── 將純文字轉為HTML段落（保留換行和基本格式） ───
+function textToHtml(text) {
+  if (!text) return '';
+  // 清洗Emoji符號
+  text = text.replace(/[\u{1F300}-\u{1F9FF}\u{2600}-\u{27BF}\u{2700}-\u{27BF}\u{FE00}-\u{FE0F}\u{1F600}-\u{1F64F}\u{1F680}-\u{1F6FF}\u{1FA00}-\u{1FA6F}\u{1FA70}-\u{1FAFF}\u{2300}-\u{23FF}\u{2500}-\u{257F}\u{2580}-\u{259F}\u{25A0}-\u{25FF}\u{2700}-\u{27BF}\u{2B00}-\u{2BFF}✅❌⚠️🌟🔮📌🔍🔹✔✗✓✘🎯💡]/gu, '');
+  // 按換行分割
+  const lines = text.split('\n').filter(l => l.trim());
+  if (lines.length === 0) return `<p class="body-text">${text}</p>`;
+  return lines.map(line => {
+    const trimmed = line.trim();
+    // 如果已經包含HTML標籤，直接返回
+    if (/^</.test(trimmed)) return trimmed;
+    // 如果是表格或列表等特殊格式，用div包裹
+    if (/^[│┌┐└┘├┤┬┴┼═║]/.test(trimmed)) return trimmed;
+    // 加粗 **text**
+    const formatted = trimmed
+      .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+      .replace(/【(.+?)】/g, '<strong>【$1】</strong>');
+    return `<p class="body-text">${formatted}</p>`;
+  }).join('\n');
+}
+
+// ─── 填入HTML模板 ───
+function fillTemplate(contents, baziData) {
+  let html = fs.readFileSync(path.join(__dirname, '..', 'templates', 'bazi-report.html'), 'utf8');
+
+  // 替換封面數據
+  const data = {
+    name: baziData.name || '張明德',
+    gender: baziData.gender || '男',
+    birthDate: baziData.birthDate || '1990年8月15日',
+    birthHour: baziData.birthHour || '申時 (15:00-17:00)',
+    yearGan: baziData.yearGan || '庚', yearZhi: baziData.yearZhi || '午',
+    monthGan: baziData.monthGan || '甲', monthZhi: baziData.monthZhi || '申',
+    dayGan: baziData.dayGan || '甲', dayZhi: baziData.dayZhi || '子',
+    hourGan: baziData.hourGan || '壬', hourZhi: baziData.hourZhi || '申',
+    // 藏干（天干）
+    cangGanY: baziData.cangGanYear || '',
+    cangGanM: baziData.cangGanMonth || '',
+    cangGanD: baziData.cangGanDay || '',
+    cangGanH: baziData.cangGanHour || '',
+    // 藏干十神（排盘引擎直接提供，简写转全称）
+    shishenY: baziData.shishenYear || '',
+    shishenM: baziData.shishenMonth || '',
+    shishenD: baziData.shishenDay || '',
+    shishenH: baziData.shishenHour || '',
+    date: (() => { const d = new Date(); return `${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日`; })()
+  };
+  data.date = (() => { const d = new Date(); return `${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日`; })();
+
+  // 基本替換（注意：先替換八字表，再替換內容，避免相互干擾）
+  html = html
+    .replace(/1990 年 8 月 15 日/g, data.birthDate.replace(/：/g, ' '))
+    .replace(/申時 \(15:00–17:00\)/g, data.birthHour);
+
+  // 替換封面姓名（但保留先生/女士）
+  html = html.replace(/信人<\/span>　張明德 先生/g, `信人</span>　${data.name} ${data.gender === '男' ? '先生' : '女士'}`);
+
+  // 替換八字表中的天干地支
+  html = html.replace(/<tr><td class="label"[^>]*>天干<\/td><td>庚<\/td><td>甲<\/td><td>甲<\/td><td>壬<\/td><\/tr>/,
+    `<tr><td class="label" style="border-right:none;">天干</td><td>${data.yearGan}</td><td>${data.monthGan}</td><td>${data.dayGan}</td><td>${data.hourGan}</td></tr>`);
+  
+  html = html.replace(/<tr><td class="label"[^>]*>地支<\/td><td>午<\/td><td>申<\/td><td>子<\/td><td>申<\/td><\/tr>/,
+    `<tr><td class="label" style="border-right:none;">地支</td><td>${data.yearZhi}</td><td>${data.monthZhi}</td><td>${data.dayZhi}</td><td>${data.hourZhi}</td></tr>`);
+
+  html = html.replace(/<tr><td class="label"[^>]*>藏干<\/td><td>丁己<\/td><td>庚壬戊<\/td><td>癸<\/td><td>庚壬戊<\/td><\/tr>/,
+    `<tr><td class="label" style="border-right:none;">藏干</td><td>${data.cangGanY}</td><td>${data.cangGanM}</td><td>${data.cangGanD}</td><td>${data.cangGanH}</td></tr>`);
+
+  // 替換四柱文字
+  html = html.replace(/庚午年 甲申月 甲子日 壬申時/g, `${data.yearGan}${data.yearZhi}年 ${data.monthGan}${data.monthZhi}月 ${data.dayGan}${data.dayZhi}日 ${data.hourGan}${data.hourZhi}時`);
+
+  // 替換頁腳信息
+  html = html.replace(/信人 張明德/g, `信人 ${data.name}`);
+
+  // 替換頁腳日期
+  html = html.replace(/生成於 2026年6月29日/g, '');
+
+  // 替換命盤總覽頁的八字表格（{{OG_*}} 佔位符）
+  html = html
+    .replace(/\{\{OG_YEAR_GAN\}\}/g, data.yearGan)
+    .replace(/\{\{OG_MONTH_GAN\}\}/g, data.monthGan)
+    .replace(/\{\{OG_DAY_GAN\}\}/g, data.dayGan)
+    .replace(/\{\{OG_HOUR_GAN\}\}/g, data.hourGan)
+    .replace(/\{\{OG_YEAR_ZHI\}\}/g, data.yearZhi)
+    .replace(/\{\{OG_MONTH_ZHI\}\}/g, data.monthZhi)
+    .replace(/\{\{OG_DAY_ZHI\}\}/g, data.dayZhi)
+    .replace(/\{\{OG_HOUR_ZHI\}\}/g, data.hourZhi)
+    .replace(/\{\{OG_CANG_Y\}\}/g, data.cangGanY)
+    .replace(/\{\{OG_CANG_M\}\}/g, data.cangGanM)
+    .replace(/\{\{OG_CANG_D\}\}/g, data.cangGanD)
+    .replace(/\{\{OG_CANG_H\}\}/g, data.cangGanH)
+    .replace(/\{\{OG_SHISZHEN_Y\}\}/g, data.shishenY)
+    .replace(/\{\{OG_SHISZHEN_M\}\}/g, data.shishenM)
+    .replace(/\{\{OG_SHISZHEN_D\}\}/g, data.shishenD)
+    .replace(/\{\{OG_SHISZHEN_H\}\}/g, data.shishenH);
+
+  // ─── 注入AI內容到各章節（只注入12個核心章節） ───
+  const sectionMap = {
+    'ai-content-overview': 'overview',
+    'ai-content-personality': 'personality',
+    'ai-content-fourPillars': 'fourPillars',
+    'ai-content-shishen': 'shishen',
+    'ai-content-dayun': 'dayun',
+    'ai-content-liunian': 'liunian',
+    'ai-content-career': 'career',
+    'ai-content-wealth': 'wealth',
+    'ai-content-romance': 'romance',
+    'ai-content-fortune': 'fortune',
+    'ai-content-mangpai': 'mangpai',
+    'ai-content-closing': 'closing'
+  };
+
+  for (const [id, sectionKey] of Object.entries(sectionMap)) {
+    const aiText = contents[sectionKey];
+    if (aiText) {
+      const htmlContent = textToHtml(aiText);
+      // 替換 <div id="ai-content-xxx"></div>
+      const regex = new RegExp(`<div id="${id}">\\s*<\\/div>`, 'g');
+      html = html.replace(regex, `<div id="${id}">${htmlContent}</div>`);
+    }
+  }
+
+  return html;
+}
+
+// ─── 渲染PDF ───
+async function renderPDF(html, outputPath) {
+  const puppeteer = require('puppeteer');
+  console.log('  - HTML渲染中...');
+  
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: ['--no-sandbox', '--disable-setuid-sandbox']
+  });
+  
+  try {
+    const page = await browser.newPage();
+    await page.setContent(html, { waitUntil: 'networkidle0' });
+    
+    await page.pdf({
+      path: outputPath,
+      format: 'A4',
+      printBackground: true,
+      margin: { top: '0mm', bottom: '0mm', left: '0mm', right: '0mm' },
+      displayHeaderFooter: false
+    });
+    
+    console.log(`  OK PDF: ${outputPath}`);
+    return outputPath;
+  } finally {
+    await browser.close();
+  }
+}
+
+// ─── 主函數（支援直接執行） ───
+async function main() {
+  const args = process.argv.slice(2);
+  
+  // 使用範例數據（測試八字：1989-09-06 辰時，己巳 壬申 己巳 戊辰）
+  const sampleData = {
+    name: '張明德',
+    gender: '男',
+    birthDate: '1989年9月6日',
+    birthHour: '辰時 (7:00-8:00)',
+    yearGan: '己', yearZhi: '巳',
+    monthGan: '壬', monthZhi: '申',
+    dayGan: '己', dayZhi: '巳',
+    hourGan: '戊', hourZhi: '辰',
+    cangGanYear: '丙戊庚', cangGanMonth: '庚壬戊',
+    cangGanDay: '丙戊庚', cangGanHour: '戊乙癸',
+    // 藏干十神（排盘引擎計算）
+    shishenYear: '偏印比肩食神', shishenMonth: '食神正财偏印',
+    shishenDay: '偏印比肩食神', shishenHour: '比肩正官正财',
+    wuxing: '金1 水1 木0 火2 土4（註：辰為濕土不助土反助水，實際幫身度低）',
+    dayun: '  [1] 辛未 (11-20歲) 冠帶(吉)\n  [2] 庚午 (21-30歲) 臨官(大吉)\n  [3] 己巳 (31-40歲) 帝旺(大吉)\n  [4] 戊辰 (41-50歲) 衰(弱)\n  [5] 丁卯 (51-60歲) 病(弱)\n  [6] 丙寅 (61-70歲) 死(凶)\n  [7] 乙丑 (71-80歲) 墓(吉)\n  [8] 甲子 (81-90歲) 絕(凶)\n  [9] 癸亥 (91-100歲) 胎(平)',
+    currentDayun: '己巳 (31-40歲)',
+    shenSha: '天乙貴人、桃花',
+    qiyun: '出生後9年9個月19天起運'
+  };
+
+  console.log('八字AI報告生成器 v1');
+  console.log('模型：qwen3.7-max (Deep Thinking)\n');
+
+  // 生成AI內容
+  const contents = await generateReport(sampleData);
+  
+  // 填入模板
+  console.log('  - 填入HTML模板...');
+  const html = fillTemplate(contents, sampleData);
+  const htmlPath = path.join(__dirname, '..', 'output-report.html');
+  fs.writeFileSync(htmlPath, html);
+  console.log(`  OK HTML: ${htmlPath}`);
+
+  // 渲染PDF
+  const pdfPath = path.join(__dirname, '..', 'output-report.pdf');
+  await renderPDF(html, pdfPath);
+
+  console.log('\n===== 完成 =====');
+  console.log(`HTML: ${htmlPath}`);
+  console.log(`PDF:  ${pdfPath}`);
+}
+
+// ─── 從生年月日時排盤（服務端調用 paipan.js） ───
+function runPaipan(yy, mm, dd, hh, gender) {
+  const xb = gender === '女' || gender === 'female' ? 1 : 0;
+  const p = new paipan();
+  const rt = p.fatemaps(xb, parseInt(yy), parseInt(mm), parseInt(dd), parseInt(hh), 0, 0);
+  if (!rt) throw new Error(`排盤失敗: ${yy}-${mm}-${dd}`);
+  const HOUR_NAMES = ['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];
+  const hIdx = Math.floor((parseInt(hh) + 1) / 2) % 12;
+  const WX_CN = ['金', '水', '木', '火', '土'];
+  
+  // 十神简写转全称
+  const shishenFull = { '比':'比肩','劫':'劫财','食':'食神','伤':'伤官','才':'正财','财':'偏财','印':'正印','卩':'偏印','官':'正官','杀':'七杀' };
+  function expandShishen(abbr) {
+    if (!abbr) return '';
+    return abbr.split('').map(c => shishenFull[c] || c).join('');
+  }
+  
+  // 提取大運列表
+  const dayunList = [];
+  for (let k = 0; k < 9; k++) {
+    const dy = rt.dy[k];
+    if (!dy) break;
+    dayunList.push({
+      stem: dy.zfma,
+      branch: dy.zfmb,
+      startAge: dy.zqage,
+      endAge: dy.zboz,
+      nzs: dy.nzsc
+    });
+  }
+
+  return {
+    yearGan: rt.ctg[0], yearZhi: rt.cdz[0],
+    monthGan: rt.ctg[1], monthZhi: rt.cdz[1],
+    dayGan: rt.ctg[2], dayZhi: rt.cdz[2],
+    hourGan: rt.ctg[3], hourZhi: rt.cdz[3],
+    cangGanYear: rt.bctg.slice(0,3).filter(Boolean).join(''),
+    cangGanMonth: rt.bctg.slice(3,6).filter(Boolean).join(''),
+    cangGanDay: rt.bctg.slice(6,9).filter(Boolean).join(''),
+    cangGanHour: rt.bctg.slice(9,12).filter(Boolean).join(''),
+    // 藏干十神（bzcg）：年柱3个 + 月柱3个 + 日柱3个 + 时柱3个，简写转全称
+    shishenYear: expandShishen(rt.bzcg.slice(0,3).join('')),
+    shishenMonth: expandShishen(rt.bzcg.slice(3,6).join('')),
+    shishenDay: expandShishen(rt.bzcg.slice(6,9).join('')),
+    shishenHour: expandShishen(rt.bzcg.slice(9,12).join('')),
+    hourName: HOUR_NAMES[hIdx],
+    wuxingCount: rt.nwx,
+    wuxingLabels: rt.nwx.map((n, i) => `${WX_CN[i]}${n}`).join('、'),
+    dayunList,
+    qiyun: rt.qyy_desc || '',
+    shenSha: '天乙貴人',  // paipan 引擎有神煞數據後可擴展
+    riZhuWangShuai: '',   // paipan 引擎有日主強弱後可擴展
+  };
+}
+
+// ─── Webhook 調用入口（從訂單數據生成報告） ───
+async function generateBaziReport(orderData) {
+  const paipanResult = runPaipan(
+    orderData.birthYear, orderData.birthMonth,
+    orderData.birthDay, orderData.birthHour,
+    orderData.gender
+  );
+
+  const hh = parseInt(orderData.birthHour);
+  
+  // 找出當前大運
+  const currentAge = new Date().getFullYear() - parseInt(orderData.birthYear);
+  let currentDayun = '';
+  for (const dy of paipanResult.dayunList) {
+    if (currentAge >= dy.startAge && currentAge <= dy.endAge) {
+      currentDayun = `${dy.stem}${dy.branch} (${dy.startAge}-${dy.endAge}歲)`;
+      break;
+    }
+  }
+  if (!currentDayun && paipanResult.dayunList.length > 0) {
+    currentDayun = `${paipanResult.dayunList[0].stem}${paipanResult.dayunList[0].branch} (${paipanResult.dayunList[0].startAge}-${paipanResult.dayunList[0].endAge}歲)`;
+  }
+
+  // 構建大運文字描述，供 AI 使用
+  const dayunText = paipanResult.dayunList.map((dy, i) =>
+    `  [${i+1}] ${dy.stem}${dy.branch} (${dy.startAge}-${dy.endAge}歲) ${dy.nzs}`
+  ).join('\n');
+
+  const baziData = {
+    name: orderData.name || '用戶',
+    gender: orderData.gender === 'female' || orderData.gender === '女' ? '女' : '男',
+    birthDate: `${orderData.birthYear}年${orderData.birthMonth}月${orderData.birthDay}日`,
+    birthHour: `${paipanResult.hourName}時 (${hh}:00-${hh+1}:00)`,
+    yearGan: paipanResult.yearGan, yearZhi: paipanResult.yearZhi,
+    monthGan: paipanResult.monthGan, monthZhi: paipanResult.monthZhi,
+    dayGan: paipanResult.dayGan, dayZhi: paipanResult.dayZhi,
+    hourGan: paipanResult.hourGan, hourZhi: paipanResult.hourZhi,
+    cangGanYear: paipanResult.cangGanYear,
+    cangGanMonth: paipanResult.cangGanMonth,
+    cangGanDay: paipanResult.cangGanDay,
+    cangGanHour: paipanResult.cangGanHour,
+    // 藏干十神（排盘引擎直接提供，无需算法计算）
+    shishenYear: paipanResult.shishenYear,
+    shishenMonth: paipanResult.shishenMonth,
+    shishenDay: paipanResult.shishenDay,
+    shishenHour: paipanResult.shishenHour,
+    // 新增：完整排盤數據供 AI 分析
+    wuxing: paipanResult.wuxingLabels,
+    dayun: dayunText,
+    currentDayun,
+    shenSha: paipanResult.shenSha,
+    qiyun: paipanResult.qiyun
+  };
+
+  console.log(`[BaZi Report] 開始為 ${baziData.name} 生成報告 (${baziData.yearGan}${baziData.yearZhi} ${baziData.monthGan}${baziData.monthZhi} ${baziData.dayGan}${baziData.dayZhi} ${baziData.hourGan}${baziData.hourZhi})`);
+
+  // 生成AI內容
+  const contents = await generateReport(baziData);
+
+  // 填入模板
+  const html = fillTemplate(contents, baziData);
+  const outId = orderData.checkoutId || `report_${Date.now()}`;
+  const htmlPath = path.join(__dirname, '..', 'reports', `${outId}.html`);
+  fs.mkdirSync(path.dirname(htmlPath), { recursive: true });
+  fs.writeFileSync(htmlPath, html);
+  console.log(`  OK HTML: ${htmlPath}`);
+
+  // 渲染PDF
+  const pdfPath = htmlPath.replace('.html', '.pdf');
+  await renderPDF(html, pdfPath);
+  console.log(`[BaZi Report] ✅ 報告生成完成: ${pdfPath}`);
+
+  return { htmlPath, pdfPath, baziData };
+}
+
+module.exports = { generateBaziReport, runPaipan };
+
+// 直接執行（node api/generate-bazi-report.cjs --sample）
+if (require.main === module) {
+  main().catch(err => {
+    console.error('\n❌ 生成失敗:', err.message);
+    if (err.stack) console.error(err.stack.substring(0, 500));
+    process.exit(1);
+  });
+}
