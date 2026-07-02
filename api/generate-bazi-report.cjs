@@ -94,12 +94,16 @@ function getSectionKnowledge(section) {
   
   // 按原顺序排序并限制长度
   const result = Array.from(matchedLines).join('\n');
-  return '\n\n【此節相關的盲派命理知識（必讀）】\n' + result.slice(0, 32000);
+  const limit = TEST_MODE ? 8000 : 32000;
+  return '\n\n【此節相關的盲派命理知識（必讀）】\n' + result.slice(0, limit);
 }
 
 // ─── DashScope API 調用 ───
 const DASHSCOPE_API = 'https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions';
-const DASHSCOPE_MODEL = 'qwen3.7-max';
+// 測試模式：用便宜模型 + 少章節 + 少知識注入，省錢
+// 正式生成設為 false，用 qwen3.7-max + 全量知識
+const TEST_MODE = process.argv.includes('--test');
+const DASHSCOPE_MODEL = TEST_MODE ? 'qwen-max' : 'qwen3.7-max';
 
 function getApiKey() {
   const envPath = path.join(__dirname, '..', '.env.local');
@@ -165,10 +169,11 @@ function buildSystemPrompt(section) {
   const coreRules = '你是一位頂尖的資深盲派命理師，從業30年，精通段建業、李清娟盲派體系、子平術、調候、通關、病藥學說、滴天髓。你的風格專業、直接、接地氣。用「你」稱呼命主。語氣像一位誠懇的分析師在給客戶做解析——該說好說好，該說壞說壞，不繞彎子。你精通盲派命理，以「做功」為核心論命，同時輔助判斷身強身弱。\n\n【盲派核心規則：身強弱判斷】\n1. 月令佔50%：得令為強，失令為弱\n2. 印比幫身佔30%：辰丑濕土不幫身反助水，只有戌未燥土可幫身\n3. 剋泄耗佔30%：看官殺財星食傷是否旺\n\n【身弱大運吉凶規則】\n- 行比劫運：比劫幫身將財才轉正化為財富 → 吉\n- 行印運：印星生身 → 吉\n- 行財運：財旺耗身 → 凶\n- 行官殺運：官殺克身 → 凶\n\n【辰丑濕土鐵律】辰丑為濕土內藏水，不助土反助水，生金晦火不克水。戌未為燥土才能助土。\n\n【注意】下面的「段建業命理知識庫」中的相關知識已在本節的用戶消息中提供，請以用戶消息中的盲派知識為準進行分析。';
   const antiFabrication = '【重要】只能根據八字原理做分析，絕對不能編造具體的個人生活經歷。可以用場景化描述，但不能說「你曾經...」「你之前...」這類虛構故事。';
   const noEmoji = '【格式】禁止使用任何Emoji符号、Unicode图标。只能用中文标点符号。';
+  const formatRules = '【排版格式】禁止使用 #、##、###、#### 等markdown標題符號。章節分隔用【一、】【二、】或自然段落，不要用任何符號標記標題。輸出純文字內容，HTML格式會由模板自動處理。';
   
   const prompts = {
     // ── 命盤總覽（盲派：做功/象/賓主體用） ──
-    overview: coreRules + antiFabrication + noEmoji + 
+    overview: coreRules + ' ' + formatRules + ' ' + antiFabrication + noEmoji + 
       '你正在寫「命盤總覽」。\n\n' +
       '用盲派思路分析：\n' +
       '1. 先看做功——此命局做了什麼功？做功效率高不高？\n' +
@@ -180,7 +185,7 @@ function buildSystemPrompt(section) {
       '控制在400字以內。',
 
     // ── 性格（仿天機閣口吻：直接分析，無標籤） ──
-    personality: coreRules + antiFabrication + noEmoji + 
+    personality: coreRules + ' ' + formatRules + ' ' + antiFabrication + noEmoji + 
       '寫「日主性格深度解讀」。\n\n' +
       '直接從日主特質切入，語氣像分析一個人的性格優缺點。\n' +
       '先說這個日主的天生優勢是什麼，用「你天生...」開頭。\n' +
@@ -191,7 +196,7 @@ function buildSystemPrompt(section) {
       '控制在400字以內。',
 
     // ── 格局五行（仿天機閣口吻） ──
-    fourPillars: coreRules + antiFabrication + noEmoji + 
+    fourPillars: coreRules + ' ' + formatRules + ' ' + antiFabrication + noEmoji + 
       '寫「格局與五行分析」。\n\n' +
       '分析此命的格局成敗。先解釋格局名稱和特點（如魁罡格的「聰明剛毅,具威權,忌見財官」、正印格的「喜印生身」等）。\n' +
       '然後分析年柱納音對性格的影響。\n' +
@@ -200,7 +205,7 @@ function buildSystemPrompt(section) {
       '控制在400字以內。',
 
     // ── 十神（仿天機閣：只寫命盤中最顯著的幾個，每個深入分析） ──
-    shishen: coreRules + antiFabrication + noEmoji + 
+    shishen: coreRules + ' ' + formatRules + ' ' + antiFabrication + noEmoji + 
       '寫「十神逐一解讀」。\n\n' +
       '從此命盤中選出最顯著的3-5個十神來深入分析（不要10個全寫，只寫對命主影響最大的）。\n\n' +
       '寫之前先判斷：這個十神在此命盤中旺還是弱，影響力大不大。\n' +
@@ -215,7 +220,7 @@ function buildSystemPrompt(section) {
     shishenBottom: '',
 
     // ── 大運（盲派：做功/賓主體用） ──
-    dayun: coreRules + antiFabrication + noEmoji + 
+    dayun: coreRules + ' ' + formatRules + ' ' + antiFabrication + noEmoji + 
       '寫「大運走勢」。這是最重要的章節。\n\n' +
       '用盲派思路分析大運，但**必須先判斷身強弱再分析大運吉凶**。\n\n' +
       '身強弱判斷規則（鐵律）：\n' +
@@ -245,7 +250,7 @@ function buildSystemPrompt(section) {
       '控制在1200字以內。',
 
     // ── 流年（仿天機閣：每年獨立分開寫） ──
-    liunian: coreRules + antiFabrication + noEmoji + 
+    liunian: coreRules + ' ' + formatRules + ' ' + antiFabrication + noEmoji + 
       '寫「近三年流年運勢」。分析2026丙午、2027丁未、2028戊申，每年獨立分開寫。\n\n' +
       '每年格式：\n' +
       '年份 · 天干五行\n' +
@@ -257,7 +262,7 @@ function buildSystemPrompt(section) {
       '控制在600字以內。',
 
     // ── 事業（仿天機閣：天賦→適合領域→時機→挑戰→分條建議） ──
-    career: coreRules + antiFabrication + noEmoji + 
+    career: coreRules + ' ' + formatRules + ' ' + antiFabrication + noEmoji + 
       '寫「事業專論」。\n\n' +
       '先說核心天賦：你的核心天賦在於什麼。結合日主特性和十神，有具體感。\n' +
       '再說適合領域：給出具體行業方向，並說明為什麼適合。\n' +
@@ -268,7 +273,7 @@ function buildSystemPrompt(section) {
       '控制在600字以內。',
 
     // ── 財運（仿天機閣：模式→天賦→周期→風險→分條建議） ──
-    wealth: coreRules + antiFabrication + noEmoji + 
+    wealth: coreRules + ' ' + formatRules + ' ' + antiFabrication + noEmoji + 
       '寫「財運分析」。\n\n' +
       '先說財富模式：你的財運注定與什麼緊密相連。是正財穩定型還是偏財爆發型。\n' +
       '再說核心天賦：對機會的洞察力、執行力等。\n' +
@@ -278,7 +283,7 @@ function buildSystemPrompt(section) {
       '控制在500字以內。',
 
     // ── 感情（仿天機閣：天賦→時機→挑戰→分條建議） ──
-    romance: coreRules + antiFabrication + noEmoji + 
+    romance: coreRules + ' ' + formatRules + ' ' + antiFabrication + noEmoji + 
       '寫「感情婚姻」。\n\n' +
       '先說感情天賦：你對待感情的態度，在關係中的優勢。\n' +
       '再說配偶傾向：基於夫妻宮推測配偶特質。\n' +
@@ -288,7 +293,7 @@ function buildSystemPrompt(section) {
       '控制在500字以內。',
 
     // ── 開運指南（仿天機閣：含飲食運動建議） ──
-    fortune: coreRules + antiFabrication + noEmoji + 
+    fortune: coreRules + ' ' + formatRules + ' ' + antiFabrication + noEmoji + 
       '寫「開運指南」。\n\n' +
       '先1句說明此命五行喜忌。\n\n' +
       '然後逐項列出：\n' +
@@ -386,10 +391,11 @@ async function generateReport(baziData) {
   const blindSchoolAnalysis = analyzeBaziByBlindSchool(baziData);
   console.log('  [盲派預分析完成]\n' + blindSchoolAnalysis.split('\n').slice(0,8).join('\n') + '\n  ...\n');
 
-  const sections = [
-    'overview', 'personality', 'fourPillars', 'shishen',
-    'dayun', 'liunian', 'career', 'wealth', 'romance', 'fortune', 'mangpai', 'closing'
-  ];
+  // 測試模式只跑3個章節（省錢），正式模式跑全量13章
+  const sections = TEST_MODE
+    ? ['overview', 'personality', 'mangpai']
+    : ['overview', 'personality', 'fourPillars', 'shishen',
+       'dayun', 'liunian', 'career', 'wealth', 'romance', 'fortune', 'mangpai', 'closing'];
 
   const contents = {};
   for (const section of sections) {
@@ -646,21 +652,38 @@ function analyzeBaziByBlindSchool(baziData) {
   ].join('\n');
 }
 
-// ─── 將純文字轉為HTML段落（保留換行和基本格式） ───
+// ─── 將純文字轉為HTML（識別markdown標題，轉為美觀標題樣式） ───
 function textToHtml(text) {
   if (!text) return '';
   // 清洗Emoji符號
   text = text.replace(/[\u{1F300}-\u{1F9FF}\u{2600}-\u{27BF}\u{2700}-\u{27BF}\u{FE00}-\u{FE0F}\u{1F600}-\u{1F64F}\u{1F680}-\u{1F6FF}\u{1FA00}-\u{1FA6F}\u{1FA70}-\u{1FAFF}\u{2300}-\u{23FF}\u{2500}-\u{257F}\u{2580}-\u{259F}\u{25A0}-\u{25FF}\u{2700}-\u{27BF}\u{2B00}-\u{2BFF}✅❌⚠️🌟🔮📌🔍🔹✔✗✓✘🎯💡]/gu, '');
-  // 按換行分割
   const lines = text.split('\n').filter(l => l.trim());
   if (lines.length === 0) return `<p class="body-text">${text}</p>`;
   return lines.map(line => {
     const trimmed = line.trim();
     // 如果已經包含HTML標籤，直接返回
     if (/^</.test(trimmed)) return trimmed;
+
+    // ── 識別markdown標題，轉為美觀標題樣式 ──
+    // ### 標題 → 大標題（紅底金邊裝飾線）
+    let m = trimmed.match(/^###+\s*(.+)$/);
+    if (m) {
+      return `<h3 class="report-h3">${m[1]}</h3>`;
+    }
+    // #### 標題 → 中等標題（左側紅線裝飾）
+    m = trimmed.match(/^####+\s*(.+)$/);
+    if (m) {
+      return `<h4 class="report-h4">${m[1]}</h4>`;
+    }
+    // ⑴ ⑵ 或 一、二、 開頭 → 小標題（金點裝飾）
+    m = trimmed.match(/^[⑴⑵⑶⑷⑸⑹⑺⑻⑼⑽\u2460-\u2469\u2474-\u247D㈠㈡㈢㈣㈤㈥㈦㈧㈨㈩⒈⒉⒊⒋⒌⒍⒎⒏⒐⒑一二三四五六七八九十]+[、:.）)]\s*(.+)$/);
+    if (m) {
+      return `<h4 class="report-h4">${trimmed}</h4>`;
+    }
+
     // 如果是表格或列表等特殊格式，用div包裹
-    if (/^[│┌┐└┘├┤┬┴┼═║]/.test(trimmed)) return trimmed;
-    // 加粗 **text**
+    if (/^[│┌┐└┘├┤┬┴┼═║]/.test(trimmed)) return `<div class="table-text">${trimmed}</div>`;
+    // 加粗 **text** 和【標題】
     const formatted = trimmed
       .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
       .replace(/【(.+?)】/g, '<strong>【$1】</strong>');
@@ -827,7 +850,7 @@ async function main() {
   };
 
   console.log('八字AI報告生成器 v1');
-  console.log('模型：qwen3.7-max (Deep Thinking)\n');
+  console.log('模型：' + DASHSCOPE_MODEL + (TEST_MODE ? ' (测试模式，省钱)' : ' (Deep Thinking)') + '\n');
 
   // 生成AI內容
   const contents = await generateReport(sampleData);
