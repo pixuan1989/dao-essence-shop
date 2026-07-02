@@ -21,7 +21,14 @@ const paipanCode = fs.readFileSync(paipanPath, 'utf8')
   .replace('window.p = new paipan();', '');
 vm.runInThisContext(paipanCode, { filename: 'paipan.js' });
 
-// ─── 載入命理大師知識庫（按節提取用，不直接注入 system prompt） ───
+// ─── 載入命理大師知識庫 ───
+// 核心知識庫（AI歸納後的精華，按章節）
+const coreKnowledgePath = path.join(__dirname, '..', 'prompts', 'bazi-core-knowledge.json');
+const coreKnowledge = fs.existsSync(coreKnowledgePath)
+  ? JSON.parse(fs.readFileSync(coreKnowledgePath, 'utf8'))
+  : null;
+
+// 原始知識庫（備用，如果核心庫缺失某章節則從此提取）
 const masterKnowledge = fs.existsSync(path.join(__dirname, '..', 'prompts', 'bazi-master-knowledge.txt'))
   ? fs.readFileSync(path.join(__dirname, '..', 'prompts', 'bazi-master-knowledge.txt'), 'utf8')
   : '';
@@ -58,12 +65,27 @@ function getSectionKnowledge(section) {
   
   const needed = sectionMap[section] || [];
   if (needed.length === 0) return '';
-  
-  // 使用关键词匹配提取相关内容
+
+  // ── 优先从核心知识库读取（AI归纳后的精华）──
+  if (coreKnowledge) {
+    const parts = [];
+    for (const chapter of needed) {
+      const content = coreKnowledge[chapter];
+      if (content && typeof content === 'string' && !content.startsWith('[')) {
+        parts.push('【' + chapter + '】\n' + content);
+      }
+    }
+    if (parts.length > 0) {
+      const result = parts.join('\n\n');
+      const limit = TEST_MODE ? 8000 : 32000;
+      return '\n\n【此節相關的盲派命理知識（必讀）】\n' + result.slice(0, limit);
+    }
+  }
+
+  // ── 备用：关键词匹配提取（核心库缺失时使用）──
   const lines = masterKnowledge.split('\n');
-  const matchedLines = new Set();  // 去重
-  
-  // 收集所有需要的关键词
+  const matchedLines = new Set();
+
   const allKeywords = new Set();
   for (const chapter of needed) {
     if (chapterKeywords[chapter]) {
@@ -72,27 +94,23 @@ function getSectionKnowledge(section) {
       }
     }
   }
-  
-  // 扫描每一行，如果包含任一关键词就提取
+
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
-    // 检查这一行是否包含任一关键词
     for (const kw of allKeywords) {
       if (line.includes(kw)) {
-        // 提取这一行及其上下文（前后各2行）
         const start = Math.max(0, i - 2);
         const end = Math.min(lines.length, i + 3);
         for (let j = start; j < end; j++) {
           matchedLines.add(lines[j]);
         }
-        break;  // 这一行已匹配，跳过其他关键词
+        break;
       }
     }
   }
-  
+
   if (matchedLines.size === 0) return '';
-  
-  // 按原顺序排序并限制长度
+
   const result = Array.from(matchedLines).join('\n');
   const limit = TEST_MODE ? 8000 : 32000;
   return '\n\n【此節相關的盲派命理知識（必讀）】\n' + result.slice(0, limit);
@@ -395,7 +413,7 @@ ${sectionKnowledge}`;
   天干和地支的綜合影響是什麼？是加強還是減弱？給出具體的吉凶判斷和理由。
 
 當前大運加倍篇幅，分事業/財運/感情/健康四方面詳寫。
-語言直接有力，凶運要說清楚凶在哪方面。
+語言直接有力，凶運要說清楚凶在哪方面。`,
     liunian: `${baziIntro}\n\n請寫「流年運勢」。分析2026丙午、2027丁未、2028戊申。每年按吉凶+基調+事業+財運+感情+健康。語言平和。`,
     career: `${baziIntro}\n\n請寫「事業專論」。先說核心天賦，再給適合行業，然後說挑戰，最後給關鍵年份建議。全部自然段落，不要用任何【】標籤。`,
     wealth: `${baziIntro}\n\n請寫「財運分析」。先說財富模式，再給財運周期，然後說風險，最後給理財建議。全部自然段落，不要用【】標籤。`,
