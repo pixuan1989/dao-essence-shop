@@ -84,3 +84,5 @@ credentials.json
 # IndexNow submission state (local tracking, not git-worthy)
 .indexnow-state.json
 .gsc-wallpaper-state.json
+output-report.*
+reports/test_run.log
