@@ -1,4 +1,4 @@
-/**
+﻿/**
  * generate-bazi-report.cjs
  * 
  * 八字AI报告生成脚本
@@ -247,6 +247,7 @@ function buildSystemPrompt(section, sectionKnowledge = '') {
     dayun: coreRules + ' ' + formatRules + ' ' + antiFabrication + noEmoji + 
       '【绝对禁止越界】本章只讲大运干支分析和吉凶判定，禁止展开事业/财运/感情/健康的具体建议。\n' +
       '【绝对禁止重复】不要重复日主性格、格局特征，直接切入大运分析。\n\n' +
+      '【绝对禁止分点】不要分【事业方面】【财运方面】【感情方面】【健康方面】等小标题或分段——那样像解读了两遍。所有分析必须融入连贯段落中一气呵成。\n\n' +
       '写「大运走势」。这是最重要的章节。\n\n' +
       '用盲派思路分析大运，但**必须先判断身强弱再分析大运吉凶**。\n\n' +
       '身强弱判断规则（铁律）：\n' +
@@ -263,6 +264,16 @@ function buildSystemPrompt(section, sectionKnowledge = '') {
       '第一段：一句有冲击力的话定性，然后连贯分析——天干是什么十神、地支藏干有哪些、干支组合对原局做功的影响。\n' +
       '第二段：综合判断吉凶理由（融入段落），以及这步大运最需要注意的1-2件事。\n\n' +
       '语言连贯，一气呵成，不要分【天干分析】【地支分析】两点——那样像解读了两遍。\n\n' +
+      '【格式示例（好的写法）】\n' +
+      '【戊辰运 68-77岁】吉\n' +
+      '天干戊土劫财帮身，朋友同辈助力多；地支辰为湿土不帮身反助水，但天干戊土主导。此运事业上合作机会多但需防朋友夺财，财运上收入增加但支出也大，感情上伴侣关系稳定但需防外人介入，健康上注意肾脏泌尿系统。整体吉，但需谨记「君子爱财取之有道」。\n\n' +
+      '【格式示例（坏的写法——禁止这样写）】\n' +
+      '【戊辰运 68-77岁】吉\n' +
+      '天干戊土劫财帮身...\n' +
+      '事业方面：...\n' +
+      '财运方面：...\n' +
+      '感情方面：...\n' +
+      '健康方面：...\n\n' +
       '控制在1200字以内。',
     // ── 流年（近5年，天机阁流程） ──
     liunian: coreRules + ' ' + formatRules + ' ' + antiFabrication + noEmoji + 
@@ -437,7 +448,7 @@ async function generateReport(baziData) {
           personality: { temperature: 0.75, max_tokens: 4096 },
           geju: { temperature: 0.75, max_tokens: 4096 },
           shishen: { temperature: 0.75, max_tokens: 6144 },
-          dayun:  { temperature: 0.75, max_tokens: 8192 },
+          dayun:  { temperature: 0.3, max_tokens: 8192 },
           liunian: { temperature: 0.75, max_tokens: 6144 },
           lifa: { temperature: 0.75, max_tokens: 8192 },
           fortune: { temperature: 0.75, max_tokens: 4096 },
@@ -836,7 +847,9 @@ function fillTemplate(contents, baziData) {
   for (const [id, sectionKey] of Object.entries(sectionMap)) {
     const aiText = contents[sectionKey];
     if (aiText) {
-      const htmlContent = textToHtml(aiText);
+      // dayun 后处理：合并分点为连贯段落
+      const dayunText = sectionKey === 'dayun' ? aiText.replace(/^天干分析：$/gm, '').replace(/^地支分析：$/gm, '').replace(/\n(事业方面|财运方面|感情方面|健康方面|应对建议)：/g, '。$1：') : aiText;
+      const htmlContent = textToHtml(dayunText);
       // 替換 <div id="ai-content-xxx"></div>
       const regex = new RegExp(`<div id="${id}">\\s*<\\/div>`, 'g');
       html = html.replace(regex, `<div id="${id}">${htmlContent}</div>`);
@@ -1063,3 +1076,4 @@ if (require.main === module) {
     process.exit(1);
   });
 }
+
