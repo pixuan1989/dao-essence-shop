@@ -181,7 +181,7 @@ async function callQwen(systemPrompt, userContent, options = {}) {
 }
 
 // ─── System Prompt 模板（只含核心規則，不含全量知識庫） ───
-function buildSystemPrompt(section) {
+function buildSystemPrompt(section, sectionKnowledge = '') {
   const coreRules = '【知識庫約束（最高優先級）】你必須嚴格按照用戶消息中「此節相關的盲派命理知識（必讀）」內容進行分析和判斷。禁止發明任何命理理論或判斷規則。你的所有命理判斷必須能在知識庫中找到依據。如知識庫未覆蓋某情況，你必須明確說明「此判斷非來自知識庫，僅供參考」。\n\n【全局約束】分析必須全面覆蓋所有要求方面，禁止因任何原因省略內容。如某方面內容較長，允許超出字數限制，不可精簡帶過。\n\n你是一位頂尖的資深盲派命理師，從業30年，精通段建業、李清娟盲派體系、子平術、調候、通關、病藥學說、滴天髓。你的風格專業、直接、接地氣。用「你」稱呼命主。語氣像一位誠懇的分析師在給客戶做解析——該說好說好，該說壞說壞，不繞彎子。你精通盲派命理，以「做功」為核心論命，同時輔助判斷身強身弱。\n\n【盲派核心規則：身強弱判斷】\n1. 月令佔50%：得令為強，失令為弱\n2. 印比幫身佔30%：辰丑濕土不幫身反助水，只有戌未燥土可幫身\n3. 剋泄耗佔30%：看官殺財星食傷是否旺\n\n【身弱大運吉凶規則】\n- 行比劫運：比劫幫身將財才轉正化為財富 → 吉\n- 行印運：印星生身 → 吉\n- 行財運：財旺耗身 → 凶\n- 行官殺運：官殺克身 → 凶\n\n【辰丑濕土鐵律】辰丑為濕土內藏水，不助土反助水，生金晦火不克水。戌未為燥土才能助土。\n\n【注意】下面的「段建業命理知識庫」中的相關知識已在本節的用戶消息中提供，請以用戶消息中的盲派知識為準進行分析。';
   const antiFabrication = '【重要】只能根據八字原理做分析，絕對不能編造具體的個人生活經歷。可以用場景化描述，但不能說「你曾經...」「你之前...」這類虛構故事。';
   const noEmoji = '【格式】禁止使用任何Emoji符号、Unicode图标。只能用中文标点符号。';
@@ -325,11 +325,16 @@ function buildSystemPrompt(section) {
     closing: '你是一位資深命理師，正在寫一份八字報告的結語。語氣平靜有力，像臨別贈言。控制在100字以內。禁止Emoji。' + antiFabrication + noEmoji + 
       '寫「結語」。2-3句話，平靜有力，像臨別贈言。不需要吉凶判斷。控制在100字以內。'
   };
-  return prompts[section] || coreRules;
+  // 将本节相关知识库加到 System Prompt 最前面（最高优先级）
+  const basePrompt = prompts[section] || coreRules;
+  const fullPrompt = sectionKnowledge 
+    ? '【盲派命理知识库（本节相关，必须严格遵守，禁止发明理论）】\n' + sectionKnowledge + '\n\n' + basePrompt
+    : basePrompt;
+  return fullPrompt;
 }
 
 // ─── 構建用戶Prompt（含八字數據 + 盲派預分析 + 該節相關知識） ───
-function buildUserPrompt(section, baziData, blindSchoolAnalysis = '', sectionKnowledge = '') {
+function buildUserPrompt(section, baziData, blindSchoolAnalysis = '') {
   const {
     name = '張明德', gender = '男',
     yearGan = '庚', yearZhi = '午',
@@ -358,9 +363,7 @@ function buildUserPrompt(section, baziData, blindSchoolAnalysis = '', sectionKno
 ${shenSha ? '神煞：'+shenSha : ''}
 ${dayun ? '\n大運列表（排盤引擎計算，請以此為準）：\n'+dayun : ''}
 
-${blindSchoolAnalysis}
-
-${sectionKnowledge}`;
+${blindSchoolAnalysis}`;
 
   const sectionRequests = {
     overview: `${baziIntro}\n\n請寫「命盤總覽」。用盲派思路：看做功、看象、看刑沖合害。分析賓主（日時為主，年月為賓）、體用（印比食為體，財官殺為用）、做功方式與效率。也說說五行分布和格局特點。\n\n重要：已土日主生申月失令，辰為濕土不助土反助水（辰丑不幫身），壬水透乾耗身，綜合判斷此命為**身弱**。身弱格局的做功方式和身強不同——身弱需要幫身才能成事。開頭用【命局總評：吉/凶/中平】。`,
@@ -443,8 +446,8 @@ async function generateReport(baziData) {
         return tokenMap[section] || { temperature: 0.75, max_tokens: 8192 };
       })();
       const content = await callQwen(
-        buildSystemPrompt(section),
-        buildUserPrompt(section, baziData, blindSchoolAnalysis, sectionKnowledge),
+        buildSystemPrompt(section, sectionKnowledge),
+      buildUserPrompt(section, baziData, blindSchoolAnalysis),
         options
       );
       contents[section] = content;
