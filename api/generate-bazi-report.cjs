@@ -47,17 +47,15 @@ function getSectionKnowledge(section) {
     '身强弱': ['身强','身弱','大运','比劫运','印运','财运','官杀运','得令','得地','得势']
   };
   
-  // Map sections to needed KB chapters (updated for new core knowledge)
+  // Map sections to needed KB chapters (aligned with 天机阁 flow)
   const sectionMap = {
     overview: ['盲派总论','天干理论','地支理论','四柱宫位'],
     personality: ['盲派总论','天干理论','批命技巧'],
-    fourPillars: ['天干理论','地支理论','正局反局','四柱宫位'],
+    geju: ['盲派总论','身强弱','地支理论','批命技巧'],
     shishen: ['天干理论','地支理论','十神总论','批命技巧'],
     dayun: ['盲派总论','正局反局','身强弱','地支理论','批命技巧'],
     liunian: ['地支理论','批命技巧','断语集'],
-    career: ['盲派总论','断语集','批命技巧'],
-    wealth: ['盲派总论','断语集','批命技巧'],
-    romance: ['盲派总论','断语集','批命技巧'],
+    lifa: ['盲派总论','断语集','批命技巧'],
     fortune: ['身强弱','盲派总论','批命技巧'],
     mangpai: ['盲派总论','正局反局','地支理论'],
     closing: ['盲派总论','批命技巧'],
@@ -213,14 +211,20 @@ function buildSystemPrompt(section) {
       '比喻可以適量融入，但不要刻意用比喻開頭。\n' +
       '控制在400字以內。',
 
-    // ── 格局五行（仿天機閣口吻） ──
-    fourPillars: coreRules + ' ' + formatRules + ' ' + antiFabrication + noEmoji + 
-      '寫「格局與五行分析」。\n\n' +
-      '分析此命的格局成敗。先解釋格局名稱和特點（如魁罡格的「聰明剛毅,具威權,忌見財官」、正印格的「喜印生身」等）。\n' +
-      '然後分析年柱納音對性格的影響。\n' +
-      '最後說五行分布和流通情況。\n\n' +
-      '像一位老師在講解命理邏輯，語言專業但不晦澀。\n' +
-      '控制在400字以內。',
+    // ── 格局与五行分析（天机阁第3章） ──
+    geju: coreRules + ' ' + formatRules + ' ' + antiFabrication + noEmoji + 
+      '【絕對禁止偷懶】本節必須完整覆蓋格局判定、五行分析、身強弱三部分。\n\n' +
+      '寫「格局與五行分析」。分三部分：\n\n' +
+      '【一、格局判定】\n' +
+      '判定格局（如食神格、正官格、七殺格等），用大白話解釋此格局的人生模式。\n' +
+      '術語第一次出現時加大白話解釋，如「正官（約束你的規則、上司、責任）」。\n\n' +
+      '【二、五行分布】\n' +
+      '列出五行旺衰，用大白話說這種配置的性格和運勢特點。\n' +
+      '五行失衡處如何補救。\n\n' +
+      '【三、身強弱判定】\n' +
+      '按盲派規則判定身強/身弱/中和，用大白話說對命主的意義。\n' +
+      '身強弱如何影響大運吉凶。\n\n' +
+      '控制在1200字以內。',
 
     // ── 十神（仿天機閣：只寫命盤中最顯著的幾個，每個深入分析） ──
     shishen: coreRules + ' ' + formatRules + ' ' + antiFabrication + noEmoji + 
@@ -272,48 +276,30 @@ function buildSystemPrompt(section) {
       '語言直接不繞彎，凶運要說清楚凶在哪方面。\n' +
       '控制在2500字以內。',
 
-    // ── 流年（仿天機閣：每年獨立分開寫） ──
+    // ── 流年（近5年，天机阁流程） ──
     liunian: coreRules + ' ' + formatRules + ' ' + antiFabrication + noEmoji + 
-      '寫「近三年流年運勢」。分析2026丙午、2027丁未、2028戊申，每年獨立分開寫。\n\n' +
+      '寫「近五年流年運勢」。只分析從今年開始的連續5年，每年獨立分開寫。\n\n' +
       '每年格式：\n' +
       '年份 · 天干五行\n' +
-      '【概述】流年天干五行帶來的全年氛圍。\n' +
-      '【事業財運】事業和財運上的機會與風險。\n' +
+      '【概述】流年干支與原局的合/沖/刑/害，全年氛圍。\n' +
+      '【事業財運】具體的機會與風險。\n' +
       '【感情生活】感情上的機遇與注意事項。\n' +
-      '【總結】一句鼓勵性的結語。\n\n' +
-      '語言像朋友在提醒你未來一年要注意什麼，平和、誠懇。\n' +
-      '控制在600字以內。',
+      '【總結】一句提醒。\n\n' +
+      '術語第一次出現時加大白話解釋。\n' +
+      '控制在1000字以內。',
 
-    // ── 事業（仿天機閣：天賦→適合領域→時機→挑戰→分條建議） ──
-    career: coreRules + ' ' + formatRules + ' ' + antiFabrication + noEmoji + 
-      '寫「事業專論」。\n\n' +
-      '先說核心天賦：你的核心天賦在於什麼。結合日主特性和十神，有具體感。\n' +
-      '再說適合領域：給出具體行業方向，並說明為什麼適合。\n' +
-      '然後說最佳時機：20-35歲/35-50歲/50歲以後各階段的建議。\n' +
-      '接著說挑戰：你的天賦也可能帶來一些問題。\n' +
-      '最後用數字列表給3條具體的實操建議。\n\n' +
-      '語言像天機閣——「你的核心天賦在於...」「你適合...」「你的xx也可能帶來一些挑戰...」\n' +
-      '控制在600字以內。',
-
-    // ── 財運（仿天機閣：模式→天賦→周期→風險→分條建議） ──
-    wealth: coreRules + ' ' + formatRules + ' ' + antiFabrication + noEmoji + 
-      '寫「財運分析」。\n\n' +
-      '先說財富模式：你的財運注定與什麼緊密相連。是正財穩定型還是偏財爆發型。\n' +
-      '再說核心天賦：對機會的洞察力、執行力等。\n' +
-      '然後說財運周期：財富爆發期在什麼年齡段。\n' +
-      '接著說風險：你的銳氣可能帶來什麼潛在問題。\n' +
-      '最後用數字列表給3條具體的理財實操建議。\n\n' +
-      '控制在500字以內。',
-
-    // ── 感情（仿天機閣：天賦→時機→挑戰→分條建議） ──
-    romance: coreRules + ' ' + formatRules + ' ' + antiFabrication + noEmoji + 
-      '寫「感情婚姻」。\n\n' +
-      '先說感情天賦：你對待感情的態度，在關係中的優勢。\n' +
-      '再說配偶傾向：基於夫妻宮推測配偶特質。\n' +
-      '然後說年齡段建議：20多歲/30歲以後各階段的感情特點。\n' +
-      '接著說主要挑戰：你可能在關係中容易出現什麼問題。\n' +
-      '最後用數字列表給3條具體的相處實操建議。\n\n' +
-      '控制在500字以內。',
+    // ── 事業·財運·感情（合并天机阁第7章） ──
+    lifa: coreRules + ' ' + formatRules + ' ' + antiFabrication + noEmoji +
+      '【絕對禁止偷懶】本節必須覆蓋事業、財運、感情三個方面。\n\n' +
+      '寫「事業·財運·感情」。分三個子節：\n\n' +
+      '【事業方面】\n' +
+      '適合什麼類型的事業（具體行業），發展黃金期在哪個年齡段，最大優勢和最大坑。給2條具體建議。\n\n' +
+      '【財運方面】\n' +
+      '財富模式（正財型還是偏財型），財運爆發期在哪步大運，理財最大風險。給2條具體建議。\n\n' +
+      '【感情方面】\n' +
+      '對感情的態度和優勢，配偶大概是什麼類型，感情上最容易出的問題。給2條具體建議。\n\n' +
+      '術語第一次出現時加大白話解釋。禁止堆砌術語。\n' +
+      '控制在1500字以內。',
 
     // ── 開運指南（仿天機閣：含飲食運動建議） ──
     fortune: coreRules + ' ' + formatRules + ' ' + antiFabrication + noEmoji + 
@@ -419,13 +405,12 @@ ${sectionKnowledge}`;
 
 當前大運加倍篇幅，分事業/財運/感情/健康四方面詳寫。
 語言直接有力，凶運要說清楚凶在哪方面。`,
-    liunian: `${baziIntro}\n\n請寫「流年運勢」。分析2026丙午、2027丁未、2028戊申。每年按吉凶+基調+事業+財運+感情+健康。語言平和。`,
-    career: `${baziIntro}\n\n請寫「事業專論」。先說核心天賦，再給適合行業，然後說挑戰，最後給關鍵年份建議。全部自然段落，不要用任何【】標籤。`,
-    wealth: `${baziIntro}\n\n請寫「財運分析」。先說財富模式，再給財運周期，然後說風險，最後給理財建議。全部自然段落，不要用【】標籤。`,
-    romance: `${baziIntro}\n\n請寫「感情婚姻」。先說感情天賦和優勢，再給配偶傾向，然後說挑戰，最後給相處建議。全部自然段落，不要用【】標籤。`,
-    fortune: `${baziIntro}\n\n請寫「開運指南」。先說五行喜忌，然後自然段落列出顏色/方位/行業/貴人生肖/開運月份。最後寄語。`,
-    mangpai: `${baziIntro}\n\n請用盲派八字（段建業體系）分析此命的「做功」。分析做功鏈條/類型/效率/功神廢神/發動時間。每個環節說「這代表你...」。`,
-    closing: `${baziIntro}\n\n請寫結語。2-3句平靜有力的總結。不用吉凶判斷。`
+    liunian: baziIntro + '\n\n請寫「近五年流年運勢」。分析從今年開始的連續5年，每年按：干支與原局關系+事業+財運+感情+注意事項。',
+    geju: baziIntro + '\n\n請寫「格局與五行分析」。分三部分：格局判定（術語加大白話解釋）、五行分布、身強弱判定。禁止堆砌術語。',
+    lifa: baziIntro + '\n\n請寫「事業·財運·感情」。分三子節：事業方面（適合行業+發展階段+建議）、財運方面（財富模式+爆發期+建議）、感情方面（感情態度+配偶類型+建議）。術語加大白話解釋。',
+    fortune: baziIntro + '\n\n請寫「開運指南」。先說五行喜忌，然後列出方位/顏色/行業/貴人生肖/開運月份/日常建議。',
+    mangpai: baziIntro + '\n\n請用盲派八字（段建業體系）分析此命的「做功」。分析做功鏈條/類型/效率/功神廢神/發動時間。每個環節說「這代表你...」。',
+    closing: baziIntro + '\n\n請寫結語。2-3句平靜有力。不用吉凶判斷。'
   };
   return sectionRequests[section] || baziIntro;
 }
@@ -440,11 +425,11 @@ async function generateReport(baziData) {
   const blindSchoolAnalysis = analyzeBaziByBlindSchool(baziData);
   console.log('  [盲派預分析完成]\n' + blindSchoolAnalysis.split('\n').slice(0,8).join('\n') + '\n  ...\n');
 
-  // 測試模式只跑3個章節（省錢），正式模式跑全量13章
+  // 章節順序對齊天机阁，測試模式跑5章
   const sections = TEST_MODE
-    ? ['overview', 'personality', 'dayun', 'mangpai']
-    : ['overview', 'personality', 'fourPillars', 'shishen',
-       'dayun', 'liunian', 'career', 'wealth', 'romance', 'fortune', 'mangpai', 'closing'];
+    ? ['overview', 'personality', 'geju', 'dayun', 'mangpai']
+    : ['overview', 'personality', 'geju', 'shishen',
+       'dayun', 'liunian', 'lifa', 'fortune', 'mangpai', 'closing'];
 
   const contents = {};
   for (const section of sections) {
@@ -458,13 +443,11 @@ async function generateReport(baziData) {
           closing:  { temperature: 0.5,  max_tokens: 512,  enable_thinking: false, timeout: 60000 },
           overview: { temperature: 0.75, max_tokens: 4096 },
           personality: { temperature: 0.75, max_tokens: 4096 },
-          fourPillars: { temperature: 0.75, max_tokens: 4096 },
+          geju: { temperature: 0.75, max_tokens: 4096 },
           shishen: { temperature: 0.75, max_tokens: 6144 },
           dayun:  { temperature: 0.75, max_tokens: 8192 },
           liunian: { temperature: 0.75, max_tokens: 6144 },
-          career: { temperature: 0.75, max_tokens: 6144 },
-          wealth: { temperature: 0.75, max_tokens: 4096 },
-          romance: { temperature: 0.75, max_tokens: 4096 },
+          lifa: { temperature: 0.75, max_tokens: 8192 },
           fortune: { temperature: 0.75, max_tokens: 4096 },
           mangpai: { temperature: 0.75, max_tokens: 6144 },
         };
