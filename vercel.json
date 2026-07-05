@@ -26,6 +26,62 @@
   ],
   "routes": [
     {
+      "src": "/blog/taoist-meditation-guide\\.html",
+      "status": 410
+    },
+    {
+      "src": "/zh/blog/taoist-meditation-guide\\.html",
+      "status": 410
+    },
+    {
+      "src": "/blog/what-is-bazi-beginners-guide\\.html",
+      "status": 410
+    },
+    {
+      "src": "/zh/blog/what-is-bazi-beginners-guide\\.html",
+      "status": 410
+    },
+    {
+      "src": "/blog/what-is-bazi\\.html",
+      "status": 410
+    },
+    {
+      "src": "/zh/blog/what-is-bazi\\.html",
+      "status": 410
+    },
+    {
+      "src": "/terms\\.html",
+      "status": 410
+    },
+    {
+      "src": "/zh/blog/zodiac-horoscope\\.html",
+      "status": 410
+    },
+    {
+      "src": "/zh/blog/five-elements-theory-wu-xing-guide\\.html",
+      "status": 410
+    },
+    {
+      "src": "/zh/blog/elon-musk-bazi-chart-analysis\\.html",
+      "status": 410
+    },
+    {
+      "src": "/zh/blog/five-virtues-five-elements\\.html",
+      "status": 410
+    },
+    {
+      "src": "/zh/blog/trump-bazi-fire-earth\\.html",
+      "status": 410
+    },
+    {
+      "src": "/zh/blog/seven-killings-bazi-wealth-star\\.html",
+      "status": 410
+    },
+    {
+      "src": "/destiny/",
+      "status": 410
+    },
+    {
       "src": "/contact(.*)",
       "status": 410
     },
