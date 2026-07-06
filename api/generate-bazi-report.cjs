@@ -1058,12 +1058,16 @@ async function generateBaziReport(orderData) {
   fs.writeFileSync(htmlPath, html);
   console.log(`  OK HTML: ${htmlPath}`);
 
-  // 渲染PDF
+  // 渲染PDF（puppeteer 不可用时降级为仅 HTML，邮件将附 HTML 版）
   const pdfPath = htmlPath.replace('.html', '.pdf');
-  await renderPDF(html, pdfPath);
-  console.log(`[BaZi Report] ✅ 報告生成完成: ${pdfPath}`);
+  try {
+    await renderPDF(html, pdfPath);
+    console.log(`[BaZi Report] ✅ 報告生成完成: ${pdfPath}`);
+  } catch (pdfErr) {
+    console.error(`[BaZi Report] ⚠️ PDF 渲染失败（将退回 HTML 附件）: ${pdfErr.message}`);
+  }
 
-  return { htmlPath, pdfPath, baziData };
+  return { htmlPath, pdfPath: fs.existsSync(pdfPath) ? pdfPath : null, baziData };
 }
 
 module.exports = { generateBaziReport, runPaipan };

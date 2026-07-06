@@ -178,12 +178,16 @@ async function sendSingleMail({ to, subject, htmlBody, textBody, fromAlias, imag
         subject: subject,
         html: htmlBody,
         text: textBody || htmlBody.replace(/<[^>]*>/g, ''),
-        attachments: (images || []).map(img => ({
-            filename: img.filename,
-            content: img.content,
-            encoding: img.encoding || 'base64',
-            cid: `<${img.cid}>`  // nodemailer CID 引用
-        }))
+        attachments: (images || []).map(img => {
+            const att = {
+                filename: img.filename,
+                content: img.content,
+                encoding: img.encoding || 'base64'
+            };
+            if (img.cid) att.cid = `<${img.cid}>`;              // 仅内联图片需要 CID
+            if (img.contentType) att.contentType = img.contentType;
+            return att;
+        })
     };
 
     const result = await transporter.sendMail(mailOptions);
@@ -954,3 +958,6 @@ async function fetchCreemOrders() {
 
     return allOrders;
 }
+
+// ==================== 导出供其他模块复用（八字报告邮件等） ====================
+export { sendSingleMail, getEmailWrapper };
