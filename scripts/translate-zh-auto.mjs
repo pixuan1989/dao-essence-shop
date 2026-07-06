@@ -12,7 +12,7 @@ import matter from 'gray-matter';
 
 const DASHSCOPE_MODEL = 'qwen3.5-plus';
 const DASHSCOPE_BASE_URL = 'https://dashscope.aliyuncs.com/compatible-mode/v1';
-const TRANSLATE_TIMEOUT_MS = 180000; // 3 minutes (was 120s, long articles need more)
+const TRANSLATE_TIMEOUT_MS = 300000; // 5 minutes (was 180s, long articles with tables need more)
 
 // Load terminology dictionary
 function loadTerminology(rootDir) {
