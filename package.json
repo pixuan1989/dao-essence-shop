@@ -21,6 +21,6 @@
     "puppeteer": "^25.3.0"
   },
   "engines": {
-    "node": ">=18.x"
+    "node": "22.x"
   }
 }
