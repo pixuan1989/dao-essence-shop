@@ -41,6 +41,36 @@ async function triggerBaziReport() {
     }
 }
 
+// ─── GitHub Actions Worker 即时触发（付款后秒级响应，失败不影响主链路） ───
+async function triggerGitHubWorker() {
+    try {
+        const token = process.env.GH_DISPATCH_TOKEN;
+        const repo = process.env.GH_REPO; // 格式: owner/repo
+        if (!token || !repo) {
+            console.log('ℹ️ 未配置 GH_DISPATCH_TOKEN/GH_REPO，跳过即时触发（cron 兜底）');
+            return;
+        }
+        const res = await fetch(`https://api.github.com/repos/${repo}/dispatches`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+                'Accept': 'application/vnd.github+json',
+                'X-GitHub-Api-Version': '2022-11-28',
+                'User-Agent': 'daoessence-webhook'
+            },
+            body: JSON.stringify({ event_type: 'bazi-report' })
+        });
+        if (res.ok) {
+            console.log('✅ 已触发 GitHub Actions worker (event: bazi-report)');
+        } else {
+            console.error(`⚠️ GitHub dispatch 返回 ${res.status}（cron 兜底会处理）`);
+        }
+    } catch (err) {
+        console.error('⚠️ 触发 GitHub worker 失败（cron 兜底会处理）:', err.message);
+    }
+}
+
 /**
  * Vercel Function 主处理函数
  */
@@ -155,6 +185,7 @@ export default async function handler(req, res) {
                         const { enqueueReportJob } = await import('../../lib/bazi-report-service.js');
                         await enqueueReportJob(orderData);
                         triggerBaziReport(); // 内联尝试一次，失败由队列兜底
+                        triggerGitHubWorker(); // 即时触发 GitHub Actions worker（秒级响应，失败仅 log）
                     } catch (enqueueErr) {
                         console.error('⚠️ 报告入队/触发失败（非致命）:', enqueueErr.message);
                     }

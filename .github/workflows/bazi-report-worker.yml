@@ -1,0 +1,71 @@
+name: BaZi Report Worker
+
+# 全自动化链路：付款 -> creem webhook 入队 -> (本 workflow 消费队列 -> 生成 PDF -> 发邮件)
+# 触发方式：
+#   1. schedule 每 10 分钟兜底（即使 dispatch 失败也能处理）
+#   2. repository_dispatch event_type=bazi-report（creem webhook 付款后即时触发，秒级响应）
+#   3. workflow_dispatch 手动补跑/测试
+
+on:
+  schedule:
+    - cron: '*/10 * * * *'
+  repository_dispatch:
+    types: [bazi-report]
+  workflow_dispatch:
+
+# 防止重叠：同一时间只跑一个 worker，避免重复处理队列
+concurrency:
+  group: bazi-report-worker
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  generate-report:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    env:
+      # worker 用 KV_*（与 webhook 写队列同一 Upstash 实例）
+      KV_REST_API_URL: ${{ secrets.KV_REST_API_URL }}
+      KV_REST_API_TOKEN: ${{ secrets.KV_REST_API_TOKEN }}
+      DASHSCOPE_API_KEY: ${{ secrets.DASHSCOPE_API_KEY }}
+      ALIYUN_EMAIL_ACCOUNT: ${{ secrets.ALIYUN_EMAIL_ACCOUNT }}
+      ALIYUN_SMTP_PASSWORD: ${{ secrets.ALIYUN_SMTP_PASSWORD }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+            ~/.cache/puppeteer
+          key: ${{ runner.os }}-deps-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-deps-
+
+      - name: Install Chromium system dependencies (for puppeteer PDF)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libnss3 libatk1.0-0 libatk-bridge2.0-0 libcups2 libdrm2 libxkbcommon0 libxcomposite1 libxdamage1 libxfixes3 libxrandr2 libgbm1 libpango-1.0-0 libcairo2 libasound2 libxshmfence1
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run BaZi Report Worker (consume queue -> PDF -> email)
+        run: node scripts/run-report-worker.cjs
+
+      - name: Failure notification
+        if: failure()
+        run: |
+          echo "❌ 八字报告生成失败，请检查 GitHub Actions 日志"
+          echo "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
