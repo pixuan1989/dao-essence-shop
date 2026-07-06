@@ -184,7 +184,6 @@ export default async function handler(req, res) {
                     try {
                         const { enqueueReportJob } = await import('../../lib/bazi-report-service.js');
                         await enqueueReportJob(orderData);
-                        triggerBaziReport(); // 内联尝试一次，失败由队列兜底
                         triggerGitHubWorker(); // 即时触发 GitHub Actions worker（秒级响应，失败仅 log）
                     } catch (enqueueErr) {
                         console.error('⚠️ 报告入队/触发失败（非致命）:', enqueueErr.message);

@@ -98,7 +98,8 @@ export default async function handler(req, res) {
                 birth_place: birth_place || '',
                 notes: notes || '',
                 name: name || '',
-                email: email || ''
+                email: email || '',
+                language: language || 'zh'
             }
         };
 
