@@ -60,7 +60,7 @@ const FALLBACK_PRODUCTS = [
     name: 'BaZi Life Guidance',
     nameCN: '八字命理解读',
     price: 9.99,
-    originalPrice: 39.90,
+    originalPrice: 9.99,
     discount: 0,
     discountRate: 0,
     currency: 'USD',

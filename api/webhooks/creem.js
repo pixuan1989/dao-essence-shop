@@ -29,18 +29,6 @@ import { createRequire } from 'module';
 // 黄历解锁产品 ID
 const ALMANAC_PRODUCT_ID = 'prod_3fJInBNekM9UVJwtClgUtx';
 
-// ─── 八字报告生成触发（fire-and-forget，队列兜底） ───
-let _reportService;
-async function triggerBaziReport() {
-    try {
-        if (!_reportService) _reportService = await import('../../lib/bazi-report-service.js');
-        const result = await _reportService.processNextJob();
-        console.log('[BaZi] 内联触发结果:', JSON.stringify(result));
-    } catch (err) {
-        console.error('⚠️ 内联报告生成失败（队列兜底）:', err.message);
-    }
-}
-
 // ─── GitHub Actions Worker 即时触发（付款后秒级响应，失败不影响主链路） ───
 async function triggerGitHubWorker() {
     try {
