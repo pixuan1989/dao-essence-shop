@@ -58,11 +58,17 @@ The tradition of eating new noodles (吃新面) during Minor Heat goes back cent
 
 **How to do it:** Starting July 7, keep fresh noodles at home — whether hand-pulled or dried. Cook a steaming bowl and eat it mindfully, setting your intention for financial abundance. The warmth of the noodles activates the Fire energy of the season, while the Earth element of the wheat grounds your wealth.
 
-### Wallpaper Match: Earth & Fire Tones
+### Recommended Wallpapers for Wealth
 
-To amplify this ritual, set your phone wallpaper to one featuring **warm Earth tones** — golden yellows, warm browns, and soft oranges. These colors resonate with the Yi Wei month's Earth-dominant energy and reinforce the wealth-attracting power of the noodle ritual.
+Set your phone wallpaper to one featuring **warm Earth tones** — golden yellows, warm browns, and soft oranges. These colors resonate with the Yi Wei month's Earth-dominant energy and reinforce the wealth-attracting power of the noodle ritual.
 
-Browse our [Five Elements wallpaper collection](/wallpaper) and filter by Earth or Fire category to find your perfect match.
+| Wallpaper | Element | Download |
+|-----------|---------|----------|
+| ![招财金山壁纸](https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1782731907/thumb.webp) **Golden Mountain Wealth** | Earth / Wealth | [View & Download](/wallpaper/golden-mountain-wealth-wallpaper-for-feng-shui-phone-background) |
+| ![招财福袋风水壁纸](https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1782121011/thumb.webp) **Fortune Bag Feng Shui** | Earth / Wealth | [View & Download](/wallpaper/lucky-wealth-wallpaper-with-fortune-bag-feng-shui-design) |
+| ![日进斗金招财壁纸](https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1782120897/thumb.webp) **Daily Wealth Attraction** | Fire / Wealth | [View & Download](/wallpaper/wealth-attraction-wallpaper-for-phone-background) |
+
+Browse the full [Wealth wallpaper collection](/wallpaper) for more options.
 
 ---
 
@@ -74,11 +80,17 @@ Storing new rice (囤新米) during Minor Heat is one of the most practical and 
 
 **How to do it:** Find a clean, dry container — ideally a traditional rice crock or any sealed jar. Fill it with new-season rice (freshly harvested if possible). Place it in your kitchen, preferably in the southeast corner (the wealth corner in Feng Shui). As you pour the rice in, visualize your financial foundation growing stronger and more stable.
 
-### Wallpaper Match: Harvest Gold & Abundance Green
+### Recommended Wallpapers for Stability & Growth
 
-For this ritual, choose wallpapers with **harvest gold** and **abundance green** tones. Gold represents the wealth you're storing; green represents growth and new beginnings. Together, they create a visual anchor for the prosperity you're inviting into your home.
+Choose wallpapers with **harvest gold** and **abundance green** tones. Gold represents the wealth you're storing; green represents growth and new beginnings. Together, they create a visual anchor for the prosperity you're inviting into your home.
 
-Check our [July 2026 lucky wallpaper guide](/blog/july-2026-lucky-wallpaper-yi-wei-month-five-elements) for wallpapers specifically matched to this month's energy.
+| Wallpaper | Element | Download |
+|-----------|---------|----------|
+| ![金郁金香山水风水壁纸](https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1782732107/thumb.webp) **Golden Tulip Landscape** | Earth / Five Elements | [View & Download](/wallpaper/golden-tulip-landscape-wallpaper-for-feng-shui-harmony-phone-background) |
+| ![绿意盎然森林壁纸](https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1782732457/thumb.webp) **Green Forest Abundance** | Wood / Five Elements | [View & Download](/wallpaper/lucky-green-forest-wallpaper-for-feng-shui-phone-background) |
+| ![橙日金水招财壁纸](https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1782732107/thumb.webp) **Golden Sunset Wealth** | Fire / Five Elements | [View & Download](/wallpaper/golden-sunset-orange-water-wallpaper-for-feng-shui-energy-phone-background) |
+
+See our [July 2026 lucky wallpaper guide](/blog/july-2026-lucky-wallpaper-yi-wei-month-five-elements) for wallpapers matched to this month's Yi Wei energy.
 
 ---
 
@@ -90,9 +102,15 @@ Buying fresh seasonal vegetables (购新菜) during Minor Heat is the third key 
 
 **How to do it:** Visit a local market on or after July 7. Buy a variety of fresh, seasonal vegetables — the more colorful, the better. Each color represents a different element, and a diverse basket activates multiple luck channels simultaneously. Cook them at home and share the meal with family to multiply the positive energy.
 
-### Wallpaper Match: Vibrant Wood & Growth Green
+### Recommended Wallpapers for Career Growth
 
-To support your career push, use wallpapers featuring **vibrant greens** and **fresh wood element** imagery — blooming plants, bamboo, forest scenes, or abstract green patterns. Wood energy fuels growth, ambition, and upward momentum, perfectly complementing the career-boosting vegetable ritual.
+Use wallpapers featuring **vibrant greens** and **fresh wood element** imagery — blooming plants, bamboo, forest scenes, or flowing water. Wood energy fuels growth, ambition, and upward momentum, perfectly complementing the career-boosting vegetable ritual.
+
+| Wallpaper | Element | Download |
+|-----------|---------|----------|
+| ![流水能量壁纸](https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1782732165/thumb.webp) **Waterfall Energy** | Water / Energy | [View & Download](/wallpaper/waterfall-energy-wallpaper-for-manifestation-clarity) |
+| ![绿花能量壁纸](https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1782002501/thumb.webp) **Green Floral Energy** | Wood / Energy | [View & Download](/wallpaper/green-floral-energy-wallpaper-phone-background) |
+| ![莲花灵韵壁纸](https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1782001977/thumb.webp) **Ethereal Lotus** | Wood / Energy | [View & Download](/wallpaper/ethereal-lotus-wallpaper-tranquil-phone-background) |
 
 Not sure which element your career needs? Use our [free BaZi calculator](/#free-bazi) to find your favorable elements, then match your wallpaper accordingly.
 
