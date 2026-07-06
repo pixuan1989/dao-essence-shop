@@ -26,13 +26,7 @@
         // Sections
         'bazi_result.section_four_pillars': 'Four Pillars',
         'bazi_result.section_five_elements': 'Five Elements',
-        'bazi_result.section_health': 'Health & Wellness Insights',
-        'bazi_result.section_health_desc': 'Based on your Five Elements balance and birth season',
         'bazi_result.section_dayun': 'Major Life Cycles',
-        // Health
-        'bazi_result.health_missing': '⚠️ Missing Elements — Vulnerable Organs',
-        'bazi_result.health_excessive': '📊 Excessive Elements — Imbalance Risk',
-        'bazi_result.health_balanced': '✅ Your Five Elements are well-balanced — no significant deficiencies or excesses.',
         // Five Elements
         'bazi_result.wx_strongest': 'Strongest',
         'bazi_result.wx_excessive': 'Excessive (≥4)',
@@ -571,13 +565,12 @@
                     if (result.summary) html += '<div class="detail-row" style="line-height:1.7;color:var(--ink)">' + result.summary + '</div>';
                     html += '</div></div>';
 
-                    if (result.career || result.wealth || result.love || result.health) {
+                    if (result.career || result.wealth || result.love) {
                         html += '<div class="detail-card" style="margin-bottom:0.5rem">';
                         html += '<div class="detail-card-body" style="line-height:1.65">';
                         if (result.career) html += '<div class="detail-row" style="margin-bottom:0.4rem"><span class="detail-key">' + (isZh() ? '\u4e8b\u696d' : 'Career') + '</span>' + result.career + '</div>';
                         if (result.wealth) html += '<div class="detail-row" style="margin-bottom:0.4rem"><span class="detail-key">' + (isZh() ? '\u8ca1\u904b' : 'Wealth') + '</span>' + result.wealth + '</div>';
                         if (result.love) html += '<div class="detail-row" style="margin-bottom:0.4rem"><span class="detail-key">' + (isZh() ? '\u611f\u60c5' : 'Love') + '</span>' + result.love + '</div>';
-                        if (result.health) html += '<div class="detail-row"><span class="detail-key">' + (isZh() ? '\u5065\u5eb7' : 'Health') + '</span>' + result.health + '</div>';
                         html += '</div></div>';
                     }
                     el.innerHTML = html;
@@ -644,72 +637,6 @@
             });
 
         return loadingHTML;
-    }
-
-    // ==================== BUILD HEALTH INTERPRETATION ====================
-    function buildHealthSection(nwx, dmIdx, rt) {
-        var dm = rt['ctg'][2];
-        var monthBranch = rt['cdz'][1];
-        var maxCount = Math.max.apply(null, nwx);
-        var absent = [], excessive = [], strong = [];
-        for (var i = 0; i < 5; i++) {
-            if (nwx[i] === 0) absent.push(WX_NAMES[i]);
-            else if (nwx[i] >= 4) excessive.push(WX_NAMES[i]);
-            else if (nwx[i] === maxCount) strong.push(WX_NAMES[i]);
-        }
-
-        var html = '<section class="section" id="section-health">';
-        html += '<h2 class="section-title">' + t('bazi_result.section_health') + '</h2>';
-        html += '<p class="section-desc">' + t('bazi_result.section_health_desc') + '</p>';
-
-        var hasIssues = (absent.length > 0 || excessive.length > 0);
-        if (hasIssues) {
-            html += '<div class="detail-grid">';
-
-            // Absent elements - health vulnerabilities
-            if (absent.length > 0) {
-                html += '<div class="detail-card">';
-                html += '<div class="detail-card-header" style="color:var(--bad)">' + t('bazi_result.health_missing') + '</div>';
-                html += '<div class="detail-card-body">';
-                for (var a = 0; a < absent.length; a++) {
-                    var w = absent[a];
-                    var tipText = isZh() ? t(WX_ORGAN_TIPS_ZH[w]) : WX_ORGAN_TIPS[w];
-                    html += '<div class="detail-row" style="margin-bottom:0.4rem">';
-                    html += '<div><strong style="color:' + WX_COLORS[w] + '">' + (isZh() ? w : WX_EN[w]) + '</strong> → ' + wxBody(w) + '</div>';
-                    html += '<div style="color:var(--ink-2);font-size:0.85rem;line-height:1.6">' + tipText + '</div>';
-                    html += '</div>';
-                }
-                html += '</div></div>';
-            }
-
-            // Excessive elements - overactive organs
-            if (excessive.length > 0) {
-                html += '<div class="detail-card">';
-                html += '<div class="detail-card-header" style="color:var(--accent)">' + t('bazi_result.health_excessive') + '</div>';
-                html += '<div class="detail-card-body">';
-                for (var e = 0; e < excessive.length; e++) {
-                    var w = excessive[e];
-                    var excessText = isZh() ? t(WX_ORGAN_EXCESS_ZH[w]) : WX_ORGAN_EXCESS[w];
-                    var clash = { '金':'木','木':'土','土':'水','水':'火','火':'金' };
-                    var target = clash[w];
-                    html += '<div class="detail-row" style="margin-bottom:0.4rem">';
-                    html += '<div><strong style="color:' + WX_COLORS[w] + '">' + (isZh() ? w : WX_EN[w]) + (isZh() ? ' 過盛 → 克制 ' : ' excessive → controls ') + '<strong style="color:' + WX_COLORS[target] + '">' + (isZh() ? target : WX_EN[target]) + '</strong> (' + wxBody(target) + ')</div>';
-                    html += '<div style="color:var(--ink-2);font-size:0.85rem;line-height:1.6">' + excessText + '</div>';
-                    html += '</div>';
-                }
-                html += '</div></div>';
-            }
-
-            html += '</div>';
-        } else {
-            html += '<div class="detail-card">';
-            html += '<div class="detail-card-body" style="text-align:center;color:var(--good);padding:0.6rem">';
-            html += t('bazi_result.health_balanced');
-            html += '</div></div>';
-        }
-
-        html += '</section>';
-        return html;
     }
 
     // ==================== SHIER CHANGSHENG ====================
@@ -794,9 +721,9 @@
                     try {
                         var items = [];
                         var labels = isZh()
-                            ? { personality: '核心性格', career: '事業方向', love: '感情特點', wealth: '財運模式', health: '健康提醒', summary: '命盤總結' }
-                            : { personality: 'Core Personality', career: 'Career Direction', love: 'Relationships', wealth: 'Wealth Pattern', health: 'Health Watch', summary: 'Key Advice' };
-                        var fields = ['personality', 'career', 'love', 'wealth', 'health', 'summary'];
+                            ? { personality: '核心性格', career: '事業方向', love: '感情特點', wealth: '財運模式', summary: '命盤總結' }
+                            : { personality: 'Core Personality', career: 'Career Direction', love: 'Relationships', wealth: 'Wealth Pattern', summary: 'Key Advice' };
+                        var fields = ['personality', 'career', 'love', 'wealth', 'summary'];
                         for (var i = 0; i < fields.length; i++) {
                             var f = fields[i];
                             if (result[f]) {
