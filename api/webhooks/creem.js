@@ -33,7 +33,7 @@ const ALMANAC_PRODUCT_ID = 'prod_3fJInBNekM9UVJwtClgUtx';
 let _reportService;
 async function triggerBaziReport() {
     try {
-        if (!_reportService) _reportService = await import('../bazi-report-service.js');
+        if (!_reportService) _reportService = await import('../lib/bazi-report-service.js');
         const result = await _reportService.processNextJob();
         console.log('[BaZi] 内联触发结果:', JSON.stringify(result));
     } catch (err) {
@@ -152,7 +152,7 @@ export default async function handler(req, res) {
 
                     // ── 入队触发八字报告生成（队列兜底，防 webhook 超时） ──
                     try {
-                        const { enqueueReportJob } = await import('../bazi-report-service.js');
+                        const { enqueueReportJob } = await import('../lib/bazi-report-service.js');
                         await enqueueReportJob(orderData);
                         triggerBaziReport(); // 内联尝试一次，失败由队列兜底
                     } catch (enqueueErr) {

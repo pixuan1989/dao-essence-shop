@@ -32,7 +32,7 @@ const once = args.includes('--once');
 const idArg = (() => { const i = args.indexOf('--id'); return i >= 0 ? args[i + 1] : null; })();
 
 async function main() {
-    const svc = await import('../api/bazi-report-service.js');
+    const svc = await import('../lib/bazi-report-service.js');
     console.log('🚀 八字报告 Worker 启动');
 
     if (idArg) {
