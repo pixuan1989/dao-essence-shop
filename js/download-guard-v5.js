@@ -194,7 +194,22 @@
         return;
       }
 
-      // ── Step 2: Trigger download (only if explicitly allowed) ──
+      // ── Step 2: Show loading state on button ──
+      var originalHTML = btn.innerHTML;
+      var spinnerSVG = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="animation:dg-spin 0.8s linear infinite;margin-right:6px;vertical-align:middle"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>';
+      btn.innerHTML = spinnerSVG + (isZh ? '下载中' : 'Downloading');
+      btn.style.transform = '';
+      btn.style.opacity = '';
+
+      // Inject spinner keyframes once
+      if (!document.getElementById('dg-spinner-style')) {
+        var style = document.createElement('style');
+        style.id = 'dg-spinner-style';
+        style.textContent = '@keyframes dg-spin{to{transform:rotate(360deg)}}';
+        document.head.appendChild(style);
+      }
+
+      // ── Step 3: Trigger download (only if explicitly allowed) ──
       try {
         var filename = 'wallpaper.jpg';
         try {
@@ -208,13 +223,16 @@
       }
 
     } finally {
-      // 恢复按钮状态（不改变文字）
+      // 恢复按钮状态
       btn.disabled = false;
       btn.classList.remove('processing');
       btn.dataset.isProcessing = 'false';
-      // 恢复点击反馈样式
       btn.style.transform = '';
       btn.style.opacity = '';
+      // 恢复原始内容（如果还没被恢复的话）
+      if (btn.innerHTML.indexOf('dg-spin') !== -1) {
+        btn.innerHTML = originalHTML;
+      }
       console.log('[DownloadGuard] Done');
     }
   }
