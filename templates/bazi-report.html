@@ -20,17 +20,16 @@ body {
   font-size: 11pt;
 }
 .page {
-  width: 210mm; min-height: 297mm;
-  padding: 18mm 20mm 14mm 20mm; /* bottom 多留空间给 fixed footer-bar */
+  width: 210mm;
+  padding: 18mm 20mm 14mm 20mm;
   margin: 0 auto 6mm auto;
   background: #fcf9f2;
   position: relative;
-  page-break-after: always;
 }
 
 /* ─── 頁眉頁腳（fixed = 每頁重複顯示，解決溢出頁視覺空白） ─── */
 .page-header {
-  position: fixed; top: 0; left: 20mm; right: 20mm;
+  position: absolute; top: 0; left: 20mm; right: 20mm;
   height: 10mm;
   border-bottom: 1px solid rgba(212,175,55,0.2);
   display: flex; align-items: center; justify-content: space-between;
@@ -40,13 +39,13 @@ body {
 .page-header .title { font-weight: 600; }
 .pg-num { font-size: 9pt; color: #D4AF37; }
 .page-footer {
-  position: fixed; bottom: 7mm; left: 20mm; right: 20mm;
+  position: absolute; bottom: 7mm; left: 20mm; right: 20mm;
   text-align: center; font-size: 8pt; color: #aaa;
   border-top: 1px solid rgba(212,175,55,0.15); padding-top: 3mm;
   z-index: 10;
 }
 .footer-bar {
-  position: fixed; bottom: 0; left: 0; right: 0; height: 2px;
+  position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
   background: linear-gradient(90deg, #8B0000, #D4AF37, #8B0000, #D4AF37, #8B0000);
   z-index: 10;
 }
@@ -56,6 +55,8 @@ body {
   background: linear-gradient(170deg, #1a0505 0%, #3d0d0d 50%, #1a0505 100%);
   color: #e8dcc8;
   display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
+  min-height: 297mm;
+  page-break-after: always;
 }
 .cover::before {
   content: ''; position: absolute; top:0; left:0; right:0; bottom:0;
@@ -231,6 +232,16 @@ body {
   font-family: 'Noto Serif CJK SC', 'Noto Serif CJK TC', 'Noto Serif TC',
                'WenQuanYi Micro Hei', 'Noto CJK SC', 'SimSun', serif;
   margin: 4px 0;
+}
+
+/* 防止分页时内容块被丑陋地截断（连续排版下尤为重要） */
+/* 注意：.overview-grid 不可加 break-inside:avoid —— 它包住「八字表+整章正文」，
+   整块超过一页时会被整段推到下一页，留下标题孤立页。只保留真正的原子小块防截断 */
+.dayun-item, .remark, .advice-box, .bazi-table, .simple-table, .closing {
+  break-inside: avoid; page-break-inside: avoid;
+}
+.section-title, .report-h3, .report-h4, .disclaimer-title {
+  break-after: avoid; page-break-after: avoid;
 }
 </style>
 </head>
