@@ -1995,6 +1995,9 @@ ${FOOTER_HTML}
 
 // ─── Main Build ─────────────────────────────────────────────
 
+
+// 统一后处理：确保所有 dist 里的 HTML 在 gtag 加载前注入 GA Cookie 屏蔽
+// 解决静态页（copyFileSync 原样复制）漏掉 ga-disable 的问题
 async function main() {
   console.log('=== Blog Build Started ===');
   // Step 1: Clean blog dirs in dist/ (avoid removing entire dist/ which may be locked)
