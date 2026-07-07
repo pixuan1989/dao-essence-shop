@@ -21,11 +21,14 @@ body {
 }
 .page {
   width: 210mm;
-  padding: 18mm 20mm 14mm 20mm;
+  padding: 16mm 20mm 14mm 20mm;   /* top 缩减给 puppeteer headerTemplate 留空间 */
   margin: 0 auto 6mm auto;
   background: #fcf9f2;
   position: relative;
 }
+
+/* ── HTML 页眉页腳在 puppeteer displayHeaderFooter 模式下隐藏 ── */
+.page-header, .page-footer, .footer-bar { display: none !important; }
 
 /* ─── 頁眉頁腳（fixed = 每頁重複顯示，解決溢出頁視覺空白） ─── */
 .page-header {
