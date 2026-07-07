@@ -64,6 +64,16 @@ jobs:
       - name: Run BaZi Report Worker (consume queue -> PDF -> email)
         run: node scripts/run-report-worker.cjs
 
+      - name: Upload generated report (PDF + HTML)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bazi-report-artifacts
+          path: |
+            reports/*.pdf
+            reports/*.html
+          if-no-files-found: ignore
+
       - name: Failure notification
         if: failure()
         run: |
