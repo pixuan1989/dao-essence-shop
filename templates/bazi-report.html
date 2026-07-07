@@ -7,7 +7,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700;900&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
-@page { size: A4; margin: 0; }
+/* 注意：不要在此写 margin:0 —— 会覆盖 puppeteer 的 page.pdf margin 选项，
+   导致内容铺满整张纸、页眉页脚被压在内容上。边距交由 puppeteer margin 控制 */
+@page { size: A4; }
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
   /* 字体优先级：系统本地字体(含Ubuntu fonts-noto-cjk) > Google CDN > 通用回退 */
@@ -21,11 +23,14 @@ body {
 }
 .page {
   width: 210mm;
-  padding: 16mm 20mm 14mm 20mm;   /* top 缩减给 puppeteer headerTemplate 留空间 */
+  /* top 用较小 padding：页眉留白已由 puppeteer 的 top margin 提供；
+     bottom 必须 >= puppeteer bottom margin，否则 .page 结尾页内容会压进页脚 */
+  padding: 6mm 20mm 12mm 20mm;
   margin: 0 auto;                    /* 去掉 margin-bottom:6mm，避免累計產生多餘空白 */
   background: #fcf9f2;
   position: relative;
-  overflow: hidden;                  /* 防止內容溢出頁面邊界 */
+  /* 注意：不能用 overflow:hidden —— 它会让 .page 变成独立分页上下文，
+     导致跨页续页片段不遵守纸张页眉/页脚边距，内容顶进页眉、压进页脚 */
 }
 
 /* ── HTML 页眉页腳在 puppeteer displayHeaderFooter 模式下隐藏 ── */
@@ -59,7 +64,8 @@ body {
   background: linear-gradient(170deg, #1a0505 0%, #3d0d0d 50%, #1a0505 100%);
   color: #e8dcc8;
   display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
-  min-height: 297mm;
+  /* 必须 <= 纸张可用内容高度(297 - 上下sheet边距 - .page上下padding)，否则封面被撑爆、底部声明溢到下一页 */
+  min-height: 250mm;
   page-break-after: always;
 }
 .cover::before {
@@ -91,10 +97,10 @@ body {
 .cover-line { width: 60px; height: 1px; background: rgba(212,175,55,0.3); margin: 0 auto; }
 .cover-sub { margin-top: 4px; font-size: 7.5pt; color: rgba(212,175,55,0.2); letter-spacing: 2px; }
 .cover-info {
-  margin-top: 28px; text-align: left; font-size: 10pt; line-height: 2.8; color: rgba(232,220,200,0.85);
+  margin-top: 16px; text-align: left; font-size: 10pt; line-height: 2.8; color: rgba(232,220,200,0.85);
 }
 .cover-info span { color: rgba(212,175,55,0.5); margin-right: 6px; }
-.bazi-grid { margin-top: 18px; border-collapse: collapse; }
+.bazi-grid { margin-top: 10px; border-collapse: collapse; }
 .bazi-grid td {
   border: 1px solid rgba(212,175,55,0.2);
   padding: 5px 14px; font-size: 18pt; color: rgba(212,175,55,0.7);
@@ -214,21 +220,22 @@ body {
 
 /* ─── 免責聲明 ─── */
 .disclaimer { margin-top: 10mm; }
-.disclaimer-title { font-size: 12pt; font-weight: 700; color: #8B0000; margin-bottom: 8px; }
+.disclaimer-title { font-size: 12pt; font-weight: 700; color: #8B0000; margin-bottom: 8px; padding-top: 8px; }
 .disclaimer-item { font-size: 10pt; color: #555; line-height: 2; margin-bottom: 4px; padding-left: 1.5em; text-indent: -1.5em; }
 .disclaimer-item::before { content: '• '; color: #8B0000; font-weight: 700; }
 
 /* ─── AI生成內容標題樣式 ─── */
 .report-h3 {
   font-size: 13pt; font-weight: 700; color: #8B0000;
-  margin: 18px 0 10px 0; padding: 6px 12px;
+  /* margin-top 在页首首元素会被浏览器丢弃，导致标题顶进页眉区；改用 padding-top 避坑 */
+  margin: 0 0 10px 0; padding: 24px 12px 6px 12px;
   border-left: 3px solid #D4AF37;
   background: linear-gradient(90deg, rgba(139,0,0,0.06) 0%, transparent 100%);
   letter-spacing: 1px;
 }
 .report-h4 {
   font-size: 11.5pt; font-weight: 700; color: #8B0000;
-  margin: 14px 0 8px 0; padding: 4px 0 4px 10px;
+  margin: 0 0 8px 0; padding: 20px 0 4px 10px;
   border-left: 2px solid #8B0000;
   line-height: 1.6;
 }
