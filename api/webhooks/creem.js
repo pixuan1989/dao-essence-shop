@@ -139,7 +139,7 @@ export default async function handler(req, res) {
                         birthYear: allData.birth_year || '',
                         birthMonth: allData.birth_month || '',
                         birthDay: allData.birth_day || '',
-                        birthHour: allData.birth_hour || '',
+                        birthHour: allData.birth_hour || allData.birthHour || '0',
                         gender: allData.gender || '',
                         birthPlace: allData.birth_place || '',
                         notes: allData.notes || '',

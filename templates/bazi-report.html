@@ -21,31 +21,34 @@ body {
 }
 .page {
   width: 210mm; min-height: 297mm;
-  padding: 18mm 20mm;
+  padding: 18mm 20mm 14mm 20mm; /* bottom 多留空间给 fixed footer-bar */
   margin: 0 auto 6mm auto;
   background: #fcf9f2;
   position: relative;
   page-break-after: always;
 }
 
-/* ─── 頁眉頁腳 ─── */
+/* ─── 頁眉頁腳（fixed = 每頁重複顯示，解決溢出頁視覺空白） ─── */
 .page-header {
-  position: absolute; top: 0; left: 20mm; right: 20mm;
+  position: fixed; top: 0; left: 20mm; right: 20mm;
   height: 10mm;
   border-bottom: 1px solid rgba(212,175,55,0.2);
   display: flex; align-items: center; justify-content: space-between;
   font-size: 9pt; color: #8B0000;
+  z-index: 10;
 }
 .page-header .title { font-weight: 600; }
 .pg-num { font-size: 9pt; color: #D4AF37; }
 .page-footer {
-  position: absolute; bottom: 7mm; left: 20mm; right: 20mm;
+  position: fixed; bottom: 7mm; left: 20mm; right: 20mm;
   text-align: center; font-size: 8pt; color: #aaa;
   border-top: 1px solid rgba(212,175,55,0.15); padding-top: 3mm;
+  z-index: 10;
 }
 .footer-bar {
-  position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+  position: fixed; bottom: 0; left: 0; right: 0; height: 2px;
   background: linear-gradient(90deg, #8B0000, #D4AF37, #8B0000, #D4AF37, #8B0000);
+  z-index: 10;
 }
 
 /* ─── 封面 ─── */
