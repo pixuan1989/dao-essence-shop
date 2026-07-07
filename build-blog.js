@@ -1425,7 +1425,11 @@ function generateArticleHtml(post, category, allArticles, options = {}) {
         @media (max-width: 540px) { .dao-aff-cta { padding: 2rem 1.25rem; } .dao-aff-headline { font-size: 1.1rem; } .dao-aff-btn { display: block; width: 100%; text-align: center; } }
     </style>
     <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-FX0T6YB6DE"></script>
+        <script>
+      // 内部流量 Cookie 屏蔽（最彻底：完全不发送任何 GA 请求）
+      if (document.cookie.indexOf('ga_internal=1') > -1) { window['ga-disable-G-FX0T6YB6DE'] = true; }
+    </script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FX0T6YB6DE"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
@@ -1684,7 +1688,11 @@ function generateCategoryHtml(category, articles, options = {}) {
         `}
     </style>
     <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-FX0T6YB6DE"></script>
+        <script>
+      // 内部流量 Cookie 屏蔽（最彻底：完全不发送任何 GA 请求）
+      if (document.cookie.indexOf('ga_internal=1') > -1) { window['ga-disable-G-FX0T6YB6DE'] = true; }
+    </script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FX0T6YB6DE"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
@@ -1905,7 +1913,11 @@ function generateBlogIndex(allArticles, options = {}) {
         }
     </style>
     <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-FX0T6YB6DE"></script>
+        <script>
+      // 内部流量 Cookie 屏蔽（最彻底：完全不发送任何 GA 请求）
+      if (document.cookie.indexOf('ga_internal=1') > -1) { window['ga-disable-G-FX0T6YB6DE'] = true; }
+    </script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FX0T6YB6DE"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}

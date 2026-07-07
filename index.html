@@ -1009,6 +1009,14 @@
         }
     </style>
     <!-- Google Analytics -->
+    <script>
+      // 内部流量 Cookie 屏蔽（最彻底：完全不发送任何 GA 请求）
+      // 设定：控制台执行 document.cookie='ga_internal=1;path=/;max-age=31536000'
+      // 取消：控制台执行 document.cookie='ga_internal=;path=/;expires=Thu, 01 Jan 1970 00:00:00 GMT'
+      if (document.cookie.indexOf('ga_internal=1') > -1) {
+        window['ga-disable-G-FX0T6YB6DE'] = true;
+      }
+    </script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-FX0T6YB6DE"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
