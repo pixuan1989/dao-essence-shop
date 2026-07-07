@@ -1,0 +1,22 @@
+{
+  "eventType": "checkout.completed",
+  "object": {
+    "id": "ch_verify_1989_0001",
+    "order": { "id": "ord_verify_1989_0001", "amount": 999, "currency": "USD" },
+    "customer": { "id": "cust_verify_1989", "email": "test-1989@daoessentia.com", "name": "Test User" },
+    "product": { "id": "prod_bazi_analysis", "name": "BaZi Analysis Report" },
+    "metadata": {
+      "order_id": "ord_verify_1989_0001",
+      "product_type": "bazi_analysis",
+      "name": "Test User",
+      "email": "test-1989@daoessentia.com",
+      "birth_year": 1989,
+      "birth_month": 7,
+      "birth_day": 9,
+      "birth_hour": 0,
+      "gender": "female"
+    },
+    "status": "completed",
+    "mode": "test"
+  }
+}
