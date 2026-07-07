@@ -22,7 +22,16 @@
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', 'G-FX0T6YB6DE');
+      // 自动检测内部流量（localhost / 内网 IP）→ 排除不计入 GA
+      (function() {
+        const host = window.location.hostname;
+        const isInternal = host === 'localhost' || host === '127.0.0.1' ||
+                          host.startsWith('192.168.') || host.startsWith('10.') ||
+                          /^172\.(1[6-9]|2[0-9]|3[01])\./.test(host);
+        gtag('config', 'G-FX0T6YB6DE', {
+          traffic_type: isInternal ? 'internal' : 'external'
+        });
+      })();
     </script>
 </head>
 <body>
