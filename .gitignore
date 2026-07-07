@@ -86,3 +86,4 @@ credentials.json
 .gsc-wallpaper-state.json
 output-report.*
 reports/test_run.log
+.env*
