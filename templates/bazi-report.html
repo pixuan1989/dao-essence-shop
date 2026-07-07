@@ -16,15 +16,16 @@ body {
                'WenQuanYi Micro Hei', 'Noto CJK SC', 'SimSun', serif;
   color: #1a1a1a;
   background: #e8e2d6;
-  line-height: 2;
+  line-height: 1.85;
   font-size: 11pt;
 }
 .page {
   width: 210mm;
   padding: 16mm 20mm 14mm 20mm;   /* top 缩减给 puppeteer headerTemplate 留空间 */
-  margin: 0 auto 6mm auto;
+  margin: 0 auto;                    /* 去掉 margin-bottom:6mm，避免累計產生多餘空白 */
   background: #fcf9f2;
   position: relative;
+  overflow: hidden;                  /* 防止內容溢出頁面邊界 */
 }
 
 /* ── HTML 页眉页腳在 puppeteer displayHeaderFooter 模式下隐藏 ── */
@@ -123,8 +124,9 @@ body {
 
 /* ─── 正文 ─── */
 .body-text {
-  font-size: 11pt; line-height: 2.2; color: #2a2a2a; text-indent: 2em; margin-bottom: 10px;
+  font-size: 11pt; line-height: 2; color: #2a2a2a; text-indent: 2em; margin-bottom: 8px;
   text-align: justify;
+  break-inside: avoid;
 }
 .body-text strong { color: #8B0000; font-weight: 700; }
 
@@ -147,14 +149,14 @@ body {
 .overview-grid .bazi-table .zhi { font-size: 14pt; color: #333; }
 .overview-grid .bazi-table .shishen-label { font-size: 8pt; color: #999; display: block; margin-top: 1px; }
 .wuxing-list { list-style: none; margin: 6px 0 10px 0; }
-.wuxing-list li { font-size: 10pt; color: #333; line-height: 2; padding-left: 0.5em; }
+.wuxing-list li { font-size: 10pt; color: #333; line-height: 1.9; padding-left: 0.5em; }
 .wuxing-list li::before { content: '▸ '; color: #8B0000; font-weight: 700; }
 
 /* ─── 點評框 ─── */
 .remark {
   margin: 12px 0; padding: 10px 14px;
   background: rgba(212,175,55,0.06); border-left: 2px solid #D4AF37;
-  font-size: 11pt; line-height: 2; color: #444;
+  font-size: 11pt; line-height: 1.9; color: #444;
 }
 .remark-label { font-weight: 700; color: #8B0000; font-size: 11pt; margin-bottom: 2px; }
 .remark-label-small { font-weight: 700; color: #8B0000; font-size: 11pt; }
@@ -206,7 +208,7 @@ body {
 .closing {
   margin-top: 20px; padding: 16px 20px;
   background: #1a0505; color: #e8dcc8;
-  text-align: center; line-height: 2.2; font-size: 9.5pt;
+  text-align: center; line-height: 2; font-size: 9.5pt;
 }
 .closing strong { color: #D4AF37; }
 
@@ -454,29 +456,9 @@ body {
       <p>—— 玄珍館 · 敬呈</p>
     </div>
     <div id="ai-content-closing"></div>
-  </div>
-  <div class="page-footer">玄珍館 · 八字批命書 · 信人 {{COVER_NAME}}</div>
-  <div class="footer-bar"></div>
-</div>
-
-<!-- ═══════ 免責聲明 ═══════ -->
-<div class="page">
-  <div class="page-header"><span class="title">八字批命書</span><span class="pg-num">附</span></div>
-  <div class="section">
-    <h3 class="section-title">重要免責聲明</h3>
-    <div class="section-title-deco"></div>
-    <div class="disclaimer">
-      <p class="disclaimer-item"><strong>文化研究性質</strong> — 本報告基於中國傳統命理學（八字命理）進行分析，屬於傳統文化研究範疇，不屬於科學預測。命理學尚未被現代科學完全驗證，其準確性和可靠性無法保證。</p>
-      <p class="disclaimer-item"><strong>非專業建議</strong> — 本報告內容不構成任何醫療、法律、財務、職業或人生決策建議。請勿將本報告作為重大人生決策的唯一依據。</p>
-      <p class="disclaimer-item"><strong>健康相關</strong> — 報告中不包含任何疾病診斷或醫療建議。如有健康問題，請諮詢專業醫療機構。</p>
-      <p class="disclaimer-item"><strong>概率性描述</strong> — 報告中的性格分析、運勢走向等內容為概率性描述，不代表必然結果。每個人的人生受多種因素影響，命理僅為參考維度之一。</p>
-      <p class="disclaimer-item"><strong>娛樂參考</strong> — 本報告主要供文化研究和個人娛樂參考使用。建議以開放、理性的態度閱讀，取其精華，理性看待。</p>
-      <p class="disclaimer-item"><strong>隱私保護</strong> — 您的出生資訊僅用於生成本報告，我們不會將您的個人資訊用於其他用途或分享給第三方。</p>
-      <p class="disclaimer-item"><strong>版權聲明</strong> — 本報告內容版權歸玄珍館所有，未經授權不得商業使用或大規模傳播。</p>
-    </div>
-    <div style="margin-top:20px; text-align:center; font-size:9pt; color:#bbb;">
-      <p>玄珍館 · tianji.best · 八字批命書</p>
-      <p style="margin-top:4px;">— 天機盡在此中尋 —</p>
+    <!-- ═══════ 內嵌免責聲明（合併至此頁，避免產生空白尾頁） ═══════ -->
+    <div style="margin-top:16px; padding:10px 14px; background:rgba(212,175,55,0.04); border-radius:4px;">
+      <p style="font-size:8pt; color:#999; line-height:1.7;"><strong style="color:#888;">免責聲明</strong> — 本報告基於中國傳統命理學分析，屬文化研究範疇，非科學預測。不構成醫療/法律/財務/職業建議，僅供娛樂參考。版權歸玄珍館所有，未經授權不得商業使用。您的出生資訊僅用於生成本報告，不會分享給第三方。</p>
     </div>
   </div>
   <div class="page-footer">玄珍館 · 八字批命書 · 信人 {{COVER_NAME}}</div>
