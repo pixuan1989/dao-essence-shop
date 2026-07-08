@@ -63,7 +63,7 @@
         // CTA
         'bazi_result.cta_badge': '✦ Premium Reading',
         'bazi_result.cta_title': 'Read Your Chart Before You Move',
-        'bazi_result.cta_subtitle': 'Your free chart gives you the Four Pillars and a map of your Luck Cycles. The full report goes deep into each 10-year cycle and the next 3 years year by year, plus Blind-School Work Analysis — revealing how your chart actually works.',
+        'bazi_result.cta_subtitle': 'Your free chart gives you the Four Pillars and a map of your Luck Cycles. The full report delivers <strong style="color:#D4AF37">12,000+ words</strong> of in-depth analysis — each 10-year cycle decoded chapter by chapter, the next 3 years year by year, plus Blind-School Work Analysis revealing how your chart actually works.',
         'bazi_result.cta_feat1': '10-Year Luck Cycles, chapter by chapter',
         'bazi_result.cta_feat2': 'Next 3 Years, year by year',
         'bazi_result.cta_feat3': 'Career · Wealth · Love combined',
