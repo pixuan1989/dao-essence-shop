@@ -884,29 +884,55 @@ document.addEventListener('DOMContentLoaded', async function() {
             const cat = (CARD_DATA.type || '').toLowerCase();
             const isNovel = cat.includes('小说') || cat.includes('novel') || cat.includes('xianxia') || cat.includes('cultivation');
             const isWallpaper = cat.includes('壁纸') || cat.includes('wallpaper') || cat.includes('background');
+            const isCourse = cat.includes('課程') || cat.includes('course') || cat.includes('命理') || cat.includes('blind') || cat.includes('盲派') || cat.includes('bazi-course');
             const formatDefault = document.getElementById('formatDefault');
             const formatEpub   = document.getElementById('formatEpub');
             const formatWallpaper = document.getElementById('formatWallpaper');
-            if (formatDefault && formatEpub && formatWallpaper) {
+            const formatCourse  = document.getElementById('formatCourse');
+            if (formatDefault && formatEpub && formatWallpaper && formatCourse) {
                 if (isNovel) {
                     formatDefault.style.display = 'none';
                     formatEpub.style.display     = 'inline';
                     formatWallpaper.style.display = 'none';
+                    formatCourse.style.display    = 'none';
                 } else if (isWallpaper) {
                     formatDefault.style.display = 'none';
                     formatEpub.style.display     = 'none';
                     formatWallpaper.style.display = 'inline';
+                    formatCourse.style.display    = 'none';
+                } else if (isCourse) {
+                    formatDefault.style.display = 'none';
+                    formatEpub.style.display     = 'none';
+                    formatWallpaper.style.display = 'none';
+                    formatCourse.style.display    = 'inline';
                 } else {
                     formatDefault.style.display = 'inline';
                     formatEpub.style.display     = 'none';
                     formatWallpaper.style.display = 'none';
+                    formatCourse.style.display    = 'none';
                 }
             }
-            
-            // 🔥 Type 行：壁纸产品显示更精确的类型
+
+            // 🔥 Type 行：根据产品类型显示更精确的类型
             const specType = document.getElementById('specType');
-            if (specType && isWallpaper) {
-                specType.textContent = window.DaoI18n ? window.DaoI18n.t('product_detail.spec_wallpaper_type') : 'Digital wallpaper (HD image set — phone, tablet, desktop)';
+            if (specType) {
+                if (isWallpaper) {
+                    specType.textContent = window.DaoI18n ? window.DaoI18n.t('product_detail.spec_wallpaper_type') : 'Digital wallpaper (HD image set — phone, tablet, desktop)';
+                } else if (isCourse) {
+                    specType.textContent = window.DaoI18n ? window.DaoI18n.t('product_detail.spec_course_type') || '命理課程（PDF 講義 + 實戰案例集，網盤交付）' : '命理課程（PDF 講義 + 實戰案例集，網盤交付）';
+                }
+            }
+
+            // 🔥 Delivery 行：课程产品显示网盘交付
+            if (isCourse) {
+                const specDelivery = document.querySelector('[data-i18n="product_detail.spec_delivery_value"]');
+                if (specDelivery) specDelivery.textContent = '即時 — 網盤連結發送，支援手機／電腦／平板';
+            }
+
+            // 🔥 Access Period 行：课程产品显示永久拥有
+            if (isCourse) {
+                const specAccess = document.querySelector('[data-i18n="product_detail.spec_access_period_value"]');
+                if (specAccess) specAccess.textContent = '永久擁有，無到期日，可隨時重新下載';
             }
         }
         
