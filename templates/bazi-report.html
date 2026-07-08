@@ -32,12 +32,10 @@ body {
   /* 注意：不能用 overflow:hidden —— 它会让 .page 变成独立分页上下文，
      导致跨页续页片段不遵守纸张页眉/页脚边距，内容顶进页眉、压进页脚 */
 }
-/* 每个章节独占一页（Chromium 对中间元素 page-break 不可靠，此处统一强制，
-   确保結語必从页顶开始；結語页除外避免多出一页空白） */
-.page:not(.page-last) {
-  break-after: page;
-  page-break-after: always;
-}
+/* 内容自然流動：不強制每章獨占一頁，避免短章節下半頁大面積留白。
+   段落(.body-text)已設 break-inside:avoid 防止段落從中切斷；
+   封面(.cover)仍保留 page-break-after:always 獨占一頁；
+   結語頁(.page-last)自然接續，無空白尾頁。 */
 
 /* ── HTML 页眉页腳在 puppeteer displayHeaderFooter 模式下隐藏 ── */
 .page-header, .page-footer, .footer-bar { display: none !important; }
