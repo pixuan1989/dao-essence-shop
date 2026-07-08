@@ -232,8 +232,8 @@
         /* ════════════════════════════════════
            CHAPTER PAGE LAYOUT
         ════════════════════════════════════ */
-        .tutorial-layout{display:flex!important;flex-wrap:nowrap;}
-        .tutorial-layout{display:flex!important;flex-wrap:nowrap;}
+        .tutorial-layout{display:table!important;table-layout:fixed;width:100%;}
+        .tutorial-layout{display:table!important;table-layout:fixed;width:100%;}
         .chapter-sidebar {
             position: sticky;
             top: 90px;
@@ -508,7 +508,7 @@
 
         /* Responsive */
         @media (max-width: 768px) {
-            .tutorial-content { padding: 1.5rem 0 3rem; }
+            .tutorial-content { padding: 1.5rem 2rem 3rem; display: block !important; width: 100% !important; }
             .ch-nav { flex-direction: column; gap: 0.5rem; }
         }
 
@@ -534,14 +534,13 @@
 
         /* ══ MOBILE FIX: force single-column on small screens (override inline nowrap) ══ */
         @media (max-width: 768px) {
-            .landing-layout, .tutorial-layout { flex-wrap: wrap !important; }
-            .landing-main { width: 100% !important; flex: 1 1 100% !important; }
-            .landing-sidebar, .chapter-sidebar {
-                width: 100% !important;
-                flex: 1 1 100% !important;
-                flex-direction: column !important;
-                position: static !important;
-            }
+            .landing-layout, .tutorial-layout { display: block !important; }
+            .landing-main { width: 100% !important; display: block !important; }
+            .landing-sidebar, .chapter-sidebar { 
+      width: 100% !important; 
+      display: block !important; 
+      position: static !important;
+    }
             .landing-sidebar > div, .chapter-sidebar > * { flex: 1 1 100% !important; width: 100% !important; }
             .sidebar-card, .lucky-card { max-width: 100% !important; }
         }
@@ -630,9 +629,9 @@
 </section>
 
 <!-- ═══════════ MAIN TUTORIAL LAYOUT ═══════════ -->
-<div class="tutorial-layout" style="display:flex!important;gap:2.5rem;max-width:1140px;margin:0 auto;padding:0 0 4rem;align-items:flex-start;">
+<div class="tutorial-layout" style="display:table;table-layout:fixed;width:100%;max-width:1140px;margin:0 auto;padding:0 0 4rem;">
 
-<main class="tutorial-content" style="flex:1;min-width:0;">
+<main class="tutorial-content" style="display:table-cell;width:100%;vertical-align:top;padding-right:2.5rem;">
 
     <!-- ═══ EN CONTENT ═══ -->
     <div class="ch-content" id="en-content">
@@ -1007,7 +1006,8 @@
 
     </main>
     
-    <aside class="chapter-sidebar" style="width:300px;flex-shrink:0;display:flex;flex-direction:column;gap:1.5rem;position:sticky;top:90px;">
+    <aside class="chapter-sidebar" style="display:table-cell;width:300px;vertical-align:top;">
+        <div style="position:sticky;top:90px;display:flex;flex-direction:column;gap:1.5rem;">
         <div class="sidebar-card gold-border">
             <div class="sb-inner">
                 <h3 data-i18n="lb.course_cta_title">Go Deeper: Xuanzhen Blind-School BaZi Mastery Pack</h3>
@@ -1017,6 +1017,8 @@
         </div>
         <div class="lucky-card" data-pos="0"></div>
         <div class="lucky-card" data-pos="1"></div>
+            </div>
+            </div>
     </aside>
 </div>
 
