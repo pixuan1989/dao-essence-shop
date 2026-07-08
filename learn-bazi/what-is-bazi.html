@@ -244,7 +244,7 @@
             transform: scale(1.03);
         }
         @media (max-width: 768px) {
-            .tutorial-layout{display:flex!important;}
+            .tutorial-layout{display:flex!important;flex-wrap:nowrap;}
             .chapter-sidebar {
                 position: static;
                 flex-direction: row;
@@ -436,7 +436,22 @@
         .lucky-card .lc-title:hover{color:#B8860B;}
         .lucky-card .lc-more{font-size:.78rem;font-weight:600;color:#8B4513;text-decoration:none;margin-top:.1rem;}
         .lucky-card .lc-more:hover{color:#B8860B;}
-</style>
+
+        /* ══ MOBILE FIX: force single-column on small screens (override inline nowrap) ══ */
+        @media (max-width: 768px) {
+            .landing-layout, .tutorial-layout { flex-wrap: wrap !important; }
+            .landing-main { width: 100% !important; flex: 1 1 100% !important; }
+            .landing-sidebar, .chapter-sidebar {
+                width: 100% !important;
+                flex: 1 1 100% !important;
+                flex-direction: column !important;
+                position: static !important;
+            }
+            .landing-sidebar > div, .chapter-sidebar > * { flex: 1 1 100% !important; width: 100% !important; }
+            .sidebar-card, .lucky-card { max-width: 100% !important; }
+        }
+
+    </style>
     <script>
         window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
         var script = document.createElement('script');
@@ -520,7 +535,7 @@
 </section>
 
 <!-- ═══════════ MAIN TUTORIAL LAYOUT ═══════════ -->
-<div class="tutorial-layout" style="display:flex!important;flex-wrap:nowrap!important;gap:2.5rem;max-width:1140px;margin:0 auto;padding:0 0 4rem;align-items:flex-start;">
+<div class="tutorial-layout" style="display:flex!important;gap:2.5rem;max-width:1140px;margin:0 auto;padding:0 0 4rem;align-items:flex-start;">
     <main class="tutorial-content" style="flex:1;min-width:0;">
 
     <!-- ═══ EN CONTENT ═══ -->

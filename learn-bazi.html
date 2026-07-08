@@ -308,7 +308,7 @@
         .faq-list { text-align: left; }
     
         /* LANDING PAGE — TWO-COLUMN WITH SIDEBAR */
-        .landing-layout{display:flex!important;}
+        .landing-layout{display:flex!important;flex-wrap:nowrap;}
         .landing-main { min-width: 0; }
         /* Landing sidebar shares same card styles as chapter pages */
         .landing-sidebar {
@@ -340,7 +340,7 @@
         .sidebar-card a.btn-warm { display:inline-flex; align-items:center; gap:6px; padding:9px 20px; background:transparent; color:#8B4513; font-weight:700; font-size:.82rem; border-radius:8px; border:1.5px solid #D4AF37; text-decoration:none; letter-spacing:0.02em; transition:all 0.25s; }
         .sidebar-card a.btn-warm:hover { background:rgba(212,175,55,0.08); border-color:#B8860B; transform:scale(1.03); }
         @media (max-width: 768px) {
-            .landing-layout{display:flex!important;}
+            .landing-layout{display:flex!important;flex-wrap:nowrap;}
             .landing-sidebar {
                 position: static;
                 flex-direction: row;
@@ -367,7 +367,22 @@
         .lucky-card .lc-title:hover{color:#B8860B;}
         .lucky-card .lc-more{font-size:.78rem;font-weight:600;color:#8B4513;text-decoration:none;margin-top:.1rem;}
         .lucky-card .lc-more:hover{color:#B8860B;}
-</style>
+
+        /* ══ MOBILE FIX: force single-column on small screens (override inline nowrap) ══ */
+        @media (max-width: 768px) {
+            .landing-layout, .tutorial-layout { flex-wrap: wrap !important; }
+            .landing-main { width: 100% !important; flex: 1 1 100% !important; }
+            .landing-sidebar, .chapter-sidebar {
+                width: 100% !important;
+                flex: 1 1 100% !important;
+                flex-direction: column !important;
+                position: static !important;
+            }
+            .landing-sidebar > div, .chapter-sidebar > * { flex: 1 1 100% !important; width: 100% !important; }
+            .sidebar-card, .lucky-card { max-width: 100% !important; }
+        }
+
+    </style>
     <script>
         window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
         var script = document.createElement('script');
@@ -483,7 +498,7 @@
     </div>
 </section>
 
-<div class="landing-layout" style="display:flex!important;flex-wrap:nowrap!important;gap:2.5rem;max-width:1140px;margin:0 auto;padding:0 0 4rem;align-items:flex-start;">
+<div class="landing-layout" style="display:flex!important;gap:2.5rem;max-width:1140px;margin:0 auto;padding:0 0 4rem;align-items:flex-start;">
     <div class="landing-main" style="flex:1;min-width:0;">
 
 <!-- ═══════════ CHAPTER CARDS (landing page) ═══════════ -->
