@@ -48,7 +48,7 @@ const PRODUCT_CATEGORY_MAP = {
   'prod_26987QrSoIC3ui76ill96H': 'dao-readings',         // 道德经
   // 五行壁纸类
   'prod_2WpWgRkGnuKU9obIP5t0P1': 'five-elements-wallpaper', // 木火壁纸
-  'prod_644bQm6EUmBGSNkaHZ02IE': 'bazi-course'        // 盲派命理課程
+  'prod_644bQm6EUmBGSNkaHZ02IE': 'bazi-analysis'        // 盲派命理課程（归类八字大类）
 };
 
 /**
@@ -82,7 +82,7 @@ const FALLBACK_PRODUCTS = [
     description: 'Authentic Duan Jianye blind-school BaZi system. Four core modules (theory, imagery, technique, real cases) with real chart breakdowns. Learn to actually read a chart, not just memorize terms.',
     descriptionCN: '純正段建業盲派體系，從賓主體用到底層邏輯，帶你從「背概念」走到「真斷事」。四大模塊＋真實命例實戰，學完就能上手分析八字。',
     image: 'images/bazi-blind-course.jpg',
-    category: 'bazi-course'
+    category: 'bazi-analysis'
   }
 ];
 

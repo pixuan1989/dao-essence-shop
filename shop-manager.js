@@ -153,7 +153,6 @@ function _doRenderShop() {
     
     const categoryMap = {
         'bazi-analysis': _t('shop.filter_bazi', 'BaZi Analysis'),
-        'bazi-course': _t('shop.filter_bazicourse', 'BaZi Courses'),
         'dao-meditation': _t('shop.filter_meditation', 'Taoist Meditation'),
         'dao-readings': _t('shop.filter_readings', 'Taoist Readings'),
         'mythology-stories': _t('shop.filter_mythology', 'Taoist Mythology'),
@@ -183,8 +182,17 @@ function _doRenderShop() {
             : `<div class="product-price">$${product.price.toFixed(2)}</div>`;
 
         // 为八字分析产品添加特殊处理
-        const isBaziProduct = product.category === 'bazi-analysis' || product.id === 'bazi-analysis' || product.id === 'prod_28PqAKMEom5WGRH1w9O35n' || product.name.includes('BaZi') || product.name.includes('Bazi') || (product.nameCN && product.nameCN.includes('八字'));
-        const productLink = isBaziProduct ? '/bazi-form' : `/product-detail?id=${product.id}`;
+        // 盲派课程专用落地页（区别于八字报告服务，避免误跳八字表单）
+        const isBlindCourse = product.id === 'prod_644bQm6EUmBGSNkaHZ02IE';
+        // 八字相关（含报告服务及其他八字类产品）→ 跳八字排盘表单
+        const isBaziProduct = !isBlindCourse && (
+            product.category === 'bazi-analysis' ||
+            product.id === 'prod_28PqAKMEom5WGRH1w9O35n' ||
+            product.name.includes('BaZi') ||
+            product.name.includes('Bazi') ||
+            (product.nameCN && product.nameCN.includes('八字'))
+        );
+        const productLink = isBlindCourse ? '/bazi-blind-course.html' : (isBaziProduct ? '/bazi-form' : `/product-detail?id=${product.id}`);
 
         const isZh = window.DaoI18n && window.DaoI18n.current() === 'zh';
     const displayName = (isZh && product.nameCN) ? product.nameCN : product.name;
