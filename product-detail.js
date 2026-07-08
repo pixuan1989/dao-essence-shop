@@ -192,11 +192,12 @@ window.loadCardData = async function() {
             // 转换 Creem API 数据格式为卡详情页需要的格式
             CARD_DATA = {
                 id: card.id,
-                title: card.name || card.product_name || (window.DaoI18n ? window.DaoI18n.t('product_detail.unknown_card') : 'Unknown Card'),
+                title: card.nameEN || card.name || card.product_name || (window.DaoI18n ? window.DaoI18n.t('product_detail.unknown_card') : 'Unknown Card'),
                 titleZh: card.nameCN || card.name || (window.DaoI18n ? window.DaoI18n.t('product_detail.unknown_card') : 'Unknown Card'),
                 handle: (card.name || 'card').toLowerCase().replace(/\s+/g, '-'),
-                description: card.description || card.product_description || (window.DaoI18n ? window.DaoI18n.t('product_detail.no_description') : 'No description available'),
+                description: card.descriptionEN || card.description || card.product_description || (window.DaoI18n ? window.DaoI18n.t('product_detail.no_description') : 'No description available'),
                 descriptionZh: card.descriptionCN || card.description || card.product_description || (window.DaoI18n ? window.DaoI18n.t('product_detail.no_description') : 'No description available'),
+                descriptionEn: card.descriptionEN || card.description || card.product_description || '',
                 price: parseFloat(card.price) || 0,
                 compareAtPrice: parseFloat(card.originalPrice || card.price) || 0,
                 currency: card.currency || 'USD',
@@ -867,7 +868,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         // 更新卡描述
         const cardDescription = document.getElementById('cardDescription');
         if (cardDescription) {
-            const desc = isZh ? (CARD_DATA.descriptionZh || CARD_DATA.description || 'No description available') : (CARD_DATA.description || 'No description available');
+            const desc = isZh ? (CARD_DATA.descriptionZh || CARD_DATA.description || 'No description available') : (CARD_DATA.descriptionEn || CARD_DATA.description || 'No description available');
             cardDescription.innerHTML = '<p>' + desc + '</p>';
         }
         

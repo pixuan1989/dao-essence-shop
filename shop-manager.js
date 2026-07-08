@@ -195,8 +195,8 @@ function _doRenderShop() {
         const productLink = isBlindCourse ? `/product-detail?id=${product.id}` : (isBaziProduct ? '/bazi-form' : `/product-detail?id=${product.id}`);
 
         const isZh = window.DaoI18n && window.DaoI18n.current() === 'zh';
-    const displayName = (isZh && product.nameCN) ? product.nameCN : product.name;
-    const displayDesc = (isZh && product.descriptionCN) ? product.descriptionCN : product.description;
+    const displayName = (isZh && product.nameCN) ? product.nameCN : (product.nameEN || product.name);
+    const displayDesc = (isZh && product.descriptionCN) ? product.descriptionCN : (product.descriptionEN || product.description);
 
     return `
         <a href="${productLink}" class="shop-product-card" style="text-decoration: none; color: inherit; display: block; animation-delay: ${index * 60}ms;">

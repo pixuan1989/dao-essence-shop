@@ -253,8 +253,10 @@ function transformProducts(products) {
       product_id: product.id || product.creemId,
       name: product.name || product.product_name || '未知产品',
       nameCN: product.nameCN || getProductZh(productId, 'nameCN', product.name || '未知产品'),
+      nameEN: product.nameEN || getProductZh(productId, 'nameEN', product.name || 'Unknown Product'),
       product_name: product.name || product.product_name || '未知产品',
       descriptionCN: product.descriptionCN || getProductZh(productId, 'descriptionCN', product.description || product.product_description || '暫無描述'),
+      descriptionEN: product.descriptionEN || getProductZh(productId, 'descriptionEN', product.description || product.product_description || 'No description available'),
       description: product.description || product.product_description || '暂无描述',
       price: price, // ✅ 已是美元格式（由后端转换）
       originalPrice: parseFloat(product.originalPrice || product.original_price || product.price) || 0,
