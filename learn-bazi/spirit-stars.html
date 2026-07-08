@@ -244,13 +244,7 @@
             transform: scale(1.03);
         }
         @media (max-width: 768px) {
-            .tutorial-layout{display:table!important;table-layout:fixed;width:100%;}
-            .chapter-sidebar {
-                position: static;
-                flex-direction: row;
-                flex-wrap: wrap;
-            }
-            .sidebar-card { flex: 1 1 260px; }
+            .tutorial-layout{overflow:hidden;width:100%;}.chapter-sidebar{float:right;width:300px;}.tutorial-content{padding:2.5rem 2.5rem 4rem;min-width:0;background:#fff;border-radius:12px;box-shadow:0 2px 20px rgba(0,0,0,0.06);}.sidebar-card{width:100%;}
         }
 
         /* --- CONTENT AREA (card style) --- */
@@ -446,7 +440,7 @@
 
         /* Responsive */
         @media (max-width: 768px) {
-            .tutorial-content { padding: 1.5rem 2rem 3rem; display: block !important; width: 100% !important; }
+            .tutorial-content{padding:1.5rem 2rem 3rem;float:none !important;width:100% !important;display:block !important;}
             .ch-nav { flex-direction: column; gap: 0.5rem; }
         }
 
@@ -567,9 +561,9 @@
 </section>
 
 <!-- ═══════════ MAIN TUTORIAL LAYOUT ═══════════ -->
-<div class="tutorial-layout" style="display:table;table-layout:fixed;width:100%;max-width:1140px;margin:0 auto;padding:0 0 4rem;">
+<div class="tutorial-layout" style="overflow:hidden;width:100%;max-width:1140px;margin:0 auto;padding:0 0 4rem;">
 
-<main class="tutorial-content" style="display:table-cell;width:100%;vertical-align:top;padding-right:2.5rem;">
+<main class="tutorial-content" style="float:left;width:calc(100% - 320px);padding-right:2.5rem;">
 
     <!-- ═══ EN CONTENT ═══ -->
     <div class="ch-content" id="en-content">
@@ -874,7 +868,7 @@
 
     </main>
     
-    <aside class="chapter-sidebar" style="display:table-cell;width:300px;vertical-align:top;">
+    <aside class="chapter-sidebar" style="float:right;width:300px;">
         <div style="position:sticky;top:90px;display:flex;flex-direction:column;gap:1.5rem;">
         <div class="sidebar-card gold-border">
             <div class="sb-inner">

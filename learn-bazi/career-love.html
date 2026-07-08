@@ -232,110 +232,7 @@
         /* ════════════════════════════════════
            CHAPTER PAGE LAYOUT
         ════════════════════════════════════ */
-        .tutorial-layout{display:table!important;table-layout:fixed;width:100%;}
-        .tutorial-layout{display:table!important;table-layout:fixed;width:100%;}
-        .chapter-sidebar {
-            position: sticky;
-            top: 90px;
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-        .sidebar-card {
-            padding: 0;
-            border-radius: 16px;
-            border: none;
-            background: #fff;
-            box-shadow: 0 4px 24px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.04);
-            overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .sidebar-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 32px rgba(0,0,0,0.10), 0 2px 6px rgba(0,0,0,0.06);
-        }
-        /* Course card — gold premium */
-        .sidebar-card.gold-border {
-            background: linear-gradient(165deg, #fff 0%, #fef9ef 50%, #fdf3d8 100%);
-            border: 1px solid rgba(212,175,55,0.25);
-        }
-        .sidebar-card.gold-border::before {
-            content: '';
-            display: block;
-            height: 4px;
-            background: linear-gradient(90deg, #D4AF37, #F0D060, #B8860B);
-        }
-        /* Wallpaper card — warm tone */
-        .sidebar-card.warm-card {
-            background: linear-gradient(165deg, #fff 0%, #f8f4ff 50%, #f0eaff 100%);
-            border: 1px solid rgba(139,69,19,0.12);
-        }
-        .sidebar-card.warm-card::before {
-            content: '';
-            display: block;
-            height: 4px;
-            background: linear-gradient(90deg, #8B4513, #CD853F, #A0522D);
-        }
-        .sb-inner { padding: 1.5rem 1.6rem 1.4rem; }
-        .sidebar-card h3 {
-            margin: 0 0 .5rem;
-            font-size: .95rem;
-            font-weight: 700;
-            color: #1a1a1a;
-            line-height: 1.35;
-        }
-        .sidebar-card p {
-            margin: 0 0 1rem;
-            font-size: .84rem;
-            line-height: 1.65;
-            color: #555;
-        }
-        .sidebar-card a.btn-gold {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 9px 20px;
-            background: linear-gradient(135deg, #D4AF37, #B8860B);
-            color: #fff;
-            font-weight: 700;
-            font-size: .82rem;
-            border-radius: 8px;
-            text-decoration: none;
-            transition: background 0.25s, transform 0.15s;
-            letter-spacing: 0.02em;
-        }
-        .sidebar-card a.btn-gold:hover {
-            background: linear-gradient(135deg, #E5C048, #C99A1B);
-            transform: scale(1.03);
-        }
-        .sidebar-card a.btn-warm {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 9px 20px;
-            background: transparent;
-            color: #8B4513;
-            font-weight: 700;
-            font-size: .82rem;
-            border-radius: 8px;
-            border: 1.5px solid #D4AF37;
-            text-decoration: none;
-            transition: all 0.25s;
-            letter-spacing: 0.02em;
-        }
-        .sidebar-card a.btn-warm:hover {
-            background: rgba(212,175,55,0.08);
-            border-color: #B8860B;
-            transform: scale(1.03);
-        }
-        @media (max-width: 768px) {
-            .tutorial-layout{display:flex!important;flex-wrap:nowrap;}
-            .chapter-sidebar {
-                position: static;
-                flex-direction: row;
-                flex-wrap: wrap;
-            }
-            .sidebar-card { flex: 1 1 260px; }
+        .tutorial-layout{overflow:hidden;width:100%;}.chapter-sidebar{float:right;width:300px;}.tutorial-content{padding:2.5rem 2.5rem 4rem;min-width:0;background:#fff;border-radius:12px;box-shadow:0 2px 20px rgba(0,0,0,0.06);}.sidebar-card{width:100%;}
         }
 
         /* --- CONTENT AREA (card style) --- */
@@ -508,7 +405,7 @@
 
         /* Responsive */
         @media (max-width: 768px) {
-            .tutorial-content { padding: 1.5rem 2rem 3rem; display: block !important; width: 100% !important; }
+            .tutorial-content{padding:1.5rem 2rem 3rem;float:none !important;width:100% !important;display:block !important;}
             .ch-nav { flex-direction: column; gap: 0.5rem; }
         }
 
@@ -629,9 +526,9 @@
 </section>
 
 <!-- ═══════════ MAIN TUTORIAL LAYOUT ═══════════ -->
-<div class="tutorial-layout" style="display:table;table-layout:fixed;width:100%;max-width:1140px;margin:0 auto;padding:0 0 4rem;">
+<div class="tutorial-layout" style="overflow:hidden;width:100%;max-width:1140px;margin:0 auto;padding:0 0 4rem;">
 
-<main class="tutorial-content" style="display:table-cell;width:100%;vertical-align:top;padding-right:2.5rem;">
+<main class="tutorial-content" style="float:left;width:calc(100% - 320px);padding-right:2.5rem;">
 
     <!-- ═══ EN CONTENT ═══ -->
     <div class="ch-content" id="en-content">
@@ -1006,7 +903,7 @@
 
     </main>
     
-    <aside class="chapter-sidebar" style="display:table-cell;width:300px;vertical-align:top;">
+    <aside class="chapter-sidebar" style="float:right;width:300px;">
         <div style="position:sticky;top:90px;display:flex;flex-direction:column;gap:1.5rem;">
         <div class="sidebar-card gold-border">
             <div class="sb-inner">
