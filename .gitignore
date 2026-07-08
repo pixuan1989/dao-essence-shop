@@ -87,3 +87,11 @@ credentials.json
 output-report.*
 reports/test_run.log
 .env*
+_gsc_run.log
+_gsc_run.err
+
+# AI temporary/debug scripts (underscore-prefixed, auto-cleaned after use)
+_*.cjs
+loghook.cjs
+probe-*.cjs
+phase3-standalone.cjs
