@@ -75,7 +75,7 @@
         'bazi_result.cta_btn_error_checkout': 'Unable to create checkout. Please try again.',
         'bazi_result.cta_btn_error_network': 'Network error. Please try again.',
         'bazi_result.cta_trust1': 'Based on your exact BaZi chart',
-        'bazi_result.cta_trust2': 'AI deep analysis + TianJiGe-style template',
+        'bazi_result.cta_trust2': '<strong style="color:#D4AF37">12,000+ words</strong> of in-depth analysis',
         'bazi_result.cta_trust3': 'Delivered as PDF by email',
         // Errors
         'bazi_result.error_no_data': 'No calculation data found. Please go back and try again.',
