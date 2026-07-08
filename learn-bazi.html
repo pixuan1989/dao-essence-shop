@@ -308,15 +308,7 @@
         .faq-list { text-align: left; }
     
         /* LANDING PAGE — TWO-COLUMN WITH SIDEBAR */
-        .landing-layout {
-            display: grid;
-            grid-template-columns: 1fr 300px;
-            gap: 2.5rem;
-            max-width: 1140px;
-            margin: 0 auto;
-            padding: 0 1.5rem 4rem;
-            align-items: start;
-        }
+        .landing-layout{display:flex!important;}
         .landing-main { min-width: 0; }
         /* Landing sidebar shares same card styles as chapter pages */
         .landing-sidebar {
@@ -348,7 +340,7 @@
         .sidebar-card a.btn-warm { display:inline-flex; align-items:center; gap:6px; padding:9px 20px; background:transparent; color:#8B4513; font-weight:700; font-size:.82rem; border-radius:8px; border:1.5px solid #D4AF37; text-decoration:none; letter-spacing:0.02em; transition:all 0.25s; }
         .sidebar-card a.btn-warm:hover { background:rgba(212,175,55,0.08); border-color:#B8860B; transform:scale(1.03); }
         @media (max-width: 768px) {
-            .landing-layout { grid-template-columns: 1fr; max-width: 780px; }
+            .landing-layout{display:flex!important;}
             .landing-sidebar {
                 position: static;
                 flex-direction: row;
@@ -491,8 +483,8 @@
     </div>
 </section>
 
-<div class="landing-layout" style="display:grid;grid-template-columns:1fr 300px;gap:2.5rem;max-width:1140px;margin:0 auto;padding:0 1.5rem 4rem;align-items:start;">
-    <div class="landing-main">
+<div class="landing-layout" style="display:flex!important;flex-wrap:nowrap!important;gap:2.5rem;max-width:1140px;margin:0 auto;padding:0 0 4rem;align-items:flex-start;">
+    <div class="landing-main" style="flex:1;min-width:0;">
 
 <!-- ═══════════ CHAPTER CARDS (landing page) ═══════════ -->
 <section class="chapter-cards" style="max-width:900px;margin:0 auto;padding:2rem 1.5rem 3rem;">
@@ -637,7 +629,7 @@
 </section>
 
     </div><!-- /.landing-main -->
-    <aside class="landing-sidebar">
+    <aside class="landing-sidebar" style="width:300px;flex-shrink:0;display:flex;flex-direction:column;gap:1.5rem;position:sticky;top:90px;">
         <div class="sidebar-card gold-border">
             <div class="sb-inner">
                 <h3 data-i18n="lb.course_cta_title">Go Deeper: Xuanzhen Blind-School BaZi Mastery Pack</h3>

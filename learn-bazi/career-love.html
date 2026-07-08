@@ -232,26 +232,8 @@
         /* ════════════════════════════════════
            CHAPTER PAGE LAYOUT
         ════════════════════════════════════ */
-        .tutorial-layout {
-            display: grid;
-            grid-template-columns: 1fr 280px;
-            gap: 2rem;
-            max-width: 1120px;
-            margin: 0 auto;
-            padding: 0 1.5rem 5rem;
-            min-height: calc(100vh - 320px);
-            align-items: start;
-        }
-        .tutorial-layout {
-            display: grid;
-            grid-template-columns: 1fr 300px;
-            gap: 2.5rem;
-            max-width: 1140px;
-            margin: 0 auto;
-            padding: 0 1.5rem 5rem;
-            min-height: calc(100vh - 320px);
-            align-items: start;
-        }
+        .tutorial-layout{display:flex!important;}
+        .tutorial-layout{display:flex!important;}
         .chapter-sidebar {
             position: sticky;
             top: 90px;
@@ -347,10 +329,7 @@
             transform: scale(1.03);
         }
         @media (max-width: 768px) {
-            .tutorial-layout {
-                grid-template-columns: 1fr;
-                max-width: 780px;
-            }
+            .tutorial-layout{display:flex!important;}
             .chapter-sidebar {
                 position: static;
                 flex-direction: row;
@@ -636,9 +615,9 @@
 </section>
 
 <!-- ═══════════ MAIN TUTORIAL LAYOUT ═══════════ -->
-<div class="tutorial-layout" style="display:grid;grid-template-columns:1fr 300px;gap:2.5rem;max-width:1140px;margin:0 auto;padding:0 0 4rem;align-items:start;">
+<div class="tutorial-layout" style="display:flex!important;flex-wrap:nowrap!important;gap:2.5rem;max-width:1140px;margin:0 auto;padding:0 0 4rem;align-items:flex-start;">
 
-<main class="tutorial-content">
+<main class="tutorial-content" style="flex:1;min-width:0;">
 
     <!-- ═══ EN CONTENT ═══ -->
     <div class="ch-content" id="en-content">
@@ -1013,7 +992,7 @@
 
     </main>
     
-    <aside class="chapter-sidebar">
+    <aside class="chapter-sidebar" style="width:300px;flex-shrink:0;display:flex;flex-direction:column;gap:1.5rem;position:sticky;top:90px;">
         <div class="sidebar-card gold-border">
             <div class="sb-inner">
                 <h3 data-i18n="lb.course_cta_title">Go Deeper: Xuanzhen Blind-School BaZi Mastery Pack</h3>
