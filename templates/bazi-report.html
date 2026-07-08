@@ -32,6 +32,12 @@ body {
   /* 注意：不能用 overflow:hidden —— 它会让 .page 变成独立分页上下文，
      导致跨页续页片段不遵守纸张页眉/页脚边距，内容顶进页眉、压进页脚 */
 }
+/* 每个章节独占一页（Chromium 对中间元素 page-break 不可靠，此处统一强制，
+   确保結語必从页顶开始；結語页除外避免多出一页空白） */
+.page:not(.page-last) {
+  break-after: page;
+  page-break-after: always;
+}
 
 /* ── HTML 页眉页腳在 puppeteer displayHeaderFooter 模式下隐藏 ── */
 .page-header, .page-footer, .footer-bar { display: none !important; }
@@ -217,6 +223,19 @@ body {
   text-align: center; line-height: 2; font-size: 9.5pt;
 }
 .closing strong { color: #D4AF37; }
+
+/* ─── 結語頁 ─── */
+/* 自然流動：不強制占滿整張 A4，也不用 flex 把免責聲明推到頁底。
+   - 内容短（真實結語≤100字＋詩節＋免責）→ 整頁落同一張紙，無空白尾頁；
+   - 内容長 → 自動跨頁，免責聲明落最後一頁底部，不會孤立成近空白頁。
+   舊方案 min-height:297mm + margin-top:auto 會在 AI 内容偏長時把免責擠到次頁，
+   形成「近空白尾頁」，故棄用。 */
+.closing-disclaimer {
+  margin-top: 14px;                /* 正常流動：緊跟結語 AI 内容之後 */
+  padding: 10px 14px;
+  background: rgba(212,175,55,0.04);
+  border-radius: 4px;
+}
 
 /* ─── 免責聲明 ─── */
 .disclaimer { margin-top: 10mm; }
@@ -432,7 +451,7 @@ body {
 </div>
 
 <!-- ═══════ 盲派專節 · 做功分析 ═══════ -->
-<div class="page">
+<div class="page page-mangpai">
   <div class="page-header"><span class="title">八字批命書</span><span class="pg-num">九</span></div>
   <div class="section">
     <h3 class="section-title">盲派專節 · 做功分析</h3>
@@ -445,7 +464,7 @@ body {
 </div>
 
 <!-- ═══════ 第十章 · 結語 ═══════ -->
-<div class="page">
+<div class="page page-last">
   <div class="page-header"><span class="title">八字批命書</span><span class="pg-num">十</span></div>
   <div class="section">
     <h3 class="section-title">結語</h3>
@@ -464,7 +483,7 @@ body {
     </div>
     <div id="ai-content-closing"></div>
     <!-- ═══════ 內嵌免責聲明（合併至此頁，避免產生空白尾頁） ═══════ -->
-    <div style="margin-top:16px; padding:10px 14px; background:rgba(212,175,55,0.04); border-radius:4px;">
+    <div class="closing-disclaimer">
       <p style="font-size:8pt; color:#999; line-height:1.7;"><strong style="color:#888;">免責聲明</strong> — 本報告基於中國傳統命理學分析，屬文化研究範疇，非科學預測。不構成醫療/法律/財務/職業建議，僅供娛樂參考。版權歸玄珍館所有，未經授權不得商業使用。您的出生資訊僅用於生成本報告，不會分享給第三方。</p>
     </div>
   </div>
