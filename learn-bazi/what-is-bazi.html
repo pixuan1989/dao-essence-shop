@@ -161,23 +161,64 @@
             min-height: calc(100vh - 320px);
             align-items: start;
         }
+        .tutorial-layout {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 2.5rem;
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: 0 1.5rem 5rem;
+            min-height: calc(100vh - 320px);
+            align-items: start;
+        }
         .chapter-sidebar {
             position: sticky;
             top: 90px;
             display: flex;
             flex-direction: column;
-            gap: 1.25rem;
+            gap: 1.5rem;
         }
         .sidebar-card {
-            padding: 1.4rem 1.5rem;
-            border-radius: 12px;
-            border: 1px solid #e8e0c5;
+            padding: 0;
+            border-radius: 16px;
+            border: none;
             background: #fff;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+            box-shadow: 0 4px 24px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.04);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
+        .sidebar-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.10), 0 2px 6px rgba(0,0,0,0.06);
+        }
+        /* Course card — gold premium */
         .sidebar-card.gold-border {
-            border-color: #D4AF37;
-            background: linear-gradient(135deg, rgba(212,175,55,0.05), rgba(139,0,0,0.03));
+            background: linear-gradient(165deg, #fff 0%, #fef9ef 50%, #fdf3d8 100%);
+            border: 1px solid rgba(212,175,55,0.25);
+        }
+        .sidebar-card.gold-border::before {
+            content: '';
+            display: block;
+            height: 4px;
+            background: linear-gradient(90deg, #D4AF37, #F0D060, #B8860B);
+        }
+        /* Wallpaper card — warm tone */
+        .sidebar-card.warm-card {
+            background: linear-gradient(165deg, #fff 0%, #f8f4ff 50%, #f0eaff 100%);
+            border: 1px solid rgba(139,69,19,0.12);
+        }
+        .sidebar-card.warm-card::before {
+            content: '';
+            display: block;
+            height: 4px;
+            background: linear-gradient(90deg, #8B4513, #CD853F, #A0522D);
+        }
+        .sb-inner { padding: 1.5rem 1.6rem 1.4rem; }
+        .sb-icon {
+            font-size: 1.6rem;
+            margin-bottom: .6rem;
+            display: block;
+            line-height: 1;
         }
         .sidebar-card h3 {
             margin: 0 0 .5rem;
@@ -187,33 +228,50 @@
             line-height: 1.35;
         }
         .sidebar-card p {
-            margin: 0 0 .9rem;
-            font-size: .85rem;
+            margin: 0 0 1rem;
+            font-size: .84rem;
             line-height: 1.65;
-            color: #666;
+            color: #555;
         }
         .sidebar-card a.btn-gold {
-            display: inline-block;
-            padding: 8px 18px;
-            background: #D4AF37;
-            color: #1a1a1a;
-            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 9px 20px;
+            background: linear-gradient(135deg, #D4AF37, #B8860B);
+            color: #fff;
+            font-weight: 700;
             font-size: .82rem;
-            border-radius: 4px;
+            border-radius: 8px;
             text-decoration: none;
+            transition: background 0.25s, transform 0.15s;
+            letter-spacing: 0.02em;
         }
-        .sidebar-card a.btn-outline {
-            display: inline-block;
-            padding: 8px 18px;
+        .sidebar-card a.btn-gold:hover {
+            background: linear-gradient(135deg, #E5C048, #C99A1B);
+            transform: scale(1.03);
+        }
+        .sidebar-card a.btn-warm {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 9px 20px;
             background: transparent;
             color: #8B4513;
-            font-weight: 600;
+            font-weight: 700;
             font-size: .82rem;
-            border-radius: 4px;
-            border: 1px solid #D4AF37;
+            border-radius: 8px;
+            border: 1.5px solid #D4AF37;
             text-decoration: none;
+            transition: all 0.25s;
+            letter-spacing: 0.02em;
         }
-        @media (max-width: 900px) {
+        .sidebar-card a.btn-warm:hover {
+            background: rgba(212,175,55,0.08);
+            border-color: #B8860B;
+            transform: scale(1.03);
+        }
+        @media (max-width: 940px) {
             .tutorial-layout {
                 grid-template-columns: 1fr;
                 max-width: 780px;
@@ -223,9 +281,7 @@
                 flex-direction: row;
                 flex-wrap: wrap;
             }
-            .sidebar-card {
-                flex: 1 1 240px;
-            }
+            .sidebar-card { flex: 1 1 260px; }
         }
 
         /* --- CONTENT AREA (card style) --- */
@@ -954,18 +1010,23 @@
     </div>
 
     </main>
+    
     <aside class="chapter-sidebar">
-        <!-- Course CTA -->
         <div class="sidebar-card gold-border">
-            <h3 data-i18n="lb.course_cta_title">Go Deeper: Xuanzhen Blind-School BaZi Mastery Pack</h3>
-            <p data-i18n="lb.course_cta_desc">Finished the free course? This internal reference pack distills blind-school techniques into a structured, downloadable resource.</p>
-            <a href="/product-detail?id=prod_644bQm6EUmBGSNkaHZ02IE" class="btn-gold" data-i18n="lb.course_cta_btn">View Course &rarr;</a>
+            <div class="sb-inner">
+                <span class="sb-icon">📜</span>
+                <h3 data-i18n="lb.course_cta_title">Go Deeper: Xuanzhen Blind-School BaZi Mastery Pack</h3>
+                <p data-i18n="lb.course_cta_desc">Finished the free course? This internal reference pack distills blind-school techniques into a structured, downloadable resource.</p>
+                <a href="/product-detail?id=prod_644bQm6EUmBGSNkaHZ02IE" class="btn-gold" data-i18n="lb.course_cta_btn">View Course &rarr;</a>
+            </div>
         </div>
-        <!-- Wallpaper Entry -->
-        <div class="sidebar-card">
-            <h3 data-i18n="lb.wallpaper_title">Lucky Wallpapers</h3>
-            <p data-i18n="lb.wallpaper_desc">Personalized wallpapers based on your favorable element and Chinese zodiac. New designs added weekly.</p>
-            <a href="/wallpaper" class="btn-outline" data-i18n="lb.wallpaper_btn">Browse Wallpapers &rarr;</a>
+        <div class="sidebar-card warm-card">
+            <div class="sb-inner">
+                <span class="sb-icon">🖼️</span>
+                <h3 data-i18n="lb.wallpaper_title">Lucky Wallpapers</h3>
+                <p data-i18n="lb.wallpaper_desc">Personalized wallpapers based on your favorable element and Chinese zodiac. New designs added weekly.</p>
+                <a href="/wallpaper" class="btn-warm" data-i18n="lb.wallpaper_btn">Browse Wallpapers &rarr;</a>
+            </div>
         </div>
     </aside>
 </div>
