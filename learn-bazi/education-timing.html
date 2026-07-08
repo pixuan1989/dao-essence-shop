@@ -244,7 +244,7 @@
             transform: scale(1.03);
         }
         @media (max-width: 768px) {
-            .tutorial-layout{overflow:hidden;width:100%;}.chapter-sidebar{float:right;width:300px;}.tutorial-content{padding:2.5rem 2.5rem 4rem;min-width:0;background:#fff;border-radius:12px;box-shadow:0 2px 20px rgba(0,0,0,0.06);}.sidebar-card{width:100%;}
+            .tutorial-layout{position:relative;width:100%;}.chapter-sidebar{position:static!important;width:100%!important;}.tutorial-content{margin-right:0!important;padding:1.5rem 2rem 3rem;}.sidebar-card{width:100%;}
         }
 
         /* --- CONTENT AREA (card style) --- */
@@ -407,7 +407,7 @@
 
         /* Responsive */
         @media (max-width: 768px) {
-            .tutorial-content{padding:1.5rem 2rem 3rem;float:none !important;width:100% !important;display:block !important;}
+            .tutorial-content{padding:1.5rem 2rem 3rem;margin-right:0 !important;}
             .ch-nav { flex-direction: column; gap: 0.5rem; }
         }
 
@@ -431,18 +431,7 @@
         .lucky-card .lc-more{font-size:.78rem;font-weight:600;color:#8B4513;text-decoration:none;margin-top:.1rem;}
         .lucky-card .lc-more:hover{color:#B8860B;}
 
-        /* ══ MOBILE FIX: force single-column on small screens (override inline nowrap) ══ */
-        @media (max-width: 768px) {
-            .landing-layout, .tutorial-layout { display: block !important; }
-            .landing-main { width: 100% !important; display: block !important; }
-            .landing-sidebar, .chapter-sidebar { 
-      width: 100% !important; 
-      display: block !important; 
-      position: static !important;
-    }
-            .landing-sidebar > div, .chapter-sidebar > * { flex: 1 1 100% !important; width: 100% !important; }
-            .sidebar-card, .lucky-card { max-width: 100% !important; }
-        }
+        @media(max-width:768px){.tutorial-layout{display:block!important;}.chapter-sidebar{position:static!important;width:100%!important;display:block!important;float:none!important;}.tutorial-content{margin-right:0!important;width:100%!important;display:block!important;}.sidebar-card,.lucky-card{max-width:100%!important;}}
 
     </style>
     <script>
@@ -528,9 +517,9 @@
 </section>
 
 <!-- ═══════════ MAIN TUTORIAL LAYOUT ═══════════ -->
-<div class="tutorial-layout" style="overflow:hidden;width:100%;max-width:1140px;margin:0 auto;padding:0 0 4rem;">
+<div class="tutorial-layout" style="position:relative;width:100%;max-width:1140px;margin:0 auto;padding:0 0 4rem;">
 
-<main class="tutorial-content" style="float:left;width:calc(100% - 320px);padding-right:2.5rem;">
+<main class="tutorial-content" style="margin-right:320px;padding:2.5rem 2.5rem 4rem;background:#fff;border-radius:12px;box-shadow:0 2px 20px rgba(0,0,0,0.06);">
 
     <!-- ═══ EN CONTENT ═══ -->
     <div class="ch-content" id="en-content">
@@ -758,7 +747,7 @@
 
     </main>
     
-    <aside class="chapter-sidebar" style="float:right;width:300px;">
+    <aside class="chapter-sidebar" style="position:absolute;top:0;right:0;width:300px;">
         <div style="position:sticky;top:90px;display:flex;flex-direction:column;gap:1.5rem;">
         <div class="sidebar-card gold-border">
             <div class="sb-inner">
