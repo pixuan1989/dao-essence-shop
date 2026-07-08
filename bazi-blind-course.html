@@ -20,23 +20,6 @@
 <meta id="twitterDescription" name="twitter:description" content="純正段建業盲派體系，四大模塊＋真實命例，學完就能上手分析八字。">
 <meta id="twitterImage" name="twitter:image" content="https://www.daoessentia.com/images/og-default.jpg">
 <link rel="canonical" href="https://www.daoessentia.com/bazi-blind-course">
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Product",
-  "name": "玄真盲派命理實戰內部資料",
-  "description": "純正段建業盲派體系，從賓主體用到底層邏輯，帶你從「背概念」走到「真斷事」。四大模塊＋真實命例實戰，學完就能上手分析八字。",
-  "brand": { "@type": "Brand", "name": "DAO Essence" },
-  "offers": {
-    "@type": "Offer",
-    "price": "39.99",
-    "priceCurrency": "USD",
-    "availability": "https://schema.org/InStock",
-    "url": "https://www.daoessentia.com/bazi-blind-course",
-    "seller": { "@type": "Organization", "name": "DAO Essence" }
-  }
-}
-</script>
 <link rel="stylesheet" href="styles.min.css?v=202604031200">
 <style>
     /* ============================================
@@ -352,10 +335,10 @@
         </div>
         <div class="buy-bar">
             <div class="price-tag">
-                <span class="cur">$</span><span class="amt" id="priceAmount">39.99</span>
+                <span class="cur">$</span><span class="amt" id="priceAmount">載入中…</span>
                 <span class="note">一次性買斷 · 永久擁有</span>
             </div>
-            <button class="btn-buy-now" id="buyBtn" onclick="buyNow()">
+            <button class="btn-buy-now" id="buyBtn" onclick="buyNow(this)">
                 <span class="spinner"></span><span class="btn-text">立即購買</span>
             </button>
         </div>
@@ -553,10 +536,10 @@
             <p>這套資料是玄真團隊日常教學的實錄，也是許多命理愛好者口中「相見恨晚」的一套內容。如果你準備好了，歡迎帶走它。</p>
             <div class="final-cta">
                 <div class="price-tag" style="justify-content:center; margin-bottom:18px;">
-                    <span class="cur">$</span><span class="amt">39.99</span>
+                    <span class="cur">$</span><span class="amt" id="priceAmountBottom">載入中…</span>
                     <span class="note">一次性買斷 · 永久擁有</span>
                 </div>
-                <button class="btn-buy-now" onclick="buyNow()">
+                <button class="btn-buy-now" onclick="buyNow(this)">
                     <span class="spinner"></span><span class="btn-text">立即購買</span>
                 </button>
             </div>
@@ -608,14 +591,71 @@
 
 <script>
     // ============================================
-    // 商品配置（Creem 商品建好後，將 PRODUCT_ID 替換為真實 ID）
+    // 商品配置
+    // PRODUCT_ID 待用戶在 Creem 建好商品後替換為真實 ID
+    // ⚠️ 價格不寫死 —— 一律從 Creem 後台動態拉取（後台設多少就顯示多少）
     // ============================================
     const PRODUCT_ID = 'REPLACE_WITH_CREEM_ID';   // TODO: 用戶建好 Creem 後替換
     const PRODUCT_NAME = '玄真盲派命理實戰內部資料';
-    const PRODUCT_PRICE = 39.99;                   // 待用戶確認（問卷填 3.9，暫解讀為 $39.99）
+    const PRODUCT_DESC = '純正段建業盲派體系，從賓主體用到底層邏輯，帶你從「背概念」走到「真斷事」。四大模塊＋真實命例實戰，學完就能上手分析八字。';
 
-    // 頁面價格顯示同步
-    document.getElementById('priceAmount').textContent = PRODUCT_PRICE.toFixed(2);
+    let _product = null;   // 後台商品對象（含動態 price / name / currency）
+
+    // 從 Creem 後台拉取本商品（價格由後台決定，前端不寫死）
+    async function loadProduct() {
+        try {
+            const res = await fetch('/api/products');
+            if (!res.ok) throw new Error('products api ' + res.status);
+            const json = await res.json();
+            const list = json.data || json.products || json || [];
+            const p = list.find(x => x.id === PRODUCT_ID);
+            if (!p) {
+                console.warn('⚠️ 後台未找到商品 ID：', PRODUCT_ID, '（請確認 PRODUCT_ID 已替換為 Creem 真實 ID）');
+                return null;
+            }
+            return p;
+        } catch (e) {
+            console.error('❌ 拉取商品價格失敗：', e);
+            return null;
+        }
+    }
+
+    // 應用價格到頁面顯示位 + 動態生成 Product JSON-LD（價格來自後台）
+    function applyProduct(p) {
+        if (!p) return;
+        const price = parseFloat(p.price) || 0;
+        const cur = (p.currency || 'USD').toUpperCase();
+
+        const top = document.getElementById('priceAmount');
+        const bottom = document.getElementById('priceAmountBottom');
+        if (top) top.textContent = price.toFixed(2);
+        if (bottom) bottom.textContent = price.toFixed(2);
+
+        // 動態生成 Product JSON-LD（價格來自後台，SEO 不寫死）
+        const ld = {
+            '@context': 'https://schema.org',
+            '@type': 'Product',
+            name: p.name || PRODUCT_NAME,
+            description: PRODUCT_DESC,
+            brand: { '@type': 'Brand', 'name': 'DAO Essence' },
+            offers: {
+                '@type': 'Offer',
+                price: price.toFixed(2),
+                priceCurrency: cur,
+                availability: 'https://schema.org/InStock',
+                url: 'https://www.daoessentia.com/bazi-blind-course',
+                seller: { '@type': 'Organization', 'name': 'DAO Essence' }
+            }
+        };
+        let s = document.getElementById('productJsonLd');
+        if (!s) {
+            s = document.createElement('script');
+            s.type = 'application/ld+json';
+            s.id = 'productJsonLd';
+            document.head.appendChild(s);
+        }
+        s.textContent = JSON.stringify(ld);
+    }
 
     // 預熱 Vercel Function（消除冷啟動）
     fetch('/api/create-checkout', {
@@ -624,11 +664,18 @@
         body: JSON.stringify({ __warmup: true })
     }).catch(() => {});
 
+    // 載入商品（價格動態）
+    loadProduct().then(p => { _product = p; applyProduct(p); });
+
     // 立即購買 — 複用站點結算邏輯（POST /api/create-checkout）
-    async function buyNow() {
-        const btn = document.getElementById('buyBtn');
+    async function buyNow(btn) {
+        if (!btn) btn = document.getElementById('buyBtn');
         if (!btn) return;
         if (window._buying) return;
+        if (!_product) {
+            alert('商品價格加載中或加載失敗，請稍候重新整理頁面再試。');
+            return;
+        }
         window._buying = true;
         const spinner = btn.querySelector('.spinner');
         const txt = btn.querySelector('.btn-text');
@@ -640,7 +687,12 @@
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    items: [{ id: PRODUCT_ID, name: PRODUCT_NAME, price: PRODUCT_PRICE, quantity: 1 }]
+                    items: [{
+                        id: PRODUCT_ID,
+                        name: _product.name || PRODUCT_NAME,
+                        price: parseFloat(_product.price) || 0,
+                        quantity: 1
+                    }]
                 })
             });
             const data = await res.json();
