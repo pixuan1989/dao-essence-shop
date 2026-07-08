@@ -243,9 +243,7 @@
             border-color: #B8860B;
             transform: scale(1.03);
         }
-        @media (max-width: 768px) {
-            .landing-layout{display:flex!important;flex-wrap:wrap;}.landing-main{width:100%!important;flex:1 1 100%!important;}.landing-sidebar{width:100%!important;flex-direction:column!important;position:static!important;}.sidebar-card{width:100%;}
-        }
+        
 
         /* --- CONTENT AREA (card style) --- */
         .tutorial-content {
@@ -431,8 +429,10 @@
         .lucky-card .lc-more{font-size:.78rem;font-weight:600;color:#8B4513;text-decoration:none;margin-top:.1rem;}
         .lucky-card .lc-more:hover{color:#B8860B;}
 
-        @media(max-width:768px){.chp-aside{position:static!important;}.sidebar-card,.lucky-card{max-width:100%!important;}}}
+        }
 
+    
+        @media(max-width:768px){.chp-tbl,.chp-tbl tbody,.chp-tbl tr,.chp-tbl td{display:block!important;width:100%!important;}.chp-main-td{padding-right:0!important;}.chp-side-td{width:100%!important;}.chp-aside{position:static!important;}.sidebar-card,.lucky-card{max-width:100%!important;}}
     </style>
     <script>
         window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
