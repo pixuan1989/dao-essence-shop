@@ -181,8 +181,7 @@ function _doRenderShop() {
               `
             : `<div class="product-price">$${product.price.toFixed(2)}</div>`;
 
-        // 为八字分析产品添加特殊处理
-        // 盲派课程专用落地页（区别于八字报告服务，避免误跳八字表单）
+        // 盲派课程：与标准详情页统一，深度文案内嵌于 product-detail 的 #courseRichContent 区块
         const isBlindCourse = product.id === 'prod_644bQm6EUmBGSNkaHZ02IE';
         // 八字相关（含报告服务及其他八字类产品）→ 跳八字排盘表单
         const isBaziProduct = !isBlindCourse && (
@@ -192,7 +191,8 @@ function _doRenderShop() {
             product.name.includes('Bazi') ||
             (product.nameCN && product.nameCN.includes('八字'))
         );
-        const productLink = isBlindCourse ? '/bazi-blind-course.html' : (isBaziProduct ? '/bazi-form' : `/product-detail?id=${product.id}`);
+        // 课程与通用商品均走标准详情页；八字报告服务走排盘表单
+        const productLink = isBlindCourse ? `/product-detail?id=${product.id}` : (isBaziProduct ? '/bazi-form' : `/product-detail?id=${product.id}`);
 
         const isZh = window.DaoI18n && window.DaoI18n.current() === 'zh';
     const displayName = (isZh && product.nameCN) ? product.nameCN : product.name;
