@@ -153,6 +153,7 @@ function _doRenderShop() {
     
     const categoryMap = {
         'bazi-analysis': _t('shop.filter_bazi', 'BaZi Analysis'),
+        'bazi-course': _t('shop.filter_bazicourse', 'BaZi Courses'),
         'dao-meditation': _t('shop.filter_meditation', 'Taoist Meditation'),
         'dao-readings': _t('shop.filter_readings', 'Taoist Readings'),
         'mythology-stories': _t('shop.filter_mythology', 'Taoist Mythology'),
