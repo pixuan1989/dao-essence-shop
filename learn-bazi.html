@@ -287,7 +287,7 @@
         /* ════════════════════════════════════
            RESPONSIVE
         ════════════════════════════════════ */
-        @media (max-width: 900px) {
+        @media (max-width: 768px) {
             .outcomes-section { padding: 2rem 1.2rem; }
             .faq-section { padding: 2rem 1.2rem; }
             .ch-nav { flex-direction: column; gap: 0.5rem; }
@@ -347,7 +347,7 @@
         .sidebar-card a.btn-gold:hover { background:linear-gradient(135deg,#E5C048,#C99A1B); transform:scale(1.03); }
         .sidebar-card a.btn-warm { display:inline-flex; align-items:center; gap:6px; padding:9px 20px; background:transparent; color:#8B4513; font-weight:700; font-size:.82rem; border-radius:8px; border:1.5px solid #D4AF37; text-decoration:none; letter-spacing:0.02em; transition:all 0.25s; }
         .sidebar-card a.btn-warm:hover { background:rgba(212,175,55,0.08); border-color:#B8860B; transform:scale(1.03); }
-        @media (max-width: 940px) {
+        @media (max-width: 768px) {
             .landing-layout { grid-template-columns: 1fr; max-width: 780px; }
             .landing-sidebar {
                 position: static;
@@ -358,7 +358,7 @@
         }
     
         /* ── Lucky wallpaper cards (dynamic, rotates every 3 days) ── */
-        .lucky-card{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.06),0 1px 3px rgba(0,0,0,.04);transition:transform .3s ease,box-shadow .3s ease;display:flex;flex-direction:column;border-top:3px solid transparent;}
+        .lucky-card{background:#fff;border-radius:16px;overflow:hidden;max-width:300px;box-shadow:0 4px 24px rgba(0,0,0,.06),0 1px 3px rgba(0,0,0,.04);transition:transform .3s ease,box-shadow .3s ease;display:flex;flex-direction:column;border-top:3px solid transparent;}
         .lucky-card:hover{transform:translateY(-3px);box-shadow:0 8px 32px rgba(0,0,0,.10),0 2px 6px rgba(0,0,0,.06);}
         .lucky-card.theme-wealth{border-top-color:#D4AF37;}
         .lucky-card.theme-love{border-top-color:#C71585;}
@@ -491,7 +491,7 @@
     </div>
 </section>
 
-<div class="landing-layout">
+<div class="landing-layout" style="display:grid;grid-template-columns:1fr 300px;gap:2.5rem;max-width:1140px;margin:0 auto;padding:0 1.5rem 4rem;align-items:start;">
     <div class="landing-main">
 
 <!-- ═══════════ CHAPTER CARDS (landing page) ═══════════ -->
