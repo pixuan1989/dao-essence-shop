@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
@@ -7,17 +7,17 @@
 <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
-<title id="pageTitle">玄真盲派命理實戰內部資料 | DAO Essence</title>
-<meta id="metaDescription" name="description" content="純正段建業盲派體系，從賓主體用到底層邏輯，帶你從「背概念」走到「真斷事」。四大模塊＋真實命例實戰，學完就能上手分析八字。">
+<title id="pageTitle">Xuanzhen Blind-School BaZi Mastery Pack | DAO Essence</title>
+<meta id="metaDescription" name="description" content="Pure Duan Jianye Blind-School system — from Guest-Host & Body-Use to the underlying logic, taking you from 'memorizing concepts' to 'actually reading charts'. Four core modules plus real case studies.">
 <meta property="og:type" content="product">
 <meta property="og:site_name" content="DAO Essence">
-<meta id="ogTitle" property="og:title" content="玄真盲派命理實戰內部資料 | DAO Essence">
-<meta id="ogDescription" property="og:description" content="純正段建業盲派體系，不看旺衰、不繞彎子，直指命盤內部做功關係。四大模塊＋真實命例，學完就能上手分析八字。">
+<meta id="ogTitle" property="og:title" content="Xuanzhen Blind-School BaZi Mastery Pack | DAO Essence">
+<meta id="ogDescription" property="og:description" content="Pure Duan Jianye Blind-School system — no strength/weakness analysis, no detours, straight to the 'work relationship' inside the chart. Four core modules plus real cases.">
 <meta id="ogImage" property="og:image" content="https://www.daoessentia.com/images/og-default.jpg">
 <meta id="ogUrl" property="og:url" content="https://www.daoessentia.com/bazi-blind-course">
 <meta name="twitter:card" content="summary_large_image">
-<meta id="twitterTitle" name="twitter:title" content="玄真盲派命理實戰內部資料 | DAO Essence">
-<meta id="twitterDescription" name="twitter:description" content="純正段建業盲派體系，四大模塊＋真實命例，學完就能上手分析八字。">
+<meta id="twitterTitle" name="twitter:title" content="Xuanzhen Blind-School BaZi Mastery Pack | DAO Essence">
+<meta id="twitterDescription" name="twitter:description" content="Pure Duan Jianye Blind-School system — four core modules plus real cases. Read real BaZi charts right after learning.">
 <meta id="twitterImage" name="twitter:image" content="https://www.daoessentia.com/images/og-default.jpg">
 <link rel="canonical" href="https://www.daoessentia.com/bazi-blind-course">
 <link rel="stylesheet" href="styles.min.css?v=202604031200">
@@ -25,6 +25,7 @@
     /* ============================================
        盲派命理課程詳情頁 — 復用站點設計系統
        金 #D4AF37 / 紅 #8B0000 / 深底 #1a1612
+       字體統一站點（--font-body / --font-display / --font-english）
        ============================================ */
     :root {
         --accent-color: #D4AF37;
@@ -43,8 +44,6 @@
         --radius-md: 10px;
         --radius-sm: 6px;
         --shadow-glow: 0 8px 30px rgba(212,175,55,0.35);
-        --font-display: "STKaiti", "KaiTi", "Noto Serif TC", serif;
-        --font-english: "Georgia", serif;
         --space-xl: 24px;
         --space-2xl: 40px;
         --space-3xl: 60px;
@@ -52,14 +51,14 @@
     }
 
     * { box-sizing: border-box; }
-    body { margin: 0; background: var(--bg-primary); color: var(--text-primary); font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif; line-height: 1.8; }
+    body { margin: 0; background: var(--bg-primary); color: var(--text-primary); font-family: var(--font-body); line-height: 1.8; }
 
     .container { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
 
     /* Hero */
     .course-hero {
         position: relative;
-        padding: 72px 0 64px;
+        padding: 140px 0 64px;
         background: linear-gradient(135deg, var(--bg-dark) 0%, var(--water-dark) 100%);
         overflow: hidden;
         color: var(--bg-primary);
@@ -216,9 +215,10 @@
     .aud-card:hover { border-color: var(--accent-color); transform: translateY(-4px); }
     .aud-card .ico {
         width: 54px; height: 54px; border-radius: 50%; margin: 0 auto 16px;
-        background: rgba(212,175,55,0.12); display: flex; align-items: center; justify-content: center;
-        font-size: 26px;
+        background: #fff; display: flex; align-items: center; justify-content: center;
+        color: var(--accent-color);
     }
+    .aud-card .ico svg { width: 26px; height: 26px; display: block; }
     .aud-card h4 { font-family: var(--font-display); font-size: 18px; color: var(--text-primary); margin: 0 0 8px; }
     .aud-card p { font-size: 14px; color: var(--text-secondary); margin: 0; }
 
@@ -228,7 +228,8 @@
         background: var(--bg-primary); border: 1px solid rgba(212,175,55,0.18);
         border-radius: var(--radius-lg); padding: var(--space-xl); text-align: center;
     }
-    .delivery-item .big { font-size: 30px; margin-bottom: 12px; }
+    .delivery-item .big { color: var(--accent-color); margin-bottom: 12px; display: flex; align-items: center; justify-content: center; }
+    .delivery-item .big svg { width: 30px; height: 30px; display: block; }
     .delivery-item h4 { font-family: var(--font-display); font-size: 18px; color: var(--text-primary); margin: 0 0 8px; }
     .delivery-item p { font-size: 14px; color: var(--text-secondary); margin: 0; }
 
@@ -236,74 +237,63 @@
     .closing { text-align: center; max-width: 760px; margin: 0 auto; }
     .closing p { color: var(--text-secondary); font-size: 17px; }
     .closing .final-cta { margin-top: 32px; }
-
-    /* Footer (self-contained, mirrors site) */
-    footer {
-        background: var(--bg-dark); color: var(--text-light);
-        padding: var(--space-4xl) 0 var(--space-xl); margin-top: var(--space-4xl);
-    }
-    .footer-content { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-xl); margin-bottom: var(--space-2xl); }
-    .footer-section h4 { font-family: var(--font-display); font-size: 18px; color: var(--accent-color); margin: 0 0 var(--space-md); }
-    .footer-section p { color: var(--text-secondary); line-height: 1.6; }
-    .footer-section ul { list-style: none; margin: 0; padding: 0; }
-    .footer-section ul li { margin-bottom: var(--space-sm); }
-    .footer-section ul a { color: var(--text-secondary); text-decoration: none; transition: color 0.3s; }
-    .footer-section ul a:hover { color: var(--accent-color); }
-    .footer-bottom { text-align: center; padding-top: var(--space-xl); border-top: 1px solid rgba(212,175,55,0.1); color: var(--text-light); font-size: 14px; }
+    /* 淺色背景下的價格改為深紅，避免白字看不清 */
+    .section.alt .price-tag .amt { color: var(--fire-primary); }
 
     @media (max-width: 900px) {
         .modules, .why-grid { grid-template-columns: 1fr; }
         .audience { grid-template-columns: 1fr 1fr; }
         .delivery-grid { grid-template-columns: 1fr; }
-        .footer-content { grid-template-columns: 1fr 1fr; }
     }
     @media (max-width: 560px) {
         .audience { grid-template-columns: 1fr; }
-        .footer-content { grid-template-columns: 1fr; }
         .price-tag .amt { font-size: 34px; }
     }
 </style>
 </head>
 <body>
 
-<!-- 頭部導航（與站點一致） -->
+<!-- 頭部導航（與站點一致，含 data-i18n） -->
 <header class="header">
     <div class="container">
         <nav class="nav">
             <a href="/" class="logo">
                 <div class="logo-icon"></div>
-                <div class="logo-text"><span class="logo-en">DAO ESSENCE</span></div>
+                <div class="logo-text">
+                    <span class="logo-en">DAO ESSENCE</span>
+                </div>
             </a>
             <ul class="nav-menu">
-                <li><a href="/" class="nav-link">Home</a></li>
+                <li><a href="/" class="nav-link" data-i18n="common.home">Home</a></li>
                 <li class="nav-dropdown">
-                    <a href="#" class="nav-dropdown-trigger">Tools <i class="nav-dropdown-arrow"></i></a>
+                    <a href="#" class="nav-dropdown-trigger" data-i18n="nav.tools">Tools <i class="nav-dropdown-arrow"></i></a>
                     <div class="nav-dropdown-menu">
-                        <a href="/#free-bazi">BaZi Calculator</a>
-                        <a href="/favorable-element">Favorable Element Guide</a>
-                        <a href="/zodiac/zodiac-daily">Zodiac Horoscope</a>
-                        <a href="/five-elements-test">Five Elements Test</a>
-                        <a href="/soulmate-calculator">Soulmate Compatibility</a>
-                        <a href="/almanac">Auspicious Almanac</a>
-                        <a href="/wallpaper">Lucky Wallpapers</a>
+                        <a href="/#free-bazi" data-i18n="nav.tool_bazi">BaZi Calculator</a>
+                        <a href="/favorable-element" data-i18n="nav.tool_favorable">Favorable Element Guide</a>
+                        <a href="/zodiac/zodiac-daily" data-i18n="nav.tool_daily">Zodiac Horoscope</a>
+                        <a href="/five-elements-test" data-i18n="nav.tool_five">Five Elements Test</a>
+                        <a href="/soulmate-calculator" data-i18n="nav.tool_soulmate">Soulmate Compatibility</a>
+                        <a href="/almanac" data-i18n="nav.tool_almanac">Auspicious Almanac</a>
+                        <a href="/wallpaper" data-i18n="nav.tool_wallpapers">Lucky Wallpapers</a>
                     </div>
                 </li>
                 <li class="nav-dropdown">
-                    <a href="/blog" class="nav-dropdown-trigger">Blog <i class="nav-dropdown-arrow"></i></a>
+                    <a href="/blog" class="nav-dropdown-trigger" data-i18n="common.blog">Blog <i class="nav-dropdown-arrow"></i></a>
                     <div class="nav-dropdown-menu">
-                        <a href="/blog">All Articles</a>
-                        <a href="/blog/bazi-astrology">BaZi Astrology</a>
-                        <a href="/zodiac/zodiac-daily">Zodiac Daily</a>
-                        <a href="/blog/feng-shui">Home Feng Shui</a>
-                        <a href="/culture">Five Elements</a>
+                        <a href="/blog" data-i18n="nav.blog_all">All Articles</a>
+                        <a href="/blog/bazi-astrology" data-i18n="nav.blog_bazi">BaZi Astrology</a>
+                        <a href="/zodiac/zodiac-daily" data-i18n="nav.blog_zodiac">Zodiac Daily</a>
+                        <a href="/blog/feng-shui" data-i18n="nav.blog_fengshui">Home Feng Shui</a>
+                        <a href="/culture" data-i18n="nav.blog_elements">Five Elements</a>
                     </div>
                 </li>
-                <li><a href="/learn-bazi" class="nav-link">Learn BaZi</a></li>
-                <li><a href="/shop" class="nav-link active">Shop</a></li>
-                <li><a href="/about" class="nav-link">About Us</a></li>
+                <li><a href="/learn-bazi" class="nav-link" data-i18n="common.learn_bazi">Learn BaZi</a></li>
+                <li><a href="/shop" class="nav-link" data-i18n="common.shop">Shop</a></li>
+                <li><a href="/about" class="nav-link" data-i18n="common.about_us">About Us</a></li>
                 <li class="nav-dropdown">
                     <a href="#" class="nav-dropdown-trigger lang-switcher-trigger" id="lang-trigger">
-                        <span class="lang-label" id="lang-label">EN</span><i class="nav-dropdown-arrow"></i>
+                        <svg class="lang-globe-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg><span class="lang-label" id="lang-label">EN</span>
+                        <i class="nav-dropdown-arrow"></i>
                     </a>
                     <div class="nav-dropdown-menu" id="lang-menu">
                         <a href="#" data-lang="en" class="lang-option active">English</a>
@@ -311,6 +301,11 @@
                     </div>
                 </li>
             </ul>
+            <button class="mobile-menu-btn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
         </nav>
     </div>
 </header>
@@ -318,28 +313,23 @@
 <!-- HERO -->
 <section class="course-hero">
     <div class="container">
-        <div class="breadcrumb-custom">
-            <a href="/">Home</a> <span>›</span>
-            <a href="/shop">Shop</a> <span>›</span>
-            <a href="/shop">八字課程</a> <span>›</span>
-            <span>玄真盲派命理實戰內部資料</span>
-        </div>
-        <h1>玄真盲派命理實戰內部資料</h1>
-        <div class="en-sub">Xuanzhen Blind-School BaZi Mastery Pack</div>
-        <p class="tagline">不看旺衰、不繞彎子——純正段建業盲派體系，帶你從「背概念」走到「真斷事」。</p>
+        <div class="breadcrumb-custom" data-i18n="blindcourse.breadcrumb"><a href="/">Home</a> <span>›</span> <a href="/shop">Shop</a> <span>›</span> <a href="/shop">BaZi Courses</a> <span>›</span> <span>Xuanzhen Blind-School BaZi Mastery Pack</span></div>
+        <h1 data-i18n="blindcourse.hero_title">Xuanzhen Blind-School BaZi Mastery Pack</h1>
+        <div class="en-sub" data-i18n="blindcourse.hero_sub">Xuanzhen Blind-School BaZi Mastery Pack</div>
+        <p class="tagline" data-i18n="blindcourse.hero_tagline">No strength/weakness analysis, no roundabout theory — pure Duan Jianye Blind-School system, taking you from 'memorizing concepts' to 'actually reading charts'.</p>
         <div class="hero-meta">
-            <span>純正段建業盲派體系</span>
-            <span>四大模塊＋真實命例</span>
-            <span>學完就能上手分析八字</span>
-            <span>網盤即時交付</span>
+            <span data-i18n="blindcourse.meta1">Pure Duan Jianye Blind-School system</span>
+            <span data-i18n="blindcourse.meta2">Four core modules + real cases</span>
+            <span data-i18n="blindcourse.meta3">Read real BaZi charts right after learning</span>
+            <span data-i18n="blindcourse.meta4">Instant cloud-drive delivery</span>
         </div>
         <div class="buy-bar">
             <div class="price-tag">
-                <span class="cur">$</span><span class="amt" id="priceAmount">載入中…</span>
-                <span class="note">一次性買斷 · 永久擁有</span>
+                <span class="cur">$</span><span class="amt" id="priceAmount">Loading…</span>
+                <span class="note" data-i18n="blindcourse.price_note">One-time buyout · yours forever</span>
             </div>
             <button class="btn-buy-now" id="buyBtn" onclick="buyNow(this)">
-                <span class="spinner"></span><span class="btn-text">立即購買</span>
+                <span class="spinner"></span><span class="btn-text" data-i18n="blindcourse.buy_now">Buy Now</span>
             </button>
         </div>
     </div>
@@ -349,17 +339,15 @@
 <section class="section">
     <div class="container">
         <div class="section-head">
-            <span class="kicker">Why This</span>
-            <h2>為什麼你需要這套資料？</h2>
+            <span class="kicker" data-i18n="blindcourse.why_kicker">Why This</span>
+            <h2 data-i18n="blindcourse.why_title">Why You Need This Material</h2>
         </div>
         <div class="why-grid">
             <div>
-                <p>很多命理愛好者都有同樣的經歷：書買了一大堆，「身強身弱」背得滾瓜爛熟，「用神忌神」也勉強能分，可一拿到真實八字，腦子就空白了——看不準、斷不了，更別說給出有價值的建議。</p>
-                <p>問題出在哪裡？不是你不夠努力，而是你學的體系本身就繞了遠路。</p>
+                <p data-i18n="blindcourse.why_p1">Many metaphysics enthusiasts share the same experience: you buy a pile of books, memorize 'strong/weak day master' until it's second nature, and can barely tell 'useful god' from 'taboo god' — but the moment you get a real BaZi chart, your mind goes blank. You can't read it, can't make a call, let alone give valuable advice.</p>
+                <p data-i18n="blindcourse.why_p2">Where's the problem? It's not that you didn't try hard enough — it's that the system you learned takes a detour.</p>
             </div>
-            <div class="quote">
-                盲派命理最早是盲人命師走街串巷賴以謀生的手藝。它必須<strong>簡單、直接、管用</strong>——因為命師靠它吃飯，斷不準就沒飯吃。正是這種生存壓力，倒逼出了一套效率極高的命理推演邏輯：<strong>不看旺衰，不繞彎子，直指命盤內部的「做功關係」。</strong>
-            </div>
+            <div class="quote" data-i18n="blindcourse.why_quote">Blind-School BaZi was originally the livelihood of blind masters walking the streets. It had to be <strong>simple, direct, and effective</strong> — because a blind master earned his meals with it; miss a reading and there's no food. That survival pressure forced out an extremely efficient logic of destiny reading: <strong>no strength/weakness analysis, no detours — straight to the 'work relationship' inside the chart.</strong></div>
         </div>
     </div>
 </section>
@@ -368,49 +356,49 @@
 <section class="section alt">
     <div class="container">
         <div class="section-head">
-            <span class="kicker">Core Modules</span>
-            <h2>四大核心模塊</h2>
-            <p class="lead">從底層邏輯到真實斷事，一條路走通。</p>
+            <span class="kicker" data-i18n="blindcourse.modules_kicker">Core Modules</span>
+            <h2 data-i18n="blindcourse.modules_title">Four Core Modules</h2>
+            <p class="lead" data-i18n="blindcourse.modules_lead">One clear path from foundational logic to real chart reading.</p>
         </div>
         <div class="modules">
             <div class="module-card">
                 <div class="module-no">01</div>
-                <h3>理法篇</h3>
-                <div class="sub">建立盲派底層邏輯</div>
+                <h3 data-i18n="blindcourse.m1_title">Principles</h3>
+                <div class="sub" data-i18n="blindcourse.m1_sub">Build the Blind-School foundation</div>
                 <ul>
-                    <li><b>賓主概念</b>：分清「我的」和「他的」，準確鎖定命主的人生課題</li>
-                    <li><b>體用關係</b>：明確命盤中的「主體」與「客體」，看懂人生追求的方向</li>
-                    <li><b>干支意象</b>：每個天干地支的原始畫像，讀象能力的入門基石</li>
+                    <li data-i18n="blindcourse.m1_l1"><b>Guest &amp; Host (宾主)</b>: distinguish 'mine' from 'theirs' to pinpoint the native's life themes</li>
+                    <li data-i18n="blindcourse.m1_l2"><b>Body &amp; Use (体用)</b>: clarify the 'subject' and 'object' in the chart to see the direction of life pursuit</li>
+                    <li data-i18n="blindcourse.m1_l3"><b>Stem &amp; Branch imagery</b>: the original image of every Heavenly Stem and Earthly Branch — the bedrock of reading symbols</li>
                 </ul>
             </div>
             <div class="module-card">
                 <div class="module-no">02</div>
-                <h3>象法篇</h3>
-                <div class="sub">練就「一眼抓象」的本事</div>
+                <h3 data-i18n="blindcourse.m2_title">Imagery</h3>
+                <div class="sub" data-i18n="blindcourse.m2_sub">Train your 'read the symbol at a glance' skill</div>
                 <ul>
-                    <li><b>十神組合象</b>：從官殺、印星、財星、食傷、比劫的關係中讀出人生故事</li>
-                    <li><b>刑沖合害象</b>：干支之間的互動如何映射現實事件</li>
-                    <li><b>宮位象</b>：年、月、日、時四柱對應的人生不同領域</li>
+                    <li data-i18n="blindcourse.m2_l1"><b>Ten Gods combinations</b>: read life stories from the relationships of Officer/Killings, Seal, Wealth, Eating/Output, and Companion</li>
+                    <li data-i18n="blindcourse.m2_l2"><b>Clash/Punish/Combine/Harm imagery</b>: how interactions between stems and branches map to real events</li>
+                    <li data-i18n="blindcourse.m2_l3"><b>Palace imagery</b>: the four pillars (year/month/day/hour) correspond to different areas of life</li>
                 </ul>
             </div>
             <div class="module-card">
                 <div class="module-no">03</div>
-                <h3>功法篇</h3>
-                <div class="sub">真正能「斷事」的核心能力</div>
+                <h3 data-i18n="blindcourse.m3_title">Technique</h3>
+                <div class="sub" data-i18n="blindcourse.m3_sub">The core ability to actually 'read events'</div>
                 <ul>
-                    <li><b>做功方式詳解</b>：制用、化用、生用、合用、墓用五種結構</li>
-                    <li><b>賊神捕神</b>：盲派不傳之秘，判斷人生大起大落的關鍵節點</li>
-                    <li><b>大運流年應期</b>：什麼年份會發生什麼事，判斷時間的精準技術</li>
+                    <li data-i18n="blindcourse.m3_l1"><b>Five ways of 'doing work' (做功)</b>: control-use, transform-use, generate-use, combine-use, and tomb-use</li>
+                    <li data-i18n="blindcourse.m3_l2"><b>Thief god &amp; catcher god (贼神捕神)</b>: the Blind-School secret to judging life's major turning points</li>
+                    <li data-i18n="blindcourse.m3_l3"><b>Major luck &amp; yearly applied timing (应期)</b>: which year brings what, the precise technique of timing</li>
                 </ul>
             </div>
             <div class="module-card">
                 <div class="module-no">04</div>
-                <h3>實戰案例庫</h3>
-                <div class="sub">跟著段老師一字一字拆解</div>
+                <h3 data-i18n="blindcourse.m4_title">Case Library</h3>
+                <div class="sub" data-i18n="blindcourse.m4_sub">Dissect chart by chart with Master Duan</div>
                 <ul>
-                    <li><b>事業與財富案例</b>：看職業選擇、升遷時機、財運起伏</li>
-                    <li><b>感情與婚姻案例</b>：看相處模式、婚期判斷、關係走向</li>
-                    <li><b>六親與健康案例</b>：從命盤看父母、子女、兄弟姐妹的信息映射</li>
+                    <li data-i18n="blindcourse.m4_l1"><b>Career &amp; wealth cases</b>: job choices, promotion timing, financial ups and downs</li>
+                    <li data-i18n="blindcourse.m4_l2"><b>Relationship &amp; marriage cases</b>: interaction patterns, marriage timing, relationship direction</li>
+                    <li data-i18n="blindcourse.m4_l3"><b>Family &amp; health cases</b>: how the chart maps information about parents, children, and siblings</li>
                 </ul>
             </div>
         </div>
@@ -421,43 +409,43 @@
 <section class="section">
     <div class="container">
         <div class="section-head">
-            <span class="kicker">Why Different</span>
-            <h2>這套資料，和市面其他資料有什麼不同？</h2>
+            <span class="kicker" data-i18n="blindcourse.compare_kicker">Why Different</span>
+            <h2 data-i18n="blindcourse.compare_title">How is this material different from others on the market?</h2>
         </div>
         <div class="compare-wrap">
             <table class="compare">
                 <thead>
                     <tr>
-                        <th>維度</th>
-                        <th>市面常見課程</th>
-                        <th>玄真團隊內部資料</th>
+                        <th data-i18n="blindcourse.cmp_th1">Dimension</th>
+                        <th data-i18n="blindcourse.cmp_th2">Typical market courses</th>
+                        <th data-i18n="blindcourse.cmp_th3">Xuanzhen team internal material</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>理論體系</td>
-                        <td class="market">混搭各派，前後矛盾</td>
-                        <td class="xuanzhen"><b>純正段建業盲派體系，一以貫之</b></td>
+                        <td data-i18n="blindcourse.cmp_r1_dim">Theory system</td>
+                        <td class="market" data-i18n="blindcourse.cmp_r1_market">Mixed schools, self-contradictory</td>
+                        <td class="xuanzhen" data-i18n="blindcourse.cmp_r1_xz"><b>Pure Duan Jianye Blind-School system, consistent throughout</b></td>
                     </tr>
                     <tr>
-                        <td>教學方式</td>
-                        <td class="market">理論堆砌，實戰脫節</td>
-                        <td class="xuanzhen"><b>案例驅動，每講必帶真實命例</b></td>
+                        <td data-i18n="blindcourse.cmp_r2_dim">Teaching method</td>
+                        <td class="market" data-i18n="blindcourse.cmp_r2_market">Theory piled up, detached from practice</td>
+                        <td class="xuanzhen" data-i18n="blindcourse.cmp_r2_xz"><b>Case-driven, every lesson with real cases</b></td>
                     </tr>
                     <tr>
-                        <td>概念難度</td>
-                        <td class="market">旺衰用神繞暈初學者</td>
-                        <td class="xuanzhen"><b>賓主體用直指核心，邏輯清晰</b></td>
+                        <td data-i18n="blindcourse.cmp_r3_dim">Concept difficulty</td>
+                        <td class="market" data-i18n="blindcourse.cmp_r3_market">Strength/weakness &amp; useful god confuse beginners</td>
+                        <td class="xuanzhen" data-i18n="blindcourse.cmp_r3_xz"><b>Guest-Host &amp; Body-Use go straight to the core, clear logic</b></td>
                     </tr>
                     <tr>
-                        <td>學習目標</td>
-                        <td class="market">懂理論但不會斷事</td>
-                        <td class="xuanzhen"><b>學完就能上手分析八字</b></td>
+                        <td data-i18n="blindcourse.cmp_r4_dim">Learning goal</td>
+                        <td class="market" data-i18n="blindcourse.cmp_r4_market">Know theory but can't read charts</td>
+                        <td class="xuanzhen" data-i18n="blindcourse.cmp_r4_xz"><b>Read real BaZi charts right after learning</b></td>
                     </tr>
                     <tr>
-                        <td>資料完整性</td>
-                        <td class="market">零碎片段，到處拼湊</td>
-                        <td class="xuanzhen"><b>系統完整，團隊日常教學實況</b></td>
+                        <td data-i18n="blindcourse.cmp_r5_dim">Completeness</td>
+                        <td class="market" data-i18n="blindcourse.cmp_r5_market">Scattered fragments, pieced together</td>
+                        <td class="xuanzhen" data-i18n="blindcourse.cmp_r5_xz"><b>Systematic and complete, the team's daily teaching records</b></td>
                     </tr>
                 </tbody>
             </table>
@@ -469,29 +457,29 @@
 <section class="section alt">
     <div class="container">
         <div class="section-head">
-            <span class="kicker">Who It's For</span>
-            <h2>適合誰學？</h2>
+            <span class="kicker" data-i18n="blindcourse.aud_kicker">Who It's For</span>
+            <h2 data-i18n="blindcourse.aud_title">Who Is This For?</h2>
         </div>
         <div class="audience">
             <div class="aud-card">
-                <div class="ico">🌱</div>
-                <h4>命理小白</h4>
-                <p>從未接觸過八字，想找一條不走彎路的學習路徑</p>
+                <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22V11"/><path d="M12 11C12 8 10 6 7 6c0 3 2 5 5 5z"/><path d="M12 13c0-2.5 1.8-4.5 4.5-4.5C16.5 11 14.5 13 12 13z"/></svg></div>
+                <h4 data-i18n="blindcourse.aud1_h">Complete Beginner</h4>
+                <p data-i18n="blindcourse.aud1_p">Never touched BaZi, looking for a learning path without detours</p>
             </div>
             <div class="aud-card">
-                <div class="ico">📚</div>
-                <h4>半桶水自學者</h4>
-                <p>學了很多零散知識，但始終形不成系統判斷力</p>
+                <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6c-2-1.5-5-1.5-7 0v12c2-1.5 5-1.5 7 0 2-1.5 5-1.5 7 0V6c-2-1.5-5-1.5-7 0z"/><path d="M12 6v12"/></svg></div>
+                <h4 data-i18n="blindcourse.aud2_h">Half-Knowledge Self-Learner</h4>
+                <p data-i18n="blindcourse.aud2_p">Learned scattered knowledge but never formed a systematic judgment</p>
             </div>
             <div class="aud-card">
-                <div class="ico">⛰️</div>
-                <h4>瓶頸期愛好者</h4>
-                <p>學過其他流派，想升級到盲派的高效斷事框架</p>
+                <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 19l5-9 4 6 3-4 6 7z"/></svg></div>
+                <h4 data-i18n="blindcourse.aud3_h">Bottleneck Enthusiast</h4>
+                <p data-i18n="blindcourse.aud3_p">Studied other schools, want to upgrade to Blind-School's efficient reading framework</p>
             </div>
             <div class="aud-card">
-                <div class="ico">🧭</div>
-                <h4>執業命理師</h4>
-                <p>補充盲派「做功」視角，提升斷事實戰精準度</p>
+                <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/></svg></div>
+                <h4 data-i18n="blindcourse.aud4_h">Practicing Metaphysician</h4>
+                <p data-i18n="blindcourse.aud4_p">Add the Blind-School 'work' perspective to sharpen practical reading accuracy</p>
             </div>
         </div>
     </div>
@@ -501,24 +489,24 @@
 <section class="section">
     <div class="container">
         <div class="section-head">
-            <span class="kicker">Delivery &amp; Support</span>
-            <h2>購買須知</h2>
+            <span class="kicker" data-i18n="blindcourse.del_kicker">Delivery &amp; Support</span>
+            <h2 data-i18n="blindcourse.del_title">Purchase Notes</h2>
         </div>
         <div class="delivery-grid">
             <div class="delivery-item">
-                <div class="big">📦</div>
-                <h4>交付形式</h4>
-                <p>網盤連結發送，支援手機 / 電腦 / 平板學習</p>
+                <div class="big"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8l-9-5-9 5v8l9 5 9-5z"/><path d="M3 8l9 5 9-5"/><path d="M12 13v8"/></svg></div>
+                <h4 data-i18n="blindcourse.del1_h">Delivery Format</h4>
+                <p data-i18n="blindcourse.del1_p">Cloud-drive link sent; works on phone / computer / tablet</p>
             </div>
             <div class="delivery-item">
-                <div class="big">📄</div>
-                <h4>配套資料</h4>
-                <p>核心講義 ＋ 實戰案例集（PDF 電子版）</p>
+                <div class="big"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h6"/></svg></div>
+                <h4 data-i18n="blindcourse.del2_h">Included Materials</h4>
+                <p data-i18n="blindcourse.del2_p">Core lecture notes + real case collection (PDF e-version)</p>
             </div>
             <div class="delivery-item">
-                <div class="big">💬</div>
-                <h4>售後支持</h4>
-                <p>購買後如有疑問，可私信聯繫答疑</p>
+                <div class="big"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.5 7.2L4 20l1-4.5A8 8 0 1 1 21 12z"/></svg></div>
+                <h4 data-i18n="blindcourse.del3_h">After-Sales Support</h4>
+                <p data-i18n="blindcourse.del3_p">If you have questions after purchase, message us for answers</p>
             </div>
         </div>
     </div>
@@ -529,75 +517,128 @@
     <div class="container">
         <div class="closing">
             <div class="section-head">
-                <span class="kicker">A Final Word</span>
-                <h2>寫在最後的話</h2>
+                <span class="kicker" data-i18n="blindcourse.close_kicker">A Final Word</span>
+                <h2 data-i18n="blindcourse.close_title">A Final Word</h2>
             </div>
-            <p>盲派命理不是一門用來看「命運好壞」的學問，而是一套讀懂人生能量運作方式的精密工具。它幫你看到自己的天性、優勢和限制，也幫你判斷何時該進、何時該退——這門手藝練得越深，你看自己、看別人的眼光就越通透。</p>
-            <p>這套資料是玄真團隊日常教學的實錄，也是許多命理愛好者口中「相見恨晚」的一套內容。如果你準備好了，歡迎帶走它。</p>
+            <p data-i18n="blindcourse.close_p1">Blind-School BaZi is not a study for judging whether fate is 'good or bad', but a precise tool for understanding how life energy operates. It helps you see your nature, strengths, and limits — and tells you when to advance and when to retreat. The deeper you practice this craft, the clearer your view of yourself and others becomes.</p>
+            <p data-i18n="blindcourse.close_p2">This material is the Xuanzhen team's daily teaching record, and the 'wish we'd met earlier' content in the mouths of many metaphysics lovers. If you're ready, we welcome you to take it with you.</p>
             <div class="final-cta">
                 <div class="price-tag" style="justify-content:center; margin-bottom:18px;">
-                    <span class="cur">$</span><span class="amt" id="priceAmountBottom">載入中…</span>
-                    <span class="note">一次性買斷 · 永久擁有</span>
+                    <span class="cur">$</span><span class="amt" id="priceAmountBottom">Loading…</span>
+                    <span class="note" data-i18n="blindcourse.price_note">One-time buyout · yours forever</span>
                 </div>
                 <button class="btn-buy-now" onclick="buyNow(this)">
-                    <span class="spinner"></span><span class="btn-text">立即購買</span>
+                    <span class="spinner"></span><span class="btn-text" data-i18n="blindcourse.buy_now">Buy Now</span>
                 </button>
             </div>
         </div>
     </div>
 </section>
 
-<!-- 頁腳 -->
+<!-- 頁腳（與站點一致：footer-brand / Tools / Explore / Links / Contact） -->
 <footer class="footer">
     <div class="container">
         <div class="footer-content">
-            <div class="footer-section">
-                <h4>DAO ESSENCE</h4>
-                <p>Ancient Wisdom, Modern Clarity. 以八字分析、風水諮詢與五行指引，陪你理清人生方向。</p>
+            <div class="footer-brand">
+                <div class="logo">
+                    <span class="logo-en">DAO ESSENCE</span>
+                </div>
+                <p data-i18n="footer.brand_desc">Ancient Wisdom, Modern Clarity. Navigate life with structured insight through BaZi analysis, Feng Shui consultation, and Five Elements guidance.</p>
             </div>
-            <div class="footer-section">
-                <h4>工具</h4>
-                <ul>
-                    <li><a href="/#free-bazi">八字排盤</a></li>
-                    <li><a href="/favorable-element">喜用神查詢</a></li>
-                    <li><a href="/five-elements-test">五行人格測試</a></li>
-                    <li><a href="/soulmate-calculator">姻緣配對</a></li>
-                    <li><a href="/almanac">擇日黃曆</a></li>
+            <div>
+                <h4 class="footer-title" data-i18n="footer.tools_title">Tools</h4>
+                <ul class="footer-links">
+                    <li><a href="/#free-bazi" data-i18n="footer.tool_bazi">BaZi Birth Chart Calculator</a></li>
+                    <li><a href="/favorable-element" data-i18n="footer.tool_lucky">Five Elements Favorable Guide</a></li>
+                    <li><a href="/five-elements-test" data-i18n="footer.tool_five">Five Elements Personality Test</a></li>
+                    <li><a href="/soulmate-calculator" data-i18n="footer.tool_soulmate">Soulmate Compatibility Finder</a></li>
+                    <li><a href="/almanac" data-i18n="footer.tool_almanac">Auspicious Date Picker</a></li>
+                    <li><a href="/zodiac/zodiac-daily" data-i18n="footer.tool_zodiac">Zodiac Daily</a></li>
+                    <li><a href="/wallpaper" data-i18n="footer.tool_wallpapers">Lucky Wallpapers</a></li>
                 </ul>
             </div>
-            <div class="footer-section">
-                <h4>探索</h4>
-                <ul>
-                    <li><a href="/blog">部落格</a></li>
-                    <li><a href="/culture">五行文化</a></li>
-                    <li><a href="/shop">商城</a></li>
-                    <li><a href="/about">關於我們</a></li>
+            <div>
+                <h4 class="footer-title" data-i18n="footer.explore_title">Explore</h4>
+                <ul class="footer-links">
+                    <li><a href="/blog" data-i18n="common.blog">Blog</a></li>
+                    <li><a href="/culture" data-i18n="common.five_elements">Five Elements</a></li>
+                    <li><a href="/shop" data-i18n="common.shop">Shop</a></li>
+                    <li><a href="/about" data-i18n="common.about_us">About Us</a></li>
                 </ul>
             </div>
-            <div class="footer-section">
-                <h4>聯繫</h4>
-                <ul>
-                    <li><a href="mailto:support@daoessentia.com">support@daoessentia.com</a></li>
-                    <li><a href="#" onclick="return false;">WeChat</a></li>
-                    <li><a href="https://t.me/dingwei_123" target="_blank" rel="noopener">Telegram</a></li>
+            <div>
+                <h4 class="footer-title" data-i18n="footer.links_title">Links</h4>
+                <ul class="footer-links">
+                    <li style="margin-bottom:8px;display:block !important;">
+                        <div><a href="https://fatenet.cn/" target="_blank" rel="noopener">FateNet</a></div>
+                        <div style="font-size:12px;color:var(--text-secondary);margin-top:4px;line-height:1.4;" data-i18n="footer.fortune_desc">Chinese Fortune Telling<br>Find Your Soulmate</div>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="footer-title" data-i18n="footer.contact_title">Contact</h4>
+                <ul class="footer-links">
+                    <li>
+                        <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle;margin-right:6px"><path d="M3 4h14a1 1 0 011 1v10a1 1 0 01-1 1H3a1 1 0 01-1-1V5a1 1 0 011-1z"/><path d="M3 5l7 6 7-6"/></svg>
+                        <a href="mailto:support@daoessentia.com">support@daoessentia.com</a>
+                    </li>
+                    <li>
+                        <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style="vertical-align:middle;margin-right:6px;color:var(--accent-color)"><path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 0 0 .167-.054l1.903-1.114a.864.864 0 0 1 .717-.098 10.16 10.16 0 0 0 2.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348zM5.785 5.991c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178A1.17 1.17 0 0 1 4.623 7.17c0-.651.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178A1.17 1.17 0 0 1-4.623 7.17c0-.651.52-1.18 1.162-1.18zm5.34 2.867c-1.797-.052-3.746.512-5.28 1.786-1.72 1.428-2.687 3.72-1.78 6.22.942 2.453 3.666 4.229 6.884 4.229.826 0 1.622-.12 2.361-.336a.722.722 0 0 1 .598.082l1.584.926a.272.272 0 0 0 .14.047c.134 0 .24-.111.24-.247 0-.06-.023-.12-.038-.177l-.327-1.233a.582.582 0 0 1-.023-.156.49.49 0 0 1 .201-.398C23.024 18.48 24 16.82 24 14.98c0-3.21-2.931-5.837-7.062-6.122zm-3.957 3.467c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.969-.982zm4.844 0c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.969-.982z"/></svg>
+                        <a href="#" onclick="document.getElementById('wechat-modal').style.display='flex';return false;" data-i18n="footer.wechat">WeChat</a>
+                    </li>
+                    <li>
+                        <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle;margin-right:6px"><circle cx="10" cy="10" r="8"/><path d="M10 6v4l2.5 2.5"/></svg>
+                        <span data-i18n="footer.hours">Mon&#8211;Sat: 9AM&#8211;9PM (CST / UTC+8)</span>
+                    </li>
+                    <li>
+                        <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style="vertical-align:middle;margin-right:6px;color:#229ED9"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+                        <a href="https://t.me/dingwei_123" target="_blank" rel="noopener" data-i18n="footer.telegram_channel">Telegram Channel</a>
+                    </li>
+                    <li>
+                        <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style="vertical-align:middle;margin-right:6px;color:#229ED9"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+                        <a href="https://t.me/Dingwei_pi" target="_blank" rel="noopener">Telegram @Dingwei_pi</a>
+                    </li>
+                    <li>
+                        <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style="vertical-align:middle;margin-right:6px;color:#E60023"><path d="M12 0C5.373 0 0 5.372 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 0 1 .083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.631-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12 0-6.628-5.373-12-12-12z"/></svg>
+                        <a href="https://www.pinterest.com/pixuan/wallpapers/" target="_blank" rel="noopener">Pinterest</a>
+                    </li>
                 </ul>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2026 DAO Essence &amp; Five Elements. All rights reserved.</p>
+            <p data-i18n="footer.copyright">&copy; 2026 DAO Essence &amp; Five Elements. All rights reserved.</p>
+            <div class="footer-legal-links">
+                <a href="/privacy" data-i18n="footer.privacy">Privacy Policy</a>
+                <span>|</span>
+                <a href="/terms" data-i18n="footer.terms">Terms of Service</a>
+            </div>
         </div>
     </div>
 </footer>
 
+<!-- WeChat QR Modal -->
+<div id="wechat-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:9999;align-items:center;justify-content:center;" onclick="if(event.target===this)this.style.display='none'">
+    <div style="background:#1a1a1a;border:1px solid rgba(212,175,55,0.4);border-radius:16px;padding:40px;text-align:center;max-width:320px;width:90%;position:relative;">
+        <button onclick="document.getElementById('wechat-modal').style.display='none'" style="position:absolute;top:12px;right:16px;background:none;border:none;color:rgba(245,240,230,0.6);font-size:22px;cursor:pointer;line-height:1;">&times;</button>
+        <svg viewBox="0 0 24 24" width="40" height="40" fill="#D4AF37" style="margin-bottom:12px"><path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 0 0 .167-.054l1.903-1.114a.864.864 0 0 1 .717-.098 10.16 10.16 0 0 0 2.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348zM5.785 5.991c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178A1.17 1.17 0 0 1 4.623 7.17c0-.651.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178A1.17 1.17 0 0 1-4.623 7.17c0-.651.52-1.18 1.162-1.18zm5.34 2.867c-1.797-.052-3.746.512-5.28 1.786-1.72 1.428-2.687 3.72-1.78 6.22.942 2.453 3.666 4.229 6.884 4.229.826 0 1.622-.12 2.361-.336a.722.722 0 0 1 .598.082l1.584.926a.272.272 0 0 0 .14.047c.134 0 .24-.111.24-.247 0-.06-.023-.12-.038-.177l-.327-1.233a.582.582 0 0 1-.023-.156.49.49 0 0 1 .201-.398C23.024 18.48 24 16.82 24 14.98c0-3.21-2.931-5.837-7.062-6.122zm-3.957 3.467c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.969-.982zm4.844 0c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.969-.982z"/></svg>
+        <h3 style="color:#D4AF37;margin:0 0 8px;font-size:18px;">WeChat</h3>
+        <p style="color:rgba(245,240,230,0.7);font-size:13px;margin:0 0 20px;">Scan the QR code to connect with us on WeChat</p>
+        <div style="width:160px;height:160px;margin:0 auto;">
+            <img src="images/微信图片_20260324143206_59_9.jpg" alt="WeChat QR Code" style="width:100%;height:100%;border-radius:8px;object-fit:cover;" loading="lazy">
+        </div>
+        <p style="color:rgba(245,240,230,0.5);font-size:12px;margin:16px 0 0;">WeChat ID: your-wechat-id</p>
+    </div>
+</div>
+
 <script>
     // ============================================
     // 商品配置
-    // PRODUCT_ID 待用戶在 Creem 建好商品後替換為真實 ID
+    // PRODUCT_ID = Creem 真實商品 ID（已上架）
     // ⚠️ 價格不寫死 —— 一律從 Creem 後台動態拉取（後台設多少就顯示多少）
     // ============================================
     const PRODUCT_ID = 'prod_644bQm6EUmBGSNkaHZ02IE';   // Creem 商品 ID（盲派命理課程）
-    const PRODUCT_NAME = '玄真盲派命理實戰內部資料';
-    const PRODUCT_DESC = '純正段建業盲派體系，從賓主體用到底層邏輯，帶你從「背概念」走到「真斷事」。四大模塊＋真實命例實戰，學完就能上手分析八字。';
+    const PRODUCT_NAME = 'Xuanzhen Blind-School BaZi Mastery Pack';
+    const PRODUCT_DESC = 'Pure Duan Jianye Blind-School system — from Guest-Host & Body-Use to the underlying logic, taking you from memorizing concepts to actually reading charts. Four core modules plus real case studies.';
 
     let _product = null;   // 後台商品對象（含動態 price / name / currency）
 
@@ -673,14 +714,14 @@
         if (!btn) return;
         if (window._buying) return;
         if (!_product) {
-            alert('商品價格加載中或加載失敗，請稍候重新整理頁面再試。');
+            alert('Product price is loading or failed to load. Please refresh and try again.');
             return;
         }
         window._buying = true;
         const spinner = btn.querySelector('.spinner');
         const txt = btn.querySelector('.btn-text');
         btn.classList.add('loading');
-        if (txt) txt.textContent = '跳轉中…';
+        if (txt) txt.textContent = 'Redirecting…';
 
         try {
             const res = await fetch('/api/create-checkout', {
@@ -704,13 +745,14 @@
             }
         } catch (e) {
             console.error('❌ Buy now error:', e);
-            alert('支付系統暫時無法連線，請稍後再試或更換網絡。');
+            alert('Payment system is temporarily unavailable. Please try again later or switch networks.');
             window._buying = false;
             btn.classList.remove('loading');
-            if (txt) txt.textContent = '立即購買';
+            if (txt) txt.textContent = 'Buy Now';
         }
     }
 </script>
+<script src="main.min.js?v=202604031200"></script>
 <script src="/js/tracking.js"></script>
 <script src="js/i18n-switcher.js" defer></script>
 </body>
