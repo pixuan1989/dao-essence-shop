@@ -533,7 +533,26 @@
             .ch-nav { flex-direction: column; gap: 0.5rem; }
         }
 
-    </style>
+    
+        /* ── Lucky wallpaper cards (dynamic, rotates every 3 days) ── */
+        .lucky-card{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.06),0 1px 3px rgba(0,0,0,.04);transition:transform .3s ease,box-shadow .3s ease;display:flex;flex-direction:column;border-top:3px solid transparent;}
+        .lucky-card:hover{transform:translateY(-3px);box-shadow:0 8px 32px rgba(0,0,0,.10),0 2px 6px rgba(0,0,0,.06);}
+        .lucky-card.theme-wealth{border-top-color:#D4AF37;}
+        .lucky-card.theme-love{border-top-color:#C71585;}
+        .lucky-card.theme-energy{border-top-color:#2E7D32;}
+        .lucky-card .lc-cover{display:block;width:100%;aspect-ratio:3/4;overflow:hidden;background:linear-gradient(135deg,#f3ede0,#e9dcc4);}
+        .lucky-card .lc-cover img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s ease;}
+        .lucky-card:hover .lc-cover img{transform:scale(1.05);}
+        .lucky-card .lc-body{padding:1rem 1.1rem 1.1rem;display:flex;flex-direction:column;gap:.45rem;}
+        .lucky-card .lc-tag{align-self:flex-start;font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:.2rem .6rem;border-radius:999px;}
+        .lucky-card.theme-wealth .lc-tag{background:rgba(212,175,55,.15);color:#9a7415;}
+        .lucky-card.theme-love .lc-tag{background:rgba(199,21,133,.12);color:#a0136b;}
+        .lucky-card.theme-energy .lc-tag{background:rgba(46,125,50,.12);color:#1f6b2a;}
+        .lucky-card .lc-title{font-size:.86rem;font-weight:600;color:#1a1a1a;line-height:1.35;text-decoration:none;}
+        .lucky-card .lc-title:hover{color:#B8860B;}
+        .lucky-card .lc-more{font-size:.78rem;font-weight:600;color:#8B4513;text-decoration:none;margin-top:.1rem;}
+        .lucky-card .lc-more:hover{color:#B8860B;}
+</style>
     <script>
         window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
         var script = document.createElement('script');
@@ -1002,13 +1021,8 @@
                 <a href="/product-detail?id=prod_644bQm6EUmBGSNkaHZ02IE" class="btn-gold" data-i18n="lb.course_cta_btn">View Course &rarr;</a>
             </div>
         </div>
-        <div class="sidebar-card warm-card">
-            <div class="sb-inner">
-                <h3 data-i18n="lb.wallpaper_title">Lucky Wallpapers</h3>
-                <p data-i18n="lb.wallpaper_desc">Personalized wallpapers based on your favorable element and Chinese zodiac. New designs added weekly.</p>
-                <a href="/wallpaper" class="btn-warm" data-i18n="lb.wallpaper_btn">Browse Wallpapers &rarr;</a>
-            </div>
-        </div>
+        <div class="lucky-card" data-pos="0"></div>
+        <div class="lucky-card" data-pos="1"></div>
     </aside>
 </div>
 
@@ -1135,5 +1149,7 @@
 
 <script src="../js/pageview.js" defer></script>
 <script src="../js/bazi-share.js" defer></script>
+    <script src="../js/lucky-wallpapers.js"></script>
+    <script src="../js/lucky-cards.js"></script>
 </body>
 </html>
