@@ -431,7 +431,7 @@
         .lucky-card .lc-more{font-size:.78rem;font-weight:600;color:#8B4513;text-decoration:none;margin-top:.1rem;}
         .lucky-card .lc-more:hover{color:#B8860B;}
 
-        @media(max-width:768px){.landing-sidebar{position:static!important;width:100%!important;display:block!important;float:none!important;}.landing-main{margin-right:0!important;width:100%!important;display:block!important;}.sidebar-card,.lucky-card{max-width:100%!important;}}
+        @media(max-width:768px){.chp-aside{position:static!important;}.sidebar-card,.lucky-card{max-width:100%!important;}}}
 
     </style>
     <script>
@@ -517,8 +517,9 @@
 </section>
 
 <!-- ═══════════ MAIN TUTORIAL LAYOUT ═══════════ -->
-<div class="landing-layout" style="display:flex!important;gap:2.5rem;max-width:1140px;margin:0 auto;padding:0 0 4rem;align-items:flex-start;">
-    <div class="landing-main" style="flex:1;min-width:0;padding:2.5rem 2.5rem 4rem;background:#fff;border-radius:12px;box-shadow:0 2px 20px rgba(0,0,0,0.06);">
+<table class="chp-tbl" style="width:100%;max-width:1140px;margin:0 auto;padding:0 0 4rem;border-collapse:collapse;border-spacing:0;">
+    <td class="chp-main-td" style="vertical-align:top;width:auto;padding-right:2.5rem;">
+    <div style="padding:2.5rem 2.5rem 4rem;background:#fff;border-radius:12px;box-shadow:0 2px 20px rgba(0,0,0,0.06);">
 
     <!-- ═══ EN CONTENT ═══ -->
     <div class="ch-content" id="en-content">
@@ -993,10 +994,9 @@
         </div>
 </div>
     </div>
-
-    </div>
-    
-    <aside class="landing-sidebar" style="width:300px;flex-shrink:0;display:flex;flex-direction:column;gap:1.5rem;position:sticky;top:90px;">
+  </td>
+  <td class="chp-side-td" style="vertical-align:top;width:300px;">
+    <aside class="chp-aside" style="display:flex;flex-direction:column;gap:1.5rem;position:sticky;top:90px;">
         <div style="position:sticky;top:90px;display:flex;flex-direction:column;gap:1.5rem;">
         <div class="sidebar-card gold-border">
             <div class="sb-inner">
@@ -1009,8 +1009,10 @@
         <div class="lucky-card" data-pos="1"></div>
             </div>
             </div>
-    </aside>
-</div>
+</aside>
+  </td>
+</tr>
+</table>
 
 <footer class="footer">
         <div class="container">
