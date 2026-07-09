@@ -243,11 +243,19 @@ function transformCreemProduct(creemProduct, discountInfo) {
   const discountRate = discountInfo ? discountInfo.discountRate : 0;
   const discountCode = discountInfo ? discountInfo.discountCode : null;
 
-  // 多语言文案：Creem 后台 description 通常只有一份，英文模式下 fallback 到 product-zh-map 的英文翻译
+  // 多语言文案：Creem 后台 description 为权威来源（单一字段）
+  // - 后台描述「以中文为主」(中文字数 > 英文字数) → 作为中文描述；英文模式 fallback 到 product-zh-map 的英文翻译
+  // - 后台描述是英文/中英混合 → 中文模式回退到 product-zh-map 的中文翻译，避免把英文段落塞进中文页面
+  // 关键：后台描述优先级高于 product-zh-map，确保页面展示的是后台真实文案（且不退化混合描述）
   const zhMap = PRODUCT_ZH_MAP[creemProduct.id] || {};
   const rawDescription = creemProduct.description || '';
-  const descriptionCN = zhMap.descriptionCN || rawDescription;
-  const descriptionEN = !hasChinese(rawDescription)
+  const chiCount = (rawDescription.match(/[一-龥]/g) || []).length;
+  const engCount = (rawDescription.match(/[A-Za-z]/g) || []).length;
+  const backendIsMostlyChinese = chiCount > 0 && engCount < chiCount;
+  const descriptionCN = backendIsMostlyChinese
+    ? rawDescription
+    : (zhMap.descriptionCN || rawDescription);
+  const descriptionEN = chiCount === 0
     ? rawDescription
     : (zhMap.descriptionEN || rawDescription);
   const nameCN = zhMap.nameCN || creemProduct.name || '';

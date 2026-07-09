@@ -79,8 +79,14 @@ const FALLBACK_PRODUCTS = [
     discount: 0,
     discountRate: 0,
     currency: 'USD',
-    description: 'Authentic Duan Jianye blind-school BaZi system. Four core modules (theory, imagery, technique, real cases) with real chart breakdowns. Learn to actually read a chart, not just memorize terms.',
-    descriptionCN: '純正段建業盲派體系，從賓主體用到底層邏輯，帶你從「背概念」走到「真斷事」。四大模塊＋真實命例實戰，學完就能上手分析八字。',
+    description: `段建业盲派命理学系统课程资料包 —— 玄真团队日常教学内部资料。
+
+与传统命理不同，盲派不讲旺衰用神，直接看八字"做功"，一看就懂、上手更快。这套资料涵盖理法、象法、功法完整体系，搭配核心讲义与大量实战案例拆解，特别适合初学和卡在瓶颈的自学者。章节分明，可反复回看咀嚼，帮你彻底打通命理实战思维。
+`,
+    descriptionCN: `段建业盲派命理学系统课程资料包 —— 玄真团队日常教学内部资料。
+
+与传统命理不同，盲派不讲旺衰用神，直接看八字"做功"，一看就懂、上手更快。这套资料涵盖理法、象法、功法完整体系，搭配核心讲义与大量实战案例拆解，特别适合初学和卡在瓶颈的自学者。章节分明，可反复回看咀嚼，帮你彻底打通命理实战思维。
+`,
     image: 'images/bazi-blind-course.jpg',
     category: 'bazi-analysis'
   }
@@ -255,7 +261,14 @@ function transformProducts(products) {
       nameCN: product.nameCN || getProductZh(productId, 'nameCN', product.name || '未知产品'),
       nameEN: product.nameEN || getProductZh(productId, 'nameEN', product.name || 'Unknown Product'),
       product_name: product.name || product.product_name || '未知产品',
-      descriptionCN: product.descriptionCN || getProductZh(productId, 'descriptionCN', product.description || product.product_description || '暫無描述'),
+      descriptionCN: (function() {
+        var raw = product.description || product.product_description || '';
+        var chi = (raw.match(/[一-龥]/g) || []).length;
+        var eng = (raw.match(/[A-Za-z]/g) || []).length;
+        // 后台描述「以中文为主」时才作为中文描述，避免把中英混合/英文后台描述塞进中文页面
+        if (chi > 0 && eng < chi) return raw;
+        return getProductZh(productId, 'descriptionCN', raw || '暫無描述');
+      })(),
       descriptionEN: (function() {
         var raw = product.description || product.product_description || '';
         // 如果 Creem 后台描述是英文（不含中文），直接同步使用；否则 fallback 到 product-zh-map 的英文翻译
@@ -310,7 +323,10 @@ async function syncCreemProducts() {
         if (window.allProducts && window.allProducts.length > 0) {
           window.allProducts.forEach(function(p) {
             p.nameCN = getProductZh(p.id, 'nameCN', p.nameCN || p.name);
-            p.descriptionCN = getProductZh(p.id, 'descriptionCN', p.descriptionCN || p.description);
+            // 仅当当前中文描述不是有效中文（如缺失）时才用 product-zh-map 覆盖，避免覆盖后台真实中文描述
+            if (!(p.descriptionCN && /[一-龥]/.test(p.descriptionCN))) {
+              p.descriptionCN = getProductZh(p.id, 'descriptionCN', p.descriptionCN || p.description);
+            }
           });
         }
       });
