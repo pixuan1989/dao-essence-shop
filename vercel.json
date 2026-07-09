@@ -641,6 +641,11 @@
       "permanent": true
     },
     {
+      "source": "/zh/wallpaper-collection",
+      "destination": "/wallpaper-collection",
+      "permanent": true
+    },
+    {
       "source": "/zh/bazi-result",
       "destination": "/bazi-calculator/bazi-result",
       "permanent": true
