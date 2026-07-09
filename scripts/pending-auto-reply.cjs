@@ -221,7 +221,7 @@ async function sendMail(to, subject, htmlBody, textBody) {
     tls: { rejectUnauthorized: false }
   });
   
-  await transporter.sendMail({
+  const info = await transporter.sendMail({
     from: `"Dao Essentia" <${CONFIG.smtpUser}>`,
     to,
     subject,
@@ -233,6 +233,12 @@ async function sendMail(to, subject, htmlBody, textBody) {
       'List-Unsubscribe': `<https://www.daoessentia.com/unsubscribe?email=${encodeURIComponent(to)}>`
     }
   });
+  // nodemailer 在 SMTP 接受连接但收件人被拒(如 550 邮箱不存在)时 resolve 而不 throw，
+  // 会被误判为发送成功 → 队列永久跳过、但邮件实际未达。显式检查 rejected 强制报错。
+  if (info && Array.isArray(info.rejected) && info.rejected.length > 0) {
+    throw new Error(`SMTP 拒收: ${info.rejected.join(', ')}`);
+  }
+  return info;
 }
 
 function buildEmailHtml(name, interpretation) {
