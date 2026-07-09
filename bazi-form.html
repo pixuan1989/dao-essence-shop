@@ -286,6 +286,58 @@
             top: 2px;
         }
 
+        .gift-promo {
+            display: none;
+            align-items: center;
+            gap: 0.8rem;
+            margin: 0 0 1rem;
+            padding: 0.7rem 1rem;
+            background: rgba(212, 175, 55, 0.06);
+            border: 1px solid rgba(212, 175, 55, 0.35);
+            border-radius: 10px;
+        }
+        .gift-promo-icon {
+            font-size: 1.3rem;
+            color: var(--accent-color);
+            flex-shrink: 0;
+        }
+        .gift-promo-body {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.15rem;
+        }
+        .gift-promo-title {
+            font-size: 0.82rem;
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+        .gift-promo-desc {
+            font-size: 0.74rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+        .gift-promo-link {
+            flex-shrink: 0;
+            font-size: 0.78rem;
+            color: var(--bg-dark);
+            background: var(--accent-color);
+            padding: 0.4rem 0.9rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+        .gift-promo-link:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 3px 10px rgba(212, 175, 55, 0.4);
+        }
+        @media (max-width: 768px) {
+            .gift-promo { flex-direction: column; align-items: flex-start; }
+            .gift-promo-link { align-self: stretch; text-align: center; }
+        }
+
         /* 响应式设计 */
         @media (max-width: 768px) {
             .form-container {
@@ -717,6 +769,34 @@
         .open > div:last-child { max-height: 300px !important; }
         .open > div:first-child span { transform: rotate(180deg); }
     </style>
+
+    <!-- 买报告送壁纸 提示（SHOW_WALLPAPER_GIFT_PROMO 控制，默认隐藏） -->
+    <div style="max-width:900px;margin:0 auto;padding:0 5% 3rem;">
+        <div class="gift-promo" id="wpGiftPromo" style="display:none;">
+            <div class="gift-promo-icon">☯</div>
+            <div class="gift-promo-body">
+                <strong class="gift-promo-title">Free Bonus: 8 HD Wealth Wallpapers (附赠 8 张高清旺运壁纸合集)</strong>
+                <span class="gift-promo-desc">Buy this BaZi report and receive the 8-piece Wealth &amp; Luck wallpaper collection free — high-resolution, all devices. (买报告即送旺运壁纸高清合集)</span>
+            </div>
+            <a class="gift-promo-link" id="wpGiftLink" href="/wallpaper-collection">View Collection (查看合集) →</a>
+        </div>
+        <script>
+        (function(){
+            var SHOW_WALLPAPER_GIFT_PROMO = false;
+            if (SHOW_WALLPAPER_GIFT_PROMO) {
+                var el = document.getElementById('wpGiftPromo');
+                if (el) {
+                    el.style.display = 'flex';
+                    try {
+                        var lang = (localStorage.getItem('lang') || (navigator.language || 'en').slice(0,2));
+                        var link = document.getElementById('wpGiftLink');
+                        if (link && lang === 'zh') link.href = '/zh/wallpaper-collection';
+                    } catch(e){}
+                }
+            }
+        })();
+        </script>
+    </div>
 
     <!-- Footer -->
     <footer class="footer">
