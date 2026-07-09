@@ -12,8 +12,6 @@ jobs:
   auto-reply:
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    retry:
-      max-attempts: 1  # 真失败时自动重试1次（共跑2轮）
 
     env:
       UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
