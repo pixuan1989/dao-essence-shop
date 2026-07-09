@@ -66,7 +66,7 @@
 
     html += '<h3>' + escHtml(title) + '</h3>';
     html += '<p>' + escHtml(desc) + '</p>';
-    html += '<a href="' + BUY_URL + '" class="btn-gold">' + btnText + '</a>';
+    html += '<a href="' + BUY_URL + '" class="btn btn-gold">' + btnText + '</a>';
     html += '</div>';
 
     el.innerHTML = html;
