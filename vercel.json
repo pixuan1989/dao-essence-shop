@@ -576,13 +576,68 @@
       "permanent": true
     },
     {
+      "source": "/zh/wallpaper",
+      "destination": "/wallpaper",
+      "permanent": true
+    },
+    {
       "source": "/zh/zodiac/zodiac-daily",
       "destination": "/zodiac/zodiac-daily",
       "permanent": true
     },
     {
+      "source": "/zh/culture",
+      "destination": "/culture",
+      "permanent": true
+    },
+    {
+      "source": "/zh/favorable-element",
+      "destination": "/favorable-element",
+      "permanent": true
+    },
+    {
+      "source": "/zh/five-elements-test",
+      "destination": "/five-elements-test",
+      "permanent": true
+    },
+    {
+      "source": "/zh/guide",
+      "destination": "/guide",
+      "permanent": true
+    },
+    {
       "source": "/zh/privacy",
       "destination": "/privacy",
+      "permanent": true
+    },
+    {
+      "source": "/zh/about",
+      "destination": "/about",
+      "permanent": true
+    },
+    {
+      "source": "/zh/shop",
+      "destination": "/shop",
+      "permanent": true
+    },
+    {
+      "source": "/zh/learn-bazi",
+      "destination": "/learn-bazi",
+      "permanent": true
+    },
+    {
+      "source": "/zh/soulmate-calculator",
+      "destination": "/soulmate-calculator",
+      "permanent": true
+    },
+    {
+      "source": "/zh/almanac",
+      "destination": "/almanac",
+      "permanent": true
+    },
+    {
+      "source": "/zh/bazi-form",
+      "destination": "/bazi-form",
       "permanent": true
     },
     {
