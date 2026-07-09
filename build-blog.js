@@ -2806,8 +2806,10 @@ async function main() {
       const wpList = JSON.parse(fs.readFileSync(wpJsonPath, 'utf8'));
       for (const wp of wpList) {
         const slug = wp.slug;
-        staticUrls.push({ loc: `/wallpaper/${slug}`, changefreq: 'weekly', priority: '0.8', lastmod: null });
-        staticUrls.push({ loc: `/zh/wallpaper/${slug}`, changefreq: 'weekly', priority: '0.8', lastmod: null });
+        // Use wp.date for lastmod to preserve original creation date (SEO: don't refresh old wallpapers)
+        const wpDate = wp.date || '2026-05-01';
+        staticUrls.push({ loc: `/wallpaper/${slug}`, changefreq: 'weekly', priority: '0.8', lastmod: wpDate });
+        staticUrls.push({ loc: `/zh/wallpaper/${slug}`, changefreq: 'weekly', priority: '0.8', lastmod: wpDate });
       }
       console.log(`  Added ${wpList.length * 2} wallpaper URLs to sitemap`);
     } catch (e) {
