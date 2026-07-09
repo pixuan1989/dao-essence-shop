@@ -256,7 +256,12 @@ function transformProducts(products) {
       nameEN: product.nameEN || getProductZh(productId, 'nameEN', product.name || 'Unknown Product'),
       product_name: product.name || product.product_name || '未知产品',
       descriptionCN: product.descriptionCN || getProductZh(productId, 'descriptionCN', product.description || product.product_description || '暫無描述'),
-      descriptionEN: product.description || product.product_description || getProductZh(productId, 'descriptionEN', 'No description available'),
+      descriptionEN: (function() {
+        var raw = product.description || product.product_description || '';
+        // 如果 Creem 后台描述是英文（不含中文），直接同步使用；否则 fallback 到 product-zh-map 的英文翻译
+        if (raw && !/[\u4e00-\u9fff]/.test(raw)) return raw;
+        return getProductZh(productId, 'descriptionEN', raw || 'No description available');
+      })(),
       description: product.description || product.product_description || '暂无描述',
       price: price, // ✅ 已是美元格式（由后端转换）
       originalPrice: parseFloat(product.originalPrice || product.original_price || product.price) || 0,

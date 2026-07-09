@@ -11,6 +11,31 @@
  * 调用方式：前端 fetch('/api/products')
  */
 
+import fs from 'fs';
+import path from 'path';
+
+// ============================================
+// 多语言商品描述映射（i18n/product-zh-map.json）
+// ============================================
+
+function loadProductZhMap() {
+  try {
+    const filePath = path.join(process.cwd(), 'i18n/product-zh-map.json');
+    const data = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+    delete data._comment;
+    return data;
+  } catch (e) {
+    console.warn('⚠️ Failed to load product-zh-map.json:', e.message);
+    return {};
+  }
+}
+
+const PRODUCT_ZH_MAP = loadProductZhMap();
+
+function hasChinese(text) {
+  return /[\u4e00-\u9fff]/.test(text || '');
+}
+
 // ============================================
 // 配置信息（从环境变量读取）
 // ============================================
@@ -218,11 +243,20 @@ function transformCreemProduct(creemProduct, discountInfo) {
   const discountRate = discountInfo ? discountInfo.discountRate : 0;
   const discountCode = discountInfo ? discountInfo.discountCode : null;
 
+  // 多语言文案：Creem 后台 description 通常只有一份，英文模式下 fallback 到 product-zh-map 的英文翻译
+  const zhMap = PRODUCT_ZH_MAP[creemProduct.id] || {};
+  const rawDescription = creemProduct.description || '';
+  const descriptionCN = zhMap.descriptionCN || rawDescription;
+  const descriptionEN = !hasChinese(rawDescription)
+    ? rawDescription
+    : (zhMap.descriptionEN || rawDescription);
+  const nameCN = zhMap.nameCN || creemProduct.name || '';
+
   return {
     id: creemProduct.id,
     creemId: creemProduct.id,
     name: creemProduct.name,
-    nameCN: '',              // Left empty — filled by frontend from product-zh-map.json
+    nameCN: nameCN,
     category: creemProduct.category || 'other',
     categoryCN: creemProduct.category || 'other',
     element: creemProduct.element || 'unknown',
@@ -232,8 +266,9 @@ function transformCreemProduct(creemProduct, discountInfo) {
     discountRate: discountRate,             // 🔥 折扣率（百分比）
     discountCode: discountCode,             // 🔥 折扣码（展示用）
     currency: creemProduct.currency || 'USD',
-    description: creemProduct.description || '',
-    descriptionCN: '',
+    description: rawDescription,
+    descriptionCN: descriptionCN,
+    descriptionEN: descriptionEN,
     image: creemProduct.image_url || creemProduct.image || '',
     image_url: creemProduct.image_url || creemProduct.image || '',
     images: [creemProduct.image_url || creemProduct.image || ''],

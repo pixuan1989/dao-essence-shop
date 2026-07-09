@@ -6,6 +6,11 @@
   "devCommand": null,
   "trailingSlash": false,
   "cleanUrls": true,
+  "functions": {
+    "api/products.js": {
+      "includeFiles": "i18n/product-zh-map.json"
+    }
+  },
   "rewrites": [
     {
       "source": "/auth",
