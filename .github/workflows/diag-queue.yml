@@ -1,0 +1,39 @@
+name: Diag Queue (read-only)
+on:
+  workflow_dispatch:
+jobs:
+  diag:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dump pending_auto_reply + sent_auto_replies (READ ONLY)
+        env:
+          URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
+          TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
+        run: |
+          echo "============================================"
+          echo "=== [1] pending_auto_reply 队列（待发） ==="
+          echo "============================================"
+          curl -s -X GET "$URL/GET/pending_auto_reply" -H "Authorization: Bearer $TOKEN" \
+            | jq -r '.result // "[]"' \
+            | jq -r '.[] | "  id=\(.id) | email=\(.email) | name=\(.name) | sendAfter=\(.sendAfter) | source=\(.source)"' 2>/dev/null \
+            || echo "  (解析失败或队列为空)"
+          echo ""
+          echo "=== pending 原始条数 ==="
+          curl -s -X GET "$URL/GET/pending_auto_reply" -H "Authorization: Bearer $TOKEN" \
+            | jq -r '(.result // [] | if type=="string" then fromjson else . end | length)'
+
+          echo ""
+          echo "============================================"
+          echo "=== [2] sent_auto_replies 标记（已发/假成功） ==="
+          echo "============================================"
+          curl -s -X GET "$URL/GET/sent_auto_replies" -H "Authorization: Bearer $TOKEN" \
+            | jq -r '.result // "[]"' \
+            | jq -r '.[]? | "  id=\(.id) | email=\(.email // "n/a") | sentAt=\(.sentAt // "n/a")"' 2>/dev/null \
+            || echo "  (解析失败或无标记)"
+          echo ""
+          echo "=== sent 原始条数 ==="
+          curl -s -X GET "$URL/GET/sent_auto_replies" -H "Authorization: Bearer $TOKEN" \
+            | jq -r '(.result // [] | if type=="string" then fromjson else . end | length)'
+          echo ""
+          echo "=== 诊断结论提示 ==="
+          echo "若某 id 同时出现在 pending 与 sent => 假成功卡死（发信被 SMTP 拒收却标记已发）"
