@@ -641,6 +641,16 @@
       "permanent": true
     },
     {
+      "source": "/zh/bazi-result",
+      "destination": "/bazi-calculator/bazi-result",
+      "permanent": true
+    },
+    {
+      "source": "/zh/product-detail",
+      "destination": "/product-detail",
+      "permanent": true
+    },
+    {
       "source": "/zh/terms",
       "destination": "/terms",
       "permanent": true
