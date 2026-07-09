@@ -72,7 +72,7 @@ async function getPendingEmails() {
 // 保存待发邮件列表，直接发送 JSON 字符串（不二次编码）
 async function savePendingEmails(list) {
   // Upstash SET 命令直接存 body 内容，无需 stringify
-  await redisWithRetry('/SET/pending_auto_reply', 'POST', JSON.stringify(list), false);
+  await redisWithRetry('/SET/pending_auto_reply', 'POST', JSON.stringify(list), CONFIG.maxRetries, true);
 }
 
 async function removePendingEmail(leadId) {
