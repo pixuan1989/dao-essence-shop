@@ -60,7 +60,7 @@
     if (d.image) {
       html += '<div style="margin-bottom:0.8rem;border-radius:8px;overflow:hidden;">' +
               '<img src="' + d.image + '" alt="' + title + '" ' +
-              'style="width:100%;height:auto;display:block;" loading="lazy" onerror="this.style.display=\'none\'">' +
+              'style="width:100%;height:150px;object-fit:cover;display:block;" loading="lazy" onerror="this.style.display=\'none\'">' +
               '</div>';
     }
 
