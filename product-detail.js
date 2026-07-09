@@ -739,8 +739,8 @@ window.buyNow = async function() {
     if (buyBtn) buyBtn.classList.add('loading');
     if (btnText) {
         // 使用 i18n 翻译，如果未加载则用 fallback
-        const t = window.DaoI18n && window.DaoI18n.current ? window.DaoI18n.t('product_detail.redirecting') : null;
-        btnText.textContent = (t && t !== 'product_detail.redirecting') ? t : 'Redirecting...';
+        const t = window.DaoI18n && window.DaoI18n.t ? window.DaoI18n.t('product_detail.redirecting') : null;
+        btnText.textContent = t || 'Redirecting...';
     }
 
     try {
@@ -774,8 +774,8 @@ window.buyNow = async function() {
         if (buyBtn) buyBtn.classList.remove('loading');
         if (btnText) {
             // 恢复按钮文字，使用 i18n 翻译
-            const t = window.DaoI18n && window.DaoI18n.current ? window.DaoI18n.t('product_detail.buy_now') : null;
-            btnText.textContent = (t && t !== 'product_detail.buy_now') ? t : 'Buy Now';
+            const t = window.DaoI18n && window.DaoI18n.t ? window.DaoI18n.t('product_detail.buy_now') : null;
+            btnText.textContent = t || 'Buy Now';
         }
     }
 };
@@ -797,7 +797,8 @@ document.addEventListener('DOMContentLoaded', async function() {
         // 加载状态用 data-i18n 属性标记，由 i18n 系统翻译
         if (btnText) {
             btnText.setAttribute('data-i18n', 'product_detail.loading');
-            btnText.textContent = 'Loading...'; // fallback，i18n 加载后会自动替换
+            const t = window.DaoI18n && window.DaoI18n.t ? window.DaoI18n.t('product_detail.loading') : null;
+            btnText.textContent = t || 'Loading...'; // fallback，i18n 加载后会自动替换
         }
     }
 
@@ -812,7 +813,8 @@ document.addEventListener('DOMContentLoaded', async function() {
         // 恢复原始 data-i18n 属性，让 i18n 系统处理翻译
         if (btnText) {
             btnText.setAttribute('data-i18n', 'product_detail.buy_now');
-            btnText.textContent = 'Buy Now'; // fallback，i18n 加载后会自动替换
+            const t = window.DaoI18n && window.DaoI18n.t ? window.DaoI18n.t('product_detail.buy_now') : null;
+            btnText.textContent = t || 'Buy Now'; // fallback，i18n 加载后会自动替换
         }
     }
 
@@ -1032,6 +1034,29 @@ document.addEventListener('DOMContentLoaded', async function() {
         if (el) {
             var desc = isZh ? (CARD_DATA.descriptionZh || CARD_DATA.description) : (CARD_DATA.description || CARD_DATA.descriptionZh);
             el.innerHTML = '<p>' + desc + '</p>';
+        }
+
+        // 动态更新按钮文字（i18n 切换后，非 data-i18n 恢复时保持一致）
+        var btnText = document.querySelector('.btn-buy-now .btn-text');
+        if (btnText) {
+            var t = window.DaoI18n && window.DaoI18n.t ? window.DaoI18n.t('product_detail.buy_now') : null;
+            btnText.textContent = t || 'Buy Now';
+        }
+
+        // 课程产品：规格表 delivery / access period 也随语言切换
+        var cat = (CARD_DATA.type || '').toLowerCase();
+        var isCourse = cat.includes('課程') || cat.includes('course') || cat.includes('命理') || cat.includes('blind') || cat.includes('盲派') || cat.includes('bazi-course');
+        if (isCourse) {
+            el = document.querySelector('[data-i18n="product_detail.spec_delivery_value"]');
+            if (el) {
+                var dv = window.DaoI18n && window.DaoI18n.t ? window.DaoI18n.t('product_detail.spec_delivery_value') : null;
+                el.textContent = dv || 'Instant — download links sent to your email';
+            }
+            el = document.querySelector('[data-i18n="product_detail.spec_access_period_value"]');
+            if (el) {
+                var av = window.DaoI18n && window.DaoI18n.t ? window.DaoI18n.t('product_detail.spec_access_period_value') : null;
+                el.textContent = av || '12 months re-download access from purchase date';
+            }
         }
     }
     document.addEventListener('daoessence:i18n-changed', function(e) { updateProductLang(e.detail.lang); });
