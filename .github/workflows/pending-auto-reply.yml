@@ -12,6 +12,8 @@ jobs:
   auto-reply:
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    retry:
+      max-attempts: 1  # 真失败时自动重试1次（共跑2轮）
 
     env:
       UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
@@ -29,8 +31,16 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Cache node modules
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: auto-reply-node-modules-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            auto-reply-node-modules-
+
       - name: Install dependencies
-        run: npm install nodemailer
+        run: npm install nodemailer --prefer-offline
 
       - name: Run Auto-Reply Worker
         run: node scripts/pending-auto-reply.cjs
