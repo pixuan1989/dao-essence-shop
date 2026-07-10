@@ -733,7 +733,7 @@
             <div class="wgb-content">
                 <div class="wgb-headline" id="wgbHeadline">Get 8 Free HD Wallpapers with Your BaZi Report</div>
                 <div class="wgb-sub" id="wgbSub">Eight carefully crafted wealth &amp; luck wallpapers, included with every report.</div>
-                <span class="wgb-cta-btn" id="wgbCtaBtn">Get My Report →</span>
+                <span class="wgb-cta-btn" id="wgbCtaBtn">View Offer →</span>
             </div>
         </div>
         <div class="wallpaper-grid" id="wallpaper-grid">
@@ -1279,8 +1279,8 @@
             const cta = document.getElementById('wgbCtaBtn');
             if (headline) headline.textContent = isZh ? '购买八字报告，免费获得 8 张高清旺运壁纸' : 'Get 8 Free HD Wallpapers with Your BaZi Report';
             if (sub) sub.textContent = isZh ? '8 张精心绘制的高清旺运壁纸，随报告一并送出。' : 'Eight carefully crafted wealth & luck wallpapers, included with every report.';
-            if (cta) cta.textContent = isZh ? '立即获取报告 →' : 'Get My Report →';
-            banner.onclick = () => { window.location.href = isZh ? '/zh/bazi-form' : '/bazi-form'; };
+            if (cta) cta.textContent = isZh ? '查看玩法 →' : 'View Offer →';
+            banner.onclick = () => { window.location.href = isZh ? '/zh/wallpaper-collection' : '/wallpaper-collection'; };
         }
 
         // Render grid
