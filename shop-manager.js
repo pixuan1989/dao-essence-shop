@@ -196,7 +196,6 @@ function _doRenderShop() {
         const productLink = isBlindCourse ? `/product-detail?id=${product.id}` : (isBaziProduct ? '/bazi-form' : `/product-detail?id=${product.id}`);
 
         const isZh = window.DaoI18n && window.DaoI18n.current() === 'zh';
-    const giftBadge = (isBaziProduct && SHOW_WALLPAPER_GIFT_PROMO) ? `<span class="gift-badge">${isZh ? '送壁纸' : 'Free Wallpapers'}</span>` : '';
     const displayName = (isZh && product.nameCN) ? product.nameCN : (product.nameEN || product.name);
     const displayDesc = (isZh && product.descriptionCN) ? product.descriptionCN : (product.descriptionEN || product.description);
 
@@ -210,7 +209,6 @@ function _doRenderShop() {
                 </div>
                 -->
                 ${discountBadge}
-                ${giftBadge}
             </div>
             <div class="product-info">
                 <div class="product-category">${categoryMap[product.category] || product.category}</div>
@@ -244,19 +242,6 @@ style.textContent = `
         letter-spacing: 0.05em;
         z-index: 10;
         box-shadow: 0 2px 8px rgba(231, 76, 60, 0.3);
-    }
-
-    .gift-badge {
-        position: absolute;
-        top: 15px;
-        left: 15px;
-        background: linear-gradient(135deg, #D4AF37, #B8860B);
-        color: #0a0a0a;
-        padding: 4px 10px;
-        border-radius: 20px;
-        font-size: 11px;
-        font-weight: 700;
-        z-index: 10;
     }
 
     /* 价格容器 */

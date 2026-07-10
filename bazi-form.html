@@ -277,19 +277,6 @@
             padding-left: 0.9rem;
             position: relative;
         }
-        .bazi-gift-inline {
-            margin: 0 0 1.1rem;
-            padding: 0.6rem 0.9rem;
-            font-size: 0.82rem;
-            color: var(--text-secondary);
-            background: rgba(212, 175, 55, 0.06);
-            border-left: 3px solid var(--accent-color);
-            border-radius: 0 8px 8px 0;
-            line-height: 1.6;
-        }
-        .bazi-gift-inline strong { color: var(--accent-color); }
-        .bazi-gift-inline a { color: var(--accent-color); font-weight: 600; text-decoration: none; }
-        .bazi-gift-inline a:hover { text-decoration: underline; }
 
         .bazi-report-preview li::before {
             content: '☯';
@@ -556,27 +543,6 @@
                         <li><strong data-i18n="bazi_form.report_7_title">Blind-School Work Analysis</strong> <span data-i18n="bazi_form.report_7_desc">— How your chart actually works</span></li>
                     </ul>
                 </div>
-
-                <!-- 买报告送壁纸 - 融入报告预览区的一句话提示（SHOW_WALLPAPER_GIFT_PROMO 控制） -->
-                <p class="bazi-gift-inline" id="baziGiftInline" style="display:none;">
-                    <strong>Bonus:</strong> Get 8 free HD Wealth &amp; Luck wallpapers with this report (买此报告即送 8 张高清旺运壁纸合集) · <a href="/wallpaper-collection" id="baziGiftInlineLink">View offer (查看玩法) →</a>
-                </p>
-                <script>
-                (function(){
-                    var SHOW_WALLPAPER_GIFT_PROMO = true;
-                    if (SHOW_WALLPAPER_GIFT_PROMO) {
-                        var el = document.getElementById('baziGiftInline');
-                        if (el) {
-                            el.style.display = 'block';
-                            try {
-                                var lang = (localStorage.getItem('lang') || (navigator.language || 'en').slice(0,2));
-                                var link = document.getElementById('baziGiftInlineLink');
-                                if (link && lang === 'zh') link.href = '/zh/wallpaper-collection';
-                            } catch(e){}
-                        }
-                    }
-                })();
-                </script>
 
                 <!-- 服务说明 -->
                 <div class="bazi-service-info">

@@ -130,6 +130,32 @@
   .cx-footer-bottom a { color:rgba(255,255,255,0.45); margin:0 10px; }
   .cx-footer-bottom a:hover { color:#D4AF37; }
 
+  .cx-lightbox {
+    position:fixed; inset:0; z-index:200;
+    background:rgba(10,10,10,0.95);
+    display:flex; align-items:center; justify-content:center;
+    opacity:0; visibility:hidden; transition:opacity .25s, visibility .25s;
+  }
+  .cx-lightbox.active { opacity:1; visibility:visible; }
+  .cx-lightbox-img {
+    max-width:92vw; max-height:86vh; object-fit:contain;
+    border-radius:8px; box-shadow:0 20px 60px rgba(0,0,0,0.7);
+  }
+  .cx-lightbox-close {
+    position:absolute; top:18px; right:24px; width:44px; height:44px;
+    background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15);
+    border-radius:50%; color:#fff; font-size:26px; line-height:1;
+    display:flex; align-items:center; justify-content:center; cursor:pointer;
+    transition:all .2s;
+  }
+  .cx-lightbox-close:hover { background:rgba(212,175,55,0.15); border-color:rgba(212,175,55,0.5); color:#D4AF37; }
+  .cx-lightbox-caption {
+    position:absolute; bottom:24px; left:0; right:0; text-align:center;
+    color:rgba(255,255,255,0.8); font-size:15px; padding:0 24px;
+  }
+  .cx-lightbox:target .cx-lightbox-img { transform:scale(.96); transition:transform .3s; }
+  .cx-lightbox.active .cx-lightbox-img { transform:scale(1); }
+
   @media (max-width:900px) {
     .cx-grid { grid-template-columns:repeat(2,1fr); }
     .cx-steps { grid-template-columns:1fr; }
@@ -159,14 +185,13 @@
     <h1 data-i18n="heroTitle">Get <span class="gold">8 Lucky Wallpapers</span> Free with Your BaZi Report</h1>
     <p data-i18n="heroSub">Wealth, blessings, longevity and luck — a hand-crafted metaphysical wallpaper set, yours free with any BaZi reading.</p>
     <a href="/bazi-form" class="cx-cta" data-i18n="ctaMain">Get My BaZi Report</a>
-    <span class="cx-cta-sub"><span data-i18n="ctaSubText">Just want the wallpapers?</span> <a href="/wallpaper" data-i18n="ctaSubLink">Browse all 8 free</a></span>
   </div>
 </section>
 
 <section class="cx-sec">
   <div class="wrap">
     <h2 class="cx-sec-title" data-i18n="previewTitle">What Is Inside — 8 Wallpapers</h2>
-    <p class="cx-sec-desc" data-i18n="previewDesc">Tap any wallpaper to preview and download it free in the gallery.</p>
+    <p class="cx-sec-desc" data-i18n="previewDesc">Tap any wallpaper to preview it in full size.</p>
     <div class="cx-grid" id="cx-grid"></div>
   </div>
 </section>
@@ -179,7 +204,7 @@
       <div class="cx-step">
         <div class="cx-step-num">1</div>
         <h3 data-i18n="step1Title">Browse Free</h3>
-        <p data-i18n="step1Desc">All 8 wallpapers are free to preview and download in our Lucky Wallpapers gallery.</p>
+        <p data-i18n="step1Desc">All 8 wallpapers are available to preview in the Lucky Wallpapers gallery.</p>
       </div>
       <div class="cx-step">
         <div class="cx-step-num">2</div>
@@ -280,6 +305,12 @@
   </div>
 </footer>
 
+<div class="cx-lightbox" id="cxLightbox" role="dialog" aria-modal="true">
+  <button class="cx-lightbox-close" id="cxLightboxClose" aria-label="Close">×</button>
+  <img class="cx-lightbox-img" id="cxLightboxImg" src="" alt="">
+  <div class="cx-lightbox-caption" id="cxLightboxCaption"></div>
+</div>
+
 <script>
 (function() {
   var I18N = {
@@ -288,10 +319,9 @@
       heroTitle:'Get <span class="gold">8 Lucky Wallpapers</span> Free with Your BaZi Report',
       heroSub:"Wealth, blessings, longevity and luck — a hand-crafted metaphysical wallpaper set, yours free with any BaZi reading.",
       ctaMain:"Get My BaZi Report", ctaMain2:"Get My BaZi Report",
-      ctaSubText:"Just want the wallpapers?", ctaSubLink:"Browse all 8 free",
-      previewTitle:"What Is Inside — 8 Wallpapers", previewDesc:"Tap any wallpaper to preview and download it free in the gallery.",
+      previewTitle:"What Is Inside — 8 Wallpapers", previewDesc:"Tap any wallpaper to preview it in full size.",
       howTitle:"How It Works", howDesc:"Free to browse. The full HD bundle is our thank-you gift for your order.",
-      step1Title:"Browse Free", step1Desc:"All 8 wallpapers are free to preview and download in our Lucky Wallpapers gallery.",
+      step1Title:"Browse Free", step1Desc:"All 8 wallpapers are available to preview in the Lucky Wallpapers gallery.",
       step2Title:"Order a BaZi Report", step2Desc:"Get your personalized Four Pillars reading for $9.99, delivered by email.",
       step3Title:"Receive the HD Bundle", step3Desc:"We email you the full 8-piece high-resolution, watermark-free set as a thank-you gift.",
       bandTitle:"Ready for your reading plus free wallpapers?", bandDesc:"Personalized BaZi report plus 8 HD lucky wallpapers, all for $9.99.",
@@ -315,10 +345,9 @@
       heroTitle:'购买八字报告 · 免费赠送 <span class="gold">8 张旺运壁纸</span>',
       heroSub:"招财 · 纳福 · 福禄寿吉 —— 精心设计的开运手机壁纸合集，下单八字报告即赠。",
       ctaMain:"立即获取八字报告", ctaMain2:"立即获取八字报告",
-      ctaSubText:"只想要壁纸？", ctaSubLink:"免费浏览全部 8 张",
-      previewTitle:"合集预览 · 8 张壁纸", previewDesc:"点击任意壁纸，即可在壁纸专区免费预览与下载。",
+      previewTitle:"合集预览 · 8 张壁纸", previewDesc:"点击任意壁纸可放大预览。",
       howTitle:"玩法说明", howDesc:"壁纸免费浏览，完整高清合集是下单的答谢礼包。",
-      step1Title:"免费浏览", step1Desc:"8 张壁纸在「旺运壁纸」专区均可免费预览与下载。",
+      step1Title:"免费浏览", step1Desc:"8 张壁纸在「旺运壁纸」专区均可放大预览。",
       step2Title:"下单八字报告", step2Desc:"获取专属四柱命理分析，仅 $9.99，邮件发送。",
       step3Title:"领取高清合集", step3Desc:"我们将通过邮件把完整 8 张高清无水印壁纸作为答谢礼包发送给你。",
       bandTitle:"准备好领取命理分析 + 免费壁纸了吗？", bandDesc:"专属八字报告 + 8 张高清旺运壁纸，仅需 $9.99。",
@@ -361,19 +390,54 @@
   var yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
+  var lightbox = document.getElementById('cxLightbox');
+  var lightboxImg = document.getElementById('cxLightboxImg');
+  var lightboxCaption = document.getElementById('cxLightboxCaption');
+  var lightboxClose = document.getElementById('cxLightboxClose');
+
+  function openLightbox(src, caption) {
+    if (!lightbox || !lightboxImg) return;
+    lightboxImg.src = src;
+    lightboxImg.alt = caption || '';
+    if (lightboxCaption) lightboxCaption.textContent = caption || '';
+    lightbox.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox() {
+    if (!lightbox) return;
+    lightbox.classList.remove('active');
+    lightboxImg.src = '';
+    document.body.style.overflow = '';
+  }
+  if (lightbox) {
+    lightbox.addEventListener('click', function(e) {
+      if (e.target === lightbox) closeLightbox();
+    });
+  }
+  if (lightboxClose) lightboxClose.addEventListener('click', closeLightbox);
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeLightbox();
+  });
+
   fetch('/wallpaper-collection.json').then(function(r){ return r.json(); }).then(function(data){
     var grid = document.getElementById('cx-grid');
     if (!grid || !data.items) return;
-    grid.innerHTML = data.items.map(function(w){
+    grid.innerHTML = data.items.map(function(w, idx){
       var title = lang === 'zh' ? (w.titleZh || w.title) : w.title;
-      var href = (lang === 'zh' ? '/zh' : '') + '/wallpaper/' + (w.slug || w.id);
-      return '<a class="cx-card" href="' + href + '">' +
-             '<span class="cx-card-free">' + t.free + '</span>' +
+      var img = w.original || w.thumb;
+      return '<div class="cx-card" role="button" aria-label="' + title.replace(/"/g,'&quot;') + '" data-lightbox-img="' + img.replace(/"/g,'&quot;') + '" data-lightbox-title="' + title.replace(/"/g,'&quot;') + '">' +
              '<img src="' + w.thumb + '" alt="' + title.replace(/"/g,'&quot;') + '" loading="lazy">' +
              '<div class="cx-card-overlay"><span class="cx-card-view">' + t.view + '</span></div>' +
              '<div class="cx-card-title">' + title + '</div>' +
-             '</a>';
+             '</div>';
     }).join('');
+
+    var cards = grid.querySelectorAll('.cx-card');
+    cards.forEach(function(card){
+      card.addEventListener('click', function(){
+        openLightbox(card.getAttribute('data-lightbox-img'), card.getAttribute('data-lightbox-title'));
+      });
+    });
   }).catch(function(e){ console.error('collection load failed', e); });
 })();
 </script>
