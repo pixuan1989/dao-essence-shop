@@ -493,42 +493,73 @@
             transform: scale(1.03);
         }
 
-        /* ── Gift Banner (买报告送旺运壁纸 入口) - 克制简洁版 ── */
+        /* ── Gift Banner (买报告送旺运壁纸 入口) - 大师级图文 banner ── */
         .wallpaper-gift-banner {
+            position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 0.8rem;
             margin: 0 0 1.5rem;
-            padding: 0.85rem 1.2rem;
-            background: rgba(212, 175, 55, 0.05);
-            border: 1px solid rgba(212, 175, 55, 0.18);
-            border-radius: 10px;
+            min-height: 220px;
+            border-radius: 16px;
+            overflow: hidden;
             cursor: pointer;
-            transition: background 0.2s, border-color 0.2s;
+            background: url('/images/wallpaper-gift-banner-bg.png') center/cover no-repeat;
+            border: 1px solid rgba(212, 175, 55, 0.18);
+        }
+        .wallpaper-gift-banner::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, rgba(10,10,10,0.75) 0%, rgba(10,10,10,0.45) 50%, rgba(10,10,10,0.65) 100%);
+            z-index: 1;
+        }
+        .wgb-content {
+            position: relative;
+            z-index: 2;
             text-align: center;
+            padding: 2rem 1.5rem;
+            max-width: 700px;
         }
-        .wallpaper-gift-banner:hover {
-            background: rgba(212, 175, 55, 0.09);
-            border-color: rgba(212, 175, 55, 0.32);
+        .wgb-headline {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #fff;
+            margin: 0 0 0.6rem;
+            line-height: 1.3;
+            letter-spacing: 0.02em;
         }
-        .wgb-text { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; justify-content: center; }
-        .wgb-badge {
-            font-size: 10px; letter-spacing: 0.08em; font-weight: 600;
-            color: #D4AF37; background: transparent;
-            border: 1px solid rgba(212, 175, 55, 0.35);
-            border-radius: 4px; padding: 2px 8px; white-space: nowrap;
+        .wgb-sub {
+            font-size: 0.95rem;
+            color: rgba(255,255,255,0.75);
+            margin: 0 0 1.2rem;
+            line-height: 1.5;
         }
-        .wgb-main { font-size: 0.9rem; color: rgba(255,255,255,0.85); line-height: 1.4; }
-        .wgb-cta {
-            flex-shrink: 0; font-size: 0.85rem; font-weight: 600; color: #D4AF37;
-            background: transparent; padding: 0; white-space: nowrap;
-            transition: transform 0.2s;
+        .wgb-cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: linear-gradient(135deg, #D4AF37, #B8860B);
+            color: #0a0a0a;
+            padding: 0.7rem 1.6rem;
+            border-radius: 999px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: none;
+            cursor: pointer;
         }
-        .wallpaper-gift-banner:hover .wgb-cta { transform: translateX(3px); }
+        .wallpaper-gift-banner:hover .wgb-cta-btn {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(212, 175, 55, 0.35);
+        }
         @media (max-width: 600px) {
-            .wallpaper-gift-banner { flex-direction: column; gap: 0.5rem; padding: 0.8rem; }
-            .wgb-cta { align-self: center; }
+            .wallpaper-gift-banner { min-height: 180px; border-radius: 12px; }
+            .wgb-content { padding: 1.5rem 1rem; }
+            .wgb-headline { font-size: 1.15rem; }
+            .wgb-sub { font-size: 0.85rem; }
+            .wgb-cta-btn { padding: 0.6rem 1.3rem; font-size: 0.85rem; }
         }
 
         /* ── Empty State ── */
@@ -697,13 +728,13 @@
 
     <!-- Grid -->
     <div class="grid-container">
-        <!-- 买报告送旺运壁纸 - 入口 banner（独立于 grid，不受重渲染影响） -->
+        <!-- 买报告送旺运壁纸 - 大师级图文入口 banner（独立于 grid，不受重渲染影响） -->
         <div class="wallpaper-gift-banner" id="wpGiftBanner">
-            <div class="wgb-text">
-                <span class="wgb-badge" id="wgbBadge">GIFT</span>
-                <span class="wgb-main" id="wgbMain">Get 8 free HD wallpapers with your BaZi report</span>
+            <div class="wgb-content">
+                <div class="wgb-headline" id="wgbHeadline">Get 8 Free HD Wallpapers with Your BaZi Report</div>
+                <div class="wgb-sub" id="wgbSub">Eight carefully crafted wealth &amp; luck wallpapers, included with every report.</div>
+                <span class="wgb-cta-btn" id="wgbCtaBtn">Get My Report →</span>
             </div>
-            <span class="wgb-cta" id="wgbCta">See offer →</span>
         </div>
         <div class="wallpaper-grid" id="wallpaper-grid">
             <!-- Skeleton Screen -->
@@ -1243,13 +1274,13 @@
             const banner = document.getElementById('wpGiftBanner');
             if (!banner) return;
             const isZh = getLang() === 'zh';
-            const badge = document.getElementById('wgbBadge');
-            const main = document.getElementById('wgbMain');
-            const cta = document.getElementById('wgbCta');
-            if (badge) badge.textContent = isZh ? '赠' : 'GIFT';
-            if (main) main.textContent = isZh ? '购买八字报告，免费获得 8 张高清旺运壁纸' : 'Get 8 free HD wallpapers with your BaZi report';
-            if (cta) cta.textContent = isZh ? '查看玩法 →' : 'See offer →';
-            banner.onclick = () => { window.location.href = isZh ? '/zh/wallpaper-collection' : '/wallpaper-collection'; };
+            const headline = document.getElementById('wgbHeadline');
+            const sub = document.getElementById('wgbSub');
+            const cta = document.getElementById('wgbCtaBtn');
+            if (headline) headline.textContent = isZh ? '购买八字报告，免费获得 8 张高清旺运壁纸' : 'Get 8 Free HD Wallpapers with Your BaZi Report';
+            if (sub) sub.textContent = isZh ? '8 张精心绘制的高清旺运壁纸，随报告一并送出。' : 'Eight carefully crafted wealth & luck wallpapers, included with every report.';
+            if (cta) cta.textContent = isZh ? '立即获取报告 →' : 'Get My Report →';
+            banner.onclick = () => { window.location.href = isZh ? '/zh/bazi-form' : '/bazi-form'; };
         }
 
         // Render grid
