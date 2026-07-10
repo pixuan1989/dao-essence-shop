@@ -196,6 +196,7 @@ function _doRenderShop() {
         const productLink = isBlindCourse ? `/product-detail?id=${product.id}` : (isBaziProduct ? '/bazi-form' : `/product-detail?id=${product.id}`);
 
         const isZh = window.DaoI18n && window.DaoI18n.current() === 'zh';
+    const giftBadge = (isBaziProduct && SHOW_WALLPAPER_GIFT_PROMO) ? `<span class="gift-badge">${isZh ? '赠壁纸' : '+Wallpapers'}</span>` : '';
     const displayName = (isZh && product.nameCN) ? product.nameCN : (product.nameEN || product.name);
     const displayDesc = (isZh && product.descriptionCN) ? product.descriptionCN : (product.descriptionEN || product.description);
 
@@ -209,6 +210,7 @@ function _doRenderShop() {
                 </div>
                 -->
                 ${discountBadge}
+                ${giftBadge}
             </div>
             <div class="product-info">
                 <div class="product-category">${categoryMap[product.category] || product.category}</div>
@@ -242,6 +244,22 @@ style.textContent = `
         letter-spacing: 0.05em;
         z-index: 10;
         box-shadow: 0 2px 8px rgba(231, 76, 60, 0.3);
+    }
+
+    /* 赠品标签 - 克制样式，避免金色渐变太抢 */
+    .gift-badge {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        background: rgba(212, 175, 55, 0.10);
+        color: #D4AF37;
+        border: 1px solid rgba(212, 175, 55, 0.30);
+        padding: 3px 9px;
+        border-radius: 4px;
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        z-index: 10;
     }
 
     /* 价格容器 */
