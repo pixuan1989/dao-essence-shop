@@ -260,8 +260,8 @@ function generateStaticPage(wp, lang) {
     catLinks += '                    <a href="/wallpaper?cat=' + encodeURIComponent(cat) + (isZh ? '&lang=zh' : '') + '">' + escapeHtml(catLabel) + '</a>\n';
   });
 
-  // OG Image: 优先用 original，fallback 到 thumb
-  const ogImage = imgOriginal || imgThumb || '';
+  // OG Image: 优先用 thumb（230KB 小图，利于 SEO 抓取/缩略图），fallback 到 original
+  const ogImage = imgThumb || imgOriginal || '';
 
   // JSON-LD Schema.org
   var schemaObj = {
