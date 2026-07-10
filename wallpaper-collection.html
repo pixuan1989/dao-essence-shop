@@ -307,7 +307,7 @@
 
 <div class="cx-lightbox" id="cxLightbox" role="dialog" aria-modal="true">
   <button class="cx-lightbox-close" id="cxLightboxClose" aria-label="Close">×</button>
-  <img class="cx-lightbox-img" id="cxLightboxImg" src="" alt="">
+  <img class="cx-lightbox-img" id="cxLightboxImg" src="" alt="" oncontextmenu="return false" ondragstart="return false">
   <div class="cx-lightbox-caption" id="cxLightboxCaption"></div>
 </div>
 
@@ -413,6 +413,9 @@
     lightbox.addEventListener('click', function(e) {
       if (e.target === lightbox) closeLightbox();
     });
+    lightbox.addEventListener('contextmenu', function(e) {
+      e.preventDefault();
+    });
   }
   if (lightboxClose) lightboxClose.addEventListener('click', closeLightbox);
   document.addEventListener('keydown', function(e) {
@@ -426,7 +429,7 @@
       var title = lang === 'zh' ? (w.titleZh || w.title) : w.title;
       var img = w.original || w.thumb;
       return '<div class="cx-card" role="button" aria-label="' + title.replace(/"/g,'&quot;') + '" data-lightbox-img="' + img.replace(/"/g,'&quot;') + '" data-lightbox-title="' + title.replace(/"/g,'&quot;') + '">' +
-             '<img src="' + w.thumb + '" alt="' + title.replace(/"/g,'&quot;') + '" loading="lazy">' +
+             '<img src="' + w.thumb + '" alt="' + title.replace(/"/g,'&quot;') + '" loading="lazy" oncontextmenu="return false" ondragstart="return false">' +
              '<div class="cx-card-overlay"><span class="cx-card-view">' + t.view + '</span></div>' +
              '<div class="cx-card-title">' + title + '</div>' +
              '</div>';
