@@ -45,6 +45,9 @@
     if (urlLang && SUPPORTED_LANGS.indexOf(urlLang) !== -1) return urlLang;
     var saved = getSavedLang();
     if (saved && SUPPORTED_LANGS.indexOf(saved) !== -1) return saved;
+    // 从未手动选过语言 → 按浏览器语言自动判定（不覆盖已存偏好）
+    var browserLang = detectBrowserLang();
+    if (browserLang) return browserLang;
     return DEFAULT_LANG;
   }
 
@@ -561,6 +564,8 @@
   function init() {
     // Determine initial language
     currentLang = getInitialLang();
+    // 尽早同步 <html lang>，避免浏览器因默认 en 误弹翻译提示
+    try { updateHtmlLang(currentLang); } catch (e) {}
 
     // ── Wallpaper DETAIL pages: static bilingual HTML, skip ALL auto-redirect ──
     // These pages have separate EN/ZH files (/wallpaper/{slug} + /zh/wallpaper/{slug}).
