@@ -95,3 +95,6 @@ _*.cjs
 loghook.cjs
 probe-*.cjs
 phase3-standalone.cjs
+
+# Daily wallpaper submission batch output (generated, not source)
+wallpaper-batch-*.txt
