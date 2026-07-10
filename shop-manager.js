@@ -246,20 +246,35 @@ style.textContent = `
         box-shadow: 0 2px 8px rgba(231, 76, 60, 0.3);
     }
 
-    /* 赠品标签 - 克制样式，避免金色渐变太抢 */
+    /* 赠品标签 - 广告条感，深色底金字高对比，确保在图片上清晰可读 */
     .gift-badge {
         position: absolute;
         top: 15px;
         left: 15px;
-        background: rgba(212, 175, 55, 0.10);
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        background: rgba(26, 20, 8, 0.82);
         color: #D4AF37;
-        border: 1px solid rgba(212, 175, 55, 0.30);
-        padding: 3px 9px;
-        border-radius: 4px;
-        font-size: 10px;
-        font-weight: 600;
-        letter-spacing: 0.04em;
+        border: 1px solid rgba(212, 175, 55, 0.55);
+        padding: 4px 10px 4px 8px;
+        border-radius: 5px;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.06em;
         z-index: 10;
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+    }
+    .gift-badge::before {
+        content: '';
+        display: inline-block;
+        width: 5px;
+        height: 5px;
+        background: #D4AF37;
+        border-radius: 50%;
+        box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.25);
     }
 
     /* 价格容器 */
