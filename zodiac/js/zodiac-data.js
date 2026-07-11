@@ -831,6 +831,22 @@ var ZODIAC_DATA = {
     "pig":     { score: 70, color: "#5B8299", colorName: "蓝色", number: 2, direction: "西北", pair: "寅",     good: ["出行","搬家","沐浴"],        avoid: ["开业","安葬"],       quote: "坚持就是胜利", quoteEn: "" }
   },
 
+  "2026-07-12": {
+    "rat":     { score: 70, color: "#5B8299", colorName: "蓝色", number: 3, direction: "西北", pair: "丑",     good: ["出行","搬家","沐浴"],        avoid: ["开业","安葬"],       quote: "天人合一", quoteEn: "" },
+    "ox":     { score: 80, color: "#9E8E6E", colorName: "棕色", number: 2, direction: "西北", pair: "子",     good: ["出行","搬家","沐浴"],        avoid: ["开业","安葬"],       quote: "万物并育而不相害", quoteEn: "" },
+    "tiger":     { score: 85, color: "#5E825E", colorName: "绿色", number: 5, direction: "西北", pair: "亥",     good: ["出行","搬家","沐浴"],        avoid: ["开业","安葬"],       quote: "顺势而为", quoteEn: "" },
+    "rabbit":     { score: 80, color: "#5E825E", colorName: "绿色", number: 6, direction: "西北", pair: "戌",     good: ["出行","搬家","沐浴"],        avoid: ["开业","安葬"],       quote: "风物长宜放眼量", quoteEn: "" },
+    "dragon":     { score: 80, color: "#9E8E6E", colorName: "棕色", number: 6, direction: "西北", pair: "酉",     good: ["出行","搬家","沐浴"],        avoid: ["开业","安葬"],       quote: "守得云开见月明", quoteEn: "" },
+    "snake":     { score: 55, color: "#B8665E", colorName: "红色", number: 5, direction: "西北", pair: "申",     good: ["出行","搬家","沐浴"],        avoid: ["开业","安葬"],       quote: "岁月从不败美人", quoteEn: "" },
+    "horse":     { score: 70, color: "#B8665E", colorName: "红色", number: 5, direction: "西北", pair: "未",     good: ["出行","搬家","沐浴"],        avoid: ["开业","安葬"],       quote: "人间值得", quoteEn: "" },
+    "goat":     { score: 90, color: "#9E8E6E", colorName: "棕色", number: 4, direction: "西北", pair: "午",     good: ["出行","搬家","沐浴"],        avoid: ["开业","安葬"],       quote: "未来可期", quoteEn: "" },
+    "monkey":     { score: 55, color: "#D4AF37", colorName: "金色", number: 6, direction: "西北", pair: "巳",     good: ["出行","搬家","沐浴"],        avoid: ["开业","安葬"],       quote: "慢慢来，比较快", quoteEn: "" },
+    "rooster":     { score: 70, color: "#D4AF37", colorName: "金色", number: 7, direction: "西北", pair: "辰",     good: ["出行","搬家","沐浴"],        avoid: ["开业","安葬"],       quote: "每一步都算数", quoteEn: "" },
+    "dog":     { score: 80, color: "#9E8E6E", colorName: "棕色", number: 3, direction: "西北", pair: "卯",     good: ["出行","搬家","沐浴"],        avoid: ["开业","安葬"],       quote: "坚持就是胜利", quoteEn: "" },
+    "pig":     { score: 70, color: "#5B8299", colorName: "蓝色", number: 3, direction: "西北", pair: "寅",     good: ["出行","搬家","沐浴"],        avoid: ["开业","安葬"],       quote: "今天比昨天好", quoteEn: "" }
+  },
+
+
 
 
 
