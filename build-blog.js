@@ -968,22 +968,22 @@ function generateArticleHtml(post, category, allArticles, options = {}) {
   
   // i18n Support: Different copy for EN and ZH
   const wpCopyZh = [
-    '搭配玄学壁纸，让好运常伴左右',
-    '将能量带入日常：精选五行壁纸',
-    '换个背景，换种气场',
-    '每日注视的能量场：精选壁纸',
-    '能量加持：搭配对应元素壁纸'
+    '搭配手机高清免费壁纸，让好运常伴左右',
+    '将能量带入日常：精选五行手机壁纸',
+    '换个手机壁纸，换种气场',
+    '每日注视的能量场：精选高清手机壁纸',
+    '能量加持：搭配对应元素免费手机壁纸'
   ];
   const wpCopyEn = [
-    'Enhance your energy with metaphysical wallpapers',
-    'Bring ancient wisdom to your screen',
-    'Shift your vibe, shift your reality',
-    'Your daily visual energy field',
-    'Align with your element'
+    'Free HD phone wallpapers to enhance your energy',
+    'Bring ancient wisdom to your phone screen',
+    'Shift your wallpaper, shift your vibe',
+    'Your daily visual energy field — free phone wallpapers',
+    'Align with your element — free HD wallpapers'
   ];
   const wpCopyPool = isZh ? wpCopyZh : wpCopyEn;
   const wpCopy = wpCopyPool[Math.floor(Math.random() * wpCopyPool.length)];
-  const btnText = isZh ? '查看更多开运壁纸 →' : 'Browse Lucky Wallpapers →';
+  const btnText = isZh ? '查看更多免费手机壁纸 →' : 'Browse Free Phone Wallpapers →';
 
   const wallpaperCardHtml = wpCards.length > 0 ? `
     <div style="text-align:center;margin:40px 0;">
