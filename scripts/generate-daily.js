@@ -2005,14 +2005,14 @@ ${toolsSection}
  * 构建 <head> SEO 标签
  */
 function buildSeoHead(z, fc, fe, dateStr, dateZh, dateEn, verdictEn, dirEn, colorEn, canonicalPath, alternatePath, isEn) {
-  // P1: 缩短 Title ≤55 字符，确保 Google 搜索结果完整显示
+  // P1: Title ≤55 字符，加 "Daily Horoscope" 命中搜索意图
   const title = isEn
-    ? `${z.en} Chinese Zodiac: Personality & Fortune — DaoEssentia`
-    : `生肖${z.name}运势详解 - 性格与幸运 - DaoEssentia`;
+    ? `${z.en} Chinese Zodiac Daily Horoscope | DaoEssentia`
+    : `生肖${z.name}今日运势 - 每日运程与性格 - DaoEssentia`;
   const firstYiEn = fc.yi.length > 0 ? trYi(fc.yi[0]) : 'various activities';
-  // P2: Meta Description 命中长尾关键词（personality traits, lucky colors, compatible signs）
-  const descEn = `${z.en} Chinese Zodiac personality traits: ${ZODIAC_TRAITS[z.name] || 'see full guide'}. Lucky colors, compatible signs, daily horoscope updated.`;
-  const descZh = `生肖${z.name}运势详解：性格特质${ZODIAC_TRAITS[z.name] ? '（' + ZODIAC_TRAITS[z.name].replace(/, /g, '、') + '）' : ''}。幸运颜色、配对生肖、每日运势持续更新。`;
+  // P2: Meta Description 命中长尾关键词（daily horoscope, lucky numbers, colors, personality）
+  const descEn = `Today's ${z.en} Chinese zodiac daily horoscope — luck forecast, lucky numbers, colors, and Five Elements guidance. Updated every morning.`;
+  const descZh = `生肖${z.name}今日运势：性格特质${ZODIAC_TRAITS[z.name] ? '（' + ZODIAC_TRAITS[z.name].replace(/, /g, '、') + '）' : ''}。幸运颜色、配对生肖、每日运程持续更新。`;
   const desc = isEn ? descEn : descZh;
 
   const canonicalUrl = `https://www.daoessentia.com/zodiac/${canonicalPath}`;
