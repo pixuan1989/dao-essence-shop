@@ -3,7 +3,7 @@ title: "Five Elements Body Type: What BaZi & TCM Reveal About Your Health"
 slug: "five-elements-body-type-bazi-health-constitution"
 description: "Discover your Five Elements body type through BaZi and Traditional Chinese Medicine. Learn how your birth chart reveals your health tendencies — and what to do about it."
 seoDescription: "Your birth chart reveals your Five Elements body type — and the health tendencies that come with it. A practical guide combining BaZi, TCM, and modern research."
-h1Title: "Your Five Elements Body Type: What Your Birth Chart Reveals About Your Health"
+h1Title: "你的五行體質：八字命盤揭示的健康密碼"
 category: bazi-astrology
 tags:
   - Five Elements
