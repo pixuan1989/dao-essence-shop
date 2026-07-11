@@ -310,7 +310,7 @@ Knowing your body type is only useful if it changes what you actually do. Here's
 
 **Diet:** Your digestive system needs warmth and regularity. Eat at consistent times — skipping meals is worse for you than for other types. Warm, cooked foods (soups, stews, congee) are ideal. Sweet flavors support the spleen — think sweet potato, pumpkin, dates, and rice. Avoid cold, raw foods and excessive dairy, which create "dampness" (that bloated, heavy feeling).
 
-**Movement:** You benefit from steady, moderate exercise — walking, tai chi, light weight training. Avoid extreme workouts that leave you exhausted. The key is consistency, not intensity.
+**Movement:** You benefit from steady, moderate exercise — walking, tai chi, light weight training. Avoid extreme workouts that leave you exhausted. The key is regular practice, not intensity.
 
 **Emotional care:** Your tendency to overthink and worry creates a feedback loop that weakens your digestion (思伤脾 — overthinking damages the spleen). When you catch yourself spiraling into worry, physical movement breaks the cycle — even a 10-minute walk helps.
 
@@ -320,11 +320,11 @@ Knowing your body type is only useful if it changes what you actually do. Here's
 
 **Diet:** Your lungs and skin need moisture. Pears, lily bulb, honey, and white fungus (银耳) are classic TCM lung-nourishing foods. Pungent flavors in moderation support the lungs — ginger tea, radish, and mild peppers help clear congestion. Avoid smoking and excessive dry, fried foods.
 
-**Movement:** Breathing exercises are uniquely powerful for you. Qi gong, pranayama, or even simple deep-breathing routines directly support your weakest system. Outdoor walks in fresh air — especially in autumn — are rejuvenating.
+**Movement:** Breathing exercises are especially powerful for you. Qi gong, pranayama, or even simple deep-breathing routines directly support your weakest system. Outdoor walks in fresh air — especially in autumn — are rejuvenating.
 
-**Emotional care:** Grief and sadness are the emotions that hit your system hardest (忧伤肺). If you tend to hold onto past hurts or fall into melancholy, this isn't just a personality trait — it's a health factor. Therapy, journaling, or talking things through aren't luxuries for Metal types; they're maintenance.
+**Emotional care:** Sadness and mourning are the emotions that hit your system hardest (忧伤肺). If you tend to hold onto past hurts or fall into melancholy, this isn't just a personality trait — it's a health factor. Therapy, journaling, or talking things through aren't luxuries for Metal types; they're maintenance.
 
-**Environment:** White, silver, and metallic colors resonate with your element. Clean, minimalist spaces help you feel balanced — clutter literally weighs on your energy.
+**Environment:** White, silver, and metallic colors resonate with your element. Clean, minimalist spaces help you feel balanced — clutter actually weighs on your energy.
 
 ### Water Type Wellness
 
