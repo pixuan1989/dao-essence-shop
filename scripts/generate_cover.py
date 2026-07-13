@@ -78,14 +78,30 @@ def generate_cover(prompt, output_path):
 
 
 if __name__ == "__main__":
-    # 封面图提示词
-    prompt = """Premium editorial magazine poster, vertical 9:16. Matte black textured background.
-Center/bottom two-thirds: interlocking family figures in gold silhouette, harmonious composition, traditional Chinese family imagery.
-Top third reserved for typography: large elegant serif title "八字亲子兼容性" in gold foil calligraphy-style lettering with subtle glow.
-Color palette: matte black + antique gold + sparing vermillion accent.
-Style: Kinfolk magazine meets Chinese luxury brand campaign. Museum-catalogue aesthetic.
-NO 3D, NO blur, NO fog, NO cartoon, NO emoji, NO busy patterns, NO text overlay."""
+    # 文章信息
+    title_cn = "八字亲子兼容性"
+    title_en = "BaZi Parent-Child Compatibility"
+    visual_element = "Two interlocking golden silhouettes representing parent and child, harmonious yin-yang inspired composition, traditional Chinese family bond imagery, minimalist line art style"
     
+    # 封面图提示词（中文大标题 + 英文小标题）
+    prompt = f"""Premium editorial magazine poster, vertical 9:16 aspect ratio.
+
+BACKGROUND: Matte black textured background with subtle rice paper texture overlay.
+
+VISUAL ELEMENT (center/bottom two-thirds): {visual_element}
+
+TYPOGRAPHY (top third reserved for text):
+- Large Chinese title in gold foil calligraphy style: "{title_cn}"
+- Smaller English subtitle below in elegant serif font: "{title_en}"
+- Gold foil effect with subtle glow on Chinese title
+- English subtitle in antique gold color
+
+COLOR PALETTE: Matte black + antique gold + sparing vermillion accent (seal stamp in lower right corner)
+
+STYLE: Kinfolk magazine meets Chinese luxury brand campaign. Museum-catalogue aesthetic. Minimalist line art. Generous negative space.
+
+PROHIBITED: NO 3D rendering, NO blur, NO fog, NO haze, NO cartoon, NO emoji, NO busy patterns, NO text overlay in visual element area."""
+
     output_path = "C:\\Users\\agenew\\Desktop\\DaoEssence1.0\\images\\bazi-parent-child-compatibility-cover.webp"
     
     print("开始生成封面图...")
