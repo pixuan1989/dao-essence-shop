@@ -1,19 +1,19 @@
 """
-DaoEssence 封面图生成脚本
-使用 DashScope API 生成文章封面图
+DaoEssence 封面图生成脚本 v3
+生成背景图 + 叠加中英文标题（书法字体 + 金色描边）
 """
 
 import requests
-import json
 import os
-from datetime import datetime
+from PIL import Image, ImageDraw, ImageFont
+import textwrap
 
 # DashScope API 配置
 DASHSCOPE_API_KEY = os.environ.get('DASHSCOPE_API_KEY', 'sk-3279d0453a4940c5bbf2010722f1e86b')
 API_URL = "https://dashscope.aliyuncs.com/api/v1/services/aigc/text2image/image-synthesis"
 
-def generate_cover(prompt, output_path):
-    """生成封面图"""
+def generate_background(prompt, output_path):
+    """生成背景图"""
     headers = {
         "Authorization": f"Bearer {DASHSCOPE_API_KEY}",
         "Content-Type": "application/json",
@@ -22,16 +22,10 @@ def generate_cover(prompt, output_path):
     
     data = {
         "model": "wanx-v1",
-        "input": {
-            "prompt": prompt
-        },
-        "parameters": {
-            "size": "1024*1024",
-            "n": 1
-        }
+        "input": {"prompt": prompt},
+        "parameters": {"size": "1024*1024", "n": 1}
     }
     
-    # 提交任务
     response = requests.post(API_URL, headers=headers, json=data, timeout=30)
     result = response.json()
     
@@ -46,11 +40,9 @@ def generate_cover(prompt, output_path):
     
     print(f"任务已提交：{task_id}")
     
-    # 轮询任务状态
     import time
-    for _ in range(30):  # 最多等待 60 秒
+    for _ in range(30):
         time.sleep(2)
-        
         status_url = f"https://dashscope.aliyuncs.com/api/v1/tasks/{task_id}"
         status_response = requests.get(status_url, headers=headers, timeout=10)
         status_result = status_response.json()
@@ -58,7 +50,6 @@ def generate_cover(prompt, output_path):
         task_status = status_result.get('output', {}).get('task_status')
         
         if task_status == 'SUCCEEDED':
-            # 下载图片
             images = status_result.get('output', {}).get('results', [])
             if images:
                 image_url = images[0].get('url')
@@ -66,7 +57,7 @@ def generate_cover(prompt, output_path):
                     img_response = requests.get(image_url, timeout=30)
                     with open(output_path, 'wb') as f:
                         f.write(img_response.content)
-                    print(f"封面图已保存：{output_path}")
+                    print(f"背景图已保存：{output_path}")
                     return True
         
         elif task_status == 'FAILED':
@@ -77,37 +68,90 @@ def generate_cover(prompt, output_path):
     return False
 
 
+def add_text_overlay(image_path, title_cn, title_en, output_path):
+    """叠加中英文标题"""
+    img = Image.open(image_path).convert('RGBA')  # 转为 RGBA 模式
+    width, height = img.size
+    draw = ImageDraw.Draw(img)
+    
+    # 尝试加载字体（Windows 系统字体）
+    try:
+        # 中文书法字体
+        font_cn = ImageFont.truetype("C:\\Windows\\Fonts\\simhei.ttf", 80)
+        font_en = ImageFont.truetype("C:\\Windows\\Fonts\\arial.ttf", 36)
+    except:
+        font_cn = ImageFont.load_default()
+        font_en = ImageFont.load_default()
+    
+    # 计算文字位置（顶部 1/3 区域）
+    text_area_height = height // 3
+    margin = 60
+    
+    # 绘制半透明背景条（增强文字可读性）
+    overlay = Image.new('RGBA', img.size, (0, 0, 0, 0))
+    overlay_draw = ImageDraw.Draw(overlay)
+    overlay_draw.rectangle([0, 0, width, text_area_height], fill=(0, 0, 0, 128))
+    img = Image.alpha_composite(img, overlay)
+    draw = ImageDraw.Draw(img)
+    
+    # 绘制中文标题（金色）
+    bbox_cn = draw.textbbox((0, 0), title_cn, font=font_cn)
+    text_width_cn = bbox_cn[2] - bbox_cn[0]
+    x_cn = (width - text_width_cn) // 2
+    y_cn = margin
+    
+    # 金色描边效果
+    for offset in [-2, 0, 2]:
+        draw.text((x_cn + offset, y_cn), title_cn, font=font_cn, fill=(180, 140, 60))
+    
+    # 绘制英文副标题（浅金色）
+    bbox_en = draw.textbbox((0, 0), title_en, font=font_en)
+    text_width_en = bbox_en[2] - bbox_en[0]
+    x_en = (width - text_width_en) // 2
+    y_en = y_cn + 100
+    
+    draw.text((x_en, y_en), title_en, font=font_en, fill=(200, 180, 120))
+    
+    # 保存为 WEBP
+    img_rgb = img.convert('RGB')
+    img_rgb.save(output_path, 'WEBP', quality=95)
+    print(f"封面图已保存：{output_path}")
+    return True
+
+
 if __name__ == "__main__":
     # 文章信息
     title_cn = "八字亲子兼容性"
     title_en = "BaZi Parent-Child Compatibility"
-    visual_element = "Two interlocking golden silhouettes representing parent and child, harmonious yin-yang inspired composition, traditional Chinese family bond imagery, minimalist line art style"
     
-    # 封面图提示词（中文大标题 + 英文小标题）
-    prompt = f"""Premium editorial magazine poster, vertical 9:16 aspect ratio.
+    # 背景图提示词（大师级构图，符合文章寓意）
+    background_prompt = """Masterpiece editorial photography, vertical 9:16 composition.
 
-BACKGROUND: Matte black textured background with subtle rice paper texture overlay.
+SUBJECT: Two elegant golden silhouettes - a larger figure (parent) and smaller figure (child) - standing in harmonious embrace, their forms creating a subtle yin-yang curve. Between them, a glowing golden thread connects their hearts, symbolizing the invisible bond of compatibility.
 
-VISUAL ELEMENT (center/bottom two-thirds): {visual_element}
+BACKGROUND: Deep matte black with subtle texture of traditional Chinese rice paper. Soft golden light emanates from behind the figures, creating a halo effect.
 
-TYPOGRAPHY (top third reserved for text):
-- Large Chinese title in gold foil calligraphy style: "{title_cn}"
-- Smaller English subtitle below in elegant serif font: "{title_en}"
-- Gold foil effect with subtle glow on Chinese title
-- English subtitle in antique gold color
+COMPOSITION: Rule of thirds - figures positioned in lower two-thirds. Top third reserved for typography (will be added later). Generous negative space around figures.
 
-COLOR PALETTE: Matte black + antique gold + sparing vermillion accent (seal stamp in lower right corner)
+STYLE: Premium luxury brand campaign aesthetic. Minimalist, elegant, museum-quality. Think Hermès meets Chinese contemporary art.
 
-STYLE: Kinfolk magazine meets Chinese luxury brand campaign. Museum-catalogue aesthetic. Minimalist line art. Generous negative space.
+COLOR PALETTE: Matte black (#1a1a1a) + antique gold (#d4af37) + sparing vermillion accent (#c23616) as small seal stamp in lower right corner.
 
-PROHIBITED: NO 3D rendering, NO blur, NO fog, NO haze, NO cartoon, NO emoji, NO busy patterns, NO text overlay in visual element area."""
+LIGHTING: Dramatic chiaroscuro lighting, golden rim light on figures, soft glow from connection point.
 
+MOOD: Warm, intimate, harmonious, profound.
+
+PROHIBITED: NO 3D rendering, NO blur, NO fog, NO cartoon, NO emoji, NO busy patterns, NO text, NO letters."""
+    
+    bg_path = "C:\\Users\\agenew\\Desktop\\DaoEssence1.0\\images\\bazi-parent-child-bg.webp"
     output_path = "C:\\Users\\agenew\\Desktop\\DaoEssence1.0\\images\\bazi-parent-child-compatibility-cover.webp"
     
-    print("开始生成封面图...")
-    success = generate_cover(prompt, output_path)
+    print("步骤 1: 生成背景图...")
+    success = generate_background(background_prompt, bg_path)
     
     if success:
-        print("✅ 封面图生成成功")
+        print("步骤 2: 叠加中英文标题...")
+        add_text_overlay(bg_path, title_cn, title_en, output_path)
+        print("✅ 封面图生成完成")
     else:
-        print("❌ 封面图生成失败")
+        print("❌ 背景图生成失败")
