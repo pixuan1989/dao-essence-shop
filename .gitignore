@@ -102,3 +102,9 @@ wallpaper-batch-*.txt
 # Article automation (sensitive config + temp data)
 scripts/wechat_config.json
 topic_data/
+
+# GSC state backup
+.gsc-wallpaper-state.json.prebak
+
+# Temporary scripts
+scripts/full_recheck.cjs
