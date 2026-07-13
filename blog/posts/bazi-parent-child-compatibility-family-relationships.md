@@ -18,16 +18,16 @@ tags:
   - "parenting by birth chart"
   - "family harmony"
 faq:
-  - question: "八字相克的亲子关系怎么办？"
-    answer: "相克不是'谁克谁'，而是能量互动模式。通过理解双方五行特点，调整沟通方式，可以转化冲突为互补。"
-  - question: "如何查看我和孩子的八字兼容性？"
-    answer: "使用免费八字排盘工具，输入双方生辰，查看日主五行关系。相生关系（如木生火）天然和谐；相克关系需要更多理解。"
-  - question: "八字兼容性决定一切吗？"
-    answer: "不是。八字显示先天能量倾向，后天环境、教育方式、个人成长同样重要。命理是参考，不是宿命。"
-  - question: "五行相生的亲子关系一定好吗？"
-    answer: "相生关系有天然亲和力，但过度生助也会导致依赖或溺爱。平衡是关键。"
-  - question: "可以改善亲子兼容性吗？"
-    answer: "可以。通过风水调整（如家居五行布局）、沟通方式调整、共同活动选择，可以优化亲子能量互动。"
+  - question: "What if parent and child have clashing Five Elements?"
+    answer: "Clashing doesn't mean 'who overcomes whom' — it's an energy interaction pattern. By understanding both parties' Five Elements characteristics and adjusting communication styles, conflict can transform into complementarity."
+  - question: "How to check BaZi compatibility between parent and child?"
+    answer: "Use our free BaZi calculator, input both birth dates, and check the Day Master Five Elements relationship. Generating (Wood feeds Fire) pairs have natural harmony; clashing pairs need more understanding."
+  - question: "Does BaZi compatibility determine everything?"
+    answer: "No. BaZi shows innate energy tendencies, but environment, education, and personal growth matter equally. It's a reference framework, not destiny."
+  - question: "Are generating relationships always good?"
+    answer: "Generating pairs have natural affinity, but over-generating can lead to dependency or spoiling. Balance is key."
+  - question: "Can parent-child compatibility be improved?"
+    answer: "Yes. Through feng shui adjustments (home Five Elements layout), communication style changes, and shared activity choices, you can optimize parent-child energy interaction."
 faq_zh:
   - question: "八字相克的亲子关系怎么办？"
     answer: "相克不是'谁克谁'，而是能量互动模式。通过理解双方五行特点，调整沟通方式，可以转化冲突为互补。"
@@ -378,4 +378,4 @@ related_posts:
 - [Toxic Relationship Energy: BaZi Compatibility Patterns](/blog/toxic-relationship-energy-bazi-compatibility/)
 - [Heavenly Stems Compatibility: Love Match Guide](/blog/heavenly-stems-compatibility-love-match/)
 - [Five Elements Theory: Complete Guide](/blog/five-elements-theory-wu-xing-guide/)
-- [Discover your dominant element](/five-elements-test) ← 工具链接
+- [Discover your dominant element](/five-elements-test) ← Tool link
