@@ -1,0 +1,43 @@
+name: Article Topic Research (Mon/Wed/Fri 09:00)
+
+on:
+  schedule:
+    # 每周一三五 08:00 东八区 = UTC 00:00
+    - cron: '0 0 * * 1,3,5'
+  workflow_dispatch:  # 手动触发
+
+jobs:
+  topic-research:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      
+      - name: Install dependencies
+        run: |
+          pip install requests beautifulsoup4
+      
+      - name: Run topic scraper
+        run: python scripts/topic_scraper.py
+      
+      - name: Generate topic candidates
+        run: python scripts/topic_generator.py
+      
+      - name: Send WeChat notification
+        env:
+          WECOM_WEBHOOK: ${{ secrets.WECOM_WEBHOOK }}
+        run: |
+          python scripts/wechat_notify.py
+      
+      - name: Upload topic data as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: topic-data
+          path: topic_data/
+          retention-days: 7
