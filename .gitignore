@@ -98,3 +98,7 @@ phase3-standalone.cjs
 
 # Daily wallpaper submission batch output (generated, not source)
 wallpaper-batch-*.txt
+
+# Article automation (sensitive config + temp data)
+scripts/wechat_config.json
+topic_data/
