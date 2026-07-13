@@ -103,6 +103,10 @@ wallpaper-batch-*.txt
 scripts/wechat_config.json
 topic_data/
 
+# Cover image generation temp files
+images/*-bg.webp
+images/*-temp.webp
+
 # GSC state backup
 .gsc-wallpaper-state.json.prebak
 
