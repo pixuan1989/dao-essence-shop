@@ -1,6 +1,6 @@
 """
-DaoEssence 选题生成脚本 v2
-基于热点数据 + 大词策略生成 3 个候选选题（中文推送格式）
+DaoEssence 选题生成脚本 v3
+基于热点数据 + 大词策略 + 现有文章去重 + 工具关联 + 配图提示词
 """
 
 import json
@@ -8,89 +8,173 @@ import os
 from datetime import datetime
 from pathlib import Path
 
-# 关键词数据库（大词 + 长尾词）
+# 现有文章列表（54 篇，避免重复）
+EXISTING_ARTICLES = [
+    "五常（仁义礼智信）与五行（金木水火土）",
+    "10-home-feng-shui-hacks-that-actually-work-backed-by-energy-psychology",
+    "3-places-to-visit-when-bad-luck",
+    "auspicious-date-selection-a-practical-guide",
+    "bazi-10-day-masters-guide",
+    "bazi-10-year-luck-cycles-guide",
+    "bazi-marriage-prediction-spouse-star",
+    "bazi-ten-gods-friendship-patterns",
+    "ben-ming-nian-why-your-zodiac-year-matters-in-bazi",
+    "birth-hours-wealth-personalities-a-western-friendly-guide",
+    "chinese-zodiac-daily-forecast-thursday-april-16-2026",
+    "chinese-zodiac-july-2026-monthly-horoscope",
+    "desk-feng-shui-career-luck",
+    "door-facing-door-feng-shui-energy-clash",
+    "dragon-boat-festival-lucky-rituals",
+    "elon-musk-bazi-yang-wood-day-master-decoded",
+    "feng-shui-4-items-dont-replace",
+    "feng-shui-headboard-placement-5-rules",
+    "feng-shui-home-office-7-rules",
+    "feng-shui-tips-before-buying-house",
+    "five-elements-body-type-bazi-health-constitution",
+    "five-elements-theory-wu-xing-guide",
+    "five-poisons-month-daoist-summer-wellness",
+    "heavenly-stems-compatibility-love-match",
+    "how-to-choose-the-best-date-for-any-important-life-event",
+    "how-to-choose-your-phone-wallpaper-using-chinese-five-elements",
+    "how-to-read-bazi-chart",
+    "is-bazi-real-skeptics-guide",
+    "is-weak-day-master-bad-bazi",
+    "jia-wu-month-2026-best-day-masters",
+    "jia-wu-month-june-2026-fire-energy-warning",
+    "july-2026-lucky-wallpaper-yi-wei-month-five-elements",
+    "kazuo-inamori-bazi-three-xin-fortune-500",
+    "learn-bazi-free-course-guide",
+    "learn-bazi-free-course",
+    "love-prediction-by-date-of-birth",
+    "lucky-colors-2026-fire-horse-year",
+    "minor-heat-2026-luck-rituals-wallpapers",
+    "seven-killings-bazi-wealth-star",
+    "she-was-36-divorced-bazi-love-story",
+    "the-mbti-alternative-angle",
+    "toxic-relationship-energy-bazi-compatibility",
+    "trump-bazi-fire-earth",
+    "what-is-bazi-beginners-guide",
+    "when-will-i-find-love",
+    "where-will-i-meet-my-soulmate",
+    "why-ai-bazi-gets-it-wrong",
+    "why-am-i-depressed-bazi-cycles-10-year-luck-periods-explained",
+    "why-your-zodiac-reading-doesnt-match-you",
+    "world-cup-champions-five-elements-lens",
+    "yi-wood-may-2026-gui-si-month",
+]
+
+# 网站功能工具
+SITE_TOOLS = {
+    "八字排盘": {
+        "name": "BaZi Calculator",
+        "url": "/bazi-calculator",
+        "description": "免费八字排盘工具，输入生辰获取四柱八字"
+    },
+    "五行测试": {
+        "name": "Five Elements Test",
+        "url": "/five-elements-test",
+        "description": "五行属性测试，了解你的主导元素"
+    },
+    "老黄历": {
+        "name": "Almanac",
+        "url": "/almanac",
+        "description": "每日老黄历查询，宜忌事项"
+    },
+    "灵魂伴侣": {
+        "name": "Soulmate Calculator",
+        "url": "/soulmate",
+        "description": "八字合盘，测算灵魂伴侣兼容性"
+    },
+    "生肖运势": {
+        "name": "Zodiac Horoscope",
+        "url": "/zodiac-horoscope",
+        "description": "十二生肖每日/每月运势"
+    },
+}
+
+# 关键词数据库（大词 + 长尾词）— 中文显示
 KEYWORD_DB = {
     "八字": {
         "big_words": [
-            {"keyword": "BaZi reading", "volume": "12K", "kd": 45},
-            {"keyword": "birth chart", "volume": "50K", "kd": 65},
-            {"keyword": "Chinese astrology", "volume": "18K", "kd": 55},
+            {"keyword": "八字解读", "volume": "12K", "kd": 45},
+            {"keyword": "星盘", "volume": "50K", "kd": 65},
+            {"keyword": "中国占星", "volume": "18K", "kd": 55},
         ],
         "long_tails": [
-            {"keyword": "how to read BaZi chart for beginners", "volume": "1K-2K", "kd": 25},
-            {"keyword": "BaZi vs Western astrology", "volume": "500-1K", "kd": 20},
-            {"keyword": "free BaZi calculator online", "volume": "200-500", "kd": 15},
-            {"keyword": "BaZi day master guide", "volume": "100-200", "kd": 10},
+            {"keyword": "如何看八字入门", "volume": "1K-2K", "kd": 25},
+            {"keyword": "八字与西方占星区别", "volume": "500-1K", "kd": 20},
+            {"keyword": "免费八字排盘", "volume": "200-500", "kd": 15},
+            {"keyword": "八字日主指南", "volume": "100-200", "kd": 10},
         ]
     },
     "风水": {
         "big_words": [
-            {"keyword": "feng shui", "volume": "100K+", "kd": 70},
-            {"keyword": "home feng shui", "volume": "18K", "kd": 50},
-            {"keyword": "feng shui tips", "volume": "12K", "kd": 45},
+            {"keyword": "风水", "volume": "100K+", "kd": 70},
+            {"keyword": "家居风水", "volume": "18K", "kd": 50},
+            {"keyword": "风水技巧", "volume": "12K", "kd": 45},
         ],
         "long_tails": [
-            {"keyword": "feng shui for small apartment", "volume": "1K-2K", "kd": 25},
-            {"keyword": "bedroom feng shui rules", "volume": "2K-5K", "kd": 30},
-            {"keyword": "feng shui desk direction for career", "volume": "500-1K", "kd": 20},
-            {"keyword": "home office wealth corner", "volume": "200-500", "kd": 15},
+            {"keyword": "小公寓风水", "volume": "1K-2K", "kd": 25},
+            {"keyword": "卧室风水规则", "volume": "2K-5K", "kd": 30},
+            {"keyword": "办公桌风水方向", "volume": "500-1K", "kd": 20},
+            {"keyword": "家庭办公室财位", "volume": "200-500", "kd": 15},
         ]
     },
     "五行": {
         "big_words": [
-            {"keyword": "five elements", "volume": "8K", "kd": 40},
-            {"keyword": "Wu Xing", "volume": "2K", "kd": 25},
+            {"keyword": "五行", "volume": "8K", "kd": 40},
+            {"keyword": "五行属性", "volume": "2K", "kd": 25},
         ],
         "long_tails": [
-            {"keyword": "five elements personality test", "volume": "500-1K", "kd": 20},
-            {"keyword": "which element am I BaZi", "volume": "200-500", "kd": 15},
-            {"keyword": "five elements compatibility", "volume": "100-200", "kd": 10},
+            {"keyword": "五行人格测试", "volume": "500-1K", "kd": 20},
+            {"keyword": "我是什么五行", "volume": "200-500", "kd": 15},
+            {"keyword": "五行兼容性", "volume": "100-200", "kd": 10},
         ]
     },
     "中医养生": {
         "big_words": [
-            {"keyword": "TCM wellness", "volume": "5K", "kd": 35},
-            {"keyword": "Chinese medicine", "volume": "20K", "kd": 55},
+            {"keyword": "中医养生", "volume": "5K", "kd": 35},
+            {"keyword": "中医", "volume": "20K", "kd": 55},
         ],
         "long_tails": [
-            {"keyword": "liver health BaZi", "volume": "100-200", "kd": 10},
-            {"keyword": "seasonal wellness five elements", "volume": "200-500", "kd": 15},
-            {"keyword": "TCM body type test", "volume": "500-1K", "kd": 20},
+            {"keyword": "肝脏健康八字", "volume": "100-200", "kd": 10},
+            {"keyword": "季节性养生五行", "volume": "200-500", "kd": 15},
+            {"keyword": "中医体质测试", "volume": "500-1K", "kd": 20},
         ]
     },
     "泛心理学": {
         "big_words": [
-            {"keyword": "toxic relationship", "volume": "74K-100K", "kd": 68},
-            {"keyword": "personality types", "volume": "30K", "kd": 60},
+            {"keyword": "有毒关系", "volume": "74K-100K", "kd": 68},
+            {"keyword": "人格类型", "volume": "30K", "kd": 60},
             {"keyword": "MBTI", "volume": "50K+", "kd": 65},
         ],
         "long_tails": [
-            {"keyword": "toxic relationship energy BaZi", "volume": "100-200", "kd": 8},
-            {"keyword": "MBTI vs BaZi personality", "volume": "200-500", "kd": 12},
-            {"keyword": "how to know if someone is right for you", "volume": "2K-5K", "kd": 25},
-            {"keyword": "nourishing vs toxic relationships", "volume": "100-200", "kd": 5},
+            {"keyword": "有毒关系能量八字", "volume": "100-200", "kd": 8},
+            {"keyword": "MBTI 与八字人格", "volume": "200-500", "kd": 12},
+            {"keyword": "如何知道对方是否适合你", "volume": "2K-5K", "kd": 25},
+            {"keyword": "滋养与有毒关系", "volume": "100-200", "kd": 5},
         ]
     },
     "家庭关系": {
         "big_words": [
-            {"keyword": "family compatibility", "volume": "5K", "kd": 35},
-            {"keyword": "parent child relationship", "volume": "8K", "kd": 40},
+            {"keyword": "家庭兼容性", "volume": "5K", "kd": 35},
+            {"keyword": "亲子关系", "volume": "8K", "kd": 40},
         ],
         "long_tails": [
-            {"keyword": "BaZi parent child compatibility", "volume": "100-200", "kd": 10},
-            {"keyword": "family harmony feng shui", "volume": "200-500", "kd": 15},
-            {"keyword": "marriage compatibility BaZi", "volume": "500-1K", "kd": 20},
+            {"keyword": "八字亲子兼容性", "volume": "100-200", "kd": 10},
+            {"keyword": "家庭和谐风水", "volume": "200-500", "kd": 15},
+            {"keyword": "婚姻兼容性八字", "volume": "500-1K", "kd": 20},
         ]
     },
     "财富健康": {
         "big_words": [
-            {"keyword": "wealth luck", "volume": "10K", "kd": 45},
-            {"keyword": "career luck", "volume": "8K", "kd": 40},
+            {"keyword": "财运", "volume": "10K", "kd": 45},
+            {"keyword": "事业运", "volume": "8K", "kd": 40},
         ],
         "long_tails": [
-            {"keyword": "how to improve wealth luck BaZi", "volume": "200-500", "kd": 15},
-            {"keyword": "career change BaZi timing", "volume": "100-200", "kd": 10},
-            {"keyword": "wealth corner feng shui", "volume": "500-1K", "kd": 20},
+            {"keyword": "如何提升财运八字", "volume": "200-500", "kd": 15},
+            {"keyword": "职业转换八字时机", "volume": "100-200", "kd": 10},
+            {"keyword": "财位风水", "volume": "500-1K", "kd": 20},
         ]
     },
 }
@@ -135,7 +219,7 @@ def calculate_relevance_score(hot_topic, keyword_category):
 
 
 def generate_topic_candidates(hot_topics, num_candidates=3):
-    """生成候选选题（3 个）"""
+    """生成候选选题（3 个，去重 + 工具关联 + 配图提示词）"""
     candidates = []
     
     for category, keywords in KEYWORD_DB.items():
@@ -171,6 +255,15 @@ def generate_topic_candidates(hot_topics, num_candidates=3):
         # 网站关联说明
         site_relevance = generate_site_relevance(category)
         
+        # 关联工具
+        related_tool = get_related_tool(category)
+        
+        # 配图提示词
+        cover_prompt = generate_cover_prompt(title_cn, category)
+        
+        # 检查是否与现有文章重复
+        is_duplicate = check_duplicate(title_cn, category)
+        
         candidate = {
             "category": category,
             "title_en": f"{big_word['keyword']}: {long_tail['keyword'].title()} — A BaZi Guide",
@@ -178,6 +271,9 @@ def generate_topic_candidates(hot_topics, num_candidates=3):
             "description_cn": description_cn,
             "outline_cn": outline_cn,
             "site_relevance": site_relevance,
+            "related_tool": related_tool,
+            "cover_prompt": cover_prompt,
+            "is_duplicate": is_duplicate,
             "big_words": keywords['big_words'][:2],
             "long_tails": keywords['long_tails'][:4],
             "hot_source": best_hot,
@@ -189,10 +285,13 @@ def generate_topic_candidates(hot_topics, num_candidates=3):
         
         candidates.append(candidate)
     
-    # 按评分排序，取前 3 个
+    # 按评分排序，取前 3 个（排除重复）
     candidates.sort(key=lambda x: x['score'], reverse=True)
     
-    return candidates[:num_candidates]
+    # 过滤重复文章
+    unique_candidates = [c for c in candidates if not c['is_duplicate']]
+    
+    return unique_candidates[:num_candidates]
 
 
 def generate_chinese_title(category, big_word, long_tail):
@@ -249,44 +348,78 @@ def generate_site_relevance(category):
     return relevance_map.get(category, "关联网站相关内容和工具")
 
 
+def get_related_tool(category):
+    """获取关联的网站工具"""
+    tool_map = {
+        "八字": SITE_TOOLS["八字排盘"],
+        "五行": SITE_TOOLS["五行测试"],
+        "中医养生": SITE_TOOLS["老黄历"],
+        "泛心理学": SITE_TOOLS["灵魂伴侣"],
+        "家庭关系": SITE_TOOLS["灵魂伴侣"],
+        "财富健康": SITE_TOOLS["八字排盘"],
+        "风水": None,  # 风水没有专门工具
+    }
+    return tool_map.get(category)
+
+
+def generate_cover_prompt(title_cn, category):
+    """生成封面图提示词（遵循 article-cover-image 技能）"""
+    # 根据类别选择视觉元素
+    visual_elements = {
+        "八字": "ancient Chinese scroll with celestial stems and earthly branches, ink wash painting style",
+        "风水": "minimalist compass (luopan) with gold needle on black marble, feng shui elements",
+        "五行": "five elements symbols (wood fire earth metal water) in gold calligraphy, rice paper texture",
+        "中医养生": "traditional Chinese medicine herbs (ginseng, goji berries) with mortar and pestle",
+        "泛心理学": "yin-yang symbol with modern psychology icons (brain, heart) in gold line art",
+        "家庭关系": "interlocking family figures in gold silhouette, harmonious composition",
+        "财富健康": "gold ingots and coins with wealth gods, prosperous imagery",
+    }
+    
+    visual = visual_elements.get(category, "Chinese metaphysics symbols")
+    
+    prompt = f"""Premium editorial magazine poster, vertical 9:16. Matte black textured background.
+Center/bottom two-thirds: {visual}.
+Top third reserved for typography: large elegant serif title "{title_cn}" in gold foil calligraphy-style lettering with subtle glow.
+Color palette: matte black + antique gold + sparing vermillion accent.
+Style: Kinfolk magazine meets Chinese luxury brand campaign. Museum-catalogue aesthetic.
+NO 3D, NO blur, NO fog, NO cartoon, NO emoji, NO busy patterns."""
+    
+    return prompt
+
+
+def check_duplicate(title_cn, category):
+    """检查是否与现有文章重复"""
+    # 简单检查：标题是否包含现有文章关键词
+    title_lower = title_cn.lower()
+    
+    for article in EXISTING_ARTICLES:
+        article_lower = article.lower()
+        # 检查是否有显著重叠（简单启发式）
+        if len(title_lower) > 10 and len(article_lower) > 10:
+            # 检查前 10 个字符是否有重叠
+            if title_lower[:10] in article_lower or article_lower[:10] in title_lower:
+                return True
+    
+    return False
+
+
 def format_for_wechat(candidates):
-    """格式化为微信推送格式（企业微信 Markdown，中文）"""
-    lines = ["# 【DaoEssence 选题推荐】" + datetime.now().strftime("%Y-%m-%d"), ""]
-    lines.append(f"**生成时间**：{datetime.now().strftime('%Y-%m-%d %H:%M')}")
-    lines.append(f"**数据来源**：国内外 10+ 高流量玄学网站")
-    lines.append("")
+    """格式化为微信推送格式（企业微信 Markdown，全中文）"""
+    lines = ["# DaoEssence 选题 " + datetime.now().strftime("%m-%d"), ""]
     
     for i, c in enumerate(candidates, 1):
-        lines.append(f"---")
-        lines.append(f"## 选题 {i}：{c['title_cn']}")
-        lines.append("")
-        lines.append(f"**英文标题**：{c['title_en']}")
-        lines.append("")
-        lines.append(f"**描述**：{c['description_cn']}")
-        lines.append("")
-        lines.append(f"**正文大纲**：")
-        for point in c['outline_cn']:
-            lines.append(f"- {point}")
-        lines.append("")
-        lines.append(f"**与网站关联**：{c['site_relevance']}")
-        lines.append("")
-        lines.append(f"**信息来源**：{c['hot_source_site']}（{c['hot_source']}）")
-        lines.append("")
-        lines.append(f"**热度评分**：{c['score']}")
-        lines.append(f"**竞品缺口**：{c['competitor_gap']}")
-        lines.append("")
-        
-        big_words_str = '、'.join([f"{w['keyword']}（{w['volume']}）" for w in c['big_words']])
-        lines.append(f"**大词**：{big_words_str}")
-        
-        long_tails_str = '、'.join([f"{w['keyword']}（KD {w['kd']}）" for w in c['long_tails']])
-        lines.append(f"**长尾词**：{long_tails_str}")
+        lines.append(f"**{i}. {c['title_cn'][:40]}**")
+        lines.append(f"描述：{c['description_cn'][:60]}...")
+        lines.append(f"关联：{c['site_relevance'][:40]}")
+        if c['related_tool']:
+            lines.append(f"工具：{c['related_tool']['name']}")
+        lines.append(f"来源：{c['hot_source'][:40]}")
+        lines.append(f"评分：{c['score']} | 大词：{c['big_words'][0]['keyword']}")
         lines.append("")
     
     lines.append("---")
-    lines.append("**确认方式**：回复数字即可（如\"1\"），或提出修改建议（如\"选题 1 但改聚焦家庭关系\"）")
-    lines.append("")
-    lines.append("**下一步**：确认后 AI 将自动完成写作→SEO 检查→git commit，你只需 push 部署")
+    lines.append("回复数字确认（如 1），或提修改建议")
+    lines.append("确认后：写作→封面图→SEO→commit→你 push")
     
     return "\n".join(lines)
 

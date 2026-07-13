@@ -106,5 +106,13 @@ topic_data/
 # GSC state backup
 .gsc-wallpaper-state.json.prebak
 
+# Wallpaper daily batch (generated, not source)
+.wallpaper_*.md
+.wallpaper_*.json
+
+# Python cache
+__pycache__/
+*.pyc
+
 # Temporary scripts
 scripts/full_recheck.cjs
