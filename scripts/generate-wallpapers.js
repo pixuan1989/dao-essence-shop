@@ -81,7 +81,7 @@ function generateStaticPage(wp, lang) {
   const canonical  = pageUrl;
 
   // OG Image: 用 original 或 thumb
-  const ogImage = imgOriginal || imgThumb || '';
+  const ogImage = imgThumb || imgOriginal || '';
 
   // JSON-LD Schema.org
   var schemaObj = {
@@ -89,7 +89,7 @@ function generateStaticPage(wp, lang) {
     "@type": "ImageObject",
     "name": title,
     "description": seoDesc,
-    "contentUrl": imgOriginal,
+    "contentUrl": imgThumb || imgOriginal,
     "thumbnailUrl": imgThumb,
     "author": {
       "@type": "Organization",
@@ -275,7 +275,7 @@ function generateStaticPage(wp, lang) {
     + '        <!-- Left: Image -->\n'
     + '        <div class="left-column">\n'
     + '            <div class="preview-image">\n'
-    + '                <img src="' + (imgOriginal || imgThumb) + '" alt="' + escapeHtml(title) + '" loading="lazy">\n'
+    + '                <img src="' + (imgThumb || imgOriginal) + '" alt="' + escapeHtml(title) + '" loading="lazy">\n'
     + '            </div>\n'
     + '        </div>\n'
     + '\n'
