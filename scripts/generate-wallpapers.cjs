@@ -269,7 +269,7 @@ function generateStaticPage(wp, lang) {
     "@type": "ImageObject",
     "name": title,
     "description": seoDesc,
-    "contentUrl": imgOriginal,
+    "contentUrl": imgThumb || imgOriginal,
     "thumbnailUrl": imgThumb,
     "author": {
       "@type": "Organization",
