@@ -123,11 +123,11 @@ if __name__ == "__main__":
     # 文章信息
     title_cn = "八字亲子兼容性"
     title_en = "BaZi Parent-Child Compatibility"
-    
-    # 背景图提示词（大师级构图，符合文章寓意）
+
+    # 背景图提示词（大师级构图，符合文章寓意——亲子关系，不是情侣！）
     background_prompt = """Masterpiece editorial photography, vertical 9:16 composition.
 
-SUBJECT: Two elegant golden silhouettes - a larger figure (parent) and smaller figure (child) - standing in harmonious embrace, their forms creating a subtle yin-yang curve. Between them, a glowing golden thread connects their hearts, symbolizing the invisible bond of compatibility.
+SUBJECT: A parent figure holding a small child's hand - the parent is clearly adult-sized, the child is clearly small (about half height). They stand side by side, not embracing. The parent gently guides the child forward. Both figures in elegant golden silhouette style.
 
 BACKGROUND: Deep matte black with subtle texture of traditional Chinese rice paper. Soft golden light emanates from behind the figures, creating a halo effect.
 
@@ -139,13 +139,13 @@ COLOR PALETTE: Matte black (#1a1a1a) + antique gold (#d4af37) + sparing vermilli
 
 LIGHTING: Dramatic chiaroscuro lighting, golden rim light on figures, soft glow from connection point.
 
-MOOD: Warm, intimate, harmonious, profound.
+MOOD: Warm, protective, nurturing, harmonious.
 
-PROHIBITED: NO 3D rendering, NO blur, NO fog, NO cartoon, NO emoji, NO busy patterns, NO text, NO letters."""
-    
+PROHIBITED: NO 3D rendering, NO blur, NO fog, NO cartoon, NO emoji, NO busy patterns, NO text, NO letters, NO romantic couples, NO adult couples facing each other, NO embracing couples."""
+
     bg_path = "C:\\Users\\agenew\\Desktop\\DaoEssence1.0\\images\\bazi-parent-child-bg.webp"
     output_path = "C:\\Users\\agenew\\Desktop\\DaoEssence1.0\\images\\bazi-parent-child-compatibility-cover.webp"
-    
+
     print("步骤 1: 生成背景图...")
     success = generate_background(background_prompt, bg_path)
     
