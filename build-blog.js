@@ -2019,7 +2019,8 @@ async function main() {
     'build-blog.js', 'build-blog.cjs', 'package.json', 'package-lock.json',
     '.env', '.env.local', '.env.example', '.env.*.local',
     'docs', 'scripts',
-    'api'
+    'api',
+    'venv_ocr'
   ]);
 
   // Step 2b: Inject pageview.js into learn-bazi chapter pages
