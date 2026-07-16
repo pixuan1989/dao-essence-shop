@@ -113,6 +113,54 @@ async function translateArticle(systemPrompt, data, content, filename, retryCoun
     }
   }
 
+  // Translate h1Title if different from title
+  let translatedH1Title;
+  if (data.h1Title && data.h1Title !== data.title) {
+    try {
+      await new Promise(r => setTimeout(r, 1000));
+      translatedH1Title = await callDashScope([
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: `翻譯文章主標題（h1）為繁體中文，保持專業簡潔：\n\n${data.h1Title}` }
+      ], 300);
+      if (translatedH1Title) translatedH1Title = translatedH1Title.trim();
+    } catch (err) {
+      console.warn(`    ⚠️ h1Title translation failed: ${err.message}`);
+      translatedH1Title = data.h1Title;
+    }
+  }
+
+  // Translate seoDescription if present
+  let translatedSeoDescription;
+  if (data.seoDescription) {
+    try {
+      await new Promise(r => setTimeout(r, 1000));
+      translatedSeoDescription = await callDashScope([
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: `翻譯 SEO 描述為繁體中文，保持 155 字元以內，含關鍵字與行動號召：\n\n${data.seoDescription}` }
+      ], 300);
+      if (translatedSeoDescription) translatedSeoDescription = translatedSeoDescription.trim();
+    } catch (err) {
+      console.warn(`    ⚠️ seoDescription translation failed: ${err.message}`);
+      translatedSeoDescription = data.seoDescription;
+    }
+  }
+
+  // Translate imageAlt if present
+  let translatedImageAlt;
+  if (data.imageAlt) {
+    try {
+      await new Promise(r => setTimeout(r, 1000));
+      translatedImageAlt = await callDashScope([
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: `翻譯圖片替代文字為繁體中文，簡潔描述畫面：\n\n${data.imageAlt}` }
+      ], 300);
+      if (translatedImageAlt) translatedImageAlt = translatedImageAlt.trim();
+    } catch (err) {
+      console.warn(`    ⚠️ imageAlt translation failed: ${err.message}`);
+      translatedImageAlt = data.imageAlt;
+    }
+  }
+
   // Translate body
   let translatedBody;
   for (let attempt = 0; attempt <= retryCount; attempt++) {
@@ -141,6 +189,9 @@ async function translateArticle(systemPrompt, data, content, filename, retryCoun
   const zhData = { ...data };
   zhData.title = translatedTitle || data.title;
   if (translatedDescription) zhData.description = translatedDescription;
+  if (translatedH1Title) zhData.h1Title = translatedH1Title;
+  if (translatedSeoDescription) zhData.seoDescription = translatedSeoDescription;
+  if (translatedImageAlt) zhData.imageAlt = translatedImageAlt;
   zhData.lang = 'zh-Hant';
 
   // Translate FAQ if present
@@ -212,6 +263,9 @@ async function translateArticle(systemPrompt, data, content, filename, retryCoun
   }
   zhData.title = postProcess(zhData.title);
   if (zhData.description) zhData.description = postProcess(zhData.description);
+  if (zhData.h1Title) zhData.h1Title = postProcess(zhData.h1Title);
+  if (zhData.seoDescription) zhData.seoDescription = postProcess(zhData.seoDescription);
+  if (zhData.imageAlt) zhData.imageAlt = postProcess(zhData.imageAlt);
   const processedBody = postProcess(translatedBody);
 
   // Output

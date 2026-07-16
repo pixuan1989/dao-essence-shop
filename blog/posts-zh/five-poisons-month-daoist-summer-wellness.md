@@ -15,9 +15,7 @@ tags:
 description: >-
   深入探討五毒月的道家淵源，詳解 2026
   年九毒日，並提供根植於古老中國傳統的完整夏季養生指南。助您順應天時，調和陰陽，安然度過夏日。透過傳統智慧，提升身心能量，迎接健康季節。
-seoDescription: >-
-  Five Poisons Month explained: Daoist origins, Nine Poisonous Days for 2026,
-  and a full guide to summer cleansing, diet, and spiritual practice.
+seoDescription: 五毒月完整解析：道家起源、2026年九毒日，以及夏季淨化、飲食與身心靈修煉全攻略。
 date: 2026-06-22T00:00:00.000Z
 author: Dingwei
 readTime: 10
@@ -69,6 +67,8 @@ faq: &ref_0
       分鐘的靜心呼吸，都是尊崇這項古老養生傳統的有效方式。
 lang: zh-Hant
 faq_zh: *ref_0
+h1Title: 五毒月：道家夏季養生指南
+imageAlt: 五毒月端午香囊與艾草，呈現道家夏季養生淨化氛圍
 ---
 艾草仍掛於門上。粽葉才剛丟進垃圾桶。然而，根據數百年來的道家與民間智慧，農曆中最危險的月份才剛剛開始。
 

@@ -1,11 +1,9 @@
 ---
 title: 辦公桌風水入門：提升你的事業運
 description: 你的書桌位置影響事業運！5 分鐘學會 7 條風水法則：掌控位、方位與五行調和技巧。
-seoDescription: >-
-  Boost career luck with 7 desk feng shui rules. Find your command position and
-  personal lucky direction. Free calculator inside.
+seoDescription: 透過7個辦公桌風水規則提升事業運。找到你的靠山位置與個人吉位。內含免費計算工具。
 category: feng-shui
-date: 2026-06-10
+date: 2026-06-10T00:00:00.000Z
 tags: >-
   desk feng shui, office desk placement, career luck feng shui, command
   position, kua number, feng shui office layout
@@ -13,9 +11,7 @@ author: Xuanzhen
 readTime: 7 min read
 pinned: false
 image: /images/blog/desk-feng-shui-career-luck-cover.webp
-imageAlt: >-
-  Office desk in command position with solid wall behind, feng shui career luck
-  setup
+imageAlt: 辦公桌擺放於風水靠山位，背後有實牆，象徵事業運提升的佈置
 slug: desk-feng-shui-career-luck
 cta_cards:
   - five-elements

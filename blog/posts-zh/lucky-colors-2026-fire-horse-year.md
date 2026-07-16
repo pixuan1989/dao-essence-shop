@@ -7,10 +7,7 @@ tags:
   - Lucky Colors
   - 2026 Forecast
 description: 探索2026火馬年專屬幸運色！學會辨識你的日主五行，挑選能平衡八字命盤的色彩，提升氣場、人際與事業運勢。
-seoDescription: >-
-  Lucky colors 2026: find your personal shades for the Fire Horse year based on
-  BaZi Day Master. Not all lucky colors work for everyone — learn which ones
-  actually match your chart.
+seoDescription: 2026年幸運色完整指南：根據八字日主找出屬於你的火馬年開運色。不是所有幸運色都適合你——學會找出真正匹配你命盤的顏色。
 date: 2026-06-09T00:00:00.000Z
 author: Xuanzhen
 readTime: 9
@@ -46,6 +43,8 @@ keywords: >-
   lucky colors, bazi lucky colors, personal lucky colors, five elements colors,
   2026 feng shui colors
 lang: zh-Hant
+h1Title: 2026年幸運色彩：火馬年該穿什麼？
+imageAlt: 2026火馬年五行色彩光暈，圍繞不同八字日主展現個人開運色
 ---
 **你的中國生肖僅提供初步線索；而你在2026年的個人幸運色，則取決於你的八字「日主」——也就是你出生命盤中代表「你自己」的五行元素。**
 

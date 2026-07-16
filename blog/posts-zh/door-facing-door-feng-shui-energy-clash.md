@@ -8,10 +8,11 @@ tags:
   - 室內設計
   - 能量流動
   - 門口佈置
-description: "大門對大門是公寓常見的風水煞——兩戶氣場直接衝撞，影響財運與家庭和諧。本文提供 4 種免費化解法：屏風隔氣、綠植擋煞、地毯吸氣、調整開關門習慣，15 分鐘搞定。"
-seoDescription: >-
-  門對門風水：了解為什麼兩扇相對的門會產生氣場對沖，以及 4 種不需大裝修就能化解居家煞氣的實用方法。
-keywords: "大門對大門風水, 對門風水禁忌, 風水門對門化解, 公寓風水問題, 風水門口佈置, 鄰居對門風水"
+description: >-
+  大門對大門是公寓常見的風水煞——兩戶氣場直接衝撞，影響財運與家庭和諧。本文提供 4 種免費化解法：屏風隔氣、綠植擋煞、地毯吸氣、調整開關門習慣，15
+  分鐘搞定。
+seoDescription: 門對門風水：了解為什麼兩扇相對的門會產生氣場對沖，以及 4 種不需大裝修就能化解居家煞氣的實用方法。
+keywords: '大門對大門風水, 對門風水禁忌, 風水門對門化解, 公寓風水問題, 風水門口佈置, 鄰居對門風水'
 date: 2026-05-21T00:00:00.000Z
 author: DAO Essence
 readTime: 7
@@ -19,9 +20,7 @@ pinned: false
 image: /images/blog/door-facing-door-feng-shui-hero.webp
 cta_cards:
   - five-elements
-imageAlt: >-
-  Two apartment doors facing each other in hallway with blue wall, feng shui
-  energy clash illustration
+imageAlt: 兩扇公寓門在走廊中相對，藍色牆面，風水能量衝突意象
 faq: &ref_0
   - question: 門對門真的是不好的風水嗎？
     answer: >-
