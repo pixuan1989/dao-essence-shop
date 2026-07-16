@@ -10,6 +10,7 @@ const PROJECT_ROOT = path.join(__dirname, '..');
 const JSON_PATH = path.join(PROJECT_ROOT, 'wallpapers.json');
 const VERCEL_JSON = path.join(PROJECT_ROOT, 'vercel.json');
 const DIST_DIR = path.join(PROJECT_ROOT, 'dist');
+const IMAGE_SITEMAP_PATH = path.join(PROJECT_ROOT, 'image-sitemap.xml');
 
 function kebabCase(str) {
   return str.toLowerCase()
@@ -17,6 +18,65 @@ function kebabCase(str) {
     .replace(/\s+/g, '-')
     .replace(/-+/g, '-')
     .trim();
+}
+
+/**
+ * 更新 image-sitemap.xml
+ * 为每个新壁纸添加 EN+ZH 两条 URL
+ */
+function updateImageSitemap(newWallpapers) {
+  let xml = fs.existsSync(IMAGE_SITEMAP_PATH)
+    ? fs.readFileSync(IMAGE_SITEMAP_PATH, 'utf8')
+    : '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n</urlset>';
+
+  // 解析现有 URL，避免重复
+  const existingUrls = new Set();
+  const urlRegex = /<loc>(https:\/\/www\.daoessentia\.com\/wallpaper\/[^<]+)<\/loc>/g;
+  let match;
+  while ((match = urlRegex.exec(xml)) !== null) {
+    existingUrls.add(match[1]);
+  }
+
+  // 为每个新壁纸添加 EN+ZH 条目
+  let addedCount = 0;
+  for (const wp of newWallpapers) {
+    const enUrl = `https://www.daoessentia.com/wallpaper/${wp.slug}`;
+    const zhUrl = `https://www.daoessentia.com/zh/wallpaper/${wp.slug}`;
+
+    if (!existingUrls.has(enUrl)) {
+      const entry = `  <url>
+    <loc>${enUrl}</loc>
+    <image:image>
+      <image:loc>${wp.thumb}</image:loc>
+      <image:title>${escapeXml(wp.title)}</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>${zhUrl}</loc>
+    <image:image>
+      <image:loc>${wp.thumb}</image:loc>
+      <image:title>${escapeXml(wp.title)}</image:title>
+    </image:image>
+  </url>
+`;
+      // 插入到 </urlset> 之前
+      xml = xml.replace('</urlset>', entry + '</urlset>');
+      existingUrls.add(enUrl);
+      addedCount++;
+    }
+  }
+
+  fs.writeFileSync(IMAGE_SITEMAP_PATH, xml, 'utf8');
+  console.log(`  新增 ${addedCount} 张壁纸 (${addedCount * 2} 条 URL)`);
+}
+
+function escapeXml(str) {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;');
 }
 
 async function main() {
@@ -98,6 +158,11 @@ async function main() {
   execSync('node build-blog.js', { cwd: PROJECT_ROOT, stdio: 'pipe' });
   console.log('  ✅ sitemap 已更新');
 
+  // Step 5b: Update image-sitemap.xml
+  console.log('\n[Step 5b] 更新 image-sitemap.xml...');
+  updateImageSitemap(newWallpapers);
+  console.log('  ✅ image-sitemap.xml 已更新');
+
   // Step 6 & 7: Checks
   console.log('\n[Step 6-7] SEO 回测 (4.4-4.11)...');
   const results = { '4.4 无 index.zh 目录': true, '4.6 meta 正确': true, '4.7 无重定向': true, '4.11 sitemap 完整': true };
@@ -133,7 +198,7 @@ async function main() {
   // Step 8: Git Push
   console.log('\n[Step 8] Git 提交 + Push...');
   try {
-    execSync('git add wallpaper/ wallpapers.json vercel.json', { cwd: PROJECT_ROOT, stdio: 'pipe' });
+    execSync('git add wallpaper/ wallpapers.json vercel.json image-sitemap.xml', { cwd: PROJECT_ROOT, stdio: 'pipe' });
     execSync('git add -f dist/sitemap.xml dist/wallpaper/', { cwd: PROJECT_ROOT, stdio: 'pipe' });
     execSync(`git commit -m "feat: add ${newWallpapers.length} new wallpapers (SEO checks ALL PASS)"`, { cwd: PROJECT_ROOT, stdio: 'pipe' });
     execSync('git push origin main', { cwd: PROJECT_ROOT, stdio: 'inherit' });
