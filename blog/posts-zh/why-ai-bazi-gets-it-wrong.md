@@ -6,6 +6,7 @@ readTime: 8
 excerpt: AI 算命聽起來很方便，但準確度與人類專家相差甚遠。本文揭開 AI 八字五大根本缺陷。
 description: AI 八字排盤技術上正確，但解讀準確度僅 40–60%。本文說明為何不應信任 AI 來判讀你的命運。
 featuredImage: /images/blog/ai-bazi-wrong.webp
+image: /images/blog/ai-bazi-wrong.webp
 imageAlt: AI 算命與傳統八字對比概念：數位神經網路晶片 vs 古老命盤圖表
 categories:
   - bazi-astrology

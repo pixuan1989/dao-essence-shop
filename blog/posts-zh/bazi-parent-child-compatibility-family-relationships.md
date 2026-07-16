@@ -6,6 +6,7 @@ slug: "bazi-parent-child-compatibility-family-relationships"
 date: 2026-07-13
 category: "family-relationships"
 featuredImage: "/images/bazi-parent-child-compatibility-cover.webp"
+image: "/images/bazi-parent-child-compatibility-cover.webp"
 h1Title: "八字親子合盤：為什麼你和孩子總是衝突？"
 imageAlt: "溫暖親子互動時刻，金色陽光灑落，展現家庭關係能量模式與八字親子合盤"
 lang: "zh-Hant"
