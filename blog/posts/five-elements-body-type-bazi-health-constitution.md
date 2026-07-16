@@ -277,7 +277,7 @@ This is why people often say things like *"I never had health problems until my 
 - If your birth chart has weak Wood (liver tendency), and your current 10-year cycle brings strong Metal energy, that Metal will attack your already-weak Wood. This is when liver-related issues are most likely to surface.
 - Conversely, if your cycle brings Water energy, Water feeds Wood — your liver gets support, and you might feel surprisingly healthy even if your chart suggests vulnerability.
 
-The practical takeaway: **know your weak element, and pay extra attention during luck cycles that bring its opposing element.** For a deeper dive into how these 10-year cycles work, check our [complete guide to BaZi luck cycles](/bazi-10-year-luck-cycles-guide).
+The practical takeaway: **know your weak element, and pay extra attention during luck cycles that bring its opposing element.** For a deeper dive into how these 10-year cycles work, check our [complete guide to BaZi luck cycles](/blog/bazi-10-year-luck-cycles-guide).
 
 ---
 
@@ -293,7 +293,7 @@ Knowing your body type is only useful if it changes what you actually do. Here's
 
 **Emotional care:** Your biggest health risk isn't food — it's stress. Chronic anger and frustration literally damage your liver in TCM theory (怒伤肝). Find a stress outlet that works: meditation, journaling, talking to someone. This isn't woo-woo — chronic stress elevates cortisol, which impairs liver function by any medical framework.
 
-**Environment:** Green and blue-green colors support you. Check our [Five Elements wallpaper guide](/how-to-choose-your-phone-wallpaper-using-chinese-five-elements) for phone wallpapers that match your element.
+**Environment:** Green and blue-green colors support you. Check our [Five Elements wallpaper guide](/blog/how-to-choose-your-phone-wallpaper-using-chinese-five-elements) for phone wallpapers that match your element.
 
 ### Fire Type Wellness
 
@@ -303,7 +303,7 @@ Knowing your body type is only useful if it changes what you actually do. Here's
 
 **Emotional care:** Your challenge is learning to slow down. Anxiety and over-excitement both disturb your heart energy (喜伤心 — yes, even excessive joy). Calming practices like deep breathing or gentle meditation before bed help with the insomnia that Fire types are prone to.
 
-**Environment:** Red and warm tones energize you, but if you're already feeling wired, cool blues and blacks can help balance. For personalized color guidance, see our [2026 lucky colors guide](/lucky-colors-2026-fire-horse-year).
+**Environment:** Red and warm tones energize you, but if you're already feeling wired, cool blues and blacks can help balance. For personalized color guidance, see our [2026 lucky colors guide](/blog/lucky-colors-2026-fire-horse-year).
 
 ### Earth Type Wellness
 
