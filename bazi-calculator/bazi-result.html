@@ -384,12 +384,16 @@
             margin-bottom: 1.2rem; max-width: 420px; margin-left: auto; margin-right: auto;
         }
         .cta-list {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem 1rem;
             margin-bottom: 1.4rem; font-size: 0.78rem; color: rgba(245,240,232,0.7);
+            overflow: hidden;
         }
-        .cta-list span { position: relative; padding-left: 1.1rem; }
+        .cta-list span {
+            display: block; float: left; width: 50%;
+            box-sizing: border-box; padding-left: 1.1rem; padding-right: 0.5rem;
+            position: relative; text-align: left; margin-bottom: 0.45rem; line-height: 1.4;
+        }
         .cta-list span::before {
-            content: '✦'; position: absolute; left: 0; color: #D4AF37; font-size: 0.65rem;
+            content: '✦'; position: absolute; left: 0; top: 0.05rem; color: #D4AF37; font-size: 0.65rem;
         }
         .cta-btn {
             display: inline-block; padding: 0.75rem 2.4rem;
@@ -404,17 +408,21 @@
             transform: translateY(-1px);
         }
         .cta-trust {
-            margin-top: 1rem; display: flex; justify-content: center; gap: 1.2rem;
+            margin-top: 1rem; text-align: center;
             font-size: 0.68rem; color: rgba(245,240,232,0.4);
+            overflow: hidden;
         }
-        .cta-trust span { display: flex; align-items: center; gap: 0.3rem; }
+        .cta-trust span {
+            display: inline-block; margin: 0 0.55rem;
+        }
         .cta-trust .trust-dot {
-            width: 4px; height: 4px; border-radius: 50%; background: rgba(212,175,55,0.5);
+            display: inline-block; width: 4px; height: 4px; border-radius: 50%;
+            background: rgba(212,175,55,0.5); margin-right: 0.3rem; vertical-align: middle;
         }
         @media (max-width: 640px) {
             .cta-box-inner { padding: 1.5rem 1.2rem 1.4rem; }
             .cta-title { font-size: 1.2rem; }
-            .cta-list { grid-template-columns: 1fr 1fr; }
+            .cta-list span { width: 100%; }
         }
 
         /* ============================

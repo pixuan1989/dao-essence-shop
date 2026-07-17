@@ -62,12 +62,12 @@
         'bazi_result.sidebar_min_read': ' min read',
         // CTA
         'bazi_result.cta_badge': '✦ Premium Reading',
-        'bazi_result.cta_title': 'Read Your Chart Before You Move',
-        'bazi_result.cta_subtitle': 'Your free chart gives you the Four Pillars and a map of your Luck Cycles. The full report delivers <strong style="color:#D4AF37">12,000+ words</strong> of in-depth analysis — each 10-year cycle decoded chapter by chapter, the next 3 years year by year, plus Blind-School Work Analysis revealing how your chart actually works.',
+        'bazi_result.cta_title': 'Go Beyond the Free Chart — Your Full Life Roadmap',
+        'bazi_result.cta_subtitle': 'The free chart shows your Four Pillars. The full report reveals what they mean for YOUR career, money & love — and exactly when your best years arrive.',
         'bazi_result.cta_feat1': '10-Year Luck Cycles, chapter by chapter',
         'bazi_result.cta_feat2': 'Next 3 Years, year by year',
         'bazi_result.cta_feat3': 'Career · Wealth · Love combined',
-        'bazi_result.cta_feat4': 'Blind-School Work Analysis (controlling/transforming/generating/combining/burial)',
+        'bazi_result.cta_feat4': 'Why your chart produces results the way it does',
         'bazi_result.cta_feat5': 'Elemental gifts & suited industries',
         'bazi_result.cta_feat6': 'Deep dive into your current Luck Cycle',
         'bazi_result.cta_btn': 'Get the Full Report — $9.99 USD',
@@ -75,8 +75,9 @@
         'bazi_result.cta_btn_error_checkout': 'Unable to create checkout. Please try again.',
         'bazi_result.cta_btn_error_network': 'Network error. Please try again.',
         'bazi_result.cta_trust1': 'Based on your exact BaZi chart',
-        'bazi_result.cta_trust2': '<strong style="color:#D4AF37">12,000+ words</strong> of in-depth analysis',
-        'bazi_result.cta_trust3': 'Delivered as PDF by email',
+        'bazi_result.cta_trust2': '<strong style="color:#D4AF37">17,000 words</strong> of in-depth analysis',
+        'bazi_result.cta_trust3': 'One-time payment · No subscription',
+        'bazi_result.cta_trust4': 'Delivered as PDF by email',
         // Errors
         'bazi_result.error_no_data': 'No calculation data found. Please go back and try again.',
         'bazi_result.error_invalid': 'Invalid parameters.',
@@ -1042,6 +1043,7 @@
                     '<span><span class="trust-dot"></span>' + t('bazi_result.cta_trust1') + '</span>' +
                     '<span><span class="trust-dot"></span>' + t('bazi_result.cta_trust2') + '</span>' +
                     '<span><span class="trust-dot"></span>' + t('bazi_result.cta_trust3') + '</span>' +
+                    '<span><span class="trust-dot"></span>' + t('bazi_result.cta_trust4') + '</span>' +
                 '</div>' +
             '</div></section>';
 
