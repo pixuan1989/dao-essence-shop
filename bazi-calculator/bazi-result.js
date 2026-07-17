@@ -78,6 +78,7 @@
         'bazi_result.cta_trust2': '<strong style="color:#D4AF37">17,000 words</strong> of in-depth analysis',
         'bazi_result.cta_trust3': 'One-time payment · No subscription',
         'bazi_result.cta_trust4': 'Delivered as PDF by email',
+        'bazi_result.cta_wallpaper_bonus': 'Order now and receive 8 Fortune-Prosperity-Longevity wallpapers — delivered with your PDF report',
         // Errors
         'bazi_result.error_no_data': 'No calculation data found. Please go back and try again.',
         'bazi_result.error_invalid': 'Invalid parameters.',
@@ -1039,6 +1040,7 @@
                     '<span>' + t('bazi_result.cta_feat5') + '</span><span>' + t('bazi_result.cta_feat6') + '</span>' +
                 '</div>' +
                 '<a href="#" class="cta-btn" onclick="event.preventDefault();var b=this;b.textContent=\'' + t('bazi_result.cta_btn_loading') + '\';fetch(\'/api/create-checkout\',{method:\'POST\',headers:{\'Content-Type\':\'application/json\'},body:JSON.stringify({items:[{id:\'prod_28PqAKMEom5WGRH1w9O35n\',name:\'BaZi Life Guidance\',price:0,quantity:1}]})}).then(function(r){return r.json()}).then(function(d){if(d.checkoutUrl)window.open(d.checkoutUrl,\'_blank\');else{b.textContent=\'' + t('bazi_result.cta_btn') + '\';alert(\'' + t('bazi_result.cta_btn_error_checkout') + '\')}}).catch(function(){b.textContent=\'' + t('bazi_result.cta_btn') + '\';alert(\'' + t('bazi_result.cta_btn_error_network') + '\')})">' + t('bazi_result.cta_btn') + '</a>' +
+                '<div class="cta-wallpaper-bonus"><span class="bonus-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 12v10H4V12M2 7h20v5H2zM12 22V7M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/></svg></span><span class="bonus-text">' + t('bazi_result.cta_wallpaper_bonus') + '</span></div>' +
                 '<div class="cta-trust">' +
                     '<span><span class="trust-dot"></span>' + t('bazi_result.cta_trust1') + '</span>' +
                     '<span><span class="trust-dot"></span>' + t('bazi_result.cta_trust2') + '</span>' +
