@@ -6,19 +6,25 @@ DaoEssence 微信推送脚本
 import requests
 import json
 import os
+import sys
 from datetime import datetime
 from pathlib import Path
 
 
 # 推送服务配置（从环境变量或配置文件读取）
 def get_config():
-    """获取推送配置"""
+    """获取推送配置：优先用环境变量（GitHub Actions 注入 WECOM_WEBHOOK），无则回退本地 json"""
     config_file = os.path.join(os.path.dirname(__file__), 'wechat_config.json')
-    
+
+    # 优先使用环境变量（GitHub Secrets 通过 workflow 注入到 WECOM_WEBHOOK）
+    env_webhook = os.environ.get('WECOM_WEBHOOK')
+    if env_webhook:
+        return {"service": "wecom", "wecom_webhook": env_webhook}
+
     if os.path.exists(config_file):
         with open(config_file, 'r', encoding='utf-8') as f:
             return json.load(f)
-    
+
     # 默认配置（需要用户填写）
     return {
         "service": "serverchan",  # 可选：serverchan, pushplus, wecom
@@ -141,6 +147,9 @@ def main():
     elif config['service'] == 'wecom':
         result = send_via_wecom(config['wecom_webhook'], wechat_msg)
         print(f"推送结果：{result}")
+        if result.get('errcode', -1) != 0:
+            print("❌ 企业微信推送失败（errcode != 0），以非零退出码终止")
+            sys.exit(1)
     
     print("\n✅ 推送完成！等待用户回复...")
 
