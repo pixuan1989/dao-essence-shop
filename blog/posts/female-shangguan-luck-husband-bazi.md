@@ -23,6 +23,15 @@ faq:
     answer: "Three patterns benefit: (1) Charts with Wealth Star bridging Shangguan and Officer—creates wealth and supports husband's career. (2) Charts with Resource Star controlling Shangguan—maintains stability and wisdom. (3) Charts without Officer Star—no conflict, focus on self-growth."
   - question: "How to handle Shangguan luck cycle for better marriage?"
     answer: "Four strategies: (1) Channel Shangguan energy into career and wealth-building. (2) Practice mindful communication—speak slowly and think before reacting. (3) Maintain bidirectional communication and mutual respect. (4) If Wealth Star is present, focus on financial growth to reduce family conflicts."
+faq_zh:
+  - question: "八字中的傷官是什麼？"
+    answer: "傷官是八字十神之一。對於女命，傷官代表克制夫星（正官）的五行。它象徵創造力、獨立性和質疑精神。"
+  - question: "傷官大運代表婚姻不好嗎？"
+    answer: "不是。傷官大運只表示十年的性格轉變——變得更獨立、直接、有自我意識。是否影響婚姻取決於命盤整體結構，特別是有無財星或印星來平衡能量。"
+  - question: "哪種八字格局在傷官大運中受益？"
+    answer: "三種格局受益：(1) 財星通關——傷官生財、財生官，創造財富並支持丈夫事業。(2) 印星制衡——保持穩定與智慧。(3) 命盤無官星——無衝突，專注自我成長。"
+  - question: "如何應對傷官大運以改善婚姻？"
+    answer: "四個策略：(1) 將傷官能量導入事業與財富建設。(2) 練習正念溝通——說話前慢下來思考。(3) 保持雙向溝通與相互尊重。(4) 若有財星，把握財務機會，家庭財富增長後多數衝突自動化解。"
 related_posts:
   - bazi-10-year-luck-cycles-guide
   - five-elements-body-type-bazi-health-constitution
