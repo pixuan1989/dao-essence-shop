@@ -2,8 +2,10 @@
 title: "Female Shangguan Luck = Bad Marriage? 3 BaZi Patterns That Prosper"
 description: "Women panic at Shangguan luck cycle. But for 3 BaZi patterns, it's a decade of wealth, career growth, and marital harmony. Learn why."
 h1Title: "Female Shangguan Luck = Bad Marriage? 3 BaZi Patterns That Prosper"
+h1Title_zh: "女性傷官運＝婚姻運差？3 種興旺的八字格局"
 seoDescription: "Women panic at Shangguan luck cycle. But for 3 BaZi patterns, it's a decade of wealth, career growth, and marital harmony. Learn why."
 imageAlt: "BaZi chart showing Shangguan luck cycle for female destiny analysis"
+imageAlt_zh: "八字命盤顯示女性傷官大運分析"
 featuredImage: "/images/blog/female-shangguan-luck-husband-bazi.webp"
 image: "/images/blog/female-shangguan-luck-husband-bazi.webp"
 date: 2026-07-17
