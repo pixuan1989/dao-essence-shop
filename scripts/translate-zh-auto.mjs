@@ -113,9 +113,9 @@ async function translateArticle(systemPrompt, data, content, filename, retryCoun
     }
   }
 
-  // Translate h1Title if different from title
+  // Translate h1Title if present (always translate, even if same as title)
   let translatedH1Title;
-  if (data.h1Title && data.h1Title !== data.title) {
+  if (data.h1Title) {
     try {
       await new Promise(r => setTimeout(r, 1000));
       translatedH1Title = await callDashScope([
