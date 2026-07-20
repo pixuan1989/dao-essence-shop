@@ -9,6 +9,7 @@
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
+import translate from 'google-translate-api';
 
 const DASHSCOPE_MODEL = 'qwen3.5-plus';
 const DASHSCOPE_BASE_URL = 'https://dashscope.aliyuncs.com/compatible-mode/v1';
@@ -122,9 +123,16 @@ async function translateArticle(systemPrompt, data, content, filename, retryCoun
       }
     }
     if (!translatedDescription) {
-      // 3 次都失败，保留英文原文作为兜底
-      translatedDescription = data.description;
-      console.warn(`    ⚠️ Description translation failed after ${maxRetries} attempts, keeping English original`);
+      // 3 次都失败，用 Google Translate 兜底
+      console.warn(`    ⚠️ Description translation failed after ${maxRetries} attempts, trying Google Translate...`);
+      try {
+        const result = await translate(data.description, { to: 'zh-TW' });
+        translatedDescription = result.text;
+        console.log(`    ✅ Google Translate fallback succeeded`);
+      } catch (err) {
+        console.warn(`    ⚠️ Google Translate also failed: ${err.message}`);
+        translatedDescription = data.description; // 最后兜底：保留英文原文
+      }
     }
   }
 
