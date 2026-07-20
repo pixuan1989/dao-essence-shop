@@ -106,10 +106,16 @@ async function translateArticle(systemPrompt, data, content, filename, retryCoun
         { role: 'system', content: systemPrompt },
         { role: 'user', content: `翻譯文章描述為繁體中文，保持 155 字元以內：\n\n${data.description}` }
       ], 300, 600000); // 10 minutes timeout for description
-      if (translatedDescription) translatedDescription = translatedDescription.trim();
+      if (translatedDescription) {
+        translatedDescription = translatedDescription.trim();
+      } else {
+        // API 返回空内容，保留英文原文
+        translatedDescription = data.description;
+        console.warn(`    ⚠️ Description translation returned empty, keeping English original`);
+      }
     } catch (err) {
       console.warn(`    ⚠️ Description translation failed: ${err.message}`);
-      translatedDescription = data.description;
+      translatedDescription = data.description; // 保留英文原文
     }
   }
 
