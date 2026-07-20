@@ -99,23 +99,32 @@ async function translateArticle(systemPrompt, data, content, filename, retryCoun
   // Translate description
   let translatedDescription;
   if (data.description) {
-    try {
-      // Small delay to avoid rate limiting
-      await new Promise(r => setTimeout(r, 1000));
-      translatedDescription = await callDashScope([
-        { role: 'system', content: systemPrompt },
-        { role: 'user', content: `翻譯文章描述為繁體中文，保持 155 字元以內：\n\n${data.description}` }
-      ], 300, 600000); // 10 minutes timeout for description
-      if (translatedDescription) {
-        translatedDescription = translatedDescription.trim();
-      } else {
-        // API 返回空内容，保留英文原文
-        translatedDescription = data.description;
-        console.warn(`    ⚠️ Description translation returned empty, keeping English original`);
+    let retryCount = 0;
+    const maxRetries = 3;
+    while (retryCount < maxRetries) {
+      try {
+        // Small delay to avoid rate limiting
+        await new Promise(r => setTimeout(r, 1000));
+        translatedDescription = await callDashScope([
+          { role: 'system', content: systemPrompt },
+          { role: 'user', content: `翻譯文章描述為繁體中文，保持 155 字元以內：\n\n${data.description}` }
+        ], 300, 600000); // 10 minutes timeout for description
+        if (translatedDescription) {
+          translatedDescription = translatedDescription.trim();
+          break; // 翻译成功，跳出循环
+        } else {
+          console.warn(`    ⚠️ Description translation attempt ${retryCount + 1} returned empty`);
+          retryCount++;
+        }
+      } catch (err) {
+        console.warn(`    ️ Description translation attempt ${retryCount + 1} failed: ${err.message}`);
+        retryCount++;
       }
-    } catch (err) {
-      console.warn(`    ⚠️ Description translation failed: ${err.message}`);
-      translatedDescription = data.description; // 保留英文原文
+    }
+    if (!translatedDescription) {
+      // 3 次都失败，保留英文原文作为兜底
+      translatedDescription = data.description;
+      console.warn(`    ⚠️ Description translation failed after ${maxRetries} attempts, keeping English original`);
     }
   }
 
