@@ -83,106 +83,86 @@ async function callDashScope(messages, maxTokens = 8000, timeoutMs = TRANSLATE_T
   }
 }
 
-async function translateArticle(systemPrompt, data, content, filename, retryCount = 2) {
-  // Translate title
-  let translatedTitle;
-  try {
-    translatedTitle = await callDashScope([
-      { role: 'system', content: systemPrompt },
-      { role: 'user', content: `翻譯文章標題為繁體中文，只輸出翻譯結果：\n\n${data.title}` }
-    ], 200);
-    if (translatedTitle) translatedTitle = translatedTitle.trim();
-  } catch (err) {
-    console.warn(`    ⚠️ Title translation failed: ${err.message}`);
-    translatedTitle = data.title;
-  }
-
-  // Translate description
-  let translatedDescription;
-  if (data.description) {
-    let retryCount = 0;
-    const maxRetries = 3;
-    while (retryCount < maxRetries) {
-      try {
-        // Small delay to avoid rate limiting
-        await new Promise(r => setTimeout(r, 1000));
-        translatedDescription = await callDashScope([
-          { role: 'system', content: systemPrompt },
-          { role: 'user', content: `翻譯文章描述為繁體中文，保持 155 字元以內：\n\n${data.description}` }
-        ], 300, 600000); // 10 minutes timeout for description
-        if (translatedDescription) {
-          translatedDescription = translatedDescription.trim();
-          break; // 翻译成功，跳出循环
-        } else {
-          console.warn(`    ⚠️ Description translation attempt ${retryCount + 1} returned empty`);
-          retryCount++;
-        }
-      } catch (err) {
-        console.warn(`    ️ Description translation attempt ${retryCount + 1} failed: ${err.message}`);
+async function translateField(systemPrompt, text, fieldName, timeoutMs = 300) {
+  if (!text) return null;
+  
+  let translatedText;
+  let retryCount = 0;
+  const maxRetries = 3;
+  
+  while (retryCount < maxRetries) {
+    try {
+      await new Promise(r => setTimeout(r, 1000));
+      translatedText = await callDashScope([
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: text }
+      ], 300, timeoutMs);
+      if (translatedText) {
+        translatedText = translatedText.trim();
+        break;
+      } else {
+        console.warn(`    ️ ${fieldName} translation attempt ${retryCount + 1} returned empty`);
         retryCount++;
       }
-    }
-    if (!translatedDescription) {
-      // 3 次都失败，用 Google Translate 兜底
-      console.warn(`    ⚠️ Description translation failed after ${maxRetries} attempts, trying Google Translate...`);
-      try {
-        const result = await translate(data.description, { to: 'zh-TW' });
-        translatedDescription = result.text;
-        console.log(`    ✅ Google Translate fallback succeeded`);
-      } catch (err) {
-        console.warn(`    ⚠️ Google Translate also failed: ${err.message}`);
-        translatedDescription = data.description; // 最后兜底：保留英文原文
-      }
+    } catch (err) {
+      console.warn(`    ⚠️ ${fieldName} translation attempt ${retryCount + 1} failed: ${err.message}`);
+      retryCount++;
     }
   }
+  
+  if (!translatedText) {
+    // 3 次都失败，用 Google Translate 兜底
+    console.warn(`    ⚠️ ${fieldName} translation failed after ${maxRetries} attempts, trying Google Translate...`);
+    try {
+      const result = await translate(text, { to: 'zh-TW' });
+      translatedText = result.text;
+      console.log(`    ✅ ${fieldName} Google Translate fallback succeeded`);
+    } catch (err) {
+      console.warn(`    ⚠️ ${fieldName} Google Translate also failed: ${err.message}`);
+      translatedText = text; // 最后兜底：保留英文原文
+    }
+  }
+  
+  return translatedText;
+}
+
+async function translateArticle(systemPrompt, data, content, filename, retryCount = 2) {
+  // Translate title
+  const translatedTitle = await translateField(
+    systemPrompt,
+    `翻譯文章標題為繁體中文，只輸出翻譯結果：\n\n${data.title}`,
+    'Title',
+    200
+  ) || data.title;
+
+  // Translate description
+  const translatedDescription = await translateField(
+    systemPrompt,
+    `翻譯文章描述為繁體中文，保持 155 字元以內：\n\n${data.description}`,
+    'Description',
+    600000
+  ) || data.description;
 
   // Translate h1Title if present (always translate, even if same as title)
-  let translatedH1Title;
-  if (data.h1Title) {
-    try {
-      await new Promise(r => setTimeout(r, 1000));
-      translatedH1Title = await callDashScope([
-        { role: 'system', content: systemPrompt },
-        { role: 'user', content: `翻譯文章主標題（h1）為繁體中文，保持專業簡潔：\n\n${data.h1Title}` }
-      ], 300);
-      if (translatedH1Title) translatedH1Title = translatedH1Title.trim();
-    } catch (err) {
-      console.warn(`    ⚠️ h1Title translation failed: ${err.message}`);
-      translatedH1Title = data.h1Title;
-    }
-  }
+  const translatedH1Title = await translateField(
+    systemPrompt,
+    `翻譯文章主標題（h1）為繁體中文，保持專業簡潔：\n\n${data.h1Title}`,
+    'h1Title'
+  ) || data.h1Title;
 
   // Translate seoDescription if present
-  let translatedSeoDescription;
-  if (data.seoDescription) {
-    try {
-      await new Promise(r => setTimeout(r, 1000));
-      translatedSeoDescription = await callDashScope([
-        { role: 'system', content: systemPrompt },
-        { role: 'user', content: `翻譯 SEO 描述為繁體中文，保持 155 字元以內，含關鍵字與行動號召：\n\n${data.seoDescription}` }
-      ], 300);
-      if (translatedSeoDescription) translatedSeoDescription = translatedSeoDescription.trim();
-    } catch (err) {
-      console.warn(`    ⚠️ seoDescription translation failed: ${err.message}`);
-      translatedSeoDescription = data.seoDescription;
-    }
-  }
+  const translatedSeoDescription = await translateField(
+    systemPrompt,
+    `翻譯 SEO 描述為繁體中文，保持 155 字元以內，含關鍵字與行動號召：\n\n${data.seoDescription}`,
+    'seoDescription'
+  ) || data.seoDescription;
 
   // Translate imageAlt if present
-  let translatedImageAlt;
-  if (data.imageAlt) {
-    try {
-      await new Promise(r => setTimeout(r, 1000));
-      translatedImageAlt = await callDashScope([
-        { role: 'system', content: systemPrompt },
-        { role: 'user', content: `翻譯圖片替代文字為繁體中文，簡潔描述畫面：\n\n${data.imageAlt}` }
-      ], 300);
-      if (translatedImageAlt) translatedImageAlt = translatedImageAlt.trim();
-    } catch (err) {
-      console.warn(`    ⚠️ imageAlt translation failed: ${err.message}`);
-      translatedImageAlt = data.imageAlt;
-    }
-  }
+  const translatedImageAlt = await translateField(
+    systemPrompt,
+    `翻譯圖片替代文字為繁體中文，簡潔描述畫面：\n\n${data.imageAlt}`,
+    'imageAlt'
+  ) || data.imageAlt;
 
   // Translate body
   let translatedBody;
