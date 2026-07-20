@@ -105,7 +105,7 @@ async function translateArticle(systemPrompt, data, content, filename, retryCoun
       translatedDescription = await callDashScope([
         { role: 'system', content: systemPrompt },
         { role: 'user', content: `翻譯文章描述為繁體中文，保持 155 字元以內：\n\n${data.description}` }
-      ], 300);
+      ], 300, 600000); // 10 minutes timeout for description
       if (translatedDescription) translatedDescription = translatedDescription.trim();
     } catch (err) {
       console.warn(`    ⚠️ Description translation failed: ${err.message}`);
