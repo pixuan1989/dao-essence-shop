@@ -131,4 +131,4 @@ Understanding this can help you focus your energy where it matters most. If your
 
 Your destiny isn't just about what elements you have—it's about *where* they sit in your chart.
 
-**Ready to find your Useful God position?** Use our [free BaZi Calculator](/bazi-calculator) to generate your complete chart and discover where your greatest support lies.
+**Ready to find your Useful God position?** Use our [free BaZi Calculator](/#free-bazi) to generate your complete chart and discover where your greatest support lies.
