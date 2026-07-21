@@ -335,6 +335,40 @@ export async function autoTranslateIfNeeded(englishArticles, postsZhDir) {
 
   for (const post of toTranslate) {
     console.log(`  Translating: ${post.slug}`);
+    // Check if translation file exists (partial translation)
+    const outputPath = path.join(postsZhDir, post.filename);
+    if (fs.existsSync(outputPath)) {
+      // File exists, check if title is translated
+      const raw = fs.readFileSync(outputPath, 'utf-8');
+      const { data: existingData, content: existingContent } = matter(raw);
+      // Check if title is still English (not translated)
+      if (existingData.title === post.data.title) {
+        console.log(`    ⚠️ Title not translated, translating only title...`);
+        const translatedTitle = await translateField(
+          systemPrompt,
+          `翻譯文章標題為繁體中文，只輸出翻譯結果：\n\n${post.data.title}`,
+          'Title',
+          600000
+        );
+        if (translatedTitle) {
+          existingData.title = translatedTitle;
+          const newContent = matter.stringify(existingContent, existingData);
+          fs.writeFileSync(outputPath, newContent, 'utf-8');
+          console.log(`    ✅ Title updated`);
+        }
+      } else {
+        console.log(`    ✅ Already translated`);
+      }
+      existingData.image = existingData.image || existingData.featuredImage;
+      zhArticles.push({
+        filename: post.filename,
+        slug: post.slug,
+        data: existingData,
+        content: existingContent,
+        category: existingData.category || 'bazi-astrology'
+      });
+      continue;
+    }
     const result = await translateArticle(systemPrompt, post.data, post.content, post.filename);
     if (result) {
       const outputPath = path.join(postsZhDir, post.filename);
