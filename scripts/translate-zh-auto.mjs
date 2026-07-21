@@ -10,6 +10,7 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 import translate from 'google-translate-api';
+import youdaoTranslate from 'youdao-translate';
 
 const DASHSCOPE_MODEL = 'qwen3.5-plus';
 const DASHSCOPE_BASE_URL = 'https://dashscope.aliyuncs.com/compatible-mode/v1';
@@ -119,7 +120,16 @@ async function translateField(systemPrompt, text, fieldName, timeoutMs = 300) {
       console.log(`    ✅ ${fieldName} Google Translate fallback succeeded`);
     } catch (err) {
       console.warn(`    ⚠️ ${fieldName} Google Translate also failed: ${err.message}`);
-      translatedText = null; // 返回 null，让调用者使用英文原文
+      // Google Translate 失败，用有道翻译兜底
+      console.warn(`    ⚠️ ${fieldName} trying Youdao Translate...`);
+      try {
+        const result = await youdaoTranslate(text, { to: 'zh-TW' });
+        translatedText = result.translation;
+        console.log(`    ✅ ${fieldName} Youdao Translate fallback succeeded`);
+      } catch (err) {
+        console.warn(`    ⚠️ ${fieldName} Youdao Translate also failed: ${err.message}`);
+        translatedText = null; // 返回 null，让调用者使用英文原文
+      }
     }
   }
 
