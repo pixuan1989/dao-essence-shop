@@ -119,10 +119,10 @@ async function translateField(systemPrompt, text, fieldName, timeoutMs = 300) {
       console.log(`    ✅ ${fieldName} Google Translate fallback succeeded`);
     } catch (err) {
       console.warn(`    ⚠️ ${fieldName} Google Translate also failed: ${err.message}`);
-      translatedText = text; // 最后兜底：保留英文原文
+      translatedText = null; // 返回 null，让调用者使用英文原文
     }
   }
-  
+
   return translatedText;
 }
 
