@@ -142,7 +142,7 @@ async function translateArticle(systemPrompt, data, content, filename, retryCoun
     systemPrompt,
     `翻譯文章標題為繁體中文，只輸出翻譯結果：\n\n${data.title}`,
     'Title',
-    200
+    600000
   ) || data.title;
 
   // Translate description
