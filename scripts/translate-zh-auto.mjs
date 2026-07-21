@@ -340,6 +340,15 @@ export async function autoTranslateIfNeeded(englishArticles, postsZhDir) {
       const outputPath = path.join(postsZhDir, post.filename);
       fs.writeFileSync(outputPath, result.zhContent, 'utf-8');
       console.log(`    ✅ Saved: posts-zh/${post.filename}`);
+      // Auto-commit to git
+      try {
+        const { execSync } = await import('child_process');
+        execSync(`git add "${outputPath}"`, { stdio: 'pipe' });
+        execSync(`git commit -m "feat: add zh translation for ${post.slug}"`, { stdio: 'pipe' });
+        console.log(`    ✅ Committed to git`);
+      } catch (err) {
+        console.warn(`    ️ Git commit failed: ${err.message}`);
+      }
       // Read back from saved file to get correct frontmatter (including translated FAQ)
       const savedRaw = matter(result.zhContent);
       savedRaw.data.image = savedRaw.data.image || savedRaw.data.featuredImage;
