@@ -1034,6 +1034,83 @@ function generateArticleHtml(post, category, allArticles, options = {}) {
 
 
 
+  // ── Amazon Affiliate Products ─
+  const AMAZON_PRODUCTS = {
+    'feng-shui': {
+      name: 'Feng Shui Bracelet',
+      nameZh: '风水手链',
+      price: '$16.99',
+      image: 'https://m.media-amazon.com/images/I/71vaNcAG5DL._AC_SL1500_.jpg',
+      url: 'https://amzn.to/4wWIPSR',
+      rating: '4.2',
+      reviews: '1,730'
+    },
+    'bazi-astrology': {
+      name: 'Rider-Waite Tarot Deck',
+      nameZh: '莱德韦特塔罗牌',
+      price: '$15.50',
+      image: 'https://m.media-amazon.com/images/I/51C-n5A3PiL._AC_SL1000_.jpg',
+      url: 'https://amzn.to/4vEwzFp',
+      rating: '4.8',
+      reviews: '24,900'
+    },
+    'zodiac-horoscope': {
+      name: '7 Chakra Crystal Set',
+      nameZh: '七脉轮水晶套装',
+      price: '$14.99',
+      image: 'https://m.media-amazon.com/images/I/81u2iZ8TctL._AC_SL1500_.jpg',
+      url: 'https://amzn.to/4wXczix',
+      rating: '4.7',
+      reviews: '1,069'
+    }
+  };
+
+  function renderAmazonProduct(category) {
+    const product = AMAZON_PRODUCTS[category] || AMAZON_PRODUCTS['bazi-astrology'];
+    const recText = isZh ? '開運好物推薦' : 'Recommended for You';
+    const btnText = isZh ? '查看詳情' : 'View on Amazon';
+    const displayName = isZh && product.nameZh ? product.nameZh : product.name;
+    return `
+        <div class="amazon-product-card">
+            <span class="amazon-badge">${recText}</span>
+            <img src="${product.image}" alt="${displayName}" loading="lazy" onerror="this.src='${SITE_URL}/images/og-default.jpg'">
+            <h4>${displayName}</h4>
+            <div class="amazon-rating">
+                <span class="stars">★★★★★</span>
+                <span class="rating-text">${product.rating} (${product.reviews})</span>
+            </div>
+            <div class="amazon-price">${product.price}</div>
+            <a href="${product.url}" target="_blank" rel="nofollow sponsored" class="amazon-btn">${btnText}</a>
+        </div>`;
+  }
+
+  function renderAmazonProductsBottom() {
+    const products = Object.values(AMAZON_PRODUCTS);
+    const recText = isZh ? '開運好物推薦' : 'Recommended for You';
+    return `
+        <section class="amazon-products-bottom">
+            <h3 class="amazon-section-title">${recText}</h3>
+            <div class="amazon-products-grid">
+                ${products.map(p => {
+                  const displayName = isZh && p.nameZh ? p.nameZh : p.name;
+                  return `
+                <div class="amazon-product-card">
+                    <img src="${p.image}" alt="${displayName}" loading="lazy" onerror="this.src='${SITE_URL}/images/og-default.jpg'">
+                    <h4>${displayName}</h4>
+                    <div class="amazon-rating">
+                        <span class="stars">★★★★★</span>
+                        <span class="rating-text">${p.rating} (${p.reviews})</span>
+                    </div>
+                    <div class="amazon-price">${p.price}</div>
+                    <a href="${p.url}" target="_blank" rel="nofollow sponsored" class="amazon-btn">${isZh ? '查看詳情' : 'View on Amazon'}</a>
+                </div>`;
+                }).join('')}
+            </div>
+        </section>`;
+  }
+
+  // ── Creem Affiliate CTA (Commented Out - No Meaning Currently) ──
+  /*
   function renderAffiliateCta() {
     const baguaSvg = `<svg class="dao-aff-bagua" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="52" height="52" aria-hidden="true">
       <circle cx="50" cy="50" r="46" fill="none" stroke="currentColor" stroke-width="1" opacity="0.25"/>
@@ -1069,6 +1146,7 @@ function generateArticleHtml(post, category, allArticles, options = {}) {
           <p class="dao-aff-footer">*Join 0+ active partners earning with us today.</p>
         </section>`;
   }
+  */
 
   function renderRelatedPosts() {
     if (relatedPosts.length === 0) return '';
@@ -1413,17 +1491,26 @@ function generateArticleHtml(post, category, allArticles, options = {}) {
         .share-label { font-size: 0.8rem; color: #999; margin-right: 0.25rem; letter-spacing: 0.05em; }
         @media (max-width: 540px) { .share-buttons { gap: 0.5rem; } .share-btn { width: 32px; height: 32px; } .share-btn svg { width: 14px; height: 14px; } }
 
-        /* ── Affiliate CTA (scoped: dao-aff-) ── */
-        .dao-aff-cta { background: #18181b; border-radius: 12px; border: 1px solid #3f3f46; padding: 2.5rem 2rem; margin: 2.5rem 0; text-align: center; }
-        .dao-aff-badge { display: inline-block; font-size: 0.75rem; letter-spacing: 0.06em; color: #d97706; background: rgba(217,119,6,0.1); padding: 0.3rem 0.9rem; border-radius: 999px; margin-bottom: 1rem; }
-        .dao-aff-icon { margin-bottom: 0.75rem; color: #d97706; }
-        .dao-aff-bagua { display: block; margin: 0 auto; }
-        .dao-aff-headline { font-family: var(--font-display); font-size: 1.25rem; font-weight: 700; color: #fff; margin: 0 0 0.6rem; line-height: 1.4; letter-spacing: 0.03em; }
-        .dao-aff-desc { font-family: 'Inter', system-ui, sans-serif; font-size: 0.9rem; color: #a1a1aa; line-height: 1.7; margin: 0 0 1.5rem; max-width: 480px; margin-left: auto; margin-right: auto; }
-        .dao-aff-btn { display: inline-block; background: #d97706; color: #fff; font-weight: 700; font-size: 0.95rem; padding: 0.75rem 1.5rem; border-radius: 8px; text-decoration: none; transition: background 0.2s, transform 0.15s; }
-        .dao-aff-btn:hover { background: #b45309; transform: translateY(-1px); }
-        .dao-aff-footer { font-family: 'Inter', system-ui, sans-serif; font-size: 0.75rem; color: #71717a; margin-top: 1.25rem; }
-        @media (max-width: 540px) { .dao-aff-cta { padding: 2rem 1.25rem; } .dao-aff-headline { font-size: 1.1rem; } .dao-aff-btn { display: block; width: 100%; text-align: center; } }
+        /* ── Amazon Affiliate Products ── */
+        .amazon-products-bottom { margin: 3rem 0; padding: 2rem 0; border-top: 1px solid rgba(212,175,55,0.2); }
+        .amazon-section-title { font-family: var(--font-display); font-size: 1.5rem; color: var(--accent-color); margin: 0 0 1.5rem; text-align: center; }
+        .amazon-products-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+        .amazon-product-card { background: linear-gradient(145deg, #2d2420, #1a1512); border: 1px solid rgba(212,175,55,0.2); border-radius: 12px; padding: 1.5rem; text-align: center; transition: transform 0.3s, box-shadow 0.3s; }
+        .amazon-product-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
+        .amazon-badge { display: inline-block; font-size: 0.7rem; letter-spacing: 0.08em; color: #d4af37; background: rgba(212,175,55,0.1); padding: 0.3rem 0.9rem; border-radius: 999px; margin-bottom: 1rem; }
+        .amazon-product-card img { width: 100%; height: 200px; object-fit: contain; border-radius: 8px; margin-bottom: 1rem; background: #fff; padding: 0.5rem; }
+        .amazon-product-card h4 { font-size: 1.05rem; color: #f5e6d3; margin: 0 0 0.75rem; line-height: 1.4; font-weight: 600; }
+        .amazon-rating { display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-bottom: 0.75rem; }
+        .amazon-rating .stars { color: #d4af37; font-size: 0.9rem; }
+        .amazon-rating .rating-text { font-size: 0.75rem; color: #999; }
+        .amazon-price { font-size: 1.3rem; font-weight: 700; color: #d4af37; margin-bottom: 1rem; }
+        .amazon-btn { display: inline-block; background: linear-gradient(135deg, #d4af37, #b8941f); color: #1a1512; font-weight: 700; font-size: 0.85rem; padding: 0.7rem 1.4rem; border-radius: 8px; text-decoration: none; transition: all 0.3s; }
+        .amazon-btn:hover { background: linear-gradient(135deg, #e5c048, #d4af37); transform: translateY(-2px); }
+        .blog-sidebar .amazon-product-card { padding: 1rem; }
+        .blog-sidebar .amazon-product-card img { height: 150px; }
+        .blog-sidebar .amazon-product-card h4 { font-size: 0.9rem; }
+        @media (max-width: 768px) { .amazon-products-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 540px) { .amazon-product-card { padding: 1rem; } .amazon-product-card img { height: 150px; } }
     </style>
     <!-- Google Analytics -->
         <script>
@@ -1510,12 +1597,13 @@ ${NAV_HTML}
             </div>` : ''}
         </article>
 
-        ${renderAffiliateCta()}
+        ${renderAmazonProductsBottom()}
         ${renderRelatedPosts()}
         </div>
 
         <aside class="blog-sidebar">
         ${sidebarCtaHtml}
+        ${renderAmazonProduct(category)}
         </aside>
     </div>
 
