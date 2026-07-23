@@ -1292,8 +1292,7 @@
         // Load shop recommendations
         loadShopRecommendations(analysis);
 
-        // Load Amazon affiliate products
-        loadAmazonRecommendations();
+        // Amazon recommendations loaded by external script (js/amazon-affiliate.js)
 
         // Trigger wallpaper recommendation refresh (after _feLastData is set)
         if (window.FeWallpaperRec && typeof window.FeWallpaperRec.refresh === 'function') {
