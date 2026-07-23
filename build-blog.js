@@ -2836,15 +2836,21 @@ async function main() {
       const indexPath = path.join(SRC_DIR, 'wallpaper', dir, 'index.html');
       if (fs.existsSync(indexPath)) {
         let html = fs.readFileSync(indexPath, 'utf8');
-        if (!html.includes('amazon-rec')) {
-          // Add container before </main> or before footer
-          if (html.includes('</main>')) {
-            html = html.replace('</main>', '    <!-- Amazon Affiliate Products -->\n    <div class="section-container" style="max-width:1200px;margin:0 auto;padding:0 24px 48px;">\n        <div class="amazon-rec" id="amazonRec"></div>\n    </div>\n\n</main>');
-          }
-          // Add script before </body>
-          if (html.includes('</body>')) {
-            html = html.replace('</body>', '    <script src="/js/amazon-affiliate.js?v=2" defer></script>\n</body>');
-          }
+        let modified = false;
+        
+        // Add container if not exists
+        if (!html.includes('amazon-rec') && html.includes('</main>')) {
+          html = html.replace('</main>', '    <!-- Amazon Affiliate Products -->\n    <div class="section-container" style="max-width:1200px;margin:0 auto;padding:0 24px 48px;">\n        <div class="amazon-rec" id="amazonRec"></div>\n    </div>\n\n</main>');
+          modified = true;
+        }
+        
+        // Add script if not exists
+        if (!html.includes('amazon-affiliate.js') && html.includes('</body>')) {
+          html = html.replace('</body>', '    <script src="/js/amazon-affiliate.js?v=2" defer></script>\n</body>');
+          modified = true;
+        }
+        
+        if (modified) {
           fs.writeFileSync(indexPath, html, 'utf8');
           updatedCount++;
         }
