@@ -96,8 +96,7 @@ function generateStaticPage(wp, lang) {
       "name": "Dao Essentia"
     },
     "datePublished": dateStr,
-    // 关键词从页面真实标题/分类派生，避免全站雷同的写死词（2026-07-23 修正）
-    "keywords": [title, category, isZh ? "壁紙" : "wallpaper"].concat(tags).filter(Boolean).join(", ")
+    "keywords": tags.concat(["lucky wallpaper", "feng shui", "Chinese metaphysics"]).join(", ")
   };
   var schemaStr = JSON.stringify(schemaObj, null, 2);
   // 把 schema 嵌入 HTML（需要转义 </script>）
