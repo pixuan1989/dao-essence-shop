@@ -60,12 +60,12 @@ function getWallpaperUrl(id, lang = 'en') {
 
 function generateStaticPage(wp, lang) {
   const isZh = lang === 'zh';
-  const id = wp.id;
-  const title = isZh ? (wp.title_zh || wp.title) : wp.title;
-  const desc  = isZh ? (wp.description_zh || wp.description) : wp.description;
+  const id = wp.slug;
+  const title = isZh ? (wp.titleZh || wp.title) : wp.title;
+  const desc  = isZh ? (wp.descriptionZh || wp.description) : wp.description;
   const seoDesc = truncate(desc, 160);
-  const category = isZh ? (wp.category_zh || wp.category) : wp.category;
-  const tags = isZh ? (wp.tags_zh || wp.tags || []) : (wp.tags || []);
+  const category = isZh ? (wp.categoryZh || wp.category) : wp.category;
+  const tags = isZh ? (wp.tagsZh && wp.tagsZh.length ? wp.tagsZh : (wp.tags || [])) : (wp.tags || []);
   const imgThumb = wp.thumb || '';
   const imgOriginal = wp.original || '';
   const imgMockup = wp.mockup || '';
@@ -96,7 +96,7 @@ function generateStaticPage(wp, lang) {
       "name": "Dao Essentia"
     },
     "datePublished": dateStr,
-    "keywords": tags.concat(["lucky wallpaper", "feng shui", "Chinese metaphysics"]).join(", ")
+    "keywords": [title, category, "lucky wallpaper"].filter(Boolean).join(", ")
   };
   var schemaStr = JSON.stringify(schemaObj, null, 2);
   // 把 schema 嵌入 HTML（需要转义 </script>）
@@ -104,7 +104,7 @@ function generateStaticPage(wp, lang) {
 
   // 相关壁纸（取前 6 个其他壁纸）
   var allWps = loadWallpapers();
-  var related = allWps.filter(function(w) { return w.id !== id; }).slice(0, 6);
+  var related = allWps.filter(function(w) { return w.slug !== id; }).slice(0, 6);
 
   var html = '<!DOCTYPE html>\n'
     + '<html lang="' + (isZh ? 'zh-TW' : 'en') + '">\n'
@@ -302,8 +302,8 @@ function generateStaticPage(wp, lang) {
     + '        <h2 class="related-title">' + (isZh ? '更多壁纸' : 'More Wallpapers') + '</h2>\n'
     + '        <div class="related-grid">\n'
     + related.map(function(w) {
-        var wUrl = '/wallpaper/' + w.id + (isZh ? '?lang=zh' : '');
-        return '            <a href="' + wUrl + '" class="related-card"><img src="' + (w.thumb || '') + '" alt="' + escapeHtml(isZh ? (w.title_zh || w.title) : w.title) + '" loading="lazy"></a>';
+        var wUrl = '/wallpaper/' + w.slug + (isZh ? '?lang=zh' : '');
+        return '            <a href="' + wUrl + '" class="related-card"><img src="' + (w.thumb || '') + '" alt="' + escapeHtml(isZh ? (w.titleZh || w.title) : w.title) + '" loading="lazy"></a>';
       }).join('\n')
     + '\n'
     + '        </div>\n'
@@ -338,7 +338,7 @@ function main() {
   ensureDir(OUT_DIR);
   var count = 0;
   wallpapers.forEach(function(wp) {
-    var dir = path.join(OUT_DIR, wp.id);
+    var dir = path.join(OUT_DIR, wp.slug);
     ensureDir(dir);
 
     // English
@@ -353,7 +353,7 @@ function main() {
   // 2. Generate /dist/wallpaper/:id/index.html (build output)
   ensureDir(DIST_OUT_DIR);
   wallpapers.forEach(function(wp) {
-    var dir = path.join(DIST_OUT_DIR, wp.id);
+    var dir = path.join(DIST_OUT_DIR, wp.slug);
     ensureDir(dir);
     fs.writeFileSync(path.join(dir, 'index.html'), generateStaticPage(wp, 'en'), 'utf8');
     fs.writeFileSync(path.join(dir, 'index.zh.html'), generateStaticPage(wp, 'zh'), 'utf8');
