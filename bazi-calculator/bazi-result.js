@@ -794,6 +794,7 @@
         html += '<p style="margin:0 0 0.8rem;color:var(--ink-2);font-size:0.88rem;line-height:1.6;">' + t('bazi_result.sidebar_element_desc') + '</p>';
         html += '<div style="font-size:0.82rem;color:#D4AF37;font-weight:600;letter-spacing:0.02em;">' + t('bazi_result.sidebar_element_cta') + '</div>';
         html += '</a>';
+        html += '<div class="amazon-rec" id="amazonRec"></div>';
         sidebar.innerHTML = html;
 
         fetch('bazi-recommendations.json')

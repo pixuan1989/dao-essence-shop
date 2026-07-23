@@ -1145,7 +1145,8 @@
                 '<div class="fe-avoid"><div class="fe-avoid-label"><span class="fe-skeleton fe-skeleton-text w60"></span></div><span class="fe-skeleton fe-skeleton-tag"></span></div>' +
             '</div>' +
 
-            '<div class="fe-shop-rec" id="feShopRec"></div>';
+            '<div class="fe-shop-rec" id="feShopRec"></div>' +
+            '<div class="amazon-rec" id="amazonRec"></div>';
     }
 
     // Fill analysis data (called after API returns)
@@ -1290,6 +1291,9 @@
 
         // Load shop recommendations
         loadShopRecommendations(analysis);
+
+        // Load Amazon affiliate products
+        loadAmazonRecommendations();
 
         // Trigger wallpaper recommendation refresh (after _feLastData is set)
         if (window.FeWallpaperRec && typeof window.FeWallpaperRec.refresh === 'function') {
@@ -1508,7 +1512,8 @@
                 '<div class="fe-avoid-element">' + (isZh ? ((analysis.avoidElementZh || analysis.avoidElement) + ' (' + (analysis.avoidElement || '') + ')') : ((analysis.avoidElement || '') + ' (' + (analysis.avoidElementZh || '') + ')')) + '</div>' +
             '</div>' +
 
-            '<div class="fe-shop-rec" id="feShopRec"></div>';
+            '<div class="fe-shop-rec" id="feShopRec"></div>' +
+            '<div class="amazon-rec" id="amazonRec"></div>';
 
         // Load shop recommendations (must be inside renderResult to access analysis & fav)
         (async function() {
@@ -1592,6 +1597,7 @@ document.addEventListener('click', function(e) {
 </script>
 <script src="js/i18n-switcher.js" defer></script>
 <script src="js/favorable-element-wallpaper-recommendation.js" defer></script>
+<script src="js/amazon-affiliate.js" defer></script>
 <script src="/js/tracking.js"></script>
 
 </body>
