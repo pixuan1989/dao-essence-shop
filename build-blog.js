@@ -2838,10 +2838,15 @@ async function main() {
         let html = fs.readFileSync(indexPath, 'utf8');
         let modified = false;
         
-        // Add container if not exists
-        if (!html.includes('amazon-rec') && html.includes('</main>')) {
-          html = html.replace('</main>', '    <!-- Amazon Affiliate Products -->\n    <div class="section-container" style="max-width:1200px;margin:0 auto;padding:0 24px 48px;">\n        <div class="amazon-rec" id="amazonRec"></div>\n    </div>\n\n</main>');
-          modified = true;
+        // Add container before </main> or before footer
+        if (!html.includes('amazon-rec')) {
+          if (html.includes('</main>')) {
+            html = html.replace('</main>', '    <!-- Amazon Affiliate Products -->\n    <div class="section-container" style="max-width:1200px;margin:0 auto;padding:0 24px 48px;">\n        <div class="amazon-rec" id="amazonRec"></div>\n    </div>\n\n</main>');
+            modified = true;
+          } else if (html.includes('<footer')) {
+            html = html.replace('<footer', '    <!-- Amazon Affiliate Products -->\n    <div class="section-container" style="max-width:1200px;margin:0 auto;padding:0 24px 48px;">\n        <div class="amazon-rec" id="amazonRec"></div>\n    </div>\n\n<footer');
+            modified = true;
+          }
         }
         
         // Add script if not exists
