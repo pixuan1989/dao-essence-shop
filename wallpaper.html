@@ -1249,13 +1249,53 @@
             const filtered = getFiltered();
             if (displayedCount >= filtered.length) return;
             loadingMore = true;
-            
+
             // Batch render
             const nextBatch = filtered.slice(displayedCount, displayedCount + batchSize);
             const grid = document.getElementById('wallpaper-grid');
             const lang = (new URLSearchParams(window.location.search)).get('lang') || localStorage.getItem('daoessence_lang') || 'en';
-            
-            nextBatch.forEach(wp => {
+
+            // Amazon products (random insertion)
+            const amazonProducts = [
+                { name: 'Feng Shui Bracelet', nameZh: '风水手链', price: '$16.99', image: 'https://m.media-amazon.com/images/I/71vaNcAG5DL._AC_SL1500_.jpg', url: 'https://amzn.to/4wWIPSR', rating: '4.2', reviews: '1,730' },
+                { name: 'Rider-Waite Tarot Deck', nameZh: '莱德韦特塔罗牌', price: '$15.50', image: 'https://m.media-amazon.com/images/I/51C-n5A3PiL._AC_SL1000_.jpg', url: 'https://amzn.to/4vEwzFp', rating: '4.8', reviews: '24,900' },
+                { name: '7 Chakra Crystal Set', nameZh: '七脉轮水晶套装', price: '$14.99', image: 'https://m.media-amazon.com/images/I/81u2iZ8TctL._AC_SL1500_.jpg', url: 'https://amzn.to/4wXczix', rating: '4.7', reviews: '1,069' }
+            ];
+
+            // Insert Amazon card every 10-15 wallpapers (random density)
+            let amazonIndex = 0;
+            let nextAmazonAt = Math.floor(Math.random() * 6) + 10; // 10-15
+
+            nextBatch.forEach((wp, idx) => {
+                const globalIdx = displayedCount + idx;
+                
+                // Check if we should insert Amazon card
+                if (globalIdx >= nextAmazonAt && amazonIndex < amazonProducts.length) {
+                    const product = amazonProducts[amazonIndex];
+                    const isZh = lang === 'zh';
+                    const displayName = isZh && product.nameZh ? product.nameZh : product.name;
+                    const title = isZh ? '开运好物' : 'Recommended';
+                    const btnText = isZh ? '查看详情' : 'View on Amazon';
+                    
+                    const amazonCard = document.createElement('div');
+                    amazonCard.className = 'wallpaper-card amazon-product-card';
+                    amazonCard.onclick = () => { window.open(product.url, '_blank', 'noopener,noreferrer'); };
+                    amazonCard.innerHTML = `
+                        <div style="position:relative;width:100%;height:100%;background:linear-gradient(145deg,#2d2420,#1a1512);border-radius:8px;padding:1rem;text-align:center;">
+                            <div style="font-size:0.7rem;color:#d4af37;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.5rem;">${title}</div>
+                            <img src="${product.image}" alt="${displayName}" style="width:100%;height:120px;object-fit:contain;background:#fff;border-radius:6px;padding:0.5rem;margin-bottom:0.5rem;">
+                            <div style="font-size:0.85rem;color:#f5e6d3;margin-bottom:0.3rem;">${displayName}</div>
+                            <div style="font-size:0.75rem;color:#d4af37;margin-bottom:0.5rem;">★★★★★ ${product.rating} (${product.reviews})</div>
+                            <div style="font-size:1.1rem;font-weight:700;color:#d4af37;margin-bottom:0.5rem;">${product.price}</div>
+                            <div style="display:inline-block;background:linear-gradient(135deg,#d4af37,#b8941f);color:#1a1512;font-weight:700;font-size:0.75rem;padding:0.4rem 0.8rem;border-radius:4px;">${btnText}</div>
+                        </div>
+                    `;
+                    grid.appendChild(amazonCard);
+                    
+                    amazonIndex++;
+                    nextAmazonAt = globalIdx + Math.floor(Math.random() * 6) + 10; // Next one in 10-15
+                }
+
                 const card = document.createElement('div');
                 card.className = 'wallpaper-card';
                 card.onclick = () => { const slug = wp.slug || wp.id; window.location.href = (lang === 'zh' ? '/zh' : '') + '/wallpaper/' + slug; };
@@ -1263,7 +1303,7 @@
                 card.innerHTML = `<img src="${wp.thumb}" alt="${cardTitle}" loading="lazy">`;
                 grid.appendChild(card);
             });
-            
+
             displayedCount += nextBatch.length;
             loadingMore = false;
         }
