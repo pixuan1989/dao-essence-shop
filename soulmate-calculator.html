@@ -2058,14 +2058,28 @@
 
     <script>
     // Show Amazon products only on result page
-    document.addEventListener('DOMContentLoaded', function() {
-        // Check if we're on the result page (sc-step-3 has active class)
+    function checkAndShowAmazon() {
         var step3 = document.getElementById('sc-step-3');
         if (step3 && step3.classList.contains('active')) {
             var container = document.getElementById('amazonRecContainer');
             if (container) container.style.display = 'block';
+            // Manually render Amazon products
+            if (window.renderAmazonRec) {
+                window.renderAmazonRec('amazonRec');
+            }
         }
-    });
+    }
+    
+    // Check on DOM load
+    document.addEventListener('DOMContentLoaded', checkAndShowAmazon);
+    
+    // Check periodically for 5 seconds (in case result page loads dynamically)
+    var checkCount = 0;
+    var checkInterval = setInterval(function() {
+        checkAndShowAmazon();
+        checkCount++;
+        if (checkCount > 10) clearInterval(checkInterval);
+    }, 500);
     </script>
 
     <script src="js/amazon-affiliate.js?v=6" defer></script>
