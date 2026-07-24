@@ -2061,12 +2061,16 @@
     </script>
     
     <!-- Amazon Affiliate Products (Only on result page) -->
-    <div id="amazonRecContainer" style="display:none;position:fixed;right:40px;top:50%;transform:translateY(-50%);z-index:100;width:300px;">
-        <div class="amazon-rec" id="amazonRec" style="background:rgba(45,36,32,0.95);border:1px solid rgba(212,175,55,0.3);border-radius:12px;padding:1rem;">
+    <div id="amazonRecContainer" style="display:none;position:fixed;right:80px;top:50%;transform:translateY(-50%);z-index:100;width:320px;max-height:80vh;overflow-y:auto;">
+        <div class="amazon-rec" id="amazonRec" style="background:rgba(45,36,32,0.95);border:1px solid rgba(212,175,55,0.3);border-radius:12px;padding:1.5rem;">
             <style>
-                #amazonRec .amazon-rec-grid { grid-template-columns: 1fr !important; gap: 0.75rem; }
-                #amazonRec .amazon-rec-card { padding: 0.75rem; }
-                #amazonRec .amazon-rec-card img { height: 120px; }
+                #amazonRec .amazon-rec-title { font-size: 1.1rem; margin-bottom: 1.5rem; }
+                #amazonRec .amazon-rec-grid { display: flex !important; flex-direction: column !important; gap: 1rem; }
+                #amazonRec .amazon-rec-card { padding: 1rem; border: 1px solid rgba(212,175,55,0.2); border-radius: 8px; background: rgba(255,255,255,0.05); }
+                #amazonRec .amazon-rec-card img { height: 140px; margin-bottom: 0.75rem; }
+                #amazonRec .amazon-rec-card h4 { font-size: 0.95rem; margin-bottom: 0.5rem; }
+                #amazonRec .amazon-rec-price { font-size: 1.2rem; margin-bottom: 0.75rem; }
+                #amazonRec .amazon-rec-btn { display: block; text-align: center; padding: 0.7rem; }
             </style>
         </div>
     </div>
