@@ -23,9 +23,9 @@
         .amazon-rec-btn { display: inline-block; background: linear-gradient(135deg, #d4af37, #b8941f); color: #1a1512; font-weight: 700; font-size: 0.8rem; padding: 0.6rem 1.2rem; border-radius: 6px; text-decoration: none; transition: all 0.3s; }
         .amazon-rec-btn:hover { background: linear-gradient(135deg, #e5c048, #d4af37); transform: translateY(-2px); }
         /* Sidebar: vertical layout, no scroll */
-        .blog-sidebar .amazon-rec-grid { grid-template-columns: 1fr; gap: 0.75rem; }
-        .blog-sidebar .amazon-rec-card { padding: 0.75rem; }
-        .blog-sidebar .amazon-rec-card img { height: 120px; }
+        .bazi-sidebar .amazon-rec-grid { grid-template-columns: 1fr !important; gap: 0.75rem; }
+        .bazi-sidebar .amazon-rec-card { padding: 0.75rem; }
+        .bazi-sidebar .amazon-rec-card img { height: 120px; }
         @media (max-width: 768px) { .amazon-rec-grid { grid-template-columns: 1fr; } }
     `;
 
@@ -46,7 +46,7 @@
         const btnText = isZh ? '查看详情' : 'View on Amazon';
         
         // Check if container is in sidebar
-        const isSidebar = recEl.closest('.blog-sidebar') !== null;
+        const isSidebar = recEl.closest('.bazi-sidebar') !== null;
         const displayCount = isSidebar ? 2 : AMAZON_PRODUCTS.length;
         
         // Randomly select products for sidebar
