@@ -200,7 +200,10 @@ async function translateArticle(systemPrompt, data, content, filename, retryCoun
   if (translatedImageAlt) zhData.imageAlt = translatedImageAlt;
   zhData.lang = 'zh-Hant';
   // Ensure image field exists for build-blog.js compatibility
-  zhData.image = zhData.image || zhData.featuredImage;
+  zhData.image = data.image || data.featuredImage || zhData.featuredImage;
+  if (!zhData.image && zhData.featuredImage) {
+    zhData.image = zhData.featuredImage;
+  }
 
   // Translate FAQ if present
   if (data.faq && data.faq.length > 0 && data.faq_zh && data.faq_zh.length > 0) {

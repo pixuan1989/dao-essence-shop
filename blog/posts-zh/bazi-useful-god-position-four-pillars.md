@@ -1,6 +1,7 @@
 ---
-title: ""
-description: ""
+title: ''
+description: ''
+image: /images/blog/bazi-useful-god-position-four-pillars.webp
 ---
 
 

@@ -1,6 +1,7 @@
 ---
-title: "五行體質：八字與中醫揭示你的健康奧秘"
-description: "透過八字與傳統中醫，深入探索你的五行體質。了解命盤如何揭示你的健康傾向，並掌握應對之道。"
+title: 五行體質：八字與中醫揭示你的健康奧秘
+description: 透過八字與傳統中醫，深入探索你的五行體質。了解命盤如何揭示你的健康傾向，並掌握應對之道。
+image: /images/blog/five-elements-body-type.webp
 ---
 
 
