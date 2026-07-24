@@ -1,9 +1,9 @@
-name: Article Topic Research (Mon/Wed/Fri 05:00)
+name: Article Topic Research (Every Day 09:00)
 
 on:
   schedule:
-    # 每周一三五 05:00 东八区 = UTC 21:00（前一天 周日/二/四）
-    - cron: '0 21 * * 0,2,4'
+    # 每天 09:00 东八区 = UTC 01:00
+    - cron: '0 1 * * *'
   workflow_dispatch:  # 手动触发
 
 jobs:

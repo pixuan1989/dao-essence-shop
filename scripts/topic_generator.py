@@ -5,7 +5,7 @@ DaoEssence 选题生成脚本 v3
 
 import json
 import os
-from datetime import datetime
+from datetime import datetime, timedelta
 from pathlib import Path
 
 # 现有文章列表（54 篇，避免重复）
@@ -388,18 +388,44 @@ NO 3D, NO blur, NO fog, NO cartoon, NO emoji, NO busy patterns."""
 
 
 def check_duplicate(title_cn, category):
-    """检查是否与现有文章重复"""
-    # 简单检查：标题是否包含现有文章关键词
+    """检查是否与现有文章重复（改进版）"""
     title_lower = title_cn.lower()
     
+    # 1. 检查与 EXISTING_ARTICLES 的重复（完整标题 + 关键词重叠）
     for article in EXISTING_ARTICLES:
         article_lower = article.lower()
-        # 检查是否有显著重叠（简单启发式）
-        if len(title_lower) > 10 and len(article_lower) > 10:
-            # 检查前 10 个字符是否有重叠
-            if title_lower[:10] in article_lower or article_lower[:10] in title_lower:
+        # 完整标题匹配
+        if title_lower == article_lower:
+            return True
+        # 关键词重叠检查（提取核心词）
+        title_words = set(title_lower.replace('：', ' ').replace(':', ' ').split())
+        article_words = set(article_lower.replace('-', ' ').split())
+        # 如果有 3 个以上共同词，判定为重复
+        overlap = title_words & article_words
+        if len(overlap) >= 3:
+            return True
+
+    # 2. 检查与已推送选题的重复（pushed_topics.json）
+    pushed_file = os.path.join(os.path.dirname(__file__), '..', 'topic_data', 'pushed_topics.json')
+    if os.path.exists(pushed_file):
+        with open(pushed_file, 'r', encoding='utf-8') as f:
+            pushed = json.load(f)
+        # 检查最近 30 天的推送记录
+        cutoff_date = (datetime.now() - timedelta(days=30)).strftime('%Y-%m-%d')
+        for record in pushed:
+            if record.get('date', '') < cutoff_date:
+                continue
+            pushed_title = record.get('title_cn', '').lower()
+            # 完整匹配
+            if title_lower == pushed_title:
                 return True
-    
+            # 关键词重叠
+            pushed_words = set(pushed_title.replace('：', ' ').replace(':', ' ').split())
+            title_words = set(title_lower.replace('：', ' ').replace(':', ' ').split())
+            overlap = title_words & pushed_words
+            if len(overlap) >= 3:
+                return True
+
     return False
 
 
@@ -448,11 +474,36 @@ def main():
     # 保存选题
     timestamp = datetime.now().strftime("%Y%m%d_%H%M")
     output_file = os.path.join(os.path.dirname(__file__), '..', 'topic_data', f'candidates_{timestamp}.json')
-    
+
     with open(output_file, 'w', encoding='utf-8') as f:
         json.dump(candidates, f, ensure_ascii=False, indent=2)
-    
+
     print(f"\n选题已保存：{output_file}")
+
+    # 记录已推送选题（用于去重）
+    pushed_file = os.path.join(os.path.dirname(__file__), '..', 'topic_data', 'pushed_topics.json')
+    pushed = []
+    if os.path.exists(pushed_file):
+        with open(pushed_file, 'r', encoding='utf-8') as f:
+            pushed = json.load(f)
+    
+    # 添加本次选题到记录
+    for c in candidates:
+        pushed.append({
+            'title_cn': c['title_cn'],
+            'category': c['category'],
+            'date': datetime.now().strftime('%Y-%m-%d'),
+            'score': c['score']
+        })
+    
+    # 只保留最近 90 天的记录
+    cutoff_date = (datetime.now() - timedelta(days=90)).strftime('%Y-%m-%d')
+    pushed = [p for p in pushed if p.get('date', '') >= cutoff_date]
+    
+    with open(pushed_file, 'w', encoding='utf-8') as f:
+        json.dump(pushed, f, ensure_ascii=False, indent=2)
+    
+    print(f"已推送记录已更新：{pushed_file}（共 {len(pushed)} 条）")
     
     # 生成微信推送格式
     wechat_msg = format_for_wechat(candidates)
