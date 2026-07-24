@@ -22,6 +22,10 @@
         .amazon-rec-price { font-size: 1.1rem; font-weight: 700; color: #d4af37; margin-bottom: 0.75rem; }
         .amazon-rec-btn { display: inline-block; background: linear-gradient(135deg, #d4af37, #b8941f); color: #1a1512; font-weight: 700; font-size: 0.8rem; padding: 0.6rem 1.2rem; border-radius: 6px; text-decoration: none; transition: all 0.3s; }
         .amazon-rec-btn:hover { background: linear-gradient(135deg, #e5c048, #d4af37); transform: translateY(-2px); }
+        /* Sidebar: vertical layout, no scroll */
+        .blog-sidebar .amazon-rec-grid { grid-template-columns: 1fr; gap: 0.75rem; }
+        .blog-sidebar .amazon-rec-card { padding: 0.75rem; }
+        .blog-sidebar .amazon-rec-card img { height: 120px; }
         @media (max-width: 768px) { .amazon-rec-grid { grid-template-columns: 1fr; } }
     `;
 
@@ -40,8 +44,20 @@
         const isZh = (window.DaoI18n && window.DaoI18n.current() === 'zh');
         const title = isZh ? '开运好物推荐' : 'Recommended for You';
         const btnText = isZh ? '查看详情' : 'View on Amazon';
+        
+        // Check if container is in sidebar
+        const isSidebar = recEl.closest('.blog-sidebar') !== null;
+        const displayCount = isSidebar ? 2 : AMAZON_PRODUCTS.length;
+        
+        // Randomly select products for sidebar
+        let displayProducts = AMAZON_PRODUCTS;
+        if (isSidebar && AMAZON_PRODUCTS.length > 2) {
+            const shuffled = [...AMAZON_PRODUCTS].sort(() => Math.random() - 0.5);
+            displayProducts = shuffled.slice(0, 2);
+        }
+        
         let html = '<div class="amazon-rec-title">' + title + '</div><div class="amazon-rec-grid">';
-        AMAZON_PRODUCTS.forEach(function(p) {
+        displayProducts.forEach(function(p) {
             const displayName = isZh && p.nameZh ? p.nameZh : p.name;
             html += '<div class="amazon-rec-card">' +
                 '<img src="' + p.image + '" alt="' + displayName + '" loading="lazy">' +
