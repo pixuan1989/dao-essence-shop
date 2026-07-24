@@ -35,8 +35,9 @@
         .bazi-sidebar .amazon-rec-card { padding: 0.75rem; }
         .bazi-sidebar .amazon-rec-card img { height: 120px; }
         /* Soulmate page: vertical layout */
-        #amazonRecContainer .amazon-rec-grid { display: flex !important; flex-direction: column !important; gap: 1rem; }
-        #amazonRecContainer .amazon-rec-card { width: 100%; box-sizing: border-box; }
+        #amazonRecContainer .amazon-rec-grid { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; gap: 1rem; }
+        #amazonRecContainer .amazon-rec-card { width: 100%; box-sizing: border-box; background: rgba(255,255,255,0.03) !important; }
+        #amazonRecContainer .amazon-rec-card img { background: transparent !important; }
         @media (max-width: 768px) { .amazon-rec-grid { grid-template-columns: 1fr; } }
     `;
 
