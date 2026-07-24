@@ -796,6 +796,11 @@
         html += '</a>';
         html += '<div class="amazon-rec" id="amazonRec"></div>';
         sidebar.innerHTML = html;
+        
+        // Manually render Amazon products after container is created
+        if (window.renderAmazonRec) {
+            window.renderAmazonRec('amazonRec');
+        }
 
         fetch('bazi-recommendations.json')
             .then(function(res) { return res.json(); })
