@@ -2082,9 +2082,9 @@
         if (step3 && step3.classList.contains('active')) {
             var container = document.getElementById('amazonRecContainer');
             if (container) container.style.display = 'block';
-            // Manually render Amazon products
+            // Manually render Amazon products (2 random products)
             if (window.renderAmazonRec) {
-                window.renderAmazonRec('amazonRec');
+                window.renderAmazonRec('amazonRec', 2);
             }
         }
     }

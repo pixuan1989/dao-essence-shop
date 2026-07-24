@@ -45,25 +45,25 @@
         document.head.appendChild(style);
     }
 
-    function renderAmazonRec(containerId) {
+    function renderAmazonRec(containerId, forceCount) {
         const recEl = document.getElementById(containerId);
         if (!recEl) return;
         injectCSS();
         const isZh = (window.DaoI18n && window.DaoI18n.current() === 'zh');
         const title = isZh ? '开运好物推荐' : 'Recommended for You';
         const btnText = isZh ? '查看详情' : 'View on Amazon';
-        
+
         // Check if container is in sidebar
         const isSidebar = recEl.closest('.bazi-sidebar') !== null;
-        const displayCount = isSidebar ? 2 : AMAZON_PRODUCTS.length;
-        
-        // Randomly select products for sidebar
+        const displayCount = forceCount || (isSidebar ? 2 : AMAZON_PRODUCTS.length);
+
+        // Randomly select products
         let displayProducts = AMAZON_PRODUCTS;
-        if (isSidebar && AMAZON_PRODUCTS.length > 2) {
+        if (AMAZON_PRODUCTS.length > displayCount) {
             const shuffled = [...AMAZON_PRODUCTS].sort(() => Math.random() - 0.5);
-            displayProducts = shuffled.slice(0, 2);
+            displayProducts = shuffled.slice(0, displayCount);
         }
-        
+
         let html = '<div class="amazon-rec-title">' + title + '</div><div class="amazon-rec-grid">';
         displayProducts.forEach(function(p) {
             const displayName = isZh && p.nameZh ? p.nameZh : p.name;
