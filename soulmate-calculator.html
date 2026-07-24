@@ -1236,6 +1236,22 @@
                 <div class="sc-result-card-body" id="sc-style-body"></div>
             </div>
 
+            <!-- Amazon Affiliate Products -->
+            <div id="amazonRecContainer" style="display:none;margin-top:3rem;">
+                <div id="amazonRec">
+                    <style>
+                        #amazonRec .amazon-rec-title { font-size: 1.1rem; margin-bottom: 1.5rem; text-align: center; color: #d4af37; }
+                        #amazonRec .amazon-rec-grid { display: flex !important; flex-direction: column !important; gap: 1.5rem; width: 100%; }
+                        #amazonRec .amazon-rec-card { padding: 1.2rem; border: 1px solid rgba(212,175,55,0.3); border-radius: 12px; background: rgba(45,36,32,0.95); }
+                        #amazonRec .amazon-rec-card img { height: 140px; margin-bottom: 0.75rem; width: 100%; object-fit: contain; background: #fff; border-radius: 6px; padding: 0.5rem; }
+                        #amazonRec .amazon-rec-card h4 { font-size: 0.95rem; margin-bottom: 0.5rem; text-align: center; color: #f5e6d3; }
+                        #amazonRec .amazon-rec-rating { text-align: center; }
+                        #amazonRec .amazon-rec-price { font-size: 1.2rem; text-align: center; margin-bottom: 0.75rem; color: #d4af37; font-weight: 700; }
+                        #amazonRec .amazon-rec-btn { display: block; text-align: center; padding: 0.7rem; width: 100%; box-sizing: border-box; background: linear-gradient(135deg, #d4af37, #b8941f); color: #1a1512; font-weight: 700; border-radius: 6px; text-decoration: none; }
+                    </style>
+                </div>
+            </div>
+
             <!-- Pay Modal -->
             <div class="sc-pay-modal" id="scPayModal">
                 <div class="sc-pay-modal-box">
@@ -2060,48 +2076,6 @@
     });
     </script>
     
-    <!-- Amazon Affiliate Products (Only on result page) -->
-    <div id="amazonRecContainer" style="display:none;position:fixed;right:200px;top:100px;z-index:100;width:300px;">
-        <div id="amazonRec">
-            <style>
-                #amazonRec .amazon-rec-title { font-size: 1.1rem; margin-bottom: 1.5rem; text-align: center; color: #d4af37; }
-                #amazonRec .amazon-rec-grid { display: flex !important; flex-direction: column !important; gap: 1.5rem; width: 100%; }
-                #amazonRec .amazon-rec-card { padding: 1.2rem; border: 1px solid rgba(212,175,55,0.3); border-radius: 12px; background: rgba(45,36,32,0.95); }
-                #amazonRec .amazon-rec-card img { height: 140px; margin-bottom: 0.75rem; width: 100%; object-fit: contain; background: #fff; border-radius: 6px; padding: 0.5rem; }
-                #amazonRec .amazon-rec-card h4 { font-size: 0.95rem; margin-bottom: 0.5rem; text-align: center; color: #f5e6d3; }
-                #amazonRec .amazon-rec-rating { text-align: center; }
-                #amazonRec .amazon-rec-price { font-size: 1.2rem; text-align: center; margin-bottom: 0.75rem; color: #d4af37; font-weight: 700; }
-                #amazonRec .amazon-rec-btn { display: block; text-align: center; padding: 0.7rem; width: 100%; box-sizing: border-box; background: linear-gradient(135deg, #d4af37, #b8941f); color: #1a1512; font-weight: 700; border-radius: 6px; text-decoration: none; }
-            </style>
-        </div>
-    </div>
-
-    <script>
-    // Show Amazon products only on result page
-    function checkAndShowAmazon() {
-        var step3 = document.getElementById('sc-step-3');
-        if (step3 && step3.classList.contains('active')) {
-            var container = document.getElementById('amazonRecContainer');
-            if (container) container.style.display = 'block';
-            // Manually render Amazon products (2 random products)
-            if (window.renderAmazonRec) {
-                window.renderAmazonRec('amazonRec', 2);
-            }
-        }
-    }
-    
-    // Check on DOM load
-    document.addEventListener('DOMContentLoaded', checkAndShowAmazon);
-    
-    // Check periodically for 5 seconds (in case result page loads dynamically)
-    var checkCount = 0;
-    var checkInterval = setInterval(function() {
-        checkAndShowAmazon();
-        checkCount++;
-        if (checkCount > 10) clearInterval(checkInterval);
-    }, 500);
-    </script>
-
     <script src="js/amazon-affiliate.js?v=6" defer></script>
 </body>
 </html>
