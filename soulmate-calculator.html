@@ -1839,6 +1839,15 @@
     }
 
     function renderResults(pp, dayElemEn, gender, birthplace) {
+        // Show Amazon products on result page
+        var amazonContainer = document.getElementById('amazonRecContainer');
+        if (amazonContainer) {
+            amazonContainer.style.display = 'block';
+            if (window.renderAmazonRec) {
+                window.renderAmazonRec('amazonRec');
+            }
+        }
+
         var t = window.DaoI18n ? window.DaoI18n.t.bind(window.DaoI18n) : function(k){return k;};
         var isZh = window.DaoI18n && window.DaoI18n.current() === 'zh';
         var ei = _0x.elemIdx[dayElemEn];
