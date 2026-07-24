@@ -10,7 +10,7 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 import translate from 'google-translate-api';
-import youdaoTranslate from 'youdao-translate';
+import {translate as vitaletsTranslate} from '@vitalets/google-translate-api';
 
 const DASHSCOPE_MODEL = 'qwen3.5-plus';
 const DASHSCOPE_BASE_URL = 'https://dashscope.aliyuncs.com/compatible-mode/v1';
@@ -115,21 +115,14 @@ async function translateField(systemPrompt, text, fieldName, timeoutMs = 300) {
     // 3 次都失败，用 Google Translate 兜底
     console.warn(`    ⚠️ ${fieldName} translation failed after ${maxRetries} attempts, trying Google Translate...`);
     try {
-      const result = await translate(text, { to: 'zh-TW' });
+      const result = await vitaletsTranslate(text, { to: 'zh-TW' });
       translatedText = result.text;
       console.log(`    ✅ ${fieldName} Google Translate fallback succeeded`);
     } catch (err) {
       console.warn(`    ⚠️ ${fieldName} Google Translate also failed: ${err.message}`);
-      // Google Translate 失败，用有道翻译兜底
-      console.warn(`    ⚠️ ${fieldName} trying Youdao Translate...`);
-      try {
-        const result = await youdaoTranslate(text, { to: 'zh-TW' });
-        translatedText = result.translation;
-        console.log(`    ✅ ${fieldName} Youdao Translate fallback succeeded`);
-      } catch (err) {
-        console.warn(`    ⚠️ ${fieldName} Youdao Translate also failed: ${err.message}`);
-        translatedText = null; // 返回 null，让调用者使用英文原文
-      }
+      // 最后兜底：保留英文原文
+      translatedText = text;
+      console.warn(`    ⚠️ ${fieldName} keeping English original`);
     }
   }
 
