@@ -2061,18 +2061,17 @@
     </script>
     
     <!-- Amazon Affiliate Products (Only on result page) -->
-    <div id="amazonRecContainer" style="display:none;position:fixed;right:120px;top:100px;z-index:100;width:300px;">
-        <div class="amazon-rec" id="amazonRec" style="background:rgba(45,36,32,0.95);border:1px solid rgba(212,175,55,0.3);border-radius:12px;padding:1.5rem;">
+    <div id="amazonRecContainer" style="display:none;position:fixed;right:200px;top:100px;z-index:100;width:300px;">
+        <div id="amazonRec">
             <style>
-                #amazonRec { max-width: 320px; }
-                #amazonRec .amazon-rec-title { font-size: 1.1rem; margin-bottom: 1.5rem; text-align: center; }
-                #amazonRec .amazon-rec-grid { display: flex !important; flex-direction: column !important; gap: 1rem; width: 100%; }
-                #amazonRec .amazon-rec-card { padding: 1rem; border: 1px solid rgba(212,175,55,0.2); border-radius: 8px; background: rgba(255,255,255,0.05); width: 100%; box-sizing: border-box; }
-                #amazonRec .amazon-rec-card img { height: 140px; margin-bottom: 0.75rem; width: 100%; object-fit: contain; }
-                #amazonRec .amazon-rec-card h4 { font-size: 0.95rem; margin-bottom: 0.5rem; text-align: center; }
+                #amazonRec .amazon-rec-title { font-size: 1.1rem; margin-bottom: 1.5rem; text-align: center; color: #d4af37; }
+                #amazonRec .amazon-rec-grid { display: flex !important; flex-direction: column !important; gap: 1.5rem; width: 100%; }
+                #amazonRec .amazon-rec-card { padding: 1.2rem; border: 1px solid rgba(212,175,55,0.3); border-radius: 12px; background: rgba(45,36,32,0.95); }
+                #amazonRec .amazon-rec-card img { height: 140px; margin-bottom: 0.75rem; width: 100%; object-fit: contain; background: #fff; border-radius: 6px; padding: 0.5rem; }
+                #amazonRec .amazon-rec-card h4 { font-size: 0.95rem; margin-bottom: 0.5rem; text-align: center; color: #f5e6d3; }
                 #amazonRec .amazon-rec-rating { text-align: center; }
-                #amazonRec .amazon-rec-price { font-size: 1.2rem; text-align: center; margin-bottom: 0.75rem; }
-                #amazonRec .amazon-rec-btn { display: block; text-align: center; padding: 0.7rem; width: 100%; box-sizing: border-box; }
+                #amazonRec .amazon-rec-price { font-size: 1.2rem; text-align: center; margin-bottom: 0.75rem; color: #d4af37; font-weight: 700; }
+                #amazonRec .amazon-rec-btn { display: block; text-align: center; padding: 0.7rem; width: 100%; box-sizing: border-box; background: linear-gradient(135deg, #d4af37, #b8941f); color: #1a1512; font-weight: 700; border-radius: 6px; text-decoration: none; }
             </style>
         </div>
     </div>
