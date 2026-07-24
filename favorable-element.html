@@ -1292,7 +1292,10 @@
         // Load shop recommendations
         loadShopRecommendations(analysis);
 
-        // Amazon recommendations loaded by external script (js/amazon-affiliate.js)
+        // Manually render Amazon products after container is created
+        if (window.renderAmazonRec) {
+            window.renderAmazonRec('amazonRec');
+        }
 
         // Trigger wallpaper recommendation refresh (after _feLastData is set)
         if (window.FeWallpaperRec && typeof window.FeWallpaperRec.refresh === 'function') {
@@ -1596,7 +1599,7 @@ document.addEventListener('click', function(e) {
 </script>
 <script src="js/i18n-switcher.js" defer></script>
 <script src="js/favorable-element-wallpaper-recommendation.js" defer></script>
-<script src="js/amazon-affiliate.js?v=2" defer></script>
+<script src="js/amazon-affiliate.js?v=5" defer></script>
 <script src="/js/tracking.js"></script>
 
 </body>
