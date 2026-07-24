@@ -2,11 +2,19 @@
 // Universal script for all pages (except blog articles which use build-blog.js)
 
 (function() {
+    // Amazon 商品池 - 添加新商品只需在这里添加对象
     const AMAZON_PRODUCTS = [
         { name: 'Feng Shui Bracelet', nameZh: '风水手链', price: '$16.99', image: 'https://m.media-amazon.com/images/I/71vaNcAG5DL._AC_SL1500_.jpg', url: 'https://amzn.to/4wWIPSR', rating: '4.2', reviews: '1,730' },
         { name: 'Rider-Waite Tarot Deck', nameZh: '莱德韦特塔罗牌', price: '$15.50', image: 'https://m.media-amazon.com/images/I/51C-n5A3PiL._AC_SL1000_.jpg', url: 'https://amzn.to/4vEwzFp', rating: '4.8', reviews: '24,900' },
         { name: '7 Chakra Crystal Set', nameZh: '七脉轮水晶套装', price: '$14.99', image: 'https://m.media-amazon.com/images/I/81u2iZ8TctL._AC_SL1500_.jpg', url: 'https://amzn.to/4wXczix', rating: '4.7', reviews: '1,069' }
+        // 添加新商品示例：
+        // { name: 'New Product', nameZh: '新产品', price: '$19.99', image: 'https://...', url: 'https://...', rating: '4.5', reviews: '500' }
     ];
+    
+    // 配置：侧边栏显示几个商品
+    const SIDEBAR_DISPLAY_COUNT = 2;
+    // 配置：页面底部显示几个商品（0 = 全部）
+    const BOTTOM_DISPLAY_COUNT = 0;
 
     const CSS = `
         .amazon-rec { margin: 2rem 0; padding: 1.5rem; background: linear-gradient(145deg, #2d2420, #1a1512); border: 1px solid rgba(212,175,55,0.2); border-radius: 12px; }
