@@ -34,6 +34,9 @@
         .bazi-sidebar .amazon-rec-grid { grid-template-columns: 1fr !important; gap: 0.75rem; }
         .bazi-sidebar .amazon-rec-card { padding: 0.75rem; }
         .bazi-sidebar .amazon-rec-card img { height: 120px; }
+        /* Soulmate page: vertical layout */
+        #amazonRecContainer .amazon-rec-grid { display: flex !important; flex-direction: column !important; gap: 1rem; }
+        #amazonRecContainer .amazon-rec-card { width: 100%; box-sizing: border-box; }
         @media (max-width: 768px) { .amazon-rec-grid { grid-template-columns: 1fr; } }
     `;
 
