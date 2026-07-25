@@ -1,0 +1,18 @@
+# 统一行尾管理，消除 GitHub Desktop 的 CRLF 警告（不影响线上页面/SEO）
+* text=auto
+
+# 二进制资源显式声明，防止被当成文本做行尾转换导致损坏
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.gif binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.otf binary
+*.ico binary
+
+# 这两个 sitemap 是部署必需、手工维护，锁定 LF 行尾，消除 autocrlf 的 LF→CRLF 提示
+dist/sitemap.xml text eol=lf
+dist/image-sitemap.xml text eol=lf
