@@ -32,7 +32,7 @@ function loadTerminology(rootDir) {
   return terms;
 }
 
-function buildSystemPrompt(terms) {
+export function buildSystemPrompt(terms) {
   const termList = Object.entries(terms)
     .map(([en, zh]) => `- "${en}" → "${zh}"`)
     .join('\n');
@@ -129,6 +129,60 @@ async function translateField(systemPrompt, text, fieldName, timeoutMs = 300) {
   return translatedText;
 }
 
+// 结构化翻译 body（坑2 B方案根治）：标题只译文字保留 # 层级，代码块/表格原样不译，正文块逐段翻译
+// 这样标题层级 100% 来自源文件，LLM 再也翻不丢 markdown 结构
+async function translateBodyStructured(systemPrompt, content) {
+  const lines = content.split('\n');
+  let inFence = false;
+  const blocks = [];
+  let buf = null;
+  const pushBuf = () => { if (buf) { blocks.push(buf); buf = null; } };
+  for (const line of lines) {
+    if (/^\s*```/.test(line)) {
+      pushBuf();
+      inFence = !inFence;
+      blocks.push({ type: 'raw', text: line });
+      continue;
+    }
+    if (inFence) { blocks.push({ type: 'raw', text: line }); continue; }
+    const hm = line.match(/^(#{1,6})\s+(.*)$/);
+    if (hm) { pushBuf(); blocks.push({ type: 'heading', level: hm[1], text: hm[2] }); continue; }
+    if (line.trim().startsWith('|')) {
+      if (buf && buf.type === 'raw') buf.text += '\n' + line;
+      else { pushBuf(); buf = { type: 'raw', text: line }; }
+      continue;
+    }
+    if (!line.trim()) { pushBuf(); blocks.push({ type: 'raw', text: '' }); continue; }
+    if (!buf || buf.type !== 'translate') { pushBuf(); buf = { type: 'translate', text: line }; }
+    else { buf.text += '\n' + line; }
+  }
+  pushBuf();
+  const out = [];
+  for (const b of blocks) {
+    if (b.type === 'heading') {
+      const t = await translateField(systemPrompt, `翻譯以下標題為繁體中文，只輸出翻譯結果（不要加 # 號）：\n\n${b.text}`, 'Heading');
+      out.push(`${b.level} ${t || b.text}`);
+    } else if (b.type === 'raw') {
+      out.push(b.text);
+    } else {
+      const txt = b.text;
+      if (!txt.trim()) { out.push(''); continue; }
+      let t = null;
+      for (let a = 0; a <= 2; a++) {
+        try {
+          t = await callDashScope([
+            { role: 'system', content: systemPrompt },
+            { role: 'user', content: `翻譯以下 Markdown 內容為繁體中文，保留列表/引用/格式與語氣：\n\n${txt}` }
+          ]);
+          if (t) break;
+        } catch (e) { await new Promise(r => setTimeout(r, 1000)); }
+      }
+      out.push(t || txt);
+    }
+  }
+  return out.join('\n');
+}
+
 async function translateArticle(systemPrompt, data, content, filename, retryCount = 2) {
   // Translate title
   const translatedTitle = await translateField(
@@ -167,29 +221,19 @@ async function translateArticle(systemPrompt, data, content, filename, retryCoun
     'imageAlt'
   ) || data.imageAlt;
 
-  // Translate body
+  // Translate body（结构化：保留标题层级/代码块/表格，逐块翻译正文）
   let translatedBody;
-  for (let attempt = 0; attempt <= retryCount; attempt++) {
-    try {
-      // Small delay to avoid rate limiting
-      await new Promise(r => setTimeout(r, 1000));
-      translatedBody = await callDashScope([
-        { role: 'system', content: systemPrompt },
-        { role: 'user', content: `翻譯以下 Markdown 文章為繁體中文：\n\n${content}` }
-      ]);
-      if (!translatedBody) throw new Error('Empty response');
-      console.log(`    Body: ${translatedBody.length} chars`);
-      break;
-    } catch (err) {
-      if (attempt < retryCount) {
-        console.warn(`    ⚠️ Attempt ${attempt + 1} failed, retrying...`);
-        await new Promise(r => setTimeout(r, 2000));
-      } else {
-        console.error(`    ❌ All attempts failed: ${err.message}`);
-        return null;
-      }
-    }
+  try {
+    translatedBody = await translateBodyStructured(systemPrompt, content);
+  } catch (err) {
+    console.error(`    ❌ Body structured translation failed: ${err.message}`);
+    return null;
   }
+  if (!translatedBody) {
+    console.error(`    ❌ Body translation returned empty`);
+    return null;
+  }
+  console.log(`    Body: ${translatedBody.length} chars`);
 
   // Build zh frontmatter
   const zhData = { ...data };
