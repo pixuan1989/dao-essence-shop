@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 180" width="320" height="180" role="img" aria-label="Episode 2 cover placeholder">
+  <defs>
+    <linearGradient id="g2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#eef0ea"/>
+      <stop offset="1" stop-color="#d7e0c8"/>
+    </linearGradient>
+  </defs>
+  <rect width="320" height="180" fill="url(#g2)"/>
+  <text x="160" y="74" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="13" fill="#5a7a3a" letter-spacing="3">EPISODE 2</text>
+  <text x="160" y="104" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="18" font-weight="700" fill="#2f3a1a">The Five Elements in Action</text>
+  <text x="160" y="128" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="12" fill="#4a5a36">五行 · 在實戰中運作</text>
+</svg>
