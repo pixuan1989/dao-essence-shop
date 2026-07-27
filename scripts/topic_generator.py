@@ -188,8 +188,8 @@ def load_hot_topics():
     json_files = sorted(Path(topic_dir).glob('topics_*.json'), reverse=True)
     
     if not json_files:
-        print("未找到热点数据，请先运行 topic_scraper.py")
-        return None
+        print("未找到热点数据，将仅基于关键词库生成选题（无热点来源）")
+        return {}
     
     with open(json_files[0], 'r', encoding='utf-8') as f:
         return json.load(f)
@@ -218,52 +218,80 @@ def calculate_relevance_score(hot_topic, keyword_category):
     return score
 
 
-def generate_topic_candidates(hot_topics, num_candidates=3):
-    """生成候选选题（3 个，去重 + 工具关联 + 配图提示词）"""
+def get_seed_date():
+    """获取选题种子日期。默认用本地今天；可用环境变量 BAZI_TOPIC_DATE=YYYY-MM-DD 覆盖（便于测试 / 对齐时区）"""
+    override = os.environ.get('BAZI_TOPIC_DATE')
+    if override:
+        try:
+            return datetime.strptime(override, '%Y-%m-%d')
+        except ValueError:
+            pass
+    return datetime.now()
+
+
+def generate_topic_candidates(hot_topics, num_candidates=3, seed_date=None):
+    """生成候选选题（按日期种子轮换，确保每天内容不同且确定可复现）
+
+    旧逻辑：对每个分类永远取词库第 1 个词、按固定 score 排序取前 3，
+    导致每天推出完全相同的 3 个标题。
+    新逻辑：用种子日期旋转「分类窗口」+ 旋转每个分类的「关键词索引」，
+    使每天选出的分类组合与用词都不同，且同一天多次运行结果一致。
+    """
+    if seed_date is None:
+        seed_date = datetime.now()
+    seed = seed_date.toordinal()  # 同一天 => 同一整数种子
+
+    cats = list(KEYWORD_DB.keys())  # 7 个分类
+    n = len(cats)
+
+    # 旋转窗口：每天选 num_candidates 个相邻分类，避免永远取固定前 3
+    start = seed % n
+    selected = [cats[(start + i) % n] for i in range(num_candidates)]
+
     candidates = []
-    
-    for category, keywords in KEYWORD_DB.items():
-        # 找最相关的热点
-        best_hot = None
+    for ci, category in enumerate(selected):
+        keywords = KEYWORD_DB[category]
+        big_words = keywords['big_words']
+        long_tails = keywords['long_tails']
+
+        # 关键词按种子旋转：每个分类、每天用不同词，进一步拉开差异
+        bwi = (seed + ci) % len(big_words)
+        lti = (seed + ci * 2) % len(long_tails)
+        big_word = big_words[bwi]
+        long_tail = long_tails[lti]
+
+        # 若有热点数据，找最相关热点作为来源（仅影响 hot_source，不影响标题/轮换）
+        best_hot = f"{category} trending topic"
+        best_source = "general"
         best_score = 0
-        best_source = None
-        
-        for platform in hot_topics:
-            if platform == "timestamp":
-                continue
-            for hot in hot_topics.get(platform, []):
-                score = calculate_relevance_score(hot, category)
-                if score > best_score:
-                    best_score = score
-                    best_hot = hot
-                    best_source = platform
-        
-        # 即使没有强相关热点，也生成选题（用类别默认方向）
-        if best_score == 0:
-            best_hot = f"{category} trending topic"
-            best_source = "general"
-        
-        # 生成选题
-        big_word = keywords['big_words'][0]
-        long_tail = keywords['long_tails'][0]
-        
+        if hot_topics:
+            for platform in hot_topics:
+                if platform == "timestamp":
+                    continue
+                for hot in hot_topics.get(platform, []):
+                    score = calculate_relevance_score(hot, category)
+                    if score > best_score:
+                        best_score = score
+                        best_hot = hot
+                        best_source = platform
+
         # 生成中文标题和描述
         title_cn = generate_chinese_title(category, big_word, long_tail)
         description_cn = generate_chinese_description(category, big_word)
         outline_cn = generate_chinese_outline(category, big_word, long_tail)
-        
+
         # 网站关联说明
         site_relevance = generate_site_relevance(category)
-        
+
         # 关联工具
         related_tool = get_related_tool(category)
-        
+
         # 配图提示词
         cover_prompt = generate_cover_prompt(title_cn, category)
-        
+
         # 检查是否与现有文章重复
         is_duplicate = check_duplicate(title_cn, category)
-        
+
         candidate = {
             "category": category,
             "title_en": f"{big_word['keyword']}: {long_tail['keyword'].title()} — A BaZi Guide",
@@ -274,24 +302,18 @@ def generate_topic_candidates(hot_topics, num_candidates=3):
             "related_tool": related_tool,
             "cover_prompt": cover_prompt,
             "is_duplicate": is_duplicate,
-            "big_words": keywords['big_words'][:2],
-            "long_tails": keywords['long_tails'][:4],
+            "big_words": big_words[:2],
+            "long_tails": long_tails[:4],
             "hot_source": best_hot,
             "hot_source_site": best_source,
             "hot_relevance_score": best_score,
             "competitor_gap": f"Top 3 articles lack {category} perspective from BaZi angle",
             "score": round((best_score * 3 + (10 - big_word['kd'] / 10) + (10 - long_tail['kd'] / 5)) / 3, 1)
         }
-        
+
         candidates.append(candidate)
-    
-    # 按评分排序，取前 3 个（排除重复）
-    candidates.sort(key=lambda x: x['score'], reverse=True)
-    
-    # 过滤重复文章
-    unique_candidates = [c for c in candidates if not c['is_duplicate']]
-    
-    return unique_candidates[:num_candidates]
+
+    return candidates
 
 
 def generate_chinese_title(category, big_word, long_tail):
@@ -454,10 +476,14 @@ def main():
     print("加载热点数据...")
     hot_topics = load_hot_topics()
     
-    if not hot_topics:
+    if hot_topics is None:
         return
-    
-    print(f"热点数据时间：{hot_topics.get('timestamp', '未知')}")
+
+    seed_date = get_seed_date()
+    print(f"选题种子日期：{seed_date.strftime('%Y-%m-%d')}")
+
+    if hot_topics:
+        print(f"热点数据时间：{hot_topics.get('timestamp', '未知')}")
     
     # 统计各平台数据
     for platform, items in hot_topics.items():
@@ -465,7 +491,7 @@ def main():
             print(f"{platform}: {len(items)} 条")
     
     print("\n生成候选选题...")
-    candidates = generate_topic_candidates(hot_topics, num_candidates=3)
+    candidates = generate_topic_candidates(hot_topics, num_candidates=3, seed_date=seed_date)
     
     print(f"\n已生成 {len(candidates)} 个候选选题：")
     for i, c in enumerate(candidates, 1):
