@@ -120,3 +120,10 @@ __pycache__/
 
 # Temporary scripts
 scripts/full_recheck.cjs
+
+# Playwright CLI / browser automation artifacts (auto-generated snapshots, never commit)
+.playwright-cli/
+
+# Auto-generated screenshots / empty artifacts from local debugging
+bazi-sector.png
+nul
