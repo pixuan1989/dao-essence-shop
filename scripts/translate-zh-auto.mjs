@@ -84,22 +84,35 @@ async function callDashScope(messages, maxTokens = 8000, timeoutMs = TRANSLATE_T
   }
 }
 
-async function translateField(systemPrompt, text, fieldName, timeoutMs = 300) {
+// Strip a leaked instruction prefix from translated output (safety net against
+// prompt echo / fallback returning the raw instruction-prefixed text).
+function stripInstruction(text, instruction) {
+  if (!text || !instruction) return text;
+  const prefix = instruction.trim();
+  if (text.startsWith(prefix)) return text.slice(prefix.length).trim();
+  if (text.startsWith(instruction)) return text.slice(instruction.length).trim();
+  return text;
+}
+
+// instruction is passed SEPARATELY from the content so the fallback path can
+// return clean content without leaking the instruction string into the page.
+async function translateField(systemPrompt, text, fieldName, instruction = '', timeoutMs = 30000) {
   if (!text) return null;
-  
+
+  const userContent = instruction ? `${instruction}\n\n${text}` : text;
   let translatedText;
   let retryCount = 0;
   const maxRetries = 3;
-  
+
   while (retryCount < maxRetries) {
     try {
-      await new Promise(r => setTimeout(r, 1000));
+      await new Promise(r => setTimeout(r, 800));
       translatedText = await callDashScope([
         { role: 'system', content: systemPrompt },
-        { role: 'user', content: text }
-      ], 300, timeoutMs);
+        { role: 'user', content: userContent }
+      ], 2000, timeoutMs);
       if (translatedText) {
-        translatedText = translatedText.trim();
+        translatedText = stripInstruction(translatedText, instruction).trim();
         break;
       } else {
         console.warn(`    ️ ${fieldName} translation attempt ${retryCount + 1} returned empty`);
@@ -110,19 +123,19 @@ async function translateField(systemPrompt, text, fieldName, timeoutMs = 300) {
       retryCount++;
     }
   }
-  
+
   if (!translatedText) {
     // 3 次都失败，用 Google Translate 兜底
     console.warn(`    ⚠️ ${fieldName} translation failed after ${maxRetries} attempts, trying Google Translate...`);
     try {
-      const result = await vitaletsTranslate(text, { to: 'zh-TW' });
-      translatedText = result.text;
+      const result = await vitaletsTranslate(userContent, { to: 'zh-TW' });
+      translatedText = stripInstruction(result.text, instruction);
       console.log(`    ✅ ${fieldName} Google Translate fallback succeeded`);
     } catch (err) {
       console.warn(`    ⚠️ ${fieldName} Google Translate also failed: ${err.message}`);
-      // 最后兜底：保留英文原文
+      // 最后兜底：保留原文（不含指令前綴，避免指令洩漏到頁面）
       translatedText = text;
-      console.warn(`    ⚠️ ${fieldName} keeping English original`);
+      console.warn(`    ⚠️ ${fieldName} keeping English original (instruction stripped)`);
     }
   }
 
@@ -160,21 +173,22 @@ async function translateBodyStructured(systemPrompt, content) {
   const out = [];
   for (const b of blocks) {
     if (b.type === 'heading') {
-      const t = await translateField(systemPrompt, `翻譯以下標題為繁體中文，只輸出翻譯結果（不要加 # 號）：\n\n${b.text}`, 'Heading');
+      const t = await translateField(systemPrompt, b.text, 'Heading', '翻譯以下標題為繁體中文，只輸出翻譯結果（不要加 # 號）：', 30000);
       out.push(`${b.level} ${t || b.text}`);
     } else if (b.type === 'raw') {
       out.push(b.text);
     } else {
       const txt = b.text;
       if (!txt.trim()) { out.push(''); continue; }
+      const bodyInstruction = '翻譯以下 Markdown 內容為繁體中文，保留列表/引用/格式與語氣：';
       let t = null;
       for (let a = 0; a <= 2; a++) {
         try {
           t = await callDashScope([
             { role: 'system', content: systemPrompt },
-            { role: 'user', content: `翻譯以下 Markdown 內容為繁體中文，保留列表/引用/格式與語氣：\n\n${txt}` }
-          ]);
-          if (t) break;
+            { role: 'user', content: `${bodyInstruction}\n\n${txt}` }
+          ], 8000);
+          if (t) { t = stripInstruction(t, bodyInstruction); break; }
         } catch (e) { await new Promise(r => setTimeout(r, 1000)); }
       }
       out.push(t || txt);
@@ -187,38 +201,46 @@ async function translateArticle(systemPrompt, data, content, filename, retryCoun
   // Translate title
   const translatedTitle = await translateField(
     systemPrompt,
-    `翻譯文章標題為繁體中文，只輸出翻譯結果：\n\n${data.title}`,
+    data.title,
     'Title',
-    600000
+    '翻譯文章標題為繁體中文，只輸出翻譯結果：',
+    30000
   ) || data.title;
 
   // Translate description
   const translatedDescription = await translateField(
     systemPrompt,
-    `翻譯文章描述為繁體中文，保持 155 字元以內：\n\n${data.description}`,
+    data.description,
     'Description',
-    600000
+    '翻譯文章描述為繁體中文，保持 155 字元以內：',
+    30000
   ) || data.description;
 
   // Translate h1Title if present (always translate, even if same as title)
   const translatedH1Title = await translateField(
     systemPrompt,
-    `翻譯文章主標題（h1）為繁體中文，保持專業簡潔：\n\n${data.h1Title}`,
-    'h1Title'
+    data.h1Title,
+    'h1Title',
+    '翻譯文章主標題（h1）為繁體中文，保持專業簡潔：',
+    30000
   ) || data.h1Title;
 
   // Translate seoDescription if present
   const translatedSeoDescription = await translateField(
     systemPrompt,
-    `翻譯 SEO 描述為繁體中文，保持 155 字元以內，含關鍵字與行動號召：\n\n${data.seoDescription}`,
-    'seoDescription'
+    data.seoDescription,
+    'seoDescription',
+    '翻譯 SEO 描述為繁體中文，保持 155 字元以內，含關鍵字與行動號召：',
+    30000
   ) || data.seoDescription;
 
   // Translate imageAlt if present
   const translatedImageAlt = await translateField(
     systemPrompt,
-    `翻譯圖片替代文字為繁體中文，簡潔描述畫面：\n\n${data.imageAlt}`,
-    'imageAlt'
+    data.imageAlt,
+    'imageAlt',
+    '翻譯圖片替代文字為繁體中文，簡潔描述畫面：',
+    30000
   ) || data.imageAlt;
 
   // Translate body（结构化：保留标题层级/代码块/表格，逐块翻译正文）
@@ -258,10 +280,12 @@ async function translateArticle(systemPrompt, data, content, filename, retryCoun
     // No faq_zh available — auto-translate FAQ
     try {
       const faqText = data.faq.map((item, idx) => `Q${idx + 1}: ${item.question}\nA${idx + 1}: ${item.answer}`).join('\n\n');
+      const faqInstruction = '翻譯以下 FAQ 為繁體中文，保持 Q/A 格式對應：';
       const translatedFaq = await callDashScope([
         { role: 'system', content: systemPrompt },
-        { role: 'user', content: `翻譯以下 FAQ 為繁體中文，保持 Q/A 格式對應：\n\n${faqText}` }
+        { role: 'user', content: `${faqInstruction}\n\n${faqText}` }
       ], 2000);
+      if (translatedFaq) translatedFaq = stripInstruction(translatedFaq, faqInstruction);
 
       if (translatedFaq) {
         // Parse translated FAQ back into structured format
@@ -386,9 +410,10 @@ export async function autoTranslateIfNeeded(englishArticles, postsZhDir) {
         console.log(`    ⚠️ Title not translated, translating only title...`);
         const translatedTitle = await translateField(
           systemPrompt,
-          `翻譯文章標題為繁體中文，只輸出翻譯結果：\n\n${post.data.title}`,
+          post.data.title,
           'Title',
-          600000
+          '翻譯文章標題為繁體中文，只輸出翻譯結果：',
+          30000
         );
         if (translatedTitle) {
           existingData.title = translatedTitle;
