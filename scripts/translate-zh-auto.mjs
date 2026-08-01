@@ -13,8 +13,14 @@ import translate from 'google-translate-api';
 import {translate as vitaletsTranslate} from '@vitalets/google-translate-api';
 
 const DASHSCOPE_MODEL = 'qwen3.5-plus';
-const DASHSCOPE_BASE_URL = 'https://dashscope.aliyuncs.com/compatible-mode/v1';
-const TRANSLATE_TIMEOUT_MS = 80000; // 5 minutes (was 180s, long articles with tables need more)
+// Region-aware base URL (ROOT CAUSE FIX 2026-08-01):
+// Vercel builds run on AWS (US region) — hitting the Beijing node cross-Pacific
+// causes timeouts/aborts (the 45-min build hang). Use the Virginia endpoint when
+// built on Vercel, keep Beijing for local CN runs.
+const DASHSCOPE_BASE_URL = process.env.VERCEL
+  ? 'https://dashscope-us.aliyuncs.com/compatible-mode/v1'   // Virginia — fast from Vercel US
+  : 'https://dashscope.aliyuncs.com/compatible-mode/v1';     // Beijing — fast from local CN
+const TRANSLATE_TIMEOUT_MS = 8000; // per-attempt timeout, bounded so build never hangs
 
 // Load terminology dictionary
 function loadTerminology(rootDir) {
@@ -52,7 +58,10 @@ ${termList}`;
 }
 
 async function callDashScope(messages, maxTokens = 8000, timeoutMs = TRANSLATE_TIMEOUT_MS) {
-  const apiKey = process.env.DASHSCOPE_API_KEY;
+  // Prefer the region-matching key; fall back to the other in case only one is set.
+  const apiKey = process.env.VERCEL
+    ? (process.env.DASHSCOPE_US_API_KEY || process.env.DASHSCOPE_API_KEY)
+    : (process.env.DASHSCOPE_API_KEY || process.env.DASHSCOPE_US_API_KEY);
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
 
@@ -101,9 +110,8 @@ async function translateField(systemPrompt, text, fieldName, instruction = '', t
 
   const userContent = instruction ? `${instruction}\n\n${text}` : text;
 
-  // Vercel build cannot reach DashScope (every call aborts), so skip straight to
-  // Google Translate fallback to keep builds under the 45-minute limit. Google
-  // fallback is proven working in the Vercel environment.
+  // Manual override: skip DashScope entirely and go straight to Google fallback.
+  // (Default off now that the region endpoint is fixed; kept as a safety switch.)
   if (process.env.DISABLE_DASHSCOPE) {
     try {
       const result = await vitaletsTranslate(userContent, { to: 'zh-TW' });
@@ -288,7 +296,7 @@ async function translateArticle(systemPrompt, data, content, filename, retryCoun
       const translatedFaq = await callDashScope([
         { role: 'system', content: systemPrompt },
         { role: 'user', content: `${faqInstruction}\n\n${faqText}` }
-      ], 2000);
+      ], 2000, 20000); // bounded 20s — was using default 80s (latent hang risk)
       if (translatedFaq) translatedFaq = stripInstruction(translatedFaq, faqInstruction);
 
       if (translatedFaq) {
