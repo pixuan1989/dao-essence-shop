@@ -14,7 +14,7 @@ import {translate as vitaletsTranslate} from '@vitalets/google-translate-api';
 
 const DASHSCOPE_MODEL = 'qwen3.5-plus';
 const DASHSCOPE_BASE_URL = 'https://dashscope.aliyuncs.com/compatible-mode/v1';
-const TRANSLATE_TIMEOUT_MS = 300000; // 5 minutes (was 180s, long articles with tables need more)
+const TRANSLATE_TIMEOUT_MS = 80000; // 5 minutes (was 180s, long articles with tables need more)
 
 // Load terminology dictionary
 function loadTerminology(rootDir) {
@@ -96,13 +96,26 @@ function stripInstruction(text, instruction) {
 
 // instruction is passed SEPARATELY from the content so the fallback path can
 // return clean content without leaking the instruction string into the page.
-async function translateField(systemPrompt, text, fieldName, instruction = '', timeoutMs = 30000) {
+async function translateField(systemPrompt, text, fieldName, instruction = '', timeoutMs = 8000) {
   if (!text) return null;
 
   const userContent = instruction ? `${instruction}\n\n${text}` : text;
+
+  // Vercel build cannot reach DashScope (every call aborts), so skip straight to
+  // Google Translate fallback to keep builds under the 45-minute limit. Google
+  // fallback is proven working in the Vercel environment.
+  if (process.env.DISABLE_DASHSCOPE) {
+    try {
+      const result = await vitaletsTranslate(userContent, { to: 'zh-TW' });
+      return stripInstruction(result.text, instruction);
+    } catch {
+      return text;
+    }
+  }
+
   let translatedText;
   let retryCount = 0;
-  const maxRetries = 3;
+  const maxRetries = 1;
 
   while (retryCount < maxRetries) {
     try {
@@ -173,7 +186,7 @@ async function translateBodyStructured(systemPrompt, content) {
   const out = [];
   for (const b of blocks) {
     if (b.type === 'heading') {
-      const t = await translateField(systemPrompt, b.text, 'Heading', '翻譯以下標題為繁體中文，只輸出翻譯結果（不要加 # 號）：', 30000);
+      const t = await translateField(systemPrompt, b.text, 'Heading', '翻譯以下標題為繁體中文，只輸出翻譯結果（不要加 # 號）：', 8000);
       out.push(`${b.level} ${t || b.text}`);
     } else if (b.type === 'raw') {
       out.push(b.text);
@@ -181,16 +194,7 @@ async function translateBodyStructured(systemPrompt, content) {
       const txt = b.text;
       if (!txt.trim()) { out.push(''); continue; }
       const bodyInstruction = '翻譯以下 Markdown 內容為繁體中文，保留列表/引用/格式與語氣：';
-      let t = null;
-      for (let a = 0; a <= 2; a++) {
-        try {
-          t = await callDashScope([
-            { role: 'system', content: systemPrompt },
-            { role: 'user', content: `${bodyInstruction}\n\n${txt}` }
-          ], 8000);
-          if (t) { t = stripInstruction(t, bodyInstruction); break; }
-        } catch (e) { await new Promise(r => setTimeout(r, 1000)); }
-      }
+      const t = await translateField(systemPrompt, txt, 'Body', bodyInstruction, 8000);
       out.push(t || txt);
     }
   }
@@ -204,7 +208,7 @@ async function translateArticle(systemPrompt, data, content, filename, retryCoun
     data.title,
     'Title',
     '翻譯文章標題為繁體中文，只輸出翻譯結果：',
-    30000
+    8000
   ) || data.title;
 
   // Translate description
@@ -213,7 +217,7 @@ async function translateArticle(systemPrompt, data, content, filename, retryCoun
     data.description,
     'Description',
     '翻譯文章描述為繁體中文，保持 155 字元以內：',
-    30000
+    8000
   ) || data.description;
 
   // Translate h1Title if present (always translate, even if same as title)
@@ -222,7 +226,7 @@ async function translateArticle(systemPrompt, data, content, filename, retryCoun
     data.h1Title,
     'h1Title',
     '翻譯文章主標題（h1）為繁體中文，保持專業簡潔：',
-    30000
+    8000
   ) || data.h1Title;
 
   // Translate seoDescription if present
@@ -231,7 +235,7 @@ async function translateArticle(systemPrompt, data, content, filename, retryCoun
     data.seoDescription,
     'seoDescription',
     '翻譯 SEO 描述為繁體中文，保持 155 字元以內，含關鍵字與行動號召：',
-    30000
+    8000
   ) || data.seoDescription;
 
   // Translate imageAlt if present
@@ -240,7 +244,7 @@ async function translateArticle(systemPrompt, data, content, filename, retryCoun
     data.imageAlt,
     'imageAlt',
     '翻譯圖片替代文字為繁體中文，簡潔描述畫面：',
-    30000
+    8000
   ) || data.imageAlt;
 
   // Translate body（结构化：保留标题层级/代码块/表格，逐块翻译正文）
@@ -413,7 +417,7 @@ export async function autoTranslateIfNeeded(englishArticles, postsZhDir) {
           post.data.title,
           'Title',
           '翻譯文章標題為繁體中文，只輸出翻譯結果：',
-          30000
+          8000
         );
         if (translatedTitle) {
           existingData.title = translatedTitle;
