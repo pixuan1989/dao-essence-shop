@@ -12,15 +12,19 @@ import matter from 'gray-matter';
 import translate from 'google-translate-api';
 import {translate as vitaletsTranslate} from '@vitalets/google-translate-api';
 
-const DASHSCOPE_MODEL = 'qwen3.5-plus';
-// Region-aware base URL (ROOT CAUSE FIX 2026-08-01):
-// Vercel builds run on AWS (US region) — hitting the Beijing node cross-Pacific
-// causes timeouts/aborts (the 45-min build hang). Use the Virginia endpoint when
-// built on Vercel, keep Beijing for local CN runs.
-const DASHSCOPE_BASE_URL = process.env.VERCEL
-  ? 'https://dashscope-us.aliyuncs.com/compatible-mode/v1'   // Virginia — fast from Vercel US
-  : 'https://dashscope.aliyuncs.com/compatible-mode/v1';     // Beijing — fast from local CN
-const TRANSLATE_TIMEOUT_MS = 8000; // per-attempt timeout, bounded so build never hangs
+// VERIFIED 2026-08-01 via live API test (see tmp/test-dashscope-region*.mjs):
+//  - qwen3.5-plus cold-start took ~57s on the CN node → its calls aborted at the
+//    20s timeout and cascaded into the 45-min build hang. qwen-plus responds in
+//    <1s and is plenty good for ZH translation. Switched.
+//  - The domestic 百炼 key returns HTTP 401 on dashscope-us (Virginia). So the US
+//    node is ONLY usable with a separate international key (DASHSCOPE_US_API_KEY).
+//  => Default to the Beijing node + qwen-plus. Use the US node only when an
+//     international key is explicitly provided.
+const DASHSCOPE_MODEL = 'qwen-plus';
+const DASHSCOPE_BASE_URL = process.env.DASHSCOPE_US_API_KEY
+  ? 'https://dashscope-us.aliyuncs.com/compatible-mode/v1'   // Virginia — only with an intl key
+  : 'https://dashscope.aliyuncs.com/compatible-mode/v1';     // Beijing — works with the 百炼 key
+const TRANSLATE_TIMEOUT_MS = 15000; // per-attempt; qwen-plus ~1s, 15s absorbs cold start + cross-Pacific
 
 // Load terminology dictionary
 function loadTerminology(rootDir) {
@@ -58,10 +62,9 @@ ${termList}`;
 }
 
 async function callDashScope(messages, maxTokens = 8000, timeoutMs = TRANSLATE_TIMEOUT_MS) {
-  // Prefer the region-matching key; fall back to the other in case only one is set.
-  const apiKey = process.env.VERCEL
-    ? (process.env.DASHSCOPE_US_API_KEY || process.env.DASHSCOPE_API_KEY)
-    : (process.env.DASHSCOPE_API_KEY || process.env.DASHSCOPE_US_API_KEY);
+  // Use the international key only when present (it pairs with the US node);
+  // otherwise fall back to the domestic 百炼 key (works on the Beijing node).
+  const apiKey = process.env.DASHSCOPE_US_API_KEY || process.env.DASHSCOPE_API_KEY;
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
 
@@ -105,13 +108,13 @@ function stripInstruction(text, instruction) {
 
 // instruction is passed SEPARATELY from the content so the fallback path can
 // return clean content without leaking the instruction string into the page.
-async function translateField(systemPrompt, text, fieldName, instruction = '', timeoutMs = 8000) {
+async function translateField(systemPrompt, text, fieldName, instruction = '', timeoutMs = TRANSLATE_TIMEOUT_MS) {
   if (!text) return null;
 
   const userContent = instruction ? `${instruction}\n\n${text}` : text;
 
   // Manual override: skip DashScope entirely and go straight to Google fallback.
-  // (Default off now that the region endpoint is fixed; kept as a safety switch.)
+  // (Kept as a safety switch in case the DashScope path ever regresses.)
   if (process.env.DISABLE_DASHSCOPE) {
     try {
       const result = await vitaletsTranslate(userContent, { to: 'zh-TW' });
@@ -194,7 +197,7 @@ async function translateBodyStructured(systemPrompt, content) {
   const out = [];
   for (const b of blocks) {
     if (b.type === 'heading') {
-      const t = await translateField(systemPrompt, b.text, 'Heading', '翻譯以下標題為繁體中文，只輸出翻譯結果（不要加 # 號）：', 8000);
+      const t = await translateField(systemPrompt, b.text, 'Heading', '翻譯以下標題為繁體中文，只輸出翻譯結果（不要加 # 號）：', 15000);
       out.push(`${b.level} ${t || b.text}`);
     } else if (b.type === 'raw') {
       out.push(b.text);
@@ -202,7 +205,7 @@ async function translateBodyStructured(systemPrompt, content) {
       const txt = b.text;
       if (!txt.trim()) { out.push(''); continue; }
       const bodyInstruction = '翻譯以下 Markdown 內容為繁體中文，保留列表/引用/格式與語氣：';
-      const t = await translateField(systemPrompt, txt, 'Body', bodyInstruction, 8000);
+      const t = await translateField(systemPrompt, txt, 'Body', bodyInstruction, 15000);
       out.push(t || txt);
     }
   }
