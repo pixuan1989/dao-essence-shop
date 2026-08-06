@@ -594,17 +594,15 @@ const ZODIAC_LOOKUP_HTML = `
         .blog-cover-wrapper {
             position: relative;
             background: rgba(212,175,55,0.06) !important;
-        }
-        .blog-cover-wrapper {
-            aspect-ratio: 16 / 9;
             overflow: hidden;
             border-radius: 12px;
             margin: 1.5rem 0;
         }
         .blog-cover-wrapper img {
             width: 100%;
-            height: 100%;
-            object-fit: cover;
+            height: auto;
+            max-height: 70vh;
+            object-fit: contain;
             display: block;
         }
         .blog-card-image::before, .related-card-img::before, .article-card-image::before, .blog-cover-wrapper::before {
