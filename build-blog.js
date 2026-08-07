@@ -1864,14 +1864,8 @@ function generateBlogIndex(allArticles, options = {}) {
   const lang = isZh ? 'zh-Hant' : 'en';
   const langPrefix = isZh ? '/zh' : '';
 
-  // Separate pinned and regular articles (pinned first, then latest)
-  const pinnedArticles = allArticles.filter(a => a.data.pinned === true);
-  const regularArticles = allArticles.filter(a => a.data.pinned !== true);
-  // Deduplicate: remove pinned from regular
-  const pinnedSlugs = new Set(pinnedArticles.map(a => a.slug));
-  const filteredRegular = regularArticles.filter(a => !pinnedSlugs.has(a.slug));
-  filteredRegular.sort((a, b) => new Date(b.data.date) - new Date(a.data.date));
-  const sortedArticles = [...pinnedArticles, ...filteredRegular];
+  // Sort all articles by date (newest first) — pinned feature removed
+  const sortedArticles = [...allArticles].sort((a, b) => new Date(b.data.date) - new Date(a.data.date));
 
   const latestCards = sortedArticles
     .map(a => {
@@ -1883,8 +1877,6 @@ function generateBlogIndex(allArticles, options = {}) {
       let imgSrc = a.data.image || SITE_URL + '/images/og-default.jpg';
       imgSrc = imgSrc.replace(/\/feature\/blog-cms\//g, '/main/');
       if (!imgSrc || imgSrc === '""') imgSrc = SITE_URL + '/images/og-default.jpg';
-      const isPinned = a.data.pinned === true;
-      const pinnedBadge = isPinned ? `<span class="blog-card-pinned">${isZh ? '📌 置頂' : '📌 Pinned'}</span>` : '';
       // For EN blog index, embed zh titles for runtime DOM translation
       const zhPost = isZh ? a : (options.zhMap && options.zhMap[a.slug] ? options.zhMap[a.slug] : null);
       const zhTitle = zhPost ? escapeHtml(zhPost.data.title || '') : '';
@@ -1903,12 +1895,11 @@ function generateBlogIndex(allArticles, options = {}) {
         ? `<span>·</span><span class="read-time-label" data-zh-text="${a.data.readTime} 分鐘閱讀">${a.data.readTime} min read</span>`
         : '';
       return `
-                <a href="${langPrefix}/blog/${a.slug}" class="blog-card${isPinned ? ' pinned' : ''}">
+                <a href="${langPrefix}/blog/${a.slug}" class="blog-card">
                     <div class="blog-card-image">
                         <img src="${imgSrc}" alt="${escapeHtml(a.data.imageAlt || a.data.title)}" onload="this.parentElement.classList.add('loaded')" onerror="this.parentElement.classList.add('loaded');this.src='${SITE_URL}/images/og-default.jpg'">
                     </div>
                     <div class="blog-card-body">
-                        ${pinnedBadge}
                         ${catTag}
                         ${h2Tag}
                         ${pTag}
@@ -1971,8 +1962,6 @@ function generateBlogIndex(allArticles, options = {}) {
         .blog-card:hover h2 { color: #1A1612; }
         .blog-card p { color: #555; font-size: 0.92rem; line-height: 1.7; margin-bottom: 0.8rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
         .blog-card-meta { display: flex; gap: 1rem; font-size: 0.8rem; color: #888; opacity: 0.7; }
-        .blog-card-pinned { display: inline-block; font-size: 0.72rem; color: #D4AF37; letter-spacing: 0.08em; margin-bottom: 0.3rem; }
-        .blog-card.pinned { border-color: rgba(212,175,55,0.3); background: rgba(212,175,55,0.06); }
 
         /* Right sidebar */
         .blog-sidebar { width: 320px; min-width: 320px; position: sticky; top: 100px; }
@@ -2506,26 +2495,12 @@ async function main() {
   if (fs.existsSync(homeIndexPath)) {
     let homeHtml = fs.readFileSync(homeIndexPath, 'utf-8');
 
-    // Separate pinned and regular articles
-    const pinnedArticles = allArticles.filter(a => a.data.pinned === true);
-    const regularArticles = allArticles.filter(a => a.data.pinned !== true);
+    // Sort all articles by date (newest first) — pinned feature removed
+    const displayArticles = [...allArticles]
+      .sort((a, b) => new Date(b.data.date) - new Date(a.data.date))
+      .slice(0, 6);
 
-    // Deduplicate: remove pinned articles from regular list
-    const pinnedSlugs = new Set(pinnedArticles.map(a => a.slug));
-    const filteredRegular = regularArticles.filter(a => !pinnedSlugs.has(a.slug));
-
-    // Sort regular articles by date (newest first)
-    filteredRegular.sort((a, b) => new Date(b.data.date) - new Date(a.data.date));
-
-    // Homepage shows up to 6 articles: pinned first, then fill with latest
-    const homepageCount = 6;
-    const regularCount = Math.max(0, homepageCount - pinnedArticles.length);
-    const displayArticles = [
-      ...pinnedArticles,
-      ...filteredRegular.slice(0, regularCount)
-    ].slice(0, homepageCount);
-
-    console.log(`  Pinned: ${pinnedArticles.length}, Regular: ${displayArticles.length - pinnedArticles.length}, Total: ${displayArticles.length}`);
+    console.log(`  Homepage articles (newest first): ${displayArticles.length}`);
 
     const cardsHtml = displayArticles.map(post => {
       const catLabel = CATEGORY_LABELS[post.category] || post.category || 'Blog';
@@ -2560,7 +2535,7 @@ async function main() {
       `<div class="articles-list">\n${cardsHtml}\n            </div>\n            $1`
     );
     fs.writeFileSync(homeIndexPath, homeHtml, 'utf-8');
-    console.log(`  Updated: index.html (${displayArticles.length} articles: ${pinnedArticles.length} pinned + ${displayArticles.length - pinnedArticles.length} latest)`);
+    console.log(`  Updated: index.html (${displayArticles.length} latest articles)`);
   }
 
   // Step 7b: Generate zh homepage (dist/zh/index.html) with zh article cards
@@ -2573,16 +2548,10 @@ async function main() {
     // Start from the EN index.html that was just updated with article cards
     const enHomeHtml = fs.readFileSync(homeIndexPath, 'utf-8');
 
-    // Build zh article cards using the same pinned/latest logic
-    const zhPinned = zhArticles.filter(a => a.data.pinned === true);
-    const zhRegular = zhArticles.filter(a => a.data.pinned !== true);
-    const zhPinnedSlugs = new Set(zhPinned.map(a => a.slug));
-    const zhFiltered = zhRegular.filter(a => !zhPinnedSlugs.has(a.slug));
-    zhFiltered.sort((a, b) => new Date(b.data.date) - new Date(a.data.date));
-    const zhDisplay = [
-      ...zhPinned,
-      ...zhFiltered.slice(0, Math.max(0, 6 - zhPinned.length))
-    ].slice(0, 6);
+    // Build zh article cards sorted by date (newest first) — pinned feature removed
+    const zhDisplay = [...zhArticles]
+      .sort((a, b) => new Date(b.data.date) - new Date(a.data.date))
+      .slice(0, 6);
 
     const zhCardsHtml = zhDisplay.map(post => {
       const catLabel = CATEGORY_LABELS_ZH[post.category] || post.category || '部落格';
