@@ -119,6 +119,8 @@ __pycache__/
 *.pyc
 
 # Python virtual environment (venv) products — never commit
+.venv/
+venv/
 lib/site-packages/
 pyvenv.cfg
 scripts/activate
