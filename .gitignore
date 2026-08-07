@@ -118,6 +118,9 @@ images/*-temp.webp
 __pycache__/
 *.pyc
 
+# Python virtual environment (venv) products — never commit
+lib/site-packages/
+
 # Temporary scripts
 scripts/full_recheck.cjs
 
