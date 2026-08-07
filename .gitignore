@@ -120,6 +120,12 @@ __pycache__/
 
 # Python virtual environment (venv) products — never commit
 lib/site-packages/
+pyvenv.cfg
+scripts/activate
+scripts/activate.bat
+scripts/Activate.ps1
+scripts/deactivate.bat
+scripts/*.exe
 
 # Temporary scripts
 scripts/full_recheck.cjs
