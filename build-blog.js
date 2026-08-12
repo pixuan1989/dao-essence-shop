@@ -1358,14 +1358,14 @@ function generateArticleHtml(post, category, allArticles, options = {}) {
 
   function seoTitle(title) {
     const suffix = ' | DAO Essence';
-    const maxLen = 60;
-    // escapeHtml first, then check length (to account for & -> &amp; etc.)
-    const escaped = escapeHtml(title);
-    const full = escaped + suffix;
-    if (full.length <= maxLen) return full;
+    // SKILL rule: title ≤70 chars. Measure RAW length (Google counts rendered chars,
+    // so '&' = 1 char, not the 5-char '&amp;' HTML source). maxLen includes the suffix.
+    const maxLen = 70;
+    const raw = title || '';
+    if ((raw + suffix).length <= maxLen) return escapeHtml(raw) + suffix;
     const maxTitle = maxLen - suffix.length - 3; // 3 for '...'
-    const truncated = escaped.substring(0, maxTitle).replace(/\s+\S*$/, '');
-    return truncated + '...' + suffix;
+    const truncated = raw.substring(0, maxTitle).replace(/\s+\S*$/, '');
+    return escapeHtml(truncated) + '...' + suffix;
   }
   function seoDescription(rawDesc) {
     if (!rawDesc) return '';

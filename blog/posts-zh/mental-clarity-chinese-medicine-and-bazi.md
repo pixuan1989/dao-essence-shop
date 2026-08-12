@@ -11,7 +11,7 @@ categories: ["bazi-astrology", "feng-shui"]
 tags: ["心智清晰", "中醫專注", "八字與專注", "獨立思考", "AI 惰性", "心流"]
 related_posts:
   - "why-ai-bazi-gets-it-wrong"
-  - "elon-musk-bazi-yang-wood-day-master-decoded"
+  - "elon-musk-bazi-chart-analysis"
   - "bazi-useful-god-position-four-pillars"
 h1Title: "AI 時代的心神修養：中醫與八字教會我們的事"
 seoDescription: "心智清晰是 AI 最先偷走的資源。中醫與八字說明如何用「養神」與「用神」守住專注、進入心流、保持獨立思考。"
@@ -113,7 +113,7 @@ AI 讓寫作看起來很容易、讓思考看起來可有可無。但心智清�
 
 ### 三、讓一件事完全吸住你（心流）
 
-心流不是生產力技巧，是猴與馬終於安頓下來的結果。馬斯克——一位陽木日主，我們在[他的八字解析](/zh/blog/elon-musk-bazi-yang-wood-day-master-decoded)裡拆過——常被拿來說這點：能瞬間沉進五分鐘的專注思考，抵過多數人兩小時的瞎忙。機制很平常：一次只做一件事、關掉第二塊螢幕、讓呼吸慢下來，直到神回到家。
+心流不是生產力技巧，是猴與馬終於安頓下來的結果。馬斯克——一位陽木日主，我們在[他的八字解析](/zh/blog/elon-musk-bazi-chart-analysis)裡拆過——常被拿來說這點：能瞬間沉進五分鐘的專注思考，抵過多數人兩小時的瞎忙。機制很平常：一次只做一件事、關掉第二塊螢幕、讓呼吸慢下來，直到神回到家。
 
 另一位學員陳硯秋，有回跟團參觀工廠，事後隨口提起那家廠能出十三N 規格的銅原料——一句在整場對話尾聲才說的閒話，只有真正在聽的人才接得住。那就是安靜、在場的心，免費替你撿到的東西。分了神的人，就從它旁邊走過了。
 

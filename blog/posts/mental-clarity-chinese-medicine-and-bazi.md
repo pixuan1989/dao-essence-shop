@@ -11,7 +11,7 @@ categories: ["bazi-astrology", "feng-shui"]
 tags: ["mental clarity", "Chinese medicine focus", "Bazi and focus", "independent thinking", "AI laziness", "flow state"]
 related_posts:
   - "why-ai-bazi-gets-it-wrong"
-  - "elon-musk-bazi-yang-wood-day-master-decoded"
+  - "elon-musk-bazi-chart-analysis"
   - "bazi-useful-god-position-four-pillars"
 h1Title: "Mental Clarity in the AI Age: What TCM and Bazi Teach"
 seoDescription: "Mental clarity is the first thing AI steals. TCM and Bazi show how to protect your focus, enter flow, and keep independent thinking in a noisy world."
@@ -113,7 +113,7 @@ One of my students, Lin Qingyue, keeps study-trip notes by hand—every stall in
 
 ### 3. Let one task absorb you (the flow state)
 
-Flow is not a productivity hack; it is what happens when the monkey and the horse finally settle. Elon Musk—a Yang Wood day master, as we broke down in [his Bazi decode](/blog/elon-musk-bazi-yang-wood-day-master-decoded)—is often cited for exactly this: the ability to drop into five minutes of concentrated thought that outperform most people's two hours of busywork. The mechanism is ordinary. Single task. Kill the secondary screen. Let the breath slow until the spirit comes home.
+Flow is not a productivity hack; it is what happens when the monkey and the horse finally settle. Elon Musk—a Yang Wood day master, as we broke down in [his Bazi decode](/blog/elon-musk-bazi-chart-analysis)—is often cited for exactly this: the ability to drop into five minutes of concentrated thought that outperform most people's two hours of busywork. The mechanism is ordinary. Single task. Kill the secondary screen. Let the breath slow until the spirit comes home.
 
 Another student, Chen Yanqiu, once joined a factory tour and later recalled, offhand, that the plant could produce 13N-grade copper stock—a detail mentioned once, at the very end of a conversation, that only someone actually listening would catch. That is what a quiet, present mind collects for free. A distracted one walks past it.
 
