@@ -44,7 +44,7 @@ AI makes writing look easy and thinking look optional. But clarity of mind is a 
 
 ---
 
-## Direct Answer: Is AI Making Us Mentally Lazy?
+## Direct Answer: Is AI Stealing Your Independent Thinking?
 
 **Yes—but only if you hand it your thinking. The cure is not quitting AI; it is keeping ownership of your judgment.** Traditional Chinese medicine and Bazi agree on one point: a clear mind is something you cultivate, not something a tool lends you.
 
@@ -54,7 +54,7 @@ So the real question is not "AI: good or bad?" It is "who owns the question?" Ke
 
 ---
 
-## Core Concepts: Where Clarity Actually Lives
+## Core Concepts: TCM Focus and the Bazi "Useful God"
 
 ### The Heart Houses the Spirit
 
@@ -97,7 +97,7 @@ The monkey leaps branch to branch; the horse runs with no rider. Without a way t
 
 ---
 
-## Practical Guide: Reclaiming a Quiet Mind
+## Practical Guide: Reclaiming Focus and Finding Flow State
 
 ### 1. Use AI, but never hand it the question
 
