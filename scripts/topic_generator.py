@@ -5,6 +5,8 @@ DaoEssence 选题生成脚本 v3
 
 import json
 import os
+import re
+import requests
 from datetime import datetime, timedelta
 from pathlib import Path
 
@@ -227,6 +229,139 @@ def get_seed_date():
         except ValueError:
             pass
     return datetime.now()
+
+
+def call_qwen(prompt, max_tokens=3500, model="qwen-plus"):
+    """调用 DashScope Qwen API（兼容 OpenAI 格式），返回文本或 None"""
+    api_key = os.environ.get('DASHSCOPE_API_KEY')
+    if not api_key:
+        return None
+    url = "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions"
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Content-Type": "application/json"
+    }
+    payload = {
+        "model": model,
+        "messages": [{"role": "user", "content": prompt}],
+        "temperature": 0.85,
+        "max_tokens": max_tokens
+    }
+    try:
+        resp = requests.post(url, headers=headers, json=payload, timeout=45)
+        if resp.status_code == 200:
+            return resp.json()["choices"][0]["message"]["content"]
+        print(f"[AI] Qwen API 错误 {resp.status_code}: {resp.text[:200]}")
+        return None
+    except Exception as e:
+        print(f"[AI] Qwen 调用失败：{e}")
+        return None
+
+
+def map_tool(name):
+    """把 AI 返回的工具名映射到 SITE_TOOLS 对象"""
+    if not name:
+        return None
+    name = str(name)
+    for key, tool in SITE_TOOLS.items():
+        if key in name or name.lower() in tool["name"].lower():
+            return tool
+    return None
+
+
+def generate_ai_topics(hot_topics, num_candidates=3, seed_date=None):
+    """用 AI 把实时热点关联成命理/大健康选题。无 key 或失败返回 None（由调用方退化）。"""
+    api_key = os.environ.get('DASHSCOPE_API_KEY')
+    if not api_key:
+        print("⚠️ 未配置 DASHSCOPE_API_KEY，退化到关键词库轮换")
+        return None
+
+    # 收集所有热点标题
+    all_hot = []
+    for platform, items in hot_topics.items():
+        if platform == "timestamp":
+            continue
+        for item in items:
+            if item and len(str(item).strip()) > 3:
+                all_hot.append(str(item).strip())
+
+    if not all_hot:
+        print("⚠️ 无热点数据，退化到关键词库轮换")
+        return None
+
+    # 去重 + 截断，避免 prompt 过长
+    seen = set()
+    unique_hot = []
+    for h in all_hot:
+        if h not in seen:
+            seen.add(h)
+            unique_hot.append(h)
+    hot_context = "\n".join(f"- {h}" for h in unique_hot[:40])
+
+    # 命理 65% / 大健康 35%
+    n_bazi = max(1, round(num_candidates * 0.65))
+    n_health = num_candidates - n_bazi
+
+    prompt = f"""你是 DaoEssence 的内容策划。该平台面向海外华人及西方用户，主营八字命理、风水、五行、中医养生。
+基于以下今日实时热点，生成 {num_candidates} 个博客选题。
+比例要求：{n_bazi} 个从命理/风水/八字/五行角度解读，{n_health} 个从中医养生/大健康角度解读。
+
+今日热点（实时抓取）：
+{hot_context}
+
+要求：
+1. 每个选题必须从一个真实热点切入（在标题或描述中引用该热点关键词），再关联到命理或健康，不要凭空编造
+2. 标题有吸引力，适合海外读者，中英双语
+3. 避免与现有文章重复（已有约54篇，示例：{', '.join(EXISTING_ARTICLES[:8])} 等）
+4. 每个选题输出一个 JSON 对象，字段：
+   - title_cn: 中文标题
+   - title_en: 英文标题（SEO 友好，含 bazi / feng shui / five elements / wellness 等词）
+   - description_cn: 中文描述（80字内）
+   - outline_cn: 5 点中文大纲（数组）
+   - category: 只能是 "命理" 或 "大健康"
+   - related_tool: 推荐工具名，从 [八字排盘, 五行测试, 老黄历, 灵魂伴侣] 中选一个，或填 null
+   - cover_prompt: 封面图英文提示词（中文命理视觉元素）
+
+只输出 JSON 数组，不要任何其他文字或代码块标记。"""
+
+    result = call_qwen(prompt, max_tokens=3500)
+    if not result:
+        return None
+
+    try:
+        # 提取 JSON（兼容模型偶尔包裹 ```json ``` 的情况）
+        json_match = re.search(r'\[.*\]', result, re.DOTALL)
+        if json_match:
+            topics = json.loads(json_match.group())
+        else:
+            topics = json.loads(result)
+
+        candidates = []
+        for t in topics[:num_candidates]:
+            if not isinstance(t, dict) or not t.get("title_cn"):
+                continue
+            candidates.append({
+                "category": t.get("category", "命理"),
+                "title_cn": t.get("title_cn", ""),
+                "title_en": t.get("title_en", ""),
+                "description_cn": t.get("description_cn", ""),
+                "outline_cn": t.get("outline_cn", []),
+                "site_relevance": f"热点关联-{t.get('category', '')}",
+                "related_tool": map_tool(t.get("related_tool")),
+                "cover_prompt": t.get("cover_prompt", ""),
+                "is_duplicate": False,
+                "big_words": [],
+                "long_tails": [],
+                "hot_source": "real-time hotspot (AI bridged)",
+                "hot_source_site": "qwen",
+                "hot_relevance_score": 5,
+                "competitor_gap": "Real-time hot-topic angle, not covered by competitors",
+                "score": 9.0
+            })
+        return candidates if candidates else None
+    except Exception as e:
+        print(f"⚠️ 解析 AI 选题失败：{e}")
+        return None
 
 
 def generate_topic_candidates(hot_topics, num_candidates=3, seed_date=None):
@@ -462,7 +597,8 @@ def format_for_wechat(candidates):
         if c['related_tool']:
             lines.append(f"工具：{c['related_tool']['name']}")
         lines.append(f"来源：{c['hot_source'][:40]}")
-        lines.append(f"评分：{c['score']} | 大词：{c['big_words'][0]['keyword']}")
+        big_word = c['big_words'][0]['keyword'] if c.get('big_words') else '热点关联'
+        lines.append(f"评分：{c['score']} | 大词：{big_word}")
         lines.append("")
     
     lines.append("---")
@@ -491,7 +627,13 @@ def main():
             print(f"{platform}: {len(items)} 条")
     
     print("\n生成候选选题...")
-    candidates = generate_topic_candidates(hot_topics, num_candidates=3, seed_date=seed_date)
+    # 优先用 AI 把实时热点关联成命理/大健康选题；失败则退化到关键词库轮换
+    candidates = generate_ai_topics(hot_topics, num_candidates=3, seed_date=seed_date)
+    if candidates:
+        print(f"✅ AI 实时热点关联成功，生成 {len(candidates)} 个选题")
+    else:
+        print("⚠️ AI 不可用，退化到关键词库轮换")
+        candidates = generate_topic_candidates(hot_topics, num_candidates=3, seed_date=seed_date)
     
     print(f"\n已生成 {len(candidates)} 个候选选题：")
     for i, c in enumerate(candidates, 1):
