@@ -1446,6 +1446,22 @@ var ZODIAC_DATA = {
     "pig":     { score: 80, color: "#5B8299", colorName: "蓝色", number: 4, direction: "正东", pair: "寅",     good: ["出行","搬家","沐浴"],        avoid: ["开业","安葬"],       quote: "心静自然凉", quoteEn: "" }
   },
 
+  "2026-08-22": {
+    "rat":     { score: 80, color: "#5B8299", colorName: "蓝色", number: 5, direction: "东南", pair: "丑",     good: ["出行","搬家","沐浴"],        avoid: ["开业","安葬"],       quote: "中 秋 佳 节 ， 月 圆 人 团 圆 。", quoteEn: "" },
+    "ox":     { score: 70, color: "#9E8E6E", colorName: "棕色", number: 4, direction: "东南", pair: "子",     good: ["出行","搬家","沐浴"],        avoid: ["开业","安葬"],       quote: "中 秋 佳 节 ， 月 圆 人 团 圆 。", quoteEn: "" },
+    "tiger":     { score: 70, color: "#5E825E", colorName: "绿色", number: 7, direction: "东南", pair: "亥",     good: ["出行","搬家","沐浴"],        avoid: ["开业","安葬"],       quote: "中 秋 佳 节 ， 月 圆 人 团 圆 。", quoteEn: "" },
+    "rabbit":     { score: 60, color: "#5E825E", colorName: "绿色", number: 8, direction: "东南", pair: "戌",     good: ["出行","搬家","沐浴"],        avoid: ["开业","安葬"],       quote: "中 秋 佳 节 ， 月 圆 人 团 圆 。", quoteEn: "" },
+    "dragon":     { score: 55, color: "#9E8E6E", colorName: "棕色", number: 8, direction: "东南", pair: "酉",     good: ["出行","搬家","沐浴"],        avoid: ["开业","安葬"],       quote: "中 秋 佳 节 ， 月 圆 人 团 圆 。", quoteEn: "" },
+    "snake":     { score: 70, color: "#B8665E", colorName: "红色", number: 7, direction: "东南", pair: "申",     good: ["出行","搬家","沐浴"],        avoid: ["开业","安葬"],       quote: "中 秋 佳 节 ， 月 圆 人 团 圆 。", quoteEn: "" },
+    "horse":     { score: 70, color: "#B8665E", colorName: "红色", number: 7, direction: "东南", pair: "未",     good: ["出行","搬家","沐浴"],        avoid: ["开业","安葬"],       quote: "中 秋 佳 节 ， 月 圆 人 团 圆 。", quoteEn: "" },
+    "goat":     { score: 70, color: "#9E8E6E", colorName: "棕色", number: 6, direction: "东南", pair: "午",     good: ["出行","搬家","沐浴"],        avoid: ["开业","安葬"],       quote: "中 秋 佳 节 ， 月 圆 人 团 圆 。", quoteEn: "" },
+    "monkey":     { score: 90, color: "#D4AF37", colorName: "金色", number: 8, direction: "东南", pair: "巳",     good: ["出行","搬家","沐浴"],        avoid: ["开业","安葬"],       quote: "中 秋 佳 节 ， 月 圆 人 团 圆 。", quoteEn: "" },
+    "rooster":     { score: 95, color: "#D4AF37", colorName: "金色", number: 9, direction: "东南", pair: "辰",     good: ["出行","搬家","沐浴"],        avoid: ["开业","安葬"],       quote: "中 秋 佳 节 ， 月 圆 人 团 圆 。", quoteEn: "" },
+    "dog":     { score: 55, color: "#9E8E6E", colorName: "棕色", number: 5, direction: "东南", pair: "卯",     good: ["出行","搬家","沐浴"],        avoid: ["开业","安葬"],       quote: "中 秋 佳 节 ， 月 圆 人 团 圆 。", quoteEn: "" },
+    "pig":     { score: 70, color: "#5B8299", colorName: "蓝色", number: 5, direction: "东南", pair: "寅",     good: ["出行","搬家","沐浴"],        avoid: ["开业","安葬"],       quote: "中 秋 佳 节 ， 月 圆 人 团 圆 。", quoteEn: "" }
+  },
+
+
 
 
 
