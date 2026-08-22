@@ -3204,6 +3204,29 @@ async function main() {
       console.log(`  ✅ js/${script} → dist/js/`);
     }
   }
+
+  // Step 11: Inject amazon-geo.js into every dist HTML page so affiliate links
+  // are localized for international visitors even when OneLink is unavailable.
+  const geoScriptTag = '<script src="/js/amazon-geo.js" defer></script>';
+  function walkAndInjectGeo(dirPath) {
+    if (!fs.existsSync(dirPath)) return;
+    const entries = fs.readdirSync(dirPath, { withFileTypes: true });
+    for (const entry of entries) {
+      const entryPath = path.join(dirPath, entry.name);
+      if (entry.isDirectory()) {
+        walkAndInjectGeo(entryPath);
+      } else if (entry.name.endsWith('.html')) {
+        let html = fs.readFileSync(entryPath, 'utf-8');
+        if (html.includes('amazon-geo.js')) continue;
+        if (html.includes('</body>')) {
+          html = html.replace('</body>', geoScriptTag + '\n</body>');
+          fs.writeFileSync(entryPath, html, 'utf-8');
+        }
+      }
+    }
+  }
+  walkAndInjectGeo(DIST_DIR);
+  console.log('  ✅ Injected amazon-geo.js into dist HTML pages');
 }
 
 main();
