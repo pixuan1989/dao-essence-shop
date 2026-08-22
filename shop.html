@@ -292,7 +292,7 @@
             return;
           }
           grid.innerHTML = products.map(function (p) {
-            var name = (zh && p.nameCN) ? p.nameCN : (p.name || '');
+            var name = zh ? (p.nameCN || p.name || '') : (p.nameEN || p.name || '');
             var desc = (zh && p.descriptionCN) ? p.descriptionCN : (p.description || '');
             if (desc && desc.length > 90) desc = desc.slice(0, 90) + '…';
             var img = p.image || p.image_url || '';
@@ -301,11 +301,11 @@
             var orig = (p.originalPrice && p.price != null && p.originalPrice > p.price)
               ? '$' + Number(p.originalPrice).toFixed(2) : '';
             // 两款工具解锁商品目前为免费模式（工具页 *_FREE_MODE = true），
-            // /shop 直接写死展示「免費 / Free」，与实际可白嫖行为一致。
+            // /shop 展示 $0，同时把原价划掉（小字），看起来更专业。
             var isFreeUnlock = p.id === 'prod_2wj3G9PQp6ZlbD8oFJdr2X' || p.id === 'prod_3fJInBNekM9UVJwtClgUtx';
             if (isFreeUnlock) {
-              price = zh ? '免費' : 'Free';
-              orig = '';
+              price = '$0';
+              orig = '$' + Number(p.originalPrice || p.price).toFixed(2);
             }
             // 保留原有商品详情页逻辑：八字报告服务 → 排盘表单；
             // 两款工具解锁商品 → 跳到对应工具页（那里先收八字/信息再付款解锁）；
@@ -331,7 +331,7 @@
               + '<h4>' + esc(name) + '</h4>'
               + (desc ? '<p class="digital-desc">' + esc(desc) + '</p>' : '')
               + '<div class="amazon-price">' + esc(price)
-              + (orig ? ' <s style="color:#8a7f6d;font-weight:400;font-size:0.85rem">' + esc(orig) + '</s>' : '')
+              + (orig ? ' <s style="color:#8a7f6d;font-weight:400;font-size:' + (isFreeUnlock ? '0.7rem' : '0.85rem') + '">' + esc(orig) + '</s>' : '')
               + '</div>'
               + '<a href="' + esc(detailUrl) + '" class="digital-btn">'
               + btnText + '</a>'

@@ -277,6 +277,7 @@ function transformCreemProduct(creemProduct, discountInfo) {
     id: creemProduct.id,
     creemId: creemProduct.id,
     name: creemProduct.name,
+    nameEN: zhMap.nameEN || creemProduct.name || '',
     nameCN: nameCN,
     category: creemProduct.category || 'other',
     categoryCN: creemProduct.category || 'other',

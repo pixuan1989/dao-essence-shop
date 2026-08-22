@@ -27,12 +27,10 @@ const CACHE_CONFIG = {
 
 /**
  * 不在商城显示的内部产品 ID（工具解锁类）
- * 这些产品通过特定页面直接链接到 checkout，不在 /shop 展示
+ * 注意：姻緣時機解鎖 / 黃曆吉日解鎖 现已在 /shop 展示（跳对应工具页），
+ * 故不再列入此隐藏列表，避免与 /shop 实际展示不一致。
  */
-const HIDDEN_PRODUCT_IDS = [
-  'prod_3fJInBNekM9UVJwtClgUtx',  // Auspicious Date Unlock ($2.99)
-  'prod_2wj3G9PQp6ZlbD8oFJdr2X',  // Soulmate Direction Unlock ($2.99)
-];
+const HIDDEN_PRODUCT_IDS = [];
 
 /**
  * 产品分类映射表

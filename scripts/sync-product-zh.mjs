@@ -23,10 +23,8 @@ const ROOT_DIR = path.join(__dirname, '..');
 const PRODUCT_ZH_MAP_PATH = path.join(ROOT_DIR, 'i18n', 'product-zh-map.json');
 
 // Hidden product IDs (tool unlocks, not shown in /shop)
-const HIDDEN_PRODUCT_IDS = new Set([
-  'prod_3fJInBNekM9UVJwtClgUtx',  // Auspicious Date Unlock ($2.99)
-  'prod_2wj3G9PQp6ZlbD8oFJdr2X',  // Soulmate Direction Unlock ($2.99)
-]);
+// 注：姻緣時機解鎖 / 黃曆吉日解鎖 现已在 /shop 展示，故不再隐藏。
+const HIDDEN_PRODUCT_IDS = new Set([]);
 
 const DASHSCOPE_MODEL = 'qwen3.5-plus';
 const DASHSCOPE_BASE_URL = 'https://dashscope.aliyuncs.com/compatible-mode/v1';
