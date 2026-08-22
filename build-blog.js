@@ -1620,6 +1620,8 @@ ${NAV_HTML}
                 </button>
             </div>
 
+            ${finalBody}
+
             ${data.faq && data.faq.length > 0 ? `
             <div class="faq-section">
                 <h2 ${isZh ? '' : 'data-i18n="blog_faq_title"'}>${isZh ? '常見問題' : 'Frequently Asked Questions'}</h2>
