@@ -1,1276 +1,219 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-<link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
-    <link rel="icon" type="image/png" href="/images/favicon.png">
-<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shop | Taoist Digital Resources | DAO Essence</title>
-    <meta name="description" content="Shop authentic Taoist meditation audio, xianxia novels, BaZi readings, and Five Elements wisdom. Digital products with instant delivery and 30-day guarantee.">
-    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
-    <meta name="keywords" content="taoist meditation audio, xianxia novels english, five elements meditation, chinese cultivation novel, daoism audiobook, bazi numerology, qigong meditation, feng shui resources, traditional chinese medicine, eastern philosophy, energy healing, five elements theory, chinese metaphysics, taoist philosophy, energy balance techniques">
-    
-    <!-- Open Graph for Social Media -->
-    <meta property="og:title" content="Shop Taoist Digital Resources | DAO Essence">
-    <meta property="og:description" content="Authentic Taoist meditation audio, xianxia novels in English, and Five Elements digital resources. Instant download.">
-    <meta property="og:type" content="website">
-    <meta property="og:image" content="https://www.daoessentia.com/images/og-default.jpg">
-    <meta property="og:url" content="https://www.daoessentia.com/shop">
-    <meta property="og:site_name" content="DAO Essence">
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Shop Taoist Digital Resources | DAO Essence">
-    <meta name="twitter:description" content="Authentic Taoist meditation audio, xianxia novels in English, and Five Elements digital resources.">
-    <meta name="twitter:image" content="https://www.daoessentia.com/images/og-default.jpg">
-    
-    <!-- Canonical URL -->
-    <link rel="canonical" href="https://www.daoessentia.com/shop">
-    <link rel="alternate" hreflang="en" href="https://www.daoessentia.com/shop">
-    <link rel="alternate" hreflang="x-default" href="https://www.daoessentia.com/shop">
-    
-    <link rel="stylesheet" href="styles.min.css?v=202604031200">
-    <script src="main.min.js?v=202604031200" defer></script>
-    
-    <!-- Local Shopping Cart Styles -->
-    <style>
-        .cart-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 9998;
-            justify-content: flex-end;
-        }
-        
-        .cart-modal.active {
-            display: flex;
-        }
-        
-        .cart-panel {
-            background: var(--bg-accent);
-            width: 90%;
-            max-width: 450px;
-            height: 100%;
-            overflow-y: auto;
-            padding: 20px;
-            box-shadow: -2px 0 20px rgba(0, 0, 0, 0.3);
-            animation: slideIn 0.3s ease-out;
-        }
-        
-        @keyframes slideIn {
-            from { transform: translateX(100%); }
-            to { transform: translateX(0); }
-        }
-        
-        .cart-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
-        }
-        
-        .cart-header h2 {
-            margin: 0;
-            font-size: 20px;
-            color: var(--text-primary);
-        }
-        
-        .cart-close {
-            background: none;
-            border: none;
-            font-size: 24px;
-            cursor: pointer;
-            color: var(--text-secondary);
-        }
-        
-        .cart-items {
-            margin-bottom: 20px;
-        }
-        
-        .cart-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            padding: 15px;
-            background: var(--bg-primary);
-            border-radius: 8px;
-            margin-bottom: 12px;
-        }
-        
-        .cart-item-info {
-            flex: 1;
-        }
-        
-        .cart-item-name {
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 5px;
-        }
-        
-        .cart-item-price {
-            color: var(--fire-primary);
-            font-size: 14px;
-        }
-        
-        .cart-item-qty {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-top: 8px;
-        }
-        
-        .qty-btn {
-            width: 24px;
-            height: 24px;
-            border: none;
-            background: var(--accent-color);
-            color: var(--bg-dark);
-            cursor: pointer;
-            border-radius: 4px;
-            font-weight: 600;
-        }
-        
-        .cart-item-remove {
-            background: none;
-            border: none;
-            color: #e74c3c;
-            cursor: pointer;
-            font-size: 18px;
-            padding: 0;
-            margin-left: 10px;
-        }
-        
-        .cart-empty {
-            text-align: center;
-            padding: 40px 20px;
-            color: var(--text-secondary);
-        }
-        
-        .cart-summary {
-            padding: 15px;
-            background: var(--bg-primary);
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
-        
-        .summary-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-            color: var(--text-secondary);
-            font-size: 14px;
-        }
-        
-        .summary-row.total {
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--fire-primary);
-            border-top: 1px solid rgba(212, 175, 55, 0.2);
-            padding-top: 10px;
-            margin-top: 10px;
-        }
-        
-        .cart-actions {
-            display: flex;
-            gap: 10px;
-        }
-        
-        .btn-checkout, .btn-continue {
-            flex: 1;
-            padding: 12px 16px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            text-transform: uppercase;
-            font-size: 13px;
-        }
-        
-        .btn-checkout {
-            background: var(--accent-color);
-            color: var(--bg-dark);
-        }
-        
-        .btn-continue {
-            background: transparent;
-            border: 1px solid var(--accent-color);
-            color: var(--accent-color);
-        }
-        
-        .cart-badge {
-            position: absolute;
-            top: -8px;
-            right: -8px;
-            background: var(--fire-primary);
-            color: white;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 11px;
-            font-weight: 700;
-        }
-        
-        /* shop.html 默认滚动背景 */
-        .header {
-            background: rgba(245, 240, 230, 0.95);
-            backdrop-filter: blur(10px);
-            box-shadow: var(--shadow-md);
-        }
-        
-        /* shop.html 导航栏文字颜色 - 强制深色 */
-        .header .logo-cn,
-        .header .nav-link {
-            color: #2C2416 !important;
-        }
-
-        .header .nav-dropdown-trigger {
-            color: #2C2416 !important;
-        }
-        
-        .header .logo-en {
-            color: #5C4A3A !important;
-        }
-        
-        .header .logo-icon {
-            border-color: #D4AF37 !important;
-            color: #D4AF37 !important;
-        }
-        
-        .header .nav-link::after {
-            background: #D4AF37 !important;
-        }
-        
-        .header .nav-link:hover,
-        .header .nav-link.active {
-            color: #8B2500 !important;
-        }
-        
-        .header .mobile-menu-btn span {
-            background: #2C2416 !important;
-        }
-    </style>
-    
-    <!-- SEO & Analytics -->
-    <script>
-      window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
-      var script = document.createElement('script');
-      script.defer = true;
-      script.src = '/_vercel/insights/script.js';
-      document.head.appendChild(script);
-    </script>
-    
-    <!-- JSON-LD Structured Data for SEO -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org/",
-      "@type": "Organization",
-      "name": "DAO Essence",
-      "description": "Authentic Eastern wisdom digital services and energy guidance programs",
-      "url": "https://www.daoessentia.com",
-      "contactPoint": {
-        "@type": "ContactPoint",
-        "contactType": "Customer Service",
-        "telephone": "",
-        "email": "support@daoessentia.com"
-      }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shop · Lucky Finds Curated by DaoEssence</title>
+  <meta name="description" content="Hand-picked Feng Shui, BaZi and Chinese-metaphysics finds — books, jewelry, tools, decor and wellness. Personalized to your Five-Element profile.">
+  <style>
+    :root {
+      --bg: #120f0d;
+      --bg-2: #1a1512;
+      --gold: #D4AF37;
+      --gold-soft: rgba(212,175,55,0.15);
+      --text: #f5e6d3;
+      --muted: #9a8f7d;
     }
-    </script>
-    
-    <style>
-        /* ============================================
-           Shop Page Specific Styles
-           ============================================ */
-        
-        .shop-hero {
-            min-height: 40vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, #1A1612 0%, #1A3A4A 50%, #2D5A3D 100%);
-            position: relative;
-            overflow: hidden;
-            padding: 120px 20px 60px;
-            width: 100vw;
-            margin-left: calc(50% - 50vw);
-            margin-right: calc(50% - 50vw);
-        }
-
-        .shop-hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(ellipse at center, transparent 0%, rgba(26, 22, 18, 0.8) 100%);
-            z-index: 1;
-        }
-
-        .shop-hero-content {
-            position: relative;
-            z-index: 3;
-            text-align: center;
-            max-width: 600px;
-        }
-
-        .shop-hero h1 {
-            font-family: var(--font-display);
-            font-size: clamp(2rem, 5vw, 3.5rem);
-            color: var(--bg-primary);
-            margin-bottom: 20px;
-            letter-spacing: 0.2em;
-            line-height: 1.1;
-            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.6), 0 0 40px rgba(212, 175, 55, 0.3);
-        }
-
-        .shop-hero p {
-            font-size: var(--text-lg);
-            color: rgba(245, 240, 230, 0.95);
-            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
-        }
-        
-        /* Shop Grid */
-        .shop-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 30px;
-            margin-bottom: 60px;
-        }
-        
-        .shop-product-card {
-            position: relative;
-            border-radius: var(--radius-lg);
-            overflow: hidden;
-            background: var(--bg-accent);
-            border: 1px solid rgba(139, 37, 0, 0.1);
-            transition: all var(--transition-base);
-            cursor: pointer;
-            text-decoration: none;
-            color: inherit;
-            display: block;
-        }
-        
-        .shop-product-card:hover {
-            transform: translateY(-8px);
-            box-shadow: var(--shadow-lg);
-            text-decoration: none;
-            color: inherit;
-        }
-        
-        /* Remove default link styles */
-        .shop-product-card a,
-        .shop-product-card a:hover,
-        .shop-product-card a:visited {
-            text-decoration: none;
-            color: inherit;
-        }
-        
-        .product-image-wrapper {
-            position: relative;
-            height: 280px;
-            overflow: hidden;
-            background: radial-gradient(circle at 50% 50%, rgba(248, 244, 237, 1) 0%, rgba(235, 229, 216, 1) 100%);
-        }
-        
-        /* 图片骨架屏动画 */
-        .product-image-wrapper::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(110deg, rgba(212,175,55,0.05) 30%, rgba(212,175,55,0.15) 50%, rgba(212,175,55,0.05) 70%);
-            background-size: 200% 100%;
-            animation: shimmer 1.5s ease-in-out infinite;
-            z-index: 1;
-            transition: opacity 0.4s ease;
-        }
-
-        .product-image-wrapper.loaded::before {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        @keyframes shimmer {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
-        }
-        
-        .product-image-wrapper img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: all var(--transition-slow);
-            opacity: 0;
-        }
-        
-        .product-image-wrapper.loaded img {
-            opacity: 1;
-        }
-        
-        .shop-product-card:hover .product-image-wrapper img {
-            transform: scale(1.08);
-        }
-        
-        .product-element {
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            z-index: 10;
-        }
-        
-        .element-badge {
-            display: inline-block;
-            padding: 6px 12px;
-            background: rgba(212, 175, 55, 0.9);
-            color: #1A1612;
-            font-size: 12px;
-            font-weight: 600;
-            border-radius: 20px;
-            letter-spacing: 0.05em;
-        }
-        
-        .product-info {
-            padding: 20px;
-        }
-        
-        .product-category {
-            font-size: 12px;
-            color: var(--text-light);
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-        
-        .product-title {
-            font-family: var(--font-display);
-            font-size: 18px;
-            margin-bottom: 12px;
-            color: var(--text-primary);
-            min-height: 50px;
-            display: flex;
-            align-items: center;
-        }
-        
-        .shop-product-card:hover .product-title {
-            color: var(--fire-primary);
-        }
-        
-        .product-desc-short {
-            font-size: 13px;
-            color: var(--text-secondary);
-            margin-bottom: 15px;
-            line-height: 1.5;
-            min-height: 40px;
-        }
-        
-        .product-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        
-        .product-price {
-            font-size: 22px;
-            font-weight: 600;
-            color: var(--fire-primary);
-        }
-        
-        .product-stock {
-            font-size: 12px;
-            color: var(--text-light);
-        }
-        
-        /* Snipcart Button Customization */
-        .snipcart-add-item {
-            width: 100%;
-            padding: 12px 16px;
-            background: var(--primary-color);
-            color: white !important;
-            border: none;
-            border-radius: var(--radius-sm);
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
-            transition: all var(--transition-fast);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .snipcart-add-item:hover {
-            background: var(--fire-light);
-            transform: translateY(-2px);
-            color: white !important;
-        }
-
-        .snipcart-add-item svg {
-            stroke: white !important;
-        }
-        
-        /* Snipcart Cart Button Override */
-        .snipcart-checkout {
-            background: var(--accent-color) !important;
-            color: var(--bg-dark) !important;
-            font-weight: 600 !important;
-        }
-        
-        .snipcart-checkout:hover {
-            background: #E8C547 !important;
-        }
-        
-        /* Filters & Sorting */
-        .shop-controls {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 40px;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-        
-        .shop-filters {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-        
-        .filter-btn {
-            padding: 10px 18px;
-            background: transparent;
-            border: 1px solid var(--accent-color);
-            color: var(--accent-color);
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 13px;
-            transition: all var(--transition-fast);
-        }
-        
-        .filter-btn:hover,
-        .filter-btn.active {
-            background: var(--accent-color);
-            color: var(--bg-dark);
-        }
-        
-        .sort-select {
-            padding: 10px 15px;
-            background: var(--bg-accent);
-            border: 1px solid rgba(212, 175, 55, 0.2);
-            color: var(--text-primary);
-            border-radius: var(--radius-sm);
-            cursor: pointer;
-            font-size: 13px;
-        }
-        
-        /* Results Counter */
-        .results-count {
-            color: var(--text-secondary);
-            font-size: 13px;
-        }
-
-        /* 骨架屏样式 */
-        .skeleton-card {
-            border-radius: var(--radius-lg);
-            overflow: hidden;
-            background: var(--bg-accent);
-            border: 1px solid rgba(139, 37, 0, 0.1);
-        }
-
-        .skeleton-img {
-            height: 280px;
-            background: linear-gradient(110deg, rgba(212,175,55,0.04) 25%, rgba(212,175,55,0.15) 50%, rgba(212,175,55,0.04) 75%);
-            background-size: 200% 100%;
-            animation: shop-shimmer 1.5s ease-in-out infinite;
-        }
-
-        .skeleton-body {
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .skeleton-line {
-            height: 14px;
-            border-radius: 7px;
-            background: linear-gradient(110deg, rgba(212,175,55,0.04) 25%, rgba(212,175,55,0.12) 50%, rgba(212,175,55,0.04) 75%);
-            background-size: 200% 100%;
-            animation: shop-shimmer 1.5s ease-in-out infinite;
-        }
-
-        .skeleton-line:first-child {
-            height: 12px;
-            width: 60% !important;
-            opacity: 0.6;
-        }
-
-        .skeleton-line:nth-child(2) {
-            height: 20px;
-            margin: 4px 0;
-        }
-
-        .skeleton-line:last-child {
-            height: 16px;
-            margin-top: auto;
-            width: 30% !important;
-        }
-
-        .w40 { width: 40%; }
-        .w45 { width: 45%; }
-        .w50 { width: 50%; }
-        .w55 { width: 55%; }
-        .w60 { width: 60%; }
-        .w65 { width: 65%; }
-        .w70 { width: 70%; }
-        .w75 { width: 75%; }
-        .w80 { width: 80%; }
-        .w85 { width: 85%; }
-        .w90 { width: 90%; }
-        .w95 { width: 95%; }
-        .w100 { width: 100%; }
-
-        @keyframes shop-shimmer {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
-        }
-
-        /* 真实商品加载动画 */
-        .shop-product-card {
-            animation: productFadeIn 0.4s ease both;
-        }
-
-        @keyframes productFadeIn {
-            from { opacity: 0; transform: translateY(12px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        /* Responsive */
-        @media (max-width: 768px) {
-            .shop-grid {
-                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-                gap: 20px;
-            }
-            
-            .shop-controls {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            
-            .shop-filters {
-                width: 100%;
-            }
-        }
-        
-        /* Utility Classes */
-        .section {
-            padding: var(--spacing-4xl) 0;
-        }
-        
-        
-        .mt-3 {
-            margin-top: 40px;
-        }
-        
-        /* 隐藏导航栏中的购物车按钮，避免重复 */
-        .nav-cta[onclick*="checkout"] {
-            display: none !important;
-        }
-    </style>
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.daoessentia.com/"},
-            {"@type": "ListItem", "position": 2, "name": "Shop", "item": "https://www.daoessentia.com/shop.html"}
-        ]
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: radial-gradient(1200px 600px at 50% -10%, #241b13 0%, var(--bg) 60%);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      line-height: 1.6;
     }
-    </script>
-    <!-- Google Analytics -->
-    <script>
-      // 内部流量 Cookie 屏蔽（最彻底：完全不发送任何 GA 请求）
-      // 设定：控制台执行 document.cookie='ga_internal=1;path=/;max-age=31536000'
-      // 取消：控制台执行 document.cookie='ga_internal=;path=/;expires=Thu, 01 Jan 1970 00:00:00 GMT'
-      if (document.cookie.indexOf('ga_internal=1') > -1) {
-        window['ga-disable-G-FX0T6YB6DE'] = true;
-      }
-    </script>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-FX0T6YB6DE"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-FX0T6YB6DE');
-    </script>
+    a { color: var(--gold); text-decoration: none; }
+    .wrap { max-width: 1140px; margin: 0 auto; padding: 0 1.25rem; }
+    header.site {
+      border-bottom: 1px solid rgba(212,175,55,0.18);
+      padding: 1.1rem 0;
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(18,15,13,0.85); backdrop-filter: blur(8px);
+    }
+    header.site .wrap { display: flex; align-items: center; justify-content: space-between; }
+    .brand { font-family: "Georgia", serif; font-size: 1.35rem; letter-spacing: 0.05em; color: var(--gold); font-weight: 700; }
+    .brand span { color: var(--text); font-weight: 400; }
+    nav.site a { margin-left: 1.4rem; color: var(--text); opacity: 0.8; font-size: 0.92rem; }
+    nav.site a:hover { color: var(--gold); opacity: 1; }
+    .hero { text-align: center; padding: 3.5rem 1rem 2rem; }
+    .hero .eyebrow { color: var(--gold); letter-spacing: 0.22em; font-size: 0.72rem; text-transform: uppercase; }
+    .hero h1 { font-family: "Georgia", serif; font-size: 2.6rem; margin: 0.6rem 0 0.4rem; }
+    .hero p { color: var(--muted); max-width: 640px; margin: 0 auto; }
+    .personalize-note {
+      max-width: 720px; margin: 1.4rem auto 0; padding: 0.8rem 1.2rem;
+      border: 1px dashed rgba(212,175,55,0.4); border-radius: 12px;
+      background: rgba(212,175,55,0.05); color: var(--text); font-size: 0.95rem; text-align: center;
+    }
+    .personalize-note.active { border-style: solid; }
+    .personalize-note b { color: var(--gold); }
+
+    .tabs { display: flex; flex-wrap: wrap; gap: 0.6rem; justify-content: center; margin: 2.2rem 0 1.5rem; }
+    .tab {
+      border: 1px solid rgba(212,175,55,0.3); background: transparent; color: var(--text);
+      padding: 0.55rem 1.2rem; border-radius: 999px; cursor: pointer; font-size: 0.9rem;
+      transition: all 0.25s;
+    }
+    .tab:hover { border-color: var(--gold); }
+    .tab.active { background: linear-gradient(135deg, #d4af37, #b8941f); color: #1a1512; font-weight: 700; border-color: transparent; }
+
+    .amazon-products-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.4rem; padding-bottom: 3rem; }
+    .amazon-product-card { background: linear-gradient(145deg, #2d2420, #1a1512); border: 1px solid rgba(212,175,55,0.2); border-radius: 12px; padding: 1.4rem; text-align: center; transition: transform 0.3s, box-shadow 0.3s; }
+    .amazon-product-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.35); }
+    .amazon-badge { display: inline-block; font-size: 0.68rem; letter-spacing: 0.08em; color: #d4af37; background: rgba(212,175,55,0.1); padding: 0.3rem 0.9rem; border-radius: 999px; margin-bottom: 0.9rem; }
+    .amazon-img-wrap { width: 100%; aspect-ratio: 1 / 1; max-height: 190px; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; border-radius: 8px; overflow: hidden; background: linear-gradient(145deg, #241d18, #15110e); }
+    .amazon-img-wrap img { width: 100%; height: 100%; object-fit: contain; background: #fff; padding: 0.5rem; }
+    .amazon-icon { width: 68%; height: 68%; display: block; }
+    .amazon-icon-fallback { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
+    .amazon-product-card h4 { font-size: 1rem; color: #f5e6d3; margin: 0 0 0.7rem; line-height: 1.4; font-weight: 600; min-height: 2.8em; }
+    .amazon-rating { display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-bottom: 0.7rem; }
+    .amazon-rating .stars { color: #d4af37; font-size: 0.9rem; }
+    .amazon-rating .rating-text { font-size: 0.72rem; color: #999; }
+    .amazon-price { font-size: 1.25rem; font-weight: 700; color: #d4af37; margin-bottom: 1rem; }
+    .amazon-btn { display: inline-block; background: linear-gradient(135deg, #d4af37, #b8941f); color: #1a1512; font-weight: 700; font-size: 0.85rem; padding: 0.65rem 1.3rem; border-radius: 8px; text-decoration: none; transition: all 0.3s; }
+    .amazon-btn:hover { background: linear-gradient(135deg, #e5c048, #d4af37); transform: translateY(-2px); }
+    .amazon-disclaimer { font-size: 0.72rem; color: #8a7f6d; text-align: center; margin: 2rem auto 0; max-width: 720px; }
+
+    footer.site { border-top: 1px solid rgba(212,175,55,0.15); margin-top: 2rem; padding: 2rem 0; color: var(--muted); font-size: 0.85rem; text-align: center; }
+    @media (max-width: 900px) { .amazon-products-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 540px) { .amazon-products-grid { grid-template-columns: 1fr; } .hero h1 { font-size: 2rem; } nav.site a { margin-left: 0.8rem; font-size: 0.82rem; } }
+  </style>
 </head>
 <body>
-    <!-- 头部导航 -->
-    <header class="header">
-        <div class="container">
-            <nav class="nav">
-                <a href="/" class="logo">
-                    <div class="logo-icon"></div>
-                    <div class="logo-text">
-                        <span class="logo-en">DAO ESSENCE</span>
-                    </div>
-                </a>
-                <ul class="nav-menu">
-                    <li><a href="/" class="nav-link" data-i18n="common.home">Home</a></li>
-                    
-                    <!-- Tools Dropdown -->
-                    <li class="nav-dropdown">
-                        <a href="#" class="nav-dropdown-trigger" data-i18n="nav.tools">Tools <i class="nav-dropdown-arrow"></i></a>
-                        <div class="nav-dropdown-menu">
-                            <a href="/#free-bazi" data-i18n="nav.tool_bazi">BaZi Calculator</a>
-                            <a href="/favorable-element" data-i18n="nav.tool_favorable">Favorable Element Guide</a>
-                            <a href="/zodiac/zodiac-daily" data-i18n="nav.tool_daily">Zodiac Horoscope</a>
-                            <a href="/five-elements-test" data-i18n="nav.tool_five">Five Elements Test</a>
-                            <a href="/soulmate-calculator" data-i18n="nav.tool_soulmate">Soulmate Compatibility</a>
-                            <a href="/almanac" data-i18n="nav.tool_almanac">Auspicious Almanac</a>
-                            <a href="/wallpaper" data-i18n="nav.tool_wallpapers">Lucky Wallpapers</a>
-                        </div>
-                    </li>
+  <header class="site">
+    <div class="wrap">
+      <div class="brand">Dao<span>Essence</span></div>
+      <nav class="site">
+        <a href="/">Home</a>
+        <a href="/blog">Blog</a>
+        <a href="/almanac">Almanac</a>
+        <a href="/favorable-element">Elements</a>
+        <a href="/shop">Shop</a>
+      </nav>
+    </div>
+  </header>
 
-                    <!-- Blog Dropdown -->
-                    <li class="nav-dropdown">
-                        <a href="/blog" class="nav-dropdown-trigger" data-i18n="common.blog">Blog <i class="nav-dropdown-arrow"></i></a>
-                        <div class="nav-dropdown-menu">
-                            <a href="/blog" data-i18n="nav.blog_all">All Articles</a>
-                            <a href="/blog/bazi-astrology" data-i18n="nav.blog_bazi">BaZi Astrology</a>
-                            <a href="/zodiac/zodiac-daily" data-i18n="nav.blog_zodiac">Zodiac Daily</a>
-                            <a href="/blog/feng-shui" data-i18n="nav.blog_fengshui">Home Feng Shui</a>
-                            <a href="/culture" data-i18n="nav.blog_elements">Five Elements</a>
-                        </div>
-                    </li>
+  <section class="hero">
+    <div class="wrap">
+      <div class="eyebrow">Curated Lucky Finds</div>
+      <h1>開運好物 · Shop</h1>
+      <p>Carefully chosen Feng Shui, BaZi and Chinese-metaphysics essentials — books, jewelry, tools, decor and wellness. Every pick is aligned with the Five Elements, and re-ranked to your personal profile.</p>
+      <div id="personalize-note" class="personalize-note">Loading your personalization…</div>
+    </div>
+  </section>
 
-                    <li><a href="/learn-bazi" class="nav-link" data-i18n="common.learn_bazi">Learn BaZi</a></li>
-                    <li><a href="/shop" class="nav-link active" data-i18n="common.shop">Shop</a></li>
-                    <li><a href="/about" class="nav-link" data-i18n="common.about_us">About Us</a></li>
-                    
-                    <!-- Language Switcher -->
-                    <li class="nav-dropdown">
-                        <a href="#" class="nav-dropdown-trigger lang-switcher-trigger" id="lang-trigger">
-                            <svg class="lang-globe-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg><span class="lang-label" id="lang-label">EN</span>
-                            <i class="nav-dropdown-arrow"></i>
-                        </a>
-                        <div class="nav-dropdown-menu" id="lang-menu">
-                            <a href="#" data-lang="en" class="lang-option active">English</a>
-                            <a href="#" data-lang="zh" class="lang-option">繁體中文</a>
-                        </div>
-                    </li>
-                </ul>
-                <button class="mobile-menu-btn">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </button>
-            </nav>
-        </div>
-    </header>
-
-    <!-- Shop Hero Section -->
-    <section class="shop-hero">
-        <div class="shop-hero-content">
-            <h1 data-i18n="shop.hero_title">Digital Resources</h1>
-            <p data-i18n="shop.hero_desc">Discover authentic Eastern wisdom digital resources — energy tools, meditation audio programs, and self-study wellness materials crafted by certified practitioners</p>
-        </div>
-    </section>
-
-    <!-- Shop Section -->
-    <section class="section">
-        <div class="container">
-            <!-- Controls & Filters -->
-            <div class="shop-controls">
-                <div class="shop-filters">
-                    <button class="filter-btn active" onclick="filterProducts('all')" data-i18n="shop.filter_all">All Resources</button>
-                    <button class="filter-btn" onclick="filterProducts('bazi-analysis')" data-i18n="shop.filter_bazi">BaZi Analysis</button>
-                    <button class="filter-btn" onclick="filterProducts('dao-meditation')" data-i18n="shop.filter_meditation">Taoist Meditation</button>
-                    <button class="filter-btn" onclick="filterProducts('dao-readings')" data-i18n="shop.filter_readings">Taoist Readings</button>
-                    <button class="filter-btn" onclick="filterProducts('mythology-stories')" data-i18n="shop.filter_mythology">Taoist Mythology</button>
-                    <button class="filter-btn" onclick="filterProducts('cultivation-novels')" data-i18n="shop.filter_novels">Xianxia Novels</button>
-                </div>
-                <select class="sort-select" onchange="sortProducts(this.value)">
-                    <option value="featured" data-i18n="shop.sort_featured">Featured</option>
-                    <option value="price-low" data-i18n="shop.sort_price_low">Price: Low to High</option>
-                    <option value="price-high" data-i18n="shop.sort_price_high">Price: High to Low</option>
-                    <option value="newest" data-i18n="shop.sort_newest">Newest</option>
-                </select>
-            </div>
-            
-            <div class="results-count" data-i18n-prefix="shop.showing_prefix" data-i18n-suffix="shop.showing_suffix">Showing <span id="productCount">0</span> resources</div>
-
-            <!-- Product Grid -->
-            <div class="shop-grid" id="productGrid">
-                <!-- 骨架屏占位，Creem 加载完成后替换 -->
-                <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line w60"></div><div class="skeleton-line w40"></div><div class="skeleton-line w100"></div><div class="skeleton-line w80"></div></div></div>
-                <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line w50"></div><div class="skeleton-line w40"></div><div class="skeleton-line w100"></div><div class="skeleton-line w70"></div></div></div>
-                <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line w70"></div><div class="skeleton-line w40"></div><div class="skeleton-line w90"></div><div class="skeleton-line w60"></div></div></div>
-                <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line w55"></div><div class="skeleton-line w40"></div><div class="skeleton-line w100"></div><div class="skeleton-line w75"></div></div></div>
-                <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line w65"></div><div class="skeleton-line w40"></div><div class="skeleton-line w95"></div><div class="skeleton-line w50"></div></div></div>
-                <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line w45"></div><div class="skeleton-line w40"></div><div class="skeleton-line w100"></div><div class="skeleton-line w85"></div></div></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-brand">
-                    <div class="logo">
-                        <span class="logo-en">DAO ESSENCE</span>
-                    </div>
-                    <p data-i18n="footer.brand_desc">Ancient Wisdom, Modern Clarity. Navigate life with structured insight through BaZi analysis, Feng Shui consultation, and Five Elements guidance.</p>
-                </div>
-                <div>
-                    <h4 class="footer-title" data-i18n="footer.tools_title">Tools</h4>
-                    <ul class="footer-links">
-                        <li><a href="/#free-bazi" data-i18n="footer.tool_bazi">BaZi Birth Chart Calculator</a></li>
-                        <li><a href="/favorable-element" data-i18n="footer.tool_lucky">Five Elements Favorable Guide</a></li>
-                        <li><a href="/five-elements-test" data-i18n="footer.tool_five">Five Elements Personality Test</a></li>
-                        <li><a href="/soulmate-calculator" data-i18n="footer.tool_soulmate">Soulmate Compatibility Finder</a></li>
-                        <li><a href="/almanac" data-i18n="footer.tool_almanac">Auspicious Date Picker</a></li>
-                        <li><a href="/zodiac/zodiac-daily" data-i18n="footer.tool_zodiac">Zodiac Daily</a></li>
-                        <li><a href="/wallpaper" data-i18n="footer.tool_wallpapers">Lucky Wallpapers</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="footer-title" data-i18n="footer.explore_title">Explore</h4>
-                    <ul class="footer-links">
-                        <li><a href="/blog" data-i18n="common.blog">Blog</a></li>
-                        <li><a href="/culture" data-i18n="common.five_elements">Five Elements</a></li>
-                        <li><a href="/shop" data-i18n="common.shop">Shop</a></li>
-                        <li><a href="/about" data-i18n="common.about_us">About Us</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="footer-title" data-i18n="footer.links_title">Links</h4>
-                    <ul class="footer-links">
-                        <li style="margin-bottom:8px;display:block !important;">
-                            <div><a href="https://fatenet.cn/" target="_blank" rel="noopener">FateNet</a></div>
-                            <div style="font-size:12px;color:var(--text-secondary);margin-top:4px;line-height:1.4;" data-i18n="footer.fortune_desc">Chinese Fortune Telling<br>Find Your Soulmate</div>
-                        </li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="footer-title" data-i18n="footer.contact_title">Contact</h4>
-                    <ul class="footer-links">
-                        <li>
-                            <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle;margin-right:6px"><path d="M3 4h14a1 1 0 011 1v10a1 1 0 01-1 1H3a1 1 0 01-1-1V5a1 1 0 011-1z"/><path d="M3 5l7 6 7-6"/></svg>
-                            <a href="mailto:support@daoessentia.com">support@daoessentia.com</a>
-                        </li>
-                        <li>
-                            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style="vertical-align:middle;margin-right:6px;color:var(--accent-color)"><path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 0 0 .167-.054l1.903-1.114a.864.864 0 0 1 .717-.098 10.16 10.16 0 0 0 2.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348zM5.785 5.991c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178A1.17 1.17 0 0 1 4.623 7.17c0-.651.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178 1.17 1.17 0 0 1-4.623 7.17c0-.651.52-1.18 1.162-1.18zm5.34 2.867c-1.797-.052-3.746.512-5.28 1.786-1.72 1.428-2.687 3.72-1.78 6.22.942 2.453 3.666 4.229 6.884 4.229.826 0 1.622-.12 2.361-.336a.722.722 0 0 1 .598.082l1.584.926a.272.272 0 0 0 .14.047c.134 0 .24-.111.24-.247 0-.06-.023-.12-.038-.177l-.327-1.233a.582.582 0 0 1-.023-.156.49.49 0 0 1 .201-.398C23.024 18.48 24 16.82 24 14.98c0-3.21-2.931-5.837-7.062-6.122zm-3.957 3.467c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.969-.982zm4.844 0c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.969-.982z"/></svg>
-                            <a href="#" onclick="document.getElementById('wechat-modal').style.display='flex';return false;" data-i18n="footer.wechat">WeChat</a>
-                        </li>
-                        <li>
-                            <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle;margin-right:6px"><circle cx="10" cy="10" r="8"/><path d="M10 6v4l2.5 2.5"/></svg>
-                            <span data-i18n="footer.hours">Mon&#8211;Sat: 9AM&#8211;9PM (CST / UTC+8)</span>
-                        </li>
-                        <li>
-                            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style="vertical-align:middle;margin-right:6px;color:#229ED9"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
-                            <a href="https://t.me/dingwei_123" target="_blank" rel="noopener" data-i18n="footer.telegram_channel">Telegram Channel</a>
-                        </li>
-                        <li>
-                            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style="vertical-align:middle;margin-right:6px;color:#229ED9"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
-                            <a href="https://t.me/Dingwei_pi" target="_blank" rel="noopener">Telegram @Dingwei_pi</a>
-                        </li>
-                        <li>
-                            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style="vertical-align:middle;margin-right:6px;color:#E60023"><path d="M12 0C5.373 0 0 5.372 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 0 1 .083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.631-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12 0-6.628-5.373-12-12-12z"/></svg>
-                            <a href="https://www.pinterest.com/pixuan/wallpapers/" target="_blank" rel="noopener">Pinterest</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p data-i18n="footer.copyright">&copy; 2026 DAO Essence &amp; Five Elements. All rights reserved.</p>
-                <div class="footer-legal-links">
-                    <a href="/privacy" data-i18n="footer.privacy">Privacy Policy</a>
-                    <span>|</span>
-                    <a href="/terms" data-i18n="footer.terms">Terms of Service</a>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <!-- WeChat QR Modal -->
-    <div id="wechat-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:9999;align-items:center;justify-content:center;" onclick="if(event.target===this)this.style.display='none'">
-        <div style="background:#1a1a1a;border:1px solid rgba(212,175,55,0.4);border-radius:16px;padding:40px;text-align:center;max-width:320px;width:90%;position:relative;">
-            <button onclick="document.getElementById('wechat-modal').style.display='none'" style="position:absolute;top:12px;right:16px;background:none;border:none;color:rgba(245,240,230,0.6);font-size:22px;cursor:pointer;line-height:1;">&times;</button>
-            <svg viewBox="0 0 24 24" width="40" height="40" fill="#D4AF37" style="margin-bottom:12px"><path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 0 0 .167-.054l1.903-1.114a.864.864 0 0 1 .717-.098 10.16 10.16 0 0 0 2.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348zM5.785 5.991c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178A1.17 1.17 0 0 1 4.623 7.17c0-.651.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178 1.17 1.17 0 0 1-4.623 7.17c0-.651.52-1.18 1.162-1.18zm5.34 2.867c-1.797-.052-3.746.512-5.28 1.786-1.72 1.428-2.687 3.72-1.78 6.22.942 2.453 3.666 4.229 6.884 4.229.826 0 1.622-.12 2.361-.336a.722.722 0 0 1 .598.082l1.584.926a.272.272 0 0 0 .14.047c.134 0 .24-.111.24-.247 0-.06-.023-.12-.038-.177l-.327-1.233a.582.582 0 0 1-.023-.156.49.49 0 0 1 .201-.398C23.024 18.48 24 16.82 24 14.98c0-3.21-2.931-5.837-7.062-6.122zm-3.957 3.467c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.969-.982zm4.844 0c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.969-.982z"/></svg>
-            <h3 style="color:#D4AF37;margin:0 0 8px;font-size:18px;">WeChat</h3>
-            <p style="color:rgba(245,240,230,0.7);font-size:13px;margin:0 0 20px;">Scan the QR code to connect with us on WeChat</p>
-            <div style="width:160px;height:160px;margin:0 auto;">
-                <img src="images/微信图片_20260324143206_59_9.jpg" alt="WeChat QR Code" style="width:100%;height:100%;border-radius:8px;object-fit:cover;" loading="lazy">
-            </div>
-            <p style="color:rgba(245,240,230,0.5);font-size:12px;margin:16px 0 0;">WeChat ID: your-wechat-id</p>
-        </div>
+  <main class="wrap">
+    <div class="tabs" id="shop-tabs">
+      <button class="tab active" data-cat="all">All</button>
+      <button class="tab" data-cat="Books">Books</button>
+      <button class="tab" data-cat="Jewelry">Jewelry</button>
+      <button class="tab" data-cat="Tools">Tools</button>
+      <button class="tab" data-cat="Decor">Decor</button>
+      <button class="tab" data-cat="Wellness">Wellness</button>
     </div>
 
-    <!-- 购物车功能已禁用（直接购买模式）
-    <button class="floating-cart-btn" onclick="toggleCart()">
-        <svg viewBox="0 0 20 20" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="19" r="1"/><circle cx="17" cy="19" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L19 6H6"/></svg>
-        <span class="floating-cart-badge" id="floatingCartBadge">0</span>
-    </button>
-    -->
+    <div class="amazon-products-grid" id="shop-grid"></div>
 
-    <!-- Local Shopping Cart Panel（已禁用） -->
-    <div class="cart-modal" id="cartModal" onclick="if(event.target.id === 'cartModal') toggleCart()">
-        <div class="cart-panel">
-            <div class="cart-header">
-                <h2 data-i18n="shop.cart_title">Your Cart</h2>
-                <button class="cart-close" onclick="toggleCart()">✕</button>
-            </div>
-            <div class="cart-items" id="cartItems"></div>
-            <div class="cart-summary" id="cartSummary"></div>
-            <div class="cart-actions">
-                <button class="btn-checkout" onclick="checkout()">Checkout</button>
-                <button class="btn-continue" onclick="toggleCart()">Continue Shopping</button>
-            </div>
-        </div>
-    </div>
+    <p class="amazon-disclaimer">As an Amazon Associate, DaoEssence earns from qualifying purchases. Product selections are editorially curated; prices and availability are shown from Amazon at the time of visit.</p>
+  </main>
 
-    <!-- Snipcart Configuration (placeholder for future integration) -->
-    <div hidden id="snipcart" data-api-key="YOUR_SNIPCART_API_KEY_HERE"></div>
+  <footer class="site">
+    <div class="wrap">© DaoEssence · Bridging ancient Chinese wisdom with modern life.</div>
+  </footer>
 
-    <!-- Local Cart JavaScript (Must load before shop-manager.js) -->
-    <script>
-        // Local Shopping Cart Implementation
-        const cart = {
-            // 内部存储
-            _items: [],
-            
-            // 初始化：从 localStorage 加载
-            init() {
-                const data = localStorage.getItem('daoessence_cart');
-                if (!data) {
-                    this._items = [];
-                    return;
-                }
-                try {
-                    const parsed = JSON.parse(data);
-                    if (Array.isArray(parsed)) {
-                        this._items = parsed;
-                    } else if (parsed && Array.isArray(parsed.items)) {
-                        this._items = parsed.items;
-                    } else {
-                        this._items = [];
-                    }
-                } catch (e) {
-                    this._items = [];
-                }
-            },
-            
-            get items() {
-                return this._items;
-            },
-            
-            add(product) {
-                this.init(); // 确保加载最新数据
-                const existingItem = this._items.find(item => item.id === product.id);
-                if (existingItem) {
-                    existingItem.quantity += 1;
-                } else {
-                    this._items.push({
-                        id: product.id,
-                        name: product.name || product.nameCN || '',  // 英文名
-                        nameCn: product.nameCN || product.name || '',  // 中文名
-                        price: product.price,
-                        quantity: 1,
-                        image: product.image
-                    });
-                }
-                this.save();
-                this.updateUI();
-            },
-            
-            remove(productId) {
-                this.init();
-                this._items = this._items.filter(item => item.id !== productId);
-                this.save();
-                this.updateUI();
-            },
-            
-            updateQty(productId, newQty) {
-                this.init();
-                const item = this._items.find(item => item.id === productId);
-                if (item) {
-                    item.quantity = Math.max(1, newQty);
-                    this.save();
-                    this.updateUI();
-                }
-            },
-            
-            save() {
-                // 始终保存为 {items: [...]} 格式
-                localStorage.setItem('daoessence_cart', JSON.stringify({ items: this._items }));
-            },
+  <script src="/js/amazon-icons.js" defer></script>
+  <script src="/js/amazon-recommend.js" defer></script>
+  <script>
+  (function () {
+    'use strict';
+    var TAG = 'daoessentia-20'; // ⚠️ 替换为你自己的 Amazon Associates 追踪 ID
+    var isZh = (document.documentElement.lang || '').toLowerCase().indexOf('zh') !== -1;
 
-            updatePrices() {
-                // 从 allProducts 获取最新价格并更新购物车
-                if (typeof window.allProducts === 'undefined') return;
+    function categoryOf(p) {
+      var t = p.tags || [];
+      if (t.indexOf('book') !== -1) return 'Books';
+      if (t.indexOf('bracelet') !== -1 || t.indexOf('jade') !== -1 || t.indexOf('jewelry') !== -1) return 'Jewelry';
+      if (t.indexOf('tool') !== -1) return 'Tools';
+      if (t.indexOf('decor') !== -1) return 'Decor';
+      if (t.indexOf('wellness') !== -1) return 'Wellness';
+      return 'Other';
+    }
 
-                let updated = false;
-                this._items.forEach(item => {
-                    const latestProduct = window.allProducts.find(p => p.id === item.id);
-                    if (latestProduct && latestProduct.price !== item.price) {
-                        console.log(`Updating price for ${item.id}: ${item.price} -> ${latestProduct.price}`);
-                        item.price = latestProduct.price;
-                        updated = true;
-                    }
-                });
+    function fallbackCard(p) {
+      var name = (isZh && p.nameZh) ? p.nameZh : p.name;
+      var url = p.asin
+        ? 'https://www.amazon.com/dp/' + p.asin + '?tag=' + TAG
+        : 'https://www.amazon.com/s?k=' + encodeURIComponent(p.keywords || p.name) + '&tag=' + TAG;
+      return '<div class="amazon-product-card"><span class="amazon-badge">Recommended</span>' +
+        '<div class="amazon-img-wrap"></div><h4>' + name + '</h4>' +
+        '<div class="amazon-rating"><span class="stars">★★★★★</span><span class="rating-text">' + p.rating + ' (' + p.reviews + ')</span></div>' +
+        '<div class="amazon-price">' + p.price + '</div>' +
+        '<a href="' + url + '" target="_blank" rel="nofollow sponsored noopener" class="amazon-btn">View on Amazon</a></div>';
+    }
 
-                if (updated) {
-                    this.save();
-                    this.updateUI();
-                }
-            },
+    function render(cat) {
+      var lib = window.AMAZON_PRODUCT_LIBRARY || [];
+      var list = (cat === 'all') ? lib.slice() : lib.filter(function (p) { return categoryOf(p) === cat; });
+      var R = window.AmazonRecommend;
+      var favs = R ? R.getFavElements() : [];
+      list.sort(function (a, b) {
+        var sa = R ? R.scoreProduct(a, '', favs) : 0;
+        var sb = R ? R.scoreProduct(b, '', favs) : 0;
+        return sb - sa;
+      });
+      var grid = document.getElementById('shop-grid');
+      grid.innerHTML = list.map(function (p) {
+        return R ? R.renderCard(p, 'grid', TAG) : fallbackCard(p);
+      }).join('');
+    }
 
-            getTotal() {
-                return this._items.reduce((sum, item) => sum + (item.price * item.quantity), 0).toFixed(2);
-            },
+    function updateNote() {
+      var note = document.getElementById('personalize-note');
+      var R = window.AmazonRecommend;
+      var favs = R ? R.getFavElements() : [];
+      if (favs.length) {
+        note.classList.add('active');
+        note.innerHTML = isZh
+          ? '已依你的五行喜用 <b>' + favs.join(' / ') + '</b> 為你排序好物。'
+          : 'Sorted by your favorable elements: <b>' + favs.join(' / ') + '</b>.';
+      } else {
+        note.innerHTML = isZh
+          ? '完成 <a href="/favorable-element">五行喜用測試</a>，即可獲得專屬好物排序。'
+          : 'Take the <a href="/favorable-element">Five-Element test</a> to unlock a personalized sort.';
+      }
+    }
 
-            getCount() {
-                return this._items.reduce((sum, item) => sum + item.quantity, 0);
-            },
-
-            updateUI() {
-                const badge = document.getElementById('cartBadge');
-                const floatingBadge = document.getElementById('floatingCartBadge');
-                const count = this.getCount();
-                
-                // Update nav badge
-                if (badge) {
-                    if (count > 0) {
-                        badge.textContent = count;
-                        badge.style.display = 'flex';
-                    } else {
-                        badge.style.display = 'none';
-                    }
-                }
-                
-                // Update floating badge
-                if (floatingBadge) {
-                    floatingBadge.textContent = count;
-                    floatingBadge.style.display = count > 0 ? 'flex' : 'none';
-                }
-                
-                this.renderCart();
-            },
-            
-            renderCart() {
-                const cartItemsEl = document.getElementById('cartItems');
-                const cartSummaryEl = document.getElementById('cartSummary');
-                
-                if (this.items.length === 0) {
-                    cartItemsEl.innerHTML = '<div class="cart-empty">Your cart is empty</div>';
-                    cartSummaryEl.innerHTML = '';
-                    return;
-                }
-                
-                cartItemsEl.innerHTML = this.items.map(item => {
-                    const cartIsZh = window.DaoI18n && window.DaoI18n.current() === 'zh';
-                    const cartDisplayName = (cartIsZh && item.nameCn) ? item.nameCn : item.name;
-                    return `
-                    <div class="cart-item">
-                        <div class="cart-item-info">
-                            <div class="cart-item-name">${cartDisplayName}</div>
-                            <div class="cart-item-price">$${item.price.toFixed(2)}</div>
-                            <div class="cart-item-qty">
-                                <button class="qty-btn" onclick="cart.updateQty('${item.id}', ${item.quantity - 1})">−</button>
-                                <span>${item.quantity}</span>
-                                <button class="qty-btn" onclick="cart.updateQty('${item.id}', ${item.quantity + 1})">+</button>
-                                <button class="cart-item-remove" onclick="cart.remove('${item.id}')">🗑</button>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                }).join('');
-                
-                const subtotal = this.getTotal();
-                const tax = (subtotal * 0.1).toFixed(2);
-                const total = (parseFloat(subtotal) + parseFloat(tax)).toFixed(2);
-                
-                cartSummaryEl.innerHTML = `
-                    <div class="summary-row">
-                        <span>Subtotal:</span>
-                        <span>$${subtotal}</span>
-                    </div>
-                    <div class="summary-row">
-                        <span>Tax (10%):</span>
-                        <span>$${tax}</span>
-                    </div>
-                    <div class="summary-row total">
-                        <span>Total:</span>
-                        <span>$${total}</span>
-                    </div>
-                `;
-            }
-        };
-        
-        // 页面加载时初始化购物车
-        cart.init();
-        cart.updateUI();
-        
-        // 统一 toast 通知函数（与 cart.js showNotification 一致）
-        function showCartToast(message) {
-            const existing = document.querySelector('.cart-notification');
-            if (existing) existing.remove();
-            const el = document.createElement('div');
-            el.className = 'cart-notification';
-            el.style.cssText = `
-                position: fixed; top: 100px; right: 20px;
-                background: #2D5A3D; color: #F5F0E6;
-                padding: 15px 25px; border-radius: 4px;
-                box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-                display: flex; align-items: center; gap: 15px;
-                z-index: 10000; border-left: 3px solid #D4AF37;
-                opacity: 0; transform: translateX(100px);
-                transition: all 0.3s ease;
-            `;
-            el.innerHTML = `<span>✓</span><span>${message}</span>`;
-            document.body.appendChild(el);
-            requestAnimationFrame(() => {
-                el.style.opacity = '1';
-                el.style.transform = 'translateX(0)';
-            });
-            setTimeout(() => {
-                el.style.opacity = '0';
-                el.style.transform = 'translateX(100px)';
-                setTimeout(() => el.remove(), 300);
-            }, 2500);
-        }
-
-        // Make addToCart global and available immediately
-        window.addToCart = function(productId) {
-            console.log('addToCart called with productId:', productId);
-
-            const card = window.allProducts && window.allProducts.find(p => p.id === productId);
-            if (card) {
-                console.log('Card found:', card);
-                cart.add(card);
-                // 🔥 Toast 通知（替换原来的 alert，与详情页交互一致）
-                const name = card.nameCN || card.name || productId;
-                showCartToast(`✓ "${name}" 已加入购物车`);
-                // 同时打开购物车面板
-                setTimeout(() => {
-                    document.getElementById('cartModal').classList.add('active');
-                    cart.renderCart();
-                }, 300);
-            } else {
-                console.error('Card not found:', productId);
-                showCartToast('❌ 卡未找到，请刷新重试');
-            }
-        };
-
-        function toggleCart() {
-            document.getElementById('cartModal').classList.toggle('active');
-            if (document.getElementById('cartModal').classList.contains('active')) {
-                cart.renderCart();
-            }
-        }
-
-        function checkout() {
-            if (cart.items.length === 0) {
-                alert('Your cart is empty!');
-                return;
-            }
-            // 购物车功能已隐藏 - 直接购买模式
-            // window.location.href = 'checkout.html';
-            console.log('Cart feature disabled - direct purchase mode');
-        }
-    </script>
-
-    <!-- Product Management Script -->
-    <script>
-        console.log('Loading Creem products...');
-    </script>
-    <!-- Creem Products Real-time Sync -->
-    <!-- Creem 产品同步脚本（后端 API 版） -->
-    <script src="js/creem-sync-v2.js"></script>
-    
-    <!-- Shop Products Manager -->
-    <!-- 直接加载 shop-manager.js，确保全局变量可用 -->
-    <script src="shop-manager.js?v=202603231700"></script>
-    
-    <!-- 等待 Creem 产品加载，然后显示 -->
-    <script>
-        /**
-         * 等待 creem-sync-v2.js 完成，然后显示产品
-         * 双重保障：轮询 + 事件监听，确保不遗漏
-         */
-        let _shopRendered = false;
-        
-        function renderShopOnce() {
-            if (_shopRendered) return;
-            if (typeof window.renderShop !== 'function') return;
-            
-            const hasProducts = typeof window.allProducts !== 'undefined' && window.allProducts.length > 0;
-            const isReady = window.__CREEM_PRODUCTS_READY__;
-            
-            if (hasProducts || isReady) {
-                _shopRendered = true;
-                console.log('✅ shop.html: 渲染商品 (' + (window.allProducts ? window.allProducts.length : 0) + ' 个)');
-                window.renderShop();
-            }
-        }
-        
-        function initializeShop() {
-            console.log('🔍 shop.html: 等待 Creem 产品同步完成...');
-            
-            let attempts = 0;
-            const maxAttempts = 100; // 最多等待 10 秒
-            
-            const checkAndRender = () => {
-                attempts++;
-                
-                if (attempts >= maxAttempts) {
-                    console.warn('⚠️ shop.html: 轮询超时');
-                }
-                
-                renderShopOnce();
-                
-                if (_shopRendered) return;
-                if (attempts < maxAttempts) {
-                    setTimeout(checkAndRender, 100);
-                }
-            };
-            
-            checkAndRender();
-        }
-        
-        // 事件监听 fallback：轮询超时后，如果数据到达仍能渲染
-        window.addEventListener('creemProductsReady', function() {
-            console.log('✅ shop.html: 收到 creemProductsReady 事件');
-            renderShopOnce();
+    function setupTabs() {
+      var tabs = document.querySelectorAll('#shop-tabs .tab');
+      tabs.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          tabs.forEach(function (b) { b.classList.remove('active'); });
+          btn.classList.add('active');
+          render(btn.getAttribute('data-cat'));
         });
-        
-        // i18n 切换时也重新渲染（翻译可能变化）
-        document.addEventListener('daoessence:i18n-changed', function() {
-            _shopRendered = false; // 允许重新渲染
-            renderShopOnce();
+      });
+    }
+
+    function init() {
+      window.AMAZON_ASSOCIATE_TAG = TAG;
+      fetch('/data/amazon-products.json')
+        .then(function (r) { return r.json(); })
+        .then(function (lib) {
+          window.AMAZON_PRODUCT_LIBRARY = lib;
+          setupTabs();
+          render('all');
+          updateNote();
+        })
+        .catch(function (e) {
+          document.getElementById('shop-grid').innerHTML =
+            '<p style="color:#9a8f7d;text-align:center;grid-column:1/-1">Unable to load products. Please refresh.</p>';
+          console.error('Shop load failed:', e);
         });
-        
-        // 页面加载完成后执行
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initializeShop);
-        } else {
-            initializeShop();
-        }
-    </script>
-    
-    <!-- Shop Page Diagnostics -->
-    <script src="/js/tracking.js"></script>
-    <script src="/js/feedback.js" async></script>
-    <script src="js/i18n-switcher.js" defer></script>
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else { init(); }
+  })();
+  </script>
 </body>
 </html>
-
-

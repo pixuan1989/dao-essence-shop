@@ -155,8 +155,8 @@ window.loadCardData = async function() {
     const urlParams = new URLSearchParams(window.location.search);
     const cardId = urlParams.get('id');
     
-    // 如果没有指定ID，使用默认卡 (传统沉香)
-    const defaultCardId = 'prod_7i2asEAuHFHl5hJMeCEsfB';
+    // 如果没有指定ID，使用默认卡（八字命理解讀 - 数字产品）
+    const defaultCardId = 'prod_28PqAKMEom5WGRH1w9O35n';
     const actualCardId = cardId || defaultCardId;
     
     // 等待 window.allProducts 数据就绪

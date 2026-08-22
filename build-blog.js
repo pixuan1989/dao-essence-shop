@@ -13,6 +13,7 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { createRequire } from 'module';
 import matter from 'gray-matter';
 import { marked } from 'marked';
 import { execSync } from 'child_process';
@@ -85,6 +86,22 @@ const FALLBACK_ZH_TITLES = {
 // CSS version for cache busting
 const CSS_VERSION = Date.now();
 const SITE_URL = 'https://www.daoessentia.com';
+
+// ── Amazon Associates affiliate config ──
+// ⚠️ 替换为你自己的 Amazon Associates 追踪 ID（默认占位，不替换则不计佣金）
+const AMAZON_ASSOCIATE_TAG = 'daoessentia-20';
+
+// 商品库（build 与浏览器端共用同一份数据）
+const AMAZON_PRODUCT_LIBRARY = JSON.parse(
+  fs.readFileSync(path.join(SRC_DIR, 'data', 'amazon-products.json'), 'utf8')
+);
+
+// 图标渲染模块（UMD，Node 端 require / 浏览器端全局 AmazonIcons）
+// 注意：package.json 为 type:module，require() 会按 ESM 载入，UMD 走 global 分支，
+// 因此图标对象挂在 globalThis.AmazonIcons 上，需从 globalThis 读取。
+const require = createRequire(import.meta.url);
+require('./js/amazon-icons.js');
+const AmazonIcons = globalThis.AmazonIcons;
 
 // Shared nav HTML
 const NAV_HTML = `
@@ -1032,79 +1049,97 @@ function generateArticleHtml(post, category, allArticles, options = {}) {
 
 
 
-  // ── Amazon Affiliate Products ─
-  const AMAZON_PRODUCTS = {
-    'feng-shui': {
-      name: 'Feng Shui Bracelet',
-      nameZh: '风水手链',
-      price: '$16.99',
-      image: 'https://m.media-amazon.com/images/I/71vaNcAG5DL._AC_SL1500_.jpg',
-      url: 'https://amzn.to/4wWIPSR',
-      rating: '4.2',
-      reviews: '1,730'
-    },
-    'bazi-astrology': {
-      name: 'Rider-Waite Tarot Deck',
-      nameZh: '莱德韦特塔罗牌',
-      price: '$15.50',
-      image: 'https://m.media-amazon.com/images/I/51C-n5A3PiL._AC_SL1000_.jpg',
-      url: 'https://amzn.to/4vEwzFp',
-      rating: '4.8',
-      reviews: '24,900'
-    },
-    'zodiac-horoscope': {
-      name: '7 Chakra Crystal Set',
-      nameZh: '七脉轮水晶套装',
-      price: '$14.99',
-      image: 'https://m.media-amazon.com/images/I/81u2iZ8TctL._AC_SL1500_.jpg',
-      url: 'https://amzn.to/4wXczix',
-      rating: '4.7',
-      reviews: '1,069'
-    }
-  };
+  // ── Amazon Affiliate Products (data-driven) ─
+  // Library: data/amazon-products.json (24+ items), personalized client-side by
+  // the reader's saved Five-Element profile (almanac_fav).
 
-  function renderAmazonProduct(category) {
-    const product = AMAZON_PRODUCTS[category] || AMAZON_PRODUCTS['bazi-astrology'];
-    const recText = isZh ? '開運好物推薦' : 'Recommended for You';
-    const btnText = isZh ? '查看詳情' : 'View on Amazon';
-    const displayName = isZh && product.nameZh ? product.nameZh : product.name;
+  function buildAmazonUrl(p) {
+    const tag = AMAZON_ASSOCIATE_TAG;
+    if (p.asin) return `https://www.amazon.com/dp/${p.asin}?tag=${tag}`;
+    const q = encodeURIComponent(p.keywords || p.name);
+    return `https://www.amazon.com/s?k=${q}&tag=${tag}`;
+  }
+
+  function amazonImageHtml(p) {
+    const el = (p.elements && p.elements[0]) || 'earth';
+    if (p.image) {
+      const svg = AmazonIcons.amazonIconSVG(p.icon, el);
+      return `<div class="amazon-img-wrap">` +
+        `<img src="${p.image}" alt="${escapeHtml(p.name)}" loading="lazy" ` +
+        `onerror="this.style.display='none';this.nextElementSibling.style.display='block'">` +
+        `<div class="amazon-icon-fallback" style="display:none">${svg}</div>` +
+        `</div>`;
+    }
+    return `<div class="amazon-img-wrap">${AmazonIcons.amazonIconSVG(p.icon, el)}</div>`;
+  }
+
+  function renderAmazonCard(p, context) {
+    if (!p) return '';
+    const displayName = isZh && p.nameZh ? p.nameZh : p.name;
+    const url = buildAmazonUrl(p);
+    const btn = isZh ? '在 Amazon 查看' : 'View on Amazon';
+    const badge = context === 'inline'
+      ? (isZh ? '開運好物' : 'Lucky Pick')
+      : (isZh ? '好物推薦' : 'Recommended');
     return `
-        <div class="amazon-product-card">
-            <span class="amazon-badge">${recText}</span>
-            <img src="${product.image}" alt="${displayName}" loading="lazy" onerror="this.src='${SITE_URL}/images/og-default.jpg'">
-            <h4>${displayName}</h4>
+        <div class="amazon-product-card${context === 'inline' ? ' amazon-product-card--inline' : ''}">
+            <span class="amazon-badge">${badge}</span>
+            ${amazonImageHtml(p)}
+            <h4>${escapeHtml(displayName)}</h4>
             <div class="amazon-rating">
                 <span class="stars">★★★★★</span>
-                <span class="rating-text">${product.rating} (${product.reviews})</span>
+                <span class="rating-text">${p.rating} (${p.reviews})</span>
             </div>
-            <div class="amazon-price">${product.price}</div>
-            <a href="${product.url}" target="_blank" rel="nofollow sponsored" class="amazon-btn">${btnText}</a>
+            <div class="amazon-price">${p.price}</div>
+            <a href="${url}" target="_blank" rel="nofollow sponsored noopener" class="amazon-btn">${btn}</a>
         </div>`;
   }
 
+  // Score products by article category (build-time, no user data yet).
+  function pickProducts(articleCategory, count) {
+    const cat = articleCategory || 'bazi-astrology';
+    const scored = AMAZON_PRODUCT_LIBRARY.map(p => {
+      let score = 0;
+      if (p.categories && p.categories.includes(cat)) score += 10;
+      return { p, score };
+    });
+    scored.sort((a, b) => b.score - a.score);
+    const matched = scored.filter(s => s.score > 0).map(s => s.p);
+    const others = scored.filter(s => s.score === 0).map(s => s.p);
+    return matched.concat(others).slice(0, count);
+  }
+
+  // Sidebar: 2 themed picks
+  function renderAmazonProduct(category) {
+    const picks = pickProducts(category, 2);
+    return picks.map(p => renderAmazonCard(p, 'sidebar')).join('');
+  }
+
+  // Bottom grid: up to 6 themed picks (re-personalized client-side)
   function renderAmazonProductsBottom() {
-    const products = Object.values(AMAZON_PRODUCTS);
+    const picks = pickProducts(category, 6);
     const recText = isZh ? '開運好物推薦' : 'Recommended for You';
     return `
-        <section class="amazon-products-bottom">
+        <section class="amazon-products-bottom" data-article-category="${category}">
             <h3 class="amazon-section-title">${recText}</h3>
             <div class="amazon-products-grid">
-                ${products.map(p => {
-                  const displayName = isZh && p.nameZh ? p.nameZh : p.name;
-                  return `
-                <div class="amazon-product-card">
-                    <img src="${p.image}" alt="${displayName}" loading="lazy" onerror="this.src='${SITE_URL}/images/og-default.jpg'">
-                    <h4>${displayName}</h4>
-                    <div class="amazon-rating">
-                        <span class="stars">★★★★★</span>
-                        <span class="rating-text">${p.rating} (${p.reviews})</span>
-                    </div>
-                    <div class="amazon-price">${p.price}</div>
-                    <a href="${p.url}" target="_blank" rel="nofollow sponsored" class="amazon-btn">${isZh ? '查看詳情' : 'View on Amazon'}</a>
-                </div>`;
-                }).join('')}
+                ${picks.map(p => renderAmazonCard(p)).join('')}
             </div>
+            <p class="amazon-disclaimer">${isZh
+              ? '作為 Amazon Associate，我們可能從合格購買中獲得佣金（不影響售價）。'
+              : 'As an Amazon Associate we earn from qualifying purchases.'}</p>
         </section>`;
+  }
+
+  // Inject a contextual inline card after the article's first <h2>
+  function injectInlineCard(body, articleCategory) {
+    const inline = pickProducts(articleCategory, 3)[0];
+    if (!inline) return body;
+    const card = renderAmazonCard(inline, 'inline');
+    if (body.indexOf('</h2>') !== -1) {
+      return body.replace('</h2>', '</h2>\n' + card, 1);
+    }
+    return body;
   }
 
   // ── Creem Affiliate CTA (Commented Out - No Meaning Currently) ──
@@ -1496,7 +1531,10 @@ function generateArticleHtml(post, category, allArticles, options = {}) {
         .amazon-product-card { background: linear-gradient(145deg, #2d2420, #1a1512); border: 1px solid rgba(212,175,55,0.2); border-radius: 12px; padding: 1.5rem; text-align: center; transition: transform 0.3s, box-shadow 0.3s; }
         .amazon-product-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
         .amazon-badge { display: inline-block; font-size: 0.7rem; letter-spacing: 0.08em; color: #d4af37; background: rgba(212,175,55,0.1); padding: 0.3rem 0.9rem; border-radius: 999px; margin-bottom: 1rem; }
-        .amazon-product-card img { width: 100%; height: 200px; object-fit: contain; border-radius: 8px; margin-bottom: 1rem; background: #fff; padding: 0.5rem; }
+        .amazon-img-wrap { width: 100%; aspect-ratio: 1 / 1; max-height: 200px; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; border-radius: 8px; overflow: hidden; background: linear-gradient(145deg, #241d18, #15110e); }
+        .amazon-img-wrap img { width: 100%; height: 100%; object-fit: contain; background: #fff; padding: 0.5rem; }
+        .amazon-icon { width: 68%; height: 68%; display: block; }
+        .amazon-icon-fallback { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
         .amazon-product-card h4 { font-size: 1.05rem; color: #f5e6d3; margin: 0 0 0.75rem; line-height: 1.4; font-weight: 600; }
         .amazon-rating { display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-bottom: 0.75rem; }
         .amazon-rating .stars { color: #d4af37; font-size: 0.9rem; }
@@ -1504,11 +1542,14 @@ function generateArticleHtml(post, category, allArticles, options = {}) {
         .amazon-price { font-size: 1.3rem; font-weight: 700; color: #d4af37; margin-bottom: 1rem; }
         .amazon-btn { display: inline-block; background: linear-gradient(135deg, #d4af37, #b8941f); color: #1a1512; font-weight: 700; font-size: 0.85rem; padding: 0.7rem 1.4rem; border-radius: 8px; text-decoration: none; transition: all 0.3s; }
         .amazon-btn:hover { background: linear-gradient(135deg, #e5c048, #d4af37); transform: translateY(-2px); }
+        .amazon-disclaimer { font-size: 0.7rem; color: #888; text-align: center; margin-top: 1.8rem; }
+        /* Mid-article inline card */
+        .amazon-product-card--inline { max-width: 440px; margin: 2.5rem auto; border-color: rgba(212,175,55,0.35); box-shadow: 0 6px 20px rgba(0,0,0,0.25); }
         .blog-sidebar .amazon-product-card { padding: 1rem; }
-        .blog-sidebar .amazon-product-card img { height: 150px; }
+        .blog-sidebar .amazon-img-wrap { max-height: 150px; }
         .blog-sidebar .amazon-product-card h4 { font-size: 0.9rem; }
         @media (max-width: 768px) { .amazon-products-grid { grid-template-columns: 1fr; } }
-        @media (max-width: 540px) { .amazon-product-card { padding: 1rem; } .amazon-product-card img { height: 150px; } }
+        @media (max-width: 540px) { .amazon-product-card { padding: 1rem; } .amazon-img-wrap { max-height: 150px; } }
     </style>
     <!-- Google Analytics -->
         <script>
@@ -1576,7 +1617,7 @@ ${NAV_HTML}
                 </button>
             </div>
 
-            ${finalBody}
+            ${injectInlineCard(finalBody, category)}
 
             ${data.faq && data.faq.length > 0 ? `
             <div class="faq-section">
@@ -1623,6 +1664,9 @@ ${FOOTER_HTML}
     <script src="/js/pageview.js" defer></script>
     <script src="/js/tracking.js"></script>
     <script src="/js/i18n-switcher.js" defer></script>
+    <script>window.AMAZON_PRODUCT_LIBRARY = ${JSON.stringify(AMAZON_PRODUCT_LIBRARY)};window.AMAZON_ASSOCIATE_TAG = ${JSON.stringify(AMAZON_ASSOCIATE_TAG)};</script>
+    <script src="/js/amazon-icons.js" defer></script>
+    <script src="/js/amazon-recommend.js" defer></script>
     <!-- Baidu Auto Push -->
     <script>
     (function(){

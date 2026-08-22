@@ -43,14 +43,27 @@ function hasChinese(text) {
 const CREEM_CONFIG = {
   apiBase: 'https://api.creem.io/v1',
   apiKey: process.env.CREEM_API_KEY || '', // ✅ 从环境变量读取，不硬编码
+  // ✅ 仅数字产品（Creem 规则禁止实物）。
+  // 实物(沉香/手串)已移除并列入 excludedProductIds 永久排除。
+  // 此列表仅作 Creem /products/search 失败时的兜底；主路径由搜索接口返回全部 active 数字产品。
   productIds: {
-    agarwood: 'prod_7i2asEAuHFHl5hJMeCEsfB',      // 传统沉香 - $200
-    bracelet: 'prod_1YuuAVysoYK6AOmQVab2uR'      // 五行能量手串 - $168
+    baziReport: 'prod_28PqAKMEom5WGRH1w9O35n',          // 八字命理解讀
+    baziCourse: 'prod_644bQm6EUmBGSNkaHZ02IE',          // 玄真盲派命理課程
+    almanacUnlock: 'prod_3fJInBNekM9UVJwtClgUtx',        // 黃曆解鎖
+    soulmateUnlock: 'prod_2wj3G9PQp6ZlbD8oFJdr2X',       // 姻緣方位解鎖
+    cultivationNovels: 'prod_3btZfL4MwsO2xSr7AB3J8S',    // 詭秘之主
+    daoReadings: 'prod_26987QrSoIC3ui76ill96H',          // 道德經
+    fiveElementsWallpaper: 'prod_2WpWgRkGnuKU9obIP5t0P1', // 五行壁紙
+    daoMusic: 'prod_45v7a05ZjqA9a1LVq0o0g3'             // 道家音樂
   },
+  // 🚫 实物产品（违反 Creem 数字产品规则）—— 永不渲染到商店，搜索接口返回也必须剔除
+  excludedProductIds: [
+    'prod_7i2asEAuHFHl5hJMeCEsfB',  // 傳統沉香 $200（实物）
+    'prod_1YuuAVysoYK6AOmQVab2uR'   // 五行能量手串 $168（实物）
+  ],
   // 每个产品关联的折扣码（用于查询折扣信息）
   productDiscountCodes: {
-    'prod_7i2asEAuHFHl5hJMeCEsfB': 'XJCX520',    // 传统沉香有折扣
-    'prod_1YuuAVysoYK6AOmQVab2uR': null           // 五行能量水晶无折扣
+    // 数字产品如有专属折扣码在此配置（productId: code）
   }
 };
 
@@ -314,6 +327,13 @@ async function getAllProducts() {
       .map(r => r.value)
       // ✅ 逐个拉取的也要过滤归档
       .filter(p => p.status === 'active' || !p.status);
+  }
+
+  // 🚫 剔除实物产品（Creem 仅允许数字产品，实物违反规则永不展示）
+  if (creemProducts) {
+    const beforeExcl = creemProducts.length;
+    creemProducts = creemProducts.filter(p => !CREEM_CONFIG.excludedProductIds.includes(p.id));
+    console.log(`🚫 剔除实物产品: ${beforeExcl} → ${creemProducts.length}（移除 ${beforeExcl - creemProducts.length} 个实物）`);
   }
 
   if (!creemProducts || creemProducts.length === 0) {
