@@ -51,7 +51,7 @@
     var isZh = detectZh();
     var displayName = (isZh && p.nameZh) ? p.nameZh : p.name;
     var url = buildAmazonUrl(p, tag);
-    var btn = isZh ? '在 Amazon 查看' : 'View on Amazon';
+    var btn = isZh ? '点击查看' : 'View on Amazon';
     var badge = context === 'inline'
       ? (isZh ? '開運好物' : 'Lucky Pick')
       : (isZh ? '好物推薦' : 'Recommended');
