@@ -35,6 +35,7 @@ faq:
     answer: "No. Liqiu is a solar term based on the sun's position. It can fall before or after the first day of the lunar seventh month. In BaZi, month pillars follow solar terms, not the lunar month, so Liqiu is the real boundary for chart timing."
   - question: "What should I actually do after Liqiu?"
     answer: "If you belong to one of the four rising groups, restart paused plans, ask for what you deserve, and sign important papers during Shen or You month. If you belong to the hold-steady groups, use autumn to finish current work, avoid big moves, and rest."
+cta_cards: ["bazi", "favorable-element"]
 ---
 
 # Liqiu Fortune Turnaround: 4 BaZi Types Whose Luck Finally Rises
