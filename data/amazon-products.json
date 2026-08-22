@@ -692,34 +692,6 @@
     "asin": "B09WBHNQYK"
   },
   {
-    "id": "angel-oracle-deck",
-    "name": "Mystic Manifesting Oracle Deck",
-    "nameZh": "神秘显化神谕卡",
-    "price": "$16.99",
-    "image": "https://m.media-amazon.com/images/I/91cSQ4kaEbL._AC_SL1500_.jpg",
-    "keywords": "mystic manifesting oracle deck cards",
-    "rating": "4.7 out of 5 stars",
-    "reviews": "156",
-    "categories": [
-      "oracle",
-      "divination",
-      "manifestation"
-    ],
-    "elements": [
-      "water",
-      "air"
-    ],
-    "zodiac": [],
-    "tags": [
-      "oracle",
-      "divination",
-      "manifestation",
-      "cards"
-    ],
-    "icon": "cards",
-    "asin": "B0F526BKRY"
-  },
-  {
     "id": "chakra-crystal-kit",
     "name": "Healing Crystals & Chakra Kit",
     "nameZh": "七脉轮疗愈水晶套装",
@@ -779,95 +751,6 @@
     "asin": "B08W9QG52J"
   },
   {
-    "id": "rose-quartz-crystal",
-    "name": "Rose Quartz Crystal",
-    "nameZh": "粉晶（爱情之石）",
-    "price": "$6.99",
-    "image": "https://m.media-amazon.com/images/I/41a7jPfmezL._AC_SL1500_.jpg",
-    "keywords": "rose quartz crystal palm stone love",
-    "rating": "4.6 out of 5 stars",
-    "reviews": "122",
-    "categories": [
-      "crystals",
-      "love",
-      "healing"
-    ],
-    "elements": [
-      "water",
-      "earth"
-    ],
-    "zodiac": [
-      "Taurus",
-      "Libra"
-    ],
-    "tags": [
-      "crystal",
-      "rose-quartz",
-      "love"
-    ],
-    "icon": "crystal",
-    "asin": "B0CR13D4QG"
-  },
-  {
-    "id": "moon-phase-wall-art",
-    "name": "Moon Phase Wall Decor",
-    "nameZh": "月光相位墙面装饰",
-    "price": "$15.99",
-    "image": "https://m.media-amazon.com/images/I/81y2GFM1RYL._AC_SL1500_.jpg",
-    "keywords": "moon phase wall decor hanging gold",
-    "rating": "4.1 out of 5 stars",
-    "reviews": "327",
-    "categories": [
-      "decor",
-      "astrology",
-      "zodiac-horoscope"
-    ],
-    "elements": [
-      "water",
-      "metal"
-    ],
-    "zodiac": [],
-    "tags": [
-      "moon",
-      "decor",
-      "celestial",
-      "astrology"
-    ],
-    "icon": "moon",
-    "asin": "B0BZC14DSX"
-  },
-  {
-    "id": "manifestation-journal",
-    "name": "Manifestation & Gratitude Journal",
-    "nameZh": "显化与感恩日记",
-    "price": "$34.99",
-    "image": "https://m.media-amazon.com/images/I/81paU2uL8KL._AC_SL1500_.jpg",
-    "keywords": "manifestation journal law of attraction gratitude",
-    "rating": "4.7 out of 5 stars",
-    "reviews": "67",
-    "categories": [
-      "manifestation",
-      "self-help",
-      "journal"
-    ],
-    "elements": [
-      "wood",
-      "fire",
-      "earth",
-      "metal",
-      "water"
-    ],
-    "zodiac": [],
-    "tags": [
-      "journal",
-      "manifestation",
-      "gratitude",
-      "law-of-attraction"
-    ],
-    "icon": "book",
-    "asin": "B0FPP68MC7"
-  },
-  {
     "id": "crystal-suncatcher",
     "name": "Crystal Prism Suncatcher",
     "nameZh": "水晶棱镜捕光挂饰",
@@ -894,5 +777,122 @@
     ],
     "icon": "crystal",
     "asin": "B07HP22QTZ"
+  },
+  {
+    "id": "affirmation-tarot-deck",
+    "name": "Affirmators! Tarot Cards Deck",
+    "nameZh": "肯定语塔罗牌",
+    "price": "$26.00",
+    "image": "https://m.media-amazon.com/images/I/51bZjtAd7yL._SX342_SY445_FMwebp_.jpg",
+    "keywords": "oracle cards deck popular best seller",
+    "rating": "4.8 out of 5 stars",
+    "reviews": "1013",
+    "categories": [
+      "tarot",
+      "divination",
+      "self-help"
+    ],
+    "elements": [
+      "water",
+      "air"
+    ],
+    "zodiac": [],
+    "tags": [
+      "tarot",
+      "affirmation",
+      "cards",
+      "divination"
+    ],
+    "icon": "cards",
+    "asin": "1683491874"
+  },
+  {
+    "id": "rose-quartz-crystal",
+    "name": "MAIBAOTA 45 mm Rose Quartz Crystals Natural Heart Stone Crystal Gifts",
+    "nameZh": "粉晶（爱情之石）",
+    "price": "$8.99",
+    "image": "https://m.media-amazon.com/images/I/51BMKcWN7WL._AC_SL1500_.jpg",
+    "keywords": "natural rose quartz crystal healing",
+    "rating": "4.6 out of 5 stars",
+    "reviews": "709",
+    "categories": [
+      "crystals",
+      "love",
+      "healing"
+    ],
+    "elements": [
+      "water",
+      "earth"
+    ],
+    "zodiac": [
+      "Taurus",
+      "Libra"
+    ],
+    "tags": [
+      "crystal",
+      "rose-quartz",
+      "love"
+    ],
+    "icon": "crystal",
+    "asin": "B09DJFV18L"
+  },
+  {
+    "id": "moon-lamp",
+    "name": "Mind-Glowing 3D Moon Lamp, 16 Colors, Touch/Remote Control (7.1 inch)",
+    "nameZh": "月光相位墙面装饰",
+    "price": "$34.99",
+    "image": "https://m.media-amazon.com/images/I/81zUE9Oci0L._AC_SL1500_.jpg",
+    "keywords": "3d moon lamp rechargeable celestial",
+    "rating": "4.5 out of 5 stars",
+    "reviews": "13640",
+    "categories": [
+      "decor",
+      "astrology",
+      "zodiac-horoscope"
+    ],
+    "elements": [
+      "water",
+      "metal"
+    ],
+    "zodiac": [],
+    "tags": [
+      "moon",
+      "decor",
+      "celestial",
+      "astrology"
+    ],
+    "icon": "moon",
+    "asin": "B07NY3B1MF"
+  },
+  {
+    "id": "manifestation-journal",
+    "name": "Freedom Mastery Daily Journal of Gratitude, Productivity & Habit Tracker",
+    "nameZh": "显化与感恩日记",
+    "price": "$15.95",
+    "image": "https://m.media-amazon.com/images/I/910F0se9JpL._AC_SL1500_.jpg",
+    "keywords": "manifestation gratitude journal law attraction",
+    "rating": "4.4 out of 5 stars",
+    "reviews": "7376",
+    "categories": [
+      "manifestation",
+      "self-help",
+      "journal"
+    ],
+    "elements": [
+      "wood",
+      "fire",
+      "earth",
+      "metal",
+      "water"
+    ],
+    "zodiac": [],
+    "tags": [
+      "journal",
+      "manifestation",
+      "gratitude",
+      "law-of-attraction"
+    ],
+    "icon": "book",
+    "asin": "B09JHN88QT"
   }
 ]
