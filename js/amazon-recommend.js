@@ -14,7 +14,7 @@
   }
 
   function buildAmazonUrl(p, tag) {
-    tag = tag || 'daoessentia-20';
+    tag = tag || 'daoessence25-20';
     if (p.asin) return 'https://www.amazon.com/dp/' + p.asin + '?tag=' + tag;
     var q = encodeURIComponent(p.keywords || p.name);
     return 'https://www.amazon.com/s?k=' + q + '&tag=' + tag;

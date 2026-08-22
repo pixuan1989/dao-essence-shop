@@ -88,8 +88,8 @@ const CSS_VERSION = Date.now();
 const SITE_URL = 'https://www.daoessentia.com';
 
 // ── Amazon Associates affiliate config ──
-// ⚠️ 替换为你自己的 Amazon Associates 追踪 ID（默认占位，不替换则不计佣金）
-const AMAZON_ASSOCIATE_TAG = 'daoessentia-20';
+// 真实追踪 ID（从 js/amazon-affiliate.js 的 amzn.to 短链重定向中提取：tag=daoessence25-20）
+const AMAZON_ASSOCIATE_TAG = 'daoessence25-20';
 
 // 商品库（build 与浏览器端共用同一份数据）
 const AMAZON_PRODUCT_LIBRARY = JSON.parse(
