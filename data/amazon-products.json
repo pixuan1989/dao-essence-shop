@@ -662,5 +662,237 @@
     ],
     "icon": "jade",
     "asin": "B07PFQLFVB"
+  },
+  {
+    "id": "tarot-beginner-deck",
+    "name": "Tarot Cards for Beginners",
+    "nameZh": "初学者塔罗牌",
+    "price": "$22.99",
+    "image": "https://m.media-amazon.com/images/I/81ASCmiF+5L._AC_SL1500_.jpg",
+    "keywords": "tarot cards for beginners with guidebook meanings",
+    "rating": "4.8 out of 5 stars",
+    "reviews": "4546",
+    "categories": [
+      "tarot",
+      "divination",
+      "oracle"
+    ],
+    "elements": [
+      "fire",
+      "water"
+    ],
+    "zodiac": [],
+    "tags": [
+      "tarot",
+      "divination",
+      "cards",
+      "beginner"
+    ],
+    "icon": "cards",
+    "asin": "B09WBHNQYK"
+  },
+  {
+    "id": "angel-oracle-deck",
+    "name": "Mystic Manifesting Oracle Deck",
+    "nameZh": "神秘显化神谕卡",
+    "price": "$16.99",
+    "image": "https://m.media-amazon.com/images/I/91cSQ4kaEbL._AC_SL1500_.jpg",
+    "keywords": "mystic manifesting oracle deck cards",
+    "rating": "4.7 out of 5 stars",
+    "reviews": "156",
+    "categories": [
+      "oracle",
+      "divination",
+      "manifestation"
+    ],
+    "elements": [
+      "water",
+      "air"
+    ],
+    "zodiac": [],
+    "tags": [
+      "oracle",
+      "divination",
+      "manifestation",
+      "cards"
+    ],
+    "icon": "cards",
+    "asin": "B0F526BKRY"
+  },
+  {
+    "id": "chakra-crystal-kit",
+    "name": "Healing Crystals & Chakra Kit",
+    "nameZh": "七脉轮疗愈水晶套装",
+    "price": "$15.99",
+    "image": "https://m.media-amazon.com/images/I/81tMS2ujb4L._AC_SL1500_.jpg",
+    "keywords": "chakra healing crystals kit tumbled stones set",
+    "rating": "4.6 out of 5 stars",
+    "reviews": "1256",
+    "categories": [
+      "crystals",
+      "healing",
+      "chakra"
+    ],
+    "elements": [
+      "wood",
+      "fire",
+      "earth",
+      "metal",
+      "water"
+    ],
+    "zodiac": [],
+    "tags": [
+      "crystal",
+      "chakra",
+      "healing",
+      "kit"
+    ],
+    "icon": "crystal",
+    "asin": "B08TM3NHN9"
+  },
+  {
+    "id": "sage-palo-santo-kit",
+    "name": "White Sage Smudge Kit with Palo Santo, Abalone Shell, Feather",
+    "nameZh": "白鼠尾草与圣木净化套装",
+    "price": "$22.99",
+    "image": "https://m.media-amazon.com/images/I/710sr1nF2YL._AC_SL1500_.jpg",
+    "keywords": "white sage palo santo smudge kit abalone shell",
+    "rating": "4.6 out of 5 stars",
+    "reviews": "1351",
+    "categories": [
+      "cleansing",
+      "feng-shui",
+      "ritual"
+    ],
+    "elements": [
+      "air",
+      "fire"
+    ],
+    "zodiac": [],
+    "tags": [
+      "smudge",
+      "sage",
+      "palosanto",
+      "cleansing"
+    ],
+    "icon": "leaf",
+    "asin": "B08W9QG52J"
+  },
+  {
+    "id": "rose-quartz-crystal",
+    "name": "Rose Quartz Crystal",
+    "nameZh": "粉晶（爱情之石）",
+    "price": "$6.99",
+    "image": "https://m.media-amazon.com/images/I/41a7jPfmezL._AC_SL1500_.jpg",
+    "keywords": "rose quartz crystal palm stone love",
+    "rating": "4.6 out of 5 stars",
+    "reviews": "122",
+    "categories": [
+      "crystals",
+      "love",
+      "healing"
+    ],
+    "elements": [
+      "water",
+      "earth"
+    ],
+    "zodiac": [
+      "Taurus",
+      "Libra"
+    ],
+    "tags": [
+      "crystal",
+      "rose-quartz",
+      "love"
+    ],
+    "icon": "crystal",
+    "asin": "B0CR13D4QG"
+  },
+  {
+    "id": "moon-phase-wall-art",
+    "name": "Moon Phase Wall Decor",
+    "nameZh": "月光相位墙面装饰",
+    "price": "$15.99",
+    "image": "https://m.media-amazon.com/images/I/81y2GFM1RYL._AC_SL1500_.jpg",
+    "keywords": "moon phase wall decor hanging gold",
+    "rating": "4.1 out of 5 stars",
+    "reviews": "327",
+    "categories": [
+      "decor",
+      "astrology",
+      "zodiac-horoscope"
+    ],
+    "elements": [
+      "water",
+      "metal"
+    ],
+    "zodiac": [],
+    "tags": [
+      "moon",
+      "decor",
+      "celestial",
+      "astrology"
+    ],
+    "icon": "moon",
+    "asin": "B0BZC14DSX"
+  },
+  {
+    "id": "manifestation-journal",
+    "name": "Manifestation & Gratitude Journal",
+    "nameZh": "显化与感恩日记",
+    "price": "$34.99",
+    "image": "https://m.media-amazon.com/images/I/81paU2uL8KL._AC_SL1500_.jpg",
+    "keywords": "manifestation journal law of attraction gratitude",
+    "rating": "4.7 out of 5 stars",
+    "reviews": "67",
+    "categories": [
+      "manifestation",
+      "self-help",
+      "journal"
+    ],
+    "elements": [
+      "wood",
+      "fire",
+      "earth",
+      "metal",
+      "water"
+    ],
+    "zodiac": [],
+    "tags": [
+      "journal",
+      "manifestation",
+      "gratitude",
+      "law-of-attraction"
+    ],
+    "icon": "book",
+    "asin": "B0FPP68MC7"
+  },
+  {
+    "id": "crystal-suncatcher",
+    "name": "Crystal Prism Suncatcher",
+    "nameZh": "水晶棱镜捕光挂饰",
+    "price": "$9.99",
+    "image": "https://m.media-amazon.com/images/I/51uN6sj8Q6L._AC_SL1500_.jpg",
+    "keywords": "crystal prism suncatcher hanging rainbow",
+    "rating": "4.8 out of 5 stars",
+    "reviews": "4128",
+    "categories": [
+      "decor",
+      "crystals",
+      "home"
+    ],
+    "elements": [
+      "water",
+      "metal"
+    ],
+    "zodiac": [],
+    "tags": [
+      "crystal",
+      "suncatcher",
+      "decor",
+      "rainbow"
+    ],
+    "icon": "crystal",
+    "asin": "B07HP22QTZ"
   }
 ]
