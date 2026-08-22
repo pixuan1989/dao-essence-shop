@@ -1137,9 +1137,6 @@ function generateArticleHtml(post, category, allArticles, options = {}) {
             <div class="amazon-products-grid">
                 ${picks.map(p => renderAmazonCard(p)).join('')}
             </div>
-            <p class="amazon-disclaimer">${isZh
-              ? '作為 Amazon Associate，我們可能從合格購買中獲得佣金（不影響售價）。'
-              : 'As an Amazon Associate we earn from qualifying purchases.'}</p>
         </section>`;
   }
 
@@ -1543,7 +1540,6 @@ function generateArticleHtml(post, category, allArticles, options = {}) {
         .amazon-price { font-size: 1.3rem; font-weight: 700; color: #d4af37; margin-bottom: 1rem; }
         .amazon-btn { display: inline-block; background: linear-gradient(135deg, #d4af37, #b8941f); color: #1a1512; font-weight: 700; font-size: 0.85rem; padding: 0.7rem 1.4rem; border-radius: 8px; text-decoration: none; transition: all 0.3s; }
         .amazon-btn:hover { background: linear-gradient(135deg, #e5c048, #d4af37); transform: translateY(-2px); }
-        .amazon-disclaimer { font-size: 0.7rem; color: #888; text-align: center; margin-top: 1.8rem; }
         /* Mid-article inline card */
         .amazon-product-card--inline { max-width: 440px; margin: 2.5rem auto; border-color: rgba(212,175,55,0.35); box-shadow: 0 6px 20px rgba(0,0,0,0.25); }
         .blog-sidebar .amazon-product-card { padding: 1rem; }
