@@ -301,18 +301,19 @@
             var orig = (p.originalPrice && p.price != null && p.originalPrice > p.price)
               ? '$' + Number(p.originalPrice).toFixed(2) : '';
             // 保留原有商品详情页逻辑：八字报告服务 → 排盘表单；
-            // 两款解锁商品 → 直接跳 Creem 付款；其余 → /product-detail?id=...
-            var isUnlock = p.id === 'prod_2wj3G9PQp6ZlbD8oFJdr2X' || p.id === 'prod_3fJInBNekM9UVJwtClgUtx';
+            // 两款工具解锁商品 → 跳到对应工具页（那里先收八字/信息再付款解锁）；
+            // 其余 → /product-detail?id=...
             var detailUrl;
             var btnText;
-            var linkAttrs = '';
             if (p.id === 'prod_28PqAKMEom5WGRH1w9O35n') {
               detailUrl = '/bazi-form';
               btnText = zh ? '查看詳情' : 'View Details';
-            } else if (isUnlock) {
-              detailUrl = 'https://www.creem.io/payment/' + encodeURIComponent(p.id);
-              btnText = zh ? '立即購買' : 'Buy Now';
-              linkAttrs = ' target="_blank" rel="noopener"';
+            } else if (p.id === 'prod_2wj3G9PQp6ZlbD8oFJdr2X') {
+              detailUrl = '/soulmate-calculator.html';
+              btnText = zh ? '前往解鎖' : 'Go to Tool';
+            } else if (p.id === 'prod_3fJInBNekM9UVJwtClgUtx') {
+              detailUrl = '/almanac.html';
+              btnText = zh ? '前往解鎖' : 'Go to Tool';
             } else {
               detailUrl = '/product-detail?id=' + encodeURIComponent(p.id);
               btnText = zh ? '查看詳情' : 'View Details';
@@ -325,7 +326,7 @@
               + '<div class="amazon-price">' + esc(price)
               + (orig ? ' <s style="color:#8a7f6d;font-weight:400;font-size:0.85rem">' + esc(orig) + '</s>' : '')
               + '</div>'
-              + '<a href="' + esc(detailUrl) + '"' + linkAttrs + ' class="digital-btn">'
+              + '<a href="' + esc(detailUrl) + '" class="digital-btn">'
               + btnText + '</a>'
               + '</div>';
           }).join('');
