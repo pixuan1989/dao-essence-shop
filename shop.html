@@ -137,7 +137,6 @@
     <div class="wrap">
       <div class="eyebrow" id="hero-eyebrow">DaoEssence Shop</div>
       <h1 id="hero-title">Shop</h1>
-      <p id="hero-desc">Your own digital resources and our editorially curated metaphysical finds — in one place. Switch between the two tabs below.</p>
     </div>
   </section>
 
@@ -147,7 +146,7 @@
       <button class="tab active" data-view="digital" id="tab-digital">My Digital Resources</button>
       <button class="tab" data-view="amazon" id="tab-amazon">Recommended Picks</button>
     </div>
-    <p class="view-desc" id="digital-desc">Your personal digital library — BaZi readings, courses, almanac &amp; soulmate unlocks, plus audio and wallpapers. Instant delivery after purchase.</p>
+    <p class="view-desc" id="digital-desc">Digital downloads and unlocks — instant delivery.</p>
 
     <!-- 视图 1：我的数字资源（Creem） -->
     <div id="view-digital" class="shop-view">
@@ -410,21 +409,19 @@
       en: {
         heroEyebrow: 'DaoEssence Shop',
         heroTitle: 'Shop',
-        heroDesc: 'Your own digital resources and our editorially curated metaphysical finds — in one place. Switch between the two tabs below.',
         tabDigital: 'My Digital Resources',
         tabAmazon: 'Recommended Picks',
-        digitalDesc: 'Your personal digital library — BaZi readings, courses, almanac & soulmate unlocks, plus audio and wallpapers. Instant delivery after purchase.',
-        amazonDesc: 'Carefully chosen Feng Shui, BaZi and Chinese-metaphysics essentials — books, jewelry, tools, decor and wellness. Every pick is aligned with the Five Elements, and re-ranked to your personal profile.',
+        digitalDesc: 'Digital downloads and unlocks — instant delivery.',
+        amazonDesc: 'Curated Feng Shui, BaZi, and metaphysical essentials.',
         tabs: { all: 'All', Books: 'Books', Jewelry: 'Jewelry', Tools: 'Tools', Decor: 'Decor', Wellness: 'Wellness' }
       },
       zh: {
         heroEyebrow: 'DaoEssence 商店',
         heroTitle: '商店',
-        heroDesc: '你的數字資源與我們嚴選的玄學好物，集中在一處。切換下方兩個標籤即可。',
         tabDigital: '我的數字資源',
         tabAmazon: '推薦好物',
-        digitalDesc: '你的個人數字圖書館——八字解讀、課程、黃曆與姻緣解鎖，以及音頻與桌布。購買後即時交付。',
-        amazonDesc: '嚴選風水、八字與中式玄學好物——書籍、飾品、法器、擺設與養生。每一件都呼應五行，並依你的個人命格重新排序。',
+        digitalDesc: '數字下載與解鎖，購後即時交付。',
+        amazonDesc: '嚴選風水、八字與玄學好物。',
         tabs: { all: '全部', Books: '書籍', Jewelry: '飾品', Tools: '法器', Decor: '擺設', Wellness: '養生' }
       }
     };
@@ -434,10 +431,10 @@
       var set = function (id, v) { var el = document.getElementById(id); if (el) el.textContent = v; };
       set('hero-eyebrow', dict.heroEyebrow);
       set('hero-title', dict.heroTitle);
-      set('hero-desc', dict.heroDesc);
       set('tab-digital', dict.tabDigital);
       set('tab-amazon', dict.tabAmazon);
-      set('digital-desc', dict.digitalDesc);
+      var isAmazon = document.getElementById('view-amazon') && document.getElementById('view-amazon').style.display !== 'none';
+      set('digital-desc', isAmazon ? dict.amazonDesc : dict.digitalDesc);
       var tabs = document.querySelectorAll('#shop-tabs .tab');
       tabs.forEach(function (btn) {
         var cat = btn.getAttribute('data-cat');
