@@ -878,5 +878,76 @@
     <script src="js/lucky-wallpapers.js"></script>
     <script src="js/lucky-cards.js"></script>
     <script src="js/chp-course-card.js"></script>
+
+
+<!-- i18n-critical-injected -->
+<script>
+(function(){
+  if (window.__I18N_CRIT_DONE__) return;
+  window.__I18N_CRIT_DONE__ = true;
+  try {
+    var SUPPORTED = ['en', 'zh'], DEFAULT = 'en', STORAGE_KEY = 'daoessence_lang';
+    function getSaved(){ try { return localStorage.getItem(STORAGE_KEY); } catch(e){ return null; } }
+    function detect(){ var n = navigator.language || navigator.userLanguage || ''; var c = n.split('-')[0].toLowerCase(); return SUPPORTED.indexOf(c) !== -1 ? c : null; }
+    function getInitial(){
+      var p = location.pathname;
+      if (p.indexOf('/zh/') === 0 || p === '/zh') return 'zh';
+      try { var params = new URLSearchParams(location.search); var ul = params.get('lang'); if (ul && SUPPORTED.indexOf(ul) !== -1) return ul; } catch(e){}
+      var s = getSaved(); if (s && SUPPORTED.indexOf(s) !== -1) return s;
+      var b = detect(); if (b) return b;
+      return DEFAULT;
+    }
+    var lang = getInitial();
+    if (lang !== 'zh') return; // 仅中文需要首屏预翻译
+    var DICT = {"common":{"home":"首頁","blog":"部落格","learn_bazi":"學八字","shop":"商城","about_us":"關於我們","five_elements":"五行"},"nav":{"tools":"工具","tool_bazi":"八字排盤","tool_favorable":"用神指南","tool_daily":"生肖運勢","tool_five":"五行性格測試","tool_soulmate":"靈魂伴侶尋找","tool_almanac":"吉日選擇","tool_wallpapers":"旺運壁紙","blog_all":"所有文章","blog_bazi":"八字占星","blog_zodiac":"生肖運勢","blog_fengshui":"家居風水","blog_elements":"五行文化"},"lb":{"eyebrow":"免費課程 · 6章","title":"學\u003cem>八字\u003c/em>","subtitle":"從五行、十神到大運與實際命盤解讀的完整指南。無需基礎知識。","ch1_title":"入門 — 你的出生時辰密碼","ch2_title":"八字如何揭示你的事业与爱情","ch3_title":"八字看学历与婚期：从命盘读出你能上什么学、何时结婚","ch4_title":"你的运势何时转变？（十年大运）","ch5_title":"八字看健康与灾期：预知体质弱点与风险年份","ch6_title":"神煞（Shen Sha）","faq_title":"常見問題","faq1_q":"什麼是八字（四柱命理）？","faq1_a":"八字，又稱四柱命理，是一種中國玄學體系，透過分析人的出生日期和時間來揭示性格特質、人生模式和關鍵事件的時機。它使用兩組字符——天干和地支——來構建四柱（年、月、日、時），每柱代表你人生的一個維度。與西方星座不同，八字提供高度個人化的解讀，因為它基於你的精確出生時刻，而不僅僅是月份或季節。","faq2_q":"學八字需要多長時間？","faq2_a":"大多數學生可以在 7–15 天的專注學習中掌握核心概念（五行、十神、命盤結構）。這門免費 6 章課程涵蓋了整個基礎。完成後，你將能夠識別日主、解讀基本命盤格局，並找出你的喜用神。大運分析和詳細事業解讀等進階技能需要持續練習和深入學習。","faq3_q":"不請教命理師，我能自己看八字嗎？","faq3_a":"可以。這門課程專為自學者設計。完成全部六章後，你將能夠分析自己的命盤，了解事業傾向、感情模式和喜用元素。許多八字實踐者都是自學成才。專業解讀可以提供更深層的洞察或發現你忽略的細節，但核心技能完全可以自學。","faq4_q":"八字與西方星座有什麼區別？","faq4_a":"八字和西方星座都使用出生時間，但運作方式不同。西方星座依賴行星位置和星座，給同月出生的人類似的解讀。八字使用中國曆法（天干地支）映射到你的精確出生年、月、日、時——使其遠遠更加個人化。同一天不同時辰出生的兩個人會有完全不同的八字命盤。八字還著重於實際人生應用（事業、婚姻時機、財富模式），而非性格描述。","faq5_q":"八字解讀需要精確的出生時辰嗎？","faq5_a":"精確的出生時辰決定第四柱（時柱），對詳細解讀很重要——尤其關乎事業、子女和晚年模式。但即使只有年、月、日（三柱），仍然可以獲得有意義的解讀。許多不知道精確出生時辰的人可以透過人生事件回溯來縮小範圍——這是命理師用來反推缺失時柱的技巧。","faq6_q":"八字中的十神是什麼？","faq6_a":"十神是十種關係類別，源自命盤中其他五行與日主（日柱的天干）的互動方式。它們包括印星（導師和知識）、食傷（創意和表達）、財星（收入和資源）、官殺（權威和事業）和比劫（同和競爭）。每個類別根據陰陽極性分為正偏兩種，共十種關係。十神是解讀任何八字命盤的核心分析框架。","outcomes_title":"學完這門課程後你能做什麼","outcomes_p1":"完成全部六章後，你將能夠查看任何八字命盤，識別其中編碼的核心優勢、挑戰和人生模式。具體來說，你會學會解讀四柱，並映射五行以理解它們如何在任何命盤中互動。你將能夠直接從十神配置中判斷事業格局——某人是否天生適合公務員、創業、企業職位或高風險投資。","outcomes_p2":"你將理解十年大運和年度流年如何塑造關鍵人生事件的時機，包括事業轉型、婚姻以及機遇或風險的高峰期。你也會學會識別感情信號——婚姻時機、合八字指標和影響伴侶關係的常見模式。","outcomes_p3":"除了預測，這門課還教你如何找出喜用神——八字中最實用的收穫——並用於日常的色彩、方位和時機決策。你還將獲得健康意識解讀、性格評估和風險期判斷的基礎技能，為深入研究或專業實踐打下基礎。","further_reading_title":"📚 延伸閱讀","fr_bazi_beginner":"什麼是八字？完整入門指南","fr_read_chart":"如何看懂八字命盤 — 循序漸進","fr_five_elements":"五行理論（Wu Xing）— 完整指南","fr_luck_cycles":"八字十年大運 — 完整指南"},"footer":{"brand_desc":"古老智慧，現代清晰。透過八字分析、風水諮詢與五行指導，以結構化洞察導航人生。","tools_title":"工具","tool_bazi":"八字排盤","tool_lucky":"用神指南","tool_five":"五行性格測試","tool_soulmate":"靈魂伴侶尋找","tool_almanac":"吉日選擇","tool_zodiac":"生肖运势","tool_wallpapers":"旺運壁紙","explore_title":"探索","links_title":"連結","fortune_desc":"中國算命\u003cbr>尋找靈魂伴侶","contact_title":"聯繫方式","wechat":"WeChat","hours":"週一至週六：上午 9 點至晚上 9 點（CST / UTC+8）","telegram_channel":"Telegram 頻道","copyright":"© 2026 DAO Essence & Five Elements. 保留所有權利。","privacy":"隱私權政策","terms":"服務條款"}};
+    if (!DICT || Object.keys(DICT).length === 0) return;
+    var orig = {};
+    function gnv(obj, key){ if(!obj||!key) return null; return key.split('.').reduce(function(o,k){ return (o&&o[k]!==undefined)?o[k]:null; }, obj); }
+    // data-i18n
+    var els = document.querySelectorAll('[data-i18n]');
+    for (var i = 0; i < els.length; i++){
+      var el = els[i]; var k = el.getAttribute('data-i18n');
+      if (k && !orig[k]) orig[k] = el.innerHTML;
+      var v = gnv(DICT, k); if (typeof v === 'string') el.innerHTML = v;
+    }
+    // placeholder
+    var phs = document.querySelectorAll('[data-i18n-placeholder]');
+    for (var pi = 0; pi < phs.length; pi++){
+      var pe = phs[pi]; var pk = pe.getAttribute('data-i18n-placeholder');
+      var ck = '__placeholder__' + pk;
+      if (pk && !orig[ck]) orig[ck] = pe.getAttribute('placeholder');
+      var pv = gnv(DICT, pk); if (typeof pv === 'string') pe.setAttribute('placeholder', pv);
+    }
+    // prefix / suffix
+    var pfx = document.querySelectorAll('[data-i18n-prefix]');
+    for (var j = 0; j < pfx.length; j++){
+      var pel = pfx[j]; var ck2 = '__prefix_suffix__' + j;
+      pel.setAttribute('data-i18n-cache-key', ck2);
+      if (!orig[ck2]) orig[ck2] = pel.innerHTML;
+      var pv2 = gnv(DICT, pel.getAttribute('data-i18n-prefix')) || '';
+      var sv2 = gnv(DICT, pel.getAttribute('data-i18n-suffix')) || '';
+      var kids = []; for (var c = 0; c < pel.childNodes.length; c++) kids.push(pel.childNodes[c].cloneNode(true));
+      pel.textContent = '';
+      if (typeof pv2 === 'string' && pv2) pel.appendChild(document.createTextNode(pv2 + ' '));
+      for (var k2 = 0; k2 < kids.length; k2++) pel.appendChild(kids[k2]);
+      if (typeof sv2 === 'string' && sv2) pel.appendChild(document.createTextNode(' ' + sv2));
+    }
+    // data-zh-* （中文直接写在属性值里）
+    var zmap = [['data-zh-cat','__zhcat__'],['data-zh-text','__zhtext__'],['data-zh-title','__zhtitle__'],['data-zh-desc','__zhdesc__'],['data-zh-faq','__zhfaq__'],['data-zh-faq-a','__zhfqa__']];
+    for (var z = 0; z < zmap.length; z++){
+      var attr = zmap[z][0], pre = zmap[z][1];
+      var nodes = document.querySelectorAll('[' + attr + ']');
+      for (var zi = 0; zi < nodes.length; zi++){
+        var n = nodes[zi]; var key = pre + zi;
+        if (!orig[key]) orig[key] = n.textContent;
+        var val = n.getAttribute(attr); if (val) n.textContent = val;
+      }
+    }
+    window.__I18N_CRIT_ORIGINAL__ = orig;
+    try { document.documentElement.lang = 'zh-Hant'; } catch(e){}
+  } catch(e){}
+})();
+</script>
+
 </body>
 </html>

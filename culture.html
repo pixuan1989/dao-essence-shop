@@ -1006,5 +1006,76 @@
     </script>
     <script src="/js/i18n-switcher.js" defer></script>
     <script src="/js/feedback.js" async></script>
+
+
+<!-- i18n-critical-injected -->
+<script>
+(function(){
+  if (window.__I18N_CRIT_DONE__) return;
+  window.__I18N_CRIT_DONE__ = true;
+  try {
+    var SUPPORTED = ['en', 'zh'], DEFAULT = 'en', STORAGE_KEY = 'daoessence_lang';
+    function getSaved(){ try { return localStorage.getItem(STORAGE_KEY); } catch(e){ return null; } }
+    function detect(){ var n = navigator.language || navigator.userLanguage || ''; var c = n.split('-')[0].toLowerCase(); return SUPPORTED.indexOf(c) !== -1 ? c : null; }
+    function getInitial(){
+      var p = location.pathname;
+      if (p.indexOf('/zh/') === 0 || p === '/zh') return 'zh';
+      try { var params = new URLSearchParams(location.search); var ul = params.get('lang'); if (ul && SUPPORTED.indexOf(ul) !== -1) return ul; } catch(e){}
+      var s = getSaved(); if (s && SUPPORTED.indexOf(s) !== -1) return s;
+      var b = detect(); if (b) return b;
+      return DEFAULT;
+    }
+    var lang = getInitial();
+    if (lang !== 'zh') return; // 仅中文需要首屏预翻译
+    var DICT = {"common":{"home":"首頁","blog":"部落格","learn_bazi":"學八字","shop":"商城","about_us":"關於我們","five_elements":"五行"},"nav":{"tools":"工具","tool_bazi":"八字排盤","tool_favorable":"用神指南","tool_daily":"生肖運勢","tool_five":"五行性格測試","tool_soulmate":"靈魂伴侶尋找","tool_almanac":"吉日選擇","tool_wallpapers":"旺運壁紙","blog_all":"所有文章","blog_bazi":"八字占星","blog_zodiac":"生肖運勢","blog_fengshui":"家居風水","blog_elements":"五行文化"},"culture":{"hero_subtitle":"五行","hero_title":"五行","hero_desc":"五行（木、火、土、金、水）是每張八字命盤的基礎。理解它們，你就掌握了解讀自身命運的關鍵。","section1_subtitle":"基礎理論","section1_title":"五行如何運作","section1_desc":"天地萬物由五種基本力量構成：木、火、土、金、水。它們相生相剋，循環不息——你的八字命盤正是你出生那一刻這些元素的快照。","sheng_cycle":"木生火、火生土、土生金、金生水、水生木","ke_cycle":"木剋土、土剋水、水剋火、火剋金、金剋木","section2_subtitle":"認識五行","section2_title":"五行與你的生活","section2_desc":"每種元素對應特定的臟腑、情緒、季節與性格特質。你的八字命盤揭示哪些元素旺、弱或缺失——這個 profile 塑造了你的為人。","wood_name":"木","wood_tagline":"春季 · 肝臟 · 進取 · 向前衝","wood_desc":"木型人是天生的開創者——充滿遠見、推動事物向前發展。木氣平衡時展現善良與靈活；過旺則顯露急躁與固執。","wood_tip1":"衣著與居家空間加入綠色系","wood_tip2":"清晨在大自然中散步","wood_tip3":"深綠色蔬菜、酸味食物","wood_tip4":"創意高峰：清晨","fire_name":"火","fire_tagline":"夏季 · 心臟 · 熱情 · 連結","fire_desc":"火型人極具魅力——富感染力、善表達、天生的社交磁場。火氣平衡帶來溫暖與喜悅；過旺則引發躁動與耗竭。","fire_tip1":"暖色調——紅色、橙色、紫色","fire_tip2":"深度有意義的社交連結","fire_tip3":"莓果類、黑巧克力","fire_tip4":"能量高峰：正午","earth_name":"土","earth_tagline":"長夏 · 脾臟 · 穩定 · 滋養","earth_desc":"土型人是可靠的中心——踏實、耐心、體貼入微，是凝聚眾人的力量。風險在於過度思慮、困於舒適圈。","earth_tip1":"米色、棕色、黃色系","earth_tip2":"規律穩定的日常作息","earth_tip3":"溫熱熟食——湯品與燉煮料理","earth_tip4":"最佳專注：上午稍晚","metal_name":"金","metal_tagline":"秋季 · 肺臟 · 結構 · 精準","metal_desc":"金型人重視誠信與清晰的界限，擅長整合複雜系統、去蕪存菁。風險在於過於僵化或情感疏離。","metal_tip1":"白色、銀色、金色系","metal_tip2":"呼吸練習與規律運動","metal_tip3":"薑、蒜、辛辣食物","metal_tip4":"最敏銳時段：午後","water_name":"水","water_tagline":"冬季 · 腎臟 · 深度 · 直覺","water_desc":"水型人思慮深邃、應變靈活，蘊藏他人所依賴的內在智慧。風險在於優柔寡斷、退縮，讓動能消散。","water_tip1":"藍色與黑色系","water_tip2":"親近水域——海洋、河流","water_tip3":"鹹味食物、海鮮","water_tip4":"直覺高峰：傍晚","balance_title":"陰陽平衡","balance_desc":"五行存在於更廣闊的陰陽框架之中——這兩種互補力量支撐著整個中國哲學體系。每張命盤都有其獨特的元素組合，沒有任何兩張完全相同。某一領域的強盛往往意味著另一領域的薄弱。完整的八字解讀能梳理這些動態，揭示你的元素 profile 對人生道路的真正意義。","faq_title":"常見問題","faq1_q":"中國玄學中的五行是什麼？","faq1_a":"五行（五行，Wu Xing）是木、火、土、金、水——五種透過相生相剋循環互動的基本力量。在八字（中國占星術）中，每個人都依據出生日期與時辰，擁有獨特的元素組成，揭示其性格、優勢與人生模式。","faq2_q":"如何知道我在八字中屬於哪個元素？","faq2_a":"你的主要元素由日主決定——即你出生那天的天干。例如，若你生於甲日，日主便是木。只需輸入出生日期與時辰，我們的免費八字計算器即可立刻找出你的日主。","faq3_q":"八字命盤中缺少某個元素會怎樣？","faq3_a":"缺少某元素並不意味著災難——只是那種特質對你而言較難獲取。例如，缺水可能暗示適應力或深度反思的困難，缺火則可能影響社交自信。關鍵在於理解哪些元素支持或挑戰你的日主，而非單純計算有無。","faq4_q":"五行與健康有何關聯？","faq4_a":"在中醫中，每種元素對應特定臟腑：木對應肝膽、火對應心臟、土對應脾胃、金對應肺臟、水對應腎臟。命盤中的失衡可能指向相應部位的潛在弱點——這是預防性的參考框架，而非診斷工具。","faq5_q":"五行能幫助我選擇職業嗎？","faq5_a":"可以。你的日主元素揭示天生的工作風格。木型人在創意與成長導向的崗位如魚得水；火型人在溝通與領導上出類拔萃；土型人在服務與穩定崗位發光；金型人偏好結構與精準；水型人擅長策略與研究。完整的八字解讀能將你的元素優勢對應到具體職業路徑。","faq6_q":"五行的相生循環（生）是什麼？","faq6_a":"木生火、火生土、土生金、金生水、水生木。這個循環代表滋養、支持與成長。在八字中，了解哪些元素滋養你的日主，有助找到最適合你的環境與人際關係。","faq7_q":"以五行為基礎的八字解讀有多準確？","faq7_a":"八字歷經兩千多年的精煉，建立在精確的天文計算之上，而非直覺。準確度取決於兩件事：正確的出生資料（日期、時辰、地點）以及有經驗的解讀者。我們的計算器完美處理計算部分——洞察力來自對命盤規律的解讀。","cta_title":"探索你的元素 Profile","cta_desc":"你的八字命盤記錄了你出生時刻五行的狀態。輸入出生資訊，即可看到你的元素組成、日主與詳細解讀——只需幾秒鐘。","cta_btn":"免費八字排盤"},"footer":{"brand_desc":"古老智慧，現代清晰。透過八字分析、風水諮詢與五行指導，以結構化洞察導航人生。","tools_title":"工具","tool_bazi":"八字排盤","tool_lucky":"用神指南","tool_five":"五行性格測試","tool_soulmate":"靈魂伴侶尋找","tool_almanac":"吉日選擇","tool_zodiac":"生肖运势","explore_title":"探索","links_title":"連結","fortune_desc":"中國算命\u003cbr>尋找靈魂伴侶","contact_title":"聯繫方式","wechat":"WeChat","hours":"週一至週六：上午 9 點至晚上 9 點（CST / UTC+8）","telegram_channel":"Telegram 頻道","copyright":"© 2026 DAO Essence & Five Elements. 保留所有權利。","privacy":"隱私權政策","terms":"服務條款"}};
+    if (!DICT || Object.keys(DICT).length === 0) return;
+    var orig = {};
+    function gnv(obj, key){ if(!obj||!key) return null; return key.split('.').reduce(function(o,k){ return (o&&o[k]!==undefined)?o[k]:null; }, obj); }
+    // data-i18n
+    var els = document.querySelectorAll('[data-i18n]');
+    for (var i = 0; i < els.length; i++){
+      var el = els[i]; var k = el.getAttribute('data-i18n');
+      if (k && !orig[k]) orig[k] = el.innerHTML;
+      var v = gnv(DICT, k); if (typeof v === 'string') el.innerHTML = v;
+    }
+    // placeholder
+    var phs = document.querySelectorAll('[data-i18n-placeholder]');
+    for (var pi = 0; pi < phs.length; pi++){
+      var pe = phs[pi]; var pk = pe.getAttribute('data-i18n-placeholder');
+      var ck = '__placeholder__' + pk;
+      if (pk && !orig[ck]) orig[ck] = pe.getAttribute('placeholder');
+      var pv = gnv(DICT, pk); if (typeof pv === 'string') pe.setAttribute('placeholder', pv);
+    }
+    // prefix / suffix
+    var pfx = document.querySelectorAll('[data-i18n-prefix]');
+    for (var j = 0; j < pfx.length; j++){
+      var pel = pfx[j]; var ck2 = '__prefix_suffix__' + j;
+      pel.setAttribute('data-i18n-cache-key', ck2);
+      if (!orig[ck2]) orig[ck2] = pel.innerHTML;
+      var pv2 = gnv(DICT, pel.getAttribute('data-i18n-prefix')) || '';
+      var sv2 = gnv(DICT, pel.getAttribute('data-i18n-suffix')) || '';
+      var kids = []; for (var c = 0; c < pel.childNodes.length; c++) kids.push(pel.childNodes[c].cloneNode(true));
+      pel.textContent = '';
+      if (typeof pv2 === 'string' && pv2) pel.appendChild(document.createTextNode(pv2 + ' '));
+      for (var k2 = 0; k2 < kids.length; k2++) pel.appendChild(kids[k2]);
+      if (typeof sv2 === 'string' && sv2) pel.appendChild(document.createTextNode(' ' + sv2));
+    }
+    // data-zh-* （中文直接写在属性值里）
+    var zmap = [['data-zh-cat','__zhcat__'],['data-zh-text','__zhtext__'],['data-zh-title','__zhtitle__'],['data-zh-desc','__zhdesc__'],['data-zh-faq','__zhfaq__'],['data-zh-faq-a','__zhfqa__']];
+    for (var z = 0; z < zmap.length; z++){
+      var attr = zmap[z][0], pre = zmap[z][1];
+      var nodes = document.querySelectorAll('[' + attr + ']');
+      for (var zi = 0; zi < nodes.length; zi++){
+        var n = nodes[zi]; var key = pre + zi;
+        if (!orig[key]) orig[key] = n.textContent;
+        var val = n.getAttribute(attr); if (val) n.textContent = val;
+      }
+    }
+    window.__I18N_CRIT_ORIGINAL__ = orig;
+    try { document.documentElement.lang = 'zh-Hant'; } catch(e){}
+  } catch(e){}
+})();
+</script>
+
 </body>
 </html>

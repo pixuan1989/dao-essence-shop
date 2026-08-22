@@ -2077,5 +2077,76 @@
     </script>
     
     <script src="js/amazon-affiliate.js?v=6" defer></script>
+
+
+<!-- i18n-critical-injected -->
+<script>
+(function(){
+  if (window.__I18N_CRIT_DONE__) return;
+  window.__I18N_CRIT_DONE__ = true;
+  try {
+    var SUPPORTED = ['en', 'zh'], DEFAULT = 'en', STORAGE_KEY = 'daoessence_lang';
+    function getSaved(){ try { return localStorage.getItem(STORAGE_KEY); } catch(e){ return null; } }
+    function detect(){ var n = navigator.language || navigator.userLanguage || ''; var c = n.split('-')[0].toLowerCase(); return SUPPORTED.indexOf(c) !== -1 ? c : null; }
+    function getInitial(){
+      var p = location.pathname;
+      if (p.indexOf('/zh/') === 0 || p === '/zh') return 'zh';
+      try { var params = new URLSearchParams(location.search); var ul = params.get('lang'); if (ul && SUPPORTED.indexOf(ul) !== -1) return ul; } catch(e){}
+      var s = getSaved(); if (s && SUPPORTED.indexOf(s) !== -1) return s;
+      var b = detect(); if (b) return b;
+      return DEFAULT;
+    }
+    var lang = getInitial();
+    if (lang !== 'zh') return; // 仅中文需要首屏预翻译
+    var DICT = {"sc":{"hero_badge":"古老智慧遇見現代愛情","hero_title":"你將在哪裡遇見\u003cbr>你的\u003cem>靈魂伴侶\u003c/em>？","hero_sub":"你的出生日期蘊含著命中注定的愛情遇見的地圖。基於兩千年的中國占星術，揭示你靈魂伴侶連結的方向、時機與本質。","feat1_title":"方向","feat1_question":"在哪裡？","feat1_desc":"與你靈魂伴侶能量最對齊的地理方位","feat2_title":"時機","feat2_question":"何時？","feat2_desc":"你愛情能量最強的生命階段","feat3_title":"愛情風格","feat3_question":"怎樣？","feat3_desc":"根據五行推導出的獨特關係模式","divider_text":"輸入你的出生資訊","form_title":"你的愛情藍圖等待著你","form_subtitle":"所有欄位皆為必填，以獲得準確的解讀","form_year":"年","form_month":"月","form_day":"日","form_birthplace":"出生地（城市、州／省、國家）","form_gender":"性別","form_male":"男","form_female":"女","form_hour":"出生時辰（選填，提升準確度）","form_unknown":"未知","form_submit":"尋找你的靈魂伴侶 →","form_consent":"我同意\u003ca href=\"/privacy\" style=\"color:rgba(255,255,255,0.85);text-decoration:underline;\">隱私權政策\u003c/a>——我的出生資料僅用於此次解讀，不會被儲存。","form_note":"立即開始 · 無需註冊 · 基於八字與五行占星","trust_private":"100% 隱私保護","trust_wisdom":"2000+ 年智慧","trust_care":"精心打造","loading_title":"正在讀取你的星象...","loading_desc":"分析你愛情命運的天體地圖","load_step1":"計算你的天干與地支","load_step2":"繪製你的五行愛情 profile","load_step3":"繪製你的愛情方向","load_step4":"揭示你的愛情時機與風格","result_badge":"你的靈魂伴侶解讀","result_title_prefix":"你的","result_title_suffix":"藍圖","card_direction_label":"愛情方向","card_direction_title":"你將在哪裡遇見靈魂伴侶","card_timing_label":"愛情時機","card_timing_title":"何時愛情會降臨","card_style_label":"愛情風格","card_style_title":"你的關係藍圖","pay_title":"解鎖你的完整愛情時間線","pay_badge_onetime":"一次性付款","pay_badge_lifetime":"永久使用","pay_badge_nosub":"無需訂閱","pay_desc":"查看你5年的愛情時機預測，每一年都有詳細的八字合八字分數。","pay_btn":"立即解鎖","pay_later":"以後再說","back_btn":"← 試試另一個出生日期","footer":"&copy; 2026 \u003ca href=\"/\">DAO Essence\u003c/a> &middot; 古老智慧，現代清晰","footer_disclaimer":"此解讀僅供娛樂與自我反思之用。"}};
+    if (!DICT || Object.keys(DICT).length === 0) return;
+    var orig = {};
+    function gnv(obj, key){ if(!obj||!key) return null; return key.split('.').reduce(function(o,k){ return (o&&o[k]!==undefined)?o[k]:null; }, obj); }
+    // data-i18n
+    var els = document.querySelectorAll('[data-i18n]');
+    for (var i = 0; i < els.length; i++){
+      var el = els[i]; var k = el.getAttribute('data-i18n');
+      if (k && !orig[k]) orig[k] = el.innerHTML;
+      var v = gnv(DICT, k); if (typeof v === 'string') el.innerHTML = v;
+    }
+    // placeholder
+    var phs = document.querySelectorAll('[data-i18n-placeholder]');
+    for (var pi = 0; pi < phs.length; pi++){
+      var pe = phs[pi]; var pk = pe.getAttribute('data-i18n-placeholder');
+      var ck = '__placeholder__' + pk;
+      if (pk && !orig[ck]) orig[ck] = pe.getAttribute('placeholder');
+      var pv = gnv(DICT, pk); if (typeof pv === 'string') pe.setAttribute('placeholder', pv);
+    }
+    // prefix / suffix
+    var pfx = document.querySelectorAll('[data-i18n-prefix]');
+    for (var j = 0; j < pfx.length; j++){
+      var pel = pfx[j]; var ck2 = '__prefix_suffix__' + j;
+      pel.setAttribute('data-i18n-cache-key', ck2);
+      if (!orig[ck2]) orig[ck2] = pel.innerHTML;
+      var pv2 = gnv(DICT, pel.getAttribute('data-i18n-prefix')) || '';
+      var sv2 = gnv(DICT, pel.getAttribute('data-i18n-suffix')) || '';
+      var kids = []; for (var c = 0; c < pel.childNodes.length; c++) kids.push(pel.childNodes[c].cloneNode(true));
+      pel.textContent = '';
+      if (typeof pv2 === 'string' && pv2) pel.appendChild(document.createTextNode(pv2 + ' '));
+      for (var k2 = 0; k2 < kids.length; k2++) pel.appendChild(kids[k2]);
+      if (typeof sv2 === 'string' && sv2) pel.appendChild(document.createTextNode(' ' + sv2));
+    }
+    // data-zh-* （中文直接写在属性值里）
+    var zmap = [['data-zh-cat','__zhcat__'],['data-zh-text','__zhtext__'],['data-zh-title','__zhtitle__'],['data-zh-desc','__zhdesc__'],['data-zh-faq','__zhfaq__'],['data-zh-faq-a','__zhfqa__']];
+    for (var z = 0; z < zmap.length; z++){
+      var attr = zmap[z][0], pre = zmap[z][1];
+      var nodes = document.querySelectorAll('[' + attr + ']');
+      for (var zi = 0; zi < nodes.length; zi++){
+        var n = nodes[zi]; var key = pre + zi;
+        if (!orig[key]) orig[key] = n.textContent;
+        var val = n.getAttribute(attr); if (val) n.textContent = val;
+      }
+    }
+    window.__I18N_CRIT_ORIGINAL__ = orig;
+    try { document.documentElement.lang = 'zh-Hant'; } catch(e){}
+  } catch(e){}
+})();
+</script>
+
 </body>
 </html>

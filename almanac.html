@@ -2407,5 +2407,76 @@
         }
     });
     </script>
+
+
+<!-- i18n-critical-injected -->
+<script>
+(function(){
+  if (window.__I18N_CRIT_DONE__) return;
+  window.__I18N_CRIT_DONE__ = true;
+  try {
+    var SUPPORTED = ['en', 'zh'], DEFAULT = 'en', STORAGE_KEY = 'daoessence_lang';
+    function getSaved(){ try { return localStorage.getItem(STORAGE_KEY); } catch(e){ return null; } }
+    function detect(){ var n = navigator.language || navigator.userLanguage || ''; var c = n.split('-')[0].toLowerCase(); return SUPPORTED.indexOf(c) !== -1 ? c : null; }
+    function getInitial(){
+      var p = location.pathname;
+      if (p.indexOf('/zh/') === 0 || p === '/zh') return 'zh';
+      try { var params = new URLSearchParams(location.search); var ul = params.get('lang'); if (ul && SUPPORTED.indexOf(ul) !== -1) return ul; } catch(e){}
+      var s = getSaved(); if (s && SUPPORTED.indexOf(s) !== -1) return s;
+      var b = detect(); if (b) return b;
+      return DEFAULT;
+    }
+    var lang = getInitial();
+    if (lang !== 'zh') return; // 仅中文需要首屏预翻译
+    var DICT = {"almanac":{"nav_back":"返回首頁","setup_badge":"BaZi + 黃曆","setup_title":"專屬吉日選擇器","setup_sub":"輸入你的出生資訊，獲得專屬吉日推薦。每個人的最佳日子都不同。","form_year":"出生年份","form_month":"出生月份","form_day":"出生日期","form_hour":"出生時辰","form_unknown":"未知","form_gender":"性別","form_male":"男","form_female":"女","form_submit":"找出我的最佳日子","loading_text1":"正在分析你的八字命盤…","pb_daymaster":"日主：","pb_favorable":"喜用：","pb_avoid":"忌：","retry":"更改出生資訊","hero_title":"吉日選擇器 — 找出你的最佳日子","hero_subtitle":"為人生重大時刻挑選完美日子——婚禮、搬家、創業等——由兩千年的中國占星智慧引導","divider1_title":"挑選你的最佳日子","divider1_desc":"選擇你的計劃，我們將為你找出本月最吉利的日期","scenario_marry":"結婚","scenario_business":"創業","scenario_moving":"搬家","scenario_contract":"簽約","scenario_travel":"旅行／度假","scenario_purchase":"大額購物","scenario_medical":"醫療手術","scenario_housewarm":"入宅","scenario_engagement":"訂婚","scenario_interview":"面試","scenario_pet_vet":"寵物就醫","scenario_date":"約會","divider2_title":"瀏覽本月","divider2_desc":"點擊任何一天查看其能量特徵","pay_title":"解鎖所有功能","pay_badge_onetime":"一次性付款","pay_badge_lifetime":"永久使用","pay_badge_nosub":"無需訂閱","pay_desc":"解鎖全部12種活動規劃器——永遠為你找到完美日子。","pay_btn":"立即解鎖","pay_later":"以後再說","footer_blog":"部落格","footer_tagline":"DAO Essence — 古老智慧，現代指引"}};
+    if (!DICT || Object.keys(DICT).length === 0) return;
+    var orig = {};
+    function gnv(obj, key){ if(!obj||!key) return null; return key.split('.').reduce(function(o,k){ return (o&&o[k]!==undefined)?o[k]:null; }, obj); }
+    // data-i18n
+    var els = document.querySelectorAll('[data-i18n]');
+    for (var i = 0; i < els.length; i++){
+      var el = els[i]; var k = el.getAttribute('data-i18n');
+      if (k && !orig[k]) orig[k] = el.innerHTML;
+      var v = gnv(DICT, k); if (typeof v === 'string') el.innerHTML = v;
+    }
+    // placeholder
+    var phs = document.querySelectorAll('[data-i18n-placeholder]');
+    for (var pi = 0; pi < phs.length; pi++){
+      var pe = phs[pi]; var pk = pe.getAttribute('data-i18n-placeholder');
+      var ck = '__placeholder__' + pk;
+      if (pk && !orig[ck]) orig[ck] = pe.getAttribute('placeholder');
+      var pv = gnv(DICT, pk); if (typeof pv === 'string') pe.setAttribute('placeholder', pv);
+    }
+    // prefix / suffix
+    var pfx = document.querySelectorAll('[data-i18n-prefix]');
+    for (var j = 0; j < pfx.length; j++){
+      var pel = pfx[j]; var ck2 = '__prefix_suffix__' + j;
+      pel.setAttribute('data-i18n-cache-key', ck2);
+      if (!orig[ck2]) orig[ck2] = pel.innerHTML;
+      var pv2 = gnv(DICT, pel.getAttribute('data-i18n-prefix')) || '';
+      var sv2 = gnv(DICT, pel.getAttribute('data-i18n-suffix')) || '';
+      var kids = []; for (var c = 0; c < pel.childNodes.length; c++) kids.push(pel.childNodes[c].cloneNode(true));
+      pel.textContent = '';
+      if (typeof pv2 === 'string' && pv2) pel.appendChild(document.createTextNode(pv2 + ' '));
+      for (var k2 = 0; k2 < kids.length; k2++) pel.appendChild(kids[k2]);
+      if (typeof sv2 === 'string' && sv2) pel.appendChild(document.createTextNode(' ' + sv2));
+    }
+    // data-zh-* （中文直接写在属性值里）
+    var zmap = [['data-zh-cat','__zhcat__'],['data-zh-text','__zhtext__'],['data-zh-title','__zhtitle__'],['data-zh-desc','__zhdesc__'],['data-zh-faq','__zhfaq__'],['data-zh-faq-a','__zhfqa__']];
+    for (var z = 0; z < zmap.length; z++){
+      var attr = zmap[z][0], pre = zmap[z][1];
+      var nodes = document.querySelectorAll('[' + attr + ']');
+      for (var zi = 0; zi < nodes.length; zi++){
+        var n = nodes[zi]; var key = pre + zi;
+        if (!orig[key]) orig[key] = n.textContent;
+        var val = n.getAttribute(attr); if (val) n.textContent = val;
+      }
+    }
+    window.__I18N_CRIT_ORIGINAL__ = orig;
+    try { document.documentElement.lang = 'zh-Hant'; } catch(e){}
+  } catch(e){}
+})();
+</script>
+
 </body>
 </html>

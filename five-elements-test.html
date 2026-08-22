@@ -1898,5 +1898,76 @@ document.addEventListener('click', function(e) {
 
 </main>
     <script src="/js/feedback.js" async></script>
+
+
+<!-- i18n-critical-injected -->
+<script>
+(function(){
+  if (window.__I18N_CRIT_DONE__) return;
+  window.__I18N_CRIT_DONE__ = true;
+  try {
+    var SUPPORTED = ['en', 'zh'], DEFAULT = 'en', STORAGE_KEY = 'daoessence_lang';
+    function getSaved(){ try { return localStorage.getItem(STORAGE_KEY); } catch(e){ return null; } }
+    function detect(){ var n = navigator.language || navigator.userLanguage || ''; var c = n.split('-')[0].toLowerCase(); return SUPPORTED.indexOf(c) !== -1 ? c : null; }
+    function getInitial(){
+      var p = location.pathname;
+      if (p.indexOf('/zh/') === 0 || p === '/zh') return 'zh';
+      try { var params = new URLSearchParams(location.search); var ul = params.get('lang'); if (ul && SUPPORTED.indexOf(ul) !== -1) return ul; } catch(e){}
+      var s = getSaved(); if (s && SUPPORTED.indexOf(s) !== -1) return s;
+      var b = detect(); if (b) return b;
+      return DEFAULT;
+    }
+    var lang = getInitial();
+    if (lang !== 'zh') return; // 仅中文需要首屏预翻译
+    var DICT = {"fivet":{"nav_logo":"DAO ESSENCE","hero_badge":"古老智慧與你的相遇","hero_title":"五行性格測試：\u003cbr>你的\u003cem>核心優勢\u003c/em>是什麼？","hero_sub":"結合八字命盤與性格問答，找出你的五行屬性，了解這份性格賦予你的獨特優勢。","element_wood":"木","element_fire":"火","element_earth":"土","element_metal":"金","element_water":"水","form_year":"年","form_month":"月","form_day":"日","form_hour":"出生時辰 \u003cspan style=\"opacity:0.5\">（選填）\u003c/span>","form_unknown":"不詳","form_gender":"性別","form_male":"男","form_female":"女","form_submit":"揭曉我的元素 →","form_consent":"我同意\u003ca href=\"/privacy\" style=\"color:rgba(255,255,255,0.85);text-decoration:underline;\">隱私權政策\u003c/a>——我的出生資料僅用於此測試，不會被儲存。","form_note":"30 秒完成 · 5 道快速題目 · 永久免費","quiz_title":"快速性格測試","quiz_back":"← 上一題","quiz_skip":"跳過題目 →","quiz_next":"下一題 →","loading_text":"正在計算你的五行藍圖……","result_title":"你的五行藍圖","cta_title":"你的完整八字報告 — $9.99","cta_desc":"把你的五行組合轉化成完整人生指南：職業方向、感情模式、健康警示與運勢時機——根據你的精確出生資料量身打造的專屬 PDF 報告。","cta_button":"解鎖我的完整報告 →","cta_privacy":"透過 Creem 安全付款。報告將在 48 小時內寄送到你的電子郵件。","success_msg":"正在跳轉到安全付款頁……","footer":"\u003ca href=\"/blog/\">部落格\u003c/a> &middot; &copy; 2024-2026 DAO Essence。基於傳統五行理論（Wu Xing）與八字計算。"}};
+    if (!DICT || Object.keys(DICT).length === 0) return;
+    var orig = {};
+    function gnv(obj, key){ if(!obj||!key) return null; return key.split('.').reduce(function(o,k){ return (o&&o[k]!==undefined)?o[k]:null; }, obj); }
+    // data-i18n
+    var els = document.querySelectorAll('[data-i18n]');
+    for (var i = 0; i < els.length; i++){
+      var el = els[i]; var k = el.getAttribute('data-i18n');
+      if (k && !orig[k]) orig[k] = el.innerHTML;
+      var v = gnv(DICT, k); if (typeof v === 'string') el.innerHTML = v;
+    }
+    // placeholder
+    var phs = document.querySelectorAll('[data-i18n-placeholder]');
+    for (var pi = 0; pi < phs.length; pi++){
+      var pe = phs[pi]; var pk = pe.getAttribute('data-i18n-placeholder');
+      var ck = '__placeholder__' + pk;
+      if (pk && !orig[ck]) orig[ck] = pe.getAttribute('placeholder');
+      var pv = gnv(DICT, pk); if (typeof pv === 'string') pe.setAttribute('placeholder', pv);
+    }
+    // prefix / suffix
+    var pfx = document.querySelectorAll('[data-i18n-prefix]');
+    for (var j = 0; j < pfx.length; j++){
+      var pel = pfx[j]; var ck2 = '__prefix_suffix__' + j;
+      pel.setAttribute('data-i18n-cache-key', ck2);
+      if (!orig[ck2]) orig[ck2] = pel.innerHTML;
+      var pv2 = gnv(DICT, pel.getAttribute('data-i18n-prefix')) || '';
+      var sv2 = gnv(DICT, pel.getAttribute('data-i18n-suffix')) || '';
+      var kids = []; for (var c = 0; c < pel.childNodes.length; c++) kids.push(pel.childNodes[c].cloneNode(true));
+      pel.textContent = '';
+      if (typeof pv2 === 'string' && pv2) pel.appendChild(document.createTextNode(pv2 + ' '));
+      for (var k2 = 0; k2 < kids.length; k2++) pel.appendChild(kids[k2]);
+      if (typeof sv2 === 'string' && sv2) pel.appendChild(document.createTextNode(' ' + sv2));
+    }
+    // data-zh-* （中文直接写在属性值里）
+    var zmap = [['data-zh-cat','__zhcat__'],['data-zh-text','__zhtext__'],['data-zh-title','__zhtitle__'],['data-zh-desc','__zhdesc__'],['data-zh-faq','__zhfaq__'],['data-zh-faq-a','__zhfqa__']];
+    for (var z = 0; z < zmap.length; z++){
+      var attr = zmap[z][0], pre = zmap[z][1];
+      var nodes = document.querySelectorAll('[' + attr + ']');
+      for (var zi = 0; zi < nodes.length; zi++){
+        var n = nodes[zi]; var key = pre + zi;
+        if (!orig[key]) orig[key] = n.textContent;
+        var val = n.getAttribute(attr); if (val) n.textContent = val;
+      }
+    }
+    window.__I18N_CRIT_ORIGINAL__ = orig;
+    try { document.documentElement.lang = 'zh-Hant'; } catch(e){}
+  } catch(e){}
+})();
+</script>
+
 </body>
 </html>

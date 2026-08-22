@@ -667,5 +667,76 @@
 
     <script src="main.js"></script>
     <script src="js/i18n-switcher.js"></script>
+
+
+<!-- i18n-critical-injected -->
+<script>
+(function(){
+  if (window.__I18N_CRIT_DONE__) return;
+  window.__I18N_CRIT_DONE__ = true;
+  try {
+    var SUPPORTED = ['en', 'zh'], DEFAULT = 'en', STORAGE_KEY = 'daoessence_lang';
+    function getSaved(){ try { return localStorage.getItem(STORAGE_KEY); } catch(e){ return null; } }
+    function detect(){ var n = navigator.language || navigator.userLanguage || ''; var c = n.split('-')[0].toLowerCase(); return SUPPORTED.indexOf(c) !== -1 ? c : null; }
+    function getInitial(){
+      var p = location.pathname;
+      if (p.indexOf('/zh/') === 0 || p === '/zh') return 'zh';
+      try { var params = new URLSearchParams(location.search); var ul = params.get('lang'); if (ul && SUPPORTED.indexOf(ul) !== -1) return ul; } catch(e){}
+      var s = getSaved(); if (s && SUPPORTED.indexOf(s) !== -1) return s;
+      var b = detect(); if (b) return b;
+      return DEFAULT;
+    }
+    var lang = getInitial();
+    if (lang !== 'zh') return; // 仅中文需要首屏预翻译
+    var DICT = {"common":{"home":"首頁","blog":"部落格","learn_bazi":"學八字","shop":"商城","about_us":"關於我們"},"nav":{"tools":"工具","tool_bazi":"八字排盤","tool_favorable":"用神指南","tool_daily":"生肖運勢","tool_five":"五行性格測試","tool_soulmate":"靈魂伴侶尋找","tool_almanac":"吉日選擇","tool_wallpapers":"旺運壁紙","blog_all":"所有文章","blog_bazi":"八字占星","blog_zodiac":"生肖運勢","blog_fengshui":"家居風水","blog_elements":"五行文化"},"terms":{"subtitle":"法律與合規","title":"服務條款","last_updated":"最後更新：2026 年 4 月 20 日","toc_s1":"條款接受","toc_s2":"我們的服務","toc_s3":"娛樂免責聲明","toc_s4":"玄學計算的準確性","toc_s5":"年齡要求","toc_s6":"定價與付款","toc_s7":"退款政策","toc_s8":"智慧財產權","toc_s9":"使用者行為與禁止用途","toc_s10":"責任限制","toc_s11":"免責聲明","toc_s12":"賠償","toc_s13":"條款變更","toc_s14":"管轄法律與爭議","toc_s15":"聯繫我們","s1_title":"1. 條款接受","s1_p1":"本服務條款（「條款」）規範您對 Dao Essence 網站（\u003cstrong>www.daoessentia.com\u003c/strong>）及其所提供的所有服務、工具和內容的使用。造訪我們的網站、使用我們的免費工具或進行購買，即表示您同意受本條款約束。","s1_p2":"如果您不同意本條款，請勿使用我們的網站或服務。","s2_title":"2. 我們的服務","s2_intro":"Dao Essence 提供與中國玄學相關的線上工具和資源，包括但不限於：","s2_li1":"\u003cstrong>免費八字計算器：\u003c/strong>根據您的出生日期和時辰自動生成四柱命盤","s2_li2":"\u003cstrong>靈魂伴侶尋找器：\u003c/strong>根據出生資料進行方向、時機和風格分析","s2_li3":"\u003cstrong>五行計算器：\u003c/strong>根據您的命盤評估您的主導元素的互動工具","s2_li4":"\u003cstrong>付費八字解讀：\u003c/strong>由我們的命理師準備的個人化書面分析，以 PDF 形式透過電子郵件交付","s2_li5":"\u003cstrong>商城產品：\u003c/strong>與中國玄學、五行和風水相關的實體和數位產品","s2_li6":"\u003cstrong>教育部落格：\u003c/strong>關於八字命理、生肖、風水及相關主題的文章","s2_highlight":"\u003cstrong>無即時諮詢。\u003c/strong>我們網站上的所有計算均自動執行。付費八字解讀由命理師人工準備，以數位 PDF 交付。除非產品描述中明確說明，否則不包含即時諮詢、電話或即時通訊。","s3_title":"3. 娛樂免責聲明","s3_highlight":"\u003cstrong>本網站提供的所有內容、計算、解讀和指導僅供娛樂和資訊參考之用。\u003c/strong>","s3_p1":"我們的服務根植於傳統中國玄學——一個歷經數千年實踐的古老文化框架。雖然許多人認為這些傳統富有意義和啟發性，但它們\u003cstrong>未經科學驗證\u003c/strong>，不應被視為如此。","s3_p2":"具體而言，我們的服務\u003cstrong>不構成\u003c/strong>且\u003cstrong>絕不應\u003c/strong>被用作以下事項的替代：","s3_li1":"\u003cstrong>醫療或心理建議：\u003c/strong>如果您正在經歷健康問題、心理健康問題或情緒困擾，請諮詢合格的醫療保健專業人員","s3_li2":"\u003cstrong>法律建議：\u003c/strong>對於任何法律事項，請諮詢有執照的律師","s3_li3":"\u003cstrong>財務或投資建議：\u003c/strong>對於財務決策，請諮詢認證的財務顧問","s3_li4":"\u003cstrong>專業諮詢：\u003c/strong>對於關係、職業或人生決策，請考慮尋求有執照的諮詢師或治療師的指導","s3_p3":"\u003cstrong>您對自己的決定和行為負全部責任。\u003c/strong>透過我們的工具或解讀提供的任何洞察、預測或指導，應被視為眾多視角之一，而非生活的指示或指令。","s4_title":"4. 玄學計算的準確性","s4_p1":"中國玄學涵蓋多個思想學派、傳統和解釋框架。不同的命理師和系統可能對同一出生資料產生不同的解讀。這是該領域的自然且預期的特徵。","s4_li1":"我們的八字計算遵循廣泛使用的演算法框架，但我們\u003cstrong>不保證 100% 的解讀準確性\u003c/strong>","s4_li2":"結果可能與從其他命理師、網站或傳統獲得的解讀不同——這並不表示錯誤","s4_li3":"靈魂伴侶尋找器和五行計算器提供基於傳統原則的一般性指導，不應被視為確定性預測","s4_li4":"曆法轉換（公曆轉農曆）可能引入微小誤差，尤其對於曆法轉換日附近的出生日期","s5_title":"5. 年齡要求","s5_p1":"您必須\u003cstrong>年滿 18 歲\u003c/strong>才能使用我們的付費服務或透過聯繫表單、測驗或訂單表單提交個人資訊。如果您未滿 18 歲，只能在同意受本條款約束的家長或法定監護人的監督下使用我們的網站。","s6_title":"6. 定價與付款","s6_p1":"所有價格均以美元（USD）顯示，包含所述產品或服務。","s6_p2":"付款由 \u003cstrong>Creem\u003c/strong>（creem.io）安全處理。我們接受 Visa、Mastercard、American Express 和 Discover。我們不儲存您的支付卡資訊。","s6_p3":"我們保留隨時更改產品價格的權利。價格變更不會影響已完成的訂單。","s7_title":"7. 退款政策","s7_heading":"退款政策","s7_intro":"如果您對購買不滿意，可以在以下條件下申請退款：","s7_bazi_label":"\u003cstrong>付費八字解讀：\u003c/strong>","s7_bazi_li1":"必須在\u003cstrong>個人化解讀交付之前\u003c/strong>提出申請（通常在購買後 48 小時內，因為解讀會迅速準備）","s7_bazi_li2":"一旦 PDF 解讀已發送至您的電子郵件，由於數位內容已提供，銷售即視為最終完成","s7_bazi_li3":"如果您遇到技術問題無法存取解讀，請在 7 天內聯繫我們，我們將解決問題或發放退款","s7_shop_label":"\u003cstrong>商城產品：\u003c/strong>","s7_shop_li1":"數位產品：退款申請必須在存取或下載內容之前提出","s7_shop_li2":"實體產品：退款申請必須在交付後 15 天內提出，且產品須為未使用且原始狀態","s7_howto":"\u003cstrong>如何申請退款：\u003c/strong>發送電子郵件至 \u003cstrong>support@daoessentia.com\u003c/strong>，附上您的訂單編號和退款原因。我們將在 3 個工作日內審查並回覆。核准的退款將透過 Creem 退回至您的原始付款方式。","s8_title":"8. 智慧財產權","s8_p1":"我們網站上的所有內容——包括文字、圖片、產品設計、商標、藝術作品、部落格文章和網站程式碼——均為 Dao Essence 或其內容供應商的財產，受適用的智慧財產權法律保護。","s8_p2":"未經我們事先書面同意，您不得複製、分發、修改或商業利用我們網站上的任何內容。","s8_p3":"\u003cstrong>關於您的解讀：\u003c/strong>交付給您的個人化八字解讀 PDF 供您個人使用。您不得轉售、轉發或商業發布。","s9_title":"9. 使用者行為與禁止用途","s9_intro":"您同意不將我們的網站用於以下用途：","s9_li1":"從事任何詐欺、欺騙或非法活動","s9_li2":"侵犯他人權利，包括智慧財產權","s9_li3":"傳輸有害、冒犯性或惡意內容","s9_li4":"嘗試未經授權存取我們的系統、管理面板或資料庫","s9_li5":"利用我們的服務做出可能對您或他人造成傷害的決定","s9_li6":"未經我們書面同意，轉售從我們平台獲得的服務或解讀","s9_li7":"使用自動化工具（機器人、爬蟲）從我們的網站提取資料","s10_title":"10. 責任限制","s10_intro":"在適用法律允許的最大範圍內：","s10_li1":"Dao Essence 對因您使用我們的網站或服務而產生的任何間接、附帶、特殊或後果性損害不承擔責任","s10_li2":"我們對任何索賠的總責任不超過您為相關訂單或服務支付的金額","s10_li3":"我們不對您根據我們網站提供的內容、計算或解讀所做的決定承擔責任","s10_li4":"我們不保證網站的持續存取，也不對因維護或技術問題導致的暫時不可用承擔責任","s10_li5":"我們不對任何玄學計算或解讀的準確性、完整性或可靠性承擔責任","s11_title":"11. 免責聲明","s11_p1":"我們的網站和服務「按現狀」和「按可用狀態」提供。除法律要求外，我們不做任何關於適銷性、特定用途適用性或不侵權的明示或暗示保證。","s11_p2":"與我們服務相關描述的文化和玄學傳統基於古老的東方智慧體系。它們被呈現為文化傳統和個人成長工具，而非經科學驗證的主張。","s11_p3":"我們不保證以下事項：","s11_li1":"我們的計算或解讀將準確、完整或無錯誤","s11_li2":"任何工具或解讀的結果將符合您的特定期望或需求","s11_li3":"我們的網站將始終可用而不中斷","s12_title":"12. 賠償","s12_p1":"您同意為 Dao Essence、其命理師和營運者辯護、賠償並使其免受因 (a) 您對我們網站和服務的使用和存取；或 (b) 您違反本條款而產生的任何索賠、損害、義務、損失、責任或費用的損害。","s13_title":"13. 條款變更","s13_p1":"我們保留隨時修改本條款的權利。更新後的條款將發佈在本頁面，並更新「最後更新」日期。在變更後繼續使用我們的網站即構成您對新條款的接受。","s14_title":"14. 管轄法律與爭議","s14_p1":"本條款應受國際商事法一般適用原則管轄並據此解釋。我們承諾以友好方式解決爭議。如果您有投訴，請先聯繫 \u003cstrong>support@daoessentia.com\u003c/strong>，我們將盡力及時解決。","s14_p2":"如果爭議無法友好解決，應提交具約束力的仲裁或您所在司法管轄區的具管轄權法院，依據當地消費者保護法律的規定。","s15_title":"15. 聯繫我們","s15_hours":"服務時間：週一至週六，上午 9 點至晚上 9 點（CST / UTC+8）"},"privacy":{"back_home":"← 返回首頁","toc_title":"目錄","s14_email_label":"電子郵件：","s14_website_label":"網站："},"footer":{"brand_desc":"古老智慧，現代清晰。透過八字分析、風水諮詢與五行指導，以結構化洞察導航人生。","navigation":"導航","digital_audio":"數位音頻課程","fortune_desc":"中國算命\u003cbr>尋找靈魂伴侶","contact":"聯繫方式","wechat":"WeChat","telegram_channel":"Telegram 頻道","hours":"週一至週六：上午 9 點至晚上 9 點（CST / UTC+8）","copyright":"© 2026 DAO Essence & Five Elements. 保留所有權利。","privacy":"隱私權政策","terms":"服務條款"}};
+    if (!DICT || Object.keys(DICT).length === 0) return;
+    var orig = {};
+    function gnv(obj, key){ if(!obj||!key) return null; return key.split('.').reduce(function(o,k){ return (o&&o[k]!==undefined)?o[k]:null; }, obj); }
+    // data-i18n
+    var els = document.querySelectorAll('[data-i18n]');
+    for (var i = 0; i < els.length; i++){
+      var el = els[i]; var k = el.getAttribute('data-i18n');
+      if (k && !orig[k]) orig[k] = el.innerHTML;
+      var v = gnv(DICT, k); if (typeof v === 'string') el.innerHTML = v;
+    }
+    // placeholder
+    var phs = document.querySelectorAll('[data-i18n-placeholder]');
+    for (var pi = 0; pi < phs.length; pi++){
+      var pe = phs[pi]; var pk = pe.getAttribute('data-i18n-placeholder');
+      var ck = '__placeholder__' + pk;
+      if (pk && !orig[ck]) orig[ck] = pe.getAttribute('placeholder');
+      var pv = gnv(DICT, pk); if (typeof pv === 'string') pe.setAttribute('placeholder', pv);
+    }
+    // prefix / suffix
+    var pfx = document.querySelectorAll('[data-i18n-prefix]');
+    for (var j = 0; j < pfx.length; j++){
+      var pel = pfx[j]; var ck2 = '__prefix_suffix__' + j;
+      pel.setAttribute('data-i18n-cache-key', ck2);
+      if (!orig[ck2]) orig[ck2] = pel.innerHTML;
+      var pv2 = gnv(DICT, pel.getAttribute('data-i18n-prefix')) || '';
+      var sv2 = gnv(DICT, pel.getAttribute('data-i18n-suffix')) || '';
+      var kids = []; for (var c = 0; c < pel.childNodes.length; c++) kids.push(pel.childNodes[c].cloneNode(true));
+      pel.textContent = '';
+      if (typeof pv2 === 'string' && pv2) pel.appendChild(document.createTextNode(pv2 + ' '));
+      for (var k2 = 0; k2 < kids.length; k2++) pel.appendChild(kids[k2]);
+      if (typeof sv2 === 'string' && sv2) pel.appendChild(document.createTextNode(' ' + sv2));
+    }
+    // data-zh-* （中文直接写在属性值里）
+    var zmap = [['data-zh-cat','__zhcat__'],['data-zh-text','__zhtext__'],['data-zh-title','__zhtitle__'],['data-zh-desc','__zhdesc__'],['data-zh-faq','__zhfaq__'],['data-zh-faq-a','__zhfqa__']];
+    for (var z = 0; z < zmap.length; z++){
+      var attr = zmap[z][0], pre = zmap[z][1];
+      var nodes = document.querySelectorAll('[' + attr + ']');
+      for (var zi = 0; zi < nodes.length; zi++){
+        var n = nodes[zi]; var key = pre + zi;
+        if (!orig[key]) orig[key] = n.textContent;
+        var val = n.getAttribute(attr); if (val) n.textContent = val;
+      }
+    }
+    window.__I18N_CRIT_ORIGINAL__ = orig;
+    try { document.documentElement.lang = 'zh-Hant'; } catch(e){}
+  } catch(e){}
+})();
+</script>
+
 </body>
 </html>

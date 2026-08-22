@@ -75,6 +75,16 @@
    * Cache original English text from [data-i18n] and [data-i18n-prefix] elements
    */
   function cacheOriginalTexts() {
+    // ── 复用首屏同步预翻译脚本缓存的英文原文 ──
+    // 若 inject-i18n-critical 已在首屏前把页面翻成中文，这里必须沿用它缓存的
+    // 英文原文（而非重新从已被翻译成中文的 DOM 读取），否则切回英文会残留中文。
+    if (window.__I18N_CRIT_ORIGINAL__) {
+      for (var _ck in window.__I18N_CRIT_ORIGINAL__) {
+        if (window.__I18N_CRIT_ORIGINAL__.hasOwnProperty(_ck)) {
+          if (!originalTexts[_ck]) originalTexts[_ck] = window.__I18N_CRIT_ORIGINAL__[_ck];
+        }
+      }
+    }
     var elements = document.querySelectorAll('[data-i18n]');
     for (var i = 0; i < elements.length; i++) {
       var el = elements[i];

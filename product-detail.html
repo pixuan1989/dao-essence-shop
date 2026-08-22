@@ -2938,6 +2938,77 @@
         }
     </script>
     <script src="/js/tracking.js"></script>
+
+
+<!-- i18n-critical-injected -->
+<script>
+(function(){
+  if (window.__I18N_CRIT_DONE__) return;
+  window.__I18N_CRIT_DONE__ = true;
+  try {
+    var SUPPORTED = ['en', 'zh'], DEFAULT = 'en', STORAGE_KEY = 'daoessence_lang';
+    function getSaved(){ try { return localStorage.getItem(STORAGE_KEY); } catch(e){ return null; } }
+    function detect(){ var n = navigator.language || navigator.userLanguage || ''; var c = n.split('-')[0].toLowerCase(); return SUPPORTED.indexOf(c) !== -1 ? c : null; }
+    function getInitial(){
+      var p = location.pathname;
+      if (p.indexOf('/zh/') === 0 || p === '/zh') return 'zh';
+      try { var params = new URLSearchParams(location.search); var ul = params.get('lang'); if (ul && SUPPORTED.indexOf(ul) !== -1) return ul; } catch(e){}
+      var s = getSaved(); if (s && SUPPORTED.indexOf(s) !== -1) return s;
+      var b = detect(); if (b) return b;
+      return DEFAULT;
+    }
+    var lang = getInitial();
+    if (lang !== 'zh') return; // 仅中文需要首屏预翻译
+    var DICT = {"common":{"home":"首頁","blog":"部落格","learn_bazi":"學八字","shop":"商城","about_us":"關於我們","five_elements":"五行"},"nav":{"tools":"工具","tool_bazi":"八字排盤","tool_favorable":"用神指南","tool_daily":"生肖運勢","tool_five":"五行性格測試","tool_soulmate":"靈魂伴侶尋找","tool_almanac":"吉日選擇","tool_wallpapers":"旺運壁紙","blog_all":"所有文章","blog_bazi":"八字占星","blog_zodiac":"生肖運勢","blog_fengshui":"家居風水","blog_elements":"五行文化"},"product_detail":{"click_to_zoom":"點擊放大","tax_info":"含稅。即時數位交付","buy_now":"立即購買","about_title":"關於此數位資源","loading_desc":"正在載入產品描述…","how_it_works":"使用方式","step1_title":"購買並取得存取權限","step1_desc":"完成購買後，立即透過電子郵件獲得數位內容的存取權限。","step2_title":"存取你的數位內容","step2_desc":"請查看電子郵件中的下載連結或存取代碼。如需協助，請透過\u003ca href=\"mailto:support@daoessentia.com\" style=\"color:var(--accent-color);\">電子郵件\u003c/a>或 WhatsApp／WeChat 聯繫我們。","step3_title":"下載並享受","step3_desc":"將數位檔案（音訊、影片、PDF、電子書或桌布）下載到你的裝置，隨時隨地享受。","step4_title":"永久擁有","step4_desc":"你的數位購買品屬於你，永遠有效。隨時隨地存取，沒有到期日。","redeem_note":"數位存取權限自購買日起 \u003cstrong>12 個月\u003c/strong>內可重新下載。需要幫助？請聯繫 \u003ca href=\"mailto:support@daoessentia.com\" style=\"color:var(--accent-color);\">support@daoessentia.com\u003c/a>","product_details":"產品詳情","spec_type":"類型","spec_type_value":"數位產品（音訊／影片／電子書／PDF／桌布）","spec_delivery":"交付方式","spec_delivery_value":"即時 — 下載連結將發送至你的電子郵件","spec_access_period":"存取期間","spec_access_period_value":"自購買日起 12 個月可重新下載","spec_format":"格式","spec_format_default":"數位檔案（MP3、MP4、PDF 或 EPUB）","spec_format_course":"PDF 講義 + 實戰案例集","spec_format_course_sub":"核心講義與案例集均為 PDF 電子版：","course_pdf":"PDF 講義 — 四大模塊系統教材","course_cases":"實戰案例集 — 段老師逐字拆解","course_cloud":"網盤交付 — 手機/電腦/平板","spec_format_wallpaper":"\u003cstrong style=\"color:var(--gold-primary,#c9a84c);font-size:1.05em;\">HD 桌布套裝（3 種尺寸）\u003c/strong>&nbsp;— 涵蓋你所有的裝置","spec_format_wallpaper_sub":"一次購買，所有裝置都適用：","phone":"手機","tablet":"平板","desktop":"桌面","spec_format_epub":"\u003cstrong style=\"color:var(--gold-primary,#c9a84c);font-size:1.05em;\">EPUB\u003c/strong>&nbsp;— 通用電子書格式","spec_format_epub_sub":"適用於你\u003cb>所有\u003c/b>現有裝置：","spec_format_epub_tip":"💡 也可透過「Send to Kindle」在 Kindle 上閱讀——無需額外 App。","spec_access_method":"存取方式","spec_access_method_value":"透過電子郵件或線上入口安全下載","spec_support":"客戶支援","spec_support_value":"24/7 電子郵件支援下載與存取問題","energy_attributes":"能量屬性","energy_five":"五行","energy_metal":"金 — 增強繁榮，吸引財富能量","energy_type":"能量類型","energy_type_value":"守護與豐盛 — 守護並保存財富","energy_direction":"吉祥方位","energy_direction_value":"西方與西北方 — 財富最佳擺放位置","energy_best_for":"最適合","energy_best_for_value":"追求財務成長與穩定的人","membership_benefits":"會員權益","benefit1_title":"一次購買，永久擁有","benefit1_desc":"一次付款 = 永久所有權。無需訂閱、無需續費、沒有到期日。你的書籍永遠屬於你。","benefit2_title":"持續更新，始終免費","benefit2_desc":"後續新增章節、修訂與附錄 — 所有更新內容對早期購買者完全免費。","benefit3_title":"多裝置無縫閱讀","benefit3_desc":"EPUB 格式相容 Kindle、iPad、Android 及電腦——你的書籍跟著你走。","benefit4_title":"離線永久存取","benefit4_desc":"下載後即可離線閱讀，不依賴網路連線。你的內容，你做主。","course_highlights":"課程特色","course_benefit1_title":"一次購買，永久擁有","course_benefit1_desc":"一次付款＝永久所有權。無需訂閱、無需續費、沒有到期日。資料永久屬於你。","course_benefit2_title":"網盤即時交付","course_benefit2_desc":"購買後即刻收到網盤連結，支援手機、電腦、平板同步學習，隨時隨地反覆觀看。","course_benefit3_title":"系統完整，從零到一","course_benefit3_desc":"核心講義＋實戰案例集（PDF），四大模塊由淺入深——理法、象法、功法、實戰，學完就能上手斷事。","course_benefit4_title":"購後答疑支援","course_benefit4_desc":"購買後如有疑問，可私信聯繫答疑。我們陪你走完從入門到上手的全過程。","wallpaper_highlights":"桌布亮點","wallpaper_all_devices":"所有裝置都適用","wallpaper_all_devices_desc":"手機、平板和桌面——每次購買含 3 種 HD 尺寸。一套桌布滿足你的全部數位生活。","wallpaper_five_elements":"五行能量","wallpaper_five_elements_desc":"基於五行（Wu Xing）理論——每種組合都帶有特定的生成能量。選擇與你的八字命盤共鳴的搭配。","wallpaper_hd_res":"超高畫質","wallpaper_hd_res_desc":"最高 2560 × 1440 px——從手機 Retina 到 4K 顯示器都銳利清晰，絕不模糊。","wallpaper_instant":"即時下載","wallpaper_instant_desc":"立即購買，立即下載。無需等待、無需物流。幾秒內即可在任何裝置上設為桌布。"},"blindcourse":{"why_kicker":"為什麼需要","why_title":"你為什麼需要這套資料","why_p1":"很多命理愛好者都有同樣的經歷：書買了一大堆，「身強身弱」背得滾瓜爛熟，「用神忌神」也勉強能分，可一拿到真實八字，腦子就空白了——看不準、斷不了，更別說給出有價值的建議。","why_p2":"問題出在哪裡？不是你不夠努力，而是你學的體系本身就繞了遠路。","why_quote":"盲派命理最早是盲人命師走街串巷賴以謀生的手藝。它必須簡單、直接、管用——因為命師靠它吃飯，斷不準就沒飯吃。正是這種生存壓力，倒逼出了一套效率極高的命理推演邏輯：\u003cstrong>不看旺衰，不繞彎子，直指命盤內部的「做功關係」。\u003c/strong>","modules_kicker":"核心模塊","modules_title":"四大核心模塊","modules_lead":"一條從底層邏輯到真實斷事的清晰路徑。","m1_title":"理法篇","m1_sub":"建立盲派底層邏輯","m1_l1":"\u003cb>賓主概念\u003c/b>：分清「我的」和「他的」，準確鎖定命主的人生課題","m1_l2":"\u003cb>體用關係\u003c/b>：明確命盤中的「主體」與「客體」，看懂人生追求的方向","m1_l3":"\u003cb>干支意象\u003c/b>：每個天干地支的原始畫像，讀象能力的入門基石","m2_title":"象法篇","m2_sub":"練就「一眼抓象」的本事","m2_l1":"\u003cb>十神組合象\u003c/b>：從官殺、印星、財星、食傷、比劫的關係中讀出人生故事","m2_l2":"\u003cb>刑沖合害象\u003c/b>：干支之間的互動如何映射現實事件","m2_l3":"\u003cb>宮位象\u003c/b>：年、月、日、時四柱對應的人生不同領域","m3_title":"功法篇","m3_sub":"真正能「斷事」的核心能力","m3_l1":"\u003cb>五種做功方式\u003c/b>：制用、化用、生用、合用、墓用","m3_l2":"\u003cb>賊神捕神\u003c/b>：盲派不傳之秘，判斷人生大起大落關鍵節點","m3_l3":"\u003cb>大運流年應期\u003c/b>：什麼年份會發生什麼事，判斷時間的精準技術","m4_title":"實戰案例庫","m4_sub":"跟著段老師一字一字拆解","m4_l1":"\u003cb>事業與財富案例\u003c/b>：看職業選擇、升遷時機、財運起伏","m4_l2":"\u003cb>感情與婚姻案例\u003c/b>：看相處模式、婚期判斷、關係走向","m4_l3":"\u003cb>六親與健康案例\u003c/b>：從命盤看父母、子女、兄弟姐妹的信息映射","compare_kicker":"與眾不同","compare_title":"這套資料和市面上的有什麼不同？","cmp_th1":"維度","cmp_th2":"市面常見課程","cmp_th3":"玄真團隊內部資料","cmp_r1_dim":"理論體系","cmp_r1_market":"混搭各派，前後矛盾","cmp_r1_xz":"\u003cb>純正段建業盲派體系，一以貫之\u003c/b>","cmp_r2_dim":"教學模式","cmp_r2_market":"理論堆砌，實戰脫節","cmp_r2_xz":"\u003cb>案例驅動，每講必帶真實命例\u003c/b>","cmp_r3_dim":"概念難度","cmp_r3_market":"旺衰用神繞暈初學者","cmp_r3_xz":"\u003cb>賓主體用直指核心，邏輯清晰\u003c/b>","cmp_r4_dim":"學習目標","cmp_r4_market":"懂理論但不會斷事","cmp_r4_xz":"\u003cb>學完就能上手分析八字\u003c/b>","cmp_r5_dim":"資料完整性","cmp_r5_market":"零碎片段，到處拼湊","cmp_r5_xz":"\u003cb>系統完整，團隊日常教學實錄\u003c/b>","aud_kicker":"適合誰學","aud_title":"誰適合學這套資料？","aud1_h":"命理小白","aud1_p":"從未接觸過八字，想找一條不走彎路的學習路徑","aud2_h":"半桶水自學者","aud2_p":"學了很多零散知識，但始終形不成系統判斷力","aud3_h":"瓶頸期愛好者","aud3_p":"學過其他流派，想升級到盲派的高效斷事框架","aud4_h":"執業命理師","aud4_p":"補充盲派「做功」視角，提升斷事實戰精準度","del_kicker":"交付與售後","del_title":"購買須知","del1_h":"交付形式","del1_p":"網盤連結發送，支援手機／電腦／平板學習","del2_h":"配套資料","del2_p":"核心講義＋實戰案例集（PDF 電子版）","del3_h":"售後支持","del3_p":"購買後如有疑問，可私信聯繫答疑","close_kicker":"寫在最後","close_title":"寫在最後的話","close_p1":"盲派命理不是一門用來看「命運好壞」的學問，而是一套讀懂人生能量運作方式的精密工具。它幫你看到自己的天性、優勢和限制，也幫你判斷何時該進、何時該退——這門手藝練得越深，你看自己、看別人的眼光就越通透。","close_p2":"這套資料是玄真團隊日常教學的實錄，也是許多命理愛好者口中「相見恨晚」的一套內容。如果你準備好了，歡迎帶走它。"},"footer":{"brand_desc":"古老智慧，現代清晰。透過八字分析、風水諮詢與五行指導，以結構化洞察導航人生。","tools_title":"工具","tool_bazi":"八字排盤","tool_lucky":"用神指南","tool_five":"五行性格測試","tool_soulmate":"靈魂伴侶尋找","tool_almanac":"吉日選擇","tool_zodiac":"生肖运势","explore_title":"探索","links_title":"連結","fortune_desc":"中國算命\u003cbr>尋找靈魂伴侶","contact_title":"聯繫方式","wechat":"WeChat","hours":"週一至週六：上午 9 點至晚上 9 點（CST / UTC+8）","telegram_channel":"Telegram 頻道","copyright":"© 2026 DAO Essence & Five Elements. 保留所有權利。","privacy":"隱私權政策","terms":"服務條款"}};
+    if (!DICT || Object.keys(DICT).length === 0) return;
+    var orig = {};
+    function gnv(obj, key){ if(!obj||!key) return null; return key.split('.').reduce(function(o,k){ return (o&&o[k]!==undefined)?o[k]:null; }, obj); }
+    // data-i18n
+    var els = document.querySelectorAll('[data-i18n]');
+    for (var i = 0; i < els.length; i++){
+      var el = els[i]; var k = el.getAttribute('data-i18n');
+      if (k && !orig[k]) orig[k] = el.innerHTML;
+      var v = gnv(DICT, k); if (typeof v === 'string') el.innerHTML = v;
+    }
+    // placeholder
+    var phs = document.querySelectorAll('[data-i18n-placeholder]');
+    for (var pi = 0; pi < phs.length; pi++){
+      var pe = phs[pi]; var pk = pe.getAttribute('data-i18n-placeholder');
+      var ck = '__placeholder__' + pk;
+      if (pk && !orig[ck]) orig[ck] = pe.getAttribute('placeholder');
+      var pv = gnv(DICT, pk); if (typeof pv === 'string') pe.setAttribute('placeholder', pv);
+    }
+    // prefix / suffix
+    var pfx = document.querySelectorAll('[data-i18n-prefix]');
+    for (var j = 0; j < pfx.length; j++){
+      var pel = pfx[j]; var ck2 = '__prefix_suffix__' + j;
+      pel.setAttribute('data-i18n-cache-key', ck2);
+      if (!orig[ck2]) orig[ck2] = pel.innerHTML;
+      var pv2 = gnv(DICT, pel.getAttribute('data-i18n-prefix')) || '';
+      var sv2 = gnv(DICT, pel.getAttribute('data-i18n-suffix')) || '';
+      var kids = []; for (var c = 0; c < pel.childNodes.length; c++) kids.push(pel.childNodes[c].cloneNode(true));
+      pel.textContent = '';
+      if (typeof pv2 === 'string' && pv2) pel.appendChild(document.createTextNode(pv2 + ' '));
+      for (var k2 = 0; k2 < kids.length; k2++) pel.appendChild(kids[k2]);
+      if (typeof sv2 === 'string' && sv2) pel.appendChild(document.createTextNode(' ' + sv2));
+    }
+    // data-zh-* （中文直接写在属性值里）
+    var zmap = [['data-zh-cat','__zhcat__'],['data-zh-text','__zhtext__'],['data-zh-title','__zhtitle__'],['data-zh-desc','__zhdesc__'],['data-zh-faq','__zhfaq__'],['data-zh-faq-a','__zhfqa__']];
+    for (var z = 0; z < zmap.length; z++){
+      var attr = zmap[z][0], pre = zmap[z][1];
+      var nodes = document.querySelectorAll('[' + attr + ']');
+      for (var zi = 0; zi < nodes.length; zi++){
+        var n = nodes[zi]; var key = pre + zi;
+        if (!orig[key]) orig[key] = n.textContent;
+        var val = n.getAttribute(attr); if (val) n.textContent = val;
+      }
+    }
+    window.__I18N_CRIT_ORIGINAL__ = orig;
+    try { document.documentElement.lang = 'zh-Hant'; } catch(e){}
+  } catch(e){}
+})();
+</script>
+
 </body>
 </html>
 

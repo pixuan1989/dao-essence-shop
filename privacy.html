@@ -633,5 +633,76 @@
 
     <script src="main.js"></script>
     <script src="js/i18n-switcher.js"></script>
+
+
+<!-- i18n-critical-injected -->
+<script>
+(function(){
+  if (window.__I18N_CRIT_DONE__) return;
+  window.__I18N_CRIT_DONE__ = true;
+  try {
+    var SUPPORTED = ['en', 'zh'], DEFAULT = 'en', STORAGE_KEY = 'daoessence_lang';
+    function getSaved(){ try { return localStorage.getItem(STORAGE_KEY); } catch(e){ return null; } }
+    function detect(){ var n = navigator.language || navigator.userLanguage || ''; var c = n.split('-')[0].toLowerCase(); return SUPPORTED.indexOf(c) !== -1 ? c : null; }
+    function getInitial(){
+      var p = location.pathname;
+      if (p.indexOf('/zh/') === 0 || p === '/zh') return 'zh';
+      try { var params = new URLSearchParams(location.search); var ul = params.get('lang'); if (ul && SUPPORTED.indexOf(ul) !== -1) return ul; } catch(e){}
+      var s = getSaved(); if (s && SUPPORTED.indexOf(s) !== -1) return s;
+      var b = detect(); if (b) return b;
+      return DEFAULT;
+    }
+    var lang = getInitial();
+    if (lang !== 'zh') return; // 仅中文需要首屏预翻译
+    var DICT = {"common":{"home":"首頁","blog":"部落格","learn_bazi":"學八字","shop":"商城","about_us":"關於我們"},"nav":{"tools":"工具","tool_bazi":"八字排盤","tool_favorable":"用神指南","tool_daily":"生肖運勢","tool_five":"五行性格測試","tool_soulmate":"靈魂伴侶尋找","tool_almanac":"吉日選擇","tool_wallpapers":"旺運壁紙","blog_all":"所有文章","blog_bazi":"八字占星","blog_zodiac":"生肖運勢","blog_fengshui":"家居風水","blog_elements":"五行文化"},"privacy":{"subtitle":"法律與隱私","title":"隱私權政策","last_updated":"最後更新：2026 年 4 月 20 日","back_home":"← 返回首頁","toc_title":"目錄","toc_s1":"我們是誰","toc_s2":"我們收集哪些資訊","toc_s3":"我們如何處理出生資料","toc_s4":"我們如何使用您的資訊","toc_s5":"行銷通訊","toc_s6":"我們如何分享您的資訊","toc_s7":"Cookie 與追蹤","toc_s8":"資料保留","toc_s9":"資料安全","toc_s10":"您的權利","toc_s11":"國際資料傳輸","toc_s12":"兒童隱私","toc_s13":"政策更新","toc_s14":"聯繫我們","s1_title":"1. 我們是誰","s1_p1":"Dao Essence（「我們」、「我們的」）運營網站 \u003cstrong>www.daoessentia.com\u003c/strong>。我們提供基於中國玄學傳統的線上工具與資源，包括八字排盤、生肖分析、靈魂伴侶配對計算器、五行性格評估、風水指導及相關教育內容。","s1_p2":"所有計算均透過基於傳統中國玄學框架的演算法自動執行。我們不提供即時諮詢或人工解讀。","s1_p3":"如有任何隱私相關問題，請聯繫我們：\u003cstrong>support@daoessentia.com\u003c/strong>","s2_title":"2. 我們收集哪些資訊","s2_intro":"我們根據您與網站的互動方式，收集不同類別的資訊：","s2_th1":"資料類別","s2_th2":"收集內容","s2_th3":"收集時機","s2_cat1":"出生資料","s2_col1":"出生日期、出生時辰（選填）、性別、出生地","s2_when1":"使用八字計算器、靈魂伴侶尋找器或購買付費解讀時","s2_cat2":"聯繫資料","s2_col2":"姓名、電子郵件地址","s2_when2":"提交聯繫表單、下訂單或使用測驗／工具時","s2_cat3":"交易資料","s2_col3":"訂單詳情、購買產品、支付金額、訂單歷史","s2_when3":"透過商城購買時","s2_cat4":"測驗／工具結果","s2_col4":"五行計算器結果、計算器輸出","s2_when4":"使用網站上的免費工具時","s2_cat5":"技術資料","s2_col5":"IP 地址、瀏覽器類型、作業系統、來源 URL","s2_when5":"您造訪我們網站時自動收集","s2_cat6":"使用資料","s2_col6":"瀏覽頁面、停留時間、點擊互動","s2_when6":"您造訪我們網站時自動收集","s2_highlight":"\u003cstrong>支付卡資訊：\u003c/strong>我們\u003cstrong>不會\u003c/strong>直接收集或儲存支付卡詳情。所有支付處理均由我們的第三方支付服務商 \u003cstrong>Creem\u003c/strong>（creem.io）安全處理，遵循其自身的隱私權政策。","s3_title":"3. 我們如何處理出生資料","s3_highlight":"\u003cstrong>出生資料屬於敏感資訊。\u003c/strong>您的出生日期、出生時辰和出生地僅用於根據傳統中國玄學演算法生成八字命盤、靈魂伴侶配對結果及相關計算。根據 GDPR（歐盟）和 PIPL（中國）等資料保護法規，出生資料可能被歸類為個人可識別資訊。","s3_practices":"我們的出生資料處理原則：","s3_li1":"出生資料\u003cstrong>僅\u003c/strong>用於執行您要求的計算或生成解讀","s3_li2":"對於付費解讀，出生資料將與訂單一起儲存，用於履行和交付","s3_li3":"對於免費工具（八字計算器、靈魂伴侶尋找器），計算結果僅在螢幕上顯示，\u003cstrong>不會永久儲存\u003c/strong>在我們的伺服器上，除非您啟動付費服務","s3_li4":"我們\u003cstrong>不會\u003c/strong>將您的出生資料用於您所要求服務以外的任何目的","s3_li5":"我們\u003cstrong>不會\u003c/strong>將您的出生資料分享給任何第三方，第 6 節所述情況除外","s3_li6":"使用免費工具時，您\u003cstrong>無需\u003c/strong>提供真實姓名，可使用暱稱或化名","s4_title":"4. 我們如何使用您的資訊","s4_th1":"目的","s4_th2":"法律依據","s4_p1":"生成八字命盤、配對結果及玄學計算","s4_b1":"合約履行／同意","s4_p2":"處理和履行付費訂單（八字解讀、商城產品）","s4_b2":"合約履行","s4_p3":"發送訂單確認和交付電子郵件","s4_b3":"合約履行","s4_p4":"發送關於新內容、產品或促銷的行銷電子郵件","s4_b4":"正當利益（可退訂）","s4_p5":"回覆您的聯繫表單諮詢和客戶支援","s4_b5":"合約履行／正當利益","s4_p6":"防止詐欺並確保平台安全","s4_b6":"正當利益","s4_p7":"改善我們的網站、工具和內容產品","s4_b7":"正當利益","s4_p8":"遵守法律義務","s4_b8":"法律義務","s5_title":"5. 行銷通訊","s5_p1":"當您與我們的服務互動時（如提交聯繫表單、下訂單或使用免費工具），您的電子郵件地址可能會被加入我們的行銷訂閱名單，以接收新內容、產品或促銷資訊。","s5_li1":"\u003cstrong>退訂：\u003c/strong>每封行銷電子郵件都包含退訂連結。您可以隨時點擊連結或發送電子郵件至 \u003cstrong>support@daoessentia.com\u003c/strong>（主旨標明「退訂」）來退訂。","s5_li2":"\u003cstrong>交易電子郵件\u003c/strong>（訂單確認、交付通知）不屬於行銷電子郵件，無法退訂——它們是履行訂單所必需的。","s5_li3":"我們絕不會將您的電子郵件地址出售或出租給第三方用於其行銷目的。","s6_title":"6. 我們如何分享您的資訊","s6_p1":"我們\u003cstrong>不會\u003c/strong>將您的個人資料出售給任何第三方。我們僅在以下情況下分享：","s6_li1":"\u003cstrong>Creem（支付處理商）：\u003c/strong>為安全處理您的支付所需的交易資料","s6_li2":"\u003cstrong>阿里雲 DirectMail（電子郵件服務）：\u003c/strong>代表我們發送訂單確認和行銷電子郵件","s6_li3":"\u003cstrong>Redis Cloud（資料庫）：\u003c/strong>用於在加密伺服器上暫時儲存訂單資料和訂閱名單","s6_li4":"\u003cstrong>Vercel（託管）：\u003c/strong>用於網站基礎設施和無伺服器函數執行","s6_li5":"\u003cstrong>執法機關或監管機構：\u003c/strong>在適用法律要求時","s6_p2":"所有第三方服務商均受合約約束，必須安全處理您的資料，且僅用於指定目的。","s7_title":"7. Cookie 與追蹤","s7_intro":"我們的網站使用 Cookie 和類似技術。以下是我們使用的類型：","s7_th1":"Cookie 類型","s7_th2":"用途","s7_th3":"可以停用嗎？","s7_type1":"必要 Cookie","s7_purpose1":"工作階段管理、管理員驗證","s7_opt1":"否（網站運行所必需）","s7_type2":"分析 Cookie","s7_purpose2":"了解訪客如何使用網站（如瀏覽量、流量來源）透過 Google Analytics","s7_opt2":"是","s7_type3":"偏好 Cookie","s7_purpose3":"記住您的語言或顯示設定","s7_opt3":"是","s7_p1":"您可以透過瀏覽器設定控制 Cookie。停用必要 Cookie 可能會影響我們網站的功能。","s8_title":"8. 資料保留","s8_intro":"我們僅在為本政策所述目的所需的期限內保留您的個人資料：","s8_li1":"\u003cstrong>訂單和交易記錄：\u003c/strong>在我們營運期間永久保留，因為它是訂單履行、客戶支援和法律合規所必需的","s8_li2":"\u003cstrong>出生資料（付費解讀）：\u003c/strong>與相關訂單一起保留，用於交付和參考","s8_li3":"\u003cstrong>出生資料（免費工具）：\u003c/strong>不永久儲存——僅用於當前工作階段的計算","s8_li4":"\u003cstrong>行銷訂閱名單：\u003c/strong>保留至您退訂或要求刪除","s8_li5":"\u003cstrong>聯繫表單提交：\u003c/strong>保留最長 2 年，用於後續跟進","s8_li6":"\u003cstrong>分析資料：\u003c/strong>14 個月（Google Analytics 預設保留期），之後自動刪除","s8_p1":"您可以隨時聯繫我們要求提前刪除您的資料（見第 10 節）。","s9_title":"9. 資料安全","s9_intro":"我們採取適當的技術和組織措施來保護您的個人資料，包括：","s9_li1":"所有傳輸資料均使用 HTTPS / SSL 加密","s9_li2":"加密資料庫儲存（帶驗證的 Redis Cloud）","s9_li3":"存取控制，限制可查看個人資料的人員","s9_li4":"安全的第三方支付處理（我們絕不儲存卡號）","s9_li5":"敏感配置使用環境變數（API 金鑰、驗證令牌）——絕不提交至原始碼","s9_li6":"定期審查我們的安全實踐","s10_title":"10. 您的權利","s10_intro":"根據您的所在地，您可能對您的個人資料享有以下權利：","s10_li1":"\u003cstrong>存取：\u003c/strong>要求我們提供所持有的關於您的資料副本","s10_li2":"\u003cstrong>更正：\u003c/strong>要求更正不準確的資料","s10_li3":"\u003cstrong>刪除：\u003c/strong>要求刪除您的資料（「被遺忘的權利」）","s10_li4":"\u003cstrong>可攜性：\u003c/strong>以結構化、機器可讀的格式接收您的資料","s10_li5":"\u003cstrong>限制：\u003c/strong>在特定情況下要求限制處理","s10_li6":"\u003cstrong>反對：\u003c/strong>反對基於正當利益的處理（包括行銷電子郵件）","s10_li7":"\u003cstrong>撤回同意：\u003c/strong>當處理基於同意時，您可以隨時撤回","s10_p1":"要行使以上任何權利，請發送電子郵件至 \u003cstrong>support@daoessentia.com\u003c/strong>，主旨標明「隱私權請求」。我們將在 30 天內回覆。","s10_p2":"\u003cstrong>退訂行銷：\u003c/strong>您無需提出正式請求即可停止接收行銷電子郵件。只需點擊任何行銷電子郵件中的退訂連結，或發送電子郵件（主旨標明「退訂」）。","s11_title":"11. 國際資料傳輸","s11_p1":"我們的網站透過 Vercel（美國）託管，並使用 Redis Cloud（荷蘭／美國）進行資料儲存。如果您位於歐洲經濟區（EEA）、英國、中國或其他有資料保護法律的地区，您的資料可能會被傳輸到您所在地區以外的國家進行處理。我們確保此類傳輸符合適用的資料保護法律，包括在需要時使用標準合約條款。","s12_title":"12. 兒童隱私","s12_p1":"我們的網站不面向 16 歲以下的兒童。我們不會有意收集 16 歲以下兒童的個人資訊。如果您未滿 16 歲，請勿使用我們的服務或提供任何個人資訊。如果您認為我們無意中收集了 16 歲以下兒童的資料，請立即聯繫我們，我們將及時刪除。","s13_title":"13. 政策更新","s13_p1":"我們可能不時更新本隱私權政策。更新時，我們會更新本頁面頂部的「最後更新」日期。我們鼓勵您定期查看本政策。在變更後繼續使用我們的網站即構成對更新政策的接受。","s14_title":"14. 聯繫我們","s14_email_label":"電子郵件：","s14_website_label":"網站：","s14_note":"如需隱私權相關的請求或疑慮，請在電子郵件主旨中標明「隱私權請求」。"},"footer":{"brand_desc":"古老智慧，現代清晰。透過八字分析、風水諮詢與五行指導，以結構化洞察導航人生。","navigation":"導航","digital_audio":"數位音頻課程","fortune_desc":"中國算命\u003cbr>尋找靈魂伴侶","contact":"聯繫方式","wechat":"WeChat","telegram_channel":"Telegram 頻道","hours":"週一至週六：上午 9 點至晚上 9 點（CST / UTC+8）","copyright":"© 2026 DAO Essence & Five Elements. 保留所有權利。","privacy":"隱私權政策","terms":"服務條款"}};
+    if (!DICT || Object.keys(DICT).length === 0) return;
+    var orig = {};
+    function gnv(obj, key){ if(!obj||!key) return null; return key.split('.').reduce(function(o,k){ return (o&&o[k]!==undefined)?o[k]:null; }, obj); }
+    // data-i18n
+    var els = document.querySelectorAll('[data-i18n]');
+    for (var i = 0; i < els.length; i++){
+      var el = els[i]; var k = el.getAttribute('data-i18n');
+      if (k && !orig[k]) orig[k] = el.innerHTML;
+      var v = gnv(DICT, k); if (typeof v === 'string') el.innerHTML = v;
+    }
+    // placeholder
+    var phs = document.querySelectorAll('[data-i18n-placeholder]');
+    for (var pi = 0; pi < phs.length; pi++){
+      var pe = phs[pi]; var pk = pe.getAttribute('data-i18n-placeholder');
+      var ck = '__placeholder__' + pk;
+      if (pk && !orig[ck]) orig[ck] = pe.getAttribute('placeholder');
+      var pv = gnv(DICT, pk); if (typeof pv === 'string') pe.setAttribute('placeholder', pv);
+    }
+    // prefix / suffix
+    var pfx = document.querySelectorAll('[data-i18n-prefix]');
+    for (var j = 0; j < pfx.length; j++){
+      var pel = pfx[j]; var ck2 = '__prefix_suffix__' + j;
+      pel.setAttribute('data-i18n-cache-key', ck2);
+      if (!orig[ck2]) orig[ck2] = pel.innerHTML;
+      var pv2 = gnv(DICT, pel.getAttribute('data-i18n-prefix')) || '';
+      var sv2 = gnv(DICT, pel.getAttribute('data-i18n-suffix')) || '';
+      var kids = []; for (var c = 0; c < pel.childNodes.length; c++) kids.push(pel.childNodes[c].cloneNode(true));
+      pel.textContent = '';
+      if (typeof pv2 === 'string' && pv2) pel.appendChild(document.createTextNode(pv2 + ' '));
+      for (var k2 = 0; k2 < kids.length; k2++) pel.appendChild(kids[k2]);
+      if (typeof sv2 === 'string' && sv2) pel.appendChild(document.createTextNode(' ' + sv2));
+    }
+    // data-zh-* （中文直接写在属性值里）
+    var zmap = [['data-zh-cat','__zhcat__'],['data-zh-text','__zhtext__'],['data-zh-title','__zhtitle__'],['data-zh-desc','__zhdesc__'],['data-zh-faq','__zhfaq__'],['data-zh-faq-a','__zhfqa__']];
+    for (var z = 0; z < zmap.length; z++){
+      var attr = zmap[z][0], pre = zmap[z][1];
+      var nodes = document.querySelectorAll('[' + attr + ']');
+      for (var zi = 0; zi < nodes.length; zi++){
+        var n = nodes[zi]; var key = pre + zi;
+        if (!orig[key]) orig[key] = n.textContent;
+        var val = n.getAttribute(attr); if (val) n.textContent = val;
+      }
+    }
+    window.__I18N_CRIT_ORIGINAL__ = orig;
+    try { document.documentElement.lang = 'zh-Hant'; } catch(e){}
+  } catch(e){}
+})();
+</script>
+
 </body>
 </html>

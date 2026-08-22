@@ -1909,5 +1909,76 @@
         }
     })();
     </script>
+
+
+<!-- i18n-critical-injected -->
+<script>
+(function(){
+  if (window.__I18N_CRIT_DONE__) return;
+  window.__I18N_CRIT_DONE__ = true;
+  try {
+    var SUPPORTED = ['en', 'zh'], DEFAULT = 'en', STORAGE_KEY = 'daoessence_lang';
+    function getSaved(){ try { return localStorage.getItem(STORAGE_KEY); } catch(e){ return null; } }
+    function detect(){ var n = navigator.language || navigator.userLanguage || ''; var c = n.split('-')[0].toLowerCase(); return SUPPORTED.indexOf(c) !== -1 ? c : null; }
+    function getInitial(){
+      var p = location.pathname;
+      if (p.indexOf('/zh/') === 0 || p === '/zh') return 'zh';
+      try { var params = new URLSearchParams(location.search); var ul = params.get('lang'); if (ul && SUPPORTED.indexOf(ul) !== -1) return ul; } catch(e){}
+      var s = getSaved(); if (s && SUPPORTED.indexOf(s) !== -1) return s;
+      var b = detect(); if (b) return b;
+      return DEFAULT;
+    }
+    var lang = getInitial();
+    if (lang !== 'zh') return; // 仅中文需要首屏预翻译
+    var DICT = {"common":{"home":"首頁","blog":"部落格","learn_bazi":"學八字","shop":"商城","about_us":"關於我們","five_elements":"五行"},"nav":{"tools":"工具","tool_bazi":"八字排盤","tool_favorable":"用神指南","tool_daily":"生肖運勢","tool_five":"五行性格測試","tool_soulmate":"靈魂伴侶尋找","tool_almanac":"吉日選擇","tool_wallpapers":"旺運壁紙","blog_all":"所有文章","blog_bazi":"八字占星","blog_zodiac":"生肖運勢","blog_fengshui":"家居風水","blog_elements":"五行文化"},"hero":{"eyebrow":"古老智慧 · 智能分析 · 免费排盘","heading_prefix":"免费八字排盘与","heading_highlight":"命理分析","desc":"从八字排盘到\u003ca href='/zodiac/zodiac-daily'>每日运势\u003c/a>，从\u003ca href='/soulmate-calculator'>灵魂伴侣匹配\u003c/a>到\u003ca href='/five-elements-test'>五行分析\u003c/a>——发现你的性格特质、事业方向、财富时机和感情洞察。全部免费，支持英文和中文。","cta":"获取我的免费命盘","cta2":"查看专属旺运壁纸","note":"✓ 即时出结果 · 中英双语 · 无需注册"},"services":{"title":"我們提供什麼","subtitle":"古老智慧，實用洞察","desc":"中國玄學三大支柱，幫助你了解自己與周遭世界。","card1_title":"八字——你的人生天賦","card1_desc":"透過6個結構化章節掌握八字核心框架——從天干到完整命盤解讀。免費開始，無需先備知識。","card1_link":"開始學習八字 →","card2_title":"風水——你的空間","card2_desc":"你的居住與工作環境如何影響你的運勢與心態。學習佈置空間以吸引財富、和諧與健康——讓環境支持你的目標而非阻礙。","card2_link":"探索風水 →","card3_title":"五行——你的平衡","card3_desc":"木、火、土、金、水——塑造一切存在的五種基本力量。理解相生相剋的循環，發現與你人生道路共鳴的元素。","card3_link":"計算你的五行 →"},"bazi":{"title":"免費八字解讀","subtitle":"看看你的命盤怎麼說","desc":"輸入出生時間，一分鐘生成你的命盤。事業方向、感情運勢、財富時機、健康提醒——一次看清。","year":"年","month":"月","day":"日","shichen":"時辰","gender":"性別","calculate":"計算我的八字","reset":"重置","consent":"我同意\u003ca href=\"/privacy\" style=\"color:rgba(26,22,18,0.8);text-decoration:underline;\">隱私權政策\u003c/a>——我的出生資料僅用於計算，不會被儲存。"},"soulmate":{"title":"你將在\u003cspan>何處遇見靈魂伴侶\u003c/span>？","tagline":"寫在星辰中，由古人揭示","q1_title":"我會在哪裡遇到靈魂伴侶？","q1_desc":"與你靈魂伴侶能量對齊的地理方位","q2_title":"我何時能找到愛情？","q2_desc":"你最吉祥的年齡範圍與生肖年份","q3_title":"我是什麼樣的戀人？","q3_desc":"從你的命盤解碼出獨特的關係原型","cta":"尋找你的靈魂伴侶"},"wallpaper":{"home_title":"旺运风水壁纸","home_subtitle":"免费手机壁纸，招财、旺爱、护身","loading_wallpapers":"載入壁紙中...","home_cta":"浏览全部壁纸"},"articles":{"title":"最新文章","subtitle":"知識與洞察","desc":"深入探索中國玄學。從八字基礎到風水技巧，從零開始建立你的理解。","card1_cat":"八字占星","card1_title":"如何解讀你的八字命盤：步驟指南","card1_desc":"學習如何逐步解讀你的八字（四柱命理）命盤。理解天干、地支、五行與十神。","card1_min":"8 分鐘閱讀","card2_cat":"八字占星","card2_title":"什麼是八字？中國占星術與數字命理入門指南","card2_desc":"什麼是八字？學習四柱命理的基礎知識——這個古老的中國占星體系能描繪你的五行命盤。","card2_min":"11 分鐘閱讀","card3_cat":"中國玄學","card3_title":"五行理論（五行）完全入門指南","card3_desc":"全面了解五行理論——木、火、土、金、水。理解相生相剋的循環，以及它們與中醫和風水的關係。","card3_min":"12 分鐘閱讀","card4_cat":"八字占星","card4_title":"仁、義、禮、智、信","card4_desc":"中華五千年文明的基石，蘊含於五常與五行的動態交互之中。","card4_min":"5 分鐘閱讀","browse_all":"瀏覽所有文章"},"contact":{"title":"聯絡我們","subtitle":"與我們聯繫","desc":"八字、風水、擇日——無論你有什麼問題，我們的命理師團隊隨時為你解答。發送訊息，我們會在 24 小時內回覆。","brand_title":"DAO Essence","brand_desc":"中國玄學與東方智慧。我們透過八字分析、風水諮詢與五行指導，幫助你以清晰的視角導航人生。","label_email":"電子郵件","label_telegram":"Telegram","label_hours":"服務時間","hours_text":"週一至週六：上午 9 點 – 晚上 9 點（CST / UTC+8）","form_name":"姓名","form_email":"電子郵件","form_subject":"主題","subject_bazi":"八字諮詢","subject_fengshui":"風水","subject_five_elements":"五行","subject_general":"一般詢問","form_message":"訊息","send_message":"發送訊息","placeholder_name":"您的姓名","placeholder_email":"您的電子郵件","placeholder_message":"請描述您的需求..."},"footer":{"brand_desc":"古老智慧，現代清晰。透過八字分析、風水諮詢與五行指導，以結構化洞察導航人生。","tools_title":"工具","tool_bazi":"八字排盤","tool_lucky":"用神指南","tool_five":"五行性格測試","tool_soulmate":"靈魂伴侶尋找","tool_almanac":"吉日選擇","tool_zodiac":"生肖运势","tool_wallpapers":"旺運壁紙","explore_title":"探索","links_title":"連結","fortune_desc":"中國算命\u003cbr>尋找靈魂伴侶","contact_title":"聯繫方式","wechat":"WeChat","hours":"週一至週六：上午 9 點至晚上 9 點（CST / UTC+8）","telegram_channel":"Telegram 頻道","copyright":"© 2026 DAO Essence & Five Elements. 保留所有權利。","privacy":"隱私權政策","terms":"服務條款"}};
+    if (!DICT || Object.keys(DICT).length === 0) return;
+    var orig = {};
+    function gnv(obj, key){ if(!obj||!key) return null; return key.split('.').reduce(function(o,k){ return (o&&o[k]!==undefined)?o[k]:null; }, obj); }
+    // data-i18n
+    var els = document.querySelectorAll('[data-i18n]');
+    for (var i = 0; i < els.length; i++){
+      var el = els[i]; var k = el.getAttribute('data-i18n');
+      if (k && !orig[k]) orig[k] = el.innerHTML;
+      var v = gnv(DICT, k); if (typeof v === 'string') el.innerHTML = v;
+    }
+    // placeholder
+    var phs = document.querySelectorAll('[data-i18n-placeholder]');
+    for (var pi = 0; pi < phs.length; pi++){
+      var pe = phs[pi]; var pk = pe.getAttribute('data-i18n-placeholder');
+      var ck = '__placeholder__' + pk;
+      if (pk && !orig[ck]) orig[ck] = pe.getAttribute('placeholder');
+      var pv = gnv(DICT, pk); if (typeof pv === 'string') pe.setAttribute('placeholder', pv);
+    }
+    // prefix / suffix
+    var pfx = document.querySelectorAll('[data-i18n-prefix]');
+    for (var j = 0; j < pfx.length; j++){
+      var pel = pfx[j]; var ck2 = '__prefix_suffix__' + j;
+      pel.setAttribute('data-i18n-cache-key', ck2);
+      if (!orig[ck2]) orig[ck2] = pel.innerHTML;
+      var pv2 = gnv(DICT, pel.getAttribute('data-i18n-prefix')) || '';
+      var sv2 = gnv(DICT, pel.getAttribute('data-i18n-suffix')) || '';
+      var kids = []; for (var c = 0; c < pel.childNodes.length; c++) kids.push(pel.childNodes[c].cloneNode(true));
+      pel.textContent = '';
+      if (typeof pv2 === 'string' && pv2) pel.appendChild(document.createTextNode(pv2 + ' '));
+      for (var k2 = 0; k2 < kids.length; k2++) pel.appendChild(kids[k2]);
+      if (typeof sv2 === 'string' && sv2) pel.appendChild(document.createTextNode(' ' + sv2));
+    }
+    // data-zh-* （中文直接写在属性值里）
+    var zmap = [['data-zh-cat','__zhcat__'],['data-zh-text','__zhtext__'],['data-zh-title','__zhtitle__'],['data-zh-desc','__zhdesc__'],['data-zh-faq','__zhfaq__'],['data-zh-faq-a','__zhfqa__']];
+    for (var z = 0; z < zmap.length; z++){
+      var attr = zmap[z][0], pre = zmap[z][1];
+      var nodes = document.querySelectorAll('[' + attr + ']');
+      for (var zi = 0; zi < nodes.length; zi++){
+        var n = nodes[zi]; var key = pre + zi;
+        if (!orig[key]) orig[key] = n.textContent;
+        var val = n.getAttribute(attr); if (val) n.textContent = val;
+      }
+    }
+    window.__I18N_CRIT_ORIGINAL__ = orig;
+    try { document.documentElement.lang = 'zh-Hant'; } catch(e){}
+  } catch(e){}
+})();
+</script>
+
 </body>
 </html>

@@ -1011,5 +1011,76 @@
     </script>
     <script src="/js/i18n-switcher.js" defer></script>
     <script src="/js/feedback.js" async></script>
+
+
+<!-- i18n-critical-injected -->
+<script>
+(function(){
+  if (window.__I18N_CRIT_DONE__) return;
+  window.__I18N_CRIT_DONE__ = true;
+  try {
+    var SUPPORTED = ['en', 'zh'], DEFAULT = 'en', STORAGE_KEY = 'daoessence_lang';
+    function getSaved(){ try { return localStorage.getItem(STORAGE_KEY); } catch(e){ return null; } }
+    function detect(){ var n = navigator.language || navigator.userLanguage || ''; var c = n.split('-')[0].toLowerCase(); return SUPPORTED.indexOf(c) !== -1 ? c : null; }
+    function getInitial(){
+      var p = location.pathname;
+      if (p.indexOf('/zh/') === 0 || p === '/zh') return 'zh';
+      try { var params = new URLSearchParams(location.search); var ul = params.get('lang'); if (ul && SUPPORTED.indexOf(ul) !== -1) return ul; } catch(e){}
+      var s = getSaved(); if (s && SUPPORTED.indexOf(s) !== -1) return s;
+      var b = detect(); if (b) return b;
+      return DEFAULT;
+    }
+    var lang = getInitial();
+    if (lang !== 'zh') return; // 仅中文需要首屏预翻译
+    var DICT = {"common":{"home":"首頁","blog":"部落格","learn_bazi":"學八字","shop":"商城","about_us":"關於我們","five_elements":"五行"},"nav":{"tools":"工具","tool_bazi":"八字排盤","tool_favorable":"用神指南","tool_daily":"生肖運勢","tool_five":"五行性格測試","tool_soulmate":"靈魂伴侶尋找","tool_almanac":"吉日選擇","tool_wallpapers":"旺運壁紙","blog_all":"所有文章","blog_bazi":"八字占星","blog_zodiac":"生肖運勢","blog_fengshui":"家居風水","blog_elements":"五行文化"},"about":{"hero_eyebrow":"關於 DAO Essence","hero_title1":"古老智慧，","hero_title2":"現代清晰。","hero_sub":"我們架起中國傳統玄學與現代人所面對問題之間的橋樑。沒有神秘主義，沒有一語帶過的算命話術——只有紮根於千年傳統的嚴謹分析。","scroll":"向下滾動","mission_label":"我們的使命","mission_title":"讓中國玄學觸手可及，學以致用","mission_p1":"DAO Essence 的創立源自一個簡單的觀察：\u003cem>中國玄學中的古老體系——八字、風水、五行——確實蘊含著理解自身與周遭環境的有用框架。\u003c/em>問題從來不在於這些體系本身，而在於讓人們難以接觸它們的種種障礙——晦澀的術語、文化隔閡，以及一個常常被神秘化所籠罩的行業。","mission_p2":"我們的做法與眾不同。我們提供\u003cem>結構化、客觀的分析\u003c/em>，在尊重傳統的同時，以現代人能理解的語言清晰呈現。我們的免費八字計算器讓任何人都能立刻掌握自己的命盤概況。對於希望深入了解的人，我們的付費諮詢提供由資深命理師主持的個人化指引。","mission_p3":"我們相信，中國玄學的價值不在於預測固定的命運，而在於揭示\u003cem>規律、傾向與時機\u003c/em>——讓你在事業、感情、健康與生活環境上做出更有智慧的決策。","service1_num":"一","service1_title":"八字分析","service1_desc":"解碼你的四柱命盤——透過天干地支的視角，了解你的五行組成、強弱 profile 與人生大運週期。","service2_num":"二","service2_title":"風水諮詢","service2_desc":"評估你的居家與工作環境如何與自然能量場互動。建議根植於古典形勢派與羅盤方法，實用可行。","service3_num":"三","service3_title":"五行指導","service3_desc":"找出你的旺盛與缺失元素，學習如何透過日常習慣、環境調整與時機策略來恢復平衡。","values_label":"核心價值","values_title":"我們的信念","values_subtitle":"塑造每次諮詢與每篇內容的原則","v1_title":"準確優先，絕不誇大","v1_desc":"我們呈現分析所真正顯示的結果——而非聽起來令人印象深刻的結論。若命盤存在模糊之處，我們會如實說明。不製造確定性，不以恐懼推銷。","v2_title":"全程保密","v2_desc":"你的出生資料屬於個人隱私。我們絕不分享、出售或儲存你的資訊——超出提供諮詢所必要的範圍。就是這樣。","v3_title":"洞察落地，學以致用","v3_desc":"每次解讀都以可行動的建議作結。了解你的元素 profile，若無法應用於日常決策，便毫無意義。","v4_title":"傳統有據，脈絡清晰","v4_desc":"我們引用所使用的經典框架——十神、十二長生、相生相剋循環——讓你理解背後的邏輯，而非只是結論。","v5_title":"不替代專業判斷","v5_desc":"中國玄學是一種自我反思的工具，而非醫療、法律或財務建議的替代品。我們清楚它能做什麼，也清楚它做不到什麼。","v6_title":"開放取用","v6_desc":"我們提供免費八字計算器，因為每個人都應有機會在無需付費的情況下探索自己的命盤。教育不應設有門檻——只有更深入的指引才需要。","team_label":"我們的團隊","team_title":"認識我們","team_subtitle":"命理師與傳播者——因對傳統的共同敬重而聚集","team1_role":"創辦人","team1_desc":"中國玄學資深命理師，專注八字命盤分析與命運解讀。融匯東西方視角，讓傳統框架觸達全球讀者。","team2_role":"共同創辦人","team2_desc":"正一道脈傳承人，修行逾二十年。精通風水堪輿、環境能量評估及傳統科儀。","team3_role":"品牌與內容策略","team3_desc":"文化品牌策略師，深耕東方哲學傳播逾十年。擅長將複雜玄學概念轉化為清晰、引人入勝的教育內容。","team4_role":"創意與視覺設計","team4_desc":"設計師，對中國傳統美學有深厚造詣。負責打造 DAO Essence 的視覺識別與插畫內容，將品牌數位存在與文化根源緊密相連。","cta_title":"需要專業命理諮詢？","cta_desc":"八字、風水、擇日——無論你有什麼問題，我們的命理師團隊隨時為你解答。發送訊息，我們會在 24 小時內回覆。","cta_btn":"聯絡我們"},"footer":{"brand_desc":"古老智慧，現代清晰。透過八字分析、風水諮詢與五行指導，以結構化洞察導航人生。","tools_title":"工具","tool_bazi":"八字排盤","tool_lucky":"用神指南","tool_five":"五行性格測試","tool_soulmate":"靈魂伴侶尋找","tool_almanac":"吉日選擇","tool_zodiac":"生肖运势","tool_wallpapers":"旺運壁紙","explore_title":"探索","links_title":"連結","fortune_desc":"中國算命\u003cbr>尋找靈魂伴侶","contact_title":"聯繫方式","wechat":"WeChat","hours":"週一至週六：上午 9 點至晚上 9 點（CST / UTC+8）","telegram_channel":"Telegram 頻道","copyright":"© 2026 DAO Essence & Five Elements. 保留所有權利。","privacy":"隱私權政策","terms":"服務條款"}};
+    if (!DICT || Object.keys(DICT).length === 0) return;
+    var orig = {};
+    function gnv(obj, key){ if(!obj||!key) return null; return key.split('.').reduce(function(o,k){ return (o&&o[k]!==undefined)?o[k]:null; }, obj); }
+    // data-i18n
+    var els = document.querySelectorAll('[data-i18n]');
+    for (var i = 0; i < els.length; i++){
+      var el = els[i]; var k = el.getAttribute('data-i18n');
+      if (k && !orig[k]) orig[k] = el.innerHTML;
+      var v = gnv(DICT, k); if (typeof v === 'string') el.innerHTML = v;
+    }
+    // placeholder
+    var phs = document.querySelectorAll('[data-i18n-placeholder]');
+    for (var pi = 0; pi < phs.length; pi++){
+      var pe = phs[pi]; var pk = pe.getAttribute('data-i18n-placeholder');
+      var ck = '__placeholder__' + pk;
+      if (pk && !orig[ck]) orig[ck] = pe.getAttribute('placeholder');
+      var pv = gnv(DICT, pk); if (typeof pv === 'string') pe.setAttribute('placeholder', pv);
+    }
+    // prefix / suffix
+    var pfx = document.querySelectorAll('[data-i18n-prefix]');
+    for (var j = 0; j < pfx.length; j++){
+      var pel = pfx[j]; var ck2 = '__prefix_suffix__' + j;
+      pel.setAttribute('data-i18n-cache-key', ck2);
+      if (!orig[ck2]) orig[ck2] = pel.innerHTML;
+      var pv2 = gnv(DICT, pel.getAttribute('data-i18n-prefix')) || '';
+      var sv2 = gnv(DICT, pel.getAttribute('data-i18n-suffix')) || '';
+      var kids = []; for (var c = 0; c < pel.childNodes.length; c++) kids.push(pel.childNodes[c].cloneNode(true));
+      pel.textContent = '';
+      if (typeof pv2 === 'string' && pv2) pel.appendChild(document.createTextNode(pv2 + ' '));
+      for (var k2 = 0; k2 < kids.length; k2++) pel.appendChild(kids[k2]);
+      if (typeof sv2 === 'string' && sv2) pel.appendChild(document.createTextNode(' ' + sv2));
+    }
+    // data-zh-* （中文直接写在属性值里）
+    var zmap = [['data-zh-cat','__zhcat__'],['data-zh-text','__zhtext__'],['data-zh-title','__zhtitle__'],['data-zh-desc','__zhdesc__'],['data-zh-faq','__zhfaq__'],['data-zh-faq-a','__zhfqa__']];
+    for (var z = 0; z < zmap.length; z++){
+      var attr = zmap[z][0], pre = zmap[z][1];
+      var nodes = document.querySelectorAll('[' + attr + ']');
+      for (var zi = 0; zi < nodes.length; zi++){
+        var n = nodes[zi]; var key = pre + zi;
+        if (!orig[key]) orig[key] = n.textContent;
+        var val = n.getAttribute(attr); if (val) n.textContent = val;
+      }
+    }
+    window.__I18N_CRIT_ORIGINAL__ = orig;
+    try { document.documentElement.lang = 'zh-Hant'; } catch(e){}
+  } catch(e){}
+})();
+</script>
+
 </body>
 </html>
