@@ -300,6 +300,13 @@
               : (p.price ? '$' + p.price : '');
             var orig = (p.originalPrice && p.price != null && p.originalPrice > p.price)
               ? '$' + Number(p.originalPrice).toFixed(2) : '';
+            // 两款工具解锁商品目前为免费模式（工具页 *_FREE_MODE = true），
+            // /shop 直接写死展示「免費 / Free」，与实际可白嫖行为一致。
+            var isFreeUnlock = p.id === 'prod_2wj3G9PQp6ZlbD8oFJdr2X' || p.id === 'prod_3fJInBNekM9UVJwtClgUtx';
+            if (isFreeUnlock) {
+              price = zh ? '免費' : 'Free';
+              orig = '';
+            }
             // 保留原有商品详情页逻辑：八字报告服务 → 排盘表单；
             // 两款工具解锁商品 → 跳到对应工具页（那里先收八字/信息再付款解锁）；
             // 其余 → /product-detail?id=...
