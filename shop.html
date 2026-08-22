@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Shop · Lucky Finds Curated by DaoEssence</title>
-  <meta name="description" content="Hand-picked Feng Shui, BaZi and Chinese-metaphysics finds — books, jewelry, tools, decor and wellness. Personalized to your Five-Element profile.">
+  <title>Shop · DaoEssence — Digital Resources & Curated Finds</title>
+  <meta name="description" content="DaoEssence Shop: your own digital resources (BaZi readings, courses, almanac unlocks) plus editorially curated Feng Shui, BaZi and Chinese-metaphysics picks from Amazon — personalized to your Five-Element profile.">
   <style>
     :root {
       --bg: #120f0d;
@@ -35,10 +35,15 @@
     .brand span { color: var(--text); font-weight: 400; }
     nav.site a { margin-left: 1.4rem; color: var(--text); opacity: 0.8; font-size: 0.92rem; }
     nav.site a:hover { color: var(--gold); opacity: 1; }
-    .hero { text-align: center; padding: 3.5rem 1rem 2rem; }
+    .hero { text-align: center; padding: 3.5rem 1rem 1.5rem; }
     .hero .eyebrow { color: var(--gold); letter-spacing: 0.22em; font-size: 0.72rem; text-transform: uppercase; }
     .hero h1 { font-family: "Georgia", serif; font-size: 2.6rem; margin: 0.6rem 0 0.4rem; }
-    .hero p { color: var(--muted); max-width: 640px; margin: 0 auto; }
+    .hero p { color: var(--muted); max-width: 660px; margin: 0 auto; }
+
+    /* 顶部双视图切换标签 */
+    .view-tabs { margin: 1.8rem 0 1.2rem; }
+    .view-desc { color: var(--muted); text-align: center; max-width: 680px; margin: 0 auto 1.6rem; font-size: 0.95rem; }
+
     .personalize-note {
       max-width: 720px; margin: 1.4rem auto 0; padding: 0.8rem 1.2rem;
       border: 1px dashed rgba(212,175,55,0.4); border-radius: 12px;
@@ -59,18 +64,23 @@
     .amazon-products-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.4rem; padding-bottom: 3rem; }
     .amazon-product-card { background: linear-gradient(145deg, #2d2420, #1a1512); border: 1px solid rgba(212,175,55,0.2); border-radius: 12px; padding: 1.4rem; text-align: center; transition: transform 0.3s, box-shadow 0.3s; }
     .amazon-product-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.35); }
-    .amazon-badge { display: inline-block; font-size: 0.68rem; letter-spacing: 0.08em; color: #d4af37; background: rgba(212,175,55,0.1); padding: 0.3rem 0.9rem; border-radius: 999px; margin-bottom: 0.9rem; }
+    .amazon-badge, .digital-badge { display: inline-block; font-size: 0.68rem; letter-spacing: 0.08em; padding: 0.3rem 0.9rem; border-radius: 999px; margin-bottom: 0.9rem; }
+    .amazon-badge { color: #d4af37; background: rgba(212,175,55,0.1); }
+    .digital-badge { color: #7fd1c4; background: rgba(127,209,196,0.12); }
     .amazon-img-wrap { width: 100%; aspect-ratio: 1 / 1; max-height: 190px; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; border-radius: 8px; overflow: hidden; background: linear-gradient(145deg, #241d18, #15110e); }
     .amazon-img-wrap img { width: 100%; height: 100%; object-fit: contain; background: #fff; padding: 0.5rem; }
     .amazon-icon { width: 68%; height: 68%; display: block; }
     .amazon-icon-fallback { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
     .amazon-product-card h4 { font-size: 1rem; color: #f5e6d3; margin: 0 0 0.7rem; line-height: 1.4; font-weight: 600; min-height: 2.8em; }
+    .digital-desc { color: var(--muted); font-size: 0.82rem; line-height: 1.5; margin: 0 0 0.8rem; min-height: 3.6em; }
     .amazon-rating { display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-bottom: 0.7rem; }
     .amazon-rating .stars { color: #d4af37; font-size: 0.9rem; }
     .amazon-rating .rating-text { font-size: 0.72rem; color: #999; }
     .amazon-price { font-size: 1.25rem; font-weight: 700; color: #d4af37; margin-bottom: 1rem; }
     .amazon-btn { display: inline-block; background: linear-gradient(135deg, #d4af37, #b8941f); color: #1a1512; font-weight: 700; font-size: 0.85rem; padding: 0.65rem 1.3rem; border-radius: 8px; text-decoration: none; transition: all 0.3s; }
     .amazon-btn:hover { background: linear-gradient(135deg, #e5c048, #d4af37); transform: translateY(-2px); }
+    .digital-btn { display: inline-block; background: transparent; border: 1px solid #7fd1c4; color: #7fd1c4; font-weight: 700; font-size: 0.85rem; padding: 0.6rem 1.3rem; border-radius: 8px; text-decoration: none; transition: all 0.3s; }
+    .digital-btn:hover { background: rgba(127,209,196,0.12); transform: translateY(-2px); }
     .amazon-disclaimer { font-size: 0.72rem; color: #8a7f6d; text-align: center; margin: 2rem auto 0; max-width: 720px; }
 
     footer.site { border-top: 1px solid rgba(212,175,55,0.15); margin-top: 2rem; padding: 2rem 0; color: var(--muted); font-size: 0.85rem; text-align: center; }
@@ -94,26 +104,39 @@
 
   <section class="hero">
     <div class="wrap">
-      <div class="eyebrow" id="hero-eyebrow">Curated Lucky Finds</div>
-      <h1 id="hero-title">Lucky Finds · Shop</h1>
-      <p id="hero-desc">Carefully chosen Feng Shui, BaZi and Chinese-metaphysics essentials — books, jewelry, tools, decor and wellness. Every pick is aligned with the Five Elements, and re-ranked to your personal profile.</p>
-      <div id="personalize-note" class="personalize-note">Loading your personalization…</div>
+      <div class="eyebrow" id="hero-eyebrow">DaoEssence Shop</div>
+      <h1 id="hero-title">Shop</h1>
+      <p id="hero-desc">Your own digital resources and our editorially curated metaphysical finds — in one place. Switch between the two tabs below.</p>
     </div>
   </section>
 
   <main class="wrap">
-    <div class="tabs" id="shop-tabs">
-      <button class="tab active" data-cat="all">All</button>
-      <button class="tab" data-cat="Books">Books</button>
-      <button class="tab" data-cat="Jewelry">Jewelry</button>
-      <button class="tab" data-cat="Tools">Tools</button>
-      <button class="tab" data-cat="Decor">Decor</button>
-      <button class="tab" data-cat="Wellness">Wellness</button>
+    <!-- 顶部双视图切换：数字资源 / 亚马逊推荐 -->
+    <div class="tabs view-tabs" id="view-tabs">
+      <button class="tab active" data-view="digital" id="tab-digital">My Digital Resources</button>
+      <button class="tab" data-view="amazon" id="tab-amazon">Recommended Picks</button>
+    </div>
+    <p class="view-desc" id="digital-desc">Your personal digital library — BaZi readings, courses, almanac &amp; soulmate unlocks, plus audio and wallpapers. Instant delivery after purchase.</p>
+
+    <!-- 视图 1：我的数字资源（Creem） -->
+    <div id="view-digital" class="shop-view">
+      <div class="amazon-products-grid" id="digital-grid"></div>
     </div>
 
-    <div class="amazon-products-grid" id="shop-grid"></div>
-
-    <p class="amazon-disclaimer">As an Amazon Associate, DaoEssence earns from qualifying purchases. Product selections are editorially curated; prices and availability are shown from Amazon at the time of visit.</p>
+    <!-- 视图 2：推荐好物（Amazon 联盟橱窗） -->
+    <div id="view-amazon" class="shop-view" style="display:none">
+      <div class="tabs" id="shop-tabs">
+        <button class="tab active" data-cat="all">All</button>
+        <button class="tab" data-cat="Books">Books</button>
+        <button class="tab" data-cat="Jewelry">Jewelry</button>
+        <button class="tab" data-cat="Tools">Tools</button>
+        <button class="tab" data-cat="Decor">Decor</button>
+        <button class="tab" data-cat="Wellness">Wellness</button>
+      </div>
+      <div id="personalize-note" class="personalize-note">Loading your personalization…</div>
+      <div class="amazon-products-grid" id="shop-grid"></div>
+      <p class="amazon-disclaimer">As an Amazon Associate, DaoEssence earns from qualifying purchases. Product selections are editorially curated; prices and availability are shown from Amazon at the time of visit.</p>
+    </div>
   </main>
 
   <footer class="site">
@@ -130,7 +153,7 @@
     var TAG = 'daoessence25-20'; // 真实追踪 ID（与 js/amazon-affiliate.js 的 amzn.to 短链账号一致）
 
     // 语言检测：优先使用站点统一的 DaoI18n（/zh 路径、?lang=、localStorage、浏览器语言），
-    // 兜底回退到 <html lang> 属性。不再依赖从未被设置的 window.DAO_LANG。
+    // 兜底回退到 <html lang> 属性。
     function isZhNow() {
       if (window.DaoI18n && typeof window.DaoI18n.current === 'function') {
         var cur = window.DaoI18n.current();
@@ -140,9 +163,13 @@
       return (document.documentElement.lang || '').toLowerCase().indexOf('zh') !== -1;
     }
 
-    // Amazon OneLink（OneTag）国际跳转：在 Associates Central 配置并填入 adInstanceId 后启用，
-    // 自动把 amazon.com 原生链接按访客地区重定向到对应国家站点（保留 ?tag=daoessence25-20）。
-    // 留空则完全不加载，零侵入、不冲突。
+    function esc(s) {
+      return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+      });
+    }
+
+    // ---------- Amazon OneLink（预留，留空则不加载） ----------
     var AMAZON_ONELINK_ID = '';
     if (AMAZON_ONELINK_ID) {
       var _ol = document.createElement('script');
@@ -151,8 +178,50 @@
       document.head.appendChild(_ol);
     }
 
-    // 商品分类：基于 tags 推导，覆盖全部 38 件商品，无孤儿（0 Other）。
-    // 顺序很关键：Books → Jewelry → Wellness → Tools → Decor → Other
+    // ---------- 视图 1：Creem 数字资源 ----------
+    function renderDigital() {
+      var zh = isZhNow();
+      var grid = document.getElementById('digital-grid');
+      if (!grid) return;
+      grid.innerHTML = '<p style="color:#9a8f7d;text-align:center;grid-column:1/-1">Loading…</p>';
+      fetch('/api/products')
+        .then(function (r) { return r.json(); })
+        .then(function (res) {
+          var products = (res && res.data) ? res.data : (Array.isArray(res) ? res : []);
+          if (!products.length) {
+            grid.innerHTML = '<p style="color:#9a8f7d;text-align:center;grid-column:1/-1">No products available right now.</p>';
+            return;
+          }
+          grid.innerHTML = products.map(function (p) {
+            var name = (zh && p.nameCN) ? p.nameCN : (p.name || '');
+            var desc = (zh && p.descriptionCN) ? p.descriptionCN : (p.description || '');
+            if (desc && desc.length > 90) desc = desc.slice(0, 90) + '…';
+            var img = p.image || p.image_url || '';
+            var price = (typeof p.price === 'number') ? '$' + p.price.toFixed(2)
+              : (p.price ? '$' + p.price : '');
+            var orig = (p.originalPrice && p.price != null && p.originalPrice > p.price)
+              ? '$' + Number(p.originalPrice).toFixed(2) : '';
+            var url = p.creemUrl || ('https://www.creem.io/payment/' + p.id);
+            return '<div class="amazon-product-card digital-card">'
+              + '<span class="digital-badge">Digital</span>'
+              + '<div class="amazon-img-wrap">' + (img ? '<img src="' + esc(img) + '" alt="' + esc(name) + '">' : '') + '</div>'
+              + '<h4>' + esc(name) + '</h4>'
+              + (desc ? '<p class="digital-desc">' + esc(desc) + '</p>' : '')
+              + '<div class="amazon-price">' + esc(price)
+              + (orig ? ' <s style="color:#8a7f6d;font-weight:400;font-size:0.85rem">' + esc(orig) + '</s>' : '')
+              + '</div>'
+              + '<a href="' + esc(url) + '" target="_blank" rel="noopener" class="digital-btn">'
+              + (zh ? '立即購買' : 'Buy Now') + '</a>'
+              + '</div>';
+          }).join('');
+        })
+        .catch(function (e) {
+          grid.innerHTML = '<p style="color:#9a8f7d;text-align:center;grid-column:1/-1">Unable to load products. Please refresh.</p>';
+          console.error('Digital shop load failed:', e);
+        });
+    }
+
+    // ---------- 视图 2：Amazon 推荐橱窗 ----------
     function categoryOf(p) {
       var t = p.tags || [];
       var has = function (x) { return t.indexOf(x) !== -1; };
@@ -214,27 +283,39 @@
       }
     }
 
-    // 静态文案中英双语字典（避免中英夹杂，按访客语言整段切换）
+    // ---------- 双语字典 ----------
     var I18N = {
       en: {
-        eyebrow: 'Curated Lucky Finds',
-        title: 'Lucky Finds · Shop',
-        desc: 'Carefully chosen Feng Shui, BaZi and Chinese-metaphysics essentials — books, jewelry, tools, decor and wellness. Every pick is aligned with the Five Elements, and re-ranked to your personal profile.',
+        heroEyebrow: 'DaoEssence Shop',
+        heroTitle: 'Shop',
+        heroDesc: 'Your own digital resources and our editorially curated metaphysical finds — in one place. Switch between the two tabs below.',
+        tabDigital: 'My Digital Resources',
+        tabAmazon: 'Recommended Picks',
+        digitalDesc: 'Your personal digital library — BaZi readings, courses, almanac & soulmate unlocks, plus audio and wallpapers. Instant delivery after purchase.',
+        amazonDesc: 'Carefully chosen Feng Shui, BaZi and Chinese-metaphysics essentials — books, jewelry, tools, decor and wellness. Every pick is aligned with the Five Elements, and re-ranked to your personal profile.',
         tabs: { all: 'All', Books: 'Books', Jewelry: 'Jewelry', Tools: 'Tools', Decor: 'Decor', Wellness: 'Wellness' }
       },
       zh: {
-        eyebrow: '精選開運好物',
-        title: '開運好物 · 商店',
-        desc: '嚴選風水、八字與中式玄學好物——書籍、飾品、法器、擺設與養生。每一件都呼應五行，並依你的個人命格重新排序。',
+        heroEyebrow: 'DaoEssence 商店',
+        heroTitle: '商店',
+        heroDesc: '你的數字資源與我們嚴選的玄學好物，集中在一處。切換下方兩個標籤即可。',
+        tabDigital: '我的數字資源',
+        tabAmazon: '推薦好物',
+        digitalDesc: '你的個人數字圖書館——八字解讀、課程、黃曆與姻緣解鎖，以及音頻與桌布。購買後即時交付。',
+        amazonDesc: '嚴選風水、八字與中式玄學好物——書籍、飾品、法器、擺設與養生。每一件都呼應五行，並依你的個人命格重新排序。',
         tabs: { all: '全部', Books: '書籍', Jewelry: '飾品', Tools: '法器', Decor: '擺設', Wellness: '養生' }
       }
     };
 
     function applyLang() {
       var dict = isZhNow() ? I18N.zh : I18N.en;
-      var e = document.getElementById('hero-eyebrow'); if (e) e.textContent = dict.eyebrow;
-      var h = document.getElementById('hero-title'); if (h) h.textContent = dict.title;
-      var p = document.getElementById('hero-desc'); if (p) p.textContent = dict.desc;
+      var set = function (id, v) { var el = document.getElementById(id); if (el) el.textContent = v; };
+      set('hero-eyebrow', dict.heroEyebrow);
+      set('hero-title', dict.heroTitle);
+      set('hero-desc', dict.heroDesc);
+      set('tab-digital', dict.tabDigital);
+      set('tab-amazon', dict.tabAmazon);
+      set('digital-desc', dict.digitalDesc);
       var tabs = document.querySelectorAll('#shop-tabs .tab');
       tabs.forEach(function (btn) {
         var cat = btn.getAttribute('data-cat');
@@ -242,7 +323,25 @@
       });
     }
 
-    function setupTabs() {
+    // ---------- 顶部视图切换 ----------
+    function switchView(v) {
+      var d = document.getElementById('view-digital');
+      var a = document.getElementById('view-amazon');
+      if (v === 'amazon') { d.style.display = 'none'; a.style.display = 'block'; }
+      else { a.style.display = 'none'; d.style.display = 'block'; }
+      document.querySelectorAll('#view-tabs .tab').forEach(function (b) {
+        b.classList.toggle('active', b.getAttribute('data-view') === v);
+      });
+      applyLang();
+    }
+
+    function setupViewTabs() {
+      document.querySelectorAll('#view-tabs .tab').forEach(function (btn) {
+        btn.addEventListener('click', function () { switchView(btn.getAttribute('data-view')); });
+      });
+    }
+
+    function setupAmazonTabs() {
       var tabs = document.querySelectorAll('#shop-tabs .tab');
       tabs.forEach(function (btn) {
         btn.addEventListener('click', function () {
@@ -255,12 +354,14 @@
 
     function init() {
       window.AMAZON_ASSOCIATE_TAG = TAG;
+      setupViewTabs();
+      setupAmazonTabs();
+      applyLang();
+      renderDigital(); // 默认视图 = 数字资源
       fetch('/data/amazon-products.json')
         .then(function (r) { return r.json(); })
         .then(function (lib) {
           window.AMAZON_PRODUCT_LIBRARY = lib;
-          setupTabs();
-          applyLang();
           render('all');
           updateNote();
         })
@@ -271,9 +372,10 @@
         });
     }
 
-    // 语言切换（DaoI18n 派发）时同步刷新文案、标签与商品网格
+    // 语言切换时同步刷新文案与两个视图的网格
     document.addEventListener('daoessence:i18n-changed', function () {
       applyLang();
+      renderDigital();
       var active = document.querySelector('#shop-tabs .tab.active');
       render(active ? active.getAttribute('data-cat') : 'all');
       updateNote();
