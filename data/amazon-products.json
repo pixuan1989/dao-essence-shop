@@ -31,13 +31,13 @@
   },
   {
     "id": "tao-te-ching-book",
-    "name": "Tao Te Ching — Lao Tzu (Bilingual Edition)",
+    "name": "Tao Te Ching: A Study of Taoist Philosophy and the Way of Balance (Perennia…",
     "nameZh": "道德經（中英雙語版）",
-    "price": "$7.99",
-    "image": "https://m.media-amazon.com/images/I/61GRxVnJodL._SY385_.jpg",
-    "keywords": "tao te ching lao tzu bilingual english chinese",
-    "rating": "4.1 out of 5 stars",
-    "reviews": "35",
+    "price": "$9.69",
+    "image": "https://m.media-amazon.com/images/I/51XSnT4lAtL._SY385_.jpg",
+    "keywords": "tao te ching lao tzu",
+    "rating": "4.7 out of 5 stars",
+    "reviews": "1763",
     "categories": [
       "bazi-astrology",
       "feng-shui"
@@ -53,7 +53,7 @@
       "philosophy"
     ],
     "icon": "book",
-    "asin": "1533553122"
+    "asin": "0061142662"
   },
   {
     "id": "bazi-astrology-book",
@@ -86,13 +86,13 @@
   },
   {
     "id": "feng-shui-book",
-    "name": "Feng Shui for Dummies / Complete Guide",
+    "name": "Feng Shui For Dummies",
     "nameZh": "風水實用全書",
-    "price": "$16.99",
-    "image": "https://m.media-amazon.com/images/I/41Y94IxQwXL._FMwebp_.jpg",
-    "keywords": "feng shui complete guide home layout book",
+    "price": "$20.67",
+    "image": "https://m.media-amazon.com/images/I/51pnaknvZoL._SX342_SY445_FMwebp_.jpg",
+    "keywords": "feng shui for dummies",
     "rating": "4.6 out of 5 stars",
-    "reviews": "63",
+    "reviews": "223",
     "categories": [
       "feng-shui"
     ],
@@ -107,7 +107,7 @@
       "home"
     ],
     "icon": "book",
-    "asin": "0760703906"
+    "asin": "1119643163"
   },
   {
     "id": "obsidian-pixiu-bracelet",
@@ -167,39 +167,14 @@
     "asin": "B0CBBBNNRL"
   },
   {
-    "id": "jade-bangle",
-    "name": "Genuine Jade Bangle (Apple Green)",
-    "nameZh": "天然翡翠玉鐲（蘋果綠）",
-    "price": "$379.99",
-    "image": "https://m.media-amazon.com/images/I/41+7sbvHpGL._AC_SL1500_.jpg",
-    "keywords": "genuine jade bangle apple green bracelet",
-    "rating": "4.2 out of 5 stars",
-    "reviews": "9",
-    "categories": [
-      "feng-shui",
-      "zodiac-horoscope"
-    ],
-    "elements": [
-      "wood"
-    ],
-    "zodiac": [],
-    "tags": [
-      "jade",
-      "bracelet",
-      "luxury"
-    ],
-    "icon": "jade",
-    "asin": "B0DNZ2HMMM"
-  },
-  {
     "id": "zodiac-necklace",
-    "name": "Chinese Zodiac Animal Pendant Necklace",
+    "name": "Natural obsidian bead Chinese zodiac Amulet zodiaca animals necklace with a…",
     "nameZh": "十二生肖吊墜項鏈",
-    "price": "$454.99",
-    "image": "https://m.media-amazon.com/images/I/61L2cAFvIcL._AC_SL1500_.jpg",
-    "keywords": "chinese zodiac animal pendant necklace gold",
+    "price": "$26.00",
+    "image": "https://m.media-amazon.com/images/I/71Cl8mQL8oL._AC_SL1500_.jpg",
+    "keywords": "chinese zodiac necklace pendant",
     "rating": "4.5 out of 5 stars",
-    "reviews": "2",
+    "reviews": "109",
     "categories": [
       "zodiac-horoscope",
       "bazi-astrology"
@@ -228,17 +203,17 @@
       "gift"
     ],
     "icon": "zodiac",
-    "asin": "B0FYLMJ3K9"
+    "asin": "B081WWNWJY"
   },
   {
     "id": "pixiu-wealth-bracelet",
-    "name": "Pixiu Wealth & Luck Red String Bracelet",
+    "name": "Brass pixiu Statue 2set,Feng Shui Home Decor a Pair pi yao Brass Sculpture,…",
     "nameZh": "貔貅轉運紅繩手鏈",
-    "price": "$8.99",
-    "image": "https://m.media-amazon.com/images/I/71oVCTSvMTL._AC_SL1500_.jpg",
-    "keywords": "pixiu red string luck bracelet feng shui",
-    "rating": "4.0 out of 5 stars",
-    "reviews": "68",
+    "price": "$36.09",
+    "image": "https://m.media-amazon.com/images/I/61ZSI1PNYAL._AC_SL1500_.jpg",
+    "keywords": "pixiu statue figurine wealth chinese",
+    "rating": "4.6 out of 5 stars",
+    "reviews": "120",
     "categories": [
       "feng-shui",
       "zodiac-horoscope"
@@ -254,7 +229,7 @@
       "luck"
     ],
     "icon": "bracelet",
-    "asin": "B09CBSPB9Z"
+    "asin": "B09NL411QQ"
   },
   {
     "id": "rose-quartz-bracelet",
@@ -894,5 +869,171 @@
     ],
     "icon": "book",
     "asin": "B09JHN88QT"
+  },
+  {
+    "id": "art-of-war-book",
+    "name": "Art of War (Deluxe Hardbound Edition), The (Fingerprint! Classics)",
+    "nameZh": "孙子兵法",
+    "price": "$15.83",
+    "image": "https://m.media-amazon.com/images/I/614xaw4htML._SX342_SY445_FMwebp_.jpg",
+    "keywords": "art of war sun tzu",
+    "rating": "4.7 out of 5 stars",
+    "reviews": "10191",
+    "categories": [
+      "chinese-wisdom",
+      "strategy"
+    ],
+    "elements": [
+      "metal",
+      "wood"
+    ],
+    "zodiac": [],
+    "tags": [
+      "sun-tzu",
+      "strategy",
+      "book",
+      "wisdom"
+    ],
+    "icon": "book",
+    "asin": "9388369696"
+  },
+  {
+    "id": "tao-of-pooh-book",
+    "name": "The Tao of Pooh and The Te of Piglet",
+    "nameZh": "道之小熊（道德经趣读）",
+    "price": "$24.00",
+    "image": "https://m.media-amazon.com/images/I/41WHzzcqbJL._SX342_SY445_FMwebp_.jpg",
+    "keywords": "tao of pooh benjamin hoff",
+    "rating": "4.8 out of 5 stars",
+    "reviews": "2576",
+    "categories": [
+      "tao",
+      "chinese-wisdom",
+      "self-help"
+    ],
+    "elements": [
+      "wood",
+      "water"
+    ],
+    "zodiac": [],
+    "tags": [
+      "tao",
+      "pooh",
+      "book"
+    ],
+    "icon": "book",
+    "asin": "014095144X"
+  },
+  {
+    "id": "laughing-buddha-statue",
+    "name": "Landical Buddha Sandstone Statues Zen Monk Sculptures,Laughing Buddha",
+    "nameZh": "笑佛（弥勒）摆件",
+    "price": "$9.99",
+    "image": "https://m.media-amazon.com/images/I/71AnVHDL9FL._AC_SL1500_.jpg",
+    "keywords": "laughing buddha statue decor",
+    "rating": "4.8 out of 5 stars",
+    "reviews": "517",
+    "categories": [
+      "feng-shui",
+      "decor",
+      "buddhism"
+    ],
+    "elements": [
+      "earth",
+      "metal"
+    ],
+    "zodiac": [],
+    "tags": [
+      "buddha",
+      "laughing-buddha",
+      "decor",
+      "feng-shui"
+    ],
+    "icon": "zen",
+    "asin": "B0CYBMWRPX"
+  },
+  {
+    "id": "lucky-bamboo",
+    "name": "3 Stalks Lucky Bamboo Plants Indoor Live - Multi-Height Set (2x4 & 1x6) for…",
+    "nameZh": "开运竹（富贵竹）",
+    "price": "$12.99",
+    "image": "https://m.media-amazon.com/images/I/71DHbxJcyvL._AC_SL1500_.jpg",
+    "keywords": "lucky bamboo plant feng shui",
+    "rating": "4.4 out of 5 stars",
+    "reviews": "410",
+    "categories": [
+      "feng-shui",
+      "decor",
+      "plants"
+    ],
+    "elements": [
+      "wood",
+      "water"
+    ],
+    "zodiac": [],
+    "tags": [
+      "lucky-bamboo",
+      "plant",
+      "feng-shui"
+    ],
+    "icon": "tree",
+    "asin": "B0FLVLZP15"
+  },
+  {
+    "id": "between-heaven-earth-book",
+    "name": "Between Heaven and Earth: A Guide to Chinese Medicine",
+    "nameZh": "《天地之间》（五行与中医）",
+    "price": "$14.11",
+    "image": "https://m.media-amazon.com/images/I/41y77L87sYL._SY445_SX342_FMwebp_.jpg",
+    "keywords": "between heaven and earth chinese medicine five elements",
+    "rating": "4.6 out of 5 stars",
+    "reviews": "1060",
+    "categories": [
+      "five-elements",
+      "bazi-astrology",
+      "chinese-medicine"
+    ],
+    "elements": [
+      "wood",
+      "fire",
+      "earth",
+      "metal",
+      "water"
+    ],
+    "zodiac": [],
+    "tags": [
+      "five-elements",
+      "tcm",
+      "book"
+    ],
+    "icon": "book",
+    "asin": "0345379748"
+  },
+  {
+    "id": "jade-pendant",
+    "name": "SmileBelle Jade Necklace for Women, Dainty Crystal Necklace With Jade Beads",
+    "nameZh": "翡翠玉佩吊坠",
+    "price": "$8.99",
+    "image": "https://m.media-amazon.com/images/I/61uwTpXAlYL._AC_SL1500_.jpg",
+    "keywords": "jade pendant necklace",
+    "rating": "4.5 out of 5 stars",
+    "reviews": "1085",
+    "categories": [
+      "feng-shui",
+      "zodiac-horoscope",
+      "bazi-astrology"
+    ],
+    "elements": [
+      "wood"
+    ],
+    "zodiac": [],
+    "tags": [
+      "jade",
+      "pendant",
+      "chinese",
+      "feng-shui"
+    ],
+    "icon": "jade",
+    "asin": "B0B4J8S4YH"
   }
 ]
