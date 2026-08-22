@@ -293,7 +293,7 @@
           }
           grid.innerHTML = products.map(function (p) {
             var name = zh ? (p.nameCN || p.name || '') : (p.nameEN || p.name || '');
-            var desc = (zh && p.descriptionCN) ? p.descriptionCN : (p.description || '');
+            var desc = zh ? (p.descriptionCN || p.description || '') : (p.descriptionEN || p.description || '');
             if (desc && desc.length > 90) desc = desc.slice(0, 90) + '…';
             var img = p.image || p.image_url || '';
             var price = (typeof p.price === 'number') ? '$' + p.price.toFixed(2)
