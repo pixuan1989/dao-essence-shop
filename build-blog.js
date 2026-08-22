@@ -1109,29 +1109,27 @@ function generateArticleHtml(post, category, allArticles, options = {}) {
         </div>`;
   }
 
-  // Score products by article category (build-time, no user data yet).
-  function pickProducts(articleCategory, count) {
+  // Mixed product picks: 1 category-related + 2 random (no overlap).
+  function pickProductsMixed(articleCategory) {
     const cat = articleCategory || 'bazi-astrology';
-    const scored = AMAZON_PRODUCT_LIBRARY.map(p => {
-      let score = 0;
-      if (p.categories && p.categories.includes(cat)) score += 10;
-      return { p, score };
-    });
-    scored.sort((a, b) => b.score - a.score);
-    const matched = scored.filter(s => s.score > 0).map(s => s.p);
-    const others = scored.filter(s => s.score === 0).map(s => s.p);
-    return matched.concat(others).slice(0, count);
+    const catMap = {
+      'bazi': 'bazi-astrology',
+      'zodiac': 'zodiac-horoscope',
+      'fengshui': 'feng-shui'
+    };
+    const productCat = catMap[cat] || cat;
+    const matched = AMAZON_PRODUCT_LIBRARY.filter(p => p.categories && p.categories.includes(productCat));
+    const related = matched.length > 0
+      ? matched[0]
+      : AMAZON_PRODUCT_LIBRARY[Math.floor(Math.random() * AMAZON_PRODUCT_LIBRARY.length)];
+    const remaining = AMAZON_PRODUCT_LIBRARY.filter(p => p !== related)
+      .sort(() => 0.5 - Math.random());
+    return [related, remaining[0], remaining[1]].filter(Boolean);
   }
 
-  // Sidebar: 1 themed pick (kept minimal to avoid clutter)
-  function renderAmazonProduct(category) {
-    const picks = pickProducts(category, 1);
-    return picks.map(p => renderAmazonCard(p, 'sidebar')).join('');
-  }
-
-  // Bottom grid: up to 3 themed picks (trimmed from 6 to reduce ad fatigue)
+  // Bottom grid: 1 related + 2 random
   function renderAmazonProductsBottom() {
-    const picks = pickProducts(category, 3);
+    const picks = pickProductsMixed(category);
     const recText = isZh ? '開運好物推薦' : 'Recommended for You';
     return `
         <section class="amazon-products-bottom" data-article-category="${category}">
@@ -1645,7 +1643,6 @@ ${NAV_HTML}
 
         <aside class="blog-sidebar">
         ${sidebarCtaHtml}
-        ${renderAmazonProduct(category)}
         </aside>
     </div>
 
