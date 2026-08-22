@@ -1123,15 +1123,15 @@ function generateArticleHtml(post, category, allArticles, options = {}) {
     return matched.concat(others).slice(0, count);
   }
 
-  // Sidebar: 2 themed picks
+  // Sidebar: 1 themed pick (kept minimal to avoid clutter)
   function renderAmazonProduct(category) {
-    const picks = pickProducts(category, 2);
+    const picks = pickProducts(category, 1);
     return picks.map(p => renderAmazonCard(p, 'sidebar')).join('');
   }
 
-  // Bottom grid: up to 6 themed picks (re-personalized client-side)
+  // Bottom grid: up to 3 themed picks (trimmed from 6 to reduce ad fatigue)
   function renderAmazonProductsBottom() {
-    const picks = pickProducts(category, 6);
+    const picks = pickProducts(category, 3);
     const recText = isZh ? '開運好物推薦' : 'Recommended for You';
     return `
         <section class="amazon-products-bottom" data-article-category="${category}">
@@ -1143,17 +1143,6 @@ function generateArticleHtml(post, category, allArticles, options = {}) {
               ? '作為 Amazon Associate，我們可能從合格購買中獲得佣金（不影響售價）。'
               : 'As an Amazon Associate we earn from qualifying purchases.'}</p>
         </section>`;
-  }
-
-  // Inject a contextual inline card after the article's first <h2>
-  function injectInlineCard(body, articleCategory) {
-    const inline = pickProducts(articleCategory, 3)[0];
-    if (!inline) return body;
-    const card = renderAmazonCard(inline, 'inline');
-    if (body.indexOf('</h2>') !== -1) {
-      return body.replace('</h2>', '</h2>\n' + card, 1);
-    }
-    return body;
   }
 
   // ── Creem Affiliate CTA (Commented Out - No Meaning Currently) ──
@@ -1630,8 +1619,6 @@ ${NAV_HTML}
                     <svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:currentColor"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
                 </button>
             </div>
-
-            ${injectInlineCard(finalBody, category)}
 
             ${data.faq && data.faq.length > 0 ? `
             <div class="faq-section">
