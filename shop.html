@@ -29,10 +29,6 @@
     }
     a { color: var(--gold); text-decoration: none; }
     .wrap { max-width: 1140px; margin: 0 auto; padding: 0 1.25rem; }
-    .shop-hero { text-align: center; padding: 3.5rem 1rem 1.5rem; }
-    .shop-hero .eyebrow { color: var(--gold); letter-spacing: 0.22em; font-size: 0.72rem; text-transform: uppercase; }
-    .shop-hero h1 { font-family: "Georgia", serif; font-size: 2.6rem; margin: 0.6rem 0 0.4rem; }
-    .shop-hero p { color: var(--muted); max-width: 660px; margin: 0 auto; }
 
     /* 顶部双视图切换标签 */
     .view-tabs { margin: 1.8rem 0 1.2rem; }
@@ -69,7 +65,7 @@
     .digital-btn:hover { background: rgba(127,209,196,0.12); transform: translateY(-2px); }
     .amazon-disclaimer { font-size: 0.72rem; color: #8a7f6d; text-align: center; margin: 2rem auto 0; max-width: 720px; }
     @media (max-width: 900px) { .amazon-products-grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 540px) { .amazon-products-grid { grid-template-columns: 1fr; } .shop-hero h1 { font-size: 2rem; } }
+    @media (max-width: 540px) { .amazon-products-grid { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
@@ -124,12 +120,6 @@
       </nav>
     </div>
   </header>
-
-  <section class="shop-hero">
-    <div class="wrap">
-      <h1 id="hero-title">Shop</h1>
-    </div>
-  </section>
 
   <main class="wrap">
     <!-- 顶部双视图切换：数字资源 / 亚马逊推荐 -->
@@ -381,7 +371,6 @@
     // ---------- 双语字典 ----------
     var I18N = {
       en: {
-        heroTitle: 'Shop',
         tabDigital: 'My Digital Resources',
         tabAmazon: 'Recommended Picks',
         digitalDesc: 'Digital downloads and unlocks — instant delivery.',
@@ -389,7 +378,6 @@
         tabs: { all: 'All', Books: 'Books', Jewelry: 'Jewelry', Tools: 'Tools', Decor: 'Decor', Wellness: 'Wellness' }
       },
       zh: {
-        heroTitle: '商店',
         tabDigital: '我的數字資源',
         tabAmazon: '推薦好物',
         digitalDesc: '數字下載與解鎖，購後即時交付。',
@@ -401,7 +389,6 @@
     function applyLang() {
       var dict = isZhNow() ? I18N.zh : I18N.en;
       var set = function (id, v) { var el = document.getElementById(id); if (el) el.textContent = v; };
-      set('hero-title', dict.heroTitle);
       set('tab-digital', dict.tabDigital);
       set('tab-amazon', dict.tabAmazon);
       var isAmazon = document.getElementById('view-amazon') && document.getElementById('view-amazon').style.display !== 'none';
