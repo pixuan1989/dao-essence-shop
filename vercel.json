@@ -142,6 +142,24 @@
       ]
     },
     {
+      "source": "/shop",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-cache, no-store, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/shop.html",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-cache, no-store, must-revalidate"
+        }
+      ]
+    },
+    {
       "source": "/zodiac/((?!js/|css/|images/|img/).*)\\.html",
       "headers": [
         {
