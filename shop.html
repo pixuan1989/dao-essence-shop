@@ -201,7 +201,10 @@
               : (p.price ? '$' + p.price : '');
             var orig = (p.originalPrice && p.price != null && p.originalPrice > p.price)
               ? '$' + Number(p.originalPrice).toFixed(2) : '';
-            var url = p.creemUrl || ('https://www.creem.io/payment/' + p.id);
+            // 保留原有商品详情页逻辑：八字报告服务 → 排盘表单；其余 → /product-detail?id=...
+            var detailUrl = (p.id === 'prod_28PqAKMEom5WGRH1w9O35n')
+              ? '/bazi-form'
+              : '/product-detail?id=' + encodeURIComponent(p.id);
             return '<div class="amazon-product-card digital-card">'
               + '<span class="digital-badge">Digital</span>'
               + '<div class="amazon-img-wrap">' + (img ? '<img src="' + esc(img) + '" alt="' + esc(name) + '">' : '') + '</div>'
@@ -210,8 +213,8 @@
               + '<div class="amazon-price">' + esc(price)
               + (orig ? ' <s style="color:#8a7f6d;font-weight:400;font-size:0.85rem">' + esc(orig) + '</s>' : '')
               + '</div>'
-              + '<a href="' + esc(url) + '" target="_blank" rel="noopener" class="digital-btn">'
-              + (zh ? '立即購買' : 'Buy Now') + '</a>'
+              + '<a href="' + esc(detailUrl) + '" class="digital-btn">'
+              + (zh ? '查看詳情' : 'View Details') + '</a>'
               + '</div>';
           }).join('');
         })
