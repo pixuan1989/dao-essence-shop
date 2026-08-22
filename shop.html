@@ -33,6 +33,7 @@
 
     /* 顶部双视图切换标签 */
     .view-tabs { margin: 1.8rem 0 1.2rem; }
+    .view-desc { color: var(--muted); text-align: center; max-width: 680px; margin: 0 auto 1.6rem; font-size: 0.95rem; }
 
     .tabs { display: flex; flex-wrap: wrap; gap: 0.6rem; justify-content: center; margin: 2.2rem 0 1.5rem; }
     .tab {
@@ -127,6 +128,7 @@
       <button class="tab active" data-view="digital" id="tab-digital">Digital Products</button>
       <button class="tab" data-view="amazon" id="tab-amazon">Recommended Picks</button>
     </div>
+    <p class="view-desc" id="view-desc">Digital downloads and unlocks — instant delivery.</p>
 
     <!-- 视图 1：数字商品（Creem） -->
     <div id="view-digital" class="shop-view">
@@ -372,11 +374,15 @@
       en: {
         tabDigital: 'Digital Products',
         tabAmazon: 'Recommended Picks',
+        digitalDesc: 'Digital downloads and unlocks — instant delivery.',
+        amazonDesc: 'Curated Feng Shui, BaZi, and metaphysical essentials.',
         tabs: { all: 'All', Books: 'Books', Jewelry: 'Jewelry', Tools: 'Tools', Decor: 'Decor', Wellness: 'Wellness' }
       },
       zh: {
         tabDigital: '數字商品',
         tabAmazon: '推薦好物',
+        digitalDesc: '數字下載與解鎖，購後即時交付。',
+        amazonDesc: '嚴選風水、八字與玄學好物。',
         tabs: { all: '全部', Books: '書籍', Jewelry: '飾品', Tools: '法器', Decor: '擺設', Wellness: '養生' }
       }
     };
@@ -386,6 +392,8 @@
       var set = function (id, v) { var el = document.getElementById(id); if (el) el.textContent = v; };
       set('tab-digital', dict.tabDigital);
       set('tab-amazon', dict.tabAmazon);
+      var isAmazon = document.getElementById('view-amazon') && document.getElementById('view-amazon').style.display !== 'none';
+      set('view-desc', isAmazon ? dict.amazonDesc : dict.digitalDesc);
       var tabs = document.querySelectorAll('#shop-tabs .tab');
       tabs.forEach(function (btn) {
         var cat = btn.getAttribute('data-cat');
