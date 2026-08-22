@@ -3,375 +3,664 @@
     "id": "ic-ing-book",
     "name": "I Ching (Book of Changes) — Wilhelm Translation",
     "nameZh": "易經（韋伯德譯本）",
-    "price": "$18.99",
-    "image": "",
+    "price": "$18.90",
+    "image": "https://m.media-amazon.com/images/I/318yg2iuCXL._SY445_SX342_FMwebp_.jpg",
     "keywords": "i ching book of changes wilhelm translation",
-    "rating": "4.8",
-    "reviews": "8,200",
-    "categories": ["bazi-astrology", "feng-shui", "zodiac-horoscope"],
-    "elements": ["wood", "fire", "earth", "metal", "water"],
+    "rating": "4.7 out of 5 stars",
+    "reviews": "1441",
+    "categories": [
+      "bazi-astrology",
+      "feng-shui",
+      "zodiac-horoscope"
+    ],
+    "elements": [
+      "wood",
+      "fire",
+      "earth",
+      "metal",
+      "water"
+    ],
     "zodiac": [],
-    "tags": ["book", "classic", "divination"],
-    "icon": "book"
+    "tags": [
+      "book",
+      "classic",
+      "divination"
+    ],
+    "icon": "book",
+    "asin": "069109750X"
   },
   {
     "id": "tao-te-ching-book",
     "name": "Tao Te Ching — Lao Tzu (Bilingual Edition)",
     "nameZh": "道德經（中英雙語版）",
-    "price": "$9.99",
-    "image": "",
+    "price": "$7.99",
+    "image": "https://m.media-amazon.com/images/I/61GRxVnJodL._SY385_.jpg",
     "keywords": "tao te ching lao tzu bilingual english chinese",
-    "rating": "4.7",
-    "reviews": "14,500",
-    "categories": ["bazi-astrology", "feng-shui"],
-    "elements": ["wood", "water"],
+    "rating": "4.1 out of 5 stars",
+    "reviews": "35",
+    "categories": [
+      "bazi-astrology",
+      "feng-shui"
+    ],
+    "elements": [
+      "wood",
+      "water"
+    ],
     "zodiac": [],
-    "tags": ["book", "dao", "philosophy"],
-    "icon": "book"
+    "tags": [
+      "book",
+      "dao",
+      "philosophy"
+    ],
+    "icon": "book",
+    "asin": "1533553122"
   },
   {
     "id": "bazi-astrology-book",
     "name": "The Handbook of Chinese Horoscopes",
     "nameZh": "中國生肖命理全書",
-    "price": "$16.49",
-    "image": "",
+    "price": "$15.94",
+    "image": "https://m.media-amazon.com/images/I/41++mqwZhiL._SY445_SX342_FMwebp_.jpg",
     "keywords": "chinese astrology ba zi birth chart book",
-    "rating": "4.6",
-    "reviews": "3,100",
-    "categories": ["bazi-astrology", "zodiac-horoscope"],
-    "elements": ["wood", "fire", "earth", "metal", "water"],
+    "rating": "4.5 out of 5 stars",
+    "reviews": "125",
+    "categories": [
+      "bazi-astrology",
+      "zodiac-horoscope"
+    ],
+    "elements": [
+      "wood",
+      "fire",
+      "earth",
+      "metal",
+      "water"
+    ],
     "zodiac": [],
-    "tags": ["book", "astrology", "reference"],
-    "icon": "book"
+    "tags": [
+      "book",
+      "astrology",
+      "reference"
+    ],
+    "icon": "book",
+    "asin": "1623173736"
   },
   {
     "id": "feng-shui-book",
     "name": "Feng Shui for Dummies / Complete Guide",
     "nameZh": "風水實用全書",
-    "price": "$14.29",
-    "image": "",
+    "price": "$16.99",
+    "image": "https://m.media-amazon.com/images/I/41Y94IxQwXL._FMwebp_.jpg",
     "keywords": "feng shui complete guide home layout book",
-    "rating": "4.5",
-    "reviews": "5,400",
-    "categories": ["feng-shui"],
-    "elements": ["wood", "earth"],
+    "rating": "4.6 out of 5 stars",
+    "reviews": "63",
+    "categories": [
+      "feng-shui"
+    ],
+    "elements": [
+      "wood",
+      "earth"
+    ],
     "zodiac": [],
-    "tags": ["book", "feng-shui", "home"],
-    "icon": "book"
+    "tags": [
+      "book",
+      "feng-shui",
+      "home"
+    ],
+    "icon": "book",
+    "asin": "0760703906"
   },
   {
     "id": "obsidian-pixiu-bracelet",
-    "name": "Black Obsidian Pixiu Wealth Bracelet",
+    "name": "SOOWOOT Feng Shui Wealth And Luck Bracelet for Men Women: 3Pcs set with Pixiu and black obsidian. It brings prosperity, offers protection, attracts good fortune and repels evil spirits",
     "nameZh": "黑曜石貔貅招財手鏈",
     "price": "$16.99",
-    "image": "https://m.media-amazon.com/images/I/71vaNcAG5DL._AC_SL1500_.jpg",
+    "image": "https://m.media-amazon.com/images/I/71VFYy2XQEL._AC_SL1500_.jpg",
     "keywords": "black obsidian pixiu feng shui wealth bracelet",
-    "rating": "4.3",
-    "reviews": "12,400",
-    "categories": ["feng-shui", "zodiac-horoscope", "bazi-astrology"],
-    "elements": ["water", "metal"],
+    "rating": "4.5 out of 5 stars",
+    "reviews": "932",
+    "categories": [
+      "feng-shui",
+      "zodiac-horoscope",
+      "bazi-astrology"
+    ],
+    "elements": [
+      "water",
+      "metal"
+    ],
     "zodiac": [],
-    "tags": ["bracelet", "wealth", "protection"],
-    "icon": "bracelet"
+    "tags": [
+      "bracelet",
+      "wealth",
+      "protection"
+    ],
+    "icon": "bracelet",
+    "asin": "B09G31NDDP"
   },
   {
     "id": "healing-crystal-bracelet",
-    "name": "Natural Healing Crystal Bracelet Set",
+    "name": "NatureWonders All Natural Chakra Stone Set with Information Brochure & Travel Pouch - Healing Crystals, Polished Palm Stone, Meditation, Reiki, Energy",
     "nameZh": "天然水晶能量手鏈套裝",
-    "price": "$14.99",
-    "image": "https://m.media-amazon.com/images/I/81u2iZ8TctL._AC_SL1500_.jpg",
+    "price": "$8.09",
+    "image": "https://m.media-amazon.com/images/I/61Sf+s22TJL._AC_SL1500_.jpg",
     "keywords": "natural healing crystal bracelet set reiki",
-    "rating": "4.7",
-    "reviews": "1,069",
-    "categories": ["bazi-astrology", "feng-shui", "zodiac-horoscope"],
-    "elements": ["wood", "fire", "earth", "metal", "water"],
+    "rating": "4.6 out of 5 stars",
+    "reviews": "137",
+    "categories": [
+      "bazi-astrology",
+      "feng-shui",
+      "zodiac-horoscope"
+    ],
+    "elements": [
+      "wood",
+      "fire",
+      "earth",
+      "metal",
+      "water"
+    ],
     "zodiac": [],
-    "tags": ["bracelet", "crystal", "energy"],
-    "icon": "bracelet"
+    "tags": [
+      "bracelet",
+      "crystal",
+      "energy"
+    ],
+    "icon": "bracelet",
+    "asin": "B0CBBBNNRL"
   },
   {
     "id": "jade-bangle",
     "name": "Genuine Jade Bangle (Apple Green)",
     "nameZh": "天然翡翠玉鐲（蘋果綠）",
-    "price": "$22.90",
-    "image": "",
+    "price": "$379.99",
+    "image": "https://m.media-amazon.com/images/I/41+7sbvHpGL._AC_SL1500_.jpg",
     "keywords": "genuine jade bangle apple green bracelet",
-    "rating": "4.4",
-    "reviews": "2,800",
-    "categories": ["feng-shui", "zodiac-horoscope"],
-    "elements": ["wood"],
+    "rating": "4.2 out of 5 stars",
+    "reviews": "9",
+    "categories": [
+      "feng-shui",
+      "zodiac-horoscope"
+    ],
+    "elements": [
+      "wood"
+    ],
     "zodiac": [],
-    "tags": ["jade", "bracelet", "luxury"],
-    "icon": "jade"
+    "tags": [
+      "jade",
+      "bracelet",
+      "luxury"
+    ],
+    "icon": "jade",
+    "asin": "B0DNZ2HMMM"
   },
   {
     "id": "zodiac-necklace",
     "name": "Chinese Zodiac Animal Pendant Necklace",
     "nameZh": "十二生肖吊墜項鏈",
-    "price": "$12.99",
-    "image": "",
+    "price": "$454.99",
+    "image": "https://m.media-amazon.com/images/I/61L2cAFvIcL._AC_SL1500_.jpg",
     "keywords": "chinese zodiac animal pendant necklace gold",
-    "rating": "4.5",
-    "reviews": "4,600",
-    "categories": ["zodiac-horoscope", "bazi-astrology"],
-    "elements": ["metal", "fire"],
-    "zodiac": ["rat", "ox", "tiger", "rabbit", "dragon", "snake", "horse", "goat", "monkey", "rooster", "dog", "pig"],
-    "tags": ["jewelry", "zodiac", "gift"],
-    "icon": "zodiac"
+    "rating": "4.5 out of 5 stars",
+    "reviews": "2",
+    "categories": [
+      "zodiac-horoscope",
+      "bazi-astrology"
+    ],
+    "elements": [
+      "metal",
+      "fire"
+    ],
+    "zodiac": [
+      "rat",
+      "ox",
+      "tiger",
+      "rabbit",
+      "dragon",
+      "snake",
+      "horse",
+      "goat",
+      "monkey",
+      "rooster",
+      "dog",
+      "pig"
+    ],
+    "tags": [
+      "jewelry",
+      "zodiac",
+      "gift"
+    ],
+    "icon": "zodiac",
+    "asin": "B0FYLMJ3K9"
   },
   {
     "id": "pixiu-wealth-bracelet",
     "name": "Pixiu Wealth & Luck Red String Bracelet",
     "nameZh": "貔貅轉運紅繩手鏈",
     "price": "$8.99",
-    "image": "",
+    "image": "https://m.media-amazon.com/images/I/71oVCTSvMTL._AC_SL1500_.jpg",
     "keywords": "pixiu red string luck bracelet feng shui",
-    "rating": "4.2",
-    "reviews": "9,300",
-    "categories": ["feng-shui", "zodiac-horoscope"],
-    "elements": ["fire", "metal"],
+    "rating": "4.0 out of 5 stars",
+    "reviews": "68",
+    "categories": [
+      "feng-shui",
+      "zodiac-horoscope"
+    ],
+    "elements": [
+      "fire",
+      "metal"
+    ],
     "zodiac": [],
-    "tags": ["bracelet", "wealth", "luck"],
-    "icon": "bracelet"
+    "tags": [
+      "bracelet",
+      "wealth",
+      "luck"
+    ],
+    "icon": "bracelet",
+    "asin": "B09CBSPB9Z"
   },
   {
     "id": "rose-quartz-bracelet",
     "name": "Rose Quartz Love Bracelet",
     "nameZh": "粉晶桃花運手鏈",
-    "price": "$11.50",
-    "image": "",
+    "price": "$8.09",
+    "image": "https://m.media-amazon.com/images/I/61Sf+s22TJL._AC_SL1500_.jpg",
     "keywords": "rose quartz love bracelet relationships",
-    "rating": "4.6",
-    "reviews": "6,700",
-    "categories": ["bazi-astrology", "zodiac-horoscope"],
-    "elements": ["fire"],
+    "rating": "4.6 out of 5 stars",
+    "reviews": "137",
+    "categories": [
+      "bazi-astrology",
+      "zodiac-horoscope"
+    ],
+    "elements": [
+      "fire"
+    ],
     "zodiac": [],
-    "tags": ["bracelet", "love", "crystal"],
-    "icon": "bracelet"
+    "tags": [
+      "bracelet",
+      "love",
+      "crystal"
+    ],
+    "icon": "bracelet",
+    "asin": "B0CBBBNNRL"
   },
   {
     "id": "luopan-compass",
     "name": "Feng Shui Luo Pan Compass",
     "nameZh": "風水羅盤",
-    "price": "$26.80",
-    "image": "",
+    "price": "$19.95",
+    "image": "https://m.media-amazon.com/images/I/71K6Fhc-BvL._AC_SL1500_.jpg",
     "keywords": "feng shui luo pan compass professional",
-    "rating": "4.5",
-    "reviews": "1,200",
-    "categories": ["feng-shui"],
-    "elements": ["metal", "earth"],
+    "rating": "5.0 out of 5 stars",
+    "reviews": "5",
+    "categories": [
+      "feng-shui"
+    ],
+    "elements": [
+      "metal",
+      "earth"
+    ],
     "zodiac": [],
-    "tags": ["tool", "compass", "feng-shui"],
-    "icon": "compass"
+    "tags": [
+      "tool",
+      "compass",
+      "feng-shui"
+    ],
+    "icon": "compass",
+    "asin": "B09SWXRVDR"
   },
   {
     "id": "singing-bowl",
     "name": "Tibetan Singing Bowl Meditation Set",
     "nameZh": "西藏頌缽冥想套裝",
-    "price": "$29.95",
-    "image": "",
+    "price": "$24.97",
+    "image": "https://m.media-amazon.com/images/I/81hzDWbamNL._AC_SL1500_.jpg",
     "keywords": "tibetan singing bowl meditation set cushion",
-    "rating": "4.7",
-    "reviews": "15,800",
-    "categories": ["feng-shui", "bazi-astrology"],
-    "elements": ["water", "metal"],
+    "rating": "4.6 out of 5 stars",
+    "reviews": "26368",
+    "categories": [
+      "feng-shui",
+      "bazi-astrology"
+    ],
+    "elements": [
+      "water",
+      "metal"
+    ],
     "zodiac": [],
-    "tags": ["tool", "meditation", "sound"],
-    "icon": "bowl"
+    "tags": [
+      "tool",
+      "meditation",
+      "sound"
+    ],
+    "icon": "bowl",
+    "asin": "B06XHN7VRG"
   },
   {
     "id": "sandalwood-incense",
     "name": "Pure Sandalwood Incense Sticks + Holder",
     "nameZh": "天然檀香薰香＋香座",
-    "price": "$13.80",
-    "image": "",
+    "price": "$32.99",
+    "image": "https://m.media-amazon.com/images/I/61Q8WKIJrhL._AC_SL1500_.jpg",
     "keywords": "pure sandalwood incense sticks holder set",
-    "rating": "4.6",
-    "reviews": "11,200",
-    "categories": ["feng-shui", "bazi-astrology"],
-    "elements": ["fire", "wood"],
+    "rating": "4.4 out of 5 stars",
+    "reviews": "229",
+    "categories": [
+      "feng-shui",
+      "bazi-astrology"
+    ],
+    "elements": [
+      "fire",
+      "wood"
+    ],
     "zodiac": [],
-    "tags": ["tool", "incense", "aroma"],
-    "icon": "incense"
+    "tags": [
+      "tool",
+      "incense",
+      "aroma"
+    ],
+    "icon": "incense",
+    "asin": "B09VXG99NL"
   },
   {
     "id": "mala-beads",
     "name": "108 Sandalwood Mala Prayer Beads",
     "nameZh": "108 顆檀香念珠",
     "price": "$17.50",
-    "image": "",
+    "image": "https://m.media-amazon.com/images/I/71Rs6lCEbjL._AC_SL1500_.jpg",
     "keywords": "108 sandalwood mala beads buddhist prayer",
-    "rating": "4.7",
-    "reviews": "7,400",
-    "categories": ["bazi-astrology", "feng-shui"],
-    "elements": ["wood"],
+    "rating": "4.3 out of 5 stars",
+    "reviews": "47",
+    "categories": [
+      "bazi-astrology",
+      "feng-shui"
+    ],
+    "elements": [
+      "wood"
+    ],
     "zodiac": [],
-    "tags": ["tool", "mala", "meditation"],
-    "icon": "mala"
+    "tags": [
+      "tool",
+      "mala",
+      "meditation"
+    ],
+    "icon": "mala",
+    "asin": "B01CCIZ9HQ"
   },
   {
     "id": "chinese-coins",
     "name": "Five Emperor Chinese Coins Tassel",
     "nameZh": "五帝錢掛飾",
-    "price": "$9.90",
-    "image": "",
+    "price": "$9.49",
+    "image": "https://m.media-amazon.com/images/I/81Lo6vVGppL._AC_SL1500_.jpg",
     "keywords": "five emperor chinese coins feng shui tassel",
-    "rating": "4.4",
-    "reviews": "5,900",
-    "categories": ["feng-shui"],
-    "elements": ["metal"],
+    "rating": "4.7 out of 5 stars",
+    "reviews": "3105",
+    "categories": [
+      "feng-shui"
+    ],
+    "elements": [
+      "metal"
+    ],
     "zodiac": [],
-    "tags": ["tool", "coins", "wealth"],
-    "icon": "coin"
+    "tags": [
+      "tool",
+      "coins",
+      "wealth"
+    ],
+    "icon": "coin",
+    "asin": "B07JKW6RT3"
   },
   {
     "id": "bagua-mirror",
     "name": "Feng Shui Bagua Protection Mirror",
     "nameZh": "風水八卦鏡",
-    "price": "$10.50",
-    "image": "",
+    "price": "$9.99",
+    "image": "https://m.media-amazon.com/images/I/71lwBjj3sUL._AC_SL1500_.jpg",
     "keywords": "feng shui bagua mirror protection",
-    "rating": "4.3",
-    "reviews": "3,300",
-    "categories": ["feng-shui"],
-    "elements": ["metal", "earth"],
+    "rating": "4.2 out of 5 stars",
+    "reviews": "65",
+    "categories": [
+      "feng-shui"
+    ],
+    "elements": [
+      "metal",
+      "earth"
+    ],
     "zodiac": [],
-    "tags": ["tool", "bagua", "protection"],
-    "icon": "bagua"
+    "tags": [
+      "tool",
+      "bagua",
+      "protection"
+    ],
+    "icon": "bagua",
+    "asin": "B0D6YPCQY7"
   },
   {
     "id": "crystal-money-tree",
     "name": "Feng Shui Crystal Money Tree",
     "nameZh": "風水水晶聚財樹",
-    "price": "$19.99",
-    "image": "",
+    "price": "$22.09",
+    "image": "https://m.media-amazon.com/images/I/81rNAJ+ejiL._AC_SL1500_.jpg",
     "keywords": "feng shui crystal money tree wealth",
-    "rating": "4.5",
-    "reviews": "8,100",
-    "categories": ["feng-shui", "zodiac-horoscope"],
-    "elements": ["wood", "metal"],
+    "rating": "4.6 out of 5 stars",
+    "reviews": "8176",
+    "categories": [
+      "feng-shui",
+      "zodiac-horoscope"
+    ],
+    "elements": [
+      "wood",
+      "metal"
+    ],
     "zodiac": [],
-    "tags": ["decor", "tree", "wealth"],
-    "icon": "tree"
+    "tags": [
+      "decor",
+      "tree",
+      "wealth"
+    ],
+    "icon": "tree",
+    "asin": "B07BNJ76LM"
   },
   {
     "id": "water-fountain",
     "name": "Indoor Feng Shui Water Fountain",
     "nameZh": "室內風水流水擺件",
     "price": "$34.99",
-    "image": "",
+    "image": "https://m.media-amazon.com/images/I/812jWX3HCFL._AC_SL1500_.jpg",
     "keywords": "indoor feng shui water fountain tabletop",
-    "rating": "4.4",
-    "reviews": "6,500",
-    "categories": ["feng-shui"],
-    "elements": ["water"],
+    "rating": "4.3 out of 5 stars",
+    "reviews": "11037",
+    "categories": [
+      "feng-shui"
+    ],
+    "elements": [
+      "water"
+    ],
     "zodiac": [],
-    "tags": ["decor", "fountain", "water"],
-    "icon": "fountain"
+    "tags": [
+      "decor",
+      "fountain",
+      "water"
+    ],
+    "icon": "fountain",
+    "asin": "B002YKMPQ6"
   },
   {
     "id": "wealth-vase",
     "name": "Feng Shui Wealth Vase (Citrine)",
     "nameZh": "風水黃水晶聚寶盆",
-    "price": "$21.50",
-    "image": "",
+    "price": "$9.99",
+    "image": "https://m.media-amazon.com/images/I/51UWeAESbHL._AC_SL1500_.jpg",
     "keywords": "feng shui wealth vase citrine crystals",
-    "rating": "4.5",
-    "reviews": "2,400",
-    "categories": ["feng-shui", "zodiac-horoscope"],
-    "elements": ["earth", "metal"],
+    "rating": "4.2 out of 5 stars",
+    "reviews": "631",
+    "categories": [
+      "feng-shui",
+      "zodiac-horoscope"
+    ],
+    "elements": [
+      "earth",
+      "metal"
+    ],
     "zodiac": [],
-    "tags": ["decor", "vase", "wealth"],
-    "icon": "vase"
+    "tags": [
+      "decor",
+      "vase",
+      "wealth"
+    ],
+    "icon": "vase",
+    "asin": "B07F7ZCRJY"
   },
   {
     "id": "money-frog",
     "name": "Feng Shui Money Frog (Chan Chu)",
     "nameZh": "風水招財金蟾",
-    "price": "$15.80",
-    "image": "",
+    "price": "$8.99",
+    "image": "https://m.media-amazon.com/images/I/714fwh8ccML._AC_SL1500_.jpg",
     "keywords": "feng shui money frog chan chu wealth",
-    "rating": "4.4",
-    "reviews": "4,100",
-    "categories": ["feng-shui"],
-    "elements": ["metal", "water"],
+    "rating": "4.6 out of 5 stars",
+    "reviews": "3424",
+    "categories": [
+      "feng-shui"
+    ],
+    "elements": [
+      "metal",
+      "water"
+    ],
     "zodiac": [],
-    "tags": ["decor", "frog", "wealth"],
-    "icon": "frog"
+    "tags": [
+      "decor",
+      "frog",
+      "wealth"
+    ],
+    "icon": "frog",
+    "asin": "B07QGZR2RS"
   },
   {
     "id": "zen-garden",
     "name": "Mini Zen Meditation Sand Garden",
     "nameZh": "禪意迷你枯山水沙盤",
-    "price": "$18.20",
-    "image": "",
+    "price": "$39.98",
+    "image": "https://m.media-amazon.com/images/I/71Y3HU4lpmL._AC_SL1500_.jpg",
     "keywords": "mini zen garden meditation sand rake",
-    "rating": "4.6",
-    "reviews": "9,800",
-    "categories": ["feng-shui", "bazi-astrology"],
-    "elements": ["earth", "water"],
+    "rating": "4.6 out of 5 stars",
+    "reviews": "434",
+    "categories": [
+      "feng-shui",
+      "bazi-astrology"
+    ],
+    "elements": [
+      "earth",
+      "water"
+    ],
     "zodiac": [],
-    "tags": ["decor", "zen", "calm"],
-    "icon": "zen"
+    "tags": [
+      "decor",
+      "zen",
+      "calm"
+    ],
+    "icon": "zen",
+    "asin": "B09PF7L6V2"
   },
   {
     "id": "oolong-tea",
     "name": "Premium Tieguanyin Oolong Tea",
     "nameZh": "頂級鐵觀音烏龍茶",
-    "price": "$19.90",
-    "image": "",
+    "price": "$19.99",
+    "image": "https://m.media-amazon.com/images/I/71Y+NNDE-UL._AC_SL1500_.jpg",
     "keywords": "premium tieguanyin oolong tea loose leaf",
-    "rating": "4.7",
-    "reviews": "5,300",
-    "categories": ["bazi-astrology", "feng-shui"],
-    "elements": ["wood", "fire"],
+    "rating": "5.0 out of 5 stars",
+    "reviews": "3",
+    "categories": [
+      "bazi-astrology",
+      "feng-shui"
+    ],
+    "elements": [
+      "wood",
+      "fire"
+    ],
     "zodiac": [],
-    "tags": ["wellness", "tea", "dao"],
-    "icon": "tea"
+    "tags": [
+      "wellness",
+      "tea",
+      "dao"
+    ],
+    "icon": "tea",
+    "asin": "B0H65XVSPZ"
   },
   {
     "id": "aromatherapy-diffuser",
     "name": "Essential Oil Aromatherapy Diffuser",
     "nameZh": "精油香薰擴香儀",
-    "price": "$23.99",
-    "image": "",
+    "price": "$235.00",
+    "image": "https://m.media-amazon.com/images/I/61ngCbgCuYL._AC_SL1500_.jpg",
     "keywords": "essential oil aromatherapy diffuser wood grain",
-    "rating": "4.6",
-    "reviews": "22,400",
-    "categories": ["bazi-astrology", "feng-shui"],
-    "elements": ["water", "wood"],
+    "rating": "3.8 out of 5 stars",
+    "reviews": "282",
+    "categories": [
+      "bazi-astrology",
+      "feng-shui"
+    ],
+    "elements": [
+      "water",
+      "wood"
+    ],
     "zodiac": [],
-    "tags": ["wellness", "aroma", "calm"],
-    "icon": "candle"
+    "tags": [
+      "wellness",
+      "aroma",
+      "calm"
+    ],
+    "icon": "candle",
+    "asin": "B08SHHWGYY"
   },
   {
     "id": "meditation-cushion",
     "name": "Buckwheat Meditation Floor Cushion",
     "nameZh": "蕎麥冥想坐墊",
-    "price": "$27.50",
-    "image": "",
+    "price": "$188.45",
+    "image": "https://m.media-amazon.com/images/I/61AR0TEcqLL._AC_SL1500_.jpg",
     "keywords": "buckwheat meditation cushion floor zafu",
-    "rating": "4.6",
-    "reviews": "8,900",
-    "categories": ["bazi-astrology", "feng-shui"],
-    "elements": ["earth", "wood"],
+    "rating": "4.7 out of 5 stars",
+    "reviews": "410",
+    "categories": [
+      "bazi-astrology",
+      "feng-shui"
+    ],
+    "elements": [
+      "earth",
+      "wood"
+    ],
     "zodiac": [],
-    "tags": ["wellness", "meditation", "comfort"],
-    "icon": "cushion"
+    "tags": [
+      "wellness",
+      "meditation",
+      "comfort"
+    ],
+    "icon": "cushion",
+    "asin": "B07BQDCGRW"
   },
   {
     "id": "jade-roller-guasha",
     "name": "Jade Roller & Gua Sha Set",
     "nameZh": "玉石滾輪＋刮痧套裝",
-    "price": "$13.99",
-    "image": "",
+    "price": "$19.95",
+    "image": "https://m.media-amazon.com/images/I/71byv-hAWZL._AC_SL1500_.jpg",
     "keywords": "jade roller gua sha set face massage",
-    "rating": "4.6",
-    "reviews": "31,200",
-    "categories": ["feng-shui", "zodiac-horoscope", "bazi-astrology"],
-    "elements": ["wood"],
+    "rating": "4.4 out of 5 stars",
+    "reviews": "6985",
+    "categories": [
+      "feng-shui",
+      "zodiac-horoscope",
+      "bazi-astrology"
+    ],
+    "elements": [
+      "wood"
+    ],
     "zodiac": [],
-    "tags": ["wellness", "jade", "beauty"],
-    "icon": "jade"
+    "tags": [
+      "wellness",
+      "jade",
+      "beauty"
+    ],
+    "icon": "jade",
+    "asin": "B07PFQLFVB"
   }
 ]

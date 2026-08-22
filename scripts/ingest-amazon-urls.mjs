@@ -7,10 +7,13 @@
  *
  * Input: scripts/product-sources.txt  (gitignored — public URLs are fine, but
  *        we don't commit it by default). One line per product:
- *            <productId>|<amazon-url-or-asin>
+ *            <productId>|<amazon-url-or-asin>     (explicit mapping)
+ *          or just  <amazon-url-or-asin>          (auto-mapped by JSON order)
  *        e.g.  ic-ing-book|https://www.amazon.com/dp/B00XIN20EE
- *        The productId must match an `id` already in amazon-products.json so we
- *        keep the curated personalization fields (elements/categories/zodiac/...).
+ *        or    https://www.amazon.com/dp/B00XIN20EE
+ *        The productId (explicit or auto) must match an `id` in
+ *        amazon-products.json so we keep the curated personalization fields
+ *        (elements/categories/zodiac/...).
  *
  * Uses Playwright (already installed) to load each page and extract data.
  * Run:  node scripts/ingest-amazon-urls.mjs
@@ -70,6 +73,8 @@ async function main() {
   }
   const products = JSON.parse(fs.readFileSync(DATA_FILE, 'utf8'));
   const byId = new Map(products.map(p => [p.id, p]));
+  const autoQueue = products.map(p => p.id); // JSON order for bare-URL lines
+  let autoPtr = 0;
   const lines = fs.readFileSync(SRC_FILE, 'utf8').split('\n').map(l => l.trim()).filter(Boolean);
 
   const browser = await chromium.launch();
@@ -77,9 +82,15 @@ async function main() {
 
   let ok = 0, fail = 0;
   for (const line of lines) {
-    const [id, src] = line.split('|').map(s => s.trim());
-    const p = byId.get(id);
-    if (!p) { console.error(`  ⚠️  unknown product id: ${id} (skipped)`); fail++; continue; }
+    let id, src;
+    if (line.includes('|')) {
+      [id, src] = line.split('|').map(s => s.trim());
+    } else {
+      id = autoQueue[autoPtr++] || null;
+      src = line.trim();
+    }
+    const p = id ? byId.get(id) : null;
+    if (!p) { console.error(`  ⚠️  no matching product for line: ${line.slice(0, 50)} (skipped)`); fail++; continue; }
     try {
       const d = await scrape(page, src);
       const asin = asinFrom(src) || asinFrom(d.img || '');
