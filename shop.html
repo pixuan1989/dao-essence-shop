@@ -94,9 +94,9 @@
 
   <section class="hero">
     <div class="wrap">
-      <div class="eyebrow">Curated Lucky Finds</div>
-      <h1>開運好物 · Shop</h1>
-      <p>Carefully chosen Feng Shui, BaZi and Chinese-metaphysics essentials — books, jewelry, tools, decor and wellness. Every pick is aligned with the Five Elements, and re-ranked to your personal profile.</p>
+      <div class="eyebrow" id="hero-eyebrow">Curated Lucky Finds</div>
+      <h1 id="hero-title">Lucky Finds · Shop</h1>
+      <p id="hero-desc">Carefully chosen Feng Shui, BaZi and Chinese-metaphysics essentials — books, jewelry, tools, decor and wellness. Every pick is aligned with the Five Elements, and re-ranked to your personal profile.</p>
       <div id="personalize-note" class="personalize-note">Loading your personalization…</div>
     </div>
   </section>
@@ -120,26 +120,57 @@
     <div class="wrap">© DaoEssence · Bridging ancient Chinese wisdom with modern life.</div>
   </footer>
 
+  <script src="/js/i18n-switcher.js" defer></script>
   <script src="/js/amazon-icons.js" defer></script>
   <script src="/js/amazon-recommend.js" defer></script>
   <script>
   (function () {
     'use strict';
     var TAG = 'daoessence25-20'; // 真实追踪 ID（与 js/amazon-affiliate.js 的 amzn.to 短链账号一致）
-    var isZh = (document.documentElement.lang || '').toLowerCase().indexOf('zh') !== -1;
 
+    // 语言检测：优先使用站点统一的 DaoI18n（/zh 路径、?lang=、localStorage、浏览器语言），
+    // 兜底回退到 <html lang> 属性。不再依赖从未被设置的 window.DAO_LANG。
+    function isZhNow() {
+      if (window.DaoI18n && typeof window.DaoI18n.current === 'function') {
+        var cur = window.DaoI18n.current();
+        if (cur === 'zh' || cur === 'zh-Hant') return true;
+        if (cur === 'en') return false;
+      }
+      return (document.documentElement.lang || '').toLowerCase().indexOf('zh') !== -1;
+    }
+
+    // Amazon OneLink（OneTag）国际跳转：在 Associates Central 配置并填入 adInstanceId 后启用，
+    // 自动把 amazon.com 原生链接按访客地区重定向到对应国家站点（保留 ?tag=daoessence25-20）。
+    // 留空则完全不加载，零侵入、不冲突。
+    var AMAZON_ONELINK_ID = '';
+    if (AMAZON_ONELINK_ID) {
+      var _ol = document.createElement('script');
+      _ol.src = '//z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US&adInstanceId=' + encodeURIComponent(AMAZON_ONELINK_ID);
+      _ol.async = true;
+      document.head.appendChild(_ol);
+    }
+
+    // 商品分类：基于 tags 推导，覆盖全部 38 件商品，无孤儿（0 Other）。
+    // 顺序很关键：Books → Jewelry → Wellness → Tools → Decor → Other
     function categoryOf(p) {
       var t = p.tags || [];
-      if (t.indexOf('book') !== -1) return 'Books';
-      if (t.indexOf('bracelet') !== -1 || t.indexOf('jade') !== -1 || t.indexOf('jewelry') !== -1) return 'Jewelry';
-      if (t.indexOf('tool') !== -1) return 'Tools';
-      if (t.indexOf('decor') !== -1) return 'Decor';
-      if (t.indexOf('wellness') !== -1) return 'Wellness';
+      var has = function (x) { return t.indexOf(x) !== -1; };
+      if (has('book') || has('journal')) return 'Books';
+      if (has('bracelet') || has('jewelry') || has('pendant')) return 'Jewelry';
+      if (has('wellness') || has('chakra') || has('healing') || has('kit') ||
+          has('smudge') || has('sage') || has('palosanto') || has('cleansing') ||
+          has('tea') || has('beauty') || has('rose-quartz')) return 'Wellness';
+      if (has('tool') || has('compass') || has('sound') || has('incense') ||
+          has('mala') || has('coins') || has('bagua') || has('tarot') ||
+          has('cards') || has('divination')) return 'Tools';
+      if (has('decor') || has('tree') || has('fountain') || has('vase') ||
+          has('frog') || has('zen') || has('suncatcher') || has('moon') ||
+          has('buddha') || has('plant') || has('laughing-buddha')) return 'Decor';
       return 'Other';
     }
 
     function fallbackCard(p) {
-      var name = (isZh && p.nameZh) ? p.nameZh : p.name;
+      var name = (isZhNow() && p.nameZh) ? p.nameZh : p.name;
       var url = p.asin
         ? 'https://www.amazon.com/dp/' + p.asin + '?tag=' + TAG
         : 'https://www.amazon.com/s?k=' + encodeURIComponent(p.keywords || p.name) + '&tag=' + TAG;
@@ -172,14 +203,42 @@
       var favs = R ? R.getFavElements() : [];
       if (favs.length) {
         note.classList.add('active');
-        note.innerHTML = isZh
+        note.innerHTML = isZhNow()
           ? '已依你的五行喜用 <b>' + favs.join(' / ') + '</b> 為你排序好物。'
           : 'Sorted by your favorable elements: <b>' + favs.join(' / ') + '</b>.';
       } else {
-        note.innerHTML = isZh
+        note.innerHTML = isZhNow()
           ? '完成 <a href="/favorable-element">五行喜用測試</a>，即可獲得專屬好物排序。'
           : 'Take the <a href="/favorable-element">Five-Element test</a> to unlock a personalized sort.';
       }
+    }
+
+    // 静态文案中英双语字典（避免中英夹杂，按访客语言整段切换）
+    var I18N = {
+      en: {
+        eyebrow: 'Curated Lucky Finds',
+        title: 'Lucky Finds · Shop',
+        desc: 'Carefully chosen Feng Shui, BaZi and Chinese-metaphysics essentials — books, jewelry, tools, decor and wellness. Every pick is aligned with the Five Elements, and re-ranked to your personal profile.',
+        tabs: { all: 'All', Books: 'Books', Jewelry: 'Jewelry', Tools: 'Tools', Decor: 'Decor', Wellness: 'Wellness' }
+      },
+      zh: {
+        eyebrow: '精選開運好物',
+        title: '開運好物 · 商店',
+        desc: '嚴選風水、八字與中式玄學好物——書籍、飾品、法器、擺設與養生。每一件都呼應五行，並依你的個人命格重新排序。',
+        tabs: { all: '全部', Books: '書籍', Jewelry: '飾品', Tools: '法器', Decor: '擺設', Wellness: '養生' }
+      }
+    };
+
+    function applyLang() {
+      var dict = isZhNow() ? I18N.zh : I18N.en;
+      var e = document.getElementById('hero-eyebrow'); if (e) e.textContent = dict.eyebrow;
+      var h = document.getElementById('hero-title'); if (h) h.textContent = dict.title;
+      var p = document.getElementById('hero-desc'); if (p) p.textContent = dict.desc;
+      var tabs = document.querySelectorAll('#shop-tabs .tab');
+      tabs.forEach(function (btn) {
+        var cat = btn.getAttribute('data-cat');
+        if (dict.tabs[cat]) btn.textContent = dict.tabs[cat];
+      });
     }
 
     function setupTabs() {
@@ -200,6 +259,7 @@
         .then(function (lib) {
           window.AMAZON_PRODUCT_LIBRARY = lib;
           setupTabs();
+          applyLang();
           render('all');
           updateNote();
         })
@@ -209,6 +269,14 @@
           console.error('Shop load failed:', e);
         });
     }
+
+    // 语言切换（DaoI18n 派发）时同步刷新文案、标签与商品网格
+    document.addEventListener('daoessence:i18n-changed', function () {
+      applyLang();
+      var active = document.querySelector('#shop-tabs .tab.active');
+      render(active ? active.getAttribute('data-cat') : 'all');
+      updateNote();
+    });
 
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', init);

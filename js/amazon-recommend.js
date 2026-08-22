@@ -13,6 +13,18 @@
       .replace(/"/g, '&quot;');
   }
 
+  // 语言检测：优先使用站点统一的 DaoI18n（/zh 路径、?lang=、localStorage、浏览器语言），
+  // 兜底回退到 <html lang> 属性，再兜底 window.DAO_LANG。与 shop.html 保持一致。
+  function detectZh() {
+    if (window.DaoI18n && typeof window.DaoI18n.current === 'function') {
+      var cur = window.DaoI18n.current();
+      if (cur === 'zh' || cur === 'zh-Hant') return true;
+      if (cur === 'en') return false;
+    }
+    if ((document.documentElement.lang || '').toLowerCase().indexOf('zh') !== -1) return true;
+    return window.DAO_LANG === 'zh';
+  }
+
   function buildAmazonUrl(p, tag) {
     tag = tag || 'daoessence25-20';
     if (p.asin) return 'https://www.amazon.com/dp/' + p.asin + '?tag=' + tag;
@@ -36,8 +48,7 @@
 
   function renderCard(p, context, tag) {
     if (!p) return '';
-    var isZh = (document.documentElement.lang || '').toLowerCase().indexOf('zh') !== -1 ||
-      (window.DAO_LANG === 'zh');
+    var isZh = detectZh();
     var displayName = (isZh && p.nameZh) ? p.nameZh : p.name;
     var url = buildAmazonUrl(p, tag);
     var btn = isZh ? '在 Amazon 查看' : 'View on Amazon';
@@ -104,8 +115,7 @@
     var lib = window.AMAZON_PRODUCT_LIBRARY;
     var tag = window.AMAZON_ASSOCIATE_TAG;
     var favs = getFavElements();
-    var isZh = (document.documentElement.lang || '').toLowerCase().indexOf('zh') !== -1 ||
-      (window.DAO_LANG === 'zh');
+    var isZh = detectZh();
 
     // Re-rank each "Recommended for You" grid by reordering the CURATED cards
     // already rendered by the build step (do NOT replace them with the full library).

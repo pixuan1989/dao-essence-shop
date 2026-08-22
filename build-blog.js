@@ -91,6 +91,20 @@ const SITE_URL = 'https://www.daoessentia.com';
 // 真实追踪 ID（从 js/amazon-affiliate.js 的 amzn.to 短链重定向中提取：tag=daoessence25-20）
 const AMAZON_ASSOCIATE_TAG = 'daoessence25-20';
 
+// Amazon OneLink（OneTag）国际跳转。
+// 在 Amazon Associates Central 把各国家站点 Store ID 关联到一个 OneLink 后，
+// 把这里的 adInstanceId（UUID）填上即可启用：访客点击 amazon.com 原生链接时，
+// OneLink 会按地区重定向到对应国家站点（保留 ?tag=daoessence25-20），全球客户都能赚佣金。
+// 留空字符串 '' 则完全不注入脚本——零侵入、不冲突（原生链接照常工作）。
+const AMAZON_ONELINK_ID = '';
+
+// 返回要注入 <head> 的 OneLink OneTag 脚本片段；未配置时返回空字符串。
+function amazonOneLinkHead() {
+  if (!AMAZON_ONELINK_ID) return '';
+  return '  <script src="//z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US&adInstanceId=' +
+    AMAZON_ONELINK_ID + '" async><\/script>\n';
+}
+
 // 商品库（build 与浏览器端共用同一份数据）
 const AMAZON_PRODUCT_LIBRARY = JSON.parse(
   fs.readFileSync(path.join(SRC_DIR, 'data', 'amazon-products.json'), 'utf8')
@@ -1572,7 +1586,7 @@ function generateArticleHtml(post, category, allArticles, options = {}) {
         });
       })();
     </script>
-</head>
+${amazonOneLinkHead()}</head>
 <body>
 ${NAV_HTML}
 
@@ -1839,7 +1853,7 @@ function generateCategoryHtml(category, articles, options = {}) {
         });
       })();
     </script>
-</head>
+${amazonOneLinkHead()}</head>
 <body>
 ${NAV_HTML}
 
@@ -2053,7 +2067,7 @@ function generateBlogIndex(allArticles, options = {}) {
         });
       })();
     </script>
-</head>
+${amazonOneLinkHead()}</head>
 <body>
 ${NAV_HTML}
 
@@ -2140,7 +2154,8 @@ async function main() {
     '.env', '.env.local', '.env.example', '.env.*.local',
     'docs', 'scripts',
     'api',
-    'venv_ocr'
+    'venv_ocr',
+    '.workbuddy' // private: memory notes + automation configs — never deploy
   ]);
 
   // Step 2b: Inject pageview.js into learn-bazi chapter pages
