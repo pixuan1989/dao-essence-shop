@@ -38,14 +38,6 @@
     .view-tabs { margin: 1.8rem 0 1.2rem; }
     .view-desc { color: var(--muted); text-align: center; max-width: 680px; margin: 0 auto 1.6rem; font-size: 0.95rem; }
 
-    .personalize-note {
-      max-width: 720px; margin: 1.4rem auto 0; padding: 0.8rem 1.2rem;
-      border: 1px dashed rgba(212,175,55,0.4); border-radius: 12px;
-      background: rgba(212,175,55,0.05); color: var(--text); font-size: 0.95rem; text-align: center;
-    }
-    .personalize-note.active { border-style: solid; }
-    .personalize-note b { color: var(--gold); }
-
     .tabs { display: flex; flex-wrap: wrap; gap: 0.6rem; justify-content: center; margin: 2.2rem 0 1.5rem; }
     .tab {
       border: 1px solid rgba(212,175,55,0.3); background: transparent; color: var(--text);
@@ -135,7 +127,6 @@
 
   <section class="shop-hero">
     <div class="wrap">
-      <div class="eyebrow" id="hero-eyebrow">DaoEssence Shop</div>
       <h1 id="hero-title">Shop</h1>
     </div>
   </section>
@@ -163,7 +154,6 @@
         <button class="tab" data-cat="Decor">Decor</button>
         <button class="tab" data-cat="Wellness">Wellness</button>
       </div>
-      <div id="personalize-note" class="personalize-note">Loading your personalization…</div>
       <div class="amazon-products-grid" id="shop-grid"></div>
       <p class="amazon-disclaimer">As an Amazon Associate, DaoEssence earns from qualifying purchases. Product selections are editorially curated; prices and availability are shown from Amazon at the time of visit.</p>
     </div>
@@ -388,26 +378,9 @@
       }).join('');
     }
 
-    function updateNote() {
-      var note = document.getElementById('personalize-note');
-      var R = window.AmazonRecommend;
-      var favs = R ? R.getFavElements() : [];
-      if (favs.length) {
-        note.classList.add('active');
-        note.innerHTML = isZhNow()
-          ? '已依你的五行喜用 <b>' + favs.join(' / ') + '</b> 為你排序好物。'
-          : 'Sorted by your favorable elements: <b>' + favs.join(' / ') + '</b>.';
-      } else {
-        note.innerHTML = isZhNow()
-          ? '完成 <a href="/favorable-element">五行喜用測試</a>，即可獲得專屬好物排序。'
-          : 'Take the <a href="/favorable-element">Five-Element test</a> to unlock a personalized sort.';
-      }
-    }
-
     // ---------- 双语字典 ----------
     var I18N = {
       en: {
-        heroEyebrow: 'DaoEssence Shop',
         heroTitle: 'Shop',
         tabDigital: 'My Digital Resources',
         tabAmazon: 'Recommended Picks',
@@ -416,7 +389,6 @@
         tabs: { all: 'All', Books: 'Books', Jewelry: 'Jewelry', Tools: 'Tools', Decor: 'Decor', Wellness: 'Wellness' }
       },
       zh: {
-        heroEyebrow: 'DaoEssence 商店',
         heroTitle: '商店',
         tabDigital: '我的數字資源',
         tabAmazon: '推薦好物',
@@ -429,7 +401,6 @@
     function applyLang() {
       var dict = isZhNow() ? I18N.zh : I18N.en;
       var set = function (id, v) { var el = document.getElementById(id); if (el) el.textContent = v; };
-      set('hero-eyebrow', dict.heroEyebrow);
       set('hero-title', dict.heroTitle);
       set('tab-digital', dict.tabDigital);
       set('tab-amazon', dict.tabAmazon);
@@ -482,7 +453,6 @@
         .then(function (lib) {
           window.AMAZON_PRODUCT_LIBRARY = lib;
           render('all');
-          updateNote();
         })
         .catch(function (e) {
           document.getElementById('shop-grid').innerHTML =
@@ -497,7 +467,6 @@
       renderDigital();
       var active = document.querySelector('#shop-tabs .tab.active');
       render(active ? active.getAttribute('data-cat') : 'all');
-      updateNote();
     });
 
     if (document.readyState === 'loading') {
