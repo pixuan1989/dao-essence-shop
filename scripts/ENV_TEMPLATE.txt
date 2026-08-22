@@ -1,0 +1,17 @@
+# Amazon Product Advertising API 5.0 credentials
+# Copy this file to ../.env (already gitignored) and fill in real values.
+# NEVER commit the real .env.
+
+# AWS Access Key Id (from the Amazon developer/PA-API console)
+PAAPI_ACCESS_KEY=YOUR_ACCESS_KEY_ID
+
+# AWS Secret Access Key
+PAAPI_SECRET_KEY=YOUR_SECRET_ACCESS_KEY
+
+# Your Associate tracking id (already known: daoessence25-20)
+PAAPI_PARTNER_TAG=daoessence25-20
+
+# Defaults below are usually fine for the US store:
+PAAPI_HOST=webservices.amazon.com
+PAAPI_REGION=us-east-1
+PAAPI_MARKETPLACE=www.amazon.com
