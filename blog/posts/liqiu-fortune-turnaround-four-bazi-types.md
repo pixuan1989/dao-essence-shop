@@ -17,7 +17,7 @@ tags:
 author: "Dingwei"
 readTime: 12
 image: "/images/blog/liqiu-fortune-turnaround-four-bazi-types.webp"
-imageAlt: "Cute flat illustration of four cheerful BaZi energy figures in autumn gold, blue and green, Liqiu fortune turnaround"
+imageAlt: "Dark luxury Chinese editorial cover: gold calligraphy title '立秋翻盤' with English subtitle, circular autumn luopan motif, four elemental symbols, red seal stamp"
 lang: "en"
 keywords: "liqiu fortune, liqiu bazi luck, autumn fortune turnaround, shen month bazi, metal water luck, geng xin autumn, ren gui weak water, earth weak bazi"
 related_posts:

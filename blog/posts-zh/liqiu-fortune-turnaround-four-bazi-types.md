@@ -17,7 +17,7 @@ tags:
 author: "DAO Essence"
 readTime: 12
 image: "/images/blog/liqiu-fortune-turnaround-four-bazi-types.webp"
-imageAlt: "可愛扁平插畫，四位開心的八字能量角色，金藍綠秋色系，立秋運勢翻盤"
+imageAlt: "深色中式命理雜誌封面：金箔書法「立秋翻盤」中英標題，秋季羅盤圖騰，四種元素象徵，紅色印章"
 lang: "zh"
 keywords: "立秋 運勢, 立秋 八字, 申月 轉運, 金水 運, 日主 金 水"
 related_posts:
