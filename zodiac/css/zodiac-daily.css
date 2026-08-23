@@ -560,30 +560,41 @@ body.detail-page-body { overflow-x: hidden; }
   }
 }
 
-/* 顶部区域：主卡片 + 右侧信息（推荐面板已移入右侧栏） */
+/* 顶部区域：主卡片 + 右侧信息 + 右侧吊坠推荐列 */
 .detail-top-area {
-  display: block;
+  display: grid;
+  grid-template-columns: 1fr 260px;
+  gap: 22px;
+  align-items: start;
   margin-bottom: 22px;
 }
 
 @media (max-width: 1023px) {
-  .zodiac-pendant-rec {
+  .detail-top-area {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .detail-rec-panel {
+    margin-top: 24px;
     max-width: 480px;
     margin-left: auto;
     margin-right: auto;
   }
 }
 
-/* ─── 右侧 Amazon 三合吊坠推荐 ─── */
+/* ─── 右侧 Amazon 三合吊坠推荐（独立侧边栏） ─── */
 .detail-rec-panel {
   min-width: 0;
+  position: sticky;
+  top: 80px;
+  max-height: calc(100vh - 100px);
+  overflow-y: auto;
 }
 .zodiac-pendant-rec {
   background: rgba(255,255,255,0.03);
   border: 1px solid rgba(212,175,55,0.15);
   border-radius: 14px;
   padding: 14px;
-  margin-top: 16px;
 }
 .zodiac-pendant-rec__title {
   font-family: var(--font-sc);

@@ -116,11 +116,13 @@ function buildPendantPanel(currentSign, isEn, signName, signNameEn) {
       '<span class="zodiac-pendant-card__btn">' + btn + '</span>' +
     '</a>';
   }).join('');
-  return '<div class="zodiac-pendant-rec" id="detailRecPanel" aria-label="Affiliate product recommendations">' +
-    '<div class="zodiac-pendant-rec__title">' + title + '</div>' +
-    '<div class="zodiac-pendant-rec__subtitle">' + subtitle + '</div>' +
-    '<div class="zodiac-pendant-rec__grid">' + cards + '</div>' +
-  '</div>';
+  return '<aside class="detail-rec-panel" id="detailRecPanel" aria-label="Affiliate product recommendations">' +
+    '<div class="zodiac-pendant-rec">' +
+      '<div class="zodiac-pendant-rec__title">' + title + '</div>' +
+      '<div class="zodiac-pendant-rec__subtitle">' + subtitle + '</div>' +
+      '<div class="zodiac-pendant-rec__grid">' + cards + '</div>' +
+    '</div>' +
+  '</aside>';
 }
 
 // ─── 博客导流推荐（12生肖 × 2篇，按语义匹配）───
@@ -1975,9 +1977,9 @@ function buildDetailHTML(ctx, isEn) {
             <div class="yiji-block yiji-block--bad"><div class="yiji-block__hdr">${isEn ? 'Avoid' : '忌'}</div><div class="yiji-block__tags">${badTags}</div></div>
           </div>
           <blockquote class="detail-quote"><p id="quoteText">${isEn ? trQuote(fc.quote) : fc.quote}</p></blockquote>
-          ${pendantPanel}
         </div>
       </div>
+      ${pendantPanel}
     </div>
     <div id="zodiac-share"></div>
     <div class="seo-divider">
