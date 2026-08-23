@@ -104,7 +104,7 @@
         const isSidebar = recEl.closest('.bazi-sidebar') !== null;
         const displayCount = forceCount || (isSidebar ? SIDEBAR_DISPLAY_COUNT : MAIN_DISPLAY_COUNT);
         const title = isZh ? '開運好物推薦' : 'Recommended for You';
-        const btnText = isZh ? '在 Amazon 查看' : 'View on Amazon';
+        const btnText = isZh ? '点击查看' : 'View on Amazon';
 
         loadLibrary().then(function () {
             function paint() {
