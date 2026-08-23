@@ -64,6 +64,56 @@ const ZODIAC_LIST = [
   { key: 'pig',     name: '猪', sign: '亥', en: 'Pig', element: '水' },
 ];
 
+// ─── 三合生肖吊坠 Amazon 推荐 ───
+const PENDANT_SANHE = {
+  rat: ['dragon', 'monkey'], ox: ['snake', 'rooster'], tiger: ['horse', 'dog'], rabbit: ['goat', 'pig'],
+  dragon: ['rat', 'monkey'], snake: ['ox', 'rooster'], horse: ['tiger', 'dog'], goat: ['rabbit', 'pig'],
+  monkey: ['rat', 'dragon'], rooster: ['ox', 'snake'], dog: ['tiger', 'horse'], pig: ['rabbit', 'goat']
+};
+const PENDANT_NAMES = {
+  rat: { en: 'Rat', zh: '鼠' }, ox: { en: 'Ox', zh: '牛' }, tiger: { en: 'Tiger', zh: '虎' },
+  rabbit: { en: 'Rabbit', zh: '兔' }, dragon: { en: 'Dragon', zh: '龍' }, snake: { en: 'Snake', zh: '蛇' },
+  horse: { en: 'Horse', zh: '馬' }, goat: { en: 'Goat', zh: '羊' }, monkey: { en: 'Monkey', zh: '猴' },
+  rooster: { en: 'Rooster', zh: '雞' }, dog: { en: 'Dog', zh: '狗' }, pig: { en: 'Pig', zh: '豬' }
+};
+const PENDANT_FALLBACK_IMG = 'https://m.media-amazon.com/images/I/71Cl8mQL8oL._AC_SL1500_.jpg';
+function buildPendantSearchUrl(targetSign) {
+  const keyword = 'Jadeous Real Jade Chinese Zodiac ' + PENDANT_NAMES[targetSign].en + ' Pendant Necklace';
+  return 'https://www.amazon.com/s?k=' + encodeURIComponent(keyword) + '&tag=daoessence25-20&linkCode=as2&creative=9325&camp=1789';
+}
+function buildPendantPanel(currentSign, isEn, signName, signNameEn) {
+  const targets = PENDANT_SANHE[currentSign] || [];
+  if (targets.length === 0) return '';
+  const title = isEn ? 'Triple Harmony Pendants' : '三合開運吊墜';
+  const subtitle = isEn
+    ? ('Lucky charms for ' + signNameEn)
+    : (signName + '的三合生肖，助運旺人緣');
+  const note = isEn
+    ? 'As an Amazon Associate, DaoEssence earns from qualifying purchases.'
+    : '作為 Amazon 聯盟夥伴，DaoEssence 從符合資格的購買中獲得分潤。';
+  const btn = isEn ? 'View on Amazon' : '点击查看';
+  const cards = targets.map(function(t) {
+    const name = isEn ? PENDANT_NAMES[t].en : PENDANT_NAMES[t].zh;
+    const label = isEn ? (name + ' Jade Pendant') : ('翡翠' + name + '吊墜');
+    return '<a class="zodiac-pendant-card" href="' + buildPendantSearchUrl(t) + '" target="_blank" rel="nofollow sponsored noopener">' +
+      '<div class="zodiac-pendant-card__img-wrap">' +
+        '<img src="images/' + t + '.webp" alt="' + label + '" loading="lazy" onerror="this.src=\'' + PENDANT_FALLBACK_IMG + '\';this.onerror=null;">' +
+      '</div>' +
+      '<div class="zodiac-pendant-card__sign">' + name + '</div>' +
+      '<div class="zodiac-pendant-card__name">' + label + '</div>' +
+      '<span class="zodiac-pendant-card__btn">' + btn + '</span>' +
+    '</a>';
+  }).join('');
+  return '<aside class="detail-rec-panel" id="detailRecPanel" aria-label="Affiliate product recommendations">' +
+    '<div class="zodiac-pendant-rec">' +
+      '<div class="zodiac-pendant-rec__title">' + title + '</div>' +
+      '<div class="zodiac-pendant-rec__subtitle">' + subtitle + '</div>' +
+      '<div class="zodiac-pendant-rec__grid">' + cards + '</div>' +
+      '<div class="zodiac-pendant-rec__note">' + note + '</div>' +
+    '</div>' +
+  '</aside>';
+}
+
 // ─── 博客导流推荐（12生肖 × 2篇，按语义匹配）───
 // 每条包含 slug + 中文标题 + 英文标题，generate-daily.js 按需输出对应语言版本
 const BLOG_RECOMMENDATIONS = {
@@ -1696,6 +1746,8 @@ function buildDetailHTML(ctx, isEn) {
     }).join('\n');
   }
 
+  const pendantPanel = buildPendantPanel(sign, isEn, signName, signNameEn);
+
   const active = isEn ? fe : fc;
   const goodTags = active.yi.map(g => `<span class="y-tag y-tag--good">${isEn ? trYi(g) : g}</span>`).join('');
   const badTags = active.ji.map(a => `<span class="y-tag y-tag--bad">${isEn ? trYi(a) : a}</span>`).join('');
@@ -1887,33 +1939,36 @@ function buildDetailHTML(ctx, isEn) {
   </header>
   <main class="detail-content-v5">
     <div class="detail-date-badge" id="dateBadge">${isEn ? dateEn : dateZh}</div>
-    <div class="detail-layout">
-      <div class="detail-layout__left">
-        <div class="detail-card-left">
-          <img class="detail-card-left__img" id="cardImg" src="images/${sign}.webp" alt="${isEn ? signNameEn : signName}" draggable="false">
-          <div class="detail-card-left__overlay"></div>
-          <div class="detail-card-left__glow"></div>
-        </div>
-      </div>
-      <div class="detail-layout__right">
-        <div class="detail-header">
-          <h1 class="detail-header__name" id="cardName">${isEn ? signNameEn + ' Daily Horoscope — ' + dateStr : signName + '今日运势详解 — ' + dateStr}</h1>
-          <div class="detail-header__score">
-            <span class="detail-header__score-num" id="cardScore" style="color:${accent}">${fc.score}</span>
-            <span class="detail-header__stars" id="cardStars">${renderStars(fc.score)}</span>
+    <div class="detail-top-area">
+      <div class="detail-layout">
+        <div class="detail-layout__left">
+          <div class="detail-card-left">
+            <img class="detail-card-left__img" id="cardImg" src="images/${sign}.webp" alt="${isEn ? signNameEn : signName}" draggable="false">
+            <div class="detail-card-left__overlay"></div>
+            <div class="detail-card-left__glow"></div>
           </div>
         </div>
-        <div class="detail-info-row" id="infoRow">
-          <div class="info-chip"><span class="dot" style="background:${fc.color}"></span>${isEn ? 'Lucky Color' : '幸运色'} <strong>${isEn ? colorEn : fc.colorName}</strong></div>
-          <div class="info-chip">${isEn ? 'Lucky Number' : '幸运数'} <strong>${fc.luckyNum}</strong></div>
-          <div class="info-chip">${isEn ? 'Direction' : '方位'} <strong>${isEn ? dirEn : fc.direction}</strong></div>
+        <div class="detail-layout__right">
+          <div class="detail-header">
+            <h1 class="detail-header__name" id="cardName">${isEn ? signNameEn + ' Daily Horoscope — ' + dateStr : signName + '今日运势详解 — ' + dateStr}</h1>
+            <div class="detail-header__score">
+              <span class="detail-header__score-num" id="cardScore" style="color:${accent}">${fc.score}</span>
+              <span class="detail-header__stars" id="cardStars">${renderStars(fc.score)}</span>
+            </div>
+          </div>
+          <div class="detail-info-row" id="infoRow">
+            <div class="info-chip"><span class="dot" style="background:${fc.color}"></span>${isEn ? 'Lucky Color' : '幸运色'} <strong>${isEn ? colorEn : fc.colorName}</strong></div>
+            <div class="info-chip">${isEn ? 'Lucky Number' : '幸运数'} <strong>${fc.luckyNum}</strong></div>
+            <div class="info-chip">${isEn ? 'Direction' : '方位'} <strong>${isEn ? dirEn : fc.direction}</strong></div>
+          </div>
+          <div class="detail-yiji" id="yijiRow">
+            <div class="yiji-block yiji-block--good"><div class="yiji-block__hdr">${isEn ? 'Good for' : '宜'}</div><div class="yiji-block__tags">${goodTags}</div></div>
+            <div class="yiji-block yiji-block--bad"><div class="yiji-block__hdr">${isEn ? 'Avoid' : '忌'}</div><div class="yiji-block__tags">${badTags}</div></div>
+          </div>
+          <blockquote class="detail-quote"><p id="quoteText">${isEn ? trQuote(fc.quote) : fc.quote}</p></blockquote>
         </div>
-        <div class="detail-yiji" id="yijiRow">
-          <div class="yiji-block yiji-block--good"><div class="yiji-block__hdr">${isEn ? 'Good for' : '宜'}</div><div class="yiji-block__tags">${goodTags}</div></div>
-          <div class="yiji-block yiji-block--bad"><div class="yiji-block__hdr">${isEn ? 'Avoid' : '忌'}</div><div class="yiji-block__tags">${badTags}</div></div>
-        </div>
-        <blockquote class="detail-quote"><p id="quoteText">${isEn ? trQuote(fc.quote) : fc.quote}</p></blockquote>
       </div>
+      ${pendantPanel}
     </div>
     <div id="zodiac-share"></div>
     <div class="seo-divider">
