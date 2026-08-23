@@ -53,14 +53,10 @@
     var displayName = (isZh && p.nameZh) ? p.nameZh : p.name;
     var url = buildAmazonUrl(p, tag);
     var btn = isZh ? '点击查看' : 'View on Amazon';
-    var badge = context === 'inline'
-      ? (isZh ? '開運好物' : 'Lucky Pick')
-      : (isZh ? '好物推薦' : 'Recommended');
     var dataAttrs = ' data-id="' + escapeHtml(p.id) + '"' +
       ' data-elements="' + (p.elements || []).map(escapeHtml).join(' ') + '"' +
       ' data-categories="' + (p.categories || []).map(escapeHtml).join(' ') + '"';
     return '<div class="amazon-product-card' + (context === 'inline' ? ' amazon-product-card--inline' : '') + '"' + dataAttrs + '>' +
-      '<span class="amazon-badge">' + badge + '</span>' +
       imageHtml(p) +
       '<h4>' + escapeHtml(displayName) + '</h4>' +
       '<div class="amazon-rating"><span class="stars">★★★★★</span>' +

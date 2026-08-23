@@ -325,7 +325,6 @@
               btnText = zh ? '查看詳情' : 'View Details';
             }
             return '<div class="amazon-product-card digital-card">'
-              + '<span class="digital-badge">Digital</span>'
               + '<div class="amazon-img-wrap">' + (img ? '<img src="' + esc(img) + '" alt="' + esc(name) + '">' : '') + '</div>'
               + '<h4>' + esc(name) + '</h4>'
               + (desc ? '<p class="digital-desc">' + esc(desc) + '</p>' : '')
@@ -366,7 +365,7 @@
       var url = p.asin
         ? 'https://www.amazon.com/dp/' + p.asin + '?tag=' + TAG
         : 'https://www.amazon.com/s?k=' + encodeURIComponent(p.keywords || p.name) + '&tag=' + TAG;
-      return '<div class="amazon-product-card"><span class="amazon-badge">Recommended</span>' +
+      return '<div class="amazon-product-card">' +
         '<div class="amazon-img-wrap"></div><h4>' + name + '</h4>' +
         '<div class="amazon-rating"><span class="stars">★★★★★</span><span class="rating-text">' + p.rating + ' (' + p.reviews + ')</span></div>' +
         '<div class="amazon-price">' + p.price + '</div>' +

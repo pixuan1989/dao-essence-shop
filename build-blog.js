@@ -1093,12 +1093,8 @@ function generateArticleHtml(post, category, allArticles, options = {}) {
     const displayName = isZh && p.nameZh ? p.nameZh : p.name;
     const url = buildAmazonUrl(p);
     const btn = isZh ? '点击查看' : 'View on Amazon';
-    const badge = context === 'inline'
-      ? (isZh ? '開運好物' : 'Lucky Pick')
-      : (isZh ? '好物推薦' : 'Recommended');
     return `
         <div class="amazon-product-card${context === 'inline' ? ' amazon-product-card--inline' : ''}" data-id="${escapeHtml(p.id)}" data-elements="${(p.elements || []).map(escapeHtml).join(' ')}" data-categories="${(p.categories || []).map(escapeHtml).join(' ')}">
-            <span class="amazon-badge">${badge}</span>
             ${amazonImageHtml(p)}
             <h4>${escapeHtml(displayName)}</h4>
             <div class="amazon-rating">
