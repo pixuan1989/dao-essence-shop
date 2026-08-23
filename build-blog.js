@@ -1091,7 +1091,7 @@ function generateArticleHtml(post, category, allArticles, options = {}) {
     if (!p) return '';
     const displayName = isZh && p.nameZh ? p.nameZh : p.name;
     const url = buildAmazonUrl(p);
-    const btn = isZh ? '在 Amazon 查看' : 'View on Amazon';
+    const btn = isZh ? '点击查看' : 'View on Amazon';
     const badge = context === 'inline'
       ? (isZh ? '開運好物' : 'Lucky Pick')
       : (isZh ? '好物推薦' : 'Recommended');
