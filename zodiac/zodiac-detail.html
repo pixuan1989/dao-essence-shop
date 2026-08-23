@@ -110,9 +110,12 @@
       <!-- 右侧：三合生肖吊坠 Amazon 推荐 -->
       <aside class="detail-rec-panel" id="detailRecPanel" aria-label="Affiliate product recommendations">
         <div class="zodiac-pendant-rec">
-          <div class="zodiac-pendant-rec__title" id="zodiacPendantTitle">三合開運吊墜</div>
-          <div class="zodiac-pendant-rec__subtitle" id="zodiacPendantSubtitle">佩戴三合生肖，助運旺人緣</div>
-          <div class="zodiac-pendant-rec__grid" id="zodiacPendantGrid"></div>
+          <div class="zodiac-pendant-rec__header">
+            <div class="zodiac-pendant-rec__title" id="zodiacPendantTitle">三合開運吊墜</div>
+            <div class="zodiac-pendant-rec__subtitle" id="zodiacPendantSubtitle">佩戴三合生肖，助運旺人緣</div>
+          </div>
+          <div class="zodiac-pendant-rec__list" id="zodiacPendantGrid"></div>
+          <a class="zodiac-pendant-rec__cta" id="zodiacPendantCta" href="https://www.amazon.com/s?k=Jadeous%20Real%20Jade%20Chinese%20Zodiac%20Pendant%20Necklace&amp;tag=daoessence25-20&amp;linkCode=as2&amp;creative=9325&amp;camp=1789" target="_blank" rel="nofollow sponsored noopener">查看全部三合吊墜 →</a>
         </div>
       </aside>
 
@@ -431,7 +434,6 @@
         var subtitle = isEn
           ? ('Lucky charms for ' + currentName)
           : (currentName + '的三合生肖，助運旺人緣');
-        var btn = isEn ? 'View on Amazon' : '点击查看';
 
         if (titleEl) titleEl.textContent = title;
         if (subEl) subEl.textContent = subtitle;
@@ -442,16 +444,22 @@
           var label = isEn
             ? (name + ' Jade Pendant')
             : ('翡翠' + name + '吊墜');
-          html += '<a class="zodiac-pendant-card" href="' + ZODIAC_PENDANTS.buildUrl(targetSign) + '" target="_blank" rel="nofollow sponsored noopener">' +
-            '<div class="zodiac-pendant-card__img-wrap">' +
+          var tag = isEn ? ('Your ' + name + ' ally') : (name + ' · 三合貴人');
+          html += '<a class="zodiac-pendant-item" href="' + ZODIAC_PENDANTS.buildUrl(targetSign) + '" target="_blank" rel="nofollow sponsored noopener">' +
+            '<div class="zodiac-pendant-item__img-wrap">' +
               '<img src="' + ZODIAC_PENDANTS.signImage(targetSign) + '" alt="' + label + '" loading="lazy" onerror="this.src=\'' + ZODIAC_PENDANTS.productImage + '\';this.onerror=null;">' +
             '</div>' +
-            '<div class="zodiac-pendant-card__sign">' + name + '</div>' +
-            '<div class="zodiac-pendant-card__name">' + label + '</div>' +
-            '<span class="zodiac-pendant-card__btn">' + btn + '</span>' +
+            '<div class="zodiac-pendant-item__info">' +
+              '<div class="zodiac-pendant-item__name">' + label + '</div>' +
+              '<div class="zodiac-pendant-item__tag">' + tag + '</div>' +
+            '</div>' +
+            '<span class="zodiac-pendant-item__arrow">→</span>' +
           '</a>';
         });
         grid.innerHTML = html;
+
+        var ctaEl = document.getElementById('zodiacPendantCta');
+        if (ctaEl) ctaEl.textContent = isEn ? 'View all pendants →' : '查看全部三合吊墜 →';
       }
       renderPendantRec();
 

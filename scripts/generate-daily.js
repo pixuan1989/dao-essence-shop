@@ -103,24 +103,32 @@ function buildPendantPanel(currentSign, isEn, signName, signNameEn) {
   const subtitle = isEn
     ? ('Lucky charms for ' + signNameEn)
     : (signName + '的三合生肖，助運旺人緣');
-  const btn = isEn ? 'View on Amazon' : '点击查看';
-  const cards = targets.map(function(t) {
+  const cta = isEn ? 'View all pendants →' : '查看全部三合吊墜 →';
+  const ctaKeyword = 'Jadeous Real Jade Chinese Zodiac Pendant Necklace';
+  const ctaUrl = 'https://www.amazon.com/s?k=' + encodeURIComponent(ctaKeyword) + '&tag=daoessence25-20&linkCode=as2&creative=9325&camp=1789';
+  const items = targets.map(function(t) {
     const name = isEn ? PENDANT_NAMES[t].en : PENDANT_NAMES[t].zh;
     const label = isEn ? (name + ' Jade Pendant') : ('翡翠' + name + '吊墜');
-    return '<a class="zodiac-pendant-card" href="' + buildPendantSearchUrl(t) + '" target="_blank" rel="nofollow sponsored noopener">' +
-      '<div class="zodiac-pendant-card__img-wrap">' +
+    const tag = isEn ? ('Your ' + name + ' ally') : (name + ' · 三合貴人');
+    return '<a class="zodiac-pendant-item" href="' + buildPendantSearchUrl(t) + '" target="_blank" rel="nofollow sponsored noopener">' +
+      '<div class="zodiac-pendant-item__img-wrap">' +
         '<img src="' + (PENDANT_PRODUCT_IMG[t] || PENDANT_FALLBACK_IMG) + '" alt="' + label + '" loading="lazy" onerror="this.src=\'' + PENDANT_FALLBACK_IMG + '\';this.onerror=null;">' +
       '</div>' +
-      '<div class="zodiac-pendant-card__sign">' + name + '</div>' +
-      '<div class="zodiac-pendant-card__name">' + label + '</div>' +
-      '<span class="zodiac-pendant-card__btn">' + btn + '</span>' +
+      '<div class="zodiac-pendant-item__info">' +
+        '<div class="zodiac-pendant-item__name">' + label + '</div>' +
+        '<div class="zodiac-pendant-item__tag">' + tag + '</div>' +
+      '</div>' +
+      '<span class="zodiac-pendant-item__arrow">→</span>' +
     '</a>';
   }).join('');
   return '<aside class="detail-rec-panel" id="detailRecPanel" aria-label="Affiliate product recommendations">' +
     '<div class="zodiac-pendant-rec">' +
-      '<div class="zodiac-pendant-rec__title">' + title + '</div>' +
-      '<div class="zodiac-pendant-rec__subtitle">' + subtitle + '</div>' +
-      '<div class="zodiac-pendant-rec__grid">' + cards + '</div>' +
+      '<div class="zodiac-pendant-rec__header">' +
+        '<div class="zodiac-pendant-rec__title">' + title + '</div>' +
+        '<div class="zodiac-pendant-rec__subtitle">' + subtitle + '</div>' +
+      '</div>' +
+      '<div class="zodiac-pendant-rec__list">' + items + '</div>' +
+      '<a class="zodiac-pendant-rec__cta" href="' + ctaUrl + '" target="_blank" rel="nofollow sponsored noopener">' + cta + '</a>' +
     '</div>' +
   '</aside>';
 }
