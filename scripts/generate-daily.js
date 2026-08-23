@@ -1958,7 +1958,6 @@ function buildDetailHTML(ctx, isEn) {
           </div>
         </div>
         <div class="detail-layout__right">
-          ${pendantPanel}
           <div class="detail-header">
             <h1 class="detail-header__name" id="cardName">${isEn ? signNameEn + ' Daily Horoscope — ' + dateStr : signName + '今日运势详解 — ' + dateStr}</h1>
             <div class="detail-header__score">
@@ -1976,6 +1975,7 @@ function buildDetailHTML(ctx, isEn) {
             <div class="yiji-block yiji-block--bad"><div class="yiji-block__hdr">${isEn ? 'Avoid' : '忌'}</div><div class="yiji-block__tags">${badTags}</div></div>
           </div>
           <blockquote class="detail-quote"><p id="quoteText">${isEn ? trQuote(fc.quote) : fc.quote}</p></blockquote>
+          ${pendantPanel}
         </div>
       </div>
     </div>
