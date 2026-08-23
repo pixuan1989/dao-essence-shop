@@ -553,6 +553,128 @@ body.detail-page-body { overflow-x: hidden; }
   padding: 0 20px 48px;
 }
 
+/* 桌面端加宽，容纳右侧三合吊坠推荐 */
+@media (min-width: 1024px) {
+  .detail-content-v5 {
+    max-width: 1080px;
+  }
+}
+
+/* 顶部区域：主卡片 + 右侧推荐 */
+.detail-top-area {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: 24px;
+  align-items: start;
+  margin-bottom: 22px;
+}
+
+@media (max-width: 1023px) {
+  .detail-top-area {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .detail-rec-panel {
+    margin-top: 24px;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+/* ─── 右侧 Amazon 三合吊坠推荐 ─── */
+.detail-rec-panel {
+  min-width: 0;
+}
+.zodiac-pendant-rec {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(212,175,55,0.15);
+  border-radius: 16px;
+  padding: 18px;
+}
+.zodiac-pendant-rec__title {
+  font-family: var(--font-sc);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #D4AF37;
+  text-align: center;
+  margin-bottom: 6px;
+  letter-spacing: 0.05em;
+}
+.zodiac-pendant-rec__subtitle {
+  font-size: 0.78rem;
+  color: rgba(245,240,230,0.6);
+  text-align: center;
+  margin-bottom: 16px;
+  line-height: 1.4;
+}
+.zodiac-pendant-rec__grid {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.zodiac-pendant-card {
+  display: block;
+  text-decoration: none;
+  background: rgba(0,0,0,0.2);
+  border-radius: 12px;
+  padding: 12px;
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border: 1px solid rgba(255,255,255,0.05);
+}
+.zodiac-pendant-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+}
+.zodiac-pendant-card__img-wrap {
+  width: 100%;
+  height: 120px;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 10px;
+  background: rgba(255,255,255,0.04);
+}
+.zodiac-pendant-card__img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
+.zodiac-pendant-card__sign {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #D4AF37;
+  margin-bottom: 3px;
+}
+.zodiac-pendant-card__name {
+  font-size: 0.82rem;
+  color: rgba(245,240,230,0.85);
+  margin-bottom: 10px;
+  line-height: 1.35;
+}
+.zodiac-pendant-card__btn {
+  display: inline-block;
+  background: rgba(212,175,55,0.12);
+  color: #D4AF37;
+  border: 1px solid rgba(212,175,55,0.35);
+  border-radius: 6px;
+  padding: 6px 14px;
+  font-size: 0.78rem;
+  font-weight: 500;
+}
+.zodiac-pendant-card:hover .zodiac-pendant-card__btn {
+  background: rgba(212,175,55,0.22);
+}
+.zodiac-pendant-rec__note {
+  font-size: 0.65rem;
+  color: rgba(245,240,230,0.4);
+  text-align: center;
+  margin-top: 14px;
+  line-height: 1.4;
+}
+
 /* 日期徽章 */
 .detail-date-badge {
   text-align: center; font-size: 0.7rem;
