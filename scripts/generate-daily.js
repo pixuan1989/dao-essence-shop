@@ -77,6 +77,21 @@ const PENDANT_NAMES = {
   rooster: { en: 'Rooster', zh: '雞' }, dog: { en: 'Dog', zh: '狗' }, pig: { en: 'Pig', zh: '豬' }
 };
 const PENDANT_FALLBACK_IMG = 'https://m.media-amazon.com/images/I/71Cl8mQL8oL._AC_SL1500_.jpg';
+// 真实商品图（Jadeous 天然翡翠十二生肖吊坠，各生肖独立 ASIN 主图）
+const PENDANT_PRODUCT_IMG = {
+  rat:    'https://m.media-amazon.com/images/I/313u0rLYlML._AC_SL1500_.jpg',
+  ox:     'https://m.media-amazon.com/images/I/419DBWXFUOL._AC_SL1500_.jpg',
+  tiger:  'https://m.media-amazon.com/images/I/31sc42aYJkL._AC_SL1500_.jpg',
+  rabbit: 'https://m.media-amazon.com/images/I/21SCukRBCFL._AC_SL1500_.jpg',
+  dragon: 'https://m.media-amazon.com/images/I/31nyXxIxWmL._AC_SL1500_.jpg',
+  snake:  'https://m.media-amazon.com/images/I/31co4KDxSFL._AC_SL1500_.jpg',
+  horse:  'https://m.media-amazon.com/images/I/31dwLDq2-LL._AC_SL1500_.jpg',
+  goat:   'https://m.media-amazon.com/images/I/21ZQ4hWQFrL._AC_SL1500_.jpg',
+  monkey: 'https://m.media-amazon.com/images/I/31ieqXFgfYL._AC_SL1500_.jpg',
+  rooster:'https://m.media-amazon.com/images/I/31jySgcCDtL._AC_SL1500_.jpg',
+  dog:    'https://m.media-amazon.com/images/I/31X5eO3en4L._AC_SL1500_.jpg',
+  pig:    'https://m.media-amazon.com/images/I/31flT9DEIkL._AC_SL1500_.jpg'
+};
 function buildPendantSearchUrl(targetSign) {
   const keyword = 'Jadeous Real Jade Chinese Zodiac ' + PENDANT_NAMES[targetSign].en + ' Pendant Necklace';
   return 'https://www.amazon.com/s?k=' + encodeURIComponent(keyword) + '&tag=daoessence25-20&linkCode=as2&creative=9325&camp=1789';
@@ -88,30 +103,24 @@ function buildPendantPanel(currentSign, isEn, signName, signNameEn) {
   const subtitle = isEn
     ? ('Lucky charms for ' + signNameEn)
     : (signName + '的三合生肖，助運旺人緣');
-  const note = isEn
-    ? 'As an Amazon Associate, DaoEssence earns from qualifying purchases.'
-    : '作為 Amazon 聯盟夥伴，DaoEssence 從符合資格的購買中獲得分潤。';
   const btn = isEn ? 'View on Amazon' : '点击查看';
   const cards = targets.map(function(t) {
     const name = isEn ? PENDANT_NAMES[t].en : PENDANT_NAMES[t].zh;
     const label = isEn ? (name + ' Jade Pendant') : ('翡翠' + name + '吊墜');
     return '<a class="zodiac-pendant-card" href="' + buildPendantSearchUrl(t) + '" target="_blank" rel="nofollow sponsored noopener">' +
       '<div class="zodiac-pendant-card__img-wrap">' +
-        '<img src="images/' + t + '.webp" alt="' + label + '" loading="lazy" onerror="this.src=\'' + PENDANT_FALLBACK_IMG + '\';this.onerror=null;">' +
+        '<img src="' + (PENDANT_PRODUCT_IMG[t] || PENDANT_FALLBACK_IMG) + '" alt="' + label + '" loading="lazy" onerror="this.src=\'' + PENDANT_FALLBACK_IMG + '\';this.onerror=null;">' +
       '</div>' +
       '<div class="zodiac-pendant-card__sign">' + name + '</div>' +
       '<div class="zodiac-pendant-card__name">' + label + '</div>' +
       '<span class="zodiac-pendant-card__btn">' + btn + '</span>' +
     '</a>';
   }).join('');
-  return '<aside class="detail-rec-panel" id="detailRecPanel" aria-label="Affiliate product recommendations">' +
-    '<div class="zodiac-pendant-rec">' +
-      '<div class="zodiac-pendant-rec__title">' + title + '</div>' +
-      '<div class="zodiac-pendant-rec__subtitle">' + subtitle + '</div>' +
-      '<div class="zodiac-pendant-rec__grid">' + cards + '</div>' +
-      '<div class="zodiac-pendant-rec__note">' + note + '</div>' +
-    '</div>' +
-  '</aside>';
+  return '<div class="zodiac-pendant-rec" id="detailRecPanel" aria-label="Affiliate product recommendations">' +
+    '<div class="zodiac-pendant-rec__title">' + title + '</div>' +
+    '<div class="zodiac-pendant-rec__subtitle">' + subtitle + '</div>' +
+    '<div class="zodiac-pendant-rec__grid">' + cards + '</div>' +
+  '</div>';
 }
 
 // ─── 博客导流推荐（12生肖 × 2篇，按语义匹配）───
@@ -1949,6 +1958,7 @@ function buildDetailHTML(ctx, isEn) {
           </div>
         </div>
         <div class="detail-layout__right">
+          ${pendantPanel}
           <div class="detail-header">
             <h1 class="detail-header__name" id="cardName">${isEn ? signNameEn + ' Daily Horoscope — ' + dateStr : signName + '今日运势详解 — ' + dateStr}</h1>
             <div class="detail-header__score">
@@ -1968,7 +1978,6 @@ function buildDetailHTML(ctx, isEn) {
           <blockquote class="detail-quote"><p id="quoteText">${isEn ? trQuote(fc.quote) : fc.quote}</p></blockquote>
         </div>
       </div>
-      ${pendantPanel}
     </div>
     <div id="zodiac-share"></div>
     <div class="seo-divider">
