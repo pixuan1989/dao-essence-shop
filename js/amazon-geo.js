@@ -16,6 +16,12 @@
 
   var DEFAULT_TAG = (window.AMAZON_ASSOCIATE_TAG || 'daoessence25-20');
 
+  // DISABLED: Rewriting amazon.com links to local storefronts causes 404s when
+  // the ASIN doesn't exist in that country, and earns no commission when the
+  // local Associates tag isn't configured. Re-enable only after Amazon OneLink
+  // is set up in Associates Central.
+  var DISABLED = true;
+
   // Country code (ISO 3166-1 alpha-2) -> local Amazon domain
   var DOMAINS = {
     US: 'amazon.com',
@@ -127,6 +133,7 @@
   }
 
   function localizeLinks(country) {
+    if (DISABLED) return;
     if (!country || country === 'US' || !DOMAINS[country]) return;
     var links = document.querySelectorAll('a[href*="amazon.com"]');
     links.forEach(function (a) {
