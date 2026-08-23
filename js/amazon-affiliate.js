@@ -34,9 +34,10 @@
     }
 
     function buildUrl(p) {
-        if (p.asin) return 'https://www.amazon.com/dp/' + p.asin + '?tag=' + TAG;
+        const tail = '&linkCode=as2&creative=9325&camp=1789';
+        if (p.asin) return 'https://www.amazon.com/dp/' + p.asin + '?tag=' + TAG + tail;
         const q = encodeURIComponent(p.keywords || p.name || '');
-        return 'https://www.amazon.com/s?k=' + q + '&tag=' + TAG;
+        return 'https://www.amazon.com/s?k=' + q + '&tag=' + TAG + tail;
     }
 
     // Fisher–Yates 洗牌，返回新数组

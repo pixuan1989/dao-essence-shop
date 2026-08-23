@@ -27,9 +27,10 @@
 
   function buildAmazonUrl(p, tag) {
     tag = tag || 'daoessence25-20';
-    if (p.asin) return 'https://www.amazon.com/dp/' + p.asin + '?tag=' + tag;
+    var tail = '&linkCode=as2&creative=9325&camp=1789';
+    if (p.asin) return 'https://www.amazon.com/dp/' + p.asin + '?tag=' + tag + tail;
     var q = encodeURIComponent(p.keywords || p.name);
-    return 'https://www.amazon.com/s?k=' + q + '&tag=' + tag;
+    return 'https://www.amazon.com/s?k=' + q + '&tag=' + tag + tail;
   }
 
   function imageHtml(p) {
