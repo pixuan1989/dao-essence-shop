@@ -1765,8 +1765,6 @@ function buildDetailHTML(ctx, isEn) {
     }).join('\n');
   }
 
-  const pendantPanel = buildPendantPanel(sign, isEn, signName, signNameEn);
-
   const active = isEn ? fe : fc;
   const goodTags = active.yi.map(g => `<span class="y-tag y-tag--good">${isEn ? trYi(g) : g}</span>`).join('');
   const badTags = active.ji.map(a => `<span class="y-tag y-tag--bad">${isEn ? trYi(a) : a}</span>`).join('');
@@ -1987,7 +1985,7 @@ function buildDetailHTML(ctx, isEn) {
           <blockquote class="detail-quote"><p id="quoteText">${isEn ? trQuote(fc.quote) : fc.quote}</p></blockquote>
         </div>
       </div>
-      ${pendantPanel}
+      <aside class="detail-rec-panel" id="detailRecPanel" aria-label="Affiliate product recommendations"></aside>
     </div>
     <div id="zodiac-share"></div>
     <div class="seo-divider">
@@ -2012,6 +2010,7 @@ ${toolsSection}
       <a href="/wallpaper" style="display:inline-block;margin-top:16px;padding:8px 20px;background:rgba(212,175,55,0.15);color:#D4AF37;border:1px solid rgba(212,175,55,0.3);border-radius:6px;text-decoration:none;font-size:13px;">${isEn ? 'Browse All Wallpapers →' : '查看更多玄学壁纸 →'}</a>
     </div>
     <script src="/js/zodiac-detail-wallpaper.js" defer></script>
+    <script src="/js/zodiac-pendant.js" defer></script>
 
     <!-- 生肖百科（Evergreen Content，永远不变，SEO 锚定） -->
     <div class="seo-divider">
