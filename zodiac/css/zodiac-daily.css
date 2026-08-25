@@ -837,7 +837,7 @@ body.detail-page-body { overflow-x: hidden; }
   pointer-events: none;
 }
 
-/* ─── 右侧：信息（含顶部三合吊坠推荐）─── */
+/* ─── 右侧：信息 ─── */
 .detail-layout__right {
   flex: 1;
   min-width: 0;
