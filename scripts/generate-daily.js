@@ -64,74 +64,6 @@ const ZODIAC_LIST = [
   { key: 'pig',     name: '猪', sign: '亥', en: 'Pig', element: '水' },
 ];
 
-// ─── 三合生肖吊坠 Amazon 推荐 ───
-const PENDANT_SANHE = {
-  rat: ['dragon', 'monkey'], ox: ['snake', 'rooster'], tiger: ['horse', 'dog'], rabbit: ['goat', 'pig'],
-  dragon: ['rat', 'monkey'], snake: ['ox', 'rooster'], horse: ['tiger', 'dog'], goat: ['rabbit', 'pig'],
-  monkey: ['rat', 'dragon'], rooster: ['ox', 'snake'], dog: ['tiger', 'horse'], pig: ['rabbit', 'goat']
-};
-const PENDANT_NAMES = {
-  rat: { en: 'Rat', zh: '鼠' }, ox: { en: 'Ox', zh: '牛' }, tiger: { en: 'Tiger', zh: '虎' },
-  rabbit: { en: 'Rabbit', zh: '兔' }, dragon: { en: 'Dragon', zh: '龍' }, snake: { en: 'Snake', zh: '蛇' },
-  horse: { en: 'Horse', zh: '馬' }, goat: { en: 'Goat', zh: '羊' }, monkey: { en: 'Monkey', zh: '猴' },
-  rooster: { en: 'Rooster', zh: '雞' }, dog: { en: 'Dog', zh: '狗' }, pig: { en: 'Pig', zh: '豬' }
-};
-const PENDANT_FALLBACK_IMG = 'https://m.media-amazon.com/images/I/71Cl8mQL8oL._AC_SL1500_.jpg';
-// 真实商品图（Jadeous 天然翡翠十二生肖吊坠，各生肖独立 ASIN 主图）
-const PENDANT_PRODUCT_IMG = {
-  rat:    'https://m.media-amazon.com/images/I/313u0rLYlML._AC_SL1500_.jpg',
-  ox:     'https://m.media-amazon.com/images/I/419DBWXFUOL._AC_SL1500_.jpg',
-  tiger:  'https://m.media-amazon.com/images/I/31sc42aYJkL._AC_SL1500_.jpg',
-  rabbit: 'https://m.media-amazon.com/images/I/21SCukRBCFL._AC_SL1500_.jpg',
-  dragon: 'https://m.media-amazon.com/images/I/31nyXxIxWmL._AC_SL1500_.jpg',
-  snake:  'https://m.media-amazon.com/images/I/31co4KDxSFL._AC_SL1500_.jpg',
-  horse:  'https://m.media-amazon.com/images/I/31dwLDq2-LL._AC_SL1500_.jpg',
-  goat:   'https://m.media-amazon.com/images/I/21ZQ4hWQFrL._AC_SL1500_.jpg',
-  monkey: 'https://m.media-amazon.com/images/I/31ieqXFgfYL._AC_SL1500_.jpg',
-  rooster:'https://m.media-amazon.com/images/I/31jySgcCDtL._AC_SL1500_.jpg',
-  dog:    'https://m.media-amazon.com/images/I/31X5eO3en4L._AC_SL1500_.jpg',
-  pig:    'https://m.media-amazon.com/images/I/31flT9DEIkL._AC_SL1500_.jpg'
-};
-function buildPendantSearchUrl(targetSign) {
-  const keyword = 'Jadeous Real Jade Chinese Zodiac ' + PENDANT_NAMES[targetSign].en + ' Pendant Necklace';
-  return 'https://www.amazon.com/s?k=' + encodeURIComponent(keyword) + '&tag=daoessence25-20&linkCode=as2&creative=9325&camp=1789';
-}
-function buildPendantPanel(currentSign, isEn, signName, signNameEn) {
-  const targets = PENDANT_SANHE[currentSign] || [];
-  if (targets.length === 0) return '';
-  const title = isEn ? 'Triple Harmony Pendants' : '三合開運吊墜';
-  const subtitle = isEn
-    ? ('Lucky charms for ' + signNameEn)
-    : (signName + '的三合生肖，助運旺人緣');
-  const cta = isEn ? 'View all pendants →' : '查看全部三合吊墜 →';
-  const ctaKeyword = 'Jadeous Real Jade Chinese Zodiac Pendant Necklace';
-  const ctaUrl = 'https://www.amazon.com/s?k=' + encodeURIComponent(ctaKeyword) + '&tag=daoessence25-20&linkCode=as2&creative=9325&camp=1789';
-  const items = targets.map(function(t) {
-    const name = isEn ? PENDANT_NAMES[t].en : PENDANT_NAMES[t].zh;
-    const label = isEn ? (name + ' Jade Pendant') : ('翡翠' + name + '吊墜');
-    const tag = isEn ? ('Your ' + name + ' ally') : (name + ' · 三合貴人');
-    return '<a class="zodiac-pendant-item" href="' + buildPendantSearchUrl(t) + '" target="_blank" rel="nofollow sponsored noopener">' +
-      '<div class="zodiac-pendant-item__img-wrap">' +
-        '<img src="' + (PENDANT_PRODUCT_IMG[t] || PENDANT_FALLBACK_IMG) + '" alt="' + label + '" loading="lazy" onerror="this.src=\'' + PENDANT_FALLBACK_IMG + '\';this.onerror=null;">' +
-      '</div>' +
-      '<div class="zodiac-pendant-item__info">' +
-        '<div class="zodiac-pendant-item__name">' + label + '</div>' +
-        '<div class="zodiac-pendant-item__tag">' + tag + '</div>' +
-      '</div>' +
-      '<span class="zodiac-pendant-item__arrow">→</span>' +
-    '</a>';
-  }).join('');
-  return '<aside class="detail-rec-panel" id="detailRecPanel" aria-label="Affiliate product recommendations">' +
-    '<div class="zodiac-pendant-rec">' +
-      '<div class="zodiac-pendant-rec__header">' +
-        '<div class="zodiac-pendant-rec__title">' + title + '</div>' +
-        '<div class="zodiac-pendant-rec__subtitle">' + subtitle + '</div>' +
-      '</div>' +
-      '<div class="zodiac-pendant-rec__list">' + items + '</div>' +
-      '<a class="zodiac-pendant-rec__cta" href="' + ctaUrl + '" target="_blank" rel="nofollow sponsored noopener">' + cta + '</a>' +
-    '</div>' +
-  '</aside>';
-}
 
 // ─── 博客导流推荐（12生肖 × 2篇，按语义匹配）───
 // 每条包含 slug + 中文标题 + 英文标题，generate-daily.js 按需输出对应语言版本
@@ -1985,7 +1917,6 @@ function buildDetailHTML(ctx, isEn) {
           <blockquote class="detail-quote"><p id="quoteText">${isEn ? trQuote(fc.quote) : fc.quote}</p></blockquote>
         </div>
       </div>
-      <aside class="detail-rec-panel" id="detailRecPanel" aria-label="Affiliate product recommendations"></aside>
     </div>
     <div id="zodiac-share"></div>
     <div class="seo-divider">
@@ -2010,7 +1941,6 @@ ${toolsSection}
       <a href="/wallpaper" style="display:inline-block;margin-top:16px;padding:8px 20px;background:rgba(212,175,55,0.15);color:#D4AF37;border:1px solid rgba(212,175,55,0.3);border-radius:6px;text-decoration:none;font-size:13px;">${isEn ? 'Browse All Wallpapers →' : '查看更多玄学壁纸 →'}</a>
     </div>
     <script src="/js/zodiac-detail-wallpaper.js" defer></script>
-    <script src="/js/zodiac-pendant.js" defer></script>
 
     <!-- 生肖百科（Evergreen Content，永远不变，SEO 锚定） -->
     <div class="seo-divider">
