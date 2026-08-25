@@ -8,8 +8,10 @@ import os
 from PIL import Image, ImageDraw, ImageFont
 import textwrap
 
-# DashScope API 配置
-DASHSCOPE_API_KEY = os.environ.get('DASHSCOPE_API_KEY', 'sk-3279d0453a4940c5bbf2010722f1e86b')
+# DashScope API 配置（禁止硬编码 key；已从代码中移除泄露的 sk-3279...）
+DASHSCOPE_API_KEY = os.environ.get('DASHSCOPE_API_KEY')
+if not DASHSCOPE_API_KEY:
+    raise ValueError("DASHSCOPE_API_KEY environment variable is required")
 API_URL = "https://dashscope.aliyuncs.com/api/v1/services/aigc/text2image/image-synthesis"
 
 def generate_background(prompt, output_path):

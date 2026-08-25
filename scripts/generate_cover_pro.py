@@ -7,7 +7,9 @@ from PIL import Image, ImageDraw, ImageFont, ImageFilter
 import requests
 import os
 
-DASHSCOPE_API_KEY = os.environ.get('DASHSCOPE_API_KEY', 'sk-3279d0453a4940c5bbf2010722f1e86b')
+DASHSCOPE_API_KEY = os.environ.get('DASHSCOPE_API_KEY')
+if not DASHSCOPE_API_KEY:
+    raise ValueError("DASHSCOPE_API_KEY environment variable is required")
 API_URL = "https://dashscope.aliyuncs.com/api/v1/services/aigc/text2image/image-synthesis"
 
 
