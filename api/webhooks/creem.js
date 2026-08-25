@@ -168,6 +168,10 @@ export default async function handler(req, res) {
                         }
                         console.log('✅ 八字订单保存成功!');
 
+                    // 仅真实付款订单生成报告/发通知：测试模式(mode=test)或金额<=0的订单跳过，
+                    // 避免测试 checkout 误触发 qwen3.7-max 报告生成、白烧 token（2026-08 账单教训）
+                    const isTestOrInvalid = checkout.mode === 'test' || amountInCents <= 0;
+                    if (!isTestOrInvalid) {
                     // ── 入队触发八字报告生成（队列兜底，防 webhook 超时） ──
                     try {
                         const { enqueueReportJob } = await import('../../lib/bazi-report-service.js');
@@ -176,14 +180,18 @@ export default async function handler(req, res) {
                     } catch (enqueueErr) {
                         console.error('⚠️ 报告入队/触发失败（非致命）:', enqueueErr.message);
                     }
+                    }
                     } catch (redisError) {
                         console.error('❌ Redis 保存失败（非致命）:', redisError.message);
                     }
 
                     // 追加营销池
+                    if (!isTestOrInvalid) {
                     await addToMarketingPool(orderData.email, orderData.name || customer.name);
+                    }
 
                     // 发送企业微信通知
+                    if (!isTestOrInvalid) {
                     await sendWechatNotification({
                         ...orderData,
                         baziData: {
@@ -194,6 +202,7 @@ export default async function handler(req, res) {
                             gender: orderData.gender
                         }
                     });
+                    }
                 } else {
                     // 非八字订单：判断商城/黄历，分别写入 Redis
                     const isAlmanac = product.id === ALMANAC_PRODUCT_ID ||
