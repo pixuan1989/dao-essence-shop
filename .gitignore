@@ -139,3 +139,9 @@ scripts/full_recheck.cjs
 bazi-sector.png
 nul
 scripts/product-sources.txt
+
+# Datasheet / product-reference scraper artifacts (product-ref-image-harvest etc.)
+# These are temp crawl outputs (err_*.txt / *_brochure.pdf / pax-* / pos-* / _scrape/), never source.
+_scrape/
+pax-*/
+pos-*/
