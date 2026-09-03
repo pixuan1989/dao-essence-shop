@@ -2134,7 +2134,13 @@ async function main() {
     'docs', 'scripts',
     'api',
     'venv_ocr',
-    '.workbuddy' // private: memory notes + automation configs — never deploy
+    '.workbuddy', // private: memory notes + automation configs — never deploy
+    // Windows reserved device names (nul/con/aux/...) are phantom files created by
+    // accidental `> nul` redirects; they cannot be deleted on Windows and must be
+    // skipped during copy or the build aborts.
+    'nul', 'con', 'aux', 'prn',
+    'com1', 'com2', 'com3', 'com4', 'com5', 'com6', 'com7', 'com8', 'com9',
+    'lpt1', 'lpt2', 'lpt3', 'lpt4', 'lpt5', 'lpt6', 'lpt7', 'lpt8', 'lpt9'
   ]);
 
   // Step 2b: Inject pageview.js into learn-bazi chapter pages
