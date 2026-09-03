@@ -2131,7 +2131,7 @@ async function main() {
     '.git', 'node_modules', 'dist', '.vercel',
     'build-blog.js', 'build-blog.cjs', 'package.json', 'package-lock.json',
     '.env', '.env.local', '.env.example', '.env.*.local',
-    'docs', 'scripts',
+    'docs', 'scripts', 'tmp',
     'api',
     'venv_ocr',
     '.workbuddy', // private: memory notes + automation configs — never deploy

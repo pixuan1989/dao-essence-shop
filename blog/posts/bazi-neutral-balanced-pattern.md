@@ -80,6 +80,10 @@ So a balanced chart is not flawless. It is flawed in exactly one small, nameable
 
 The lived experience of a genuine 中和 chart is steadiness. People with this pattern tend to adapt, negotiate, and survive storms that flatten others. They are the ones whose lives look boring from the outside and quietly resilient from the inside. The catch: because nothing is dramatically strong, they can also drift, waiting for a luck cycle to give them a push.
 
+![Balanced stones stacked on a beach — a visual metaphor for the neutral-and-balanced BaZi pattern](/images/blog/bazi-neutral-balanced-pattern-inline.webp)
+
+*Balanced stones — a quiet picture of 中和 (middle harmony).*
+
 ## Reading 用神 (Useful God) in a Balanced Chart
 
 This is where neutral charts get tricky, and where most free calculators get them wrong.
