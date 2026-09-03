@@ -145,3 +145,15 @@ scripts/product-sources.txt
 _scrape*/
 pax-*/
 pos-*/
+
+# Scraper session temp scripts (yandex reverse-image search etc., left in repo root)
+reverse_search*.py
+build_*gallery*.py
+build_base_candidates.py
+build_original9.py
+download_yandex.py
+extract_refined_pdfs.py
+identify_liked.py
+organize_correct.py
+parse_yandex_html.py
+scrape_*.py
