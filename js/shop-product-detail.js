@@ -131,7 +131,7 @@ function renderImageGallery() {
     if (images.length === 0) {
         galleryContainer.innerHTML = `
             <div class="no-image">
-                <img src="images/placeholder.jpg" alt="暂无图片">
+                <img src="images/og-default.jpg" alt="暂无图片">
             </div>
         `;
         return;
@@ -548,7 +548,7 @@ async function renderRelatedCards() {
                     const img = getMainImage(card);
                     return `
                         <a href="/product-detail?product=${card.handle}" class="related-product-card">
-                            <img src="${img?.url || 'images/placeholder.jpg'}" alt="${card.title}">
+                            <img src="${img?.url || 'images/og-default.jpg'}" alt="${card.title}">
                             <h4>${card.title}</h4>
                             <p>${formatPrice(card.priceRange.minVariantPrice.amount, card.priceRange.minVariantPrice.currencyCode)}</p>
                         </a>

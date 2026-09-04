@@ -20,9 +20,15 @@ function _t(key, fallback) {
 }
 
 function getOptimizedImageUrl(url, maxWidth) {
-  if (!url || url.startsWith('/')) return url; // 本地图片不处理
-  const separator = url.includes('?') ? '&' : '?';
-  return `${url}${separator}width=${maxWidth}&quality=80`;
+  if (!url) return url;
+  if (url.startsWith('/')) return url; // 本地图片不处理
+  // 改版回归修复：只对我们自己的 OSS/域名追加 Imgix 风格优化参数；
+  // 远程图床(Creem/S3，常为带签名 URL)追加 ?width=&quality= 会破坏签名→破图，故原样返回
+  if (url.includes('daoessentia') || url.includes('aliyuncs') || url.includes('oss-')) {
+    const separator = url.includes('?') ? '&' : '?';
+    return `${url}${separator}width=${maxWidth}&quality=80`;
+  }
+  return url;
 }
 
 function getShopImageSize() {
@@ -203,7 +209,7 @@ function _doRenderShop() {
     return `
         <a href="${productLink}" class="shop-product-card" style="text-decoration: none; color: inherit; display: block; animation-delay: ${index * 60}ms;">
             <div class="product-image-wrapper">
-                <img src="${getOptimizedImageUrl(product.image, getShopImageSize())}" alt="${displayName}" loading="${index < 6 ? 'eager' : 'lazy'}" decoding="async" onload="this.parentElement.classList.add('loaded')" style="min-height:200px;" onerror="this.src='https://images.unsplash.com/photo-1519681393784-d120267933ba?w=600&h=600&fit=crop';this.parentElement.classList.add('loaded')">
+                <img src="${getOptimizedImageUrl(product.image, getShopImageSize())}" alt="${displayName}" loading="${index < 6 ? 'eager' : 'lazy'}" decoding="async" onload="this.parentElement.classList.add('loaded')" style="min-height:200px;" onerror="this.src='/images/og-default.jpg';this.parentElement.classList.add('loaded')">
                 <!-- 五行标签已注释掉
                 <div class="product-element">
                     <span class="element-badge">${product.element.toUpperCase()}</span>

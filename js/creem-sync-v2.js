@@ -65,7 +65,7 @@ const FALLBACK_PRODUCTS = [
     currency: 'USD',
     description: 'Personalized BaZi (Four Pillars) analysis by Master Xuanzhen. Receive a comprehensive PDF report within 48 hours.',
     descriptionCN: '由玄真大师提供的个人八字命理解读服务，48小时内交付完整PDF报告。',
-    image: 'images/bazi-service.jpg',
+    image: 'images/og-default.jpg',
     category: 'bazi-analysis'
   },
   {
@@ -85,7 +85,7 @@ const FALLBACK_PRODUCTS = [
 
 与传统命理不同，盲派不讲旺衰用神，直接看八字"做功"，一看就懂、上手更快。这套资料涵盖理法、象法、功法完整体系，搭配核心讲义与大量实战案例拆解，特别适合初学和卡在瓶颈的自学者。章节分明，可反复回看咀嚼，帮你彻底打通命理实战思维。
 `,
-    image: 'images/bazi-blind-course.jpg',
+    image: 'images/og-default.jpg',
     category: 'bazi-analysis'
   }
 ];
@@ -284,9 +284,9 @@ function transformProducts(products) {
       })(),
       currency: product.currency || 'USD',
       // Creem API 只支持单图字段 image_url（官方文档确认）
-      image: product.image_url || product.image || 'images/placeholder.jpg',
-      image_url: product.image_url || product.image || 'images/placeholder.jpg',
-      img_url: product.image_url || product.image || 'images/placeholder.jpg',
+      image: product.image_url || product.image || 'images/og-default.jpg',
+      image_url: product.image_url || product.image || 'images/og-default.jpg',
+      img_url: product.image_url || product.image || 'images/og-default.jpg',
       category: mappedCategory,
       element: product.element || 'energy',
       stock: product.stock || 999,

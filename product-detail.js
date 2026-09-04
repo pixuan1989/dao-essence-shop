@@ -184,7 +184,7 @@ window.loadCardData = async function() {
             // Creem API 只支持单图（image_url 字段），构建单元素数组供 renderImages 使用
             const cardImages = [{
                 id: 1,
-                src: card.image_url || card.image || 'images/placeholder.jpg',
+                src: card.image_url || card.image || 'images/og-default.jpg',
                 alt: card.nameCN || card.name || 'Card'
             }];
 
@@ -243,7 +243,7 @@ window.loadCardData = async function() {
             images: [
                 {
                     id: 1,
-                    src: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1200&h=1200&fit=crop',
+                    src: 'images/og-default.jpg',
                     alt: 'Card Image',
                     width: 1200,
                     height: 1200,
@@ -313,7 +313,9 @@ function renderImageWithWatermark(src, alt, isThumb) {
     var ctx = canvas.getContext('2d');
 
     var img = new Image();
-    img.crossOrigin = 'anonymous';
+    // 改版回归修复：移除 crossOrigin。Creem/S3 等非 CORS 图床不设 Access-Control-Allow-Origin，
+    // 设了 crossOrigin 反而导致图片加载失败→破图。水印以文字绘制在 canvas 上，去掉 crossOrigin
+    // 不影响防盗（右键已禁用），仅失去 toDataURL 导出能力（本站未使用）。
 
     img.onload = function() {
         var w = img.naturalWidth;
