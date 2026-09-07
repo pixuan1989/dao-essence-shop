@@ -1,5 +1,5 @@
 ---
-title: "September 2026 Chinese Zodiac Horoscope: 12 Signs at Bailu"
+title: "September 2026 Chinese Zodiac: 12 Signs at Bailu"
 h1Title: "September 2026 Chinese Zodiac Horoscope: 12 Signs at Bailu"
 description: "A plain-English BaZi reading of the 12 Chinese zodiac signs for September 2026 at Bailu. Who gains, who should lie low, and simple luck tips."
 seoDescription: "The 12 Chinese zodiac signs' September 2026 forecast at Bailu: who rises, who should lie low in the Ding You metal month, with practical luck tips."
