@@ -12549,9 +12549,26 @@
     "description": "Discover the enchanting Prosperity Deer Moonlight Wallpaper, featuring a majestic deer adorned with gold and glitter, set against a luminous moonlit sky. Perfect for inviting fortune and prosperity into your life.",
     "titleZh": "鹿月光壁纸",
     "descriptionZh": "九月2026鹿月光壁纸，金鹿闪耀，招财进宝。",
-    "keywords": "prosperity, deer, moonlight, fortune",
-    "keywordsZh": "招财, 壁纸, 风水, 旺运",
+    "keywords": [
+      "prosperity",
+      "deer",
+      "moonlight",
+      "fortune",
+      "feng shui"
+    ],
+    "keywordsZh": [
+      "招財",
+      "壁紙",
+      "風水",
+      "旺運"
+    ],
     "categoryZh": "风水",
-    "slug": "golden-deer-prosperity"
+    "slug": "golden-deer-prosperity",
+    "tags": [
+      "prosperity",
+      "deer",
+      "moonlight",
+      "fortune"
+    ]
   }
 ]
