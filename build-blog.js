@@ -975,6 +975,10 @@ function readAllMdFiles(dir) {
       const raw = fs.readFileSync(path.join(dir, f), 'utf-8');
       const { data, content } = matter(raw);
       data.image = data.image || data.featuredImage;
+      // og:image 拼接安全：绝对 URL（http 开头）不重复拼 SITE_URL
+      data.imageAbs = data.image
+        ? (/^https?:\/\//.test(data.image) ? data.image : SITE_URL + data.image)
+        : SITE_URL + '/images/og-default.jpg';
       const slug = generateSlug(f, data, new Set());
       return { filename: f, slug, data, content };
     });
@@ -984,6 +988,10 @@ function readAllMdFiles(dir) {
 
 function generateArticleHtml(post, category, allArticles, options = {}) {
   const { data, content, slug } = post;
+  // og:image 统一兜底：绝对 URL 不拼 SITE_URL（覆盖 EN/ZH 所有数据来源）
+  data.imageAbs = data.image
+    ? (/^https?:\/\//.test(data.image) ? data.image : SITE_URL + data.image)
+    : SITE_URL + '/images/og-default.jpg';
   const isZh = options.lang === 'zh-Hant';
   const wallpapers = options.wallpapers || [];
   const lang = isZh ? 'zh-Hant' : 'en';
@@ -1470,7 +1478,7 @@ function generateArticleHtml(post, category, allArticles, options = {}) {
     <meta name="robots" content="index, follow">
     <meta property="og:title" content="${seoTitle(pageTitle)}">
     <meta property="og:description" content="${escapeHtml(seoDescription(pageDesc))}">
-    <meta property="og:image" content="${SITE_URL + (data.image || '/images/og-default.jpg')}">
+    <meta property="og:image" content="${data.imageAbs}">
     <meta property="og:url" content="${articleUrl}">
     <meta property="og:type" content="article">
     <meta property="og:site_name" content="DAO Essence">
@@ -1478,7 +1486,7 @@ function generateArticleHtml(post, category, allArticles, options = {}) {
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="${seoTitle(pageTitle)}">
     <meta name="twitter:description" content="${escapeHtml(seoDescription(pageDesc))}">
-    <meta name="twitter:image" content="${SITE_URL + (data.image || '/images/og-default.jpg')}">
+    <meta name="twitter:image" content="${data.imageAbs}">
     <link rel="canonical" href="${canonicalUrl}">
     ${hreflangLinks}
     <link rel="stylesheet" href="/styles.min.css?v=${CSS_VERSION}">
@@ -1501,7 +1509,7 @@ function generateArticleHtml(post, category, allArticles, options = {}) {
         "@type": "BlogPosting",
         "headline": "${escapeHtml(data.title)}",
         "description": "${escapeHtml(data.description || '')}",
-        "image": "${SITE_URL + (data.image || '/images/og-default.jpg')}",
+        "image": "${data.imageAbs}",
         "author": {"@type": "Person", "name": "${escapeHtml(normalizeAuthor(data.author))}"},
         "publisher": {"@type": "Organization", "name": "DAO Essence", "logo": {"@type": "ImageObject", "url": "${SITE_URL}/images/og-default.jpg"}},
         "datePublished": "${data.date || ''}",
@@ -2234,6 +2242,10 @@ async function main() {
         const raw = fs.readFileSync(path.join(POSTS_ZH_DIR, f), 'utf-8');
         const { data, content } = matter(raw);
         data.image = data.image || data.featuredImage;
+        // og:image 拼接安全：绝对 URL（http 开头）不重复拼 SITE_URL
+        data.imageAbs = data.image
+          ? (/^https?:\/\//.test(data.image) ? data.image : SITE_URL + data.image)
+          : SITE_URL + '/images/og-default.jpg';
         if (!content.trim() && data.body) content = data.body;
         const rawSlug = f.replace(/\.md$/, '');
         const slug = rawSlug.replace(/\.zh$/, '-zh');

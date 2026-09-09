@@ -31,6 +31,8 @@ It feels magical. But here's the hard truth: **AI Bazi interpretations are 40-60
 
 This isn't anti-technology pessimism. It's a look at how AI actually works, what it's missing, and why your destiny deserves better than an algorithm.
 
+![AI brain vs human fortune teller concept, digital vs traditional Bazi chart](/images/blog/ai-bazi-wrong.webp)
+
 ---
 
 ## Direct Answer: Is AI Bazi Accurate?
