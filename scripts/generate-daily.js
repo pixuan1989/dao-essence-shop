@@ -2023,12 +2023,20 @@ function buildSeoHead(z, fc, fe, dateStr, dateZh, dateEn, verdictEn, dirEn, colo
 
   const canonicalUrl = `https://www.daoessentia.com/zodiac/${canonicalPath}`;
   const alternateUrl = `https://www.daoessentia.com/zodiac/${alternatePath}`;
+  const ogImageUrl = `https://www.daoessentia.com/zodiac/images/${z.key}.webp`;
   return `<title>${title}</title>
   <meta name="description" content="${desc}">
   <meta property="og:title" content="${title}">
   <meta property="og:description" content="${desc}">
   <meta property="og:type" content="article">
   <meta property="og:url" content="${canonicalUrl}">
+  <meta property="og:image" content="${ogImageUrl}">
+  <meta property="og:image:alt" content="${title}">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="${title}">
+  <meta name="twitter:description" content="${desc}">
+  <meta name="twitter:image" content="${ogImageUrl}">
+  <meta name="twitter:image:alt" content="${title}">
   <link rel="canonical" href="${canonicalUrl}">
   <link rel="alternate" hreflang="en" href="${isEn ? canonicalUrl : alternateUrl}">
   <link rel="alternate" hreflang="zh-Hant" href="${isEn ? alternateUrl : canonicalUrl}">
