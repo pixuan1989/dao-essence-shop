@@ -5,6 +5,9 @@ DaoEssence 封面图生成脚本 v3
 
 import requests
 import os
+import sys as _sys
+_sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from ai_usage import record_image  # ai-usage 记账
 from PIL import Image, ImageDraw, ImageFont
 import textwrap
 
@@ -60,6 +63,7 @@ def generate_background(prompt, output_path):
                     with open(output_path, 'wb') as f:
                         f.write(img_response.content)
                     print(f"背景图已保存：{output_path}")
+                    record_image(script='scripts/generate_cover.py', model='wanx-v1', images=1, purpose='cover-image', ref=output_path)  # ai-usage 记账
                     return True
         
         elif task_status == 'FAILED':

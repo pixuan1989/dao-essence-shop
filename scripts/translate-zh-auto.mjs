@@ -7,6 +7,7 @@
  */
 
 import fs from 'fs';
+import { recordUsage as __aiUsage } from '../lib/ai-usage.mjs';  // ai-usage 记账
 import path from 'path';
 import matter from 'gray-matter';
 import translate from 'google-translate-api';
@@ -90,6 +91,7 @@ async function callDashScope(messages, maxTokens = 8000, timeoutMs = TRANSLATE_T
     }
 
     const data = await res.json();
+  try { __aiUsage({ script: 'scripts/translate-zh-auto.mjs', model: DASHSCOPE_MODEL, purpose: 'translate-zh-auto', usage: data && data.usage }); } catch (__e) {}  // ai-usage 记账
     return data.choices?.[0]?.message?.content;
   } finally {
     clearTimeout(timeoutId);

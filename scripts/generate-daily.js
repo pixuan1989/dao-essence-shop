@@ -6,6 +6,7 @@
  */
 
 import fs from 'fs';
+const __aiUsage = require('../lib/ai-usage.cjs').recordUsage;  // ai-usage 记账
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { createRequire } from 'module';
@@ -833,6 +834,7 @@ async function generateFortuneCN(zodiac, ganzhi, relations, fourPillars) {
 
       if (res.ok) {
         const data = await res.json();
+        try { __aiUsage({ script: 'scripts/generate-daily.js', model: 'qwen3.5-plus', purpose: 'zodiac-local', usage: data && data.usage }); } catch (__e) {}  // ai-usage 记账
         const content = data.choices?.[0]?.message?.content;
         if (content) {
           console.log(`   🌟 AI生成运势成功 (${content.length}字)`);
@@ -1077,6 +1079,7 @@ Translate the Chinese horoscope for ${zodiacEn} into clear English. Return ONLY 
 
       if (res.ok) {
         const data = await res.json();
+        try { __aiUsage({ script: 'scripts/generate-daily.js', model: 'qwen3.5-plus', purpose: 'zodiac-local-translate', usage: data && data.usage }); } catch (__e) {}  // ai-usage 记账
         const translated = data.choices?.[0]?.message?.content;
         if (translated) {
           // 兜底：AI 翻译未分段时，按句子强制分为 4-6 段

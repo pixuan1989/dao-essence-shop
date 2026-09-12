@@ -357,6 +357,7 @@ async function callLLM(prompt, retries) {
             }
 
             var data = await res.json();
+            try { var __aiU = require('../lib/ai-usage.cjs'); var __row = __aiU.recordUsage({ script: 'api/bazi-analysis.js', model: DASHSCOPE_MODEL, purpose: 'bazi-analysis-api', usage: data && data.usage }) || { script: 'api/bazi-analysis.js', model: DASHSCOPE_MODEL, purpose: 'bazi-analysis-api', usage: data && data.usage }; console.log('[ai-usage] ' + JSON.stringify(__row)); } catch (__e) {}  // ai-usage 记账
             if (!data.choices || !data.choices[0] || !data.choices[0].message) {
                 throw new Error('Empty LLM response');
             }

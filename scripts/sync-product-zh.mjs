@@ -1,3 +1,4 @@
+import { recordUsage as __aiUsage } from '../lib/ai-usage.mjs';  // ai-usage 记账
 /**
  * sync-product-zh.mjs
  * Build-time script: auto-translates new Creem products to Traditional Chinese
@@ -124,6 +125,7 @@ async function callDashScope(messages, maxTokens = 500) {
   }
 
   const data = await res.json();
+  try { __aiUsage({ script: 'scripts/sync-product-zh.mjs', model: DASHSCOPE_MODEL, purpose: 'product-zh-sync', usage: data && data.usage }); } catch (__e) {}  // ai-usage 记账
   return data.choices?.[0]?.message?.content;
 }
 

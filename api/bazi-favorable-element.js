@@ -231,6 +231,7 @@ async function callLLM(prompt, retries = 2) {
             }
 
             const data = await res.json();
+            try { var __aiU = require('../lib/ai-usage.cjs'); var __row = __aiU.recordUsage({ script: 'api/bazi-favorable-element.js', model: DASHSCOPE_MODEL, purpose: 'bazi-favorable-api', usage: data && data.usage }) || { script: 'api/bazi-favorable-element.js', model: DASHSCOPE_MODEL, purpose: 'bazi-favorable-api', usage: data && data.usage }; console.log('[ai-usage] ' + JSON.stringify(__row)); } catch (__e) {}  // ai-usage 记账
             if (!data.choices?.[0]?.message?.content) {
                 throw new Error('LLM returned empty response. Please try again.');
             }

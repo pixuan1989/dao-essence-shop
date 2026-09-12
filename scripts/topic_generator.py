@@ -7,6 +7,9 @@ import json
 import os
 import re
 import requests
+import sys as _sys
+_sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from ai_usage import record_usage  # ai-usage 记账
 from datetime import datetime, timedelta
 from pathlib import Path
 
@@ -250,7 +253,9 @@ def call_qwen(prompt, max_tokens=3500, model="qwen-plus"):
     try:
         resp = requests.post(url, headers=headers, json=payload, timeout=45)
         if resp.status_code == 200:
-            return resp.json()["choices"][0]["message"]["content"]
+            _rj = resp.json()
+            record_usage(script='scripts/topic_generator.py', model=model, purpose='topic-generate', usage=_rj.get('usage'))  # ai-usage 记账
+            return _rj["choices"][0]["message"]["content"]
         print(f"[AI] Qwen API 错误 {resp.status_code}: {resp.text[:200]}")
         return None
     except Exception as e:

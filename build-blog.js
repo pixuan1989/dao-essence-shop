@@ -11,6 +11,7 @@
  *   6. Vercel deploys from dist/ (outputDirectory)
  */
 import fs from 'fs';
+const __aiUsage = require('./lib/ai-usage.cjs').recordUsage;  // ai-usage 记账
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { createRequire } from 'module';
@@ -2452,6 +2453,7 @@ async function main() {
           body: JSON.stringify({ model: 'qwen3.5-plus', messages: [{ role: 'system', content: sysPrompt }, { role: 'user', content: `翻譯為繁體中文，只輸出翻譯結果：\n${text}` }], temperature: 0.3, max_tokens: maxTokens || 300 })
         });
         if (!res.ok) return '';
+        try { __aiUsage({ script: 'build-blog.js(translate)', model: 'qwen3.5-plus', purpose: 'blog-translate-zh', usage: data && data.usage }); } catch (__e) {}  // ai-usage 记账
         const data = await res.json();
         return data.choices?.[0]?.message?.content?.trim() || '';
       }
@@ -2468,6 +2470,7 @@ async function main() {
         });
         if (res.ok) {
           const data = await res.json();
+          try { __aiUsage({ script: 'build-blog.js(bulk-titles)', model: 'qwen3.5-plus', purpose: 'blog-bulk-titles', usage: data && data.usage }); } catch (__e) {}  // ai-usage 记账
           bulkTitles = data.choices?.[0]?.message?.content?.trim() || '';
         }
       } catch(e) { console.warn('  Title batch translation failed:', e.message); }

@@ -6,6 +6,9 @@
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
 import requests
 import os
+import sys as _sys
+_sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from ai_usage import record_image  # ai-usage 记账
 
 DASHSCOPE_API_KEY = os.environ.get('DASHSCOPE_API_KEY')
 if not DASHSCOPE_API_KEY:
@@ -59,6 +62,7 @@ def generate_background(prompt, output_path):
                     with open(output_path, 'wb') as f:
                         f.write(img_response.content)
                     print(f"背景图已保存：{output_path}")
+                    record_image(script='scripts/generate_cover_pro.py', model='wanx-v1', images=1, purpose='cover-image', ref=output_path)  # ai-usage 记账
                     return True
         
         elif task_status == 'FAILED':

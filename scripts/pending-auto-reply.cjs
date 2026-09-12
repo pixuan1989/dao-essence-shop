@@ -169,6 +169,7 @@ Output format:
           try {
             const json = JSON.parse(d);
             if (json.choices && json.choices[0] && json.choices[0].message) {
+              try { require('../lib/ai-usage.cjs').recordUsage({ script: 'scripts/pending-auto-reply.cjs', model: 'qwen3.5-plus', purpose: 'auto-reply-draft', usage: json.usage }); } catch (__e) {}  // ai-usage 记账
               resolve(json.choices[0].message.content);
             } else {
               reject(new Error(`API返回异常: ${d.slice(0, 200)}`));
