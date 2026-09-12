@@ -6,7 +6,7 @@
  */
 
 import fs from 'fs';
-const __aiUsage = require('../lib/ai-usage.cjs').recordUsage;  // ai-usage 记账
+import { recordUsage as __aiUsage } from '../lib/ai-usage.mjs';  // ai-usage 记账
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { createRequire } from 'module';

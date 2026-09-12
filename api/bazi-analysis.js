@@ -7,6 +7,9 @@
  * Returns AI-generated interpretation in EN or ZH.
  */
 
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+
 const DASHSCOPE_API_KEY = process.env.DASHSCOPE_API_KEY;
 const DASHSCOPE_MODEL = 'qwen-plus';
 
