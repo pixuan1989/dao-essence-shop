@@ -2023,7 +2023,7 @@ function buildSeoHead(z, fc, fe, dateStr, dateZh, dateEn, verdictEn, dirEn, colo
 
   const canonicalUrl = `https://www.daoessentia.com/zodiac/${canonicalPath}`;
   const alternateUrl = `https://www.daoessentia.com/zodiac/${alternatePath}`;
-  const ogImageUrl = `https://www.daoessentia.com/zodiac/images/${z.key}.webp`;
+  const ogImageUrl = `https://www.daoessentia.com/images/og-default.jpg`;
   return `<title>${title}</title>
   <meta name="description" content="${desc}">
   <meta property="og:title" content="${title}">
