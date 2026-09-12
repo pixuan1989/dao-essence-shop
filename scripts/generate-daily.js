@@ -2032,7 +2032,7 @@ function buildSeoHead(z, fc, fe, dateStr, dateZh, dateEn, verdictEn, dirEn, colo
   <meta property="og:url" content="${canonicalUrl}">
   <meta property="og:image" content="${ogImageUrl}">
   <meta property="og:image:alt" content="${title}">
-  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="${title}">
   <meta name="twitter:description" content="${desc}">
   <meta name="twitter:image" content="${ogImageUrl}">
