@@ -260,8 +260,11 @@ function generateStaticPage(wp, lang) {
     catLinks += '                    <a href="/wallpaper?cat=' + encodeURIComponent(cat) + (isZh ? '&lang=zh' : '') + '">' + escapeHtml(catLabel) + '</a>\n';
   });
 
-  // OG Image: 优先用 thumb（230KB 小图，利于 SEO 抓取/缩略图），fallback 到 original
-  const ogImage = imgThumb || imgOriginal || '';
+  // OG Image: 用预生成的 1200x630 横卡（壁纸居中 + 品牌色 #161630 填充），
+  // 避免 X/Twitter 的 summary_large_image 把竖图(9:16)强制裁成横卡切掉主体内容。
+  // 卡片图随仓库提交于 images/wallpaper-cards/{id}-card.jpg（见 scripts/generate-wallpaper-cards.cjs）。
+  const ogCardImage = 'https://www.daoessentia.com/images/wallpaper-cards/' + id + '-card.jpg';
+  const ogImage = ogCardImage;
 
   // JSON-LD Schema.org
   var schemaObj = {
