@@ -1494,7 +1494,7 @@ function generateArticleHtml(post, category, allArticles, options = {}) {
     <meta name="robots" content="index, follow">
     <meta property="og:title" content="${seoTitle(pageTitle)}">
     <meta property="og:description" content="${escapeHtml(seoDescription(pageDesc))}">
-    <meta property="og:image" content="${data.imageAbs}">
+    <meta property="og:image" content="${data.twitterImageAbs}">
     <meta property="og:url" content="${articleUrl}">
     <meta property="og:type" content="article">
     <meta property="og:site_name" content="DAO Essence">
