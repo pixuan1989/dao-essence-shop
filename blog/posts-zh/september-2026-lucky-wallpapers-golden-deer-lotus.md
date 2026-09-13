@@ -8,7 +8,7 @@ tags:
   - 五行
   - 招財
 date: "2026-09-09"
-image: https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1788884130/thumb.webp
+image: /images/blog/september-2026-lucky-wallpapers-golden-deer-lotus.webp
 imageAlt: 2026 九月旺運壁紙：金鹿與蓮花 iPhone 鎖屏樣機預覽
 ---
 

@@ -6,7 +6,7 @@ seoDescription: "September 2026 lucky wallpapers for the Bing-Shen month: Golden
 date: "2026-09-09"
 slug: "september-2026-lucky-wallpapers-golden-deer-lotus"
 category: feng-shui
-image: https://daoessentia-wallpapers.oss-accelerate.aliyuncs.com/wallpapers/wallpaper_1788884130/thumb.webp
+image: /images/blog/september-2026-lucky-wallpapers-golden-deer-lotus.webp
 imageAlt: "A majestic white deer with golden antlers and intricate gold patterns stands gracefully under a glowing moon, surround"
 tags:
   - Lucky Wallpapers
