@@ -31,6 +31,23 @@
   ];
 
   /* ---- Helpers ---- */
+  /* Build a shareable URL that busts X/Twitter's link-preview cache.
+     X caches the preview snapshot per exact URL and never re-crawls, so a
+     shared link must differ from any URL X has seen before. We append the
+     current date (?v=YYYYMMDD) so each day's share is a fresh URL that X
+     re-crawls immediately — showing the latest og:image without manual edits. */
+  function shareUrl() {
+    try {
+      var href = window.location.href.split('#')[0];
+      var sep = href.indexOf('?') === -1 ? '?' : '&';
+      var d = new Date();
+      var ymd = d.getFullYear() + ('0' + (d.getMonth() + 1)).slice(-2) + ('0' + d.getDate()).slice(-2);
+      return href + sep + 'v=' + ymd;
+    } catch (e) {
+      return window.location.href;
+    }
+  }
+
   function getActiveLang() {
     var zh = document.querySelector('.zh-content');
     return (zh && zh.style.display !== 'none') ? 'zh' : 'en';
@@ -53,7 +70,7 @@
 
   /* Extract share info from a shareable element */
   function getShareInfo(el) {
-    var pageUrl = encodeURIComponent(location.href);
+    var pageUrl = encodeURIComponent(shareUrl());
     var pageTitle = encodeURIComponent(document.title);
 
     /* Case example card */

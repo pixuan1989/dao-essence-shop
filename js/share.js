@@ -1,4 +1,22 @@
 /* DAO Essence - Share Buttons Handler */
+
+/* Build a shareable URL that busts X/Twitter's link-preview cache.
+   X caches the preview snapshot per exact URL and never re-crawls, so a
+   shared link must differ from any URL X has seen before. We append the
+   current date (?v=YYYYMMDD) so each day's share is a fresh URL that X
+   re-crawls immediately — showing the latest og:image without manual edits. */
+function shareUrl() {
+  try {
+    var href = window.location.href.split('#')[0];
+    var sep = href.indexOf('?') === -1 ? '?' : '&';
+    var d = new Date();
+    var ymd = d.getFullYear() + ('0' + (d.getMonth() + 1)).slice(-2) + ('0' + d.getDate()).slice(-2);
+    return href + sep + 'v=' + ymd;
+  } catch (e) {
+    return window.location.href;
+  }
+}
+
 document.addEventListener('DOMContentLoaded', function() {
   var btns = document.querySelectorAll('.share-btn');
   if (!btns.length) return;
@@ -6,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
     btn.addEventListener('click', function(e) {
       e.preventDefault();
       var p = this.getAttribute('data-platform');
-      var u = encodeURIComponent(location.href);
+      var u = encodeURIComponent(shareUrl());
       var t = encodeURIComponent(document.title);
       switch(p) {
         case 'twitter':
