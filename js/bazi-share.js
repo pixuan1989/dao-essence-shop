@@ -33,17 +33,15 @@
   /* ---- Helpers ---- */
   /* Build a shareable URL that busts X/Twitter's link-preview cache.
      X caches the preview snapshot per exact URL and never re-crawls, so a
-     shared link must differ from any URL X has seen before. We append the
-     current date (?v=YYYYMMDD) so each day's share is a fresh URL, plus a
-     fragment (#x2) because X also keys its cache on the full URL string and
-     treats a fragment as a new key — forcing an immediate re-crawl. */
+     shared link must differ from any URL X has seen before. We append a
+     millisecond timestamp (?v=TIMESTAMP) so every single share is a fresh URL,
+     plus a fragment (#x2) because X also keys its cache on the full URL string
+     and treats a fragment as a new key — forcing an immediate re-crawl. */
   function shareUrl() {
     try {
       var href = window.location.href.split('#')[0];
       var sep = href.indexOf('?') === -1 ? '?' : '&';
-      var d = new Date();
-      var ymd = d.getFullYear() + ('0' + (d.getMonth() + 1)).slice(-2) + ('0' + d.getDate()).slice(-2);
-      return href + sep + 'v=' + ymd + '#x2';
+      return href + sep + 'v=' + Date.now() + '#x2';
     } catch (e) {
       return window.location.href;
     }
