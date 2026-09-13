@@ -1484,7 +1484,7 @@ function generateArticleHtml(post, category, allArticles, options = {}) {
     <meta property="og:type" content="article">
     <meta property="og:site_name" content="DAO Essence">
     <meta property="og:locale" content="${isZh ? 'zh_Hant' : 'en_US'}">
-    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="${seoTitle(pageTitle)}">
     <meta name="twitter:description" content="${escapeHtml(seoDescription(pageDesc))}">
     <meta name="twitter:image" content="${data.imageAbs}">
