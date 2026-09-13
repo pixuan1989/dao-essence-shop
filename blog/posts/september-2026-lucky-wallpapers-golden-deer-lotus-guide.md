@@ -4,7 +4,7 @@ h1Title: "September 2026 Lucky Wallpapers: Channel Bing Shen's Golden Energy"
 description: "September 2026 lucky wallpapers: the Golden Deer and Fortune Lotus. Bing-Shen month art picked by Five Elements to anchor your daily fortune."
 seoDescription: "September 2026 lucky wallpapers for the Bing-Shen month: Golden Deer and Fortune Lotus art, matched to your Five Elements for daily fortune."
 date: "2026-09-09"
-slug: "september-2026-lucky-wallpapers-golden-deer-lotus"
+slug: "september-2026-lucky-wallpapers-golden-deer-lotus-guide"
 category: feng-shui
 image: /images/blog/september-2026-lucky-wallpapers-golden-deer-lotus.webp
 imageAlt: "A majestic white deer with golden antlers and intricate gold patterns stands gracefully under a glowing moon, surround"

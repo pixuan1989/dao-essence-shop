@@ -1,6 +1,6 @@
 ---
 title: "2026 年九月旺運壁紙：金鹿與蓮花的招財美學"
-slug: "september-2026-lucky-wallpapers-golden-deer-lotus"
+slug: "september-2026-lucky-wallpapers-golden-deer-lotus-guide"
 category: feng-shui
 tags:
   - 旺運壁紙
