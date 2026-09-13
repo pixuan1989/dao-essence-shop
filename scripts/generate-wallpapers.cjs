@@ -262,8 +262,9 @@ function generateStaticPage(wp, lang) {
 
   // OG Image: 用预生成的 1200x630 横卡（壁纸居中 + 品牌色 #161630 填充），
   // 避免 X/Twitter 的 summary_large_image 把竖图(9:16)强制裁成横卡切掉主体内容。
-  // 卡片图随仓库提交于 images/wallpaper-cards/{id}-card.jpg（见 scripts/generate-wallpaper-cards.cjs）。
-  const ogCardImage = 'https://www.daoessentia.com/images/wallpaper-cards/' + id + '-card.jpg';
+  // 卡片图随仓库提交于 images/wallpaper-cards/{id}-card-v2.jpg（见 scripts/generate-wallpaper-cards.cjs）。
+  // 文件名带 -v2 是为了绕开 X 对“图片抓取失败”的缓存（旧 -card.jpg 曾被 X 记作失败）。
+  const ogCardImage = 'https://www.daoessentia.com/images/wallpaper-cards/' + id + '-card-v2.jpg';
   const ogImage = ogCardImage;
 
   // JSON-LD Schema.org

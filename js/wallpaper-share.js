@@ -89,7 +89,9 @@
     var m = getMeta();
     var u = m.url, t = m.title, d = m.desc, img = m.image;
     if (network === 'x') {
-      popup('https://twitter.com/intent/tweet?url=' + enc(u) + '&text=' + enc(t));
+      // 每次分享带毫秒时间戳，生成全新 URL，强制 X 重新抓取（绕开 X 对页面/图片的失败缓存）
+      var xu = u + (u.indexOf('?') === -1 ? '?x=' : '&x=') + Date.now();
+      popup('https://twitter.com/intent/tweet?url=' + enc(xu) + '&text=' + enc(t));
     } else if (network === 'facebook') {
       popup('https://www.facebook.com/sharer/sharer.php?u=' + enc(u));
     } else if (network === 'pinterest') {

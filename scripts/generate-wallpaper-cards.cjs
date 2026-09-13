@@ -6,7 +6,7 @@
 //   node scripts/generate-wallpaper-cards.cjs        → 增量：只生成缺失的
 //   node scripts/generate-wallpapers.cjs --all      → 全量重生成
 //
-// 输出: images/wallpaper-cards/{id}-card.jpg
+// 输出: images/wallpaper-cards/{id}-card-v2.jpg
 // 这些卡片图是静态资源，随仓库提交（和 images/blog/*-card.jpg 同模式）。
 // 注意: 必须预先生成并提交，generate-wallpapers.cjs 只引用、不生成（Vercel 构建期无 ffmpeg）。
 
@@ -25,7 +25,7 @@ function getImageUrl(wp) {
 }
 
 function cardFile(id) {
-  return path.join(OUT_DIR, id + '-card.jpg');
+  return path.join(OUT_DIR, id + '-card-v2.jpg');
 }
 
 function runFfmpeg(srcUrl, outPath) {
