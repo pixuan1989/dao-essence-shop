@@ -968,6 +968,21 @@ function formatDate(dateStr) {
   return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 }
 
+/* Resolve og:image and twitter:image URLs for a post cover.
+   For local blog covers we generate a padded 2:1 JPG card so X shows
+   the full image instead of cropping the original cover. */
+function resolveImageUrls(image) {
+  const imageAbs = image
+    ? (/^https?:\/\//.test(image) ? image : SITE_URL + image)
+    : SITE_URL + '/images/og-default.jpg';
+  let twitterImageAbs = imageAbs;
+  if (image && !/^https?:\/\//.test(image) && /\/images\/blog\//.test(image)) {
+    const base = image.replace(/\.[^/.]+$/, '');
+    twitterImageAbs = SITE_URL + base + '-card.jpg';
+  }
+  return { imageAbs, twitterImageAbs };
+}
+
 function readAllMdFiles(dir) {
   if (!fs.existsSync(dir)) return [];
   return fs.readdirSync(dir)
@@ -977,9 +992,9 @@ function readAllMdFiles(dir) {
       const { data, content } = matter(raw);
       data.image = data.image || data.featuredImage;
       // og:image 拼接安全：绝对 URL（http 开头）不重复拼 SITE_URL
-      data.imageAbs = data.image
-        ? (/^https?:\/\//.test(data.image) ? data.image : SITE_URL + data.image)
-        : SITE_URL + '/images/og-default.jpg';
+      const urls = resolveImageUrls(data.image);
+      data.imageAbs = urls.imageAbs;
+      data.twitterImageAbs = urls.twitterImageAbs;
       const slug = generateSlug(f, data, new Set());
       return { filename: f, slug, data, content };
     });
@@ -990,9 +1005,9 @@ function readAllMdFiles(dir) {
 function generateArticleHtml(post, category, allArticles, options = {}) {
   const { data, content, slug } = post;
   // og:image 统一兜底：绝对 URL 不拼 SITE_URL（覆盖 EN/ZH 所有数据来源）
-  data.imageAbs = data.image
-    ? (/^https?:\/\//.test(data.image) ? data.image : SITE_URL + data.image)
-    : SITE_URL + '/images/og-default.jpg';
+  const urls = resolveImageUrls(data.image);
+  data.imageAbs = urls.imageAbs;
+  data.twitterImageAbs = urls.twitterImageAbs;
   const isZh = options.lang === 'zh-Hant';
   const wallpapers = options.wallpapers || [];
   const lang = isZh ? 'zh-Hant' : 'en';
@@ -1484,10 +1499,10 @@ function generateArticleHtml(post, category, allArticles, options = {}) {
     <meta property="og:type" content="article">
     <meta property="og:site_name" content="DAO Essence">
     <meta property="og:locale" content="${isZh ? 'zh_Hant' : 'en_US'}">
-    <meta name="twitter:card" content="summary">
+    <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="${seoTitle(pageTitle)}">
     <meta name="twitter:description" content="${escapeHtml(seoDescription(pageDesc))}">
-    <meta name="twitter:image" content="${data.imageAbs}">
+    <meta name="twitter:image" content="${data.twitterImageAbs}">
     <link rel="canonical" href="${canonicalUrl}">
     ${hreflangLinks}
     <link rel="stylesheet" href="/styles.min.css?v=${CSS_VERSION}">
@@ -2244,9 +2259,9 @@ async function main() {
         const { data, content } = matter(raw);
         data.image = data.image || data.featuredImage;
         // og:image 拼接安全：绝对 URL（http 开头）不重复拼 SITE_URL
-        data.imageAbs = data.image
-          ? (/^https?:\/\//.test(data.image) ? data.image : SITE_URL + data.image)
-          : SITE_URL + '/images/og-default.jpg';
+        const urlsZh = resolveImageUrls(data.image);
+        data.imageAbs = urlsZh.imageAbs;
+        data.twitterImageAbs = urlsZh.twitterImageAbs;
         if (!content.trim() && data.body) content = data.body;
         const rawSlug = f.replace(/\.md$/, '');
         const slug = rawSlug.replace(/\.zh$/, '-zh');
