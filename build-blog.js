@@ -978,7 +978,7 @@ function resolveImageUrls(image) {
   let twitterImageAbs = imageAbs;
   if (image && !/^https?:\/\//.test(image) && /\/images\/blog\//.test(image)) {
     const base = image.replace(/\.[^/.]+$/, '');
-    twitterImageAbs = SITE_URL + base + '-card.jpg';
+    twitterImageAbs = SITE_URL + base + '-card.jpg?v=2';
   }
   return { imageAbs, twitterImageAbs };
 }
@@ -1495,7 +1495,7 @@ function generateArticleHtml(post, category, allArticles, options = {}) {
     <meta property="og:title" content="${seoTitle(pageTitle)}">
     <meta property="og:description" content="${escapeHtml(seoDescription(pageDesc))}">
     <meta property="og:image" content="${data.twitterImageAbs}">
-    <meta property="og:url" content="${articleUrl}">
+    <meta property="og:url" content="${articleUrl}?v=2">
     <meta property="og:type" content="article">
     <meta property="og:site_name" content="DAO Essence">
     <meta property="og:locale" content="${isZh ? 'zh_Hant' : 'en_US'}">
