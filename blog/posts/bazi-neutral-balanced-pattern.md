@@ -14,8 +14,8 @@ tags:
   - Four Pillars
 author: "Dingwei"
 readTime: 13
-image: "/images/blog/bazi-neutral-balanced-pattern.webp"
-imageAlt: "Dark luxury editorial cover: gold calligraphy '中和格局', English subtitle, balanced four pillars motif, red seal stamp"
+image: "/images/blog/bazi-neutral-balanced-pattern-inline.webp"
+imageAlt: "Dark minimalist cover: balanced stacked stones motif symbolizing 中和 (middle harmony), soft gold and charcoal tones, ample negative space"
 lang: "en"
 keywords: "neutral bazi, balanced bazi chart, bazi middle harmony, 中和 pattern, useful god neutral bazi, bazi disease remedy"
 related_posts:

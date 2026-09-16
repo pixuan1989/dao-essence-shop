@@ -14,8 +14,8 @@ tags:
   - 四柱
 author: "DAO Essence"
 readTime: 13
-image: "/images/blog/bazi-neutral-balanced-pattern.webp"
-imageAlt: "深色中式命理雜誌封面：金箔書法「中和格局」中英標題，平衡的羅盤圖騰，紅色印章"
+image: "/images/blog/bazi-neutral-balanced-pattern-inline.webp"
+imageAlt: "深色極簡封面：平衡堆疊的石頭意象隱喻中和（middle harmony），金與炭灰調，留白構圖"
 lang: "zh"
 keywords: "中和格局, 八字中和平, 用神, 病藥說, 大運流年, 八字平衡"
 related_posts:
