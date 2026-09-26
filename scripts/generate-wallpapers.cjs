@@ -286,12 +286,12 @@ function generateStaticPage(wp, lang) {
   // 转义 </script>
   schemaStr = schemaStr.replace(/<\/script>/gi, '<\\/script>');
 
-  // 相关壁纸（同类优先，最多 100 张）
+  // 相关壁纸（同类优先，最多 16 张）
   var allWps = loadWallpapers();
   var currentCategory = wp.category || '';
-  var sameCategory = allWps.filter(function(w) { return w.id !== id && w.category === currentCategory; }).sort(function() { return 0.5 - Math.random(); });
-  var otherCategory = allWps.filter(function(w) { return w.id !== id && w.category !== currentCategory; }).sort(function() { return 0.5 - Math.random(); });
-  var related = sameCategory.concat(otherCategory).slice(0, 100);
+  var sameCategory = allWps.filter(function(w) { return w.id !== id && w.category === currentCategory; });
+  var otherCategory = allWps.filter(function(w) { return w.id !== id && w.category !== currentCategory; });
+  var related = sameCategory.concat(otherCategory).slice(0, 16);
 
   var html = '<!DOCTYPE html>\n'
     + '<html lang="' + (isZh ? 'zh-TW' : 'en') + '">\n'
