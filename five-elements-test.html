@@ -853,7 +853,7 @@
             <h3 data-i18n="fivet.cta_title">Your Full BaZi Report — $9.99</h3>
             <p data-i18n="fivet.cta_desc">Turn your element mix into a complete life guide: career paths, relationship patterns, health warnings, and fortune timing — a personalized PDF report crafted from your exact birth data.</p>
             <button class="btn-primary pay-cta-btn" id="payReportBtn" onclick="buyFullReport()" data-i18n="fivet.cta_button">Unlock My Full Report →</button>
-            <p class="email-privacy" data-i18n="fivet.cta_privacy">Secure payment via Creem. Delivered to your email within 48 hours.</p>
+            <p class="email-privacy" data-i18n="fivet.cta_privacy">Secure payment via Creem. Delivered to your email within 2 hours.</p>
             <div class="email-success" id="emailSuccess">
                 <div class="check">&#10003;</div>
                 <p data-i18n="fivet.success_msg">Redirecting to secure checkout…</p>
@@ -1048,9 +1048,9 @@
         'fivet.cta_title': 'Your Full BaZi Report — $9.99',
         'fivet.cta_desc': 'Turn your element mix into a complete life guide: career paths, relationship patterns, health warnings, and fortune timing — a personalized PDF report crafted from your exact birth data.',
         'fivet.cta_button': 'Unlock My Full Report →',
-        'fivet.cta_privacy': 'Secure payment via Creem. Delivered to your email within 48 hours.',
+        'fivet.cta_privacy': 'Secure payment via Creem. Delivered to your email within 2 hours.',
         'fivet.success_msg': 'Redirecting to secure checkout…',
-        'fivet.success_note': 'Your personalized BaZi report will be delivered to your email within <strong>48 hours</strong>.',
+        'fivet.success_note': 'Your personalized BaZi report will be delivered to your email within <strong>2 hours</strong>.',
         'fivet.footer': '<a href="/blog">Blog</a> · © 2024-2026 DAO Essence. Based on traditional Five Elements theory (Wu Xing) and BaZi calculations.',
         'fivet.alert_consent': 'Please agree to the Privacy Policy first.',
         'fivet.alert_date': 'Please select your birth date.',
@@ -1919,7 +1919,7 @@ document.addEventListener('click', function(e) {
     }
     var lang = getInitial();
     if (lang !== 'zh') return; // 仅中文需要首屏预翻译
-    var DICT = {"fivet":{"nav_logo":"DAO ESSENCE","hero_badge":"古老智慧與你的相遇","hero_title":"五行性格測試：\u003cbr>你的\u003cem>核心優勢\u003c/em>是什麼？","hero_sub":"結合八字命盤與性格問答，找出你的五行屬性，了解這份性格賦予你的獨特優勢。","element_wood":"木","element_fire":"火","element_earth":"土","element_metal":"金","element_water":"水","form_year":"年","form_month":"月","form_day":"日","form_hour":"出生時辰 \u003cspan style=\"opacity:0.5\">（選填）\u003c/span>","form_unknown":"不詳","form_gender":"性別","form_male":"男","form_female":"女","form_submit":"揭曉我的元素 →","form_consent":"我同意\u003ca href=\"/privacy\" style=\"color:rgba(255,255,255,0.85);text-decoration:underline;\">隱私權政策\u003c/a>——我的出生資料僅用於此測試，不會被儲存。","form_note":"30 秒完成 · 5 道快速題目 · 永久免費","quiz_title":"快速性格測試","quiz_back":"← 上一題","quiz_skip":"跳過題目 →","quiz_next":"下一題 →","loading_text":"正在計算你的五行藍圖……","result_title":"你的五行藍圖","cta_title":"你的完整八字報告 — $9.99","cta_desc":"把你的五行組合轉化成完整人生指南：職業方向、感情模式、健康警示與運勢時機——根據你的精確出生資料量身打造的專屬 PDF 報告。","cta_button":"解鎖我的完整報告 →","cta_privacy":"透過 Creem 安全付款。報告將在 48 小時內寄送到你的電子郵件。","success_msg":"正在跳轉到安全付款頁……","footer":"\u003ca href=\"/blog/\">部落格\u003c/a> &middot; &copy; 2024-2026 DAO Essence。基於傳統五行理論（Wu Xing）與八字計算。"}};
+    var DICT = {"fivet":{"nav_logo":"DAO ESSENCE","hero_badge":"古老智慧與你的相遇","hero_title":"五行性格測試：\u003cbr>你的\u003cem>核心優勢\u003c/em>是什麼？","hero_sub":"結合八字命盤與性格問答，找出你的五行屬性，了解這份性格賦予你的獨特優勢。","element_wood":"木","element_fire":"火","element_earth":"土","element_metal":"金","element_water":"水","form_year":"年","form_month":"月","form_day":"日","form_hour":"出生時辰 \u003cspan style=\"opacity:0.5\">（選填）\u003c/span>","form_unknown":"不詳","form_gender":"性別","form_male":"男","form_female":"女","form_submit":"揭曉我的元素 →","form_consent":"我同意\u003ca href=\"/privacy\" style=\"color:rgba(255,255,255,0.85);text-decoration:underline;\">隱私權政策\u003c/a>——我的出生資料僅用於此測試，不會被儲存。","form_note":"30 秒完成 · 5 道快速題目 · 永久免費","quiz_title":"快速性格測試","quiz_back":"← 上一題","quiz_skip":"跳過題目 →","quiz_next":"下一題 →","loading_text":"正在計算你的五行藍圖……","result_title":"你的五行藍圖","cta_title":"你的完整八字報告 — $9.99","cta_desc":"把你的五行組合轉化成完整人生指南：職業方向、感情模式、健康警示與運勢時機——根據你的精確出生資料量身打造的專屬 PDF 報告。","cta_button":"解鎖我的完整報告 →","cta_privacy":"透過 Creem 安全付款。報告將在 2 小時內寄送到你的電子郵件。","success_msg":"正在跳轉到安全付款頁……","footer":"\u003ca href=\"/blog/\">部落格\u003c/a> &middot; &copy; 2024-2026 DAO Essence。基於傳統五行理論（Wu Xing）與八字計算。"}};
     if (!DICT || Object.keys(DICT).length === 0) return;
     var orig = {};
     function gnv(obj, key){ if(!obj||!key) return null; return key.split('.').reduce(function(o,k){ return (o&&o[k]!==undefined)?o[k]:null; }, obj); }
