@@ -863,7 +863,40 @@
     window.saveAsHTML = saveAsHTML;
 
     // ==================== MAIN RENDER ====================
-    function renderResult(rt) {
+    window.DaoBaziCta = function (btn) {
+    var orig = btn.textContent;
+    var isZh = window.DaoI18n && window.DaoI18n.current() === 'zh';
+    btn.textContent = isZh ? '處理中...' : 'Processing...';
+    var hash = window.location.hash;
+    if (!hash || hash.length < 2) { btn.textContent = orig; alert(isZh ? '缺少命盤數據，請重新排盤' : 'Missing chart data. Please recalculate.'); return; }
+    var params;
+    try { params = JSON.parse(decodeURIComponent(hash.substring(1))); }
+    catch (e) { btn.textContent = orig; alert(isZh ? '命盤數據解析失敗' : 'Failed to parse chart data.'); return; }
+    var yy = parseInt(params.yy), mm = parseInt(params.mm), dd = parseInt(params.dd), hh = parseInt(params.hh), xb = parseInt(params.xb);
+    if (isNaN(yy) || isNaN(mm) || isNaN(dd) || isNaN(hh) || isNaN(xb)) { btn.textContent = orig; alert(isZh ? '命盤數據不完整' : 'Incomplete chart data.'); return; }
+    var language = isZh ? 'zh' : 'en';
+    fetch('/api/create-bazi-checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            product_id: 'prod_28PqAKMEom5WGRH1w9O35n',
+            name: '', email: '',
+            birth_year: yy, birth_month: mm, birth_day: dd, birth_hour: hh,
+            gender: (xb === 1 ? 'female' : 'male'),
+            birth_place: '', notes: '', language: language,
+            skip_intent: true
+        })
+    })
+    .then(function (r) { return r.json(); })
+    .then(function (d) {
+        if (d.success && d.checkoutUrl) { window.open(d.checkoutUrl, '_blank'); }
+        else { alert((d && d.error) ? d.error : (isZh ? '支付创建失败，请重试' : 'Payment setup failed. Please try again.')); }
+        btn.textContent = orig;
+    })
+    .catch(function () { btn.textContent = orig; alert(isZh ? '网络错误，请重试' : 'Network error. Please try again.'); });
+};
+
+function renderResult(rt) {
         document.getElementById('bazi-loading').style.display = 'none';
         var pageContainer = document.getElementById('bazi-result');
         pageContainer.style.display = 'grid';
@@ -1045,7 +1078,7 @@
                     '<span>' + t('bazi_result.cta_feat3') + '</span><span>' + t('bazi_result.cta_feat4') + '</span>' +
                     '<span>' + t('bazi_result.cta_feat5') + '</span><span>' + t('bazi_result.cta_feat6') + '</span>' +
                 '</div>' +
-                '<a href="#" class="cta-btn" onclick="event.preventDefault();var b=this;b.textContent=\'' + t('bazi_result.cta_btn_loading') + '\';fetch(\'/api/create-checkout\',{method:\'POST\',headers:{\'Content-Type\':\'application/json\'},body:JSON.stringify({items:[{id:\'prod_28PqAKMEom5WGRH1w9O35n\',name:\'BaZi Life Guidance\',price:0,quantity:1}]})}).then(function(r){return r.json()}).then(function(d){if(d.checkoutUrl)window.open(d.checkoutUrl,\'_blank\');else{b.textContent=\'' + t('bazi_result.cta_btn') + '\';alert(\'' + t('bazi_result.cta_btn_error_checkout') + '\')}}).catch(function(){b.textContent=\'' + t('bazi_result.cta_btn') + '\';alert(\'' + t('bazi_result.cta_btn_error_network') + '\')})">' + t('bazi_result.cta_btn') + '</a>' +
+                '<a href="#" class="cta-btn" onclick="event.preventDefault();DaoBaziCta(this)"">' + t('bazi_result.cta_btn') + '</a>' +
                 '<div class="cta-wallpaper-bonus"><span class="bonus-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 12v10H4V12M2 7h20v5H2zM12 22V7M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/></svg></span><span class="bonus-text">' + t('bazi_result.cta_wallpaper_bonus') + '</span></div>' +
                 '<div class="cta-trust">' +
                     '<span><span class="trust-dot"></span>' + t('bazi_result.cta_trust1') + '</span>' +

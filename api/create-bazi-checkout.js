@@ -38,7 +38,8 @@ export default async function handler(req, res) {
             birth_place,         // 出生地
             notes,               // 备注
             language,            // 语言：zh/en
-            discount_code        // 折扣码（可选）
+            discount_code,       // 折扣码（可选）
+            skip_intent          // 跳过付费意向存储（true=付款前不落库，用于计算器直购入口）
         } = req.body;
 
         // 基础验证
@@ -164,40 +165,45 @@ export default async function handler(req, res) {
 
         console.log(`✅ Checkout 创建成功: ${result.id}`);
 
-        // 先写入 Redis（确保数据不丢失），再返回响应
-        try {
-            const intentData = {
-                id: orderId, orderId, checkoutId: result.id || '',
-                productName: 'BaZi Life Guidance', productId: product_id, amount: 0,
-                name: name || '', email: email || '',
-                birthYear: String(birth_year), birthMonth: String(birth_month),
-                birthDay: String(birth_day), birthHour: String(birth_hour),
-                gender: gender,
-                createdAt: new Date().toISOString(), status: 'pending'
-            };
-            await redisSet(`checkout_intent:${orderId}`, intentData);
-            let intentIds = await redisGet('checkout_intent_ids') || [];
-            intentIds.unshift(orderId);
-            if (intentIds.length > 500) intentIds = intentIds.slice(0, 500);
-            await redisSet('checkout_intent_ids', intentIds);
-            console.log(`📝 八字付费意向已记录: ${orderId}`);
+        // 付费意向存储（skip_intent=true 时跳过：付款前不落库，如计算器直购入口；
+        // 出生数据已写入 Creem metadata，付款后 webhook 存全量订单）
+        if (!skip_intent) {
+            try {
+                const intentData = {
+                    id: orderId, orderId, checkoutId: result.id || '',
+                    productName: 'BaZi Life Guidance', productId: product_id, amount: 0,
+                    name: name || '', email: email || '',
+                    birthYear: String(birth_year), birthMonth: String(birth_month),
+                    birthDay: String(birth_day), birthHour: String(birth_hour),
+                    gender: gender,
+                    createdAt: new Date().toISOString(), status: 'pending'
+                };
+                await redisSet(`checkout_intent:${orderId}`, intentData);
+                let intentIds = await redisGet('checkout_intent_ids') || [];
+                intentIds.unshift(orderId);
+                if (intentIds.length > 500) intentIds = intentIds.slice(0, 500);
+                await redisSet('checkout_intent_ids', intentIds);
+                console.log(`📝 八字付费意向已记录: ${orderId}`);
 
-            // 追加营销池（有邮箱就加）
-            if (email) {
-                const normalizedEmail = email.trim().toLowerCase();
-                let subscribers = await redisGet('marketing_subscribers') || [];
-                const exists = subscribers.some(s => s.email && s.email.toLowerCase() === normalizedEmail);
-                if (!exists) {
-                    subscribers.unshift({
-                        email: normalizedEmail, name: name || '',
-                        source: 'bazi_intent', subscribedAt: new Date().toISOString()
-                    });
-                    await redisSet('marketing_subscribers', subscribers);
-                    console.log(`📬 Added ${normalizedEmail} to marketing pool (bazi intent), total: ${subscribers.length}`);
+                // 追加营销池（有邮箱就加）
+                if (email) {
+                    const normalizedEmail = email.trim().toLowerCase();
+                    let subscribers = await redisGet('marketing_subscribers') || [];
+                    const exists = subscribers.some(s => s.email && s.email.toLowerCase() === normalizedEmail);
+                    if (!exists) {
+                        subscribers.unshift({
+                            email: normalizedEmail, name: name || '',
+                            source: 'bazi_intent', subscribedAt: new Date().toISOString()
+                        });
+                        await redisSet('marketing_subscribers', subscribers);
+                        console.log(`📬 Added ${normalizedEmail} to marketing pool (bazi intent), total: ${subscribers.length}`);
+                    }
                 }
+            } catch (intentErr) {
+                console.error('⚠️ 记录付费意向失败（非致命）:', intentErr.message);
             }
-        } catch (intentErr) {
-            console.error('⚠️ 记录付费意向失败（非致命）:', intentErr.message);
+        } else {
+            console.log(`⏭️ 跳过付费意向存储（skip_intent）: ${orderId}`);
         }
 
         const responseData = {
