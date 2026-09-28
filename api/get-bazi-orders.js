@@ -224,6 +224,20 @@ async function handleUnreadCount(res) {
 }
 
 // ========== 八字订单 + 付费意向（未支付） ==========
+// 已支付订单对应的意向行自动隐藏（避免"未支付 $0.00"空行误导），列表按时间倒序
+function mergeOrdersAndIntents(orders, intents) {
+    const paidKeys = new Set(
+        orders.flatMap(o => [o.checkoutId, o.id, o.orderId].filter(Boolean))
+    );
+    const visibleIntents = intents.filter(it =>
+        !(it.checkoutId && paidKeys.has(it.checkoutId)) &&
+        !(it.orderId && paidKeys.has(it.orderId))
+    );
+    return [...visibleIntents, ...orders].sort((a, b) =>
+        new Date(b.createdAt || 0) - new Date(a.createdAt || 0)
+    );
+}
+
 async function handleBaziOrders(res) {
     try {
         const orderIds = await redisGet('bazi_order_ids') || [];
@@ -235,7 +249,7 @@ async function handleBaziOrders(res) {
             const backfilled = await backfillFromCreem();
             // 同时读取付费意向
             const intents = await getPendingIntents();
-            const allItems = [...intents, ...backfilled];
+            const allItems = mergeOrdersAndIntents(backfilled, intents);
             return res.status(200).json({
                 success: true,
                 orders: allItems,
@@ -264,8 +278,8 @@ async function handleBaziOrders(res) {
         const intents = await getPendingIntents();
         console.log(`📝 付费意向（未支付）: ${intents.length} 条`);
 
-        // 合并：intents 在前（未支付优先显示）
-        const allItems = [...intents, ...orders];
+        // 合并：已支付订单对应意向隐藏，按时间倒序（最新在最上）
+        const allItems = mergeOrdersAndIntents(orders, intents);
 
         return res.status(200).json({
             success: true,
