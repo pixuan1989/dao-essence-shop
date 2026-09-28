@@ -72,6 +72,13 @@ export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   if (req.method === 'OPTIONS') return res.status(200).end();
 
+  // ── 脚本/爬虫识别：UA 明显是程序（python/curl/采集器等）的请求直接跳过，省 Fluid CPU ──
+  // 谷歌/Bing 等官方搜索引擎爬虫白名单放行；真人浏览器 UA 不受任何影响（2026-09-28）
+  const ua = req.headers['user-agent'] || '';
+  const isSearchBot = /Googlebot|Bingbot|DuckDuckBot|YandexBot|Applebot/i.test(ua);
+  const isScriptUA = !ua || (!isSearchBot && /(python-requests|python-urllib|curl\/|wget|go-http-client|scrapy|okhttp|libwww|java\/|apache-httpclient|node-fetch|axios\/|headlesschrome|phantomjs|bytespider|dataforseo|ahrefsbot|semrushbot|mj12bot|dotbot|petalbot|serpstatbot|barkrowler|gptbot|ccbot|claudebot|amazonbot)/i.test(ua));
+  if (isScriptUA) return res.status(204).end();
+
   // ── GET：批量查询阅读量 或 下载次数 ──
   if (req.method === 'GET') {
     const { slugs, ids, action } = req.query;
