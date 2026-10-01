@@ -1,0 +1,866 @@
+{
+  "date": "2026-10-02",
+  "generatedAt": "2026-10-01T22:46:44.107Z",
+  "ganzhi": {
+    "ganzhi": "己酉",
+    "wuxing": "水",
+    "tiangan": "己",
+    "dizhi": "酉"
+  },
+  "fortunes": {
+    "rat": {
+      "score": 70,
+      "verdict": "一般",
+      "content": "生肖鼠今日运势一般，整体局面平稳但缺乏突破契机。工作上按部就班即可，不宜主动揽责，处理文书合同需多核对，防止疏漏引发麻烦。财运方面收支基本平衡，避免参与他人担保或借贷事宜，保守理财为主，远离高风险项目。感情沟通顺畅但缺乏激情，适合居家相处，勿因琐事争执影响和睦。身体方面注意肠胃消化，饮食宜清淡，早睡早起恢复精力，防止过度劳累。",
+      "yi": [
+        "出行",
+        "搬家",
+        "沐浴"
+      ],
+      "ji": [
+        "开业",
+        "安葬"
+      ],
+      "luckyNum": 5,
+      "direction": "正西",
+      "pair": "丑",
+      "quote": "路在脚下",
+      "color": "#5B8299",
+      "colorName": "蓝色",
+      "blogLinksCN": [
+        {
+          "url": "/zh/blog/five-elements-theory-wu-xing-guide",
+          "title": "五行性格測試：你是木、火、土、金還是水？"
+        },
+        {
+          "url": "/zh/blog/love-prediction-by-date-of-birth",
+          "title": "依出生日期預測姻緣：八字解讀"
+        }
+      ],
+      "blogLinksEN": [
+        {
+          "url": "/blog/five-elements-theory-wu-xing-guide",
+          "title": "Five Elements Personality Test: Are You Wood, Fire, Earth, Metal or Water?"
+        },
+        {
+          "url": "/blog/love-prediction-by-date-of-birth",
+          "title": "Love Prediction by Date of Birth: BaZi Reading"
+        }
+      ]
+    },
+    "ox": {
+      "score": 80,
+      "verdict": "上升",
+      "content": "生肖牛今日运势上升，逢三合吉日，整体势头向好。事业上手脚麻利，适合处理遗留问题，合作方案易通过，宜多与团队沟通。财运进账尚可，但开销增大，消费需量力而行，谨防疏忽导致损失。感情氛围缓和，单身者外出机会多，易遇合适对象，有伴侣者宜多倾听对方想法。健康方面状态不错，留意饮食卫生，避免寒凉饮食，晚间保证睡眠质量。",
+      "yi": [
+        "出行",
+        "搬家",
+        "沐浴"
+      ],
+      "ji": [
+        "开业",
+        "安葬"
+      ],
+      "luckyNum": 4,
+      "direction": "正西",
+      "pair": "子",
+      "quote": "向前看别回头",
+      "color": "#9E8E6E",
+      "colorName": "棕色",
+      "blogLinksCN": [
+        {
+          "url": "/zh/blog/five-elements-theory-wu-xing-guide",
+          "title": "五行性格測試：你是木、火、土、金還是水？"
+        },
+        {
+          "url": "/zh/blog/when-will-i-find-love",
+          "title": "八字姻緣預測：你的出生日期揭示何時遇見真愛"
+        }
+      ],
+      "blogLinksEN": [
+        {
+          "url": "/blog/five-elements-theory-wu-xing-guide",
+          "title": "Five Elements Personality Test: Are You Wood, Fire, Earth, Metal or Water?"
+        },
+        {
+          "url": "/blog/when-will-i-find-love",
+          "title": "When Will I Find Love? What Your Birth Chart Says"
+        }
+      ]
+    },
+    "tiger": {
+      "score": 70,
+      "verdict": "一般",
+      "content": "生肖虎今日运势平稳，事态发展符合预期，无意外波折。事业上任务堆积，需专注当下环节，切忌贪多求快。财运方面开销增多，警惕人情往来带来的破耗，保守理财为上。感情互动趋于理性，避免因琐事争执，单身者缘分尚浅。健康需注意用眼过度，适时远眺放松。整体宜静不宜动，稳住节奏即可安然度过。",
+      "yi": [
+        "出行",
+        "搬家",
+        "沐浴"
+      ],
+      "ji": [
+        "开业",
+        "安葬"
+      ],
+      "luckyNum": 7,
+      "direction": "正西",
+      "pair": "亥",
+      "quote": "敢于突破自己",
+      "color": "#5E825E",
+      "colorName": "绿色",
+      "blogLinksCN": [
+        {
+          "url": "/zh/blog/five-elements-theory-wu-xing-guide",
+          "title": "五行性格測試：你是木、火、土、金還是水？"
+        },
+        {
+          "url": "/zh/blog/feng-shui-home-office-7-rules",
+          "title": "居家辦公風水：7條實用規則"
+        }
+      ],
+      "blogLinksEN": [
+        {
+          "url": "/blog/five-elements-theory-wu-xing-guide",
+          "title": "Five Elements Personality Test: Are You Wood, Fire, Earth, Metal or Water?"
+        },
+        {
+          "url": "/blog/feng-shui-home-office-7-rules",
+          "title": "Feng Shui Home Office: 7 Rules"
+        }
+      ]
+    },
+    "rabbit": {
+      "score": 55,
+      "verdict": "降低",
+      "content": "生肖兔今日运势下降，冲犯日建，奔波之象明显。事业上事务多生变卦，不宜贸然推进新项目，宜静守勿动。财运方面钱财易有损耗，意外支出增多，提防他人诱导而投资。感情里相处易生口角，避免针锋相对，少争辩对错。健康需注意肢体易受轻伤，剧烈运动宜暂停，避免过度劳累。",
+      "yi": [
+        "出行",
+        "搬家",
+        "沐浴"
+      ],
+      "ji": [
+        "开业",
+        "安葬"
+      ],
+      "luckyNum": 8,
+      "direction": "正西",
+      "pair": "戌",
+      "quote": "逆风飞翔",
+      "color": "#5E825E",
+      "colorName": "绿色",
+      "blogLinksCN": [
+        {
+          "url": "/zh/blog/love-prediction-by-date-of-birth",
+          "title": "依出生日期預測姻緣：八字解讀"
+        },
+        {
+          "url": "/zh/blog/five-elements-theory-wu-xing-guide",
+          "title": "五行性格測試：你是木、火、土、金還是水？"
+        }
+      ],
+      "blogLinksEN": [
+        {
+          "url": "/blog/love-prediction-by-date-of-birth",
+          "title": "Love Prediction by Date of Birth: BaZi Reading"
+        },
+        {
+          "url": "/blog/five-elements-theory-wu-xing-guide",
+          "title": "Five Elements Personality Test: Are You Wood, Fire, Earth, Metal or Water?"
+        }
+      ]
+    },
+    "dragon": {
+      "score": 85,
+      "verdict": "上升",
+      "content": "生肖龙今日运势上升，得六合之助，行事阻力减小。工作推进顺利，宜落实合作细节或签署文件，决策易获支持，执行力增强。进账机会增多，但花销亦大，谨防因人情借贷损财，投资勿贪多，避免高风险操作。异性缘份转强，沟通顺畅，易化解往日隔阂，单身者利于社交结识新友。健康方面注意筋骨劳损或呼吸不畅，避免剧烈运动，适度拉伸缓解疲劳，宜静养休息。",
+      "yi": [
+        "出行",
+        "搬家",
+        "沐浴"
+      ],
+      "ji": [
+        "开业",
+        "安葬"
+      ],
+      "luckyNum": 8,
+      "direction": "正西",
+      "pair": "酉",
+      "quote": "迎难而上",
+      "color": "#9E8E6E",
+      "colorName": "棕色",
+      "blogLinksCN": [
+        {
+          "url": "/zh/blog/five-elements-theory-wu-xing-guide",
+          "title": "五行性格測試：你是木、火、土、金還是水？"
+        },
+        {
+          "url": "/zh/blog/feng-shui-headboard-placement-5-rules",
+          "title": "風水床頭擺放：5大法則"
+        }
+      ],
+      "blogLinksEN": [
+        {
+          "url": "/blog/five-elements-theory-wu-xing-guide",
+          "title": "Five Elements Personality Test: Are You Wood, Fire, Earth, Metal or Water?"
+        },
+        {
+          "url": "/blog/feng-shui-headboard-placement-5-rules",
+          "title": "Feng Shui Bed Headboard Placement: 5 Essential Rules"
+        }
+      ]
+    },
+    "snake": {
+      "score": 80,
+      "verdict": "上升",
+      "content": "生肖蛇今日运势上升，三合入局，做事顺遂少阻碍。事业上工作推进顺利，疑难易解，宜争取核心业务，落实既定计划。财运向好，进账明显，但防因合同条款疏漏损耗，签署文件看清条款。感情和谐，沟通无障碍，单身者易获异性青睐，有伴侣者减少无谓猜疑，多些信任。健康方面留意呼吸不畅，咽喉部位需保养，宜少说话多休息，避免熬夜损耗精力。",
+      "yi": [
+        "出行",
+        "搬家",
+        "沐浴"
+      ],
+      "ji": [
+        "开业",
+        "安葬"
+      ],
+      "luckyNum": 7,
+      "direction": "正西",
+      "pair": "申",
+      "quote": "勇者无畏",
+      "color": "#B8665E",
+      "colorName": "红色",
+      "blogLinksCN": [
+        {
+          "url": "/zh/blog/five-elements-theory-wu-xing-guide",
+          "title": "五行性格測試：你是木、火、土、金還是水？"
+        },
+        {
+          "url": "/zh/blog/love-prediction-by-date-of-birth",
+          "title": "依出生日期預測姻緣：八字解讀"
+        }
+      ],
+      "blogLinksEN": [
+        {
+          "url": "/blog/five-elements-theory-wu-xing-guide",
+          "title": "Five Elements Personality Test: Are You Wood, Fire, Earth, Metal or Water?"
+        },
+        {
+          "url": "/blog/love-prediction-by-date-of-birth",
+          "title": "Love Prediction by Date of Birth: BaZi Reading"
+        }
+      ]
+    },
+    "horse": {
+      "score": 70,
+      "verdict": "一般",
+      "content": "生肖马今日运势平稳，整体态势中庸，无太大起伏。事业上阻力不大，按既定计划推进即可，切勿临时起意更改方案，以免徒增困扰。财运方面开销增多，多为必要支出，避免因人情往来而破费，量入为出为宜。感情互动平淡，已有伴侣者少生摩擦，单身者机缘未至，不必强求联络。健康方面注意咽喉不适，多饮温水，避免熬夜耗神。今日宜稳守现状，收敛锋芒，安心处理日常事务即可。",
+      "yi": [
+        "出行",
+        "搬家",
+        "沐浴"
+      ],
+      "ji": [
+        "开业",
+        "安葬"
+      ],
+      "luckyNum": 7,
+      "direction": "正西",
+      "pair": "未",
+      "quote": "道法自然",
+      "color": "#B8665E",
+      "colorName": "红色",
+      "blogLinksCN": [
+        {
+          "url": "/zh/blog/feng-shui-headboard-placement-5-rules",
+          "title": "風水床頭擺放：5大法則"
+        },
+        {
+          "url": "/zh/blog/five-elements-theory-wu-xing-guide",
+          "title": "五行性格測試：你是木、火、土、金還是水？"
+        }
+      ],
+      "blogLinksEN": [
+        {
+          "url": "/blog/feng-shui-headboard-placement-5-rules",
+          "title": "Feng Shui Bed Headboard Placement: 5 Essential Rules"
+        },
+        {
+          "url": "/blog/five-elements-theory-wu-xing-guide",
+          "title": "Five Elements Personality Test: Are You Wood, Fire, Earth, Metal or Water?"
+        }
+      ]
+    },
+    "goat": {
+      "score": 70,
+      "verdict": "一般",
+      "content": "生肖羊今日运势平稳，整体节奏舒缓，无突发变故。工作按部就班，需防细节疏漏，不宜签署重要合约。求财宜守，资金流转放缓，避免借贷担保之事。感情生活安稳，少有争执，适合居家休憩。健康方面留意肠胃消化，饮食清淡为主，忌生冷油腻。今日无冲无合，安心做事即可，勿生妄念。",
+      "yi": [
+        "出行",
+        "搬家",
+        "沐浴"
+      ],
+      "ji": [
+        "开业",
+        "安葬"
+      ],
+      "luckyNum": 6,
+      "direction": "正西",
+      "pair": "午",
+      "quote": "万物皆有定时",
+      "color": "#9E8E6E",
+      "colorName": "棕色",
+      "blogLinksCN": [
+        {
+          "url": "/zh/blog/love-prediction-by-date-of-birth",
+          "title": "依出生日期預測姻緣：八字解讀"
+        },
+        {
+          "url": "/zh/blog/when-will-i-find-love",
+          "title": "八字姻緣預測：你的出生日期揭示何時遇見真愛"
+        }
+      ],
+      "blogLinksEN": [
+        {
+          "url": "/blog/love-prediction-by-date-of-birth",
+          "title": "Love Prediction by Date of Birth: BaZi Reading"
+        },
+        {
+          "url": "/blog/when-will-i-find-love",
+          "title": "When Will I Find Love? What Your Birth Chart Says"
+        }
+      ]
+    },
+    "monkey": {
+      "score": 80,
+      "verdict": "一般",
+      "content": "生肖猴今日运势平稳，行事稳健利于务实耕耘。事业上处事干练，适合收尾现有项目，不宜开启新计划。财运中性，虽有进账但开销亦大，谨防人情破财。感情方面平淡，伴侣间多些包容，避免冷暴力。健康上注意咽喉不适，早睡为宜。整体宜守不宜攻，静待时机方为上策。",
+      "yi": [
+        "出行",
+        "搬家",
+        "沐浴"
+      ],
+      "ji": [
+        "开业",
+        "安葬"
+      ],
+      "luckyNum": 8,
+      "direction": "正西",
+      "pair": "巳",
+      "quote": "春生夏长秋收冬藏",
+      "color": "#D4AF37",
+      "colorName": "金色",
+      "blogLinksCN": [
+        {
+          "url": "/zh/blog/five-elements-theory-wu-xing-guide",
+          "title": "五行性格測試：你是木、火、土、金還是水？"
+        },
+        {
+          "url": "/zh/blog/feng-shui-home-office-7-rules",
+          "title": "居家辦公風水：7條實用規則"
+        }
+      ],
+      "blogLinksEN": [
+        {
+          "url": "/blog/five-elements-theory-wu-xing-guide",
+          "title": "Five Elements Personality Test: Are You Wood, Fire, Earth, Metal or Water?"
+        },
+        {
+          "url": "/blog/feng-shui-home-office-7-rules",
+          "title": "Feng Shui Home Office: 7 Rules"
+        }
+      ]
+    },
+    "rooster": {
+      "score": 65,
+      "verdict": "降低",
+      "content": "生肖鸡今日运势下降，逢自刑之日，自我施压过大。事业上阻力显现，执行过程易出纰漏，勿急于求成。财运有漏，切忌因面子问题买单，借贷事宜一律推后。感情易生口角，互不相让伤和气，保持距离反而美。健康留意呼吸系统不适，忌生冷辛辣。整体宜静不宜动，守成为上。",
+      "yi": [
+        "出行",
+        "搬家",
+        "沐浴"
+      ],
+      "ji": [
+        "开业",
+        "安葬"
+      ],
+      "luckyNum": 9,
+      "direction": "正西",
+      "pair": "辰",
+      "quote": "顺应天时",
+      "color": "#D4AF37",
+      "colorName": "金色",
+      "blogLinksCN": [
+        {
+          "url": "/zh/blog/love-prediction-by-date-of-birth",
+          "title": "依出生日期預測姻緣：八字解讀"
+        },
+        {
+          "url": "/zh/blog/five-elements-theory-wu-xing-guide",
+          "title": "五行性格測試：你是木、火、土、金還是水？"
+        }
+      ],
+      "blogLinksEN": [
+        {
+          "url": "/blog/love-prediction-by-date-of-birth",
+          "title": "Love Prediction by Date of Birth: BaZi Reading"
+        },
+        {
+          "url": "/blog/five-elements-theory-wu-xing-guide",
+          "title": "Five Elements Personality Test: Are You Wood, Fire, Earth, Metal or Water?"
+        }
+      ]
+    },
+    "dog": {
+      "score": 60,
+      "verdict": "喜忧参半",
+      "content": "生肖狗今日运势吉凶参半，逢相害之日，凡事求稳勿进。事业上易生口舌误会，文件条款需反复核对，切忌轻信口头承诺。财运逢劫，不宜进行大额投资或借贷，保管好随身财物。感情方面多些耐心，避免因琐事争执冷战，沟通宜缓不宜急。健康留意咽喉肺部不适，忌烟酒刺激，夜间早眠养足精神，待气场缓和再图发展。",
+      "yi": [
+        "出行",
+        "搬家",
+        "沐浴"
+      ],
+      "ji": [
+        "开业",
+        "安葬"
+      ],
+      "luckyNum": 5,
+      "direction": "正西",
+      "pair": "卯",
+      "quote": "花开有时",
+      "color": "#9E8E6E",
+      "colorName": "棕色",
+      "blogLinksCN": [
+        {
+          "url": "/zh/blog/feng-shui-headboard-placement-5-rules",
+          "title": "風水床頭擺放：5大法則"
+        },
+        {
+          "url": "/zh/blog/when-will-i-find-love",
+          "title": "八字姻緣預測：你的出生日期揭示何時遇見真愛"
+        }
+      ],
+      "blogLinksEN": [
+        {
+          "url": "/blog/feng-shui-headboard-placement-5-rules",
+          "title": "Feng Shui Bed Headboard Placement: 5 Essential Rules"
+        },
+        {
+          "url": "/blog/when-will-i-find-love",
+          "title": "When Will I Find Love? What Your Birth Chart Says"
+        }
+      ]
+    },
+    "pig": {
+      "score": 70,
+      "verdict": "一般",
+      "content": "生肖猪今日运势一般，整体局势波澜不惊，宜守不宜攻。工作进程中易遇琐碎阻碍，需耐心处理实务细节，切勿急于求成。开销增多，有劫财迹象，避免与人发生金钱往来，防止因义气破财。感情相处多些包容，少些计较，避免因言语不当引发冷战。身体易感疲惫，元气恢复慢，宜静养休息。",
+      "yi": [
+        "出行",
+        "搬家",
+        "沐浴"
+      ],
+      "ji": [
+        "开业",
+        "安葬"
+      ],
+      "luckyNum": 5,
+      "direction": "正西",
+      "pair": "寅",
+      "quote": "草木有本心",
+      "color": "#5B8299",
+      "colorName": "蓝色",
+      "blogLinksCN": [
+        {
+          "url": "/zh/blog/five-elements-theory-wu-xing-guide",
+          "title": "五行性格測試：你是木、火、土、金還是水？"
+        },
+        {
+          "url": "/zh/blog/love-prediction-by-date-of-birth",
+          "title": "依出生日期預測姻緣：八字解讀"
+        }
+      ],
+      "blogLinksEN": [
+        {
+          "url": "/blog/five-elements-theory-wu-xing-guide",
+          "title": "Five Elements Personality Test: Are You Wood, Fire, Earth, Metal or Water?"
+        },
+        {
+          "url": "/blog/love-prediction-by-date-of-birth",
+          "title": "Love Prediction by Date of Birth: BaZi Reading"
+        }
+      ]
+    }
+  },
+  "fortunesEn": {
+    "rat": {
+      "keywords": null,
+      "verdict": "Balanced day - steady progress without major fluctuations",
+      "content": "The Chinese zodiac Rat faces stable energy today without major breakthroughs. This Rat daily horoscope indicates routine execution is favorable, but avoid taking on extra responsibility. Verify all documents and contracts carefully to prevent errors causing trouble. Financial flow remains balanced, yet conservative management is required.\n\nAvoid providing guarantees or loans to others. High risk projects should be ignored completely. Relationship communication flows smoothly though passion lacks intensity. Domestic harmony is best maintained by avoiding disputes over trivial matters. Health requires attention to digestive systems.\n\nConsume light foods and maintain early sleep schedules. Prevent excessive fatigue to restore energy levels effectively. Regular rest supports physical stability.",
+      "score": 70,
+      "length": 801,
+      "yi": [
+        "出行",
+        "搬家",
+        "沐浴"
+      ],
+      "ji": [
+        "开业",
+        "安葬"
+      ],
+      "quote": "路在脚下",
+      "quoteEn": "路在脚下",
+      "luckyNum": 5,
+      "direction": "正西",
+      "pair": "丑",
+      "blogLinksEN": [
+        {
+          "url": "/blog/five-elements-theory-wu-xing-guide",
+          "title": "Five Elements Personality Test: Are You Wood, Fire, Earth, Metal or Water?"
+        },
+        {
+          "url": "/blog/love-prediction-by-date-of-birth",
+          "title": "Love Prediction by Date of Birth: BaZi Reading"
+        }
+      ]
+    },
+    "ox": {
+      "keywords": null,
+      "verdict": "Rising luck - an excellent day for all endeavors",
+      "content": "The Chinese zodiac Ox experiences rising luck on this harmonious day. Overall momentum favors progress according to this Ox daily horoscope. Career execution is strong, favorable for resolving pending issues and advancing cooperation plans. Communicate frequently with your team.\n\nFinancial income remains acceptable, yet expenses increase. Exercise caution with spending and avoid negligence to prevent losses. Relationship atmosphere improves. Singles have more opportunities to meet suitable partners. Couples should listen more to their partner's thoughts.\n\nHealth status is stable. Pay attention to food hygiene and avoid cold food. Ensure quality sleep during the evening for restoration.",
+      "score": 80,
+      "length": 694,
+      "yi": [
+        "出行",
+        "搬家",
+        "沐浴"
+      ],
+      "ji": [
+        "开业",
+        "安葬"
+      ],
+      "quote": "向前看别回头",
+      "quoteEn": "向前看别回头",
+      "luckyNum": 4,
+      "direction": "正西",
+      "pair": "子",
+      "blogLinksEN": [
+        {
+          "url": "/blog/five-elements-theory-wu-xing-guide",
+          "title": "Five Elements Personality Test: Are You Wood, Fire, Earth, Metal or Water?"
+        },
+        {
+          "url": "/blog/when-will-i-find-love",
+          "title": "When Will I Find Love? What Your Birth Chart Says"
+        }
+      ]
+    },
+    "tiger": {
+      "keywords": null,
+      "verdict": "Balanced day - steady progress without major fluctuations",
+      "content": "The Chinese zodiac Tiger experiences stable fortune today, with developments matching expectations. No unexpected twists arise for the Chinese zodiac Tiger. Career workload piles up, requiring focus on current steps rather than speed. Execution is steady but avoid greed for quantity.\n\nFinancial luck sees rising expenses, specifically from social interactions. Conservative financial management is advised to prevent loss. Relationship interactions tend toward rationality. Avoid quarrels over trifles. Singles encounter weak romantic fate today.\n\nHealth requires attention to eye strain. Look into the distance to relax periodically. Overall, stillness is preferred over movement. Maintain a steady rhythm to pass through safely. This Tiger daily horoscope suggests caution.",
+      "score": 70,
+      "length": 776,
+      "yi": [
+        "出行",
+        "搬家",
+        "沐浴"
+      ],
+      "ji": [
+        "开业",
+        "安葬"
+      ],
+      "quote": "敢于突破自己",
+      "quoteEn": "敢于突破自己",
+      "luckyNum": 7,
+      "direction": "正西",
+      "pair": "亥",
+      "blogLinksEN": [
+        {
+          "url": "/blog/five-elements-theory-wu-xing-guide",
+          "title": "Five Elements Personality Test: Are You Wood, Fire, Earth, Metal or Water?"
+        },
+        {
+          "url": "/blog/feng-shui-home-office-7-rules",
+          "title": "Feng Shui Home Office: 7 Rules"
+        }
+      ]
+    },
+    "rabbit": {
+      "keywords": null,
+      "verdict": "Challenging energy - caution and restraint recommended",
+      "content": "The Chinese zodiac Rabbit experiences declining fortune today, marked by a significant clash. This Rabbit daily horoscope reveals restless energy requiring strict caution across all sectors. Career affairs face frequent changes, making new project launches inadvisable. Static defense is favored over action.\n\nFinancial luck indicates capital loss with unexpected expenses increasing. Avoid investment traps from others. Relationship dynamics are prone to verbal conflict. Cease debating right or wrong to maintain harmony.\n\nHealth warnings highlight minor limb injuries. Suspend strenuous exercise immediately. Prevent overwork to ensure physical stability during this challenging period.",
+      "score": 55,
+      "length": 689,
+      "yi": [
+        "出行",
+        "搬家",
+        "沐浴"
+      ],
+      "ji": [
+        "开业",
+        "安葬"
+      ],
+      "quote": "逆风飞翔",
+      "quoteEn": "逆风飞翔",
+      "luckyNum": 8,
+      "direction": "正西",
+      "pair": "戌",
+      "blogLinksEN": [
+        {
+          "url": "/blog/love-prediction-by-date-of-birth",
+          "title": "Love Prediction by Date of Birth: BaZi Reading"
+        },
+        {
+          "url": "/blog/five-elements-theory-wu-xing-guide",
+          "title": "Five Elements Personality Test: Are You Wood, Fire, Earth, Metal or Water?"
+        }
+      ]
+    },
+    "dragon": {
+      "keywords": null,
+      "verdict": "Rising luck - an excellent day for all endeavors",
+      "content": "Chinese zodiac Dragon fortune today rises with reduced resistance. Career execution strengthens, favoring contract signings and detailed cooperation. Decisions gain support while professional momentum increases significantly.\n\nIncome flows increase, but expenses remain high. Avoid lending money due to social obligations and reject risky investments. Financial caution is necessary to prevent unexpected losses from interpersonal dealings.\n\nRelationship communication improves, resolving past conflicts easily. Singles benefit from social gatherings for new connections. Health demands care for tendons and breathing. Avoid intense exercise, focus on stretching and static rest to relieve physical fatigue effectively.",
+      "score": 85,
+      "length": 719,
+      "yi": [
+        "出行",
+        "搬家",
+        "沐浴"
+      ],
+      "ji": [
+        "开业",
+        "安葬"
+      ],
+      "quote": "迎难而上",
+      "quoteEn": "迎难而上",
+      "luckyNum": 8,
+      "direction": "正西",
+      "pair": "酉",
+      "blogLinksEN": [
+        {
+          "url": "/blog/five-elements-theory-wu-xing-guide",
+          "title": "Five Elements Personality Test: Are You Wood, Fire, Earth, Metal or Water?"
+        },
+        {
+          "url": "/blog/feng-shui-headboard-placement-5-rules",
+          "title": "Feng Shui Bed Headboard Placement: 5 Essential Rules"
+        }
+      ]
+    },
+    "snake": {
+      "keywords": null,
+      "verdict": "Rising luck - an excellent day for all endeavors",
+      "content": "Snake fortune today indicates rising luck with harmonious energy. The Chinese zodiac Snake experiences smooth execution and favorable conditions. Work progresses steadily with obstacles resolving easily. Focus on core business objectives and implement plans. Financial inflow is strong, yet caution is advised regarding contract terms. Review all documents carefully to prevent potential losses.\n\nRelationships remain harmonious with clear communication. Singles attract favorable attention, while couples should eliminate suspicion and cultivate trust. Health requires attention to respiratory function and throat maintenance. Minimize unnecessary speaking and prioritize adequate rest. Avoid staying up late to prevent vitality depletion.",
+      "score": 80,
+      "length": 740,
+      "yi": [
+        "出行",
+        "搬家",
+        "沐浴"
+      ],
+      "ji": [
+        "开业",
+        "安葬"
+      ],
+      "quote": "勇者无畏",
+      "quoteEn": "勇者无畏",
+      "luckyNum": 7,
+      "direction": "正西",
+      "pair": "申",
+      "blogLinksEN": [
+        {
+          "url": "/blog/five-elements-theory-wu-xing-guide",
+          "title": "Five Elements Personality Test: Are You Wood, Fire, Earth, Metal or Water?"
+        },
+        {
+          "url": "/blog/love-prediction-by-date-of-birth",
+          "title": "Love Prediction by Date of Birth: BaZi Reading"
+        }
+      ]
+    },
+    "horse": {
+      "keywords": null,
+      "verdict": "Balanced day - steady progress without major fluctuations",
+      "content": "The Chinese zodiac Horse experiences stable fortune today with moderate energy overall. Career progress faces minimal resistance, so execute established plans without impulsive changes. Focus on consistency. Financial outflows increase due to necessary costs, requiring strict budgeting to avoid unnecessary social spending.\n\nRelationship dynamics remain neutral. Partners should minimize friction while singles need not force connections. Prioritize health regarding throat discomfort. Hydrate with warm water and avoid late nights to preserve energy. Rest is essential for recovery. This Horse daily horoscope advises maintaining current positions and handling routine matters quietly.",
+      "score": 70,
+      "length": 687,
+      "yi": [
+        "出行",
+        "搬家",
+        "沐浴"
+      ],
+      "ji": [
+        "开业",
+        "安葬"
+      ],
+      "quote": "道法自然",
+      "quoteEn": "道法自然",
+      "luckyNum": 7,
+      "direction": "正西",
+      "pair": "未",
+      "blogLinksEN": [
+        {
+          "url": "/blog/feng-shui-headboard-placement-5-rules",
+          "title": "Feng Shui Bed Headboard Placement: 5 Essential Rules"
+        },
+        {
+          "url": "/blog/five-elements-theory-wu-xing-guide",
+          "title": "Five Elements Personality Test: Are You Wood, Fire, Earth, Metal or Water?"
+        }
+      ]
+    },
+    "goat": {
+      "keywords": null,
+      "verdict": "Balanced day - steady progress without major fluctuations",
+      "content": "The Chinese zodiac Goat experiences stable fortune today with a slow pace. This Goat daily horoscope indicates no sudden disruptions. Work proceeds routinely, but guard against detail errors and avoid signing major contracts. Financial luck suggests holding position as cash flow slows. Avoid lending money or providing guarantees to others. Patience yields better results.\n\nRelationships remain stable with minimal conflict. Home rest is highly favorable for recovery. Health requires careful attention to digestion systems. Consume light meals and strictly avoid cold or greasy items. No clashes occur, so focus on tasks without unfounded ideas.",
+      "score": 70,
+      "length": 647,
+      "yi": [
+        "出行",
+        "搬家",
+        "沐浴"
+      ],
+      "ji": [
+        "开业",
+        "安葬"
+      ],
+      "quote": "万物皆有定时",
+      "quoteEn": "万物皆有定时",
+      "luckyNum": 6,
+      "direction": "正西",
+      "pair": "午",
+      "blogLinksEN": [
+        {
+          "url": "/blog/love-prediction-by-date-of-birth",
+          "title": "Love Prediction by Date of Birth: BaZi Reading"
+        },
+        {
+          "url": "/blog/when-will-i-find-love",
+          "title": "When Will I Find Love? What Your Birth Chart Says"
+        }
+      ]
+    },
+    "monkey": {
+      "keywords": null,
+      "verdict": "Balanced day - steady progress without major fluctuations",
+      "content": "The Chinese zodiac Monkey encounters stable fortune today. This Monkey daily horoscope indicates a defensive strategy yields best results. Career execution is strong, favoring completion of existing projects over new initiatives. Financial luck remains neutral with income offset by high expenditures. Caution is advised regarding social spending and unexpected costs.\n\nRelationships stay calm requiring mutual tolerance between partners. Avoid emotional distance to maintain harmony. Health focus must target throat discomfort and respiratory sensitivity. Early rest supports physical recovery effectively. Overall energy favors waiting for optimal timing rather than aggressive action. Steady conduct ensures smooth progress through current challenges.",
+      "score": 80,
+      "length": 754,
+      "yi": [
+        "出行",
+        "搬家",
+        "沐浴"
+      ],
+      "ji": [
+        "开业",
+        "安葬"
+      ],
+      "quote": "春生夏长秋收冬藏",
+      "quoteEn": "春生夏长秋收冬藏",
+      "luckyNum": 8,
+      "direction": "正西",
+      "pair": "巳",
+      "blogLinksEN": [
+        {
+          "url": "/blog/five-elements-theory-wu-xing-guide",
+          "title": "Five Elements Personality Test: Are You Wood, Fire, Earth, Metal or Water?"
+        },
+        {
+          "url": "/blog/feng-shui-home-office-7-rules",
+          "title": "Feng Shui Home Office: 7 Rules"
+        }
+      ]
+    },
+    "rooster": {
+      "keywords": null,
+      "verdict": "Challenging energy - caution and restraint recommended",
+      "content": "The Chinese zodiac Rooster faces declining luck today due to excessive self-pressure. This Rooster daily horoscope indicates significant obstacles in career matters. Execution errors may occur, so avoid rushing important projects. Financial leaks are present, requiring caution against spending for status or engaging in any loans.\n\nRelationships suffer from verbal conflicts where neither party yields. Maintaining distance preserves harmony better than forcing resolution. Health concerns focus on respiratory discomfort. Strictly avoid cold or spicy foods to prevent physical aggravation.\n\nOverall strategy favors stillness over action. Defending current positions is superior to expansion. This Rooster fortune today advises conservation of energy and resources.",
+      "score": 65,
+      "length": 766,
+      "yi": [
+        "出行",
+        "搬家",
+        "沐浴"
+      ],
+      "ji": [
+        "开业",
+        "安葬"
+      ],
+      "quote": "顺应天时",
+      "quoteEn": "顺应天时",
+      "luckyNum": 9,
+      "direction": "正西",
+      "pair": "辰",
+      "blogLinksEN": [
+        {
+          "url": "/blog/love-prediction-by-date-of-birth",
+          "title": "Love Prediction by Date of Birth: BaZi Reading"
+        },
+        {
+          "url": "/blog/five-elements-theory-wu-xing-guide",
+          "title": "Five Elements Personality Test: Are You Wood, Fire, Earth, Metal or Water?"
+        }
+      ]
+    },
+    "dog": {
+      "keywords": null,
+      "verdict": "Mixed fortune - opportunities balanced with challenges",
+      "content": "The Chinese zodiac Dog faces mixed fortune today due to a harmful clash. Stability is paramount for this Dog daily horoscope. Career matters risk verbal misunderstandings. Verify all document clauses repeatedly and avoid trusting verbal promises. Financial luck encounters unexpected expenses. Large investments or lending are discouraged. Secure personal belongings carefully.\n\nRelationships require patience to avoid conflicts over trivial matters. Communication should proceed slowly rather than urgently. Health concerns focus on throat and lung discomfort. Avoid smoke and alcohol irritation. Early sleep is advised to restore energy. Wait for energy fields to stabilize before pursuing expansion.",
+      "score": 60,
+      "length": 702,
+      "yi": [
+        "出行",
+        "搬家",
+        "沐浴"
+      ],
+      "ji": [
+        "开业",
+        "安葬"
+      ],
+      "quote": "花开有时",
+      "quoteEn": "花开有时",
+      "luckyNum": 5,
+      "direction": "正西",
+      "pair": "卯",
+      "blogLinksEN": [
+        {
+          "url": "/blog/feng-shui-headboard-placement-5-rules",
+          "title": "Feng Shui Bed Headboard Placement: 5 Essential Rules"
+        },
+        {
+          "url": "/blog/when-will-i-find-love",
+          "title": "When Will I Find Love? What Your Birth Chart Says"
+        }
+      ]
+    },
+    "pig": {
+      "keywords": null,
+      "verdict": "Balanced day - steady progress without major fluctuations",
+      "content": "For the Chinese zodiac Pig, today's fortune remains stable but defensive strategies are favored over aggression. Professional execution faces trivial obstacles requiring patience with practical details. Rushing outcomes is strongly discouraged during this period.\n\nFinancial luck shows signs of unexpected expenses. Avoid monetary dealings to prevent loss due to misplaced loyalty. Relationships require increased tolerance. Carefully control speech to avoid silent conflicts.\n\nPhysical energy is depleted with slow recovery. Quiet rest and vitality conservation are highly advised. This Pig daily horoscope suggests prioritizing internal restoration.",
+      "score": 70,
+      "length": 651,
+      "yi": [
+        "出行",
+        "搬家",
+        "沐浴"
+      ],
+      "ji": [
+        "开业",
+        "安葬"
+      ],
+      "quote": "草木有本心",
+      "quoteEn": "草木有本心",
+      "luckyNum": 5,
+      "direction": "正西",
+      "pair": "寅",
+      "blogLinksEN": [
+        {
+          "url": "/blog/five-elements-theory-wu-xing-guide",
+          "title": "Five Elements Personality Test: Are You Wood, Fire, Earth, Metal or Water?"
+        },
+        {
+          "url": "/blog/love-prediction-by-date-of-birth",
+          "title": "Love Prediction by Date of Birth: BaZi Reading"
+        }
+      ]
+    }
+  }
+}
